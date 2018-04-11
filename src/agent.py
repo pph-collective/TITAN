@@ -48,6 +48,7 @@ class Agent(object):
 
         # self._ID is unique ID number used to track each person agent.
         self._ID = ID
+        self._timeAlive = 0
 
         # self._initial_agent is set to "True" for agents that were used to
         # initialize the model.
@@ -66,12 +67,15 @@ class Agent(object):
         self._DU = DU
         self._gender = SO[-1:] #Takes last letter of HM, HF, MSM, WSW, BiM, BiF to get agent gender
 
+        self._ageBin = 0
+
         # agent-partner params
         self._relationships = []
         self._partners = []
         self._num_sex_partners = 0
         self._num_NE_partners = 0
         self._mean_num_partners = 0
+        self._sexualRole = 'Vers'
 
         # agent STI params
         self._STI_pool = []
@@ -79,6 +83,7 @@ class Agent(object):
         self._HIV_time = 0
         self._AIDS_bool = False
         self._AIDS_time = 0
+        self._PrEPresistance = 0
 
         # agent treatment params
         self._tested = False
@@ -89,6 +94,11 @@ class Agent(object):
         self._PrEP_time = 0
         self._PrEP_adh = 0
 
+        #PrEP pharmacokinetics
+        self._PrEP_load = 0.0
+        self._PrEP_lastDose = 0
+
+        # agent high risk params
         self._highrisk_bool = False
         self._highrisk_time = 0
         self._everhighrisk_bool = False
@@ -119,12 +129,33 @@ class Agent(object):
         self._relationships.append(relationship)
         partner._relationships.append(relationship)
 
-        self.pair(relationship._ID1)
-        self.pair(relationship._ID2)
-        partner.pair(relationship._ID1)
-        partner.pair(relationship._ID2)
+        #Test this new code!!!
+        self.pair(partner)
+        partner.pair(self)
+
+        self._num_sex_partners +=1
+        partner._num_sex_partners +=1
+        # self.pair(relationship._ID1)
+        # self.pair(relationship._ID2)
+        # partner.pair(relationship._ID1)
+        # partner.pair(relationship._ID2)
         #partner.pair(self)
         #print "Agent %d bound to partner %d"%(self._ID, partner._ID)
+
+    def unbond(self, partner, relationship = None):
+        if relationship == None:
+            exit(9)
+        #tmp_relationship = Relationship(self, partner, "MSM", "SE", duration)
+        #self.print_agent()
+        #partner.print_agent()
+        self._relationships.remove(relationship)
+        partner._relationships.remove(relationship)
+
+        self.unpair(relationship._ID1)
+        self.unpair(relationship._ID2)
+        partner.unpair(relationship._ID1)
+        partner.unpair(relationship._ID2)
+
 
     def pair(self, partner):
         "Pairs two agents to each other."
@@ -144,7 +175,7 @@ class Agent(object):
     def unpair(self, agent):
         "Removes agent from agent set."
         try:
-            self._partners.remove(agent)
+            if self != agent:self._partners.remove(agent)
             #self._members.
         except KeyError:
             raise KeyError("agent %s is not a member of agent set %s"%(agent.get_ID(), self.get_ID()))
@@ -162,7 +193,7 @@ class Agent(object):
         print "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s\t%s\t%d\t%s" % (self._ID, self._age, self._gender, self._SO, self._DU, self._race, self._HIV_bool,self._incar_bool,self._incar_time, self.partner_list())
 
     def vars(self):
-        return "%.6d,%d,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (self._ID, self._age, self._gender, self._SO, self._DU, self._race, self._HIV_bool, len(self._partners), self._AIDS_bool, self._tested, self._PrEP_bool, self._incar_bool)
+        return "%.6d,%d,%s,%s,%s,%s,%s,%d,%d,%d,%s,%s,%s,%s\n" % (self._ID, self._age, self._gender, self._SO, self._DU, self._race, self._HIV_bool, len(self._partners), self._num_sex_partners, self._timeAlive, self._AIDS_bool, self._tested, self._PrEP_bool, self._incar_bool)
 
     def print_agent_to_file(self, filename, time=None, overWrite="a"):
         if overWrite == "a":
@@ -186,7 +217,7 @@ class Relationship(object):
         # self._ID is unique ID number used to track each person agent.
         self._ID1 = ID1
         self._ID2 = ID2
-        self._IDq = self._ID1.get_ID()*100000 + self._ID2.get_ID()
+        self._ID = self._ID1.get_ID()*100000 + self._ID2.get_ID()
         # self._initial_agent is set to "True" for agents that were used to
         # initialize the model.
         self._initial_agent = initial_agent
@@ -215,21 +246,29 @@ class Relationship(object):
         self._incar_bool = False
         self._incar_time = 0
 
-    def progress(self, t=1):
-        if self._duration == 0:
-
+    def progress(self, forceKill = False):
+        if self._duration <= 0 or forceKill:
+            #print self._duration
             agent = self._ID1
             partner = self._ID2
 
-            agent.unpair(partner)
-            partner.unpair(agent)
-            del self
+            #print "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tDeleting relationship between %d and %d" % (agent.get_ID(), partner.get_ID())
+            #agent.print_agent()
+            #partner.print_agent()
+            #self.print_rel()
+            agent.unbond(partner, self)
+            #agent.unpair(partner)
+            #partner.unpair(agent)
+            #del self
             return True
             #self._ID1._relationships.remove(self)
             #self._ID2._relationships.remove(self)
         else:
-            self._duration -= 1
+            self._duration = self._duration - 1
             return False
+
+    def delete(self):
+        del self
 
     def get_ID(self):
         return self._IDq
@@ -248,7 +287,7 @@ class Agent_set(Agent):
     Class for agents that contain a "set" of agents from a lower
     hierarchical  level.
     """
-    def __init__(self, world, ID, parent = None):
+    def __init__(self, world, ID, parent = None, numerator = None):
         #Agent.__init__(self, world, ID, initial_agent)
 
         # _members stores agent set members in a dictionary keyed by ID
@@ -261,6 +300,11 @@ class Agent_set(Agent):
         # member of a larger set, the _parent_set for that set  would
         # be that larger set.
         self._parent_set = parent
+        if numerator:
+            self._numerator = numerator
+        else:
+            self._numerator = self
+
 
     def clear_set(self):
         del self._members[:]
@@ -280,8 +324,9 @@ class Agent_set(Agent):
 
     def add_agent(self, agent):
         "Adds a new agent to the set."
-        if agent.get_ID() in self._members:
-            raise KeyError("agent %s is already a member of agent set %s"%(agent.get_ID(), self._ID))
+        #agent.print_agent()
+        #if agent in self._members:
+        #    raise KeyError("agent %s is already a member of agent set %s"%(agent.get_ID(), self._ID))
         self._members.append(agent)
         #self._members[agent.get_ID()] = agent
 
@@ -304,7 +349,7 @@ class Agent_set(Agent):
 
         try:
             self._members.remove(agent)
-            #print "agent %s has been removed from agent set %s"%(ID, self.get_ID())
+            #print "agent %s has been removed from agent set %s"%(agent._ID, self.get_ID())
             #self._members.
         except:
             print "agent %s is not a member of agent set %s"%(agent.get_ID(), self.get_ID())
@@ -383,11 +428,11 @@ class Agent_set(Agent):
             tmpA.print_agent()
         print "\t______________ END ______________"
 
-    def print_agents_to_file(self, time=None, overWrite="a", filename="Tableau_Agent_Output_File.txt"):
+    def print_agents_to_file(self, time=None, overWrite="a", filename="Results/Tableau_Agent_Output_File.txt"):
         if overWrite=="a":
             agentList=""
         else:
-            agentList="Time,ID,Age,Gdr,SO,DU,Race,HIV+,Ptnrs,AIDS,Tested,PrEP,Incar\n"
+            agentList="Time,ID,Age,Gdr,SO,DU,Race,HIV+,Ptnrs,LTPtnrs,AliveTime,AIDS,Tested,PrEP,Incar\n"
         for tmpA in self.iter_agents():
             agentList += str(time)+","+tmpA.vars()
 
@@ -409,13 +454,14 @@ class Agent_set(Agent):
         for tmpR in self.iter_agents():
             agentList += str(time)+","+tmpR.vars()
 
-        open("Tableau_Rel_Output_File.txt", overWrite).write(agentList)
+        open("Results/Tableau_Rel_Output_File.txt", overWrite).write(agentList)
 
     def print_subsets(self):
         print "\t_____________ %s Subsets _____________" % self.get_ID()
-        print "\tID\t\tMembers"
+        print "\tID\t\tMembers\t%"
         for tmpS in self.iter_subset():
-            print "\t%s\t\t%d" % (tmpS._ID, tmpS.num_members())
+            if tmpS.num_members() > 0:
+                print "\t%s\t\t%d\t%.2f" % (tmpS._ID, tmpS.num_members(), (1.0*tmpS.num_members()/tmpS._numerator.num_members()))
         print "\t______________ END ______________"
 
 class Agent_Store(object):

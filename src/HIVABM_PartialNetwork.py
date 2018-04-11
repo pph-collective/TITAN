@@ -220,7 +220,7 @@ class NetworkClass(PopulationClass):
             raise ValueError('m_0 must be integer smaller than 10')
         else: self.m_0 = m_0
 
-        PopulationClass.__init__(self, n = N)	# Create population
+        #PopulationClass.__init__(self, n = N)	# Create population
         self.NormalAgents = []
         for agent in self.Agents:
             if (agent not in self.IDU_agents and 

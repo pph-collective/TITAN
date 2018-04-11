@@ -47,6 +47,7 @@ try:
     from agent import *
 except ImportError:
     raise ImportError("Can't import AgentClass")
+import params
 
 def print_population(agent_dict, dir_prefix, time=0):
     # Print the whole population to a file.
@@ -136,7 +137,7 @@ class PopulationClass():
         :py:meth:`get_info_DrugSexType`
     """
 
-    def __init__(self, n = 10000, rSeed = 0):
+    def __init__(self, n = 10000, rSeed = 0, model=None):
         """
         :Purpose:
             Initialize PopulationClass object.
@@ -155,17 +156,43 @@ class PopulationClass():
         self.propBlack = 0
 
 
-        self.numWhite = int(self.propWhite * self.PopulationSize)
-        self.numBlack = int(self.propBlack * self.PopulationSize)
-
+        self.numWhite = int(params.DemographicParams['WHITE']['ALL']['Proportion'] * self.PopulationSize)
+        self.numBlack = int(params.DemographicParams['BLACK']['ALL']['Proportion'] * self.PopulationSize)
+        print 'W: %d, B: %d'%(self.numWhite, self.numBlack)
         #Nested dictionary for probability lookups by race
         #StratW = White, StratB = Black
         #HM incar @ 0.0279
+
+
+        #MODEL TYPES
+        MT_PrEP = False
+        MT_Incar = False
+        MT_NoIncar = False
+
+        if model == 'PrEP':
+            MT_PrEP = True
+        elif model == 'Incar':
+            MT_Incar = True
+        elif model == 'NoIncar':
+            MT_NoIncar = True
+
+        #Quick calc based on traj: 0.596 Female -> 0,01175/0.75 HIV -> 0.75 Tested+ = 11.75% HIV DIAG
         StratW = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}}
-        StratW['MSM'] = {'POP':1.0, 'HIV':0.05, 'AIDS':0.50, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.86, 'mNPart':3}
-        StratW['HM'] = {'POP':0.0, 'HIV':0.0, 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
-        StratW['HF'] = {'POP':0.0, 'HIV':0.0, 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
-        StratW['PWID'] = {'POP':0.0, 'HIV':0.0, 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
+        if MT_PrEP:
+            StratW['MSM'] = {'POP':1.0, 'HIV':0.036195675, 'AIDS':0.51, 'HAARTprev':0.33, 'INCARprev':0.0, 'TestedPrev':0.816, 'mNPart':3}
+            StratW['HM'] = {'POP':0.0, 'HIV':0.0, 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
+            StratW['HF'] = {'POP':0.0, 'HIV':0.0, 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
+            StratW['PWID'] = {'POP':0.0, 'HIV':0.0, 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
+        elif MT_Incar:
+            StratW['MSM'] = {'POP':0.0, 'HIV':0.05, 'AIDS':0.05, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.86, 'mNPart':3}
+            StratW['HM'] = {'POP':0.4044435412, 'HIV':0.0158/0.75, 'AIDS':0.678, 'HAARTprev':0.03748, 'INCARprev':0.0279, 'TestedPrev':0.75, 'mNPart':3}
+            StratW['HF'] = {'POP':0.5955564588, 'HIV':0.01175/0.75, 'AIDS':0.573, 'HAARTprev':0.04054, 'INCARprev':0.0, 'TestedPrev':0.75, 'mNPart':2}
+            StratW['PWID'] = {'POP':0.0, 'HIV':0.0, 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0, 'mNPart':3}
+        elif MT_NoIncar:
+            StratW['MSM'] = {'POP':0.0, 'HIV':0.05, 'AIDS':0.05, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.86, 'mNPart':3}
+            StratW['HM'] = {'POP':0.4044435412, 'HIV':0.0158/0.75, 'AIDS':0.678, 'HAARTprev':0.03748, 'INCARprev':0.0, 'TestedPrev':0.75, 'mNPart':3}
+            StratW['HF'] = {'POP':0.5955564588, 'HIV':0.01175/0.75, 'AIDS':0.573, 'HAARTprev':0.04054, 'INCARprev':0.0, 'TestedPrev':0.75, 'mNPart':2}
+            StratW['PWID'] = {'POP':0.0, 'HIV':0.0, 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0, 'mNPart':3}
 
         StratB = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}}
         StratB['MSM'] = {'POP':0.0, 'HIV':0.0 , 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
@@ -191,21 +218,26 @@ class PopulationClass():
 
         print "\tBuilding class sets"
         self.totalAgentClass = Agent_set(0,"TotalAgents")
-        self.MSM_agentsClass = Agent_set(1,"MSM")
-        self.HM_agentsClass = Agent_set(1,"HM")
-        self.HF_agentsClass = Agent_set(1,"HF")
-        self.HIV_agents_class = Agent_set(2,"HIV")
+        self.MSM_agentsClass = Agent_set(1,"MSM", numerator=self.totalAgentClass)
+        self.HM_agentsClass = Agent_set(1,"HM", numerator=self.totalAgentClass)
+        self.HF_agentsClass = Agent_set(1,"HF", numerator=self.totalAgentClass)
+        self.IDU_agentsClass = Agent_set(1,"IDU", numerator=self.totalAgentClass)
+        self.HIV_agents_class = Agent_set(2,"HIV", numerator=self.totalAgentClass)
+        self.HAART_agentClass = Agent_set(2,"HAART", numerator=self.HIV_agents_class)
         self.PrEP_agents_class = Agent_set(2,"PrEP")
-        self.IncarceratedClass = Agent_set(2,"Incar")
-        self.HighriskClass = Agent_set(2,"Highrisk")
+        self.IncarceratedClass = Agent_set(2,"Incar", numerator=self.totalAgentClass)
+        self.HighriskClass = Agent_set(2,"HRisk", numerator=self.totalAgentClass)
 
         print "\tOrganizing subsets and heirarchy"
         self.totalAgentClass.add_subset(self.HIV_agents_class)
         self.totalAgentClass.add_subset(self.PrEP_agents_class)
         self.totalAgentClass.add_subset(self.IncarceratedClass)
+        self.totalAgentClass.add_subset(self.HAART_agentClass)
+        self.totalAgentClass.add_subset(self.HighriskClass)
         self.totalAgentClass.add_subset(self.MSM_agentsClass)
         self.totalAgentClass.add_subset(self.HM_agentsClass)
         self.totalAgentClass.add_subset(self.HF_agentsClass)
+        self.totalAgentClass.add_subset(self.IDU_agentsClass)
 
 
         self.Relationships = Agent_set(1,"Relationships")
@@ -262,6 +294,7 @@ class PopulationClass():
         self.HF_agents = []
         self.WSW_agents = []
         self.HM_agents = []
+        self.IDU_agents = []
         self.HIV_agents = []
         self.AIDS_agents = []
         self.HIVidentified_agents = []
@@ -282,9 +315,23 @@ class PopulationClass():
             self.create_agent(agent, 'WHITE')
         for agent in self.Black_agents:
             self.create_agent(agent, 'BLACK')
+        random.shuffle(self.totalAgentClass._members)
+        prob_Incarc = params.DemographicParams['WHITE']['HM']['INCARprev']
+        for tmpA in self.totalAgentClass._members:
 
-
-
+            dice = random.random()
+            prob_Incarc = params.DemographicParams[tmpA._race][tmpA._SO]['INCARprev']
+            if dice < prob_Incarc:
+                #print dice, prob_Incarc
+                toss = 2#random.choice( (1, 2) )
+                if toss == 1: #JAIL
+                    tmpA._incar_bool = True
+                    tmpA._incar_time = int(random.triangular(1, 9, 3))
+                else: #PRISON
+                    tmpA._incar_bool = True
+                    tmpA._incar_time = int(random.triangular(1, params.inc_PrisMax, int(params.inc_PrisMax/3))) #random.randint(params.inc_PrisMin, params.inc_PrisMax)
+                self.IncarceratedClass.add_agent(tmpA)
+            #self.totalAgentClass._subset["Incar"].add_agent(agent_cl)
         #"""
         #self.totalAgentClass.print_agents()
         # [self.MSM_agentsClass.add_agent(tmpA) for tmpA in self.totalAgentClass.iter_agents() if tmpA._SO == "MSM"]
@@ -331,12 +378,15 @@ class PopulationClass():
         if CheckSum_SexType != self.PopulationSize:
             raise ValueError("MSM:%d\nHF:%d\nWSW:%d\nHM:%d\nSum:%d"%(
                 len(self.MSM_agents),len(self.HF_agents),len(self.WSW_agents),len(self.HM_agents),CheckSum_SexType))
-        
+
         CheckSum_DrugType = len(self.IDU_agents)+len(self.NIDU_agents)+len(self.ND_agents)
         if CheckSum_DrugType != self.PopulationSize:
             raise ValueError("IDU:%d\nNIDU:%d\nND:%d\nSum:%d"%(
                 len(self.IDU_agents),len(self.NIDU_agents),len(self.ND_agents),CheckSum_DrugType))
         """
+
+    def _return_agent_set(self):
+        return self.totalAgentClass
 
 
     def get_agent_characteristic(self, agent, property):
@@ -365,7 +415,7 @@ class PopulationClass():
         """
         :Purpose:
         Return random agent dict of a new agent..
-            Each agent is a key to an associated dictionary which stores the internal 
+            Each agent is a key to an associated dictionary which stores the internal
             characteristics in form of an additinoal dictionary of the form
             ``characteristic:value``.
         :Input:
@@ -379,27 +429,27 @@ class PopulationClass():
 
         #Determine sextype
         tmp_rnd = random.random()
-        if tmp_rnd < self.ProbLookUp[Deliminator]['HM']['POP']:
+        if tmp_rnd < params.DemographicParams[Deliminator]['HM']['POP']:
             SexType = 'HM'
-        elif tmp_rnd < (self.ProbLookUp[Deliminator]['HM']['POP'] + self.ProbLookUp[Deliminator]['HF']['POP']):
+        elif tmp_rnd < (params.DemographicParams[Deliminator]['HM']['POP'] + params.DemographicParams[Deliminator]['HF']['POP']):
             SexType = 'HF'
         else:
             SexType = 'MSM'
 
         #Determine drugtype
         tmp_rnd = random.random()
-        #print "%.3lf must be less than%.3lf"%(tmp_rnd,self.ProbLookUp[Deliminator]['PWID']['POP'])
+        #print "%.3lf must be less than%.3lf"%(tmp_rnd,params.DemographicParams[Deliminator]['PWID']['POP'])
 
-        if tmp_rnd < self.ProbLookUp[Deliminator]['PWID']['POP']:
+        if tmp_rnd < params.DemographicParams[Deliminator]['PWID']['POP']:
             DrugType = 'IDU'
         else:
             DrugType = 'ND'
 
         # HIV
         if DrugType == 'IDU':
-            prob_HIV = self.ProbLookUp[Deliminator]['PWID']['HIV']
+            prob_HIV = params.DemographicParams[Deliminator]['PWID']['HIV']
         else:
-            prob_HIV = self.ProbLookUp[Deliminator][SexType]['HIV']
+            prob_HIV = params.DemographicParams[Deliminator][SexType]['HIV']
         #print "%s\t%s\t%.3lf"%(Deliminator,SexType,prob_HIV)
 
         if random.random() < prob_HIV:
@@ -407,9 +457,9 @@ class PopulationClass():
 
             # if HIV AIDS possible
             if DrugType == 'IDU':
-                prob_AIDS = self.ProbLookUp[Deliminator]['PWID']['AIDS']
+                prob_AIDS = params.DemographicParams[Deliminator]['PWID']['AIDS']
             else:
-                prob_AIDS = self.ProbLookUp[Deliminator][SexType]['AIDS']
+                prob_AIDS = params.DemographicParams[Deliminator][SexType]['AIDS']
                 #print "%s\t%s\t%.3lf"%(Deliminator,SexType,prob_HIV)
 
             if random.random() < prob_AIDS:
@@ -419,18 +469,18 @@ class PopulationClass():
 
             # HIV testing params
             if DrugType == 'IDU':
-                prob_Tested = self.ProbLookUp[Deliminator]['PWID']['TestedPrev']
+                prob_Tested = params.DemographicParams[Deliminator]['PWID']['TestedPrev']
             else:
-                prob_Tested = self.ProbLookUp[Deliminator][SexType]['TestedPrev']
+                prob_Tested = params.DemographicParams[Deliminator][SexType]['TestedPrev']
 
             if random.random() < prob_Tested:
                 TestedStatus = 1
 
                 #if tested HAART possible
                 if DrugType == 'IDU':
-                    prob_HAART = self.ProbLookUp[Deliminator]['PWID']['HAARTprev']
+                    prob_HAART = params.DemographicParams[Deliminator]['PWID']['HAARTprev']
                 else:
-                    prob_HAART = self.ProbLookUp[Deliminator][SexType]['HAARTprev']
+                    prob_HAART = params.DemographicParams[Deliminator][SexType]['HAARTprev']
 
                 if random.random() < prob_HAART:
                     HAARTStatus = 1
@@ -453,9 +503,9 @@ class PopulationClass():
 
         #Incarceration
         if DrugType == 'IDU':
-            prob_Incarc = self.ProbLookUp[Deliminator]['PWID']['INCARprev']
+            prob_Incarc = params.DemographicParams[Deliminator]['PWID']['INCARprev']
         else:
-            prob_Incarc = self.ProbLookUp[Deliminator][SexType]['INCARprev']
+            prob_Incarc = params.DemographicParams[Deliminator][SexType]['INCARprev']
 
         if random.random() < prob_Incarc:
             toss = random.choice( (1, 2) )
@@ -489,35 +539,38 @@ class PopulationClass():
 
         #Determine sextype
         tmp_rnd = random.random()
-        if tmp_rnd < self.ProbLookUp[Race]['HM']['POP']:
+        if tmp_rnd < params.DemographicParams[Race]['HM']['POP']:
             SexType = 'HM'
-        elif tmp_rnd < (self.ProbLookUp[Race]['HM']['POP'] + self.ProbLookUp[Race]['HF']['POP']):
+        elif tmp_rnd < (params.DemographicParams[Race]['HM']['POP'] + params.DemographicParams[Race]['HF']['POP']):
             SexType = 'HF'
         else:
             SexType = 'MSM'
 
         #Determine drugtype
         tmp_rnd = random.random()
-        #print "%.3lf must be less than%.3lf"%(tmp_rnd,self.ProbLookUp[Deliminator]['PWID']['POP'])
+        #print "%.3lf must be less than%.3lf"%(tmp_rnd,params.DemographicParams[Deliminator]['PWID']['POP'])
 
         #todo: FIX THIS TO GET BACK IDU
-        if tmp_rnd < self.ProbLookUp[Race]['PWID']['POP']:
+        if tmp_rnd < params.DemographicParams[Race]['PWID']['POP']:
             DrugType = 'IDU'
         else:
             DrugType = 'ND'
 
 
-        age = random.randint(18,65)
+        #age = random.randint(18,65)
+
+        age, ageBin = self.getAge(Race)
 
 
         newAgent = Agent(agentID, SexType, age, Race, DrugType)
-
+        newAgent._ageBin = ageBin
         # HIV
         if DrugType == 'IDU':
-            prob_HIV = self.ProbLookUp[Race]['PWID']['HIV']
+            prob_HIV = params.DemographicParams[Race]['PWID']['HIV']
         else:
-            prob_HIV = self.ProbLookUp[Race][SexType]['HIV']
-        #print "%s\t%s\t%.3lf"%(Deliminator,SexType,prob_HIV)
+            #prob_HIV = params.ageMatrix[Race]['HIV'][newAgent._ageBin]
+            prob_HIV = params.DemographicParams[Race][SexType]['HIV']
+        #print "%s\t%s\t%.3lf"%(Drugtype,SexType,prob_HIV)
 
         if random.random() < prob_HIV:
             HIVStatus = 1
@@ -525,9 +578,9 @@ class PopulationClass():
 
             # if HIV AIDS possible
             if DrugType == 'IDU':
-                prob_AIDS = self.ProbLookUp[Race]['PWID']['AIDS']
+                prob_AIDS = params.DemographicParams[Race]['PWID']['AIDS']
             else:
-                prob_AIDS = self.ProbLookUp[Race][SexType]['AIDS']
+                prob_AIDS = params.DemographicParams[Race][SexType]['AIDS']
                 #print "%s\t%s\t%.3lf"%(Deliminator,SexType,prob_HIV)
 
             if random.random() < prob_AIDS:
@@ -538,9 +591,9 @@ class PopulationClass():
 
             # HIV testing params
             if DrugType == 'IDU':
-                prob_Tested = self.ProbLookUp[Race]['PWID']['TestedPrev']
+                prob_Tested = params.DemographicParams[Race]['PWID']['TestedPrev']
             else:
-                prob_Tested = self.ProbLookUp[Race][SexType]['TestedPrev']
+                prob_Tested = params.DemographicParams[Race][SexType]['TestedPrev']
 
             if random.random() < prob_Tested:
                 TestedStatus = 1
@@ -548,9 +601,9 @@ class PopulationClass():
 
                 #if tested HAART possible
                 if DrugType == 'IDU':
-                    prob_HAART = self.ProbLookUp[Race]['PWID']['HAARTprev']
+                    prob_HAART = params.DemographicParams[Race]['PWID']['HAARTprev']
                 else:
-                    prob_HAART = self.ProbLookUp[Race][SexType]['HAARTprev']
+                    prob_HAART = params.DemographicParams[Race][SexType]['HAARTprev']
 
                 if random.random() < prob_HAART:
                     HAARTStatus = 1
@@ -574,26 +627,40 @@ class PopulationClass():
             HIV_time = 0
             TestedStatus = 0
 
-        #Incarceration
-        if DrugType == 'IDU':
-            prob_Incarc = self.ProbLookUp[Race]['PWID']['INCARprev']
-        else:
-            prob_Incarc = self.ProbLookUp[Race][SexType]['INCARprev']
+        # #Incarceration
+        # if DrugType == 'IDU':
+        #     prob_Incarc = params.DemographicParams[Race]['PWID']['INCARprev']
+        # else:
+        #     prob_Incarc = params.DemographicParams[Race][SexType]['INCARprev']
+        #
+        # if random.random() < prob_Incarc:
+        #     toss = random.choice( (1, 2) )
+        #     if toss == 1: #JAIL
+        #         newAgent._incar_bool = True
+        #         newAgent._incar_time = int(random.triangular(1, 9, 3))
+        #     else: #PRISON
+        #         newAgent._incar_bool = True
+        #         newAgent._incar_time = int(random.triangular(6, 60, 24))
+        # else:
+        #     incar_time = 0
 
-        if random.random() < prob_Incarc:
-            toss = random.choice( (1, 2) )
-            if toss == 1: #JAIL
-                newAgent._incar_bool = True
-                newAgent._incar_time = int(random.triangular(1, 9, 3))
-            else: #PRISON
-                newAgent._incar_bool = True
-                newAgent._incar_time = int(random.triangular(6, 60, 24))
-        else:
-            incar_time = 0
 
+        diceroll = random.random()
 
+        if diceroll < 0.01:
+            mNPart = 0
+        elif diceroll < (0.01 + 0.14):
+            mNPart = 1
+        elif diceroll < (0.01 + 0.14 + 0.16):
+            mNPart = 2
+        elif diceroll < (0.01 + 0.14 + 0.16 + 0.19):
+            mNPart = random.randrange(3,4,1)
+        elif diceroll < (0.01 + 0.14 + 0.16 + 0.19 + 0.34):
+            mNPart = random.randrange(5,10,1)
+        else: #16%
+            mNPart = 10
         #Partnership demographics
-        newAgent._mean_num_partners = self.ProbLookUp[Race][SexType]['mNPart']
+        newAgent._mean_num_partners = mNPart #params.DemographicParams[Race][SexType]['mNPart']
 
         #print "New agent: %s\t%s\t%s\tHIV:%d" % (Deliminator,DrugType,SexType,HIVStatus)
         #agent_dict = {'Race':Race,'Drug Type': DrugType,'Sex Type':SexType, 'HIV':HIVStatus, 'Tested':TestedStatus, 'AIDS':AIDSStatus, 'HAARTa':HAARTStatus, 'incar_t':incar_time,'HIV_t':HIV_time}
@@ -622,12 +689,18 @@ class PopulationClass():
         elif agent == 0.75*self.PopulationSize:print "75%"
         #elif agent == self.PopulationSize:print "100%"
 
+        if agent_cl._DU == 'IDU':
+            self.totalAgentClass._subset["IDU"].add_agent(agent_cl)
+
         if agent_cl._HIV_bool:
             self.totalAgentClass._subset["HIV"].add_agent(agent_cl)
 
         if agent_cl._incar_bool:
             self.IncarceratedClass.add_agent(agent_cl)
             #self.totalAgentClass._subset["Incar"].add_agent(agent_cl)
+
+        if agent_cl._HAART_bool:
+            self.HAART_agentClass.add_agent(agent_cl)
 
 
         """
@@ -698,7 +771,39 @@ class PopulationClass():
             raise ValueError("Invalid HAART Status! %s"%str(HAARTStatus))
         """
 
+    def getAge(self, race):
+        rand = random.random()
+        minAge = 15
+        maxAge = 80
+        ageBin = 0
+        #print params.ageMatrix[race]['Prop'][1]
 
+        if rand < params.ageMatrix[race]['Prop'][1]:
+            minAge = 15
+            maxAge = 24
+            ageBin = 1
+        elif rand < params.ageMatrix[race]['Prop'][2]:
+            minAge = 25
+            maxAge = 34
+            ageBin = 2
+        elif rand < params.ageMatrix[race]['Prop'][3]:
+            minAge = 35
+            maxAge = 44
+            ageBin = 3
+        elif rand < params.ageMatrix[race]['Prop'][4]:
+            minAge = 45
+            maxAge = 54
+            ageBin = 4
+        else:
+            minAge = 55
+            maxAge = 80
+            ageBin = 5
+        # else:
+        #     minAge = 15
+        #     maxAge = 80
+        age = random.randrange(minAge,maxAge)
+        #print rand, race, age, ageBin
+        return age, ageBin
 
     def get_agents(self):
         """ 
