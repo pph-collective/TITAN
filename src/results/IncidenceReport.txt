@@ -1,1 +1,0 @@
-seed	t	Total	W_HM	B_HM	HM	W_HF	B_HF	HF	W_MSM	B_MSM	MSM

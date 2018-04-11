@@ -1,1 +1,0 @@
-seed	t	Total	HM	HF	HIV_tot	HIV_HM	HIV_HF
