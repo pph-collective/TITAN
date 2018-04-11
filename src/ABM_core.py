@@ -554,7 +554,7 @@ class HIVModel(NetworkClass):
         #print("\t\t= Begin Agents Operations =")
         #todo: Test this new structure
         #print("\t\t= Relationship Iterations =")
-        # print("\n\nSTARTING RELATIONSHIPS")
+        #print("\n\nSTARTING RELATIONSHIPS")
         # self.Relationships.print_agent_relationshps()
         print "Number of relationships: %d",self.Relationships.num_members()
         tested = len([tmpA for tmpA in self.HIV_agents_class._members if tmpA._tested])
@@ -574,7 +574,7 @@ class HIVModel(NetworkClass):
                 del rel
 
                 #pass
-            # print("\n\nENDING RELATIONSHIPS")
+        #print("\n\nENDING RELATIONSHIPS")
             # self.Relationships.print_agent_relationshps()
             #print self.Relationships.num_members()
 
@@ -592,7 +592,7 @@ class HIVModel(NetworkClass):
                         tmpA._mean_num_partners /= params.HR_partnerScale
 
         #print("\t\t= Agents Iterations (Incar/test/AIDS/HAART/PrEP =")
-        #random.shuffle(self.Agents)    ###########ADDED SHUFFLE AGENT LIST
+        
         random.shuffle(self.totalAgentClass._members)
         for agent in self.totalAgentClass.iter_agents():#self.Agents: #NEW METHOD
             #agent.print_agent()
@@ -742,7 +742,7 @@ class HIVModel(NetworkClass):
 
         elif agent_HIV_status: #If agent_1 is HIV
             if partner_HIV_status: #If agent_1 and agent_2 are both HIV, skip interaction
-
+                #print "\t\t!!! BOTH agents HIV+, moving on A:%d P:%d"%(agent_1.get_ID(), agent_2.get_ID())
                 return
             else:#Agent is HIV, partner is succept
                 agent = agent_1
@@ -755,6 +755,7 @@ class HIVModel(NetworkClass):
 
 
         if eligible:
+            #print("Elligible\t%d\t%d"%(agent._ID, partner._ID))
             partner_drug_type = partner._DU  # self.get_agent_characteristic(partner, 'Drug Type')
             agent_drug_type = agent._DU  # self.get_agent_characteristic(agent, 'Drug Type')
             partner_sex_type = partner._SO  # self.get_agent_characteristic(partner, 'Sex Type')
@@ -1099,28 +1100,7 @@ class HIVModel(NetworkClass):
                         #print "\t\t(ACUTE)\tNE_HIV from agent %d to partner %d \t@ p=%.5lf transmissionp=%.5lf n:%d" %(agent._ID, partner._ID, p, p_total_transmission, share_acts)
                     else:
                         pass
-                        #print "\t\t\t\tNE_HIV from agent %d to partner %d \t@ p=%.5lf transmissionp=%.5lf n:%d" %(agent._ID, partner._ID, p, p_total_transmission, share_acts)
-
-            """elif HIV_partner == 1 and HIV_agent == 0:
-                p = self.get_transmission_probability(partner, 'NEEDLE')
-                p_transmission = binom.pmf(1.0, share_acts, p)
-                print "\t\t\tHIV+ NED Act P:%d on A:%d\t Must be less than %.10lf\t(k:1 n::%.2lf, p:%.5lf)" % (partner, agent, p_transmission, share_acts, p)
-                if random.random() < p_transmission:
-                    # if partner HIV+ agent becomes HIV+
-                    #print "\t\t\t\tNE_HIV from partner %d to agent %d @ p=%.5lf transmissionp=%.5lf" %(partner, agent, p, p_transmission)
-                    self._become_HIV(agent, time)
-                    self.Transmission_tracker['NEEDLE'][time] += 1
-                    self.Transmit_from_agents += [partner]
-                    #if partner in ((self.HIV_key_transitiontime[time - 1] if time > 1 else [])
-                    #                   + (self.HIV_key_transitiontime[time - 2] if time > 2 else [])
-                    #                   + (self.HIV_key_transitiontime[time - 3] if time > 3 else [])):
-                        #self.Acute_agents += [partner]
-                        #print '\t\t\t\tACUTE', agent
-                    if(self.get_acute_status(partner, time)):
-                        self.Acute_agents += [partner]
-                        print "\t\t\t\tNE_HIV (ACUTE) from partner %d to agent %d \t@ p=%.5lf transmissionp=%.5lf" %(partner, agent, p, p_transmission)
-                    else:
-                        print "\t\t\t\tNE_HIV from partner %d to agent %d \t@ p=%.5lf transmissionp=%.5lf" %(partner, agent, p, p_transmission)"""
+                    #print "\t\t\t\tNE_HIV from agent %d to partner %d \t@ p=%.5lf transmissionp=%.5lf n:%d" %(agent._ID, partner._ID, p, p_total_transmission, share_acts)
 
     #@profile
     def _sex_transmission(self, agent, partner, time, rel):
@@ -1160,11 +1140,11 @@ class HIVModel(NetworkClass):
         Race_Agent = agent._race#self.get_agent_characteristic(agent, 'Race')
         isAcute = self.get_acute_status(agent, time)
 
-        if HIVstatus_Partner: exit(7)
+        if HIVstatus_Partner: pass
         if HIVstatus_Agent and HIVstatus_Partner:
             #print "\t\t!!A%d %s P%d %s"%(agent.get_ID(), agent._HIV_bool, partner.get_ID(), partner._HIV_bool)
-            print "BOTH AGENTS %d and %d WERE HIV+!?!?!?" %(agent._ID, partner._ID)
-            exit(8)
+            #print "BOTH AGENTS %d and %d WERE HIV+!?!?!?" %(agent._ID, partner._ID)
+            
             return
             #exit(10)
         elif HIVstatus_Agent == 1 or HIVstatus_Partner == 1:
@@ -1285,7 +1265,7 @@ class HIVModel(NetworkClass):
                             #print "\t\t(ACUTE)\tST_HIV from agent %d to partner %d \t@ p=%.5lf transmissionp=%.5lf n:%d" %(agent._ID, partner._ID, p, p_total_transmission, U_sex_acts1)
                         else:
                             pass
-                            #print "\t\t\t\tST_HIV from agent %d to partner %d \t@ p=%.5lf transmissionp=%.5lf n:%d" %(agent._ID, partner._ID, p, p_total_transmission, U_sex_acts1)
+                        #print "\t\t\t\tST_HIV from agent %d to partner %d \t@ p=%.5lf transmissionp=%.5lf n:%d" %(agent._ID, partner._ID, ppAct, p_total_transmission, U_sex_acts1)
 
 
                         """if agent in ((self.HIV_key_transitiontime[time - 1] if time > 1 else [])

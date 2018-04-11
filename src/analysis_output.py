@@ -69,21 +69,21 @@ def initiate_ResultDict():
 
 def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInfections, NewDiagnosis, deaths, ResultDict, Relationships, newHR, outifle=None):
 
-    incidenceReport = open('Results/IncidenceReport.txt', 'a')
-    prevalenceReport = open('Results/PrevalenceReport.txt', 'a')
-    deathReport = open('Results/DeathReport.txt', 'a')
-    incarReport = open('Results/IncarReport.txt', 'a')
-    #PrEPReport = open('Results/PrEPReport.txt', 'a')
-    #iduReport = open('Results/iduReport.txt', 'a')
-    highriskReport = open('Results/highriskReport.txt', 'a')
-    inc_highriskReport = open('Results/incHR_Report.txt', 'a')
-    femaleReport = open('Results/FemaleReport.txt', 'a')
-    maleReport = open('Results/MaleReport.txt', 'a')
-    msmReport = open('Results/MSMReport.txt', 'a')
+    incidenceReport = open('results/IncidenceReport.txt', 'a')
+    prevalenceReport = open('results/PrevalenceReport.txt', 'a')
+    deathReport = open('results/DeathReport.txt', 'a')
+    incarReport = open('results/IncarReport.txt', 'a')
+    #PrEPReport = open('results/PrEPReport.txt', 'a')
+    #iduReport = open('results/iduReport.txt', 'a')
+    highriskReport = open('results/highriskReport.txt', 'a')
+    inc_highriskReport = open('results/incHR_Report.txt', 'a')
+    femaleReport = open('results/FemaleReport.txt', 'a')
+    maleReport = open('results/MaleReport.txt', 'a')
+    msmReport = open('results/MSMReport.txt', 'a')
 
 
-    whiteReport = open('Results/W_pop_report.txt', 'a')
-    blackReport = open('Results/B_pop_report.txt', 'a')
+    whiteReport = open('results/W_pop_report.txt', 'a')
+    blackReport = open('results/B_pop_report.txt', 'a')
     num_SEP = 0
 
     numToHM = 0

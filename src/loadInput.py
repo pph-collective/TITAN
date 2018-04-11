@@ -45,9 +45,9 @@ def read_input_parameter(paramFile=None):
 
     # Read scalars
     if paramFile:
-        infile = open(('Input/' + paramFile + '.csv'),'r')
+        infile = open(('input/' + paramFile + '.csv'),'r')
     else:
-        infile = open('Input/InputParameters.csv','r')
+        infile = open('input/InputParameters.csv','r')
     lines = infile.readlines()
     infile.close()
     data_dict = {} # data[run#][parameter]
@@ -68,7 +68,7 @@ def read_input_parameter(paramFile=None):
 
     # Read vector parameters (function of time t)
     for vector_value in ['NSP_SAT','NSP_NoSAT']:
-        text = open(('Input/' + vector_value + '.csv'),'r').read()
+        text = open(('input/' + vector_value + '.csv'),'r').read()
         if '\r\n' in text: lines = text.split('\r\n')
         else: lines = text.split('\r')
         first_line = lines[0]
@@ -97,7 +97,7 @@ def read_classifier_dict(input_params=None):
 
     # Read scalars
     num_Races = 1#input_params['numRaceClassifiers']
-    infile = open('Input/DemographicParameters.csv','r')
+    infile = open('input/DemographicParameters.csv','r')
     lines = infile.readlines() # name - race - so - variable - description
     infile.close()
     data_dict = {} # data[race][so][variable] = value

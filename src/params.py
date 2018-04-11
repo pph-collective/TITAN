@@ -7,9 +7,9 @@ Main model parameters.
 
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
-rSeed = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
+rSeed = 1               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 N_MC = 1               # total number of iterations (Monte Carlo runs)
-N_POP = 1000           # population size
+N_POP = 50000           # population size
 TIME_RANGE = 120        # total time steps to iterate
 burnDuration = 36
 model = 'Incar'         # Model Type for fast flag toggling
@@ -239,8 +239,8 @@ RaceClass1['MSM'] = {'POP':0.00,
                      'PrEPdisc':PrEP_disc
                      }
 
-RaceClass1['PWID'] = {'POP':0.00,
-                     'HIV':0.132,
+RaceClass1['PWID'] = {'POP':0.0173,
+                     'HIV':0.1500,
                      'AIDS':0.07,
                      'HAARTprev':0.467,
                      'INCARprev':0.000,

@@ -94,7 +94,7 @@ def update_partner_assignments(self, partnerTurnover):
                 #print "%d/%d partnets found for partner %d"%(len(partner._partners), partner._num_sex_partners, partner.get_ID())
 
             else:
-                #print "Missed pass attempt",missed_counter
+                #print "Missed pass attempt",noMatch
                 noMatch += 1
 
     # print "\n\t\t-COULDNT MATCH",noMatch,"AGENTS IN NEED \t---"
@@ -245,18 +245,12 @@ def get_random_IDU_partner(self, agent, need_new_partners):
     AssortMix = False
     if random.random() < params.AssortMixCoeff:
         AssortMix = True
-
+    #assert agent_drug_type in ['IDU'], "Invalid drug type for IDU! %s"%str(agent_drug_type)
     #todo: Make the random agent never return the agent or any of their partners
     if agent_drug_type not in ['IDU']:
         raise ValueError("Invalid drug type! %s"%str(agent_drug_type))
-    else:
-        if AssortMix:
-            while True:
-                RandomPartner = random.choice(need_new_partners._subset["IDU"]._members)
-                if agent._race != RandomPartner._race:
-                    break
-        else:
-            RandomPartner = random.choice(need_new_partners._subset["IDU"]._members)
+    else:    
+        RandomPartner = random.choice(need_new_partners._subset["IDU"]._members)
         if RandomPartner in agent._partners or RandomPartner == agent:
             RandomPartner = None
 
@@ -264,7 +258,7 @@ def get_random_IDU_partner(self, agent, need_new_partners):
     if RandomPartner:
         return RandomPartner
     else:
-        pass
+        return None
         #print "NO PATNEAS"
 
 
