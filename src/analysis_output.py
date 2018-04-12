@@ -76,7 +76,7 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
     #PrEPReport = open('results/PrEPReport.txt', 'a')
     #iduReport = open('results/iduReport.txt', 'a')
     highriskReport = open('results/highriskReport.txt', 'a')
-    inc_highriskReport = open('results/incHR_Report.txt', 'a')
+    inc_highriskReport = open('results/HR_HIV_Report.txt', 'a')
     femaleReport = open('results/FemaleReport.txt', 'a')
     maleReport = open('results/MaleReport.txt', 'a')
     msmReport = open('results/MSMReport.txt', 'a')
@@ -274,19 +274,19 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
     blackReport.write("%d\t%d\t%d\t%d\t%d\t%d\n" % (rseed,t, infectionsArray['BLACK']['ALL']['numHIV'], infectionsArray['BLACK']['MSM']['numHIV'], infectionsArray['BLACK']['ALL']['numTested'], infectionsArray['BLACK']['ALL']['numART']))
 
     #print "Age\tN\tHIV\tTested\tART\tPrEP"
-    for i in range(1,6):
-        ageList = [ag for ag in totalAgents._subset["MSM"]._members if ag._ageBin == i]
-        ageN_total = len(ageList)
-        ageN_prep = len([ag for ag in ageList if ag._PrEP_bool])
-
-        ageHIV_List = [ag for ag in totalAgents._subset["HIV"]._members if ag._ageBin == i]
-        ageN_hiv =len(ageHIV_List)
-        ageN_tested = len([ag for ag in ageHIV_List if ag._tested])
-        ageN_ART = len([ag for ag in ageHIV_List if ag._HAART_bool])
-        #print "%d\t%d\t%d\t%d\t%d\t%d"%(i,ageN_total,ageN_hiv,ageN_tested,ageN_ART,ageN_prep)
-        ageNReport = open('Results/MSMReport_a%d.txt' %i, 'a')
-        ageNReport.write("%d\t%d\t%d\t%d\t%d\t%d\t%d\n"%(rseed,t,ageN_total,ageN_hiv,ageN_tested,ageN_ART,ageN_prep))
-        ageNReport.close()
+    # for i in range(1,6):
+    #     ageList = [ag for ag in totalAgents._subset["MSM"]._members if ag._ageBin == i]
+    #     ageN_total = len(ageList)
+    #     ageN_prep = len([ag for ag in ageList if ag._PrEP_bool])
+    #
+    #     ageHIV_List = [ag for ag in totalAgents._subset["HIV"]._members if ag._ageBin == i]
+    #     ageN_hiv =len(ageHIV_List)
+    #     ageN_tested = len([ag for ag in ageHIV_List if ag._tested])
+    #     ageN_ART = len([ag for ag in ageHIV_List if ag._HAART_bool])
+    #     #print "%d\t%d\t%d\t%d\t%d\t%d"%(i,ageN_total,ageN_hiv,ageN_tested,ageN_ART,ageN_prep)
+    #     ageNReport = open('Results/MSMReport_a%d.txt' %i, 'a')
+    #     ageNReport.write("%d\t%d\t%d\t%d\t%d\t%d\t%d\n"%(rseed,t,ageN_total,ageN_hiv,ageN_tested,ageN_ART,ageN_prep))
+    #     ageNReport.close()
 
     ResultDict['Incid_T'].update({t:len(NewInfections._members)})
 

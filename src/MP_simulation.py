@@ -117,7 +117,7 @@ def open_inputs():
     #blackReport.write("0,0,0,0,0\n")
     blackReport.close()
 
-    incidenceReport = open('results/IncidenceReport.txt', 'w')
+    incidenceReport = open('results/HR_HIV_Report.txt', 'w')
     incidenceReport.write("seed\tt\tTotal\tW_HM\tB_HM\tHM\tW_HF\tB_HF\tHF\tW_MSM\tB_MSM\tMSM\n")
     #incidenceReport.write("0,0,0,0\n")
     incidenceReport.close()
