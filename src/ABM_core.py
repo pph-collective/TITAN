@@ -76,7 +76,7 @@ try:
 except ImportError, e:
     raise ImportError("Can't import analysis_output! %s" % str(e))
 
-import params
+#import params
 
 
 PROF_DATA = {}
