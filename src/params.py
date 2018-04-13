@@ -8,10 +8,10 @@ Main model parameters.
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed = 1               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
-N_MC = 1               # total number of iterations (Monte Carlo runs)
-N_POP = 50000           # population size
-TIME_RANGE = 36        # total time steps to iterate
-burnDuration = 6
+N_MC = 100               # total number of iterations (Monte Carlo runs)
+N_POP = 100000           # population size
+TIME_RANGE = 120        # total time steps to iterate
+burnDuration = 36
 model = 'Incar'         # Model Type for fast flag toggling
 setting = 'Phil'
 ####################
@@ -36,14 +36,14 @@ Calibration scaling parameters for fitting to empirical data
 
 PARTNERTURNOVER = 7.5       # Partner acquisition parameters (higher number more partnering)
 
-cal_NeedleScaling = 1.0     # IDU transmission probability scaling factor
-cal_SexualScaling = 2.0     # Sexual transmission probability scaling factor
-cal_pXmissionScaling = 10.92 # Global transmission probability scaling factor
+cal_NeedleScaling = 0.60     # IDU transmission probability scaling factor
+cal_SexualScaling = 3.0     # Sexual transmission probability scaling factor
+cal_pXmissionScaling = 1.0 # Global transmission probability scaling factor
 cal_AcuteScaling = 4.3      # Infectivity multiplier ratio for Acute status infections
 cal_RR_Dx = 0.53            # Risk reduction in transmission probability for agents diagnosed
 cal_RR_HAART = 1.0          # Scaling factor for effectiveness of ART therapy on xmission P
 cal_TestFreq = 1.0          # Scaling factor for testing frequency
-cal_Mortality = 1.0        # Scaling factor for all cause mortality rates
+cal_Mortality = 0.5        # Scaling factor for all cause mortality rates
 cal_ProgAIDS = 1.0         # Scaling factor for all progression to AIDS from HIV rates
 cal_ART_cov = 1.0          # Scaling factor for enrollment on ART probability
 cal_IncarP = 1.0
@@ -195,7 +195,7 @@ RaceClass1['HM'] = {'POP':0.4200,
                      'NUMSexActs':5.0,
                      'UNSAFESEX':0.89,
                      'NEEDLESH':0.43,
-                     'HIVTEST':0.0,#55,
+                     'HIVTEST':0.034,
                      'INCAR':0.001,
                      'HAARTadh':0.405,
                      'HAARTdisc':0.000,
@@ -213,7 +213,7 @@ RaceClass1['HF'] = {'POP':0.5800,
                      'NUMSexActs':5.0,
                      'UNSAFESEX':0.43,
                      'NEEDLESH':0.43,
-                     'HIVTEST':0.0,#55,
+                     'HIVTEST':0.034,
                      'INCAR':0.00,
                      'HAARTadh':0.405,
                      'HAARTdisc':0.000,
@@ -221,40 +221,22 @@ RaceClass1['HF'] = {'POP':0.5800,
                      }
 
 
-RaceClass1['MSM'] = {'POP':0.00,
-                     'HIV':0.132,
-                     'AIDS':0.07,
-                     'HAARTprev':0.467,
-                     'INCARprev':0.000,
-                     'TestedPrev':0.844,
-                     'mNPart':3,
-                     'NUMPartn':1.5,
-                     'NUMSexActs':5.0,
-                     'UNSAFESEX':0.43,
-                     'NEEDLESH':0.43,
-                     'HIVTEST':0.055,
-                     'INCAR':0.00,
-                     'HAARTadh':0.405,
-                     'HAARTdisc':0.008,
-                     'PrEPdisc':PrEP_disc
-                     }
-
 RaceClass1['PWID'] = {'POP':0.0173,
                      'HIV':0.1500,
-                     'AIDS':0.07,
-                     'HAARTprev':0.467,
-                     'INCARprev':0.000,
-                     'TestedPrev':0.844,
-                     'mNPart':3,
+                     'AIDS':0.6780,
+                     'HAARTprev':0.41,
+                     'INCARprev':0.0274,
+                     'TestedPrev':0.90,
+                     'mNPart':5,
                      'NUMPartn':1.5,
                      'NUMSexActs':5.0,
-                     'UNSAFESEX':0.43,
-                     'NEEDLESH':0.43,
+                     'UNSAFESEX':0.89,
+                     'NEEDLESH':0.63,
                      'HIVTEST':0.055,
-                     'INCAR':0.00,
+                     'INCAR':0.001,
                      'HAARTadh':0.405,
-                     'HAARTdisc':0.008,
-                     'PrEPdisc':PrEP_disc
+                     'HAARTdisc':0.000,
+                     'PrEPdisc':0.0000
                      }
 
 

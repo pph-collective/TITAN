@@ -8,7 +8,7 @@ __author__ = 'MaximilianKing'
 # lseemann [at] uh.edu
 
 import numpy as np
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 #from mpl_toolkits.axes_grid1 import host_subplot
 #import mpl_toolkits.axisartist as AA
@@ -74,7 +74,7 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
     deathReport = open('results/DeathReport.txt', 'a')
     incarReport = open('results/IncarReport.txt', 'a')
     #PrEPReport = open('results/PrEPReport.txt', 'a')
-    #iduReport = open('results/iduReport.txt', 'a')
+    iduReport = open('results/iduReport.txt', 'a')
     highriskReport = open('results/HR_incidenceReport.txt', 'a')
     newlyhighriskReport = open('results/newlyHR_Report.txt', 'a')
     femaleReport = open('results/FemaleReport.txt', 'a')
@@ -145,10 +145,10 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
     #r = dict(dict1)
 
 
-    rc1_infections = {'MSM':dict(rc_template), 'HM':dict(rc_template),'HF':dict(rc_template), 'ALL':dict(rc_template)}
+    rc1_infections = {'MSM':dict(rc_template), 'HM':dict(rc_template),'HF':dict(rc_template),'IDU':dict(rc_template), 'ALL':dict(rc_template)}
 
-    rc2_infections = {'MSM':dict(rc_template), 'HM':dict(rc_template),'HF':dict(rc_template), 'ALL':dict(rc_template)}
-    all_infections = {'MSM': dict(rc_template), 'HM': dict(rc_template), 'HF': dict(rc_template), 'ALL': dict(rc_template)}
+    rc2_infections = {'MSM':dict(rc_template), 'HM':dict(rc_template),'HF':dict(rc_template),'IDU':dict(rc_template), 'ALL':dict(rc_template)}
+    all_infections = {'MSM': dict(rc_template), 'HM': dict(rc_template), 'HF': dict(rc_template),'IDU':dict(rc_template), 'ALL': dict(rc_template)}
     rsltdic = {'WHITE':rc1_infections, 'BLACK':rc2_infections}
     tot_rsltdic = {'ALL':all_infections}
 
@@ -220,6 +220,12 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
         if tmpA._tested:rsltdic[tmpA._race][tmpA._SO]['numTested'] += 1
         if tmpA._HAART_bool:rsltdic[tmpA._race][tmpA._SO]['numART'] += 1
 
+    for tmpA in totalAgents._subset['IDU'].iter_agents():
+        if tmpA._HIV_bool:rsltdic[tmpA._race]['IDU']['numHIV'] += 1
+        if tmpA._AIDS_bool:rsltdic[tmpA._race]['IDU']['numAIDS'] += 1
+        if tmpA._tested:rsltdic[tmpA._race]['IDU']['numTested'] += 1
+        if tmpA._HAART_bool:rsltdic[tmpA._race]['IDU']['numART'] += 1
+
     deaths_total = deaths["Total"]["HM"]+deaths["Total"]["HF"]+deaths["Total"]["MSM"]
     deaths_HM = deaths["Total"]["HM"]
     deaths_MSM = deaths["Total"]["MSM"]
@@ -243,6 +249,7 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
             tot_rsltdic['ALL']['ALL'][param] += rsltdic[race]['ALL'][param]
             tot_rsltdic['ALL']['HM'][param] += rsltdic[race]['HM'][param]
             tot_rsltdic['ALL']['HF'][param] += rsltdic[race]['HF'][param]
+            tot_rsltdic['ALL']['IDU'][param] += rsltdic[race]['IDU'][param]
 
 
     incidenceReport.write(
@@ -271,7 +278,19 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
             tot_rsltdic['ALL']['HM']['numHIV'],
             tot_rsltdic['ALL']['HF']['numHIV']))
 
-    # deathReport.write("%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (rseed,t, deaths_total, deaths_HM, deaths_MSM, deaths_HF, deaths_HIV_total, deaths_HIV_HM,deaths_HIV_MSM,deaths_HIV_HF))
+    deathReport.write(
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+            rseed,
+            t,
+            deaths_total,
+            deaths_HM,
+            deaths_MSM,
+            deaths_HF,
+            deaths_HIV_total,
+            deaths_HIV_HM,
+            deaths_HIV_MSM,
+
+            deaths_HIV_HF))
 
     highriskReport.write(
         "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
@@ -366,24 +385,16 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
             rsltdic['BLACK']['ALL']['incarHIV']))
 
     iduReport.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\n" % (
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+            rseed,
             t,
-            numIDU,
-            numHIV_IDU_p,
-            numAIDS_IDU_p,
-            numHIDU,
-            numTested_IDU))
+            totalAgents._subset['IDU'].num_members(),
+            tot_rsltdic['ALL']['IDU']['numHIV'],
+            tot_rsltdic['ALL']['IDU']['numAIDS'],
+            tot_rsltdic['ALL']['IDU']['numART'],
+            tot_rsltdic['ALL']['IDU']['numTested'],))
     #print infectionsArray['WHITE']
-    for race in rsltdic:
-        print race
-        for param in rc_template:
-            rsltdic[race]['ALL'][param] = rsltdic[race]['MSM'][param] + rsltdic[race]['HM'][param] + rsltdic[race]['HF'][param]
-    for race in rsltdic:
-        print("summing up race", race)
-        for param in rc_template:
-            tot_rsltdic['ALL']['ALL'][param] += rsltdic[race]['ALL'][param]
-            tot_rsltdic['ALL']['HM'][param] += rsltdic[race]['HM'][param]
-            tot_rsltdic['ALL']['HF'][param] += rsltdic[race]['HF'][param]
+
 
     whiteReport.write("%d\t%d\t%d\t%d\t%d\t%d\n" % (
         rseed,
@@ -433,6 +444,20 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
     ResultDict['WInc_T'].update({t:rsltdic['WHITE']['MSM']['inf_newInf']})
     ResultDict['BInc_T'].update({t:rsltdic['BLACK']['MSM']['inf_newInf']})
 
+    # PLOTTING FOR RUN]
+    # plt.ion()
+    # plt.subplot(2, 2, 1)
+    # plt.plot(t, rsltdic['WHITE']['HM']['numHIV'], 'rs', color='cornflowerblue', linewidth=3)
+    # plt.title('W_HM HIV')
+    # plt.ylabel('N_HIV : HM')
+    # plt.subplot(2, 1, 2)
+    # plt.plot(t, rsltdic['WHITE']['HF']['numHIV'], 'bs')
+    # plt.xlabel('Timestep (mo)')
+    # plt.ylabel('W_HM HIV')
+    # plt.draw()
+    #
+    # plt.show()
+    # plt.pause(.1)
     num_partners = []
     num_partners_hr = []
     ann_num_partners = []
@@ -758,7 +783,7 @@ def assess_before_update(t,
             if agent_Test_bool:
                 numTested_Black +=1
 
-    """
+
     #PLOTTING FOR RUN
     #plt.ion()
     plt.subplot(2,2,1)
@@ -773,7 +798,7 @@ def assess_before_update(t,
 
     #plt.show()
     plt.pause(.1)
-    """
+
     numNEEDLE = Transmission_tracker['NEEDLE'][t]
 
     incidenceReport.write("%d\t%d\t%d\t%d\n" % (t, numFROM_ND + numFROM_IDU + numFROM_NIDU, numFROM_IDU, numACUTE_IDU)) #3rd was numHIV_IDU_MSM_i + numHIV_ND_MSM_i

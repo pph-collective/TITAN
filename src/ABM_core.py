@@ -1168,7 +1168,7 @@ class HIVModel(NetworkClass):
 
             #print "%s\t%s\t"%(Race_Agent,Type_agent)
             p_UnsafeSafeSex1 = params.DemographicParams[Race_Agent][Type_agent]['UNSAFESEX']
-            MSexActs = self._get_number_of_sexActs(agent) * params.cal_SexualScaling / 12.0
+            MSexActs = self._get_number_of_sexActs(agent) * params.cal_SexualScaling
             #MSexActs = self.ProbTables[Race_Agent][Type_agent]['NUMSexActs'] * self.SEXSCALINGPARAM
             #print "Unsafe:%.5lf\tMSexActs:%.2lf\tOLDMSexActs:%.2lf"%(p_UnsafeSafeSex1,MSexActs,self.MEAN_S_ACTS)
             #print "MSEX",MSexActs
@@ -1374,361 +1374,6 @@ class HIVModel(NetworkClass):
         #self.totalAgentClass._subset["HIV"].add_agent(agent)
         #print "\t\t\t\t\tNew HIV agent %d     VL:%.1lf    time:%d"%(agent, Viral_load, time)
 
-    #@profile
-    def _update_partner_assignments(self, partnerTurnover):
-        # Generate target partner numbers for each agent and get current partner nums
-        target_partner_nums = {}
-        current_partner_nums = {}
-
-        # TODO: FIX THIS BACK TO HIV AGENTS ONLY
-        EligibleAgents = self.Agents#list(set(self.HIV_agents).difference(set(self.Incarcerated)))
-        for agent in EligibleAgents:#self.HIV_agents:#Agents:
-
-            agent_sex_type = self.get_agent_characteristic(agent, 'Sex Type')
-            agent_drug_type = self.get_agent_characteristic(agent, 'Drug Type')
-
-            current_num = len(list(self.AdjMat.rows[agent]))
-
-            if np.random.uniform(0, 1) > partnerTurnover:
-                target_num = current_num
-            else:
-                target_num = get_number_of_partners(self, agent, agent_drug_type, agent_sex_type)
-
-            target_partner_nums.update({agent: target_num})
-            current_partner_nums.update({agent: current_num})
-
-        # Now loop through agents, if currently too many partners, remove some
-        for agent in EligibleAgents:#self.HIV_agents:#Agents:
-            if target_partner_nums[agent] < current_partner_nums[agent]:
-                ExistingLinks = list(self.AdjMat.rows[agent])
-                n = current_partner_nums[agent] - target_partner_nums[agent]
-                for i in range(n):
-                    agent2remove = random.choice(ExistingLinks)
-                    #print "Current agent %d has %d partners and wants %d - " %(agent, current_partner_nums[agent],target_partner_nums[agent]), list(self.AdjMat.rows[agent]), "removing %d"%agent2remove
-                    self.AdjMat[agent, agent2remove] = 0  # remove connection adjMat
-                    self.AdjMat[agent2remove, agent] = 0
-                    current_partner_nums[agent] -= 1
-                    if agent2remove in EligibleAgents:#self.HIV_agents:
-                        current_partner_nums[agent2remove] -= 1
-
-        # Loop through agents again, if too few: go into need_partners set
-        need_new_partners = []
-        for agent in EligibleAgents:#self.HIV_agents:#Agents:
-            if target_partner_nums[agent] > current_partner_nums[agent]:
-                need_new_partners.append(agent)
-
-        need_new_partners = list(np.random.permutation(need_new_partners))
-
-        # Now create partnerships until available partnerships are out
-        last_list_size = len(need_new_partners)
-        iters_at_one_size = 0
-        print "\t\t-FINDING MATCHES FOR",len(need_new_partners),"AGENTS IN NEED \t---"
-        while len(need_new_partners) > 0:
-            #print len(need_new_partners)
-            agent = random.choice(need_new_partners)
-            agent_cl = self.totalAgentClass.get_agent(agent)
-            AvailableAgents = self.Agents
-            if self.Incarcerated != []:
-                #AvailableAgents.remove(self.Incarcerated)
-                AvailableAgents = list(set(self.Agents).difference(set(self.Incarcerated)))
-                #print "REMOVED %d from Avialable Lists"%len(self.Incarcerated)
-
-            #for n in AvailableAgents:
-            #    print "Agent %d"%n,AvailableAgents[n]
-            partner = self._get_partner(agent, AvailableAgents)#self.Agents)
-            #partner = self._get_partner(agent, need_new_partners)
-
-            if partner != None:
-                partner_cl = self.totalAgentClass.get_agent(partner)
-                agent_sex_type = self.get_agent_characteristic(agent, 'Sex Type')
-                agent_drug_type = self.get_agent_characteristic(agent, 'Drug Type')
-                partner_sex_type = self.get_agent_characteristic(partner, 'Sex Type')
-                partner_drug_type = self.get_agent_characteristic(partner, 'Drug Type')
-                #print "MATCHING A:%d (%s %s) with P:%d (%s %s)"%(agent, agent_sex_type, agent_drug_type, partner, partner_sex_type, partner_drug_type)
-                #self.AdjMat[agent, partner] = 1
-                #self.AdjMat[partner, agent] = 1
-                #current_partner_nums[agent] += 1
-
-                agent_cl.bond(partner_cl)
-
-
-                if current_partner_nums[agent] == target_partner_nums[agent]:
-                    need_new_partners.remove(agent)
-
-                if partner in self.HIV_agents:
-                    current_partner_nums[partner] += 1
-
-                    if current_partner_nums[partner] == target_partner_nums[partner]:
-                        need_new_partners.remove(partner)
-            #else:
-                #print "NO MATCH FOUND FOR A:", agent, "( of total", len(need_new_partners),")"
-            if len(need_new_partners) == last_list_size:
-                iters_at_one_size += 1
-            else:
-                iters_at_one_size = 0
-
-
-            if iters_at_one_size > 100: break
-            last_list_size = len(need_new_partners)
-            if last_list_size == 0: break
-        # The remaining partnerless people can remain partnerless :)
-        print "\t\t-COULDNT MATCH",len(need_new_partners),"AGENTS IN NEED \t---"
-        # Now assign partnerships in the high risk group
-        """for agent in self.Agents:
-            if agent in self.high_risk_agents and np.random.uniform(0, 1) > self.PARTNERTURNOVER:
-                for partner in list(self.AdjMat.rows[agent]):
-                    if partner in self.high_risk_agents:
-                        self.AdjMat[agent, partner] = 0
-                        self.AdjMat[partner, agent] = 0
-                agent_sex_type = self.get_agent_characteristic(agent, 'Sex Type')
-                agent_drug_type = self.get_agent_characteristic(agent, 'Drug Type')
-                n_new_partners = self._get_number_of_partners(agent, agent_drug_type, agent_sex_type)
-                n_new_partners = int((self.HIGH_RISK_PARTNER_ENHANCEMENT - 1) / 2 * n_new_partners)
-            for i in range(n_new_partners):
-                partner = self._get_partner(agent, list(self.high_risk_agents))
-                if partner != None:
-                    self.AdjMat[agent, partner] = 1
-                    self.AdjMat[partner, agent] = 1"""
-
-
-    def _get_number_of_partners(self, agent, agent_drug_type, agent_sex_type):
-        """
-        :Purpose:
-            Get number of partners for a agent.
-            Drawn from Poisson distribution.
-
-        :Input:
-            agent_drug_type : str
-            Either 'IDU', 'NIDU', 'ND'
-
-            agent_sex_type : str
-            Either 'HM', 'MSM', 'HF', 'WSW'
-
-        :Output:
-            NumPartners : int
-            Zero partners possible.
-        """
-        # Check input
-        # Drug type
-        if agent_drug_type not in ['IDU', 'NIDU', 'ND']:
-            raise ValueError("Invalid drug type! %s" % str(agent_drug_type))
-        # Sex type
-        if agent_sex_type not in ['HM', 'HF', 'MSM', 'WSW']:
-            raise ValueError("Invalid sex type! %s" % str(agent_sex_type))
-
-        agent_race_type = self.get_agent_characteristic(agent, 'Race')
-
-        n_trials = self.ProbTables[agent_race_type][agent_sex_type]['NUMPartn']#5
-        p_success = .8
-
-        ##Random number of contacts using negative binomial
-        if agent_sex_type == 'WSW':
-            # n_trials = 1
-            # p_success = 0.8
-            RandNumCont = np.random.negative_binomial(n_trials, p_success, 1)[0]
-        elif agent_sex_type == 'MSM' and agent_drug_type != 'NIDU':
-            # n_trials = 1
-            # p_success = 0.8
-            RandNumCont = np.random.negative_binomial(n_trials, p_success, 1)[0]
-        elif agent_sex_type == 'MSM' and agent_drug_type == 'NIDU':
-            # n_trials = 1
-            # p_success = 0.8
-            RandNumCont = np.random.negative_binomial(n_trials, p_success, 1)[0]
-            RandNumCont = int(RandNumCont * 2)
-        elif agent_drug_type == 'NIDU':
-            # n_trials = 1
-            # p_success = 0.8
-            RandNumCont = np.random.negative_binomial(n_trials, p_success, 1)[0]
-        elif agent_drug_type == 'IDU':
-            n_trials = 7
-            p_success = 0.7
-            RandNumCont = np.random.negative_binomial(n_trials, p_success, 1)[0]
-        elif agent_drug_type == 'ND':
-            # n_trials = 1
-            # p_success= 0.8
-            RandNumCont = np.random.negative_binomial(n_trials, p_success, 1)[0]
-        if RandNumCont < 0:
-            raise ValueError("Invalid number of contacts!%s" % str(RandNumCont))
-
-        if RandNumCont == 0 and np.random.uniform() < .5:
-            RandNumCont = 1
-        MEAN_PARTNER_YEAR = self.ProbTables[agent_race_type][agent_sex_type]['NUMPartn']
-        RandNumCont = poisson.rvs(MEAN_PARTNER_YEAR, size=1)
-
-        if agent in self.IDU_agents:
-            RandNumCont = RandNumCont * 1
-        #print "Agent %s\t%s\t%s\tPARTNERS:%d"%(agent_race_type, agent_sex_type, agent_drug_type, RandNumCont)
-        RandNumCont = 1 ######################## TEMP FIXER
-        return RandNumCont
-
-    #@profile
-    def _get_partner(self, agent, need_new_partners):
-        """
-        :Purpose:
-            Get partner for agent.
-
-        :Input:
-            agent : int
-
-            need_new_partners: list of available partners
-
-        :Output:
-            partner: new partner
-        """
-        def partner_choice(x):
-            intersection = list(set(need_new_partners).intersection(set(x))) #?need_new_partners[:100]?
-            #intersection.remove(agent) ### TESTING REMOVING SELF
-
-            if intersection == []: return None
-            else: return random.choice(intersection)
-
-        agent_sex_type = self.get_agent_characteristic(agent, 'Sex Type')
-        agent_drug_type = self.get_agent_characteristic(agent, 'Drug Type')
-        ExistingLinks = list(self.AdjMat.rows[agent])
-        RandomPartner = None
-
-        #print("Finding partner for agent", agent, agent_sex_type, agent_drug_type)
-        if agent_drug_type == 'IDU':
-            if random.random() < 0.8:
-                # choose from IDU agents
-                #print "\tChecking for IDU partner for %d" % agent
-                AvailableAgents = list(set(self.IDU_agents).difference(set(self.Incarcerated)))
-                RandomPartner = partner_choice(AvailableAgents)
-                #print "\tReturned: %s" % RandomPartner
-            else:
-                RandomPartner = self._get_random_sex_partner(agent, need_new_partners)
-        elif agent_drug_type in ('ND','NIDU'):
-            RandomPartner = self._get_random_sex_partner(agent, need_new_partners)
-        else:
-            raise ValueError("Check method _get_partners(). Agent not caught!")
-        #print RandomPartner
-        if RandomPartner == agent: return None
-        else: return RandomPartner
-
-
-        """if agent_sex_type == 'MSM' and agent_drug_type in ('ND','NIDU'):
-            # Either new partner is from MSM only (90% of MSM agents)
-            # or partner is chosen from population randomly
-            if agent in self.MSM_RandomChoice:
-                # Only consider partners which are sex compatible
-                RandomPartner = self._get_random_sex_partner(agent, need_new_partners)
-            else:
-                RandomPartner = partner_choice(self.MSM_agents)
-
-        elif agent_sex_type == 'MSM' and agent_drug_type =='IDU':
-            # Either new partner is from MSM only (90% of MSM agents)
-            # or partner is chosen from population randomly
-            if agent in self.MSM_RandomChoice2:
-                # Only consider partners which are sex compatible
-                RandomPartner = self._get_random_sex_partner(agent, need_new_partners)
-            else:
-                RandomPartner = partner_choice(self.MSM_agents)
-
-        elif agent_drug_type == 'IDU' and agent_sex_type !='MSM':
-            if random.random() < 0.8:
-                # choose from IDU agents
-                #print "\tChecking for IDU partner for %d" % agent
-                RandomPartner = partner_choice(self.IDU_agents)
-                #print "\tReturned: %s" % RandomPartner
-            else:
-                RandomPartner = self._get_random_sex_partner(agent, need_new_partners)
-
-        elif agent_drug_type == 'NIDU': #incorporate assortative mixing for NIDU
-            if random.random() < 0.18:
-                # choose from IDU agents
-                RandomPartner = partner_choice(self.IDU_agents)
-            if random.random() < 0.18 + 0.42:# draw from NIDU
-                RandomPartner = partner_choice(self.NIDU_agents)
-            else:
-                RandomPartner = self._get_random_sex_partner(agent, need_new_partners)
-
-        elif agent_sex_type == 'WSW':
-            # Either new partner is from WSW only (50% of WSW agents)
-            # or partner is chosen from population randomly
-            if agent in self.WSW_RandomChoice:
-                # Only consider partners which are sex compatible
-                RandomPartner = self._get_random_sex_partner(agent, need_new_partners)
-            else:
-                RandomPartner = partner_choice(self.WSW_agents)
-
-        elif agent_drug_type =='ND':
-            RandomPartner = self._get_random_sex_partner(agent, need_new_partners)
-        else:
-            raise ValueError("Check method _get_partners(). Agent not caught!")
-        if RandomPartner == agent: return None
-        else: return RandomPartner"""
-
-    #@profile
-    def _get_random_sex_partner(self, agent, need_new_partners):
-        """
-        :Purpose:
-            Get a random partner which is sex compatible
-
-        :Input:
-            agent: int
-            need_new_partners: list of available partners
-
-        :Output:
-            partner : int
-
-        """
-        #@profile
-        def partner_choice(x):
-            intersection = list(set(need_new_partners).intersection(set(x)))
-            agent_race_type = self.get_agent_characteristic(agent, 'Race')
-            #print agent_race_type
-            if agent_race_type == 'WHITE':
-                Assortive_intersection = list(set(self.White_agents).intersection(intersection))
-                if Assortive_intersection == []: print "Couldnt assortive mix (W), picking suitable agent"
-                else: return random.choice(Assortive_intersection)
-            elif agent_race_type == 'BLACK':
-                Assortive_intersection = list(set(self.Black_agents).intersection(intersection))
-                if Assortive_intersection == []:
-                    print "Couldnt assortive mix (B), picking suitable agent"
-                else:
-                    #print Assortive_intersection
-                    return random.choice(Assortive_intersection)
-            if intersection == []: return None
-            else: print "NO PATNAS"#return random.choice(intersection)
-
-        #agent_sex_type = self.get_agent_characteristic(agent, 'Sex Type')
-        agent_sex_type = self.get_agent_characteristic(agent, 'Sex Type')
-        #print "\tChecking for sex partner for %d" % agent
-
-        if agent_sex_type not in ['HM','HF','MSM','WSW']:
-            raise ValueError("Invalid sex type! %s"%str(agent_sex_type))
-        elif agent_sex_type == 'MSM':
-            rv = random.random()
-            if rv < 0.91:
-                RandomPartner = partner_choice(self.MSM_agents)   # MSM agent
-            else:
-                RandomPartner = partner_choice(self.HF_agents)  # HF agent
-        elif agent_sex_type == 'HM':
-            rv = random.random()
-            if rv < 1:#0.96:
-                RandomPartner = partner_choice(self.HF_agents)   # HF agent
-            else:
-                RandomPartner = partner_choice(self.WSW_agents)  # WSW agent
-        elif agent_sex_type == 'HF':
-            rv = random.random()
-            if rv < 1:#0.95:
-                RandomPartner = partner_choice(self.HM_agents)   # HM agent
-            else:
-                RandomPartner = partner_choice(self.MSM_agents)  # MSM agent
-        elif agent_sex_type == 'WSW':
-            rv = random.random()
-            if rv < 0.91:
-                RandomPartner = partner_choice(self.WSW_agents)   # HM agent
-            elif rv < 0.91+0.05:
-                RandomPartner = partner_choice(self.MSM_agents)  # MSM agent
-            else:
-                RandomPartner = partner_choice(self.HM_agents)  # WSW agent
-        else:
-            raise ValueError("Invalid sex type! %s"%str(agent_sex_type))
-
-        #print "\tReturned: %s" % RandomPartner
-        return RandomPartner
-
 
     def _sex_possible(self, agent_sex_type, partner_sex_type):
         """
@@ -1872,8 +1517,7 @@ class HIVModel(NetworkClass):
                         self.AdherenceAgents[agent] = 1"""
                         ### END FORCE ####
 
-
-        elif random.random() < params.DemographicParams[race_type][sex_type]['INCAR'] * params.cal_IncarP: ############## SCALED BY 2.5
+        elif random.random() < params.DemographicParams[race_type][sex_type]['INCAR'] * (1+(hiv_bool*4)) * params.cal_IncarP: ############## SCALED BY 2.5
 
             toss = 2#random.choice( (1, 2) )
             if toss == 1: #JAIL
@@ -2540,6 +2184,10 @@ class HIVModel(NetworkClass):
             Let agents die and replace the dead agent with a new agent randomly.
         """
         totalDeaths = 0
+        # self.num_Deaths["Total"] = 0
+        # self.num_Deaths["HIV+"] = 0
+        # self.num_Deaths["HIV-"] = 0
+
 
         #dynnetworkReport = open('Results/dynnetworkReport.txt', 'a')
         for agent in self.totalAgentClass._members:#iter_agents(): #self.Agents:
@@ -2584,7 +2232,7 @@ class HIVModel(NetworkClass):
                         else:
                             raise ValueError("Invalid RACE type! %s" % str(agent_Race))
                         #p = self.ProbDeath[drug_type]['HIV+']
-                        p = p * params.cal_Mortality
+                    p = p * params.cal_Mortality
 
                 elif not HIV_status: # NON HIV DEATH RATE
                     if agent_Race == 'WHITE':
