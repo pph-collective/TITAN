@@ -29,7 +29,7 @@ def read_parameter_dict(num_Simulations):
     # dictionary parameter_dict and return parameter_dict
 
     # Read scalars
-    infile = open('Input/InputParameters.csv', 'r')
+    infile = open('input/InputParameters.csv', 'r')
     lines = infile.readlines()
     infile.close()
     data_dict = {}  # data[run#][parameter]
@@ -50,7 +50,7 @@ def read_parameter_dict(num_Simulations):
 
     # Read vector parameters (function of time t)
     for vector_value in ['NSP_SAT', 'NSP_NoSAT']:
-        text = open(('Input/' + vector_value + '.csv'), 'r').read()
+        text = open(('input/' + vector_value + '.csv'), 'r').read()
         if '\r\n' in text:
             lines = text.split('\r\n')
         else:

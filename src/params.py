@@ -184,7 +184,7 @@ for a in ['MSM','HM','HF','PWID']:
 #RaceClass1['MSM']['POP'] = 1.0
 #RaceClass1['MSM']['HIV'] = 0.4
 
-RaceClass1['HM'] = {'POP':0.4200,
+RaceClass1['HM'] = {'POP':0.4150,
                      'HIV':0.0369,
                      'AIDS':0.6780,
                      'HAARTprev':0.41,
@@ -202,7 +202,7 @@ RaceClass1['HM'] = {'POP':0.4200,
                      'PrEPdisc':0.0000
                      }
 
-RaceClass1['HF'] = {'POP':0.5800,
+RaceClass1['HF'] = {'POP':0.5850,
                      'HIV':0.01391,
                      'AIDS':0.573,
                      'HAARTprev':0.47,
