@@ -117,7 +117,7 @@ def open_inputs():
     #blackReport.write("0,0,0,0,0\n")
     blackReport.close()
 
-    incidenceReport = open('results/HR_HIV_Report.txt', 'w')
+    incidenceReport = open('results/IncidenceReport.txt', 'w')
     incidenceReport.write("seed\tt\tTotal\tW_HM\tB_HM\tHM\tW_HF\tB_HF\tHF\tW_MSM\tB_MSM\tMSM\n")
     #incidenceReport.write("0,0,0,0\n")
     incidenceReport.close()
@@ -128,15 +128,15 @@ def open_inputs():
     prevalenceReport.close()
 
     incarReport = open('results/IncarReport.txt', 'w')
-    incarReport.write("seed\tt\tTotal\tW_HM\tB_HM\tW_HF\tB_HF\tW_MSM\tB_MSM\tB_HIV\tW_HIV\n")
+    incarReport.write("seed\tt\tTotal\tW_HM\tB_HM\tW_HF\tB_HF\tW_MSM\tB_MSM\tW_HIV\tB_HIV\n")
     # prevalenceReport.write("0,0,0,0,0,0\n")
     incarReport.close()
 
-    incHR_Report = open('results/incHR_Report.txt', 'w')
-    incHR_Report.write("seed\tt\tnewHR_HM\tnewHR_HIV_HM\tnewHR_AIDS_HM\tnewHR_Tested_HM\tnewHR_ART_HM\tnewHR_HF\tnewHR_HIV_HF\tnewHR_AIDS_HF\tnewHR_Tested_HF\tnewHR_ART_HF\n")
-    incHR_Report.close()
+    newlyhighriskReport = open('results/newlyHR_Report.txt', 'w')
+    newlyhighriskReport.write("seed\tt\tnewHR_HM\tnewHR_HIV_HM\tnewHR_AIDS_HM\tnewHR_Tested_HM\tnewHR_ART_HM\tnewHR_HF\tnewHR_HIV_HF\tnewHR_AIDS_HF\tnewHR_Tested_HF\tnewHR_ART_HF\n")
+    newlyhighriskReport.close()
 
-    highriskReport = open('results/highriskReport.txt', 'w')
+    highriskReport = open('results/HR_incidenceReport.txt', 'w')
     highriskReport.write("seed\tt\tTot_Ev\tHM_Ev\tHF_Ev\tTot_6mo\tHM_6mo\tHF_6mo\n")
     # prevalenceReport.write("0,0,0,0,0,0\n")
     highriskReport.close()
@@ -163,14 +163,14 @@ def open_inputs():
     maleReport.close()
 
     msmReport = open('results/MSMReport.txt', 'w')
-    msmReport.write("seed,model,cov,t,Total,HIV,AIDS,Tested,ART,Incidence,HRInc_6mo,HRInc_Ev,NewlyDiag,Deaths,PrEP\n")
+    msmReport.write("seed\tt\tTotal\tHIV\tAIDS\tTested\tART\tIncidence\tHRInc_6mo\tHRInc_Ev\tNewlyDiag\tDeaths\tPrEP\n")
     # prevalenceReport.write("0,0,0,0,0,0\n")
     msmReport.close()
 
-    for i in range(1,6):
-        ageNReport = open('results/MSMReport_a%d.txt' %i, 'w')
-        ageNReport.write('seed,t,total_N,HIV,Tested,ART,PrEP\n')
-        ageNReport.close()
+    # for i in range(1,6):
+    #     ageNReport = open('results/MSMReport_a%d.txt' %i, 'w')
+    #     ageNReport.write('seed,t,total_N,HIV,Tested,ART,PrEP\n')
+    #     ageNReport.close()
 
 
 if __name__ == '__main__':

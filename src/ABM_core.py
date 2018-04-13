@@ -587,9 +587,9 @@ class HIVModel(NetworkClass):
                     self.HighriskClass.remove_agent(tmpA)
                     tmpA._highrisk_bool = False
                     if tmpA._SO == "HM":
-                        tmpA._mean_num_partners /= params.HR_partnerScale
+                        tmpA._mean_num_partners -= params.HR_partnerScale
                     elif tmpA._SO == "HF":
-                        tmpA._mean_num_partners /= params.HR_partnerScale
+                        tmpA._mean_num_partners -= params.HR_partnerScale
 
         #print("\t\t= Agents Iterations (Incar/test/AIDS/HAART/PrEP =")
         
@@ -1366,7 +1366,6 @@ class HIVModel(NetworkClass):
             agent._HIV_time = 1
             self.NewInfections.add_agent(agent)
             #print "\t\t\t\tAgent %d added to new infection list"%agent.get_ID()
-
             self.HIV_agents_class.add_agent(agent)
             if agent._PrEP_time > 0:
                 if random.random() < params.PrEP_resist:
@@ -1844,8 +1843,9 @@ class HIVModel(NetworkClass):
                 #    self.AdjMat[partner, agent] = 1  # force connection
                 if not agent._highrisk_bool:
                     self.HighriskClass.add_agent(agent)
-		    if not agent._everhighrisk_bool:
-			self.NewHRrolls.add_agent(agent)
+                if not agent._everhighrisk_bool:
+                    self.NewHRrolls.add_agent(agent)
+
                 agent._mean_num_partners = agent._mean_num_partners + params.HR_partnerScale
                 agent._highrisk_bool = True
                 agent._everhighrisk_bool = True
@@ -1912,33 +1912,22 @@ class HIVModel(NetworkClass):
             #PUT PARTNERS IN HIGH RISK
             for tmpA in agent._partners:
                 if tmpA._highrisk_bool == True:
-                    print "ALREADY HR"
+                    pass
+                    #print "ALREADY HR"
                 else:
                     if random.random() < params.HR_proportion:
                         #agent.print_agent()
                         #tmpA.print_agent()
                         #self.HighriskClass.print_agents()
-
-
-                        self.HighriskClass.add_agent(tmpA)
-                        tmpA._mean_num_partners = 32.5 #2 + 3.25 from incar HR
+                        #print "Making agent %d (%s) HR"%(tmpA._ID, tmpA._SO)
+                        if not tmpA._highrisk_bool:
+                            self.HighriskClass.add_agent(tmpA)
+                        if not tmpA._everhighrisk_bool:
+                            self.NewHRrolls.add_agent(tmpA)
+                        tmpA._mean_num_partners += params.HR_partnerScale #32.5 #2 + 3.25 from incar HR
                         tmpA._highrisk_bool = True
                         tmpA._everhighrisk_bool = True
                         tmpA._highrisk_time = params.HR_F_dur
-                #self.HighriskClass.add_agent(tmpA)
-            #print "IMPRISON AGENT %d for %d"%(agent,timestay)
-            #self.tmp_Agents[agent].update({'Drug Type': 'ND'})
-            #if agent not in self.Incarcerated:
-            #self.Incarcerated.append(agent)
-
-            #partners = list(self.AdjMat.rows[agent])
-            #if partners:
-                #print "Agent %d has partners:" % agent, partners
-                #intersection = list(set(need_new_partners[:100]).intersection(set(x)))
-                #HIV_partners = list(set(self.AdjMat.rows[agent])).intersection(set(self.tmp_HIV_agents))
-                #print HIV_partners
-            #    for partner in enumerate(partners):
-            #        self.AdjMat[partner, agent] = 0  # remove connection adjMat
 
 
     def _drugTest(self, agent, time):

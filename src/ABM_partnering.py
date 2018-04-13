@@ -77,7 +77,7 @@ def update_partner_assignments(self, partnerTurnover):
     for agent in EligibleAgents.iter_agents():
         #print len(agent._partners)
         acquirePartnerProb = (agent._mean_num_partners / (12.0 * partnerTurnover))
-        #print acquirePartnerProb
+        #if agent._highrisk_bool:print acquirePartnerProb
         if np.random.uniform(0, 1) < acquirePartnerProb:
             partner = get_partner(self, agent, self.totalAgentClass)
 

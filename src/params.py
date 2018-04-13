@@ -9,9 +9,9 @@ Main model parameters.
 PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed = 1               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 N_MC = 1               # total number of iterations (Monte Carlo runs)
-N_POP = 5000           # population size
-TIME_RANGE = 120        # total time steps to iterate
-burnDuration = 36
+N_POP = 50000           # population size
+TIME_RANGE = 36        # total time steps to iterate
+burnDuration = 6
 model = 'Incar'         # Model Type for fast flag toggling
 setting = 'Phil'
 ####################
@@ -54,7 +54,7 @@ cal_ptnrSampleDepth = 100
 High risk params
 """
 HR_partnerScale = 300       # Linear increase to partner number during HR period
-HR_proportion = 10.3         #Proportion of people who enter HR group when partner incarcerated
+HR_proportion = 0.3         #Proportion of people who enter HR group when partner incarcerated
 HR_M_dur = 6                #Duration of high risk for males
 HR_F_dur = 6                #Duration of high risk for females
 
