@@ -1488,13 +1488,13 @@ class HIVModel(NetworkClass):
                 #    self.AdjMat[partner, agent] = 1  # force connection
                 if not agent._highrisk_bool:
                     self.HighriskClass.add_agent(agent)
-                if not agent._everhighrisk_bool:
-                    self.NewHRrolls.add_agent(agent)
+                    if not agent._everhighrisk_bool:
+                        self.NewHRrolls.add_agent(agent)
 
-                agent._mean_num_partners = agent._mean_num_partners + params.HR_partnerScale
-                agent._highrisk_bool = True
-                agent._everhighrisk_bool = True
-                agent._highrisk_time = params.HR_M_dur
+                    agent._mean_num_partners = agent._mean_num_partners + params.HR_partnerScale
+                    agent._highrisk_bool = True
+                    agent._everhighrisk_bool = True
+                    agent._highrisk_time = params.HR_M_dur
 
                 #self.HighriskClass.add_agent(agent)
 
@@ -1566,12 +1566,12 @@ class HIVModel(NetworkClass):
                         #print "Making agent %d (%s) HR"%(tmpA._ID, tmpA._SO)
                         if not tmpA._highrisk_bool:
                             self.HighriskClass.add_agent(tmpA)
-                        if not tmpA._everhighrisk_bool:
-                            self.NewHRrolls.add_agent(tmpA)
-                        tmpA._mean_num_partners += params.HR_partnerScale #32.5 #2 + 3.25 from incar HR
-                        tmpA._highrisk_bool = True
-                        tmpA._everhighrisk_bool = True
-                        tmpA._highrisk_time = params.HR_F_dur
+                            if not tmpA._everhighrisk_bool:
+                                self.NewHRrolls.add_agent(tmpA)
+                            tmpA._mean_num_partners += params.HR_partnerScale #32.5 #2 + 3.25 from incar HR
+                            tmpA._highrisk_bool = True
+                            tmpA._everhighrisk_bool = True
+                            tmpA._highrisk_time = params.HR_F_dur
 
 
     def _drugTest(self, agent, time):

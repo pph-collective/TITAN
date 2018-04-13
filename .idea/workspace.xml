@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6b47c955-56c8-4a61-a281-74ae0d9f6034" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/params.py" afterPath="$PROJECT_DIR$/src/params.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/simulation_lib.py" afterPath="$PROJECT_DIR$/src/simulation_lib.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ABM_core.py" afterPath="$PROJECT_DIR$/src/ABM_core.py" />
     </list>
     <ignored path="TITAN.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,11 +29,11 @@
     <splitter split-orientation="horizontal" split-proportion="0.5700374">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="ABM_core.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="ABM_core.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/ABM_core.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="127">
-                  <caret line="1170" column="84" lean-forward="false" selection-start-line="1170" selection-start-column="84" selection-end-line="1170" selection-end-column="84" />
+                <state relative-caret-position="217">
+                  <caret line="1495" column="51" lean-forward="true" selection-start-line="1495" selection-start-column="51" selection-end-line="1495" selection-end-column="51" />
                   <folding />
                 </state>
               </provider>
@@ -51,7 +51,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ABM_partnering.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="ABM_partnering.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/ABM_partnering.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="15">
@@ -145,7 +145,6 @@
       <find>NewInf</find>
       <find>highris</find>
       <find>HR_partnerScale</find>
-      <find>highrisk</find>
       <find>burn</find>
       <find>_die_and_replace</find>
       <find>totalDeaths</find>
@@ -160,6 +159,7 @@
       <find>INPU</find>
       <find>become_HIV</find>
       <find>input</find>
+      <find>highrisk</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -172,11 +172,11 @@
         <option value="$PROJECT_DIR$/src/HIVABM_Population.py" />
         <option value="$PROJECT_DIR$/src/agent.py" />
         <option value="$PROJECT_DIR$/src/ABM_partnering.py" />
-        <option value="$PROJECT_DIR$/src/ABM_core.py" />
         <option value="$PROJECT_DIR$/src/analysis_output.py" />
         <option value="$PROJECT_DIR$/src/MP_simulation.py" />
         <option value="$PROJECT_DIR$/src/simulation_lib.py" />
         <option value="$PROJECT_DIR$/src/params.py" />
+        <option value="$PROJECT_DIR$/src/ABM_core.py" />
       </list>
     </option>
   </component>
@@ -633,14 +633,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ABM_core.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="1170" column="84" lean-forward="false" selection-start-line="1170" selection-start-column="84" selection-end-line="1170" selection-end-column="84" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ABM_partnering.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -683,6 +675,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="204" column="31" lean-forward="false" selection-start-line="204" selection-start-column="31" selection-end-line="204" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ABM_core.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="1495" column="51" lean-forward="true" selection-start-line="1495" selection-start-column="51" selection-end-line="1495" selection-end-column="51" />
           <folding />
         </state>
       </provider>
