@@ -6,6 +6,10 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/TITAN.iml" afterPath="$PROJECT_DIR$/.idea/TITAN.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+<<<<<<< HEAD
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/params.py" afterPath="$PROJECT_DIR$/src/params.py" />
+=======
+>>>>>>> df3383b79de0ba6e75b84f630ae1a7c36ca13cde
     </list>
     <ignored path="TITAN.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -17,9 +21,13 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+<<<<<<< HEAD
+  <component name="ChangesViewManager" show_ignored="true" />
+=======
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+>>>>>>> df3383b79de0ba6e75b84f630ae1a7c36ca13cde
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/TITAN$MP_simulation.coverage" NAME="MP_simulation Coverage Results" MODIFIED="1523627838593" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/TITAN$MP_simulation.coverage" NAME="MP_simulation Coverage Results" MODIFIED="1523680649355" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -35,9 +43,17 @@
           <file leaf-file-name="ABM_core.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/ABM_core.py">
               <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+                <state relative-caret-position="329">
+                  <caret line="573" column="16" lean-forward="false" selection-start-line="573" selection-start-column="16" selection-end-line="573" selection-end-column="16" />
+                  <folding>
+                    <element signature="e#2099#2112#0" expanded="true" />
+                  </folding>
+=======
                 <state vertical-scroll-proportion="0.62863797">
                   <caret line="1545" column="31" selection-start-line="1545" selection-start-column="31" selection-end-line="1545" selection-end-column="31" />
                   <folding />
+>>>>>>> df3383b79de0ba6e75b84f630ae1a7c36ca13cde
                 </state>
               </provider>
             </entry>
@@ -45,8 +61,13 @@
           <file leaf-file-name="network_graph_tools.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/network_graph_tools.py">
               <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+                <state relative-caret-position="794">
+                  <caret line="320" column="28" lean-forward="true" selection-start-line="320" selection-start-column="28" selection-end-line="320" selection-end-column="28" />
+=======
                 <state vertical-scroll-proportion="0.0">
                   <caret line="316" column="53" selection-start-line="316" selection-start-column="50" selection-end-line="316" selection-end-column="53" />
+>>>>>>> df3383b79de0ba6e75b84f630ae1a7c36ca13cde
                   <folding>
                     <element signature="e#2141#2150#0" expanded="true" />
                   </folding>
@@ -57,8 +78,13 @@
           <file leaf-file-name="ABM_partnering.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/ABM_partnering.py">
               <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+                <state relative-caret-position="164">
+                  <caret line="105" column="12" lean-forward="false" selection-start-line="105" selection-start-column="12" selection-end-line="105" selection-end-column="12" />
+=======
                 <state vertical-scroll-proportion="0.0">
                   <caret line="79" column="9" selection-start-line="79" selection-start-column="9" selection-end-line="79" selection-end-column="9" />
+>>>>>>> df3383b79de0ba6e75b84f630ae1a7c36ca13cde
                   <folding />
                 </state>
               </provider>
@@ -67,8 +93,13 @@
           <file leaf-file-name="agent.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/agent.py">
               <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+                <state relative-caret-position="825">
+                  <caret line="103" column="31" lean-forward="false" selection-start-line="103" selection-start-column="13" selection-end-line="103" selection-end-column="31" />
+=======
                 <state vertical-scroll-proportion="0.0">
                   <caret line="103" column="31" selection-start-line="103" selection-start-column="13" selection-end-line="103" selection-end-column="31" />
+>>>>>>> df3383b79de0ba6e75b84f630ae1a7c36ca13cde
                   <folding />
                 </state>
               </provider>
@@ -113,8 +144,13 @@
           <file leaf-file-name="params.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/params.py">
               <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+                <state relative-caret-position="2385">
+                  <caret line="202" column="29" lean-forward="false" selection-start-line="202" selection-start-column="29" selection-end-line="202" selection-end-column="29" />
+=======
                 <state vertical-scroll-proportion="0.0">
                   <caret line="204" column="31" selection-start-line="204" selection-start-column="31" selection-end-line="204" selection-end-column="31" />
+>>>>>>> df3383b79de0ba6e75b84f630ae1a7c36ca13cde
                   <folding />
                 </state>
               </provider>
@@ -138,15 +174,9 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>infectionsArray</find>
-      <find>tot_rsltdic</find>
-      <find>incidenceReport</find>
-      <find>inc_highriskReport</find>
-      <find>infHM_HRever</find>
       <find>NewInf</find>
       <find>highris</find>
       <find>HR_partnerScale</find>
-      <find>burn</find>
       <find>_die_and_replace</find>
       <find>totalDeaths</find>
       <find>num_Deaths</find>
@@ -161,6 +191,19 @@
       <find>become_HIV</find>
       <find>input</find>
       <find>highrisk</find>
+      <find>graph</find>
+      <find>Network</find>
+      <find>networkGraph</find>
+      <find>NetworkClas</find>
+      <find>G</find>
+      <find>writing</find>
+      <find>burn</find>
+      <find>Images</find>
+      <find>shuffl</find>
+      <find>shuffle</find>
+      <find>drawhis</find>
+      <find>draw_his</find>
+      <find>pos</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -169,13 +212,13 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/network_graph_tools.py" />
         <option value="$PROJECT_DIR$/src/HIVABM_Population.py" />
         <option value="$PROJECT_DIR$/src/agent.py" />
-        <option value="$PROJECT_DIR$/src/ABM_partnering.py" />
         <option value="$PROJECT_DIR$/src/analysis_output.py" />
         <option value="$PROJECT_DIR$/src/MP_simulation.py" />
         <option value="$PROJECT_DIR$/src/simulation_lib.py" />
+        <option value="$PROJECT_DIR$/src/ABM_partnering.py" />
+        <option value="$PROJECT_DIR$/src/network_graph_tools.py" />
         <option value="$PROJECT_DIR$/src/params.py" />
         <option value="$PROJECT_DIR$/src/ABM_core.py" />
       </list>
@@ -489,9 +532,55 @@
       <option name="number" value="Default" />
       <updated>1523541390413</updated>
     </task>
+    <task id="LOCAL-00001" summary="Re-enabled network viz">
+      <created>1523886873081</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1523886873081</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Reverse partnerturnover param to scale linearly instead of inversely">
+      <created>1523886928988</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1523886928988</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Updated histogram snapshots with network view.">
+      <created>1523886956331</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1523886956331</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
+<<<<<<< HEAD
+    <frame x="0" y="23" width="1440" height="873" extended-state="6" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0751073" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3290653" sideWeight="0.5028612" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290653" sideWeight="0.49713877" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3277849" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3290653" sideWeight="0.49713877" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+=======
     <frame x="222" y="23" width="2338" height="1413" extended-state="0" />
     <editor active="false" />
     <layout>
@@ -514,6 +603,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.45646766" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+>>>>>>> df3383b79de0ba6e75b84f630ae1a7c36ca13cde
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -522,6 +612,12 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Re-enabled network viz" />
+    <MESSAGE value="Reverse partnerturnover param to scale linearly instead of inversely" />
+    <MESSAGE value="Updated histogram snapshots with network view." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated histogram snapshots with network view." />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
     <watches-manager />
@@ -529,9 +625,17 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/ABM_core.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="1035">
+          <caret line="78" column="1" lean-forward="false" selection-start-line="78" selection-start-column="1" selection-end-line="78" selection-end-column="1" />
+          <folding>
+            <element signature="e#2099#2112#0" expanded="true" />
+          </folding>
+=======
         <state vertical-scroll-proportion="0.0">
           <caret line="1495" column="51" selection-start-line="1495" selection-start-column="51" selection-end-line="1495" selection-end-column="51" />
           <folding />
+>>>>>>> df3383b79de0ba6e75b84f630ae1a7c36ca13cde
         </state>
       </provider>
     </entry>
@@ -681,6 +785,8 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+=======
     <entry file="file://$PROJECT_DIR$/src/network_graph_tools.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -707,6 +813,7 @@
         </state>
       </provider>
     </entry>
+>>>>>>> df3383b79de0ba6e75b84f630ae1a7c36ca13cde
     <entry file="file://$PROJECT_DIR$/src/analysis_output.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -735,19 +842,71 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/random.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/agent.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="825">
+          <caret line="103" column="31" lean-forward="false" selection-start-line="103" selection-start-column="13" selection-end-line="103" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ABM_partnering.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="105" column="12" lean-forward="false" selection-start-line="105" selection-start-column="12" selection-end-line="105" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/site-packages/networkx/drawing/nx_pylab.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="790" column="0" lean-forward="false" selection-start-line="790" selection-start-column="0" selection-end-line="790" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/params.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="2385">
+          <caret line="202" column="29" lean-forward="false" selection-start-line="202" selection-start-column="29" selection-end-line="202" selection-end-column="29" />
+=======
         <state vertical-scroll-proportion="0.0">
           <caret line="204" column="31" selection-start-line="204" selection-start-column="31" selection-end-line="204" selection-end-column="31" />
+>>>>>>> df3383b79de0ba6e75b84f630ae1a7c36ca13cde
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/network_graph_tools.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="794">
+          <caret line="320" column="28" lean-forward="true" selection-start-line="320" selection-start-column="28" selection-end-line="320" selection-end-column="28" />
+          <folding>
+            <element signature="e#2141#2150#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ABM_core.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="329">
+          <caret line="573" column="16" lean-forward="false" selection-start-line="573" selection-start-column="16" selection-end-line="573" selection-end-column="16" />
+          <folding>
+            <element signature="e#2099#2112#0" expanded="true" />
+          </folding>
+=======
         <state vertical-scroll-proportion="0.62863797">
           <caret line="1545" column="31" selection-start-line="1545" selection-start-column="31" selection-end-line="1545" selection-end-column="31" />
           <folding />
+>>>>>>> df3383b79de0ba6e75b84f630ae1a7c36ca13cde
         </state>
       </provider>
     </entry>
