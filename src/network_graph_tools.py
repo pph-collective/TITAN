@@ -41,6 +41,7 @@ __author__="Lars Seemann (lseemann@uh.edu)"
 
 import os
 import random
+import collections
 import itertools
 import unittest
 import numpy as np
@@ -305,6 +306,50 @@ class NetworkClass(PopulationClass):
             self.G.add_edge(rel._ID1, rel._ID2)
         print "Added %d/%d relationships" % (numAdded, G.number_of_edges())
 
+    def draw_histogram(self, t=0):
+        G = self.G
+        degree_sequence = sorted([d for n, d in G.degree()], reverse=True)  # degree sequence
+        # print "Degree sequence", degree_sequence
+        degreeCount = collections.Counter(degree_sequence)
+        deg, cnt = zip(*degreeCount.items())
+
+        fig, ax = plt.subplots()
+        plt.bar(deg, cnt, width=0.80, color='b')
+
+        plt.title("Degree Histogram\nTime: %d"%t)
+        plt.ylabel("Count")
+        plt.xlabel("Degree")
+        ax.set_xticks([d + 0.4 for d in deg])
+        ax.set_xticklabels(deg)
+
+        # draw graph in inset
+        plt.axes([0.4, 0.4, 0.5, 0.5])
+        Gcc = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)[0]
+        #pos = nx.spring_layout(G, iterations=100)
+        pos = nx.circular_layout(G)
+        plt.axis('off')
+
+        node_shape = 'd'
+        node_color =[]
+        for v in G:
+            # tmp_aids = self.get_agent_characteristic(v, 'AIDS')
+            # tmp_hiv = self.get_agent_characteristic(v, 'HIV')
+            if v._AIDS_bool:  # tmp_hiv == 1:
+                node_color.append('r')
+            elif v._HIV_bool:  # tmp_aids == 1:
+                node_color.append('r')
+            else:
+                node_color.append('g')
+
+        nx.draw_networkx_nodes(G, pos, node_size=10,node_color=node_color,node_shape=node_shape)
+        nx.draw_networkx_edges(G, pos, alpha=0.4)
+        #nx.draw_networkx_labels(G, pos, t, font_size=16)
+
+        #line_ani = animation.FuncAnimation(fig, interval=50, blit=True)
+        plt.show(block=False)
+        plt.pause(0.1)
+        plt.close()
+
     def plot_DegreeDistribution(self, time=0):
         """ 
         Plot the node degree distribution of the graph. \n 
@@ -313,7 +358,7 @@ class NetworkClass(PopulationClass):
         graph = self.G
         Gsize = graph.number_of_nodes()
         #print("\tNetwork size = "+str(self.NetworkSize))
-        degreeList = np.array( graph.degree().values() )	
+        degreeList = np.array(graph.degree().values())
         x_degree = np.arange(max(degreeList)+1)	# include 0 and max
         degreehist = np.bincount(degreeList)
         ix = degreehist != 0			# delete zeros
@@ -334,7 +379,7 @@ class NetworkClass(PopulationClass):
         #          max(degreeList)+(0.05*max(degreeList)),
         #          0.9, max(degreehist)+(0.05* max(degreehist))])
         plt.axis([0, 1.05*max(degreeList), 0, 1.05*max(degreehist)])
-        plt.savefig('Images/Degree_%d.png'%time)#plt.show()
+        plt.savefig('images/Degree_%d.png'%time)#plt.show()
 
     def get_AdjacencyList(self):
         """ Return the adjacency list of the graph. """
@@ -342,7 +387,7 @@ class NetworkClass(PopulationClass):
 
     def stat_connectivity(self):
         G = self.G
-        nx.all_pairs_node_connectivity(G)
+        return nx.all_pairs_node_connectivity(G)
 
     def get_Graph(self):
         """
@@ -400,7 +445,7 @@ class NetworkClass(PopulationClass):
                          linewidths = 0.25,
                          width = 0.25)
         plt.axis('equal')
-        filename="Images/Network_%d_%s_%s_%d.png"%(Gsize,program,coloring,time)
+        filename="images/Network_%d_%s_%s_%d.png"%(Gsize,program,coloring,time)
         plt.savefig(filename)
         #plt.show()
 
@@ -487,7 +532,7 @@ class NetworkClass(PopulationClass):
 
         return node_color
 
-    def visualize_network(self, coloring='Sex Type', pos=None,
+    def visualize_network(self, coloring='SO', pos=None,
                           return_layout=0, node_size=None, time=0):
         """
         :Purpose:
@@ -503,11 +548,11 @@ class NetworkClass(PopulationClass):
         # node_color=[float(H.degree(v)) for v in H]
         # layout:
         if not pos:
-            pos=nx.spring_layout(G,iterations=50)
-            #pos = nx.circular_layout(graph)
-            #pos=nx.shell_layout(graph)
-            #pos=nx.random_layout(graph)
-            #pos=nx.spectral_layout(graph)
+            pos=nx.spring_layout(G,iterations=100)
+            #pos = nx.circular_layout(G)
+            #pos=nx.shell_layout(G)
+            #pos=nx.random_layout(G)
+            #pos=nx.spectral_layout(G)
 
         edge_color = 'k'
         node_shape = 'o'
@@ -585,7 +630,9 @@ class NetworkClass(PopulationClass):
         
         plt.axis('equal')
         plt.axis('off')
-        filename="Images/Network_%d_%s_%d.png"%(G.number_of_nodes(),coloring, time)
+        filename="images/Network_%d_%s_%d.png"%(G.number_of_nodes(),coloring, time)
+
+        plt.show()
         plt.savefig(filename)
         #plt.show(block=True)
         
