@@ -50,6 +50,7 @@ import time
 from scipy.stats import binom
 from scipy.stats import poisson
 from functools import wraps
+import collections
 
 try:
     from HIVABM_Population import PopulationClass, print_population
@@ -430,7 +431,7 @@ class HIVModel(NetworkClass):
 
 
         print("\n === Begin Simulation Run ===\n")
-        print("\t Writing Agents to dynNet Report")
+        #print("\t Writing Agents to dynNet Report")
 
         # write agents to dynnetworkReport
         #self._writeDNR()
@@ -439,6 +440,7 @@ class HIVModel(NetworkClass):
         self.cumInfT = 0
         self.cumInfW = 0
         self.cumInfB = 0
+
 
         print("\t===! Start Main Loop !===\n")
         for t in range(1, self.tmax + 1):
@@ -483,8 +485,11 @@ class HIVModel(NetworkClass):
             self.NewDiagnosis.clear_set()
             self.NewHRrolls.clear_set()
             self.num_Deaths
+            #self.networkGraph.draw_histogram()
+            #print self.networkGraph.stat_connectivity()
 
 
+        self.networkGraph.visualize_network()
         #self.networkGraph.vizualize_network_graphviz(program='neato', coloring='Tested', time=t)
         #self.networkGraph.vizualize_network_graphviz(program='neato', coloring='SO', time=t)
 
@@ -521,7 +526,7 @@ class HIVModel(NetworkClass):
         if time == 0:
             i=0
             while i < 10:
-                update_partner_assignments(self, 5.0)
+                update_partner_assignments(self, params.PARTNERTURNOVER)
                 i += 1
             self.networkGraph.create_graph_from_agents(self.totalAgentClass)
             self.networkGraph.create_graph_from_relationships(self.Relationships)
@@ -531,8 +536,12 @@ class HIVModel(NetworkClass):
 
             #self.networkGraph.visualize_network(node_size=10, coloring="Tested")
             update_partner_assignments(self, params.PARTNERTURNOVER)
+            if params.model == 'Custom':
+                self.networkGraph.draw_histogram(time)
         else:
-            update_partner_assignments(self, params.PARTNERTURNOVER)
+            update_partner_assignments(self, 0)#params.PARTNERTURNOVER)
+            if params.model == 'Custom':
+                self.networkGraph.draw_histogram(time)
             #self.networkGraph.vizualize_network_graphviz(program='neato', coloring='Tested', time=time)
             # if time%12==0:self.networkGraph.plot_DegreeDistribution(time)
         #print("\t\t= Updated Partners =")
@@ -593,7 +602,7 @@ class HIVModel(NetworkClass):
 
         #print("\t\t= Agents Iterations (Incar/test/AIDS/HAART/PrEP =")
         
-        random.shuffle(self.totalAgentClass._members)
+        #random.shuffle(self.totalAgentClass._members)
         for agent in self.totalAgentClass.iter_agents():#self.Agents: #NEW METHOD
             #agent.print_agent()
             #print("\nAgent:",agent)
