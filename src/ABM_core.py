@@ -489,7 +489,7 @@ class HIVModel(NetworkClass):
             #print self.networkGraph.stat_connectivity()
 
 
-        self.networkGraph.visualize_network()
+        #self.networkGraph.visualize_network(iterations=5)
         #self.networkGraph.vizualize_network_graphviz(program='neato', coloring='Tested', time=t)
         #self.networkGraph.vizualize_network_graphviz(program='neato', coloring='SO', time=t)
 
@@ -539,7 +539,7 @@ class HIVModel(NetworkClass):
             if params.model == 'Custom':
                 self.networkGraph.draw_histogram(time)
         else:
-            update_partner_assignments(self, 0)#params.PARTNERTURNOVER)
+            update_partner_assignments(self, params.PARTNERTURNOVER)
             if params.model == 'Custom':
                 self.networkGraph.draw_histogram(time)
             #self.networkGraph.vizualize_network_graphviz(program='neato', coloring='Tested', time=time)

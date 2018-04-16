@@ -319,17 +319,18 @@ class NetworkClass(PopulationClass):
         plt.title("Degree Histogram\nTime: %d"%t)
         plt.ylabel("Count")
         plt.xlabel("Degree")
+        plt.ylim(0, len(G.nodes))
         ax.set_xticks([d + 0.4 for d in deg])
         ax.set_xticklabels(deg)
 
         # draw graph in inset
         plt.axes([0.4, 0.4, 0.5, 0.5])
         Gcc = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)[0]
-        #pos = nx.spring_layout(G, iterations=100)
-        pos = nx.circular_layout(G)
+        pos = nx.spring_layout(G, iterations=20)
+        #pos = nx.circular_layout(G)
         plt.axis('off')
 
-        node_shape = 'd'
+        node_shape = 'o'
         node_color =[]
         for v in G:
             # tmp_aids = self.get_agent_characteristic(v, 'AIDS')
@@ -347,7 +348,8 @@ class NetworkClass(PopulationClass):
 
         #line_ani = animation.FuncAnimation(fig, interval=50, blit=True)
         plt.show(block=False)
-        plt.pause(0.1)
+        plt.savefig('images/snapshot_%d.png'%t)
+        plt.pause(0.5)
         plt.close()
 
     def plot_DegreeDistribution(self, time=0):
@@ -533,7 +535,7 @@ class NetworkClass(PopulationClass):
         return node_color
 
     def visualize_network(self, coloring='SO', pos=None,
-                          return_layout=0, node_size=None, time=0):
+                          return_layout=0, node_size=None, iterations=10, time=0):
         """
         :Purpose:
             Visualize the network using the spring layout (default). \n
@@ -548,7 +550,7 @@ class NetworkClass(PopulationClass):
         # node_color=[float(H.degree(v)) for v in H]
         # layout:
         if not pos:
-            pos=nx.spring_layout(G,iterations=100)
+            pos=nx.spring_layout(G,iterations=iterations)
             #pos = nx.circular_layout(G)
             #pos=nx.shell_layout(G)
             #pos=nx.random_layout(G)

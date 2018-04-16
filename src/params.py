@@ -9,8 +9,8 @@ Main model parameters.
 PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed = 1               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 N_MC = 1               # total number of iterations (Monte Carlo runs)
-N_POP = 100           # population size
-TIME_RANGE = 12#0        # total time steps to iterate
+N_POP = 1000           # population size
+TIME_RANGE = 120        # total time steps to iterate
 burnDuration = 0#36
 model = 'Custom'         # Model Type for fast flag toggling
 setting = 'Phil'
@@ -34,7 +34,7 @@ HFreport = False
 Calibration scaling parameters for fitting to empirical data
 """
 
-PARTNERTURNOVER = 0.1 #7.5, 5 for init       # Partner acquisition parameters (higher number more partnering)
+PARTNERTURNOVER = 0.2 #7.5, 5 for init       # Partner acquisition parameters (higher number more partnering)
 
 cal_NeedleScaling = 0.60     # IDU transmission probability scaling factor
 cal_SexualScaling = 3.0     # Sexual transmission probability scaling factor
@@ -254,7 +254,7 @@ DemographicParams = {'WHITE':RaceClass1, 'BLACK':RaceClass2}
 Partnership durations and
 """
 sexualDurations = {1:{}, 2:{}, 3:{}, 4:{}, 5:{}}
-sexualDurations[1] = {'p_value':(0.323 + 10.262), 'min':1000, 'max':6000}
+sexualDurations[1] = {'p_value':(0.323 + 10.262), 'min':1, 'max':6}
 sexualDurations[2] = {'p_value':(0.323 + 0.262 + 0.116), 'min':7, 'max':12}
 sexualDurations[3] = {'p_value':(0.323 + 0.262 + 0.116 + 0.121), 'min':13, 'max':24}
 sexualDurations[4] = {'p_value':(0.323 + 0.262 + 0.116 + 0.121 + 0.06), 'min':25, 'max':36}
