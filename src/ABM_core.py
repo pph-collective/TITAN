@@ -432,7 +432,8 @@ class HIVModel(NetworkClass):
 
         print("\n === Begin Simulation Run ===\n")
         #print("\t Writing Agents to dynNet Report")
-
+        if params.drawFigures:
+                self.networkGraph.draw_histogram(0)
         # write agents to dynnetworkReport
         #self._writeDNR()
 
@@ -442,11 +443,24 @@ class HIVModel(NetworkClass):
         self.cumInfB = 0
 
 
+        firstHIV = random.choice(self.totalAgentClass._members)
+        i=0
+        while i < 50:
+                update_partner_assignments(self, 100.0, self.networkGraph, agent=firstHIV)
+                i += 1
+        self._become_HIV(firstHIV, 0)
+        #degree_sequence = sorted([d for n, d in self.networkGraph.G.degree()], reverse=True)
+        #print degree_sequence
+        #print firstHIV
+
+        #self._become_HIV(firstHIV, 0)
+
         print("\t===! Start Main Loop !===\n")
         for t in range(1, self.tmax + 1):
             print '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME', t
             print "RANDOM CALL %d" %random.randint(0,100)
-
+            if params.drawFigures:
+                self.networkGraph.draw_histogram(t)
             #todo: GET THIS TO THE NEW HIV COUNT
             print "\t\tSTARTING HIV count:%d\tTotal Incarcerated:%d\tHR+:%d\tPrEP:%d" % (self.totalAgentClass._subset["HIV"].num_members(), self.totalIncarcerated, self.HighriskClass.num_members(), self.PrEP_agents_class.num_members())
             #self.totalAgentClass.print_agents()
@@ -525,23 +539,26 @@ class HIVModel(NetworkClass):
         #print("\t\t= Begin Agents Partnering =")
         if time == 0:
             i=0
-            while i < 10:
-                update_partner_assignments(self, params.PARTNERTURNOVER)
-                i += 1
             self.networkGraph.create_graph_from_agents(self.totalAgentClass)
-            self.networkGraph.create_graph_from_relationships(self.Relationships)
+            while i < 10:
+                update_partner_assignments(self, params.PARTNERTURNOVER, self.networkGraph)
+                i += 1
+
             # self.networkGraph.plot_DegreeDistribution()
             #self.networkGraph.vizualize_network_graphviz(program='neato', coloring='Tested')
 
 
             #self.networkGraph.visualize_network(node_size=10, coloring="Tested")
-            update_partner_assignments(self, params.PARTNERTURNOVER)
-            if params.model == 'Custom':
-                self.networkGraph.draw_histogram(time)
+            update_partner_assignments(self, params.PARTNERTURNOVER, self.networkGraph)
+
+
+
+            #self.networkGraph.create_graph_from_relationships(self.Relationships)
+        elif params.flag_staticN == False:
+            update_partner_assignments(self, params.PARTNERTURNOVER, self.networkGraph)
+
         else:
-            update_partner_assignments(self, params.PARTNERTURNOVER)
-            if params.model == 'Custom':
-                self.networkGraph.draw_histogram(time)
+            pass
             #self.networkGraph.vizualize_network_graphviz(program='neato', coloring='Tested', time=time)
             # if time%12==0:self.networkGraph.plot_DegreeDistribution(time)
         #print("\t\t= Updated Partners =")
@@ -565,22 +582,24 @@ class HIVModel(NetworkClass):
         #print("\t\t= Relationship Iterations =")
         #print("\n\nSTARTING RELATIONSHIPS")
         # self.Relationships.print_agent_relationshps()
-        print "Number of relationships: %d",self.Relationships.num_members()
+        print "Number of relationships: %d"%self.Relationships.num_members()
         tested = len([tmpA for tmpA in self.HIV_agents_class._members if tmpA._tested])
-        print "Number tested: %d\t%.2f"%(tested, 1.0*tested/self.HIV_agents_class.num_members())
+        print "Number tested: %d\t%.2f"%(tested, 1.0*tested/max(1,self.HIV_agents_class.num_members()))
         for rel in self.Relationships._members:#.iter_agents():
             self._agents_interact(rel._ID1, rel._ID2, time, rel)
+            if params.flag_staticN:
+                pass
+            else:
+                if rel.progress():
+                    try:self.networkGraph.G.remove_edge(rel._ID1, rel._ID2)
+                    except:pass
+                    self.Relationships.remove_agent(rel)
+                    # relID = self.Relationships._members.index(rel)
+                    # self.Relationships._members.pop(relID)
+                    #print self.Relationships.is_member(rel)
 
-            if rel.progress():
-                try:self.networkGraph.G.remove_edge(rel._ID1, rel._ID2)
-                except:pass
-                self.Relationships.remove_agent(rel)
-                # relID = self.Relationships._members.index(rel)
-                # self.Relationships._members.pop(relID)
-                #print self.Relationships.is_member(rel)
-
-                #print rel
-                del rel
+                    #print rel
+                    del rel
 
                 #pass
         #print("\n\nENDING RELATIONSHIPS")

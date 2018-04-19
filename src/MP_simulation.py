@@ -49,7 +49,6 @@ from simulation_lib import *
 import params
 from loadInput import *
 
-
 def main():
     parameter_dict = read_parameter_dict(1)   # get parameters
     wct = []                                 # wall clock times

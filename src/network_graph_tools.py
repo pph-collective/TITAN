@@ -316,6 +316,15 @@ class NetworkClass(PopulationClass):
         fig, ax = plt.subplots()
         plt.bar(deg, cnt, width=0.80, color='b')
 
+        # degree_sequence = sorted([d for n, d in G.degree() if n._HIV_bool], reverse=True)  # degree sequence
+        # # print "Degree sequence", degree_sequence
+        # degreeCount = collections.Counter(degree_sequence)
+        # deg, cnt = zip(*degreeCount.items())
+        # print deg
+        # plt.bar(deg,cnt,color="r")
+        #cntHIV =
+
+
         plt.title("Degree Histogram\nTime: %d"%t)
         plt.ylabel("Count")
         plt.xlabel("Degree")
@@ -326,13 +335,16 @@ class NetworkClass(PopulationClass):
         # draw graph in inset
         plt.axes([0.4, 0.4, 0.5, 0.5])
         Gcc = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)[0]
-        pos = nx.spring_layout(G, iterations=20)
+        #pos = nx.spring_layout(G, iterations=10)
         #pos = nx.circular_layout(G)
+        #pos = nx.shell_layout(G)
+        #‘neato’|’dot’|’twopi’|’circo’|’fdp’|’nop’
+        pos = graphviz_layout(Gcc, prog='neato', args='')
         plt.axis('off')
 
         node_shape = 'o'
         node_color =[]
-        for v in G:
+        for v in Gcc:
             # tmp_aids = self.get_agent_characteristic(v, 'AIDS')
             # tmp_hiv = self.get_agent_characteristic(v, 'HIV')
             if v._AIDS_bool:  # tmp_hiv == 1:
@@ -341,9 +353,9 @@ class NetworkClass(PopulationClass):
                 node_color.append('r')
             else:
                 node_color.append('g')
-
-        nx.draw_networkx_nodes(G, pos, node_size=10,node_color=node_color,node_shape=node_shape)
-        nx.draw_networkx_edges(G, pos, alpha=0.4)
+        #nx.draw(G, node_size=5, node_color=node_color)
+        nx.draw_networkx_nodes(Gcc, pos, node_size=20,node_color=node_color,node_shape=node_shape)
+        nx.draw_networkx_edges(Gcc, pos, alpha=0.4)
         #nx.draw_networkx_labels(G, pos, t, font_size=16)
 
         #line_ani = animation.FuncAnimation(fig, interval=50, blit=True)

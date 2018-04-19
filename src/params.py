@@ -9,11 +9,11 @@ Main model parameters.
 PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed = 1               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 N_MC = 1               # total number of iterations (Monte Carlo runs)
-N_POP = 1000           # population size
-TIME_RANGE = 120        # total time steps to iterate
+N_POP = 410#10           # population size
+TIME_RANGE = 24        # total time steps to iterate
 burnDuration = 0#36
 model = 'Custom'         # Model Type for fast flag toggling
-setting = 'Phil'
+setting = 'Scott'
 ####################
 
 """
@@ -28,6 +28,7 @@ intermPrintFreq = 10
 MSMreport = True
 HMreport = False
 HFreport = False
+drawFigures = True
 
 
 """
@@ -36,8 +37,8 @@ Calibration scaling parameters for fitting to empirical data
 
 PARTNERTURNOVER = 0.2 #7.5, 5 for init       # Partner acquisition parameters (higher number more partnering)
 
-cal_NeedleScaling = 0.60     # IDU transmission probability scaling factor
-cal_SexualScaling = 3.0     # Sexual transmission probability scaling factor
+cal_NeedleScaling = 1.0     # IDU transmission probability scaling factor
+cal_SexualScaling = 1.0     # Sexual transmission probability scaling factor
 cal_pXmissionScaling = 1.0 # Global transmission probability scaling factor
 cal_AcuteScaling = 4.3      # Infectivity multiplier ratio for Acute status infections
 cal_RR_Dx = 0.53            # Risk reduction in transmission probability for agents diagnosed
@@ -86,7 +87,7 @@ inc_PtnrDissolution = 0.55
 PrEP params
 """
 PrEP_type = "Oral"      #Oral/Inj PrEP modes
-PrEP_Target = 0.00      # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+PrEP_Target = 0.000      # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 PrEP_startT = 0         # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82   # Probability of being adherent
 PrEP_AdhEffic = 0.96    # Efficacy of adherence PrEP
@@ -128,24 +129,28 @@ if model == 'PrEP':
     flag_HR = False
     flag_ART = True
     flag_DandR = True
+    flag_staticN = False
 elif model == 'Incar':
     flag_incar = True
     flag_PrEP = False
     flag_HR = True
     flag_ART = True
     flag_DandR = True
+    flag_staticN = False
 elif model == 'NoIncar':
     flag_incar = False
     flag_PrEP = False
     flag_HR = True
     flag_ART = True
     flag_DandR = True
+    flag_staticN = False
 elif model == 'Custom':
     flag_incar = False
     flag_PrEP = False
     flag_HR = False
     flag_ART = False
     flag_DandR = False
+    flag_staticN = True
 
 
 
@@ -172,8 +177,9 @@ RC_template = {     'Race':None,        #Race of demographic
                     'INCAR':0.0,        #Probability of becoming incarcerated (rate)
                     'HAARTadh':0.0,     #Adherence to ART therapy
                     'HAARTdisc':0.0,    #Probability of discontinuing ART therapy
-                    'PrEPdisc':0.0,    #Probability of discontinuing PrEP treatment
-                    'EligPartnerType':[]}
+                    'PrEPdisc':0.0,     #Probability of discontinuing PrEP treatment
+                    'EligPartnerType':[]#List of agent SO types the agent cant partner with
+                }
 
 RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
 RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
@@ -181,15 +187,15 @@ for a in ['MSM','HM','HF','PWID']:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
-RaceClass1['HM'] = {'POP':0.4150,
-                     'HIV':0.0369,
+RaceClass1['HM'] = {'POP':0.49,
+                     'HIV':0.0014,
                      'AIDS':0.6780,
                      'HAARTprev':0.41,
                      'INCARprev':0.0274,
                      'TestedPrev':0.90,
                      'mNPart':5,
                      'NUMPartn':1.5,
-                     'NUMSexActs':5.0,
+                     'NUMSexActs':13.4,
                      'UNSAFESEX':0.89,
                      'NEEDLESH':0.43,
                      'HIVTEST':0.034,
@@ -199,15 +205,15 @@ RaceClass1['HM'] = {'POP':0.4150,
                      'PrEPdisc':0.0000
                      }
 
-RaceClass1['HF'] = {'POP':0.5850,
-                     'HIV':0.01391,
+RaceClass1['HF'] = {'POP':0.51,
+                     'HIV':0.0004,
                      'AIDS':0.573,
                      'HAARTprev':0.47,
                      'INCARprev':0.000,
                      'TestedPrev':0.90,
                      'mNPart':0,
-                     'NUMPartn':1.5,
-                     'NUMSexActs':5.0,
+                     'NUMPartn':0.5,
+                     'NUMSexActs':12.74,
                      'UNSAFESEX':0.43,
                      'NEEDLESH':0.43,
                      'HIVTEST':0.034,
@@ -218,14 +224,14 @@ RaceClass1['HF'] = {'POP':0.5850,
                      }
 
 
-RaceClass1['PWID'] = {'POP':0.0,#173,
-                     'HIV':0.1500,
+RaceClass1['PWID'] = {'POP':10.017,
+                     'HIV':0.000,
                      'AIDS':0.6780,
                      'HAARTprev':0.41,
                      'INCARprev':0.0274,
                      'TestedPrev':0.90,
                      'mNPart':5,
-                     'NUMPartn':1.5,
+                     'NUMPartn':0.5,
                      'NUMSexActs':5.0,
                      'UNSAFESEX':0.89,
                      'NEEDLESH':0.63,
@@ -254,7 +260,7 @@ DemographicParams = {'WHITE':RaceClass1, 'BLACK':RaceClass2}
 Partnership durations and
 """
 sexualDurations = {1:{}, 2:{}, 3:{}, 4:{}, 5:{}}
-sexualDurations[1] = {'p_value':(0.323 + 10.262), 'min':1, 'max':6}
+sexualDurations[1] = {'p_value':(0.323 + 0.262), 'min':1, 'max':6}
 sexualDurations[2] = {'p_value':(0.323 + 0.262 + 0.116), 'min':7, 'max':12}
 sexualDurations[3] = {'p_value':(0.323 + 0.262 + 0.116 + 0.121), 'min':13, 'max':24}
 sexualDurations[4] = {'p_value':(0.323 + 0.262 + 0.116 + 0.121 + 0.06), 'min':25, 'max':36}
