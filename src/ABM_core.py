@@ -433,7 +433,8 @@ class HIVModel(NetworkClass):
         print("\n === Begin Simulation Run ===\n")
         #print("\t Writing Agents to dynNet Report")
         if params.drawFigures:
-                self.networkGraph.draw_histogram(0)
+                #self.networkGraph.draw_histogram(0)
+                self.networkGraph.visualize_network(coloring='AIDS HIV', curtime=0)
         # write agents to dynnetworkReport
         #self._writeDNR()
 
@@ -442,13 +443,13 @@ class HIVModel(NetworkClass):
         self.cumInfW = 0
         self.cumInfB = 0
 
-
-        firstHIV = random.choice(self.totalAgentClass._members)
-        i=0
-        while i < 50:
-                update_partner_assignments(self, 100.0, self.networkGraph, agent=firstHIV)
-                i += 1
-        self._become_HIV(firstHIV, 0)
+        def makeAgentZero(numPartners):
+            firstHIV = random.choice(self.totalAgentClass._members)
+            i=0
+            while i < numPartners:
+                    update_partner_assignments(self, 100.0, self.networkGraph, agent=firstHIV)
+                    i += 1
+            self._become_HIV(firstHIV, 0)
         #degree_sequence = sorted([d for n, d in self.networkGraph.G.degree()], reverse=True)
         #print degree_sequence
         #print firstHIV
@@ -460,7 +461,8 @@ class HIVModel(NetworkClass):
             print '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME', t
             print "RANDOM CALL %d" %random.randint(0,100)
             if params.drawFigures:
-                self.networkGraph.draw_histogram(t)
+                # self.networkGraph.draw_histogram(0)
+                self.networkGraph.visualize_network(coloring='AIDS HIV', curtime=t)
             #todo: GET THIS TO THE NEW HIV COUNT
             print "\t\tSTARTING HIV count:%d\tTotal Incarcerated:%d\tHR+:%d\tPrEP:%d" % (self.totalAgentClass._subset["HIV"].num_members(), self.totalIncarcerated, self.HighriskClass.num_members(), self.PrEP_agents_class.num_members())
             #self.totalAgentClass.print_agents()

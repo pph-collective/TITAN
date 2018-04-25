@@ -547,7 +547,7 @@ class NetworkClass(PopulationClass):
         return node_color
 
     def visualize_network(self, coloring='SO', pos=None,
-                          return_layout=0, node_size=None, iterations=10, time=0):
+                          return_layout=0, node_size=None, iterations=10, curtime=0):
         """
         :Purpose:
             Visualize the network using the spring layout (default). \n
@@ -558,19 +558,19 @@ class NetworkClass(PopulationClass):
         G = self.G
         print("Plotting...")
         plt.figure(figsize=(8,8))
-        # with nodes sized by degree
-        # node_color=[float(H.degree(v)) for v in H]
-        # layout:
+
         if not pos:
-            pos=nx.spring_layout(G,iterations=iterations)
+            #pos=nx.spring_layout(G,iterations=iterations)
             #pos = nx.circular_layout(G)
             #pos=nx.shell_layout(G)
             #pos=nx.random_layout(G)
             #pos=nx.spectral_layout(G)
+            pos = graphviz_layout(G, prog='neato', args='')
 
         edge_color = 'k'
         node_shape = 'o'
-        # node color to indicate sex type
+
+        # node color to by type
         node_color = []
         if coloring=='SO':
             for v in G:
@@ -606,12 +606,10 @@ class NetworkClass(PopulationClass):
                     node_color.append('g')
         elif coloring == 'AIDS HIV':
             for v in G:
-                #tmp_aids = self.get_agent_characteristic(v, 'AIDS')
-                #tmp_hiv = self.get_agent_characteristic(v, 'HIV')
-                if v._AIDS_bool:#tmp_hiv == 1:
+                if v._AIDS_bool:
                     node_color.append('r')
-                elif v._HIV_bool: #tmp_aids == 1:
-                    node_color.append('y')
+                elif v._HIV_bool:
+                    node_color.append('r')
                 else:
                     node_color.append('g')
         else:
@@ -641,12 +639,13 @@ class NetworkClass(PopulationClass):
 
         #nx.draw_networkx_nodes(self.graph,pos,node_size=NodeSize)
         #nx.draw_networkx_edges(self.graph,pos,alpha=0.4)
-        
+        print G.number_of_nodes()
+        print curtime
         plt.axis('equal')
         plt.axis('off')
-        filename="images/Network_%d_%s_%d.png"%(G.number_of_nodes(),coloring, time)
+        filename="images/Network_%d_%s_%d.png"%(G.number_of_nodes(),coloring, curtime)
 
-        plt.show()
+        #plt.show()
         plt.savefig(filename)
         #plt.show(block=True)
         
