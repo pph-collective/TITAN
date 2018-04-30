@@ -9,8 +9,8 @@ Main model parameters.
 PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed = 1               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 N_MC = 1               # total number of iterations (Monte Carlo runs)
-N_POP = 410#10           # population size
-TIME_RANGE = 24        # total time steps to iterate
+N_POP = 20811#0           # population size
+TIME_RANGE = 36        # total time steps to iterate
 burnDuration = 0#36
 model = 'Custom'         # Model Type for fast flag toggling
 setting = 'Scott'
@@ -28,7 +28,7 @@ intermPrintFreq = 10
 MSMreport = True
 HMreport = False
 HFreport = False
-drawFigures = True
+drawFigures = False
 
 
 """
@@ -224,7 +224,7 @@ RaceClass1['HF'] = {'POP':0.51,
                      }
 
 
-RaceClass1['PWID'] = {'POP':10.017,
+RaceClass1['PWID'] = {'POP':0.017,
                      'HIV':0.000,
                      'AIDS':0.6780,
                      'HAARTprev':0.41,

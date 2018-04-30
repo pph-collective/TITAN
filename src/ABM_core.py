@@ -447,7 +447,7 @@ class HIVModel(NetworkClass):
             firstHIV = random.choice(self.totalAgentClass._members)
             i=0
             while i < numPartners:
-                    update_partner_assignments(self, 100.0, self.networkGraph, agent=firstHIV)
+                    update_partner_assignments(self, 10000.0, self.networkGraph, agent=firstHIV)
                     i += 1
             self._become_HIV(firstHIV, 0)
         #degree_sequence = sorted([d for n, d in self.networkGraph.G.degree()], reverse=True)
@@ -457,6 +457,7 @@ class HIVModel(NetworkClass):
         #self._become_HIV(firstHIV, 0)
 
         print("\t===! Start Main Loop !===\n")
+        makeAgentZero(4)
         for t in range(1, self.tmax + 1):
             print '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME', t
             print "RANDOM CALL %d" %random.randint(0,100)
@@ -491,6 +492,7 @@ class HIVModel(NetworkClass):
             self.cumInfB += newInfB
             self.cumInfW += newInfW
             self.cumInfT += newInfT
+
             print "\n\tGroup\tMo\tCuml"
             print "\tTotal:\t%d\t%d"%(newInfT,self.cumInfT)
             print "\tWhite:\t%d\t%d"%(newInfW,self.cumInfW)

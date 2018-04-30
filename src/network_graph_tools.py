@@ -365,8 +365,8 @@ class NetworkClass(PopulationClass):
         plt.close()
 
     def plot_DegreeDistribution(self, time=0):
-        """ 
-        Plot the node degree distribution of the graph. \n 
+        """
+        Plot the node degree distribution of the graph. \n
         INPUT: networkX graph
         """
         graph = self.G
@@ -380,7 +380,7 @@ class NetworkClass(PopulationClass):
         x_degree = x_degree[ix]
         #plt.ion()
         plt.clf()
-        # print node degree distribution	
+        # print node degree distribution
         #plt.loglog(x_degree, degreehist, 'bo')
         #plt.semilogy(x_degree, degreehist, 'bo')
         plt.plot(x_degree, degreehist, 'bo')
@@ -406,7 +406,7 @@ class NetworkClass(PopulationClass):
     def get_Graph(self):
         """
         Return random assortative graph produced by ``set_assortative_graph``.
-        """		
+        """
         return self.G
 
     def vizualize_network_circular(self):
@@ -552,12 +552,12 @@ class NetworkClass(PopulationClass):
         :Purpose:
             Visualize the network using the spring layout (default). \n
 
-        :Input: 
+        :Input:
             graph : networkX graph
         """
         G = self.G
         print("Plotting...")
-        plt.figure(figsize=(8,8))
+        #plt.figure(figsize=(8,8))
 
         if not pos:
             #pos=nx.spring_layout(G,iterations=iterations)

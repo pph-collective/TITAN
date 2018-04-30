@@ -196,10 +196,13 @@ def save_results(N_MC, time_range, rslts, outfile_dir, num_sim):
         outfile.write('%d,%s,%0.2f'%(t,params.PrEP_type,params.PrEP_Target))
         for result_property in sorted(rslts):  # result_dict.keys()):
             #outfile.write('%s\tMean\t'%result_property)
+            x_v = []
 
+            try:
+                x_v = np.array(rslts[result_property][t])  # result_dict[result_property][t])
+                x_v = x_v[np.logical_not(np.isnan(x_v))]
+            except:pass
 
-            x_v = np.array(rslts[result_property][t])  # result_dict[result_property][t])
-            x_v = x_v[np.logical_not(np.isnan(x_v))]
 
             # print sum
             # if len(x_v) > 0:
