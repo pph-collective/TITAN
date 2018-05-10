@@ -444,7 +444,7 @@ class HIVModel(NetworkClass):
         self.cumInfB = 0
 
         def makeAgentZero(numPartners):
-            firstHIV = random.choice(self.totalAgentClass._members)
+            firstHIV = random.choice(self.totalAgentClass._subset['IDU']._members)
             i=0
             while i < numPartners:
                     update_partner_assignments(self, 10000.0, self.networkGraph, agent=firstHIV)

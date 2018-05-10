@@ -9,7 +9,7 @@ Main model parameters.
 PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed = 1               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 N_MC = 1               # total number of iterations (Monte Carlo runs)
-N_POP = 20811#0           # population size
+N_POP = 24110           # population size
 TIME_RANGE = 36        # total time steps to iterate
 burnDuration = 0#36
 model = 'Custom'         # Model Type for fast flag toggling
