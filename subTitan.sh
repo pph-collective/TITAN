@@ -16,10 +16,10 @@ memory=12g
 outfile="Jobname.o"
 nJobs=10
 nMC=100
-nPop=24110
+nPop=100000
 seed=0
-simT=36
-burn=0
+simT=120
+burn=36
 repeats=1
 model=${PWD##*/}
 basePath=$PWD
@@ -67,9 +67,9 @@ echo "
 #TITAN params
 sed -i "10s/"0"/$seed/g" params.py
 sed -i "11s/"100"/$nMC/g" params.py
-sed -i "12s/"24110"/$nPop/g" params.py
-sed -i "13s/"36"/$simT/g" params.py
-sed -i "14s/"0"/$burn/g" params.py
+sed -i "12s/"100000"/$nPop/g" params.py
+sed -i "13s/"120"/$simT/g" params.py
+sed -i "14s/"36"/$burn/g" params.py
 
 #Submit script params
 sed -i "s/MODEL_NAME/$jobname/g" bs_Core.sh
@@ -90,7 +90,7 @@ prepSubmit() {
     updateParams;
 
     #Submit job to cluster
-    sbatch bs_Core.sh
+    #sbatch bs_Core.sh
 
     #Move back to base directory
     cd $basePath

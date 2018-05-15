@@ -7,8 +7,8 @@ Main model parameters.
 
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
-rSeed = 1               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
-N_MC = 1               # total number of iterations (Monte Carlo runs)
+rSeed = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
+N_MC = 100               # total number of iterations (Monte Carlo runs)
 N_POP = 24110           # population size
 TIME_RANGE = 36        # total time steps to iterate
 burnDuration = 0#36
@@ -37,7 +37,7 @@ Calibration scaling parameters for fitting to empirical data
 
 PARTNERTURNOVER = 0.2 #7.5, 5 for init       # Partner acquisition parameters (higher number more partnering)
 
-cal_NeedleScaling = 1.0     # IDU transmission probability scaling factor
+cal_NeedleScaling = 2.0     # IDU transmission probability scaling factor
 cal_SexualScaling = 1.0     # Sexual transmission probability scaling factor
 cal_pXmissionScaling = 1.0 # Global transmission probability scaling factor
 cal_AcuteScaling = 4.3      # Infectivity multiplier ratio for Acute status infections
