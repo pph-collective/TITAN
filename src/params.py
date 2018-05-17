@@ -35,7 +35,7 @@ drawFigures = False
 Calibration scaling parameters for fitting to empirical data
 """
 
-PARTNERTURNOVER = 0.2 #7.5, 5 for init       # Partner acquisition parameters (higher number more partnering)
+PARTNERTURNOVER = 0.2       # Partner acquisition parameters (higher number more partnering)
 
 cal_NeedleScaling = 1.0     # IDU transmission probability scaling factor
 cal_SexualScaling = 1.0     # Sexual transmission probability scaling factor
@@ -160,25 +160,32 @@ RaceClass is a distinct racial/ethnic/social classification for demographics of 
 ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, PWID)
 RaceClass agent classifier template
 """
-RC_template = {     'Race':None,        #Race of demographic
-                    'Class':None,       #Classification of networking
-                    'POP':0.0,          #Percentage of total agent population that are ID
-                    'HIV':0.0,          #Proportion of total ID population that are HIV
-                    'AIDS':0.0,         #Proportion of total HIV_ID that are AIDS
-                    'HAARTprev':0.0,    #Proportion of HIV_TESTED_ID that are enrolled on ART
-                    'INCARprev':0.0,    #Proportion of ID that are incarcerated
-                    'TestedPrev':0.0,   #Proportion of HIV_ID that are tested positively
-                    'mNPart':0.0,       #Mean number of sex partners
-                    'NUMPartn':0.0,     #Number of partners (redundant)
-                    'NUMSexActs':0.0,   #Mean number of sex acts with each partner
-                    'UNSAFESEX':0.0,    #Probability of engaging in unsafe sex (per act)
-                    'NEEDLESH':0.0,     #Probability of sharing syringes during join drug use (per act)
-                    'HIVTEST':0.0,      #Probability of testing for HIV
-                    'INCAR':0.0,        #Probability of becoming incarcerated (rate)
-                    'HAARTadh':0.0,     #Adherence to ART therapy
-                    'HAARTdisc':0.0,    #Probability of discontinuing ART therapy
-                    'PrEPdisc':0.0,     #Probability of discontinuing PrEP treatment
-                    'EligPartnerType':[]#List of agent SO types the agent cant partner with
+RC_template = {     'Race':None,            #Race of demographic
+                    'Class':None,           #Classification of networking
+                    'POP':0.0,              #Percentage of total raceclass population that are ID
+                    'HIV':0.0,              #Proportion of total ID population that are HIV
+                    'AIDS':0.0,             #Proportion of total HIV_ID that are AIDS
+                    'HAARTprev':0.0,        #Proportion of HIV_TESTED_ID that are enrolled on ART
+                    'INCARprev':0.0,        #Proportion of ID that are incarcerated
+                    'TestedPrev':0.0,       #Proportion of HIV_ID that are tested positively
+                    'mNPart':0.0,           #Mean number of sex partners
+                    'NUMPartn':0.0,         #Number of partners (redundant)
+                    'NUMSexActs':0.0,       #Mean number of sex acts with each partner
+                    'UNSAFESEX':0.0,        #Probability of engaging in unsafe sex (per act)
+                    'NEEDLESH':0.0,         #Probability of sharing syringes during join drug use (per act)
+                    'HIVTEST':0.0,          #Probability of testing for HIV
+                    'INCAR':0.0,            #Probability of becoming incarcerated (rate)
+                    'HAARTadh':0.0,         #Adherence to ART therapy
+                    'HAARTdisc':0.0,        #Probability of discontinuing ART therapy
+                    'PrEPdisc':0.0,         #Probability of discontinuing PrEP treatment
+                    'EligPartnerType':[],   #List of agent SO types the agent cant partner with
+                    'AssortMixMatrix':[]    #List of assortMix Matrix to be zipped with EligPart
+                }
+
+RC_allTemplate = {  'Proportion':1.00,      #Proportion of total population that is raceclass
+                    'HAARTdisc':0.018,      #Overall HAART discontinuation probability
+                    'PrEPdisc':0.0,         #Overall PrEP discontinuation probability
+                    'AssortMixCoeff':1.0,   #Proportion RC mixes with other raceclass
                 }
 
 RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
@@ -202,7 +209,8 @@ RaceClass1['HM'] = {'POP':0.49,
                      'INCAR':0.001,
                      'HAARTadh':0.405,
                      'HAARTdisc':0.000,
-                     'PrEPdisc':0.0000
+                     'PrEPdisc':0.0000,
+                     'EligPartnerType':['HF']
                      }
 
 RaceClass1['HF'] = {'POP':0.51,
@@ -220,7 +228,8 @@ RaceClass1['HF'] = {'POP':0.51,
                      'INCAR':0.00,
                      'HAARTadh':0.405,
                      'HAARTdisc':0.000,
-                     'PrEPdisc':PrEP_disc
+                     'PrEPdisc':PrEP_disc,
+                     'EligPartnerType':['HM']
                      }
 
 
@@ -239,25 +248,28 @@ RaceClass1['PWID'] = {'POP':0.017,
                      'INCAR':0.001,
                      'HAARTadh':0.405,
                      'HAARTdisc':0.000,
-                     'PrEPdisc':0.0000
+                     'PrEPdisc':0.0000,
+                     'EligPartnerType':['IDU']
                      }
 
 
 RaceClass1['ALL'] = {'Proportion':1.00,
                       'HAARTdisc':0.018,
-                     'PrEPdisc':0.0
+                     'PrEPdisc':0.0,
+                     'AssortMixCoeff':1.0,
                       }
 
 RaceClass2['ALL'] = {'Proportion':0.00,
                       'HAARTdisc':0.018,
-                     'PrEPdisc':0.0
+                     'PrEPdisc':0.0,
+                     'AssortMixCoeff':1.0,
                       }
 
 DemographicParams = {'WHITE':RaceClass1, 'BLACK':RaceClass2}
 
 
 """
-Partnership durations and
+Partnership duration distribution bins
 """
 sexualDurations = {1:{}, 2:{}, 3:{}, 4:{}, 5:{}}
 sexualDurations[1] = {'p_value':(0.323 + 0.262), 'min':1, 'max':6}
@@ -276,7 +288,7 @@ needleDurations[5] = {'min':1, 'max':6}
 PartnershipDurations = {'SEX':sexualDurations, 'NEEDLE':needleDurations}
 
 """
-Partnership acts and
+Partnership acts distribution bins
 """
 sexualFrequency = {1:{}, 2:{}, 3:{}, 4:{}, 5:{}}
 sexualFrequency[1] = {'p_value':(0.323 + 0.262), 'min':1, 'max':6}
@@ -296,7 +308,7 @@ needleFrequency[3] = {'p_value':(0.323 + 0.262), 'min':6, 'max':24}
 needleFrequency[4] = {'p_value':(0.323 + 0.262), 'min':9, 'max':36}
 needleFrequency[5] = {'min':12, 'max':60}
 
-PartnershipDurations = {'SEX':sexualDurations, 'NEEDLE':needleDurations}
+PartnershipFrequency = {'SEX':sexualFrequency, 'NEEDLE':needleFrequency}
 
 
 
@@ -322,10 +334,10 @@ ageMatrix['WHITE'] = {'Prop':{0:0.0, 1:0.18, 2:0.18+0.16, 3:0.18+0.16+0.15, 4:0.
 ageMatrix['BLACK'] = {'Prop':{0:0.0, 1:0.28, 2:0.28+0.24, 3:0.28+0.24+0.19, 4:0.28+0.24+0.19+0.15, 5:0.28+0.24+0.19+0.15+0.14},
                        'HIV':{0:0.0, 1:0.144, 2:0.144, 3:0.250, 4:0.377, 5:0.194}}
 
+
 """
 Age mixing matrix for assortative mixing by age
 """
-
 mixingMatrix = {1:{},2:{},3:{},4:{},5:{}}
 mixingMatrix[1] = {1:0.500,2:0.226,3:0.123,4:0.088,5:0.064}
 mixingMatrix[2] = {1:0.156,2:0.500,3:0.185,4:0.099,5:0.061}
