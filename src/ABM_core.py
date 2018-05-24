@@ -457,7 +457,11 @@ class HIVModel(NetworkClass):
         #self._become_HIV(firstHIV, 0)
 
         print("\t===! Start Main Loop !===\n")
-        makeAgentZero(4)
+
+        #If we are using an agent zero method, create agent zero.
+        if params.flag_agentZero:
+            makeAgentZero(4)
+
         for t in range(1, self.tmax + 1):
             print '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME', t
             print "RANDOM CALL %d" %random.randint(0,100)
@@ -1089,7 +1093,7 @@ class HIVModel(NetworkClass):
             # HIV+ ?
             HIV_agent = agent._HIV_bool#self.get_agent_characteristic(agent, 'HIV')
             HIV_partner = partner._HIV_bool#self.get_agent_characteristic(partner, 'HIV')
-            MEAN_N_ACTS = params.DemographicParams[Race_Agent][Type_agent]['NUMSexActs'] * params.cal_NeedleScaling
+            MEAN_N_ACTS = params.DemographicParams[Race_Agent][Type_agent]['NUMSexActs'] * params.cal_NeedleActScaling
             share_acts = poisson.rvs(MEAN_N_ACTS, size=1)
             #share_acts = int(random.uniform(1,30))
             if share_acts < 1:
@@ -1200,7 +1204,7 @@ class HIVModel(NetworkClass):
 
             #print "%s\t%s\t"%(Race_Agent,Type_agent)
             p_UnsafeSafeSex1 = params.DemographicParams[Race_Agent][Type_agent]['UNSAFESEX']
-            MSexActs = self._get_number_of_sexActs(agent) * params.cal_SexualScaling
+            MSexActs = self._get_number_of_sexActs(agent) * params.cal_SexualActScaling
             #MSexActs = self.ProbTables[Race_Agent][Type_agent]['NUMSexActs'] * self.SEXSCALINGPARAM
             #print "Unsafe:%.5lf\tMSexActs:%.2lf\tOLDMSexActs:%.2lf"%(p_UnsafeSafeSex1,MSexActs,self.MEAN_S_ACTS)
             #print "MSEX",MSexActs

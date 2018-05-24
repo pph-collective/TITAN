@@ -138,7 +138,7 @@ def get_number_of_partners(self, agent, agent_drug_type, agent_sex_type):
 
     agent_race_type = agent._race
 
-    n_trials = self.ProbTables[agent_race_type][agent_sex_type]['NUMPartn']#5
+    n_trials = self.ProbTables[agent_race_type][agent_sex_type]['NUMPartn']
     p_success = .8
 
     ##Random number of contacts using negative binomial
@@ -172,15 +172,15 @@ def get_number_of_partners(self, agent, agent_drug_type, agent_sex_type):
 
     if RandNumCont == 0 and np.random.uniform() < .5:
         RandNumCont = 1
+
     MEAN_PARTNER_YEAR = self.ProbTables[agent_race_type][agent_sex_type]['NUMPartn']
     RandNumCont = poisson.rvs(MEAN_PARTNER_YEAR, size=1)
 
-    if agent in self.IDU_agents:
-        RandNumCont = RandNumCont * 1
-    #print "Agent %s\t%s\t%s\tPARTNERS:%d"%(agent_race_type, agent_sex_type, agent_drug_type, RandNumCont)
-    #RandNumCont = 2 ######################## TEMP FIXER
+    if agent_drug_type == 'IDU':
+        RandNumCont = RandNumCont * params.cal_NeedlePartScaling
 
-
+    else:
+        RandNumCont = RandNumCont * params.cal_SexualActScaling
 
 
     return RandNumCont
@@ -765,146 +765,3 @@ def reset_partner_count(self):
     self.tmp_NIDU_NumPartners_Count = {}
     self.tmp_IDU_NumPartners_Count = {}
     self.tmp_MSM_NumPartners_Count = {}
-
-"""
-def update_partner_assignments_old(self, partnerTurnover):
-    # Generate target partner numbers for each agent and get current partner nums
-    target_partner_nums = {}
-    current_partner_nums = {}
-
-    # TODO: FIX THIS BACK TO HIV AGENTS ONLY
-    EligibleAgents = self.totalAgentClass.iter_agents()
-    for agent in EligibleAgents:#self.HIV_agents:#Agents:
-        agent_sex_type = agent._SO
-        agent_drug_type = agent._DU
-
-        current_num = len(agent._partners)
-        #print current_num
-        if np.random.uniform(0, 1) > partnerTurnover:
-            target_num = current_num
-        else:
-            target_num = get_number_of_partners(self, agent, agent_drug_type, agent_sex_type)
-
-        # Now loop through agents, if currently too many partners, remove some
-        if target_num < current_num:
-            # ExistingLinks = list(self.AdjMat.rows[agent])
-            n = current_num - target_num
-            for i in range(n):
-                agent2remove = random.choice(agent._partners)
-                # print "Current agent %d has %d partners and wants %d - " %(agent, current_partner_nums[agent],target_partner_nums[agent]), list(self.AdjMat.rows[agent]), "removing %d"%agent2remove
-                # self.AdjMat[agent, agent2remove] = 0  # remove connection adjMat
-                # self.AdjMat[agent2remove, agent] = 0
-                # current_partner_nums[agent] -= 1
-                if agent2remove in EligibleAgents:  # self.HIV_agents:
-                    current_partner_nums[agent2remove] -= 1
-
-    # Loop through agents again, if too few: go into need_partners set
-    need_new_partners = []
-    need_new_partners2 = Agent_set(1,1)
-
-    EligibleAgents = self.totalAgentClass.iter_agents()
-    for agent in EligibleAgents:#self.HIV_agents:#Agents:
-        #print len(agent._partners)
-        if len(agent._partners) < 2:
-            need_new_partners.append(agent)
-            need_new_partners2.add_agent(agent)
-            #print agent
-            #print need_new_partners
-
-    need_new_partners = list(np.random.permutation(need_new_partners))
-
-
-    # Now create partnerships until available partnerships are out
-    last_list_size = len(need_new_partners)
-    iters_at_one_size = 0
-    print "\t\t-FINDING MATCHES FOR",len(need_new_partners),"AGENTS IN NEED \t---"
-    noMatch = 0
-    missed_counter=0
-    while len(need_new_partners) > 0:
-        #print len(need_new_partners)
-        agent = random.choice(need_new_partners)
-        # TODO Fix this to read proper agent partner
-        #agent_cl = self.totalAgentClass.get_agent(agent)
-        AvailableAgents = self.Agents
-        if self.Incarcerated != []:
-            #AvailableAgents.remove(self.Incarcerated)
-            #AvailableAgents = list(set(self.Agents).difference(set(self.Incarcerated)))
-            AvailableAgents = need_new_partners
-            #print "REMOVED %d from Avialable Lists"%len(self.Incarcerated)
-
-        #for n in AvailableAgents:
-        #    print "Agent %d"%n,AvailableAgents[n]
-        #partner = get_partner(self, agent, need_new_partners)#self.Agents)
-        #print partner._ID
-        #partner = self._get_partner(agent, need_new_partners)
-        partner = None
-        while partner == None:
-            partner = get_partner(self, agent, need_new_partners)
-            #partner_cl = self.totalAgentClass.get_agent(partner)
-            #self.AdjMat[agent, partner] = 1
-            #self.AdjMat[partner, agent] = 1
-            #current_partner_nums[agent] += 1
-
-            if partner:
-                print "Partner found! %d" % partner.get_ID()
-                agent.bond(partner)
-
-
-                if len(partner._partners) >= 2 :
-                    print "Partners", partner._partners
-                    need_new_partners.remove(partner)
-
-                if len(agent._partners) >= 2 :
-                    print "Partners", partner._partners
-                    need_new_partners.remove(agent)
-                    break
-
-
-                missed_counter = 0
-                partner = None
-
-            else:
-                missed_counter += 1
-
-            if missed_counter > 2:
-                need_new_partners.remove(agent)
-                noMatch += 1
-                missed_counter = 0
-                break
-
-        ###
-        if partner != None:
-            #partner_cl = self.totalAgentClass.get_agent(partner)
-            #self.AdjMat[agent, partner] = 1
-            #self.AdjMat[partner, agent] = 1
-            #current_partner_nums[agent] += 1
-
-            agent.bond(partner)
-
-
-            if len(agent._partners) >= 2 :
-                need_new_partners.remove(agent)
-
-            if len(partner._partners) >= 2 :
-                need_new_partners.remove(partner)
-
-            if partner in self.HIV_agents:
-                current_partner_nums[partner] += 1
-
-                if current_partner_nums[partner] == target_partner_nums[partner]:
-                    need_new_partners.remove(partner)
-        #else:
-            #print "NO MATCH FOUND FOR A:", agent, "( of total", len(need_new_partners),")"
-        if len(need_new_partners) == last_list_size:
-            iters_at_one_size += 1
-        else:
-            iters_at_one_size = 0
-        print len(need_new_partners)
-
-        if iters_at_one_size > 100: break
-        last_list_size = len(need_new_partners)
-        if last_list_size == 0: break
-        ###
-    # The remaining partnerless people can remain partnerless :)
-    print "\t\t-COULDNT MATCH",noMatch,"AGENTS IN NEED \t---"
-"""
