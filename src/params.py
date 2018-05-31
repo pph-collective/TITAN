@@ -9,10 +9,10 @@ Main model parameters.
 PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 N_MC = 1               # total number of iterations (Monte Carlo runs)
-N_POP = 86481#6           # population size
+N_POP = 864#8#16           # population size
 TIME_RANGE = 36        # total time steps to iterate
 burnDuration = 0#36
-model = 'PrEP'         # Model Type for fast flag toggling
+model = 'Custom'         # Model Type for fast flag toggling
 setting = 'Cali'
 ####################
 
@@ -64,6 +64,8 @@ HR_F_dur = 6                #Duration of high risk for females
 """
 Misc. params
 """
+flag_AssortativeMix = True
+AssortMixType = "HR"
 flag_AgeAssortMix = False
 flag_RaceAssortMix = False
 AssortMixCoeff = 0.80       #Proportion of race1 mixing with race2 when partnering.
@@ -167,7 +169,7 @@ elif model == 'Custom':
     flag_HR = False
     flag_ART = False
     flag_DandR = False
-    flag_staticN = True
+    flag_staticN = False
     flag_agentZero = False
 
 
