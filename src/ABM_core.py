@@ -1426,18 +1426,18 @@ class HIVModel(NetworkClass):
         """
 
         # Check input
-        if agent_sex_type not in ['HM', 'HF', 'MSM', 'WSW']:
+        if agent_sex_type not in params.agentSexTypes:
             raise ValueError("Invalid agent_sex_type! %s" % str(agent_sex_type))
-        if partner_sex_type not in ['HM', 'HF', 'MSM', 'WSW']:
+        if partner_sex_type not in params.agentSexTypes:
             raise ValueError("Invalid partner_sex_type! %s" % str(
                 partner_sex_type))
 
         # Sex possible
-        if agent_sex_type == 'HM' and partner_sex_type in ['HF', 'WSW']:
+        if agent_sex_type == 'HM' and partner_sex_type in ['HF', 'WSW', 'MTF']:
             SexPossible = True
         #elif partner_sex_type == 'HM' and agent_sex_type in ['HF', 'WSW']:
         #    SexPossible = True
-        elif agent_sex_type == 'MSM' and partner_sex_type in ['MSM', 'WSW', 'HF']:
+        elif agent_sex_type == 'MSM' and partner_sex_type in ['MSM', 'WSW', 'HF', 'MTF']:
             SexPossible = True
         #elif partner_sex_type == 'MSM' and agent_sex_type in ['MSM', 'WSW', 'HF']:
         #    SexPossible = True
@@ -1446,6 +1446,8 @@ class HIVModel(NetworkClass):
         #elif partner_sex_type == 'WSW' and agent_sex_type in ['MSM', 'WSW', 'HM']:
         #    SexPossible = True
         elif agent_sex_type == 'HF' and partner_sex_type in ['HM', 'MSM']:
+            SexPossible = True
+        elif agent_sex_type == 'MTF' and partner_sex_type in ['HM', 'MSM']:
             SexPossible = True
         else:
             SexPossible = False
@@ -1892,6 +1894,9 @@ class HIVModel(NetworkClass):
         elif params.PrEP_target_model == 'SRIns':
             if agent._sexualRole == 'Insertive':
                 elligble = True
+        elif params.PrEP_target_model == 'MSM':
+            if agent._SO == ('MSM' or 'MTF'):
+                elligble = True
         return elligble
 
 
@@ -1978,10 +1983,14 @@ class HIVModel(NetworkClass):
         agent_race = agent._race
         agent_so = agent._SO
 
-
-
         numPrEP_agents = self.totalAgentClass._subset["PrEP"].num_members()
-        target_PrEP = int((self.totalAgentClass.num_members()-self.totalAgentClass._subset["HIV"].num_members()) * params.PrEP_Target)
+
+        if params.PrEP_target_model:
+            target_PrEP_population = [ag for ag in self.totalAgentClass._members if self._PrEP_elligible(ag, time)]
+            HIV_target_PrEP_population = [ag for ag in target_PrEP_population if ag._HIV_bool]
+            target_PrEP = int((len(target_PrEP_population)- len(HIV_target_PrEP_population)) * params.PrEP_Target)
+        else:
+            target_PrEP = int((self.totalAgentClass.num_members()-self.totalAgentClass._subset["HIV"].num_members()) * params.PrEP_Target)
 
 
         if numPrEP_agents < target_PrEP and time >= params.PrEP_startT:
@@ -2108,7 +2117,7 @@ class HIVModel(NetworkClass):
         self.num_Deaths = {}
         for HIV_status in ['Total','HIV-', 'HIV+']:
             self.num_Deaths.update({HIV_status: {}})
-            for tmp_type in [HIV_status, 'MSM', 'HM', 'HF', 'WSW']:
+            for tmp_type in [HIV_status, 'MSM', 'HM', 'HF', 'WSW', 'MTF']:
                 self.num_Deaths[HIV_status].update({tmp_type: 0})
 
 

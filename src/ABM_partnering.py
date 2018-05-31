@@ -219,7 +219,13 @@ def get_partner(self, agent, need_new_partners):
         else:
             get_random_sex_partner(self, agent, shortlist_NNP)
     elif agent_drug_type in ('ND','NIDU'):
-        RandomPartner = get_random_sex_partner(self, agent, shortlist_NNP)
+        if params.flag_AssortativeMix:
+            if random.random() < params.AssortMixCoeff:
+                RandomPartner = get_assort_sex_partner(self, agent, shortlist_NNP)
+            else:
+                RandomPartner = get_random_sex_partner(self, agent, shortlist_NNP)
+        else:
+            RandomPartner = get_random_sex_partner(self, agent, shortlist_NNP)
     else:
         raise ValueError("Check method _get_partners(). Agent not caught!")
     #print RandomPartner
@@ -355,83 +361,60 @@ def get_assort_sex_partner(self, agent, need_new_partners):
             return i
 
 
-    #agent_sex_type = self.get_agent_characteristic(agent, 'Sex Type')
     agent_sex_type = agent._SO
     agent_drug_type = agent._DU
-    #print "\tChecking for sex partner for %d" % agent
+    agent_race_type = agent._race
+
     RandomPartner = None
     tempList = []
 
-    AssortMix = False
-    if params.flag_AgeAssortMix:
-        if random.random() < params.AssortMixCoeff:
-            AssortMix = True
+    if random.random() < params.AssortMixCoeff:
+        AssortMix = True
+    else:
+        AssortMix = False
 
     rv = random.random()
 
     #todo: Make the random agent never return the agent or any of their partners
-    if agent_sex_type not in ['HM','HF','MSM','WSW']:
-        raise ValueError("Invalid sex type! %s"%str(agent_sex_type))
+    assert(agent_sex_type in ['HM','HF','MSM','WSW','MTF'])
 
-    elif agent_sex_type == 'MSM':
+    eligPartnerType = params.DemographicParams[agent_race_type][agent_sex_type]['EligPartnerType'][0]
 
-        #if picking partner using age assort mixing
-        if params.flag_AgeAssortMix:
-            randomK_sample = random.sample(need_new_partners._subset["MSM"]._members,params.cal_ptnrSampleDepth)
-            ageBinPick = getPartnerBin(agent)
-            while True:
-                RandomPartner = random.choice([ag for ag in randomK_sample if ag._ageBin == ageBinPick])
-                break
+    if params.AssortMixType == 'Age':
+        randomK_sample = random.sample(need_new_partners._subset["MSM"]._members, params.cal_ptnrSampleDepth)
+        ageBinPick = getPartnerBin(agent)
+        while True:
+            RandomPartner = random.choice([ag for ag in randomK_sample if ag._ageBin == ageBinPick])
+            break
 
-        #else if picking using race mix
-        elif params.flag_RaceAssortMix:
-            randomK_sample = random.sample(need_new_partners._subset["MSM"]._members,params.cal_ptnrSampleDepth)
+    #else if picking using race mix
+    elif params.AssortMixType == 'Race':
+        samplePop = [tmpA for tmpA in need_new_partners._subset[eligPartnerType]._members if tmpA._race != agent._race]
+        try:
+            randomK_sample = random.sample(samplePop ,params.cal_ptnrSampleDepth)
+        except:
+            randomK_sample = samplePop
+        while True:
+            RandomPartner = random.choice([ag for ag in randomK_sample if ag._race == agent._race])
+            break
+
+    elif params.AssortMixType == 'HR':
+        samplePop = [tmpA for tmpA in need_new_partners._subset[eligPartnerType]._members if tmpA._everhighrisk_bool]
+        if samplePop:
+            try:
+                randomK_sample = random.sample(samplePop ,params.cal_ptnrSampleDepth)
+            except:
+                randomK_sample = samplePop
+
             while True:
                 RandomPartner = random.choice([ag for ag in randomK_sample if ag._race == agent._race])
                 break
 
-        else:
-            while True:
-                #RandomPartner = random.choice([ag for ag in random.sample(need_new_partners._subset["MSM"]._members,params.cal_ptnrSampleDepth) if ag._ageBin == ageBinPick])
-                RandomPartner = random.choice(need_new_partners._subset["MSM"]._members)
-                break
-                #if agent._race == RandomPartner._race:
-                #    break
-        if RandomPartner in agent._partners or RandomPartner == agent:
-            RandomPartner = None
-        #RandomPartner = partner_choice(self.MSM_agents)   # MSM agent
-        else:
-            try: RandomPartner = random.choice(tempList)
-            except: pass#print "No matches in", tempList
-    elif agent_sex_type == 'HM':
-
-            if AssortMix:
-                while True:
-                    RandomPartner = random.choice(need_new_partners._subset["HF"]._members)
-                    if agent._race != RandomPartner._race:
-                        break
-            else:
-                while True:
-                    RandomPartner = random.choice(need_new_partners._subset["HF"]._members)
-                    if agent._race == RandomPartner._race:
-                        break
-            if RandomPartner in agent._partners or RandomPartner == agent:
-                RandomPartner = None
-    elif agent_sex_type == 'HF':
-            if AssortMix:
-                while True:
-                    RandomPartner = random.choice(need_new_partners._subset["HM"]._members)
-                    if agent._race != RandomPartner._race:
-                        break
-            else:
-                while True:
-                    RandomPartner = random.choice(need_new_partners._subset["HM"]._members)
-                    if agent._race == RandomPartner._race:
-                        break
-            if RandomPartner in agent._partners or RandomPartner == agent:
-                RandomPartner = None
+    if RandomPartner == None or RandomPartner in agent._partners or RandomPartner == agent:
+        RandomPartner = None
     else:
-        raise ValueError("Invalid sex type! %s"%str(agent_sex_type))
+        try: RandomPartner = random.choice(tempList)
+        except: pass#print "No matches in", tempList
 
     #print "\tReturned: %s" % RandomPartner
     if RandomPartner:
@@ -494,99 +477,39 @@ def get_random_sex_partner(self, agent, need_new_partners):
 
     #agent_sex_type = self.get_agent_characteristic(agent, 'Sex Type')
     agent_sex_type = agent._SO
+    agent_race_type = agent._race
     agent_drug_type = agent._DU
     #print "\tChecking for sex partner for %d" % agent
     RandomPartner = None
     tempList = []
 
+    eligPartnerType = params.DemographicParams[agent_race_type][agent_sex_type]['EligPartnerType'][0]
     AssortMix = False
     if params.flag_AgeAssortMix:
         if random.random() < params.AssortMixCoeff:
             AssortMix = True
 
     #todo: Make the random agent never return the agent or any of their partners
-    if agent_sex_type not in ['HM','HF','MSM','WSW']:
+    if agent_sex_type not in ['HM','HF','MSM','WSW','MTF']:
         raise ValueError("Invalid sex type! %s"%str(agent_sex_type))
-    elif agent_sex_type == 'MSM':
-        rv = random.random()
-        if rv < 10.91:
-            #if picking partner using age assort mixing
-            if params.flag_AgeAssortMix and (rv < params.AssortMixCoeff):
-                randomK_sample = random.sample(need_new_partners._subset["MSM"]._members,params.cal_ptnrSampleDepth)
-                ageBinPick = getPartnerBin(agent)
-                while True:
-                    RandomPartner = random.choice([ag for ag in randomK_sample if ag._ageBin == ageBinPick])
-                    break
-            #else if picking using race mix
-            elif params.flag_RaceAssortMix and (rv < params.AssortMixCoeff):
-                randomK_sample = random.sample(need_new_partners._subset["MSM"]._members,params.cal_ptnrSampleDepth)
-                while True:
-                    RandomPartner = random.choice([ag for ag in randomK_sample if ag._race == agent._race])
-                    break
-            else:
-                while True:
-                    #RandomPartner = random.choice([ag for ag in random.sample(need_new_partners._subset["MSM"]._members,params.cal_ptnrSampleDepth) if ag._ageBin == ageBinPick])
-                    RandomPartner = random.choice(need_new_partners._subset["MSM"]._members)
-                    break
-                    #if agent._race == RandomPartner._race:
-                    #    break
-            if RandomPartner in agent._partners or RandomPartner == agent:
-                RandomPartner = None
-            #RandomPartner = partner_choice(self.MSM_agents)   # MSM agent
-        else:
-            try: RandomPartner = random.choice(tempList)
-            except: pass#print "No matches in", tempList
-    elif agent_sex_type == 'HM':
-            #RandomPartner = partner_choice(self.HF_agents)   # HF agent
-            #try: RandomPartner = random.choice([tmpA for tmpA in need_new_partners if tmpA._SO == "HF"])
-            #try: print random.choice(self.HF_agentsClass._members)
-            #except: pass
-            # [tempList.append(tmpA) for tmpA in need_new_partners.iter_agents() if tmpA._SO == "HF"]
-            # set(tempList).intersection(set.)
-            #tempList = need_new_partners._mem_HF
-            #tempList = set(need_new_partners._members.values()).intersection(set(self.HF_agentsClass._members))
-            #tempList = random.sample(set(need_new_partners.iter_agents()), 1)
-            #tempList = need_new_partners._subset["HF"]
-            #for ptnr in agent._partners:
-            #    tempList.remove_agent(ptnr)
-            if AssortMix:
-                while True:
-                    RandomPartner = random.choice(need_new_partners._subset["HF"]._members)
-                    if agent._race != RandomPartner._race:
-                        break
-            else:
-                while True:
-                    RandomPartner = random.choice(need_new_partners._subset["HF"]._members)
-                    if agent._race == RandomPartner._race:
-                        break
-            if RandomPartner in agent._partners or RandomPartner == agent:
-                RandomPartner = None
-    elif agent_sex_type == 'HF':
-            #RandomPartner = partner_choice(self.HM_agents)   # HM agent
-            #try: RandomPartner = random.choice([tmpA for tmpA in need_new_partners if tmpA._SO == "HM"])
-            #[tempList.append(tmpA) for tmpA in need_new_partners.iter_agents() if tmpA._SO == "HM"]
-            # tempList = set(need_new_partners._members).intersection(set(self.HM_agentsClass._members))
-            if AssortMix:
-                while True:
-                    RandomPartner = random.choice(need_new_partners._subset["HM"]._members)
-                    if agent._race != RandomPartner._race:
-                        break
-            else:
-                while True:
-                    RandomPartner = random.choice(need_new_partners._subset["HM"]._members)
-                    if agent._race == RandomPartner._race:
-                        break
-            if RandomPartner in agent._partners or RandomPartner == agent:
-                RandomPartner = None
     else:
-        raise ValueError("Invalid sex type! %s"%str(agent_sex_type))
+        while True:
+            RandomPartner = random.choice(need_new_partners._subset[eligPartnerType]._members)
+
+            if RandomPartner in agent._partners or RandomPartner == agent:
+                pass
+            else:
+                break
+        if RandomPartner in agent._partners or RandomPartner == agent:
+            RandomPartner = None
+
 
     #print "\tReturned: %s" % RandomPartner
     if RandomPartner:
+        assert(sex_possible(self,agent._SO, RandomPartner._SO)),"Sex no possible between agents! ERROR 441"
         return RandomPartner
     else:
         pass
-        #print "NO PATNEAS"
 
 
 def sex_possible(self, agent_sex_type, partner_sex_type):
@@ -604,18 +527,18 @@ def sex_possible(self, agent_sex_type, partner_sex_type):
     """
 
     # Check input
-    if agent_sex_type not in ['HM', 'HF', 'MSM', 'WSW']:
+    if agent_sex_type not in ['HM', 'HF', 'MSM', 'WSW','MTF']:
         raise ValueError("Invalid agent_sex_type! %s" % str(agent_sex_type))
-    if partner_sex_type not in ['HM', 'HF', 'MSM', 'WSW']:
+    if partner_sex_type not in ['HM', 'HF', 'MSM', 'WSW','MTF']:
         raise ValueError("Invalid partner_sex_type! %s" % str(
             partner_sex_type))
 
     # Sex possible
-    if agent_sex_type == 'HM' and partner_sex_type in ['HF', 'WSW']:
+    if agent_sex_type == 'HM' and partner_sex_type in ['HF', 'WSW', 'MTF']:
         SexPossible = True
     #elif partner_sex_type == 'HM' and agent_sex_type in ['HF', 'WSW']:
     #    SexPossible = True
-    elif agent_sex_type == 'MSM' and partner_sex_type in ['MSM', 'WSW', 'HF']:
+    elif agent_sex_type == 'MSM' and partner_sex_type in ['MSM', 'WSW', 'HF', 'MTF']:
         SexPossible = True
     #elif partner_sex_type == 'MSM' and agent_sex_type in ['MSM', 'WSW', 'HF']:
     #    SexPossible = True
@@ -624,6 +547,8 @@ def sex_possible(self, agent_sex_type, partner_sex_type):
     #elif partner_sex_type == 'WSW' and agent_sex_type in ['MSM', 'WSW', 'HM']:
     #    SexPossible = True
     elif agent_sex_type == 'HF' and partner_sex_type in ['HM', 'MSM']:
+        SexPossible = True
+    elif agent_sex_type == 'MTF' and partner_sex_type in ['HM', 'MSM']:
         SexPossible = True
     else:
         SexPossible = False
@@ -655,7 +580,7 @@ def get_partnership_duration(self, agent):
     if agent_drug_type not in ['IDU', 'NIDU', 'ND']:
         raise ValueError("Invalid drug type! %s" % str(agent_drug_type))
     # Sex type
-    if agent_sex_type not in ['HM', 'HF', 'MSM', 'WSW']:
+    if agent_sex_type not in params.agentSexTypes:
         raise ValueError("Invalid sex type! %s" % str(agent_sex_type))
 
     diceroll = random.random()

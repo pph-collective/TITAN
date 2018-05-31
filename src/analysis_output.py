@@ -146,10 +146,10 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
     #r = dict(dict1)
 
 
-    rc1_infections = {'MSM':dict(rc_template), 'HM':dict(rc_template),'HF':dict(rc_template),'IDU':dict(rc_template), 'ALL':dict(rc_template)}
+    rc1_infections = {'MTF':dict(rc_template), 'MSM':dict(rc_template), 'HM':dict(rc_template),'HF':dict(rc_template),'IDU':dict(rc_template), 'ALL':dict(rc_template)}
 
-    rc2_infections = {'MSM':dict(rc_template), 'HM':dict(rc_template),'HF':dict(rc_template),'IDU':dict(rc_template), 'ALL':dict(rc_template)}
-    all_infections = {'MSM': dict(rc_template), 'HM': dict(rc_template), 'HF': dict(rc_template),'IDU':dict(rc_template), 'ALL': dict(rc_template)}
+    rc2_infections = {'MTF':dict(rc_template), 'MSM':dict(rc_template), 'HM':dict(rc_template),'HF':dict(rc_template),'IDU':dict(rc_template), 'ALL':dict(rc_template)}
+    all_infections = {'MTF':dict(rc_template), 'MSM': dict(rc_template), 'HM': dict(rc_template), 'HF': dict(rc_template),'IDU':dict(rc_template), 'ALL': dict(rc_template)}
     rsltdic = {'WHITE':rc1_infections, 'BLACK':rc2_infections}
     tot_rsltdic = {'ALL':all_infections}
 

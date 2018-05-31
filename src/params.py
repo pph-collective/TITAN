@@ -9,10 +9,10 @@ Main model parameters.
 PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 N_MC = 1               # total number of iterations (Monte Carlo runs)
-N_POP = 864#8#16           # population size
+N_POP = 10000#864816           # population size
 TIME_RANGE = 36        # total time steps to iterate
 burnDuration = 0#36
-model = 'Custom'         # Model Type for fast flag toggling
+model = 'PrEP'         # Model Type for fast flag toggling
 setting = 'Cali'
 ####################
 
@@ -64,7 +64,7 @@ HR_F_dur = 6                #Duration of high risk for females
 """
 Misc. params
 """
-flag_AssortativeMix = True
+flag_AssortativeMix = False
 AssortMixType = "HR"
 flag_AgeAssortMix = False
 flag_RaceAssortMix = False
@@ -91,7 +91,7 @@ inc_PtnrDissolution = 0.55
 PrEP params
 """
 PrEP_type = "Oral"      #Oral/Inj PrEP modes
-PrEP_Target = 0.000      # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+PrEP_Target = 10.4      # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 PrEP_startT = 0         # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82   # Probability of being adherent
 PrEP_AdhEffic = 0.96    # Efficacy of adherence PrEP
@@ -99,7 +99,7 @@ PrEP_NonAdhEffic = 0.76 # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0       # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
-PrEP_target_model = 'Allcomers' #Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec
+PrEP_target_model = 'MSM'#'Allcomers' #Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec
 PrEP_clinic_cat = 'Mid'
 
 if PrEP_type == 'Oral':
@@ -165,14 +165,14 @@ elif model == 'StaticZero':
 
 elif model == 'Custom':
     flag_incar = False
-    flag_PrEP = False
+    flag_PrEP = True
     flag_HR = False
-    flag_ART = False
-    flag_DandR = False
+    flag_ART = True
+    flag_DandR = True
     flag_staticN = False
     flag_agentZero = False
 
-
+agentSexTypes = ['HM', 'HF', 'MSM', 'MTF']
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
 ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, PWID)
@@ -212,18 +212,18 @@ for a in ['MSM','HM','HF','PWID']:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
-RaceClass1['HM'] = {'POP':0.423,
+RaceClass1['HM'] = {'POP':0.4224565212,
                      'HIV':0.154,
                      'AIDS':0.189,
                      'HAARTprev':0.919,
-                     'INCARprev':0.00,
+                     'INCARprev':0.100,
                      'TestedPrev':0.347,
                      'NUMPartn':3.0,
                      'NUMSexActs':3.4,
                      'UNSAFESEX':0.77,
                      'NEEDLESH':0.00,
                      'HIVTEST':0.035,
-                     'INCAR':0.00,
+                     'INCAR':0.100,
                      'HAARTadh':0.67,
                      'HAARTdisc':0.000,
                      'PrEPadh':0.55,
@@ -231,7 +231,7 @@ RaceClass1['HM'] = {'POP':0.423,
                      'EligPartnerType':['HF']
                      }
 
-RaceClass1['HF'] = {'POP':0.50,
+RaceClass1['HF'] = {'POP':0.4993509943,
                      'HIV':0.21,
                      'AIDS':0.205,
                      'HAARTprev':0.859,
@@ -250,7 +250,7 @@ RaceClass1['HF'] = {'POP':0.50,
                      'EligPartnerType':['HM']
                      }
 
-RaceClass1['MSM'] = {'POP':0.077,
+RaceClass1['MSM'] = {'POP':0.07689447306,
                      'HIV':0.2093,
                      'AIDS':0.079,
                      'HAARTprev':0.926,
@@ -269,7 +269,7 @@ RaceClass1['MSM'] = {'POP':0.077,
                      'EligPartnerType':['MSM']
                      }
 
-RaceClass1['TRHF'] = {'POP':0.013,
+RaceClass1['MTF'] = {'POP':0.00129801141,
                      'HIV':0.33986,
                      'AIDS':0.636,
                      'HAARTprev':1.00,
@@ -372,6 +372,7 @@ Sexual and injection transmission probabilities
 """
 SexTrans = {'MSM':{}, 'HM':{}, 'HF':{}}
 SexTrans['MSM'] = {'0':0.00745, '1':0.005, '2':0.004, '3':0.002, '4':0.001, '5':0.0001}
+SexTrans['MTF'] = {'0':0.00745, '1':0.005, '2':0.004, '3':0.002, '4':0.001, '5':0.0001}
 SexTrans['HM'] = {'0':0.001, '1':0.001, '2':0.0008, '3':0.0004, '4':0.0002, '5':0.0001}
 SexTrans['HF'] = {'0':0.001, '1':0.001, '2':0.0008, '3':0.0004, '4':0.0002, '5':0.0001}
 

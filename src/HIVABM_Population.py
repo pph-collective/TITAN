@@ -221,6 +221,7 @@ class PopulationClass():
         self.MSM_agentsClass = Agent_set(1,"MSM", numerator=self.totalAgentClass)
         self.HM_agentsClass = Agent_set(1,"HM", numerator=self.totalAgentClass)
         self.HF_agentsClass = Agent_set(1,"HF", numerator=self.totalAgentClass)
+        self.MTF_agentsClass = Agent_set(1,"MTF", numerator=self.totalAgentClass)
         self.IDU_agentsClass = Agent_set(1,"IDU", numerator=self.totalAgentClass)
         self.HIV_agents_class = Agent_set(2,"HIV", numerator=self.totalAgentClass)
         self.HAART_agentClass = Agent_set(2,"HAART", numerator=self.HIV_agents_class)
@@ -237,6 +238,7 @@ class PopulationClass():
         self.totalAgentClass.add_subset(self.MSM_agentsClass)
         self.totalAgentClass.add_subset(self.HM_agentsClass)
         self.totalAgentClass.add_subset(self.HF_agentsClass)
+        self.totalAgentClass.add_subset(self.MTF_agentsClass)
         self.totalAgentClass.add_subset(self.IDU_agentsClass)
 
 
@@ -543,8 +545,10 @@ class PopulationClass():
             SexType = 'HM'
         elif tmp_rnd < (params.DemographicParams[Race]['HM']['POP'] + params.DemographicParams[Race]['HF']['POP']):
             SexType = 'HF'
-        else:
+        elif tmp_rnd < (params.DemographicParams[Race]['HM']['POP'] + params.DemographicParams[Race]['HF']['POP'] +  params.DemographicParams[Race]['MSM']['POP']):
             SexType = 'MSM'
+        else:
+            SexType = 'MTF'
 
         #Determine drugtype
         tmp_rnd = random.random()
