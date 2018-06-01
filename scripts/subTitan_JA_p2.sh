@@ -1,17 +1,12 @@
 #!/bin/bash
 
 #Read in source code path, then shift for optargs
-settingPath="$1"
+srcCode="$1"
 shift
 
-if [ $settingPath ]; then
-    setting=$(basename ${settingPath%.py})
-fi
-
-date=`date +%Y-%m-%d-T%H:%M:%S`
-srcCode="src/"
-parentPath="Module_$setting/"
-jobname=Analysis_$setting_$date
+date=`date +%Y-%m-%d-%H-%M-%S`
+parentPath="Module_$srcCode"
+jobname=Analysis_${srcCode%/}_$date
 dirPath="$HOME/scratch/$parentPath"
 user=${USER}
 jobid="JA";
@@ -19,7 +14,7 @@ cores=1
 walltime=12:00:00
 memory=12g
 outfile="Jobname.o"
-nJobs=1
+nJobs=10
 nMC=100
 nPop=100000
 seed=0
@@ -48,7 +43,7 @@ options:
   -t timerange	  number of time steps per iteration in (default: $simT)
   -b burntime	  number of time steps to burn for equilibration (default: $burn)     
 "
-echo $model
+echo $dirPath
 exit 0
 }
 
@@ -85,8 +80,6 @@ sed -i "s/WALL_TIME/$walltime/g" bs_Core.sh
 prepSubmit() {
 
     #Copy source code into parent path
-    echo -e "\n\tMoving setting $setting into $srcCode"
-    cp $settingPath $srcCode/params.py
     echo -e "\n\tCopying $srcCode to $finalPath"
     cp -rT $srcCode $finalPath
 
@@ -97,7 +90,7 @@ prepSubmit() {
     updateParams;
 
     #Submit job to cluster
-    sbatch bs_Core.sh
+    #sbatch bs_Core.sh
 
     #Move back to base directory
     cd $basePath
@@ -122,7 +115,7 @@ done
 
 # User and Date will be ignored if job ID is specified
 
-if [ ! $settingPath ]; then
+if [ ! $srcCode ]; then
     usage;
 fi
 

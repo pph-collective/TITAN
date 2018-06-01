@@ -545,7 +545,7 @@ class PopulationClass():
             SexType = 'HM'
         elif tmp_rnd < (params.DemographicParams[Race]['HM']['POP'] + params.DemographicParams[Race]['HF']['POP']):
             SexType = 'HF'
-        elif tmp_rnd < (params.DemographicParams[Race]['HM']['POP'] + params.DemographicParams[Race]['HF']['POP'] +  params.DemographicParams[Race]['MSM']['POP']):
+        elif tmp_rnd < (params.DemographicParams[Race]['HM']['POP'] + params.DemographicParams[Race]['HF']['POP'] + params.DemographicParams[Race]['MSM']['POP']):
             SexType = 'MSM'
         else:
             SexType = 'MTF'

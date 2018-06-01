@@ -5,7 +5,7 @@
 #SBATCH --time=12:00:00
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-type=END
-#SBATCH --mail-user=Maximilian_King.brown.edu
+#SBATCH --mail-user=NoMail
 #SBATCH --mem=14GB
 
 if [ -z "$SLURM_NPROCS" ] ; then
