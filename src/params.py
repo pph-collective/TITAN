@@ -9,10 +9,10 @@ Main model parameters.
 PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 N_MC = 1               # total number of iterations (Monte Carlo runs)
-N_POP = 10000#864816           # population size
+N_POP = 10000           # population size
 TIME_RANGE = 36        # total time steps to iterate
-burnDuration = 0#36
-model = 'PrEP'         # Model Type for fast flag toggling
+burnDuration = 36
+model = 'Custom'         # Model Type for fast flag toggling
 setting = 'Cali'
 ####################
 
@@ -35,41 +35,40 @@ drawFigures = False
 Calibration scaling parameters for fitting to empirical data
 """
 
-PARTNERTURNOVER = 0.2       # Partner acquisition parameters (higher number more partnering)
-
-cal_NeedlePartScaling = 1.0
-cal_NeedleActScaling = 1.0  # IDU transmission probability scaling factor
-cal_SexualPartScaling = 1.0
-cal_SexualActScaling = 1.0     # Sexual transmission probability scaling factor
-cal_pXmissionScaling = 1.0 # Global transmission probability scaling factor
-cal_AcuteScaling = 10.0      # Infectivity multiplier ratio for Acute status infections
-cal_RR_Dx = 0.50            # Risk reduction in transmission probability for agents diagnosed
-cal_RR_HAART = 1.0          # Scaling factor for effectiveness of ART therapy on xmission P
-cal_TestFreq = 1.0          # Scaling factor for testing frequency
-cal_Mortality = 0.5        # Scaling factor for all cause mortality rates
-cal_ProgAIDS = 1.0         # Scaling factor for all progression to AIDS from HIV rates
-cal_ART_cov = 1.0          # Scaling factor for enrollment on ART probability
-cal_IncarP = 1.0
-cal_raceXmission = 1.0
-cal_ptnrSampleDepth = 100
+PARTNERTURNOVER = 0.2           # Partner acquisition parameters (higher number more partnering)
+cal_NeedlePartScaling = 1.0     # IDU partner number scaling
+cal_NeedleActScaling = 1.0      # IDU act frequency scaling factor
+cal_SexualPartScaling = 1.0     # Sexual partner number scaling factor
+cal_SexualActScaling = 1.0      # Sexual acts  scaling factor
+cal_pXmissionScaling = 1.0      # Global transmission probability scaling factor
+cal_AcuteScaling = 10.0         # Infectivity multiplier ratio for Acute status infections
+cal_RR_Dx = 0.50                # Risk reduction in transmission probability for agents diagnosed
+cal_RR_HAART = 1.0              # Scaling factor for effectiveness of ART therapy on xmission P
+cal_TestFreq = 1.0              # Scaling factor for testing frequency
+cal_Mortality = 0.5             # Scaling factor for all cause mortality rates
+cal_ProgAIDS = 1.0              # Scaling factor for all progression to AIDS from HIV rates
+cal_ART_cov = 1.0               # Scaling factor for enrollment on ART probability
+cal_IncarP = 1.0                # Scaling factor for probability of becoming incarcerated
+cal_raceXmission = 1.0          # Scaling factor for increased STI transmission P comparing race1/race2
+cal_ptnrSampleDepth = 100       # Sampling depth for partnering algorithm.
 
 """
 High risk params
 """
-HR_partnerScale = 300       # Linear increase to partner number during HR period
-HR_proportion = 0.3         #Proportion of people who enter HR group when partner incarcerated
-HR_M_dur = 6                #Duration of high risk for males
-HR_F_dur = 6                #Duration of high risk for females
+HR_partnerScale = 300           # Linear increase to partner number during HR period
+HR_proportion = 0.3             # Proportion of people who enter HR group when partner incarcerated
+HR_M_dur = 6                    # Duration of high risk for males
+HR_F_dur = 6                    # Duration of high risk for females
 
 """
 Misc. params
 """
-flag_AssortativeMix = False
-AssortMixType = "HR"
-flag_AgeAssortMix = False
-flag_RaceAssortMix = False
-AssortMixCoeff = 0.80       #Proportion of race1 mixing with race2 when partnering.
-safeNeedleExchangePrev = 1.0
+flag_AssortativeMix = False     # Boolean for if assortative mixing occurs at all
+AssortMixType = "HR"            # Other assortative mixing types
+flag_AgeAssortMix = False       # Assortative mix by age
+flag_RaceAssortMix = False      # Assortative mix by race
+AssortMixCoeff = 0.80           # Proportion of following given assort mix rules
+safeNeedleExchangePrev = 1.0    # Prevalence scalar on SNE
 
 """
 Incarceration params
@@ -90,17 +89,17 @@ inc_PtnrDissolution = 0.55
 """
 PrEP params
 """
-PrEP_type = "Oral"      #Oral/Inj PrEP modes
-PrEP_Target = 10.4      # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
-PrEP_startT = 0         # Start date for PrEP program (0 for start of model)
-PrEP_Adherence = 0.82   # Probability of being adherent
-PrEP_AdhEffic = 0.96    # Efficacy of adherence PrEP
-PrEP_NonAdhEffic = 0.76 # Efficacy of non-adherence PrEP
-PrEP_falloutT = 0       # During PrEP remains effective post discontinuation
-PrEP_resist = 0.01
-PrEP_disc = 0.15
-PrEP_target_model = 'MSM'#'Allcomers' #Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec
-PrEP_clinic_cat = 'Mid'
+PrEP_type = "Oral"              #Oral/Inj PrEP modes
+PrEP_Target = 10.4              # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+PrEP_startT = 0                 # Start date for PrEP program (0 for start of model)
+PrEP_Adherence = 0.82           # Probability of being adherent
+PrEP_AdhEffic = 0.96            # Efficacy of adherence PrEP
+PrEP_NonAdhEffic = 0.76         # Efficacy of non-adherence PrEP
+PrEP_falloutT = 0               # During PrEP remains effective post discontinuation
+PrEP_resist = 0.01              # Probability of PrEP resistance developing
+PrEP_disc = 0.15                # Per month probability of PrEP discontinuation
+PrEP_target_model = 'MSM'       # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
+PrEP_clinic_cat = 'Mid'         # If clinical target model, which category does it follow
 
 if PrEP_type == 'Oral':
     PrEP_Adherence = 0.923
