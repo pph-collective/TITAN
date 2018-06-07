@@ -105,7 +105,9 @@ class Agent(object):
 
         # agent incarcartion params
         self._incar_bool = False
+        self._ever_incar_bool = False
         self._incar_time = 0
+        self._incar_treatment_time = 0
 
         #Set gender on small switch statement.
 

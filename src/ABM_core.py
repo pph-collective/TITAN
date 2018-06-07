@@ -682,6 +682,10 @@ class HIVModel(NetworkClass):
                 #P_HAART = random.random()
                 #if P_HAART < 0.005:
                 #print("\n\t\t= Testing agents =")
+                if agent._incar_treatment_time >= 1:
+                    agent._incar_treatment_time -= 1
+
+
                 self._drugTest(agent, time)
                 self._progress_to_AIDS(agent, agent_drug_type)
 
@@ -803,8 +807,11 @@ class HIVModel(NetworkClass):
             num_interactions = random.randrange(1, 50, 1)
             if partner_drug_type == 'IDU' and agent_drug_type == 'IDU':
                 # Injection is possible
+                #If agent is on post incar HR treatment to prevent IDU behavior, pass IUD infections
+                if agent._incar_treatment_time > 0:
+                    pass
 
-                if self._sex_possible(agent_sex_type, partner_sex_type):
+                elif self._sex_possible(agent_sex_type, partner_sex_type):
                     # Sex is possible
                     rv = random.random()
                     if rv < 0.6: #Needle only (60%)
@@ -1506,24 +1513,14 @@ class HIVModel(NetworkClass):
         haart_bool = agent._HAART_bool
 
         if incar_bool:#agent in self.Incarcerated:
-            #incar_t = agent_dict['incar_t']
             agent._incar_time -= 1
-            #self.tmp_Agents[agent].update({'incar_t': incar_t})
 
-            #print "Agent %d has %d months left"%(agent, incar_t)
 
             #get out if t=0
             if incar_t == 1: #FREE AGENT
                 self.IncarceratedClass.remove_agent(agent)
                 agent._incar_bool = False
-                """except:
-                    #print self.Incarcerated
-                    self.IncarceratedClass.print_agents()
-                    print "AGENT %d was attmpeted to be removed at %d"%(agent.get_ID(),incar_t)
-                    exit(9)"""
-                #partners = list(self.AdjMat.rows[agent])
-                #for partner in enumerate(partners):
-                #    self.AdjMat[partner, agent] = 1  # force connection
+                agent._ever_incar_bool = True
                 if not agent._highrisk_bool:
                     self.HighriskClass.add_agent(agent)
                     if not agent._everhighrisk_bool:
@@ -1534,11 +1531,12 @@ class HIVModel(NetworkClass):
                     agent._everhighrisk_bool = True
                     agent._highrisk_time = params.HR_M_dur
 
-                #self.HighriskClass.add_agent(agent)
 
                 if hiv_bool:
                     if haart_bool:
-                        if random.random() < params.inc_ARTdisc: #12% remain surpressed
+                        if agent._SO in params.inc_treat_set:
+                            agent._incar_treatment_time = params.inc_treatment_dur
+                        elif random.random() > params.inc_ARTdisc: #12% remain surpressed
                             pass#agent._HAART_bool = True
 
                         ### FORCE ALL HIGH HAARTS ####
@@ -1548,15 +1546,9 @@ class HIVModel(NetworkClass):
                             agent._HAART_adh = 0
                             self.HAART_agentClass.remove_agent(agent)
 
-
-                        """self.tmp_Agents[agent].update({'HAARTa': 1})
-                        self.tmp_HAART_agents.append(agent)
-
-                        self.AdherenceAgents[agent] = 1"""
                         ### END FORCE ####
 
-        elif random.random() < params.DemographicParams[race_type][sex_type]['INCAR'] * (1+(hiv_bool*4)) * params.cal_IncarP: ############## SCALED BY 2.5
-
+        elif random.random() < params.DemographicParams[race_type][sex_type]['INCAR'] * (1+(hiv_bool*4)) * params.cal_IncarP:
             toss = 2#random.choice( (1, 2) )
             if toss == 1: #JAIL
                 timestay = random.randint(params.inc_JailMin, params.inc_JailMax) #int(random.triangular(8, 21, 15))
@@ -1586,11 +1578,12 @@ class HIVModel(NetworkClass):
                             agent._HAART_adh = adherence
                             agent._HAART_time = time
                             self.HAART_agentClass.add_agent(agent)
+
             agent._incar_bool = True
             agent._incar_time = timestay
             self.IncarceratedClass.add_agent(agent)
             self.totalIncarcerated += 1
-            #print '-'
+
             #PUT PARTNERS IN HIGH RISK
             for tmpA in agent._partners:
                 if tmpA._highrisk_bool == True:
@@ -1598,9 +1591,6 @@ class HIVModel(NetworkClass):
                     #print "ALREADY HR"
                 else:
                     if random.random() < params.HR_proportion:
-                        #agent.print_agent()
-                        #tmpA.print_agent()
-                        #self.HighriskClass.print_agents()
                         #print "Making agent %d (%s) HR"%(tmpA._ID, tmpA._SO)
                         if not tmpA._highrisk_bool:
                             self.HighriskClass.add_agent(tmpA)
@@ -1872,12 +1862,15 @@ class HIVModel(NetworkClass):
                     #self.AdherenceAgents.update({agent: adherence})
 
             elif agent_haart and random.random() < params.DemographicParams[agent_race][agent_so]['HAARTdisc']:
-                agent._HAART_bool = False
-                agent._HAART_adh = 0
-                agent._HAART_time = 0
-                self.HAART_agentClass.remove_agent(agent)
-                #self.HAART_agents.remove(agent)
-                #self.AdherenceAgents.update({agent: 0})
+                if agent._incar_treatment_time > 0:
+                    pass
+                else:
+                    agent._HAART_bool = False
+                    agent._HAART_adh = 0
+                    agent._HAART_time = 0
+                    self.HAART_agentClass.remove_agent(agent)
+                    #self.HAART_agents.remove(agent)
+                    #self.AdherenceAgents.update({agent: 0})
 
 
 

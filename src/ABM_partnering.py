@@ -222,6 +222,8 @@ def get_partner(self, agent, need_new_partners):
         if params.flag_AssortativeMix:
             if random.random() < params.AssortMixCoeff:
                 RandomPartner = get_assort_sex_partner(self, agent, shortlist_NNP)
+                if not RandomPartner and params.AssortMixCoeff < 1.0:
+                    RandomPartner = get_random_sex_partner(self, agent, shortlist_NNP)
             else:
                 RandomPartner = get_random_sex_partner(self, agent, shortlist_NNP)
         else:
@@ -409,6 +411,7 @@ def get_assort_sex_partner(self, agent, need_new_partners):
             while True:
                 RandomPartner = random.choice([ag for ag in randomK_sample if ag._race == agent._race])
                 break
+
 
     if RandomPartner == None or RandomPartner in agent._partners or RandomPartner == agent:
         RandomPartner = None

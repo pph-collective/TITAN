@@ -8,11 +8,11 @@ Main model parameters.
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
-N_MC = 100              # total number of iterations (Monte Carlo runs)
-N_POP = 100000          # population size
-TIME_RANGE = 120        # total time steps to iterate
-burnDuration = 36	# total time for burning in period (equillibration)
-model = 'Custom'         # Model Type for fast flag toggling
+N_MC = 1              # total number of iterations (Monte Carlo runs)
+N_POP = 1000          # population size
+TIME_RANGE = 12        # total time steps to iterate
+burnDuration = 3	# total time for burning in period (equillibration)
+model = 'Incar'         # Model Type for fast flag toggling
 setting = 'Cali'
 ####################
 
@@ -60,14 +60,15 @@ HR_proportion = 0.3             # Proportion of people who enter HR group when p
 HR_M_dur = 6                    # Duration of high risk for males
 HR_F_dur = 6                    # Duration of high risk for females
 
+
 """
 Misc. params
 """
-flag_AssortativeMix = False     # Boolean for if assortative mixing occurs at all
+flag_AssortativeMix = True     # Boolean for if assortative mixing occurs at all
 AssortMixType = "HR"            # Other assortative mixing types
 flag_AgeAssortMix = False       # Assortative mix by age
 flag_RaceAssortMix = False      # Assortative mix by race
-AssortMixCoeff = 0.80           # Proportion of following given assort mix rules
+AssortMixCoeff = 0.3           # Proportion of following given assort mix rules
 safeNeedleExchangePrev = 1.0    # Prevalence scalar on SNE
 
 """
@@ -85,6 +86,9 @@ inc_ARTadh = 0.21
 inc_ARTdisc = 0.12
 inc_Recidivism = 0.267
 inc_PtnrDissolution = 0.55
+inc_treatment_dur = 6           # Duration for which agents are forced onto treatment post release
+inc_treat_set = ['HM','IDU']         # Set of agent classifiers effected by HR treatment
+inc_treat_IDU = True
 
 """
 PrEP params
