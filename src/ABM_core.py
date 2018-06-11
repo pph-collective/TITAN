@@ -808,7 +808,7 @@ class HIVModel(NetworkClass):
             if partner_drug_type == 'IDU' and agent_drug_type == 'IDU':
                 # Injection is possible
                 #If agent is on post incar HR treatment to prevent IDU behavior, pass IUD infections
-                if agent._incar_treatment_time > 0:
+                if agent._incar_treatment_time > 0 and params.inc_treat_IDU:
                     pass
 
                 elif self._sex_possible(agent_sex_type, partner_sex_type):
@@ -1502,6 +1502,7 @@ class HIVModel(NetworkClass):
             agent : int
 
         """
+
         #agent_dict = self.Agents[agent]
         drug_type = agent._DU#self.get_agent_characteristic(agent, 'Drug Type')
         sex_type = agent._SO#self.get_agent_characteristic(agent, 'Sex Type')
@@ -1534,7 +1535,7 @@ class HIVModel(NetworkClass):
 
                 if hiv_bool:
                     if haart_bool:
-                        if agent._SO in params.inc_treat_set:
+                        if (agent._SO or agent._DU) in params.inc_treat_set:
                             agent._incar_treatment_time = params.inc_treatment_dur
                         elif random.random() > params.inc_ARTdisc: #12% remain surpressed
                             pass#agent._HAART_bool = True
@@ -1869,8 +1870,6 @@ class HIVModel(NetworkClass):
                     agent._HAART_adh = 0
                     agent._HAART_time = 0
                     self.HAART_agentClass.remove_agent(agent)
-                    #self.HAART_agents.remove(agent)
-                    #self.AdherenceAgents.update({agent: 0})
 
 
 

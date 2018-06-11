@@ -13,7 +13,7 @@ N_POP = 1000          # population size
 TIME_RANGE = 12        # total time steps to iterate
 burnDuration = 3	# total time for burning in period (equillibration)
 model = 'Incar'         # Model Type for fast flag toggling
-setting = 'Cali'
+setting = 'Phil2005'
 ####################
 
 """
@@ -37,12 +37,12 @@ Calibration scaling parameters for fitting to empirical data
 
 PARTNERTURNOVER = 0.2           # Partner acquisition parameters (higher number more partnering)
 cal_NeedlePartScaling = 1.0     # IDU partner number scaling
-cal_NeedleActScaling = 1.0      # IDU act frequency scaling factor
+cal_NeedleActScaling = 0.60      # IDU act frequency scaling factor
 cal_SexualPartScaling = 1.0     # Sexual partner number scaling factor
-cal_SexualActScaling = 1.0      # Sexual acts  scaling factor
+cal_SexualActScaling = 3.0      # Sexual acts  scaling factor
 cal_pXmissionScaling = 1.0      # Global transmission probability scaling factor
-cal_AcuteScaling = 10.0         # Infectivity multiplier ratio for Acute status infections
-cal_RR_Dx = 0.50                # Risk reduction in transmission probability for agents diagnosed
+cal_AcuteScaling = 4.3         # Infectivity multiplier ratio for Acute status infections
+cal_RR_Dx = 0.53                # Risk reduction in transmission probability for agents diagnosed
 cal_RR_HAART = 1.0              # Scaling factor for effectiveness of ART therapy on xmission P
 cal_TestFreq = 1.0              # Scaling factor for testing frequency
 cal_Mortality = 0.5             # Scaling factor for all cause mortality rates
@@ -94,7 +94,7 @@ inc_treat_IDU = True
 PrEP params
 """
 PrEP_type = "Oral"              #Oral/Inj PrEP modes
-PrEP_Target = 10.4              # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+PrEP_Target = 0.0              # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 PrEP_startT = 0                 # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82           # Probability of being adherent
 PrEP_AdhEffic = 0.96            # Efficacy of adherence PrEP
@@ -215,45 +215,43 @@ for a in ['MSM','HM','HF','PWID']:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
-RaceClass1['HM'] = {'POP':0.4224565212,
-                     'HIV':0.154,
-                     'AIDS':0.189,
-                     'HAARTprev':0.919,
-                     'INCARprev':0.100,
-                     'TestedPrev':0.347,
-                     'NUMPartn':3.0,
-                     'NUMSexActs':3.4,
-                     'UNSAFESEX':0.77,
-                     'NEEDLESH':0.00,
-                     'HIVTEST':0.035,
-                     'INCAR':0.100,
-                     'HAARTadh':0.67,
+RaceClass1['HM'] = {'POP':0.4150,
+                     'HIV':0.0369,
+                     'AIDS':0.6780,
+                     'HAARTprev':0.41,
+                     'INCARprev':0.0274,
+                     'TestedPrev':0.90,
+                     'NUMPartn':1.5,
+                     'NUMSexActs':5.0,
+                     'UNSAFESEX':0.89,
+                     'NEEDLESH':0.43,
+                     'HIVTEST':0.034,
+                     'INCAR':0.001,
+                     'HAARTadh':0.405,
                      'HAARTdisc':0.000,
-                     'PrEPadh':0.55,
                      'PrEPdisc':0.0000,
                      'EligPartnerType':['HF']
                      }
 
-RaceClass1['HF'] = {'POP':0.4993509943,
-                     'HIV':0.21,
-                     'AIDS':0.205,
-                     'HAARTprev':0.859,
+RaceClass1['HF'] = {'POP':0.5850,
+                     'HIV':0.01391,
+                     'AIDS':0.573,
+                     'HAARTprev':0.47,
                      'INCARprev':0.000,
-                     'TestedPrev':0.653,
-                     'NUMPartn':2.0,
-                     'NUMSexActs':4.6,
-                     'UNSAFESEX':0.67,
-                     'NEEDLESH':0.00,
-                     'HIVTEST':0.031,
+                     'TestedPrev':0.90,
+                     'NUMPartn':1.5,
+                     'NUMSexActs':5.0,
+                     'UNSAFESEX':0.43,
+                     'NEEDLESH':0.43,
+                     'HIVTEST':0.034,
                      'INCAR':0.00,
-                     'HAARTadh':0.62,
+                     'HAARTadh':0.405,
                      'HAARTdisc':0.000,
-                     'PrEPadh':0.55,
                      'PrEPdisc':PrEP_disc,
                      'EligPartnerType':['HM']
                      }
 
-RaceClass1['MSM'] = {'POP':0.07689447306,
+RaceClass1['MSM'] = {'POP':0.00,
                      'HIV':0.2093,
                      'AIDS':0.079,
                      'HAARTprev':0.926,
@@ -272,7 +270,7 @@ RaceClass1['MSM'] = {'POP':0.07689447306,
                      'EligPartnerType':['MSM']
                      }
 
-RaceClass1['MTF'] = {'POP':0.00129801141,
+RaceClass1['MTF'] = {'POP':0.00,
                      'HIV':0.33986,
                      'AIDS':0.636,
                      'HAARTprev':1.00,
@@ -291,21 +289,20 @@ RaceClass1['MTF'] = {'POP':0.00129801141,
                      'EligPartnerType':['MSM']
                      }
 
-RaceClass1['PWID'] = {'POP':0.026,
-                     'HIV':0.146,
-                     'AIDS':0.1765,
-                     'HAARTprev':0.609,
-                     'INCARprev':0.00,
-                     'TestedPrev':0.61,
-                     'NUMPartn':2.0,
-                     'NUMSexActs':3.5,
-                     'UNSAFESEX':0.00,
-                     'NEEDLESH':0.092,
-                     'HIVTEST':0.077,
+RaceClass1['PWID'] = {'POP':0.0173,
+                     'HIV':0.1500,
+                     'AIDS':0.6780,
+                     'HAARTprev':0.41,
+                     'INCARprev':0.0274,
+                     'TestedPrev':0.90,
+                     'NUMPartn':1.5,
+                     'NUMSexActs':5.0,
+                     'UNSAFESEX':0.89,
+                     'NEEDLESH':0.63,
+                     'HIVTEST':0.055,
                      'INCAR':0.001,
-                     'HAARTadh':0.605,
+                     'HAARTadh':0.405,
                      'HAARTdisc':0.000,
-                     'PrEPadh':0.25,
                      'PrEPdisc':0.0000,
                      'EligPartnerType':['IDU']
                      }
