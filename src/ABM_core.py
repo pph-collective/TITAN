@@ -411,7 +411,7 @@ class HIVModel(NetworkClass):
         def burnSimulation(burnDuration):
             for t in range(0, burnDuration + 1):
                 print '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: BURNTIME', t
-                self._update_AllAgents(t)
+                self._update_AllAgents(t, burn=True)
 
                 if params.flag_DandR:
                     #print("\t\tdie and replace")
@@ -522,7 +522,7 @@ class HIVModel(NetworkClass):
 
 
     #@profile
-    def _update_AllAgents(self, time):
+    def _update_AllAgents(self, time, burn=False):
         """
         :Purpose:
             Update IDU agents:
@@ -662,9 +662,9 @@ class HIVModel(NetworkClass):
             #self._VCT(agent, time)  # VCT: Counseling and Testing
             #print "\tIncarcerate Agents"
             agent._timeAlive += 1
-            if params.flag_incar:
+            if params.flag_incar and not burn:
                 #print("\n\t\t= Incarceration effects =")
-                self._incarcerate(agent, time) ##########*****************************************
+                self._incarcerate(agent, time)
 
             #if agent_drug_type == 'IDU':
                 #self._SEP(agent, time)  # SEP: Syringe Exchange program
@@ -710,16 +710,7 @@ class HIVModel(NetworkClass):
                         #     self._initiate_PrEP(agent, time)
         #print("\t\t= End Agents Operations =")
 
-        """
-        # Check consistency
-        #print("\n\t\t= Check Consistency =")
-        if len(self.Agents) != self.PopulationSize:
-            raise ValueError("Check population size! %d - %d" % (
-                len(self.Agents), self.PopulationSize))
-        if len(self.HIV_agents) != num_HIV:
-            raise ValueError("self.HIV_agents modified in _update_AllAgents!")
 
-        """
         if params.flag_PrEP:
             if params.PrEP_target_model == 'Clinical':
                 if time > params.PrEP_startT:
@@ -808,7 +799,7 @@ class HIVModel(NetworkClass):
             if partner_drug_type == 'IDU' and agent_drug_type == 'IDU':
                 # Injection is possible
                 #If agent is on post incar HR treatment to prevent IDU behavior, pass IUD infections
-                if agent._incar_treatment_time > 0 and params.inc_treat_IDU:
+                if agent._incar_treatment_time > 0 and params.inc_treat_behavior:
                     pass
 
                 elif self._sex_possible(agent_sex_type, partner_sex_type):
@@ -1522,26 +1513,28 @@ class HIVModel(NetworkClass):
                 self.IncarceratedClass.remove_agent(agent)
                 agent._incar_bool = False
                 agent._ever_incar_bool = True
-                if not agent._highrisk_bool:
-                    self.HighriskClass.add_agent(agent)
-                    if not agent._everhighrisk_bool:
-                        self.NewHRrolls.add_agent(agent)
+                if not agent._highrisk_bool:        #If behavioral treatment on and agent HIV, ignore HR period.
+                    if params.inc_treat_behavior and hiv_bool:
+                        pass
+                    else:                           #Else, become high risk
+                        self.HighriskClass.add_agent(agent)
+                        if not agent._everhighrisk_bool:
+                            self.NewHRrolls.add_agent(agent)
 
-                    agent._mean_num_partners = agent._mean_num_partners + params.HR_partnerScale
-                    agent._highrisk_bool = True
-                    agent._everhighrisk_bool = True
-                    agent._highrisk_time = params.HR_M_dur
+                        agent._mean_num_partners = agent._mean_num_partners + params.HR_partnerScale
+                        agent._highrisk_bool = True
+                        agent._everhighrisk_bool = True
+                        agent._highrisk_time = params.HR_M_dur
 
+
+                if params.inc_treat_RIC or params.inc_treat_behavior:
+                    agent._incar_treatment_time = params.inc_treatment_dur
 
                 if hiv_bool:
                     if haart_bool:
-                        if (agent._SO or agent._DU) in params.inc_treat_set:
-                            agent._incar_treatment_time = params.inc_treatment_dur
-                        elif random.random() > params.inc_ARTdisc: #12% remain surpressed
-                            pass#agent._HAART_bool = True
+                        if random.random() > params.inc_ARTdisc: #12% remain surpressed
+                            pass
 
-                        ### FORCE ALL HIGH HAARTS ####
-                        #self.AdherenceAgents[agent] = 5
                         else:
                             agent._HAART_bool = False
                             agent._HAART_adh = 0
@@ -1863,7 +1856,7 @@ class HIVModel(NetworkClass):
                     #self.AdherenceAgents.update({agent: adherence})
 
             elif agent_haart and random.random() < params.DemographicParams[agent_race][agent_so]['HAARTdisc']:
-                if agent._incar_treatment_time > 0:
+                if agent._incar_treatment_time > 0 and params.inc_treat_RIC:
                     pass
                 else:
                     agent._HAART_bool = False
