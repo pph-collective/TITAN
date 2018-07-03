@@ -40,7 +40,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 __author__="Lars Seemann (lseemann@uh.edu)"
 
 import os
-import random
+#import random
 import collections
 import itertools
 import unittest

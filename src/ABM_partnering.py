@@ -71,7 +71,6 @@ import params
 
 def update_partner_assignments(self, partnerTurnover, graph, agent=None):
     # Now create partnerships until available partnerships are out
-
     if agent:
         partner = get_partner(self, agent, self.totalAgentClass)
 
@@ -85,7 +84,6 @@ def update_partner_assignments(self, partnerTurnover, graph, agent=None):
     else:
         EligibleAgents = self.totalAgentClass#._subset["HIV"].iter_agents()
         noMatch = 0
-
         for agent in EligibleAgents.iter_agents():
             #print len(agent._partners)
             acquirePartnerProb = (agent._mean_num_partners / (12.0))*partnerTurnover
@@ -98,6 +96,7 @@ def update_partner_assignments(self, partnerTurnover, graph, agent=None):
 
                     duration = get_partnership_duration(self, agent)
                     tmp_relationship = Relationship(agent, partner, "MSM", "SE", duration)
+
                     agent.bond(partner, tmp_relationship)
                     self.Relationships.add_agent(tmp_relationship)
                     graph.G.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
