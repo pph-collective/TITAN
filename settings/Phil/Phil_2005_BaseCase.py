@@ -35,7 +35,7 @@ drawFigures = False
 Calibration scaling parameters for fitting to empirical data
 """
 
-PARTNERTURNOVER = 0.2           # Partner acquisition parameters (higher number more partnering)
+PARTNERTURNOVER = 1.0/7.5         # Partner acquisition parameters (higher number more partnering)
 cal_NeedlePartScaling = 1.0     # IDU partner number scaling
 cal_NeedleActScaling = 0.60      # IDU act frequency scaling factor
 cal_SexualPartScaling = 1.0     # Sexual partner number scaling factor

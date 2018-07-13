@@ -69,7 +69,6 @@ def initiate_ResultDict():
     return ResultDict
 
 def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInfections, NewDiagnosis, deaths, ResultDict, Relationships, newHR, outifle=None):
-
     incidenceReport = open('results/IncidenceReport.txt', 'a')
     prevalenceReport = open('results/PrevalenceReport.txt', 'a')
     deathReport = open('results/DeathReport.txt', 'a')
