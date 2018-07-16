@@ -461,7 +461,7 @@ class Agent_set(Agent):
         open("Results/Tableau_Rel_Output_File.txt", overWrite).write(agentList)
 
     def print_subsets(self):
-        print "\t_____________ %s Subsets _____________" % self.get_ID()
+        print "\t__________ %s __________" % self.get_ID()
         print "\tID\t\tMembers\t%"
         for tmpS in self.iter_subset():
             if tmpS.num_members() > 0:

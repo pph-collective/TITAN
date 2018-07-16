@@ -28,7 +28,7 @@ intermPrintFreq = 10
 MSMreport = True
 HMreport = False
 HFreport = False
-drawFigures = False
+drawFigures = True
 
 
 """

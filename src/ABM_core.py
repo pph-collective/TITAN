@@ -202,142 +202,22 @@ class HIVModel(NetworkClass):
             random.seed(rseed)
             np.random.seed(rseed)
             self.rSeed = rseed
-            print "\tFIRST RANDOM CALL %d" %random.randint(0,100)
+            #print "\tFIRST RANDOM CALL %d" %random.randint(0,100)
         else:
             random.seed(rseed)
             np.random.seed(rseed)
             self.rSeed = rseed
-            print "\tFIRST RANDOM CALL %d" %random.randint(0,100)
+            #print "\tFIRST RANDOM CALL %d" %random.randint(0,100)
 
 
         self.current_dir = os.getcwd()
-        print("\n === Begin Initialization Protocol ===\n")
+        print("=== Begin Initialization Protocol ===\n")
         self.ExistingLinksCollapsedList = list()
 
         # Computation runtime tic/tocs
         self.TIC = 0
         self.TOC = 0
 
-        # time dependent vector values, e.g., self.NSP_SAT = dict[time][value]
-        #self.NSP_NoSAT = parameter_dict['NSP_NoSAT']  # dict
-        #self.NSP_SAT = parameter_dict['NSP_SAT']  # dict
-
-        # scalar values
-        # self.SAT_NoNSP_IDU = parameter_dict['SAT_NoNSP_IDU']
-        # self.SAT_NSP = parameter_dict['SAT_NSP']
-        # self.SAT_NIDU = parameter_dict['SAT_NIDU']
-        # self.VCT_NoNSP_IDU = parameter_dict['VCT_NoNSP_IDU']
-        # self.VCT_NoNSP_MSM = parameter_dict['VCT_NoNSP_MSM']
-        # self.VCT_NoNSP_EE = parameter_dict['VCT_NoNSP_EE']
-        # self.VCT_NoNSP_NIDU = parameter_dict['VCT_NoNSP_NIDU']
-        # self.VCT_NSP = parameter_dict['VCT_NSP']
-        # self.HAART_NoSAT_IDU = parameter_dict['HAART_NoSAT_IDU']
-        # self.HAART_NoSAT_NIDU = parameter_dict['HAART_NoSAT_NIDU']
-        # self.HAART_NoSAT_EE = parameter_dict['HAART_NoSAT_EE']
-        # self.HAART_SAT_IDU = parameter_dict['HAART_SAT_IDU']
-        # self.HAART_SAT_NIDU = parameter_dict['HAART_SAT_NIDU']
-        # self.HAARTdis_SAT_IDU = parameter_dict['HAARTdis_SAT_IDU']
-        # self.HAARTdis_NoSAT_IDU = parameter_dict['HAARTdis_NoSAT_IDU']
-        # self.HAARTdis_SAT_NIDU = parameter_dict['HAARTdis_SAT_NIDU']
-        # self.HAARTdis_NoSAT_NIDU = parameter_dict['HAARTdis_NoSAT_NIDU']
-        # self.HAARTdis_EE = parameter_dict['HAARTdis_EE']
-        # self.Adhere_SAT_IDU = parameter_dict['Adhere_SAT_IDU']
-        # self.Adhere_NoSAT_IDU = parameter_dict['Adhere_NoSAT_IDU']
-        # self.Adhere_SAT_NIDU = parameter_dict['Adhere_SAT_NIDU']
-        # self.Adhere_NoSAT_NIDU = parameter_dict['Adhere_NoSAT_NIDU']
-        # self.Adhere_EE = parameter_dict['Adhere_EE']
-        # self.SAT_disc = parameter_dict['SAT_disc']
-
-        # self.D_IDU_NHIV = parameter_dict['D_IDU_NHIV']
-        # self.D_IDU_THIV = parameter_dict['D_IDU_THIV']
-        # self.D_IDU_PHIV = parameter_dict['D_IDU_PHIV']
-        # self.D_IDU_AIDS = parameter_dict['D_IDU_AIDS']
-        # self.D_NIDU_NHIV = parameter_dict['D_NIDU_NHIV']
-        # self.D_NIDU_THIV = parameter_dict['D_NIDU_THIV']
-        # self.D_NIDU_PHIV = parameter_dict['D_NIDU_PHIV']
-        # self.D_NIDU_AIDS = parameter_dict['D_NIDU_AIDS']
-        # self.D_ND_NHIV = parameter_dict['D_ND_NHIV']
-        # self.D_ND_THIV = parameter_dict['D_ND_THIV']
-        # self.D_ND_PHIV = parameter_dict['D_ND_PHIV']
-        # self.D_ND_AIDS = parameter_dict['D_ND_AIDS']
-
-        # self.USP_MSM_IDU_UHIV_P1 = parameter_dict['USP_MSM_IDU_UHIV_P1']
-        # self.USP_MSM_NIDU_UHIV_P1 = parameter_dict['USP_MSM_NIDU_UHIV_P1']
-        # self.USP_MSM_ND_UHIV_P1 = parameter_dict['USP_MSM_ND_UHIV_P1']
-        # self.USP_HM_IDU_UHIV_P1 = parameter_dict['USP_HM_IDU_UHIV_P1']
-        # self.USP_HM_NIDU_UHIV_P1 = parameter_dict['USP_HM_NIDU_UHIV_P1']
-        # self.USP_HM_ND_UHIV_P1 = parameter_dict['USP_HM_ND_UHIV_P1']
-        # self.USP_FM_IDU_UHIV_P1 = parameter_dict['USP_FM_IDU_UHIV_P1']
-        # self.USP_FM_NIDU_UHIV_P1 = parameter_dict['USP_FM_NIDU_UHIV_P1']
-        # self.USP_FM_ND_UHIV_P1 = parameter_dict['USP_FM_ND_UHIV_P1']
-        # self.USP_WSW_IDU_UHIV_P1 = parameter_dict['USP_WSW_IDU_UHIV_P1']
-        # self.USP_WSW_NIDU_UHIV_P1 = parameter_dict['USP_WSW_NIDU_UHIV_P1']
-        # self.USP_WSW_ND_UHIV_P1 = parameter_dict['USP_WSW_ND_UHIV_P1']
-
-        # self.USP_MSM_IDU_UHIV_P2 = parameter_dict['USP_MSM_IDU_UHIV_P2']
-        # self.USP_MSM_NIDU_UHIV_P2 = parameter_dict['USP_MSM_NIDU_UHIV_P2']
-        # self.USP_MSM_ND_UHIV_P2 = parameter_dict['USP_MSM_ND_UHIV_P2']
-        # self.USP_HM_IDU_UHIV_P2 = parameter_dict['USP_HM_IDU_UHIV_P2']
-        # self.USP_HM_NIDU_UHIV_P2 = parameter_dict['USP_HM_NIDU_UHIV_P2']
-        # self.USP_HM_ND_UHIV_P2 = parameter_dict['USP_HM_ND_UHIV_P2']
-        # self.USP_FM_IDU_UHIV_P2 = parameter_dict['USP_FM_IDU_UHIV_P2']
-        # self.USP_FM_NIDU_UHIV_P2 = parameter_dict['USP_FM_NIDU_UHIV_P2']
-        # self.USP_FM_ND_UHIV_P2 = parameter_dict['USP_FM_ND_UHIV_P2']
-        # self.USP_WSW_IDU_UHIV_P2 = parameter_dict['USP_WSW_IDU_UHIV_P2']
-        # self.USP_WSW_NIDU_UHIV_P2 = parameter_dict['USP_WSW_NIDU_UHIV_P2']
-        # self.USP_WSW_ND_UHIV_P2 = parameter_dict['USP_WSW_ND_UHIV_P2']
-
-        # self.USP_MSM_IDU_PHIV_P1 = parameter_dict['USP_MSM_IDU_PHIV_P1']
-        # self.USP_MSM_NIDU_PHIV_P1 = parameter_dict['USP_MSM_NIDU_PHIV_P1']
-        # self.USP_MSM_ND_PHIV_P1 = parameter_dict['USP_MSM_ND_PHIV_P1']
-        # self.USP_HM_IDU_PHIV_P1 = parameter_dict['USP_HM_IDU_PHIV_P1']
-        # self.USP_HM_NIDU_PHIV_P1 = parameter_dict['USP_HM_NIDU_PHIV_P1']
-        # self.USP_HM_ND_PHIV_P1 = parameter_dict['USP_HM_ND_PHIV_P1']
-        # self.USP_FM_IDU_PHIV_P1 = parameter_dict['USP_FM_IDU_PHIV_P1']
-        # self.USP_FM_NIDU_PHIV_P1 = parameter_dict['USP_FM_NIDU_PHIV_P1']
-        # self.USP_FM_ND_PHIV_P1 = parameter_dict['USP_FM_ND_PHIV_P1']
-        # self.USP_WSW_IDU_PHIV_P1 = parameter_dict['USP_WSW_IDU_PHIV_P1']
-        # self.USP_WSW_NIDU_PHIV_P1 = parameter_dict['USP_WSW_NIDU_PHIV_P1']
-        # self.USP_WSW_ND_PHIV_P1 = parameter_dict['USP_WSW_ND_PHIV_P1']
-
-        # self.USP_MSM_IDU_PHIV_P2 = parameter_dict['USP_MSM_IDU_PHIV_P2']
-        # self.USP_MSM_NIDU_PHIV_P2 = parameter_dict['USP_MSM_NIDU_PHIV_P2']
-        # self.USP_MSM_ND_PHIV_P2 = parameter_dict['USP_MSM_ND_PHIV_P2']
-        # self.USP_HM_IDU_PHIV_P2 = parameter_dict['USP_HM_IDU_PHIV_P2']
-        # self.USP_HM_NIDU_PHIV_P2 = parameter_dict['USP_HM_NIDU_PHIV_P2']
-        # self.USP_HM_ND_PHIV_P2 = parameter_dict['USP_HM_ND_PHIV_P2']
-        # self.USP_FM_IDU_PHIV_P2 = parameter_dict['USP_FM_IDU_PHIV_P2']
-        # self.USP_FM_NIDU_PHIV_P2 = parameter_dict['USP_FM_NIDU_PHIV_P2']
-        # self.USP_FM_ND_PHIV_P2 = parameter_dict['USP_FM_ND_PHIV_P2']
-        # self.USP_WSW_IDU_PHIV_P2 = parameter_dict['USP_WSW_IDU_PHIV_P2']
-        # self.USP_WSW_NIDU_PHIV_P2 = parameter_dict['USP_WSW_NIDU_PHIV_P2']
-        # self.USP_WSW_ND_PHIV_P2 = parameter_dict['USP_WSW_ND_PHIV_P2']
-
-        # self.PAIDS_IDU_0 = parameter_dict['PAIDS_IDU_0']
-        # self.PAIDS_IDU_1 = parameter_dict['PAIDS_IDU_1']
-        # self.PAIDS_IDU_2 = parameter_dict['PAIDS_IDU_2']
-        # self.PAIDS_IDU_3 = parameter_dict['PAIDS_IDU_3']
-        # self.PAIDS_IDU_4 = parameter_dict['PAIDS_IDU_4']
-        # self.PAIDS_IDU_5 = parameter_dict['PAIDS_IDU_5']
-
-        # self.PAIDS_EE_0 = parameter_dict['PAIDS_EE_0']
-        # self.PAIDS_EE_1 = parameter_dict['PAIDS_EE_1']
-        # self.PAIDS_EE_2 = parameter_dict['PAIDS_EE_2']
-        # self.PAIDS_EE_3 = parameter_dict['PAIDS_EE_3']
-        # self.PAIDS_EE_4 = parameter_dict['PAIDS_EE_4']
-        # self.PAIDS_EE_5 = parameter_dict['PAIDS_EE_5']
-
-        # self.MEAN_N_ACTS = parameter_dict['MEAN_N_ACTS']
-        # self.MEAN_SMSM_ACTS = parameter_dict['MEAN_SMSM_ACTS']
-        # self.MEAN_S_ACTS = parameter_dict['MEAN_S_ACTS']
-
-        # self.ProbDeath = {'IDU': {}, 'NIDU': {}, 'ND': {}}
-        # self.ProbDeath['IDU'].update({'HIV-': self.D_IDU_NHIV, 'HIV+/HAART': self.D_IDU_THIV,
-        #                               'HIV+': self.D_IDU_PHIV, 'AIDS': self.D_IDU_AIDS})
-        # self.ProbDeath['NIDU'].update({'HIV-': self.D_NIDU_NHIV, 'HIV+/HAART': self.D_NIDU_THIV,
-        #                                'HIV+': self.D_NIDU_PHIV, 'AIDS': self.D_NIDU_AIDS})
-        # self.ProbDeath['ND'].update({'HIV-': self.D_ND_NHIV, 'HIV+/HAART': self.D_ND_THIV,
-        #                              'HIV+': self.D_ND_PHIV, 'AIDS': self.D_ND_AIDS})
 
         print("\tDictionary Read")
 
@@ -391,6 +271,10 @@ class HIVModel(NetworkClass):
 
         print("\tReseting death count")
         self._reset_death_count()  # Number of death
+
+        print("\tCreating network graph")
+        self.networkGraph = NetworkClass(1000,m_0=1)
+
         print("\n === Initialization Protocol Finished === \n")
 
     def run(self, save_adjlist_flag=1, dir_prefix='Results'):
@@ -488,7 +372,9 @@ class HIVModel(NetworkClass):
                 self._die_and_replace()
 
             #print "\t\tENDING HIV count:%2.2f\tIncarcerated:%d\tHR+:%d"%(self.totalAgentClass._subset["HIV"].num_members()/self.totalAgentClass.num_members(), self.IncarceratedClass.num_members(),self.PrEP_agents_class.num_members()) #,self.HighriskClass.num_members())
-
+            print "Number of relationships: %d"%self.Relationships.num_members()
+            tested = len([tmpA for tmpA in self.HIV_agents_class._members if tmpA._tested])
+            print "Number tested: %d\t%.2f"%(tested, 1.0*tested/max(1,self.HIV_agents_class.num_members()))
             self.totalAgentClass.print_subsets()
             #prevHIV = 1.0*self.totalAgentClass._subset["HIV"].num_members() / self.totalAgentClass.num_members()
             #print self.totalAgentClass._members.count()
@@ -592,9 +478,7 @@ class HIVModel(NetworkClass):
         #print("\t\t= Relationship Iterations =")
         #print("\n\nSTARTING RELATIONSHIPS")
         # self.Relationships.print_agent_relationshps()
-        print "Number of relationships: %d"%self.Relationships.num_members()
-        tested = len([tmpA for tmpA in self.HIV_agents_class._members if tmpA._tested])
-        print "Number tested: %d\t%.2f"%(tested, 1.0*tested/max(1,self.HIV_agents_class.num_members()))
+        
         for rel in self.Relationships._members:#.iter_agents():
             self._agents_interact(rel._ID1, rel._ID2, time, rel)
             if params.flag_staticN:
