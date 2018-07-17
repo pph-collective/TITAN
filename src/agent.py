@@ -196,6 +196,9 @@ class Agent(object):
         #print self.partner_list()
         print "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s\t%s\t%d\t%s" % (self._ID, self._age, self._gender, self._SO, self._DU, self._race, self._HIV_bool,self._incar_bool,self._incar_time, self.partner_list())
 
+    def print_agent_abridge(self):
+        print "\t%.6d\t%s\t%s\t%s"%(self._ID, self._gender, self._SO, self._DU)
+
     def vars(self):
         return "%.6d,%d,%s,%s,%s,%s,%s,%d,%d,%d,%s,%s,%s,%s\n" % (self._ID, self._age, self._gender, self._SO, self._DU, self._race, self._HIV_bool, len(self._partners), self._num_sex_partners, self._timeAlive, self._AIDS_bool, self._tested, self._PrEP_bool, self._incar_bool)
 
@@ -426,11 +429,19 @@ class Agent_set(Agent):
 
     def print_agents(self):
         print "\t_____________ %s _____________" % self.get_ID()
-        print "\tID\t\tAge\tGdr\tSO\tDU\tRace\tHIV+\tPtnrs"
+        print "\tID\tAge\tGdr\tSO\tDU\tRace\tHIV+\tPtnrs"
 
         for tmpA in self.iter_agents():
             tmpA.print_agent()
         print "\t______________ END ______________"
+
+    def print_agents_abridged(self):
+        print "\t_________ %s _________" % self.get_ID()
+        print "\tID\tGdr\tSO\tDU"
+
+        for tmpA in self.iter_agents():
+            tmpA.print_agent_abridge()
+        print "\t__________ END __________"
 
     def print_agents_to_file(self, time=None, overWrite="a", filename="Results/Tableau_Agent_Output_File.txt"):
         if overWrite=="a":

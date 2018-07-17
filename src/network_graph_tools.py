@@ -334,7 +334,7 @@ class NetworkClass(PopulationClass):
 
         # draw graph in inset
         plt.axes([0.4, 0.4, 0.5, 0.5])
-        Gcc = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)[0]
+        Gcc = G#sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)[0]
         #pos = nx.spring_layout(G, iterations=10)
         #pos = nx.circular_layout(G)
         #pos = nx.shell_layout(G)
