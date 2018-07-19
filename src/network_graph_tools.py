@@ -334,7 +334,7 @@ class NetworkClass(PopulationClass):
 
         # draw graph in inset
         plt.axes([0.4, 0.4, 0.5, 0.5])
-        Gcc = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)[0]
+        Gcc = G#sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)[0]
         #pos = nx.spring_layout(G, iterations=10)
         #pos = nx.circular_layout(G)
         #pos = nx.shell_layout(G)
@@ -372,7 +372,7 @@ class NetworkClass(PopulationClass):
         graph = self.G
         Gsize = graph.number_of_nodes()
         #print("\tNetwork size = "+str(self.NetworkSize))
-        degreeList = np.array(graph.degree().values())
+        degreeList = np.array(graph.degree())
         x_degree = np.arange(max(degreeList)+1)	# include 0 and max
         degreehist = np.bincount(degreeList)
         ix = degreehist != 0			# delete zeros
@@ -437,6 +437,8 @@ class NetworkClass(PopulationClass):
         plt.title('Time=%d   N=%d'%(time, Gsize))
         size = G.size()
 
+        edge_color = 'k'
+        node_shape = 'o'
         node_color = self.get_network_color(coloring)
         # node_color = []
         # if coloring == 'Tested':
@@ -448,20 +450,28 @@ class NetworkClass(PopulationClass):
         #         else:
         #             node_color.append('g')
 
+        pos = graphviz_layout(G, prog='neato', args='')
+        nx.draw(G, pos,
+                node_size = 1, 
+                node_color = node_color,
+                node_shape = node_shape,
+                edge_color = edge_color,
+                with_labels=False,
+                linewidths = 0.25,
+                width=0.25)
 
-
-        nx.draw_graphviz(G,
-                         node_color=node_color,
-                         node_size=int(10000.0/size),
-                         alpha=1.0,
-                         prog=program,
-                         with_labels=False,
-                         linewidths = 0.25,
-                         width = 0.25)
+        # nx.draw_graphviz(G,
+        #                  node_color=node_color,
+        #                  node_size=int(10000.0/size),
+        #                  alpha=1.0,
+        #                  prog=program,
+        #                  with_labels=False,
+        #                  linewidths = 0.25,
+        #                  width = 0.25)
         plt.axis('equal')
-        filename="images/Network_%d_%s_%s_%d.png"%(Gsize,program,coloring,time)
-        plt.savefig(filename)
-        #plt.show()
+        #filename="images/Network_%d_%s_%s_%d.png"%(Gsize,program,coloring,time)
+        #plt.savefig(filename)
+        plt.show()
 
     def vizualize_network_random(self):
         G = self.G
@@ -507,7 +517,7 @@ class NetworkClass(PopulationClass):
                     node_color.append('r')
                 else:
                     raise ValueError("Check agents %s sextype %s"%(v, tmp_sextype))
-        elif coloring == 'Drug Type':
+        elif coloring == 'DU':
             for v in G:
                 tmp_drugtype = self.get_agent_characteristic(v, 'Drug Type')
                 if tmp_drugtype == 'ND':
@@ -530,7 +540,7 @@ class NetworkClass(PopulationClass):
                     node_color.append('b')
                 else:
                     node_color.append('w')
-        elif coloring == 'AIDS HIV':
+        elif coloring == 'HIV':
             for v in G:
                 #tmp_aids = self.get_agent_characteristic(v, 'AIDS')
                 #tmp_hiv = self.get_agent_characteristic(v, 'HIV')
@@ -542,7 +552,7 @@ class NetworkClass(PopulationClass):
                     node_color.append('g')
         else:
             raise ValueError("coloring value invalid!\n%s\n \
-            Only 'Sex Type','Drug Type', and 'AIDS HIV' allowed!"%str(coloring))
+            Only 'SO','DU', 'Tested', and 'HIV' allowed!"%str(coloring))
 
         return node_color
 
@@ -571,50 +581,8 @@ class NetworkClass(PopulationClass):
         node_shape = 'o'
 
         # node color to by type
-        node_color = []
-        if coloring=='SO':
-            for v in G:
-                tmp_sextype = v._SO
-                if tmp_sextype == 'HM':
-                    node_color.append('b')
-                elif tmp_sextype == 'HF':
-                    node_color.append('g')
-                elif tmp_sextype == 'WSW':
-                    node_color.append('c')
-                elif tmp_sextype == 'MSM':
-                    node_color.append('r')
-                else:
-                    raise ValueError("Check agents %s sextype %s"%(v, tmp_sextype))
-        elif coloring == 'Drug Type':
-            for v in G:
-                tmp_drugtype = self.get_agent_characteristic(v, 'Drug Type')
-                if tmp_drugtype == 'ND':
-                    node_color.append('g')
-                elif tmp_drugtype == 'NIDU':
-                    node_color.append('b')
-                elif tmp_drugtype == 'IDU':
-                    node_color.append('r')
-                else:
-                    raise ValueError("Check agents %s drug type %s"%(v, tmp_drugtype))
-        elif coloring == 'Tested':
-            for v in G:
-                if v._tested:#tmp_hiv == 1:
-                    node_color.append('y')
-                elif v._HIV_bool: #tmp_aids == 1:
-                    node_color.append('r')
-                else:
-                    node_color.append('g')
-        elif coloring == 'AIDS HIV':
-            for v in G:
-                if v._AIDS_bool:
-                    node_color.append('r')
-                elif v._HIV_bool:
-                    node_color.append('r')
-                else:
-                    node_color.append('g')
-        else:
-            raise ValueError("coloring value invalid!\n%s\n \
-            Only 'Sex Type','Drug Type', and 'AIDS HIV' allowed!"%str(coloring))
+        node_color = self.get_network_color(coloring)
+        
 
         # node size indicating node degree
         NodeSize=[]
@@ -643,10 +611,10 @@ class NetworkClass(PopulationClass):
         print curtime
         plt.axis('equal')
         plt.axis('off')
-        filename="images/Network_%d_%s_%d.png"%(G.number_of_nodes(),coloring, curtime)
+        #filename="images/Network_%d_%s_%d.png"%(G.number_of_nodes(),coloring, curtime)
 
-        #plt.show()
-        plt.savefig(filename)
+        plt.show()
+        #plt.savefig(filename)
         #plt.show(block=True)
         
         print G.size()

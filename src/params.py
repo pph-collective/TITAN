@@ -28,7 +28,7 @@ intermPrintFreq = 10
 MSMreport = True
 HMreport = False
 HFreport = False
-drawFigures = False
+drawFigures = True
 
 
 """
@@ -305,7 +305,7 @@ RaceClass1['PWID'] = {'POP':0.0173,
                      'HAARTadh':0.405,
                      'HAARTdisc':0.000,
                      'PrEPdisc':0.0000,
-                     'EligPartnerType':['IDU']
+                     'EligPartnerType':['PWID']
                      }
 
 

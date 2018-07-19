@@ -143,7 +143,6 @@ class PopulationClass():
             Initialize PopulationClass object.
         """
         self.RANDOMSEED = rSeed
-        print rSeed
         #random.seed(self.RANDOMSEED)
         if type(n) is not int:
             raise ValueError("Population size must be integer")
@@ -158,7 +157,7 @@ class PopulationClass():
 
         self.numWhite = int(params.DemographicParams['WHITE']['ALL']['Proportion'] * self.PopulationSize)
         self.numBlack = int(params.DemographicParams['BLACK']['ALL']['Proportion'] * self.PopulationSize)
-        print 'W: %d, B: %d'%(self.numWhite, self.numBlack)
+        #print 'W: %d, B: %d'%(self.numWhite, self.numBlack)
         #Nested dictionary for probability lookups by race
         #StratW = White, StratB = Black
         #HM incar @ 0.0279
@@ -688,9 +687,9 @@ class PopulationClass():
 
         agent_cl = self._return_new_Agent_class(agent,Deliminator)
         self.totalAgentClass.add_agent(agent_cl)
-        if agent == 0.25*self.PopulationSize:print "25%"
-        elif agent == 0.5*self.PopulationSize:print "50%"
-        elif agent == 0.75*self.PopulationSize:print "75%"
+        # if agent == 0.25*self.PopulationSize:print "25%"
+        # elif agent == 0.5*self.PopulationSize:print "50%"
+        # elif agent == 0.75*self.PopulationSize:print "75%"
         #elif agent == self.PopulationSize:print "100%"
 
         if agent_cl._DU == 'IDU':
