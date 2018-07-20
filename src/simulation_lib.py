@@ -77,7 +77,7 @@ def read_parameter_dict(num_Simulations):
 
 
 def simulation(nreps, save_adjlist_flag, time_range,
-               N_pop, outfile_dir, parameters, rSeed, model=None):
+               N_pop, outfile_dir, parameters, rSeed, uniqueSeed=False, model=None):
     # Check input
     if save_adjlist_flag not in [0, 1]:
         raise ValueError('Invalid input! save_adjlist_flag = %s' %
@@ -96,12 +96,12 @@ def simulation(nreps, save_adjlist_flag, time_range,
         inputSeed = rSeed
         if rSeed == -1:
             inputSeed = num_sim + 1
-        print "\n\n------------------------------------------------------------------------------------------------------------------------------------------"
+        #print "\n\n------------------------------------------------------------------------------------------------------------------------------------------"
         print "\tProcess %5s runs simulation %d/%d\t.:.\tInput rSeed: %d" % (pid, num_sim + 1, nreps, inputSeed)
         # fixedPop = PopulationClass(n=N_pop, rSeed = rSeed, model=model)._return_agent_set()
         fixedPop = None
 
-        MyModel = HIVModel(N=N_pop, tmax=time_range, parameter_dict=parameters, rseed=inputSeed, model=model,
+        MyModel = HIVModel(N=N_pop, tmax=time_range, parameter_dict=parameters, rseed=inputSeed, runtime_diffseed=uniqueSeed, model=model,
                            network_type=fixedPop)
 
         if save_adjlist_flag == 1 and num_sim == 0:

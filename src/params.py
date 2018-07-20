@@ -11,7 +11,7 @@ rSeed = 1               # seed for random number generator (0 for pure random, -
 N_MC = 1              # total number of iterations (Monte Carlo runs)
 N_POP = 100          # population size
 TIME_RANGE = 2        # total time steps to iterate
-burnDuration = 1	    # total time for burning in period (equillibration)
+burnDuration = 60	    # total time for burning in period (equillibration)
 model = 'Incar'         # Model Type for fast flag toggling
 setting = 'Phil2005'
 ####################
@@ -27,8 +27,8 @@ intermAgentList = False
 intermPrintFreq = 10
 MSMreport = True
 HMreport = False
-HFreport = False
-drawFigures = True
+rSeed_events = True
+drawFigures = False
 
 
 """

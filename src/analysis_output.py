@@ -29,9 +29,11 @@ def initiate_ResultDict():
                     'ART_Prev':{},
                     'PrEP_Prev':{},
                     'nRelations':{},
-                    'Incid_Cum':{},
+                    'Inc_C_Total':{},
                     'WInc_T':{},
                     'BInc_T':{},
+                    'Inc_T_HM':{},
+                    'Inc_T_HF':{},
                     'ResistantCases':{},
                 }
 
@@ -431,19 +433,21 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
     if t==0:
         cumulativeI = len(NewInfections._members)
     else:
-        cumulativeI = ResultDict['Incid_Cum'][t-1] + len(NewInfections._members)
+        cumulativeI = ResultDict['Inc_C_Total'][t-1] + len(NewInfections._members)
 
     #ResultDict['ResistantCases'].update({t:len([ag for ag in NewInfections._members if ag._PrEPresistance==1])})
-    ResultDict['Incid_Cum'].update({t:cumulativeI})
+    ResultDict['Inc_C_Total'].update({t:cumulativeI})
     ResultDict['HIV_Prev'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numHIV']/totalAgents.num_members())})
     #ResultDict['AID_Prev'].update({t:(1.0*numAIDS_MSM/numHIV_MSM)})
     ResultDict['Tested_Prev'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numTested']/max(tot_rsltdic['ALL']['ALL']['numHIV'],1))})
     #ResultDict['ART_Prev'].update({t:(1.0*numART_MSM/numTested_MSM)})
     #ResultDict['PrEP_Prev'].update({t:(1.0*PrEPAgents.num_members()/(totalAgents.num_members()-numHIV_MSM))})
     ResultDict['nRelations'].update({t:Relationships.num_members()})
-    ResultDict['WInc_T'].update({t:rsltdic['WHITE']['MSM']['inf_newInf']})
-    ResultDict['BInc_T'].update({t:rsltdic['BLACK']['MSM']['inf_newInf']})
-    ResultDict['Incid_T'].update({t:len(NewInfections._members)})
+    #ResultDict['WInc_T'].update({t:rsltdic['WHITE']['MSM']['inf_newInf']})
+    #ResultDict['BInc_T'].update({t:rsltdic['BLACK']['MSM']['inf_newInf']})
+    #ResultDict['Inc_T_HM'].update({t:rsltdic['WHITE']['HM']['inf_newInf']})
+    #ResultDict['Inc_T_HF'].update({t:rsltdic['WHITE']['HF']['inf_newInf']})
+    #ResultDict['Incid_T'].update({t:len(NewInfections._members)})
 
     # PLOTTING FOR RUN]
     # plt.ion()
