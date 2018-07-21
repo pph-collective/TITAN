@@ -22,17 +22,15 @@ except ImportError:
 def initiate_ResultDict():
     # nested dictionary for results (inner dictionary has the form: time:result)
     #incidenceMatrix = [[[0 for x in range(2)] for x in range(2)] for x in range(2)]
-    ResultDict = {  'Incid_T':{},
-                    'HIV_Prev':{},
-                    'AID_Prev':{},
-                    'Tested_Prev':{},
+    ResultDict = {  'Prv_HIV':{},
+                    'Prv_AIDS':{},
+                    'Prv_Test':{},
                     'ART_Prev':{},
-                    'PrEP_Prev':{},
-                    'nRelations':{},
-                    'Incid_Cum':{},
-                    'WInc_T':{},
-                    'BInc_T':{},
-                    'ResistantCases':{},
+                    'Prv_PrEP':{},
+                    'n_Relations':{},
+                    'Inc_c_Tot':{},
+                    'Inc_t_HM':{},
+                    'Inc_t_HF':{},
                 }
 
     #ResultDict = {}
@@ -431,19 +429,21 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
     if t==0:
         cumulativeI = len(NewInfections._members)
     else:
-        cumulativeI = ResultDict['Incid_Cum'][t-1] + len(NewInfections._members)
+        cumulativeI = ResultDict['Inc_c_Tot'][t-1] + len(NewInfections._members)
 
     #ResultDict['ResistantCases'].update({t:len([ag for ag in NewInfections._members if ag._PrEPresistance==1])})
-    ResultDict['Incid_Cum'].update({t:cumulativeI})
-    ResultDict['HIV_Prev'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numHIV']/totalAgents.num_members())})
+    ResultDict['Inc_c_Tot'].update({t:cumulativeI})
+    ResultDict['Prv_HIV'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numHIV']/totalAgents.num_members())})
     #ResultDict['AID_Prev'].update({t:(1.0*numAIDS_MSM/numHIV_MSM)})
-    ResultDict['Tested_Prev'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numTested']/max(tot_rsltdic['ALL']['ALL']['numHIV'],1))})
+    ResultDict['Prv_Test'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numTested']/max(tot_rsltdic['ALL']['ALL']['numHIV'],1))})
     #ResultDict['ART_Prev'].update({t:(1.0*numART_MSM/numTested_MSM)})
     #ResultDict['PrEP_Prev'].update({t:(1.0*PrEPAgents.num_members()/(totalAgents.num_members()-numHIV_MSM))})
-    ResultDict['nRelations'].update({t:Relationships.num_members()})
-    ResultDict['WInc_T'].update({t:rsltdic['WHITE']['MSM']['inf_newInf']})
-    ResultDict['BInc_T'].update({t:rsltdic['BLACK']['MSM']['inf_newInf']})
-    ResultDict['Incid_T'].update({t:len(NewInfections._members)})
+    ResultDict['n_Relations'].update({t:Relationships.num_members()})
+    #ResultDict['WInc_T'].update({t:rsltdic['WHITE']['MSM']['inf_newInf']})
+    #ResultDict['BInc_T'].update({t:rsltdic['BLACK']['MSM']['inf_newInf']})
+    ResultDict['Inc_t_HM'].update({t:rsltdic['WHITE']['HM']['inf_newInf']})
+    ResultDict['Inc_t_HF'].update({t:rsltdic['WHITE']['HF']['inf_newInf']})
+    #ResultDict['Incid_T'].update({t:len(NewInfections._members)})
 
     # PLOTTING FOR RUN]
     # plt.ion()

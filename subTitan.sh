@@ -79,6 +79,7 @@ sed -i "14s/"36"/$burn/g" params.py
 #Submit script params
 sed -i "s/MODEL_NAME/$jobname/g" bs_Core.sh
 sed -i "s/WALL_TIME/$walltime/g" bs_Core.sh
+sed -i "s/MEMORY/$memory/g" bs_Core.sh
 
 }
 
@@ -108,10 +109,10 @@ do
     case "${option}"
         in
 	N) nPop=${OPTARG};;
-	m) mem=${OPTARG};;
-    	n) nMC=${OPTARG};; 
-    	s) seed=${OPTARG};;
-    	j) jobname=${OPTARG};;
+	m) memory=${OPTARG};;
+    n) nMC=${OPTARG};; 
+    s) seed=${OPTARG};;
+    j) jobname=${OPTARG};;
 	t) simT=${OPTARG};;
 	b) burn=${OPTARG};;
 	T) walltime=${OPTARG};;

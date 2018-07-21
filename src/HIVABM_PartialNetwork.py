@@ -15,7 +15,7 @@ All rights reserved.
 __author__="Lars Seemann (lseemann@uh.edu)"
 
 import os
-import random
+#import random
 import copy
 import itertools
 from copy import deepcopy
@@ -212,6 +212,8 @@ class NetworkClass(PopulationClass):
               Number of nodes each node is connected to in preferential
               attachment step
         """
+        
+        print("WTFFFFF")
         if type(N) is not int:			
             raise ValueError(('Population size must be integer,\
                                       n = %s, not %s')%(string(N), type(N)))	

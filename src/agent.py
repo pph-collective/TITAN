@@ -90,6 +90,7 @@ class Agent(object):
         self._HAART_bool = False
         self._HAART_time = 0
         self._HAART_adh = 0
+        self._SNE_bool = False
         self._PrEP_bool = False
         self._PrEP_time = 0
         self._PrEP_adh = 0

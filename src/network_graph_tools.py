@@ -288,6 +288,7 @@ class NetworkClass(PopulationClass):
                 seed=None, 
                 directed=False)
         else:
+            print("HUIH")
             raise ValueError("Invalid network type! %s"%str(network_type))
 
     def create_graph_from_agents(self, agents):

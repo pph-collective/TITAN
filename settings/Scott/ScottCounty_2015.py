@@ -12,7 +12,7 @@ N_MC = 100               # total number of iterations (Monte Carlo runs)
 N_POP = 24110           # population size
 TIME_RANGE = 36        # total time steps to iterate
 burnDuration = 0#36
-model = 'Custom'         # Model Type for fast flag toggling
+model = 'StaticZero'         # Model Type for fast flag toggling
 setting = 'Scott'
 ####################
 
@@ -36,9 +36,10 @@ Calibration scaling parameters for fitting to empirical data
 """
 
 PARTNERTURNOVER = 0.2       # Partner acquisition parameters (higher number more partnering)
-
-cal_NeedleScaling = 2.0     # IDU transmission probability scaling factor
-cal_SexualScaling = 1.0     # Sexual transmission probability scaling factor
+cal_NeedlePartScaling = 1.0     # IDU partner number scaling
+cal_NeedleActScaling = 2.0      # IDU act frequency scaling factor
+cal_SexualPartScaling = 1.0     # Sexual partner number scaling factor
+cal_SexualActScaling = 1.0      # Sexual acts  scaling factor
 cal_pXmissionScaling = 1.0 # Global transmission probability scaling factor
 cal_AcuteScaling = 4.3      # Infectivity multiplier ratio for Acute status infections
 cal_RR_Dx = 0.53            # Risk reduction in transmission probability for agents diagnosed
@@ -62,10 +63,15 @@ HR_F_dur = 6                #Duration of high risk for females
 """
 Misc. params
 """
-flag_AgeAssortMix = False
-flag_RaceAssortMix = False
-AssortMixCoeff = 0.80       #Proportion of race1 mixing with race2 when partnering.
-safeNeedleExchangePrev = 1.0
+
+flag_AssortativeMix = False     # Boolean for if assortative mixing occurs at all
+AssortMixType = None            # Other assortative mixing types
+flag_AgeAssortMix = False       # Assortative mix by age
+flag_RaceAssortMix = False      # Assortative mix by race
+AssortMixCoeff = 0.8            # Proportion of following given assort mix rules
+safeNeedleExchangePrev = 1.0    # Prevalence scalar on SNE
+initTreatment = 10
+treatmentCov = 0.60
 
 """
 Incarceration params
@@ -82,6 +88,10 @@ inc_ARTadh = 0.21
 inc_ARTdisc = 0.12
 inc_Recidivism = 0.267
 inc_PtnrDissolution = 0.55
+inc_treatment_dur = 6           # Duration for which agents are forced on respective treatment post release
+inc_treat_set = ['HM']          # Set of agent classifiers effected by HR treatment
+inc_treat_behavior = True      # Remove IDU behaviour during treatment duration
+inc_treat_RIC = False            # Force retention in care of ART therapy
 
 """
 PrEP params
@@ -130,6 +140,8 @@ if model == 'PrEP':
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
+    flag_agentZero = False
+
 elif model == 'Incar':
     flag_incar = True
     flag_PrEP = False
@@ -137,6 +149,8 @@ elif model == 'Incar':
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
+    flag_agentZero = False
+
 elif model == 'NoIncar':
     flag_incar = False
     flag_PrEP = False
@@ -144,6 +158,17 @@ elif model == 'NoIncar':
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
+    flag_agentZero = False
+
+elif model == 'StaticZero':
+    flag_incar = False
+    flag_PrEP = False
+    flag_HR = False
+    flag_ART = False
+    flag_DandR = False
+    flag_staticN = True
+    flag_agentZero = False
+
 elif model == 'Custom':
     flag_incar = False
     flag_PrEP = False
@@ -151,10 +176,9 @@ elif model == 'Custom':
     flag_ART = False
     flag_DandR = False
     flag_staticN = True
+    flag_agentZero = False
 
-
-
-
+agentSexTypes = ['HM', 'HF', 'MSM', 'MTF']
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
 ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, PWID)
@@ -200,7 +224,6 @@ RaceClass1['HM'] = {'POP':0.49,
                      'HAARTprev':0.41,
                      'INCARprev':0.0274,
                      'TestedPrev':0.90,
-                     'mNPart':5,
                      'NUMPartn':1.5,
                      'NUMSexActs':13.4,
                      'UNSAFESEX':0.89,
@@ -219,7 +242,6 @@ RaceClass1['HF'] = {'POP':0.51,
                      'HAARTprev':0.47,
                      'INCARprev':0.000,
                      'TestedPrev':0.90,
-                     'mNPart':0,
                      'NUMPartn':0.5,
                      'NUMSexActs':12.74,
                      'UNSAFESEX':0.43,
@@ -232,14 +254,12 @@ RaceClass1['HF'] = {'POP':0.51,
                      'EligPartnerType':['HM']
                      }
 
-
 RaceClass1['PWID'] = {'POP':0.017,
                      'HIV':0.000,
                      'AIDS':0.6780,
                      'HAARTprev':0.41,
                      'INCARprev':0.0274,
                      'TestedPrev':0.90,
-                     'mNPart':5,
                      'NUMPartn':0.5,
                      'NUMSexActs':5.0,
                      'UNSAFESEX':0.89,
@@ -248,10 +268,10 @@ RaceClass1['PWID'] = {'POP':0.017,
                      'INCAR':0.001,
                      'HAARTadh':0.405,
                      'HAARTdisc':0.000,
+                     'PrEPadh':0.55,
                      'PrEPdisc':0.0000,
                      'EligPartnerType':['IDU']
                      }
-
 
 RaceClass1['ALL'] = {'Proportion':1.00,
                       'HAARTdisc':0.018,

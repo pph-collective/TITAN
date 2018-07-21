@@ -6,7 +6,7 @@
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-type=END
 #SBATCH --mail-user=NoMail
-#SBATCH --mem=14GB
+#SBATCH --mem=MEMORYGB
 
 if [ -z "$SLURM_NPROCS" ] ; then
   if [ -z "$SLURM_NTASKS_PER_NODE" ] ; then
