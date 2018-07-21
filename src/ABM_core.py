@@ -268,6 +268,8 @@ class HIVModel(NetworkClass):
         self.Transmit_from_agents = []
         self.Transmit_to_agents = []
         self.Transmission_tracker = {'SEX_MSM': {1: 0}, 'SEX_NMSM': {1: 0}, 'NEEDLE': {1: 0}}
+        self.totalDiagnosis = 0
+        self.treatmentEnrolled = False
 
         self.ResultDict = initiate_ResultDict()
 
@@ -394,6 +396,9 @@ class HIVModel(NetworkClass):
             print "\tTotal:\t%d\t%d"%(newInfT,self.cumInfT)
             print "\tWhite:\t%d\t%d"%(newInfW,self.cumInfW)
             print "\tBlack:\t%d\t%d"%(newInfB,self.cumInfB)
+            self.totalDiagnosis += len(self.NewDiagnosis._members)
+            if self.totalDiagnosis > params.initTreatment:
+                self._enroll_treatment(t)
             #print "White:\t%d"%(len([tmpA for tmpA in self.NewInfections._members if tmpA._race == 'WHITE']))
             #print "Black:\t%d"%(len([tmpA for tmpA in self.NewInfections._members if tmpA._race == 'BLACK']))
             self.NewInfections.clear_set()
@@ -963,7 +968,7 @@ class HIVModel(NetworkClass):
         # Do they share a needle?
         # OLD: if (agent in self.SEPAgents or partner in self.SEPAgents):
         #SEPstat = self._SEP(agent, time)
-        SEPstat = False
+        SEPstat = agent._SNE_bool
 
         """
         tmpRand = random.random()
@@ -974,57 +979,59 @@ class HIVModel(NetworkClass):
         """
 
         isAcute = self.get_acute_status(agent, time)
+        HIV_agent = agent._HIV_bool#self.get_agent_characteristic(agent, 'HIV')
+        HIV_partner = partner._HIV_bool#self.get_agent_characteristic(partner, 'HIV')
+        MEAN_N_ACTS = params.DemographicParams[Race_Agent][Type_agent]['NUMSexActs'] * params.cal_NeedleActScaling
+        share_acts = poisson.rvs(MEAN_N_ACTS, size=1)
 
         if SEPstat:
             #print "SEP SAVE"
-            pass  # no needle sharing
+            p_UnsafeNeedleShare = 0.02 # no needle sharing
         else:  # they do share a needle
             # HIV+ ?
-            HIV_agent = agent._HIV_bool#self.get_agent_characteristic(agent, 'HIV')
-            HIV_partner = partner._HIV_bool#self.get_agent_characteristic(partner, 'HIV')
-            MEAN_N_ACTS = params.DemographicParams[Race_Agent][Type_agent]['NUMSexActs'] * params.cal_NeedleActScaling
-            share_acts = poisson.rvs(MEAN_N_ACTS, size=1)
+            
             #share_acts = int(random.uniform(1,30))
             if share_acts < 1:
                 share_acts = 1
 
             p_UnsafeNeedleShare = params.DemographicParams[agent_race][agent_sex_type]['NEEDLESH'] * params.safeNeedleExchangePrev
             #MSexActs = self.ProbTables[Race_Agent][Type_agent]['NUMSexActs']
-            for n in range(share_acts):
-                if random.random() > p_UnsafeNeedleShare:
-                    share_acts -= 1
 
-            if HIV_agent == 1 and HIV_partner == 0 and share_acts >= 1.0:
-                p = self.get_transmission_probability(agent, 'NEEDLE')
-                #print p
-                p_transmission = binom.pmf(1.0, share_acts, p)
+        for n in range(share_acts):
+            if random.random() > p_UnsafeNeedleShare:
+                share_acts -= 1
 
-                p_total_transmission = 0
-                if share_acts == 1:
-                    p_total_transmission = p
+        if HIV_agent == 1 and HIV_partner == 0 and share_acts >= 1.0:
+            p = self.get_transmission_probability(agent, 'NEEDLE')
+            #print p
+            p_transmission = binom.pmf(1.0, share_acts, p)
+
+            p_total_transmission = 0
+            if share_acts == 1:
+                p_total_transmission = p
+            else:
+                for k in range(1, share_acts+1):
+                    temp = binom.pmf(k, share_acts, p)
+                    #print temp
+                    p_total_transmission += temp
+
+
+            #print "\t\t\tHIV+ NED Act A:%d on P:%d\t Must be less than %.10lf\t(k:1 n:%.2lf, p:%.5lf) **OLD pTrans:%.5lf\tAcute:%s" % (agent, partner, p_total_transmission, share_acts, p, p_transmission, isAcute)
+            if random.random() < p_total_transmission:
+                # if agent HIV+ partner becomes HIV+
+                #transmit_HIV(agent, partners, t, )
+                self._become_HIV(partner, time)
+                #self.Transmission_tracker['NEEDLE'][time] += 1
+                self.Transmit_from_agents += [agent]
+                self.Transmit_to_agents += [partner]
+                #if agent in ((self.HIV_key_transitiontime[time - 1] if time > 1 else [])
+                #                 + (self.HIV_key_transitiontime[time - 2] if time > 2 else [])
+                #                 + (self.HIV_key_transitiontime[time - 3] if time > 3 else [])):
+                if(isAcute):
+                    self.Acute_agents += [agent]
+                    #print "\t\t(ACUTE)\tNE_HIV from agent %d to partner %d \t@ p=%.5lf transmissionp=%.5lf n:%d" %(agent._ID, partner._ID, p, p_total_transmission, share_acts)
                 else:
-                    for k in range(1, share_acts+1):
-                        temp = binom.pmf(k, share_acts, p)
-                        #print temp
-                        p_total_transmission += temp
-
-
-                #print "\t\t\tHIV+ NED Act A:%d on P:%d\t Must be less than %.10lf\t(k:1 n:%.2lf, p:%.5lf) **OLD pTrans:%.5lf\tAcute:%s" % (agent, partner, p_total_transmission, share_acts, p, p_transmission, isAcute)
-                if random.random() < p_total_transmission:
-                    # if agent HIV+ partner becomes HIV+
-                    #transmit_HIV(agent, partners, t, )
-                    self._become_HIV(partner, time)
-                    #self.Transmission_tracker['NEEDLE'][time] += 1
-                    self.Transmit_from_agents += [agent]
-                    self.Transmit_to_agents += [partner]
-                    #if agent in ((self.HIV_key_transitiontime[time - 1] if time > 1 else [])
-                    #                 + (self.HIV_key_transitiontime[time - 2] if time > 2 else [])
-                    #                 + (self.HIV_key_transitiontime[time - 3] if time > 3 else [])):
-                    if(isAcute):
-                        self.Acute_agents += [agent]
-                        #print "\t\t(ACUTE)\tNE_HIV from agent %d to partner %d \t@ p=%.5lf transmissionp=%.5lf n:%d" %(agent._ID, partner._ID, p, p_total_transmission, share_acts)
-                    else:
-                        pass
+                    pass
                     #print "\t\t\t\tNE_HIV from agent %d to partner %d \t@ p=%.5lf transmissionp=%.5lf n:%d" %(agent._ID, partner._ID, p, p_total_transmission, share_acts)
 
     #@profile
@@ -1364,6 +1371,27 @@ class HIVModel(NetworkClass):
         else:
             raise ValueError('Drug cessation only valid for IDU and NIDU!')
 
+    def _enroll_treatment(self, time):
+        """
+        :Purpose:
+            Account for drug cessation of IDU to NIDU and NIDU to ND.
+
+        :Input:
+            agent : int
+
+        """
+        print("\n\n!!!!Engaginge treatment process: %d"%time)
+        self.treatmentEnrolled = True
+        for agent in self.totalAgentClass.iter_agents():#self.Agents: #NEW METHOD
+            #agent.print_agent()
+            #print("\nAgent:",agent)
+            # agent_dict = self.Agents[agent]
+            if random.random() < params.treatmentCov and agent._DU == 'IDU':
+                agent._SNE_bool = True
+
+
+
+
     def _incarcerate(self, agent, time):
         """
         :Purpose:
@@ -1506,6 +1534,12 @@ class HIVModel(NetworkClass):
                 #print "\t NEW +"
                 agent._tested = True
                 self.NewDiagnosis.add_agent(agent)
+                if self.treatmentEnrolled and params.treatmentCov > 0:
+                    for ptnr in agent._partners:
+                        if ptnr._HIV_bool and not ptnr._tested:
+                            if random.random < 0.87:
+                                ptnr._tested = True
+                                self.NewDiagnosis.add_agent(ptnr)
                 #self.tmp_Agents[agent].update({'Tested': 1})
                 #self.HIVidentified_agents.append(agent)
 
