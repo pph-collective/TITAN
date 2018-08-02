@@ -397,7 +397,7 @@ class HIVModel(NetworkClass):
             print "\tWhite:\t%d\t%d"%(newInfW,self.cumInfW)
             print "\tBlack:\t%d\t%d"%(newInfB,self.cumInfB)
             self.totalDiagnosis += len(self.NewDiagnosis._members)
-            if self.totalDiagnosis > params.initTreatment:
+            if self.totalDiagnosis > params.initTreatment and not self.treatmentEnrolled:
                 self._enroll_treatment(t)
             #print "White:\t%d"%(len([tmpA for tmpA in self.NewInfections._members if tmpA._race == 'WHITE']))
             #print "Black:\t%d"%(len([tmpA for tmpA in self.NewInfections._members if tmpA._race == 'BLACK']))

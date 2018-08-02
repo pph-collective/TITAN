@@ -31,7 +31,7 @@ basePath=$PWD
 
 usage() {
 echo "
-usage: subtitan {SourceFolder} [-r repeats] [-n iterations] [-T walltime] [-m memory] [-s seed]
+usage: subtitan {Parameter file} [-r repeats] [-n iterations] [-T walltime] [-m memory] [-s seed]
                 [-o outfile] [-N population] [-t timerange] [-b burntime] [-j jobname]
 
 Starts a TITAN simulation in ~/scratch/{SourceFolder}/{jobname}
