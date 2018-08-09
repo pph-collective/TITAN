@@ -167,7 +167,7 @@ elif model == 'StaticZero':
     flag_ART = False
     flag_DandR = False
     flag_staticN = True
-    flag_agentZero = False
+    flag_agentZero = True
 
 elif model == 'Custom':
     flag_incar = False
@@ -176,7 +176,7 @@ elif model == 'Custom':
     flag_ART = False
     flag_DandR = False
     flag_staticN = True
-    flag_agentZero = False
+    flag_agentZero = True
 
 agentSexTypes = ['HM', 'HF', 'MSM', 'MTF']
 """
