@@ -25,10 +25,12 @@ def initiate_ResultDict():
     ResultDict = {  'Prv_HIV':{},
                     'Prv_AIDS':{},
                     'Prv_Test':{},
-                    'ART_Prev':{},
+                    'Prv_ART':{},
                     'Prv_PrEP':{},
                     'n_Relations':{},
                     'Inc_c_Tot':{},
+                    'Inc_c_HM':{},
+                    'Inc_c_HF':{},
                     'Inc_t_HM':{},
                     'Inc_t_HF':{},
                 }
@@ -428,15 +430,20 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
 
     if t==0:
         cumulativeI = len(NewInfections._members)
+        ResultDict['Inc_c_HM'].update({t:rsltdic['WHITE']['HM']['inf_newInf']})
+        ResultDict['Inc_c_HF'].update({t:rsltdic['WHITE']['HF']['inf_newInf']})
     else:
-        cumulativeI = ResultDict['Inc_c_Tot'][t-1] + len(NewInfections._members)
+        cumulativeI = ResultDict['Inc_c_Tot'][t-1] + len(NewInfections._members) 
+        ResultDict['Inc_c_HM'].update({t:ResultDict['Inc_c_HM'][t-1]+rsltdic['WHITE']['HM']['inf_newInf']})
+        ResultDict['Inc_c_HF'].update({t:ResultDict['Inc_c_HF'][t-1]+rsltdic['WHITE']['HF']['inf_newInf']})
 
     #ResultDict['ResistantCases'].update({t:len([ag for ag in NewInfections._members if ag._PrEPresistance==1])})
     ResultDict['Inc_c_Tot'].update({t:cumulativeI})
+
     ResultDict['Prv_HIV'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numHIV']/totalAgents.num_members())})
-    #ResultDict['AID_Prev'].update({t:(1.0*numAIDS_MSM/numHIV_MSM)})
+    ResultDict['Prv_AIDS'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numAIDS']/tot_rsltdic['ALL']['ALL']['numHIV'])})
     ResultDict['Prv_Test'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numTested']/max(tot_rsltdic['ALL']['ALL']['numHIV'],1))})
-    #ResultDict['ART_Prev'].update({t:(1.0*numART_MSM/numTested_MSM)})
+    ResultDict['Prv_ART'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numART']/tot_rsltdic['ALL']['ALL']['numTested'])})
     #ResultDict['PrEP_Prev'].update({t:(1.0*PrEPAgents.num_members()/(totalAgents.num_members()-numHIV_MSM))})
     ResultDict['n_Relations'].update({t:Relationships.num_members()})
     #ResultDict['WInc_T'].update({t:rsltdic['WHITE']['MSM']['inf_newInf']})

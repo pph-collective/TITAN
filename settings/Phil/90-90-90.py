@@ -9,9 +9,9 @@ Main model parameters.
 PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 N_MC = 100              # total number of iterations (Monte Carlo runs)
-N_POP = 100000          # population size
-TIME_RANGE = 120        # total time steps to iterate
-burnDuration = 36	    # total time for burning in period (equillibration)
+N_POP = 110000          # population size
+TIME_RANGE = 168        # total time steps to iterate
+burnDuration = 30       # total time for burning in period (equillibration)
 model = 'Incar'         # Model Type for fast flag toggling
 setting = 'Phil2005'
 ####################
@@ -35,19 +35,19 @@ drawFigures = False
 Calibration scaling parameters for fitting to empirical data
 """
 
-PARTNERTURNOVER = 1.0/7.5           # Partner acquisition parameters (higher number more partnering)
-cal_NeedlePartScaling = 1.0     # IDU partner number scaling
+PARTNERTURNOVER = 1.0/7.5         # Partner acquisition parameters (higher number more partnering)
+cal_NeedlePartScaling = 0.90     # IDU partner number scaling
 cal_NeedleActScaling = 0.60      # IDU act frequency scaling factor
-cal_SexualPartScaling = 1.0     # Sexual partner number scaling factor
-cal_SexualActScaling = 3.0      # Sexual acts  scaling factor
+cal_SexualPartScaling = 0.90     # Sexual partner number scaling factor
+cal_SexualActScaling = 0.80      # Sexual acts  scaling factor
 cal_pXmissionScaling = 1.0      # Global transmission probability scaling factor
 cal_AcuteScaling = 4.3         # Infectivity multiplier ratio for Acute status infections
 cal_RR_Dx = 0.53                # Risk reduction in transmission probability for agents diagnosed
 cal_RR_HAART = 1.0              # Scaling factor for effectiveness of ART therapy on xmission P
-cal_TestFreq = 1.0              # Scaling factor for testing frequency
+cal_TestFreq = 0.70              # Scaling factor for testing frequency
 cal_Mortality = 0.5             # Scaling factor for all cause mortality rates
 cal_ProgAIDS = 1.0              # Scaling factor for all progression to AIDS from HIV rates
-cal_ART_cov = 1.0               # Scaling factor for enrollment on ART probability
+cal_ART_cov = 0.70               # Scaling factor for enrollment on ART probability
 cal_IncarP = 1.0                # Scaling factor for probability of becoming incarcerated
 cal_raceXmission = 1.0          # Scaling factor for increased STI transmission P comparing race1/race2
 cal_ptnrSampleDepth = 100       # Sampling depth for partnering algorithm.
@@ -70,6 +70,8 @@ flag_AgeAssortMix = False       # Assortative mix by age
 flag_RaceAssortMix = False      # Assortative mix by race
 AssortMixCoeff = 0.3           # Proportion of following given assort mix rules
 safeNeedleExchangePrev = 1.0    # Prevalence scalar on SNE
+initTreatment = 999999
+treatmentCov = 0.0
 
 """
 Incarceration params

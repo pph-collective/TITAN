@@ -9,7 +9,7 @@ Main model parameters.
 PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 N_MC = 10              # total number of iterations (Monte Carlo runs)
-N_POP = 10000          # population size
+N_POP = 1000          # population size
 TIME_RANGE = 120        # total time steps to iterate
 burnDuration = 36       # total time for burning in period (equillibration)
 model = 'Incar'         # Model Type for fast flag toggling
@@ -64,14 +64,14 @@ HR_F_dur = 6                    # Duration of high risk for females
 """
 Misc. params
 """
-flag_AssortativeMix = False     # Boolean for if assortative mixing occurs at all
+flag_AssortativeMix = True     # Boolean for if assortative mixing occurs at all
 AssortMixType = "HR"            # Other assortative mixing types
 flag_AgeAssortMix = False       # Assortative mix by age
 flag_RaceAssortMix = False      # Assortative mix by race
 AssortMixCoeff = 0.3           # Proportion of following given assort mix rules
 safeNeedleExchangePrev = 1.0    # Prevalence scalar on SNE
-initTreatment = 10
-treatmentCov = 0.60
+initTreatment = 999999
+treatmentCov = 0.0
 
 """
 Incarceration params
@@ -143,7 +143,7 @@ if model == 'PrEP':
     flag_agentZero = False
 
 elif model == 'Incar':
-    flag_incar = True
+    flag_incar = False
     flag_PrEP = False
     flag_HR = True
     flag_ART = True

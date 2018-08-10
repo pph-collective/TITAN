@@ -490,7 +490,10 @@ class HIVModel(NetworkClass):
         # self.Relationships.print_agent_relationshps()
         
         for rel in self.Relationships._members:#.iter_agents():
-            self._agents_interact(rel._ID1, rel._ID2, time, rel)
+            if burn:
+                pass
+            else:
+                self._agents_interact(rel._ID1, rel._ID2, time, rel)
             if params.flag_staticN:
                 pass
             else:
@@ -558,7 +561,7 @@ class HIVModel(NetworkClass):
             #self._VCT(agent, time)  # VCT: Counseling and Testing
             #print "\tIncarcerate Agents"
             agent._timeAlive += 1
-            if params.flag_incar and not burn:
+            if params.flag_incar:# and not burn:
                 #print("\n\t\t= Incarceration effects =")
                 self._incarcerate(agent, time)
 
@@ -572,7 +575,7 @@ class HIVModel(NetworkClass):
                 self._enter_and_exit_drug_treatment(agent, time)
             """
 
-            if agent_HIV_status:
+            if agent_HIV_status and not burn:
                 #print "Viral Load Reset"
                 #self._become_HIV(agent, time)  # reset viral load ############# TURNED OFF NO NEED TO RESET VIRAL LOAD
                 #P_HAART = random.random()
@@ -1010,10 +1013,11 @@ class HIVModel(NetworkClass):
             if share_acts == 1:
                 p_total_transmission = p
             else:
-                for k in range(1, share_acts+1):
-                    temp = binom.pmf(k, share_acts, p)
-                    #print temp
-                    p_total_transmission += temp
+                p_total_transmission = 1. - binom.pmf(0, share_acts, p)
+                # for k in range(1, share_acts+1):
+                #     temp = binom.pmf(k, share_acts, p)
+                #     #print temp
+                #     p_total_transmission += temp
 
 
             #print "\t\t\tHIV+ NED Act A:%d on P:%d\t Must be less than %.10lf\t(k:1 n:%.2lf, p:%.5lf) **OLD pTrans:%.5lf\tAcute:%s" % (agent, partner, p_total_transmission, share_acts, p, p_transmission, isAcute)
@@ -1138,7 +1142,6 @@ class HIVModel(NetworkClass):
                     #Reduction of transmissibility for acts between partners for PrEP adherence
                     if agent._PrEP_bool or partner._PrEP_bool:
                         if agent._PrEPresistance or partner._PrEPresistance:
-                            print 'DAWFAHWJHFAJWHDJAWHDJAHWDKJAHWDKJHA'
                             pass
 
                         elif params.PrEP_type == 'Oral':
@@ -1162,10 +1165,11 @@ class HIVModel(NetworkClass):
                     if U_sex_acts2 == 1:
                         p_total_transmission = ppAct
                     else:
-                        for k in range(1, U_sex_acts2):
-                            temp = binom.pmf(k, U_sex_acts1, ppAct)
-                            #print temp
-                            p_total_transmission += temp
+                        p_total_transmission = 1. - binom.pmf(0, U_sex_acts1, ppAct)
+                        # for k in range(1, U_sex_acts2):
+                        #     temp = binom.pmf(k, U_sex_acts1, ppAct)
+                        #     #print temp
+                        #     p_total_transmission += temp
 
                     #print "\t\t\tHIV+ SEX Act A:%d on P:%d\t Must be less than %.10lf\t(k:1 n:%.2lf, p:%.5lf) **OLD pTrans:%.5lf\tAcute:%s" % (agent, partner, p_total_transmission, U_sex_acts1, p, p_transmission, isAcute)
                     #print "\t\t\tHIV+ SEX ACT\tMust be less than %.10lf" % p_total_transmission
