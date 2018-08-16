@@ -1426,7 +1426,7 @@ class HIVModel(NetworkClass):
                 agent._incar_bool = False
                 agent._ever_incar_bool = True
                 if not agent._highrisk_bool:        #If behavioral treatment on and agent HIV, ignore HR period.
-                    if params.inc_treat_behavior and hiv_bool:
+                    if params.inc_treat_behavior and hiv_bool and (time >=params.inc_treatment_startdate):
                         pass
                     else:                           #Else, become high risk
                         self.HighriskClass.add_agent(agent)
@@ -1439,7 +1439,7 @@ class HIVModel(NetworkClass):
                         agent._highrisk_time = params.HR_M_dur
 
 
-                if params.inc_treat_RIC or params.inc_treat_behavior:
+                if (params.inc_treat_RIC or params.inc_treat_behavior) and (time >=params.inc_treatment_startdate):
                     agent._incar_treatment_time = params.inc_treatment_dur
 
                 if hiv_bool:

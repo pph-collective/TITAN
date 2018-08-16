@@ -7,11 +7,12 @@ Main model parameters.
 
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
-rSeed = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
+rSeed = 1               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 N_MC = 10              # total number of iterations (Monte Carlo runs)
 N_POP = 1000          # population size
 TIME_RANGE = 120        # total time steps to iterate
-burnDuration = 36       # total time for burning in period (equillibration)
+burnDuration = 0       # total time for burning in period (equillibration)
+
 model = 'Incar'         # Model Type for fast flag toggling
 setting = 'Phil2005'
 ####################
@@ -55,7 +56,8 @@ cal_ptnrSampleDepth = 100       # Sampling depth for partnering algorithm.
 """
 High risk params
 """
-HR_partnerScale = 300           # Linear increase to partner number during HR period
+
+HR_partnerScale = 1./300           # Linear increase to partner number during HR period
 HR_proportion = 0.3             # Proportion of people who enter HR group when partner incarcerated
 HR_M_dur = 6                    # Duration of high risk for males
 HR_F_dur = 6                    # Duration of high risk for females
@@ -88,6 +90,7 @@ inc_ARTadh = 0.21
 inc_ARTdisc = 0.12
 inc_Recidivism = 0.267
 inc_PtnrDissolution = 0.55
+inc_treatment_startdate = 48
 inc_treatment_dur = 0           # Duration for which agents are forced on respective treatment post release
 inc_treat_set = ['HM']          # Set of agent classifiers effected by HR treatment
 inc_treat_behavior = False      # Remove IDU behaviour during treatment duration

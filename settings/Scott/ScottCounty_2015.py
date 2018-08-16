@@ -70,8 +70,8 @@ flag_AgeAssortMix = False       # Assortative mix by age
 flag_RaceAssortMix = False      # Assortative mix by race
 AssortMixCoeff = 0.8            # Proportion of following given assort mix rules
 safeNeedleExchangePrev = 1.0    # Prevalence scalar on SNE
-initTreatment = 10
-treatmentCov = 0.60
+initTreatment = 10              # Requirement to start treatment
+treatmentCov = 0.60             # Prop that receive treatment
 
 """
 Incarceration params
@@ -167,7 +167,7 @@ elif model == 'StaticZero':
     flag_ART = False
     flag_DandR = False
     flag_staticN = True
-    flag_agentZero = False
+    flag_agentZero = True
 
 elif model == 'Custom':
     flag_incar = False

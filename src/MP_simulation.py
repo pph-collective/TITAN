@@ -61,7 +61,8 @@ def enablePrint():
 def main():
     parameter_dict = read_parameter_dict(1)   # get parameters
     wct = []                                 # wall clock times
-    
+    open_inputs()
+
     #read_classifier_dict()
     for single_sim in parameter_dict:
         outfile_dir = os.path.join(os.getcwd(),
