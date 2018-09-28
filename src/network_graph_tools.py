@@ -291,6 +291,35 @@ class NetworkClass(PopulationClass):
             print("HUIH")
             raise ValueError("Invalid network type! %s"%str(network_type))
 
+    def write_G_edgelist(self, path):
+        G = self.G
+        nx.write_edgelist(G, path)
+
+    def write_network_stats(self, t=0):
+            from networkx.algorithms import approximation
+            G = self.G
+            bigG = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)[0]
+            outfile = open('results/network/networkStats.txt','w')
+            outfile.write(nx.info(G))
+
+            centDict = nx.degree_centrality(G)
+
+            outfile.write("\nNumber of connected components: {}\n".format(nx.number_connected_components(G)))
+            conG = nx.connected_components(G)
+            tot_nodes = 0
+            for t in conG:
+                thisComp = len(t)
+                tot_nodes += thisComp
+            outfile.write("Average component size: {}\n".format(tot_nodes*1./nx.number_connected_components(G)))
+            outfile.write("Maximum component size: {}\n".format(nx.number_of_nodes(bigG)))
+            outfile.write("Degree Histogram: {}\n".format(nx.degree_histogram(G)))
+            outfile.write("Graph density: {}\n".format(nx.density(G)))
+            outfile.write("Average node degree centrality: {}\n".format(sum(centDict.values())/len(centDict.values())))
+            #outfile.write("Average node connectivity: {}\n".format(nx.node_connectivity(G)))
+            outfile.write("Average node clustering: {}\n".format(nx.average_clustering(G)))
+            outfile.close()
+
+
     def create_graph_from_agents(self, agents):
         G = self.G
         numAdded = 0

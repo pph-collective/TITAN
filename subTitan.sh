@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #Read in source code path, then shift for optargs
+titanPath=""
 settingPath="$1"
 shift
 
@@ -8,11 +9,11 @@ if [ $settingPath ]; then
     setting=$(basename ${settingPath%.py})
 fi
 
-date=`date +%Y-%m-%d-T%H:%M:%S`
-srcCode="src/"
+date=`date +%Y-%m-%d-T%H-%M-%S`
+srcCode="${titanPath}src/"
 parentPath="Module_$setting/"
 jobname=Analysis_$setting_$date
-dirPath="$HOME/scratch/$parentPath"
+outPath="$HOME/scratch/$parentPath"
 user=${USER}
 jobid="JA";
 cores=1
@@ -56,7 +57,7 @@ updateParams() {
 echo "
 
     Updating params:
-	curPath		$PWD
+	savePath	$PWD
 	sourceCode	$srcCode
 	jobname: 	$jobname
 	iterations: 	$nMC
@@ -132,7 +133,7 @@ if [ ! -d $srcCode ]; then
     exit 0
 fi
 
-if [ -d $dirPath$jobname ]; then
+if [ -d $outPath$jobname ]; then
     echo -e "\n\n!! WARNING !!\nThe folder $jobname already exists and will be OVERWRITTEN!\n"
     read -p "Continue (y/n)?" choice
     case "$choice" in 
@@ -146,7 +147,7 @@ if [ $srcCode ]; then
 
     echo "
         jobname     $jobname
-        dirpath	    $dirPath
+        outPath	    $outPath
         user	    $user
         date        $date
         cores       $cores
@@ -159,20 +160,20 @@ if [ $srcCode ]; then
     echo -e "\n" 
     
     echo -e "\tMaking parent directory in scratch"
-    mkdir -p $dirPath
-    echo -e "\t $dirPath"
+    mkdir -p $outPath
+    echo -e "\t $outPath"
 
     if [ $repeats -gt 1 ]; then
-        mkdir -p $dirPath$jobname
+        mkdir -p $outPath$jobname
         basejobname=$jobname
         for ((i=1; i<=repeats; i++)); do
             echo -e "\n\nWorking on repeat $i"
             jobname=$basejobname"_"$i
-            finalPath=$dirPath$basejobname"/"$jobname
+            finalPath=$outPath$basejobname"/"$jobname
             prepSubmit;
         done
     else
-        finalPath=$dirPath$jobname
+        finalPath=$outPath$jobname
         prepSubmit;
     fi
     

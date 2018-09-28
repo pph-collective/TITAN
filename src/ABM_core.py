@@ -405,6 +405,19 @@ class HIVModel(NetworkClass):
             self.NewDiagnosis.clear_set()
             self.NewHRrolls.clear_set()
             self.num_Deaths
+
+            # Ensure variable is defined
+            try:
+                params.drawNED
+            except AttributeError:
+                params.drawNED = False
+
+            if params.drawNED:
+                print "Drawing NED file"
+                fh=fh=open("results/network/Edgelist_t{}.txt".format(t),'wb')
+                self.networkGraph.write_G_edgelist(fh)
+                fh.close()
+
             #self.networkGraph.draw_histogram()
             #print self.networkGraph.stat_connectivity()
 
@@ -417,6 +430,7 @@ class HIVModel(NetworkClass):
         print_prof_data()
         print params.PrEP_type
         print params.PrEP_Target
+        self.networkGraph.write_network_stats(t=t)
 
 
     #@profile

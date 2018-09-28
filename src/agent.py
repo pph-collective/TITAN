@@ -113,7 +113,7 @@ class Agent(object):
         #Set gender on small switch statement.
 
     def __str__(self):
-        return str(self._ID)+ '\t'+str(self._SO)+'\t'+str(self._highrisk_bool)+'\t'+ str(self._everhighrisk_bool)
+        return str(self._ID)+ '\t'+str(self._SO)+'\t'+str(self._DU)+'\t'+ str(self._HIV_bool)
 
     def get_ID(self):
         return self._ID
