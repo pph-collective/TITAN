@@ -379,7 +379,7 @@ def get_assort_sex_partner(self, agent, need_new_partners):
     #todo: Make the random agent never return the agent or any of their partners
     assert(agent_sex_type in ['HM','HF','MSM','WSW','MTF'])
 
-    eligPartnerType = params.DemographicParams[agent_race_type][agent_sex_type]['EligPartnerType'][0]
+    eligPartnerType = params.DemographicParams[agent_race_type][agent_sex_type]['EligSE_PartnerType'][0]
 
     if params.AssortMixType == 'Age':
         randomK_sample = random.sample(need_new_partners._subset["MSM"]._members, params.cal_ptnrSampleDepth)
@@ -485,7 +485,7 @@ def get_random_sex_partner(self, agent, need_new_partners):
     RandomPartner = None
     tempList = []
 
-    eligPartnerType = params.DemographicParams[agent_race_type][agent_sex_type]['EligPartnerType'][0]
+    eligPartnerType = params.DemographicParams[agent_race_type][agent_sex_type]['EligSE_PartnerType'][0]
     AssortMix = False
     if params.flag_AgeAssortMix:
         if random.random() < params.AssortMixCoeff:

@@ -44,13 +44,11 @@ import random
 #from copy import deepcopy, copy
 import os
 import time
-#import PyQt4
+import collections
 
-#import scipy.sparse as spsp
 from scipy.stats import binom
 from scipy.stats import poisson
 from functools import wraps
-import collections
 
 try:
     from HIVABM_Population import PopulationClass, print_population
@@ -77,7 +75,6 @@ try:
 except ImportError, e:
     raise ImportError("Can't import analysis_output! %s" % str(e))
 
-#import params
 
 
 PROF_DATA = {}

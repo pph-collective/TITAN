@@ -1,11 +1,11 @@
 #!/usr/bin/env python
+# encoding: utf-8
 
 """
 *****************************************************************************
 Author(s):	Maximilian King  (previous authors: Lars Seemann - lseemann@uh.edu)
 Email: Maximilian_King@brown.edu
 Organization: Marshall Lab, Department of Epidemiology - Brown University
-
 
 Description:
     Module responsible for simulation handling and total loops. Manages input for

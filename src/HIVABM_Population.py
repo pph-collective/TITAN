@@ -1,10 +1,11 @@
-#!/usr/bin/env python2.3
+#!/usr/bin/env python
+# encoding: utf-8
+
 """
 *****************************************************************************
 Author(s):	Maximilian King  (previous authors: Lars Seemann - lseemann@uh.edu)
 Email: Maximilian_King@brown.edu
 Organization: Marshall Lab, Department of Epidemiology - Brown University
-
 
 Description:
     Module for population dictionary construction and initial parameters.

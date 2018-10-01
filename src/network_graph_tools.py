@@ -1,5 +1,6 @@
-#!/usr/bin/env python2.3
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+# encoding: utf-8
+
 """
 *****************************************************************************
 Author(s):	Maximilian King  (previous authors: Lars Seemann - lseemann@uh.edu)

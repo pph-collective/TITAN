@@ -8,9 +8,9 @@ Main model parameters.
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
-N_MC = 100               # total number of iterations (Monte Carlo runs)
-N_POP = 24110           # population size
-TIME_RANGE = 60        # total time steps to iterate
+N_MC = 1               # total number of iterations (Monte Carlo runs)
+N_POP = 2411           # population size
+TIME_RANGE = 6        # total time steps to iterate
 burnDuration = 0#36
 model = 'StaticZero'         # Model Type for fast flag toggling
 setting = 'Scott'
@@ -29,7 +29,7 @@ MSMreport = True
 HMreport = False
 HFreport = False
 drawFigures = False
-drawNED = True
+drawNED = False
 
 """
 Calibration scaling parameters for fitting to empirical data
@@ -70,7 +70,7 @@ flag_AgeAssortMix = False       # Assortative mix by age
 flag_RaceAssortMix = False      # Assortative mix by race
 AssortMixCoeff = 0.8            # Proportion of following given assort mix rules
 safeNeedleExchangePrev = 1.0    # Prevalence scalar on SNE
-initTreatment = 10000              # Requirement to start treatment
+initTreatment = 10              # Requirement to start treatment
 treatmentCov = 0.60             # Prop that receive treatment
 
 """
@@ -202,7 +202,7 @@ RC_template = {     'Race':None,            #Race of demographic
                     'HAARTadh':0.0,         #Adherence to ART therapy
                     'HAARTdisc':0.0,        #Probability of discontinuing ART therapy
                     'PrEPdisc':0.0,         #Probability of discontinuing PrEP treatment
-                    'EligPartnerType':[],   #List of agent SO types the agent cant partner with
+                    'EligSE_PartnerType':[],#List of agent SO types the agent cant partner with sexually
                     'AssortMixMatrix':[]    #List of assortMix Matrix to be zipped with EligPart
                 }
 
@@ -233,7 +233,7 @@ RaceClass1['HM'] = {'POP':0.49,
                      'HAARTadh':0.405,
                      'HAARTdisc':0.000,
                      'PrEPdisc':0.0000,
-                     'EligPartnerType':['HF']
+                     'EligSE_PartnerType':['HF']
                      }
 
 RaceClass1['HF'] = {'POP':0.51,
@@ -251,7 +251,7 @@ RaceClass1['HF'] = {'POP':0.51,
                      'HAARTadh':0.405,
                      'HAARTdisc':0.000,
                      'PrEPdisc':PrEP_disc,
-                     'EligPartnerType':['HM']
+                     'EligSE_PartnerType':['HM']
                      }
 
 RaceClass1['PWID'] = {'POP':0.017,
@@ -270,7 +270,7 @@ RaceClass1['PWID'] = {'POP':0.017,
                      'HAARTdisc':0.000,
                      'PrEPadh':0.55,
                      'PrEPdisc':0.0000,
-                     'EligPartnerType':['IDU']
+                     'EligSE_PartnerType':['IDU']
                      }
 
 RaceClass1['ALL'] = {'Proportion':1.00,
