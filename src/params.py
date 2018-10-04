@@ -9,9 +9,9 @@ Main model parameters.
 PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed = 1               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 N_MC = 1               # total number of iterations (Monte Carlo runs)
-N_POP = 2500           # population size
+N_POP = 250           # population size
 TIME_RANGE = 60        # total time steps to iterate
-burnDuration = 60#36
+burnDuration = 60
 model = 'PrEP'         # Model Type for fast flag toggling
 setting = 'RI_MSM'
 ####################
@@ -283,7 +283,7 @@ RaceClass1['PWID'] = {'POP':0.0,
 RaceClass1['ALL'] = {'Proportion':0.95,
                       'HAARTdisc':0.018,
                      'PrEPdisc':0.0,
-                     'AssortMixCoeff':1.0,
+                     'AssortMixCoeff':1.0-0.037,
                       }
 
 RaceClass2['MSM'] = {'POP':1.0,
@@ -304,7 +304,7 @@ RaceClass2['MSM'] = {'POP':1.0,
                      'EligSE_PartnerType':['MSM','MSW']
                      }
 
-RaceClass2['ALL'] = {'Proportion':0.05,
+RaceClass2['ALL'] = {'Proportion':0.037,
                       'HAARTdisc':0.018,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,

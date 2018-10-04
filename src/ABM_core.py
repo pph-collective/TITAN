@@ -463,13 +463,8 @@ class HIVModel(NetworkClass):
 
             # self.networkGraph.plot_DegreeDistribution()
             #self.networkGraph.vizualize_network_graphviz(program='neato', coloring='Tested')
-
-
             #self.networkGraph.visualize_network(node_size=10, coloring="Tested")
             update_partner_assignments(self, params.PARTNERTURNOVER, self.networkGraph)
-
-
-
             #self.networkGraph.create_graph_from_relationships(self.Relationships)
         elif params.flag_staticN == False:
             update_partner_assignments(self, params.PARTNERTURNOVER, self.networkGraph)
@@ -478,24 +473,14 @@ class HIVModel(NetworkClass):
             pass
             #self.networkGraph.vizualize_network_graphviz(program='neato', coloring='Tested', time=time)
             # if time%12==0:self.networkGraph.plot_DegreeDistribution(time)
+        
         #print("\t\t= Updated Partners =")
         self.Acute_agents = []
         self.Transmit_from_agents = []
         self.Transmit_to_agents = []
-        # self.totalAgentClass.print_agents()
-        # write partnerships to dynnetworkReport
-        """
-        dynnetworkReport = open('Results/dynnetworkReport.txt', 'a')
-        for agent in self.Agents:
-            for partner in list(self.AdjMat.rows[agent]):
-                reportLine = '\t'.join([repr(time), 'PARTNERSHIP', repr(agent), repr(partner)])
-                #open('Results/dynnetworkReport.txt', 'a').write('\n' + reportLine)
-                dynnetworkReport.write('\n' + reportLine)
-        dynnetworkReport.close()
-        """
+        
         #print("\t\t= Printed DynNetwork Report =")
         #print("\t\t= Begin Agents Operations =")
-        #todo: Test this new structure
         #print("\t\t= Relationship Iterations =")
         #print("\n\nSTARTING RELATIONSHIPS")
         # self.Relationships.print_agent_relationshps()
@@ -541,33 +526,13 @@ class HIVModel(NetworkClass):
         
         #random.shuffle(self.totalAgentClass._members)
         for agent in self.totalAgentClass.iter_agents():#self.Agents: #NEW METHOD
-            #agent.print_agent()
-            #print("\nAgent:",agent)
-            # agent_dict = self.Agents[agent]
-            agent_drug_type = agent._DU# agent_dict['Drug Type']
-            agent_sex_type = agent._SO#agent_dict['Sex Type']
-            agent_HIV_status = agent._HIV_bool#agent_dict['HIV']
+            
+            agent_drug_type = agent._DU
+            agent_sex_type = agent._SO
+            agent_HIV_status = agent._HIV_bool
 
             agent_incarcerated = agent._incar_bool#agent_dict['incar_t']
 
-            # Agent - Partner interaction
-            #partners = agent._partners#list(self.AdjMat.rows[agent])
-            #print agent_HIV_status
-            #print("\tBegin partner interactions:")
-            #if partners and agent_HIV_status and agent_incarcerated is False:
-                #print "Agent %d has partners:" % agent._ID, partners
-                #intersection = list(set(need_new_partners[:100]).intersection(set(x)))
-                #HIV_partners = list(set(self.AdjMat.rows[agent])).intersection(set(self.tmp_HIV_agents))
-                #print HIV_partners
-                # """for num_Interaction, partner in enumerate(partners):
-                    #print "\tAgent %d is now interacting with partner %d" % (agent, partner)
-                    # self._agents_interact(agent, partner, time, num_Interaction)
-                    #self._drug_transition(agent, partner)"""
-                #for rel in agent._relationships:
-                    #print "\tAgent %d is now interacting with partner %d" % (rel._ID1.get_ID(), rel._ID2.get_ID())
-                    #self._agents_interact(rel._ID1, rel._ID2, time, 10)
-                    #rel.progress(1)
-                    #pass
             #print("\tEnded partner interactions\n")
             #self._VCT(agent, time)  # VCT: Counseling and Testing
             #print "\tIncarcerate Agents"
@@ -578,13 +543,13 @@ class HIVModel(NetworkClass):
 
             #if agent_drug_type == 'IDU':
                 #self._SEP(agent, time)  # SEP: Syringe Exchange program
-            """########################################PUT THESE BACK IN
-            if agent_drug_type in ['NIDU', 'IDU']:
+            
+            if agent_drug_type in ['NIDU', 'IDU'] and False:
                 #print("\tDrug Cessation")
                 self._drug_cessation(agent, agent_drug_type)
                 #print("\tEnter/Exit Drug Treatment")
                 self._enter_and_exit_drug_treatment(agent, time)
-            """
+            
 
             if agent_HIV_status and not burn:
                 #print "Viral Load Reset"
@@ -596,7 +561,7 @@ class HIVModel(NetworkClass):
                     agent._incar_treatment_time -= 1
 
 
-                self._drugTest(agent, time)
+                self._HIVtest(agent, time)
                 self._progress_to_AIDS(agent, agent_drug_type)
 
                 if params.flag_ART:
@@ -1519,14 +1484,13 @@ class HIVModel(NetworkClass):
                             tmpA._highrisk_time = params.HR_F_dur
 
 
-    def _drugTest(self, agent, time):
+    def _HIVtest(self, agent, time):
         """
         :Purpose:
             Test the agent for HIV. If detected, add to identified list.
 
         :Input:
-            agent : int
-            partner : int
+            agent : agent_Class
             time : int
 
         :Output:
