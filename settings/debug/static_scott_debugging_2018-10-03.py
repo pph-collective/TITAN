@@ -7,13 +7,13 @@ Main model parameters.
 
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
-rSeed = 1               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
+rSeed = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 N_MC = 1               # total number of iterations (Monte Carlo runs)
-N_POP = 2500           # population size
-TIME_RANGE = 60        # total time steps to iterate
-burnDuration = 60#36
-model = 'PrEP'         # Model Type for fast flag toggling
-setting = 'RI_MSM'
+N_POP = 2411           # population size
+TIME_RANGE = 6        # total time steps to iterate
+burnDuration = 0#36
+model = 'StaticZero'         # Model Type for fast flag toggling
+setting = 'Scott'
 ####################
 
 """
@@ -37,17 +37,17 @@ Calibration scaling parameters for fitting to empirical data
 
 PARTNERTURNOVER = 0.2       # Partner acquisition parameters (higher number more partnering)
 cal_NeedlePartScaling = 1.0     # IDU partner number scaling
-cal_NeedleActScaling = 1.0      # IDU act frequency scaling factor
+cal_NeedleActScaling = 2.0      # IDU act frequency scaling factor
 cal_SexualPartScaling = 1.0     # Sexual partner number scaling factor
-cal_SexualActScaling = 0.8      # Sexual acts  scaling factor
+cal_SexualActScaling = 1.0      # Sexual acts  scaling factor
 cal_pXmissionScaling = 1.0 # Global transmission probability scaling factor
-cal_AcuteScaling = 1.0      # Infectivity multiplier ratio for Acute status infections
-cal_RR_Dx = 0.25            # Risk reduction in transmission probability for agents diagnosed
+cal_AcuteScaling = 4.3      # Infectivity multiplier ratio for Acute status infections
+cal_RR_Dx = 0.53            # Risk reduction in transmission probability for agents diagnosed
 cal_RR_HAART = 1.0          # Scaling factor for effectiveness of ART therapy on xmission P
-cal_TestFreq = 0.5         # Scaling factor for testing frequency
-cal_Mortality = 0.05        # Scaling factor for all cause mortality rates
+cal_TestFreq = 1.0          # Scaling factor for testing frequency
+cal_Mortality = 0.5        # Scaling factor for all cause mortality rates
 cal_ProgAIDS = 1.0         # Scaling factor for all progression to AIDS from HIV rates
-cal_ART_cov = 1.3          # Scaling factor for enrollment on ART probability
+cal_ART_cov = 1.0          # Scaling factor for enrollment on ART probability
 cal_IncarP = 1.0
 cal_raceXmission = 1.0
 cal_ptnrSampleDepth = 100
@@ -70,8 +70,8 @@ flag_AgeAssortMix = False       # Assortative mix by age
 flag_RaceAssortMix = False      # Assortative mix by race
 AssortMixCoeff = 0.8            # Proportion of following given assort mix rules
 safeNeedleExchangePrev = 1.0    # Prevalence scalar on SNE
-initTreatment = 0              # Requirement to start treatment
-treatmentCov = 0.0             # Prop that receive treatment
+initTreatment = 10              # Requirement to start treatment
+treatmentCov = 0.60             # Prop that receive treatment
 
 """
 Incarceration params
@@ -97,7 +97,7 @@ inc_treat_RIC = False            # Force retention in care of ART therapy
 PrEP params
 """
 PrEP_type = "Oral"      #Oral/Inj PrEP modes
-PrEP_Target = 0.05      # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+PrEP_Target = 0.000      # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 PrEP_startT = 0         # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82   # Probability of being adherent
 PrEP_AdhEffic = 0.96    # Efficacy of adherence PrEP
@@ -178,8 +178,7 @@ elif model == 'Custom':
     flag_staticN = True
     flag_agentZero = False
 
-agentSexTypes = ['HM', 'HF', 'MSM', 'MTF','MSW']
-agentDrugTypes = ['PWID']
+agentSexTypes = ['HM', 'HF', 'MSM', 'MTF']
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
 ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, PWID)
@@ -215,53 +214,47 @@ RC_allTemplate = {  'Proportion':1.00,      #Proportion of total population that
 
 RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
 RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
-
-for a in agentSexTypes:
+for a in ['MSM','HM','HF','PWID']:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
-for a in agentDrugTypes:
-    RaceClass1[a] = dict(RC_template)
-    RaceClass2[a] = dict(RC_template)
-
-
-RaceClass1['MSM'] = {'POP':1.0,
-                     'HIV':0.036195675,
-                     'AIDS':0.51,
-                     'HAARTprev':0.55,
-                     'INCARprev':0.0,
-                     'TestedPrev':0.816,
-                     'NUMPartn':3.0,
-                     'NUMSexActs':5.0,
-                     'UNSAFESEX':0.43,
+RaceClass1['HM'] = {'POP':0.49,
+                     'HIV':0.0014,
+                     'AIDS':0.6780,
+                     'HAARTprev':0.41,
+                     'INCARprev':0.0274,
+                     'TestedPrev':0.90,
+                     'NUMPartn':1.5,
+                     'NUMSexActs':13.4,
+                     'UNSAFESEX':0.89,
                      'NEEDLESH':0.43,
-                     'HIVTEST':0.055,
-                     'INCAR':0.00,
-                     'HAARTadh':0.82,
-                     'HAARTdisc':0.008,
-                     'PrEPdisc':PrEP_disc,
-                     'EligSE_PartnerType':['MSM','MSW']
+                     'HIVTEST':0.034,
+                     'INCAR':0.001,
+                     'HAARTadh':0.405,
+                     'HAARTdisc':0.000,
+                     'PrEPdisc':0.0000,
+                     'EligSE_PartnerType':['HF']
                      }
 
-RaceClass1['MSW'] = {'POP':0.00,
-                     'HIV':0.036195675,
-                     'AIDS':0.51,
-                     'HAARTprev':0.55,
-                     'INCARprev':0.0,
-                     'TestedPrev':0.816,
-                     'NUMPartn':3.0,
-                     'NUMSexActs':5.0,
+RaceClass1['HF'] = {'POP':0.51,
+                     'HIV':0.0004,
+                     'AIDS':0.573,
+                     'HAARTprev':0.47,
+                     'INCARprev':0.000,
+                     'TestedPrev':0.90,
+                     'NUMPartn':0.5,
+                     'NUMSexActs':12.74,
                      'UNSAFESEX':0.43,
                      'NEEDLESH':0.43,
-                     'HIVTEST':0.055,
+                     'HIVTEST':0.034,
                      'INCAR':0.00,
-                     'HAARTadh':0.82,
-                     'HAARTdisc':0.008,
+                     'HAARTadh':0.405,
+                     'HAARTdisc':0.000,
                      'PrEPdisc':PrEP_disc,
-                     'EligSE_PartnerType':['MSM']
+                     'EligSE_PartnerType':['HM']
                      }
 
-RaceClass1['PWID'] = {'POP':0.0,
+RaceClass1['PWID'] = {'POP':0.017,
                      'HIV':0.000,
                      'AIDS':0.6780,
                      'HAARTprev':0.41,
@@ -280,31 +273,13 @@ RaceClass1['PWID'] = {'POP':0.0,
                      'EligSE_PartnerType':['IDU']
                      }
 
-RaceClass1['ALL'] = {'Proportion':0.95,
+RaceClass1['ALL'] = {'Proportion':1.00,
                       'HAARTdisc':0.018,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,
                       }
 
-RaceClass2['MSM'] = {'POP':1.0,
-                     'HIV':0.036195675,
-                     'AIDS':0.51,
-                     'HAARTprev':0.78,
-                     'INCARprev':0.0,
-                     'TestedPrev':0.83,
-                     'NUMPartn':3.0,
-                     'NUMSexActs':15.0,
-                     'UNSAFESEX':0.43,
-                     'NEEDLESH':0.43,
-                     'HIVTEST':0.055,
-                     'INCAR':0.00,
-                     'HAARTadh':0.47,
-                     'HAARTdisc':0.008,
-                     'PrEPdisc':PrEP_disc,
-                     'EligSE_PartnerType':['MSM','MSW']
-                     }
-
-RaceClass2['ALL'] = {'Proportion':0.05,
+RaceClass2['ALL'] = {'Proportion':0.00,
                       'HAARTdisc':0.018,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,
@@ -396,8 +371,8 @@ Bins represent partner numbers of the following category 0:0, 1:1, 2:2,  3:3-4, 
 """
 clinicAgents = {'Low':{},'Mid':{},'High':{}}
 clinicAgents['Mid'] = {0:{'Prob':0.0,'min':0,'max':0},
-                       1:{'Prob':0.054,'min':0,'max':9991},
-                       2:{'Prob':0.061,'min':1,'max':9992},
-                       3:{'Prob':0.168,'min':0,'max':9994},
-                       4:{'Prob':0.246,'min':0,'max':9999},
-                       5:{'Prob':0.471,'min':0,'max':120}}
+                       1:{'Prob':0.054,'min':0,'max':1},
+                       2:{'Prob':0.061,'min':1,'max':2},
+                       3:{'Prob':0.168,'min':3,'max':4},
+                       4:{'Prob':0.246,'min':5,'max':9},
+                       5:{'Prob':0.471,'min':10,'max':120}}

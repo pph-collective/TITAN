@@ -218,10 +218,12 @@ class PopulationClass():
 
         print "\tBuilding class sets"
         self.totalAgentClass = Agent_set(0,"TotalAgents")
+
         self.MSM_agentsClass = Agent_set(1,"MSM", numerator=self.totalAgentClass)
         self.HM_agentsClass = Agent_set(1,"HM", numerator=self.totalAgentClass)
         self.HF_agentsClass = Agent_set(1,"HF", numerator=self.totalAgentClass)
         self.MTF_agentsClass = Agent_set(1,"MTF", numerator=self.totalAgentClass)
+        self.MSW_agentsClass = Agent_set(1,"MSW", numerator=self.totalAgentClass)
         self.IDU_agentsClass = Agent_set(1,"IDU", numerator=self.totalAgentClass)
         self.HIV_agents_class = Agent_set(2,"HIV", numerator=self.totalAgentClass)
         self.HAART_agentClass = Agent_set(2,"HAART", numerator=self.HIV_agents_class)
@@ -239,6 +241,7 @@ class PopulationClass():
         self.totalAgentClass.add_subset(self.HM_agentsClass)
         self.totalAgentClass.add_subset(self.HF_agentsClass)
         self.totalAgentClass.add_subset(self.MTF_agentsClass)
+        self.totalAgentClass.add_subset(self.MSW_agentsClass)
         self.totalAgentClass.add_subset(self.IDU_agentsClass)
 
 
@@ -540,15 +543,28 @@ class PopulationClass():
         Drugtype = 'NULL'
 
         #Determine sextype
+        demBinP = 0.0
         tmp_rnd = random.random()
-        if tmp_rnd < params.DemographicParams[Race]['HM']['POP']:
-            SexType = 'HM'
-        elif tmp_rnd < (params.DemographicParams[Race]['HM']['POP'] + params.DemographicParams[Race]['HF']['POP']):
-            SexType = 'HF'
-        elif tmp_rnd < (params.DemographicParams[Race]['HM']['POP'] + params.DemographicParams[Race]['HF']['POP'] + params.DemographicParams[Race]['MSM']['POP']):
-            SexType = 'MSM'
-        else:
-            SexType = 'MTF'
+        while SexType == 'NULL':
+            #For each demographic class within race
+            for demClass in params.RaceClass1.keys():
+                #If demClass is enabled for model
+                if demClass in params.agentSexTypes:
+                    #Calculate probability
+                    demBinP += params.DemographicParams[Race][demClass]['POP']
+                    #If match, set SexType
+                    if tmp_rnd < demBinP:
+                        SexType = demClass
+                        break
+
+        # if tmp_rnd < params.DemographicParams[Race]['HM']['POP']:
+        #     SexType = 'HM'
+        # elif tmp_rnd < (params.DemographicParams[Race]['HM']['POP'] + params.DemographicParams[Race]['HF']['POP']):
+        #     SexType = 'HF'
+        # elif tmp_rnd < (params.DemographicParams[Race]['HM']['POP'] + params.DemographicParams[Race]['HF']['POP'] + params.DemographicParams[Race]['MSM']['POP']):
+        #     SexType = 'MSM'
+        # else:
+        #     SexType = 'MTF'
 
         #Determine drugtype
         tmp_rnd = random.random()
@@ -688,6 +704,7 @@ class PopulationClass():
 
         agent_cl = self._return_new_Agent_class(agent,Deliminator)
         self.totalAgentClass.add_agent(agent_cl)
+        print agent_cl
         # if agent == 0.25*self.PopulationSize:print "25%"
         # elif agent == 0.5*self.PopulationSize:print "50%"
         # elif agent == 0.75*self.PopulationSize:print "75%"

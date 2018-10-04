@@ -486,18 +486,21 @@ def get_random_sex_partner(self, agent, need_new_partners):
     tempList = []
 
     eligPartnerType = params.DemographicParams[agent_race_type][agent_sex_type]['EligSE_PartnerType'][0]
+    partnerPool = []
     AssortMix = False
     if params.flag_AgeAssortMix:
         if random.random() < params.AssortMixCoeff:
             AssortMix = True
 
+    for eligPtnType in params.DemographicParams[agent_race_type][agent_sex_type]['EligSE_PartnerType']:
+        partnerPool += (need_new_partners._subset[eligPtnType]._members)
+
     #todo: Make the random agent never return the agent or any of their partners
-    if agent_sex_type not in ['HM','HF','MSM','WSW','MTF']:
+    if agent_sex_type not in params.agentSexTypes:
         raise ValueError("Invalid sex type! %s"%str(agent_sex_type))
     else:
         while True:
-            RandomPartner = random.choice(need_new_partners._subset[eligPartnerType]._members)
-
+            RandomPartner = random.choice(partnerPool)
             if RandomPartner in agent._partners or RandomPartner == agent:
                 pass
             else:
@@ -529,9 +532,9 @@ def sex_possible(self, agent_sex_type, partner_sex_type):
     """
 
     # Check input
-    if agent_sex_type not in ['HM', 'HF', 'MSM', 'WSW','MTF']:
+    if agent_sex_type not in ['HM', 'HF', 'MSM', 'WSW','MTF','MSW']:
         raise ValueError("Invalid agent_sex_type! %s" % str(agent_sex_type))
-    if partner_sex_type not in ['HM', 'HF', 'MSM', 'WSW','MTF']:
+    if partner_sex_type not in ['HM', 'HF', 'MSM', 'WSW','MTF','MSW']:
         raise ValueError("Invalid partner_sex_type! %s" % str(
             partner_sex_type))
 
@@ -540,7 +543,7 @@ def sex_possible(self, agent_sex_type, partner_sex_type):
         SexPossible = True
     #elif partner_sex_type == 'HM' and agent_sex_type in ['HF', 'WSW']:
     #    SexPossible = True
-    elif agent_sex_type == 'MSM' and partner_sex_type in ['MSM', 'WSW', 'HF', 'MTF']:
+    elif agent_sex_type == 'MSM' and partner_sex_type in ['MSM', 'WSW', 'HF', 'MTF', 'MSW']:
         SexPossible = True
     #elif partner_sex_type == 'MSM' and agent_sex_type in ['MSM', 'WSW', 'HF']:
     #    SexPossible = True
@@ -551,6 +554,8 @@ def sex_possible(self, agent_sex_type, partner_sex_type):
     elif agent_sex_type == 'HF' and partner_sex_type in ['HM', 'MSM']:
         SexPossible = True
     elif agent_sex_type == 'MTF' and partner_sex_type in ['HM', 'MSM']:
+        SexPossible = True
+    elif agent_sex_type == 'MSW' and partner_sex_type in ['MSM', 'WSW', 'HF', 'MTF', 'MSW']:
         SexPossible = True
     else:
         SexPossible = False

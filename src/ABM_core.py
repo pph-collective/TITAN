@@ -297,7 +297,7 @@ class HIVModel(NetworkClass):
         print "RANDOM CALL %d" %random.randint(0,100)    
         def burnSimulation(burnDuration):
             for t in range(0, burnDuration + 1):
-                #print '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: BURN', t
+                print '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: BURN', t
                 self._update_AllAgents(t, burn=True)
 
                 if params.flag_DandR:
@@ -608,7 +608,7 @@ class HIVModel(NetworkClass):
                 agent._HIV_time += 1
                 # self.tmp_Agents[agent].update({'HIV_t': hiv_t})
             else:
-                if params.flag_PrEP:
+                if params.flag_PrEP and not burn:
                     if time > params.PrEP_startT:
                         if agent._PrEP_bool:
                             self._discont_PrEP(agent, time)
@@ -621,7 +621,7 @@ class HIVModel(NetworkClass):
         #print("\t\t= End Agents Operations =")
 
 
-        if params.flag_PrEP:
+        if params.flag_PrEP and not burn:
             if params.PrEP_target_model == 'Clinical':
                 if time > params.PrEP_startT:
                     numPrEP_agents = self.totalAgentClass._subset["PrEP"].num_members()
@@ -631,10 +631,10 @@ class HIVModel(NetworkClass):
                     print len(elligiblePool)
                     #for a in elligiblePool:
                         #print a.print_agent()
-                    while(numPrEP_agents< target_PrEP):
+                    while(numPrEP_agents < target_PrEP):
                         numPrEP_agents = self.totalAgentClass._subset["PrEP"].num_members()
                         target_PrEP = int((self.totalAgentClass.num_members()-self.totalAgentClass._subset["HIV"].num_members()) * params.PrEP_Target)
-                        #print "%d/%d"%(numPrEP_agents, target_PrEP)
+                        print "%d/%d"%(numPrEP_agents, target_PrEP)
                         self._initiate_PrEP(self._get_clinic_agent(params.PrEP_clinic_cat, elligiblePool), time)
                 # elif self._PrEP_elligible(agent, time):
                 #     self._initiate_PrEP(agent, time)
@@ -1911,7 +1911,7 @@ class HIVModel(NetworkClass):
             agent._PrEP_time = 0
             self.totalAgentClass._subset["PrEP"].add_agent(agent)
             tmp_rnd = random.random()
-            #PrEP_Adh = 0.82
+
             if tmp_rnd < params.PrEP_Adherence:
                 agent._PrEP_adh = 1
             else:
