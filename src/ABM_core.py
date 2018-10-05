@@ -412,6 +412,16 @@ class HIVModel(NetworkClass):
             except AttributeError:
                 params.drawNED = False
 
+            try:
+                params.inc_treat_HRsex_beh
+            except AttributeError:
+                params.inc_treat_HRsex_beh = False
+
+            try:
+                params.inc_treat_IDU_beh
+            except AttributeError:
+                params.inc_treat_IDU_beh = False
+
             if params.drawNED:
                 print "Drawing NED file"
                 fh=fh=open("results/network/Edgelist_t{}.txt".format(t),'wb')
