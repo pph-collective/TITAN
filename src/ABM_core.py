@@ -247,6 +247,7 @@ class HIVModel(NetworkClass):
 
         self.NewInfections = Agent_set(3, "NewInfections")
         self.NewDiagnosis = Agent_set(3, "NewDiagnosis")
+        self.NewIncarRelease = Agent_set(3, "NewIncarRelease")
         self.NewHRrolls = Agent_set(3, "NewHRrolls")
 
         # Assess the distribution of number of interactions per timestep for each agent type
@@ -292,7 +293,7 @@ class HIVModel(NetworkClass):
         """
         def getStats(t):
             self.filler = 0
-            print_stats(self.rSeed,t, self.totalAgentClass, self.HIV_agents_class, self.IncarceratedClass, self.PrEP_agents_class, self.NewInfections, self.NewDiagnosis, self.num_Deaths, self.ResultDict, self.Relationships, self.NewHRrolls)
+            print_stats(self.rSeed,t, self.totalAgentClass, self.HIV_agents_class, self.IncarceratedClass, self.PrEP_agents_class, self.NewInfections, self.NewDiagnosis, self.num_Deaths, self.ResultDict, self.Relationships, self.NewHRrolls, self.NewIncarRelease)
 
         print "RANDOM CALL %d" %random.randint(0,100)    
         def burnSimulation(burnDuration):
@@ -309,6 +310,7 @@ class HIVModel(NetworkClass):
             self.NewInfections.clear_set()
             self.NewDiagnosis.clear_set()
             self.NewHRrolls.clear_set()
+            self.NewIncarRelease.clear_set()
             getStats(0)
 
         self.networkGraph = NetworkClass(1000,m_0=1)
@@ -401,6 +403,7 @@ class HIVModel(NetworkClass):
             self.NewInfections.clear_set()
             self.NewDiagnosis.clear_set()
             self.NewHRrolls.clear_set()
+            self.NewIncarRelease.clear_set()
             self.num_Deaths
 
             # Ensure variable is defined
@@ -709,7 +712,7 @@ class HIVModel(NetworkClass):
             if partner_drug_type == 'IDU' and agent_drug_type == 'IDU':
                 # Injection is possible
                 #If agent is on post incar HR treatment to prevent IDU behavior, pass IUD infections
-                if agent._incar_treatment_time > 0 and params.inc_treat_behavior:
+                if agent._incar_treatment_time > 0 and params.inc_treat_IDU_beh:
                     pass
 
                 elif self._sex_possible(agent_sex_type, partner_sex_type):
@@ -1434,10 +1437,11 @@ class HIVModel(NetworkClass):
             #get out if t=0
             if incar_t == 1: #FREE AGENT
                 self.IncarceratedClass.remove_agent(agent)
+                self.NewIncarRelease.add_agent(agent)
                 agent._incar_bool = False
                 agent._ever_incar_bool = True
                 if not agent._highrisk_bool:        #If behavioral treatment on and agent HIV, ignore HR period.
-                    if params.inc_treat_behavior and hiv_bool and (time >=params.inc_treatment_startdate):
+                    if params.inc_treat_HRsex_beh and hiv_bool and (time >=params.inc_treatment_startdate):
                         pass
                     else:                           #Else, become high risk
                         self.HighriskClass.add_agent(agent)
@@ -1450,7 +1454,7 @@ class HIVModel(NetworkClass):
                         agent._highrisk_time = params.HR_M_dur
 
 
-                if (params.inc_treat_RIC or params.inc_treat_behavior) and (time >=params.inc_treatment_startdate):
+                if (params.inc_treat_RIC or params.inc_treat_HRsex_beh or params.inc_treat_IDU_beh) and (time >=params.inc_treatment_startdate):
                     agent._incar_treatment_time = params.inc_treatment_dur
 
                 if hiv_bool:

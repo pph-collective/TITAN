@@ -88,9 +88,11 @@ inc_ARTadh = 0.90
 inc_ARTdisc = 0.00
 inc_Recidivism = 0.267
 inc_PtnrDissolution = 0.55
-inc_treatment_dur = 6           # Duration for which agents are forced on respective treatment post release
+inc_treatment_startdate = 48    # Timestep where inc treatment can begin
+inc_treatment_dur = 12          # Duration for which agents are forced on respective treatment post release
 inc_treat_set = ['HM']          # Set of agent classifiers effected by HR treatment
-inc_treat_behavior = True      # Remove IDU behaviour during treatment duration
+inc_treat_HRsex_beh = True      # Remove sexual higrisk behaviour during treatment duration
+inc_treat_IDU_beh = True         # Remove IDU behaviour during treatment duration
 inc_treat_RIC = True            # Force retention in care of ART therapy
 
 """
@@ -202,7 +204,7 @@ RC_template = {     'Race':None,            #Race of demographic
                     'HAARTadh':0.0,         #Adherence to ART therapy
                     'HAARTdisc':0.0,        #Probability of discontinuing ART therapy
                     'PrEPdisc':0.0,         #Probability of discontinuing PrEP treatment
-                    'EligPartnerType':[],   #List of agent SO types the agent cant partner with
+                    'EligSE_PartnerType':[],   #List of agent SO types the agent cant partner with
                     'AssortMixMatrix':[]    #List of assortMix Matrix to be zipped with EligPart
                 }
 
@@ -233,7 +235,7 @@ RaceClass1['HM'] = {'POP':0.4150,
                      'HAARTadh':0.405,
                      'HAARTdisc':0.000,
                      'PrEPdisc':0.0000,
-                     'EligPartnerType':['HF']
+                     'EligSE_PartnerType':['HF']
                      }
 
 RaceClass1['HF'] = {'POP':0.5850,
@@ -251,7 +253,7 @@ RaceClass1['HF'] = {'POP':0.5850,
                      'HAARTadh':0.405,
                      'HAARTdisc':0.000,
                      'PrEPdisc':PrEP_disc,
-                     'EligPartnerType':['HM']
+                     'EligSE_PartnerType':['HM']
                      }
 
 RaceClass1['MSM'] = {'POP':0.00,
@@ -270,7 +272,7 @@ RaceClass1['MSM'] = {'POP':0.00,
                      'HAARTdisc':0.000,
                      'PrEPadh':0.55,
                      'PrEPdisc':PrEP_disc,
-                     'EligPartnerType':['MSM']
+                     'EligSE_PartnerType':['MSM']
                      }
 
 RaceClass1['MTF'] = {'POP':0.00,
@@ -289,7 +291,7 @@ RaceClass1['MTF'] = {'POP':0.00,
                      'HAARTdisc':0.000,
                      'PrEPadh':0.55,
                      'PrEPdisc':PrEP_disc,
-                     'EligPartnerType':['MSM']
+                     'EligSE_PartnerType':['MSM']
                      }
 
 RaceClass1['PWID'] = {'POP':0.0173,
@@ -307,7 +309,7 @@ RaceClass1['PWID'] = {'POP':0.0173,
                      'HAARTadh':0.405,
                      'HAARTdisc':0.000,
                      'PrEPdisc':0.0000,
-                     'EligPartnerType':['IDU']
+                     'EligSE_PartnerType':['IDU']
                      }
 
 

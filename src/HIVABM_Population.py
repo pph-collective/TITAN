@@ -704,7 +704,6 @@ class PopulationClass():
 
         agent_cl = self._return_new_Agent_class(agent,Deliminator)
         self.totalAgentClass.add_agent(agent_cl)
-        print agent_cl
         # if agent == 0.25*self.PopulationSize:print "25%"
         # elif agent == 0.5*self.PopulationSize:print "50%"
         # elif agent == 0.75*self.PopulationSize:print "75%"

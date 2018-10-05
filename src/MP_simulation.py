@@ -135,7 +135,7 @@ def open_inputs():
     prevalenceReport.close()
 
     incarReport = open('results/IncarReport.txt', 'w')
-    incarReport.write("seed\tt\tTotal\tW_HM\tB_HM\tW_HF\tB_HF\tW_MSM\tB_MSM\tW_HIV\tB_HIV\n")
+    incarReport.write("seed\tt\tTotal\tW_HM\tB_HM\tW_HF\tB_HF\tW_MSM\tB_MSM\tW_HIV\tB_HIV\tW_rlsd\tB_rlsd\tW_rlsdHIV\tB_rlsdHIV\n")
     # prevalenceReport.write("0,0,0,0,0,0\n")
     incarReport.close()
 

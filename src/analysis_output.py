@@ -99,7 +99,7 @@ def initiate_ResultDict():
 
     return ResultDict
 
-def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInfections, NewDiagnosis, deaths, ResultDict, Relationships, newHR, outifle=None):
+def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInfections, NewDiagnosis, deaths, ResultDict, Relationships, newHR, newIncarRelease, outifle=None):
     incidenceReport = open('results/IncidenceReport.txt', 'a')
     prevalenceReport = open('results/PrevalenceReport.txt', 'a')
     deathReport = open('results/DeathReport.txt', 'a')
@@ -163,6 +163,8 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
                 'inf_HRever':0,
                 'inf_newInf':0,
                 'newHighRisk':0,
+                'newRelease':0,
+                'newReleaseHIV':0,
                 'numHIV':0,
                 'numTested':0,
                 'numAIDS':0,
@@ -189,6 +191,11 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
         rsltdic[tmpA._race][tmpA._SO]['incar'] += 1
         if tmpA._HIV_bool:
             rsltdic[tmpA._race][tmpA._SO]['incarHIV'] += 1
+
+    for tmpA in newIncarRelease.iter_agents():
+        rsltdic[tmpA._race][tmpA._SO]['newRelease'] += 1
+        if tmpA._HIV_bool:
+            rsltdic[tmpA._race][tmpA._SO]['newReleaseHIV'] += 1
 
     #Newly infected tracker statistics (with HR within 6mo and HR ever bool check)
 
@@ -402,7 +409,7 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
     # infMSM_HRever, numNewlyTested_MSM, deaths_HIV_MSM, PrEPAgents.num_members())))
 
     incarReport.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
             rseed,
             t,
             IncarAgents.num_members(),
@@ -413,7 +420,11 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
             rsltdic['WHITE']['MSM']['incar'],
             rsltdic['BLACK']['MSM']['incar'],
             rsltdic['WHITE']['ALL']['incarHIV'],
-            rsltdic['BLACK']['ALL']['incarHIV']))
+            rsltdic['BLACK']['ALL']['incarHIV'],
+            rsltdic['WHITE']['ALL']['newRelease'],
+            rsltdic['BLACK']['ALL']['newRelease'],
+            rsltdic['WHITE']['ALL']['newReleaseHIV'],
+            rsltdic['BLACK']['ALL']['newReleaseHIV']))
 
     iduReport.write(
         "%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
