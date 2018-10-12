@@ -9,7 +9,7 @@ Main model parameters.
 PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 N_MC = 100              # total number of iterations (Monte Carlo runs)
-N_POP = 1100          # population size
+N_POP = 110000          # population size
 TIME_RANGE = 168        # total time steps to iterate
 burnDuration = 30       # total time for burning in period (equillibration)
 model = 'Incar'         # Model Type for fast flag toggling

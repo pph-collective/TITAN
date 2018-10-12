@@ -71,11 +71,11 @@ echo "
 "
 
 #TITAN params
-sed -i "10s/"0"/$seed/g" params.py
-sed -i "11s/"100"/$nMC/g" params.py
-sed -i "12s/"100000"/$nPop/g" params.py
-sed -i "13s/"120"/$simT/g" params.py
-sed -i "14s/"36"/$burn/g" params.py
+sed -i "s/\(rSeed = \)\([0-9]*\)/\1${seed}/g" params.py
+sed -i "s/\(N_MC = \)\([0-9]*\)/\1${nMC}/g" params.py
+sed -i "s/\(N_POP = \)\([0-9]*\)/\1${nPop}/g" params.py
+sed -i "s/\(TIME_RANGE = \)\([0-9]*\)/\1${simT}/g" params.py
+sed -i "s/\(burnDuration = \)\([0-9]*\)/\1${burn}/g" params.py
 
 #Submit script params
 sed -i "s/MODEL_NAME/$jobname/g" bs_Core.sh

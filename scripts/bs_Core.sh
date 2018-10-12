@@ -17,6 +17,7 @@ fi
 #Conduct Dual analysis for 100 runs
 
 #!/bin/bash
+module load graphviz
 
 cd $PWD
 
