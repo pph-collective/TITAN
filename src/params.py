@@ -7,13 +7,14 @@ Main model parameters.
 
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
-rSeed = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
-N_MC = 100              # total number of iterations (Monte Carlo runs)
-N_POP = 110000          # population size
-TIME_RANGE = 168        # total time steps to iterate
+rSeed = 3               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
+N_MC = 1              # total number of iterations (Monte Carlo runs)
+N_POP = 400          # population size
+TIME_RANGE = 120        # total time steps to iterate
 burnDuration = 30       # total time for burning in period (equillibration)
 model = 'Incar'         # Model Type for fast flag toggling
 setting = 'Phil2005'
+label = '0.0_Mix'
 ####################
 
 """
@@ -24,11 +25,12 @@ outputDir = ''
 startAgentList = False
 endingAgentList = False
 intermAgentList = False
-intermPrintFreq = 10
+intermPrintFreq = 120
 MSMreport = True
 HMreport = False
 HFreport = False
-drawFigures = False
+drawFigures = True
+drawNED = True
 
 
 """
@@ -68,7 +70,7 @@ flag_AssortativeMix = True     # Boolean for if assortative mixing occurs at all
 AssortMixType = "HR"            # Other assortative mixing types
 flag_AgeAssortMix = False       # Assortative mix by age
 flag_RaceAssortMix = False      # Assortative mix by race
-AssortMixCoeff = 0.3           # Proportion of following given assort mix rules
+AssortMixCoeff = 0.0           # Proportion of following given assort mix rules
 safeNeedleExchangePrev = 1.0    # Prevalence scalar on SNE
 initTreatment = 999999
 treatmentCov = 0.0

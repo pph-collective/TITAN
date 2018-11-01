@@ -483,7 +483,7 @@ class NetworkClass(PopulationClass):
 
         pos = graphviz_layout(G, prog='neato', args='')
         nx.draw(G, pos,
-                node_size = 1, 
+                node_size = 1,
                 node_color = node_color,
                 node_shape = node_shape,
                 edge_color = edge_color,
@@ -500,9 +500,9 @@ class NetworkClass(PopulationClass):
         #                  linewidths = 0.25,
         #                  width = 0.25)
         plt.axis('equal')
-        #filename="images/Network_%d_%s_%s_%d.png"%(Gsize,program,coloring,time)
-        #plt.savefig(filename)
-        plt.show()
+        filename="images/Network_%d_%s_%s_%d.png"%(Gsize,program,coloring,time)
+        plt.savefig(filename)
+        #plt.show()
 
     def vizualize_network_random(self):
         G = self.G
@@ -581,6 +581,14 @@ class NetworkClass(PopulationClass):
                     node_color.append('y')
                 else:
                     node_color.append('g')
+        elif coloring == 'HR':
+            for v in G:
+                if v._highrisk_bool:#tmp_hiv == 1:
+                    node_color.append('r')
+                elif v._everhighrisk_bool: #tmp_aids == 1:
+                    node_color.append('y')
+                else:
+                    node_color.append('g')
         else:
             raise ValueError("coloring value invalid!\n%s\n \
             Only 'SO','DU', 'Tested', and 'HIV' allowed!"%str(coloring))
@@ -588,7 +596,7 @@ class NetworkClass(PopulationClass):
         return node_color
 
     def visualize_network(self, coloring='SO', pos=None,
-                          return_layout=0, node_size=None, iterations=10, curtime=0):
+                          return_layout=0, node_size=None, iterations=30, curtime=0, label='Network'):
         """
         :Purpose:
             Visualize the network using the spring layout (default). \n
@@ -601,12 +609,12 @@ class NetworkClass(PopulationClass):
         #plt.figure(figsize=(8,8))
 
         if not pos:
-            #pos=nx.spring_layout(G,iterations=iterations)
+            pos=nx.spring_layout(G,iterations=iterations)
             #pos = nx.circular_layout(G)
             #pos=nx.shell_layout(G)
             #pos=nx.random_layout(G)
             #pos=nx.spectral_layout(G)
-            pos = graphviz_layout(G, prog='neato', args='')
+            #pos = graphviz_layout(G, prog='neato', args='')
 
         edge_color = 'k'
         node_shape = 'o'
@@ -633,7 +641,7 @@ class NetworkClass(PopulationClass):
                 edge_color = edge_color,
                 with_labels=False,
                 linewidths = 0.0,
-                width=0.25)
+                width=0.05)
 
 
         #nx.draw_networkx_nodes(self.graph,pos,node_size=NodeSize)
@@ -642,10 +650,10 @@ class NetworkClass(PopulationClass):
         print curtime
         plt.axis('equal')
         plt.axis('off')
-        #filename="images/Network_%d_%s_%d.png"%(G.number_of_nodes(),coloring, curtime)
+        filename="images/%s_%d_%s_%d.png"%(label, G.number_of_nodes(),coloring, curtime)
 
-        plt.show()
-        #plt.savefig(filename)
+        #plt.show()
+        plt.savefig(filename)
         #plt.show(block=True)
         
         print G.size()
