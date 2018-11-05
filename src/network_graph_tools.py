@@ -299,7 +299,8 @@ class NetworkClass(PopulationClass):
     def write_network_stats(self, t=0):
             from networkx.algorithms import approximation
             G = self.G
-            bigG = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)[0]
+            components = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)
+            bigG = components[0]
             outfile = open('results/network/networkStats.txt','w')
             outfile.write(nx.info(G))
 
@@ -320,6 +321,20 @@ class NetworkClass(PopulationClass):
             outfile.write("Average node clustering: {}\n".format(nx.average_clustering(G)))
             outfile.close()
 
+            # # Betweenness centrality
+            # bet_cen = nx.betweenness_centrality(bigG)
+            # # Closeness centrality
+            # clo_cen = nx.closeness_centrality(bigG)
+            # # Eigenvector centrality
+            # #eig_cen = nx.eigenvector_centrality(bigG)
+            # print bet_cen
+            # print clo_cen
+
+            comps = []
+            for i in components:
+                comps.append(len(i))
+
+            print np.histogram(comps)
 
     def create_graph_from_agents(self, agents):
         G = self.G
@@ -596,7 +611,7 @@ class NetworkClass(PopulationClass):
         return node_color
 
     def visualize_network(self, coloring='SO', pos=None,
-                          return_layout=0, node_size=None, iterations=30, curtime=0, label='Network'):
+                          return_layout=0, node_size=None, iterations=30, curtime=0, txtboxLabel=0, label='Network'):
         """
         :Purpose:
             Visualize the network using the spring layout (default). \n
@@ -605,6 +620,7 @@ class NetworkClass(PopulationClass):
             graph : networkX graph
         """
         G = self.G
+        plt.clear()
         print("Plotting...")
         #plt.figure(figsize=(8,8))
 
@@ -648,6 +664,17 @@ class NetworkClass(PopulationClass):
         #nx.draw_networkx_edges(self.graph,pos,alpha=0.4)
         print G.number_of_nodes()
         print curtime
+
+        textstr = '\n'.join((
+            r'N infection=%.2f' % (txtboxLabel,),
+            r'Time=%.2f' % (curtime,)))
+
+        # these are matplotlib.patch.Patch properties
+        props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+
+        # place a text box in upper left in axes coords
+        plt.text(0.85, 0.95, textstr, fontsize=14,
+                verticalalignment='top',horizontalalignment='left', bbox=props)
         plt.axis('equal')
         plt.axis('off')
         filename="images/%s_%d_%s_%d.png"%(label, G.number_of_nodes(),coloring, curtime)

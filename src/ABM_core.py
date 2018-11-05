@@ -359,7 +359,7 @@ class HIVModel(NetworkClass):
             #print "RANDOM CALL %d" %random.randint(0,100)
             if params.drawFigures and t%params.intermPrintFreq == 0:
                 #self.networkGraph.draw_histogram(0)
-                self.networkGraph.visualize_network(coloring='HR', node_size=10, curtime=t, label=params.label)
+                self.networkGraph.visualize_network(coloring='HR', node_size=10, curtime=t, txtboxLabel=4, label=params.label)
             #todo: GET THIS TO THE NEW HIV COUNT
             print "\tSTARTING HIV count:%d\tTotal Incarcerated:%d\tHR+:%d\tPrEP:%d" % (self.totalAgentClass._subset["HIV"].num_members(), self.totalIncarcerated, self.HighriskClass.num_members(), self.PrEP_agents_class.num_members())
             #self.totalAgentClass.print_agents()

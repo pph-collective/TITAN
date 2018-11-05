@@ -114,6 +114,8 @@ class Agent(object):
 
     def __str__(self):
         return str(self._ID)+ '\t'+str(self._SO)+'\t'+str(self._DU)+'\t'+ str(self._HIV_bool)
+    def __repr__(self):
+        return str(self._ID)
 
     def get_ID(self):
         return self._ID
