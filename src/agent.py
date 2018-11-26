@@ -114,6 +114,7 @@ class Agent(object):
 
     def __str__(self):
         return str(self._ID)+ '\t'+str(self._SO)+'\t'+str(self._DU)+'\t'+ str(self._HIV_bool)
+
     def __repr__(self):
         return str(self._ID)
 
@@ -481,76 +482,3 @@ class Agent_set(Agent):
             if tmpS.num_members() > 0:
                 print "\t%s\t\t%d\t%.2f" % (tmpS._ID, tmpS.num_members(), (1.0*tmpS.num_members()/tmpS._numerator.num_members()))
         print "\t______________ END ______________"
-
-class Agent_Store(object):
-    """
-    Agent_Store is a class used to store agents who have left for various
-    reasons (such as migration) or are in school. It allows triggering their
-    return or graduation during a later timestep of the model.
-    """
-    def __init__(self):
-        # self._releases is a dictionary, keyed by timestep, that stores the
-        # time at which each agent will be released back to their original
-        # parent agent (when they return from school, or from their temporary
-        # migration, for example.
-        self._releases = {}
-        self._parent_dict = {}
-        self._stored_agents = []
-
-    def add_agent(self, agent, release_time):
-        """
-        Adds a new agent to the agent store. Also remove the agent from it's
-        parent Agent_set instance.
-        """
-        if release_time in self._releases:
-            self._releases[release_time].append(agent)
-        else:
-            self._releases[release_time] = [agent]
-        self._parent_dict[agent] = agent.get_parent_agent()
-        # Store a reference to the agent store with the class instance that is
-        # being stored, for easy retrieval later
-        agent._store_list.append(self)
-        agent.get_parent_agent().remove_agent(agent)
-        # Keep a list of the agents stored in this agent_set instance in
-        # _stored_agents so that we can easily check whether or now an agent is
-        # in an agent store instance, without having to iterate through all the
-        # release times.
-        self._stored_agents.append(agent)
-
-    def release_agents(self, time):
-        # TODO: Make this more general, so it works for households or person
-        # agents. Right now it only works for persons since to get the
-        # neighborhood ID for tracking we have to call .get_parent_agent twice.
-        released_agents = []
-        released_agents_dict = {}
-        if time in self._releases:
-            for agent in self._releases[time]:
-                parent_agent = self._parent_dict.pop(agent)
-                parent_agent.add_agent(agent)
-                agent._store_list.remove(self)
-                self._stored_agents.remove(agent)
-                neighborhood = parent_agent.get_parent_agent()
-                if not neighborhood.get_ID() in released_agents_dict:
-                    released_agents_dict[neighborhood.get_ID()] = 0
-                released_agents_dict[neighborhood.get_ID()] += 1
-                released_agents.append(agent)
-            # Remove the now unused releases list for this timestep.
-            self._releases.pop(time)
-        return released_agents_dict, released_agents
-
-    def in_store(self, agent):
-        if agent in self._stored_agents: return True
-        else: return False
-
-    def remove_agent(self, agent):
-        """
-        Remove an agent from the store without releasing it to its original
-        location (useful for handling agents who die while away from home).
-        """
-        self._releases[agent._return_timestep].remove(agent)
-        self._parent_dict.pop(agent)
-        self._stored_agents.remove(agent)
-        agent._store_list.remove(self)
-
-    def __str__(self):
-        return 'Agent_Store(%s)'%self._releases

@@ -61,7 +61,7 @@ def enablePrint():
 def main():
     parameter_dict = read_parameter_dict(1)   # get parameters
     wct = []                                 # wall clock times
-    open_inputs()
+    open_outputs()
 
     #read_classifier_dict()
     for single_sim in parameter_dict:
@@ -109,11 +109,25 @@ def main():
 
     #plt.show(block=True)
 
-def open_inputs():
+def open_outputs():
     # dynReport = open('results/dynnetworkReport.txt','w')
     # dynReport.write('')
     # dynReport.close()
 
+    for agentTypes in params.agentPopulations:
+        name = 'basicReport_'+agentTypes
+        print name
+        tmpReport = open('results/'+name+'.txt', 'w')
+        tmpReport.write("seed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\n")
+        tmpReport.close()
+
+    for demographicTypes in params.DemographicParams.keys():
+        name = 'basicReport_'+demographicTypes
+        print name
+        tmpReport = open('results/'+name+'.txt', 'w')
+        tmpReport.write("seed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\n")
+        #whiteReport.write("0,0,0,0,0\n")
+        tmpReport.close()
     whiteReport = open('results/W_pop_report.txt', 'w')
     whiteReport.write("seed\tt\tTotal-HIV\tMSM\tTested+\tHAART\n")
     #whiteReport.write("0,0,0,0,0\n")

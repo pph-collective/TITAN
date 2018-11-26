@@ -177,28 +177,28 @@ class PopulationClass():
             MT_NoIncar = True
 
         #Quick calc based on traj: 0.596 Female -> 0,01175/0.75 HIV -> 0.75 Tested+ = 11.75% HIV DIAG
-        StratW = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}}
+        StratW = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}}
         if MT_PrEP:
             StratW['MSM'] = {'POP':1.0, 'HIV':0.036195675, 'AIDS':0.51, 'HAARTprev':0.33, 'INCARprev':0.0, 'TestedPrev':0.816, 'mNPart':3}
             StratW['HM'] = {'POP':0.0, 'HIV':0.0, 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
             StratW['HF'] = {'POP':0.0, 'HIV':0.0, 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
-            StratW['PWID'] = {'POP':0.0, 'HIV':0.0, 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
+            StratW['IDU'] = {'POP':0.0, 'HIV':0.0, 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
         elif MT_Incar:
             StratW['MSM'] = {'POP':0.0, 'HIV':0.05, 'AIDS':0.05, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.86, 'mNPart':3}
             StratW['HM'] = {'POP':0.4044435412, 'HIV':0.0158/0.75, 'AIDS':0.678, 'HAARTprev':0.03748, 'INCARprev':0.0279, 'TestedPrev':0.75, 'mNPart':3}
             StratW['HF'] = {'POP':0.5955564588, 'HIV':0.01175/0.75, 'AIDS':0.573, 'HAARTprev':0.04054, 'INCARprev':0.0, 'TestedPrev':0.75, 'mNPart':2}
-            StratW['PWID'] = {'POP':0.0, 'HIV':0.0, 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0, 'mNPart':3}
+            StratW['IDU'] = {'POP':0.0, 'HIV':0.0, 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0, 'mNPart':3}
         elif MT_NoIncar:
             StratW['MSM'] = {'POP':0.0, 'HIV':0.05, 'AIDS':0.05, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.86, 'mNPart':3}
             StratW['HM'] = {'POP':0.4044435412, 'HIV':0.0158/0.75, 'AIDS':0.678, 'HAARTprev':0.03748, 'INCARprev':0.0, 'TestedPrev':0.75, 'mNPart':3}
             StratW['HF'] = {'POP':0.5955564588, 'HIV':0.01175/0.75, 'AIDS':0.573, 'HAARTprev':0.04054, 'INCARprev':0.0, 'TestedPrev':0.75, 'mNPart':2}
-            StratW['PWID'] = {'POP':0.0, 'HIV':0.0, 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0, 'mNPart':3}
+            StratW['IDU'] = {'POP':0.0, 'HIV':0.0, 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0, 'mNPart':3}
 
-        StratB = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}}
+        StratB = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}}
         StratB['MSM'] = {'POP':0.0, 'HIV':0.0 , 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
         StratB['HM'] = {'POP':0.0, 'HIV':0.0 , 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
         StratB['HF'] = {'POP':0.0, 'HIV':0.0 , 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
-        StratB['PWID'] = {'POP':0.0, 'HIV':0.0 , 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
+        StratB['IDU'] = {'POP':0.0, 'HIV':0.0 , 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
 
         self.ProbLookUp = {'WHITE':StratW, 'BLACK':StratB}
         # drug user prevalence (proportion)
@@ -443,16 +443,16 @@ class PopulationClass():
 
         #Determine drugtype
         tmp_rnd = random.random()
-        #print "%.3lf must be less than%.3lf"%(tmp_rnd,params.DemographicParams[Deliminator]['PWID']['POP'])
+        #print "%.3lf must be less than%.3lf"%(tmp_rnd,params.DemographicParams[Deliminator]['IDU']['POP'])
 
-        if tmp_rnd < params.DemographicParams[Deliminator]['PWID']['POP']:
+        if tmp_rnd < params.DemographicParams[Deliminator]['IDU']['POP']:
             DrugType = 'IDU'
         else:
             DrugType = 'ND'
 
         # HIV
         if DrugType == 'IDU':
-            prob_HIV = params.DemographicParams[Deliminator]['PWID']['HIV']
+            prob_HIV = params.DemographicParams[Deliminator]['IDU']['HIV']
         else:
             prob_HIV = params.DemographicParams[Deliminator][SexType]['HIV']
         #print "%s\t%s\t%.3lf"%(Deliminator,SexType,prob_HIV)
@@ -462,7 +462,7 @@ class PopulationClass():
 
             # if HIV AIDS possible
             if DrugType == 'IDU':
-                prob_AIDS = params.DemographicParams[Deliminator]['PWID']['AIDS']
+                prob_AIDS = params.DemographicParams[Deliminator]['IDU']['AIDS']
             else:
                 prob_AIDS = params.DemographicParams[Deliminator][SexType]['AIDS']
                 #print "%s\t%s\t%.3lf"%(Deliminator,SexType,prob_HIV)
@@ -474,7 +474,7 @@ class PopulationClass():
 
             # HIV testing params
             if DrugType == 'IDU':
-                prob_Tested = params.DemographicParams[Deliminator]['PWID']['TestedPrev']
+                prob_Tested = params.DemographicParams[Deliminator]['IDU']['TestedPrev']
             else:
                 prob_Tested = params.DemographicParams[Deliminator][SexType]['TestedPrev']
 
@@ -483,7 +483,7 @@ class PopulationClass():
 
                 #if tested HAART possible
                 if DrugType == 'IDU':
-                    prob_HAART = params.DemographicParams[Deliminator]['PWID']['HAARTprev']
+                    prob_HAART = params.DemographicParams[Deliminator]['IDU']['HAARTprev']
                 else:
                     prob_HAART = params.DemographicParams[Deliminator][SexType]['HAARTprev']
 
@@ -508,7 +508,7 @@ class PopulationClass():
 
         #Incarceration
         if DrugType == 'IDU':
-            prob_Incarc = params.DemographicParams[Deliminator]['PWID']['INCARprev']
+            prob_Incarc = params.DemographicParams[Deliminator]['IDU']['INCARprev']
         else:
             prob_Incarc = params.DemographicParams[Deliminator][SexType]['INCARprev']
 
@@ -568,10 +568,10 @@ class PopulationClass():
 
         #Determine drugtype
         tmp_rnd = random.random()
-        #print "%.3lf must be less than%.3lf"%(tmp_rnd,params.DemographicParams[Deliminator]['PWID']['POP'])
+        #print "%.3lf must be less than%.3lf"%(tmp_rnd,params.DemographicParams[Deliminator]['IDU']['POP'])
 
         #todo: FIX THIS TO GET BACK IDU
-        if tmp_rnd < params.DemographicParams[Race]['PWID']['POP']:
+        if tmp_rnd < params.DemographicParams[Race]['IDU']['POP']:
             DrugType = 'IDU'
         else:
             DrugType = 'ND'
@@ -586,7 +586,7 @@ class PopulationClass():
         newAgent._ageBin = ageBin
         # HIV
         if DrugType == 'IDU':
-            prob_HIV = params.DemographicParams[Race]['PWID']['HIV']
+            prob_HIV = params.DemographicParams[Race]['IDU']['HIV']
         else:
             #prob_HIV = params.ageMatrix[Race]['HIV'][newAgent._ageBin]
             prob_HIV = params.DemographicParams[Race][SexType]['HIV']
@@ -598,7 +598,7 @@ class PopulationClass():
 
             # if HIV AIDS possible
             if DrugType == 'IDU':
-                prob_AIDS = params.DemographicParams[Race]['PWID']['AIDS']
+                prob_AIDS = params.DemographicParams[Race]['IDU']['AIDS']
             else:
                 prob_AIDS = params.DemographicParams[Race][SexType]['AIDS']
                 #print "%s\t%s\t%.3lf"%(Deliminator,SexType,prob_HIV)
@@ -611,7 +611,7 @@ class PopulationClass():
 
             # HIV testing params
             if DrugType == 'IDU':
-                prob_Tested = params.DemographicParams[Race]['PWID']['TestedPrev']
+                prob_Tested = params.DemographicParams[Race]['IDU']['TestedPrev']
             else:
                 prob_Tested = params.DemographicParams[Race][SexType]['TestedPrev']
 
@@ -621,7 +621,7 @@ class PopulationClass():
 
                 #if tested HAART possible
                 if DrugType == 'IDU':
-                    prob_HAART = params.DemographicParams[Race]['PWID']['HAARTprev']
+                    prob_HAART = params.DemographicParams[Race]['IDU']['HAARTprev']
                 else:
                     prob_HAART = params.DemographicParams[Race][SexType]['HAARTprev']
 
@@ -649,7 +649,7 @@ class PopulationClass():
 
         # #Incarceration
         # if DrugType == 'IDU':
-        #     prob_Incarc = params.DemographicParams[Race]['PWID']['INCARprev']
+        #     prob_Incarc = params.DemographicParams[Race]['IDU']['INCARprev']
         # else:
         #     prob_Incarc = params.DemographicParams[Race][SexType]['INCARprev']
         #

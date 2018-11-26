@@ -29,7 +29,7 @@ intermPrintFreq = 1
 MSMreport = True
 HMreport = False
 HFreport = False
-drawFigures = True
+drawFigures = False
 drawNED = False
 
 
@@ -182,10 +182,11 @@ elif model == 'Custom':
     flag_staticN = False
     flag_agentZero = False
 
+agentPopulations = ['MSM','HM','HF','IDU']
 agentSexTypes = ['HM', 'HF', 'MSM', 'MTF']
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
-ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, PWID)
+ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, IDU)
 RaceClass agent classifier template
 """
 RC_template = {     'Race':None,            #Race of demographic
@@ -216,9 +217,9 @@ RC_allTemplate = {  'Proportion':1.00,      #Proportion of total population that
                     'AssortMixCoeff':1.0,   #Proportion RC mixes with other raceclass
                 }
 
-RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
-RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
-for a in ['MSM','HM','HF','PWID']:
+RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}, 'ALL':{}}
+RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}, 'ALL':{}}
+for a in ['MSM','HM','HF','IDU']:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
@@ -296,7 +297,7 @@ RaceClass1['MTF'] = {'POP':0.00,
                      'EligSE_PartnerType':['MSM']
                      }
 
-RaceClass1['PWID'] = {'POP':0.0173,
+RaceClass1['IDU'] = {'POP':0.0173,
                      'HIV':0.1500,
                      'AIDS':0.6780,
                      'HAARTprev':0.41,

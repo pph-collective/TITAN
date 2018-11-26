@@ -289,6 +289,46 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
             tot_rsltdic['ALL']['HF'][param] += rsltdic[race]['HF'][param]
             tot_rsltdic['ALL']['IDU'][param] += rsltdic[race]['IDU'][param]
 
+    for agentTypes in params.agentPopulations:
+        name = 'basicReport_'+agentTypes
+        tmpReport = open('results/'+name+'.txt', 'a')
+        tmpReport.write((
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+            rseed,
+            t,
+            totalAgents._subset[agentTypes].num_members(),
+            tot_rsltdic['ALL'][agentTypes]['numHIV'],
+            tot_rsltdic['ALL'][agentTypes]['numAIDS'],
+            tot_rsltdic['ALL'][agentTypes]['numTested'],
+            tot_rsltdic['ALL'][agentTypes]['numART'],
+            tot_rsltdic['ALL'][agentTypes]['inf_newInf'],
+            tot_rsltdic['ALL'][agentTypes]['inf_HR6m'],
+            tot_rsltdic['ALL'][agentTypes]['inf_HRever'],
+            tot_rsltdic['ALL'][agentTypes]['newlyTested'],
+            tot_rsltdic['ALL'][agentTypes]['deaths'],
+            tot_rsltdic['ALL'][agentTypes]['numPrEP'])))
+        tmpReport.close()
+
+    for demographicTypes in params.DemographicParams.keys():
+        name = 'basicReport_'+demographicTypes
+        print name
+        tmpReport = open('results/'+name+'.txt', 'a')
+        tmpReport.write((
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+            rseed,
+            t,
+            -1,
+            rsltdic[demographicTypes]['ALL']['numHIV'],
+            rsltdic[demographicTypes]['ALL']['numAIDS'],
+            rsltdic[demographicTypes]['ALL']['numTested'],
+            rsltdic[demographicTypes]['ALL']['numART'],
+            rsltdic[demographicTypes]['ALL']['inf_newInf'],
+            rsltdic[demographicTypes]['ALL']['inf_HR6m'],
+            rsltdic[demographicTypes]['ALL']['inf_HRever'],
+            rsltdic[demographicTypes]['ALL']['newlyTested'],
+            rsltdic[demographicTypes]['ALL']['deaths'],
+            rsltdic[demographicTypes]['ALL']['numPrEP'])))
+        tmpReport.close()
 
     incidenceReport.write(
         "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
