@@ -311,7 +311,6 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
 
     for demographicTypes in params.DemographicParams.keys():
         name = 'basicReport_'+demographicTypes
-        print name
         tmpReport = open('results/'+name+'.txt', 'a')
         tmpReport.write((
         "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (

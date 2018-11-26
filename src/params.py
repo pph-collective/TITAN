@@ -9,9 +9,9 @@ Main model parameters.
 PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed = 3               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 N_MC = 1              # total number of iterations (Monte Carlo runs)
-N_POP = 400          # population size
-TIME_RANGE = 12        # total time steps to iterate
-burnDuration = 30       # total time for burning in period (equillibration)
+N_POP = 40000          # population size
+TIME_RANGE = 2        # total time steps to iterate
+burnDuration = 3       # total time for burning in period (equillibration)
 model = 'Incar'         # Model Type for fast flag toggling
 setting = 'Phil2005'
 label = '0.0_Mix'
@@ -297,7 +297,7 @@ RaceClass1['MTF'] = {'POP':0.00,
                      'EligSE_PartnerType':['MSM']
                      }
 
-RaceClass1['IDU'] = {'POP':0.0173,
+RaceClass1['IDU'] = {'POP':0.0,
                      'HIV':0.1500,
                      'AIDS':0.6780,
                      'HAARTprev':0.41,

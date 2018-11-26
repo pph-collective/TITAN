@@ -320,7 +320,7 @@ class PopulationClass():
             self.create_agent(agent, 'WHITE')
         for agent in self.Black_agents:
             self.create_agent(agent, 'BLACK')
-        random.shuffle(self.totalAgentClass._members)
+        #random.shuffle(self.totalAgentClass._members)
         prob_Incarc = params.DemographicParams['WHITE']['HM']['INCARprev']
         for tmpA in self.totalAgentClass._members:
 

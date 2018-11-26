@@ -498,7 +498,7 @@ class HIVModel(NetworkClass):
         #print("\n\nSTARTING RELATIONSHIPS")
         # self.Relationships.print_agent_relationshps()
         
-        for rel in self.Relationships._members:#.iter_agents():
+        for rel in self.Relationships._members.copy():#.iter_agents():
             if burn:
                 pass
             else:
@@ -515,7 +515,8 @@ class HIVModel(NetworkClass):
                     #print self.Relationships.is_member(rel)
 
                     #print rel
-                    del rel
+                    self.Relationships._members.discard(rel)
+                    #del rel
 
                 #pass
         #print("\n\nENDING RELATIONSHIPS")
@@ -524,7 +525,7 @@ class HIVModel(NetworkClass):
 
         if params.flag_HR:
             #print("\t\t= High Risk Group functions =")
-            for tmpA in self.HighriskClass.iter_agents():
+            for tmpA in self.HighriskClass._members.copy():#iter_agents():
                 if tmpA._highrisk_time > 0:
                     tmpA._highrisk_time -= 1
                 else:

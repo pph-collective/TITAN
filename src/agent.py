@@ -303,7 +303,7 @@ class Agent_set(Agent):
 
         # _members stores agent set members in a dictionary keyed by ID
         self._ID = ID
-        self._members = []
+        self._members = set()
         self._subset = {}
 
         # _parent_set stores the parent set if this set is a member of an
@@ -318,7 +318,7 @@ class Agent_set(Agent):
 
 
     def clear_set(self):
-        del self._members[:]
+        self._members.clear()
         self._subset = {}
 
     def get_agents(self):
@@ -338,7 +338,7 @@ class Agent_set(Agent):
         #agent.print_agent()
         #if agent in self._members:
         #    raise KeyError("agent %s is already a member of agent set %s"%(agent.get_ID(), self._ID))
-        self._members.append(agent)
+        self._members.add(agent)
         #self._members[agent.get_ID()] = agent
 
         if self._subset: #if subsets exit, check to remove the agent from those lists

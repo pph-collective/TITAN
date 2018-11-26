@@ -105,7 +105,7 @@ def update_partner_assignments(self, partnerTurnover, graph, agent=None):
                     #print "%d/%d partnets found for partner %d"%(len(partner._partners), partner._num_sex_partners, partner.get_ID())
 
                 else:
-                    #print "Missed pass attempt",noMatch
+                    print "Missed pass attempt",noMatch
                     noMatch += 1
 
     # print "\n\t\t-COULDNT MATCH",noMatch,"AGENTS IN NEED \t---"
@@ -438,69 +438,27 @@ def get_random_sex_partner(self, agent, need_new_partners):
         partner : int
 
     """
-    def partner_choice(x):
-        intersection = list(set(need_new_partners).intersection(set(x)))
-        agent_race_type = self.get_agent_characteristic(agent, 'Race')
-        #print agent_race_type
-        if agent_race_type == 'WHITE':
-            Assortive_intersection = list(set(self.White_agents).intersection(intersection))
-            if Assortive_intersection == []: print "Couldnt assortive mix (W), picking suitable agent"
-            else: return random.choice(Assortive_intersection)
-        elif agent_race_type == 'BLACK':
-            Assortive_intersection = list(set(self.Black_agents).intersection(intersection))
-            if Assortive_intersection == []:
-                print "Couldnt assortive mix (B), picking suitable agent"
-            else:
-                #print Assortive_intersection
-                return random.choice(Assortive_intersection)
-        if intersection == []: return None
-        else: print "NO PATNAS"#return random.choice(intersection)
 
-    def getPartnerBin(agent):
-
-        testRand = random.random()
-        i = 1
-        pMatch = params.mixingMatrix[agent._ageBin][i]
-
-        #print params.mixingMatrix[1][1]
-        #print agent._ageBin, i
-        if params.flag_AgeAssortMix:
-            while(True):
-                if testRand <= pMatch:
-                    return i
-                else:
-                    i+=1
-                    pMatch += params.mixingMatrix[agent._ageBin][i]
-                if i==5:return i
-        else:
-            i = random.randrange(1,6)
-            return i
-
-
-    #agent_sex_type = self.get_agent_characteristic(agent, 'Sex Type')
     agent_sex_type = agent._SO
     agent_race_type = agent._race
     agent_drug_type = agent._DU
-    #print "\tChecking for sex partner for %d" % agent
-    RandomPartner = None
-    tempList = []
 
-    eligPartnerType = params.DemographicParams[agent_race_type][agent_sex_type]['EligSE_PartnerType'][0]
-    partnerPool = []
+    RandomPartner = None
+
+    partnerPool = set()
     AssortMix = False
-    if params.flag_AgeAssortMix:
-        if random.random() < params.AssortMixCoeff:
-            AssortMix = True
 
     for eligPtnType in params.DemographicParams[agent_race_type][agent_sex_type]['EligSE_PartnerType']:
-        partnerPool += (need_new_partners._subset[eligPtnType]._members)
-
+        partnerPool = (need_new_partners._subset[eligPtnType]._members)
+    # print type(partnerPool)
+    # print type(need_new_partners)
+    # print type(need_new_partners._subset[eligPtnType]._members)
     #todo: Make the random agent never return the agent or any of their partners
     if agent_sex_type not in params.agentSexTypes:
         raise ValueError("Invalid sex type! %s"%str(agent_sex_type))
     else:
         while True:
-            RandomPartner = random.choice(partnerPool)
+            RandomPartner = random.choice(list(partnerPool))
             if RandomPartner in agent._partners or RandomPartner == agent:
                 pass
             else:
@@ -508,8 +466,6 @@ def get_random_sex_partner(self, agent, need_new_partners):
         if RandomPartner in agent._partners or RandomPartner == agent:
             RandomPartner = None
 
-
-    #print "\tReturned: %s" % RandomPartner
     if RandomPartner:
         assert(sex_possible(self,agent._SO, RandomPartner._SO)),"Sex no possible between agents! ERROR 441"
         return RandomPartner
