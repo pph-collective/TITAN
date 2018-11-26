@@ -29,7 +29,7 @@ intermPrintFreq = 1
 MSMreport = True
 HMreport = False
 HFreport = False
-drawFigures = False
+drawFigures = True
 drawNED = False
 
 

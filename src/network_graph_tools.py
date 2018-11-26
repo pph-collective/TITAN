@@ -620,7 +620,6 @@ class NetworkClass(PopulationClass):
             graph : networkX graph
         """
         G = self.G
-        plt.clear()
         print("Plotting...")
         #plt.figure(figsize=(8,8))
 
@@ -673,16 +672,16 @@ class NetworkClass(PopulationClass):
         props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
 
         # place a text box in upper left in axes coords
-        plt.text(0.85, 0.95, textstr, fontsize=14,
+        labelBox = plt.text(0.85, 0.95, textstr, fontsize=14,
                 verticalalignment='top',horizontalalignment='left', bbox=props)
         plt.axis('equal')
         plt.axis('off')
         filename="images/%s_%d_%s_%d.png"%(label, G.number_of_nodes(),coloring, curtime)
 
         #plt.show()
-        plt.savefig(filename)
         #plt.show(block=True)
-        
+        plt.savefig(filename)
+        labelBox.remove()
         print G.size()
         if return_layout:
             return pos

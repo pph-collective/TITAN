@@ -154,7 +154,7 @@ def open_inputs():
     deathReport.close()
 
     iduReport = open('results/iduReport.txt', 'w')
-    iduReport.write("seed,t,Total-IDU,IDU-HIV,IDU-AIDS,IDU-HAART,IDU-tested\n")
+    iduReport.write("seed\tt\tTotal-IDU\tIDU-HIV\tIDU-AIDS\tIDU-HAART\tIDU-tested\n")
     #iduReport.write("0,0,0,0,0,0\n")
     iduReport.close()
     #plt.ion()
