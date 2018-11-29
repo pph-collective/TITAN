@@ -185,10 +185,30 @@ class HIVModel(NetworkClass):
 
     def __init__(self, N, tmax, parameter_dict, rseed, runtime_diffseed=False, model=None, network_type=None, HIVABM_Agent_set=None):
         """ Initialize HIVModel object """
+
+
+        # Ensure param variable is are defined. For backwards compatibility with params.py files
+        try:
+            params.drawEdgeList
+        except AttributeError:
+            params.drawEdgeList = False
+
+        try:
+            params.inc_treat_HRsex_beh
+        except AttributeError:
+            params.inc_treat_HRsex_beh = False
+
+        try:
+            params.inc_treat_IDU_beh
+        except AttributeError:
+            params.inc_treat_IDU_beh = False
+
         if (type(tmax) is not int):
             raise ValueError("Number of time steps must be integer")
         else:
             self.tmax = tmax
+
+
 
         self.runtime_diffseed = runtime_diffseed
 
@@ -295,7 +315,9 @@ class HIVModel(NetworkClass):
             self.filler = 0
             print_stats(self.rSeed,t, self.totalAgentClass, self.HIV_agents_class, self.IncarceratedClass, self.PrEP_agents_class, self.NewInfections, self.NewDiagnosis, self.num_Deaths, self.ResultDict, self.Relationships, self.NewHRrolls, self.NewIncarRelease)
 
-        print "RANDOM CALL %d" %random.randint(0,100)    
+        print "RANDOM CALL %d" %random.randint(0,100)
+
+
         def burnSimulation(burnDuration):
             for t in range(0, burnDuration + 1):
                 print '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: BURN', t
@@ -406,25 +428,11 @@ class HIVModel(NetworkClass):
             self.NewIncarRelease.clear_set()
             self.num_Deaths
 
-            # Ensure variable is defined
-            try:
-                params.drawNED
-            except AttributeError:
-                params.drawNED = False
 
-            try:
-                params.inc_treat_HRsex_beh
-            except AttributeError:
-                params.inc_treat_HRsex_beh = False
-
-            try:
-                params.inc_treat_IDU_beh
-            except AttributeError:
-                params.inc_treat_IDU_beh = False
-
-            if params.drawNED:
-                print "Drawing NED file"
-                fh=fh=open("results/network/Edgelist_t{}.txt".format(t),'wb')
+            #If set to draw the edge list, print list at each timestep
+            if params.drawEdgeList:
+                print "Drawing network edge list to file"
+                fh=open("results/network/Edgelist_t{}.txt".format(t),'wb')
                 self.networkGraph.write_G_edgelist(fh)
                 fh.close()
 
