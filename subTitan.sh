@@ -1,7 +1,8 @@
 #!/bin/bash
 
 #Read in source code path, then shift for optargs
-titanPath=""
+version="0.92c"
+titanPath="/gpfs/data/bm8/TITAN/TITAN/"
 settingPath="$1"
 shift
 
@@ -49,7 +50,7 @@ options:
   -t timerange	  number of time steps per iteration in (default: $simT)
   -b burntime	  number of time steps to burn for equilibration (default: $burn)     
 "
-echo $model
+echo "TITAN ver: "$version
 exit 0
 }
 
