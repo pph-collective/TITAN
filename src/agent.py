@@ -40,8 +40,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *****************************************************************************
 """
 
-#import random
-
 class Agent(object):
     "Class for agent objects."
     def __init__(self, ID, SO, age, race, DU, initial_agent=False):
@@ -55,9 +53,7 @@ class Agent(object):
         self._initial_agent = initial_agent
 
         # _parent_agent stores the parent agent if this agent is a member of an
-        # Agent_set class instance. For example, for a person agent that is a
-        # member of a household, the _parent_agent for that person agent would
-        # be that household.
+        # Agent_set class instance.
         self._parent_agent = None
 
         # agent properties
@@ -94,6 +90,7 @@ class Agent(object):
         self._PrEP_bool = False
         self._PrEP_time = 0
         self._PrEP_adh = 0
+        self._treatment_bool = False
 
         #PrEP pharmacokinetics
         self._PrEP_load = 0.0
@@ -284,13 +281,51 @@ class Relationship(object):
     def get_ID(self):
         return self._IDq
 
+    def __repr__(self):
+
+        return "\t%.6d\t%.6d\t%s\t%s\t%d\t%d" % (self._ID1.get_ID(), self._ID2.get_ID(), self._SO, self._rel_type, self._duration, self._total_sex_acts)
+
     def print_rel(self):
+
+        return "\t%.6d\t%.6d\t%s\t%s\t%d\t%d" % (self._ID1.get_ID(), self._ID2.get_ID(), self._SO, self._rel_type, self._duration, self._total_sex_acts)
+
+    def print_rels(self):
         #print self.partner_list()
-        print "\t%.6d\t%.6d\t%s\t%s\t%d\t%d" % (self._ID1.get_ID(), self._ID2.get_ID(), self._SO, self._rel_type, self._duration, self._total_sex_acts)
+        print "\t_____________ %s _____________" % self.get_ID()
+        print "\tID1\tID2\tSO\tRel\tDur\tSexA"
+
+        for tmpA in self.iter_agents():
+            print tmpA
+        print "\t______________ END ______________"
+        #print "\t%.6d\t%.6d\t%s\t%s\t%d\t%d" % (self._ID1.get_ID(), self._ID2.get_ID(), self._SO, self._rel_type, self._duration, self._total_sex_acts)
 
     def vars(self):
         return "%.6d,%.6d,%s,%s,%d,%d\n" % (self._ID1.get_ID(), self._ID2.get_ID(), self._SO, self._rel_type, self._duration, self._total_sex_acts)
 
+class Relationship_set(Relationship):
+    """
+    Class for agents that contain a "set" of relationsips from a lower
+    hierarchical  level.
+    """
+    def __init__(self, world, ID, parent = None, numerator = None):
+        #Agent.__init__(self, world, ID, initial_agent)
+
+        # _members stores agent set members in a dictionary keyed by ID
+        self._ID = ID
+        self._members = set()
+        self._subset = {}
+
+        # _parent_set stores the parent set if this set is a member of an
+        # Agent_set class instance. For example, for a set that is a
+        # member of a larger set, the _parent_set for that set  would
+        # be that larger set.
+        self._parent_set = parent
+        if parent:
+            parent.add_subset(self)
+        if numerator:
+            self._numerator = numerator
+        else:
+            self._numerator = self
 
 
 class Agent_set(Agent):
@@ -311,11 +346,12 @@ class Agent_set(Agent):
         # member of a larger set, the _parent_set for that set  would
         # be that larger set.
         self._parent_set = parent
+        if parent:
+            parent.add_subset(self)
         if numerator:
             self._numerator = numerator
         else:
             self._numerator = self
-
 
     def clear_set(self):
         self._members.clear()
@@ -341,13 +377,11 @@ class Agent_set(Agent):
         self._members.add(agent)
         #self._members[agent.get_ID()] = agent
 
-        if self._subset: #if subsets exit, check to remove the agent from those lists
-            try:
-                #self._subset[agent._SO].print_agents()
-                self._subset[agent._SO].add_agent(agent)
-                #self._members.
-            except:
-                print "agent %s is already a member of agent set %s"%(agent.get_ID(), self.get_ID())
+        # if self._subset: #if subsets exist, try to add the agent from those sets
+        #     try:
+        #         self._subset[agent._SO].add_agent(agent)
+        #     except:
+        #         print "agent %s is already a member of agent set %s"%(agent.get_ID(), self.get_ID())
         # Set the agent's _parent_agent to reflect the parent of this Agent_set
         # instance (self)
         #agent.set_parent_agent(self)
@@ -368,14 +402,6 @@ class Agent_set(Agent):
             #self.print_agents()
             exit(3)
 
-        """Removes agent from SO subset."
-        if self._subset: #if subsets exit, check to remove the agent from those lists
-            try:
-                self._subset[agent._SO]._members.remove(agent)
-                #self._members.
-            except:
-                 print "agent %s is not a member of agent subset %s"%(agent.get_ID(), self._subset[agent._SO].get_ID())
-        """
 
         for tmpS in self.iter_subset():
             #tmpS.print_agents()
@@ -417,7 +443,6 @@ class Agent_set(Agent):
         "Removes Agent_set to the current sets subset."
         try:
             self._subset.pop(subset.ID)
-            #self._members.
         except KeyError:
             raise KeyError("subset %s is not a member of set %s"%(subset.get_ID(), self.get_ID()))
 
@@ -477,8 +502,11 @@ class Agent_set(Agent):
 
     def print_subsets(self):
         print "\t__________ %s __________" % self.get_ID()
-        print "\tID\t\tMembers\t%"
+        print "\tID\t\tN\t\t%"
         for tmpS in self.iter_subset():
             if tmpS.num_members() > 0:
-                print "\t%s\t\t%d\t%.2f" % (tmpS._ID, tmpS.num_members(), (1.0*tmpS.num_members()/tmpS._numerator.num_members()))
+                print "\t%-6s\t%-5d\t%.2f" % (tmpS._ID, tmpS.num_members(), (1.0*tmpS.num_members()/tmpS._numerator.num_members()))
+            for tmpSS in tmpS.iter_subset():
+                if tmpSS.num_members() > 0:
+                    print "\t-%-4s\t%-5d\t%.2f" % (tmpSS._ID, tmpSS.num_members(), (1.0*tmpSS.num_members()/tmpSS._numerator.num_members()))
         print "\t______________ END ______________"

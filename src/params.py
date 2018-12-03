@@ -9,10 +9,10 @@ Main model parameters.
 PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed = 3               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 N_MC = 1              # total number of iterations (Monte Carlo runs)
-N_POP = 100          # population size
-TIME_RANGE = 2        # total time steps to iterate
-burnDuration = 3       # total time for burning in period (equillibration)
-model = 'Incar'         # Model Type for fast flag toggling
+N_POP = 10000          # population size
+TIME_RANGE = 6        # total time steps to iterate
+burnDuration = 0       # total time for burning in period (equillibration)
+model = 'Custom'         # Model Type for fast flag toggling
 setting = 'Phil2005'
 label = '0.0_Mix'
 ####################
@@ -100,7 +100,7 @@ inc_treat_RIC = False            # Force retention in care of ART therapy
 PrEP params
 """
 PrEP_type = "Oral"              #Oral/Inj PrEP modes
-PrEP_Target = 0.0              # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+PrEP_Target = 0.5              # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 PrEP_startT = 0                 # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82           # Probability of being adherent
 PrEP_AdhEffic = 0.96            # Efficacy of adherence PrEP
@@ -108,7 +108,7 @@ PrEP_NonAdhEffic = 0.76         # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0               # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01              # Probability of PrEP resistance developing
 PrEP_disc = 0.15                # Per month probability of PrEP discontinuation
-PrEP_target_model = 'MSM'       # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
+PrEP_target_model = 'Allcomers'       # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
 PrEP_clinic_cat = 'Mid'         # If clinical target model, which category does it follow
 
 if PrEP_type == 'Oral':
@@ -174,9 +174,9 @@ elif model == 'StaticZero':
 
 elif model == 'Custom':
     flag_incar = False
-    flag_PrEP = True
+    flag_PrEP = False
     flag_HR = False
-    flag_ART = True
+    flag_ART = False
     flag_DandR = True
     flag_staticN = False
     flag_agentZero = False
@@ -222,7 +222,7 @@ for a in ['MSM','HM','HF','IDU']:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
-RaceClass1['HM'] = {'POP':0.4150,
+RaceClass1['HM'] = {'POP':0.40,
                      'HIV':0.0369,
                      'AIDS':0.6780,
                      'HAARTprev':0.41,
@@ -240,7 +240,7 @@ RaceClass1['HM'] = {'POP':0.4150,
                      'EligSE_PartnerType':['HF']
                      }
 
-RaceClass1['HF'] = {'POP':0.5850,
+RaceClass1['HF'] = {'POP':0.40,
                      'HIV':0.01391,
                      'AIDS':0.573,
                      'HAARTprev':0.47,
@@ -258,7 +258,7 @@ RaceClass1['HF'] = {'POP':0.5850,
                      'EligSE_PartnerType':['HM']
                      }
 
-RaceClass1['MSM'] = {'POP':0.00,
+RaceClass1['MSM'] = {'POP':0.20,
                      'HIV':0.2093,
                      'AIDS':0.079,
                      'HAARTprev':0.926,

@@ -219,59 +219,75 @@ class PopulationClass():
         print "\tBuilding class sets"
         self.totalAgentClass = Agent_set(0,"TotalAgents")
 
-        self.MSM_agentsClass = Agent_set(1,"MSM", numerator=self.totalAgentClass)
-        self.HM_agentsClass = Agent_set(1,"HM", numerator=self.totalAgentClass)
-        self.HF_agentsClass = Agent_set(1,"HF", numerator=self.totalAgentClass)
-        self.MTF_agentsClass = Agent_set(1,"MTF", numerator=self.totalAgentClass)
-        self.MSW_agentsClass = Agent_set(1,"MSW", numerator=self.totalAgentClass)
-        self.IDU_agentsClass = Agent_set(1,"IDU", numerator=self.totalAgentClass)
-        self.HIV_agents_class = Agent_set(2,"HIV", numerator=self.totalAgentClass)
-        self.HAART_agentClass = Agent_set(2,"HAART", numerator=self.HIV_agents_class)
-        self.PrEP_agents_class = Agent_set(2,"PrEP")
-        self.IncarceratedClass = Agent_set(2,"Incar", numerator=self.totalAgentClass)
-        self.HighriskClass = Agent_set(2,"HRisk", numerator=self.totalAgentClass)
+
+        # self.MSM_agentsClass = Agent_set(1,"MSM", numerator=self.totalAgentClass)
+        # self.HM_agentsClass = Agent_set(1,"HM", numerator=self.totalAgentClass, parent=self.totalAgentClass)
+        # self.HF_agentsClass = Agent_set(1,"HF", numerator=self.totalAgentClass)
+        # self.MTF_agentsClass = Agent_set(1,"MTF", numerator=self.totalAgentClass)
+        # self.MSW_agentsClass = Agent_set(1,"MSW", numerator=self.totalAgentClass)
+        # self.IDU_agentsClass = Agent_set(1,"IDU", numerator=self.totalAgentClass)
+        # self.HIV_agentsClass = Agent_set(2,"HIV", numerator=self.totalAgentClass)
+        # self.HAART_agentClass = Agent_set(2,"HAART", numerator=self.HIV_agentsClass)
+        # self.PrEP_agentsClass = Agent_set(2,"PrEP")
+        # self.incarcerated_agentsClass = Agent_set(2,"Incar", numerator=self.totalAgentClass)
+        # self.highrisk_agentsClass = Agent_set(2,"HRisk", numerator=self.totalAgentClass)
+
+        # All agent set list
+        self.All_agentSet = Agent_set(0,"AllAgents")
+
+        # HIV status agent sets
+        self.HIV_agentSet = Agent_set(1,"HIV", parent=self.All_agentSet, numerator=self.All_agentSet)
+        self.HIV_AIDS_agentSet = Agent_set(2,"AIDS", parent=self.HIV_agentSet, numerator=self.HIV_agentSet)
+
+        # Drug use agent sets
+        self.drugUse_agentSet = Agent_set(1,"DU", parent=self.All_agentSet)
+        self.DU_NIDU_agentSet = Agent_set(2,"NIDU", parent=self.drugUse_agentSet)
+        self.DU_IDU_agentSet = Agent_set(2,"IDU", parent=self.drugUse_agentSet)
+        self.DU_NDU_agentSet = Agent_set(2,"NDU", parent=self.drugUse_agentSet)
+
+        # Treatment agent sets
+        self.treatment_agentSet = Agent_set(1,"Trtmt", parent=self.All_agentSet)
+        self.Trt_Tstd_agentSet = Agent_set(2,"Testd", parent=self.treatment_agentSet, numerator=self.HIV_agentSet)
+        self.Trt_PrEP_agentSet = Agent_set(2,"PrEP", parent=self.treatment_agentSet)
+        self.Trt_PrEPelig_agentSet = Agent_set(2,"PrePelig", parent=self.treatment_agentSet)
+        self.Trt_ART_agentSet = Agent_set(2,"ART", parent=self.treatment_agentSet, numerator=self.HIV_agentSet)
+        self.Trt_SNE_agentSet = Agent_set(2,"SNE", parent=self.treatment_agentSet)
+
+        # Sexual orientation agent sets
+        self.SO_agentSet = Agent_set(1,"SO", parent=self.All_agentSet, numerator=self.All_agentSet)
+        self.SO_HF_agentSet = Agent_set(2,"HF", parent=self.SO_agentSet, numerator=self.SO_agentSet)
+        self.SO_HM_agentSet = Agent_set(2,"HM", parent=self.SO_agentSet, numerator=self.SO_agentSet)
+        self.SO_MSM_agentSet = Agent_set(2,"MSM", parent=self.SO_agentSet, numerator=self.SO_agentSet)
+        self.SO_MSW_agentSet = Agent_set(2,"MSW", parent=self.SO_agentSet, numerator=self.SO_agentSet)
+
+        #Racial agent sets
+        self.racial_agentSet = Agent_set(1,"Race", parent=self.All_agentSet)
+        self.Race_WHITE_agentSet = Agent_set(2,"WHITE", parent=self.racial_agentSet)
+        self.Race_WHITE_agentSet = Agent_set(2,"BLACK", parent=self.racial_agentSet)
+
+        #Incarcerated agent sets
+        self.incarcerated_agentSet = Agent_set(1,"Incar", parent=self.All_agentSet)
+
+        #High risk agent sets
+        self.highrisk_agentsSet = Agent_set(1,"HRisk", parent=self.All_agentSet)
+
+
 
         print "\tOrganizing subsets and heirarchy"
-        self.totalAgentClass.add_subset(self.HIV_agents_class)
-        self.totalAgentClass.add_subset(self.PrEP_agents_class)
-        self.totalAgentClass.add_subset(self.IncarceratedClass)
-        self.totalAgentClass.add_subset(self.HAART_agentClass)
-        self.totalAgentClass.add_subset(self.HighriskClass)
-        self.totalAgentClass.add_subset(self.MSM_agentsClass)
-        self.totalAgentClass.add_subset(self.HM_agentsClass)
-        self.totalAgentClass.add_subset(self.HF_agentsClass)
-        self.totalAgentClass.add_subset(self.MTF_agentsClass)
-        self.totalAgentClass.add_subset(self.MSW_agentsClass)
-        self.totalAgentClass.add_subset(self.IDU_agentsClass)
+        # self.totalAgentClass.add_subset(self.HIV_agentsClass)
+        # self.totalAgentClass.add_subset(self.PrEP_agentsClass)
+        # self.totalAgentClass.add_subset(self.incarcerated_agentsClass)
+        # self.totalAgentClass.add_subset(self.HAART_agentClass)
+        # self.totalAgentClass.add_subset(self.highrisk_agentsClass)
+        # self.totalAgentClass.add_subset(self.MSM_agentsClass)
+        # self.totalAgentClass.add_subset(self.HM_agentsClass)
+        # self.totalAgentClass.add_subset(self.HF_agentsClass)
+        # self.totalAgentClass.add_subset(self.MTF_agentsClass)
+        # self.totalAgentClass.add_subset(self.MSW_agentsClass)
+        # self.totalAgentClass.add_subset(self.IDU_agentsClass)
 
 
-        self.Relationships = Agent_set(1,"Relationships")
-        """### TESTING NEW CLAS
-        agent1 = Agent(1, "HM", 28, "White", "ND")
-
-        self.totalAgents = Agent_set(2,1)
-        self.totalAgents.add_agent(agent1)
-        self.totalAgents.add_agent(Agent(2,"HF",26,"White","ND"))
-        self.totalAgents.add_agent(Agent(3,"HF",26,"White","ND"))
-        print self.totalAgents.is_member(2)
-        print self.totalAgents.is_member(5)
-        print self.totalAgents.iter_agents()
-
-        self.testAgents = Agent_set(2,1)
-        for tmp in self.totalAgents.iter_agents():
-            if tmp._SO == "HM":self.testAgents.add_agent(tmp)
-
-        self.testAgents.print_agents()
-        self.totalAgents.print_agents()
-
-        temp = self.totalAgents.get_agent(1)
-        temp._SO = "MSM"
-
-        self.testAgents.print_agents()
-        self.totalAgents.print_agents()
-        """
-
-
+        self.Relationships = Agent_set(0,"Relationships")
 
         # Nested dictionary for probability look-up
         IDU = {'MSM':{}, 'HM':{}, 'WSW':{}, 'HF':{}}
@@ -307,20 +323,21 @@ class PopulationClass():
         self.Incarcerated = []
 
         #Create agents in allAgents list
-        #"""
         self.White_agents = deepcopy(allAgents[0:self.numWhite])
         self.Black_agents = deepcopy(allAgents[self.numWhite:])
-        self.IDU_agents = []#deepcopy(allAgents[0:self.numIDU])
-        self.NIDU_agents = []#deepcopy(allAgents[self.numIDU:(self.numIDU + self.numNIDU)])
-        self.ND_agents = []#deepcopy(allAgents[(self.numIDU + self.numNIDU):])
+        self.IDU_agents = []
+        self.NIDU_agents = []
+        self.ND_agents = []
 
         print "\tCreating agents"
 
         for agent in self.White_agents:
-            self.create_agent(agent, 'WHITE')
+            agent_cl = self._return_new_Agent_class(agent,'WHITE')
+            self.create_agent(agent_cl, 'WHITE')
         for agent in self.Black_agents:
-            self.create_agent(agent, 'BLACK')
-        #random.shuffle(self.totalAgentClass._members)
+            agent_cl = self._return_new_Agent_class(agent,'WHITE')
+            self.create_agent(agent_cl, 'BLACK')
+
         prob_Incarc = params.DemographicParams['WHITE']['HM']['INCARprev']
         for tmpA in self.totalAgentClass._members:
 
@@ -335,7 +352,8 @@ class PopulationClass():
                 else: #PRISON
                     tmpA._incar_bool = True
                     tmpA._incar_time = int(random.triangular(1, params.inc_PrisMax, int(params.inc_PrisMax/3))) #random.randint(params.inc_PrisMin, params.inc_PrisMax)
-                self.IncarceratedClass.add_agent(tmpA)
+                # self.incarcerated_agentsClass.add_agent(tmpA)
+                self.incarcerated_agentSet.add_agent(tmpA)
             #self.totalAgentClass._subset["Incar"].add_agent(agent_cl)
         #"""
         #self.totalAgentClass.print_agents()
@@ -574,7 +592,7 @@ class PopulationClass():
         if tmp_rnd < params.DemographicParams[Race]['IDU']['POP']:
             DrugType = 'IDU'
         else:
-            DrugType = 'ND'
+            DrugType = 'NDU'
 
 
         #age = random.randint(18,65)
@@ -628,6 +646,7 @@ class PopulationClass():
                 if random.random() < prob_HAART:
                     HAARTStatus = 1
                     newAgent._HAART_bool = True
+                    newAgent._treatment_bool = True
                 else:
                     HAARTStatus = 0
 
@@ -687,40 +706,80 @@ class PopulationClass():
 
         return newAgent
 
-    def create_agent(self, agent, Deliminator):
+    def create_agent(self, agent_cl, Deliminator):
         """
-	:Purpose:
-	    Creat a new agent in the population.
-            Each agent is a key to an associated dictionary which stores the internal 
-            characteristics in form of an additinoal dictionary of the form
-            ``characteristic:value``.
-	
-	:Input:
-	    agent : int
-	    
-	    DrugType : str
-	        Either 'IDU','NIDU' or 'ND'
-	"""
+        :Purpose:
+            Creat a new agent in the population.
+                Each agent is a key to an associated dictionary which stores the internal
+                characteristics in form of an additinoal dictionary of the form
+                ``characteristic:value``.
 
-        agent_cl = self._return_new_Agent_class(agent,Deliminator)
-        self.totalAgentClass.add_agent(agent_cl)
+        :Input:
+            agent : int
+
+            DrugType : str
+                Either 'IDU','NIDU' or 'ND'
+        """
+        def addToSubsets(targetSet, agent, agentParam=None):
+            try:
+                targetSet.add_agent(agent)
+            except:
+                print "agent %s is already a member of agent set %s"%(agent.get_ID(), targetSet.get_ID())
+
+            if agentParam:
+                try:
+                    targetSet._subset[agentParam].add_agent(agent)
+                except:
+                    print "agent %s is already a member of agent set %s"%(agent_cl.get_ID(), targetSet._subset[agentParam].get_ID())
+
+        # Add to all agent set
+        self.All_agentSet.add_agent(agent_cl)
+
+        # Add to correct SO set
+        addToSubsets(self.SO_agentSet, agent_cl, agent_cl._SO)
+
+        # Add to correct DU set
+        addToSubsets(self.drugUse_agentSet, agent_cl, agent_cl._DU)
+
+
+        # Add to correct racial set
+        addToSubsets(self.racial_agentSet, agent_cl, agent_cl._race)
+
+        if agent_cl._HIV_bool:
+            addToSubsets(self.HIV_agentSet, agent_cl)
+            if agent_cl._AIDS_bool:
+                addToSubsets(self.HIV_AIDS_agentSet, agent_cl)
+
+        # Add to correct treatment set
+        if agent_cl._treatment_bool:
+            addToSubsets(self.treatment_agentSet, agent_cl)
+            if agent_cl._HAART_bool:
+                addToSubsets(self.Trt_ART_agentSet, agent_cl)
+
+        if agent_cl._tested:
+            addToSubsets(self.Trt_Tstd_agentSet, agent_cl)
+
+        if agent_cl._incar_bool:
+            addToSubsets(self.incarcerated_agentSet, agent_cl)
+
+
         # if agent == 0.25*self.PopulationSize:print "25%"
         # elif agent == 0.5*self.PopulationSize:print "50%"
         # elif agent == 0.75*self.PopulationSize:print "75%"
         #elif agent == self.PopulationSize:print "100%"
 
-        if agent_cl._DU == 'IDU':
-            self.totalAgentClass._subset["IDU"].add_agent(agent_cl)
-
-        if agent_cl._HIV_bool:
-            self.totalAgentClass._subset["HIV"].add_agent(agent_cl)
-
-        if agent_cl._incar_bool:
-            self.IncarceratedClass.add_agent(agent_cl)
-            #self.totalAgentClass._subset["Incar"].add_agent(agent_cl)
-
-        if agent_cl._HAART_bool:
-            self.HAART_agentClass.add_agent(agent_cl)
+        # if agent_cl._DU == 'IDU':
+        #     self.totalAgentClass._subset["IDU"].add_agent(agent_cl)
+        #
+        # if agent_cl._HIV_bool:
+        #     self.totalAgentClass._subset["HIV"].add_agent(agent_cl)
+        #
+        # if agent_cl._incar_bool:
+        #     self.incarcerated_agentsClass.add_agent(agent_cl)
+        #     #self.totalAgentClass._subset["Incar"].add_agent(agent_cl)
+        #
+        # if agent_cl._HAART_bool:
+        #     self.HAART_agentClass.add_agent(agent_cl)
 
 
         """

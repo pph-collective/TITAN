@@ -334,7 +334,7 @@ class NetworkClass(PopulationClass):
             for i in components:
                 comps.append(len(i))
 
-            print np.histogram(comps)
+            #print np.histogram(comps)
 
     def create_graph_from_agents(self, agents):
         G = self.G
@@ -663,6 +663,7 @@ class NetworkClass(PopulationClass):
         #nx.draw_networkx_edges(self.graph,pos,alpha=0.4)
         print G.number_of_nodes()
         print curtime
+
 
         textstr = '\n'.join((
             r'N infection=%.2f' % (txtboxLabel,),

@@ -72,7 +72,7 @@ import params
 def update_partner_assignments(self, partnerTurnover, graph, agent=None):
     # Now create partnerships until available partnerships are out
     if agent:
-        partner = get_partner(self, agent, self.totalAgentClass)
+        partner = get_partner(self, agent, self.All_agentSet)
 
         if partner:
             #print "Agent %d found partner %d!"%(agent.get_ID(), partner.get_ID())
@@ -82,14 +82,14 @@ def update_partner_assignments(self, partnerTurnover, graph, agent=None):
             self.Relationships.add_agent(tmp_relationship)
             graph.G.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
     else:
-        EligibleAgents = self.totalAgentClass#._subset["HIV"].iter_agents()
+        EligibleAgents = self.All_agentSet#._subset["HIV"].iter_agents()
         noMatch = 0
         for agent in EligibleAgents.iter_agents():
             #print len(agent._partners)
             acquirePartnerProb = (agent._mean_num_partners / (12.0))*partnerTurnover
             #if agent._highrisk_bool:print acquirePartnerProb
             if np.random.uniform(0, 1) < acquirePartnerProb:
-                partner = get_partner(self, agent, self.totalAgentClass)
+                partner = get_partner(self, agent, self.All_agentSet)
 
                 if partner:
                     #print "Agent %d found partner %d!"%(agent.get_ID(), partner.get_ID())
@@ -217,7 +217,7 @@ def get_partner(self, agent, need_new_partners):
             #print "\tReturned: %s" % RandomPartner
         else:
             get_random_sex_partner(self, agent, shortlist_NNP)
-    elif agent_drug_type in ('ND','NIDU'):
+    elif agent_drug_type in ('NDU','NIDU'):
         if params.flag_AssortativeMix:
             if random.random() < params.AssortMixCoeff:
                 RandomPartner = get_assort_sex_partner(self, agent, shortlist_NNP)
@@ -445,30 +445,24 @@ def get_random_sex_partner(self, agent, need_new_partners):
 
     RandomPartner = None
 
-    partnerPool = set()
-    AssortMix = False
-
-    for eligPtnType in params.DemographicParams[agent_race_type][agent_sex_type]['EligSE_PartnerType']:
-        partnerPool = (need_new_partners._subset[eligPtnType]._members)
+    # partnerPool = set()
+    # AssortMix = False
+    # for eligPtnType in params.DemographicParams[agent_race_type][agent_sex_type]['EligSE_PartnerType']:
+    #     partnerPool = (need_new_partners._subset["SO"]._subset[eligPtnType]._members)
     # print type(partnerPool)
     # print type(need_new_partners)
     # print type(need_new_partners._subset[eligPtnType]._members)
-    #todo: Make the random agent never return the agent or any of their partners
+    eligPtnType = params.DemographicParams[agent_race_type][agent_sex_type]['EligSE_PartnerType'][0]
+    partnerPool = need_new_partners._subset["SO"]._subset[eligPtnType]._members - set(agent._partners) - set([agent])
     if agent_sex_type not in params.agentSexTypes:
         raise ValueError("Invalid sex type! %s"%str(agent_sex_type))
     else:
-        while True:
-            RandomPartner = random.choice(list(partnerPool))
-            if RandomPartner in agent._partners or RandomPartner == agent:
-                pass
-            else:
-                break
-        if RandomPartner in agent._partners or RandomPartner == agent:
-            RandomPartner = None
+        RandomPartner = random.sample((partnerPool), 1)
+
 
     if RandomPartner:
-        assert(sex_possible(self,agent._SO, RandomPartner._SO)),"Sex no possible between agents! ERROR 441"
-        return RandomPartner
+        assert(sex_possible(self,agent._SO, RandomPartner[0]._SO)),"Sex no possible between agents! ERROR 441"
+        return RandomPartner[0]
     else:
         pass
 
@@ -540,7 +534,7 @@ def get_partnership_duration(self, agent):
     agent_sex_type = agent._SO
 
     # Drug type
-    if agent_drug_type not in ['IDU', 'NIDU', 'ND']:
+    if agent_drug_type not in ['IDU', 'NIDU', 'NDU']:
         raise ValueError("Invalid drug type! %s" % str(agent_drug_type))
     # Sex type
     if agent_sex_type not in params.agentSexTypes:
@@ -609,183 +603,6 @@ def save_AgentPartner_list(self, t):
         outfile.write('%s\t' % partner_dict['Drug Type'])
         outfile.write('%s\t' % partner_dict['Sex Type'])
         outfile.write('\n')
-
-
-
-def update_partner_assignment_old(self, partnerTurnover):
-    # Generate target partner numbers for each agent and get current partner nums
-    target_partner_nums = {}
-    current_partner_nums = {}
-
-    print "ZZZZZZZZZZZZ"
-
-    # Loop through agents again, if too few: go into need_partners set
-    need_new_partners = []
-    need_new_partners2 = Agent_set(2,"NNP")
-
-    need_new_partners_HM = Agent_set(2,"HM")
-    need_new_partners_MSM = Agent_set(2,"MSM")
-    need_new_partners_HF = Agent_set(2,"HF")
-
-    need_new_partners2.add_subset(need_new_partners_HM)
-    need_new_partners2.add_subset(need_new_partners_HF)
-    need_new_partners2.add_subset(need_new_partners_MSM)
-
-    """
-    # TODO: FIX THIS BACK TO HIV AGENTS ONLY
-    EligibleAgents = self.totalAgentClass.iter_agents()
-    for agent in EligibleAgents:
-        agent_sex_type = agent._SO
-        agent_drug_type = agent._DU
-
-        current_num = len(agent._partners)
-        #print current_num
-
-        if np.random.uniform(0, 1) > partnerTurnover:
-            target_num = current_num
-        else:
-            target_num = get_number_of_partners(self, agent, agent_drug_type, agent_sex_type)
-            agent._num_sex_partners = target_num
-
-
-
-        #p_success = 12/(12+agent._mean_num_partners)
-        #newPartnerProb = np.random.negative_binomial(12, p_success)
-        #print newPartnerProb
-
-        # Now loop through agents, if currently too many partners, remove some
-        if target_num < current_num:
-            # ExistingLinks = list(self.AdjMat.rows[agent])
-            n = current_num - target_num
-            for i in range(n):
-                agent2remove = random.choice(agent._partners)
-                # print "Current agent %d has %d partners and wants %d - " %(agent, current_partner_nums[agent],target_partner_nums[agent]), list(self.AdjMat.rows[agent]), "removing %d"%agent2remove
-                # self.AdjMat[agent, agent2remove] = 0  # remove connection adjMat
-                # self.AdjMat[agent2remove, agent] = 0
-                # current_partner_nums[agent] -= 1
-                # if agent2remove in EligibleAgents:  # self.HIV_agents:
-                #     current_partner_nums[agent2remove] -= 1
-                #print "Removing %d from %s (agent %d)"%(agent2remove.get_ID(), agent.partner_list(), agent.get_ID())
-                agent.unpair(agent2remove)
-
-
-
-
-    # need_new_partners2._subset["HM"] = need_new_partners_HM
-    # need_new_partners2._subset["MSM"] = need_new_partners_MSM
-    # need_new_partners2._subset["HF"] = need_new_partners_HF
-    #print need_new_partners2._subset["HM"]
-
-    #todo: fix this to only use the neednewpartner list
-    EligibleAgents = self.totalAgentClass.iter_agents()
-    for agent in EligibleAgents:#self.HIV_agents:#Agents:
-        #print len(agent._partners)
-
-        if agent._num_sex_partners > len(agent._partners):
-            # need_new_partners.append(agent)
-            need_new_partners2.add_agent(agent)
-            #print agent._SO
-            need_new_partners2._subset[agent._SO].add_agent(agent)
-
-
-            # if agent._SO == "HM":
-            #     need_new_partners2._subset["HM"].add_agent(agent)
-            # elif agent._SO == "MSM":
-            #     need_new_partners2._subset["MSM"].add_agent(agent)
-            # elif agent._SO == "HF":
-            #     need_new_partners2._subset["HF"].add_agent(agent)
-
-            #print agent
-            #print need_new_partners
-
-    #need_new_partners = list(np.random.permutation(need_new_partners))
-    #need_new_partners2.print_agents()
-    """
-
-    # Now create partnerships until available partnerships are out
-    EligibleAgents = self.totalAgentClass.iter_agents()
-    self.Relationships
-    for agent in EligibleAgents:#self.HIV_agents:#Agents:
-        #print len(agent._partners)
-        acquirePartnerProb = agent._mean_num_partners / 12.0
-        #print acquirePartnerProb
-        if np.random.uniform(0, 1) < acquirePartnerProb:
-            need_new_partners2.add_agent(agent)
-            #print agent._SO
-            need_new_partners2._subset[agent._SO].add_agent(agent)
-    print "\t\t-FINDING MATCHES FOR",need_new_partners2.num_members(),"AGENTS IN NEED \t---"
-
-    #need_new_partners2._subset["HM"].print_agents()
-    noMatch = 0
-    missed_counter=0
-    print_counter = need_new_partners2.num_members()
-    print_percent = 1.0
-
-    while need_new_partners2.num_members() > 0:
-
-        #need_new_partners2.print_agents()
-        #need_new_partners2.print_subsets()
-        # if need_new_partners2.num_members() <= int(print_counter * print_percent):
-        #     print "Remain %d" % (print_percent*100),
-        #     print_percent -= 0.1
-        # else:
-        #     print "Dafuq"
-        #print "NNP Remaining:",need_new_partners2.num_members()
-        agent = None
-        #self.totalAgentClass.print_agents()
-        #print need_new_partners2.print_agents()
-        #print "Selected agent ..."
-        agent = need_new_partners2.random_agent()
-        #agent.print_agent()
-        # TODO Fix this to read proper agent partner
-
-        partner = None
-        while partner == None:
-            #print "\nGetting partner for agent %d"%agent.get_ID()
-            partner = get_partner(self, agent, need_new_partners2)
-            #partner_cl = self.totalAgentClass.get_agent(partner)
-            #self.AdjMat[agent, partner] = 1
-            #self.AdjMat[partner, agent] = 1
-            #current_partner_nums[agent] += 1
-
-            if partner:
-                #print "Agent %d found partner %d!"%(agent.get_ID(), partner.get_ID())
-
-                duration = 10
-                agent.bond(partner, duration)
-                tmp_relationship = Relationship(agent, partner, "MSM", "SE", duration)
-                self.Relationships.add_agent(tmp_relationship)
-                #print "%d/%d partnets found for agent %d"%(len(agent._partners), agent._num_sex_partners, agent.get_ID())
-                #print "%d/%d partnets found for partner %d"%(len(partner._partners), partner._num_sex_partners, partner.get_ID())
-                #need_new_partners2.print_agents()
-
-                if len(partner._partners) >= partner._num_sex_partners :
-                    #print "Partners", partner._partners
-                    need_new_partners2.remove_agent(partner)
-
-                if len(agent._partners) >= agent._num_sex_partners :
-                    need_new_partners2.remove_agent(agent)
-                    break
-
-
-                missed_counter = 0
-                partner = None
-
-            else:
-                #print "Missed pass attempt",missed_counter
-                missed_counter += 1
-
-            if missed_counter > 1:
-                #print "No partner matches found"
-                need_new_partners2.remove_agent(agent)
-                noMatch += 1
-                missed_counter = 0
-                break
-
-    # The remaining partnerless people can remain partnerless :)
-    print "\n\t\t-COULDNT MATCH",noMatch,"AGENTS IN NEED \t---"
-    #self.totalAgentClass.print_agents()
-
 
 
 
