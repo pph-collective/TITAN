@@ -59,18 +59,18 @@ def enablePrint():
     sys.stdout = sys.__stdout__
 
 def main():
-    parameter_dict = read_parameter_dict(1)   # get parameters
+    #parameter_dict = read_parameter_dict(1)   # get parameters
     wct = []                                 # wall clock times
     open_outputs()
 
     #read_classifier_dict()
-    for single_sim in parameter_dict:
+    for single_sim in range(params.N_MC):
         outfile_dir = os.path.join(os.getcwd(),
                                    'results/results_simulation_MP_%d'%single_sim)
         if not os.path.isdir(outfile_dir):
             os.mkdir(outfile_dir)
         tic = time_mod.time()
-        parameters = parameter_dict[0]
+        parameters = None
 
         # distribute simulations manually
         if params.N_MC%params.PROCESSES == 0:
@@ -93,7 +93,7 @@ def main():
         """
         #rslts = pool.map(simulation_star,combined_input)
         #rslts = simulation(combined_input)
-        rslts = simulation(params.N_MC, 1, params.TIME_RANGE, params.N_POP, outfile_dir, parameters, params.rSeed, model=params.model)
+        rslts = simulation(params.N_REPS, 1, params.TIME_RANGE, params.N_POP, outfile_dir, parameters, params.rSeed_pop, model=params.model)
         wct.append(time_mod.time() - tic)
         save_results(params.N_MC, params.TIME_RANGE, rslts, outfile_dir, single_sim)
         #print rslts

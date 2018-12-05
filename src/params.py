@@ -7,9 +7,11 @@ Main model parameters.
 
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
-rSeed = 3               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
+rSeed_pop = 1               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
+rSeed_run = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 N_MC = 1              # total number of iterations (Monte Carlo runs)
-N_POP = 10000          # population size
+N_REPS = 1
+N_POP = 1000          # population size
 TIME_RANGE = 6        # total time steps to iterate
 burnDuration = 0       # total time for burning in period (equillibration)
 model = 'Custom'         # Model Type for fast flag toggling
@@ -27,9 +29,10 @@ printStartAgentList = False
 printEndingAgentList = False
 printIntermAgentList = False
 intermPrintFreq = 1
-
-drawFigures = False
+calcNetworkStats = False
+drawFigures = True
 drawEdgeList = False
+drawFigureColor = 'HIV'
 
 
 """
@@ -177,8 +180,8 @@ elif model == 'Custom':
     flag_PrEP = False
     flag_HR = False
     flag_ART = False
-    flag_DandR = True
-    flag_staticN = False
+    flag_DandR = False
+    flag_staticN = True
     flag_agentZero = False
 
 agentPopulations = ['MSM','HM','HF','IDU']

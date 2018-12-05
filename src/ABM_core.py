@@ -46,6 +46,7 @@ import os
 import time
 import collections
 
+
 from scipy.stats import binom
 from scipy.stats import poisson
 from functools import wraps
@@ -203,6 +204,11 @@ class HIVModel(NetworkClass):
         except AttributeError:
             params.inc_treat_IDU_beh = False
 
+        try:
+            params.calcNetworkStats
+        except AttributeError:
+            params.calcNetworkStats = False
+
         if (type(tmax) is not int):
             raise ValueError("Number of time steps must be integer")
         else:
@@ -249,10 +255,16 @@ class HIVModel(NetworkClass):
             print("\tCreating population Class")
             #PopulationClass = network_type
             PopulationClass.__init__(self, n=N, rSeed = rseed, model=model)
-            #asdf = PopulationClass(N, rseed, model)
+            
             #asdf.All_agentSet.remove_agent(asdf.All_agentSet.random_agent())
             #asdf.All_agentSet.print_subsets()
-            self.All_agentSet.print_subsets()
+            # thing = PopulationClass(N, rseed, model)
+            # thing.All_agentSet.print_subsets()
+            # thing = PopulationClass(N, rseed, model)
+            # thing.All_agentSet.print_subsets()
+            # thing = PopulationClass(N, rseed, model)
+            # thing.All_agentSet.print_subsets()
+            # print type(thing.Trt_ART_agentSet)
 
         self.AdjMat = 0
         self.AdjMats_by_time = 0
@@ -313,7 +325,18 @@ class HIVModel(NetworkClass):
         """
         def getStats(t):
             self.filler = 0
-            print_stats(self.rSeed, t, self.All_agentSet, self.HIV_agentSet, self.incarcerated_agentSet, self.PrEP_agentsClass, self.NewInfections, self.NewDiagnosis, self.num_Deaths, self.ResultDict, self.Relationships, self.NewHRrolls, self.NewIncarRelease)
+            print_stats(self.rSeed, t
+                ,self.All_agentSet
+                ,self.HIV_agentSet
+                ,self.incarcerated_agentSet
+                ,self.Trt_PrEP_agentSet
+                ,self.NewInfections
+                ,self.NewDiagnosis
+                ,self.num_Deaths
+                ,self.ResultDict
+                ,self.Relationships
+                ,self.NewHRrolls
+                ,self.NewIncarRelease)
 
         print "RANDOM CALL %d" %random.randint(0,100)
 
@@ -345,7 +368,7 @@ class HIVModel(NetworkClass):
         #print("\t Writing Agents to dynNet Report")
         if params.drawFigures:
                 #self.networkGraph.draw_histogram(0)
-                self.networkGraph.visualize_network(coloring='HR', node_size=10, curtime=0)
+                self.networkGraph.visualize_network(coloring=params.drawFigureColor, node_size=10, curtime=0, iterations=10)
         # write agents to dynnetworkReport
         #self._writeDNR()
 
@@ -382,12 +405,13 @@ class HIVModel(NetworkClass):
             #print "RANDOM CALL %d" %random.randint(0,100)
             if params.drawFigures and t%params.intermPrintFreq == 0:
                 #self.networkGraph.draw_histogram(0)
-                self.networkGraph.visualize_network(coloring='HR', node_size=10, curtime=t, txtboxLabel=4, label=params.label)
+                self.networkGraph.visualize_network(coloring=params.drawFigureColor, node_size=10, curtime=t, txtboxLabel=4, iterations=10, label=params.label)
             #todo: GET THIS TO THE NEW HIV COUNT
             print "\tSTARTING HIV count:%d\tTotal Incarcerated:%d\tHR+:%d\tPrEP:%d" % (self.HIV_agentSet.num_members(), self.incarcerated_agentSet.num_members(), self.highrisk_agentsSet.num_members(), self.Trt_PrEP_agentSet.num_members())
             #self.All_agentSet.print_agents()
             self.TimeStep = t
 
+            #print self.All_agentSet._members
             self._update_AllAgents(t)
 
             #print "Results Dictionary update"
@@ -413,11 +437,11 @@ class HIVModel(NetworkClass):
             self.cumInfW += newInfW
             self.cumInfT += newInfT
 
-            print "\n\tGroup\tMo\tCuml"
-            print "\tTotal:\t%d\t%d"%(newInfT,self.cumInfT)
-            print "\tWhite:\t%d\t%d"%(newInfW,self.cumInfW)
-            print "\tBlack:\t%d\t%d"%(newInfB,self.cumInfB)
-            print self.Relationships.print_agent_relationshps()
+            # print "\n\tGroup\tMo\tCuml"
+            # print "\tTotal:\t%d\t%d"%(newInfT,self.cumInfT)
+            # print "\tWhite:\t%d\t%d"%(newInfW,self.cumInfW)
+            # print "\tBlack:\t%d\t%d"%(newInfB,self.cumInfB)
+            # print self.Relationships.print_agent_relationshps()
             self.totalDiagnosis += len(self.NewDiagnosis._members)
             if self.totalDiagnosis > params.initTreatment and not self.treatmentEnrolled:
                 self._enroll_treatment(t)
@@ -451,7 +475,8 @@ class HIVModel(NetworkClass):
         print params.PrEP_Target
 
         print(self.All_agentSet._subset)
-        self.networkGraph.write_network_stats(t=t)
+        if params.calcNetworkStats:
+            self.networkGraph.write_network_stats(t=t)
 
 
     #@profile
@@ -509,7 +534,8 @@ class HIVModel(NetworkClass):
         #print("\n\nSTARTING RELATIONSHIPS")
         # self.Relationships.print_agent_relationshps()
         
-        for rel in self.Relationships._members.copy():#.iter_agents():
+        for rel in self.Relationships._members:
+            #print "Rel: ",rel
             if burn:
                 pass
             else:
@@ -526,17 +552,18 @@ class HIVModel(NetworkClass):
                     #print self.Relationships.is_member(rel)
 
                     #print rel
-                    self.Relationships._members.discard(rel)
-                    #del rel
+                    #self.Relationships._members.discard(rel)
+                    del rel
 
                 #pass
-        #print("\n\nENDING RELATIONSHIPS")
-            # self.Relationships.print_agent_relationshps()
+        # print("\n\nENDING RELATIONSHIPS")
+        # print type(self.Relationships)
+        # print self.Relationships._members
             #print self.Relationships.num_members()
 
         if params.flag_HR:
             #print("\t\t= High Risk Group functions =")
-            for tmpA in self.highrisk_agentsSet._members.copy():#iter_agents():
+            for tmpA in self.highrisk_agentsSet.iter_agents():
                 if tmpA._highrisk_time > 0:
                     tmpA._highrisk_time -= 1
                 else:
@@ -1291,7 +1318,7 @@ class HIVModel(NetworkClass):
             agent._HIV_bool = True
             agent._HIV_time = 1
             self.NewInfections.add_agent(agent)
-            #print "\t\t\t\tAgent %d added to new infection list"%agent.get_ID()
+            print "\t\t\t\tAgent %d added to new infection list"%agent.get_ID()
             self.HIV_agentSet.add_agent(agent)
             if agent._PrEP_time > 0:
                 if random.random() < params.PrEP_resist:

@@ -39,7 +39,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *****************************************************************************
 """
 
-import random
+from random import Random
 import copy
 from copy import deepcopy
 import unittest
@@ -144,7 +144,8 @@ class PopulationClass():
             Initialize PopulationClass object.
         """
         self.RANDOMSEED = rSeed
-        #random.seed(self.RANDOMSEED)
+        self.popRandom = Random(rSeed)
+        #self.popRandom.seed(self.RANDOMSEED)
         if type(n) is not int:
             raise ValueError("Population size must be integer")
         else:
@@ -214,7 +215,7 @@ class PopulationClass():
         # List of IDU, NIDU, NDs
         # shuffle all Agents
         allAgents = range(self.PopulationSize)
-        #random.shuffle(allAgents)
+        #self.popRandom.shuffle(allAgents)
 
         print "\tBuilding class sets"
         self.totalAgentClass = Agent_set(0,"TotalAgents")
@@ -341,17 +342,17 @@ class PopulationClass():
         prob_Incarc = params.DemographicParams['WHITE']['HM']['INCARprev']
         for tmpA in self.totalAgentClass._members:
 
-            dice = random.random()
+            dice = self.popRandom.random()
             prob_Incarc = params.DemographicParams[tmpA._race][tmpA._SO]['INCARprev']
             if dice < prob_Incarc:
                 #print dice, prob_Incarc
-                toss = 2#random.choice( (1, 2) )
+                toss = 2#self.popRandom.choice( (1, 2) )
                 if toss == 1: #JAIL
                     tmpA._incar_bool = True
-                    tmpA._incar_time = int(random.triangular(1, 9, 3))
+                    tmpA._incar_time = int(self.popRandom.triangular(1, 9, 3))
                 else: #PRISON
                     tmpA._incar_bool = True
-                    tmpA._incar_time = int(random.triangular(1, params.inc_PrisMax, int(params.inc_PrisMax/3))) #random.randint(params.inc_PrisMin, params.inc_PrisMax)
+                    tmpA._incar_time = int(self.popRandom.triangular(1, params.inc_PrisMax, int(params.inc_PrisMax/3))) #self.popRandom.randint(params.inc_PrisMin, params.inc_PrisMax)
                 # self.incarcerated_agentsClass.add_agent(tmpA)
                 self.incarcerated_agentSet.add_agent(tmpA)
             #self.totalAgentClass._subset["Incar"].add_agent(agent_cl)
@@ -451,7 +452,7 @@ class PopulationClass():
         Drugtype = 'NULL'
 
         #Determine sextype
-        tmp_rnd = random.random()
+        tmp_rnd = self.popRandom.random()
         if tmp_rnd < params.DemographicParams[Deliminator]['HM']['POP']:
             SexType = 'HM'
         elif tmp_rnd < (params.DemographicParams[Deliminator]['HM']['POP'] + params.DemographicParams[Deliminator]['HF']['POP']):
@@ -460,7 +461,7 @@ class PopulationClass():
             SexType = 'MSM'
 
         #Determine drugtype
-        tmp_rnd = random.random()
+        tmp_rnd = self.popRandom.random()
         #print "%.3lf must be less than%.3lf"%(tmp_rnd,params.DemographicParams[Deliminator]['IDU']['POP'])
 
         if tmp_rnd < params.DemographicParams[Deliminator]['IDU']['POP']:
@@ -475,7 +476,7 @@ class PopulationClass():
             prob_HIV = params.DemographicParams[Deliminator][SexType]['HIV']
         #print "%s\t%s\t%.3lf"%(Deliminator,SexType,prob_HIV)
 
-        if random.random() < prob_HIV:
+        if self.popRandom.random() < prob_HIV:
             HIVStatus = 1
 
             # if HIV AIDS possible
@@ -485,7 +486,7 @@ class PopulationClass():
                 prob_AIDS = params.DemographicParams[Deliminator][SexType]['AIDS']
                 #print "%s\t%s\t%.3lf"%(Deliminator,SexType,prob_HIV)
 
-            if random.random() < prob_AIDS:
+            if self.popRandom.random() < prob_AIDS:
                 AIDSStatus = 1
             else:
                 AIDSStatus = 0
@@ -496,7 +497,7 @@ class PopulationClass():
             else:
                 prob_Tested = params.DemographicParams[Deliminator][SexType]['TestedPrev']
 
-            if random.random() < prob_Tested:
+            if self.popRandom.random() < prob_Tested:
                 TestedStatus = 1
 
                 #if tested HAART possible
@@ -505,7 +506,7 @@ class PopulationClass():
                 else:
                     prob_HAART = params.DemographicParams[Deliminator][SexType]['HAARTprev']
 
-                if random.random() < prob_HAART:
+                if self.popRandom.random() < prob_HAART:
                     HAARTStatus = 1
                 else:
                     HAARTStatus = 0
@@ -515,7 +516,7 @@ class PopulationClass():
                 HAARTStatus = 0
 
             # if HIV, how long has the agent had it? Random sample
-            HIV_time = random.randint(1,42)
+            HIV_time = self.popRandom.randint(1,42)
 
         else:
             HIVStatus = 0
@@ -530,12 +531,12 @@ class PopulationClass():
         else:
             prob_Incarc = params.DemographicParams[Deliminator][SexType]['INCARprev']
 
-        if random.random() < prob_Incarc:
-            toss = random.choice( (1, 2) )
+        if self.popRandom.random() < prob_Incarc:
+            toss = self.popRandom.choice( (1, 2) )
             if toss == 1: #JAIL
-                incar_time = int(random.triangular(6, 21, 15))
+                incar_time = int(self.popRandom.triangular(6, 21, 15))
             else: #PRISON
-                incar_time = int(random.triangular(30, 96, 60))
+                incar_time = int(self.popRandom.triangular(30, 96, 60))
         else:
             incar_time = 0
 
@@ -562,7 +563,7 @@ class PopulationClass():
 
         #Determine sextype
         demBinP = 0.0
-        tmp_rnd = random.random()
+        tmp_rnd = self.popRandom.random()
         while SexType == 'NULL':
             #For each demographic class within race
             for demClass in params.RaceClass1.keys():
@@ -585,7 +586,7 @@ class PopulationClass():
         #     SexType = 'MTF'
 
         #Determine drugtype
-        tmp_rnd = random.random()
+        tmp_rnd = self.popRandom.random()
         #print "%.3lf must be less than%.3lf"%(tmp_rnd,params.DemographicParams[Deliminator]['IDU']['POP'])
 
         #todo: FIX THIS TO GET BACK IDU
@@ -595,7 +596,7 @@ class PopulationClass():
             DrugType = 'NDU'
 
 
-        #age = random.randint(18,65)
+        #age = self.popRandom.randint(18,65)
 
         age, ageBin = self.getAge(Race)
 
@@ -610,7 +611,7 @@ class PopulationClass():
             prob_HIV = params.DemographicParams[Race][SexType]['HIV']
         #print "%s\t%s\t%.3lf"%(Drugtype,SexType,prob_HIV)
 
-        if random.random() < prob_HIV:
+        if self.popRandom.random() < prob_HIV:
             HIVStatus = 1
             newAgent._HIV_bool = True
 
@@ -621,7 +622,7 @@ class PopulationClass():
                 prob_AIDS = params.DemographicParams[Race][SexType]['AIDS']
                 #print "%s\t%s\t%.3lf"%(Deliminator,SexType,prob_HIV)
 
-            if random.random() < prob_AIDS:
+            if self.popRandom.random() < prob_AIDS:
                 AIDSStatus = 1
                 newAgent._AIDS_bool = True
             else:
@@ -633,7 +634,7 @@ class PopulationClass():
             else:
                 prob_Tested = params.DemographicParams[Race][SexType]['TestedPrev']
 
-            if random.random() < prob_Tested:
+            if self.popRandom.random() < prob_Tested:
                 TestedStatus = 1
                 newAgent._tested = True
 
@@ -643,7 +644,7 @@ class PopulationClass():
                 else:
                     prob_HAART = params.DemographicParams[Race][SexType]['HAARTprev']
 
-                if random.random() < prob_HAART:
+                if self.popRandom.random() < prob_HAART:
                     HAARTStatus = 1
                     newAgent._HAART_bool = True
                     newAgent._treatment_bool = True
@@ -655,8 +656,8 @@ class PopulationClass():
                 HAARTStatus = 0
 
             # if HIV, how long has the agent had it? Random sample
-            #HIV_time = random.randint(1,42)
-            newAgent._HIV_time = random.randint(1,42)
+            #HIV_time = self.popRandom.randint(1,42)
+            newAgent._HIV_time = self.popRandom.randint(1,42)
 
         else:
 
@@ -672,19 +673,19 @@ class PopulationClass():
         # else:
         #     prob_Incarc = params.DemographicParams[Race][SexType]['INCARprev']
         #
-        # if random.random() < prob_Incarc:
-        #     toss = random.choice( (1, 2) )
+        # if self.popRandom.random() < prob_Incarc:
+        #     toss = self.popRandom.choice( (1, 2) )
         #     if toss == 1: #JAIL
         #         newAgent._incar_bool = True
-        #         newAgent._incar_time = int(random.triangular(1, 9, 3))
+        #         newAgent._incar_time = int(self.popRandom.triangular(1, 9, 3))
         #     else: #PRISON
         #         newAgent._incar_bool = True
-        #         newAgent._incar_time = int(random.triangular(6, 60, 24))
+        #         newAgent._incar_time = int(self.popRandom.triangular(6, 60, 24))
         # else:
         #     incar_time = 0
 
 
-        diceroll = random.random()
+        diceroll = self.popRandom.random()
 
         if diceroll < 0.01:
             mNPart = 0
@@ -693,9 +694,9 @@ class PopulationClass():
         elif diceroll < (0.01 + 0.14 + 0.16):
             mNPart = 2
         elif diceroll < (0.01 + 0.14 + 0.16 + 0.19):
-            mNPart = random.randrange(3,4,1)
+            mNPart = self.popRandom.randrange(3,4,1)
         elif diceroll < (0.01 + 0.14 + 0.16 + 0.19 + 0.34):
-            mNPart = random.randrange(5,10,1)
+            mNPart = self.popRandom.randrange(5,10,1)
         else: #16%
             mNPart = 10
         #Partnership demographics
@@ -851,7 +852,7 @@ class PopulationClass():
         """
 
     def getAge(self, race):
-        rand = random.random()
+        rand = self.popRandom.random()
         minAge = 15
         maxAge = 80
         ageBin = 0
@@ -880,7 +881,7 @@ class PopulationClass():
         # else:
         #     minAge = 15
         #     maxAge = 80
-        age = random.randrange(minAge,maxAge)
+        age = self.popRandom.randrange(minAge,maxAge)
         #print rand, race, age, ageBin
         return age, ageBin
 
@@ -908,15 +909,15 @@ class PopulationClass():
         print ('Number of ND '+str(len(self.ND_agents)))
         """
 	# random IDU
-	agent = random.choice(self.IDU.keys())
+	agent = self.popRandom.choice(self.IDU.keys())
 	print (' Random IDU agent: ' + str(agent))
 	print self.IDU[agent]
 	# random NIDU
-	agent = random.choice(self.NIDU.keys())
+	agent = self.popRandom.choice(self.NIDU.keys())
 	print (' Random NIDU agent: ' + str(agent))
 	print self.NIDU[agent]
 	# random ND
-	agent = random.choice(self.ND.keys())
+	agent = self.popRandom.choice(self.ND.keys())
 	print (' Random ND agent: ' + str(agent))
 	print self.ND[agent]
 	"""

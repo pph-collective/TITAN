@@ -110,7 +110,8 @@ class Agent(object):
         #Set gender on small switch statement.
 
     def __str__(self):
-        return str(self._ID)+ '\t'+str(self._SO)+'\t'+str(self._DU)+'\t'+ str(self._HIV_bool)
+        return "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s\t%s\t%d\t%s" % (self._ID, self._age, self._gender, self._SO, self._DU, self._race, self._HIV_bool,self._incar_bool,self._incar_time, self.partner_list())
+        # return str(self._ID)+ '\t'+str(self._SO)+'\t'+str(self._DU)+'\t'+ str(self._HIV_bool)
 
     def __repr__(self):
         return str(self._ID)
@@ -261,8 +262,8 @@ class Relationship(object):
             partner = self._ID2
 
             #print "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tDeleting relationship between %d and %d" % (agent.get_ID(), partner.get_ID())
-            #agent.print_agent()
-            #partner.print_agent()
+            # print "\tAgt:",agent
+            # print "\tPtn:", partner
             #self.print_rel()
             agent.unbond(partner, self)
             #agent.unpair(partner)
@@ -338,7 +339,7 @@ class Agent_set(Agent):
 
         # _members stores agent set members in a dictionary keyed by ID
         self._ID = ID
-        self._members = set()
+        self._members = []
         self._subset = {}
 
         # _parent_set stores the parent set if this set is a member of an
@@ -354,7 +355,7 @@ class Agent_set(Agent):
             self._numerator = self
 
     def clear_set(self):
-        self._members.clear()
+        self._members = []
         self._subset = {}
 
     def get_agents(self):
@@ -374,7 +375,7 @@ class Agent_set(Agent):
         #agent.print_agent()
         #if agent in self._members:
         #    raise KeyError("agent %s is already a member of agent set %s"%(agent.get_ID(), self._ID))
-        self._members.add(agent)
+        self._members.append(agent)
         #self._members[agent.get_ID()] = agent
 
         # if self._subset: #if subsets exist, try to add the agent from those sets
@@ -486,7 +487,7 @@ class Agent_set(Agent):
         print "\t_____________ %s _____________" % self.get_ID()
         print "\tID1\t\tID2\t\tSO\tTy\tDur\tActs"
 
-        for tmpR in self.iter_agents():
+        for tmpR in self._members:
             tmpR.print_rel()
         print "\t______________ END ______________"
 

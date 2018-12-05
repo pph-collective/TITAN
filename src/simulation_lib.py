@@ -43,7 +43,7 @@ import os
 import time as time_mod
 import itertools
 import pprint
-import random
+# import random
 import matplotlib.pyplot as plt
 import params
 import numpy as np

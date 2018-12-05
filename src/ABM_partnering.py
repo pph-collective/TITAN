@@ -40,17 +40,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 # Imports
-import random
+#import random
 from copy import deepcopy, copy
 import os
 import time
 #import PyQt4
 
 #import scipy.sparse as spsp
-from scipy.stats import binom
-from scipy.stats import poisson
+# from scipy.stats import binom
+# from scipy.stats import poisson
 from functools import wraps
-import numpy as np
+#import numpy as np
 
 try:
     from HIVABM_Population import PopulationClass, print_population
@@ -105,7 +105,7 @@ def update_partner_assignments(self, partnerTurnover, graph, agent=None):
                     #print "%d/%d partnets found for partner %d"%(len(partner._partners), partner._num_sex_partners, partner.get_ID())
 
                 else:
-                    print "Missed pass attempt",noMatch
+                    # print "Missed pass attempt",noMatch
                     noMatch += 1
 
     # print "\n\t\t-COULDNT MATCH",noMatch,"AGENTS IN NEED \t---"
@@ -453,16 +453,34 @@ def get_random_sex_partner(self, agent, need_new_partners):
     # print type(need_new_partners)
     # print type(need_new_partners._subset[eligPtnType]._members)
     eligPtnType = params.DemographicParams[agent_race_type][agent_sex_type]['EligSE_PartnerType'][0]
-    partnerPool = need_new_partners._subset["SO"]._subset[eligPtnType]._members - set(agent._partners) - set([agent])
+    #partnerPool = list(need_new_partners._subset["SO"]._subset[eligPtnType]._members)
+    #partnerPool = list(need_new_partners._subset["SO"]._subset[eligPtnType]._members- set(agent._partners) - set([agent]))
+    #removeFromPool = set(agent._partners) - set([agent])
+    partnerPool2 = need_new_partners._subset["SO"]._subset[eligPtnType]._members
+    # print(partnerPool2)
+    # RandomPartner = (need_new_partners._subset["SO"]._subset[eligPtnType]._members- set(agent._partners) - set([agent])))
+    RandomPartner = random.choice(partnerPool2)
+    # print type(partnerPool)
+    # print type(RandomPartner)
+
     if agent_sex_type not in params.agentSexTypes:
         raise ValueError("Invalid sex type! %s"%str(agent_sex_type))
     else:
-        RandomPartner = random.sample((partnerPool), 1)
+        pass
+        # RandomPartner = random.choice(tuple(partnerPool))
+        # RandomPartner = random.sample((partnerPool), 1)
+        #RandomPartner = partnerPool.pop()
+        #partnerPool.add(RandomPartner)
 
 
     if RandomPartner:
-        assert(sex_possible(self,agent._SO, RandomPartner[0]._SO)),"Sex no possible between agents! ERROR 441"
-        return RandomPartner[0]
+        if (RandomPartner in agent._partners) or (RandomPartner == agent):
+            pass
+        # assert(sex_possible(self,agent._SO, RandomPartner[0]._SO)),"Sex no possible between agents! ERROR 441"
+        # return RandomPartner[0]
+        else:
+            assert(sex_possible(self,agent._SO, RandomPartner._SO)),"Sex no possible between agents! ERROR 441"
+            return RandomPartner
     else:
         pass
 

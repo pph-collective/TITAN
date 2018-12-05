@@ -48,6 +48,7 @@ import unittest
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 import matplotlib.animation as animation
 from operator import itemgetter
 
@@ -591,9 +592,9 @@ class NetworkClass(PopulationClass):
                 #tmp_aids = self.get_agent_characteristic(v, 'AIDS')
                 #tmp_hiv = self.get_agent_characteristic(v, 'HIV')
                 if v._AIDS_bool:#tmp_hiv == 1:
+                    node_color.append('purple')
+                elif v._HIV_bool: #tmpaids == 1:
                     node_color.append('r')
-                elif v._HIV_bool: #tmp_aids == 1:
-                    node_color.append('y')
                 else:
                     node_color.append('g')
         elif coloring == 'HR':
@@ -611,7 +612,7 @@ class NetworkClass(PopulationClass):
         return node_color
 
     def visualize_network(self, coloring='SO', pos=None,
-                          return_layout=0, node_size=None, iterations=30, curtime=0, txtboxLabel=0, label='Network'):
+                          return_layout=0, node_size=None, iterations=1, curtime=0, txtboxLabel=0, label='Network'):
         """
         :Purpose:
             Visualize the network using the spring layout (default). \n
@@ -621,15 +622,35 @@ class NetworkClass(PopulationClass):
         """
         G = self.G
         print("Plotting...")
-        #plt.figure(figsize=(8,8))
+        fig = plt.figure()
+        ax = fig.add_axes([0,0,1,1])
+        fig.clf()
+
+        # build a rectangle in axes coords
+        left, width = .0, 1.
+        bottom, height = .0, 1.
+        right = left + width
+        top = bottom + height
+
+        fig = plt.figure()
+        ax = fig.add_axes([0,0,1,1])
+
+        # axes coordinates are 0,0 is bottom left and 1,1 is upper right
+        p = patches.Rectangle(
+            (left, bottom), width, height,
+            fill=False, transform=ax.transAxes, clip_on=False
+            )
+
+        ax.add_patch(p)
+        # plt.figure(figsize=(8,8))
 
         if not pos:
-            pos=nx.spring_layout(G,iterations=iterations)
+            #pos=nx.spring_layout(G,iterations=iterations)
             #pos = nx.circular_layout(G)
             #pos=nx.shell_layout(G)
             #pos=nx.random_layout(G)
             #pos=nx.spectral_layout(G)
-            #pos = graphviz_layout(G, prog='neato', args='')
+            pos = graphviz_layout(G, prog='neato', args='')
 
         edge_color = 'k'
         node_shape = 'o'
@@ -647,16 +668,15 @@ class NetworkClass(PopulationClass):
             for v in G:
                 NodeSize.append((10*G.degree(v))**(1.0))
 
-
         # draw:
-        nx.draw(G, pos,
+        drawMe = nx.draw(G, pos,
                 node_size = NodeSize, 
                 node_color = node_color,
                 node_shape = node_shape,
                 edge_color = edge_color,
                 with_labels=False,
                 linewidths = 0.0,
-                width=0.05)
+                width=0.1)
 
 
         #nx.draw_networkx_nodes(self.graph,pos,node_size=NodeSize)
@@ -670,19 +690,22 @@ class NetworkClass(PopulationClass):
             r'Time=%.2f' % (curtime,)))
 
         # these are matplotlib.patch.Patch properties
-        props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+        props = dict(boxstyle='round',
+            facecolor='wheat', alpha=0.9)
 
-        # place a text box in upper left in axes coords
-        labelBox = plt.text(0.85, 0.95, textstr, fontsize=14,
-                verticalalignment='top',horizontalalignment='left', bbox=props)
-        plt.axis('equal')
-        plt.axis('off')
+        # place a text box in upper right in axes coords
+        ax.text(right-.025, top-.025, textstr,
+            horizontalalignment='right',
+            verticalalignment='top',
+            transform=ax.transAxes,bbox=props)
+
+        # plt.axis('equal')
+        # plt.axis('off')
         filename="images/%s_%d_%s_%d.png"%(label, G.number_of_nodes(),coloring, curtime)
 
         #plt.show()
         #plt.show(block=True)
-        plt.savefig(filename)
-        labelBox.remove()
+        fig.savefig(filename)
         print G.size()
         if return_layout:
             return pos
