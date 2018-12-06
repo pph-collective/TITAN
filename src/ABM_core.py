@@ -57,11 +57,6 @@ except ImportError:
     raise ImportError("Can't import PopulationClass")
 
 try:
-    from HIVABM_PartialNetwork import NetworkClass, save_adjlist
-except ImportError, e:
-    raise ImportError("Can't import NetworkClass! %s" % str(e))
-
-try:
     from network_graph_tools import *
 except ImportError, e:
     raise ImportError("Can't import network_graph_tools! %s" % str(e))
@@ -186,8 +181,6 @@ class HIVModel(NetworkClass):
 
     def __init__(self, N, tmax, parameter_dict, rseed, runtime_diffseed=False, model=None, network_type=None, HIVABM_Agent_set=None):
         """ Initialize HIVModel object """
-
-
         # Ensure param variable is are defined. For backwards compatibility with params.py files
         try:
             params.drawEdgeList
@@ -258,9 +251,10 @@ class HIVModel(NetworkClass):
             
             #asdf.All_agentSet.remove_agent(asdf.All_agentSet.random_agent())
             #asdf.All_agentSet.print_subsets()
-            # thing = PopulationClass(N, rseed, model)
+
+            thisPopClass = PopulationClass(N, rseed, model)
+            thisNetClass = NetworkClass(thisPopClass)
             # thing.All_agentSet.print_subsets()
-            # thing = PopulationClass(N, rseed, model)
             # thing.All_agentSet.print_subsets()
             # thing = PopulationClass(N, rseed, model)
             # thing.All_agentSet.print_subsets()

@@ -30,7 +30,7 @@ printEndingAgentList = False
 printIntermAgentList = False
 intermPrintFreq = 1
 calcNetworkStats = False
-drawFigures = True
+drawFigures = False
 drawEdgeList = False
 drawFigureColor = 'HIV'
 
@@ -76,6 +76,9 @@ AssortMixCoeff = 0.0           # Proportion of following given assort mix rules
 safeNeedleExchangePrev = 1.0    # Prevalence scalar on SNE
 initTreatment = 999999
 treatmentCov = 0.0
+limitComponentSize = True
+maxComponentSize = 100
+minComponentSize = 2
 
 """
 Incarceration params

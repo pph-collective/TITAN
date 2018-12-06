@@ -262,6 +262,7 @@ class NetworkClass(PopulationClass):
               Number of nodes each node is connected to in preferential
               attachment step
         """
+
         if type(N) is not int:			
             raise ValueError(('Population size must be integer,\
                                       n = %s, not %s')%(string(N), type(N)))	
@@ -277,12 +278,11 @@ class NetworkClass(PopulationClass):
         #        agent not in self.NIDU_agents and
         #        agent not in self.MSM_agents):
         #       self.NormalAgents.append(agent)
-        #self.NetworkSize = len(self.NormalAgents)
+        self.NetworkSize = N
         if network_type=='scale_free':
             self.G = nx.Graph()
             # scale free Albert Barabsai Graph
-            #self.G = my_barabasi_albert_graph(self.NetworkSize,m_0,
-            #                                  node_list = self.NormalAgents)
+            self.G = my_barabasi_albert_graph(self.NetworkSize,m_0, node_list = self.All_agentSet)
         elif network_type=='binomial':
             self.G = my_erdos_renyi_binomial_random_graph(
                 node_list=self.NormalAgents, 

@@ -276,78 +276,7 @@ def save_results(N_MC, time_range, rslts, outfile_dir, num_sim):
             # print std. deviation of mean
             #outfile.write('%s\tStd.Dev\t'%result_property)
         outfile.write('\n')
-        """
-        # Print 95% CI Value
-        outfile.write('\t95% CI Value\t')
-        for t in sorted(result_dict[result_property].keys()):
-           x_v=np.array(result_dict[result_property][t])
-           x_v=x_v[np.logical_not(np.isnan(x_v))]
-           if len(x_v)>0:
-              std_dev=np.std(x_v)
-              CI_Value=1.96*std_dev
-              outfile.write('%4.5f\t'%CI_Value)
-           else:
-              outfile.write('%4.5f\t'%np.NaN)
-        outfile.write('\n')
-        # print median
-        outfile.write('\tMedian\t')
-        for t in sorted(result_dict[result_property].keys()):
-           x_v=np.array(result_dict[result_property][t])
-           x_v=x_v[np.logical_not(np.isnan(x_v))]
-           if len(x_v)>0:
-              med=np.median(x_v)
-              outfile.write('%4.5f\t'%med)
-           else:
-              outfile.write('%4.5f\t'%np.NaN)
-        outfile.write('\n')
 
-        # print max value
-        outfile.write('\tMax\t')
-        for t in sorted(result_dict[result_property].keys()):
-           x_v=np.array(result_dict[result_property][t])
-           x_v=x_v[np.logical_not(np.isnan(x_v))]
-           if len(x_v)>0:
-              max_val=np.max(x_v)
-           else:
-              max_val=np.NaN
-           outfile.write('%4.5f\t'%max_val)
-        outfile.write('\n')
-        # print min value
-        outfile.write('\tMin\t')
-        for t in sorted(result_dict[result_property].keys()):
-           x_v=np.array(result_dict[result_property][t])
-           x_v=x_v[np.logical_not(np.isnan(x_v))]
-           if len(x_v)>0:
-              min_val=np.min(x_v)
-           else:
-              min_val=np.NaN
-           outfile.write('%4.5f\t'%min_val)
-        outfile.write('\n')
-
-        # print 10th percentile value
-        outfile.write('\tp10\t')
-        for t in sorted(result_dict[result_property].keys()):
-           x_v=np.array(result_dict[result_property][t])
-           x_v=x_v[np.logical_not(np.isnan(x_v))]
-           if len(x_v)>0:
-              p10=np.percentile(x_v,10)
-           else:
-             p10=np.NaN
-           outfile.write('%4.5f\t'%p10)
-        outfile.write('\n')
-
-        # print 90th percentile value
-        outfile.write('\tp90\t')
-        for t in sorted(result_dict[result_property].keys()):
-           x_v=np.array(result_dict[result_property][t])
-           x_v=x_v[np.logical_not(np.isnan(x_v))]
-           if len(x_v)>0:
-              p90=np.percentile(x_v,90)
-           else:
-              p90=np.NaN
-           outfile.write('%4.5f\t'%p90)
-        outfile.write('\n')
-        """
     outfile.close()
 
 
