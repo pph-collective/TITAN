@@ -7,14 +7,16 @@ Main model parameters.
 
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
-rSeed_pop = 1               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
-rSeed_run = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
+rSeed_pop = 1           # seed for RNG for poulation building (0: pure random, -1: stepwise to N_REPS)
+rSeed_net = 1           # seed for RNG for network formation (0: pure random, -1: stepwise to N_REPS)
+rSeed_run = 0           # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
 N_MC = 1              # total number of iterations (Monte Carlo runs)
 N_REPS = 1
-N_POP = 1000          # population size
-TIME_RANGE = 6        # total time steps to iterate
+N_POP = 10000          # population size
+TIME_RANGE = 12        # total time steps to iterate
 burnDuration = 0       # total time for burning in period (equillibration)
 model = 'Custom'         # Model Type for fast flag toggling
+network_type = 'max_k_comp_size'
 setting = 'Phil2005'
 label = '0.0_Mix'
 ####################
@@ -29,7 +31,7 @@ printStartAgentList = False
 printEndingAgentList = False
 printIntermAgentList = False
 intermPrintFreq = 1
-calcNetworkStats = False
+calcNetworkStats = True
 drawFigures = False
 drawEdgeList = False
 drawFigureColor = 'HIV'
@@ -106,15 +108,15 @@ inc_treat_RIC = False            # Force retention in care of ART therapy
 PrEP params
 """
 PrEP_type = "Oral"              #Oral/Inj PrEP modes
-PrEP_Target = 0.5              # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
-PrEP_startT = 0                 # Start date for PrEP program (0 for start of model)
+PrEP_Target = 1.0             # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+PrEP_startT = 0                 # Start date for PrEP program (-1 for init, 0 for start of model)
 PrEP_Adherence = 0.82           # Probability of being adherent
 PrEP_AdhEffic = 0.96            # Efficacy of adherence PrEP
 PrEP_NonAdhEffic = 0.76         # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0               # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01              # Probability of PrEP resistance developing
-PrEP_disc = 0.15                # Per month probability of PrEP discontinuation
-PrEP_target_model = 'Allcomers'       # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
+PrEP_disc = 0.00                # Per month probability of PrEP discontinuation
+PrEP_target_model = 'RandomTrial'       # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
 PrEP_clinic_cat = 'Mid'         # If clinical target model, which category does it follow
 
 if PrEP_type == 'Oral':
@@ -122,7 +124,7 @@ if PrEP_type == 'Oral':
     PrEP_AdhEffic = 0.96
     PrEP_NonAdhEffic = 0.76
     PrEP_falloutT = 1
-    PrEP_disc = 0.15
+    PrEP_disc = 0.00
 elif PrEP_type == 'Inj':
     PrEP_Adherence = 1.0
     PrEP_AdhEffic = 1.0
@@ -180,7 +182,7 @@ elif model == 'StaticZero':
 
 elif model == 'Custom':
     flag_incar = False
-    flag_PrEP = False
+    flag_PrEP = True
     flag_HR = False
     flag_ART = False
     flag_DandR = False
@@ -211,6 +213,7 @@ RC_template = {     'Race':None,            #Race of demographic
                     'INCAR':0.0,            #Probability of becoming incarcerated (rate)
                     'HAARTadh':0.0,         #Adherence to ART therapy
                     'HAARTdisc':0.0,        #Probability of discontinuing ART therapy
+                    'PrEPprev':0.0,         #Proportion of HIV- that are enrolled on PrEP
                     'PrEPdisc':0.0,         #Probability of discontinuing PrEP treatment
                     'EligSE_PartnerType':[],   #List of agent SO types the agent cant partner with
                     'AssortMixMatrix':[]    #List of assortMix Matrix to be zipped with EligPart
@@ -228,7 +231,7 @@ for a in ['MSM','HM','HF','IDU']:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
-RaceClass1['HM'] = {'POP':0.40,
+RaceClass1['HM'] = {'POP':0.0,
                      'HIV':0.0369,
                      'AIDS':0.6780,
                      'HAARTprev':0.41,
@@ -246,7 +249,7 @@ RaceClass1['HM'] = {'POP':0.40,
                      'EligSE_PartnerType':['HF']
                      }
 
-RaceClass1['HF'] = {'POP':0.40,
+RaceClass1['HF'] = {'POP':0.0,
                      'HIV':0.01391,
                      'AIDS':0.573,
                      'HAARTprev':0.47,
@@ -264,7 +267,7 @@ RaceClass1['HF'] = {'POP':0.40,
                      'EligSE_PartnerType':['HM']
                      }
 
-RaceClass1['MSM'] = {'POP':0.20,
+RaceClass1['MSM'] = {'POP':1.0,
                      'HIV':0.2093,
                      'AIDS':0.079,
                      'HAARTprev':0.926,

@@ -525,6 +525,16 @@ class PopulationClass():
             HIV_time = 0
             TestedStatus = 0
 
+            if params.PrEP_startT == 0:
+                prob_PrEP = params.PrEP_Target
+            else:
+                prob_PrEP = 0.0
+
+            if self.popRandom.random() < prob_PrEP:
+                PrEP_Status = 1
+            else:
+                PrEP_Status = 0
+
         #Incarceration
         if DrugType == 'IDU':
             prob_Incarc = params.DemographicParams[Deliminator]['IDU']['INCARprev']
@@ -541,7 +551,7 @@ class PopulationClass():
             incar_time = 0
 
         #print "New agent: %s\t%s\t%s\tHIV:%d" % (Deliminator,DrugType,SexType,HIVStatus)
-        agent_dict = {'Race':Deliminator,'Drug Type': DrugType,'Sex Type':SexType, 'HIV':HIVStatus, 'Tested':TestedStatus, 'AIDS':AIDSStatus, 'HAARTa':HAARTStatus, 'incar_t':incar_time,'HIV_t':HIV_time}
+        agent_dict = {'Race':Deliminator,'Drug Type': DrugType,'Sex Type':SexType, 'HIV':HIVStatus, 'Tested':TestedStatus, 'AIDS':AIDSStatus, 'HAARTa':HAARTStatus, 'PrEP':PrEP_Status, 'incar_t':incar_time,'HIV_t':HIV_time}
 
         return agent_dict
 
@@ -667,6 +677,19 @@ class PopulationClass():
             HIV_time = 0
             TestedStatus = 0
 
+
+            if params.PrEP_startT == -1:
+                prob_PrEP = params.PrEP_Target
+            else:
+                prob_PrEP = 0.0
+
+            if self.popRandom.random() < prob_PrEP:
+                PrEP_Status = 1
+                newAgent._PrEP_bool = True
+                newAgent._treatment_bool = True
+            else:
+                PrEP_Status = 0
+
         # #Incarceration
         # if DrugType == 'IDU':
         #     prob_Incarc = params.DemographicParams[Race]['IDU']['INCARprev']
@@ -756,6 +779,9 @@ class PopulationClass():
             addToSubsets(self.treatment_agentSet, agent_cl)
             if agent_cl._HAART_bool:
                 addToSubsets(self.Trt_ART_agentSet, agent_cl)
+
+        if agent_cl._PrEP_bool:
+            addToSubsets(self.Trt_PrEP_agentSet, agent_cl)
 
         if agent_cl._tested:
             addToSubsets(self.Trt_Tstd_agentSet, agent_cl)

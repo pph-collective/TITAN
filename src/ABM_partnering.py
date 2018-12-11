@@ -50,7 +50,7 @@ import time
 # from scipy.stats import binom
 # from scipy.stats import poisson
 from functools import wraps
-#import numpy as np
+import numpy as np
 
 try:
     from HIVABM_Population import PopulationClass, print_population
@@ -80,7 +80,7 @@ def update_partner_assignments(self, partnerTurnover, graph, agent=None):
             tmp_relationship = Relationship(agent, partner, "MSM", "SE", duration)
             agent.bond(partner, tmp_relationship)
             self.Relationships.add_agent(tmp_relationship)
-            graph.G.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
+            self.G.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
     else:
         EligibleAgents = self.All_agentSet#._subset["HIV"].iter_agents()
         noMatch = 0
@@ -99,7 +99,7 @@ def update_partner_assignments(self, partnerTurnover, graph, agent=None):
 
                     agent.bond(partner, tmp_relationship)
                     self.Relationships.add_agent(tmp_relationship)
-                    graph.G.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
+                    self.G.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
                     # ADD RELATIONSHIP EDGE TO GRAPH G of NetworkGraph
                     #print "%d/%d partnets found for agent %d"%(len(agent._partners), agent._num_sex_partners, agent.get_ID())
                     #print "%d/%d partnets found for partner %d"%(len(partner._partners), partner._num_sex_partners, partner.get_ID())

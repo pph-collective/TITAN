@@ -41,11 +41,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 __author__="Lars Seemann (lseemann@uh.edu)"
 
 import os
-#import random
+import random
 import collections
 import itertools
 import unittest
-import numpy as np
+# import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
@@ -70,6 +70,11 @@ except ImportError:
 try: from agent import *
 except ImportError:
     raise ImportError("Can't import agent")
+
+try:
+    from ABM_partnering import *
+except ImportError, e:
+    raise ImportError("Can't import ABM_partnering! %s" % str(e))
 
 #def save_adjlist(graph, dir_prefix, time):
 def save_adjlist(N_pop, graph, dir_prefix, time):
@@ -201,7 +206,7 @@ def my_barabasi_albert_graph(n, m, node_list=None, seed=None):
        random networks", Science 286, pp 509-512, 1999.
     """
 
-    if m < 1 or  m >=n:
+    if m < 1 or m >=n:
         raise nx.NetworkXError(\
             "Barabási-Albert network must have m>=1 and m<n, m=%d,n=%d"%(m,n))
 
@@ -219,7 +224,7 @@ def my_barabasi_albert_graph(n, m, node_list=None, seed=None):
         random.seed(seed)   
 
     G = nx.Graph()                                 # networkX graph
-    G.add_nodes_from(targets[:m])                  # Add m initial nodes (m0 in barabasi-speak)  
+    G.add_nodes_from(tavideorgets[:m])                  # Add m initial nodes (m0 in barabasi-speak)  
     G.name = "mod_barabasi_albert_graph(%s,%s)"%(n,m)
     repeated_nodes = []                            # List of existing nodes, with nodes repeated once for each adjacent edge 
     Num_source = m                                 # Start adding the other n-m nodes. The first node is m.
@@ -248,7 +253,7 @@ class populationGraph():
 
 class NetworkClass(PopulationClass):
 
-    def __init__(self, N, m_0 = 1, network_type='scale_free'):
+    def __init__(self, N, m_0 = 1, network_type='scale_free', node_list=None):
         """
         :Purpose:
             This is the base class used to generate the social network 
@@ -262,16 +267,15 @@ class NetworkClass(PopulationClass):
               Number of nodes each node is connected to in preferential
               attachment step
         """
-
         if type(N) is not int:			
-            raise ValueError(('Population size must be integer,\
-                                      n = %s, not %s')%(string(N), type(N)))	
+            raise ValueError("Population size must be integer,\
+                n = %s, not int"%(type(N)))
         else: pass
         if m_0 not in range(10):
             raise ValueError('m_0 must be integer smaller than 10')
         else: self.m_0 = m_0
-
-        #PopulationClass.__init__(self, n = N)	# Create population
+        PopulationClass.__init__(self, n = N)	# Create population
+        #self.All_agentSet
         #self.NormalAgents = []
         #for agent in self.Agents:
         #    if (agent not in self.IDU_agents and
@@ -281,8 +285,21 @@ class NetworkClass(PopulationClass):
         self.NetworkSize = N
         if network_type=='scale_free':
             self.G = nx.Graph()
+            for i in range(10):
+                update_partner_assignments(self, params.PARTNERTURNOVER, self.get_Graph)
             # scale free Albert Barabsai Graph
-            self.G = my_barabasi_albert_graph(self.NetworkSize,m_0, node_list = self.All_agentSet)
+            #self.G = my_barabasi_albert_graph(self.NetworkSize,m_0, node_list = node_list)
+        elif network_type == 'max_k_comp_size':
+            self.G = nx.Graph()
+            for i in range(5):
+                update_partner_assignments(self, params.PARTNERTURNOVER, self.get_Graph)
+            components = sorted(nx.connected_component_subgraphs(self.G), key=len, reverse=True)
+            for comp in components:
+                
+                if comp.number_of_nodes() > params.maxComponentSize:
+                    print "TOO BIG", comp, comp.number_of_nodes()
+                elif comp.number_of_nodes() < params.minComponentSize:
+                    print "TOO SMALL", comp, comp.number_of_nodes()
         elif network_type=='binomial':
             self.G = my_erdos_renyi_binomial_random_graph(
                 node_list=self.NormalAgents, 
@@ -709,12 +726,6 @@ class NetworkClass(PopulationClass):
         print G.size()
         if return_layout:
             return pos
-        
-def main():
-    myNetworkObj = ScaleFreeNetworkClass(N=1000, m_0 = 1)
-    G = myNetworkObj.get_Graph()
-    myNetworkObj.visualize_network(G)
-    myNetworkObj.plot_DegreeDistribution(G)
 
 class TestClassMethods(unittest.TestCase):
     """ 

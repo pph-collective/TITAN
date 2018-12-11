@@ -132,11 +132,9 @@ def simulation(nreps, save_adjlist_flag, time_range,
             inputSeed = num_sim + 1
         #print "\n\n------------------------------------------------------------------------------------------------------------------------------------------"
         print "\tProcess %5s runs simulation %d/%d\t.:.\tInput rSeed: %d" % (pid, num_sim + 1, nreps, inputSeed)
-        # fixedPop = PopulationClass(n=N_pop, rSeed = rSeed, model=model)._return_agent_set()
-        fixedPop = None
 
         MyModel = HIVModel(N=N_pop, tmax=time_range, parameter_dict=parameters, rseed=inputSeed, runtime_diffseed=uniqueSeed, model=model,
-                           network_type=fixedPop)
+                           network_type=params.network_type)
 
         if save_adjlist_flag == 1 and num_sim == 0:
             MyModel.run(save_adjlist_flag=1, dir_prefix=outfile_dir)
