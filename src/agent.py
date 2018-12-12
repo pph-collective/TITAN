@@ -261,7 +261,7 @@ class Relationship(object):
             agent = self._ID1
             partner = self._ID2
 
-            #print "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tDeleting relationship between %d and %d" % (agent.get_ID(), partner.get_ID())
+            print "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tDeleting relationship between %d and %d" % (agent.get_ID(), partner.get_ID())
             # print "\tAgt:",agent
             # print "\tPtn:", partner
             #self.print_rel()

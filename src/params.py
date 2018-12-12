@@ -7,13 +7,13 @@ Main model parameters.
 
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
-rSeed_pop = 1           # seed for RNG for poulation building (0: pure random, -1: stepwise to N_REPS)
+rSeed_pop = 2           # seed for RNG for poulation building (0: pure random, -1: stepwise to N_REPS)
 rSeed_net = 1           # seed for RNG for network formation (0: pure random, -1: stepwise to N_REPS)
-rSeed_run = 0           # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
+rSeed_run = 1           # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
 N_MC = 1              # total number of iterations (Monte Carlo runs)
 N_REPS = 1
-N_POP = 10000          # population size
-TIME_RANGE = 12        # total time steps to iterate
+N_POP = 1000          # population size
+TIME_RANGE = 1        # total time steps to iterate
 burnDuration = 0       # total time for burning in period (equillibration)
 model = 'Custom'         # Model Type for fast flag toggling
 network_type = 'max_k_comp_size'
@@ -70,7 +70,7 @@ HR_F_dur = 6                    # Duration of high risk for females
 """
 Misc. params
 """
-flag_AssortativeMix = True     # Boolean for if assortative mixing occurs at all
+flag_AssortativeMix = False     # Boolean for if assortative mixing occurs at all
 AssortMixType = "HR"            # Other assortative mixing types
 flag_AgeAssortMix = False       # Assortative mix by age
 flag_RaceAssortMix = False      # Assortative mix by race
@@ -324,14 +324,33 @@ RaceClass1['IDU'] = {'POP':0.0,
                      }
 
 
-RaceClass1['ALL'] = {'Proportion':1.00,
-                      'HAARTdisc':0.018,
+RaceClass1['ALL'] = {'Proportion':0.50,
+                      'HAARTdisc':0.00,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,
                       }
 
-RaceClass2['ALL'] = {'Proportion':0.00,
-                      'HAARTdisc':0.018,
+RaceClass2['MSM'] = {'POP':1.0,
+                     'HIV':0.2093,
+                     'AIDS':0.079,
+                     'HAARTprev':0.926,
+                     'INCARprev':0.000,
+                     'TestedPrev':0.956,
+                     'NUMPartn':4.0,
+                     'NUMSexActs':2.8,
+                     'UNSAFESEX':0.49,
+                     'NEEDLESH':0.00,
+                     'HIVTEST':0.13,
+                     'INCAR':0.00,
+                     'HAARTadh':0.66,
+                     'HAARTdisc':0.000,
+                     'PrEPadh':0.55,
+                     'PrEPdisc':PrEP_disc,
+                     'EligSE_PartnerType':['MSM']
+                     }
+
+RaceClass2['ALL'] = {'Proportion':0.50,
+                      'HAARTdisc':0.00,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,
                       }

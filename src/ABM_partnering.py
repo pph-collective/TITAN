@@ -71,6 +71,7 @@ import params
 
 def update_partner_assignments(self, partnerTurnover, graph, agent=None):
     # Now create partnerships until available partnerships are out
+    # print "Update partner random start ",random.randint(0,1000)
     if agent:
         partner = get_partner(self, agent, self.All_agentSet)
 

@@ -267,6 +267,9 @@ class NetworkClass(PopulationClass):
               Number of nodes each node is connected to in preferential
               attachment step
         """
+        random.seed(params.rSeed_net)
+        np.random.seed(params.rSeed_net)
+        
         if type(N) is not int:			
             raise ValueError("Population size must be integer,\
                 n = %s, not int"%(type(N)))
@@ -274,14 +277,8 @@ class NetworkClass(PopulationClass):
         if m_0 not in range(10):
             raise ValueError('m_0 must be integer smaller than 10')
         else: self.m_0 = m_0
-        PopulationClass.__init__(self, n = N)	# Create population
-        #self.All_agentSet
-        #self.NormalAgents = []
-        #for agent in self.Agents:
-        #    if (agent not in self.IDU_agents and
-        #        agent not in self.NIDU_agents and
-        #        agent not in self.MSM_agents):
-        #       self.NormalAgents.append(agent)
+        PopulationClass.__init__(self, n = N, rSeed = params.rSeed_pop)	# Create population
+
         self.NetworkSize = N
         if network_type=='scale_free':
             self.G = nx.Graph()
@@ -290,14 +287,34 @@ class NetworkClass(PopulationClass):
             # scale free Albert Barabsai Graph
             #self.G = my_barabasi_albert_graph(self.NetworkSize,m_0, node_list = node_list)
         elif network_type == 'max_k_comp_size':
+            def trimComponent(component, maxComponentSize):
+                print "TRIMMING", component.number_of_nodes(), component.number_of_edges()
+                for ag in component.nodes:
+                    if random.random() < 0.9:
+                        for rel in ag._relationships:
+                            print("Removed edge:",rel)
+                            rel.progress(forceKill=True)
+                            self.Relationships.remove_agent(rel)
+                            component.remove_edge(rel._ID1, rel._ID2)
+                            self.G.remove_edge(rel._ID1, rel._ID2)
+                            print(self.G.number_of_nodes())
+
+                print "RESULT:", component.number_of_nodes(), component.number_of_edges()
+
+                components = sorted(nx.connected_component_subgraphs(self.G), key=len, reverse=True)
+                totNods = 0
+                for comp in components:
+                    totNods += comp.number_of_nodes()
+                print "Total agents in graph: ",totNods
+                    
             self.G = nx.Graph()
-            for i in range(5):
+            for i in range(10):
                 update_partner_assignments(self, params.PARTNERTURNOVER, self.get_Graph)
             components = sorted(nx.connected_component_subgraphs(self.G), key=len, reverse=True)
-            for comp in components:
-                
+            for comp in components:              
                 if comp.number_of_nodes() > params.maxComponentSize:
                     print "TOO BIG", comp, comp.number_of_nodes()
+                    trimComponent(comp, params.maxComponentSize)
                 elif comp.number_of_nodes() < params.minComponentSize:
                     print "TOO SMALL", comp, comp.number_of_nodes()
         elif network_type=='binomial':
@@ -622,6 +639,14 @@ class NetworkClass(PopulationClass):
                     node_color.append('y')
                 else:
                     node_color.append('g')
+        elif coloring == 'Race':
+            for v in G:
+                if v._race == 'WHITE':
+                    node_color.append('y')
+                elif v._race == 'BLACK': #tmp_aids == 1:
+                    node_color.append('g')
+                else:
+                    node_color.append('b')
         else:
             raise ValueError("coloring value invalid!\n%s\n \
             Only 'SO','DU', 'Tested', and 'HIV' allowed!"%str(coloring))
@@ -638,7 +663,7 @@ class NetworkClass(PopulationClass):
             graph : networkX graph
         """
         G = self.G
-        print("Plotting...")
+        print("\tPlotting {} colored by {}...").format(label, coloring)
         fig = plt.figure()
         ax = fig.add_axes([0,0,1,1])
         fig.clf()
@@ -698,8 +723,8 @@ class NetworkClass(PopulationClass):
 
         #nx.draw_networkx_nodes(self.graph,pos,node_size=NodeSize)
         #nx.draw_networkx_edges(self.graph,pos,alpha=0.4)
-        print G.number_of_nodes()
-        print curtime
+        #print G.number_of_nodes()
+        #print curtime
 
 
         textstr = '\n'.join((
@@ -723,7 +748,7 @@ class NetworkClass(PopulationClass):
         #plt.show()
         #plt.show(block=True)
         fig.savefig(filename)
-        print G.size()
+        #print G.size()
         if return_layout:
             return pos
 

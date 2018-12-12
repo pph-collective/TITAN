@@ -143,23 +143,20 @@ class PopulationClass():
         :Purpose:
             Initialize PopulationClass object.
         """
-        self.RANDOMSEED = rSeed
+
+        #Init RNG for population creation to rSeed
         self.popRandom = Random(rSeed)
-        #self.popRandom.seed(self.RANDOMSEED)
         if type(n) is not int:
             raise ValueError("Population size must be integer")
         else:
             self.PopulationSize = n
         # Parameters
 
-        #Stratification proportions
-        self.propWhite = 1
-        self.propBlack = 0
 
 
         self.numWhite = int(params.DemographicParams['WHITE']['ALL']['Proportion'] * self.PopulationSize)
         self.numBlack = int(params.DemographicParams['BLACK']['ALL']['Proportion'] * self.PopulationSize)
-        #print 'W: %d, B: %d'%(self.numWhite, self.numBlack)
+        # print 'W: %d, B: %d'%(self.numWhite, self.numBlack)
         #Nested dictionary for probability lookups by race
         #StratW = White, StratB = Black
         #HM incar @ 0.0279
@@ -336,7 +333,7 @@ class PopulationClass():
             agent_cl = self._return_new_Agent_class(agent,'WHITE')
             self.create_agent(agent_cl, 'WHITE')
         for agent in self.Black_agents:
-            agent_cl = self._return_new_Agent_class(agent,'WHITE')
+            agent_cl = self._return_new_Agent_class(agent,'BLACK')
             self.create_agent(agent_cl, 'BLACK')
 
         prob_Incarc = params.DemographicParams['WHITE']['HM']['INCARprev']

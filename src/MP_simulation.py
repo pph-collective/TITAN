@@ -93,7 +93,7 @@ def main():
         """
         #rslts = pool.map(simulation_star,combined_input)
         #rslts = simulation(combined_input)
-        rslts = simulation(params.N_REPS, 1, params.TIME_RANGE, params.N_POP, outfile_dir, parameters, params.rSeed_pop, model=params.model)
+        rslts = simulation(params.N_REPS, 1, params.TIME_RANGE, params.N_POP, outfile_dir, parameters, params.rSeed_run, model=params.model)
         wct.append(time_mod.time() - tic)
         save_results(params.N_MC, params.TIME_RANGE, rslts, outfile_dir, single_sim)
         #print rslts
@@ -116,7 +116,7 @@ def open_outputs():
 
     for agentTypes in params.agentPopulations:
         name = 'basicReport_'+agentTypes
-        print name
+        #print name
         tmpReport = open('results/'+name+'.txt', 'w')
         tmpReport.write("seed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\n")
         tmpReport.close()
