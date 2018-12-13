@@ -290,22 +290,32 @@ class NetworkClass(PopulationClass):
             def trimComponent(component, maxComponentSize):
                 print "TRIMMING", component.number_of_nodes(), component.number_of_edges()
                 for ag in component.nodes:
-                    if random.random() < 0.9:
+                    if random.random() < 0.1:
                         for rel in ag._relationships:
-                            print("Removed edge:",rel)
+                            # print("Removed edge:",rel)
                             rel.progress(forceKill=True)
                             self.Relationships.remove_agent(rel)
                             component.remove_edge(rel._ID1, rel._ID2)
                             self.G.remove_edge(rel._ID1, rel._ID2)
-                            print(self.G.number_of_nodes())
+                            # print(self.G.number_of_nodes())
 
-                print "RESULT:", component.number_of_nodes(), component.number_of_edges()
+                #print "RESULT:", component.number_of_nodes(), component.number_of_edges()
 
                 components = sorted(nx.connected_component_subgraphs(self.G), key=len, reverse=True)
                 totNods = 0
                 for comp in components:
-                    totNods += comp.number_of_nodes()
-                print "Total agents in graph: ",totNods
+                    cNodes = comp.number_of_nodes()
+                    if cNodes > params.maxComponentSize:
+                        print "TOO BIG", comp, comp.number_of_nodes()
+                        trimComponent(comp, params.maxComponentSize)
+                    elif cNodes < params.minComponentSize:
+                        # print "TOO SMALL", comp.nodes(), comp.number_of_nodes()
+                        for a in comp.nodes():
+                            try:self.G.remove_node(a)
+                            except:pass
+                    else:
+                        totNods += cNodes
+                #print "Total agents in graph: ",totNods,self.G.number_of_nodes()
                     
             self.G = nx.Graph()
             for i in range(10):
@@ -317,6 +327,7 @@ class NetworkClass(PopulationClass):
                     trimComponent(comp, params.maxComponentSize)
                 elif comp.number_of_nodes() < params.minComponentSize:
                     print "TOO SMALL", comp, comp.number_of_nodes()
+            print "Total agents in graph: ",self.G.number_of_nodes()
         elif network_type=='binomial':
             self.G = my_erdos_renyi_binomial_random_graph(
                 node_list=self.NormalAgents, 
@@ -620,7 +631,17 @@ class NetworkClass(PopulationClass):
                 elif v._PrEP_bool:
                     node_color.append('b')
                 else:
-                    node_color.append('w')
+                    node_color.append('purple')
+        elif coloring == 'Trtmt':
+            for v in G:
+                if v._HIV_bool: #tmp_aids == 1:
+                    node_color.append('r')
+                elif v._PrEP_bool:
+                    node_color.append('g')
+                elif v._treatment_bool:
+                    node_color.append('y')
+                else:
+                    node_color.append('gray')
         elif coloring == 'HIV':
             for v in G:
                 #tmp_aids = self.get_agent_characteristic(v, 'AIDS')
@@ -649,7 +670,7 @@ class NetworkClass(PopulationClass):
                     node_color.append('b')
         else:
             raise ValueError("coloring value invalid!\n%s\n \
-            Only 'SO','DU', 'Tested', and 'HIV' allowed!"%str(coloring))
+            Only 'SO','DU','Tested', 'Trtmt', and 'HIV' allowed!"%str(coloring))
 
         return node_color
 
@@ -717,8 +738,8 @@ class NetworkClass(PopulationClass):
                 node_shape = node_shape,
                 edge_color = edge_color,
                 with_labels=False,
-                linewidths = 0.0,
-                width=0.1)
+                linewidths = 0.5,
+                width=0.5)
 
 
         #nx.draw_networkx_nodes(self.graph,pos,node_size=NodeSize)

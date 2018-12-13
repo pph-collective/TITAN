@@ -7,13 +7,13 @@ Main model parameters.
 
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
-rSeed_pop = 2           # seed for RNG for poulation building (0: pure random, -1: stepwise to N_REPS)
+rSeed_pop = 1           # seed for RNG for poulation building (0: pure random, -1: stepwise to N_REPS)
 rSeed_net = 1           # seed for RNG for network formation (0: pure random, -1: stepwise to N_REPS)
-rSeed_run = 1           # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
-N_MC = 1              # total number of iterations (Monte Carlo runs)
+rSeed_run = 0           # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
+N_MC = 10              # total number of iterations (Monte Carlo runs)
 N_REPS = 1
-N_POP = 1000          # population size
-TIME_RANGE = 1        # total time steps to iterate
+N_POP = 100          # population size
+TIME_RANGE = 12        # total time steps to iterate
 burnDuration = 0       # total time for burning in period (equillibration)
 model = 'Custom'         # Model Type for fast flag toggling
 network_type = 'max_k_comp_size'
@@ -30,11 +30,11 @@ printIncidenceEvents = False
 printStartAgentList = False
 printEndingAgentList = False
 printIntermAgentList = False
-intermPrintFreq = 1
+intermPrintFreq = 12
 calcNetworkStats = True
-drawFigures = False
+drawFigures = True
 drawEdgeList = False
-drawFigureColor = 'HIV'
+drawFigureColor = 'Trtmt'
 
 
 """
@@ -108,7 +108,7 @@ inc_treat_RIC = False            # Force retention in care of ART therapy
 PrEP params
 """
 PrEP_type = "Oral"              #Oral/Inj PrEP modes
-PrEP_Target = 1.0             # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+PrEP_Target = 0.50             # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 PrEP_startT = 0                 # Start date for PrEP program (-1 for init, 0 for start of model)
 PrEP_Adherence = 0.82           # Probability of being adherent
 PrEP_AdhEffic = 0.96            # Efficacy of adherence PrEP
@@ -189,7 +189,7 @@ elif model == 'Custom':
     flag_staticN = True
     flag_agentZero = False
 
-agentPopulations = ['MSM','HM','HF','IDU']
+agentPopulations = ['MSM','HM','HF']
 agentSexTypes = ['HM', 'HF', 'MSM', 'MTF']
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
@@ -270,7 +270,7 @@ RaceClass1['HF'] = {'POP':0.0,
 RaceClass1['MSM'] = {'POP':1.0,
                      'HIV':0.2093,
                      'AIDS':0.079,
-                     'HAARTprev':0.926,
+                     'HAARTprev':0.0,
                      'INCARprev':0.000,
                      'TestedPrev':0.956,
                      'NUMPartn':4.0,
@@ -279,7 +279,7 @@ RaceClass1['MSM'] = {'POP':1.0,
                      'NEEDLESH':0.00,
                      'HIVTEST':0.13,
                      'INCAR':0.00,
-                     'HAARTadh':0.66,
+                     'HAARTadh':0.0,
                      'HAARTdisc':0.000,
                      'PrEPadh':0.55,
                      'PrEPdisc':PrEP_disc,
@@ -333,7 +333,7 @@ RaceClass1['ALL'] = {'Proportion':0.50,
 RaceClass2['MSM'] = {'POP':1.0,
                      'HIV':0.2093,
                      'AIDS':0.079,
-                     'HAARTprev':0.926,
+                     'HAARTprev':0.0,
                      'INCARprev':0.000,
                      'TestedPrev':0.956,
                      'NUMPartn':4.0,
@@ -342,7 +342,7 @@ RaceClass2['MSM'] = {'POP':1.0,
                      'NEEDLESH':0.00,
                      'HIVTEST':0.13,
                      'INCAR':0.00,
-                     'HAARTadh':0.66,
+                     'HAARTadh':0.0,
                      'HAARTdisc':0.000,
                      'PrEPadh':0.55,
                      'PrEPdisc':PrEP_disc,

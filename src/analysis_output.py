@@ -258,7 +258,7 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
         if tmpA._tested:rsltdic[tmpA._race][tmpA._SO]['numTested'] += 1
         if tmpA._HAART_bool:rsltdic[tmpA._race][tmpA._SO]['numART'] += 1
 
-    for tmpA in totalAgents._subset['IDU'].iter_agents():
+    for tmpA in totalAgents._subset['DU']._subset['IDU'].iter_agents():
         if tmpA._HIV_bool:rsltdic[tmpA._race]['IDU']['numHIV'] += 1
         if tmpA._AIDS_bool:rsltdic[tmpA._race]['IDU']['numAIDS'] += 1
         if tmpA._tested:rsltdic[tmpA._race]['IDU']['numTested'] += 1
@@ -296,7 +296,7 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
         "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
             rseed,
             t,
-            totalAgents._subset[agentTypes].num_members(),
+            totalAgents._subset['SO']._subset[agentTypes].num_members(),
             tot_rsltdic['ALL'][agentTypes]['numHIV'],
             tot_rsltdic['ALL'][agentTypes]['numAIDS'],
             tot_rsltdic['ALL'][agentTypes]['numTested'],
@@ -349,8 +349,8 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
             rseed,
             t,
             totalAgents.num_members(),
-            totalAgents._subset["HM"].num_members(),
-            totalAgents._subset["HF"].num_members(),
+            totalAgents._subset['SO']._subset["HM"].num_members(),
+            totalAgents._subset['SO']._subset["HF"].num_members(),
             HIVAgents.num_members(),
             tot_rsltdic['ALL']['HM']['numHIV'],
             tot_rsltdic['ALL']['HF']['numHIV']))
@@ -399,7 +399,7 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
         "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
             rseed,
             t,
-            totalAgents._subset["HF"].num_members(),
+            totalAgents._subset['SO']._subset["HF"].num_members(),
             tot_rsltdic['ALL']['HF']['numHIV'],
             tot_rsltdic['ALL']['HF']['numAIDS'],
             tot_rsltdic['ALL']['HF']['numTested'],
@@ -415,7 +415,7 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
         "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
             rseed,
             t,
-            totalAgents._subset["HM"].num_members(),
+            totalAgents._subset['SO']._subset["HM"].num_members(),
             tot_rsltdic['ALL']['HM']['numHIV'],
             tot_rsltdic['ALL']['HM']['numAIDS'],
             tot_rsltdic['ALL']['HM']['numTested'],
@@ -431,7 +431,7 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
         "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
             rseed,
             t,
-            totalAgents._subset["HM"].num_members(),
+            totalAgents._subset['SO']._subset["HM"].num_members(),
             tot_rsltdic['ALL']['MSM']['numHIV'],
             tot_rsltdic['ALL']['MSM']['numAIDS'],
             tot_rsltdic['ALL']['MSM']['numTested'],
@@ -469,7 +469,7 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
         "%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
             rseed,
             t,
-            totalAgents._subset['IDU'].num_members(),
+            totalAgents._subset['DU']._subset['IDU'].num_members(),
             tot_rsltdic['ALL']['IDU']['numHIV'],
             tot_rsltdic['ALL']['IDU']['numAIDS'],
             tot_rsltdic['ALL']['IDU']['numART'],
@@ -514,9 +514,11 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
         ResultDict['Inc_c_HM'].update({t:rsltdic['WHITE']['HM']['inf_newInf']})
         ResultDict['Inc_c_HF'].update({t:rsltdic['WHITE']['HF']['inf_newInf']})
     else:
-        cumulativeI = ResultDict['Inc_c_Tot'][t-1] + len(NewInfections._members) 
-        ResultDict['Inc_c_HM'].update({t:ResultDict['Inc_c_HM'][t-1]+rsltdic['WHITE']['HM']['inf_newInf']})
-        ResultDict['Inc_c_HF'].update({t:ResultDict['Inc_c_HF'][t-1]+rsltdic['WHITE']['HF']['inf_newInf']})
+        cumulativeI = 0
+        pass
+        # cumulativeI = ResultDict['Inc_c_Tot'][t-1] + len(NewInfections._members) 
+        # ResultDict['Inc_c_HM'].update({t:ResultDict['Inc_c_HM'][t-1]+rsltdic['WHITE']['HM']['inf_newInf']})
+        # ResultDict['Inc_c_HF'].update({t:ResultDict['Inc_c_HF'][t-1]+rsltdic['WHITE']['HF']['inf_newInf']})
 
     #ResultDict['ResistantCases'].update({t:len([ag for ag in NewInfections._members if ag._PrEPresistance==1])})
     ResultDict['Inc_c_Tot'].update({t:cumulativeI})

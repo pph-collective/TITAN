@@ -360,8 +360,13 @@ class HIVModel(NetworkClass):
         print("\n === Begin Simulation Run ===")
         #print("\t Writing Agents to dynNet Report")
         if params.drawFigures:
-                #self.get_Graph.draw_histogram(0)
-                self.get_Graph.visualize_network(coloring=params.drawFigureColor, node_size=10, curtime=0, iterations=10)
+            #self.get_Graph.draw_histogram(0)
+            nNodes = self.G.number_of_nodes()
+            self.visualize_network(coloring=params.drawFigureColor, 
+                node_size=5000./nNodes, 
+                curtime=0, 
+                iterations=10, 
+                label="Seed"+str(self.rSeed))
         # write agents to dynnetworkReport
         #self._writeDNR()
 
@@ -398,7 +403,17 @@ class HIVModel(NetworkClass):
             #print "RANDOM CALL %d" %random.randint(0,100)
             if params.drawFigures and t%params.intermPrintFreq == 0:
                 #self.get_Graph.draw_histogram(0)
-                self.get_Graph.visualize_network(coloring=params.drawFigureColor, node_size=10, curtime=t, txtboxLabel=4, iterations=10, label=params.label)
+                self.visualize_network(coloring=params.drawFigureColor, 
+                    node_size=5000./nNodes, 
+                    curtime=t, 
+                    iterations=10, 
+                    label="Seed"+str(self.rSeed))
+                # self.visualize_network(coloring=params.drawFigureColor, 
+                #     node_size=10, 
+                #     curtime=t, 
+                #     txtboxLabel=4, 
+                #     iterations=10, 
+                #     label=params.label)
             #todo: GET THIS TO THE NEW HIV COUNT
             print "\tSTARTING HIV count:%d\tTotal Incarcerated:%d\tHR+:%d\tPrEP:%d" % (self.HIV_agentSet.num_members(), self.incarcerated_agentSet.num_members(), self.highrisk_agentsSet.num_members(), self.Trt_PrEP_agentSet.num_members())
             #self.All_agentSet.print_agents()
@@ -408,7 +423,7 @@ class HIVModel(NetworkClass):
             self._update_AllAgents(t)
 
             #print "Results Dictionary update"
-            # getStats(t)
+            getStats(t)
 
             #print "Reseting death count"
             self._reset_death_count()
@@ -502,8 +517,8 @@ class HIVModel(NetworkClass):
 
             # self.get_Graph.plot_DegreeDistribution()
             #self.vizualize_network_graphviz(program='neato', coloring='Tested')
-            self.visualize_network(node_size=10, coloring="HIV")
-            self.visualize_network(node_size=10, coloring="Race")
+            # self.visualize_network(node_size=10, coloring="HIV")
+            # self.visualize_network(node_size=10, coloring="Trtmt")
             # update_partner_assignments(self, params.PARTNERTURNOVER, self.get_Graph)
             #self.get_Graph.create_graph_from_relationships(self.Relationships)
         elif params.flag_staticN == False:
@@ -653,12 +668,13 @@ class HIVModel(NetworkClass):
                 totNods = 0
                 for comp in components:
                     totNods += comp.number_of_nodes()
-                    if self.runRandom.random() < 1.0:
+                    if self.runRandom.random() < 0.5:
                         #Component selected as treatment pod!
                         for ag in comp.nodes():
                             if (ag._HIV_bool == False) and (ag._PrEP_bool == False):
-                                    if self.runRandom.random() < params.PrEP_Target:
-                                        self._initiate_PrEP(ag, time, force=True)
+                                ag._treatment_bool = True
+                                if self.runRandom.random() < params.PrEP_Target:
+                                    self._initiate_PrEP(ag, time, force=True)
                 print "Total agents in trial: ",totNods
         #print("\t\t !!!! ALL AGENTS UPDATED !!!\n")
 
