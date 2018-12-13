@@ -10,14 +10,14 @@ PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed_pop = 1           # seed for RNG for poulation building (0: pure random, -1: stepwise to N_REPS)
 rSeed_net = 1           # seed for RNG for network formation (0: pure random, -1: stepwise to N_REPS)
 rSeed_run = 0           # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
-N_MC = 10              # total number of iterations (Monte Carlo runs)
+N_MC = 1              # total number of iterations (Monte Carlo runs)
 N_REPS = 1
-N_POP = 100          # population size
+N_POP = 1000          # population size
 TIME_RANGE = 12        # total time steps to iterate
 burnDuration = 0       # total time for burning in period (equillibration)
 model = 'Custom'         # Model Type for fast flag toggling
 network_type = 'max_k_comp_size'
-setting = 'Phil2005'
+setting = 'Atlanta_2015'
 label = '0.0_Mix'
 ####################
 
@@ -32,7 +32,7 @@ printEndingAgentList = False
 printIntermAgentList = False
 intermPrintFreq = 12
 calcNetworkStats = True
-drawFigures = True
+drawFigures = False
 drawEdgeList = False
 drawFigureColor = 'Trtmt'
 
@@ -42,20 +42,20 @@ Calibration scaling parameters for fitting to empirical data
 """
 
 PARTNERTURNOVER = 1.0/7.5         # Partner acquisition parameters (higher number more partnering)
-cal_NeedlePartScaling = 0.90     # IDU partner number scaling
-cal_NeedleActScaling = 0.60      # IDU act frequency scaling factor
-cal_SexualPartScaling = 0.90     # Sexual partner number scaling factor
-cal_SexualActScaling = 0.80      # Sexual acts  scaling factor
+cal_NeedlePartScaling = 1.00     # IDU partner number scaling
+cal_NeedleActScaling = 1.00      # IDU act frequency scaling factor
+cal_SexualPartScaling = 1.0     # Sexual partner number scaling factor
+cal_SexualActScaling = 2.0      # Sexual acts  scaling factor
 cal_pXmissionScaling = 1.0      # Global transmission probability scaling factor
 cal_AcuteScaling = 4.3         # Infectivity multiplier ratio for Acute status infections
-cal_RR_Dx = 0.53                # Risk reduction in transmission probability for agents diagnosed
+cal_RR_Dx = 0.00                # Risk reduction in transmission probability for agents diagnosed
 cal_RR_HAART = 1.0              # Scaling factor for effectiveness of ART therapy on xmission P
-cal_TestFreq = 0.70              # Scaling factor for testing frequency
+cal_TestFreq = 0.30              # Scaling factor for testing frequency
 cal_Mortality = 0.5             # Scaling factor for all cause mortality rates
-cal_ProgAIDS = 1.0              # Scaling factor for all progression to AIDS from HIV rates
-cal_ART_cov = 0.70               # Scaling factor for enrollment on ART probability
+cal_ProgAIDS = 0.05              # Scaling factor for all progression to AIDS from HIV rates
+cal_ART_cov = 0.40               # Scaling factor for enrollment on ART probability
 cal_IncarP = 1.0                # Scaling factor for probability of becoming incarcerated
-cal_raceXmission = 1.0          # Scaling factor for increased STI transmission P comparing race1/race2
+cal_raceXmission = 4.0          # Scaling factor for increased STI transmission P comparing race1/race2
 cal_ptnrSampleDepth = 100       # Sampling depth for partnering algorithm.
 
 """
@@ -70,11 +70,11 @@ HR_F_dur = 6                    # Duration of high risk for females
 """
 Misc. params
 """
-flag_AssortativeMix = False     # Boolean for if assortative mixing occurs at all
-AssortMixType = "HR"            # Other assortative mixing types
+flag_AssortativeMix = True     # Boolean for if assortative mixing occurs at all
+AssortMixType = "Race"            # Other assortative mixing types
 flag_AgeAssortMix = False       # Assortative mix by age
-flag_RaceAssortMix = False      # Assortative mix by race
-AssortMixCoeff = 0.0           # Proportion of following given assort mix rules
+flag_RaceAssortMix = True      # Assortative mix by race
+AssortMixCoeff = 0.750           # Proportion of following given assort mix rules
 safeNeedleExchangePrev = 1.0    # Prevalence scalar on SNE
 initTreatment = 999999
 treatmentCov = 0.0
@@ -268,16 +268,16 @@ RaceClass1['HF'] = {'POP':0.0,
                      }
 
 RaceClass1['MSM'] = {'POP':1.0,
-                     'HIV':0.2093,
-                     'AIDS':0.079,
+                     'HIV':0.132,
+                     'AIDS':0.07,
                      'HAARTprev':0.0,
                      'INCARprev':0.000,
-                     'TestedPrev':0.956,
-                     'NUMPartn':4.0,
-                     'NUMSexActs':2.8,
-                     'UNSAFESEX':0.49,
-                     'NEEDLESH':0.00,
-                     'HIVTEST':0.13,
+                     'TestedPrev':0.826,
+                     'NUMPartn':7.0,
+                     'NUMSexActs':5.0,
+                     'UNSAFESEX':0.43,
+                     'NEEDLESH':0.43,
+                     'HIVTEST':0.055,
                      'INCAR':0.00,
                      'HAARTadh':0.0,
                      'HAARTdisc':0.000,
@@ -324,23 +324,23 @@ RaceClass1['IDU'] = {'POP':0.0,
                      }
 
 
-RaceClass1['ALL'] = {'Proportion':0.50,
+RaceClass1['ALL'] = {'Proportion':0.488,
                       'HAARTdisc':0.00,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,
                       }
 
 RaceClass2['MSM'] = {'POP':1.0,
-                     'HIV':0.2093,
-                     'AIDS':0.079,
+                     'HIV':0.434,
+                     'AIDS':0.232,
                      'HAARTprev':0.0,
                      'INCARprev':0.000,
-                     'TestedPrev':0.956,
-                     'NUMPartn':4.0,
-                     'NUMSexActs':2.8,
-                     'UNSAFESEX':0.49,
-                     'NEEDLESH':0.00,
-                     'HIVTEST':0.13,
+                     'TestedPrev':0.655,
+                     'NUMPartn':3.0,
+                     'NUMSexActs':5.0,
+                     'UNSAFESEX':0.43,
+                     'NEEDLESH':0.27,
+                     'HIVTEST':0.06,
                      'INCAR':0.00,
                      'HAARTadh':0.0,
                      'HAARTdisc':0.000,
@@ -349,7 +349,7 @@ RaceClass2['MSM'] = {'POP':1.0,
                      'EligSE_PartnerType':['MSM']
                      }
 
-RaceClass2['ALL'] = {'Proportion':0.50,
+RaceClass2['ALL'] = {'Proportion':0.512,
                       'HAARTdisc':0.00,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,

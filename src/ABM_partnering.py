@@ -329,11 +329,11 @@ def get_assort_sex_partner(self, agent, need_new_partners):
         agent_race_type = self.get_agent_characteristic(agent, 'Race')
         #print agent_race_type
         if agent_race_type == 'WHITE':
-            Assortive_intersection = list(set(self.White_agents).intersection(intersection))
+            Assortive_intersection = list(set(self.Race_WHITE_agentSet).intersection(intersection))
             if Assortive_intersection == []: print "Couldnt assortive mix (W), picking suitable agent"
             else: return random.choice(Assortive_intersection)
         elif agent_race_type == 'BLACK':
-            Assortive_intersection = list(set(self.Black_agents).intersection(intersection))
+            Assortive_intersection = list(set(self.Race_BLACK_agentSet).intersection(intersection))
             if Assortive_intersection == []:
                 print "Couldnt assortive mix (B), picking suitable agent"
             else:
@@ -391,7 +391,7 @@ def get_assort_sex_partner(self, agent, need_new_partners):
 
     #else if picking using race mix
     elif params.AssortMixType == 'Race':
-        samplePop = [tmpA for tmpA in need_new_partners._subset[eligPartnerType]._members if tmpA._race != agent._race]
+        samplePop = [tmpA for tmpA in need_new_partners._subset['SO']._subset[eligPartnerType]._members if tmpA._race != agent._race]
         try:
             randomK_sample = random.sample(samplePop ,params.cal_ptnrSampleDepth)
         except:

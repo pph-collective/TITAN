@@ -261,7 +261,7 @@ class PopulationClass():
         #Racial agent sets
         self.racial_agentSet = Agent_set(1,"Race", parent=self.All_agentSet)
         self.Race_WHITE_agentSet = Agent_set(2,"WHITE", parent=self.racial_agentSet)
-        self.Race_WHITE_agentSet = Agent_set(2,"BLACK", parent=self.racial_agentSet)
+        self.Race_BLACK_agentSet = Agent_set(2,"BLACK", parent=self.racial_agentSet)
 
         #Incarcerated agent sets
         self.incarcerated_agentSet = Agent_set(1,"Incar", parent=self.All_agentSet)
