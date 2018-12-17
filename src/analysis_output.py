@@ -99,7 +99,7 @@ def initiate_ResultDict():
 
     return ResultDict
 
-def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInfections, NewDiagnosis, deaths, ResultDict, Relationships, newHR, newIncarRelease, outifle=None):
+def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInfections, NewDiagnosis, deaths, ResultDict, Relationships, newHR, newIncarRelease, outifle=None):
     incidenceReport = open('results/IncidenceReport.txt', 'a')
     prevalenceReport = open('results/PrevalenceReport.txt', 'a')
     deathReport = open('results/DeathReport.txt', 'a')
@@ -293,8 +293,10 @@ def print_stats(rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInf
         name = 'basicReport_'+agentTypes
         tmpReport = open('results/'+name+'.txt', 'a')
         tmpReport.write((
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
-            rseed,
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+            self.runseed,
+            self.popseed,
+            self.netseed,
             t,
             totalAgents._subset['SO']._subset[agentTypes].num_members(),
             tot_rsltdic['ALL'][agentTypes]['numHIV'],

@@ -354,7 +354,7 @@ class PopulationClass():
                 self.incarcerated_agentSet.add_agent(tmpA)
             #self.totalAgentClass._subset["Incar"].add_agent(agent_cl)
         #"""
-        #self.totalAgentClass.print_agents()
+        # self.All_agentSet.print_agents()
         # [self.MSM_agentsClass.add_agent(tmpA) for tmpA in self.totalAgentClass.iter_agents() if tmpA._SO == "MSM"]
         # [self.HM_agentsClass.add_agent(tmpA) for tmpA in self.totalAgentClass.iter_agents() if tmpA._SO == "HM"]
         # [self.HF_agentsClass.add_agent(tmpA) for tmpA in self.totalAgentClass.iter_agents() if tmpA._SO == "HF"]

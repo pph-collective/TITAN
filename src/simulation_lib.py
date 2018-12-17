@@ -111,7 +111,7 @@ def read_parameter_dict(num_Simulations):
 
 
 def simulation(nreps, save_adjlist_flag, time_range,
-               N_pop, outfile_dir, parameters, rSeed, uniqueSeed=False, model=None):
+               N_pop, outfile_dir, parameters, runSeed, popSeed, netSeed, uniqueSeed=False, model=None):
     # Check input
     if save_adjlist_flag not in [0, 1]:
         raise ValueError('Invalid input! save_adjlist_flag = %s' %
@@ -127,14 +127,18 @@ def simulation(nreps, save_adjlist_flag, time_range,
 
     for num_sim in range(nreps):
         # random.seed(rSeed)
-        inputSeed = rSeed
-        if rSeed == -1:
+        inputSeed = runSeed
+        if runSeed == -1:
             inputSeed = num_sim + 1
-        #print "\n\n------------------------------------------------------------------------------------------------------------------------------------------"
-        print "\tProcess %5s runs simulation %d/%d\t.:.\tInput rSeed: %d" % (pid, num_sim + 1, nreps, inputSeed)
 
-        MyModel = HIVModel(N=N_pop, tmax=time_range, parameter_dict=parameters, rseed=inputSeed, runtime_diffseed=uniqueSeed, model=model,
-                           network_type=params.network_type)
+            print inputSeed
+        #print "\n\n------------------------------------------------------------------------------------------------------------------------------------------"
+        print "\tProcess %5s runs simulation %d/%d\t.:.\tInput rSeed: %d, pSeed: %d, nSeed: %d" \
+              % (pid, num_sim + 1, nreps, inputSeed,popSeed,netSeed)
+
+        MyModel = HIVModel(N=N_pop, tmax=time_range, parameter_dict=parameters,
+                           runseed=inputSeed, popseed=popSeed, netseed=netSeed, runtime_diffseed=uniqueSeed,
+                           model=model, network_type=params.network_type)
 
         if save_adjlist_flag == 1 and num_sim == 0:
             MyModel.run(save_adjlist_flag=1, dir_prefix=outfile_dir)

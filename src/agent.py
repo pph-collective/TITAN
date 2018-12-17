@@ -313,7 +313,7 @@ class Relationship_set(Relationship):
 
         # _members stores agent set members in a dictionary keyed by ID
         self._ID = ID
-        self._members = set()
+        self._members = []
         self._subset = {}
 
         # _parent_set stores the parent set if this set is a member of an

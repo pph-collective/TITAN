@@ -180,7 +180,8 @@ class HIVModel(NetworkClass):
 
         return returnStr
 
-    def __init__(self, N, tmax, parameter_dict, rseed, runtime_diffseed=False, model=None, network_type=None, HIVABM_Agent_set=None):
+    def __init__(self, N, tmax, parameter_dict, runseed, popseed, netseed,
+                 runtime_diffseed=False, model=None, network_type=None, HIVABM_Agent_set=None):
         """ Initialize HIVModel object """
         # Ensure param variable is are defined. For backwards compatibility with params.py files
         try:
@@ -208,14 +209,30 @@ class HIVModel(NetworkClass):
         else:
             self.tmax = tmax
 
-        if (type(rseed) is not int):
+        if (type(runseed) is not int):
             raise ValueError("Random seed must be integer")
-        elif rseed == 0:
-            runseed = random.randint(1,1000000)
+        elif runseed == 0:
+            self.runseed = random.randint(1,1000000)
         else:
-            runseed = rseed
+            self.runseed = runseed
 
-        self.runtime_diffseed = runtime_diffseed
+        if (type(popseed) is not int):
+            raise ValueError("Random seed must be integer")
+        elif popseed == 0:
+            self.popseed = random.randint(1,1000000)
+        else:
+            self.popseed = popseed
+
+        if (type(netseed) is not int):
+            raise ValueError("Random seed must be integer")
+        elif popseed == 0:
+            self.netseed = random.randint(1,1000000)
+        else:
+            self.netseed = netseed
+
+        self.uniqueSeedID = 'r'+ str(runseed) + '_p' + str(popseed) + '_n' + str(netseed)
+
+
 
         self.current_dir = os.getcwd()
         print("=== Begin Initialization Protocol ===\n")
@@ -242,7 +259,7 @@ class HIVModel(NetworkClass):
             #asdf.All_agentSet.print_subsets()
 
             #thisPopClass = PopulationClass(N, rseed, model)
-            NetworkClass.__init__(self, N=N, network_type=network_type)
+            NetworkClass.__init__(self, N=N, network_type=network_type, popSeed=self.popseed, netSeed=self.netseed)
             self.All_agentSet.print_subsets()
             # thing.All_agentSet.print_subsets()
             # thing = PopulationClass(N, rseed, model)
@@ -291,9 +308,8 @@ class HIVModel(NetworkClass):
 
         print "\tRun seed was set to:", runseed
         self.runRandom = Random(runseed)
-        random.seed(runseed)
-        np.random.seed(runseed)
-        self.rSeed = runseed
+        random.seed(self.runseed)
+        np.random.seed(self.runseed)
         print "\tFIRST RANDOM CALL %d" %random.randint(0,100)
 
         print("\tReseting death count")
@@ -318,7 +334,7 @@ class HIVModel(NetworkClass):
         """
         def getStats(t):
             self.filler = 0
-            print_stats(self.rSeed, t
+            print_stats(self, self.runseed, t
                 ,self.All_agentSet
                 ,self.HIV_agentSet
                 ,self.incarcerated_agentSet
@@ -330,6 +346,40 @@ class HIVModel(NetworkClass):
                 ,self.Relationships
                 ,self.NewHRrolls
                 ,self.NewIncarRelease)
+
+        def print_components(t):
+            name = 'componentReport_ALL'
+            compReport = open('results/'+name+'.txt', 'a')
+            components = sorted(nx.connected_component_subgraphs(self.G), key=len, reverse=True)
+            compID = 0
+            for comp in components:
+                totN = nhiv = ntrtmt = ntrthiv = nprep = 0
+                for ag in comp.nodes():
+                    totN += 1
+                    if (ag._HIV_bool):
+                        nhiv += 1
+                        if ag._treatment_bool:
+                            ntrthiv += 1
+                    elif (ag._treatment_bool):
+                        ntrtmt += 1
+                        if ag._PrEP_bool:
+                            nprep += 1
+
+
+                compReport.write("{rseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Ntrtmt}\t{Nprep}\t{NtrtHIV}\n".format(
+                    rseed=self.runseed,
+                    pseed=self.popseed,
+                    nseed=self.netseed,
+                    t=t,
+                    compID=compID,
+                    totalN=totN,
+                    Nhiv=nhiv,
+                    Ntrtmt=ntrtmt,
+                    Nprep=nprep,
+                    NtrtHIV=ntrthiv))
+
+                compID += 1
+            compReport.close()
 
         #print "RANDOM CALL %d" %random.randint(0,100)
 
@@ -367,6 +417,8 @@ class HIVModel(NetworkClass):
                 curtime=0, 
                 iterations=10, 
                 label="Seed"+str(self.rSeed))
+        if params.calcComponentStats:
+            print_components(0)
         # write agents to dynnetworkReport
         #self._writeDNR()
 
@@ -483,8 +535,11 @@ class HIVModel(NetworkClass):
         #print params.PrEP_Target
 
         #print(self.All_agentSet._subset)
-        if params.calcNetworkStats:
-            self.write_network_stats(t=t)
+        if t%params.intermPrintFreq == 0:
+            if params.calcNetworkStats:
+                self.write_network_stats(t=t)
+            if params.calcComponentStats:
+                print_components(t)
 
 
     #@profile
@@ -1338,7 +1393,7 @@ class HIVModel(NetworkClass):
             agent._HIV_bool = True
             agent._HIV_time = 1
             self.NewInfections.add_agent(agent)
-            print "\t\t\t\tAgent %d added to new infection list"%agent.get_ID()
+            # print "\t\t\t\tAgent %d added to new infection list"%agent.get_ID()
             self.HIV_agentSet.add_agent(agent)
             if agent._PrEP_time > 0:
                 if self.runRandom.random() < params.PrEP_resist:

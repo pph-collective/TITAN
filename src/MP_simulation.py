@@ -63,6 +63,7 @@ def main():
     wct = []                                 # wall clock times
     open_outputs()
 
+
     #read_classifier_dict()
     for single_sim in range(params.N_MC):
         outfile_dir = os.path.join(os.getcwd(),
@@ -71,6 +72,16 @@ def main():
             os.mkdir(outfile_dir)
         tic = time_mod.time()
         parameters = None
+
+        inputPopSeed = params.rSeed_pop
+        inputNetSeed = params.rSeed_net
+        inputRunSeed = params.rSeed_run
+
+        if inputPopSeed == -1:
+            inputPopSeed = single_sim + 1
+
+        if inputNetSeed == -1:
+            inputNetSeed = single_sim + 1
 
         # distribute simulations manually
         if params.N_MC%params.PROCESSES == 0:
@@ -93,7 +104,15 @@ def main():
         """
         #rslts = pool.map(simulation_star,combined_input)
         #rslts = simulation(combined_input)
-        rslts = simulation(params.N_REPS, 1, params.TIME_RANGE, params.N_POP, outfile_dir, parameters, params.rSeed_run, model=params.model)
+        rslts = simulation(params.N_REPS, 1,
+                           params.TIME_RANGE,
+                           params.N_POP,
+                           outfile_dir,
+                           parameters,
+                           runSeed=inputRunSeed,
+                           popSeed=inputPopSeed,
+                           netSeed=inputNetSeed,
+                           model=params.model)
         wct.append(time_mod.time() - tic)
         save_results(params.N_MC, params.TIME_RANGE, rslts, outfile_dir, single_sim)
         #print rslts
@@ -118,16 +137,23 @@ def open_outputs():
         name = 'basicReport_'+agentTypes
         #print name
         tmpReport = open('results/'+name+'.txt', 'w')
-        tmpReport.write("seed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\n")
+        tmpReport.write("rseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\n")
         tmpReport.close()
 
     for demographicTypes in params.DemographicParams.keys():
         name = 'basicReport_'+demographicTypes
         print name
         tmpReport = open('results/'+name+'.txt', 'w')
-        tmpReport.write("seed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\n")
+        tmpReport.write("rseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\n")
         #whiteReport.write("0,0,0,0,0\n")
         tmpReport.close()
+
+    # component report file creation
+    name = 'componentReport_ALL'
+    tmpReport = open('results/'+name+'.txt', 'w')
+    tmpReport.write("rseed\tpseed\tnseed\tt\tcompID\ttotalN\tNhiv\tNprepElig\tNprep\tNnewinf\n")
+    tmpReport.close()
+
     whiteReport = open('results/W_pop_report.txt', 'w')
     whiteReport.write("seed\tt\tTotal-HIV\tMSM\tTested+\tHAART\n")
     #whiteReport.write("0,0,0,0,0\n")

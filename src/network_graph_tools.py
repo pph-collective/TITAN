@@ -253,7 +253,7 @@ class populationGraph():
 
 class NetworkClass(PopulationClass):
 
-    def __init__(self, N, m_0 = 1, network_type='scale_free', node_list=None):
+    def __init__(self, N, popSeed=0, netSeed=0, m_0 = 1, network_type='scale_free', node_list=None):
         """
         :Purpose:
             This is the base class used to generate the social network 
@@ -267,8 +267,9 @@ class NetworkClass(PopulationClass):
               Number of nodes each node is connected to in preferential
               attachment step
         """
-        random.seed(params.rSeed_net)
-        np.random.seed(params.rSeed_net)
+
+        random.seed(netSeed)
+        np.random.seed(netSeed)
         
         if type(N) is not int:			
             raise ValueError("Population size must be integer,\
@@ -277,7 +278,7 @@ class NetworkClass(PopulationClass):
         if m_0 not in range(10):
             raise ValueError('m_0 must be integer smaller than 10')
         else: self.m_0 = m_0
-        PopulationClass.__init__(self, n = N, rSeed = params.rSeed_pop)	# Create population
+        PopulationClass.__init__(self, n = N, rSeed = popSeed)	# Create population
 
         self.NetworkSize = N
         if network_type=='scale_free':
@@ -288,7 +289,7 @@ class NetworkClass(PopulationClass):
             #self.G = my_barabasi_albert_graph(self.NetworkSize,m_0, node_list = node_list)
         elif network_type == 'max_k_comp_size':
             def trimComponent(component, maxComponentSize):
-                print "TRIMMING", component.number_of_nodes(), component.number_of_edges()
+                # print "TRIMMING", component.number_of_nodes(), component.number_of_edges()
                 for ag in component.nodes:
                     if random.random() < 0.1:
                         for rel in ag._relationships:
@@ -306,7 +307,7 @@ class NetworkClass(PopulationClass):
                 for comp in components:
                     cNodes = comp.number_of_nodes()
                     if cNodes > params.maxComponentSize:
-                        print "TOO BIG", comp, comp.number_of_nodes()
+                        # print "TOO BIG", comp, comp.number_of_nodes()
                         trimComponent(comp, params.maxComponentSize)
                     elif cNodes < params.minComponentSize:
                         # print "TOO SMALL", comp.nodes(), comp.number_of_nodes()

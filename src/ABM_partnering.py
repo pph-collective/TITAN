@@ -391,13 +391,13 @@ def get_assort_sex_partner(self, agent, need_new_partners):
 
     #else if picking using race mix
     elif params.AssortMixType == 'Race':
-        samplePop = [tmpA for tmpA in need_new_partners._subset['SO']._subset[eligPartnerType]._members if tmpA._race != agent._race]
+        samplePop = [tmpA for tmpA in need_new_partners._subset['SO']._subset[eligPartnerType]._members if tmpA._race == agent._race]
         try:
             randomK_sample = random.sample(samplePop ,params.cal_ptnrSampleDepth)
         except:
             randomK_sample = samplePop
         while True:
-            RandomPartner = random.choice([ag for ag in randomK_sample if ag._race == agent._race])
+            RandomPartner = random.choice(samplePop)
             break
 
     elif params.AssortMixType == 'HR':
@@ -409,7 +409,7 @@ def get_assort_sex_partner(self, agent, need_new_partners):
                 randomK_sample = samplePop
 
             while True:
-                RandomPartner = random.choice([ag for ag in randomK_sample if ag._race == agent._race])
+                RandomPartner = random.choice(samplePop)
                 break
 
 
