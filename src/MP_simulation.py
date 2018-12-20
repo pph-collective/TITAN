@@ -142,7 +142,6 @@ def open_outputs():
 
     for demographicTypes in params.DemographicParams.keys():
         name = 'basicReport_'+demographicTypes
-        print name
         tmpReport = open('results/'+name+'.txt', 'w')
         tmpReport.write("rseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\n")
         #whiteReport.write("0,0,0,0,0\n")

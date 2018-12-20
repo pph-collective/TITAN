@@ -116,30 +116,7 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
     whiteReport = open('results/W_pop_report.txt', 'a')
     blackReport = open('results/B_pop_report.txt', 'a')
     num_SEP = 0
-    #
-    # numToHM = 0
-    # numToMSM = 0
-    # numToHF = 0
-    # numHIV_HM = 0
-    # numHIV_MSM = 0
-    # numHIV_HF = 0
-    #
-    # numAIDS_HM = 0
-    # numAIDS_MSM = 0
-    # numAIDS_HF = 0
-    #
-    # numNewlyTested_HM = 0
-    # numNewlyTested_MSM = 0
-    # numNewlyTested_HF = 0
-    #
-    # numTested_HM = 0
-    # numTested_MSM = 0
-    # numTested_HF = 0
-    #
-    # numART_HM = 0
-    # numART_MSM = 0
-    # numART_HF = 0
-    #
+
     newHR_HM = 0
     newHR_HIV_HM = 0
     newHR_AIDS_HM = 0
@@ -151,12 +128,6 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
     newHR_AIDS_HF = 0
     newHR_Tested_HF = 0
     newHR_ART_HF = 0
-    # infHM_HRever = 0
-    # infHM_HR6m = 0
-    # infMSM_HRever = 0
-    # infMSM_HR6m = 0
-    # infHF_HRever = 0
-    # infHF_HR6m = 0
 
     rc_template = {
                 'inf_HR6m':0,
@@ -204,25 +175,6 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
         if tmpA._everhighrisk_bool:rsltdic[tmpA._race][tmpA._SO]['inf_HRever'] += 1
         if tmpA._highrisk_bool:rsltdic[tmpA._race][tmpA._SO]['inf_HR6m'] += 1
 
-        # if tmpA._SO == "HM":
-        #     numToHM +=1
-        #     if tmpA._everhighrisk_bool:
-        #         infHM_HRever += 1
-        #         if tmpA._highrisk_bool:
-        #             infHM_HR6m += 1
-        # elif tmpA._SO == "MSM":
-        #     numToMSM += 1
-        #     if tmpA._everhighrisk_bool:
-        #         infMSM_HRever += 1
-        #         if tmpA._highrisk_bool:
-        #             infMSM_HR6m += 1
-        # elif tmpA._SO == "HF":
-        #     numToHF += 1
-        #     if tmpA._everhighrisk_bool:
-        #         infHF_HRever += 1
-        #         if tmpA._highrisk_bool:
-        #             infHF_HR6m += 1
-
     #Newly diagnosed tracker statistics
     for tmpA in NewDiagnosis.iter_agents():
         rsltdic[tmpA._race][tmpA._SO]['newlyTested'] += 1
@@ -252,7 +204,7 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
                         newHR_ART_HF += 1
 
     #Total HIV summary snapshot for timestep
-    for tmpA in HIVAgents.iter_agents():
+    for tmpA in self.HIV_agentSet.iter_agents():
         rsltdic[tmpA._race][tmpA._SO]['numHIV'] += 1
         if tmpA._AIDS_bool:rsltdic[tmpA._race][tmpA._SO]['numAIDS'] += 1
         if tmpA._tested:rsltdic[tmpA._race][tmpA._SO]['numTested'] += 1
@@ -280,13 +232,16 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
 
     #Sum 'ALL' categories for race/SO bins
     for race in rsltdic:
+        print race
         for param in rc_template:
             rsltdic[race]['ALL'][param] = rsltdic[race]['MSM'][param] + rsltdic[race]['HM'][param] + rsltdic[race]['HF'][param]
+            print param, rsltdic[race]['ALL'][param]
     for race in rsltdic:
         for param in rc_template:
             tot_rsltdic['ALL']['ALL'][param] += rsltdic[race]['ALL'][param]
             tot_rsltdic['ALL']['HM'][param] += rsltdic[race]['HM'][param]
             tot_rsltdic['ALL']['HF'][param] += rsltdic[race]['HF'][param]
+            tot_rsltdic['ALL']['MSM'][param] += rsltdic[race]['MSM'][param]
             tot_rsltdic['ALL']['IDU'][param] += rsltdic[race]['IDU'][param]
 
     for agentTypes in params.agentPopulations:
@@ -315,10 +270,12 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
         name = 'basicReport_'+demographicTypes
         tmpReport = open('results/'+name+'.txt', 'a')
         tmpReport.write((
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
-            rseed,
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+            self.runseed,
+            self.popseed,
+            self.netseed,
             t,
-            -1,
+            totalAgents._subset['Race']._subset[demographicTypes].num_members(),
             rsltdic[demographicTypes]['ALL']['numHIV'],
             rsltdic[demographicTypes]['ALL']['numAIDS'],
             rsltdic[demographicTypes]['ALL']['numTested'],

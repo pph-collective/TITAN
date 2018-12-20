@@ -7,10 +7,10 @@ Main model parameters.
 
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
-rSeed_pop = 0           # seed for RNG for poulation building (0: pure random, -1: stepwise to N_REPS)
-rSeed_net = 0           # seed for RNG for network formation (0: pure random, -1: stepwise to N_REPS)
-rSeed_run = 0           # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
-N_MC = 1000              # total number of iterations (Monte Carlo runs)
+rSeed_pop = 1           # seed for RNG for poulation building (0: pure random, -1: stepwise to N_REPS)
+rSeed_net = 1           # seed for RNG for network formation (0: pure random, -1: stepwise to N_REPS)
+rSeed_run = 1           # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
+N_MC = 1              # total number of iterations (Monte Carlo runs)
 N_REPS = 1
 N_POP = 11000          # population size
 TIME_RANGE = 60        # total time steps to iterate
@@ -56,7 +56,7 @@ cal_Mortality = 0.5             # Scaling factor for all cause mortality rates
 cal_ProgAIDS = 0.05              # Scaling factor for all progression to AIDS from HIV rates
 cal_ART_cov = 0.40               # Scaling factor for enrollment on ART probability
 cal_IncarP = 1.0                # Scaling factor for probability of becoming incarcerated
-cal_raceXmission = 4.0          # Scaling factor for increased STI transmission P comparing race1/race2
+cal_raceXmission = 1.0          # Scaling factor for increased STI transmission P comparing race1/race2
 cal_ptnrSampleDepth = 100       # Sampling depth for partnering algorithm.
 
 """
