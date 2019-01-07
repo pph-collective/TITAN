@@ -235,7 +235,7 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
         print race
         for param in rc_template:
             rsltdic[race]['ALL'][param] = rsltdic[race]['MSM'][param] + rsltdic[race]['HM'][param] + rsltdic[race]['HF'][param]
-            print param, rsltdic[race]['ALL'][param]
+            #print param, rsltdic[race]['ALL'][param]
     for race in rsltdic:
         for param in rc_template:
             tot_rsltdic['ALL']['ALL'][param] += rsltdic[race]['ALL'][param]
