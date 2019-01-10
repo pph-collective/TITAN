@@ -2312,7 +2312,7 @@ class HIVModel(NetworkClass):
                         self.Relationships.remove_agent(rel)
 
                     #Remove agent node and edges from network graph
-                    self.get_Graph.G.remove_node(agent)
+                    self.G.remove_node(agent)
 
                     #Remove agent from agent class and sub-sets
                     self.All_agentSet.remove_agent(agent)
@@ -2325,7 +2325,7 @@ class HIVModel(NetworkClass):
                     self.create_agent(agent_cl, race)
 
 
-                    self.get_Graph.G.add_node(agent_cl)
+                    self.G.add_node(agent_cl)
 
                 elif 1==0:
                     # Replace with new agent (random characteristics)

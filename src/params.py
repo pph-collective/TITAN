@@ -12,11 +12,11 @@ rSeed_net = 1           # seed for RNG for network formation (0: pure random, -1
 rSeed_run = 1           # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
 N_MC = 1              # total number of iterations (Monte Carlo runs)
 N_REPS = 1
-N_POP = 1100          # population size
-TIME_RANGE = 60        # total time steps to iterate
+N_POP = 2500          # population size
+TIME_RANGE = 192        # total time steps to iterate
 burnDuration = 0       # total time for burning in period (equillibration)
-model = 'Custom'         # Model Type for fast flag toggling
-network_type = 'max_k_comp_size'
+model = 'PrEP'         # Model Type for fast flag toggling
+network_type = 'scale_free' #scale_free or max_k_comp_size
 setting = 'Atlanta_2015'
 label = '0.75_Mix'
 ####################
@@ -43,20 +43,20 @@ Calibration scaling parameters for fitting to empirical data
 """
 
 PARTNERTURNOVER = 1.0/7.5         # Partner acquisition parameters (higher number more partnering)
-cal_NeedlePartScaling = 1.00     # IDU partner number scaling
-cal_NeedleActScaling = 1.00      # IDU act frequency scaling factor
+cal_NeedlePartScaling = 1.0     # IDU partner number scaling
+cal_NeedleActScaling = 1.0      # IDU act frequency scaling factor
 cal_SexualPartScaling = 1.0     # Sexual partner number scaling factor
-cal_SexualActScaling = 2.0      # Sexual acts  scaling factor
+cal_SexualActScaling = 1.1      # Sexual acts  scaling factor
 cal_pXmissionScaling = 1.0      # Global transmission probability scaling factor
 cal_AcuteScaling = 4.3         # Infectivity multiplier ratio for Acute status infections
-cal_RR_Dx = 0.00                # Risk reduction in transmission probability for agents diagnosed
+cal_RR_Dx = 0.25                # Risk reduction in transmission probability for agents diagnosed
 cal_RR_HAART = 1.0              # Scaling factor for effectiveness of ART therapy on xmission P
-cal_TestFreq = 0.30              # Scaling factor for testing frequency
-cal_Mortality = 0.5             # Scaling factor for all cause mortality rates
+cal_TestFreq = 0.5              # Scaling factor for testing frequency
+cal_Mortality = 0.05             # Scaling factor for all cause mortality rates
 cal_ProgAIDS = 0.05              # Scaling factor for all progression to AIDS from HIV rates
-cal_ART_cov = 0.40               # Scaling factor for enrollment on ART probability
+cal_ART_cov = 1.3              # Scaling factor for enrollment on ART probability
 cal_IncarP = 1.0                # Scaling factor for probability of becoming incarcerated
-cal_raceXmission = 1.0          # Scaling factor for increased STI transmission P comparing race1/race2
+cal_raceXmission = 2.9          # Scaling factor for increased STI transmission P comparing race1/race2
 cal_ptnrSampleDepth = 100       # Sampling depth for partnering algorithm.
 
 """
@@ -109,15 +109,15 @@ inc_treat_RIC = False            # Force retention in care of ART therapy
 PrEP params
 """
 PrEP_type = "Oral"              #Oral/Inj PrEP modes
-PrEP_Target = 0.50              # Target coverage for PrEP therapy
-PrEP_startT = 0                 # Start date for PrEP program (-1 for init, 0 for start of model)
+PrEP_Target = 0.05              # Target coverage for PrEP therapy
+PrEP_startT = 72                 # Start date for PrEP program (-1 for init, 0 for start of model)
 PrEP_Adherence = 0.82           # Probability of being adherent
 PrEP_AdhEffic = 0.96            # Efficacy of adherence PrEP
 PrEP_NonAdhEffic = 0.76         # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0               # During PrEP remains effective post discontinuation
 PrEP_resist = 0.00              # Probability of PrEP resistance developing
-PrEP_disc = 0.00                # Per month probability of PrEP discontinuation
-PrEP_target_model = 'RandomTrial'       # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
+PrEP_disc = 0.15                # Per month probability of PrEP discontinuation
+PrEP_target_model = 'Clinical'       # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
 PrEP_clinic_cat = 'Mid'         # If clinical target model, which category does it follow
 
 if PrEP_type == 'Oral':
@@ -232,100 +232,26 @@ for a in ['MSM','HM','HF','IDU']:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
-RaceClass1['HM'] = {'POP':0.0,
-                     'HIV':0.0369,
-                     'AIDS':0.6780,
-                     'HAARTprev':0.41,
-                     'INCARprev':0.0274,
-                     'TestedPrev':0.90,
-                     'NUMPartn':1.5,
-                     'NUMSexActs':5.0,
-                     'UNSAFESEX':0.89,
-                     'NEEDLESH':0.43,
-                     'HIVTEST':0.034,
-                     'INCAR':0.001,
-                     'HAARTadh':0.405,
-                     'HAARTdisc':0.000,
-                     'PrEPdisc':0.0000,
-                     'EligSE_PartnerType':['HF']
-                     }
-
-RaceClass1['HF'] = {'POP':0.0,
-                     'HIV':0.01391,
-                     'AIDS':0.573,
-                     'HAARTprev':0.47,
-                     'INCARprev':0.000,
-                     'TestedPrev':0.90,
-                     'NUMPartn':1.5,
-                     'NUMSexActs':5.0,
-                     'UNSAFESEX':0.43,
-                     'NEEDLESH':0.43,
-                     'HIVTEST':0.034,
-                     'INCAR':0.00,
-                     'HAARTadh':0.405,
-                     'HAARTdisc':0.000,
-                     'PrEPdisc':PrEP_disc,
-                     'EligSE_PartnerType':['HM']
-                     }
-
 RaceClass1['MSM'] = {'POP':1.0,
-                     'HIV':0.132,
-                     'AIDS':0.07,
-                     'HAARTprev':0.0,
-                     'INCARprev':0.000,
-                     'TestedPrev':0.826,
-                     'NUMPartn':7.0,
+                     'HIV':0.3452,
+                     'AIDS':0.51,
+                     'HAARTprev':0.55,
+                     'INCARprev':0.0,
+                     'TestedPrev':0.816,
+                     'NUMPartn':1.5,
                      'NUMSexActs':5.0,
                      'UNSAFESEX':0.43,
                      'NEEDLESH':0.43,
                      'HIVTEST':0.055,
-                     'INCAR':0.00,
-                     'HAARTadh':0.0,
+                     'INCAR':0.0,
+                     'HAARTadh':0.82,
                      'HAARTdisc':0.000,
-                     'PrEPadh':0.55,
-                     'PrEPdisc':PrEP_disc,
+                     'PrEPdisc':0.15,
                      'EligSE_PartnerType':['MSM']
                      }
 
-RaceClass1['MTF'] = {'POP':0.00,
-                     'HIV':0.33986,
-                     'AIDS':0.636,
-                     'HAARTprev':1.00,
-                     'INCARprev':0.000,
-                     'TestedPrev':0.95,
-                     'NUMPartn':4.7,
-                     'NUMSexActs':4.6,
-                     'UNSAFESEX':0.644,
-                     'NEEDLESH':0.00,
-                     'HIVTEST':0.155,
-                     'INCAR':0.00,
-                     'HAARTadh':0.67,
-                     'HAARTdisc':0.000,
-                     'PrEPadh':0.55,
-                     'PrEPdisc':PrEP_disc,
-                     'EligSE_PartnerType':['MSM']
-                     }
 
-RaceClass1['IDU'] = {'POP':0.0,
-                     'HIV':0.1500,
-                     'AIDS':0.6780,
-                     'HAARTprev':0.41,
-                     'INCARprev':0.0274,
-                     'TestedPrev':0.90,
-                     'NUMPartn':1.5,
-                     'NUMSexActs':5.0,
-                     'UNSAFESEX':0.89,
-                     'NEEDLESH':0.63,
-                     'HIVTEST':0.055,
-                     'INCAR':0.001,
-                     'HAARTadh':0.405,
-                     'HAARTdisc':0.000,
-                     'PrEPdisc':0.0000,
-                     'EligSE_PartnerType':['IDU']
-                     }
-
-
-RaceClass1['ALL'] = {'Proportion':0.488,
+RaceClass1['ALL'] = {'Proportion':0.95,
                       'HAARTdisc':0.00,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,
@@ -350,7 +276,7 @@ RaceClass2['MSM'] = {'POP':1.0,
                      'EligSE_PartnerType':['MSM']
                      }
 
-RaceClass2['ALL'] = {'Proportion':0.512,
+RaceClass2['ALL'] = {'Proportion':0.05,
                       'HAARTdisc':0.00,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,
