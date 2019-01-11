@@ -43,6 +43,7 @@ from random import Random
 import copy
 from copy import deepcopy
 import unittest
+from scipy.stats import poisson
 
 try:
     from agent import *
@@ -721,7 +722,7 @@ class PopulationClass():
             mNPart = 10
         #Partnership demographics
         newAgent._mean_num_partners = mNPart #params.DemographicParams[Race][SexType]['mNPart']
-
+        #newAgent._mean_num_partners = poisson.rvs(params.DemographicParams[Race][SexType]['NUMPartn'], size=1)
         #print "New agent: %s\t%s\t%s\tHIV:%d" % (Deliminator,DrugType,SexType,HIVStatus)
         #agent_dict = {'Race':Race,'Drug Type': DrugType,'Sex Type':SexType, 'HIV':HIVStatus, 'Tested':TestedStatus, 'AIDS':AIDSStatus, 'HAARTa':HAARTStatus, 'incar_t':incar_time,'HIV_t':HIV_time}
 

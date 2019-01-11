@@ -232,7 +232,6 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
 
     #Sum 'ALL' categories for race/SO bins
     for race in rsltdic:
-        print race
         for param in rc_template:
             rsltdic[race]['ALL'][param] = rsltdic[race]['MSM'][param] + rsltdic[race]['HM'][param] + rsltdic[race]['HF'][param]
             #print param, rsltdic[race]['ALL'][param]

@@ -7,18 +7,18 @@ Main model parameters.
 
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
-rSeed_pop = 1           # seed for RNG for poulation building (0: pure random, -1: stepwise to N_REPS)
-rSeed_net = 1           # seed for RNG for network formation (0: pure random, -1: stepwise to N_REPS)
-rSeed_run = 1           # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
+rSeed_pop = 0           # seed for RNG for poulation building (0: pure random, -1: stepwise to N_REPS)
+rSeed_net = 0           # seed for RNG for network formation (0: pure random, -1: stepwise to N_REPS)
+rSeed_run = 0           # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
 N_MC = 1              # total number of iterations (Monte Carlo runs)
 N_REPS = 1
 N_POP = 2500          # population size
-TIME_RANGE = 192        # total time steps to iterate
-burnDuration = 0       # total time for burning in period (equillibration)
+TIME_RANGE = 60        # total time steps to iterate
+burnDuration = 30       # total time for burning in period (equillibration)
 model = 'PrEP'         # Model Type for fast flag toggling
 network_type = 'scale_free' #scale_free or max_k_comp_size
-setting = 'Atlanta_2015'
-label = '0.75_Mix'
+setting = 'RI_2015_MSM_MSW'
+label = 'Base_Case'
 ####################
 
 """
@@ -31,7 +31,7 @@ printStartAgentList = False
 printEndingAgentList = False
 printIntermAgentList = False
 intermPrintFreq = 60
-calcNetworkStats = False
+calcNetworkStats = True
 calcComponentStats = True
 drawFigures = False
 drawEdgeList = False
@@ -42,11 +42,11 @@ drawFigureColor = 'Race'
 Calibration scaling parameters for fitting to empirical data
 """
 
-PARTNERTURNOVER = 1.0/7.5         # Partner acquisition parameters (higher number more partnering)
+PARTNERTURNOVER = 1./7.5         # Partner acquisition parameters (higher number more partnering)
 cal_NeedlePartScaling = 1.0     # IDU partner number scaling
 cal_NeedleActScaling = 1.0      # IDU act frequency scaling factor
-cal_SexualPartScaling = 1.0     # Sexual partner number scaling factor
-cal_SexualActScaling = 1.1      # Sexual acts  scaling factor
+cal_SexualPartScaling = 0.00     # Sexual partner number scaling factor
+cal_SexualActScaling = 0.5      # Sexual acts  scaling factor
 cal_pXmissionScaling = 1.0      # Global transmission probability scaling factor
 cal_AcuteScaling = 4.3         # Infectivity multiplier ratio for Acute status infections
 cal_RR_Dx = 0.25                # Risk reduction in transmission probability for agents diagnosed
@@ -56,7 +56,7 @@ cal_Mortality = 0.05             # Scaling factor for all cause mortality rates
 cal_ProgAIDS = 0.05              # Scaling factor for all progression to AIDS from HIV rates
 cal_ART_cov = 1.3              # Scaling factor for enrollment on ART probability
 cal_IncarP = 1.0                # Scaling factor for probability of becoming incarcerated
-cal_raceXmission = 2.9          # Scaling factor for increased STI transmission P comparing race1/race2
+cal_raceXmission = 1.0          # Scaling factor for increased STI transmission P comparing race1/race2
 cal_ptnrSampleDepth = 100       # Sampling depth for partnering algorithm.
 
 """
@@ -79,7 +79,7 @@ AssortMixCoeff = 0.750           # Proportion of following given assort mix rule
 safeNeedleExchangePrev = 1.0    # Prevalence scalar on SNE
 initTreatment = 999999
 treatmentCov = 0.0
-limitComponentSize = True
+limitComponentSize = False
 maxComponentSize = 100
 minComponentSize = 2
 
@@ -110,7 +110,7 @@ PrEP params
 """
 PrEP_type = "Oral"              #Oral/Inj PrEP modes
 PrEP_Target = 0.05              # Target coverage for PrEP therapy
-PrEP_startT = 72                 # Start date for PrEP program (-1 for init, 0 for start of model)
+PrEP_startT = 3                 # Start date for PrEP program (-1 for init, 0 for start of model)
 PrEP_Adherence = 0.82           # Probability of being adherent
 PrEP_AdhEffic = 0.96            # Efficacy of adherence PrEP
 PrEP_NonAdhEffic = 0.76         # Efficacy of non-adherence PrEP

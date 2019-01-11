@@ -487,7 +487,7 @@ class HIVModel(NetworkClass):
             #print "\t\tENDING HIV count:%2.2f\tIncarcerated:%d\tHR+:%d"%(self.All_agentSet._subset["HIV"].num_members()/self.All_agentSet.num_members(), self.IncarceratedClass.num_members(),self.PrEP_agents_class.num_members()) #,self.HighriskClass.num_members())
             print "Number of relationships: %d"%self.Relationships.num_members()
             tested = len([tmpA for tmpA in self.HIV_agentSet._members if tmpA._tested])
-            print "Number tested: %d\t%.2f"%(tested, 1.0*tested/max(1,self.HIV_agentSet.num_members()))
+            # print "Number tested: %d\t%.2f"%(tested, 1.0*tested/max(1,self.HIV_agentSet.num_members()))
             self.All_agentSet.print_subsets()
 
             newInfB = len([tmpA for tmpA in self.NewInfections._members if tmpA._race == 'BLACK'])
@@ -568,7 +568,7 @@ class HIVModel(NetworkClass):
         #print("\t\t= Begin Agents Partnering =")
         if time == 0:
             i=0
-            # self.create_graph_from_agents(self.All_agentSet
+            self.create_graph_from_agents(self.All_agentSet)
 
             # self.get_Graph.plot_DegreeDistribution()
             #self.vizualize_network_graphviz(program='neato', coloring='Tested')
@@ -705,11 +705,9 @@ class HIVModel(NetworkClass):
                 if time > params.PrEP_startT:
                     numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
                     target_PrEP = int((self.All_agentSet.num_members()-self.All_agentSet._subset["HIV"].num_members()) * params.PrEP_Target)
-                    elligiblePool = [ag for ag in self.All_agentSet._subset['MSM']._members if (ag._PrEP_bool == False and ag._HIV_bool == False)]
-                    print "Printing ellig pool"
-                    print len(elligiblePool)
-                    #for a in elligiblePool:
-                        #print a.print_agent()
+                    elligiblePool = [ag for ag in self.All_agentSet._subset['SO']._subset['MSM']._members if (ag._PrEP_bool == False and ag._HIV_bool == False)]
+                    print "Eligible PrEP pool size: ",len(elligiblePool)
+
                     while(numPrEP_agents < target_PrEP):
                         numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
                         target_PrEP = int((self.All_agentSet.num_members()-self.All_agentSet._subset["HIV"].num_members()) * params.PrEP_Target)
@@ -2233,7 +2231,6 @@ class HIVModel(NetworkClass):
         # self.num_Deaths["Total"] = 0
         # self.num_Deaths["HIV+"] = 0
         # self.num_Deaths["HIV-"] = 0
-
         #dynnetworkReport = open('Results/dynnetworkReport.txt', 'a')
         for agent in self.All_agentSet._members:#iter_agents(): #self.Agents:
 
@@ -2293,9 +2290,9 @@ class HIVModel(NetworkClass):
 
                 #print p
                 p = p / 12000.0#12000.0 #putting it into per 1 person-month
-
                 if self.runRandom.random() < p:
-                    #print "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAgent %d died rolling under %.10lf" % (agent.get_ID(), p)
+                    # print "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAgent %d died rolling under %.10lf" % (agent.get_ID(), p)
+                    
                     totalDeaths += 1
                     if HIV_status: ident = "HIV+"
                     else: ident = "HIV-"
@@ -2306,13 +2303,16 @@ class HIVModel(NetworkClass):
 
                     #End all existing relationships
                     for rel in agent._relationships:
-                        #print "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tDeleting relationship between %d and %d" % (rel._ID1.get_ID(), rel._ID2.get_ID())
+                        # print "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tDeleting relationship between %d and %d" % (rel._ID1.get_ID(), rel._ID2.get_ID())
                         rel.progress(forceKill=True)
 
                         self.Relationships.remove_agent(rel)
 
+                    
                     #Remove agent node and edges from network graph
                     self.G.remove_node(agent)
+
+
 
                     #Remove agent from agent class and sub-sets
                     self.All_agentSet.remove_agent(agent)
@@ -2323,7 +2323,7 @@ class HIVModel(NetworkClass):
                     # Create new agent
                     agent_cl = self._return_new_Agent_class(ID_number,race)
                     self.create_agent(agent_cl, race)
-
+                    # print("Adding node {}".format(agent_cl))
 
                     self.G.add_node(agent_cl)
 

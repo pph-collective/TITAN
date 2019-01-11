@@ -87,7 +87,7 @@ def update_partner_assignments(self, partnerTurnover, graph, agent=None):
         noMatch = 0
         for agent in EligibleAgents.iter_agents():
             #print len(agent._partners)
-            acquirePartnerProb = (agent._mean_num_partners / (12.0))*partnerTurnover
+            acquirePartnerProb = params.cal_SexualPartScaling*partnerTurnover*(agent._mean_num_partners / (12.0))
             #if agent._highrisk_bool:print acquirePartnerProb
             if np.random.uniform(0, 1) < acquirePartnerProb:
                 partner = get_partner(self, agent, self.All_agentSet)
@@ -180,7 +180,7 @@ def get_number_of_partners(self, agent, agent_drug_type, agent_sex_type):
         RandNumCont = RandNumCont * params.cal_NeedlePartScaling
 
     else:
-        RandNumCont = RandNumCont * params.cal_SexualActScaling
+        RandNumCont = RandNumCont * params.cal_SexualPartScaling
 
 
     return RandNumCont
