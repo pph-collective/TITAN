@@ -173,7 +173,7 @@ class HIVModel(NetworkClass):
     """
     def __repr__(self):
         returnStr = "\n"
-        returnStr += "Seed: %d\n"%(self.rSeed)
+        returnStr += "Seed: %d\n"%(self.runseed)
         returnStr += "Npop: %d\n"%(params.N_POP)
         returnStr += "Time: %d\n"%(params.TIME_RANGE)
         returnStr += "Mode: %s\n"%(params.model)
@@ -316,6 +316,7 @@ class HIVModel(NetworkClass):
         self._reset_death_count()  # Number of death
 
         print("\tCreating network graph")
+        self.create_graph_from_agents(self.All_agentSet)
         #self.get_Graph = NetworkClass(1000,m_0=1)
 
         print("\n === Initialization Protocol Finished ===")
@@ -385,8 +386,9 @@ class HIVModel(NetworkClass):
 
 
         def burnSimulation(burnDuration):
+            print("\n === Burn Initiated for {} timesteps ===".format(burnDuration+1))
             for t in range(0, burnDuration + 1):
-                print '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: BURN', t
+                # print '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: BURN', t
                 self._update_AllAgents(t, burn=True)
 
                 if params.flag_DandR:
@@ -394,12 +396,13 @@ class HIVModel(NetworkClass):
                     self._die_and_replace()
 
             # self.All_agentSet.print_subsets()
-            #print "BurnCumlInc\t%d",self.NewInfections.num_members()
+            print "\tBurn Cuml Inc:\t{}".format(self.NewInfections.num_members())
             self.NewInfections.clear_set()
             self.NewDiagnosis.clear_set()
             self.NewHRrolls.clear_set()
             self.NewIncarRelease.clear_set()
             # getStats(0)
+            print(" === Simulation Burn Complete ===")
 
         # self.get_Graph = NetworkClass(1000,m_0=1)
         burnSimulation(params.burnDuration)
@@ -416,7 +419,7 @@ class HIVModel(NetworkClass):
                 node_size=5000./nNodes, 
                 curtime=0, 
                 iterations=10, 
-                label="Seed"+str(self.rSeed))
+                label="Seed"+str(self.runseed))
         if params.calcComponentStats:
             print_components(0)
         # write agents to dynnetworkReport
@@ -431,7 +434,7 @@ class HIVModel(NetworkClass):
             firstHIV = self.runRandom.choice(self.DU_IDU_agentSet._members)
             i=0
             while i <= numPartners:
-                    update_partner_assignments(self, 10000.0, self.get_Graph, agent=firstHIV)
+                    update_partner_assignments(self, 10000.0, self.get_Graph(), agent=firstHIV)
                     i += 1
             self._become_HIV(firstHIV, 0)
         #degree_sequence = sorted([d for n, d in self.get_Graph.G.degree()], reverse=True)
@@ -459,7 +462,7 @@ class HIVModel(NetworkClass):
                     node_size=5000./nNodes, 
                     curtime=t, 
                     iterations=10, 
-                    label="Seed"+str(self.rSeed))
+                    label="Seed"+str(self.runseed))
                 # self.visualize_network(coloring=params.drawFigureColor, 
                 #     node_size=10, 
                 #     curtime=t, 
@@ -518,7 +521,7 @@ class HIVModel(NetworkClass):
             if params.drawEdgeList:
                 print "Drawing network edge list to file"
                 fh=open("results/network/Edgelist_t{}.txt".format(t),'wb')
-                self.get_Graph.write_G_edgelist(fh)
+                self.write_G_edgelist(fh)
                 fh.close()
 
             #self.get_Graph.draw_histogram()
@@ -568,7 +571,7 @@ class HIVModel(NetworkClass):
         #print("\t\t= Begin Agents Partnering =")
         if time == 0:
             i=0
-            self.create_graph_from_agents(self.All_agentSet)
+            # self.create_graph_from_agents(self.All_agentSet)
 
             # self.get_Graph.plot_DegreeDistribution()
             #self.vizualize_network_graphviz(program='neato', coloring='Tested')
@@ -605,7 +608,7 @@ class HIVModel(NetworkClass):
                 pass
             else:
                 if rel.progress():
-                    try:self.get_Graph.G.remove_edge(rel._ID1, rel._ID2)
+                    try:self.get_Graph().remove_edge(rel._ID1, rel._ID2)
                     except:pass
                     self.Relationships.remove_agent(rel)
                     # relID = self.Relationships._members.index(rel)
@@ -706,12 +709,12 @@ class HIVModel(NetworkClass):
                     numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
                     target_PrEP = int((self.All_agentSet.num_members()-self.All_agentSet._subset["HIV"].num_members()) * params.PrEP_Target)
                     elligiblePool = [ag for ag in self.All_agentSet._subset['SO']._subset['MSM']._members if (ag._PrEP_bool == False and ag._HIV_bool == False)]
-                    print "Eligible PrEP pool size: ",len(elligiblePool)
+                    # print "Eligible PrEP pool size: ",len(elligiblePool)
 
                     while(numPrEP_agents < target_PrEP):
                         numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
                         target_PrEP = int((self.All_agentSet.num_members()-self.All_agentSet._subset["HIV"].num_members()) * params.PrEP_Target)
-                        print "%d/%d"%(numPrEP_agents, target_PrEP)
+                        # print "%d/%d"%(numPrEP_agents, target_PrEP)
                         self._initiate_PrEP(self._get_clinic_agent(params.PrEP_clinic_cat, elligiblePool), time)
                 # elif self._PrEP_elligible(agent, time):
                 #     self._initiate_PrEP(agent, time)
@@ -795,7 +798,6 @@ class HIVModel(NetworkClass):
             agent_HIV_status = agent._HIV_bool  # self.get_agent_characteristic(agent, 'HIV')
             agent_incar = agent._incar_bool
             partner_incar = partner._incar_bool
-            num_interactions = self.runRandom.randrange(1, 50, 1)
             if partner_drug_type == 'IDU' and agent_drug_type == 'IDU':
                 # Injection is possible
                 #If agent is on post incar HR treatment to prevent IDU behavior, pass IUD infections
@@ -2310,7 +2312,7 @@ class HIVModel(NetworkClass):
 
                     
                     #Remove agent node and edges from network graph
-                    self.G.remove_node(agent)
+                    self.get_Graph().remove_node(agent)
 
 
 

@@ -389,7 +389,7 @@ class NetworkClass(PopulationClass):
         for tmpA in agents.iter_agents():
             numAdded += 1
             G.add_node(tmpA)
-        print "Added %d/%d agents" % (numAdded, G.number_of_nodes())
+        print "\tAdded %d/%d agents" % (numAdded, G.number_of_nodes())
 
     def create_graph_from_relationships(self, relationships):
         G = self.G

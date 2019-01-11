@@ -201,7 +201,7 @@ def get_partner(self, agent, need_new_partners):
     """
     #print need_new_partners
     shortlist_NNP = need_new_partners
-
+    agent_race_type = agent._race
     agent_sex_type = agent._SO
     agent_drug_type = agent._DU
     RandomPartner = None
@@ -220,9 +220,9 @@ def get_partner(self, agent, need_new_partners):
             get_random_sex_partner(self, agent, shortlist_NNP)
     elif agent_drug_type in ('NDU','NIDU'):
         if params.flag_AssortativeMix:
-            if random.random() < params.AssortMixCoeff:
+            if random.random() < params.DemographicParams[agent_race_type]['ALL']['AssortMixCoeff']:
                 RandomPartner = get_assort_sex_partner(self, agent, shortlist_NNP)
-                if not RandomPartner and params.AssortMixCoeff < 1.0:
+                if not RandomPartner and params.AssortMixCoeff <= 1.0:
                     RandomPartner = get_random_sex_partner(self, agent, shortlist_NNP)
             else:
                 RandomPartner = get_random_sex_partner(self, agent, shortlist_NNP)
@@ -376,7 +376,6 @@ def get_assort_sex_partner(self, agent, need_new_partners):
         AssortMix = False
 
     rv = random.random()
-
     #todo: Make the random agent never return the agent or any of their partners
     assert(agent_sex_type in ['HM','HF','MSM','WSW','MTF'])
 

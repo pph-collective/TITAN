@@ -7,12 +7,12 @@ Main model parameters.
 
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
-rSeed_pop = 0           # seed for RNG for poulation building (0: pure random, -1: stepwise to N_REPS)
-rSeed_net = 0           # seed for RNG for network formation (0: pure random, -1: stepwise to N_REPS)
-rSeed_run = 0           # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
+rSeed_pop = 1           # seed for RNG for poulation building (0: pure random, -1: stepwise to N_REPS)
+rSeed_net = 1           # seed for RNG for network formation (0: pure random, -1: stepwise to N_REPS)
+rSeed_run = 1           # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
 N_MC = 1              # total number of iterations (Monte Carlo runs)
 N_REPS = 1
-N_POP = 2500          # population size
+N_POP = 1000          # population size
 TIME_RANGE = 60        # total time steps to iterate
 burnDuration = 30       # total time for burning in period (equillibration)
 model = 'PrEP'         # Model Type for fast flag toggling
@@ -32,9 +32,9 @@ printEndingAgentList = False
 printIntermAgentList = False
 intermPrintFreq = 60
 calcNetworkStats = True
-calcComponentStats = True
-drawFigures = False
-drawEdgeList = False
+calcComponentStats = False
+drawFigures = True
+drawEdgeList = True
 drawFigureColor = 'Race'
 
 
@@ -45,7 +45,7 @@ Calibration scaling parameters for fitting to empirical data
 PARTNERTURNOVER = 1./7.5         # Partner acquisition parameters (higher number more partnering)
 cal_NeedlePartScaling = 1.0     # IDU partner number scaling
 cal_NeedleActScaling = 1.0      # IDU act frequency scaling factor
-cal_SexualPartScaling = 0.00     # Sexual partner number scaling factor
+cal_SexualPartScaling = 1.00     # Sexual partner number scaling factor
 cal_SexualActScaling = 0.5      # Sexual acts  scaling factor
 cal_pXmissionScaling = 1.0      # Global transmission probability scaling factor
 cal_AcuteScaling = 4.3         # Infectivity multiplier ratio for Acute status infections
@@ -117,7 +117,7 @@ PrEP_NonAdhEffic = 0.76         # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0               # During PrEP remains effective post discontinuation
 PrEP_resist = 0.00              # Probability of PrEP resistance developing
 PrEP_disc = 0.15                # Per month probability of PrEP discontinuation
-PrEP_target_model = 'Clinical'       # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
+PrEP_target_model = 'Allcomers'       # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
 PrEP_clinic_cat = 'Mid'         # If clinical target model, which category does it follow
 
 if PrEP_type == 'Oral':
@@ -217,7 +217,7 @@ RC_template = {     'Race':None,            #Race of demographic
                     'PrEPprev':0.0,         #Proportion of HIV- that are enrolled on PrEP
                     'PrEPdisc':0.0,         #Probability of discontinuing PrEP treatment
                     'EligSE_PartnerType':[],   #List of agent SO types the agent cant partner with
-                    'AssortMixMatrix':[]    #List of assortMix Matrix to be zipped with EligPart
+                    'AssortMixMatrix':[],    #List of assortMix Matrix to be zipped with EligPart
                 }
 
 RC_allTemplate = {  'Proportion':1.00,      #Proportion of total population that is raceclass
