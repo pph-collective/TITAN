@@ -140,6 +140,7 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
                 'numTested':0,
                 'numAIDS':0,
                 'numART':0,
+                'numHR':0,
                 'newlyTested':0,
                 'deaths':0,
                 'incar':0,
@@ -216,6 +217,10 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
         if tmpA._tested:rsltdic[tmpA._race]['IDU']['numTested'] += 1
         if tmpA._HAART_bool:rsltdic[tmpA._race]['IDU']['numART'] += 1
 
+    for tmpA in totalAgents.iter_agents():
+        if tmpA._everhighrisk_bool:rsltdic[tmpA._race][tmpA._SO]['numHR'] += 1
+
+
     deaths_total = deaths["Total"]["HM"]+deaths["Total"]["HF"]+deaths["Total"]["MSM"]
     deaths_HM = deaths["Total"]["HM"]
     deaths_MSM = deaths["Total"]["MSM"]
@@ -247,7 +252,7 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
         name = 'basicReport_'+agentTypes
         tmpReport = open('results/'+name+'.txt', 'a')
         tmpReport.write((
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
             self.runseed,
             self.popseed,
             self.netseed,
@@ -257,6 +262,7 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
             tot_rsltdic['ALL'][agentTypes]['numAIDS'],
             tot_rsltdic['ALL'][agentTypes]['numTested'],
             tot_rsltdic['ALL'][agentTypes]['numART'],
+            tot_rsltdic['ALL'][agentTypes]['numHR'],
             tot_rsltdic['ALL'][agentTypes]['inf_newInf'],
             tot_rsltdic['ALL'][agentTypes]['inf_HR6m'],
             tot_rsltdic['ALL'][agentTypes]['inf_HRever'],
@@ -269,7 +275,7 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
         name = 'basicReport_'+demographicTypes
         tmpReport = open('results/'+name+'.txt', 'a')
         tmpReport.write((
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
             self.runseed,
             self.popseed,
             self.netseed,
@@ -279,6 +285,7 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
             rsltdic[demographicTypes]['ALL']['numAIDS'],
             rsltdic[demographicTypes]['ALL']['numTested'],
             rsltdic[demographicTypes]['ALL']['numART'],
+            rsltdic[demographicTypes]['ALL']['numHR'],
             rsltdic[demographicTypes]['ALL']['inf_newInf'],
             rsltdic[demographicTypes]['ALL']['inf_HR6m'],
             rsltdic[demographicTypes]['ALL']['inf_HRever'],

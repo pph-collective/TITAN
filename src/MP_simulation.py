@@ -137,13 +137,13 @@ def open_outputs():
         name = 'basicReport_'+agentTypes
         #print name
         tmpReport = open('results/'+name+'.txt', 'w')
-        tmpReport.write("rseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\n")
+        tmpReport.write("rseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\n")
         tmpReport.close()
 
     for demographicTypes in params.DemographicParams.keys():
         name = 'basicReport_'+demographicTypes
         tmpReport = open('results/'+name+'.txt', 'w')
-        tmpReport.write("rseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\n")
+        tmpReport.write("rseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\n")
         #whiteReport.write("0,0,0,0,0\n")
         tmpReport.close()
 

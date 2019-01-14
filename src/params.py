@@ -12,10 +12,10 @@ rSeed_net = 1           # seed for RNG for network formation (0: pure random, -1
 rSeed_run = 1           # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
 N_MC = 1              # total number of iterations (Monte Carlo runs)
 N_REPS = 1
-N_POP = 1000          # population size
-TIME_RANGE = 60        # total time steps to iterate
+N_POP = 25000          # population size
+TIME_RANGE = 120        # total time steps to iterate
 burnDuration = 30       # total time for burning in period (equillibration)
-model = 'PrEP'         # Model Type for fast flag toggling
+model = 'MSW'         # Model Type for fast flag toggling
 network_type = 'scale_free' #scale_free or max_k_comp_size
 setting = 'RI_2015_MSM_MSW'
 label = 'Base_Case'
@@ -33,9 +33,9 @@ printIntermAgentList = False
 intermPrintFreq = 60
 calcNetworkStats = True
 calcComponentStats = False
-drawFigures = True
-drawEdgeList = True
-drawFigureColor = 'Race'
+drawFigures = False
+drawEdgeList = False
+drawFigureColor = 'MSW'
 
 
 """
@@ -45,16 +45,16 @@ Calibration scaling parameters for fitting to empirical data
 PARTNERTURNOVER = 1./7.5         # Partner acquisition parameters (higher number more partnering)
 cal_NeedlePartScaling = 1.0     # IDU partner number scaling
 cal_NeedleActScaling = 1.0      # IDU act frequency scaling factor
-cal_SexualPartScaling = 1.00     # Sexual partner number scaling factor
+cal_SexualPartScaling = 1.0     # Sexual partner number scaling factor
 cal_SexualActScaling = 0.5      # Sexual acts  scaling factor
-cal_pXmissionScaling = 1.0      # Global transmission probability scaling factor
+cal_pXmissionScaling = 0.80      # Global transmission probability scaling factor
 cal_AcuteScaling = 4.3         # Infectivity multiplier ratio for Acute status infections
 cal_RR_Dx = 0.25                # Risk reduction in transmission probability for agents diagnosed
 cal_RR_HAART = 1.0              # Scaling factor for effectiveness of ART therapy on xmission P
-cal_TestFreq = 0.5              # Scaling factor for testing frequency
+cal_TestFreq = 0.35              # Scaling factor for testing frequency
 cal_Mortality = 0.05             # Scaling factor for all cause mortality rates
 cal_ProgAIDS = 0.05              # Scaling factor for all progression to AIDS from HIV rates
-cal_ART_cov = 1.3              # Scaling factor for enrollment on ART probability
+cal_ART_cov = 0.5              # Scaling factor for enrollment on ART probability
 cal_IncarP = 1.0                # Scaling factor for probability of becoming incarcerated
 cal_raceXmission = 1.0          # Scaling factor for increased STI transmission P comparing race1/race2
 cal_ptnrSampleDepth = 100       # Sampling depth for partnering algorithm.
@@ -72,7 +72,7 @@ HR_F_dur = 6                    # Duration of high risk for females
 Misc. params
 """
 flag_AssortativeMix = True     # Boolean for if assortative mixing occurs at all
-AssortMixType = "Race"            # Other assortative mixing types
+AssortMixType = "Client"            # Other assortative mixing types
 flag_AgeAssortMix = False       # Assortative mix by age
 flag_RaceAssortMix = True      # Assortative mix by race
 AssortMixCoeff = 0.750           # Proportion of following given assort mix rules
@@ -109,8 +109,8 @@ inc_treat_RIC = False            # Force retention in care of ART therapy
 PrEP params
 """
 PrEP_type = "Oral"              #Oral/Inj PrEP modes
-PrEP_Target = 0.05              # Target coverage for PrEP therapy
-PrEP_startT = 3                 # Start date for PrEP program (-1 for init, 0 for start of model)
+PrEP_Target = 0.0              # Target coverage for PrEP therapy
+PrEP_startT = -1                 # Start date for PrEP program (-1 for init, 0 for start of model)
 PrEP_Adherence = 0.82           # Probability of being adherent
 PrEP_AdhEffic = 0.96            # Efficacy of adherence PrEP
 PrEP_NonAdhEffic = 0.76         # Efficacy of non-adherence PrEP
@@ -153,7 +153,14 @@ if model == 'PrEP':
     flag_DandR = True
     flag_staticN = False
     flag_agentZero = False
-
+elif model == 'MSW':
+    flag_incar = False
+    flag_PrEP = True
+    flag_HR = True
+    flag_ART = True
+    flag_DandR = True
+    flag_staticN = False
+    flag_agentZero = False
 elif model == 'Incar':
     flag_incar = True
     flag_PrEP = False
@@ -190,7 +197,7 @@ elif model == 'Custom':
     flag_staticN = True
     flag_agentZero = False
 
-agentPopulations = ['MSM','HM','HF']
+agentPopulations = ['MSM']
 agentSexTypes = ['HM', 'HF', 'MSM', 'MTF']
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
@@ -205,6 +212,7 @@ RC_template = {     'Race':None,            #Race of demographic
                     'HAARTprev':0.0,        #Proportion of HIV_TESTED_ID that are enrolled on ART
                     'INCARprev':0.0,        #Proportion of ID that are incarcerated
                     'TestedPrev':0.0,       #Proportion of HIV_ID that are tested positively
+                    'HighRiskPrev':0.0,     #Proportion of agents that are HR
                     'mNPart':0.0,           #Mean number of sex partners
                     'NUMPartn':0.0,         #Number of partners (redundant)
                     'NUMSexActs':0.0,       #Mean number of sex acts with each partner
@@ -233,12 +241,13 @@ for a in ['MSM','HM','HF','IDU']:
     RaceClass2[a] = dict(RC_template)
 
 RaceClass1['MSM'] = {'POP':1.0,
-                     'HIV':0.3452,
-                     'AIDS':0.51,
+                     'HIV':0.041,
+                     'AIDS':0.173,
                      'HAARTprev':0.55,
                      'INCARprev':0.0,
                      'TestedPrev':0.816,
-                     'NUMPartn':1.5,
+                     'HighRiskPrev':0.05,
+                     'NUMPartn':3.0,
                      'NUMSexActs':5.0,
                      'UNSAFESEX':0.43,
                      'NEEDLESH':0.43,
@@ -247,24 +256,25 @@ RaceClass1['MSM'] = {'POP':1.0,
                      'HAARTadh':0.82,
                      'HAARTdisc':0.000,
                      'PrEPdisc':0.15,
-                     'EligSE_PartnerType':['MSM']
+                     'EligSE_PartnerType':['MSM'],
                      }
 
 
-RaceClass1['ALL'] = {'Proportion':0.95,
+RaceClass1['ALL'] = {'Proportion':0.963,
                       'HAARTdisc':0.00,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,
                       }
 
 RaceClass2['MSM'] = {'POP':1.0,
-                     'HIV':0.434,
+                     'HIV':0.062,
                      'AIDS':0.232,
-                     'HAARTprev':0.0,
+                     'HAARTprev':0.780,
                      'INCARprev':0.000,
-                     'TestedPrev':0.655,
-                     'NUMPartn':3.0,
-                     'NUMSexActs':5.0,
+                     'TestedPrev':0.83,
+                     'HighRiskPrev':0.0,
+                     'NUMPartn':30.0,
+                     'NUMSexActs':15.0,
                      'UNSAFESEX':0.43,
                      'NEEDLESH':0.27,
                      'HIVTEST':0.06,
@@ -276,10 +286,10 @@ RaceClass2['MSM'] = {'POP':1.0,
                      'EligSE_PartnerType':['MSM']
                      }
 
-RaceClass2['ALL'] = {'Proportion':0.05,
+RaceClass2['ALL'] = {'Proportion':0.037,
                       'HAARTdisc':0.00,
                      'PrEPdisc':0.0,
-                     'AssortMixCoeff':1.0,
+                     'AssortMixCoeff':0.180,
                       }
 
 DemographicParams = {'WHITE':RaceClass1, 'BLACK':RaceClass2}
@@ -294,6 +304,7 @@ sexualDurations[2] = {'p_value':(0.323 + 0.262 + 0.116), 'min':7, 'max':12}
 sexualDurations[3] = {'p_value':(0.323 + 0.262 + 0.116 + 0.121), 'min':13, 'max':24}
 sexualDurations[4] = {'p_value':(0.323 + 0.262 + 0.116 + 0.121 + 0.06), 'min':25, 'max':36}
 sexualDurations[5] = {'min':37, 'max':48}
+
 
 needleDurations = {1:{}, 2:{}, 3:{}, 4:{}, 5:{}}
 needleDurations[1] = {'p_value':1.0, 'min':1, 'max':6}

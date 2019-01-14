@@ -669,6 +669,16 @@ class NetworkClass(PopulationClass):
                     node_color.append('g')
                 else:
                     node_color.append('b')
+        elif coloring == 'MSW':
+            for v in G:
+                if v._race == 'BLACK':
+                    node_color.append('y')
+                elif v._everhighrisk_bool:
+                    node_color.append('b')
+                elif v._race == 'WHITE':
+                    node_color.append('g')
+                else:
+                    raise ValueError("Check agents %s drug type %s"%(v, tmp_drugtype))
         else:
             raise ValueError("coloring value invalid!\n%s\n \
             Only 'SO','DU','Tested', 'Trtmt', and 'HIV' allowed!"%str(coloring))

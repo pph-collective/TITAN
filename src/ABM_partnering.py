@@ -101,6 +101,7 @@ def update_partner_assignments(self, partnerTurnover, graph, agent=None):
                     agent.bond(partner, tmp_relationship)
                     self.Relationships.add_agent(tmp_relationship)
                     self.G.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
+
                     # ADD RELATIONSHIP EDGE TO GRAPH G of NetworkGraph
                     #print "%d/%d partnets found for agent %d"%(len(agent._partners), agent._num_sex_partners, agent.get_ID())
                     #print "%d/%d partnets found for partner %d"%(len(partner._partners), partner._num_sex_partners, partner.get_ID())
@@ -399,6 +400,23 @@ def get_assort_sex_partner(self, agent, need_new_partners):
             RandomPartner = random.choice(samplePop)
             break
 
+    elif params.AssortMixType == 'Client':
+        if agent._race == 'WHITE':
+            samplePop = [tmpA for tmpA in need_new_partners._subset['SO']._subset[eligPartnerType]._members if (tmpA._race == 'WHITE')]
+            try:
+                randomK_sample = random.sample(samplePop ,params.cal_ptnrSampleDepth)
+            except:
+                randomK_sample = samplePop
+        else:
+            samplePop = [tmpA for tmpA in need_new_partners._subset['SO']._subset[eligPartnerType]._members if (tmpA._race == 'WHITE' and tmpA._everhighrisk_bool)]
+            try:
+                randomK_sample = random.sample(samplePop ,params.cal_ptnrSampleDepth)
+            except:
+                randomK_sample = samplePop
+        while True:
+            RandomPartner = random.choice(samplePop)
+            break
+
     elif params.AssortMixType == 'HR':
         samplePop = [tmpA for tmpA in need_new_partners._subset[eligPartnerType]._members if tmpA._everhighrisk_bool]
         if samplePop:
@@ -550,6 +568,7 @@ def get_partnership_duration(self, agent):
     # Check input
     agent_drug_type = agent._DU
     agent_sex_type = agent._SO
+    agent_race_type = agent._race
 
     # Drug type
     if agent_drug_type not in ['IDU', 'NIDU', 'NDU']:
@@ -567,19 +586,40 @@ def get_partnership_duration(self, agent):
     # 13–24 628 12.1% 480 15.0 148 7.4
     # 25–36 309 6.0% 264 8.3 45 2.3
     # >37 614 11.8% 501 15.7 113 5.7
+    if agent_race_type == "BLACK" and params.model == 'MSW':
+        MSWsexualDurations = {1:{}, 2:{}, 3:{}, 4:{}, 5:{}}
+        MSWsexualDurations[1] = {'p_value':(0.27 + 0.22), 'min':1, 'max':6}
+        MSWsexualDurations[2] = {'p_value':(0.09 + 0.262 + 0.116), 'min':7, 'max':12}
+        MSWsexualDurations[3] = {'p_value':(0.09 + 0.09), 'min':13, 'max':24}
+        MSWsexualDurations[4] = {'p_value':(0.09 + 0.09 + 0.07), 'min':25, 'max':36}
+        MSWsexualDurations[5] = {'min':37, 'max':48}
 
-    if diceroll < params.sexualDurations[1]['p_value']:
-        dur_bin = 1
-    elif diceroll < params.sexualDurations[2]['p_value']:
-        dur_bin = 2
-    elif diceroll < params.sexualDurations[3]['p_value']:
-        dur_bin = 3
-    elif diceroll < params.sexualDurations[4]['p_value']:
-        dur_bin = 4
+        if diceroll < MSWsexualDurations[1]['p_value']:
+            dur_bin = 1
+        elif diceroll < MSWsexualDurations[2]['p_value']:
+            dur_bin = 2
+        elif diceroll < MSWsexualDurations[3]['p_value']:
+            dur_bin = 3
+        elif diceroll < MSWsexualDurations[4]['p_value']:
+            dur_bin = 4
+        else:
+            dur_bin = 5
+
+        duration = random.randrange(MSWsexualDurations[dur_bin]['min'], MSWsexualDurations[dur_bin]['max'], 1)
+
     else:
-        dur_bin = 5
+        if diceroll < params.sexualDurations[1]['p_value']:
+            dur_bin = 1
+        elif diceroll < params.sexualDurations[2]['p_value']:
+            dur_bin = 2
+        elif diceroll < params.sexualDurations[3]['p_value']:
+            dur_bin = 3
+        elif diceroll < params.sexualDurations[4]['p_value']:
+            dur_bin = 4
+        else:
+            dur_bin = 5
 
-    duration = random.randrange(params.sexualDurations[dur_bin]['min'], params.sexualDurations[dur_bin]['max'], 1)
+        duration = random.randrange(params.sexualDurations[dur_bin]['min'], params.sexualDurations[dur_bin]['max'], 1)
 
     return duration
 

@@ -354,58 +354,6 @@ class PopulationClass():
                 # self.incarcerated_agentsClass.add_agent(tmpA)
                 self.incarcerated_agentSet.add_agent(tmpA)
             #self.totalAgentClass._subset["Incar"].add_agent(agent_cl)
-        #"""
-        # self.All_agentSet.print_agents()
-        # [self.MSM_agentsClass.add_agent(tmpA) for tmpA in self.totalAgentClass.iter_agents() if tmpA._SO == "MSM"]
-        # [self.HM_agentsClass.add_agent(tmpA) for tmpA in self.totalAgentClass.iter_agents() if tmpA._SO == "HM"]
-        # [self.HF_agentsClass.add_agent(tmpA) for tmpA in self.totalAgentClass.iter_agents() if tmpA._SO == "HF"]
-        """for tmpA in self.totalAgentClass.iter_agents():
-            if tmpA._SO == "HM":
-                self.MSM_agentsClass.add_agent(tmpA)
-            elif tmpA._SO == "MSM":
-                self.MSM_agentsClass.add_agent(tmpA)
-            elif tmpA._SO == "HF":
-                self.MSM_agentsClass.add_agent(tmpA)
-            else:
-                print "EERRROROOOR"
-                exit()
-            if tmpA._HIV_bool:
-                self.totalAgentClass._subset["HIV"].add_agent(tmpA)
-            """
-
-
-
-        """
-        for agent in self.Agents:
-            racetype = self.Agents[agent]['Race']
-            sextype = self.Agents[agent]['Sex Type']
-            drugtype = self.Agents[agent]['Drug Type']
-            print ('%.6d\t28\tU\t%s\t%s\t%s'%(agent, sextype,drugtype, racetype))
-
-
-
-        self.IDU_agents = deepcopy(allAgents[0:self.numIDU])
-        self.NIDU_agents = deepcopy(allAgents[self.numIDU:(self.numIDU + self.numNIDU)])
-        self.ND_agents = deepcopy(allAgents[(self.numIDU + self.numNIDU):])
-
-        for agent in self.IDU_agents:
-            self.create_agent(agent,DrugType = 'IDU')
-        for agent in self.NIDU_agents:
-            self.create_agent(agent,DrugType = 'NIDU')
-        for agent in self.ND_agents:
-            self.create_agent(agent,DrugType = 'ND')
-
-        # Check consistency
-        CheckSum_SexType = len(self.MSM_agents)+len(self.HF_agents)+len(self.WSW_agents)+len(self.HM_agents)
-        if CheckSum_SexType != self.PopulationSize:
-            raise ValueError("MSM:%d\nHF:%d\nWSW:%d\nHM:%d\nSum:%d"%(
-                len(self.MSM_agents),len(self.HF_agents),len(self.WSW_agents),len(self.HM_agents),CheckSum_SexType))
-
-        CheckSum_DrugType = len(self.IDU_agents)+len(self.NIDU_agents)+len(self.ND_agents)
-        if CheckSum_DrugType != self.PopulationSize:
-            raise ValueError("IDU:%d\nNIDU:%d\nND:%d\nSum:%d"%(
-                len(self.IDU_agents),len(self.NIDU_agents),len(self.ND_agents),CheckSum_DrugType))
-        """
 
     def _return_agent_set(self):
         return self.totalAgentClass
@@ -705,6 +653,10 @@ class PopulationClass():
         # else:
         #     incar_time = 0
 
+        #Check if agent is HR as baseline.
+        if self.popRandom.random() < params.DemographicParams[Race][SexType]['HighRiskPrev']:
+            newAgent._highrisk_bool = True
+            newAgent._everhighrisk_bool = True
 
         diceroll = self.popRandom.random()
 
@@ -721,8 +673,8 @@ class PopulationClass():
         else: #16%
             mNPart = 10
         #Partnership demographics
-        newAgent._mean_num_partners = mNPart #params.DemographicParams[Race][SexType]['mNPart']
-        #newAgent._mean_num_partners = poisson.rvs(params.DemographicParams[Race][SexType]['NUMPartn'], size=1)
+        # newAgent._mean_num_partners = mNPart #params.DemographicParams[Race][SexType]['mNPart']
+        newAgent._mean_num_partners = poisson.rvs(params.DemographicParams[Race][SexType]['NUMPartn'], size=1)
         #print "New agent: %s\t%s\t%s\tHIV:%d" % (Deliminator,DrugType,SexType,HIVStatus)
         #agent_dict = {'Race':Race,'Drug Type': DrugType,'Sex Type':SexType, 'HIV':HIVStatus, 'Tested':TestedStatus, 'AIDS':AIDSStatus, 'HAARTa':HAARTStatus, 'incar_t':incar_time,'HIV_t':HIV_time}
 
@@ -786,6 +738,9 @@ class PopulationClass():
 
         if agent_cl._incar_bool:
             addToSubsets(self.incarcerated_agentSet, agent_cl)
+
+        if agent_cl._highrisk_bool:
+            addToSubsets(self.highrisk_agentsSet, agent_cl)
 
 
         # if agent == 0.25*self.PopulationSize:print "25%"

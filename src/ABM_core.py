@@ -633,10 +633,12 @@ class HIVModel(NetworkClass):
                 else:
                     self.highrisk_agentsSet.remove_agent(tmpA)
                     tmpA._highrisk_bool = False
-                    if tmpA._SO == "HM":
-                        tmpA._mean_num_partners -= params.HR_partnerScale
-                    elif tmpA._SO == "HF":
-                        tmpA._mean_num_partners -= params.HR_partnerScale
+                    
+                    if params.model == 'Incar':
+                        if tmpA._SO == "HM":
+                            tmpA._mean_num_partners -= params.HR_partnerScale
+                        elif tmpA._SO == "HF":
+                            tmpA._mean_num_partners -= params.HR_partnerScale
 
         #print("\t\t= Agents Iterations (Incar/test/AIDS/HAART/PrEP =")
         
@@ -678,11 +680,11 @@ class HIVModel(NetworkClass):
                         agent._incar_treatment_time -= 1
 
 
-                    self._HIVtest(agent, time)
-                    self._progress_to_AIDS(agent, agent_drug_type)
+                self._HIVtest(agent, time)
+                self._progress_to_AIDS(agent, agent_drug_type)
 
-                    if params.flag_ART:
-                        self._initiate_HAART(agent, time)
+                if params.flag_ART:
+                    self._initiate_HAART(agent, time)
                     #hiv_t = agent_dict['HIV_t']
                     #hiv_t += 1
                     agent._HIV_time += 1
@@ -1635,7 +1637,6 @@ class HIVModel(NetworkClass):
         race_type = agent._race#self.get_agent_characteristic(agent, 'Race')
         hiv_Status = agent._HIV_bool#self.get_agent_characteristic(agent, 'HIV')
         tested = agent._tested#self.get_agent_characteristic(agent, 'Tested')
-
         if not tested:
             test_prob = params.DemographicParams[race_type][sex_type]['HIVTEST']
 
@@ -1648,7 +1649,6 @@ class HIVModel(NetworkClass):
                 agent._tested = True
                 self.NewDiagnosis.add_agent(agent)
                 self.Trt_Tstd_agentSet.add_agent(agent)
-
                 # If treatment co-enrollment enabled and coverage greater than 0
                 if self.treatmentEnrolled and params.treatmentCov > 0:
                     #For each partner, attempt to test for HIV
@@ -1855,14 +1855,13 @@ class HIVModel(NetworkClass):
                     if agent in self.DrugTreatmentAgents_current:
                         prob = 0.0117
 
-                elif agent_drug_type == 'ND':
+                elif agent_drug_type == 'NDU':
                     prob = 0.0117
             else:
                 prob = 0.0
 
             # Go on HAART
             if not agent_haart and agent._HAART_time == 0:
-                #print prob
                 if self.runRandom.random() < prob * params.cal_ART_cov:
 
                     #self.tmp_Agents[agent].update({'HAARTa': 1})
