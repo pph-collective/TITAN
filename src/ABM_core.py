@@ -2032,8 +2032,10 @@ class HIVModel(NetworkClass):
             else:
                 target_PrEP = int((self.All_agentSet.num_members()-self.All_agentSet._subset["HIV"].num_members()) * params.PrEP_Target)
 
-
-            if numPrEP_agents < target_PrEP and time >= params.PrEP_startT:
+            if params.PrEP_clinic_cat = 'Racial' and agent_race == 'BLACK':
+                if self.runRandom.random() < params.PrEP_Target:
+                    _enrollPrEP(self, agent)
+            elif numPrEP_agents < target_PrEP and time >= params.PrEP_startT:
                 #print 'Agent%d added from PrEP'%(agent._ID)
                 _enrollPrEP(self, agent)
             

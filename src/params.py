@@ -12,7 +12,7 @@ rSeed_net = 1           # seed for RNG for network formation (0: pure random, -1
 rSeed_run = 1           # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
 N_MC = 1              # total number of iterations (Monte Carlo runs)
 N_REPS = 1
-N_POP = 25000          # population size
+N_POP = 2500          # population size
 TIME_RANGE = 120        # total time steps to iterate
 burnDuration = 30       # total time for burning in period (equillibration)
 model = 'MSW'         # Model Type for fast flag toggling
@@ -109,7 +109,7 @@ inc_treat_RIC = False            # Force retention in care of ART therapy
 PrEP params
 """
 PrEP_type = "Oral"              #Oral/Inj PrEP modes
-PrEP_Target = 0.0              # Target coverage for PrEP therapy
+PrEP_Target = 0.25              # Target coverage for PrEP therapy
 PrEP_startT = -1                 # Start date for PrEP program (-1 for init, 0 for start of model)
 PrEP_Adherence = 0.82           # Probability of being adherent
 PrEP_AdhEffic = 0.96            # Efficacy of adherence PrEP
