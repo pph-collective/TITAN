@@ -527,6 +527,13 @@ class HIVModel(NetworkClass):
             #self.get_Graph.draw_histogram()
             #print self.get_Graph.stat_connectivity()
 
+            print(t%params.intermPrintFreq)
+            if t%params.intermPrintFreq == 0:
+                if params.calcNetworkStats:
+                    self.write_network_stats(t=t)
+                if params.calcComponentStats:
+                    print_components(t)
+
 
         #self.get_Graph.visualize_network(iterations=5)
         #self.get_Graph.vizualize_network_graphviz(program='neato', coloring='Tested', time=t)
@@ -538,11 +545,7 @@ class HIVModel(NetworkClass):
         #print params.PrEP_Target
 
         #print(self.All_agentSet._subset)
-        if t%params.intermPrintFreq == 0:
-            if params.calcNetworkStats:
-                self.write_network_stats(t=t)
-            if params.calcComponentStats:
-                print_components(t)
+
 
 
     #@profile
