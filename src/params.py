@@ -10,7 +10,7 @@ PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed_pop = -1               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 rSeed_net = -1
 rSeed_run = 0
-N_MC = 1000               # total number of iterations (Monte Carlo runs)
+N_MC = 1               # total number of iterations (Monte Carlo runs)
 N_REPS = 1
 N_POP = 24110           # population size
 TIME_RANGE = 60        # total time steps to iterate
@@ -41,7 +41,7 @@ drawFigureColor = 'MSW'
 Calibration scaling parameters for fitting to empirical data
 """
 
-PARTNERTURNOVER = 0.2       # Partner acquisition parameters (higher number more partnering)
+PARTNERTURNOVER = 1/7.5       # Partner acquisition parameters (higher number more partnering)
 cal_NeedlePartScaling = 1.0     # IDU partner number scaling
 cal_NeedleActScaling = 2.0      # IDU act frequency scaling factor
 cal_SexualPartScaling = 1.0     # Sexual partner number scaling factor
@@ -220,13 +220,13 @@ RC_allTemplate = {  'Proportion':1.00,      #Proportion of total population that
                     'AssortMixCoeff':1.0,   #Proportion RC mixes with other raceclass
                 }
 
-RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
-RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
+RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}, 'ALL':{}}
+RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}, 'ALL':{}}
 for a in ['MSM','HM','HF','PWID']:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
-RaceClass1['HM'] = {'POP':0.49,
+RaceClass1['HM'].update({'POP':0.49,
                      'HIV':0.0014,
                      'AIDS':0.6780,
                      'HAARTprev':0.41,
@@ -243,9 +243,9 @@ RaceClass1['HM'] = {'POP':0.49,
                      'HAARTdisc':0.000,
                      'PrEPdisc':0.0000,
                      'EligSE_PartnerType':['HF']
-                     }
+                     })
 
-RaceClass1['HF'] = {'POP':0.51,
+RaceClass1['HF'].update({'POP':0.51,
                      'HIV':0.0004,
                      'AIDS':0.573,
                      'HAARTprev':0.47,
@@ -262,9 +262,9 @@ RaceClass1['HF'] = {'POP':0.51,
                      'HAARTdisc':0.000,
                      'PrEPdisc':PrEP_disc,
                      'EligSE_PartnerType':['HM']
-                     }
+                     })
 
-RaceClass1['IDU'] = {'POP':0.017,
+RaceClass1['IDU'].update({'POP':0.017,
                      'HIV':0.000,
                      'AIDS':0.6780,
                      'HAARTprev':0.41,
@@ -282,19 +282,19 @@ RaceClass1['IDU'] = {'POP':0.017,
                      'PrEPadh':0.55,
                      'PrEPdisc':0.0000,
                      'EligSE_PartnerType':['IDU']
-                     }
+                     })
 
-RaceClass1['ALL'] = {'Proportion':1.00,
+RaceClass1['ALL'].update({'Proportion':1.00,
                       'HAARTdisc':0.018,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,
-                      }
+                      })
 
-RaceClass2['ALL'] = {'Proportion':0.00,
+RaceClass2['ALL'].update({'Proportion':0.00,
                       'HAARTdisc':0.018,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,
-                      }
+                      })
 
 DemographicParams = {'WHITE':RaceClass1, 'BLACK':RaceClass2}
 
