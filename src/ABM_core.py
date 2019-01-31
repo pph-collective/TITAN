@@ -453,6 +453,12 @@ class HIVModel(NetworkClass):
         # if self.runtime_diffseed:
         #     print("setting rseed for post agent making")
         #     self.runRandom.seed()
+
+        if params.drawEdgeList:
+            print "Drawing network edge list to file"
+            fh=open("results/network/Edgelist_t{}.txt".format(0),'wb')
+            self.write_G_edgelist(fh)
+            fh.close()
         for t in range(1, self.tmax + 1):
             print '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME', t
             #print "RANDOM CALL %d" %random.randint(0,100)
@@ -518,7 +524,7 @@ class HIVModel(NetworkClass):
 
 
             #If set to draw the edge list, print list at each timestep
-            if params.drawEdgeList:
+            if params.drawEdgeList and t%params.intermPrintFreq ==0:
                 print "Drawing network edge list to file"
                 fh=open("results/network/Edgelist_t{}.txt".format(t),'wb')
                 self.write_G_edgelist(fh)

@@ -341,7 +341,7 @@ class NetworkClass(PopulationClass):
 
     def write_G_edgelist(self, path):
         G = self.G
-        nx.write_edgelist(G, path)
+        nx.write_edgelist(G, path, data=False)
 
     def write_network_stats(self, t=0):
             from networkx.algorithms import approximation

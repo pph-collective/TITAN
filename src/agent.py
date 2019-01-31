@@ -110,7 +110,7 @@ class Agent(object):
         #Set gender on small switch statement.
 
     def __str__(self):
-        return "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s\t%s\t%d\t%s" % (self._ID, self._age, self._gender, self._SO, self._DU, self._race, self._HIV_bool,self._incar_bool,self._incar_time, self.partner_list())
+        return "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s" % (self._ID, self._age, self._gender, self._SO, self._DU, self._race, self._HIV_bool)
         # return str(self._ID)+ '\t'+str(self._SO)+'\t'+str(self._DU)+'\t'+ str(self._HIV_bool)
 
     def __repr__(self):
@@ -196,7 +196,7 @@ class Agent(object):
 
     def print_agent(self):
         #print self.partner_list()
-        print "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s\t%s\t%d\t%s" % (self._ID, self._age, self._gender, self._SO, self._DU, self._race, self._HIV_bool,self._incar_bool,self._incar_time, self.partner_list())
+        print "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s\t%s" % (self._ID, self._age, self._gender, self._SO, self._DU, self._race, self._HIV_bool,self._incar_bool)
 
     def print_agent_abridge(self):
         print "\t%.6d\t%s\t%s\t%s"%(self._ID, self._gender, self._SO, self._DU)
