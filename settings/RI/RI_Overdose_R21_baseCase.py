@@ -13,11 +13,11 @@ rSeed_run = 0
 N_MC = 1               # total number of iterations (Monte Carlo runs)
 N_REPS = 1
 N_POP = 55000           # population size
-TIME_RANGE = 600        # total time steps to iterate
+TIME_RANGE = 60        # total time steps to iterate
 burnDuration = 0
 model = 'Custom'         # Model Type for fast flag toggling
 network_type = 'scale_free' #scale_free or max_k_comp_size
-setting = 'RI_overdose'
+setting = 'RI'
 ####################
 
 
@@ -31,27 +31,27 @@ printStartAgentList = False
 printEndingAgentList = False
 printIntermAgentList = False
 intermPrintFreq = 60
-calcNetworkStats = False
+calcNetworkStats = True
 calcComponentStats = False
 drawFigures = False
-drawEdgeList = False
-drawFigureColor = 'SO'
+drawEdgeList = True
+drawFigureColor = 'MSW'
 
 """
 Calibration scaling parameters for fitting to empirical data
 """
 
-PARTNERTURNOVER = 0.0       # Partner acquisition parameters (higher number more partnering)
+PARTNERTURNOVER = 0.2       # Partner acquisition parameters (higher number more partnering)
 cal_NeedlePartScaling = 1.0     # IDU partner number scaling
-cal_NeedleActScaling = 1.0      # IDU act frequency scaling factor
+cal_NeedleActScaling = 2.0      # IDU act frequency scaling factor
 cal_SexualPartScaling = 1.0     # Sexual partner number scaling factor
 cal_SexualActScaling = 1.0      # Sexual acts  scaling factor
 cal_pXmissionScaling = 1.0 # Global transmission probability scaling factor
 cal_AcuteScaling = 4.3      # Infectivity multiplier ratio for Acute status infections
-cal_RR_Dx = 0.0            # Risk reduction in transmission probability for agents diagnosed
+cal_RR_Dx = 0.53            # Risk reduction in transmission probability for agents diagnosed
 cal_RR_HAART = 1.0          # Scaling factor for effectiveness of ART therapy on xmission P
 cal_TestFreq = 1.0          # Scaling factor for testing frequency
-cal_Mortality = 1.0        # Scaling factor for all cause mortality rates
+cal_Mortality = 0.5        # Scaling factor for all cause mortality rates
 cal_ProgAIDS = 1.0         # Scaling factor for all progression to AIDS from HIV rates
 cal_ART_cov = 1.0          # Scaling factor for enrollment on ART probability
 cal_IncarP = 1.0
@@ -62,9 +62,9 @@ cal_ptnrSampleDepth = 100
 High risk params
 """
 HR_partnerScale = 300       # Linear increase to partner number during HR period
-HR_proportion = 0.0         #Proportion of people who enter HR group when partner incarcerated
+HR_proportion = 0.3         #Proportion of people who enter HR group when partner incarcerated
 HR_M_dur = 6                #Duration of high risk for males
-HR_F_dur = 0                #Duration of high risk for females
+HR_F_dur = 6                #Duration of high risk for females
 
 """
 Misc. params
@@ -180,7 +180,7 @@ elif model == 'Custom':
     flag_PrEP = False
     flag_HR = False
     flag_ART = False
-    flag_DandR = False
+    flag_DandR = True
     flag_staticN = True
     flag_agentZero = False
 
@@ -227,56 +227,49 @@ for a in ['MSM','HM','HF','PWID']:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
-incarProb = 0.0012
-RaceClass1['HM'].update({'POP':0.600,
-                     'INCARprev':0.08,
+RaceClass1['HM'].update({'POP':0.491,
+                     'INCARprev':0.0274,
                      'HighRiskPrev':0.0,
-                     'INCAR':incarProb,
+                     'NUMPartn':1.5,
+                     'NUMSexActs':13.4,
+                     'INCAR':0.001,
                      'EligSE_PartnerType':['HF']
                      })
 
-RaceClass1['HF'].update({'POP':0.400,
-                     'INCARprev':0.08,
+RaceClass1['HF'].update({'POP':0.327,
+                     'INCARprev':0.000,
                      'HighRiskPrev':0.0,
-                     'INCAR':incarProb,
+                     'NUMPartn':0.5,
+                     'NUMSexActs':12.74,
+                     'INCAR':0.00,
                      'EligSE_PartnerType':['HM']
                      })
 
-RaceClass1['IDU'].update({'POP':0.0,
+RaceClass1['HMIDU'].update({'POP':0.145,
                      'INCARprev':0.000,
                      'HighRiskPrev':0.0,
+                     'NUMPartn':0.5,
+                     'NUMSexActs':12.74,
                      'INCAR':0.00,
-                     'EligSE_PartnerType':['IDU']
+                     'EligSE_PartnerType':['HMIDU']
                      })
 
-RaceClass1['ALL'].update({'Proportion':0.818,
+RaceClass1['HFIDU'].update({'POP':0.036,
+                     'INCARprev':0.000,
+                     'HighRiskPrev':0.0,
+                     'NUMPartn':0.5,
+                     'NUMSexActs':12.74,
+                     'INCAR':0.00,
+                     'EligSE_PartnerType':['HFIDU']
+                     })
+
+RaceClass1['ALL'].update({'Proportion':1.00,
                       'HAARTdisc':0.018,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,
                       })
 
-RaceClass2['HM'].update({'POP':0.491,
-                     'INCARprev':0.0274,
-                     'HighRiskPrev':0.0,
-                     'INCAR':incarProb*2,
-                     'EligSE_PartnerType':['HF']
-                     })
-
-RaceClass2['HF'].update({'POP':0.801,
-                     'INCARprev':0.15,
-                     'HighRiskPrev':0.0,
-                     'INCAR':incarProb*2,
-                     'EligSE_PartnerType':['HM']
-                     })
-
-RaceClass2['IDU'].update({'POP':0.0,
-                     'INCARprev':0.15,
-                     'HighRiskPrev':0.0,
-                     'INCAR':0.00,
-                     'EligSE_PartnerType':['IDU']
-                     })
-
-RaceClass2['ALL'].update({'Proportion':0.181,
+RaceClass2['ALL'].update({'Proportion':0.00,
                       'HAARTdisc':0.018,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,

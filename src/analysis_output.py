@@ -488,10 +488,22 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
     #ResultDict['ResistantCases'].update({t:len([ag for ag in NewInfections._members if ag._PrEPresistance==1])})
     ResultDict['Inc_c_Tot'].update({t:cumulativeI})
 
-    ResultDict['Prv_HIV'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numHIV']/totalAgents.num_members())})
-    ResultDict['Prv_AIDS'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numAIDS']/tot_rsltdic['ALL']['ALL']['numHIV'])})
-    ResultDict['Prv_Test'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numTested']/max(tot_rsltdic['ALL']['ALL']['numHIV'],1))})
-    ResultDict['Prv_ART'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numART']/tot_rsltdic['ALL']['ALL']['numTested'])})
+    try:
+        ResultDict['Prv_HIV'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numHIV']/totalAgents.num_members())})
+    except:
+        ResultDict['Prv_HIV'].update({t:(0.0)})
+    try:
+        ResultDict['Prv_AIDS'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numAIDS']/tot_rsltdic['ALL']['ALL']['numHIV'])})
+    except:
+        ResultDict['Prv_AIDS'].update({t:(0.0)})
+    try:
+        ResultDict['Prv_Test'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numTested']/max(tot_rsltdic['ALL']['ALL']['numHIV'],1))})
+    except:
+        ResultDict['Prv_Test'].update({t:(0.0)})
+    try:
+        ResultDict['Prv_ART'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numART']/tot_rsltdic['ALL']['ALL']['numTested'])})
+    except:
+        ResultDict['Prv_ART'].update({t:(0.0)})
     #ResultDict['PrEP_Prev'].update({t:(1.0*PrEPAgents.num_members()/(totalAgents.num_members()-numHIV_MSM))})
     ResultDict['n_Relations'].update({t:Relationships.num_members()})
     #ResultDict['WInc_T'].update({t:rsltdic['WHITE']['MSM']['inf_newInf']})
