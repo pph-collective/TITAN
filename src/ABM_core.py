@@ -1624,6 +1624,10 @@ class HIVModel(NetworkClass):
                             tmpA._highrisk_bool = True
                             tmpA._everhighrisk_bool = True
                             tmpA._highrisk_time = params.HR_F_dur
+                if (params.flag_PrEP and (params.PrEP_target_model == 'Incar' or params.PrEP_target_model == 'IncarHR')):
+                    #Atempt to put partner on prep if less than probability
+                    self._initiate_PrEP(tmpA, time)
+
 
 
     def _HIVtest(self, agent, time):
@@ -2020,6 +2024,7 @@ class HIVModel(NetworkClass):
         #agent.print_agent()
         if agent._PrEP_bool:
             print agent._PrEP_bool
+            return None
             raise ValueError("PrEP only valid for agents not on PrEP!agent:%d" % agent.get_ID())
 
         if agent._HIV_bool:
@@ -2038,6 +2043,10 @@ class HIVModel(NetworkClass):
             if params.PrEP_target_model == 'Clinical':
                 target_PrEP_population = self.All_agentSet.num_members() - self.HIV_agentSet.num_members()
                 target_PrEP = target_PrEP_population * params.PrEP_Target
+            elif (params.PrEP_target_model == 'Incar' or params.PrEP_target_model == 'IncarHR'):
+                if self.runRandom.random() < params.PrEP_Target:
+                    _enrollPrEP(self, agent)
+                return None
             else:
                 target_PrEP = int((self.All_agentSet.num_members()-self.All_agentSet._subset["HIV"].num_members()) * params.PrEP_Target)
 

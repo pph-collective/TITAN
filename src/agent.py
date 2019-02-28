@@ -91,6 +91,8 @@ class Agent(object):
         self._PrEP_time = 0
         self._PrEP_adh = 0
         self._treatment_bool = False
+        self._OAT_bool = False
+        self._naltrex_bool = False
 
         #PrEP pharmacokinetics
         self._PrEP_load = 0.0

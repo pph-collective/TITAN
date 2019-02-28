@@ -12,10 +12,10 @@ rSeed_net = -1
 rSeed_run = 0
 N_MC = 1               # total number of iterations (Monte Carlo runs)
 N_REPS = 1
-N_POP = 55000           # population size
+N_POP = 5500           # population size
 TIME_RANGE = 600        # total time steps to iterate
 burnDuration = 0
-model = 'Custom'         # Model Type for fast flag toggling
+model = 'Incar'         # Model Type for fast flag toggling
 network_type = 'scale_free' #scale_free or max_k_comp_size
 setting = 'RI_overdose'
 ####################
@@ -41,7 +41,7 @@ drawFigureColor = 'SO'
 Calibration scaling parameters for fitting to empirical data
 """
 
-PARTNERTURNOVER = 0.0       # Partner acquisition parameters (higher number more partnering)
+PARTNERTURNOVER = 1./7.0       # Partner acquisition parameters (higher number more partnering)
 cal_NeedlePartScaling = 1.0     # IDU partner number scaling
 cal_NeedleActScaling = 1.0      # IDU act frequency scaling factor
 cal_SexualPartScaling = 1.0     # Sexual partner number scaling factor
@@ -100,10 +100,21 @@ inc_treat_behavior = True      # Remove IDU behaviour during treatment duration
 inc_treat_RIC = False            # Force retention in care of ART therapy
 
 """
+IDU/NIDU Treatment params
+"""
+p_mort_oat_scalar = 1.0
+p_mort_nalt_scalar = 1.0
+p_mort_oat_postcess_scalar = 1.0
+p_mort_nalt_postcess_scalar = 1.0
+prop_oat_community = 0.5
+prop_nalt_community = 0.5
+
+
+"""
 PrEP params
 """
 PrEP_type = "Oral"      #Oral/Inj PrEP modes
-PrEP_Target = 0.000      # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+PrEP_Target = 0.1000      # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 PrEP_startT = 0         # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82   # Probability of being adherent
 PrEP_AdhEffic = 0.96    # Efficacy of adherence PrEP
@@ -111,7 +122,7 @@ PrEP_NonAdhEffic = 0.76 # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0       # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
-PrEP_target_model = 'Allcomers' #Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec
+PrEP_target_model = 'IncarHR' #Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, Incar,IncarHR
 PrEP_clinic_cat = 'Mid'
 
 if PrEP_type == 'Oral':
@@ -150,7 +161,7 @@ if model == 'PrEP':
 
 elif model == 'Incar':
     flag_incar = True
-    flag_PrEP = False
+    flag_PrEP = True
     flag_HR = True
     flag_ART = True
     flag_DandR = True
@@ -229,18 +240,21 @@ for a in ['MSM','HM','HF','PWID']:
 
 incarProb = 0.0012
 RaceClass1['HM'].update({'POP':0.600,
-                     'INCARprev':0.08,
-                     'HighRiskPrev':0.0,
-                     'INCAR':incarProb,
-                     'EligSE_PartnerType':['HF']
-                     })
+                         'INCARprev':0.08,
+                         'HighRiskPrev':0.0,
+                         'INCAR':incarProb,
+                         'PrEPdisc':PrEP_disc,
+                         'NUMPartn':10.0,
+                         'EligSE_PartnerType':['HF']
+                         })
 
 RaceClass1['HF'].update({'POP':0.400,
-                     'INCARprev':0.08,
-                     'HighRiskPrev':0.0,
-                     'INCAR':incarProb,
-                     'EligSE_PartnerType':['HM']
-                     })
+                         'INCARprev':0.08,
+                         'PrEPdisc':PrEP_disc,
+                         'HighRiskPrev':0.0,
+                         'INCAR':incarProb,
+                         'EligSE_PartnerType':['HM']
+                         })
 
 RaceClass1['IDU'].update({'POP':0.0,
                      'INCARprev':0.000,
