@@ -52,16 +52,16 @@ import matplotlib.patches as patches
 import matplotlib.animation as animation
 from operator import itemgetter
 
-try:
-    import pygraphviz
-    from networkx.drawing.nx_agraph import graphviz_layout
-except ImportError:
-    try:
-        import pydotplus
-        from networkx.drawing.nx_pydot import graphviz_layout
-    except ImportError:
-        raise ImportError("This example needs Graphviz and either "
-                          "PyGraphviz or PyDotPlus")
+# try:
+#     import pygraphviz
+#     from networkx.drawing.nx_agraph import graphviz_layout
+# except ImportError:
+#     try:
+#         import pydotplus
+#         from networkx.drawing.nx_pydot import graphviz_layout
+#     except ImportError:
+#         raise ImportError("This example needs Graphviz and either "
+#                           "PyGraphviz or PyDotPlus")
 
 try: from HIVABM_Population import PopulationClass
 except ImportError:

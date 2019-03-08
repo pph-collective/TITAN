@@ -639,6 +639,12 @@ class HIVModel(NetworkClass):
             for tmpA in self.highrisk_agentsSet.iter_agents():
                 if tmpA._highrisk_time > 0:
                     tmpA._highrisk_time -= 1
+                    if (tmpA._SO == "HM"
+                        and params.flag_PrEP
+                        and (params.PrEP_target_model == 'HR' or params.PrEP_target_model == 'IncarHR')):
+                        for part in tmpA._partners:
+                            if not part._HIV_bool:
+                                self._initiate_PrEP(part, time)
                 else:
                     self.highrisk_agentsSet.remove_agent(tmpA)
                     tmpA._highrisk_bool = False
@@ -1626,7 +1632,8 @@ class HIVModel(NetworkClass):
                             tmpA._highrisk_time = params.HR_F_dur
                 if (params.flag_PrEP and (params.PrEP_target_model == 'Incar' or params.PrEP_target_model == 'IncarHR')):
                     #Atempt to put partner on prep if less than probability
-                    self._initiate_PrEP(tmpA, time)
+                    if not tmpA._HIV_bool:
+                        self._initiate_PrEP(tmpA, time)
 
 
 
