@@ -131,7 +131,7 @@ def simulation(nreps, save_adjlist_flag, time_range,
         if runSeed == -1:
             inputSeed = num_sim + 1
 
-            print inputSeed
+            print(inputSeed)
         #print "\n\n------------------------------------------------------------------------------------------------------------------------------------------"
         print "\tProcess %5s runs simulation %d/%d\t.:.\tInput rSeed: %d, pSeed: %d, nSeed: %d" \
               % (pid, num_sim + 1, nreps, inputSeed,popSeed,netSeed)

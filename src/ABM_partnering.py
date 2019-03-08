@@ -418,7 +418,7 @@ def get_assort_sex_partner(self, agent, need_new_partners):
             break
 
     elif params.AssortMixType == 'HR':
-        samplePop = [tmpA for tmpA in need_new_partners._subset[eligPartnerType]._members if tmpA._everhighrisk_bool]
+        samplePop = [tmpA for tmpA in need_new_partners._subset['SO']._subset[eligPartnerType]._members if tmpA._everhighrisk_bool]
         if samplePop:
             try:
                 randomK_sample = random.sample(samplePop ,params.cal_ptnrSampleDepth)
