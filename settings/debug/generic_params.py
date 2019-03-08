@@ -103,7 +103,7 @@ RaceClass1['MSM']['POP'] = 1.0
 RaceClass1['MSM']['HIV'] = 0.4
 #StratW['MSM'] = {'POP':0.035, 'HIV':0.132, 'AIDS':0.048, 'HAARTprev':0.57, 'INCARprev':0.005, 'TestedPrev':0.84}
 
-RaceClass1['MSM'] = {'POP':1.00,
+RaceClass1['MSM'].update({'POP':1.00,
                      'HIV':0.132,
                      'AIDS':0.048,
                      'HAARTprev':0.57,
@@ -119,9 +119,9 @@ RaceClass1['MSM'] = {'POP':1.00,
                      'HAARTadh':1.0,#0.57,
                      'HAARTdisc':0.008,
                      'PrEPdisc':PrEP_disc
-                     }
+                     })
 
-RaceClass1['PWID'] = {'POP':0.20,#0.005,
+RaceClass1['PWID'].update({'POP':0.20,#0.005,
                       'HIV':0.19,
                       'AIDS':0.075,
                       'HAARTprev':0.0,
@@ -137,14 +137,14 @@ RaceClass1['PWID'] = {'POP':0.20,#0.005,
                       'HAARTadh':0.43,
                       'HAARTdisc':0.018,
                       'PrEPdisc':0.0
-                      }
-RaceClass1['ALL'] = {'Proportion':0.571,
+                      })
+RaceClass1['ALL'].update({'Proportion':0.571,
                       'HAARTdisc':0.018,
                      'PrEPdisc':0.0
-                      }
+                      })
 
 RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
-RaceClass2['MSM'] = {'POP':1.00,#0.028,
+RaceClass2['MSM'].update({'POP':1.00,#0.028,
                      'HIV':0.432,
                      'AIDS':0.048,
                      'HAARTprev':0.47,
@@ -160,9 +160,9 @@ RaceClass2['MSM'] = {'POP':1.00,#0.028,
                      'HAARTadh':1.0,#0.34,
                      'HAARTdisc':0.01,
                      'PrEPdisc':PrEP_disc
-                     }
+                     })
 
-RaceClass2['PWID'] = {'POP':0.20,#0.005,
+RaceClass2['PWID'].update({'POP':0.20,#0.005,
                       'HIV':0.19,
                       'AIDS':0.075,
                       'HAARTprev':0.0,
@@ -178,11 +178,11 @@ RaceClass2['PWID'] = {'POP':0.20,#0.005,
                       'HAARTadh':0.36,
                       'HAARTdisc':0.023,
                       'PrEPdisc':0.0
-                      }
-RaceClass2['ALL'] = {'Proportion':0.429,
+                      })
+RaceClass2['ALL'].update({'Proportion':0.429,
                       'HAARTdisc':0.018,
                      'PrEPdisc':0.0
-                      }
+                      })
 
 DemographicParams = {'WHITE':RaceClass1, 'BLACK':RaceClass2}
 

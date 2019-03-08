@@ -7,11 +7,15 @@ Main model parameters.
 
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
-rSeed = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
+rSeed_pop = 0           # seed for RNG for poulation building (0: pure random, -1: stepwise to N_REPS)
+rSeed_net = 0           # seed for RNG for network formation (0: pure random, -1: stepwise to N_REPS)
+rSeed_run = 0           # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
 N_MC = 100                # total number of iterations (Monte Carlo runs)
+N_REPS = 1
 N_POP = 25000           # population size
 TIME_RANGE = 192        # total time steps to iterate
 model = 'PrEP'         # Model Type for fast flag toggling
+network_type = 'scale_free'
 ####################
 
 """
@@ -19,13 +23,16 @@ Output flags and settings
 """
 outputDir = ''
 
-startAgentList = False
-endingAgentList = False
-intermAgentList = False
-intermPrintFreq = 10
-MSMreport = True
-HMreport = False
-HFreport = False
+printIncidenceEvents = False
+printStartAgentList = False
+printEndingAgentList = False
+printIntermAgentList = False
+intermPrintFreq = 60
+calcNetworkStats = False
+calcComponentStats = True
+drawFigures = False
+drawEdgeList = False
+drawFigureColor = 'Race'
 
 
 """
@@ -33,9 +40,10 @@ Calibration scaling parameters for fitting to empirical data
 """
 
 PARTNERTURNOVER = 7.5       # Partner acquisition parameters (higher number more partnering)
-
-cal_NeedleScaling = 1.0     # IDU transmission probability scaling factor
-cal_SexualScaling = 0.8     # Sexual transmission probability scaling factor
+cal_NeedlePartScaling = 1.0     # IDU transmission probability scaling factor
+cal_NeedleActScaling = 1.00      # IDU act frequency scaling factor
+cal_SexualPartScaling = 0.8     # Sexual partner number scaling factor
+cal_SexualActScaling = 0.8     # Sexual transmission probability scaling factor
 cal_pXmissionScaling = 1.1#0.92 # Global transmission probability scaling factor
 cal_AcuteScaling = 1.0      # Infectivity multiplier ratio for Acute status infections
 cal_RR_Dx = 0.25            # Risk reduction in transmission probability for agents diagnosed
@@ -59,6 +67,11 @@ HR_F_dur = 6                #Duration of high risk for females
 flag_AgeAssortMix = True
 AssortMixCoeff = 1.00       #Proportion of race1 mixing with race2 when partnering.
 safeNeedleExchangePrev = 1.0
+nitTreatment = 999999
+treatmentCov = 0.0
+limitComponentSize = False
+maxComponentSize = 100
+minComponentSize = 2
 
 #Incarceration params
 inc_JailMax = 9
@@ -72,6 +85,14 @@ inc_ARTenroll = 0.51
 inc_ARTadh = 0.21
 inc_ARTdisc = 0.12
 inc_Recidivism = 0.267
+inc_PtnrDissolution = 0.55
+inc_treatment_startdate = 48    # Timestep where inc treatment can begin
+inc_treatment_dur = 12          # Duration for which agents are forced on respective treatment post release
+inc_treat_set = ['HM']          # Set of agent classifiers effected by HR treatment
+inc_treat_HRsex_beh = True      # Remove sexual higrisk behaviour during treatment duration
+inc_treat_IDU_beh = True         # Remove IDU behav:iour during treatment duration
+inc_treat_RIC = False            # Force retention in care of ART therapy
+
 
 #PrEP params
 PrEP_type = "Oral"      #Oral/Inj PrEP modes
@@ -138,8 +159,8 @@ elif model == 'Custom':
     flag_ART = True
     flag_DandR = True
 
-
-
+agentPopulations = ['MSM','HM','HF']
+agentSexTypes = ['HM', 'HF', 'MSM']
 
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
@@ -154,6 +175,7 @@ RC_template = {     'Race':None,        #Race of demographic
                     'HAARTprev':0.0,    #Proportion of HIV_TESTED_ID that are enrolled on ART
                     'INCARprev':0.0,    #Proportion of ID that are incarcerated
                     'TestedPrev':0.0,   #Proportion of HIV_ID that are tested positively
+                    'HighRiskPrev':0.0,     #Proportion of agents that are HRi
                     'mNPart':0.0,       #Mean number of sex partners
                     'NUMPartn':0.0,     #Number of partners (redundant)
                     'NUMSexActs':0.0,   #Mean number of sex acts with each partner
@@ -163,13 +185,16 @@ RC_template = {     'Race':None,        #Race of demographic
                     'INCAR':0.0,        #Probability of becoming incarcerated (rate)
                     'HAARTadh':0.0,     #Adherence to ART therapy
                     'HAARTdisc':0.0,    #Probability of discontinuing ART therapy
-                    'PrEPdisc':0.0     #Probability of discontinuing PrEP treatment
+                    'PrEPprev':0.0,         #Proportion of HIV- that are enrolled on PrEP
+                    'PrEPdisc':0.0,     #Probability of discontinuing PrEP treatment
+                    'EligSE_PartnerType':[],   #List of agent SO types the agent cant partner with
+                    'AssortMixMatrix':[]    #List of assortMix Matrix to be zipped with EligPart
                     }
 
-RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
-RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
-RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
-for a in ['MSM','HM','HF','PWID']:
+RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}, 'ALL':{}}
+RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}, 'ALL':{}}
+RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}, 'ALL':{}}
+for a in ['MSM','HM','HF','IDU']:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
@@ -177,7 +202,7 @@ RaceClass1['MSM']['POP'] = 1.0
 RaceClass1['MSM']['HIV'] = 0.4
 #StratW['MSM'] = {'POP':0.035, 'HIV':0.132, 'AIDS':0.048, 'HAARTprev':0.57, 'INCARprev':0.005, 'TestedPrev':0.84}
 
-RaceClass1['MSM'] = {'POP':1.0,
+RaceClass1['MSM'].update({'POP':1.0,
                      'HIV':10.3452,#0.036195675,
                      'AIDS':0.51,
                      'HAARTprev':0.55,
@@ -193,10 +218,10 @@ RaceClass1['MSM'] = {'POP':1.0,
                      'HAARTadh':0.82,
                      'HAARTdisc':0.008,
                      'PrEPdisc':PrEP_disc
-                     }
+                     })
 
 #StratW['HM'] = {'POP':0.465, 'HIV':0.003, 'AIDS':0.001, 'HAARTprev':0.56, 'INCARprev':0.005, 'TestedPrev':0.81}
-RaceClass1['HM'] = {'POP':0.00,#0.465,
+RaceClass1['HM'].update({'POP':0.00,#0.465,
                     'HIV':0.003,
                     'AIDS':0.001,
                     'HAARTprev':0.56,
@@ -212,10 +237,10 @@ RaceClass1['HM'] = {'POP':0.00,#0.465,
                     'HAARTadh':0.57,
                     'HAARTdisc':0.01,
                      'PrEPdisc':0.0
-                    }
+                    })
 
 #StratW['HF'] = {'POP':0.50, 'HIV':0.002, 'AIDS':0.001, 'HAARTprev':0.53, 'INCARprev':0.0002, 'TestedPrev':0.86}
-RaceClass1['HF'] = {'POP':0.00,#0.50,
+RaceClass1['HF'].update({'POP':0.00,#0.50,
                     'HIV':0.002,
                     'AIDS':0.001,
                     'HAARTprev':0.53,
@@ -231,10 +256,10 @@ RaceClass1['HF'] = {'POP':0.00,#0.50,
                     'HAARTadh':0.53,
                     'HAARTdisc':0.013,
                     'PrEPdisc':0.0
-                    }
+                    })
 
 #StratW['PWID'] = {'POP':0.005, 'HIV':0.19, 'AIDS':0.075, 'HAARTprev':0.52, 'INCARprev':0.019, 'TestedPrev':0.93}
-RaceClass1['PWID'] = {'POP':0.0,#0.005,
+RaceClass1['IDU'].update({'POP':0.0,#0.005,
                       'HIV':0.19,
                       'AIDS':0.075,
                       'HAARTprev':0.0,
@@ -250,15 +275,15 @@ RaceClass1['PWID'] = {'POP':0.0,#0.005,
                       'HAARTadh':0.43,
                       'HAARTdisc':0.018,
                       'PrEPdisc':0.0
-                      }
-RaceClass1['ALL'] = {'Proportion':10.571,
+                      })
+RaceClass1['ALL'].update({'Proportion':10.571,
                       'HAARTdisc':0.018,
                      'PrEPdisc':0.0
-                      }
+                      })
 
-RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
+RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}, 'ALL':{}}
 # StratB['MSM'] = {'POP':0.028, 'HIV':0.432 , 'AIDS':0.048, 'HAARTprev':0.47, 'INCARprev':0.018, 'TestedPrev':0.84}
-RaceClass2['MSM'] = {'POP':1.0,
+RaceClass2['MSM'].update({'POP':1.0,
                      'HIV':0.036195675,
                      'AIDS':0.51,
                      'HAARTprev':0.33,
@@ -274,9 +299,9 @@ RaceClass2['MSM'] = {'POP':1.0,
                      'HAARTadh':0.82,
                      'HAARTdisc':0.08,
                      'PrEPdisc':PrEP_disc
-                     }
+                     })
 # StratB['HM'] = {'POP':0.472, 'HIV':0.012 , 'AIDS':0.003, 'HAARTprev':0.44, 'INCARprev':0.018, 'TestedPrev':0.84}
-RaceClass2['HM'] = {'POP':0.00,#0.472,
+RaceClass2['HM'].update({'POP':0.00,#0.472,
                     'HIV':0.012,
                     'AIDS':0.003,
                     'HAARTprev':0.44,
@@ -292,9 +317,9 @@ RaceClass2['HM'] = {'POP':0.00,#0.472,
                     'HAARTadh':0.34,
                     'HAARTdisc':0.013,
                      'PrEPdisc':0.0
-                    }
+                    })
 # StratB['HF'] = {'POP':0.50, 'HIV':0.021 , 'AIDS':0.0009, 'HAARTprev':0.52, 'INCARprev':0.0006, 'TestedPrev':0.86}
-RaceClass2['HF'] = {'POP':0.00,#0.50,
+RaceClass2['HF'].update({'POP':0.00,#0.50,
                     'HIV':0.021,
                     'AIDS':0.0009,
                     'HAARTprev':0.52,
@@ -310,10 +335,10 @@ RaceClass2['HF'] = {'POP':0.00,#0.50,
                     'HAARTadh':0.50,
                     'HAARTdisc':0.017,
                      'PrEPdisc':0.0
-                    }
+                    })
 
 # StratB['PWID'] = {'POP':0.005, 'HIV':0.19 , 'AIDS':0.075, 'HAARTprev':0.44, 'INCARprev':0.063, 'TestedPrev':0.93}
-RaceClass2['PWID'] = {'POP':0.0,#0.005,
+RaceClass2['IDU'].update({'POP':0.0,#0.005,
                       'HIV':0.19,
                       'AIDS':0.075,
                       'HAARTprev':0.0,
@@ -329,11 +354,11 @@ RaceClass2['PWID'] = {'POP':0.0,#0.005,
                       'HAARTadh':0.36,
                       'HAARTdisc':0.023,
                       'PrEPdisc':0.0
-                      }
-RaceClass2['ALL'] = {'Proportion':0.0,#429,
+                      })
+RaceClass2['ALL'].update({'Proportion':0.0,#429,
                       'HAARTdisc':0.018,
                      'PrEPdisc':0.0
-                      }
+                      })
 
 DemographicParams = {'WHITE':RaceClass1, 'BLACK':RaceClass2}
 

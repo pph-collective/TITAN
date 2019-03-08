@@ -1,5 +1,5 @@
 __author__ = 'MaximilianKing'
-
+# This file is out-of-date.
 
 """
 Main model parameters.
@@ -146,7 +146,7 @@ elif model == 'Custom':
     flag_DandR = True
 
 
-
+agentPopulations = ['MSM','HM','HF']
 
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.

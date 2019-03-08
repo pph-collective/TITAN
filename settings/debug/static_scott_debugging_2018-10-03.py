@@ -7,13 +7,17 @@ Main model parameters.
 
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
-rSeed = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
+rSeed_pop = 0           # seed for RNG for poulation building (0: pure random, -1: stepwise to N_REPS)
+rSeed_net = 0           # seed for RNG for network formation (0: pure random, -1: stepwise to N_REPS)
+rSeed_run = 0           # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
 N_MC = 1               # total number of iterations (Monte Carlo runs)
+N_REPS = 1
 N_POP = 2411           # population size
 TIME_RANGE = 6        # total time steps to iterate
-burnDuration = 0#36
+burnDuration = 0	# total time for burning in period (equilibration)
 model = 'StaticZero'         # Model Type for fast flag toggling
 setting = 'Scott'
+network_type = 'scale_free'
 ####################
 
 """
@@ -178,6 +182,7 @@ elif model == 'Custom':
     flag_staticN = True
     flag_agentZero = False
 
+agentPopulations = ['MSM','HM','HF']
 agentSexTypes = ['HM', 'HF', 'MSM', 'MTF']
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
@@ -212,8 +217,8 @@ RC_allTemplate = {  'Proportion':1.00,      #Proportion of total population that
                     'AssortMixCoeff':1.0,   #Proportion RC mixes with other raceclass
                 }
 
-RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
-RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
+RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}, 'ALL':{}}
+RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}, 'ALL':{}}
 for a in ['MSM','HM','HF','PWID']:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
@@ -254,7 +259,7 @@ RaceClass1['HF'] = {'POP':0.51,
                      'EligSE_PartnerType':['HM']
                      }
 
-RaceClass1['PWID'] = {'POP':0.017,
+RaceClass1['IDU'] = {'POP':0.017,
                      'HIV':0.000,
                      'AIDS':0.6780,
                      'HAARTprev':0.41,

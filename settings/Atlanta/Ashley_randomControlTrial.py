@@ -191,7 +191,7 @@ elif model == 'Custom':
     flag_agentZero = False
 
 agentPopulations = ['MSM','HM','HF']
-agentSexTypes = ['HM', 'HF', 'MSM', 'MTF']
+agentSexTypes = ['HM', 'HF', 'MSM']
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
 ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, IDU)
@@ -205,6 +205,7 @@ RC_template = {     'Race':None,            #Race of demographic
                     'HAARTprev':0.0,        #Proportion of HIV_TESTED_ID that are enrolled on ART
                     'INCARprev':0.0,        #Proportion of ID that are incarcerated
                     'TestedPrev':0.0,       #Proportion of HIV_ID that are tested positively
+                    'HighRiskPrev':0.0,     #Proportion of agents that are HRi
                     'mNPart':0.0,           #Mean number of sex partners
                     'NUMPartn':0.0,         #Number of partners (redundant)
                     'NUMSexActs':0.0,       #Mean number of sex acts with each partner
@@ -232,7 +233,7 @@ for a in ['MSM','HM','HF','IDU']:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
-RaceClass1['HM'] = {'POP':0.0,
+RaceClass1['HM'].update({'POP':0.0,
                      'HIV':0.0369,
                      'AIDS':0.6780,
                      'HAARTprev':0.41,
@@ -248,9 +249,9 @@ RaceClass1['HM'] = {'POP':0.0,
                      'HAARTdisc':0.000,
                      'PrEPdisc':0.0000,
                      'EligSE_PartnerType':['HF']
-                     }
+                     })
 
-RaceClass1['HF'] = {'POP':0.0,
+RaceClass1['HF'].update({'POP':0.0,
                      'HIV':0.01391,
                      'AIDS':0.573,
                      'HAARTprev':0.47,
@@ -266,9 +267,9 @@ RaceClass1['HF'] = {'POP':0.0,
                      'HAARTdisc':0.000,
                      'PrEPdisc':PrEP_disc,
                      'EligSE_PartnerType':['HM']
-                     }
+                     })
 
-RaceClass1['MSM'] = {'POP':1.0,
+RaceClass1['MSM'].update({'POP':1.0,
                      'HIV':0.132,
                      'AIDS':0.07,
                      'HAARTprev':0.0,
@@ -285,28 +286,9 @@ RaceClass1['MSM'] = {'POP':1.0,
                      'PrEPadh':0.55,
                      'PrEPdisc':PrEP_disc,
                      'EligSE_PartnerType':['MSM']
-                     }
+                     })
 
-RaceClass1['MTF'] = {'POP':0.00,
-                     'HIV':0.33986,
-                     'AIDS':0.636,
-                     'HAARTprev':1.00,
-                     'INCARprev':0.000,
-                     'TestedPrev':0.95,
-                     'NUMPartn':4.7,
-                     'NUMSexActs':4.6,
-                     'UNSAFESEX':0.644,
-                     'NEEDLESH':0.00,
-                     'HIVTEST':0.155,
-                     'INCAR':0.00,
-                     'HAARTadh':0.67,
-                     'HAARTdisc':0.000,
-                     'PrEPadh':0.55,
-                     'PrEPdisc':PrEP_disc,
-                     'EligSE_PartnerType':['MSM']
-                     }
-
-RaceClass1['IDU'] = {'POP':0.0,
+RaceClass1['IDU'].update({'POP':0.0,
                      'HIV':0.1500,
                      'AIDS':0.6780,
                      'HAARTprev':0.41,
@@ -322,16 +304,16 @@ RaceClass1['IDU'] = {'POP':0.0,
                      'HAARTdisc':0.000,
                      'PrEPdisc':0.0000,
                      'EligSE_PartnerType':['IDU']
-                     }
+                     })
 
 
-RaceClass1['ALL'] = {'Proportion':0.488,
+RaceClass1['ALL'].update({'Proportion':0.488,
                       'HAARTdisc':0.00,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,
-                      }
+                      })
 
-RaceClass2['MSM'] = {'POP':1.0,
+RaceClass2['MSM'].update({'POP':1.0,
                      'HIV':0.434,
                      'AIDS':0.232,
                      'HAARTprev':0.0,
@@ -348,13 +330,13 @@ RaceClass2['MSM'] = {'POP':1.0,
                      'PrEPadh':0.55,
                      'PrEPdisc':PrEP_disc,
                      'EligSE_PartnerType':['MSM']
-                     }
+                     })
 
-RaceClass2['ALL'] = {'Proportion':0.512,
+RaceClass2['ALL'].update({'Proportion':0.512,
                       'HAARTdisc':0.00,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,
-                      }
+                      })
 
 DemographicParams = {'WHITE':RaceClass1, 'BLACK':RaceClass2}
 

@@ -7,11 +7,15 @@ Main model parameters.
 
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
-rSeed = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
+rSeed_pop = -1           # seed for RNG for poulation building (0: pure random, -1: stepwise to N_REPS)
+rSeed_net = -1          # seed for RNG for network formation (0: pure random, -1: stepwise to N_REPS)
+rSeed_run = -1           # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
 N_MC = 100               # total number of iterations (Monte Carlo runs)
+N_REPS = 1
 N_POP = 24110           # population size
 TIME_RANGE = 36        # total time steps to iterate
 burnDuration = 0#36
+network_type = 'scale_free'
 model = 'StaticZero'         # Model Type for fast flag toggling
 setting = 'Scott'
 ####################
@@ -21,14 +25,16 @@ Output flags and settings
 """
 outputDir = ''
 
-startAgentList = False
-endingAgentList = False
-intermAgentList = False
+printIncidenceEvents = False
+printStartAgentList = False
+printEndingAgentList = False
+printIntermAgentList = False
 intermPrintFreq = 10
-MSMreport = True
-HMreport = False
-HFreport = False
+calcNetworkStats = False
+calcComponentStats = True
 drawFigures = False
+drawEdgeList = False
+drawFigureColor = 'Race'
 
 
 """
@@ -72,6 +78,9 @@ AssortMixCoeff = 0.8            # Proportion of following given assort mix rules
 safeNeedleExchangePrev = 1.0    # Prevalence scalar on SNE
 initTreatment = 10              # Requirement to start treatment
 treatmentCov = 0.60             # Prop that receive treatment
+limitComponentSize = False
+maxComponentSize = 100
+minComponentSize = 2
 
 """
 Incarceration params
@@ -88,6 +97,7 @@ inc_ARTadh = 0.21
 inc_ARTdisc = 0.12
 inc_Recidivism = 0.267
 inc_PtnrDissolution = 0.55
+inc_treatment_startdate = 48    # Timestep where inc treatment can begin
 inc_treatment_dur = 6           # Duration for which agents are forced on respective treatment post release
 inc_treat_set = ['HM']          # Set of agent classifiers effected by HR treatment
 inc_treat_behavior = True      # Remove IDU behaviour during treatment duration
@@ -178,7 +188,8 @@ elif model == 'Custom':
     flag_staticN = True
     flag_agentZero = False
 
-agentSexTypes = ['HM', 'HF', 'MSM', 'MTF']
+agentPopulations = ['MSM','HM','HF']
+agentSexTypes = ['HM', 'HF', 'MSM']
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
 ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, PWID)
@@ -192,6 +203,7 @@ RC_template = {     'Race':None,            #Race of demographic
                     'HAARTprev':0.0,        #Proportion of HIV_TESTED_ID that are enrolled on ART
                     'INCARprev':0.0,        #Proportion of ID that are incarcerated
                     'TestedPrev':0.0,       #Proportion of HIV_ID that are tested positively
+                    'HighRiskPrev':0.0,     #Proportion of agents that are HRi
                     'mNPart':0.0,           #Mean number of sex partners
                     'NUMPartn':0.0,         #Number of partners (redundant)
                     'NUMSexActs':0.0,       #Mean number of sex acts with each partner
@@ -201,8 +213,10 @@ RC_template = {     'Race':None,            #Race of demographic
                     'INCAR':0.0,            #Probability of becoming incarcerated (rate)
                     'HAARTadh':0.0,         #Adherence to ART therapy
                     'HAARTdisc':0.0,        #Probability of discontinuing ART therapy
+                    'HAARTdisc':0.0,        #Probability of discontinuing ART therapy
+                    'PrEPprev':0.0,         #Proportion of HIV- that are enrolled on PrEP
                     'PrEPdisc':0.0,         #Probability of discontinuing PrEP treatment
-                    'EligPartnerType':[],   #List of agent SO types the agent cant partner with
+                    'EligSE_PartnerType':[],   #List of agent SO types the agent cant partner with
                     'AssortMixMatrix':[]    #List of assortMix Matrix to be zipped with EligPart
                 }
 
@@ -212,13 +226,13 @@ RC_allTemplate = {  'Proportion':1.00,      #Proportion of total population that
                     'AssortMixCoeff':1.0,   #Proportion RC mixes with other raceclass
                 }
 
-RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
-RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
-for a in ['MSM','HM','HF','PWID']:
+RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}, 'ALL':{}}
+RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}, 'ALL':{}}
+for a in ['MSM','HM','HF','IDU']:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
-RaceClass1['HM'] = {'POP':0.49,
+RaceClass1['HM'].update({'POP':0.49,
                      'HIV':0.0014,
                      'AIDS':0.6780,
                      'HAARTprev':0.41,
@@ -234,9 +248,9 @@ RaceClass1['HM'] = {'POP':0.49,
                      'HAARTdisc':0.000,
                      'PrEPdisc':0.0000,
                      'EligPartnerType':['HF']
-                     }
+                     })
 
-RaceClass1['HF'] = {'POP':0.51,
+RaceClass1['HF'].update({'POP':0.51,
                      'HIV':0.0004,
                      'AIDS':0.573,
                      'HAARTprev':0.47,
@@ -252,9 +266,9 @@ RaceClass1['HF'] = {'POP':0.51,
                      'HAARTdisc':0.000,
                      'PrEPdisc':PrEP_disc,
                      'EligPartnerType':['HM']
-                     }
+                     })
 
-RaceClass1['PWID'] = {'POP':0.017,
+RaceClass1['IDU'].update({'POP':0.017,
                      'HIV':0.000,
                      'AIDS':0.6780,
                      'HAARTprev':0.41,
@@ -271,19 +285,19 @@ RaceClass1['PWID'] = {'POP':0.017,
                      'PrEPadh':0.55,
                      'PrEPdisc':0.0000,
                      'EligPartnerType':['IDU']
-                     }
+                     })
 
-RaceClass1['ALL'] = {'Proportion':1.00,
+RaceClass1['ALL'].update({'Proportion':1.00,
                       'HAARTdisc':0.018,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,
-                      }
+                      })
 
-RaceClass2['ALL'] = {'Proportion':0.00,
+RaceClass2['ALL'].update({'Proportion':0.00,
                       'HAARTdisc':0.018,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,
-                      }
+                      })
 
 DemographicParams = {'WHITE':RaceClass1, 'BLACK':RaceClass2}
 
