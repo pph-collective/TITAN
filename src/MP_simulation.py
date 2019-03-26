@@ -132,13 +132,13 @@ def open_outputs():
     # dynReport = open('results/dynnetworkReport.txt','w')
     # dynReport.write('')
     # dynReport.close()
-
-    for agentTypes in params.agentPopulations:
-        name = 'basicReport_'+agentTypes
-        #print name
-        tmpReport = open('results/'+name+'.txt', 'w')
-        tmpReport.write("rseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\n")
-        tmpReport.close()
+    for agentRace in ['WHITE', 'BLACK', 'ALL']:
+        for agentTypes in params.agentPopulations:
+            name = 'basicReport_' + agentTypes + '_' + agentRace
+            #print name
+            tmpReport = open('results/'+name+'.txt', 'w')
+            tmpReport.write("rseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\n")
+            tmpReport.close()
 
     for demographicTypes in params.DemographicParams.keys():
         name = 'basicReport_'+demographicTypes

@@ -99,7 +99,7 @@ def initiate_ResultDict():
 
     return ResultDict
 
-def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInfections, NewDiagnosis, deaths, ResultDict, Relationships, newHR, newIncarRelease, outifle=None):
+def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInfections, NewDiagnosis, deaths, ResultDict, Relationships, newHR, newIncarRelease, deathSet, outifle=None):
     incidenceReport = open('results/IncidenceReport.txt', 'a')
     prevalenceReport = open('results/PrevalenceReport.txt', 'a')
     deathReport = open('results/DeathReport.txt', 'a')
@@ -130,6 +130,7 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
     newHR_ART_HF = 0
 
     rc_template = {
+                'numAgents':0,
                 'inf_HR6m':0,
                 'inf_HRever':0,
                 'inf_newInf':0,
@@ -145,7 +146,7 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
                 'deaths':0,
                 'incar':0,
                 'incarHIV':0,
-                'numPrEP':0
+                'numPrEP':0,
                 }
     #r = dict(dict1)
 
@@ -154,7 +155,7 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
 
     rc2_infections = {'MTF':dict(rc_template), 'MSM':dict(rc_template), 'HM':dict(rc_template),'HF':dict(rc_template),'IDU':dict(rc_template), 'ALL':dict(rc_template)}
     all_infections = {'MTF':dict(rc_template), 'MSM': dict(rc_template), 'HM': dict(rc_template), 'HF': dict(rc_template),'IDU':dict(rc_template), 'ALL': dict(rc_template)}
-    rsltdic = {'WHITE':rc1_infections, 'BLACK':rc2_infections}
+    rsltdic = {'WHITE':rc1_infections, 'BLACK':rc2_infections, 'ALL':all_infections}
     tot_rsltdic = {'ALL':all_infections}
 
 
@@ -218,7 +219,11 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
         if tmpA._HAART_bool:rsltdic[tmpA._race]['IDU']['numART'] += 1
 
     for tmpA in totalAgents.iter_agents():
+        rsltdic[tmpA._race][tmpA._SO]['numAgents'] += 1
         if tmpA._everhighrisk_bool:rsltdic[tmpA._race][tmpA._SO]['numHR'] += 1
+
+    for tmpA in deathSet:
+        rsltdic[tmpA._race][tmpA._SO]['deaths'] += 1
 
 
     deaths_total = deaths["Total"]["HM"]+deaths["Total"]["HF"]+deaths["Total"]["MSM"]
@@ -247,29 +252,34 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
             tot_rsltdic['ALL']['HF'][param] += rsltdic[race]['HF'][param]
             tot_rsltdic['ALL']['MSM'][param] += rsltdic[race]['MSM'][param]
             tot_rsltdic['ALL']['IDU'][param] += rsltdic[race]['IDU'][param]
-
-    for agentTypes in params.agentPopulations:
-        name = 'basicReport_'+agentTypes
-        tmpReport = open('results/'+name+'.txt', 'a')
-        tmpReport.write((
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
-            self.runseed,
-            self.popseed,
-            self.netseed,
-            t,
-            totalAgents._subset['SO']._subset[agentTypes].num_members(),
-            tot_rsltdic['ALL'][agentTypes]['numHIV'],
-            tot_rsltdic['ALL'][agentTypes]['numAIDS'],
-            tot_rsltdic['ALL'][agentTypes]['numTested'],
-            tot_rsltdic['ALL'][agentTypes]['numART'],
-            tot_rsltdic['ALL'][agentTypes]['numHR'],
-            tot_rsltdic['ALL'][agentTypes]['inf_newInf'],
-            tot_rsltdic['ALL'][agentTypes]['inf_HR6m'],
-            tot_rsltdic['ALL'][agentTypes]['inf_HRever'],
-            tot_rsltdic['ALL'][agentTypes]['newlyTested'],
-            tot_rsltdic['ALL'][agentTypes]['deaths'],
-            tot_rsltdic['ALL'][agentTypes]['numPrEP'])))
-        tmpReport.close()
+            rsltdic['ALL']['ALL'][param] += rsltdic[race]['ALL'][param]
+            rsltdic['ALL']['HM'][param] += rsltdic[race]['HM'][param]
+            rsltdic['ALL']['HF'][param] += rsltdic[race]['HF'][param]
+            rsltdic['ALL']['MSM'][param] += rsltdic[race]['MSM'][param]
+            rsltdic['ALL']['IDU'][param] += rsltdic[race]['IDU'][param]
+    for agentRace in ['WHITE','BLACK','ALL']:
+        for agentTypes in params.agentPopulations:
+            name = 'basicReport_'+agentTypes+'_'+agentRace
+            tmpReport = open('results/'+name+'.txt', 'a')
+            tmpReport.write((
+            "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+                self.runseed,
+                self.popseed,
+                self.netseed,
+                t,
+                rsltdic[agentRace][agentTypes]['numAgents'],
+                rsltdic[agentRace][agentTypes]['numHIV'],
+                rsltdic[agentRace][agentTypes]['numAIDS'],
+                rsltdic[agentRace][agentTypes]['numTested'],
+                rsltdic[agentRace][agentTypes]['numART'],
+                rsltdic[agentRace][agentTypes]['numHR'],
+                rsltdic[agentRace][agentTypes]['inf_newInf'],
+                rsltdic[agentRace][agentTypes]['inf_HR6m'],
+                rsltdic[agentRace][agentTypes]['inf_HRever'],
+                rsltdic[agentRace][agentTypes]['newlyTested'],
+                rsltdic[agentRace][agentTypes]['deaths'],
+                rsltdic[agentRace][agentTypes]['numPrEP'])))
+            tmpReport.close()
 
     for demographicTypes in params.DemographicParams.keys():
         name = 'basicReport_'+demographicTypes

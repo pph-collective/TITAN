@@ -7,14 +7,14 @@ Main model parameters.
 
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
-rSeed_pop = 1           # seed for population RNG (0 for pure random, -1 for stepwise up to N_NC
-rSeed_net = 1
-rSeed_run = 1
+rSeed_pop = 0           # seed for population RNG (0 for pure random, -1 for stepwise up to N_NC
+rSeed_net = 0
+rSeed_run = 0
 N_MC = 1               # total number of iterations (Monte Carlo runs)
 N_REPS = 1
 N_POP = 5500           # population size
 TIME_RANGE = 60        # total time steps to iterate
-burnDuration = 0
+burnDuration = 60
 model = 'Custom'         # Model Type for fast flag toggling
 network_type = 'scale_free' #scale_free or max_k_comp_size
 setting = 'RI_OD_Morality'
@@ -51,12 +51,13 @@ cal_AcuteScaling = 4.3         # Infectivity multiplier ratio for Acute status i
 cal_RR_Dx = 0.53                # Risk reduction in transmission probability for agents diagnosed
 cal_RR_HAART = 1.0              # Scaling factor for effectiveness of ART therapy on xmission P
 cal_TestFreq = 0.70              # Scaling factor for testing frequency
-cal_Mortality = 0.5             # Scaling factor for all cause mortality rates
+cal_Mortality = 10.0             # Scaling factor for all cause mortality rates
 cal_ProgAIDS = 1.0              # Scaling factor for all progression to AIDS from HIV rates
 cal_ART_cov = 0.70               # Scaling factor for enrollment on ART probability
 cal_IncarP = 1.0                # Scaling factor for probability of becoming incarcerated
 cal_raceXmission = 1.0          # Scaling factor for increased STI transmission P comparing race1/race2
 cal_ptnrSampleDepth = 100       # Sampling depth for partnering algorithm.
+
 
 """
 High risk params
@@ -224,6 +225,7 @@ RC_template = {     'Race':None,            #Race of demographic
                     'HAARTadh':0.0,         #Adherence to ART therapy
                     'HAARTdisc':0.0,        #Probability of discontinuing ART therapy
                     'PrEPdisc':0.0,         #Probability of discontinuing PrEP treatment
+                    'MATprev':0.0,
                     'EligPartnerType':[],   #List of agent SO types the agent cant partner with
                     'AssortMixMatrix':[]    #List of assortMix Matrix to be zipped with EligPart
                 }
@@ -240,41 +242,50 @@ for a in ['MSM','HM','HF','IDU']:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
-incarProb = 0.0012
+incarNIDUProb = 0.15
+incarIDUProb = 0.08
+incarProbScalar = 0.01
+cal_MAT_disc_prob = 0.045
+MATProbScalar = 0.01
+MATasOAT = 0.992
 RaceClass1['HM'].update({'POP': 0.60,
-                         'INCARprev': 0.0274,
-                         'INCAR': 0.001,
+                         'INCARprev': 0.08,
+                         'INCAR': incarNIDUProb * incarProbScalar,
+                         'MATprev': 0.0924,
                          'EligSE_PartnerType': ['HF']
                          })
 
 RaceClass1['HF'].update({'POP': 0.40,
-                         'INCARprev': 0.000,
+                         'INCARprev': 0.08,
                          'HighRiskPrev': 0.0,
-                         'INCAR': 0.00,
+                         'INCAR': incarNIDUProb * incarProbScalar,
+                         'MATprev': 0.0924,
                          'EligSE_PartnerType': ['HM']
                          })
 
 
 
 RaceClass1['ALL'].update({'Proportion':0.818,
-                          'HAARTdisc':0.018,
-                         'PrEPdisc':0.0,
-                         'AssortMixCoeff':1.0,
+                          'HAARTdisc':0.0,
+                          'PrEPdisc':0.0,
+                          'AssortMixCoeff':1.0,
                           })
 
 RaceClass2['HM'].update({'POP': 0.80,
-                            'INCARprev': 0.000,
-                            'HighRiskPrev': 0.0,
-                            'INCAR': 0.00,
-                            'EligSE_PartnerType': ['HF']
-                            })
+                         'INCARprev': 0.15,
+                         'HighRiskPrev': 0.0,
+                         'INCAR': incarIDUProb * incarProbScalar,
+                         'MATprev': 0.578,
+                         'EligSE_PartnerType': ['HF']
+                         })
 
 RaceClass2['HF'].update({'POP': 0.20,
-                            'INCARprev': 0.000,
-                            'HighRiskPrev': 0.0,
-                            'INCAR': 0.00,
-                            'EligSE_PartnerType': ['HM']
-                            })
+                         'INCARprev': 0.15,
+                         'HighRiskPrev': 0.0,
+                         'INCAR': incarIDUProb * incarProbScalar,
+                         'MATprev': 0.578,
+                         'EligSE_PartnerType': ['HM']
+                         })
 
 RaceClass2['ALL'].update({'Proportion':0.182,
                         'HAARTdisc':0.018,

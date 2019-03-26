@@ -346,7 +346,8 @@ class HIVModel(NetworkClass):
                 ,self.ResultDict
                 ,self.Relationships
                 ,self.NewHRrolls
-                ,self.NewIncarRelease)
+                ,self.NewIncarRelease
+                ,self.deathSet)
 
         def print_components(t):
             name = 'componentReport_ALL'
@@ -393,7 +394,7 @@ class HIVModel(NetworkClass):
 
                 if params.flag_DandR:
                     #print("\t\tdie and replace")
-                    self._die_and_replace()
+                    self._die_and_replace(t)
 
             # self.All_agentSet.print_subsets()
             print "\tBurn Cuml Inc:\t{}".format(self.NewInfections.num_members())
@@ -401,6 +402,9 @@ class HIVModel(NetworkClass):
             self.NewDiagnosis.clear_set()
             self.NewHRrolls.clear_set()
             self.NewIncarRelease.clear_set()
+
+            self.num_Deaths
+            self._reset_death_count()
             # getStats(0)
             print(" === Simulation Burn Complete ===")
 
@@ -491,7 +495,7 @@ class HIVModel(NetworkClass):
 
             if params.flag_DandR:
                 #print("\t\tdie and replace")
-                self._die_and_replace()
+                self._die_and_replace(t)
 
             #print "\t\tENDING HIV count:%2.2f\tIncarcerated:%d\tHR+:%d"%(self.All_agentSet._subset["HIV"].num_members()/self.All_agentSet.num_members(), self.IncarceratedClass.num_members(),self.PrEP_agents_class.num_members()) #,self.HighriskClass.num_members())
             print "Number of relationships: %d"%self.Relationships.num_members()
@@ -677,9 +681,9 @@ class HIVModel(NetworkClass):
             #if agent_drug_type == 'IDU':
                 #self._SEP(agent, time)  # SEP: Syringe Exchange program
             
-            if agent_drug_type in ['NIDU', 'IDU'] and False:
+            if agent_drug_type in ['NDU', 'NIDU', 'IDU']:
                 #print("\tDrug Cessation")
-                self._drug_cessation(agent, agent_drug_type)
+                # self._drug_cessation(agent, agent_drug_type)
                 #print("\tEnter/Exit Drug Treatment")
                 self._enter_and_exit_drug_treatment(agent, time)
             
@@ -1755,9 +1759,12 @@ class HIVModel(NetworkClass):
         """
         Agent exits drug treament.
         """
-        self.DrugTreatmentAgents_past.update({agent:
-                                                  self.DrugTreatmentAgents_current[agent]})
-        del self.DrugTreatmentAgents_current[agent]
+        agent._treatment_bool = False
+        agent._treatment_time = 0
+        agent._OAT_bool = False
+        agent._naltrex_bool = False
+        self.treatment_agentSet.remove_agent(agent)
+
 
 
     def _enter_and_exit_drug_treatment(self, agent, time):
@@ -1781,32 +1788,25 @@ class HIVModel(NetworkClass):
         :Output:
             bool
         """
-        agent_drug_type = self.get_agent_characteristic(agent, 'Drug Type')
+        #agent_drug_type = self.get_agent_characteristic(agent, 'Drug Type')
 
-        N_TrSpots_Max = 100000  # max number of treatment spots
-        if (agent in self.DrugTreatmentAgents_current and self.runRandom.random() < self.SAT_disc):
-            self._exit_drug_treatment(agent)
-        elif self.N_TreatmentSpots < N_TrSpots_Max:
-            if agent in self.SEPAgents:
-                prob = self.SAT_NSP
-            elif agent in self.DrugTreatmentAgents_past:
-                prob = 0.18
+        #N_TrSpots_Max = 100000  # max number of treatment spots
+        if agent._treatment_bool:
+            if (self.runRandom.random() < params.cal_MAT_disc_prob):
+                self._exit_drug_treatment(agent)
+        elif self.runRandom.random() < params.MATasOAT * params.MATProbScalar:
+            agent._treatment_bool = True
+            if self.runRandom.random() < params.MATasOAT:
+                agent._OAT_bool = True
             else:
-                if agent_drug_type == 'IDU':
-                    prob = self.SAT_NoNSP_IDU
-                elif agent_drug_type == 'NIDU':
-                    prob = self.SAT_NIDU
-                else:
-                    mssg = 'Drug treatment only valid for NIDU and IDUs! %s'
-                    raise ValueError(mssg % agent_drug_type)
-            if self.runRandom.random() < prob and agent not in self.tmp_ND_agents:
-                self.DrugTreatmentAgents_current.update({agent: time})
-                self.N_TreatmentSpots += 1
-        elif self.N_TreatmentSpots == N_TrSpots_Max:
-            pass
+                agent._naltrex_bool = True
+
+            try:
+                self.treatment_agentSet.add_agent(agent)
+            except:
+                print "agent %s is already a member of agent set %s" % (agent.get_ID(), targetSet.get_ID())
         else:
-            mssg = 'Check self.N_TreatmentSpots! Max value = 500! %d'
-            raise ValueError(mssg % self.N_TreatmentSpots)
+            pass
 
 
     def _initiate_HAART(self, agent, time):
@@ -2142,6 +2142,7 @@ class HIVModel(NetworkClass):
 
     def _reset_death_count(self):
         self.num_Deaths = {}
+        self.deathSet = []
         for HIV_status in ['Total','HIV-', 'HIV+']:
             self.num_Deaths.update({HIV_status: {}})
             for tmp_type in [HIV_status, 'MSM', 'HM', 'HF', 'WSW', 'MTF']:
@@ -2250,7 +2251,7 @@ class HIVModel(NetworkClass):
             self.HIV_key_transitiontime.update({time: tmp_agents})
 
 
-    def _die_and_replace(self):
+    def _die_and_replace(self, time):
         """
         :Purpose:
             Let agents die and replace the dead agent with a new agent randomly.
@@ -2306,9 +2307,9 @@ class HIVModel(NetworkClass):
 
                 elif not HIV_status: # NON HIV DEATH RATE
                     if agent_Race == 'WHITE':
-                        p = 8.6
+                        p = 1.0
                     elif agent_Race == 'BLACK':
-                        p = 10.4
+                        p = 16.0
                     else:
                         raise ValueError("Invalid RACE type! %s" % str(agent_Race))
                     #p = self.ProbDeath[drug_type]['HIV-']
@@ -2316,7 +2317,12 @@ class HIVModel(NetworkClass):
                 else:
                     raise ValueError("Invalid HIV type! %s" % str(HIV_status))
 
-                #print p
+                if agent._OAT_bool:
+                    p = p * 0.4
+                elif agent._naltrex_bool:
+                    p = p * 0.2
+                p = p * params.cal_Mortality
+                p = p + time/2
                 p = p / 12000.0#12000.0 #putting it into per 1 person-month
                 if self.runRandom.random() < p:
                     # print "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAgent %d died rolling under %.10lf" % (agent.get_ID(), p)
@@ -2326,6 +2332,7 @@ class HIVModel(NetworkClass):
                     else: ident = "HIV-"
                     self.num_Deaths["Total"][sex_type] += 1
                     self.num_Deaths[ident][sex_type] += 1
+                    self.deathSet.append(agent)
                     ID_number = agent.get_ID()
                     race = agent._race
 

@@ -251,6 +251,7 @@ class PopulationClass():
         self.Trt_PrEPelig_agentSet = Agent_set(2,"PrePelig", parent=self.treatment_agentSet)
         self.Trt_ART_agentSet = Agent_set(2,"ART", parent=self.treatment_agentSet, numerator=self.HIV_agentSet)
         self.Trt_SNE_agentSet = Agent_set(2,"SNE", parent=self.treatment_agentSet)
+        self.Trt_MAT_agentSet = Agent_set(2, "MAT", parent=self.treatment_agentSet)
 
         # Sexual orientation agent sets
         self.SO_agentSet = Agent_set(1,"SO", parent=self.All_agentSet, numerator=self.All_agentSet)
@@ -623,18 +624,18 @@ class PopulationClass():
             HIV_time = 0
             TestedStatus = 0
 
+            if params.flag_PrEP:
+                if params.PrEP_startT == -1:
+                    prob_PrEP = params.PrEP_Target
+                else:
+                    prob_PrEP = 0.0
 
-            if params.PrEP_startT == -1:
-                prob_PrEP = params.PrEP_Target
-            else:
-                prob_PrEP = 0.0
-
-            if self.popRandom.random() < prob_PrEP:
-                PrEP_Status = 1
-                newAgent._PrEP_bool = True
-                newAgent._treatment_bool = True
-            else:
-                PrEP_Status = 0
+                if self.popRandom.random() < prob_PrEP:
+                    PrEP_Status = 1
+                    newAgent._PrEP_bool = True
+                    newAgent._treatment_bool = True
+                else:
+                    PrEP_Status = 0
 
         # #Incarceration
         # if DrugType == 'IDU':
@@ -679,6 +680,14 @@ class PopulationClass():
             newAgent._mean_num_partners = poisson.rvs(params.DemographicParams[Race][SexType]['NUMPartn'], size=1)
         #print "New agent: %s\t%s\t%s\tHIV:%d" % (Deliminator,DrugType,SexType,HIVStatus)
         #agent_dict = {'Race':Race,'Drug Type': DrugType,'Sex Type':SexType, 'HIV':HIVStatus, 'Tested':TestedStatus, 'AIDS':AIDSStatus, 'HAARTa':HAARTStatus, 'incar_t':incar_time,'HIV_t':HIV_time}
+
+        if self.popRandom.random() < params.DemographicParams[Race][SexType]['MATprev']:
+            newAgent._treatment_bool = True
+            if self.popRandom.random() < params.MATasOAT:
+                newAgent._OAT_bool = True
+            else:
+                newAgent._naltrex_bool = True
+
 
         return newAgent
 
