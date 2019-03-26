@@ -7,17 +7,17 @@ Main model parameters.
 
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
-rSeed_pop = 0           # seed for population RNG (0 for pure random, -1 for stepwise up to N_NC
-rSeed_net = 0
-rSeed_run = 0
+rSeed_pop = 1           # seed for population RNG (0 for pure random, -1 for stepwise up to N_NC
+rSeed_net = 1
+rSeed_run = 1
 N_MC = 1               # total number of iterations (Monte Carlo runs)
 N_REPS = 1
 N_POP = 5500           # population size
-TIME_RANGE = 168        # total time steps to iterate
+TIME_RANGE = 60        # total time steps to iterate
 burnDuration = 0
-model = 'Incar'         # Model Type for fast flag toggling
+model = 'Custom'         # Model Type for fast flag toggling
 network_type = 'scale_free' #scale_free or max_k_comp_size
-setting = 'Phil_Incar_2005_PrEP'
+setting = 'RI_OD_Morality'
 ####################
 
 
@@ -41,7 +41,7 @@ drawFigureColor = 'SO'
 Calibration scaling parameters for fitting to empirical data
 """
 
-PARTNERTURNOVER = 1.0/7.5         # Partner acquisition parameters (higher number more partnering)
+PARTNERTURNOVER = 0.0         # Partner acquisition parameters (higher number more partnering)
 cal_NeedlePartScaling = 0.90     # IDU partner number scaling
 cal_NeedleActScaling = 0.60      # IDU act frequency scaling factor
 cal_SexualPartScaling = 0.90     # Sexual partner number scaling factor
@@ -70,7 +70,7 @@ HR_F_dur = 0                #Duration of high risk for females
 Misc. params
 """
 
-flag_AssortativeMix = True     # Boolean for if assortative mixing occurs at all
+flag_AssortativeMix = False     # Boolean for if assortative mixing occurs at all
 AssortMixType = 'HR'            # Other assortative mixing types
 flag_AgeAssortMix = False       # Assortative mix by age
 flag_RaceAssortMix = False      # Assortative mix by race
@@ -193,8 +193,8 @@ elif model == 'Custom':
     flag_PrEP = False
     flag_HR = False
     flag_ART = False
-    flag_DandR = False
-    flag_staticN = True
+    flag_DandR = True
+    flag_staticN = False
     flag_agentZero = False
 
 agentPopulations = ['HM','HF']
@@ -236,72 +236,47 @@ RC_allTemplate = {  'Proportion':1.00,      #Proportion of total population that
 
 RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}, 'ALL':{}}
 RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}, 'ALL':{}}
-for a in ['MSM','HM','HF','PWID']:
+for a in ['MSM','HM','HF','IDU']:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
 incarProb = 0.0012
-RaceClass1['HM'].update({'POP':0.4150,
-                         'HIV':0.0369,
-                         'AIDS':0.6780,
-                         'HAARTprev':0.41,
-                         'INCARprev':0.0274,
-                         'TestedPrev':0.90,
-                         'NUMPartn':1.5,
-                         'NUMSexActs':5.0,
-                         'UNSAFESEX':0.89,
-                         'NEEDLESH':0.43,
-                         'HIVTEST':0.034,
-                         'INCAR':0.001,
-                         'HAARTadh':0.405,
-                         'HAARTdisc':0.000,
-                         'PrEPdisc':0.0000,
-                         'EligSE_PartnerType':['HF']
+RaceClass1['HM'].update({'POP': 0.60,
+                         'INCARprev': 0.0274,
+                         'INCAR': 0.001,
+                         'EligSE_PartnerType': ['HF']
                          })
 
-RaceClass1['HF'].update({'POP':0.5850,
-                         'HIV':0.01391,
-                         'AIDS':0.573,
-                         'HAARTprev':0.47,
-                         'INCARprev':0.000,
-                         'TestedPrev':0.90,
-                         'NUMPartn':1.5,
-                         'NUMSexActs':5.0,
-                         'UNSAFESEX':0.43,
-                         'NEEDLESH':0.43,
-                         'HIVTEST':0.034,
-                         'INCAR':0.00,
-                         'HAARTadh':0.405,
-                         'HAARTdisc':0.000,
-                         'PrEPdisc':PrEP_disc,
-                         'EligSE_PartnerType':['HM']
+RaceClass1['HF'].update({'POP': 0.40,
+                         'INCARprev': 0.000,
+                         'HighRiskPrev': 0.0,
+                         'INCAR': 0.00,
+                         'EligSE_PartnerType': ['HM']
                          })
 
-RaceClass1['IDU'].update({'POP':0.0173,
-                         'HIV':0.1500,
-                         'AIDS':0.6780,
-                         'HAARTprev':0.41,
-                         'INCARprev':0.0274,
-                         'TestedPrev':0.90,
-                         'NUMPartn':1.5,
-                         'NUMSexActs':5.0,
-                         'UNSAFESEX':0.89,
-                         'NEEDLESH':0.63,
-                         'HIVTEST':0.055,
-                         'INCAR':0.001,
-                         'HAARTadh':0.405,
-                         'HAARTdisc':0.000,
-                         'PrEPdisc':0.0000,
-                         'EligSE_PartnerType':['IDU']
-                         })
 
-RaceClass1['ALL'].update({'Proportion':1.818,
+
+RaceClass1['ALL'].update({'Proportion':0.818,
                           'HAARTdisc':0.018,
                          'PrEPdisc':0.0,
                          'AssortMixCoeff':1.0,
                           })
 
-RaceClass2['ALL'].update({'Proportion':0.181,
+RaceClass2['HM'].update({'POP': 0.80,
+                            'INCARprev': 0.000,
+                            'HighRiskPrev': 0.0,
+                            'INCAR': 0.00,
+                            'EligSE_PartnerType': ['HF']
+                            })
+
+RaceClass2['HF'].update({'POP': 0.20,
+                            'INCARprev': 0.000,
+                            'HighRiskPrev': 0.0,
+                            'INCAR': 0.00,
+                            'EligSE_PartnerType': ['HM']
+                            })
+
+RaceClass2['ALL'].update({'Proportion':0.182,
                         'HAARTdisc':0.018,
                         'PrEPdisc':0.0,
                         'AssortMixCoeff':1.0,
