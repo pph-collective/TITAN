@@ -333,6 +333,7 @@ class HIVModel(NetworkClass):
                 d. self._update_population()
                 e. self._reset_partner_count()
         """
+
         def getStats(t):
             self.filler = 0
             print_stats(self, self.runseed, t
@@ -480,7 +481,9 @@ class HIVModel(NetworkClass):
                 #     iterations=10, 
                 #     label=params.label)
             #todo: GET THIS TO THE NEW HIV COUNT
+
             print "\tSTARTING HIV count:%d\tTotal Incarcerated:%d\tHR+:%d\tPrEP:%d" % (self.HIV_agentSet.num_members(), self.incarcerated_agentSet.num_members(), self.highrisk_agentsSet.num_members(), self.Trt_PrEP_agentSet.num_members())
+            print("{trt} \t {oat} \t {nal}".format(trt=self.treatment_agentSet.num_members(), oat=len([a for a in self.treatment_agentSet._members.values() if a._OAT_bool == True]), nal=len([a for a in self.treatment_agentSet._members.values() if a._naltrex_bool == True])))
             #self.All_agentSet.print_agents()
             self.TimeStep = t
 
@@ -1550,6 +1553,7 @@ class HIVModel(NetworkClass):
             #get out if t=0
             if incar_t == 1: #FREE AGENT
                 self.incarcerated_agentSet.remove_agent(agent)
+                print(agent)
                 self.NewIncarRelease.add_agent(agent)
                 agent._incar_bool = False
                 agent._ever_incar_bool = True
@@ -2261,7 +2265,7 @@ class HIVModel(NetworkClass):
         # self.num_Deaths["HIV+"] = 0
         # self.num_Deaths["HIV-"] = 0
         #dynnetworkReport = open('Results/dynnetworkReport.txt', 'a')
-        for agent in self.All_agentSet._members:#iter_agents(): #self.Agents:
+        for agent in self.All_agentSet._members.values():#iter_agents(): #self.Agents:
 
             if agent._incar_bool:#self.IncarceratedClass.is_member(agent):
                 #print "Agent %d is incarcerated. Cannot die" % agent.get_ID()

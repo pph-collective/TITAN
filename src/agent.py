@@ -342,7 +342,7 @@ class Agent_set(Agent):
 
         # _members stores agent set members in a dictionary keyed by ID
         self._ID = ID
-        self._members = []
+        self._members = {}
         self._subset = {}
 
         # _parent_set stores the parent set if this set is a member of an
@@ -363,7 +363,7 @@ class Agent_set(Agent):
 
     def get_agents(self):
         #return self._members.values()
-        return self._members.__iter__()
+        return self._members.values().__iter__()
 
     def get_agent(self, ID):
         "Returns an agent given the agent's ID"
@@ -378,8 +378,9 @@ class Agent_set(Agent):
         #agent.print_agent()
         #if agent in self._members:
         #    raise KeyError("agent %s is already a member of agent set %s"%(agent.get_ID(), self._ID))
-        self._members.append(agent)
-        #self._members[agent.get_ID()] = agent
+        #self._members.append(agent)
+
+        self._members[agent.get_ID()] = agent
 
         # if self._subset: #if subsets exist, try to add the agent from those sets
         #     try:
@@ -401,16 +402,14 @@ class Agent_set(Agent):
             #print "agent %s has been removed from agent set %s"%(agent._ID, self.get_ID())
             #self._members.
         except:
-            print "agent %s is not a member of agent set %s"%(agent.get_ID(), self.get_ID())
-            agent.print_agent()
-            #self.print_agents()
-            exit(3)
-
+            # print "agent %s is not a member of agent set %s"%(agent.get_ID(), self.get_ID())
+            # agent.print_agent()
+            pass
 
         for tmpS in self.iter_subset():
             #tmpS.print_agents()
-            if tmpS.is_member(agent):
-                tmpS.remove_agent(agent)
+
+            tmpS.remove_agent(agent)
         # Reset the agent's _parent_agent
         #assert agent.get_parent_agent().get_ID() == self.get_ID(), "Removing agent from an Agent_set it does not appear to be assigned to."
         #agent.set_parent_agent(None)

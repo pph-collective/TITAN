@@ -338,8 +338,8 @@ class PopulationClass():
             agent_cl = self._return_new_Agent_class(agent,'BLACK')
             self.create_agent(agent_cl, 'BLACK')
 
-        prob_Incarc = params.DemographicParams['WHITE']['HM']['INCARprev']
-        for tmpA in self.All_agentSet._members:
+        prob_Incarc = params.DemographicParams['WHITE']['HM']['mNPart']
+        for tmpA in self.All_agentSet._members.values():
 
             dice = self.popRandom.random()
             prob_Incarc = params.DemographicParams[tmpA._race][tmpA._SO]['INCARprev']

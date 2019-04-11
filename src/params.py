@@ -7,9 +7,9 @@ Main model parameters.
 
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
-rSeed_pop = 0           # seed for population RNG (0 for pure random, -1 for stepwise up to N_NC
-rSeed_net = 0
-rSeed_run = 0
+rSeed_pop = 10           # seed for population RNG (0 for pure random, -1 for stepwise up to N_NC
+rSeed_net = 10
+rSeed_run = 10
 N_MC = 1               # total number of iterations (Monte Carlo runs)
 N_REPS = 1
 N_POP = 5500           # population size
@@ -62,7 +62,7 @@ cal_ptnrSampleDepth = 100       # Sampling depth for partnering algorithm.
 """
 High risk params
 """
-HR_partnerScale = 300       # Linear increase to partner number during HR period
+HR_partnerScale = 0       # Linear increase to partner number during HR period
 HR_proportion = 0.0         #Proportion of people who enter HR group when partner incarcerated
 HR_M_dur = 6                #Duration of high risk for males
 HR_F_dur = 0                #Duration of high risk for females
@@ -192,10 +192,10 @@ elif model == 'StaticZero':
 elif model == 'Custom':
     flag_incar = True
     flag_PrEP = False
-    flag_HR = False
+    flag_HR = True
     flag_ART = False
     flag_DandR = True
-    flag_staticN = False
+    flag_staticN = True
     flag_agentZero = False
 
 agentPopulations = ['HM','HF']
