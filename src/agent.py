@@ -100,6 +100,7 @@ class Agent(object):
         self._PrEP_lastDose = 0
 
         # agent high risk params
+        self._highrisk_type = None
         self._highrisk_bool = False
         self._highrisk_time = 0
         self._everhighrisk_bool = False
@@ -342,7 +343,7 @@ class Agent_set(Agent):
 
         # _members stores agent set members in a dictionary keyed by ID
         self._ID = ID
-        self._members = {}
+        self._members = []
         self._subset = {}
 
         # _parent_set stores the parent set if this set is a member of an
@@ -363,7 +364,7 @@ class Agent_set(Agent):
 
     def get_agents(self):
         #return self._members.values()
-        return self._members.values().__iter__()
+        return self._members.__iter__()
 
     def get_agent(self, ID):
         "Returns an agent given the agent's ID"
@@ -378,9 +379,8 @@ class Agent_set(Agent):
         #agent.print_agent()
         #if agent in self._members:
         #    raise KeyError("agent %s is already a member of agent set %s"%(agent.get_ID(), self._ID))
-        #self._members.append(agent)
-
-        self._members[agent.get_ID()] = agent
+        self._members.append(agent)
+        #self._members[agent.get_ID()] = agent
 
         # if self._subset: #if subsets exist, try to add the agent from those sets
         #     try:

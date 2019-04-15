@@ -334,6 +334,7 @@ class HIVModel(NetworkClass):
                 e. self._reset_partner_count()
         """
 
+
         def getStats(t):
             self.filler = 0
             print_stats(self, self.runseed, t
@@ -404,7 +405,7 @@ class HIVModel(NetworkClass):
             self.NewHRrolls.clear_set()
             self.NewIncarRelease.clear_set()
 
-            self.num_Deaths
+            #print(self.num_Deaths)
             self._reset_death_count()
             # getStats(0)
             print(" === Simulation Burn Complete ===")
@@ -466,7 +467,6 @@ class HIVModel(NetworkClass):
             fh.close()
         for t in range(1, self.tmax + 1):
             print '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME', t
-            #print "RANDOM CALL %d" %random.randint(0,100)
             if params.drawFigures and t%params.intermPrintFreq == 0:
                 #self.get_Graph.draw_histogram(0)
                 self.visualize_network(coloring=params.drawFigureColor, 
@@ -483,7 +483,7 @@ class HIVModel(NetworkClass):
             #todo: GET THIS TO THE NEW HIV COUNT
 
             print "\tSTARTING HIV count:%d\tTotal Incarcerated:%d\tHR+:%d\tPrEP:%d" % (self.HIV_agentSet.num_members(), self.incarcerated_agentSet.num_members(), self.highrisk_agentsSet.num_members(), self.Trt_PrEP_agentSet.num_members())
-            print("{trt} \t {oat} \t {nal}".format(trt=self.treatment_agentSet.num_members(), oat=len([a for a in self.treatment_agentSet._members.values() if a._OAT_bool == True]), nal=len([a for a in self.treatment_agentSet._members.values() if a._naltrex_bool == True])))
+            print("{trt} \t {oat} \t {nal}".format(trt=self.treatment_agentSet.num_members(), oat=len([a for a in self.treatment_agentSet._members if a._OAT_bool == True]), nal=len([a for a in self.treatment_agentSet._members if a._naltrex_bool == True])))
             #self.All_agentSet.print_agents()
             self.TimeStep = t
 
@@ -707,10 +707,7 @@ class HIVModel(NetworkClass):
 
                 if params.flag_ART:
                     self._initiate_HAART(agent, time)
-                    #hiv_t = agent_dict['HIV_t']
-                    #hiv_t += 1
                     agent._HIV_time += 1
-                    # self.tmp_Agents[agent].update({'HIV_t': hiv_t})
             else:
                 if params.flag_PrEP:
                     if time >= params.PrEP_startT:
@@ -1524,6 +1521,23 @@ class HIVModel(NetworkClass):
                 agent._SNE_bool = True
 
 
+    def _becomeHighRisk(self, agent, HRtype=None, duration=None):
+
+        if agent not in self.highrisk_agentsSet._members:
+            self.highrisk_agentsSet.add_agent(agent)
+        if not agent._everhighrisk_bool:
+            self.NewHRrolls.add_agent(agent)
+
+        #agent._mean_num_partners = agent._mean_num_partners + params.HR_partnerScale
+        agent._highrisk_bool = True
+        agent._everhighrisk_bool = True
+        agent._highrisk_type = HRtype
+
+        if duration != None:
+            agent._highrisk_time = duration
+        else:
+            agent._highrisk_time = params.HR_M_dur
+
 
 
     def _incarcerate(self, agent, time):
@@ -1553,41 +1567,53 @@ class HIVModel(NetworkClass):
             #get out if t=0
             if incar_t == 1: #FREE AGENT
                 self.incarcerated_agentSet.remove_agent(agent)
-                print(agent)
                 self.NewIncarRelease.add_agent(agent)
                 agent._incar_bool = False
                 agent._ever_incar_bool = True
-                if not agent._highrisk_bool and params.flag_HR:        #If behavioral treatment on and agent HIV, ignore HR period.
-                    if params.inc_treat_HRsex_beh and hiv_bool and (time >=params.inc_treatment_startdate):
-                        pass
-                    else:                           #Else, become high risk
-                        self.highrisk_agentsSet.add_agent(agent)
-                        if not agent._everhighrisk_bool:
-                            self.NewHRrolls.add_agent(agent)
-
-                        agent._mean_num_partners = agent._mean_num_partners + params.HR_partnerScale
-                        agent._highrisk_bool = True
-                        agent._everhighrisk_bool = True
-                        agent._highrisk_time = params.HR_M_dur
-
-
-                if (params.inc_treat_RIC or params.inc_treat_HRsex_beh or params.inc_treat_IDU_beh) and (time >=params.inc_treatment_startdate):
-                    agent._incar_treatment_time = params.inc_treatment_dur
-
-                if hiv_bool:
-                    if haart_bool:
-                        if self.runRandom.random() > params.inc_ARTdisc: #12% remain surpressed
+                if params.model == 'Incar':
+                    if not agent._highrisk_bool and params.flag_HR:        #If behavioral treatment on and agent HIV, ignore HR period.
+                        if params.inc_treat_HRsex_beh and hiv_bool and (time >=params.inc_treatment_startdate):
                             pass
+                        else:                           #Else, become high risk
+                            self.highrisk_agentsSet.add_agent(agent)
+                            if not agent._everhighrisk_bool:
+                                self.NewHRrolls.add_agent(agent)
 
-                        else:
-                            agent._HAART_bool = False
-                            agent._HAART_adh = 0
-                            self.Trt_ART_agentSet.remove_agent(agent)
+                            agent._mean_num_partners = agent._mean_num_partners + params.HR_partnerScale
+                            agent._highrisk_bool = True
+                            agent._everhighrisk_bool = True
+                            agent._highrisk_time = params.HR_M_dur
 
-                        ### END FORCE ####
+
+                    if (params.inc_treat_RIC or params.inc_treat_HRsex_beh or params.inc_treat_IDU_beh) and (time >=params.inc_treatment_startdate):
+                        agent._incar_treatment_time = params.inc_treatment_dur
+
+                    if hiv_bool:
+                        if haart_bool:
+                            if self.runRandom.random() > params.inc_ARTdisc: #12% remain surpressed
+                                pass
+
+                            else:
+                                agent._HAART_bool = False
+                                agent._HAART_adh = 0
+                                self.Trt_ART_agentSet.remove_agent(agent)
+
+                            ### END FORCE ####
+                elif params.model == 'Overdose':
+                    self._becomeHighRisk(agent, HRtype='postIncar', duration=12)
+                    if self.runRandom.random() < params.p_enroll_OAT_post_release:
+                        self._enter_drug_treatment(agent, trtType='OAT')
+                    elif self.runRandom.random() < params.p_enroll_Nal_post_release:
+                        self._enter_drug_treatment(agent, trtType='NAL')
+
 
         elif self.runRandom.random() < params.DemographicParams[race_type][sex_type]['INCAR'] * (1+(hiv_bool*4)) * params.cal_IncarP:
             toss = 2#random.choice( (1, 2) )
+            #M 61% for six months or less, 13% for six months to one year, 16% for 1-3 years, 4% for 3-5 years, 4% for 5-10 years
+            #F 22% for 6 months or less, 17% for 6mo-1 year, 24% for 1-3 years, 14% for 3-5 years 13% for 5-10years, 10% for 10+ years
+            jailDuration = {1:{}, 2:{}, 3:{}, 4:{}, 5:{}}
+            jailDuration[1] = {'p_value':(0.323 + 0.262), 'min':1, 'max':6}
+            jailDuration[2] = {'p_value':(0.323 + 0.262 + 0.116), 'min':7, 'max':12}
             if toss == 1: #JAIL
                 timestay = self.runRandom.randint(params.inc_JailMin, params.inc_JailMax) #int(random.triangular(8, 21, 15))
                 if hiv_bool and not tested:
@@ -1595,6 +1621,8 @@ class HIVModel(NetworkClass):
                         agent._tested = True #self.tmp_Agents[agent].update({'Tested': 1})
                         #self.HIVidentified_agents.append(agent)
 
+            #M 13% for 6 months or less, 8% for 6 mo-1year, 20% for 1-3 years, 11% for 3-5 years, 16% for 5-10 years, 30% for 10+ years
+            #F 74% for 6 months or less, 12% for 6 months to one year, 10% for one to three years, 4% for over three years
             else: #PRISON
                 timestay = self.runRandom.randint(params.inc_PrisMin, params.inc_PrisMax)
                 if hiv_bool:
@@ -1621,6 +1649,9 @@ class HIVModel(NetworkClass):
             agent._incar_time = timestay
             self.incarcerated_agentSet.add_agent(agent)
             self.totalIncarcerated += 1
+
+            if agent._treatment_bool and self.runRandom.random() < params.p_discont_trt_on_incar:
+                self._exit_drug_treatment(agent)
 
             #PUT PARTNERS IN HIGH RISK
             for tmpA in agent._partners:
@@ -1763,11 +1794,37 @@ class HIVModel(NetworkClass):
         """
         Agent exits drug treament.
         """
+
+        if agent._OAT_bool:
+            #agent._highrisk_type == 'postTrtOAT'
+            agent._OAT_bool = False
+            self._becomeHighRisk(agent,HRtype='postTrtOAT', duration=1)
+
+        if agent._naltrex_bool:
+            #agent._highrisk_type == 'postTrtNal'
+            agent._naltrex_bool = False
+            self._becomeHighRisk(agent,HRtype='postTrtNal', duration=1)
+
         agent._treatment_bool = False
         agent._treatment_time = 0
-        agent._OAT_bool = False
-        agent._naltrex_bool = False
         self.treatment_agentSet.remove_agent(agent)
+
+    def _enter_drug_treatment(self, agent, trtType=None):
+        agent._treatment_bool = True
+
+        if trtType == 'OAT':
+            agent._OAT_bool = True
+        elif trtType == 'NAL':
+            agent._naltrex_bool = True
+        elif self.runRandom.random() < params.MATasOAT:
+            agent._OAT_bool = True
+        else:
+            agent._naltrex_bool = True
+
+        try:
+            self.treatment_agentSet.add_agent(agent)
+        except:
+            print "agent %s is already a member of agent set %s" % (agent.get_ID(), targetSet.get_ID())
 
 
 
@@ -1794,21 +1851,11 @@ class HIVModel(NetworkClass):
         """
         #agent_drug_type = self.get_agent_characteristic(agent, 'Drug Type')
 
-        #N_TrSpots_Max = 100000  # max number of treatment spots
         if agent._treatment_bool:
             if (self.runRandom.random() < params.cal_MAT_disc_prob):
                 self._exit_drug_treatment(agent)
-        elif self.runRandom.random() < params.MATasOAT * params.MATProbScalar:
-            agent._treatment_bool = True
-            if self.runRandom.random() < params.MATasOAT:
-                agent._OAT_bool = True
-            else:
-                agent._naltrex_bool = True
-
-            try:
-                self.treatment_agentSet.add_agent(agent)
-            except:
-                print "agent %s is already a member of agent set %s" % (agent.get_ID(), targetSet.get_ID())
+        elif self.runRandom.random() < params.MATProbScalar:
+            self._enter_drug_treatment(agent)
         else:
             pass
 
@@ -2265,7 +2312,7 @@ class HIVModel(NetworkClass):
         # self.num_Deaths["HIV+"] = 0
         # self.num_Deaths["HIV-"] = 0
         #dynnetworkReport = open('Results/dynnetworkReport.txt', 'a')
-        for agent in self.All_agentSet._members.values():#iter_agents(): #self.Agents:
+        for agent in self.All_agentSet._members:#iter_agents(): #self.Agents:
 
             if agent._incar_bool:#self.IncarceratedClass.is_member(agent):
                 #print "Agent %d is incarcerated. Cannot die" % agent.get_ID()
@@ -2321,13 +2368,32 @@ class HIVModel(NetworkClass):
                 else:
                     raise ValueError("Invalid HIV type! %s" % str(HIV_status))
 
+                if agent._highrisk_bool:
+                    if agent._highrisk_type == 'postIncar':
+                        if params.HR_M_dur - agent._highrisk_time >= 3:
+                            p = p * params.p_mort_post_release_scalars[3]
+                        elif params.HR_M_dur - agent._highrisk_time == 2:
+                            p = p * params.p_mort_post_release_scalars[2]
+                        elif params.HR_M_dur - agent._highrisk_time <= 1:
+                            p = p * params.p_mort_post_release_scalars[1]
+                    elif agent._highrisk_type == 'postTrtOAT':
+                        p = p * params.p_mort_oat_postcess_scalar
+                    elif agent._highrisk_type == 'postTrtNal':
+                        p = p * params.p_mort_nalt_postcess_scalar
+
+
                 if agent._OAT_bool:
-                    p = p * 0.4
+                    p = p * params.p_mort_oat_scalar
                 elif agent._naltrex_bool:
-                    p = p * 0.2
+                    p = p * params.p_mort_nalt_scalar
+
+                # print("Unscaled mort p: {}".format(p))
                 p = p * params.cal_Mortality
-                p = p + time/2
+                # print("Scaled mort p: {}".format(p))
+                p = p + time/4
+                # print("Time sensitive mort p: {}".format(p))
                 p = p / 12000.0#12000.0 #putting it into per 1 person-month
+                # print("Final mort p: {}".format(p))
                 if self.runRandom.random() < p:
                     # print "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAgent %d died rolling under %.10lf" % (agent.get_ID(), p)
                     

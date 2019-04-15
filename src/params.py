@@ -12,10 +12,10 @@ rSeed_net = 10
 rSeed_run = 10
 N_MC = 1               # total number of iterations (Monte Carlo runs)
 N_REPS = 1
-N_POP = 5500           # population size
+N_POP = 55000           # population size
 TIME_RANGE = 60        # total time steps to iterate
 burnDuration = 60
-model = 'Custom'         # Model Type for fast flag toggling
+model = 'Overdose'         # Model Type for fast flag toggling
 network_type = 'scale_free' #scale_free or max_k_comp_size
 setting = 'RI_OD_Morality'
 ####################
@@ -51,7 +51,7 @@ cal_AcuteScaling = 4.3         # Infectivity multiplier ratio for Acute status i
 cal_RR_Dx = 0.53                # Risk reduction in transmission probability for agents diagnosed
 cal_RR_HAART = 1.0              # Scaling factor for effectiveness of ART therapy on xmission P
 cal_TestFreq = 0.70              # Scaling factor for testing frequency
-cal_Mortality = 10.0             # Scaling factor for all cause mortality rates
+cal_Mortality = 1.0             # Scaling factor for all cause mortality rates
 cal_ProgAIDS = 1.0              # Scaling factor for all progression to AIDS from HIV rates
 cal_ART_cov = 0.70               # Scaling factor for enrollment on ART probability
 cal_IncarP = 1.0                # Scaling factor for probability of becoming incarcerated
@@ -64,8 +64,8 @@ High risk params
 """
 HR_partnerScale = 0       # Linear increase to partner number during HR period
 HR_proportion = 0.0         #Proportion of people who enter HR group when partner incarcerated
-HR_M_dur = 6                #Duration of high risk for males
-HR_F_dur = 0                #Duration of high risk for females
+HR_M_dur = 13                #Duration of high risk for males post release
+HR_F_dur = 13               #Duration of high risk for females post release
 
 """
 Misc. params
@@ -84,7 +84,7 @@ treatmentCov = 0.0             # Prop that receive treatment
 Incarceration params
 """
 inc_JailMax = 22
-inc_JailMin = 8
+inc_JailMin = 1
 inc_JailTestProb = 0.69
 inc_PrisMax = 96
 inc_PrisMin = 45
@@ -105,12 +105,20 @@ inc_treat_RIC = False            # Force retention in care of ART therapy
 """
 IDU/NIDU Treatment params
 """
-p_mort_oat_scalar = 1.0
-p_mort_nalt_scalar = 1.0
-p_mort_oat_postcess_scalar = 1.0
-p_mort_nalt_postcess_scalar = 1.0
-prop_oat_community = 0.5
-prop_nalt_community = 0.5
+p_mort_oat_scalar = 0.4            # Prob mortatlity risk for on OAT
+p_mort_nalt_scalar = 0.2            # Prob mort risk for on naltrx
+p_mort_oat_postcess_scalar = 2.0    # Prob mortality risk post exit OAT
+p_mort_nalt_postcess_scalar = 8.0   # Prob mort risk post ext Naltx
+p_mort_post_release_scalars={1:20,  # Prob mort risk post release (1 timestep, 2 timestep, 3-HR dura)
+                             2:4,
+                             3:2}
+
+MATasOAT = 0.992                    # Percentage of MAT as OAT in community
+p_enroll_OAT_post_release = 0.0     # prob of enrolling OAT post release
+p_enroll_Nal_post_release = 0.6     # prob of enrolling naltx post release
+p_discont_trt_on_incar = 0.0        # Probability of exit trt upon incarceration
+
+
 
 
 """
@@ -189,6 +197,15 @@ elif model == 'StaticZero':
     flag_staticN = True
     flag_agentZero = True
 
+elif model == 'Overdose':
+    flag_incar = True
+    flag_PrEP = False
+    flag_HR = True
+    flag_ART = False
+    flag_DandR = True
+    flag_staticN = True
+    flag_agentZero = False
+
 elif model == 'Custom':
     flag_incar = True
     flag_PrEP = False
@@ -247,7 +264,6 @@ incarIDUProb = 0.08
 incarProbScalar = 0.01
 cal_MAT_disc_prob = 0.045
 MATProbScalar = 0.01
-MATasOAT = 0.992
 RaceClass1['HM'].update({'POP': 0.60,
                          'INCARprev': 0.08,
                          'INCAR': incarNIDUProb * incarProbScalar,
