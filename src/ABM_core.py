@@ -483,7 +483,7 @@ class HIVModel(NetworkClass):
             #todo: GET THIS TO THE NEW HIV COUNT
 
             print "\tSTARTING HIV count:%d\tTotal Incarcerated:%d\tHR+:%d\tPrEP:%d" % (self.HIV_agentSet.num_members(), self.incarcerated_agentSet.num_members(), self.highrisk_agentsSet.num_members(), self.Trt_PrEP_agentSet.num_members())
-            print("{trt} \t {oat} \t {nal}".format(trt=self.treatment_agentSet.num_members(), oat=len([a for a in self.treatment_agentSet._members if a._OAT_bool == True]), nal=len([a for a in self.treatment_agentSet._members if a._naltrex_bool == True])))
+            print("Trt:{trt} \t OAT:{oat} \t NAL:{nal}".format(trt=self.treatment_agentSet.num_members(), oat=len([a for a in self.treatment_agentSet._members if a._OAT_bool == True]), nal=len([a for a in self.treatment_agentSet._members if a._naltrex_bool == True])))
             #self.All_agentSet.print_agents()
             self.TimeStep = t
 
@@ -2111,7 +2111,7 @@ class HIVModel(NetworkClass):
             if params.PrEP_clinic_cat == 'Racial' and agent_race == 'BLACK':
                 if self.runRandom.random() < params.PrEP_Target:
                     _enrollPrEP(self, agent)
-            elif numPrEP_agents < target_PrEP and time >= params.PrEP_startT:
+            elif numPrEP_agents < target_PrEP and time >= params.PrEP_startT and self._PrEP_elligible(agent, time):
                 #print 'Agent%d added from PrEP'%(agent._ID)
                 _enrollPrEP(self, agent)
             
