@@ -2,7 +2,7 @@
 
 #Read in source code path, then shift for optargs
 version="0.92c"
-titanPath="/gpfs/data/bm8/TITAN/TITAN/"
+titanPath="/gpfs/data/bm8/sbessey/OD_Modelling/"
 settingPath="$1"
 shift
 
@@ -14,7 +14,7 @@ date=`date +%Y-%m-%d-T%H-%M-%S`
 srcCode="${titanPath}src/"
 parentPath="Module_$setting/"
 jobname=Analysis_$setting_$date
-outPath="$HOME/scratch/$parentPath"
+outPath="$HOME/data/shared/$parentPath"
 user=${USER}
 jobid="JA";
 cores=1

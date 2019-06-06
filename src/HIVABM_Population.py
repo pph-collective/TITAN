@@ -337,7 +337,14 @@ class PopulationClass():
         for agent in self.Black_agents:
             agent_cl = self._return_new_Agent_class(agent,'BLACK')
             self.create_agent(agent_cl, 'BLACK')
-
+        #jail stock duration?
+        jailDuration = {1:{}, 2:{}, 3:{}, 4:{}, 5:{}, 6:{}}
+        jailDuration[1] = {'p_value':(0.14), 'min':1, 'max':13}
+        jailDuration[2] = {'p_value':(0.09), 'min':13, 'max':26}
+        jailDuration[3] = {'p_value':(0.20), 'min':26, 'max':78}
+        jailDuration[4] = {'p_value':(0.11), 'min':78, 'max':130}
+        jailDuration[5] = {'p_value':(0.16), 'min':130, 'max':260}
+        jailDuration[6] = {'p_value':(0.30), 'min':260, 'max':520}
         prob_Incarc = params.DemographicParams['WHITE']['HM']['mNPart']
         for tmpA in self.All_agentSet._members:
 
@@ -351,7 +358,12 @@ class PopulationClass():
                     tmpA._incar_time = int(self.popRandom.triangular(1, 9, 3))
                 else: #PRISON
                     tmpA._incar_bool = True
-                    tmpA._incar_time = int(self.popRandom.triangular(1, params.inc_PrisMax, int(params.inc_PrisMax/3))) #self.popRandom.randint(params.inc_PrisMin, params.inc_PrisMax)
+                    durationBin = current_p_value = 0
+                    p = self.popRandom.random()
+                    while(p > current_p_value):
+                        durationBin += 1
+                        current_p_value += jailDuration[durationBin]['p_value']
+                    timestay = self.popRandom.randint(jailDuration[durationBin]['min'], jailDuration[durationBin]['max'])
                 # self.incarcerated_agentsClass.add_agent(tmpA)
                 self.incarcerated_agentSet.add_agent(tmpA)
             #self.totalAgentClass._subset["Incar"].add_agent(agent_cl)

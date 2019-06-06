@@ -111,18 +111,36 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
     femaleReport = open('results/FemaleReport.txt', 'a')
     maleReport = open('results/MaleReport.txt', 'a')
     msmReport = open('results/MSMReport.txt', 'a')
-
-
+    nalReport = open('results/nalReport.txt','a')
+    oatReport = open('results/oatReport.txt','a')
+    peopleOff = open('results/peopleOff.txt','a')
     whiteReport = open('results/W_pop_report.txt', 'a')
     blackReport = open('results/B_pop_report.txt', 'a')
     num_SEP = 0
+
+    OAT_IDU_F = 0
+    OAT_IDU_M = 0
+    OAT_NIDU_F = 0
+    OAT_NIDU_M = 0
+    Naltrex_NIDU_M = 0
+    Naltrex_NIDU_F = 0
+    Naltrex_IDU_M = 0
+    Naltrex_IDU_F = 0
+    DOC_OAT_M =0
+    DOC_OAT_F = 0
+    DOC_Naltrex_M = 0
+    DOC_Naltrex_F = 0
+
 
     newHR_HM = 0
     newHR_HIV_HM = 0
     newHR_AIDS_HM = 0
     newHR_Tested_HM = 0
     newHR_ART_HM = 0
-
+    off_HF = 0
+    off_HM = 0
+    kickOff_HF = 0
+    kickOff_HM = 0
     newHR_HF = 0
     newHR_HIV_HF = 0
     newHR_AIDS_HF = 0
@@ -177,6 +195,52 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
         if tmpA._everhighrisk_bool:rsltdic[tmpA._race][tmpA._SO]['inf_HRever'] += 1
         if tmpA._highrisk_bool:rsltdic[tmpA._race][tmpA._SO]['inf_HR6m'] += 1
 
+    # MAT statistics
+    for tmpA in totalAgents.iter_agents():
+        if tmpA._OAT_bool:
+            if tmpA._race == 'WHITE':
+                if tmpA._SO =='HM':
+                    OAT_NIDU_M += 1
+                elif tmpA._SO =='HF':
+                    OAT_NIDU_F += 1
+            if tmpA._race == 'BLACK':
+                if tmpA._SO =='HM':
+                    OAT_IDU_M += 1
+                elif tmpA._SO =='HF':
+                    OAT_IDU_F += 1
+        if tmpA._naltrex_bool:
+            if tmpA._race == 'WHITE':
+                if tmpA._SO == 'HM':
+		    Naltrex_NIDU_M += 1
+		elif tmpA._SO == 'HF':
+		    Naltrex_NIDU_F += 1
+            if tmpA._race == 'BLACK':
+                if tmpA._SO == 'HM':
+                    Naltrex_IDU_M += 1
+                elif tmpA._SO == 'HF':
+                    Naltrex_IDU_F += 1
+
+    for tmpA in totalAgents.iter_agents():
+        if tmpA._DOC_OAT_bool:
+	    if tmpA._SO == 'HM':
+		DOC_OAT_M += 1
+	    elif tmpA._SO == 'HF':
+		DOC_OAT_F += 1
+	if tmpA._DOC_NAL_bool:
+	    if tmpA._SO == 'HM':
+		DOC_Naltrex_M += 1
+	    elif tmpA._SO == 'HF':
+		DOC_Naltrex_F += 1
+        if tmpA._kickOff:
+            if tmpA._SO == 'HM':
+                kickOff_HM += 1
+            if tmpA._SO == 'HF':
+                kickOff_HF += 1
+ 	elif tmpA._off:
+            if tmpA._SO == 'HM':
+                off_HM += 1
+            if tmpA._SO == 'HF':
+                off_HF += 1
     #Newly diagnosed tracker statistics
     for tmpA in NewDiagnosis.iter_agents():
         rsltdic[tmpA._race][tmpA._SO]['newlyTested'] += 1
@@ -230,11 +294,10 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
     deaths_HM = deaths["Total"]["HM"]
     deaths_MSM = deaths["Total"]["MSM"]
     deaths_HF = deaths["Total"]["HF"]
-    deaths_HIV_total = deaths["HIV+"]["HM"]+deaths["HIV+"]["HF"]+deaths["HIV+"]["MSM"]
-    deaths_HIV_HM = deaths["HIV+"]["HM"]
-    deaths_HIV_MSM = deaths["HIV+"]["MSM"]
-    deaths_HIV_HF = deaths["HIV+"]["HF"]
-
+    deaths_HIV_total = deaths["HR"]["HM"]+deaths["HR"]["HF"]+deaths["HR"]["MSM"]
+    deaths_HIV_HM = deaths["HR"]["HM"]
+    deaths_HIV_MSM = deaths["HR"]["MSM"]
+    deaths_HIV_HF = deaths["HR"]["HF"]
 
 
     W_rslts = rsltdic["WHITE"]
@@ -417,6 +480,32 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
             tot_rsltdic['ALL']['MSM']['deaths'],
             tot_rsltdic['ALL']['MSM']['numPrEP'])))
 
+    nalReport.write(
+	"%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+	    self.runseed,
+	    self.popseed,
+	    self.netseed,
+	    t,
+	    Naltrex_NIDU_M,
+	    Naltrex_NIDU_F,
+	    Naltrex_IDU_M,
+	    Naltrex_IDU_F,
+	    DOC_Naltrex_M,
+	    DOC_Naltrex_F))
+    oatReport.write(
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+            self.runseed,
+            self.popseed,
+            self.netseed,
+            t,
+            OAT_NIDU_M,
+            OAT_NIDU_F,
+            OAT_IDU_M,
+            OAT_IDU_F,
+            DOC_OAT_M,
+            DOC_OAT_F))
+
+    peopleOff.write("%d\t%d\t%d\t%d\t%d\t%d\n" % (self.netseed, t,off_HM,off_HF,kickOff_HM,kickOff_HF))
 
     # msmReport.write(("%d,%s,%3.2f,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n" % (rseed,params.PrEP_type,params.PrEP_Target,t, totalAgents._subset["MSM"].num_members(), numHIV_MSM, numAIDS_MSM, numTested_MSM, numART_MSM, numToMSM, infMSM_HR6m,
     # infMSM_HRever, numNewlyTested_MSM, deaths_HIV_MSM, PrEPAgents.num_members())))

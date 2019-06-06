@@ -63,7 +63,6 @@ def main():
     wct = []                                 # wall clock times
     open_outputs()
 
-
     #read_classifier_dict()
     for single_sim in range(params.N_MC):
         outfile_dir = os.path.join(os.getcwd(),
@@ -129,6 +128,8 @@ def main():
     #plt.show(block=True)
 
 def open_outputs():
+    off = 0
+    kickoff = 0
     # dynReport = open('results/dynnetworkReport.txt','w')
     # dynReport.write('')
     # dynReport.close()
@@ -146,6 +147,14 @@ def open_outputs():
         tmpReport.write("rseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\n")
         #whiteReport.write("0,0,0,0,0\n")
         tmpReport.close()
+
+    nalReport = open('results/nalReport.txt','w')
+    nalReport.write("rseed\tpseed\tnseed\tt\tNIDU_M\tNIDU_F\tIDU_M\tIDU_F\tDOC_M\tDOC_F\n")
+    nalReport.close()
+
+    oatReport = open('results/oatReport.txt','w')
+    oatReport.write("rseed\tpseed\tnseed\tt\tNIDU_M\tNIDU_F\tIDU_M\tIDU_F\tDOC_M\tDOC_F\n")
+    oatReport.close()
 
     # component report file creation
     name = 'componentReport_ALL'

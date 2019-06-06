@@ -105,7 +105,6 @@ def clear_prof_data():
     global PROF_DATA
     PROF_DATA = {}
 
-
 class HIVModel(NetworkClass):
     """
     :Purpose:
@@ -241,7 +240,6 @@ class HIVModel(NetworkClass):
         # Computation runtime tic/tocs
         self.TIC = 0
         self.TOC = 0
-
 
         print("\tDictionary Read")
 
@@ -689,8 +687,7 @@ class HIVModel(NetworkClass):
                 # self._drug_cessation(agent, agent_drug_type)
                 #print("\tEnter/Exit Drug Treatment")
                 self._enter_and_exit_drug_treatment(agent, time)
-            
-
+            else: self._enter_and_exit_drug_treatment(agent,time)
             if agent_HIV_status:
                 if burn:
                     #print "Viral Load Reset"
@@ -1539,7 +1536,6 @@ class HIVModel(NetworkClass):
             agent._highrisk_time = params.HR_M_dur
 
 
-
     def _incarcerate(self, agent, time):
         """
         :Purpose:
@@ -1605,15 +1601,19 @@ class HIVModel(NetworkClass):
                         self._enter_drug_treatment(agent, trtType='OAT')
                     elif self.runRandom.random() < params.p_enroll_Nal_post_release:
                         self._enter_drug_treatment(agent, trtType='NAL')
-
+                    
 
         elif self.runRandom.random() < params.DemographicParams[race_type][sex_type]['INCAR'] * (1+(hiv_bool*4)) * params.cal_IncarP:
             toss = 2#random.choice( (1, 2) )
             #M 61% for six months or less, 13% for six months to one year, 16% for 1-3 years, 4% for 3-5 years, 4% for 5-10 years
             #F 22% for 6 months or less, 17% for 6mo-1 year, 24% for 1-3 years, 14% for 3-5 years 13% for 5-10years, 10% for 10+ years
-            jailDuration = {1:{}, 2:{}, 3:{}, 4:{}, 5:{}}
-            jailDuration[1] = {'p_value':(0.323 + 0.262), 'min':1, 'max':6}
-            jailDuration[2] = {'p_value':(0.323 + 0.262 + 0.116), 'min':7, 'max':12}
+            jailDuration = {1:{}, 2:{}, 3:{}, 4:{}, 5:{}, 6:{}}
+            jailDuration[1] = {'p_value':(0.23), 'min':1,'max':2}
+            jailDuration[2] = {'p_value':(0.60), 'min':1, 'max':13}
+            jailDuration[3] = {'p_value':(0.14), 'min':13, 'max':26}
+            jailDuration[4] = {'p_value':(0.14), 'min':26, 'max':78}
+            jailDuration[5] = {'p_value':(0.03), 'min':78, 'max':130}
+ 	    jailDuration[6] = {'p_value':(0.04), 'min':130, 'max':260}
             if toss == 1: #JAIL
                 timestay = self.runRandom.randint(params.inc_JailMin, params.inc_JailMax) #int(random.triangular(8, 21, 15))
                 if hiv_bool and not tested:
@@ -1624,7 +1624,13 @@ class HIVModel(NetworkClass):
             #M 13% for 6 months or less, 8% for 6 mo-1year, 20% for 1-3 years, 11% for 3-5 years, 16% for 5-10 years, 30% for 10+ years
             #F 74% for 6 months or less, 12% for 6 months to one year, 10% for one to three years, 4% for over three years
             else: #PRISON
-                timestay = self.runRandom.randint(params.inc_PrisMin, params.inc_PrisMax)
+                durationBin = current_p_value = 0
+                p = self.runRandom.random()
+                while(p > current_p_value):
+                    durationBin += 1
+                    current_p_value += jailDuration[durationBin]['p_value']
+                timestay = self.runRandom.randint(jailDuration[durationBin]['min'], jailDuration[durationBin]['max'])
+                #timestay = self.runRandom.randint(params.inc_PrisMin, params.inc_PrisMax)
                 if hiv_bool:
                     if not tested:
                         if self.runRandom.random() < params.inc_PrisTestProb:
@@ -1650,8 +1656,10 @@ class HIVModel(NetworkClass):
             self.incarcerated_agentSet.add_agent(agent)
             self.totalIncarcerated += 1
 
+
             if agent._treatment_bool and self.runRandom.random() < params.p_discont_trt_on_incar:
                 self._exit_drug_treatment(agent)
+                agent._kickOff =True
 
             #PUT PARTNERS IN HIGH RISK
             for tmpA in agent._partners:
@@ -1789,7 +1797,7 @@ class HIVModel(NetworkClass):
 
         return SEPstat
 
-
+    off = 0
     def _exit_drug_treatment(self, agent):
         """
         Agent exits drug treament.
@@ -1799,13 +1807,16 @@ class HIVModel(NetworkClass):
             #agent._highrisk_type == 'postTrtOAT'
             agent._OAT_bool = False
             self._becomeHighRisk(agent,HRtype='postTrtOAT', duration=1)
-
+	    agent._off = True
         if agent._naltrex_bool:
             #agent._highrisk_type == 'postTrtNal'
             agent._naltrex_bool = False
             self._becomeHighRisk(agent,HRtype='postTrtNal', duration=1)
+	    agent._off = True
 
         agent._treatment_bool = False
+        self._naltrex_bool = False
+        self._OAT_bool = False
         agent._treatment_time = 0
         self.treatment_agentSet.remove_agent(agent)
 
@@ -1850,15 +1861,28 @@ class HIVModel(NetworkClass):
             bool
         """
         #agent_drug_type = self.get_agent_characteristic(agent, 'Drug Type')
-
+        #SEB edits here
+        agent_race = agent._race
+        agent_so = agent._SO
+        MATProb=params.DemographicParams[agent_race][agent_so]['MATProbScalar']
+        discMATProb=params.DemographicParams[agent_race][agent_so]['MAT_disc_prob']
         if agent._treatment_bool:
-            if (self.runRandom.random() < params.cal_MAT_disc_prob):
+            if (self.runRandom.random() < discMATProb):#params.cal_MAT_disc_prob):
                 self._exit_drug_treatment(agent)
-        elif self.runRandom.random() < params.MATProbScalar:
+        elif self.runRandom.random() < MATProb:
             self._enter_drug_treatment(agent)
+        else: pass
+        '''elif agent._race == "BLACK":
+            if self.runRandom.random() < (params.MATProbScalar*6):
+                self._enter_drug_treatment(agent)
+            else:
+                pass
         else:
-            pass
-
+            if self.runRandom.random() < (params.MATProbScalar):
+                self._enter_drug_treatment(agent)
+            else:
+                pass
+       '''
 
     def _initiate_HAART(self, agent, time):
         """
@@ -2194,10 +2218,11 @@ class HIVModel(NetworkClass):
     def _reset_death_count(self):
         self.num_Deaths = {}
         self.deathSet = []
-        for HIV_status in ['Total','HIV-', 'HIV+']:
-            self.num_Deaths.update({HIV_status: {}})
-            for tmp_type in [HIV_status, 'MSM', 'HM', 'HF', 'WSW', 'MTF']:
-                self.num_Deaths[HIV_status].update({tmp_type: 0})
+        #for HIV_status in ['Total','HIV-', 'HIV+']:
+        for HR_status in ['Total','notHR','HR']:
+            self.num_Deaths.update({HR_status: {}})
+            for tmp_type in [HR_status, 'MSM', 'HM', 'HF', 'WSW', 'MTF']:
+                self.num_Deaths[HR_status].update({tmp_type: 0})
 
 
     def _remove_agent(self, agent):
@@ -2322,6 +2347,7 @@ class HIVModel(NetworkClass):
                 drug_type = agent._DU #self.get_agent_characteristic(agent, 'Drug Type')
                 sex_type = agent._SO #self.get_agent_characteristic(agent, 'Sex Type')
                 HIV_status = agent._HIV_bool #self.get_agent_characteristic(agent, 'HIV')
+                HR_status = agent._highrisk_bool
                 AIDSStatus = agent._AIDS_bool #self.get_agent_characteristic(agent, 'HIV')
                 agent_Race = agent._race #self.get_agent_characteristic(agent, 'Race')
                 #adherence =  self.AdherenceAgents[agent]
@@ -2390,16 +2416,18 @@ class HIVModel(NetworkClass):
                 # print("Unscaled mort p: {}".format(p))
                 p = p * params.cal_Mortality
                 # print("Scaled mort p: {}".format(p))
-                p = p + time/4
+                p = p + time/36
                 # print("Time sensitive mort p: {}".format(p))
-                p = p / 12000.0#12000.0 #putting it into per 1 person-month
+                p = p / 26000.0#12000.0 #putting it into per 1 person-month
                 # print("Final mort p: {}".format(p))
                 if self.runRandom.random() < p:
                     # print "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAgent %d died rolling under %.10lf" % (agent.get_ID(), p)
                     
                     totalDeaths += 1
-                    if HIV_status: ident = "HIV+"
-                    else: ident = "HIV-"
+                    if HR_status: ident = "HR"
+                    else: ident = "notHR"
+                    #if HIV_status: ident = "HIV+"
+                    #else: ident = "HIV-"
                     self.num_Deaths["Total"][sex_type] += 1
                     self.num_Deaths[ident][sex_type] += 1
                     self.deathSet.append(agent)
