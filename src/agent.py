@@ -40,6 +40,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *****************************************************************************
 """
 
+from __future__ import print_function
 class Agent(object):
     "Class for agent objects."
     def __init__(self, ID, SO, age, race, DU, initial_agent=False):
@@ -171,7 +172,7 @@ class Agent(object):
         "Pairs two agents to each other."
         if partner.get_ID() != self.get_ID():
             if partner in self._partners:
-                print "ASDF"#raise KeyError("Partner %s is already bonded with agent %s"%(partner.get_ID(), self._ID))
+                print("ASDF")#raise KeyError("Partner %s is already bonded with agent %s"%(partner.get_ID(), self._ID))
             #assert partner not in self._partners
 
             else:
@@ -200,10 +201,10 @@ class Agent(object):
 
     def print_agent(self):
         #print self.partner_list()
-        print "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s\t%s" % (self._ID, self._age, self._gender, self._SO, self._DU, self._race, self._HIV_bool,self._incar_bool)
+        print("\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s\t%s" % (self._ID, self._age, self._gender, self._SO, self._DU, self._race, self._HIV_bool,self._incar_bool))
 
     def print_agent_abridge(self):
-        print "\t%.6d\t%s\t%s\t%s"%(self._ID, self._gender, self._SO, self._DU)
+        print("\t%.6d\t%s\t%s\t%s"%(self._ID, self._gender, self._SO, self._DU))
 
     def vars(self):
         return "%.6d,%d,%s,%s,%s,%s,%s,%d,%d,%d,%s,%s,%s,%s\n" % (self._ID, self._age, self._gender, self._SO, self._DU, self._race, self._HIV_bool, len(self._partners), self._num_sex_partners, self._timeAlive, self._AIDS_bool, self._tested, self._PrEP_bool, self._incar_bool)
@@ -296,12 +297,12 @@ class Relationship(object):
 
     def print_rels(self):
         #print self.partner_list()
-        print "\t_____________ %s _____________" % self.get_ID()
-        print "\tID1\tID2\tSO\tRel\tDur\tSexA"
+        print("\t_____________ %s _____________" % self.get_ID())
+        print("\tID1\tID2\tSO\tRel\tDur\tSexA")
 
         for tmpA in self.iter_agents():
-            print tmpA
-        print "\t______________ END ______________"
+            print(tmpA)
+        print("\t______________ END ______________")
         #print "\t%.6d\t%.6d\t%s\t%s\t%d\t%d" % (self._ID1.get_ID(), self._ID2.get_ID(), self._SO, self._rel_type, self._duration, self._total_sex_acts)
 
     def vars(self):
@@ -460,20 +461,20 @@ class Agent_set(Agent):
         return self._parent_set
 
     def print_agents(self):
-        print "\t_____________ %s _____________" % self.get_ID()
-        print "\tID\tAge\tGdr\tSO\tDU\tRace\tHIV+\tPtnrs"
+        print("\t_____________ %s _____________" % self.get_ID())
+        print("\tID\tAge\tGdr\tSO\tDU\tRace\tHIV+\tPtnrs")
 
         for tmpA in self.iter_agents():
             tmpA.print_agent()
-        print "\t______________ END ______________"
+        print("\t______________ END ______________")
 
     def print_agents_abridged(self):
-        print "\t_________ %s _________" % self.get_ID()
-        print "\tID\tGdr\tSO\tDU"
+        print("\t_________ %s _________" % self.get_ID())
+        print("\tID\tGdr\tSO\tDU")
 
         for tmpA in self.iter_agents():
             tmpA.print_agent_abridge()
-        print "\t__________ END __________"
+        print("\t__________ END __________")
 
     def print_agents_to_file(self, time=None, overWrite="a", filename="Results/Tableau_Agent_Output_File.txt"):
         if overWrite=="a":
@@ -486,12 +487,12 @@ class Agent_set(Agent):
         open(filename, overWrite).write(agentList)
 
     def print_agent_relationshps(self):
-        print "\t_____________ %s _____________" % self.get_ID()
-        print "\tID1\t\tID2\t\tSO\tTy\tDur\tActs"
+        print("\t_____________ %s _____________" % self.get_ID())
+        print("\tID1\t\tID2\t\tSO\tTy\tDur\tActs")
 
         for tmpR in self._members:
             tmpR.print_rel()
-        print "\t______________ END ______________"
+        print("\t______________ END ______________")
 
     def print_agent_relationships_to_file(self, time=None, overWrite="a"):
         if overWrite=="a":
@@ -504,12 +505,12 @@ class Agent_set(Agent):
         open("Results/Tableau_Rel_Output_File.txt", overWrite).write(agentList)
 
     def print_subsets(self):
-        print "\t__________ %s __________" % self.get_ID()
-        print "\tID\t\tN\t\t%"
+        print("\t__________ %s __________" % self.get_ID())
+        print("\tID\t\tN\t\t%")
         for tmpS in self.iter_subset():
             if tmpS.num_members() > 0:
-                print "\t%-6s\t%-5d\t%.2f" % (tmpS._ID, tmpS.num_members(), (1.0*tmpS.num_members()/tmpS._numerator.num_members()))
+                print("\t%-6s\t%-5d\t%.2f" % (tmpS._ID, tmpS.num_members(), (1.0*tmpS.num_members()/tmpS._numerator.num_members())))
             for tmpSS in tmpS.iter_subset():
                 if tmpSS.num_members() > 0:
-                    print "\t-%-4s\t%-5d\t%.2f" % (tmpSS._ID, tmpSS.num_members(), (1.0*tmpSS.num_members()/tmpSS._numerator.num_members()))
-        print "\t______________ END ______________"
+                    print("\t-%-4s\t%-5d\t%.2f" % (tmpSS._ID, tmpSS.num_members(), (1.0*tmpSS.num_members()/tmpSS._numerator.num_members())))
+        print("\t______________ END ______________")

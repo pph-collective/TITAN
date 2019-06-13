@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+from __future__ import print_function
 __author__ = 'MaximilianKing'
 
 import matplotlib.pyplot as plt
@@ -16,7 +18,7 @@ while(num_agents>0):
     curPodN = random.randrange(2,lowerLim)
     num_agents -= curPodN
 
-    print graphNum, curPodN
+    print(graphNum, curPodN)
     if (curPodN == 2):
         tempG = nx.random_geometric_graph(curPodN, 1.0)
     else:
@@ -27,9 +29,9 @@ while(num_agents>0):
     #tempG.graph['ID']=graphNum
     G = nx.disjoint_union(G,tempG)
 
-print nx.number_of_nodes(G)
-print nx.number_connected_components(G)
-print nx.info(G)
+print(nx.number_of_nodes(G))
+print(nx.number_connected_components(G))
+print(nx.info(G))
 from networkx.algorithms import approximation
 
 components = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)
@@ -49,7 +51,7 @@ outfile.write("Average component size: {}\n".format(tot_nodes*1./nx.number_conne
 outfile.write("Maximum component size: {}\n".format(nx.number_of_nodes(bigG)))
 outfile.write("Degree Histogram: {}\n".format(nx.degree_histogram(G)))
 outfile.write("Graph density: {}\n".format(nx.density(G)))
-outfile.write("Average node degree centrality: {}\n".format(sum(centDict.values())/len(centDict.values())))
+outfile.write("Average node degree centrality: {}\n".format(sum(centDict.values())/len(list(centDict.values()))))
 #outfile.write("Average node connectivity: {}\n".format(nx.node_connectivity(G)))
 outfile.write("Average node clustering: {}\n".format(nx.average_clustering(G)))
 outfile.close()
@@ -68,7 +70,7 @@ for i in components:
     comps.append(len(i))
 #print np.histogram(comps, bins=np.arange(maxPodSize))
 
-print stats.describe(comps)
+print(stats.describe(comps))
 
 import matplotlib.pyplot as plt
 plt.hist(comps, bins='auto')  # arguments are passed to np.histogram

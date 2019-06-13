@@ -40,6 +40,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 # Imports
+from __future__ import absolute_import
+from __future__ import print_function
 import random
 from random import Random
 #from copy import deepcopy, copy
@@ -51,6 +53,8 @@ import collections
 from scipy.stats import binom
 from scipy.stats import poisson
 from functools import wraps
+import six
+from six.moves import range
 
 try:
     from HIVABM_Population import PopulationClass, print_population
@@ -59,17 +63,17 @@ except ImportError:
 
 try:
     from network_graph_tools import *
-except ImportError, e:
+except ImportError as e:
     raise ImportError("Can't import network_graph_tools! %s" % str(e))
 
 try:
     from ABM_partnering import *
-except ImportError, e:
+except ImportError as e:
     raise ImportError("Can't import ABM_partnering! %s" % str(e))
 
 try:
     from analysis_output import * #assessment_lib import *   #OLD FILE
-except ImportError, e:
+except ImportError as e:
     raise ImportError("Can't import analysis_output! %s" % str(e))
 
 
@@ -98,8 +102,8 @@ def print_prof_data():
     for fname, data in PROF_DATA.items():
         max_time = max(data[1])
         avg_time = sum(data[1]) / len(data[1])
-        print "Function %s called %d times. " % (fname, data[0])
-        print '\tExecution time max: %.3f, average: %.3f, total %.3f' % (max_time, avg_time, sum(data[1]))
+        print("Function %s called %d times. " % (fname, data[0]))
+        print('\tExecution time max: %.3f, average: %.3f, total %.3f' % (max_time, avg_time, sum(data[1])))
 
 def clear_prof_data():
     global PROF_DATA
@@ -306,11 +310,11 @@ class HIVModel(NetworkClass):
         # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed value
         
 
-        print "\tRun seed was set to:", runseed
+        print("\tRun seed was set to:", runseed)
         self.runRandom = Random(runseed)
         random.seed(self.runseed)
         np.random.seed(self.runseed)
-        print "\tFIRST RANDOM CALL %d" %random.randint(0,100)
+        print("\tFIRST RANDOM CALL %d" %random.randint(0,100))
 
         print("\tReseting death count")
         self._reset_death_count()  # Number of death
@@ -389,7 +393,7 @@ class HIVModel(NetworkClass):
 
 
         def burnSimulation(burnDuration):
-            print("\n === Burn Initiated for {} timesteps ===".format(burnDuration+1))
+            print(("\n === Burn Initiated for {} timesteps ===".format(burnDuration+1)))
             for t in range(0, burnDuration + 1):
                 # print '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: BURN', t
                 self._update_AllAgents(t, burn=True)
@@ -399,7 +403,7 @@ class HIVModel(NetworkClass):
                     self._die_and_replace(t)
 
             # self.All_agentSet.print_subsets()
-            print "\tBurn Cuml Inc:\t{}".format(self.NewInfections.num_members())
+            print("\tBurn Cuml Inc:\t{}".format(self.NewInfections.num_members()))
             self.NewInfections.clear_set()
             self.NewDiagnosis.clear_set()
             self.NewHRrolls.clear_set()
@@ -461,12 +465,12 @@ class HIVModel(NetworkClass):
         #     self.runRandom.seed()
 
         if params.drawEdgeList:
-            print "Drawing network edge list to file"
+            print("Drawing network edge list to file")
             fh=open("results/network/Edgelist_t{}.txt".format(0),'wb')
             self.write_G_edgelist(fh)
             fh.close()
         for t in range(1, self.tmax + 1):
-            print '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME', t
+            print('\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME', t)
             if params.drawFigures and t%params.intermPrintFreq == 0:
                 #self.get_Graph.draw_histogram(0)
                 self.visualize_network(coloring=params.drawFigureColor, 
@@ -482,8 +486,8 @@ class HIVModel(NetworkClass):
                 #     label=params.label)
             #todo: GET THIS TO THE NEW HIV COUNT
 
-            print "\tSTARTING HIV count:%d\tTotal Incarcerated:%d\tHR+:%d\tPrEP:%d" % (self.HIV_agentSet.num_members(), self.incarcerated_agentSet.num_members(), self.highrisk_agentsSet.num_members(), self.Trt_PrEP_agentSet.num_members())
-            print("{trt} \t {oat} \t {nal}".format(trt=self.treatment_agentSet.num_members(), oat=len([a for a in self.treatment_agentSet._members if a._OAT_bool == True]), nal=len([a for a in self.treatment_agentSet._members if a._naltrex_bool == True])))
+            print("\tSTARTING HIV count:%d\tTotal Incarcerated:%d\tHR+:%d\tPrEP:%d" % (self.HIV_agentSet.num_members(), self.incarcerated_agentSet.num_members(), self.highrisk_agentsSet.num_members(), self.Trt_PrEP_agentSet.num_members()))
+            print(("{trt} \t {oat} \t {nal}".format(trt=self.treatment_agentSet.num_members(), oat=len([a for a in self.treatment_agentSet._members if a._OAT_bool == True]), nal=len([a for a in self.treatment_agentSet._members if a._naltrex_bool == True]))))
             #self.All_agentSet.print_agents()
             self.TimeStep = t
 
@@ -501,7 +505,7 @@ class HIVModel(NetworkClass):
                 self._die_and_replace(t)
 
             #print "\t\tENDING HIV count:%2.2f\tIncarcerated:%d\tHR+:%d"%(self.All_agentSet._subset["HIV"].num_members()/self.All_agentSet.num_members(), self.IncarceratedClass.num_members(),self.PrEP_agents_class.num_members()) #,self.HighriskClass.num_members())
-            print "Number of relationships: %d"%self.Relationships.num_members()
+            print("Number of relationships: %d"%self.Relationships.num_members())
             tested = len([tmpA for tmpA in self.HIV_agentSet._members if tmpA._tested])
             # print "Number tested: %d\t%.2f"%(tested, 1.0*tested/max(1,self.HIV_agentSet.num_members()))
             self.All_agentSet.print_subsets()
@@ -532,7 +536,7 @@ class HIVModel(NetworkClass):
 
             #If set to draw the edge list, print list at each timestep
             if params.drawEdgeList and t%params.intermPrintFreq ==0:
-                print "Drawing network edge list to file"
+                print("Drawing network edge list to file")
                 fh=open("results/network/Edgelist_t{}.txt".format(t),'wb')
                 self.write_G_edgelist(fh)
                 fh.close()
@@ -540,7 +544,7 @@ class HIVModel(NetworkClass):
             #self.get_Graph.draw_histogram()
             #print self.get_Graph.stat_connectivity()
 
-            print(t%params.intermPrintFreq)
+            print((t%params.intermPrintFreq))
             if t%params.intermPrintFreq == 0:
                 if params.calcNetworkStats:
                     self.write_network_stats(t=t)
@@ -740,7 +744,7 @@ class HIVModel(NetworkClass):
                 # elif self._PrEP_elligible(agent, time):
                 #     self._initiate_PrEP(agent, time)
             elif params.PrEP_target_model == 'RandomTrial' and time == params.PrEP_startT:
-                print "Starting random trial"
+                print("Starting random trial")
                 components = sorted(nx.connected_component_subgraphs(self.G), key=len, reverse=True)
                 totNods = 0
                 for comp in components:
@@ -752,7 +756,7 @@ class HIVModel(NetworkClass):
                                 ag._treatment_bool = True
                                 if self.runRandom.random() < params.PrEP_Target:
                                     self._initiate_PrEP(ag, time, force=True)
-                print "Total agents in trial: ",totNods
+                print("Total agents in trial: ",totNods)
         #print("\t\t !!!! ALL AGENTS UPDATED !!!\n")
 
 
@@ -1511,7 +1515,7 @@ class HIVModel(NetworkClass):
             agent : int
 
         """
-        print("\n\n!!!!Engaginge treatment process: %d"%time)
+        print(("\n\n!!!!Engaginge treatment process: %d"%time))
         self.treatmentEnrolled = True
         for agent in self.All_agentSet.iter_agents():#self.Agents: #NEW METHOD
             #agent.print_agent()
@@ -1824,7 +1828,7 @@ class HIVModel(NetworkClass):
         try:
             self.treatment_agentSet.add_agent(agent)
         except:
-            print "agent %s is already a member of agent set %s" % (agent.get_ID(), targetSet.get_ID())
+            print("agent %s is already a member of agent set %s" % (agent.get_ID(), targetSet.get_ID()))
 
 
 
@@ -1878,11 +1882,11 @@ class HIVModel(NetworkClass):
 
         # Check valid input
         if not agent._HIV_bool:
-            print "HIV_agents: ", sorted(self.HIV_agents)
-            print "tmp_HIV_agents: ", sorted(self.tmp_HIV_agents)
-            print "Agent[agent]", self.Agents[agent]
+            print("HIV_agents: ", sorted(self.HIV_agents))
+            print("tmp_HIV_agents: ", sorted(self.tmp_HIV_agents))
+            print("Agent[agent]", self.Agents[agent])
             try:
-                print "tmp_Agent[agent]", self.tmp_Agents[agent]
+                print("tmp_Agent[agent]", self.tmp_Agents[agent])
             except KeyError:
                 pass
             raise ValueError("HAART only valid for HIV agents!agent:%s" %
@@ -2076,12 +2080,12 @@ class HIVModel(NetworkClass):
 
 
         if agent == None:
-            print "OHHH boi no prep agent"
+            print("OHHH boi no prep agent")
             return None
         # Check valid input
         #agent.print_agent()
         if agent._PrEP_bool:
-            print agent._PrEP_bool
+            print(agent._PrEP_bool)
             return None
             raise ValueError("PrEP only valid for agents not on PrEP!agent:%d" % agent.get_ID())
 
@@ -2142,11 +2146,11 @@ class HIVModel(NetworkClass):
                 elligiblePool.remove(selected)
                 return selected
             else:
-                print "Looking for agent with min:%d and max %d failed %d times"%(minNum, maxNum,iterations)
+                print("Looking for agent with min:%d and max %d failed %d times"%(minNum, maxNum,iterations))
                 iterations += 1
                 #print "Looking in another subsetK"
 
-        print "No suitable PrEP agent"
+        print("No suitable PrEP agent")
         #raise ValueError("No suitable PrEP agent")
         return None
 
@@ -2622,19 +2626,19 @@ class HIVModel(NetworkClass):
         count_IDU = 0
         count_HIV = 0
         count_AIDS = 0
-        for (agent, d) in self.Agents.iteritems():
+        for (agent, d) in six.iteritems(self.Agents):
             agent_dict = d
             # Sex type
             sex_type = agent_dict['Sex Type']
             if sex_type == 'HF':
                 if agent not in self.HF_agents:
-                    print self.Agents[agent]
+                    print(self.Agents[agent])
                     raise ValueError("Check agents HF Sex type %d" % agent)
                 else:
                     count_HF += 1
             elif sex_type == 'HM':
                 if agent not in self.HM_agents:
-                    print self.Agents[agent]
+                    print(self.Agents[agent])
                     raise ValueError("Check agents HM Sex type %d" % agent)
                 else:
                     count_HM += 1
@@ -2645,7 +2649,7 @@ class HIVModel(NetworkClass):
                     count_MSM += 1
             elif sex_type == 'WSW':
                 if agent not in self.WSW_agents:
-                    print self.Agents[agent]
+                    print(self.Agents[agent])
                     raise ValueError("Check agents WSW Sex type %d" % agent)
                 else:
                     count_WSW += 1
@@ -2656,19 +2660,19 @@ class HIVModel(NetworkClass):
             drug_type = agent_dict['Drug Type']
             if drug_type == 'ND':
                 if agent not in self.ND_agents:
-                    print self.Agents[agent]
+                    print(self.Agents[agent])
                     raise ValueError("Check agents ND Drug type %d" % agent)
                 else:
                     count_ND += 1
             elif drug_type == 'NIDU':
                 if agent not in self.NIDU_agents:
-                    print self.Agents[agent]
+                    print(self.Agents[agent])
                     raise ValueError("Check agents NIDU Drug type %d" % agent)
                 else:
                     count_NIDU += 1
             elif drug_type == 'IDU':
                 if agent not in self.IDU_agents:
-                    print self.Agents[agent]
+                    print(self.Agents[agent])
                     raise ValueError("Check agents IDU Drug type %d" % agent)
                 else:
                     count_IDU += 1
@@ -2679,7 +2683,7 @@ class HIVModel(NetworkClass):
             HIVstatus = agent_dict['HIV']
             if HIVstatus != 0:
                 if agent not in self.HIV_agents:
-                    print self.Agents[agent]
+                    print(self.Agents[agent])
                     raise ValueError("Check agent HIV %d" % agent)
                 else:
                     count_HIV += 1
@@ -2687,7 +2691,7 @@ class HIVModel(NetworkClass):
             AIDSstatus = agent_dict['AIDS']
             if AIDSstatus != 0:
                 if agent not in self.AIDS_agents:
-                    print self.Agents[agent]
+                    print(self.Agents[agent])
                     raise ValueError("Check agent AIDS %d" % agent)
                 else:
                     count_AIDS += 1
@@ -2695,8 +2699,8 @@ class HIVModel(NetworkClass):
         if len(self.HF_agents) != count_HF:
             raise ValueError("self.HF agents contains too many agents!")
         if len(self.HM_agents) != count_HM:
-            print "len(self.HM_agents)=%d" % len(self.HM_agents)
-            print "count_HM=%d" % count_HM
+            print("len(self.HM_agents)=%d" % len(self.HM_agents))
+            print("count_HM=%d" % count_HM)
             raise ValueError("self.HM agents contains too many agents!")
         if len(self.MSM_agents) != count_MSM:
             raise ValueError("self.MSM agents contains too many agents!")
@@ -2729,31 +2733,31 @@ class HIVModel(NetworkClass):
         count_IDU = 0
         count_HIV = 0
         count_AIDS = 0
-        for (agent, d) in self.tmp_Agents.iteritems():
+        for (agent, d) in six.iteritems(self.tmp_Agents):
             agent_dict = d
             # Sex type
             sex_type = agent_dict['Sex Type']
             if sex_type == 'HF':
                 if agent not in self.tmp_HF_agents:
-                    print self.tmp_Agents[agent]
+                    print(self.tmp_Agents[agent])
                     raise ValueError("Check tmp_agents Sex type %d" % agent)
                 else:
                     count_HF += 1
             elif sex_type == 'HM':
                 if agent not in self.tmp_HM_agents:
-                    print self.tmp_Agents[agent]
+                    print(self.tmp_Agents[agent])
                     raise ValueError("Check tmp_agents Sex type %d" % agent)
                 else:
                     count_HM += 1
             elif sex_type == 'MSM':
                 if agent not in self.tmp_MSM_agents:
-                    print self.tmp_Agents[agent]
+                    print(self.tmp_Agents[agent])
                     raise ValueError("Check tmp_agents Sex type %d" % agent)
                 else:
                     count_MSM += 1
             elif sex_type == 'WSW':
                 if agent not in self.tmp_WSW_agents:
-                    print self.tmp_Agents[agent]
+                    print(self.tmp_Agents[agent])
                     raise ValueError("Check tmp_agents Sex type %d" % agent)
                 else:
                     count_WSW += 1
@@ -2764,19 +2768,19 @@ class HIVModel(NetworkClass):
             drug_type = agent_dict['Drug Type']
             if drug_type == 'ND':
                 if agent not in self.tmp_ND_agents:
-                    print self.tmp_Agents[agent]
+                    print(self.tmp_Agents[agent])
                     raise ValueError("Check tmp_agents Drug type %d" % agent)
                 else:
                     count_ND += 1
             elif drug_type == 'NIDU':
                 if agent not in self.tmp_NIDU_agents:
-                    print self.tmp_Agents[agent]
+                    print(self.tmp_Agents[agent])
                     raise ValueError("Check tmp_agents Drug type %d" % agent)
                 else:
                     count_NIDU += 1
             elif drug_type == 'IDU':
                 if agent not in self.tmp_IDU_agents:
-                    print self.tmp_Agents[agent]
+                    print(self.tmp_Agents[agent])
                     raise ValueError("Check tmp_agents Drug type %d" % agent)
                 else:
                     count_IDU += 1
@@ -2787,7 +2791,7 @@ class HIVModel(NetworkClass):
             HIVstatus = agent_dict['HIV']
             if HIVstatus != 0:
                 if agent not in self.tmp_HIV_agents:
-                    print self.tmp_Agents[agent]
+                    print(self.tmp_Agents[agent])
                     raise ValueError("Check tmp_agent HIV %d" % agent)
                 else:
                     count_HIV += 1
@@ -2795,7 +2799,7 @@ class HIVModel(NetworkClass):
             AIDSstatus = agent_dict['AIDS']
             if AIDSstatus != 0:
                 if agent not in self.tmp_AIDS_agents:
-                    print self.tmp_Agents[agent]
+                    print(self.tmp_Agents[agent])
                     raise ValueError("Check agent AIDS %d" % agent)
                 else:
                     count_AIDS += 1
@@ -2821,8 +2825,8 @@ class HIVModel(NetworkClass):
         if len(self.tmp_HIV_agents) != count_HIV:
             raise ValueError("self.tmp_HIV_agents contains too many agents!")
         if len(self.tmp_AIDS_agents) != count_AIDS:
-            print "len(self.tmp_AIDS_agents)=%d" % len(self.tmp_AIDS_agents)
-            print "count_AIDS=%d" % count_AIDS
+            print("len(self.tmp_AIDS_agents)=%d" % len(self.tmp_AIDS_agents))
+            print("count_AIDS=%d" % count_AIDS)
             raise ValueError("self.tmp_AIDS agents contains too many agents!")
 
 
@@ -2897,7 +2901,7 @@ class HIVModel(NetworkClass):
             elif agent_drug_type == 'ND':
                 count_HIV_ND += 1
             elif HIVstatus != 0:
-                print HIVstatus
+                print(HIVstatus)
                 raise ValueError("HIV status must be either 0 or 1 !")
                 # print [count_HIV_IDU, count_HIV_NIDU, count_HIV_ND]
             else:
@@ -2925,7 +2929,7 @@ class HIVModel(NetworkClass):
             elif agent_sex_type == 'WSW':
                 count_HIV_WSW += 1
             elif HIVstatus != 0:
-                print HIVstatus
+                print(HIVstatus)
                 raise ValueError("HIV status must be either 0 or 1 !")
                 # print [count_HIV_IDU, count_HIV_NIDU, count_HIV_ND]
             else:
@@ -2961,7 +2965,7 @@ class HIVModel(NetworkClass):
             elif agent_drug_type == 'ND' and agent_sex_type == 'MSM':
                 count_HIV_MND += 1
             elif HIVstatus != 0:
-                print HIVstatus
+                print(HIVstatus)
             raise ValueError("HIV status must be either 0 or 1 !")
         return [count_HIV_MIDU, count_HIV_MNIDU, count_HIV_MND, count_HIV_IDUnmsm, count_HIV_NIDUnmsm, count_HIV_NDnmsm]
 

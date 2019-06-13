@@ -39,6 +39,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 
+from __future__ import absolute_import
+from __future__ import print_function
 import os
 import time as time_mod
 import itertools
@@ -49,6 +51,8 @@ import params
 import numpy as np
 
 from ABM_core import HIVModel
+import six
+from six.moves import range
 
 try:
     from HIVABM_Population import PopulationClass, print_population
@@ -133,8 +137,8 @@ def simulation(nreps, save_adjlist_flag, time_range,
 
             print(inputSeed)
         #print "\n\n------------------------------------------------------------------------------------------------------------------------------------------"
-        print "\tProcess %5s runs simulation %d/%d\t.:.\tInput rSeed: %d, pSeed: %d, nSeed: %d" \
-              % (pid, num_sim + 1, nreps, inputSeed,popSeed,netSeed)
+        print("\tProcess %5s runs simulation %d/%d\t.:.\tInput rSeed: %d, pSeed: %d, nSeed: %d" \
+              % (pid, num_sim + 1, nreps, inputSeed,popSeed,netSeed))
 
         MyModel = HIVModel(N=N_pop, tmax=time_range, parameter_dict=parameters,
                            runseed=inputSeed, popseed=popSeed, netseed=netSeed, runtime_diffseed=uniqueSeed,
@@ -147,10 +151,10 @@ def simulation(nreps, save_adjlist_flag, time_range,
 
         #print MyModel
         result_dict_tmp = MyModel.return_results()
-        for (key, x_v) in result_dict_tmp.iteritems():
+        for (key, x_v) in six.iteritems(result_dict_tmp):
             if key not in result_dict:
                 result_dict.update({key: {}})
-            for t, x in x_v.iteritems():
+            for t, x in six.iteritems(x_v):
                 if t not in result_dict[key]:
                     result_dict[key].update({t: []})
                 if np.isnan(x):
@@ -173,7 +177,7 @@ def simulation_star(zipped_input):
         return simulation(*zipped_input)
     except TypeError:
         for input_info in zipped_input:
-            print input_info
+            print(input_info)
         raise TypeError("Wrong input for simulation_star()!")
 
 
@@ -203,7 +207,7 @@ def save_results(N_MC, time_range, rslts, outfile_dir, num_sim):
     if not os.path.isdir(outfile_dir):
         os.mkdir(outfile_dir)
     OutFileName = os.path.join(outfile_dir, ('Result_simulation_%d.txt' % num_sim))
-    print "\n\tSaving results to:\n\t%s\n" % str(OutFileName)
+    print("\n\tSaving results to:\n\t%s\n" % str(OutFileName))
     if os.path.isfile(OutFileName):
         os.remove(OutFileName)
     outfile = open(OutFileName, 'w')
@@ -283,4 +287,4 @@ def save_results(N_MC, time_range, rslts, outfile_dir, num_sim):
 
 
 if __name__ == '__main__':
-    print 'Use MP_simulation and MPI_simulation!\n'
+    print('Use MP_simulation and MPI_simulation!\n')

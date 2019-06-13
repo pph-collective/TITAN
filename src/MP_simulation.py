@@ -40,6 +40,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 #import os
+from __future__ import absolute_import
+from __future__ import print_function
 import time as time_mod
 #import itertools
 #import multiprocessing as mp
@@ -49,6 +51,7 @@ from simulation_lib import *
 import params
 from loadInput import *
 import sys, os
+from six.moves import range
 
 # Disable
 def blockPrint():
@@ -118,13 +121,13 @@ def main():
         #print rslts
 
     for task, time_t in enumerate(wct):
-        print('wall clock time on for simulation %d: %8.4f seconds' %
-              (task, time_t))
+        print(('wall clock time on for simulation %d: %8.4f seconds' %
+              (task, time_t)))
     def mean(seq): return sum(seq)/len(seq)
-    print    ('\nSUMMARY:\nall tasks - mean: %8.4f seconds' % mean(wct))
-    print    ('all tasks - min:  %8.4f seconds' % min(wct))
-    print    ('all tasks - max:  %8.4f seconds' % max(wct))
-    print    ('all tasks - sum:  %8.4f seconds' % sum(wct))
+    print(('\nSUMMARY:\nall tasks - mean: %8.4f seconds' % mean(wct)))
+    print(('all tasks - min:  %8.4f seconds' % min(wct)))
+    print(('all tasks - max:  %8.4f seconds' % max(wct)))
+    print(('all tasks - sum:  %8.4f seconds' % sum(wct)))
 
     #plt.show(block=True)
 

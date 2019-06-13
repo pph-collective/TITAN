@@ -38,6 +38,10 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *****************************************************************************
 """
+from __future__ import absolute_import
+from __future__ import print_function
+from six.moves import range
+from six.moves import zip
 __author__="Lars Seemann (lseemann@uh.edu)"
 
 import os
@@ -73,7 +77,7 @@ except ImportError:
 
 try:
     from ABM_partnering import *
-except ImportError, e:
+except ImportError as e:
     raise ImportError("Can't import ABM_partnering! %s" % str(e))
 
 #def save_adjlist(graph, dir_prefix, time):
@@ -230,7 +234,7 @@ def my_barabasi_albert_graph(n, m, node_list=None, seed=None):
     Num_source = m                                 # Start adding the other n-m nodes. The first node is m.
     while Num_source < n: 
         source = node_list[Num_source]
-        G.add_edges_from(zip([source]*m,targets)) # Add edges to m nodes from the source.
+        G.add_edges_from(list(zip([source]*m,targets))) # Add edges to m nodes from the source.
         repeated_nodes.extend(targets)            # Add one node to the list for each new edge just created.
         repeated_nodes.extend([source]*m)         # And the new node "source" has m edges to add to the list.
         # Now choose m unique nodes from the existing nodes 
@@ -275,7 +279,7 @@ class NetworkClass(PopulationClass):
             raise ValueError("Population size must be integer,\
                 n = %s, not int"%(type(N)))
         else: pass
-        if m_0 not in range(10):
+        if m_0 not in list(range(10)):
             raise ValueError('m_0 must be integer smaller than 10')
         else: self.m_0 = m_0
         PopulationClass.__init__(self, n = N, rSeed = popSeed)	# Create population
@@ -324,11 +328,11 @@ class NetworkClass(PopulationClass):
             components = sorted(nx.connected_component_subgraphs(self.G), key=len, reverse=True)
             for comp in components:              
                 if comp.number_of_nodes() > params.maxComponentSize:
-                    print "TOO BIG", comp, comp.number_of_nodes()
+                    print("TOO BIG", comp, comp.number_of_nodes())
                     trimComponent(comp, params.maxComponentSize)
                 elif comp.number_of_nodes() < params.minComponentSize:
-                    print "TOO SMALL", comp, comp.number_of_nodes()
-            print "Total agents in graph: ",self.G.number_of_nodes()
+                    print("TOO SMALL", comp, comp.number_of_nodes())
+            print("Total agents in graph: ",self.G.number_of_nodes())
         elif network_type=='binomial':
             self.G = my_erdos_renyi_binomial_random_graph(
                 node_list=self.NormalAgents, 
@@ -363,7 +367,7 @@ class NetworkClass(PopulationClass):
             outfile.write("Maximum component size: {}\n".format(nx.number_of_nodes(bigG)))
             outfile.write("Degree Histogram: {}\n".format(nx.degree_histogram(G)))
             outfile.write("Graph density: {}\n".format(nx.density(G)))
-            outfile.write("Average node degree centrality: {}\n".format(sum(centDict.values())/len(centDict.values())))
+            outfile.write("Average node degree centrality: {}\n".format(sum(centDict.values())/len(list(centDict.values()))))
             #outfile.write("Average node connectivity: {}\n".format(nx.node_connectivity(G)))
             outfile.write("Average node clustering: {}\n".format(nx.average_clustering(G)))
             outfile.close()
@@ -389,7 +393,7 @@ class NetworkClass(PopulationClass):
         for tmpA in agents.iter_agents():
             numAdded += 1
             G.add_node(tmpA)
-        print "\tAdded %d/%d agents" % (numAdded, G.number_of_nodes())
+        print("\tAdded %d/%d agents" % (numAdded, G.number_of_nodes()))
 
     def create_graph_from_relationships(self, relationships):
         G = self.G
@@ -397,14 +401,14 @@ class NetworkClass(PopulationClass):
         for rel in relationships.iter_agents():
             numAdded += 1
             self.G.add_edge(rel._ID1, rel._ID2)
-        print "Added %d/%d relationships" % (numAdded, G.number_of_edges())
+        print("Added %d/%d relationships" % (numAdded, G.number_of_edges()))
 
     def draw_histogram(self, t=0):
         G = self.G
         degree_sequence = sorted([d for n, d in G.degree()], reverse=True)  # degree sequence
         # print "Degree sequence", degree_sequence
         degreeCount = collections.Counter(degree_sequence)
-        deg, cnt = zip(*degreeCount.items())
+        deg, cnt = list(zip(*list(degreeCount.items())))
 
         fig, ax = plt.subplots()
         plt.bar(deg, cnt, width=0.80, color='b')
@@ -582,7 +586,7 @@ class NetworkClass(PopulationClass):
         #G = nx.generators.barabasi_albert_graph(n, m)
         # find node with largest degree
         node_and_degree = G.degree()
-        (largest_hub, degree) = sorted(node_and_degree.items(), key=itemgetter(1))[-1]
+        (largest_hub, degree) = sorted(list(node_and_degree.items()), key=itemgetter(1))[-1]
         # Create ego graph of main hub
         hub_ego = nx.ego_graph(G, largest_hub)
         # Draw graph
@@ -695,7 +699,7 @@ class NetworkClass(PopulationClass):
             graph : networkX graph
         """
         G = self.G
-        print("\tPlotting {} colored by {}...").format(label, coloring)
+        print(("\tPlotting {} colored by {}...").format(label, coloring))
         fig = plt.figure()
         ax = fig.add_axes([0,0,1,1])
         fig.clf()
@@ -799,7 +803,7 @@ class TestClassMethods(unittest.TestCase):
 
     def test_NormalAgents(self):
         """Test if all non-IDU,ND,NIDU agents are in the population"""
-        print " ... Test: NormalAgents"
+        print(" ... Test: NormalAgents")
         myNetworkObj = NetworkClass(N=10000, m_0 = 3)
         for agent in myNetworkObj.NormalAgents:
             agent_sex_type = myNetworkObj.get_agent_characteristic(agent,'Sex Type')
@@ -809,7 +813,7 @@ class TestClassMethods(unittest.TestCase):
 
     def test_PartialNetwork(self):
         """Test if all non-IDU,ND,NIDU agents are in the population"""
-        print " ... Test: Network and Agent type consistency"
+        print(" ... Test: Network and Agent type consistency")
         myNetworkObj = NetworkClass(N=10000, m_0 = 3)
 
         for agent in myNetworkObj.NormalAgents:
@@ -823,14 +827,14 @@ class TestClassMethods(unittest.TestCase):
 
     def test_PopulationConsistency(self):
         """Test if Drug users add up"""
-        print " ... Test: Population consistency"
+        print(" ... Test: Population consistency")
         myNetworkObj = NetworkClass(N=10000, m_0 = 3)
         CheckSumDrug = len(myNetworkObj.IDU_agents)+len(myNetworkObj.NIDU_agents)+len(myNetworkObj.ND_agents)
         self.assertTrue(myNetworkObj.PopulationSize == CheckSumDrug)
 
     def test_HIVConsistency(self):
         """Test HIV consistency"""
-        print " ... Test: Test HIV consistency"
+        print(" ... Test: Test HIV consistency")
         myNetworkObj = NetworkClass(N=10000, m_0 = 3)
         for agent in myNetworkObj.Agents:
             HIV_status = myNetworkObj.get_agent_characteristic(agent,'HIV')

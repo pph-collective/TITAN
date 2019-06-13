@@ -41,6 +41,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # Imports
 #import random
+from __future__ import absolute_import
+from __future__ import print_function
 from copy import deepcopy, copy
 import os
 import time
@@ -214,7 +216,7 @@ def get_partner(self, agent, need_new_partners):
             # choose from IDU agents
             try: RandomPartner = get_random_IDU_partner(self, agent, shortlist_NNP)
             except:
-                print "No IDU matches"
+                print("No IDU matches")
                 get_random_sex_partner(self, agent, shortlist_NNP)
             #print "\tReturned: %s" % RandomPartner
         else:
@@ -331,17 +333,17 @@ def get_assort_sex_partner(self, agent, need_new_partners):
         #print agent_race_type
         if agent_race_type == 'WHITE':
             Assortive_intersection = list(set(self.Race_WHITE_agentSet).intersection(intersection))
-            if Assortive_intersection == []: print "Couldnt assortive mix (W), picking suitable agent"
+            if Assortive_intersection == []: print("Couldnt assortive mix (W), picking suitable agent")
             else: return random.choice(Assortive_intersection)
         elif agent_race_type == 'BLACK':
             Assortive_intersection = list(set(self.Race_BLACK_agentSet).intersection(intersection))
             if Assortive_intersection == []:
-                print "Couldnt assortive mix (B), picking suitable agent"
+                print("Couldnt assortive mix (B), picking suitable agent")
             else:
                 #print Assortive_intersection
                 return random.choice(Assortive_intersection)
         if intersection == []: return None
-        else: print "NO PATNAS"#return random.choice(intersection)
+        else: print("NO PATNAS")#return random.choice(intersection)
 
     def getPartnerBin(agent):
 

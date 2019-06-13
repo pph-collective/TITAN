@@ -39,6 +39,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 
+from __future__ import print_function
+from six.moves import range
 def read_input_parameter(paramFile=None):
     # Read parameters from file, put them into the
     # dictionary parameter_dict and return parameter_dict
@@ -107,11 +109,11 @@ def read_classifier_dict(input_params=None):
         race_key = words[1]
         so_key = words[2]
         values = words[3]
-        print name_key
-        print race_key
-        print so_key
-        print values
+        print(name_key)
+        print(race_key)
+        print(so_key)
+        print(values)
         for value in enumerate(values):
             data_dict[race_key][so_key][name_key] = value
 
-    print data_dict
+    print(data_dict)
