@@ -54,30 +54,31 @@ except ImportError:
     raise ImportError("Can't import AgentClass")
 import params
 
+
 def print_population(agent_dict, dir_prefix, time=0):
     # Print the whole population to a file.
     # Format: agent_i characteristic 1 characteristic 2 ...
     # Input: agent_dict : dictionary of agents (self.Agents)
     #        dir_prefix : outfile name (str)
     #        time : time at which snapshot was taken (int)
-    OutFileName = (dir_prefix + '/' +'Population_at_time_%d.txt'%time)
-    outfile = open(OutFileName,'w')
+    OutFileName = (dir_prefix + '/' + 'Population_at_time_{:d}.txt'.format(time))
+    outfile = open(OutFileName, 'w')
     # create header
     key_list = list(agent_dict[0].keys())
     outfile.write('Agent\t')
     for key in key_list:
-        outfile.write('%s\t'%str(key))
+        outfile.write('{}\t'.format(str(key)))
     outfile.write('\n')
     for agent in sorted(agent_dict.keys()):
-        outfile.write('%d\t'%agent)
+        outfile.write('{:d}\t'.format(agent))
         tmp_agent_prop = agent_dict[agent]
         for key in key_list:
-            outfile.write('%s\t'%str(tmp_agent_prop[key]))
+            outfile.write('{}\t'.format(str(tmp_agent_prop[key])))
         outfile.write('\n')
     outfile.close()
 
-class PopulationClass():
 
+class PopulationClass():
     """
     :Purpose:
         This class constructs and represents the model population
@@ -142,13 +143,13 @@ class PopulationClass():
         :py:meth:`get_info_DrugSexType`
     """
 
-    def __init__(self, n = 10000, rSeed = 0, model=None):
+    def __init__(self, n=10000, rSeed=0, model=None):
         """
         :Purpose:
             Initialize PopulationClass object.
         """
 
-        #Init RNG for population creation to rSeed
+        # Init RNG for population creation to rSeed
         self.popRandom = Random(rSeed)
         if type(n) is not int:
             raise ValueError("Population size must be integer")
@@ -156,17 +157,13 @@ class PopulationClass():
             self.PopulationSize = n
         # Parameters
 
-
-
         self.numWhite = int(params.DemographicParams['WHITE']['ALL']['Proportion'] * self.PopulationSize)
         self.numBlack = int(params.DemographicParams['BLACK']['ALL']['Proportion'] * self.PopulationSize)
-        # print 'W: %d, B: %d'%(self.numWhite, self.numBlack)
-        #Nested dictionary for probability lookups by race
-        #StratW = White, StratB = Black
-        #HM incar @ 0.0279
+        # Nested dictionary for probability lookups by race
+        # StratW = White, StratB = Black
+        # HM incar @ 0.0279
 
-
-        #MODEL TYPES
+        # MODEL TYPES
         MT_PrEP = False
         MT_Incar = False
         MT_NoIncar = False
@@ -178,141 +175,117 @@ class PopulationClass():
         elif model == 'NoIncar':
             MT_NoIncar = True
 
-        #Quick calc based on traj: 0.596 Female -> 0,01175/0.75 HIV -> 0.75 Tested+ = 11.75% HIV DIAG
-        StratW = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}}
+        # Quick calc based on traj: 0.596 Female -> 0,01175/0.75 HIV -> 0.75 Tested+ = 11.75% HIV DIAG
+        StratW = {'MSM': {}, 'HM': {}, 'HF': {}, 'IDU': {}}
         if MT_PrEP:
-            StratW['MSM'] = {'POP':1.0, 'HIV':0.036195675, 'AIDS':0.51, 'HAARTprev':0.33, 'INCARprev':0.0, 'TestedPrev':0.816, 'mNPart':3}
-            StratW['HM'] = {'POP':0.0, 'HIV':0.0, 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
-            StratW['HF'] = {'POP':0.0, 'HIV':0.0, 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
-            StratW['IDU'] = {'POP':0.0, 'HIV':0.0, 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
+            StratW['MSM'] = {'POP': 1.0, 'HIV': 0.036195675, 'AIDS': 0.51, 'HAARTprev': 0.33, 'INCARprev': 0.0,
+                             'TestedPrev': 0.816, 'mNPart': 3}
+            StratW['HM'] = {'POP': 0.0, 'HIV': 0.0, 'AIDS': 0.0, 'HAARTprev': 0.0, 'INCARprev': 0.0, 'TestedPrev': 0.0}
+            StratW['HF'] = {'POP': 0.0, 'HIV': 0.0, 'AIDS': 0.0, 'HAARTprev': 0.0, 'INCARprev': 0.0, 'TestedPrev': 0.0}
+            StratW['IDU'] = {'POP': 0.0, 'HIV': 0.0, 'AIDS': 0.0, 'HAARTprev': 0.0, 'INCARprev': 0.0, 'TestedPrev': 0.0}
         elif MT_Incar:
-            StratW['MSM'] = {'POP':0.0, 'HIV':0.05, 'AIDS':0.05, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.86, 'mNPart':3}
-            StratW['HM'] = {'POP':0.4044435412, 'HIV':0.0158/0.75, 'AIDS':0.678, 'HAARTprev':0.03748, 'INCARprev':0.0279, 'TestedPrev':0.75, 'mNPart':3}
-            StratW['HF'] = {'POP':0.5955564588, 'HIV':0.01175/0.75, 'AIDS':0.573, 'HAARTprev':0.04054, 'INCARprev':0.0, 'TestedPrev':0.75, 'mNPart':2}
-            StratW['IDU'] = {'POP':0.0, 'HIV':0.0, 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0, 'mNPart':3}
+            StratW['MSM'] = {'POP': 0.0, 'HIV': 0.05, 'AIDS': 0.05, 'HAARTprev': 0.0, 'INCARprev': 0.0,
+                             'TestedPrev': 0.86, 'mNPart': 3}
+            StratW['HM'] = {'POP': 0.4044435412, 'HIV': 0.0158 / 0.75, 'AIDS': 0.678, 'HAARTprev': 0.03748,
+                            'INCARprev': 0.0279, 'TestedPrev': 0.75, 'mNPart': 3}
+            StratW['HF'] = {'POP': 0.5955564588, 'HIV': 0.01175 / 0.75, 'AIDS': 0.573, 'HAARTprev': 0.04054,
+                            'INCARprev': 0.0, 'TestedPrev': 0.75, 'mNPart': 2}
+            StratW['IDU'] = {'POP': 0.0, 'HIV': 0.0, 'AIDS': 0.0, 'HAARTprev': 0.0, 'INCARprev': 0.0, 'TestedPrev': 0.0,
+                             'mNPart': 3}
         elif MT_NoIncar:
-            StratW['MSM'] = {'POP':0.0, 'HIV':0.05, 'AIDS':0.05, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.86, 'mNPart':3}
-            StratW['HM'] = {'POP':0.4044435412, 'HIV':0.0158/0.75, 'AIDS':0.678, 'HAARTprev':0.03748, 'INCARprev':0.0, 'TestedPrev':0.75, 'mNPart':3}
-            StratW['HF'] = {'POP':0.5955564588, 'HIV':0.01175/0.75, 'AIDS':0.573, 'HAARTprev':0.04054, 'INCARprev':0.0, 'TestedPrev':0.75, 'mNPart':2}
-            StratW['IDU'] = {'POP':0.0, 'HIV':0.0, 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0, 'mNPart':3}
+            StratW['MSM'] = {'POP': 0.0, 'HIV': 0.05, 'AIDS': 0.05, 'HAARTprev': 0.0, 'INCARprev': 0.0,
+                             'TestedPrev': 0.86, 'mNPart': 3}
+            StratW['HM'] = {'POP': 0.4044435412, 'HIV': 0.0158 / 0.75, 'AIDS': 0.678, 'HAARTprev': 0.03748,
+                            'INCARprev': 0.0, 'TestedPrev': 0.75, 'mNPart': 3}
+            StratW['HF'] = {'POP': 0.5955564588, 'HIV': 0.01175 / 0.75, 'AIDS': 0.573, 'HAARTprev': 0.04054,
+                            'INCARprev': 0.0, 'TestedPrev': 0.75, 'mNPart': 2}
+            StratW['IDU'] = {'POP': 0.0, 'HIV': 0.0, 'AIDS': 0.0, 'HAARTprev': 0.0, 'INCARprev': 0.0, 'TestedPrev': 0.0,
+                             'mNPart': 3}
 
-        StratB = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}}
-        StratB['MSM'] = {'POP':0.0, 'HIV':0.0 , 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
-        StratB['HM'] = {'POP':0.0, 'HIV':0.0 , 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
-        StratB['HF'] = {'POP':0.0, 'HIV':0.0 , 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
-        StratB['IDU'] = {'POP':0.0, 'HIV':0.0 , 'AIDS':0.0, 'HAARTprev':0.0, 'INCARprev':0.0, 'TestedPrev':0.0}
+        StratB = {'MSM': {}, 'HM': {}, 'HF': {}, 'IDU': {}}
+        StratB['MSM'] = {'POP': 0.0, 'HIV': 0.0, 'AIDS': 0.0, 'HAARTprev': 0.0, 'INCARprev': 0.0, 'TestedPrev': 0.0}
+        StratB['HM'] = {'POP': 0.0, 'HIV': 0.0, 'AIDS': 0.0, 'HAARTprev': 0.0, 'INCARprev': 0.0, 'TestedPrev': 0.0}
+        StratB['HF'] = {'POP': 0.0, 'HIV': 0.0, 'AIDS': 0.0, 'HAARTprev': 0.0, 'INCARprev': 0.0, 'TestedPrev': 0.0}
+        StratB['IDU'] = {'POP': 0.0, 'HIV': 0.0, 'AIDS': 0.0, 'HAARTprev': 0.0, 'INCARprev': 0.0, 'TestedPrev': 0.0}
 
-        self.ProbLookUp = {'WHITE':StratW, 'BLACK':StratB}
+        self.ProbLookUp = {'WHITE': StratW, 'BLACK': StratB}
         # drug user prevalence (proportion)
 
-
-        self.propIDU  = 0##190/10000.0
+        self.propIDU = 0
         self.numIDU = int(self.propIDU * self.PopulationSize)
-        self.propNIDU = 0##640/10000.0
+        self.propNIDU = 0
         self.numNIDU = int(self.propNIDU * self.PopulationSize)
-        self.propND = 0.995##9170/10000.0
+        self.propND = 0.995
         self.numND = self.PopulationSize - self.numIDU - self.numNIDU
-        self.Agents = dict()	# Main Dictionary Agents
+        self.Agents = dict()  # Main Dictionary Agents
         # List of IDU, NIDU, NDs
         # shuffle all Agents
         allAgents = list(range(self.PopulationSize))
-        #self.popRandom.shuffle(allAgents)
 
         print("\tBuilding class sets")
-        self.totalAgentClass = Agent_set(0,"TotalAgents")
-
-
-        # self.MSM_agentsClass = Agent_set(1,"MSM", numerator=self.totalAgentClass)
-        # self.HM_agentsClass = Agent_set(1,"HM", numerator=self.totalAgentClass, parent=self.totalAgentClass)
-        # self.HF_agentsClass = Agent_set(1,"HF", numerator=self.totalAgentClass)
-        # self.MTF_agentsClass = Agent_set(1,"MTF", numerator=self.totalAgentClass)
-        # self.MSW_agentsClass = Agent_set(1,"MSW", numerator=self.totalAgentClass)
-        # self.IDU_agentsClass = Agent_set(1,"IDU", numerator=self.totalAgentClass)
-        # self.HIV_agentsClass = Agent_set(2,"HIV", numerator=self.totalAgentClass)
-        # self.HAART_agentClass = Agent_set(2,"HAART", numerator=self.HIV_agentsClass)
-        # self.PrEP_agentsClass = Agent_set(2,"PrEP")
-        # self.incarcerated_agentsClass = Agent_set(2,"Incar", numerator=self.totalAgentClass)
-        # self.highrisk_agentsClass = Agent_set(2,"HRisk", numerator=self.totalAgentClass)
+        self.totalAgentClass = Agent_set(0, "TotalAgents")
 
         # All agent set list
-        self.All_agentSet = Agent_set(0,"AllAgents")
+        self.All_agentSet = Agent_set(0, "AllAgents")
 
         # HIV status agent sets
-        self.HIV_agentSet = Agent_set(1,"HIV", parent=self.All_agentSet, numerator=self.All_agentSet)
-        self.HIV_AIDS_agentSet = Agent_set(2,"AIDS", parent=self.HIV_agentSet, numerator=self.HIV_agentSet)
+        self.HIV_agentSet = Agent_set(1, "HIV", parent=self.All_agentSet, numerator=self.All_agentSet)
+        self.HIV_AIDS_agentSet = Agent_set(2, "AIDS", parent=self.HIV_agentSet, numerator=self.HIV_agentSet)
 
         # Drug use agent sets
-        self.drugUse_agentSet = Agent_set(1,"DU", parent=self.All_agentSet)
-        self.DU_NIDU_agentSet = Agent_set(2,"NIDU", parent=self.drugUse_agentSet)
-        self.DU_IDU_agentSet = Agent_set(2,"IDU", parent=self.drugUse_agentSet)
-        self.DU_NDU_agentSet = Agent_set(2,"NDU", parent=self.drugUse_agentSet)
+        self.drugUse_agentSet = Agent_set(1, "DU", parent=self.All_agentSet)
+        self.DU_NIDU_agentSet = Agent_set(2, "NIDU", parent=self.drugUse_agentSet)
+        self.DU_IDU_agentSet = Agent_set(2, "IDU", parent=self.drugUse_agentSet)
+        self.DU_NDU_agentSet = Agent_set(2, "NDU", parent=self.drugUse_agentSet)
 
         # Treatment agent sets
-        self.treatment_agentSet = Agent_set(1,"Trtmt", parent=self.All_agentSet)
-        self.Trt_Tstd_agentSet = Agent_set(2,"Testd", parent=self.treatment_agentSet, numerator=self.HIV_agentSet)
-        self.Trt_PrEP_agentSet = Agent_set(2,"PrEP", parent=self.treatment_agentSet)
-        self.Trt_PrEPelig_agentSet = Agent_set(2,"PrePelig", parent=self.treatment_agentSet)
-        self.Trt_ART_agentSet = Agent_set(2,"ART", parent=self.treatment_agentSet, numerator=self.HIV_agentSet)
-        self.Trt_SNE_agentSet = Agent_set(2,"SNE", parent=self.treatment_agentSet)
+        self.treatment_agentSet = Agent_set(1, "Trtmt", parent=self.All_agentSet)
+        self.Trt_Tstd_agentSet = Agent_set(2, "Testd", parent=self.treatment_agentSet, numerator=self.HIV_agentSet)
+        self.Trt_PrEP_agentSet = Agent_set(2, "PrEP", parent=self.treatment_agentSet)
+        self.Trt_PrEPelig_agentSet = Agent_set(2, "PrePelig", parent=self.treatment_agentSet)
+        self.Trt_ART_agentSet = Agent_set(2, "ART", parent=self.treatment_agentSet, numerator=self.HIV_agentSet)
+        self.Trt_SNE_agentSet = Agent_set(2, "SNE", parent=self.treatment_agentSet)
         self.Trt_MAT_agentSet = Agent_set(2, "MAT", parent=self.treatment_agentSet)
 
         # Sexual orientation agent sets
-        self.SO_agentSet = Agent_set(1,"SO", parent=self.All_agentSet, numerator=self.All_agentSet)
-        self.SO_HF_agentSet = Agent_set(2,"HF", parent=self.SO_agentSet, numerator=self.SO_agentSet)
-        self.SO_HM_agentSet = Agent_set(2,"HM", parent=self.SO_agentSet, numerator=self.SO_agentSet)
-        self.SO_MSM_agentSet = Agent_set(2,"MSM", parent=self.SO_agentSet, numerator=self.SO_agentSet)
-        self.SO_MSW_agentSet = Agent_set(2,"MSW", parent=self.SO_agentSet, numerator=self.SO_agentSet)
+        self.SO_agentSet = Agent_set(1, "SO", parent=self.All_agentSet, numerator=self.All_agentSet)
+        self.SO_HF_agentSet = Agent_set(2, "HF", parent=self.SO_agentSet, numerator=self.SO_agentSet)
+        self.SO_HM_agentSet = Agent_set(2, "HM", parent=self.SO_agentSet, numerator=self.SO_agentSet)
+        self.SO_MSM_agentSet = Agent_set(2, "MSM", parent=self.SO_agentSet, numerator=self.SO_agentSet)
+        self.SO_MSW_agentSet = Agent_set(2, "MSW", parent=self.SO_agentSet, numerator=self.SO_agentSet)
 
-        #Racial agent sets
-        self.racial_agentSet = Agent_set(1,"Race", parent=self.All_agentSet)
-        self.Race_WHITE_agentSet = Agent_set(2,"WHITE", parent=self.racial_agentSet)
-        self.Race_BLACK_agentSet = Agent_set(2,"BLACK", parent=self.racial_agentSet)
+        # Racial agent sets
+        self.racial_agentSet = Agent_set(1, "Race", parent=self.All_agentSet)
+        self.Race_WHITE_agentSet = Agent_set(2, "WHITE", parent=self.racial_agentSet)
+        self.Race_BLACK_agentSet = Agent_set(2, "BLACK", parent=self.racial_agentSet)
 
-        #Incarcerated agent sets
-        self.incarcerated_agentSet = Agent_set(1,"Incar", parent=self.All_agentSet)
+        # Incarcerated agent sets
+        self.incarcerated_agentSet = Agent_set(1, "Incar", parent=self.All_agentSet)
 
-        #High risk agent sets
-        self.highrisk_agentsSet = Agent_set(1,"HRisk", parent=self.All_agentSet)
-
-
+        # High risk agent sets
+        self.highrisk_agentsSet = Agent_set(1, "HRisk", parent=self.All_agentSet)
 
         print("\tOrganizing subsets and heirarchy")
-        # self.totalAgentClass.add_subset(self.HIV_agentsClass)
-        # self.totalAgentClass.add_subset(self.PrEP_agentsClass)
-        # self.totalAgentClass.add_subset(self.incarcerated_agentsClass)
-        # self.totalAgentClass.add_subset(self.HAART_agentClass)
-        # self.totalAgentClass.add_subset(self.highrisk_agentsClass)
-        # self.totalAgentClass.add_subset(self.MSM_agentsClass)
-        # self.totalAgentClass.add_subset(self.HM_agentsClass)
-        # self.totalAgentClass.add_subset(self.HF_agentsClass)
-        # self.totalAgentClass.add_subset(self.MTF_agentsClass)
-        # self.totalAgentClass.add_subset(self.MSW_agentsClass)
-        # self.totalAgentClass.add_subset(self.IDU_agentsClass)
 
-
-        self.Relationships = Agent_set(0,"Relationships")
+        self.Relationships = Agent_set(0, "Relationships")
 
         # Nested dictionary for probability look-up
-        IDU = {'MSM':{}, 'HM':{}, 'WSW':{}, 'HF':{}}
-        IDU['MSM'] = {'HIV':0.55 , 'AIDS':0.058,'HAARTa':0}
-        IDU['HM'] = {'HIV':0.42 , 'AIDS':0.058, 'HAARTa':0}
-        IDU['WSW'] = {'HIV':0.53 , 'AIDS':0.058, 'HAARTa':0}
-        IDU['HF'] = {'HIV':0.39 , 'AIDS':0.058, 'HAARTa':0}
-        NIDU = {'MSM':{}, 'HM':{}, 'WSW':{}, 'HF':{}}
-        NIDU['MSM'] = {'HIV':0.18 , 'AIDS':0.02, 'HAARTa':0}
-        NIDU['HM'] = {'HIV':0.048 , 'AIDS':0.002, 'HAARTa':0}
-        NIDU['WSW'] = {'HIV':0.048 , 'AIDS':0.002, 'HAARTa':0}
-        NIDU['HF'] = {'HIV':0.048 , 'AIDS':0.002, 'HAARTa':0}
-        ND = {'MSM':{}, 'HM':{}, 'WSW':{}, 'HF':{}}
-        ND['Type'] = ([0,1,2,3], [0.469, 0.493, 0.022, 0.016])
-        ND['MSM'] = {'HIV':0.08 , 'AIDS':0.02, 'HAARTa':0}
-        ND['HM'] = {'HIV':0.015 , 'AIDS':0.0003, 'HAARTa':0}
-        ND['WSW'] = {'HIV':0.012 , 'AIDS':0.0003, 'HAARTa':0}
-        ND['HF'] = {'HIV':0.012 , 'AIDS':0.0003, 'HAARTa':0}
-        #self.ProbLookUp = {'IDU':IDU, 'NIDU':NIDU1, 'ND':ND}
-
-        # print ('Number of agents '+str(len(allAgents)))
-
+        IDU = {'MSM': {}, 'HM': {}, 'WSW': {}, 'HF': {}}
+        IDU['MSM'] = {'HIV': 0.55, 'AIDS': 0.058, 'HAARTa': 0}
+        IDU['HM'] = {'HIV': 0.42, 'AIDS': 0.058, 'HAARTa': 0}
+        IDU['WSW'] = {'HIV': 0.53, 'AIDS': 0.058, 'HAARTa': 0}
+        IDU['HF'] = {'HIV': 0.39, 'AIDS': 0.058, 'HAARTa': 0}
+        NIDU = {'MSM': {}, 'HM': {}, 'WSW': {}, 'HF': {}}
+        NIDU['MSM'] = {'HIV': 0.18, 'AIDS': 0.02, 'HAARTa': 0}
+        NIDU['HM'] = {'HIV': 0.048, 'AIDS': 0.002, 'HAARTa': 0}
+        NIDU['WSW'] = {'HIV': 0.048, 'AIDS': 0.002, 'HAARTa': 0}
+        NIDU['HF'] = {'HIV': 0.048, 'AIDS': 0.002, 'HAARTa': 0}
+        ND = {'MSM': {}, 'HM': {}, 'WSW': {}, 'HF': {}}
+        ND['Type'] = ([0, 1, 2, 3], [0.469, 0.493, 0.022, 0.016])
+        ND['MSM'] = {'HIV': 0.08, 'AIDS': 0.02, 'HAARTa': 0}
+        ND['HM'] = {'HIV': 0.015, 'AIDS': 0.0003, 'HAARTa': 0}
+        ND['WSW'] = {'HIV': 0.012, 'AIDS': 0.0003, 'HAARTa': 0}
+        ND['HF'] = {'HIV': 0.012, 'AIDS': 0.0003, 'HAARTa': 0}
 
         self.MSM_agents = []
         self.HF_agents = []
@@ -325,7 +298,7 @@ class PopulationClass():
         self.HAART_agents = []
         self.Incarcerated = []
 
-        #Create agents in allAgents list
+        # Create agents in allAgents list
         self.White_agents = deepcopy(allAgents[0:self.numWhite])
         self.Black_agents = deepcopy(allAgents[self.numWhite:])
         self.IDU_agents = []
@@ -335,10 +308,10 @@ class PopulationClass():
         print("\tCreating agents")
 
         for agent in self.White_agents:
-            agent_cl = self._return_new_Agent_class(agent,'WHITE')
+            agent_cl = self._return_new_Agent_class(agent, 'WHITE')
             self.create_agent(agent_cl, 'WHITE')
         for agent in self.Black_agents:
-            agent_cl = self._return_new_Agent_class(agent,'BLACK')
+            agent_cl = self._return_new_Agent_class(agent, 'BLACK')
             self.create_agent(agent_cl, 'BLACK')
 
         prob_Incarc = params.DemographicParams['WHITE']['HM']['mNPart']
@@ -347,21 +320,20 @@ class PopulationClass():
             dice = self.popRandom.random()
             prob_Incarc = params.DemographicParams[tmpA._race][tmpA._SO]['INCARprev']
             if dice < prob_Incarc:
-                #print dice, prob_Incarc
-                toss = 2#self.popRandom.choice( (1, 2) )
-                if toss == 1: #JAIL
+
+                toss = 2
+                if toss == 1:  # JAIL
                     tmpA._incar_bool = True
                     tmpA._incar_time = int(self.popRandom.triangular(1, 9, 3))
-                else: #PRISON
+                else:  # PRISON
                     tmpA._incar_bool = True
-                    tmpA._incar_time = int(self.popRandom.triangular(1, params.inc_PrisMax, int(params.inc_PrisMax/3))) #self.popRandom.randint(params.inc_PrisMin, params.inc_PrisMax)
-                # self.incarcerated_agentsClass.add_agent(tmpA)
+                    tmpA._incar_time = int(self.popRandom.triangular(1, params.inc_PrisMax, int(
+                        params.inc_PrisMax / 3)))  # self.popRandom.randint(params.inc_PrisMin, params.inc_PrisMax)
+
                 self.incarcerated_agentSet.add_agent(tmpA)
-            #self.totalAgentClass._subset["Incar"].add_agent(agent_cl)
 
     def _return_agent_set(self):
         return self.totalAgentClass
-
 
     def get_agent_characteristic(self, agent, property):
         """
@@ -401,18 +373,19 @@ class PopulationClass():
         SexType = 'NULL'
         Drugtype = 'NULL'
 
-        #Determine sextype
+        # Determine sextype
         tmp_rnd = self.popRandom.random()
         if tmp_rnd < params.DemographicParams[Deliminator]['HM']['POP']:
             SexType = 'HM'
-        elif tmp_rnd < (params.DemographicParams[Deliminator]['HM']['POP'] + params.DemographicParams[Deliminator]['HF']['POP']):
+        elif tmp_rnd < (
+                params.DemographicParams[Deliminator]['HM']['POP'] + params.DemographicParams[Deliminator]['HF'][
+            'POP']):
             SexType = 'HF'
         else:
             SexType = 'MSM'
 
-        #Determine drugtype
+        # Determine drugtype
         tmp_rnd = self.popRandom.random()
-        #print "%.3lf must be less than%.3lf"%(tmp_rnd,params.DemographicParams[Deliminator]['IDU']['POP'])
 
         if tmp_rnd < params.DemographicParams[Deliminator]['IDU']['POP']:
             DrugType = 'IDU'
@@ -424,7 +397,6 @@ class PopulationClass():
             prob_HIV = params.DemographicParams[Deliminator]['IDU']['HIV']
         else:
             prob_HIV = params.DemographicParams[Deliminator][SexType]['HIV']
-        #print "%s\t%s\t%.3lf"%(Deliminator,SexType,prob_HIV)
 
         if self.popRandom.random() < prob_HIV:
             HIVStatus = 1
@@ -434,7 +406,6 @@ class PopulationClass():
                 prob_AIDS = params.DemographicParams[Deliminator]['IDU']['AIDS']
             else:
                 prob_AIDS = params.DemographicParams[Deliminator][SexType]['AIDS']
-                #print "%s\t%s\t%.3lf"%(Deliminator,SexType,prob_HIV)
 
             if self.popRandom.random() < prob_AIDS:
                 AIDSStatus = 1
@@ -450,7 +421,7 @@ class PopulationClass():
             if self.popRandom.random() < prob_Tested:
                 TestedStatus = 1
 
-                #if tested HAART possible
+                # if tested HAART possible
                 if DrugType == 'IDU':
                     prob_HAART = params.DemographicParams[Deliminator]['IDU']['HAARTprev']
                 else:
@@ -466,7 +437,7 @@ class PopulationClass():
                 HAARTStatus = 0
 
             # if HIV, how long has the agent had it? Random sample
-            HIV_time = self.popRandom.randint(1,42)
+            HIV_time = self.popRandom.randint(1, 42)
 
         else:
             HIVStatus = 0
@@ -485,23 +456,24 @@ class PopulationClass():
             else:
                 PrEP_Status = 0
 
-        #Incarceration
+        # Incarceration
         if DrugType == 'IDU':
             prob_Incarc = params.DemographicParams[Deliminator]['IDU']['INCARprev']
         else:
             prob_Incarc = params.DemographicParams[Deliminator][SexType]['INCARprev']
 
         if self.popRandom.random() < prob_Incarc:
-            toss = self.popRandom.choice( (1, 2) )
-            if toss == 1: #JAIL
+            toss = self.popRandom.choice((1, 2))
+            if toss == 1:  # JAIL
                 incar_time = int(self.popRandom.triangular(6, 21, 15))
-            else: #PRISON
+            else:  # PRISON
                 incar_time = int(self.popRandom.triangular(30, 96, 60))
         else:
             incar_time = 0
 
-        #print "New agent: %s\t%s\t%s\tHIV:%d" % (Deliminator,DrugType,SexType,HIVStatus)
-        agent_dict = {'Race':Deliminator,'Drug Type': DrugType,'Sex Type':SexType, 'HIV':HIVStatus, 'Tested':TestedStatus, 'AIDS':AIDSStatus, 'HAARTa':HAARTStatus, 'PrEP':PrEP_Status, 'incar_t':incar_time,'HIV_t':HIV_time}
+        agent_dict = {'Race': Deliminator, 'Drug Type': DrugType, 'Sex Type': SexType, 'HIV': HIVStatus,
+                      'Tested': TestedStatus, 'AIDS': AIDSStatus, 'HAARTa': HAARTStatus, 'PrEP': PrEP_Status,
+                      'incar_t': incar_time, 'HIV_t': HIV_time}
 
         return agent_dict
 
@@ -521,45 +493,31 @@ class PopulationClass():
         SexType = 'NULL'
         Drugtype = 'NULL'
 
-        #Determine sextype
+        # Determine sextype
         demBinP = 0.0
         tmp_rnd = self.popRandom.random()
         while SexType == 'NULL':
-            #For each demographic class within race
+            # For each demographic class within race
             for demClass in params.RaceClass1.keys():
-                #If demClass is enabled for model
+                # If demClass is enabled for model
                 if demClass in params.agentSexTypes:
-                    #Calculate probability
+                    # Calculate probability
                     demBinP += params.DemographicParams[Race][demClass]['POP']
-                    #If match, set SexType
+                    # If match, set SexType
                     if tmp_rnd < demBinP:
                         SexType = demClass
                         break
 
-        # if tmp_rnd < params.DemographicParams[Race]['HM']['POP']:
-        #     SexType = 'HM'
-        # elif tmp_rnd < (params.DemographicParams[Race]['HM']['POP'] + params.DemographicParams[Race]['HF']['POP']):
-        #     SexType = 'HF'
-        # elif tmp_rnd < (params.DemographicParams[Race]['HM']['POP'] + params.DemographicParams[Race]['HF']['POP'] + params.DemographicParams[Race]['MSM']['POP']):
-        #     SexType = 'MSM'
-        # else:
-        #     SexType = 'MTF'
-
-        #Determine drugtype
+        # Determine drugtype
         tmp_rnd = self.popRandom.random()
-        #print "%.3lf must be less than%.3lf"%(tmp_rnd,params.DemographicParams[Deliminator]['IDU']['POP'])
 
-        #todo: FIX THIS TO GET BACK IDU
+        # todo: FIX THIS TO GET BACK IDU
         if tmp_rnd < params.DemographicParams[Race]['IDU']['POP']:
             DrugType = 'IDU'
         else:
             DrugType = 'NDU'
 
-
-        #age = self.popRandom.randint(18,65)
-
         age, ageBin = self.getAge(Race)
-
 
         newAgent = Agent(agentID, SexType, age, Race, DrugType)
         newAgent._ageBin = ageBin
@@ -567,9 +525,7 @@ class PopulationClass():
         if DrugType == 'IDU':
             prob_HIV = params.DemographicParams[Race]['IDU']['HIV']
         else:
-            #prob_HIV = params.ageMatrix[Race]['HIV'][newAgent._ageBin]
             prob_HIV = params.DemographicParams[Race][SexType]['HIV']
-        #print "%s\t%s\t%.3lf"%(Drugtype,SexType,prob_HIV)
 
         if self.popRandom.random() < prob_HIV:
             HIVStatus = 1
@@ -580,7 +536,6 @@ class PopulationClass():
                 prob_AIDS = params.DemographicParams[Race]['IDU']['AIDS']
             else:
                 prob_AIDS = params.DemographicParams[Race][SexType]['AIDS']
-                #print "%s\t%s\t%.3lf"%(Deliminator,SexType,prob_HIV)
 
             if self.popRandom.random() < prob_AIDS:
                 AIDSStatus = 1
@@ -598,7 +553,7 @@ class PopulationClass():
                 TestedStatus = 1
                 newAgent._tested = True
 
-                #if tested HAART possible
+                # if tested HAART possible
                 if DrugType == 'IDU':
                     prob_HAART = params.DemographicParams[Race]['IDU']['HAARTprev']
                 else:
@@ -616,8 +571,7 @@ class PopulationClass():
                 HAARTStatus = 0
 
             # if HIV, how long has the agent had it? Random sample
-            #HIV_time = self.popRandom.randint(1,42)
-            newAgent._HIV_time = self.popRandom.randint(1,42)
+            newAgent._HIV_time = self.popRandom.randint(1, 42)
 
         else:
 
@@ -640,24 +594,7 @@ class PopulationClass():
                 else:
                     PrEP_Status = 0
 
-        # #Incarceration
-        # if DrugType == 'IDU':
-        #     prob_Incarc = params.DemographicParams[Race]['IDU']['INCARprev']
-        # else:
-        #     prob_Incarc = params.DemographicParams[Race][SexType]['INCARprev']
-        #
-        # if self.popRandom.random() < prob_Incarc:
-        #     toss = self.popRandom.choice( (1, 2) )
-        #     if toss == 1: #JAIL
-        #         newAgent._incar_bool = True
-        #         newAgent._incar_time = int(self.popRandom.triangular(1, 9, 3))
-        #     else: #PRISON
-        #         newAgent._incar_bool = True
-        #         newAgent._incar_time = int(self.popRandom.triangular(6, 60, 24))
-        # else:
-        #     incar_time = 0
-
-        #Check if agent is HR as baseline.
+        # Check if agent is HR as baseline.
         if self.popRandom.random() < params.DemographicParams[Race][SexType]['HighRiskPrev']:
             newAgent._highrisk_bool = True
             newAgent._everhighrisk_bool = True
@@ -671,18 +608,16 @@ class PopulationClass():
         elif diceroll < (0.01 + 0.14 + 0.16):
             mNPart = 2
         elif diceroll < (0.01 + 0.14 + 0.16 + 0.19):
-            mNPart = self.popRandom.randrange(3,4,1)
+            mNPart = self.popRandom.randrange(3, 4, 1)
         elif diceroll < (0.01 + 0.14 + 0.16 + 0.19 + 0.34):
-            mNPart = self.popRandom.randrange(5,10,1)
-        else: #16%
+            mNPart = self.popRandom.randrange(5, 10, 1)
+        else:  # 16%
             mNPart = 10
-        #Partnership demographics
+        # Partnership demographics
         if params.setting == 'Scott':
-            newAgent._mean_num_partners = mNPart #params.DemographicParams[Race][SexType]['mNPart']
+            newAgent._mean_num_partners = mNPart  # params.DemographicParams[Race][SexType]['mNPart']
         else:
             newAgent._mean_num_partners = poisson.rvs(params.DemographicParams[Race][SexType]['NUMPartn'], size=1)
-        #print "New agent: %s\t%s\t%s\tHIV:%d" % (Deliminator,DrugType,SexType,HIVStatus)
-        #agent_dict = {'Race':Race,'Drug Type': DrugType,'Sex Type':SexType, 'HIV':HIVStatus, 'Tested':TestedStatus, 'AIDS':AIDSStatus, 'HAARTa':HAARTStatus, 'incar_t':incar_time,'HIV_t':HIV_time}
 
         if self.popRandom.random() < params.DemographicParams[Race][SexType]['MATprev']:
             newAgent._treatment_bool = True
@@ -690,7 +625,6 @@ class PopulationClass():
                 newAgent._OAT_bool = True
             else:
                 newAgent._naltrex_bool = True
-
 
         return newAgent
 
@@ -708,17 +642,19 @@ class PopulationClass():
             DrugType : str
                 Either 'IDU','NIDU' or 'ND'
         """
+
         def addToSubsets(targetSet, agent, agentParam=None):
             try:
                 targetSet.add_agent(agent)
             except:
-                print("agent %s is already a member of agent set %s"%(agent.get_ID(), targetSet.get_ID()))
+                print("agent {} is already a member of agent set {}".format(agent.get_ID(), targetSet.get_ID()))
 
             if agentParam:
                 try:
                     targetSet._subset[agentParam].add_agent(agent)
                 except:
-                    print("agent %s is already a member of agent set %s"%(agent_cl.get_ID(), targetSet._subset[agentParam].get_ID()))
+                    print("agent {} is already a member of agent set {}".format(agent_cl.get_ID(),
+                                                                                targetSet._subset[agentParam].get_ID()))
 
         # Add to all agent set
         self.All_agentSet.add_agent(agent_cl)
@@ -728,7 +664,6 @@ class PopulationClass():
 
         # Add to correct DU set
         addToSubsets(self.drugUse_agentSet, agent_cl, agent_cl._DU)
-
 
         # Add to correct racial set
         addToSubsets(self.racial_agentSet, agent_cl, agent_cl._race)
@@ -756,100 +691,11 @@ class PopulationClass():
         if agent_cl._highrisk_bool:
             addToSubsets(self.highrisk_agentsSet, agent_cl)
 
-
-        # if agent == 0.25*self.PopulationSize:print "25%"
-        # elif agent == 0.5*self.PopulationSize:print "50%"
-        # elif agent == 0.75*self.PopulationSize:print "75%"
-        #elif agent == self.PopulationSize:print "100%"
-
-        # if agent_cl._DU == 'IDU':
-        #     self.totalAgentClass._subset["IDU"].add_agent(agent_cl)
-        #
-        # if agent_cl._HIV_bool:
-        #     self.totalAgentClass._subset["HIV"].add_agent(agent_cl)
-        #
-        # if agent_cl._incar_bool:
-        #     self.incarcerated_agentsClass.add_agent(agent_cl)
-        #     #self.totalAgentClass._subset["Incar"].add_agent(agent_cl)
-        #
-        # if agent_cl._HAART_bool:
-        #     self.HAART_agentClass.add_agent(agent_cl)
-
-
-        """
-        agent_dict = self._return_new_agent_dict(Deliminator)
-
-        if Deliminator != agent_dict['Race']:
-            raise ValueError("Inconsistent drug type!%s"%str(
-                agent_dict['Race']))
-
-        # Agent dict
-        self.Agents.update({agent:agent_dict})
-
-        # Drug Type
-        DrugType = agent_dict['Drug Type']
-        if DrugType == 'IDU':
-            self.IDU_agents.append(agent)
-        elif DrugType == 'ND':
-            self.ND_agents.append(agent)
-        else:
-            raise ValueError("Invalid SexType! %s"%str(DrugType))
-
-        # Sex Type
-        SexType = agent_dict['Sex Type']
-        if SexType == 'HM':
-            self.HM_agents.append(agent)
-        elif SexType == 'HF':
-            self.HF_agents.append(agent)
-        elif SexType == 'MSM':
-            self.MSM_agents.append(agent)
-        elif SexType == 'WSW':
-            self.WSW_agents.append(agent)
-        else:
-            raise ValueError("Invalid SexType! %s"%str(SexType))
-
-        # HIV
-        HIVStatus = agent_dict['HIV']
-        if HIVStatus == 1:
-            self.HIV_agents.append(agent)
-        elif HIVStatus != 0:
-            raise ValueError("Invalid HIVType! %s"%str(HIVStatus))
-
-        # AIDS
-        AIDSStatus = agent_dict['AIDS']
-        if AIDSStatus == 1:
-            self.AIDS_agents.append(agent)
-        elif AIDSStatus != 0:
-            raise ValueError("Invalid AIDS Status! %s"%str(AIDSStatus))
-
-        # HAART
-        HAARTStatus = agent_dict['HAARTa']
-        if HAARTStatus == 1:
-            self.HAART_agents.append(agent)
-        elif HAARTStatus != 0:
-            raise ValueError("Invalid HAART Status! %s"%str(HAARTStatus))
-
-        #Incarcerated
-        IncarceratedTime = agent_dict['incar_t']
-        if IncarceratedTime >= 1:
-            self.Incarcerated.append(agent)
-        elif IncarceratedTime < 0:
-            raise ValueError("Invalid AIDS Status! %s"%str(IncarceratedTime))
-
-        # TESTED
-        TestStatus = agent_dict['Tested']
-        if TestStatus == 1:
-            self.HIVidentified_agents.append(agent)
-        elif TestStatus != 0:
-            raise ValueError("Invalid HAART Status! %s"%str(HAARTStatus))
-        """
-
     def getAge(self, race):
         rand = self.popRandom.random()
         minAge = 15
         maxAge = 80
         ageBin = 0
-        #print params.ageMatrix[race]['Prop'][1]
 
         if rand < params.ageMatrix[race]['Prop'][1]:
             minAge = 15
@@ -871,11 +717,7 @@ class PopulationClass():
             minAge = 55
             maxAge = 80
             ageBin = 5
-        # else:
-        #     minAge = 15
-        #     maxAge = 80
-        age = self.popRandom.randrange(minAge,maxAge)
-        #print rand, race, age, ageBin
+        age = self.popRandom.randrange(minAge, maxAge)
         return age, ageBin
 
     def get_agents(self):
@@ -896,24 +738,10 @@ class PopulationClass():
         :Purpose:
             Simple fprintf test on std out.
         """
-        print(('Number of agents '+str(self.PopulationSize)))
-        print(('Number of IDU '+str(len(self.IDU_agents))))
-        print(('Number of NIDU '+str(len(self.NIDU_agents))))
-        print(('Number of ND '+str(len(self.ND_agents))))
-        """
-	# random IDU
-	agent = self.popRandom.choice(self.IDU.keys())
-	print (' Random IDU agent: ' + str(agent))
-	print self.IDU[agent]
-	# random NIDU
-	agent = self.popRandom.choice(self.NIDU.keys())
-	print (' Random NIDU agent: ' + str(agent))
-	print self.NIDU[agent]
-	# random ND
-	agent = self.popRandom.choice(self.ND.keys())
-	print (' Random ND agent: ' + str(agent))
-	print self.ND[agent]
-	"""
+        print(('Number of agents ' + str(self.PopulationSize)))
+        print(('Number of IDU ' + str(len(self.IDU_agents))))
+        print(('Number of NIDU ' + str(len(self.NIDU_agents))))
+        print(('Number of ND ' + str(len(self.ND_agents))))
 
     def get_info_DrugUserType(self):
         """ 
@@ -924,8 +752,8 @@ class PopulationClass():
             data : dict
         """
         return {'Number of IDU agents': len(self.IDU_agents),
-                'Number of NIDU agents':len(self.NIDU_agents),
-                'Number of ND agents':len(self.ND_agents)}
+                'Number of NIDU agents': len(self.NIDU_agents),
+                'Number of ND agents': len(self.ND_agents)}
 
     def get_info_HIV_IDU(self):
         """
@@ -937,25 +765,30 @@ class PopulationClass():
             data : dict
         """
         count_HIV_MSM = 0
-        count_HIV_HM  = 0
+        count_HIV_HM = 0
         count_HIV_WSW = 0
-        count_HIV_HF  = 0
+        count_HIV_HF = 0
         for agent in self.IDU_agents:
             HIVstatus = self.get_agent_characteristic(agent, 'HIV')
             if HIVstatus == 1:
                 SexType = self.get_agent_characteristic(agent, 'Sex Type')
-                if SexType == 'MSM': count_HIV_MSM += 1
-                elif SexType == 'HM':count_HIV_HM += 1
-                elif SexType == 'WSW':count_HIV_WSW += 1
-                elif SexType == 'HF':count_HIV_HF += 1
-                else:raise ValueError("Agent must be either HM, MSM, HF, WSW !")
+                if SexType == 'MSM':
+                    count_HIV_MSM += 1
+                elif SexType == 'HM':
+                    count_HIV_HM += 1
+                elif SexType == 'WSW':
+                    count_HIV_WSW += 1
+                elif SexType == 'HF':
+                    count_HIV_HF += 1
+                else:
+                    raise ValueError("Agent must be either HM, MSM, HF, WSW !")
             elif HIVstatus != 0:
                 print(HIVstatus)
                 raise ValueError("HIV status must be either 0 or 1 !")
-        return {'Number of IDU HIV MSM':count_HIV_MSM,
-                'Number of IDU HIV HM':count_HIV_HM,
-                'Number of IDU HIV WSW':count_HIV_WSW,
-                'Number of IDU HIV HF':count_HIV_HF}
+        return {'Number of IDU HIV MSM': count_HIV_MSM,
+                'Number of IDU HIV HM': count_HIV_HM,
+                'Number of IDU HIV WSW': count_HIV_WSW,
+                'Number of IDU HIV HF': count_HIV_HF}
 
     def get_info_DrugSexType(self):
         """
@@ -965,74 +798,93 @@ class PopulationClass():
         :Ooutput: 
             data : dict
         """
-        count_HM	= 0
-        count_HF	= 0
-        count_MSM	= 0
-        count_WSW	= 0
-        count_HM_IDU	= 0
-        count_HF_IDU	= 0
-        count_MSM_IDU	= 0
-        count_WSW_IDU	= 0
-        count_HM_NIDU	= 0
-        count_HF_NIDU	= 0
-        count_MSM_NIDU	= 0
-        count_WSW_NIDU	= 0
-        count_HM_ND	= 0
-        count_HF_ND	= 0
-        count_MSM_ND	= 0
-        count_WSW_ND	= 0
+        count_HM = 0
+        count_HF = 0
+        count_MSM = 0
+        count_WSW = 0
+        count_HM_IDU = 0
+        count_HF_IDU = 0
+        count_MSM_IDU = 0
+        count_WSW_IDU = 0
+        count_HM_NIDU = 0
+        count_HF_NIDU = 0
+        count_MSM_NIDU = 0
+        count_WSW_NIDU = 0
+        count_HM_ND = 0
+        count_HF_ND = 0
+        count_MSM_ND = 0
+        count_WSW_ND = 0
 
         for agent in self.Agents.keys():
             SexType = self.get_agent_characteristic(agent, 'Sex Type')
             DrugType = self.get_agent_characteristic(agent, 'Drug Type')
             if SexType == 'HM':
                 count_HM += 1
-                if DrugType == 'IDU':count_HM_IDU += 1
-                elif DrugType == 'NIDU':count_HM_NIDU += 1
-                elif DrugType == 'ND':count_HM_ND += 1
-                else: raise ValueError("Drug test must either be IDU, NIDU or ND !")
+                if DrugType == 'IDU':
+                    count_HM_IDU += 1
+                elif DrugType == 'NIDU':
+                    count_HM_NIDU += 1
+                elif DrugType == 'ND':
+                    count_HM_ND += 1
+                else:
+                    raise ValueError("Drug test must either be IDU, NIDU or ND !")
             elif SexType == 'HF':
                 count_HF += 1
-                if DrugType == 'IDU': count_HF_IDU += 1
-                elif DrugType == 'NIDU':count_HF_NIDU += 1
-                elif DrugType == 'ND':count_HF_ND += 1
-                else:raise ValueError("Drug test must either be IDU, NIDU or ND !")
+                if DrugType == 'IDU':
+                    count_HF_IDU += 1
+                elif DrugType == 'NIDU':
+                    count_HF_NIDU += 1
+                elif DrugType == 'ND':
+                    count_HF_ND += 1
+                else:
+                    raise ValueError("Drug test must either be IDU, NIDU or ND !")
             elif SexType == 'MSM':
                 count_MSM += 1
-                if DrugType == 'IDU':count_MSM_IDU += 1
-                elif DrugType == 'NIDU':count_MSM_NIDU += 1
-                elif DrugType == 'ND':count_MSM_ND += 1
-                else:raise ValueError("Drug test must either be IDU, NIDU or ND !")
+                if DrugType == 'IDU':
+                    count_MSM_IDU += 1
+                elif DrugType == 'NIDU':
+                    count_MSM_NIDU += 1
+                elif DrugType == 'ND':
+                    count_MSM_ND += 1
+                else:
+                    raise ValueError("Drug test must either be IDU, NIDU or ND !")
             elif SexType == 'WSW':
                 count_WSW += 1
-                if DrugType == 'IDU':count_WSW_IDU += 1
-                elif DrugType == 'NIDU':count_WSW_NIDU += 1
-                elif DrugType == 'ND':count_WSW_ND += 1
-                else:raise ValueError("Drug test must either be IDU, NIDU or ND !")
-            else:raise ValueError("Agent must be either HM, MSM, HF, WSW !")
+                if DrugType == 'IDU':
+                    count_WSW_IDU += 1
+                elif DrugType == 'NIDU':
+                    count_WSW_NIDU += 1
+                elif DrugType == 'ND':
+                    count_WSW_ND += 1
+                else:
+                    raise ValueError("Drug test must either be IDU, NIDU or ND !")
+            else:
+                raise ValueError("Agent must be either HM, MSM, HF, WSW !")
 
-        return {'Number of HM':count_HM,
-                'Number of HF':count_HF,
-                'Number of MSM':count_MSM,
-                'Number of WSW':count_WSW,
-                'Number of MSM IDU':count_MSM_IDU,
-                'Number of MSM NIDU':count_MSM_NIDU,
-                'Number of MSM ND':count_MSM_ND,
-                'Number of HM IDU':count_HM_IDU,
-                'Number of HM NIDU':count_HM_NIDU,
-                'Number of HM ND':count_HM_ND,
-                'Number of WSW IDU':count_WSW_IDU,
-                'Number of WSW NIDU':count_WSW_NIDU,
-                'Number of WSW ND':count_WSW_ND,
-                'Number of HF IDU':count_HF_IDU,
-                'Number of HF NIDU':count_HF_NIDU,
-                'Number of HF ND':count_HF_ND}
+        return {'Number of HM': count_HM,
+                'Number of HF': count_HF,
+                'Number of MSM': count_MSM,
+                'Number of WSW': count_WSW,
+                'Number of MSM IDU': count_MSM_IDU,
+                'Number of MSM NIDU': count_MSM_NIDU,
+                'Number of MSM ND': count_MSM_ND,
+                'Number of HM IDU': count_HM_IDU,
+                'Number of HM NIDU': count_HM_NIDU,
+                'Number of HM ND': count_HM_ND,
+                'Number of WSW IDU': count_WSW_IDU,
+                'Number of WSW NIDU': count_WSW_NIDU,
+                'Number of WSW ND': count_WSW_ND,
+                'Number of HF IDU': count_HF_IDU,
+                'Number of HF NIDU': count_HF_NIDU,
+                'Number of HF ND': count_HF_ND}
+
 
 class TestClassMethods(unittest.TestCase):
     """ 
     :Purpose:
         unittest
     """
+
     def setUp(self):
         """
         :Purpose:
@@ -1045,7 +897,7 @@ class TestClassMethods(unittest.TestCase):
         print("\t__Testing HM agents list")
         myPopulation = PopulationClass(n=self.N_pop)
         for a in myPopulation.Agents.keys():
-            SexType = myPopulation.get_agent_characteristic(a,'Sex Type')
+            SexType = myPopulation.get_agent_characteristic(a, 'Sex Type')
             if SexType == 'HM':
                 self.assertTrue(a in myPopulation.HM_agents)
             elif SexType == 'HF':
@@ -1056,13 +908,13 @@ class TestClassMethods(unittest.TestCase):
                 self.assertTrue(a in myPopulation.WSW_agents)
 
         for agent in myPopulation.HM_agents:
-            self.assertTrue(myPopulation.get_agent_characteristic(agent,'Sex Type') == 'HM')
+            self.assertTrue(myPopulation.get_agent_characteristic(agent, 'Sex Type') == 'HM')
         for agent in myPopulation.HF_agents:
-            self.assertTrue(myPopulation.get_agent_characteristic(agent,'Sex Type') == 'HF')
+            self.assertTrue(myPopulation.get_agent_characteristic(agent, 'Sex Type') == 'HF')
         for agent in myPopulation.MSM_agents:
-            self.assertTrue(myPopulation.get_agent_characteristic(agent,'Sex Type') == 'MSM')
+            self.assertTrue(myPopulation.get_agent_characteristic(agent, 'Sex Type') == 'MSM')
         for agent in myPopulation.WSW_agents:
-            self.assertTrue(myPopulation.get_agent_characteristic(agent,'Sex Type') == 'WSW')
+            self.assertTrue(myPopulation.get_agent_characteristic(agent, 'Sex Type') == 'WSW')
 
     def test_HIV(self):
         """ Test: Testing HIV agent array"""
@@ -1070,7 +922,7 @@ class TestClassMethods(unittest.TestCase):
         tmpCount = 0
         myPopulation = PopulationClass(n=self.N_pop)
         for a in myPopulation.Agents.keys():
-            HIVstatus = myPopulation.get_agent_characteristic(a,'HIV')
+            HIVstatus = myPopulation.get_agent_characteristic(a, 'HIV')
             if HIVstatus != 0:
                 tmpCount += 1
                 self.assertTrue(a in myPopulation.HIV_agents)
@@ -1082,7 +934,7 @@ class TestClassMethods(unittest.TestCase):
         tmpCount = 0
         myPopulation = PopulationClass(n=self.N_pop)
         for a in myPopulation.Agents.keys():
-            AIDSstatus = myPopulation.get_agent_characteristic(a,'AIDS')
+            AIDSstatus = myPopulation.get_agent_characteristic(a, 'AIDS')
             if AIDSstatus != 0:
                 tmpCount += 1
                 self.assertTrue(a in myPopulation.AIDS_agents)
@@ -1097,9 +949,8 @@ class TestClassMethods(unittest.TestCase):
             set(myPop.IDU_agents).union(set(myPop.MSM_agents))))
         MSMAgents = list(set(myPop.MSM_agents).difference(set(myPop.IDU_agents)))
         IDUagents = myPop.IDU_agents
-        NumAgents = len(NormalAgents)+len(MSMAgents)+len(IDUagents)
-        self.assertTrue(NumAgents == self.N_pop,"NumAgents=%d, \
-				PopulationSize = %d"%(NumAgents, self.N_pop))
+        NumAgents = len(NormalAgents) + len(MSMAgents) + len(IDUagents)
+        self.assertTrue(NumAgents == self.N_pop, "NumAgents={:d}, PopulationSize = {:d}".format(NumAgents, self.N_pop))
 
     def test_MSM(self):
         """ Test: Testing MSM agent array"""
@@ -1107,14 +958,14 @@ class TestClassMethods(unittest.TestCase):
         tmpCount = 0
         myPopulation = PopulationClass(n=self.N_pop)
         for a in myPopulation.Agents.keys():
-            SEXstatus = myPopulation.get_agent_characteristic(a,'Sex Type')
+            SEXstatus = myPopulation.get_agent_characteristic(a, 'Sex Type')
             if SEXstatus == 'MSM':
                 tmpCount += 1
                 self.assertTrue(a in myPopulation.MSM_agents)
         self.assertTrue(len(myPopulation.MSM_agents) == tmpCount)
 
         for agent in myPopulation.MSM_agents:
-            agent_sex_type = myPopulation.get_agent_characteristic(agent,'Sex Type')
+            agent_sex_type = myPopulation.get_agent_characteristic(agent, 'Sex Type')
             self.assertTrue(agent_sex_type == 'MSM')
 
     def test_IDU(self):
@@ -1123,14 +974,14 @@ class TestClassMethods(unittest.TestCase):
         tmpCount = 0
         myPopulation = PopulationClass(n=self.N_pop)
         for agent in myPopulation.Agents.keys():
-            agent_drug_status = myPopulation.get_agent_characteristic(agent,'Drug Type')
+            agent_drug_status = myPopulation.get_agent_characteristic(agent, 'Drug Type')
             if agent_drug_status == 'IDU':
                 tmpCount += 1
                 self.assertTrue(agent in myPopulation.IDU_agents)
         self.assertTrue(len(myPopulation.IDU_agents) == tmpCount)
 
         for agent in myPopulation.IDU_agents:
-            agent_drug_type = myPopulation.get_agent_characteristic(agent,'Drug Type')
+            agent_drug_type = myPopulation.get_agent_characteristic(agent, 'Drug Type')
             self.assertTrue(agent_drug_type == 'IDU')
 
     def test_NIDU(self):
@@ -1139,14 +990,14 @@ class TestClassMethods(unittest.TestCase):
         tmpCount = 0
         myPopulation = PopulationClass(n=self.N_pop)
         for agent in myPopulation.Agents.keys():
-            agent_drug_status = myPopulation.get_agent_characteristic(agent,'Drug Type')
+            agent_drug_status = myPopulation.get_agent_characteristic(agent, 'Drug Type')
             if agent_drug_status == 'NIDU':
                 tmpCount += 1
                 self.assertTrue(agent in myPopulation.NIDU_agents)
         self.assertTrue(len(myPopulation.NIDU_agents) == tmpCount)
 
         for agent in myPopulation.NIDU_agents:
-            agent_drug_type = myPopulation.get_agent_characteristic(agent,'Drug Type')
+            agent_drug_type = myPopulation.get_agent_characteristic(agent, 'Drug Type')
             self.assertTrue(agent_drug_type == 'NIDU')
 
     def test_Population(self):
@@ -1154,17 +1005,19 @@ class TestClassMethods(unittest.TestCase):
         print("\t__Testing the population")
         myPopulation = PopulationClass(n=self.N_pop)
         for agent in myPopulation.Agents.keys():
-            tmp_DrugType = myPopulation.get_agent_characteristic(agent,'Drug Type')
-            self.assertTrue(tmp_DrugType in ['NIDU','IDU','ND'])
+            tmp_DrugType = myPopulation.get_agent_characteristic(agent, 'Drug Type')
+            self.assertTrue(tmp_DrugType in ['NIDU', 'IDU', 'ND'])
             if tmp_DrugType == 'NIDU':
                 self.assertTrue(agent in myPopulation.NIDU_agents)
             elif tmp_DrugType == 'IDU':
                 self.assertTrue(agent in myPopulation.IDU_agents)
-            else: self.assertTrue(agent in myPopulation.ND_agents)
+            else:
+                self.assertTrue(agent in myPopulation.ND_agents)
         self.assertTrue(len(myPopulation.NIDU_agents) == myPopulation.numNIDU)
         self.assertTrue(len(myPopulation.IDU_agents) == myPopulation.numIDU)
         self.assertTrue(len(myPopulation.ND_agents) == myPopulation.numND)
 
-if __name__=='__main__':
+
+if __name__ == '__main__':
     """unittest"""
-    unittest.main()				
+    unittest.main()

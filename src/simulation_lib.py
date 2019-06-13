@@ -97,11 +97,6 @@ def read_parameter_dict(num_Simulations):
         properties = first_line.split(',')
         properties.remove('Time')
         properties.remove('Description')
-        # assert len(properties)==NumSimulations,('Inconsistent parameter files!'+
-        # '\nInputParameter.csv, NSP_SAT.csv, and NSP_NoSAT.csv must have '+
-        # 'the same number of simulations! Each column contains the parameter '+
-        # 'set for one simulation.\nlen(properties) = %d\nNumSimulations = %d\n'%(
-        # len(properties),NumSimulations))
         for num_run in range(NumSimulations):
             data_dict[num_run].update({vector_value: {}})
         for line in lines[1:]:
@@ -118,27 +113,20 @@ def simulation(nreps, save_adjlist_flag, time_range,
                N_pop, outfile_dir, parameters, runSeed, popSeed, netSeed, uniqueSeed=False, model=None):
     # Check input
     if save_adjlist_flag not in [0, 1]:
-        raise ValueError('Invalid input! save_adjlist_flag = %s' %
-                         str(save_adjlist_flag))
-    # if time_range != 30:
-    #   raise Warning('time_range=%d'%time_range)
-    # Run nreps simulations using the given parameters.
-    # Information are printed to outfile_dir directory.
+        raise ValueError('Invalid input! save_adjlist_flag = {}'
+                         .format(str(save_adjlist_flag)))
+
     pid = os.getpid()
-    # print "Process %5s runs %d simulations:"%(pid, nreps)
-    # pprint.pprint(parameters)
     result_dict = {}
 
     for num_sim in range(nreps):
-        # random.seed(rSeed)
         inputSeed = runSeed
         if runSeed == -1:
             inputSeed = num_sim + 1
 
             print(inputSeed)
-        #print "\n\n------------------------------------------------------------------------------------------------------------------------------------------"
-        print("\tProcess %5s runs simulation %d/%d\t.:.\tInput rSeed: %d, pSeed: %d, nSeed: %d" \
-              % (pid, num_sim + 1, nreps, inputSeed,popSeed,netSeed))
+        print("\tProcess {:>5} runs simulation {:d}/{:d}\t.:.\tInput rSeed: {:d}, pSeed: {:d}, nSeed: {:d}" \
+              .format(pid, num_sim + 1, nreps, inputSeed, popSeed, netSeed))
 
         MyModel = HIVModel(N=N_pop, tmax=time_range, parameter_dict=parameters,
                            runseed=inputSeed, popseed=popSeed, netseed=netSeed, runtime_diffseed=uniqueSeed,
@@ -158,9 +146,7 @@ def simulation(nreps, save_adjlist_flag, time_range,
                 if t not in result_dict[key]:
                     result_dict[key].update({t: []})
                 if np.isnan(x):
-                    # mssg = '\tWARNING:\
-                    # NaN encountered in pid %5s run %d for %s at time %d'
-                    # print mssg%(pid, num_sim,key, t)
+
                     result_dict[key][t].append(0)
                 else:
                     result_dict[key][t].append(x)
@@ -206,36 +192,20 @@ def save_results(N_MC, time_range, rslts, outfile_dir, num_sim):
     # save results
     if not os.path.isdir(outfile_dir):
         os.mkdir(outfile_dir)
-    OutFileName = os.path.join(outfile_dir, ('Result_simulation_%d.txt' % num_sim))
-    print("\n\tSaving results to:\n\t%s\n" % str(OutFileName))
+    OutFileName = os.path.join(outfile_dir, ('Result_simulation_{:d}.txt'.format(num_sim)))
+    print("\n\tSaving results to:\n\t{}\n".format(str(OutFileName)))
     if os.path.isfile(OutFileName):
         os.remove(OutFileName)
     outfile = open(OutFileName, 'w')
     outfile.write('t,model,coverage')
     for result_property in sorted(rslts):
-        outfile.write(',%s_mean,%s_std,%s_10th,%s_90th'% (result_property,result_property,result_property,result_property))
+        outfile.write(',{}_mean,{}_std,{}_10th,{}_90th'.format(result_property, result_property, result_property,
+                                                               result_property))
     outfile.write('\n')
-    #for result_property in sorted(rslts):  # result_dict.keys()):
     for t in range(0, time_range + 1):
-        #outfile.write('%s\t' % result_property)
-        #print result_property
-        """
-        # print SUM
-        outfile.write('%s\tSum\t'%result_property)
-        for t in sorted(rslts[result_property]):  # result_dict[result_property].keys()):
-            x_v = np.array(rslts[result_property][t])  # result_dict[result_property][t])
-            x_v = x_v[np.logical_not(np.isnan(x_v))]
-            if len(x_v) > 0:
-                mean = np.sum(x_v)
-                outfile.write('%4.2f\t' % mean)
-            else:
-                outfile.write('%4.5f\t' % np.NaN)
-        outfile.write('\n')
-        """
 
-        outfile.write('%d,%s,%0.2f'%(t,params.PrEP_type,params.PrEP_Target))
+        outfile.write('{:d},{},{:0.2f}'.format(t, params.PrEP_type, params.PrEP_Target))
         for result_property in sorted(rslts):  # result_dict.keys()):
-            #outfile.write('%s\tMean\t'%result_property)
             x_v = []
 
             try:
@@ -243,44 +213,32 @@ def save_results(N_MC, time_range, rslts, outfile_dir, num_sim):
                 x_v = x_v[np.logical_not(np.isnan(x_v))]
             except:pass
 
-
-            # print sum
-            # if len(x_v) > 0:
-            #     sum = np.sum(x_v)
-            #     outfile.write(',%4.5f' % sum)
-            # else:
-            #     outfile.write(',%4.5f' % np.NaN)
-
             # print mean
             if len(x_v) > 0:
                 mean = np.mean(x_v)
-                outfile.write(',%4.5f' % mean)
+                outfile.write(',{:4.5f}'.format(mean))
             else:
-                outfile.write(',%4.5f' % np.NaN)
+                outfile.write(',{:4.5f}'.format(np.NaN))
             # print std
             if len(x_v)>0:
                 std_dev=np.std(x_v)
-                outfile.write(',%4.5f'%std_dev)
+                outfile.write(',{:4.5f}'.format(std_dev))
             else:
-                outfile.write(',%4.5f'%np.NaN)
+                outfile.write(',{:4.5f}'.format(np.NaN))
 
             # print 10th
             if len(x_v)>0:
               p10=np.percentile(x_v,10)
             else:
                 p10=np.NaN
-            outfile.write(',%4.5f'%p10)
+            outfile.write(',{:4.5f}'.format(p10))
 
             # print 90th
             if len(x_v)>0:
               p90=np.percentile(x_v,90)
             else:
                 p90=np.NaN
-            outfile.write(',%4.5f'%p90)
-            #outfile.write('\n')
-
-            # print std. deviation of mean
-            #outfile.write('%s\tStd.Dev\t'%result_property)
+            outfile.write(',{:4.5f}'.format(p90))
         outfile.write('\n')
 
     outfile.close()

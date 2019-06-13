@@ -57,7 +57,6 @@ def read_input_parameter(paramFile=None):
     properties = first_line.split(',')
     properties.remove('Name')
     properties.remove('Description')
-    #NumSimulations = len(properties)
     NumSimulations = num_Simulations
     for num_sim in range(NumSimulations):
         data_dict[num_sim] = {}
@@ -77,11 +76,7 @@ def read_input_parameter(paramFile=None):
         properties = first_line.split(',')
         properties.remove('Time')
         properties.remove('Description')
-        #assert len(properties)==NumSimulations,('Inconsistent parameter files!'+
-        #'\nInputParameter.csv, NSP_SAT.csv, and NSP_NoSAT.csv must have '+
-        #'the same number of simulations! Each column contains the parameter '+
-        #'set for one simulation.\nlen(properties) = %d\nNumSimulations = %d\n'%(
-        #len(properties),NumSimulations))
+
         for num_run in range(NumSimulations):
             data_dict[num_run].update({vector_value:{}})
         for line in lines[1:]:
@@ -98,7 +93,7 @@ def read_classifier_dict(input_params=None):
     # dictionary parameter_dict and return parameter_dict
 
     # Read scalars
-    num_Races = 1#input_params['numRaceClassifiers']
+    num_Races = 1
     infile = open('input/DemographicParameters.csv','r')
     lines = infile.readlines() # name - race - so - variable - description
     infile.close()

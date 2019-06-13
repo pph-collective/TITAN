@@ -25,7 +25,7 @@ while(num_agents>0):
   while(not nx.is_connected(tempG)):
     tempG = nx.random_geometric_graph(curPodN, 0.125)
   #tempG.graph['ID']=graphNum
-  G = nx.disjoint_union(G,tempG)
+  G = nx.disjoint_union(G, tempG)
   
 print(nx.number_of_nodes(G))
 print(nx.number_connected_components(G))

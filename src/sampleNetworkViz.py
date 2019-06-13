@@ -110,4 +110,4 @@ if(draw):
     plt.ylim(-0.05, 1.05)
     plt.axis('off')
     plt.show()
-    plt.savefig('sampleNetwork%d.png'%maxPodSize)
+    plt.savefig('sampleNetwork{:d}.png'.format(maxPodSize))

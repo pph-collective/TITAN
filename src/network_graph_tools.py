@@ -49,23 +49,11 @@ import random
 import collections
 import itertools
 import unittest
-# import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import matplotlib.animation as animation
 from operator import itemgetter
-
-# try:
-#     import pygraphviz
-#     from networkx.drawing.nx_agraph import graphviz_layout
-# except ImportError:
-#     try:
-#         import pydotplus
-#         from networkx.drawing.nx_pydot import graphviz_layout
-#     except ImportError:
-#         raise ImportError("This example needs Graphviz and either "
-#                           "PyGraphviz or PyDotPlus")
 
 try: from HIVABM_Population import PopulationClass
 except ImportError:
@@ -78,9 +66,8 @@ except ImportError:
 try:
     from ABM_partnering import *
 except ImportError as e:
-    raise ImportError("Can't import ABM_partnering! %s" % str(e))
+    raise ImportError("Can't import ABM_partnering! {}".format(str(e)))
 
-#def save_adjlist(graph, dir_prefix, time):
 def save_adjlist(N_pop, graph, dir_prefix, time):
     """
     :Purpose:
@@ -91,9 +78,9 @@ def save_adjlist(N_pop, graph, dir_prefix, time):
               delimiter: string, optional, separator for node labels
               encoding: string, optional, text enconding
     """
-    #nx.write_adjlist(graph,(dir_prefix +'/'+'test_adjlist_at_time_%d.txt'%time))
+
     if not os.path.isdir(dir_prefix): os.mkdir(dir_prefix)
-    OutFileName = (dir_prefix + '/' +'Interactions_at_time_%d.txt'%time)
+    OutFileName = (dir_prefix + '/' + 'Interactions_at_time_{:d}.txt'.format(time))
     outfile = open(OutFileName,'w')
     outfile.write('Agent 1\ttime\tAgent 2\n')
     not_singletons = []
@@ -101,10 +88,10 @@ def save_adjlist(N_pop, graph, dir_prefix, time):
     for e in graph.edges_iter():
         not_singletons.append(e[0])
         not_singletons.append(e[1])
-        outfile.write('%d\t%d\t%d\n'%(e[0],time,e[1]))
+        outfile.write('{:d}\t{:d}\t{:d}\n'.format(e[0], time, e[1]))
     singletons = list(set(range(N_pop)).difference(set(not_singletons)))
     for singleton in singletons:
-        outfile.write('%d\t%d\n'%(singleton, time))
+        outfile.write('{:d}\t{:d}\n'.format(singleton, time))
         
 def _random_subset(seq,m):
     """ Return m unique elements from seq.
@@ -157,7 +144,7 @@ def my_erdos_renyi_binomial_random_graph(node_list=None, p=0.0, seed=None, direc
         G = nx.Graph()
     n = len(node_list)
     G.add_nodes_from(node_list)
-    G.name = "my_erdos_renyi_binomial_random_graph(%s,%s)"%(n,p)
+    G.name = "my_erdos_renyi_binomial_random_graph({},{})".format(n, p)
     if p <= 0:
         return G
     if p >= 1:
@@ -211,13 +198,13 @@ def my_barabasi_albert_graph(n, m, node_list=None, seed=None):
     """
 
     if m < 1 or m >=n:
-        raise nx.NetworkXError(\
-            "Barabási-Albert network must have m>=1 and m<n, m=%d,n=%d"%(m,n))
+        raise nx.NetworkXError( \
+            "Barabási-Albert network must have m>=1 and m<n, m={:d},n={:d}".format(m, n))
 
     if node_list is not None:
         if n != len(node_list):
-            raise nx.NetworkXError(\
-                "node_list must have smae length as n! len(node_list)=%d,n=%d"%(len(node_list),n))
+            raise nx.NetworkXError( \
+                "node_list must have same length as n! len(node_list)={:d},n={:d}".format(len(node_list), n))
         else:
             random.shuffle(node_list)              # Shuffle node_list
             targets = node_list[:m]
@@ -229,7 +216,7 @@ def my_barabasi_albert_graph(n, m, node_list=None, seed=None):
 
     G = nx.Graph()                                 # networkX graph
     G.add_nodes_from(tavideorgets[:m])                  # Add m initial nodes (m0 in barabasi-speak)  
-    G.name = "mod_barabasi_albert_graph(%s,%s)"%(n,m)
+    G.name = "mod_barabasi_albert_graph({},{})".format(n, m)
     repeated_nodes = []                            # List of existing nodes, with nodes repeated once for each adjacent edge 
     Num_source = m                                 # Start adding the other n-m nodes. The first node is m.
     while Num_source < n: 
@@ -277,7 +264,7 @@ class NetworkClass(PopulationClass):
         
         if type(N) is not int:			
             raise ValueError("Population size must be integer,\
-                n = %s, not int"%(type(N)))
+                n = {}, not int".format(type(N)))
         else: pass
         if m_0 not in list(range(10)):
             raise ValueError('m_0 must be integer smaller than 10')
@@ -290,21 +277,17 @@ class NetworkClass(PopulationClass):
             for i in range(10):
                 update_partner_assignments(self, params.PARTNERTURNOVER, self.get_Graph)
             # scale free Albert Barabsai Graph
-            #self.G = my_barabasi_albert_graph(self.NetworkSize,m_0, node_list = node_list)
         elif network_type == 'max_k_comp_size':
             def trimComponent(component, maxComponentSize):
-                # print "TRIMMING", component.number_of_nodes(), component.number_of_edges()
                 for ag in component.nodes:
                     if random.random() < 0.1:
                         for rel in ag._relationships:
-                            # print("Removed edge:",rel)
                             rel.progress(forceKill=True)
                             self.Relationships.remove_agent(rel)
                             component.remove_edge(rel._ID1, rel._ID2)
                             self.G.remove_edge(rel._ID1, rel._ID2)
                             # print(self.G.number_of_nodes())
 
-                #print "RESULT:", component.number_of_nodes(), component.number_of_edges()
 
                 components = sorted(nx.connected_component_subgraphs(self.G), key=len, reverse=True)
                 totNods = 0
@@ -320,7 +303,6 @@ class NetworkClass(PopulationClass):
                             except:pass
                     else:
                         totNods += cNodes
-                #print "Total agents in graph: ",totNods,self.G.number_of_nodes()
                     
             self.G = nx.Graph()
             for i in range(10):
@@ -341,7 +323,7 @@ class NetworkClass(PopulationClass):
                 directed=False)
         else:
             print("HUIH")
-            raise ValueError("Invalid network type! %s"%str(network_type))
+            raise ValueError("Invalid network type! {}".format(str(network_type)))
 
     def write_G_edgelist(self, path):
         G = self.G
@@ -385,15 +367,13 @@ class NetworkClass(PopulationClass):
             for i in components:
                 comps.append(len(i))
 
-            #print np.histogram(comps)
-
     def create_graph_from_agents(self, agents):
         G = self.G
         numAdded = 0
         for tmpA in agents.iter_agents():
             numAdded += 1
             G.add_node(tmpA)
-        print("\tAdded %d/%d agents" % (numAdded, G.number_of_nodes()))
+        print("\tAdded {:d}/{:d} agents".format(numAdded, G.number_of_nodes()))
 
     def create_graph_from_relationships(self, relationships):
         G = self.G
@@ -401,7 +381,7 @@ class NetworkClass(PopulationClass):
         for rel in relationships.iter_agents():
             numAdded += 1
             self.G.add_edge(rel._ID1, rel._ID2)
-        print("Added %d/%d relationships" % (numAdded, G.number_of_edges()))
+        print("Added {:d}/{:d} relationships".format(numAdded, G.number_of_edges()))
 
     def draw_histogram(self, t=0):
         G = self.G
@@ -413,16 +393,7 @@ class NetworkClass(PopulationClass):
         fig, ax = plt.subplots()
         plt.bar(deg, cnt, width=0.80, color='b')
 
-        # degree_sequence = sorted([d for n, d in G.degree() if n._HIV_bool], reverse=True)  # degree sequence
-        # # print "Degree sequence", degree_sequence
-        # degreeCount = collections.Counter(degree_sequence)
-        # deg, cnt = zip(*degreeCount.items())
-        # print deg
-        # plt.bar(deg,cnt,color="r")
-        #cntHIV =
-
-
-        plt.title("Degree Histogram\nTime: %d"%t)
+        plt.title("Degree Histogram\nTime: {:d}".format(t))
         plt.ylabel("Count")
         plt.xlabel("Degree")
         plt.ylim(0, len(G.nodes))
@@ -431,33 +402,25 @@ class NetworkClass(PopulationClass):
 
         # draw graph in inset
         plt.axes([0.4, 0.4, 0.5, 0.5])
-        Gcc = G#sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)[0]
-        #pos = nx.spring_layout(G, iterations=10)
-        #pos = nx.circular_layout(G)
-        #pos = nx.shell_layout(G)
-        #‘neato’|’dot’|’twopi’|’circo’|’fdp’|’nop’
+        Gcc = G
         pos = graphviz_layout(Gcc, prog='neato', args='')
         plt.axis('off')
 
         node_shape = 'o'
         node_color =[]
         for v in Gcc:
-            # tmp_aids = self.get_agent_characteristic(v, 'AIDS')
-            # tmp_hiv = self.get_agent_characteristic(v, 'HIV')
             if v._AIDS_bool:  # tmp_hiv == 1:
                 node_color.append('r')
             elif v._HIV_bool:  # tmp_aids == 1:
                 node_color.append('r')
             else:
                 node_color.append('g')
-        #nx.draw(G, node_size=5, node_color=node_color)
+
         nx.draw_networkx_nodes(Gcc, pos, node_size=20,node_color=node_color,node_shape=node_shape)
         nx.draw_networkx_edges(Gcc, pos, alpha=0.4)
-        #nx.draw_networkx_labels(G, pos, t, font_size=16)
 
-        #line_ani = animation.FuncAnimation(fig, interval=50, blit=True)
         plt.show(block=False)
-        plt.savefig('images/snapshot_%d.png'%t)
+        plt.savefig('images/snapshot_{:d}.png'.format(t))
         plt.pause(0.5)
         plt.close()
 
@@ -468,29 +431,21 @@ class NetworkClass(PopulationClass):
         """
         graph = self.G
         Gsize = graph.number_of_nodes()
-        #print("\tNetwork size = "+str(self.NetworkSize))
         degreeList = np.array(graph.degree())
-        x_degree = np.arange(max(degreeList)+1)	# include 0 and max
+        x_degree = np.arange(max(degreeList)+1)  # include 0 and max
         degreehist = np.bincount(degreeList)
         ix = degreehist != 0			# delete zeros
         degreehist = degreehist[ix]
         x_degree = x_degree[ix]
-        #plt.ion()
         plt.clf()
-        # print node degree distribution
-        #plt.loglog(x_degree, degreehist, 'bo')
-        #plt.semilogy(x_degree, degreehist, 'bo')
+
         plt.plot(x_degree, degreehist, 'bo')
         plt.suptitle('Node degree distribution',fontsize=18)
-        plt.title('Time=%d   N=%d'%(time, Gsize))
+        plt.title('Time={:d}   N={:d}'.format(time, Gsize))
         plt.ylabel('Frequency')
         plt.xlabel('Node degree')
-        #plt.axis('equal')
-        #plt.axis([min(degreeList)-(0.05*max(degreeList)),
-        #          max(degreeList)+(0.05*max(degreeList)),
-        #          0.9, max(degreehist)+(0.05* max(degreehist))])
         plt.axis([0, 1.05*max(degreeList), 0, 1.05*max(degreehist)])
-        plt.savefig('images/Degree_%d.png'%time)#plt.show()
+        plt.savefig('images/Degree_{:d}.png'.format(time))#plt.show()
 
     def get_AdjacencyList(self):
         """ Return the adjacency list of the graph. """
@@ -522,7 +477,6 @@ class NetworkClass(PopulationClass):
         nx.draw_spectral(G, with_labels=False)
         plt.axis('equal')
         plt.savefig('spectral_tree.png')
-        #plt.show()
 
     def vizualize_network_graphviz(self, program='sfdp', coloring=None, time=0):
         G = self.G
@@ -530,22 +484,13 @@ class NetworkClass(PopulationClass):
 
         plt.clf()
         plt.figure(figsize=(8, 8))
-        plt.suptitle('Agent Network %s'%program,fontsize=18)
-        plt.title('Time=%d   N=%d'%(time, Gsize))
+        plt.suptitle('Agent Network {}'.format(program), fontsize=18)
+        plt.title('Time={:d}   N={:d}'.format(time, Gsize))
         size = G.size()
 
         edge_color = 'k'
         node_shape = 'o'
         node_color = self.get_network_color(coloring)
-        # node_color = []
-        # if coloring == 'Tested':
-        #     for v in G:
-        #         if v._tested:#tmp_hiv == 1:
-        #             node_color.append('r')
-        #         elif v._HIV_bool: #tmp_aids == 1:
-        #             node_color.append('r')
-        #         else:
-        #             node_color.append('g')
 
         pos = graphviz_layout(G, prog='neato', args='')
         nx.draw(G, pos,
@@ -557,18 +502,9 @@ class NetworkClass(PopulationClass):
                 linewidths = 0.25,
                 width=0.25)
 
-        # nx.draw_graphviz(G,
-        #                  node_color=node_color,
-        #                  node_size=int(10000.0/size),
-        #                  alpha=1.0,
-        #                  prog=program,
-        #                  with_labels=False,
-        #                  linewidths = 0.25,
-        #                  width = 0.25)
         plt.axis('equal')
-        filename="images/Network_%d_%s_%s_%d.png"%(Gsize,program,coloring,time)
+        filename= "images/Network_{:d}_{}_{}_{:d}.png".format(Gsize, program, coloring, time)
         plt.savefig(filename)
-        #plt.show()
 
     def vizualize_network_random(self):
         G = self.G
@@ -576,14 +512,13 @@ class NetworkClass(PopulationClass):
         nx.draw_random(G, with_labels=False)
         plt.axis('equal')
         plt.savefig('random.png')
-        #plt.show()
 
     def vizualize_network_ego(self):
         # Create a BA model graph
         G = self.G
         n = 1000
         m = 2
-        #G = nx.generators.barabasi_albert_graph(n, m)
+
         # find node with largest degree
         node_and_degree = G.degree()
         (largest_hub, degree) = sorted(list(node_and_degree.items()), key=itemgetter(1))[-1]
@@ -591,12 +526,10 @@ class NetworkClass(PopulationClass):
         hub_ego = nx.ego_graph(G, largest_hub)
         # Draw graph
         nx.draw_networkx(G,with_labels=False)
-        #pos = nx.spring_layout(hub_ego)
-        #nx.draw(hub_ego, pos, node_color='b', node_size=50, with_labels=False)
+
         # Draw ego as large and red
-        #nx.draw_networkx_nodes(hub_ego, pos, nodelist=[largest_hub], node_size=300, node_color='r')
+
         plt.savefig('ego_graph.png')
-        #plt.show()
 
     def get_network_color(self, coloring='Sex Type'):
         G = self.G
@@ -613,7 +546,7 @@ class NetworkClass(PopulationClass):
                 elif tmp_sextype == 'MSM':
                     node_color.append('r')
                 else:
-                    raise ValueError("Check agents %s sextype %s"%(v, tmp_sextype))
+                    raise ValueError("Check agents {} sextype {}".format(v, tmp_sextype))
         elif coloring == 'DU':
             for v in G:
                 tmp_drugtype = self.get_agent_characteristic(v, 'Drug Type')
@@ -624,7 +557,7 @@ class NetworkClass(PopulationClass):
                 elif tmp_drugtype == 'IDU':
                     node_color.append('r')
                 else:
-                    raise ValueError("Check agents %s drug type %s"%(v, tmp_drugtype))
+                    raise ValueError("Check agents {} drug type {}".format(v, tmp_drugtype))
         elif coloring == 'Tested':
             for v in G:
                 if v._HAART_bool:
@@ -649,8 +582,6 @@ class NetworkClass(PopulationClass):
                     node_color.append('gray')
         elif coloring == 'HIV':
             for v in G:
-                #tmp_aids = self.get_agent_characteristic(v, 'AIDS')
-                #tmp_hiv = self.get_agent_characteristic(v, 'HIV')
                 if v._AIDS_bool:#tmp_hiv == 1:
                     node_color.append('purple')
                 elif v._HIV_bool: #tmpaids == 1:
@@ -682,10 +613,10 @@ class NetworkClass(PopulationClass):
                 elif v._race == 'WHITE':
                     node_color.append('g')
                 else:
-                    raise ValueError("Check agents %s drug type %s"%(v, tmp_drugtype))
+                    raise ValueError("Check agents {} drug type {}".format(v, tmp_drugtype))
         else:
-            raise ValueError("coloring value invalid!\n%s\n \
-            Only 'SO','DU','Tested', 'Trtmt', and 'HIV' allowed!"%str(coloring))
+            raise ValueError("coloring value invalid!\n{}\n \
+            Only 'SO','DU','Tested', 'Trtmt', and 'HIV' allowed!".format(str(coloring)))
 
         return node_color
 
@@ -723,11 +654,6 @@ class NetworkClass(PopulationClass):
         # plt.figure(figsize=(8,8))
 
         if not pos:
-            #pos=nx.spring_layout(G,iterations=iterations)
-            #pos = nx.circular_layout(G)
-            #pos=nx.shell_layout(G)
-            #pos=nx.random_layout(G)
-            #pos=nx.spectral_layout(G)
             pos = graphviz_layout(G, prog='neato', args='')
 
         edge_color = 'k'
@@ -757,15 +683,9 @@ class NetworkClass(PopulationClass):
                 width=0.5)
 
 
-        #nx.draw_networkx_nodes(self.graph,pos,node_size=NodeSize)
-        #nx.draw_networkx_edges(self.graph,pos,alpha=0.4)
-        #print G.number_of_nodes()
-        #print curtime
-
-
         textstr = '\n'.join((
-            r'N infection=%.2f' % (txtboxLabel,),
-            r'Time=%.2f' % (curtime,)))
+            r'N infection={:.2f}'.format(txtboxLabel, ),
+            r'Time={:.2f}'.format(curtime, )))
 
         # these are matplotlib.patch.Patch properties
         props = dict(boxstyle='round',
@@ -777,14 +697,9 @@ class NetworkClass(PopulationClass):
             verticalalignment='top',
             transform=ax.transAxes,bbox=props)
 
-        # plt.axis('equal')
-        # plt.axis('off')
-        filename="images/%s_%d_%s_%d.png"%(label, G.number_of_nodes(),coloring, curtime)
+        filename= "images/{}_{:d}_{}_{:d}.png".format(label, G.number_of_nodes(), coloring, curtime)
 
-        #plt.show()
-        #plt.show(block=True)
         fig.savefig(filename)
-        #print G.size()
         if return_layout:
             return pos
 
@@ -808,8 +723,8 @@ class TestClassMethods(unittest.TestCase):
         for agent in myNetworkObj.NormalAgents:
             agent_sex_type = myNetworkObj.get_agent_characteristic(agent,'Sex Type')
             agent_drug_type = myNetworkObj.get_agent_characteristic(agent,'Drug Type')
-            self.assertTrue(agent_drug_type not in ['IDU','NIDU'], "Wrong drug type!%s"%str(agent_drug_type))
-            self.assertTrue(agent_sex_type != 'MSM',"Wrong sex type!%s"%str(agent_sex_type))
+            self.assertTrue(agent_drug_type not in ['IDU','NIDU'], "Wrong drug type!{}".format(str(agent_drug_type)))
+            self.assertTrue(agent_sex_type != 'MSM', "Wrong sex type!{}".format(str(agent_sex_type)))
 
     def test_PartialNetwork(self):
         """Test if all non-IDU,ND,NIDU agents are in the population"""
@@ -822,8 +737,8 @@ class TestClassMethods(unittest.TestCase):
         for agent in myNetworkObj.G:
             agent_sex_type = myNetworkObj.get_agent_characteristic(agent,'Sex Type')
             agent_drug_type = myNetworkObj.get_agent_characteristic(agent,'Drug Type')
-            self.assertTrue(agent_drug_type not in ['IDU','NIDU'], "Wrong drug type!%s"%str(agent_drug_type))
-            self.assertTrue(agent_sex_type != 'MSM',"Wrong sex type!%s"%str(agent_sex_type))
+            self.assertTrue(agent_drug_type not in ['IDU','NIDU'], "Wrong drug type!{}".format(str(agent_drug_type)))
+            self.assertTrue(agent_sex_type != 'MSM', "Wrong sex type!{}".format(str(agent_sex_type)))
 
     def test_PopulationConsistency(self):
         """Test if Drug users add up"""
