@@ -263,7 +263,7 @@ for a in ['MSM','HM','HF','IDU']:
 
 incarNIDUProb = 0.010*2
 incarIDUProb = 0.010
-incarProbScalar = 0.01
+incarProbScalar = 0.008
 cal_MAT_disc_prob = 0.02
 #MATProbScalar = 0.015
 RaceClass1['HM'].update({'POP': 0.60,
@@ -276,9 +276,9 @@ RaceClass1['HM'].update({'POP': 0.60,
                          })
 
 RaceClass1['HF'].update({'POP': 0.40,
-                         'INCARprev': 0.003,
+                         'INCARprev': 0.015,
                          'HighRiskPrev': 0.0,
-                         'INCAR': incarNIDUProb * incarProbScalar * .3,
+                         'INCAR': incarNIDUProb * incarProbScalar,
                          'MATprev': 0.0924,
                          'EligSE_PartnerType': ['HM'],
                          'MATProbScalar':0.01,
@@ -306,9 +306,9 @@ RaceClass2['HM'].update({'POP': 0.80,
                          })
 
 RaceClass2['HF'].update({'POP': 0.20,
-                         'INCARprev': 0.008,
+                         'INCARprev': 0.015*2,
                          'HighRiskPrev': 0.0,
-                         'INCAR': incarIDUProb * incarProbScalar * .3,
+                         'INCAR': incarIDUProb * incarProbScalar,
                          'MATprev': 0.578,
                          'EligSE_PartnerType': ['HM'],
                          'MATProbScalar':0.081,
