@@ -268,7 +268,7 @@ class HIVModel(NetworkClass):
 
         self.AdjMat = 0
         self.AdjMats_by_time = 0
-
+	self.newPrEPagents = 0
         # keep track of current time step globally for dynnetwork report
         self.TimeStep = 0
         self.totalIncarcerated = 0
@@ -302,7 +302,7 @@ class HIVModel(NetworkClass):
         self.treatmentEnrolled = False
 
         self.ResultDict = initiate_ResultDict()
-
+	self.newPrEPenrolls = 0
         # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed value
         
 
@@ -354,20 +354,22 @@ class HIVModel(NetworkClass):
             components = sorted(nx.connected_component_subgraphs(self.G), key=len, reverse=True)
             compID = 0
             for comp in components:
-                totN = nhiv = ntrtmt = ntrthiv = nprep = 0
+                totN = nhiv = ntrtmt = ntrthiv = nprep = PrEP_ever_HIV = 0
                 for ag in comp.nodes():
                     totN += 1
                     if (ag._HIV_bool):
                         nhiv += 1
                         if ag._treatment_bool:
                             ntrthiv += 1
+			if ag._PrEP_ever_bool:
+			    PrEP_ever_HIV += 1
                     elif (ag._treatment_bool):
                         ntrtmt += 1
                         if ag._PrEP_bool:
                             nprep += 1
 
 
-                compReport.write("{rseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Ntrtmt}\t{Nprep}\t{NtrtHIV}\n".format(
+                compReport.write("{rseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Ntrtmt}\t{Nprep}\t{NtrtHIV}\t{NprepHIV}\n".format(
                     rseed=self.runseed,
                     pseed=self.popseed,
                     nseed=self.netseed,
@@ -377,7 +379,8 @@ class HIVModel(NetworkClass):
                     Nhiv=nhiv,
                     Ntrtmt=ntrtmt,
                     Nprep=nprep,
-                    NtrtHIV=ntrthiv))
+                    NtrtHIV=ntrthiv,
+		    NprepHIV=PrEP_ever_HIV))
 
                 compID += 1
             compReport.close()
@@ -479,7 +482,7 @@ class HIVModel(NetworkClass):
             print "\tSTARTING HIV count:%d\tTotal Incarcerated:%d\tHR+:%d\tPrEP:%d" % (self.HIV_agentSet.num_members(), self.incarcerated_agentSet.num_members(), self.highrisk_agentsSet.num_members(), self.Trt_PrEP_agentSet.num_members())
             #self.All_agentSet.print_agents()
             self.TimeStep = t
-
+	    self.newPrEPenrolls = 0
             #print self.All_agentSet._members
             self._update_AllAgents(t)
 
@@ -492,7 +495,7 @@ class HIVModel(NetworkClass):
             if params.flag_DandR:
                 #print("\t\tdie and replace")
                 self._die_and_replace()
-
+	    
             #print "\t\tENDING HIV count:%2.2f\tIncarcerated:%d\tHR+:%d"%(self.All_agentSet._subset["HIV"].num_members()/self.All_agentSet.num_members(), self.IncarceratedClass.num_members(),self.PrEP_agents_class.num_members()) #,self.HighriskClass.num_members())
             print "Number of relationships: %d"%self.Relationships.num_members()
             tested = len([tmpA for tmpA in self.HIV_agentSet._members if tmpA._tested])
@@ -521,7 +524,9 @@ class HIVModel(NetworkClass):
             self.NewHRrolls.clear_set()
             self.NewIncarRelease.clear_set()
             self.num_Deaths
-
+	    prepReport = open('results/PrEPReport.txt', 'a')
+    	    prepReport.write("{seed}\t{time}\t{val}\n".format(seed=self.runseed,time=self.TimeStep,val=self.newPrEPenrolls))
+   	    prepReport.close()
 
             #If set to draw the edge list, print list at each timestep
             if params.drawEdgeList and t%params.intermPrintFreq ==0:
@@ -641,7 +646,7 @@ class HIVModel(NetworkClass):
                     tmpA._highrisk_time -= 1
                     if (tmpA._SO == "HM"
                         and params.flag_PrEP
-                        and (params.PrEP_target_model == 'HR' or params.PrEP_target_model == 'IncarHR')):
+                        and ('HR' in params.PrEP_target_model)):
                         for part in tmpA._partners:
                             if not part._HIV_bool:
                                 self._initiate_PrEP(part, time)
@@ -709,11 +714,11 @@ class HIVModel(NetworkClass):
                     if time >= params.PrEP_startT:
                         if agent._PrEP_bool:
                             self._discont_PrEP(agent, time)
-                        elif params.PrEP_target_model == 'Clinical':
+                        elif 'Clinical' in params.PrEP_target_model and self._PrEP_elligible(agent, time) and not agent._PrEP_bool:
+                            self._initiate_PrEP(agent,time)
+                        elif 'RandomTrial' in params.PrEP_target_model:
                             pass
-                        elif params.PrEP_target_model == 'RandomTrial':
-                            pass
-                        elif self._PrEP_elligible(agent, time) and not agent._PrEP_bool:
+                        elif 'Allcomers' in params.PrEP_target_model and self._PrEP_elligible(agent, time) and not agent._PrEP_bool:
                             self._initiate_PrEP(agent, time)
                         # if not agent._PrEP_bool:
                         #     self._initiate_PrEP(agent, time)
@@ -721,7 +726,7 @@ class HIVModel(NetworkClass):
 
 
         if params.flag_PrEP and time >= params.PrEP_startT:
-            if params.PrEP_target_model == 'Clinical':
+            if 'ClinicalB' in params.PrEP_target_model:
                 if time > params.PrEP_startT:
                     numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
                     target_PrEP = int((self.All_agentSet.num_members()-self.All_agentSet._subset["HIV"].num_members()) * params.PrEP_Target)
@@ -735,7 +740,7 @@ class HIVModel(NetworkClass):
                         self._initiate_PrEP(self._get_clinic_agent(params.PrEP_clinic_cat, elligiblePool), time)
                 # elif self._PrEP_elligible(agent, time):
                 #     self._initiate_PrEP(agent, time)
-            elif params.PrEP_target_model == 'RandomTrial' and time == params.PrEP_startT:
+            elif 'RandomTrial' in params.PrEP_target_model and time == params.PrEP_startT:
                 print "Starting random trial"
                 components = sorted(nx.connected_component_subgraphs(self.G), key=len, reverse=True)
                 totNods = 0
@@ -1575,7 +1580,14 @@ class HIVModel(NetworkClass):
                             agent._HAART_bool = False
                             agent._HAART_adh = 0
                             self.Trt_ART_agentSet.remove_agent(agent)
-
+		#Attempt couples based PrEP engagement
+            	for tmpA in agent._partners:
+                    if (params.flag_PrEP and ('Couples' in params.PrEP_target_model)):
+                    	#Atempt to put partner on prep if less than probability
+                    	if not tmpA._HIV_bool:
+                            self._initiate_PrEP(tmpA, time)
+			if not agent._HIV_bool:
+                            self._initiate_PrEP(agent, time)
                         ### END FORCE ####
 
         elif self.runRandom.random() < params.DemographicParams[race_type][sex_type]['INCAR'] * (1+(hiv_bool*4)) * params.cal_IncarP:
@@ -1630,7 +1642,7 @@ class HIVModel(NetworkClass):
                             tmpA._highrisk_bool = True
                             tmpA._everhighrisk_bool = True
                             tmpA._highrisk_time = params.HR_F_dur
-                if (params.flag_PrEP and (params.PrEP_target_model == 'Incar' or params.PrEP_target_model == 'IncarHR')):
+                if (params.flag_PrEP and ('Incar' in params.PrEP_target_model)):
                     #Atempt to put partner on prep if less than probability
                     if not tmpA._HIV_bool:
                         self._initiate_PrEP(tmpA, time)
@@ -1915,21 +1927,21 @@ class HIVModel(NetworkClass):
 
     def _PrEP_elligible(self, agent, time):
         elligble = False
-        if params.PrEP_target_model == 'Allcomers':
+        if 'Allcomers' in params.PrEP_target_model:
             elligble = True
-        elif params.PrEP_target_model == 'HighPN5':
+        elif 'HighPN5' in params.PrEP_target_model:
             if agent._mean_num_partners >= 5:
                 elligble = True
-        elif params.PrEP_target_model == 'HighPN10':
+        elif 'HighPN10' in params.PrEP_target_model:
             if agent._mean_num_partners >= 10:
                 elligble = True
-        elif params.PrEP_target_model == 'SRIns':
+        elif 'SRIns' in params.PrEP_target_model:
             if agent._sexualRole == 'Insertive':
                 elligble = True
-        elif params.PrEP_target_model == 'MSM':
+        elif 'MSM' in params.PrEP_target_model:
             if agent._SO == ('MSM' or 'MTF'):
                 elligble = True
-        elif params.PrEP_target_model == 'RandomTrial':
+        elif 'RandomTrial' in params.PrEP_target_model:
             # If using random trial
             if time == 0:
                 #if in init timestep 0, use agent set elligiblity
@@ -1937,7 +1949,9 @@ class HIVModel(NetworkClass):
             if time > 0:
                 #else, false to not continue enrollment past random trial start
                 elligble = False
-
+	elif 'HF' in params.PrEP_clinic_cat:
+	    if((len(agent._partners) >= 1) and (agent._SO == 'HF')):
+		elligble = True
         return elligble
 
 
@@ -2009,10 +2023,11 @@ class HIVModel(NetworkClass):
         """
         def _enrollPrEP(self, agent):
             agent._PrEP_bool = True
+	    agent._PrEP_ever_bool = True
             agent._PrEP_time = 0
             self.Trt_PrEP_agentSet.add_agent(agent)
             tmp_rnd = self.runRandom.random()
-
+   	    self.newPrEPenrolls += 1
             if tmp_rnd < params.PrEP_Adherence:
                 agent._PrEP_adh = 1
             else:
@@ -2030,7 +2045,7 @@ class HIVModel(NetworkClass):
         # Check valid input
         #agent.print_agent()
         if agent._PrEP_bool:
-            print agent._PrEP_bool
+            #print agent._PrEP_bool
             return None
             raise ValueError("PrEP only valid for agents not on PrEP!agent:%d" % agent.get_ID())
 
@@ -2044,16 +2059,27 @@ class HIVModel(NetworkClass):
 
         if force:
             _enrollPrEP(self, agent)
+	elif time < params.PrEP_startT:
+	    pass
         else:
             numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
 
-            if params.PrEP_target_model == 'Clinical':
+            if 'Clinical' in params.PrEP_target_model:
                 target_PrEP_population = self.All_agentSet.num_members() - self.HIV_agentSet.num_members()
                 target_PrEP = target_PrEP_population * params.PrEP_Target
-            elif (params.PrEP_target_model == 'Incar' or params.PrEP_target_model == 'IncarHR'):
+            elif 'Incar' in params.PrEP_target_model:
                 if self.runRandom.random() < params.PrEP_Target:
                     _enrollPrEP(self, agent)
                 return None
+            elif 'HR' in params.PrEP_target_model:
+                if self.runRandom.random() < params.PrEP_Target:
+                    _enrollPrEP(self, agent)
+                return None
+            elif 'Couples' in params.PrEP_target_model:
+                if self.runRandom.random() < params.PrEP_Target:
+                    _enrollPrEP(self, agent)
+                return None
+
             else:
                 target_PrEP = int((self.All_agentSet.num_members()-self.All_agentSet._subset["HIV"].num_members()) * params.PrEP_Target)
 

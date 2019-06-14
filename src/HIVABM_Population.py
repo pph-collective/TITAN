@@ -673,10 +673,8 @@ class PopulationClass():
         else: #16%
             mNPart = 10
         #Partnership demographics
-        if params.setting == 'Scott':
-            newAgent._mean_num_partners = mNPart #params.DemographicParams[Race][SexType]['mNPart']
-        else:
-            newAgent._mean_num_partners = poisson.rvs(params.DemographicParams[Race][SexType]['NUMPartn'], size=1)
+        newAgent._mean_num_partners = mNPart #params.DemographicParams[Race][SexType]['mNPart']
+        #newAgent._mean_num_partners = poisson.rvs(params.DemographicParams[Race][SexType]['NUMPartn'], size=1)
         #print "New agent: %s\t%s\t%s\tHIV:%d" % (Deliminator,DrugType,SexType,HIVStatus)
         #agent_dict = {'Race':Race,'Drug Type': DrugType,'Sex Type':SexType, 'HIV':HIVStatus, 'Tested':TestedStatus, 'AIDS':AIDSStatus, 'HAARTa':HAARTStatus, 'incar_t':incar_time,'HIV_t':HIV_time}
 

@@ -210,16 +210,15 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
         if tmpA._AIDS_bool:rsltdic[tmpA._race][tmpA._SO]['numAIDS'] += 1
         if tmpA._tested:rsltdic[tmpA._race][tmpA._SO]['numTested'] += 1
         if tmpA._HAART_bool:rsltdic[tmpA._race][tmpA._SO]['numART'] += 1
-
     for tmpA in totalAgents._subset['DU']._subset['IDU'].iter_agents():
         if tmpA._HIV_bool:rsltdic[tmpA._race]['IDU']['numHIV'] += 1
         if tmpA._AIDS_bool:rsltdic[tmpA._race]['IDU']['numAIDS'] += 1
         if tmpA._tested:rsltdic[tmpA._race]['IDU']['numTested'] += 1
         if tmpA._HAART_bool:rsltdic[tmpA._race]['IDU']['numART'] += 1
-
+	if tmpA._PrEP_bool:rsltdic[tmpA._race]['IDU']['numPrEP'] += 1
     for tmpA in totalAgents.iter_agents():
         if tmpA._everhighrisk_bool:rsltdic[tmpA._race][tmpA._SO]['numHR'] += 1
-
+        if tmpA._PrEP_bool:rsltdic[tmpA._race][tmpA._SO]['numPrEP'] += 1
 
     deaths_total = deaths["Total"]["HM"]+deaths["Total"]["HF"]+deaths["Total"]["MSM"]
     deaths_HM = deaths["Total"]["HM"]
@@ -607,6 +606,8 @@ def assess_before_update(t,
     numHIDU = 0
     numHIDUa = 0
     numDIDU = 0
+    numOAT_White = 0
+    numNaltrex_White
 
     numToND = 0
     numToIDU = 0
@@ -805,6 +806,10 @@ def assess_before_update(t,
                 numHAART_White +=1
             if agent_Test_bool:
                 numTested_White +=1
+            if agent_OAT_bool:
+		numOAT_White += 1
+	    if agent_Naltrex_bool:
+		numNaltrex_White += 1
 
         elif agent_race_type=='BLACK':
 
@@ -850,7 +855,10 @@ def assess_before_update(t,
                 numHAART_Black +=1
             if agent_Test_bool:
                 numTested_Black +=1
-
+	    if agent_OAT_bool:
+                numOAT_Black += 1
+            if agent_Naltrex_bool:
+                numNaltrex_Black += 1
 
     #PLOTTING FOR RUN
     #plt.ion()
@@ -873,8 +881,8 @@ def assess_before_update(t,
     prevalenceReport.write("%d\t%d\t%d\t%d\t%d\t%d\n" % (t, numToND, numToIDU, numToHM, numToHF, numToMSM))
     iduReport.write("%d\t%d\t%d\t%d\t%d\t%d\n" % (t,numIDU, numHIV_IDU_p, numAIDS_IDU_p, numHIDU, numTested_IDU))
 
-    whiteReport.write("%d\t%d\t%d\t%d\t%d\n" % (t, numHIV_White, numHIV_MSM_White, numTested_White, numHAART_White))
-    blackReport.write("%d\t%d\t%d\t%d\t%d\n" % (t, numHIV_Black, numHIV_MSM_Black, numTested_Black, numHAART_Black))
+    whiteReport.write("%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (t, numHIV_White, numHIV_MSM_White, numTested_White, numHAART_White, num_OAT_White, num_Naltrex_White))
+    blackReport.write("%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (t, numHIV_Black, numHIV_MSM_Black, numTested_Black, numHAART_Black, num_OAT_Black, num_Naltrex_White))
 
 
 

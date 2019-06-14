@@ -150,16 +150,16 @@ def open_outputs():
     # component report file creation
     name = 'componentReport_ALL'
     tmpReport = open('results/'+name+'.txt', 'w')
-    tmpReport.write("rseed\tpseed\tnseed\tt\tcompID\ttotalN\tNhiv\tNprepElig\tNprep\tNnewinf\n")
+    tmpReport.write("rseed\tpseed\tnseed\tt\tcompID\ttotalN\tNhiv\tNprepElig\tNprep\tNnewinf\tNprepeverHIV\n")
     tmpReport.close()
 
     whiteReport = open('results/W_pop_report.txt', 'w')
-    whiteReport.write("seed\tt\tTotal-HIV\tMSM\tTested+\tHAART\n")
+    whiteReport.write("seed\tt\tTotal-HIV\tMSM\tTested+\tHAART\tOAT\tNaltrexone\n")
     #whiteReport.write("0,0,0,0,0\n")
     whiteReport.close()
 
     blackReport = open('results/B_pop_report.txt', 'w')
-    blackReport.write("seed\tt\tTotal-HIV\tMSM\tTested+\tHAART\n")
+    blackReport.write("seed\tt\tTotal-HIV\tMSM\tTested+\tHAART\tOAT\tNaltrexone\n")
     #blackReport.write("0,0,0,0,0\n")
     blackReport.close()
 
@@ -191,6 +191,10 @@ def open_outputs():
     deathReport.write("seed\tt\tTotal\tHM\tMSM\tHF\tHIV_tot\tHIV_HM\tHIV_MSM\tHIV_HF\n")
     # prevalenceReport.write("0,0,0,0,0,0\n")
     deathReport.close()
+    
+    prepReport = open('results/PrEPReport.txt', 'w')
+    prepReport.write("seed\tt\tNewEnroll\n")
+    prepReport.close()
 
     iduReport = open('results/iduReport.txt', 'w')
     iduReport.write("seed\tt\tTotal-IDU\tIDU-HIV\tIDU-AIDS\tIDU-HAART\tIDU-tested\n")
