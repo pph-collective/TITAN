@@ -51,6 +51,8 @@ options:
   -b burntime	  number of time steps to burn for equilibration (default: $burn)     
 "
 echo "TITAN ver: "$version
+echo "Git Hash: "
+git rev-parse HEAD
 exit 0
 }
 

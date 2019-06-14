@@ -7,8 +7,8 @@ Main model parameters.
 
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
-rSeed_pop = -1              # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
-rSeed_net = -1
+rSeed_pop = 0              # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
+rSeed_net = 0
 rSeed_run = 0
 N_MC = 1               # total number of iterations (Monte Carlo runs)
 N_REPS = 1
@@ -34,7 +34,7 @@ intermPrintFreq = 60
 calcNetworkStats = False
 calcComponentStats = False
 drawFigures = False
-drawEdgeList = False
+drawEdgeList = True
 drawFigureColor = 'MSW'
 
 """
