@@ -12,7 +12,7 @@ rSeed_net = 0
 rSeed_run = 0
 N_MC = 1               # total number of iterations (Monte Carlo runs)
 N_REPS = 1
-N_POP = 5500           # population size
+N_POP = 55000           # population size
 TIME_RANGE = 60        # total time steps to iterate
 burnDuration = 60
 model = 'Overdose'         # Model Type for fast flag toggling
@@ -51,7 +51,7 @@ cal_AcuteScaling = 4.3         # Infectivity multiplier ratio for Acute status i
 cal_RR_Dx = 0.53                # Risk reduction in transmission probability for agents diagnosed
 cal_RR_HAART = 1.0              # Scaling factor for effectiveness of ART therapy on xmission P
 cal_TestFreq = 0.70              # Scaling factor for testing frequency
-cal_Mortality = 0.8             # Scaling factor for all cause mortality rates
+cal_Mortality = 1.8             # Scaling factor for overdose mortality rates
 cal_ProgAIDS = 1.0              # Scaling factor for all progression to AIDS from HIV rates
 cal_ART_cov = 0.70               # Scaling factor for enrollment on ART probability
 cal_IncarP = 3.80                # Scaling factor for probability of becoming incarcerated
@@ -116,11 +116,7 @@ p_mort_post_release_scalars={1:20,  # Prob mort risk post release (1 timestep, 2
 MATasOAT = 0.992                    # Percentage of MAT as OAT in community
 p_enroll_OAT_post_release = 0.0     # prob of enrolling OAT post release
 p_enroll_Nal_post_release = 0.0     # prob of enrolling naltx post release
-<<<<<<< HEAD
-p_discont_trt_on_incar = 0.0        # Probability of exit trt upon incarceration
-=======
-p_discont_trt_on_incar = 0.0        # Probability of exit trt upon incarceration
->>>>>>> 8b297b08214515ead6e8b46cb12e6fabc36294f7
+p_discont_trt_on_incar = 0.7        # Probability of exit trt upon incarceration
 
 
 
@@ -285,7 +281,7 @@ RaceClass1['HF'].update({'POP': 0.40,
                          'INCAR': incarNIDUProb * incarProbScalar * .3,
                          'MATprev': 0.0924,
                          'EligSE_PartnerType': ['HM'],
-                         'MATProbScalar':0.01,
+                         'MATProbScalar':0.0125,
                          'MAT_disc_prob':0.12
                          })
 

@@ -511,7 +511,7 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
     # infMSM_HRever, numNewlyTested_MSM, deaths_HIV_MSM, PrEPAgents.num_members())))
 
     incarReport.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
             rseed,
             t,
             IncarAgents.num_members(),
@@ -523,8 +523,10 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
             rsltdic['BLACK']['MSM']['incar'],
             rsltdic['WHITE']['ALL']['incarHIV'],
             rsltdic['BLACK']['ALL']['incarHIV'],
-            rsltdic['WHITE']['ALL']['newRelease'],
-            rsltdic['BLACK']['ALL']['newRelease'],
+            rsltdic['WHITE']['HM']['newRelease'],
+            rsltdic['WHITE']['HF']['newRelease'],
+            rsltdic['BLACK']['HM']['newRelease'],
+            rsltdic['BLACK']['HF']['newRelease'],
             rsltdic['WHITE']['ALL']['newReleaseHIV'],
             rsltdic['BLACK']['ALL']['newReleaseHIV']))
 

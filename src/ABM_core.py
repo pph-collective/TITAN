@@ -2424,10 +2424,12 @@ class HIVModel(NetworkClass):
                 elif agent._naltrex_bool:
                     p = p * params.p_mort_nalt_scalar
 
+                if sex_type == 'HF':
+                    p = p * 1.5
                 # print("Unscaled mort p: {}".format(p))
                 p = p * params.cal_Mortality
                 # print("Scaled mort p: {}".format(p))
-                p = p + time/36
+                # p = p + time/36
                 # uncounted churn factor
                 if reported == False:
                     if agent_Race == 'WHITE':
