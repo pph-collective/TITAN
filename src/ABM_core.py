@@ -2425,7 +2425,7 @@ class HIVModel(NetworkClass):
                     p = p * params.p_mort_nalt_scalar
 
                 if sex_type == 'HF':
-                    p = p * 1.5
+                    p = p * 1.2
                 # print("Unscaled mort p: {}".format(p))
                 p = p * params.cal_Mortality
                 # print("Scaled mort p: {}".format(p))
@@ -2475,7 +2475,7 @@ class HIVModel(NetworkClass):
                     del agent
 
                     # Create new agent
-                    agent_cl = self._return_new_Agent_class(ID_number,race)
+                    agent_cl = self._return_new_Agent_class(ID_number, race, sex_type)
                     self.create_agent(agent_cl, race)
                     # print("Adding node {}".format(agent_cl))
 

@@ -244,8 +244,6 @@ RC_template = {     'Race':None,            #Race of demographic
                     'PrEPdisc':0.0,         #Probability of discontinuing PrEP treatment
                     'MATprev':0.0,
                     'EligPartnerType':[],   #List of agent SO types the agent cant partner with
-                    'MATProbScalar':0.0,
-                    'MAT_disc_prob':0.0,
                     'AssortMixMatrix':[]    #List of assortMix Matrix to be zipped with EligPart
                 }
 
@@ -264,15 +262,13 @@ for a in ['MSM','HM','HF','IDU']:
 incarNIDUProb = 0.010*2
 incarIDUProb = 0.010
 incarProbScalar = 0.008
-cal_MAT_disc_prob = 0.02
-#MATProbScalar = 0.015
+cal_MAT_disc_prob = 0.15
+MATProbScalar = 0.008
 RaceClass1['HM'].update({'POP': 0.60,
                          'INCARprev': .015,
                          'INCAR': incarNIDUProb * incarProbScalar,
                          'MATprev': 0.0924,
-                         'EligSE_PartnerType': ['HF'],
-                         'MATProbScalar':0.011,
-                         'MAT_disc_prob':0.11
+                         'EligSE_PartnerType': ['HF']
                          })
 
 RaceClass1['HF'].update({'POP': 0.40,
@@ -280,9 +276,7 @@ RaceClass1['HF'].update({'POP': 0.40,
                          'HighRiskPrev': 0.0,
                          'INCAR': incarNIDUProb * incarProbScalar,
                          'MATprev': 0.0924,
-                         'EligSE_PartnerType': ['HM'],
-                         'MATProbScalar':0.01,
-                         'MAT_disc_prob':0.12
+                         'EligSE_PartnerType': ['HM']
                          })
 
 
@@ -291,8 +285,7 @@ RaceClass1['ALL'].update({'Proportion':0.818,
                           'HAARTdisc':0.0,
                           'PrEPdisc':0.0,
                           'AssortMixCoeff':1.0,
-                          'MATProbScalar':0.005,
-                          'MAT_disc_prob':0.07
+                          'oatValue':MATProbScalar
                           })
 
 RaceClass2['HM'].update({'POP': 0.80,
@@ -300,9 +293,7 @@ RaceClass2['HM'].update({'POP': 0.80,
                          'HighRiskPrev': 0.0,
                          'INCAR': incarIDUProb * incarProbScalar,
                          'MATprev': 0.578,
-                         'EligSE_PartnerType': ['HF'],
-                         'MATProbScalar':0.1487,
-                         'MAT_disc_prob':0.1
+                         'EligSE_PartnerType': ['HF']
                          })
 
 RaceClass2['HF'].update({'POP': 0.20,
@@ -310,17 +301,14 @@ RaceClass2['HF'].update({'POP': 0.20,
                          'HighRiskPrev': 0.0,
                          'INCAR': incarIDUProb * incarProbScalar,
                          'MATprev': 0.578,
-                         'EligSE_PartnerType': ['HM'],
-                         'MATProbScalar':0.081,
-                         'MAT_disc_prob':0.061
+                         'EligSE_PartnerType': ['HM']
                          })
 
 RaceClass2['ALL'].update({'Proportion':0.182,
                         'HAARTdisc':0.018,
                         'PrEPdisc':0.0,
                         'AssortMixCoeff':1.0,
-                        'MATProbScalar':0.3, #MATProbScalarNIDU
-                        'MAT_disc_prob':0.3
+                        'oatValue':MATProbScalar
                         })
 
 DemographicParams = {'WHITE':RaceClass1, 'BLACK':RaceClass2}

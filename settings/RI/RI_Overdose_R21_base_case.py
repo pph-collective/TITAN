@@ -51,7 +51,7 @@ cal_AcuteScaling = 4.3         # Infectivity multiplier ratio for Acute status i
 cal_RR_Dx = 0.53                # Risk reduction in transmission probability for agents diagnosed
 cal_RR_HAART = 1.0              # Scaling factor for effectiveness of ART therapy on xmission P
 cal_TestFreq = 0.70              # Scaling factor for testing frequency
-cal_Mortality = 0.8             # Scaling factor for all cause mortality rates
+cal_Mortality = 1.8             # Scaling factor for overdose mortality rates
 cal_ProgAIDS = 1.0              # Scaling factor for all progression to AIDS from HIV rates
 cal_ART_cov = 0.70               # Scaling factor for enrollment on ART probability
 cal_IncarP = 3.80                # Scaling factor for probability of becoming incarcerated
@@ -263,7 +263,7 @@ for a in ['MSM','HM','HF','IDU']:
 
 incarNIDUProb = 0.010*2
 incarIDUProb = 0.010
-incarProbScalar = 0.008
+incarProbScalar = 0.01
 cal_MAT_disc_prob = 0.02
 #MATProbScalar = 0.015
 RaceClass1['HM'].update({'POP': 0.60,
@@ -276,12 +276,12 @@ RaceClass1['HM'].update({'POP': 0.60,
                          })
 
 RaceClass1['HF'].update({'POP': 0.40,
-                         'INCARprev': 0.015,
+                         'INCARprev': 0.003,
                          'HighRiskPrev': 0.0,
-                         'INCAR': incarNIDUProb * incarProbScalar,
+                         'INCAR': incarNIDUProb * incarProbScalar * .3,
                          'MATprev': 0.0924,
                          'EligSE_PartnerType': ['HM'],
-                         'MATProbScalar':0.01,
+                         'MATProbScalar':0.0125,
                          'MAT_disc_prob':0.12
                          })
 
@@ -306,9 +306,9 @@ RaceClass2['HM'].update({'POP': 0.80,
                          })
 
 RaceClass2['HF'].update({'POP': 0.20,
-                         'INCARprev': 0.015*2,
+                         'INCARprev': 0.008,
                          'HighRiskPrev': 0.0,
-                         'INCAR': incarIDUProb * incarProbScalar,
+                         'INCAR': incarIDUProb * incarProbScalar * .3,
                          'MATprev': 0.578,
                          'EligSE_PartnerType': ['HM'],
                          'MATProbScalar':0.081,

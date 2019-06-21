@@ -394,7 +394,7 @@ class PopulationClass():
             raise ValueError("Check agents charactertic! Only 'HIV', 'Sex Type' \
 			     'Drug Type' , 'AIDS' possible.")
 
-    def _return_new_agent_dict(self, Deliminator):
+    def _return_new_agent_dict(self, Deliminator,SexType='NULL'):
         """
         :Purpose:
         Return random agent dict of a new agent..
@@ -407,17 +407,18 @@ class PopulationClass():
         :Output:
              agent_dict : dict
         """
-        SexType = 'NULL'
+        # SexType = 'NULL'
         Drugtype = 'NULL'
 
         #Determine sextype
         tmp_rnd = self.popRandom.random()
-        if tmp_rnd < params.DemographicParams[Deliminator]['HM']['POP']:
-            SexType = 'HM'
-        elif tmp_rnd < (params.DemographicParams[Deliminator]['HM']['POP'] + params.DemographicParams[Deliminator]['HF']['POP']):
-            SexType = 'HF'
-        else:
-            SexType = 'MSM'
+        while SexType == 'NULL':
+            if tmp_rnd < params.DemographicParams[Deliminator]['HM']['POP']:
+                SexType = 'HM'
+            elif tmp_rnd < (params.DemographicParams[Deliminator]['HM']['POP'] + params.DemographicParams[Deliminator]['HF']['POP']):
+                SexType = 'HF'
+            else:
+                SexType = 'MSM'
 
         #Determine drugtype
         tmp_rnd = self.popRandom.random()
@@ -514,7 +515,7 @@ class PopulationClass():
 
         return agent_dict
 
-    def _return_new_Agent_class(self, agentID, Race):
+    def _return_new_Agent_class(self, agentID, Race, SexType = 'NULL'):
         """
         :Purpose:
         Return random agent dict of a new agent..
@@ -527,7 +528,7 @@ class PopulationClass():
         :Output:
              agent_dict : dict
         """
-        SexType = 'NULL'
+        # SexType = 'NULL'
         Drugtype = 'NULL'
 
         #Determine sextype
