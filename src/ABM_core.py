@@ -2359,6 +2359,7 @@ class HIVModel(NetworkClass):
                 sex_type = agent._SO #self.get_agent_characteristic(agent, 'Sex Type')
                 HIV_status = agent._HIV_bool #self.get_agent_characteristic(agent, 'HIV')
                 HR_status = agent._highrisk_bool
+                HR_type = agent._highrisk_type
                 AIDSStatus = agent._AIDS_bool #self.get_agent_characteristic(agent, 'HIV')
                 agent_Race = agent._race #self.get_agent_characteristic(agent, 'Race')
                 #adherence =  self.AdherenceAgents[agent]
@@ -2444,7 +2445,7 @@ class HIVModel(NetworkClass):
                     # print "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAgent %d died rolling under %.10lf" % (agent.get_ID(), p)
                     
                     totalDeaths += 1
-                    if HR_status: ident = "HR"
+                    if HR_type == 'postIncar': ident = "HR"
                     else: ident = "notHR"
                     #if HIV_status: ident = "HIV+"
                     #else: ident = "HIV-"

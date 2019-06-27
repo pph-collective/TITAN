@@ -197,7 +197,7 @@ def open_outputs():
     highriskReport.close()
 
     deathReport = open('results/DeathReport.txt', 'w')
-    deathReport.write("seed\tt\tTotal\tHM\tMSM\tHF\tHIV_tot\tHIV_HM\tHIV_MSM\tHIV_HF\n")
+    deathReport.write("seed\tt\tTotal\tHM\tMSM\tHF\tHIV_tot\tpostIncar_HM\tHIV_MSM\tpostIncar_HF\n")
     # prevalenceReport.write("0,0,0,0,0,0\n")
     deathReport.close()
 
