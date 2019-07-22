@@ -1597,12 +1597,13 @@ class HIVModel(NetworkClass):
 
                             ### END FORCE ####
                 elif params.model == 'Overdose':
-                    self._becomeHighRisk(agent, HRtype='postIncar', duration=12)
+                    self._becomeHighRisk(agent, HRtype='postIncar', duration=26)
                     if self.runRandom.random() < params.p_enroll_OAT_post_release:
                         self._enter_drug_treatment(agent, trtType='OAT')
+                        self._DOC_OAT_bool=True
                     elif self.runRandom.random() < params.p_enroll_Nal_post_release:
                         self._enter_drug_treatment(agent, trtType='NAL')
-                    
+                        self._DOC_NAL_bool=True
 
         elif self.runRandom.random() < params.DemographicParams[race_type][sex_type]['INCAR'] * (1+(hiv_bool*4)) * params.cal_IncarP:
             toss = 2#random.choice( (1, 2) )
@@ -2418,7 +2419,6 @@ class HIVModel(NetworkClass):
                         p = p * params.p_mort_oat_postcess_scalar
                     elif agent._highrisk_type == 'postTrtNal':
                         p = p * params.p_mort_nalt_postcess_scalar
-
 
                 if agent._OAT_bool:
                     p = p * params.p_mort_oat_scalar

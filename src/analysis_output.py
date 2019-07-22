@@ -284,7 +284,9 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
 
     for tmpA in totalAgents.iter_agents():
         rsltdic[tmpA._race][tmpA._SO]['numAgents'] += 1
-        if tmpA._everhighrisk_bool:rsltdic[tmpA._race][tmpA._SO]['numHR'] += 1
+        if tmpA._highrisk_type == 'postIncar':
+            rsltdic[tmpA._race][tmpA._SO]['numHR'] += 1
+        #if tmpA._everhighrisk_bool:rsltdic[tmpA._race][tmpA._SO]['numHR'] += 1
 
     for tmpA in deathSet:
         rsltdic[tmpA._race][tmpA._SO]['deaths'] += 1
@@ -403,7 +405,6 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
             deaths_HIV_total,
             deaths_HIV_HM,
             deaths_HIV_MSM,
-
             deaths_HIV_HF))
 
     highriskReport.write(
