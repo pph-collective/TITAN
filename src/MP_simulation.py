@@ -149,11 +149,11 @@ def open_outputs():
         tmpReport.close()
 
     nalReport = open('results/nalReport.txt','w')
-    nalReport.write("rseed\tpseed\tnseed\tt\tNIDU_M\tNIDU_F\tIDU_M\tIDU_F\tDOC_M\tDOC_F\n")
+    nalReport.write("rseed\tpseed\tnseed\tt\tNIDU_M\tNIDU_F\tIDU_M\tIDU_F\tDOC_M\tDOC_F\tPrior_Year\n")
     nalReport.close()
 
     oatReport = open('results/oatReport.txt','w')
-    oatReport.write("rseed\tpseed\tnseed\tt\tNIDU_M\tNIDU_F\tIDU_M\tIDU_F\tDOC_M\tDOC_F\n")
+    oatReport.write("rseed\tpseed\tnseed\tt\tNIDU_M\tNIDU_F\tIDU_M\tIDU_F\tDOC_M\tDOC_F\tPrior_Year\n")
     oatReport.close()
 
     # component report file creation

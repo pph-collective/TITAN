@@ -122,10 +122,12 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
     OAT_IDU_M = 0
     OAT_NIDU_F = 0
     OAT_NIDU_M = 0
+    Prior_Year_OAT = 0
     Naltrex_NIDU_M = 0
     Naltrex_NIDU_F = 0
     Naltrex_IDU_M = 0
     Naltrex_IDU_F = 0
+    Prior_Year_Naltrex = 0
     DOC_OAT_M =0
     DOC_OAT_F = 0
     DOC_Naltrex_M = 0
@@ -208,6 +210,8 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
                     OAT_IDU_M += 1
                 elif tmpA._SO =='HF':
                     OAT_IDU_F += 1
+            if tmpA._highrisk_type == 'postIncar':
+                Prior_Year_OAT += 1 
         if tmpA._naltrex_bool:
             if tmpA._race == 'WHITE':
                 if tmpA._SO == 'HM':
@@ -219,6 +223,8 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
                     Naltrex_IDU_M += 1
                 elif tmpA._SO == 'HF':
                     Naltrex_IDU_F += 1
+            if tmpA._highrisk_type == 'postIncar':
+                Prior_Year_Naltrex +=1
 
     for tmpA in totalAgents.iter_agents():
         if tmpA._DOC_OAT_bool:
@@ -482,7 +488,7 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
             tot_rsltdic['ALL']['MSM']['numPrEP'])))
 
     nalReport.write(
-	"%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+	"%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
 	    self.runseed,
 	    self.popseed,
 	    self.netseed,
@@ -492,9 +498,10 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
 	    Naltrex_IDU_M,
 	    Naltrex_IDU_F,
 	    DOC_Naltrex_M,
-	    DOC_Naltrex_F))
+	    DOC_Naltrex_F,
+            Prior_Year_Naltrex))
     oatReport.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
             self.runseed,
             self.popseed,
             self.netseed,
@@ -504,7 +511,8 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
             OAT_IDU_M,
             OAT_IDU_F,
             DOC_OAT_M,
-            DOC_OAT_F))
+            DOC_OAT_F,
+            Prior_Year_OAT))
 
     peopleOff.write("%d\t%d\t%d\t%d\t%d\t%d\n" % (self.netseed, t,off_HM,off_HF,kickOff_HM,kickOff_HF))
 

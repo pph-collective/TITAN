@@ -116,13 +116,13 @@ p_mort_oat_scalar = 0.4            # Prob mortatlity risk for on OAT
 p_mort_nalt_scalar = 0.2            # Prob mort risk for on naltrx
 p_mort_oat_postcess_scalar = 2.0    # Prob mortality risk post exit OAT
 p_mort_nalt_postcess_scalar = 8.0   # Prob mort risk post ext Naltx
-p_mort_post_release_scalars={1:20,  # Prob mort risk post release (1 timestep, 2 timestep, 3-HR dura)
-                             2:4,
-                             3:2}
+p_mort_post_release_scalars={1:108,  # Prob mort risk post release (1 timestep, 2 timestep, 3-HR dura)
+                             2:22,
+                             3:11}
 
 MATasOAT = 0.992                    # Percentage of MAT as OAT in community
 p_enroll_OAT_post_release = 0.0 * oatIncarSensitivity     # prob of enrolling OAT post release
-p_enroll_Nal_post_release = 0.66 *  nalIncarSensitivity   # prob of enrolling naltx post release
+p_enroll_Nal_post_release = 0.66 * nalIncarSensitivity    # prob of enrolling naltx post release
 p_discont_trt_on_incar = 0.0        # Probability of exit trt upon incarceration
 
 
@@ -279,7 +279,7 @@ RaceClass1['HM'].update({'POP': 0.60,
                          'MATprev': 0.0924,
                          'EligSE_PartnerType': ['HF'],
                          'MATProbScalar':0.011,
-                         'MAT_disc_prob':0.11 * discSensitivity
+                         'MAT_disc_prob':0.11*discSensitivity
                          })
 
 RaceClass1['HF'].update({'POP': 0.40,
@@ -289,7 +289,7 @@ RaceClass1['HF'].update({'POP': 0.40,
                          'MATprev': 0.0924,
                          'EligSE_PartnerType': ['HM'],
                          'MATProbScalar':0.0125,
-                         'MAT_disc_prob':0.12 * discSensitivity
+                         'MAT_disc_prob':0.12*discSensitivity
                          })
 
 
@@ -299,7 +299,7 @@ RaceClass1['ALL'].update({'Proportion':0.818,
                           'PrEPdisc':0.0,
                           'AssortMixCoeff':1.0,
                           'MATProbScalar':0.005,
-                          'MAT_disc_prob':0.07 * discSensitivity
+                          'MAT_disc_prob':0.07*discSensitivity
                           })
 
 RaceClass2['HM'].update({'POP': 0.80,
@@ -309,7 +309,7 @@ RaceClass2['HM'].update({'POP': 0.80,
                          'MATprev': 0.578,
                          'EligSE_PartnerType': ['HF'],
                          'MATProbScalar':0.1487,
-                         'MAT_disc_prob':0.1 * discSensitivity
+                         'MAT_disc_prob':0.1*discSensitivity
                          })
 
 RaceClass2['HF'].update({'POP': 0.20,
@@ -319,7 +319,7 @@ RaceClass2['HF'].update({'POP': 0.20,
                          'MATprev': 0.578,
                          'EligSE_PartnerType': ['HM'],
                          'MATProbScalar':0.081,
-                         'MAT_disc_prob':0.061 * discSensitivity
+                         'MAT_disc_prob':0.061*discSensitivity
                          })
 
 RaceClass2['ALL'].update({'Proportion':0.182,
@@ -327,7 +327,7 @@ RaceClass2['ALL'].update({'Proportion':0.182,
                         'PrEPdisc':0.0,
                         'AssortMixCoeff':1.0,
                         'MATProbScalar':0.3, #MATProbScalarNIDU
-                        'MAT_disc_prob':0.3 * discSensitivity
+                        'MAT_disc_prob':0.3*discSensitivity
                         })
 
 DemographicParams = {'WHITE':RaceClass1, 'BLACK':RaceClass2}
