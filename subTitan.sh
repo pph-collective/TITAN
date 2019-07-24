@@ -2,7 +2,7 @@
 
 #Read in source code path, then shift for optargs
 version="0.92c"
-titanPath="/gpfs/data/bm8/sbessey/OD_Modelling/"
+titanPath="/gpfs/data/bm8/TITAN/OD_Modelling/"
 settingPath="$1"
 shift
 
