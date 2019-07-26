@@ -1,4 +1,4 @@
-__author__ = 'MaximilianKing'
+__author__ = "MaximilianKing"
 
 import matplotlib.pyplot as plt
 import networkx as nx
@@ -30,25 +30,36 @@ while num_agents > 0:
 print(nx.number_of_nodes(G))
 print(nx.number_connected_components(G))
 print(nx.info(G))
+from networkx.algorithms import approximation
 
 components = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)
 bigG = components[0]
-outfile = open('networkStats.txt', 'w')
+outfile = open("networkStats.txt", "w")
 outfile.write(nx.info(G))
 
 centDict = nx.degree_centrality(G)
 
-outfile.write("\nNumber of connected components: {}\n".format(nx.number_connected_components(G)))
+outfile.write(
+    "\nNumber of connected components: {}\n".format(nx.number_connected_components(G))
+)
 conG = nx.connected_components(G)
 tot_nodes = 0
 for t in conG:
     thisComp = len(t)
     tot_nodes += thisComp
-outfile.write("Average component size: {}\n".format(tot_nodes * 1. / nx.number_connected_components(G)))
+outfile.write(
+    "Average component size: {}\n".format(
+        tot_nodes * 1.0 / nx.number_connected_components(G)
+    )
+)
 outfile.write("Maximum component size: {}\n".format(nx.number_of_nodes(bigG)))
 outfile.write("Degree Histogram: {}\n".format(nx.degree_histogram(G)))
 outfile.write("Graph density: {}\n".format(nx.density(G)))
-outfile.write("Average node degree centrality: {}\n".format(sum(centDict.values()) / len(centDict.values())))
+outfile.write(
+    "Average node degree centrality: {}\n".format(
+        sum(centDict.values()) / len(list(centDict.values()))
+    )
+)
 # outfile.write("Average node connectivity: {}\n".format(nx.node_connectivity(G)))
 outfile.write("Average node clustering: {}\n".format(nx.average_clustering(G)))
 outfile.close()
@@ -69,16 +80,19 @@ for i in components:
 
 print(stats.describe(comps))
 
-plt.hist(comps, bins='auto')  # arguments are passed to np.histogram
+import matplotlib.pyplot as plt
+
+plt.hist(comps, bins="auto")  # arguments are passed to np.histogram
 plt.title("Histogram with 'auto' bins")
 plt.show()
+
 
 draw = False
 
 if draw:
 
     # position is stored as node attribute data for random_geometric_graph
-    pos = nx.get_node_attributes(G, 'pos')
+    pos = nx.get_node_attributes(G, "pos")
     # find node near center (0.5,0.5)
     dmin = 1
     ncenter = 0
@@ -93,13 +107,17 @@ if draw:
 
     plt.figure(figsize=(8, 8))
     nx.draw_networkx_edges(G, pos, nodelist=[ncenter], alpha=0.4)
-    nx.draw_networkx_nodes(G, pos, nodelist=list(p.keys()),
-                           node_size=80,
-                           node_color=list(p.values()),
-                           cmap=plt.cm.Reds_r)
+    nx.draw_networkx_nodes(
+        G,
+        pos,
+        nodelist=list(p.keys()),
+        node_size=80,
+        node_color=list(p.values()),
+        cmap=plt.cm.Reds_r,
+    )
 
     plt.xlim(-0.05, 1.05)
     plt.ylim(-0.05, 1.05)
-    plt.axis('off')
+    plt.axis("off")
     plt.show()
-    plt.savefig('sampleNetwork%d.png' % maxPodSize)
+    plt.savefig("sampleNetwork%d.png" % maxPodSize)
