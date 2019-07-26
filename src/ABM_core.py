@@ -1616,7 +1616,7 @@ class HIVModel(NetworkClass):
                 jailDuration[3] = {'p_value':(0.065), 'min':13, 'max':26}
                 jailDuration[4] = {'p_value':(0.045), 'min':26, 'max':78}
                 jailDuration[5] = {'p_value':(0.01), 'min':78, 'max':130}
- 	        jailDuration[6] = {'p_value':(0.01), 'min':130, 'max':260}
+                jailDuration[6] = {'p_value':(0.01), 'min':130, 'max':260}
 
             elif agent._SO == 'HM':
                 jailDuration = {1:{}, 2:{}, 3:{}, 4:{}, 5:{}, 6:{}}
