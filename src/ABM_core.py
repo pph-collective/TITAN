@@ -42,11 +42,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # Imports
 import random
 from random import Random
-
-# from copy import deepcopy, copy
+#from copy import deepcopy, copy
 import os
 import time
 import collections
+import sys
+
 
 from scipy.stats import binom
 from scipy.stats import poisson
@@ -60,21 +61,21 @@ except ImportError:
 try:
     from network_graph_tools import *
 except ImportError as e:
-    raise ImportError("Can't import network_graph_tools! %s" % str(e))
+    raise ImportError("Can't import network_graph_tools! {}".format(e))
 
 try:
     from ABM_partnering import *
 except ImportError as e:
-    raise ImportError("Can't import ABM_partnering! %s" % str(e))
+    raise ImportError("Can't import ABM_partnering! {}".format(e))
 
 try:
-    from analysis_output import *  # assessment_lib import *   #OLD FILE
+    from analysis_output import * #assessment_lib import *   #OLD FILE
 except ImportError as e:
-    raise ImportError("Can't import analysis_output! %s" % str(e))
+    raise ImportError("Can't import analysis_output! {}".format(e))
+
+
 
 PROF_DATA = {}
-
-
 def profile(function):
     @wraps(function)
     def with_profiling(*args, **kwargs):
@@ -88,23 +89,18 @@ def profile(function):
             PROF_DATA[function.__name__] = [0, []]
         PROF_DATA[function.__name__][0] += 1
         PROF_DATA[function.__name__][1].append(elapsed_time)
-        # print elapsed_time
+        #print elapsed_time
 
         return ret
 
     return with_profiling
 
-
 def print_prof_data():
-    for fname, data in list(PROF_DATA.items()):
+    for fname, data in PROF_DATA.items():
         max_time = max(data[1])
         avg_time = sum(data[1]) / len(data[1])
-        print("Function %s called %d times. " % (fname, data[0]))
-        print(
-            "\tExecution time max: %.3f, average: %.3f, total %.3f"
-            % (max_time, avg_time, sum(data[1]))
-        )
-
+        print("Function {} called {} times.".format(fname, data[0]))
+        print('\tExecution time max: {:.3f}, average: {:.3f}, total {:.3f}'.format(max_time, avg_time, sum(data[1])))
 
 def clear_prof_data():
     global PROF_DATA
@@ -176,29 +172,17 @@ class HIVModel(NetworkClass):
         All methods from :py:class:`SocialNetworkClass` \n
         All methods from :py:class:`PopulationClass`
     """
-
     def __repr__(self):
         returnStr = "\n"
-        returnStr += "Seed: %d\n" % (self.runseed)
-        returnStr += "Npop: %d\n" % (params.N_POP)
-        returnStr += "Time: %d\n" % (params.TIME_RANGE)
-        returnStr += "Mode: %s\n" % (params.model)
+        returnStr += "Seed: {}\n".format(self.runseed)
+        returnStr += "Npop: {}\n".format(params.N_POP)
+        returnStr += "Time: {}\n".format(params.TIME_RANGE)
+        returnStr += "Mode: {}\n".format(params.model)
 
         return returnStr
 
-    def __init__(
-        self,
-        N,
-        tmax,
-        parameter_dict,
-        runseed,
-        popseed,
-        netseed,
-        runtime_diffseed=False,
-        model=None,
-        network_type=None,
-        HIVABM_Agent_set=None,
-    ):
+    def __init__(self, N, tmax, parameter_dict, runseed, popseed, netseed,
+                 runtime_diffseed=False, model=None, network_type=None, HIVABM_Agent_set=None):
         """ Initialize HIVModel object """
         # Ensure param variable is are defined. For backwards compatibility with params.py files
         try:
@@ -221,35 +205,36 @@ class HIVModel(NetworkClass):
         except AttributeError:
             params.calcNetworkStats = False
 
-        if type(tmax) is not int:
+        if (type(tmax) is not int):
             raise ValueError("Number of time steps must be integer")
         else:
             self.tmax = tmax
-
-        if type(runseed) is not int:
+	
+        max_int = 2**32-1 #sys.maxsize
+        if (type(runseed) is not int):
             raise ValueError("Random seed must be integer")
         elif runseed == 0:
-            self.runseed = random.randint(1, 1000000)
+            self.runseed = random.randint(1,max_int)
         else:
             self.runseed = runseed
 
-        if type(popseed) is not int:
+        if (type(popseed) is not int):
             raise ValueError("Random seed must be integer")
         elif popseed == 0:
-            self.popseed = random.randint(1, 1000000)
+            self.popseed = random.randint(1,max_int)
         else:
             self.popseed = popseed
 
-        if type(netseed) is not int:
+        if (type(netseed) is not int):
             raise ValueError("Random seed must be integer")
         elif popseed == 0:
-            self.netseed = random.randint(1, 1000000)
+            self.netseed = random.randint(1,max_int)
         else:
             self.netseed = netseed
 
-        self.uniqueSeedID = (
-            "r" + str(runseed) + "_p" + str(popseed) + "_n" + str(netseed)
-        )
+        self.uniqueSeedID = 'r'+ str(runseed) + '_p' + str(popseed) + '_n' + str(netseed)
+
+
 
         self.current_dir = os.getcwd()
         print("=== Begin Initialization Protocol ===\n")
@@ -259,29 +244,24 @@ class HIVModel(NetworkClass):
         self.TIC = 0
         self.TOC = 0
 
+
         print("\tDictionary Read")
 
         # Risk network replaced social network
         if HIVABM_Agent_set:
             print("\tReading prefab agent set for population")
             self.All_agentSet = network_type
-            self.Relationships = Agent_set(1, "Relationships")
+            self.Relationships = Agent_set(1,"Relationships")
         else:
             print("\tCreating population Class")
-            # PopulationClass = network_type
-            # PopulationClass.__init__(self, n=N, rSeed = rseed, model=model)
+            #PopulationClass = network_type
+            #PopulationClass.__init__(self, n=N, rSeed = rseed, model=model)
+            
+            #asdf.All_agentSet.remove_agent(asdf.All_agentSet.random_agent())
+            #asdf.All_agentSet.print_subsets()
 
-            # asdf.All_agentSet.remove_agent(asdf.All_agentSet.random_agent())
-            # asdf.All_agentSet.print_subsets()
-
-            # thisPopClass = PopulationClass(N, rseed, model)
-            NetworkClass.__init__(
-                self,
-                N=N,
-                network_type=network_type,
-                popSeed=self.popseed,
-                netSeed=self.netseed,
-            )
+            #thisPopClass = PopulationClass(N, rseed, model)
+            NetworkClass.__init__(self, N=N, network_type=network_type, popSeed=self.popseed, netSeed=self.netseed)
             self.All_agentSet.print_subsets()
             # thing.All_agentSet.print_subsets()
             # thing = PopulationClass(N, rseed, model)
@@ -290,10 +270,11 @@ class HIVModel(NetworkClass):
 
         self.AdjMat = 0
         self.AdjMats_by_time = 0
-
+        self.newPrEPagents = 0
         # keep track of current time step globally for dynnetwork report
         self.TimeStep = 0
         self.totalIncarcerated = 0
+
 
         print("\n\tCreating lists")
         # Other lists / dictionaries
@@ -304,30 +285,10 @@ class HIVModel(NetworkClass):
         self.NewHRrolls = Agent_set(3, "NewHRrolls")
 
         # Assess the distribution of number of interactions per timestep for each agent type
-        self.ND_NumPartners = {
-            "ND": [],
-            "NIDU": [],
-            "IDU": [],
-            "MSM": [],
-        }  # final counts
-        self.NIDU_NumPartners = {
-            "ND": [],
-            "NIDU": [],
-            "IDU": [],
-            "MSM": [],
-        }  # final counts
-        self.IDU_NumPartners = {
-            "ND": [],
-            "NIDU": [],
-            "IDU": [],
-            "MSM": [],
-        }  # final counts
-        self.MSM_NumPartners = {
-            "ND": [],
-            "NIDU": [],
-            "IDU": [],
-            "MSM": [],
-        }  # final counts
+        self.ND_NumPartners = {'ND': [], 'NIDU': [], 'IDU': [], 'MSM': []}  # final counts
+        self.NIDU_NumPartners = {'ND': [], 'NIDU': [], 'IDU': [], 'MSM': []}  # final counts
+        self.IDU_NumPartners = {'ND': [], 'NIDU': [], 'IDU': [], 'MSM': []}  # final counts
+        self.MSM_NumPartners = {'ND': [], 'NIDU': [], 'IDU': [], 'MSM': []}  # final counts
 
         self.tmp_ND_NumPartners_Count = {}
         self.tmp_NIDU_NumPartners_Count = {}
@@ -338,34 +299,31 @@ class HIVModel(NetworkClass):
         self.Acute_agents = []
         self.Transmit_from_agents = []
         self.Transmit_to_agents = []
-        self.Transmission_tracker = {
-            "SEX_MSM": {1: 0},
-            "SEX_NMSM": {1: 0},
-            "NEEDLE": {1: 0},
-        }
+        self.Transmission_tracker = {'SEX_MSM': {1: 0}, 'SEX_NMSM': {1: 0}, 'NEEDLE': {1: 0}}
         self.totalDiagnosis = 0
         self.treatmentEnrolled = False
 
         self.ResultDict = initiate_ResultDict()
-
+        self.newPrEPenrolls = 0
         # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed value
+        
 
         print("\tRun seed was set to:", runseed)
         self.runRandom = Random(runseed)
         random.seed(self.runseed)
         np.random.seed(self.runseed)
-        print("\tFIRST RANDOM CALL %d" % random.randint(0, 100))
+        print("\tFIRST RANDOM CALL {}".format(random.randint(0,100)))
 
         print("\tReseting death count")
         self._reset_death_count()  # Number of death
 
         print("\tCreating network graph")
         self.create_graph_from_agents(self.All_agentSet)
-        # self.get_Graph = NetworkClass(1000,m_0=1)
+        #self.get_Graph = NetworkClass(1000,m_0=1)
 
         print("\n === Initialization Protocol Finished ===")
 
-    def run(self, save_adjlist_flag=1, dir_prefix="Results"):
+    def run(self, save_adjlist_flag=1, dir_prefix='Results'):
         """
         Core of the model:
             1. Prints networkReport for first agents.
@@ -377,88 +335,78 @@ class HIVModel(NetworkClass):
                 d. self._update_population()
                 e. self._reset_partner_count()
         """
-
         def getStats(t):
             self.filler = 0
-            print_stats(
-                self,
-                self.runseed,
-                t,
-                self.All_agentSet,
-                self.HIV_agentSet,
-                self.incarcerated_agentSet,
-                self.Trt_PrEP_agentSet,
-                self.NewInfections,
-                self.NewDiagnosis,
-                self.num_Deaths,
-                self.ResultDict,
-                self.Relationships,
-                self.NewHRrolls,
-                self.NewIncarRelease,
-                self.deathSet,
-            )
+            print_stats(self, self.runseed, t
+                ,self.All_agentSet
+                ,self.HIV_agentSet
+                ,self.incarcerated_agentSet
+                ,self.Trt_PrEP_agentSet
+                ,self.NewInfections
+                ,self.NewDiagnosis
+                ,self.num_Deaths
+                ,self.ResultDict
+                ,self.Relationships
+                ,self.NewHRrolls
+                ,self.NewIncarRelease,
+                self.deathSet)
 
         def print_components(t):
-            name = "componentReport_ALL"
-            compReport = open("results/" + name + ".txt", "a")
-            components = sorted(
-                nx.connected_component_subgraphs(self.G), key=len, reverse=True
-            )
+            name = 'componentReport_ALL'
+            compReport = open('results/'+name+'.txt', 'a')
+            components = sorted(nx.connected_component_subgraphs(self.G), key=len, reverse=True)
             compID = 0
             for comp in components:
-                totN = nhiv = ntrtmt = ntrthiv = nprep = 0
+                totN = nhiv = ntrtmt = ntrthiv = nprep = PrEP_ever_HIV = 0
                 for ag in comp.nodes():
                     totN += 1
-                    if ag._HIV_bool:
+                    if (ag._HIV_bool):
                         nhiv += 1
                         if ag._treatment_bool:
                             ntrthiv += 1
-                    elif ag._treatment_bool:
+                        if ag._PrEP_ever_bool:
+                            PrEP_ever_HIV += 1
+                    elif (ag._treatment_bool):
                         ntrtmt += 1
                         if ag._PrEP_bool:
                             nprep += 1
 
-                compReport.write(
-                    "{rseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Ntrtmt}\t{Nprep}\t{NtrtHIV}\n".format(
-                        rseed=self.runseed,
-                        pseed=self.popseed,
-                        nseed=self.netseed,
-                        t=t,
-                        compID=compID,
-                        totalN=totN,
-                        Nhiv=nhiv,
-                        Ntrtmt=ntrtmt,
-                        Nprep=nprep,
-                        NtrtHIV=ntrthiv,
-                    )
-                )
+
+                compReport.write("{rseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Ntrtmt}\t{Nprep}\t{NtrtHIV}\t{NprepHIV}\n".format(
+                    rseed=self.runseed,
+                    pseed=self.popseed,
+                    nseed=self.netseed,
+                    t=t,
+                    compID=compID,
+                    totalN=totN,
+                    Nhiv=nhiv,
+                    Ntrtmt=ntrtmt,
+                    Nprep=nprep,
+                    NtrtHIV=ntrthiv,
+		    NprepHIV=PrEP_ever_HIV))
 
                 compID += 1
             compReport.close()
 
-        # print "RANDOM CALL %d" %random.randint(0,100)
+        #print "RANDOM CALL %d" %random.randint(0,100)
+
 
         def burnSimulation(burnDuration):
-            print(
-                ("\n === Burn Initiated for {} timesteps ===".format(burnDuration + 1))
-            )
+            print("\n === Burn Initiated for {} timesteps ===".format(burnDuration+1))
             for t in range(0, burnDuration + 1):
                 # print '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: BURN', t
                 self._update_AllAgents(t, burn=True)
 
                 if params.flag_DandR:
-                    # print("\t\tdie and replace")
-                    self._die_and_replace(t)
-                    self._die_and_replace(t, reported=False)
+                    #print("\t\tdie and replace")
+                    self._die_and_replace()
+
             # self.All_agentSet.print_subsets()
             print("\tBurn Cuml Inc:\t{}".format(self.NewInfections.num_members()))
             self.NewInfections.clear_set()
             self.NewDiagnosis.clear_set()
             self.NewHRrolls.clear_set()
             self.NewIncarRelease.clear_set()
-
-            # print(self.num_Deaths)
-            self._reset_death_count()
             # getStats(0)
             print(" === Simulation Burn Complete ===")
 
@@ -467,22 +415,21 @@ class HIVModel(NetworkClass):
 
         # print "RANDOM CALL %d" %random.randint(0,100)
 
+
         print("\n === Begin Simulation Run ===")
-        # print("\t Writing Agents to dynNet Report")
+        #print("\t Writing Agents to dynNet Report")
         if params.drawFigures:
-            # self.get_Graph.draw_histogram(0)
+            #self.get_Graph.draw_histogram(0)
             nNodes = self.G.number_of_nodes()
-            self.visualize_network(
-                coloring=params.drawFigureColor,
-                node_size=5000.0 / nNodes,
-                curtime=0,
-                iterations=10,
-                label="Seed" + str(self.runseed),
-            )
+            self.visualize_network(coloring=params.drawFigureColor, 
+                node_size=5000./nNodes, 
+                curtime=0, 
+                iterations=10, 
+                label="Seed"+str(self.runseed))
         if params.calcComponentStats:
             print_components(0)
         # write agents to dynnetworkReport
-        # self._writeDNR()
+        #self._writeDNR()
 
         # print "TOTAL AGENTS:", self.All_agentSet.num_members()
         self.cumInfT = 0
@@ -491,114 +438,75 @@ class HIVModel(NetworkClass):
 
         def makeAgentZero(numPartners):
             firstHIV = self.runRandom.choice(self.DU_IDU_agentSet._members)
-            i = 0
+            i=0
             while i <= numPartners:
-                update_partner_assignments(
-                    self, 10000.0, self.get_Graph(), agent=firstHIV
-                )
-                i += 1
+                    update_partner_assignments(self, 10000.0, self.get_Graph(), agent=firstHIV)
+                    i += 1
             self._become_HIV(firstHIV, 0)
+        #degree_sequence = sorted([d for n, d in self.get_Graph.G.degree()], reverse=True)
+        #print degree_sequence
+        #print firstHIV
 
-        # degree_sequence = sorted([d for n, d in self.get_Graph.G.degree()], reverse=True)
-        # print degree_sequence
-        # print firstHIV
-
-        # self._become_HIV(firstHIV, 0)
+        #self._become_HIV(firstHIV, 0)
 
         print("\t===! Start Main Loop !===")
 
-        # If we are using an agent zero method, create agent zero.
+        #If we are using an agent zero method, create agent zero.
         if params.flag_agentZero:
             makeAgentZero(4)
-        # print(self.runtime_diffseed)
-        # print(self.All_agentSet._subset)
+        #print(self.runtime_diffseed)
+        #print(self.All_agentSet._subset)
         # if self.runtime_diffseed:
         #     print("setting rseed for post agent making")
         #     self.runRandom.seed()
 
         if params.drawEdgeList:
             print("Drawing network edge list to file")
-            fh = open("results/network/Edgelist_t{}.txt".format(0), "wb")
+            fh=open("results/network/Edgelist_t{}.txt".format(0),'wb')
             self.write_G_edgelist(fh)
             fh.close()
         for t in range(1, self.tmax + 1):
-            print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME", t)
-            if params.drawFigures and t % params.intermPrintFreq == 0:
-                # self.get_Graph.draw_histogram(0)
-                self.visualize_network(
-                    coloring=params.drawFigureColor,
-                    node_size=5000.0 / nNodes,
-                    curtime=t,
-                    iterations=10,
-                    label="Seed" + str(self.runseed),
-                )
-                # self.visualize_network(coloring=params.drawFigureColor,
-                #     node_size=10,
-                #     curtime=t,
-                #     txtboxLabel=4,
-                #     iterations=10,
+            print('\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME', t)
+            #print "RANDOM CALL %d" %random.randint(0,100)
+            if params.drawFigures and t%params.intermPrintFreq == 0:
+                #self.get_Graph.draw_histogram(0)
+                self.visualize_network(coloring=params.drawFigureColor, 
+                    node_size=5000./nNodes, 
+                    curtime=t, 
+                    iterations=10, 
+                    label="Seed"+str(self.runseed))
+                # self.visualize_network(coloring=params.drawFigureColor, 
+                #     node_size=10, 
+                #     curtime=t, 
+                #     txtboxLabel=4, 
+                #     iterations=10, 
                 #     label=params.label)
-            # todo: GET THIS TO THE NEW HIV COUNT
-
-            print(
-                "\tSTARTING HIV count:%d\tTotal Incarcerated:%d\tHR+:%d\tPrEP:%d"
-                % (
-                    self.HIV_agentSet.num_members(),
-                    self.incarcerated_agentSet.num_members(),
-                    self.highrisk_agentsSet.num_members(),
-                    self.Trt_PrEP_agentSet.num_members(),
-                )
-            )
-            print(
-                (
-                    "Trt:{trt} \t OAT:{oat} \t NAL:{nal}".format(
-                        trt=self.treatment_agentSet.num_members(),
-                        oat=len(
-                            [
-                                a
-                                for a in self.treatment_agentSet._members
-                                if a._OAT_bool == True
-                            ]
-                        ),
-                        nal=len(
-                            [
-                                a
-                                for a in self.treatment_agentSet._members
-                                if a._naltrex_bool == True
-                            ]
-                        ),
-                    )
-                )
-            )
-            # self.All_agentSet.print_agents()
+            #todo: GET THIS TO THE NEW HIV COUNT
+            print("\tSTARTING HIV count:{}\tTotal Incarcerated:{}\tHR+:{}\tPrEP:{}".format(self.HIV_agentSet.num_members(), self.incarcerated_agentSet.num_members(), self.highrisk_agentsSet.num_members(), self.Trt_PrEP_agentSet.num_members()))
+            #self.All_agentSet.print_agents()
             self.TimeStep = t
-
-            # print self.All_agentSet._members
+            self.newPrEPenrolls = 0
+            #print self.All_agentSet._members
             self._update_AllAgents(t)
 
-            # print "Results Dictionary update"
+            #print "Results Dictionary update"
             getStats(t)
 
-            # print "Reseting death count"
+            #print "Reseting death count"
             self._reset_death_count()
 
             if params.flag_DandR:
-                # print("\t\tdie and replace")
-                self._die_and_replace(t)
-                self._die_and_replace(t, reported=False)
-
-            # print "\t\tENDING HIV count:%2.2f\tIncarcerated:%d\tHR+:%d"%(self.All_agentSet._subset["HIV"].num_members()/self.All_agentSet.num_members(), self.IncarceratedClass.num_members(),self.PrEP_agents_class.num_members()) #,self.HighriskClass.num_members())
-            print("Number of relationships: %d" % self.Relationships.num_members())
+                #print("\t\tdie and replace")
+                self._die_and_replace()
+	    
+            #print "\t\tENDING HIV count:%2.2f\tIncarcerated:%d\tHR+:%d"%(self.All_agentSet._subset["HIV"].num_members()/self.All_agentSet.num_members(), self.IncarceratedClass.num_members(),self.PrEP_agents_class.num_members()) #,self.HighriskClass.num_members())
+            print("Number of relationships: {}".format(self.Relationships.num_members()))
             tested = len([tmpA for tmpA in self.HIV_agentSet._members if tmpA._tested])
             # print "Number tested: %d\t%.2f"%(tested, 1.0*tested/max(1,self.HIV_agentSet.num_members()))
             self.All_agentSet.print_subsets()
 
-            newInfB = len(
-                [tmpA for tmpA in self.NewInfections._members if tmpA._race == "BLACK"]
-            )
-            newInfW = len(
-                [tmpA for tmpA in self.NewInfections._members if tmpA._race == "WHITE"]
-            )
+            newInfB = len([tmpA for tmpA in self.NewInfections._members if tmpA._race == 'BLACK'])
+            newInfW = len([tmpA for tmpA in self.NewInfections._members if tmpA._race == 'WHITE'])
             newInfT = len(self.NewInfections._members)
             self.cumInfB += newInfB
             self.cumInfW += newInfW
@@ -610,46 +518,51 @@ class HIVModel(NetworkClass):
             # print "\tBlack:\t%d\t%d"%(newInfB,self.cumInfB)
             # print self.Relationships.print_agent_relationshps()
             self.totalDiagnosis += len(self.NewDiagnosis._members)
-            if (
-                self.totalDiagnosis > params.initTreatment
-                and not self.treatmentEnrolled
-            ):
+            if self.totalDiagnosis > params.initTreatment and not self.treatmentEnrolled:
                 self._enroll_treatment(t)
+
 
             self.NewInfections.clear_set()
             self.NewDiagnosis.clear_set()
             self.NewHRrolls.clear_set()
             self.NewIncarRelease.clear_set()
             self.num_Deaths
+            prepReport = open('results/PrEPReport.txt', 'a')
+            prepReport.write("{seed}\t{time}\t{val}\n".format(seed=self.runseed,time=self.TimeStep,val=self.newPrEPenrolls))
+            prepReport.close()
 
-            # If set to draw the edge list, print list at each timestep
-            if params.drawEdgeList and t % params.intermPrintFreq == 0:
+            #If set to draw the edge list, print list at each timestep
+            if params.drawEdgeList and t%params.intermPrintFreq ==0:
                 print("Drawing network edge list to file")
-                fh = open("results/network/Edgelist_t{}.txt".format(t), "wb")
+                fh=open("results/network/Edgelist_t{}.txt".format(t),'wb')
                 self.write_G_edgelist(fh)
                 fh.close()
 
-            # self.get_Graph.draw_histogram()
-            # print self.get_Graph.stat_connectivity()
+            #self.get_Graph.draw_histogram()
+            #print self.get_Graph.stat_connectivity()
 
-            print((t % params.intermPrintFreq))
-            if t % params.intermPrintFreq == 0:
+            print(t%params.intermPrintFreq)
+            if t%params.intermPrintFreq == 0:
                 if params.calcNetworkStats:
                     self.write_network_stats(t=t)
                 if params.calcComponentStats:
                     print_components(t)
 
-        # self.get_Graph.visualize_network(iterations=5)
-        # self.get_Graph.vizualize_network_graphviz(program='neato', coloring='Tested', time=t)
-        # self.get_Graph.vizualize_network_graphviz(program='neato', coloring='SO', time=t)
+
+        #self.get_Graph.visualize_network(iterations=5)
+        #self.get_Graph.vizualize_network_graphviz(program='neato', coloring='Tested', time=t)
+        #self.get_Graph.vizualize_network_graphviz(program='neato', coloring='SO', time=t)
+
 
         print_prof_data()
-        # print params.PrEP_type
-        # print params.PrEP_Target
+        #print params.PrEP_type
+        #print params.PrEP_Target
 
-        # print(self.All_agentSet._subset)
+        #print(self.All_agentSet._subset)
 
-    # @profile
+
+
+    #@profile
     def _update_AllAgents(self, time, burn=False):
         """
         :Purpose:
@@ -672,38 +585,38 @@ class HIVModel(NetworkClass):
 ®
         """
         num_HIV = len(self.HIV_agents)
-        # print("\t\t= Begin Agents Partnering =")
+        #print("\t\t= Begin Agents Partnering =")
         if time == 0:
-            i = 0
+            i=0
             # self.create_graph_from_agents(self.All_agentSet)
 
             # self.get_Graph.plot_DegreeDistribution()
-            # self.vizualize_network_graphviz(program='neato', coloring='Tested')
+            #self.vizualize_network_graphviz(program='neato', coloring='Tested')
             # self.visualize_network(node_size=10, coloring="HIV")
             # self.visualize_network(node_size=10, coloring="Trtmt")
             # update_partner_assignments(self, params.PARTNERTURNOVER, self.get_Graph)
-            # self.get_Graph.create_graph_from_relationships(self.Relationships)
+            #self.get_Graph.create_graph_from_relationships(self.Relationships)
         elif params.flag_staticN == False:
             update_partner_assignments(self, params.PARTNERTURNOVER, self.get_Graph)
 
         else:
             pass
-            # self.get_Graph.vizualize_network_graphviz(program='neato', coloring='Tested', time=time)
+            #self.get_Graph.vizualize_network_graphviz(program='neato', coloring='Tested', time=time)
             # if time%12==0:self.get_Graph.plot_DegreeDistribution(time)
-
-        # print("\t\t= Updated Partners =")
+        
+        #print("\t\t= Updated Partners =")
         self.Acute_agents = []
         self.Transmit_from_agents = []
         self.Transmit_to_agents = []
-
-        # print("\t\t= Printed DynNetwork Report =")
-        # print("\t\t= Begin Agents Operations =")
-        # print("\t\t= Relationship Iterations =")
-        # print("\n\nSTARTING RELATIONSHIPS")
+        
+        #print("\t\t= Printed DynNetwork Report =")
+        #print("\t\t= Begin Agents Operations =")
+        #print("\t\t= Relationship Iterations =")
+        #print("\n\nSTARTING RELATIONSHIPS")
         # self.Relationships.print_agent_relationshps()
-
+        
         for rel in self.Relationships._members:
-            # print "Rel: ",rel
+            #print "Rel: ",rel
             if burn:
                 pass
             else:
@@ -712,168 +625,140 @@ class HIVModel(NetworkClass):
                 pass
             else:
                 if rel.progress():
-                    try:
-                        self.get_Graph().remove_edge(rel._ID1, rel._ID2)
-                    except:
-                        pass
+                    try:self.get_Graph().remove_edge(rel._ID1, rel._ID2)
+                    except:pass
                     self.Relationships.remove_agent(rel)
                     # relID = self.Relationships._members.index(rel)
                     # self.Relationships._members.pop(relID)
-                    # print self.Relationships.is_member(rel)
+                    #print self.Relationships.is_member(rel)
 
-                    # print rel
-                    # self.Relationships._members.discard(rel)
+                    #print rel
+                    #self.Relationships._members.discard(rel)
                     del rel
 
-                # pass
+                #pass
         # print("\n\nENDING RELATIONSHIPS")
         # print type(self.Relationships)
         # print self.Relationships._members
-        # print self.Relationships.num_members()
+            #print self.Relationships.num_members()
 
         if params.flag_HR:
-            # print("\t\t= High Risk Group functions =")
+            #print("\t\t= High Risk Group functions =")
             for tmpA in self.highrisk_agentsSet.iter_agents():
                 if tmpA._highrisk_time > 0:
                     tmpA._highrisk_time -= 1
-                    if (
-                        tmpA._SO == "HM"
+                    if (tmpA._SO == "HM"
                         and params.flag_PrEP
-                        and (
-                            params.PrEP_target_model == "HR"
-                            or params.PrEP_target_model == "IncarHR"
-                        )
-                    ):
+                        and ('HR' in params.PrEP_target_model)):
                         for part in tmpA._partners:
                             if not part._HIV_bool:
                                 self._initiate_PrEP(part, time)
                 else:
                     self.highrisk_agentsSet.remove_agent(tmpA)
                     tmpA._highrisk_bool = False
-
-                    if params.model == "Incar":
+                    
+                    if params.model == 'Incar':
                         if tmpA._SO == "HM":
                             tmpA._mean_num_partners -= params.HR_partnerScale
                         elif tmpA._SO == "HF":
                             tmpA._mean_num_partners -= params.HR_partnerScale
 
-        # print("\t\t= Agents Iterations (Incar/test/AIDS/HAART/PrEP =")
-
-        # random.shuffle(self.All_agentSet._members)
-        for agent in self.All_agentSet.iter_agents():  # self.Agents: #NEW METHOD
-
+        #print("\t\t= Agents Iterations (Incar/test/AIDS/HAART/PrEP =")
+        
+        #random.shuffle(self.All_agentSet._members)
+        for agent in self.All_agentSet.iter_agents():#self.Agents: #NEW METHOD
+            
             agent_drug_type = agent._DU
             agent_sex_type = agent._SO
             agent_HIV_status = agent._HIV_bool
 
-            agent_incarcerated = agent._incar_bool  # agent_dict['incar_t']
+            agent_incarcerated = agent._incar_bool#agent_dict['incar_t']
 
-            # print("\tEnded partner interactions\n")
-            # self._VCT(agent, time)  # VCT: Counseling and Testing
-            # print "\tIncarcerate Agents"
+            #print("\tEnded partner interactions\n")
+            #self._VCT(agent, time)  # VCT: Counseling and Testing
+            #print "\tIncarcerate Agents"
             agent._timeAlive += 1
-            if params.flag_incar:  # and not burn:
-                # print("\n\t\t= Incarceration effects =")
+            if params.flag_incar:# and not burn:
+                #print("\n\t\t= Incarceration effects =")
                 self._incarcerate(agent, time)
 
-            # if agent_drug_type == 'IDU':
-            # self._SEP(agent, time)  # SEP: Syringe Exchange program
+            #if agent_drug_type == 'IDU':
+                #self._SEP(agent, time)  # SEP: Syringe Exchange program
+            
+            if agent_drug_type in ['NIDU', 'IDU'] and False:
+                #print("\tDrug Cessation")
+                self._drug_cessation(agent, agent_drug_type)
+                #print("\tEnter/Exit Drug Treatment")
+                self._enter_and_exit_drug_treatment(agent, time)
+            
 
-            if agent_drug_type in ["NDU", "NIDU", "IDU"]:
-                # print("\tDrug Cessation")
-                # self._drug_cessation(agent, agent_drug_type)
-                # print("\tEnter/Exit Drug Treatment")
-                self._enter_and_exit_drug_treatment(agent, time)
-            else:
-                self._enter_and_exit_drug_treatment(agent, time)
             if agent_HIV_status:
                 if burn:
-                    # print "Viral Load Reset"
-                    # self._become_HIV(agent, time)  # reset viral load ############# TURNED OFF NO NEED TO RESET VIRAL LOAD
-                    # P_HAART = self.runRandom.random()
-                    # if P_HAART < 0.005:
-                    # print("\n\t\t= Testing agents =")
+                    #print "Viral Load Reset"
+                    #self._become_HIV(agent, time)  # reset viral load ############# TURNED OFF NO NEED TO RESET VIRAL LOAD
+                    #P_HAART = self.runRandom.random()
+                    #if P_HAART < 0.005:
+                    #print("\n\t\t= Testing agents =")
                     if agent._incar_treatment_time >= 1:
                         agent._incar_treatment_time -= 1
+
 
                 self._HIVtest(agent, time)
                 self._progress_to_AIDS(agent, agent_drug_type)
 
                 if params.flag_ART:
                     self._initiate_HAART(agent, time)
+                    #hiv_t = agent_dict['HIV_t']
+                    #hiv_t += 1
                     agent._HIV_time += 1
+                    # self.tmp_Agents[agent].update({'HIV_t': hiv_t})
             else:
                 if params.flag_PrEP:
                     if time >= params.PrEP_startT:
                         if agent._PrEP_bool:
                             self._discont_PrEP(agent, time)
-                        elif params.PrEP_target_model == "Clinical":
+                        elif 'Clinical' in params.PrEP_target_model and self._PrEP_elligible(agent, time) and not agent._PrEP_bool:
+                            self._initiate_PrEP(agent,time)
+                        elif 'RandomTrial' in params.PrEP_target_model:
                             pass
-                        elif params.PrEP_target_model == "RandomTrial":
-                            pass
-                        elif self._PrEP_elligible(agent, time) and not agent._PrEP_bool:
+                        elif 'Allcomers' in params.PrEP_target_model and self._PrEP_elligible(agent, time) and not agent._PrEP_bool:
                             self._initiate_PrEP(agent, time)
                         # if not agent._PrEP_bool:
                         #     self._initiate_PrEP(agent, time)
-        # print("\t\t= End Agents Operations =")
+        #print("\t\t= End Agents Operations =")
+
 
         if params.flag_PrEP and time >= params.PrEP_startT:
-            if params.PrEP_target_model == "Clinical":
+            if 'ClinicalB' in params.PrEP_target_model:
                 if time > params.PrEP_startT:
                     numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
-                    target_PrEP = int(
-                        (
-                            self.All_agentSet.num_members()
-                            - self.All_agentSet._subset["HIV"].num_members()
-                        )
-                        * params.PrEP_Target
-                    )
-                    elligiblePool = [
-                        ag
-                        for ag in self.All_agentSet._subset["SO"]
-                        ._subset["MSM"]
-                        ._members
-                        if (ag._PrEP_bool == False and ag._HIV_bool == False)
-                    ]
+                    target_PrEP = int((self.All_agentSet.num_members()-self.All_agentSet._subset["HIV"].num_members()) * params.PrEP_Target)
+                    elligiblePool = [ag for ag in self.All_agentSet._subset['SO']._subset['MSM']._members if (ag._PrEP_bool == False and ag._HIV_bool == False)]
                     # print "Eligible PrEP pool size: ",len(elligiblePool)
 
-                    while numPrEP_agents < target_PrEP:
+                    while(numPrEP_agents < target_PrEP):
                         numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
-                        target_PrEP = int(
-                            (
-                                self.All_agentSet.num_members()
-                                - self.All_agentSet._subset["HIV"].num_members()
-                            )
-                            * params.PrEP_Target
-                        )
+                        target_PrEP = int((self.All_agentSet.num_members()-self.All_agentSet._subset["HIV"].num_members()) * params.PrEP_Target)
                         # print "%d/%d"%(numPrEP_agents, target_PrEP)
-                        self._initiate_PrEP(
-                            self._get_clinic_agent(
-                                params.PrEP_clinic_cat, elligiblePool
-                            ),
-                            time,
-                        )
+                        self._initiate_PrEP(self._get_clinic_agent(params.PrEP_clinic_cat, elligiblePool), time)
                 # elif self._PrEP_elligible(agent, time):
                 #     self._initiate_PrEP(agent, time)
-            elif (
-                params.PrEP_target_model == "RandomTrial" and time == params.PrEP_startT
-            ):
+            elif 'RandomTrial' in params.PrEP_target_model and time == params.PrEP_startT:
                 print("Starting random trial")
-                components = sorted(
-                    nx.connected_component_subgraphs(self.G), key=len, reverse=True
-                )
+                components = sorted(nx.connected_component_subgraphs(self.G), key=len, reverse=True)
                 totNods = 0
                 for comp in components:
                     totNods += comp.number_of_nodes()
                     if self.runRandom.random() < 0.5:
-                        # Component selected as treatment pod!
+                        #Component selected as treatment pod!
                         for ag in comp.nodes():
                             if (ag._HIV_bool == False) and (ag._PrEP_bool == False):
                                 ag._treatment_bool = True
                                 if self.runRandom.random() < params.PrEP_Target:
                                     self._initiate_PrEP(ag, time, force=True)
-                print("Total agents in trial: ", totNods)
-        # print("\t\t !!!! ALL AGENTS UPDATED !!!\n")
+                print("Total agents in trial: ",totNods)
+        #print("\t\t !!!! ALL AGENTS UPDATED !!!\n")
+
 
     def _agents_interact(self, agent_1, agent_2, time, rel):
         """
@@ -897,107 +782,82 @@ class HIVModel(NetworkClass):
             none
 
         """
-        # print agent
-        partner_HIV_status = (
-            agent_2._HIV_bool
-        )  # self.get_agent_characteristic(partner, 'HIV')
-        agent_HIV_status = (
-            agent_1._HIV_bool
-        )  # self.get_agent_characteristic(agent, 'HIV')
+        #print agent
+        partner_HIV_status = agent_2._HIV_bool#self.get_agent_characteristic(partner, 'HIV')
+        agent_HIV_status = agent_1._HIV_bool#self.get_agent_characteristic(agent, 'HIV')
         agent_incar = agent_1._incar_bool
         partner_incar = agent_2._incar_bool
         eligible = False
 
-        # If either agent is incarcerated, skip their interaction
+
+        #If either agent is incarcerated, skip their interaction
         if agent_incar or partner_incar:
             return
 
-        # Else if neither agent is HIV (shouldn't be possible), skip their interaction to save computation time
+        #Else if neither agent is HIV (shouldn't be possible), skip their interaction to save computation time
         elif not agent_HIV_status and not partner_HIV_status:
-            # print "\t\t!!! Neither agents HIV+, moving on A:%d P:%d"%(agent_1.get_ID(), agent_2.get_ID())
+            #print "\t\t!!! Neither agents HIV+, moving on A:%d P:%d"%(agent_1.get_ID(), agent_2.get_ID())
             return
 
-        elif agent_HIV_status:  # If agent_1 is HIV
-            if (
-                partner_HIV_status
-            ):  # If agent_1 and agent_2 are both HIV, skip interaction
-                # print "\t\t!!! BOTH agents HIV+, moving on A:%d P:%d"%(agent_1.get_ID(), agent_2.get_ID())
+        elif agent_HIV_status: #If agent_1 is HIV
+            if partner_HIV_status: #If agent_1 and agent_2 are both HIV, skip interaction
+                #print "\t\t!!! BOTH agents HIV+, moving on A:%d P:%d"%(agent_1.get_ID(), agent_2.get_ID())
                 return
-            else:  # Agent is HIV, partner is succept
+            else:#Agent is HIV, partner is succept
                 agent = agent_1
                 partner = agent_2
                 eligible = True
-        elif (
-            partner_HIV_status
-        ):  # If agent_2 is HIV and we have tested both HIV +/-, agent_2 is HIV, agent_1 is succept
+        elif partner_HIV_status: #If agent_2 is HIV and we have tested both HIV +/-, agent_2 is HIV, agent_1 is succept
             agent = agent_2
             partner = agent_1
             eligible = True
 
+
         if eligible:
-            # print("Elligible\t%d\t%d"%(agent._ID, partner._ID))
-            partner_drug_type = (
-                partner._DU
-            )  # self.get_agent_characteristic(partner, 'Drug Type')
-            agent_drug_type = (
-                agent._DU
-            )  # self.get_agent_characteristic(agent, 'Drug Type')
-            partner_sex_type = (
-                partner._SO
-            )  # self.get_agent_characteristic(partner, 'Sex Type')
-            agent_sex_type = (
-                agent._SO
-            )  # self.get_agent_characteristic(agent, 'Sex Type')
-            partner_HIV_status = (
-                partner._HIV_bool
-            )  # self.get_agent_characteristic(partner, 'HIV')
-            agent_HIV_status = (
-                agent._HIV_bool
-            )  # self.get_agent_characteristic(agent, 'HIV')
+            #print("Elligible\t%d\t%d"%(agent._ID, partner._ID))
+            partner_drug_type = partner._DU  # self.get_agent_characteristic(partner, 'Drug Type')
+            agent_drug_type = agent._DU  # self.get_agent_characteristic(agent, 'Drug Type')
+            partner_sex_type = partner._SO  # self.get_agent_characteristic(partner, 'Sex Type')
+            agent_sex_type = agent._SO  # self.get_agent_characteristic(agent, 'Sex Type')
+            partner_HIV_status = partner._HIV_bool  # self.get_agent_characteristic(partner, 'HIV')
+            agent_HIV_status = agent._HIV_bool  # self.get_agent_characteristic(agent, 'HIV')
             agent_incar = agent._incar_bool
             partner_incar = partner._incar_bool
-            if partner_drug_type == "IDU" and agent_drug_type == "IDU":
+            if partner_drug_type == 'IDU' and agent_drug_type == 'IDU':
                 # Injection is possible
-                # If agent is on post incar HR treatment to prevent IDU behavior, pass IUD infections
+                #If agent is on post incar HR treatment to prevent IDU behavior, pass IUD infections
                 if agent._incar_treatment_time > 0 and params.inc_treat_IDU_beh:
                     pass
 
                 elif self._sex_possible(agent_sex_type, partner_sex_type):
                     # Sex is possible
                     rv = self.runRandom.random()
-                    if rv < 0.6:  # Needle only (60%)
-                        # print "Needle inc (IDUs)"
+                    if rv < 0.6: #Needle only (60%)
+                        #print "Needle inc (IDUs)"
                         self._needle_transmission(agent, partner, time)
-                    elif rv < 0.6 + 0.2:  # Sex only (20%)
-                        # print "Sex inc (IDUs)"
-                        self._sex_transmission(
-                            agent, partner, time, rel
-                        )  # , num_interactions)
-                    else:  # Both sex and needle (20%)
-                        # print "Needle and sex inc (IDUs)"
+                    elif rv < 0.6 + 0.2: #Sex only (20%)
+                        #print "Sex inc (IDUs)"
+                        self._sex_transmission(agent, partner, time, rel)  # , num_interactions)
+                    else: #Both sex and needle (20%)
+                        #print "Needle and sex inc (IDUs)"
                         self._needle_transmission(agent, partner, time)
-                        self._sex_transmission(
-                            agent, partner, time, rel
-                        )  # , num_interactions)
+                        self._sex_transmission(agent, partner, time, rel)  # , num_interactions)
                 else:
                     # Sex not possible, needle only
-                    # print "Needle inc (IDUs)"
+                    #print "Needle inc (IDUs)"
                     self._needle_transmission(agent, partner, time)
 
-            elif partner_drug_type in ["NIDU", "NDU"] or agent_drug_type in [
-                "NIDU",
-                "NDU",
-            ]:
-                # print "Sex inc (ND/NIDU)"
+            elif (partner_drug_type in ['NIDU', 'NDU'] or agent_drug_type in ['NIDU', 'NDU']):
+                #print "Sex inc (ND/NIDU)"
                 if self._sex_possible(agent_sex_type, partner_sex_type):
-                    self._sex_transmission(
-                        agent, partner, time, rel
-                    )  # ,num_interactions)
+                    self._sex_transmission(agent, partner, time, rel)  # ,num_interactions)
                 else:
                     return
-                    # print "!!!!!!!!!!!!SEX NOT POSSIBLE A:%s \tP:%s"%(agent_sex_type, partner_sex_type)
+                    #print "!!!!!!!!!!!!SEX NOT POSSIBLE A:%s \tP:%s"%(agent_sex_type, partner_sex_type)
             else:
                 raise ValueError("Agents must be either IDU, NIDU, or ND")
+
+
 
     def _drug_transition(self, agent, partner):
         """
@@ -1015,47 +875,39 @@ class HIVModel(NetworkClass):
         :Output: -
         """
 
-        partner_drug_type = self.get_agent_characteristic(partner, "Drug Type")
-        agent_drug_type = self.get_agent_characteristic(agent, "Drug Type")
+        partner_drug_type = self.get_agent_characteristic(partner, 'Drug Type')
+        agent_drug_type = self.get_agent_characteristic(agent, 'Drug Type')
         Flag_Partner_IDU_NIDU_Transition = 0
         Flag_Agent_IDU_NIDU_Transition = 0
 
         # NIDU -> IDU
-        if agent_drug_type == "NIDU" and partner_drug_type == "IDU":
+        if agent_drug_type == 'NIDU' and partner_drug_type == 'IDU':
             if self.runRandom.random() < 0.00875 / 12:
-                # print "Agent %d just became IDU" % (agent, )
-                self.tmp_Agents[agent].update({"Drug Type": "IDU"})  # agent becomes IDU
+                #print "Agent %d just became IDU" % (agent, )
+                self.tmp_Agents[agent].update({'Drug Type': 'IDU'})  # agent becomes IDU
             # Sex type lists
             if agent in self.tmp_NIDU_agents:
                 self.tmp_NIDU_agents.remove(agent)
-            if (
-                agent in self.tmp_ND_agents
-            ):  # agent might have transitioned into ND before
+            if agent in self.tmp_ND_agents:  # agent might have transitioned into ND before
                 self.tmp_ND_agents.remove(agent)
             if agent not in self.tmp_IDU_agents:
                 self.tmp_IDU_agents.append(agent)
 
-        elif partner_drug_type == "NIDU" and agent_drug_type == "IDU":
+        elif partner_drug_type == 'NIDU' and agent_drug_type == 'IDU':
             if self.runRandom.random() < 0.0175 / 12:
-                self.tmp_Agents[partner].update(
-                    {"Drug Type": "IDU"}
-                )  # partner becomes IDU
+                self.tmp_Agents[partner].update({'Drug Type': 'IDU'})  # partner becomes IDU
             # Sex type lists
             if partner in self.tmp_NIDU_agents:
                 self.tmp_NIDU_agents.remove(partner)
-            if (
-                partner in self.tmp_ND_agents
-            ):  # agent might have transitioned into ND before
+            if partner in self.tmp_ND_agents:  # agent might have transitioned into ND before
                 self.tmp_ND_agents.remove(partner)
             if partner not in self.tmp_IDU_agents:
                 self.tmp_IDU_agents.append(partner)
 
         ## ND -> IDU
-        elif agent_drug_type == "ND" and partner_drug_type == "IDU":
+        elif agent_drug_type == 'ND' and partner_drug_type == 'IDU':
             if self.runRandom.random() < 0.001:
-                self.tmp_Agents[agent].update(
-                    {"Drug Type": "IDU"}
-                )  # agent becomes NIDU
+                self.tmp_Agents[agent].update({'Drug Type': 'IDU'})  # agent becomes NIDU
             # Sex type lists
             if agent in self.tmp_ND_agents:  # agent might have transitioned already
                 self.tmp_ND_agents.remove(agent)
@@ -1063,11 +915,9 @@ class HIVModel(NetworkClass):
                 self.tmp_IDU_agents.append(agent)
 
         # ND -> IDU
-        elif partner_drug_type == "ND" and agent_drug_type == "IDU":
+        elif partner_drug_type == 'ND' and agent_drug_type == 'IDU':
             if self.runRandom.random() < 0.001:
-                self.tmp_Agents[agent].update(
-                    {"Drug Type": "IDU"}
-                )  # agent becomes NIDU
+                self.tmp_Agents[agent].update({'Drug Type': 'IDU'})  # agent becomes NIDU
             # Sex type lists
             if agent in self.tmp_ND_agents:  # agent might have transitioned already
                 self.tmp_ND_agents.remove(agent)
@@ -1075,22 +925,18 @@ class HIVModel(NetworkClass):
                 self.tmp_IDU_agents.append(agent)
 
         # ND -> NIDU
-        elif agent_drug_type == "ND" and partner_drug_type == "NIDU":
+        elif agent_drug_type == 'ND' and partner_drug_type == 'NIDU':
             if self.runRandom.random() < 0.005:
-                self.tmp_Agents[agent].update(
-                    {"Drug Type": "NIDU"}
-                )  # agent becomes NIDU
+                self.tmp_Agents[agent].update({'Drug Type': 'NIDU'})  # agent becomes NIDU
             # Sex type lists
             if agent in self.tmp_ND_agents:  # agent might have transitioned already
                 self.tmp_ND_agents.remove(agent)
             if agent not in self.tmp_NIDU_agents:
                 self.tmp_NIDU_agents.append(agent)
         # ND -> NIDU
-        elif partner_drug_type == "ND" and agent_drug_type == "NIDU":
+        elif partner_drug_type == 'ND' and agent_drug_type == 'NIDU':
             if self.runRandom.random() < 0.005:
-                self.tmp_Agents[partner].update(
-                    {"Drug Type": "NIDU"}
-                )  # partner becomes NIDU
+                self.tmp_Agents[partner].update({'Drug Type': 'NIDU'})  # partner becomes NIDU
             # Sex type lists
             if partner in self.tmp_ND_agents:  # agent might have transitioned already
                 self.tmp_ND_agents.remove(partner)
@@ -1100,15 +946,13 @@ class HIVModel(NetworkClass):
             #    self.tmp_IDU_agents.remove(agent)
 
         # NIDU -> ND from agent's perspective
-        elif agent_drug_type == "NIDU" and partner_drug_type == "ND":
+        elif agent_drug_type == 'NIDU' and partner_drug_type == 'ND':
             if self.runRandom.random() < 0.001:
-                self.tmp_Agents[agent].update({"Drug Type": "ND"})
+                self.tmp_Agents[agent].update({'Drug Type': 'ND'})
             # Sex type lists
             if agent in self.tmp_NIDU_agents:  # agent might have transitioned already
                 self.tmp_NIDU_agents.remove(agent)
-            if (
-                agent in self.tmp_IDU_agents
-            ):  # agent might have previously transitioned into IDU
+            if agent in self.tmp_IDU_agents:  # agent might have previously transitioned into IDU
                 self.tmp_IDU_agents.remove(agent)
             if agent not in self.tmp_ND_agents:
                 self.tmp_ND_agents.append(agent)
@@ -1116,17 +960,13 @@ class HIVModel(NetworkClass):
                 self._exit_drug_treatment(agent)
 
         # NIDU -> ND from partner's perspective
-        elif partner_drug_type == "NIDU" and agent_drug_type == "ND":
+        elif partner_drug_type == 'NIDU' and agent_drug_type == 'ND':
             if self.runRandom.random() < 0.001:
-                self.tmp_Agents[partner].update({"Drug Type": "ND"})
+                self.tmp_Agents[partner].update({'Drug Type': 'ND'})
             # Sex type lists
-            if (
-                partner in self.tmp_NIDU_agents
-            ):  # partner might have transitioned already
+            if partner in self.tmp_NIDU_agents:  # partner might have transitioned already
                 self.tmp_NIDU_agents.remove(partner)
-            if (
-                partner in self.tmp_IDU_agents
-            ):  # partner might have previously transitioned into IDU
+            if partner in self.tmp_IDU_agents:  # partner might have previously transitioned into IDU
                 self.tmp_IDU_agents.remove(partner)
             if partner not in self.tmp_ND_agents:
                 self.tmp_ND_agents.append(partner)
@@ -1134,6 +974,7 @@ class HIVModel(NetworkClass):
                 self._exit_drug_treatment(partner)
         else:
             pass  # transition not possible
+
 
     def get_acute_status(self, agent, time):
         """
@@ -1148,15 +989,18 @@ class HIVModel(NetworkClass):
         :Output: -
         """
         acuteTimePeriod = 3
-        hiv_t = agent._HIV_time  # self.Agents[agent]['HIV_t']
+        hiv_t = agent._HIV_time#self.Agents[agent]['HIV_t']
 
-        # if time > 0:
-        # print self.HIV_key_transitiontime
+
+
+        #if time > 0:
+            #print self.HIV_key_transitiontime
         if hiv_t <= acuteTimePeriod and hiv_t > 0:
-            # print "Agent %d has been sick for %d timesteps"%(agent, hiv_t)
+            #print "Agent %d has been sick for %d timesteps"%(agent, hiv_t)
             return True
         else:
             return False
+
 
     def get_transmission_probability(self, agent, interaction):
         """ Decriptor
@@ -1177,48 +1021,49 @@ class HIVModel(NetworkClass):
                     Number of time steps simulated.
                 """
 
-        sex_type = agent._SO  # self.get_agent_characteristic(agent, 'Sex Type')
-        race_type = agent._race  # self.get_agent_characteristic(agent, 'Race')
-        # time = self.TimeStep
+        sex_type = agent._SO#self.get_agent_characteristic(agent, 'Sex Type')
+        race_type = agent._race#self.get_agent_characteristic(agent, 'Race')
+        #time = self.TimeStep
         ageBin = agent._ageBin
-        tested = agent._tested  # self.get_agent_characteristic(agent, 'Tested')
+        tested = agent._tested#self.get_agent_characteristic(agent, 'Tested')
         onHAART = agent._HAART_bool
         # viral_load = self.Viral_load[agent]
         # v = 10 ** viral_load
         # p = (1. - (1. - (0.317 * (v ** 1.02)) / (v ** 1.02 + 13938 ** 1.02)) ** (1. / 83.17544)) * (0.014 / 0.003)
 
-        agentAdherence = agent._HAART_adh  # str(self.AdherenceAgents[agent])
+        agentAdherence = agent._HAART_adh#str(self.AdherenceAgents[agent])
         "Logic for if needle or sex type interaction"
-        if interaction == "NEEDLE":
-            p = params.TransmissionProbabilities["NEEDLE"][str(agentAdherence)]
+        if interaction == 'NEEDLE':
+            p = params.TransmissionProbabilities['NEEDLE'][str(agentAdherence)]
 
-        elif interaction == "SEX":
-            p = params.TransmissionProbabilities["SEX"][sex_type][str(agentAdherence)]
+        elif interaction == 'SEX':
+            p = params.TransmissionProbabilities['SEX'][sex_type][str(agentAdherence)]
 
         isAcute = self.get_acute_status(agent, 0)
 
-        # Scaling parameter for acute HIV infections
-        if isAcute:
+        #Scaling parameter for acute HIV infections
+        if(isAcute):
             p = p * params.cal_AcuteScaling
 
-        # Scaling parameter for positively identified HIV agents
+        #Scaling parameter for positively identified HIV agents
         if tested:
             p = p * (1 - params.cal_RR_Dx)
 
-        # Tuning parameter for ART efficiency
-        if onHAART:  # self.AdherenceAgents[agent] > 0:
-            # print "Agent on HAART, no xmission"
+        #Tuning parameter for ART efficiency
+        if onHAART:#self.AdherenceAgents[agent] > 0:
+            #print "Agent on HAART, no xmission"
             p = p * params.cal_RR_HAART
 
-        # Racial calibration parameter to attain proper race incidence disparity
-        if race_type == "BLACK":
+        #Racial calibration parameter to attain proper race incidence disparity
+        if race_type == 'BLACK':
             p = p * params.cal_raceXmission
 
-        # Scaling parameter for per act transmission.
+        #Scaling parameter for per act transmission.
         p = p * params.cal_pXmissionScaling
 
-        # Scaling parameter for age bin to attain proper age incidence disparity
-        # p = p * params.cal_ageXmission[ageBin]
+        #Scaling parameter for age bin to attain proper age incidence disparity
+        #p = p * params.cal_ageXmission[ageBin]
+
 
         return p
 
@@ -1235,28 +1080,25 @@ class HIVModel(NetworkClass):
         :Output: -
         """
 
-        # Param to scale number of partners
-        # NEEDLESCALINGPARAM = 0.7
+        #Param to scale number of partners
+        #NEEDLESCALINGPARAM = 0.7
 
         # both must be IDU
-        partner_drug_type = (
-            partner._DU
-        )  # self.get_agent_characteristic(partner, 'Drug Type')
-        agent_drug_type = agent._DU  # self.get_agent_characteristic(agent, 'Drug Type')
-        agent_race = agent._race  # self.get_agent_characteristic(agent, 'Race')
-        agent_sex_type = agent._SO  # self.get_agent_characteristic(agent, 'Sex Type')
-        Race_Agent = agent._race  # self.get_agent_characteristic(agent, 'Race')
-        Type_agent = agent._SO  # self.get_agent_characteristic(agent, 'Sex Type')
+        partner_drug_type = partner._DU#self.get_agent_characteristic(partner, 'Drug Type')
+        agent_drug_type = agent._DU#self.get_agent_characteristic(agent, 'Drug Type')
+        agent_race = agent._race#self.get_agent_characteristic(agent, 'Race')
+        agent_sex_type = agent._SO#self.get_agent_characteristic(agent, 'Sex Type')
+        Race_Agent = agent._race#self.get_agent_characteristic(agent, 'Race')
+        Type_agent = agent._SO#self.get_agent_characteristic(agent, 'Sex Type')
 
-        if not (partner_drug_type == "IDU" and agent_drug_type == "IDU"):
-            raise ValueError(
-                "To share a needle both agents must be IDU!%s %s"
-                % (str(agent_drug_type), str(partner_drug_type))
-            )
+
+        if not (partner_drug_type == 'IDU' and agent_drug_type == 'IDU'):
+            raise ValueError("To share a needle both agents must be IDU!{} {}".format
+                             (str(agent_drug_type), str(partner_drug_type)))
         NumberP = len(self.ExistingLinksCollapsedList)
         # Do they share a needle?
         # OLD: if (agent in self.SEPAgents or partner in self.SEPAgents):
-        # SEPstat = self._SEP(agent, time)
+        #SEPstat = self._SEP(agent, time)
         SEPstat = agent._SNE_bool
 
         """
@@ -1268,68 +1110,63 @@ class HIVModel(NetworkClass):
         """
 
         isAcute = self.get_acute_status(agent, time)
-        HIV_agent = agent._HIV_bool  # self.get_agent_characteristic(agent, 'HIV')
-        HIV_partner = partner._HIV_bool  # self.get_agent_characteristic(partner, 'HIV')
-        MEAN_N_ACTS = (
-            params.DemographicParams[Race_Agent][Type_agent]["NUMSexActs"]
-            * params.cal_NeedleActScaling
-        )
-        share_acts = poisson.rvs(MEAN_N_ACTS, size=1)
-
+        HIV_agent = agent._HIV_bool#self.get_agent_characteristic(agent, 'HIV')
+        HIV_partner = partner._HIV_bool#self.get_agent_characteristic(partner, 'HIV')
+        MEAN_N_ACTS = params.DemographicParams[Race_Agent][Type_agent]['NUMSexActs'] * params.cal_NeedleActScaling
+        share_acts = poisson.rvs(MEAN_N_ACTS, size=1)[0]
+        #print(range(poisson.rvs(MEAN_N_ACTS, size=1)))
         if SEPstat:
-            # print "SEP SAVE"
-            p_UnsafeNeedleShare = 0.02  # no needle sharing
+            #print "SEP SAVE"
+            p_UnsafeNeedleShare = 0.02 # no needle sharing
         else:  # they do share a needle
             # HIV+ ?
-
-            # share_acts = int(random.uniform(1,30))
+            
+            #share_acts = int(random.uniform(1,30))
             if share_acts < 1:
                 share_acts = 1
 
-            p_UnsafeNeedleShare = (
-                params.DemographicParams[agent_race][agent_sex_type]["NEEDLESH"]
-                * params.safeNeedleExchangePrev
-            )
-            # MSexActs = self.ProbTables[Race_Agent][Type_agent]['NUMSexActs']
+            p_UnsafeNeedleShare = params.DemographicParams[agent_race][agent_sex_type]['NEEDLESH'] * params.safeNeedleExchangePrev
+            #MSexActs = self.ProbTables[Race_Agent][Type_agent]['NUMSexActs']
 
         for n in range(share_acts):
             if self.runRandom.random() > p_UnsafeNeedleShare:
                 share_acts -= 1
 
         if HIV_agent == 1 and HIV_partner == 0 and share_acts >= 1.0:
-            p = self.get_transmission_probability(agent, "NEEDLE")
-            # print p
+            p = self.get_transmission_probability(agent, 'NEEDLE')
+            #print p
             p_transmission = binom.pmf(1.0, share_acts, p)
 
             p_total_transmission = 0
             if share_acts == 1:
                 p_total_transmission = p
             else:
-                p_total_transmission = 1.0 - binom.pmf(0, share_acts, p)
+                p_total_transmission = 1. - binom.pmf(0, share_acts, p)
                 # for k in range(1, share_acts+1):
                 #     temp = binom.pmf(k, share_acts, p)
                 #     #print temp
                 #     p_total_transmission += temp
 
-            # print "\t\t\tHIV+ NED Act A:%d on P:%d\t Must be less than %.10lf\t(k:1 n:%.2lf, p:%.5lf) **OLD pTrans:%.5lf\tAcute:%s" % (agent, partner, p_total_transmission, share_acts, p, p_transmission, isAcute)
+
+            #print "\t\t\tHIV+ NED Act A:%d on P:%d\t Must be less than %.10lf\t(k:1 n:%.2lf, p:%.5lf) **OLD pTrans:%.5lf\tAcute:%s" % (agent, partner, p_total_transmission, share_acts, p, p_transmission, isAcute)
             if self.runRandom.random() < p_total_transmission:
                 # if agent HIV+ partner becomes HIV+
-                # transmit_HIV(agent, partners, t, )
+                #transmit_HIV(agent, partners, t, )
                 self._become_HIV(partner, time)
-                # self.Transmission_tracker['NEEDLE'][time] += 1
+                #self.Transmission_tracker['NEEDLE'][time] += 1
                 self.Transmit_from_agents += [agent]
                 self.Transmit_to_agents += [partner]
-                # if agent in ((self.HIV_key_transitiontime[time - 1] if time > 1 else [])
+                #if agent in ((self.HIV_key_transitiontime[time - 1] if time > 1 else [])
                 #                 + (self.HIV_key_transitiontime[time - 2] if time > 2 else [])
                 #                 + (self.HIV_key_transitiontime[time - 3] if time > 3 else [])):
-                if isAcute:
+                if(isAcute):
                     self.Acute_agents += [agent]
-                    # print "\t\t(ACUTE)\tNE_HIV from agent %d to partner %d \t@ p=%.5lf transmissionp=%.5lf n:%d" %(agent._ID, partner._ID, p, p_total_transmission, share_acts)
+                    #print "\t\t(ACUTE)\tNE_HIV from agent %d to partner %d \t@ p=%.5lf transmissionp=%.5lf n:%d" %(agent._ID, partner._ID, p, p_total_transmission, share_acts)
                 else:
                     pass
-                    # print "\t\t\t\tNE_HIV from agent %d to partner %d \t@ p=%.5lf transmissionp=%.5lf n:%d" %(agent._ID, partner._ID, p, p_total_transmission, share_acts)
+                    #print "\t\t\t\tNE_HIV from agent %d to partner %d \t@ p=%.5lf transmissionp=%.5lf n:%d" %(agent._ID, partner._ID, p, p_total_transmission, share_acts)
 
-    # @profile
+    #@profile
     def _sex_transmission(self, agent, partner, time, rel):
 
         """
@@ -1347,61 +1184,51 @@ class HIVModel(NetworkClass):
         :Output:
             none
         """
-        # SEXSCALINGPARAM = 0.2
+        #SEXSCALINGPARAM = 0.2
 
         # Double check: Sex possible?
-        Type_agent = agent._SO  # self.get_agent_characteristic(agent, 'Sex Type')
-        Type_partner = partner._SO  # self.get_agent_characteristic(partner, 'Sex Type')
+        Type_agent = agent._SO#self.get_agent_characteristic(agent, 'Sex Type')
+        Type_partner = partner._SO#self.get_agent_characteristic(partner, 'Sex Type')
         if not self._sex_possible(Type_agent, Type_partner):
-            raise ValueError(
-                "Sex must be possible! %s %s" % (str(Type_agent), str(Type_partner))
-            )
-        # NumberP = len(self.ExistingLinksCollapsedList)
+            raise ValueError("Sex must be possible! {} {}".format(
+                str(Type_agent), str(Type_partner)))
+        #NumberP = len(self.ExistingLinksCollapsedList)
 
         # HIV status of agent and partner
         # Everything from here is only run if one of them is HIV+
 
-        HIVstatus_Agent = agent._HIV_bool  # self.get_agent_characteristic(agent, 'HIV')
-        HIVstatus_Partner = (
-            partner._HIV_bool
-        )  # self.get_agent_characteristic(partner, 'HIV')
-        AIDSstatus_Agent = (
-            agent._AIDS_bool
-        )  # self.get_agent_characteristic(agent, 'AIDS')
-        AIDSstatus_Partner = (
-            partner._AIDS_bool
-        )  # self.get_agent_characteristic(partner, 'AIDS')
-        Race_Agent = agent._race  # self.get_agent_characteristic(agent, 'Race')
+        HIVstatus_Agent = agent._HIV_bool#self.get_agent_characteristic(agent, 'HIV')
+        HIVstatus_Partner = partner._HIV_bool#self.get_agent_characteristic(partner, 'HIV')
+        AIDSstatus_Agent = agent._AIDS_bool#self.get_agent_characteristic(agent, 'AIDS')
+        AIDSstatus_Partner = partner._AIDS_bool#self.get_agent_characteristic(partner, 'AIDS')
+        Race_Agent = agent._race#self.get_agent_characteristic(agent, 'Race')
         isAcute = self.get_acute_status(agent, time)
 
-        if HIVstatus_Partner:
-            pass
+        if HIVstatus_Partner: pass
         if HIVstatus_Agent and HIVstatus_Partner:
-            # print "\t\t!!A%d %s P%d %s"%(agent.get_ID(), agent._HIV_bool, partner.get_ID(), partner._HIV_bool)
-            # print "BOTH AGENTS %d and %d WERE HIV+!?!?!?" %(agent._ID, partner._ID)
-
+            #print "\t\t!!A%d %s P%d %s"%(agent.get_ID(), agent._HIV_bool, partner.get_ID(), partner._HIV_bool)
+            #print "BOTH AGENTS %d and %d WERE HIV+!?!?!?" %(agent._ID, partner._ID)
+            
             return
-            # exit(10)
+            #exit(10)
         elif HIVstatus_Agent == 1 or HIVstatus_Partner == 1:
             # Sex between men?
-            if Type_agent == "MSM" and Type_partner == "MSM":
+            if Type_agent == 'MSM' and Type_partner == 'MSM':
                 SexBetweenMen = 1
             else:
                 SexBetweenMen = 0
             # Define probabilities for unsafe sex
 
             # unprotected sex probabilities for primary partnerships
-            p_UnsafeSafeSex1 = params.DemographicParams[Race_Agent][Type_agent][
-                "UNSAFESEX"
-            ]
+            p_UnsafeSafeSex1 = params.DemographicParams[Race_Agent][Type_agent]['UNSAFESEX']
             MSexActs = self._get_number_of_sexActs(agent) * params.cal_SexualActScaling
-            # MSexActs = self.ProbTables[Race_Agent][Type_agent]['NUMSexActs'] * self.SEXSCALINGPARAM
-            # print "Unsafe:%.5lf\tMSexActs:%.2lf\tOLDMSexActs:%.2lf"%(p_UnsafeSafeSex1,MSexActs,self.MEAN_S_ACTS)
-            # print "MSEX",MSexActs
+            #MSexActs = self.ProbTables[Race_Agent][Type_agent]['NUMSexActs'] * self.SEXSCALINGPARAM
+            #print "Unsafe:%.5lf\tMSexActs:%.2lf\tOLDMSexActs:%.2lf"%(p_UnsafeSafeSex1,MSexActs,self.MEAN_S_ACTS)
+            #print "MSEX",MSexActs
             T_sex_acts1 = int(poisson.rvs(MSexActs, size=1))
 
             num_int = rel._total_sex_acts
-            # Get condom usage
+            #Get condom usage
             if num_int < 10:
                 if num_int == 0:
                     p_UnsafeSafeSex1 = 0.443
@@ -1409,17 +1236,19 @@ class HIVModel(NetworkClass):
                     p_UnsafeSafeSex1 = 0.481
                 else:
                     p_UnsafeSafeSex1 = 0.514
-            else:  # More than 10 acts
+            else: #More than 10 acts
                 p_UnsafeSafeSex1 = 0.759
 
-            # Reduction of risk acts between partners for condom usage
+
+            #Reduction of risk acts between partners for condom usage
             U_sex_acts1 = T_sex_acts1
             for n in range(U_sex_acts1):
                 if self.runRandom.random() < p_UnsafeSafeSex1:
                     U_sex_acts1 -= 1
 
+
             U_sex_acts2 = U_sex_acts1
-            # Reduction of risk acts between partners for PrEP adherence
+            #Reduction of risk acts between partners for PrEP adherence
             # for n in range(U_sex_acts1):
             #     if agent._PrEP_bool or partner._PrEP_bool:
             #         if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
@@ -1429,65 +1258,68 @@ class HIVModel(NetworkClass):
             #             if self.runRandom.random() < 0.76:
             #                 U_sex_acts2 -= 1
 
-            # U_sex_acts2 = 1
-            # print "MeanS_act:%.2lf\tT_sex_acts1:%.2lf\tp_UnsafeSex1:%.2lf\tU_sex_acts1:%.2lf"%(MSexActs, T_sex_acts1,p_UnsafeSafeSex1,U_sex_acts1)
+
+            #U_sex_acts2 = 1
+            #print "MeanS_act:%.2lf\tT_sex_acts1:%.2lf\tp_UnsafeSex1:%.2lf\tU_sex_acts1:%.2lf"%(MSexActs, T_sex_acts1,p_UnsafeSafeSex1,U_sex_acts1)
             if U_sex_acts2 >= 1:
                 # if agent HIV+
                 rel._total_sex_acts += U_sex_acts2
                 if HIVstatus_Agent == 1 or HIVstatus_Partner == 1:
-                    ppAct = self.get_transmission_probability(agent, "SEX")
+                    ppAct = self.get_transmission_probability(agent, 'SEX')
 
-                    # Reduction of transmissibility for acts between partners for PrEP adherence
+                    #Reduction of transmissibility for acts between partners for PrEP adherence
                     if agent._PrEP_bool or partner._PrEP_bool:
                         if agent._PrEPresistance or partner._PrEPresistance:
                             pass
 
-                        elif params.PrEP_type == "Oral":
+                        elif params.PrEP_type == 'Oral':
                             if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
-                                ppAct = ppAct * (1.0 - params.PrEP_AdhEffic)  # 0.04
+                                ppAct = ppAct * (1.0-params.PrEP_AdhEffic) #0.04
                             else:
-                                ppAct = ppAct * (1.0 - params.PrEP_NonAdhEffic)  # 0.24
+                                ppAct = ppAct * (1.0-params.PrEP_NonAdhEffic) #0.24
 
-                        elif params.PrEP_type == "Inj":
-                            ppActReduction = (
-                                -1.0 * np.exp(-5.528636721 * partner._PrEP_load) + 1
-                            )
-                            # print "adwadw"
-                            # print ppActReduction, partner._PrEP_load, partner._PrEP_lastDose
+                        elif params.PrEP_type == 'Inj':
+                            ppActReduction = -1.0*np.exp(-5.528636721*partner._PrEP_load) + 1
+                            #print "adwadw"
+                            #print ppActReduction, partner._PrEP_load, partner._PrEP_lastDose
                             if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
-                                ppAct = ppAct * (1.0 - ppActReduction)  # 0.04
+                                ppAct = ppAct * (1.0-ppActReduction) #0.04
 
-                    # p_transmission = binom.pmf(1, U_sex_acts1, p)
+
+
+                    #p_transmission = binom.pmf(1, U_sex_acts1, p)
 
                     p_total_transmission = 0
                     if U_sex_acts2 == 1:
                         p_total_transmission = ppAct
                     else:
-                        p_total_transmission = 1.0 - binom.pmf(0, U_sex_acts1, ppAct)
+                        p_total_transmission = 1. - binom.pmf(0, U_sex_acts1, ppAct)
                         # for k in range(1, U_sex_acts2):
                         #     temp = binom.pmf(k, U_sex_acts1, ppAct)
                         #     #print temp
                         #     p_total_transmission += temp
 
-                    # print "\t\t\tHIV+ SEX Act A:%d on P:%d\t Must be less than %.10lf\t(k:1 n:%.2lf, p:%.5lf) **OLD pTrans:%.5lf\tAcute:%s" % (agent, partner, p_total_transmission, U_sex_acts1, p, p_transmission, isAcute)
-                    # print "\t\t\tHIV+ SEX ACT\tMust be less than %.10lf" % p_total_transmission
+                    #print "\t\t\tHIV+ SEX Act A:%d on P:%d\t Must be less than %.10lf\t(k:1 n:%.2lf, p:%.5lf) **OLD pTrans:%.5lf\tAcute:%s" % (agent, partner, p_total_transmission, U_sex_acts1, p, p_transmission, isAcute)
+                    #print "\t\t\tHIV+ SEX ACT\tMust be less than %.10lf" % p_total_transmission
                     if self.runRandom.random() < p_total_transmission:
+
 
                         # if agent HIV+ partner becomes HIV+
                         self.Transmit_from_agents += [agent]
                         self.Transmit_to_agents += [partner]
-                        # if Type_agent == 'MSM': self.Transmission_tracker['SEX_MSM'][time] += 1
-                        # if Type_agent != 'MSM': self.Transmission_tracker['SEX_NMSM'][time] += 1
+                        #if Type_agent == 'MSM': self.Transmission_tracker['SEX_MSM'][time] += 1
+                        #if Type_agent != 'MSM': self.Transmission_tracker['SEX_NMSM'][time] += 1
 
-                        # print "\t\t\t\tST_HIV from agent %d to partner %d @ %.5lf" %(agent, partner, p)
+                        #print "\t\t\t\tST_HIV from agent %d to partner %d @ %.5lf" %(agent, partner, p)
                         self._become_HIV(partner, time)
-                        # print 'INFECTION', Type_agent, DrugType_Agent
-                        if isAcute:
+                        #print 'INFECTION', Type_agent, DrugType_Agent
+                        if(isAcute):
                             self.Acute_agents += [agent]
-                            # print "\t\t(ACUTE)\tST_HIV from agent %d to partner %d \t@ p=%.5lf transmissionp=%.5lf n:%d" %(agent._ID, partner._ID, p, p_total_transmission, U_sex_acts1)
+                            #print "\t\t(ACUTE)\tST_HIV from agent %d to partner %d \t@ p=%.5lf transmissionp=%.5lf n:%d" %(agent._ID, partner._ID, p, p_total_transmission, U_sex_acts1)
                         else:
                             pass
-                        # print "\t\t\t\tST_HIV from agent %d to partner %d \t@ p=%.5lf transmissionp=%.5lf n:%d" %(agent._ID, partner._ID, ppAct, p_total_transmission, U_sex_acts1)
+                        #print "\t\t\t\tST_HIV from agent %d to partner %d \t@ p=%.5lf transmissionp=%.5lf n:%d" %(agent._ID, partner._ID, ppAct, p_total_transmission, U_sex_acts1)
+
 
                         """if agent in ((self.HIV_key_transitiontime[time - 1] if time > 1 else [])
                                          or (self.HIV_key_transitiontime[time - 2] if time > 2 else [])
@@ -1515,7 +1347,7 @@ class HIVModel(NetworkClass):
                             print '\t\t\t\tACUTE', partner"""
             else:
                 return
-                # print "U_sex = %d < 1" % U_sex_acts1
+                #print "U_sex = %d < 1" % U_sex_acts1
 
     def _get_number_of_sexActs(self, agent):
         """
@@ -1537,17 +1369,16 @@ class HIVModel(NetworkClass):
         # >156 times per year 733 14.1 631 19.7 102 5.1
         rv = self.runRandom.random()
         pMatch = 0.0
-        i = 0
+        i=0
 
-        while True:
+        while(True):
             i += 1
-            pMatch += params.sexualFrequency[i]["p_value"]
+            pMatch += params.sexualFrequency[i]['p_value']
             if rv <= pMatch:
-                minSA = params.sexualFrequency[i]["min"]
-                maxSA = params.sexualFrequency[i]["max"]
-                return self.runRandom.randrange(minSA, maxSA, 1)
-            if i == 5:
-                break
+                minSA = params.sexualFrequency[i]['min']
+                maxSA = params.sexualFrequency[i]['max']
+                return self.runRandom.randrange(minSA,maxSA,1)
+            if i==5:break
 
         # if diceroll < 0.018:
         #     sexActs = 1
@@ -1568,7 +1399,8 @@ class HIVModel(NetworkClass):
         #
         # return sexActs
 
-    # @profile
+
+    #@profile
     def _become_HIV(self, agent, time):
         """
         :Purpose:
@@ -1579,10 +1411,9 @@ class HIVModel(NetworkClass):
             agent : int
 
         """
-        # print "\t!\tAgent %d just became HIV" % agent
-        # agent_cl = self.All_agentSet.get_agent(agent)
-        if agent._HIV_bool:
-            pass
+        #print "\t!\tAgent %d just became HIV" % agent
+        #agent_cl = self.All_agentSet.get_agent(agent)
+        if agent._HIV_bool: pass
         else:
             agent._HIV_bool = True
             agent._HIV_time = 1
@@ -1596,8 +1427,9 @@ class HIVModel(NetworkClass):
         if agent._PrEP_bool:
             self._discont_PrEP(agent, time, force=True)
 
-        # self.All_agentSet._subset["HIV"].add_agent(agent)
-        # print "\t\t\t\t\tNew HIV agent %d     VL:%.1lf    time:%d"%(agent, Viral_load, time)
+        #self.All_agentSet._subset["HIV"].add_agent(agent)
+        #print "\t\t\t\t\tNew HIV agent %d     VL:%.1lf    time:%d"%(agent, Viral_load, time)
+
 
     def _sex_possible(self, agent_sex_type, partner_sex_type):
         """
@@ -1615,39 +1447,36 @@ class HIVModel(NetworkClass):
 
         # Check input
         if agent_sex_type not in params.agentSexTypes:
-            raise ValueError("Invalid agent_sex_type! %s" % str(agent_sex_type))
+            raise ValueError("Invalid agent_sex_type! {}".format(str(agent_sex_type)))
         if partner_sex_type not in params.agentSexTypes:
-            raise ValueError("Invalid partner_sex_type! %s" % str(partner_sex_type))
+            raise ValueError("Invalid partner_sex_type! {}".format(str(
+                partner_sex_type)))
 
         # Sex possible
-        if agent_sex_type == "HM" and partner_sex_type in ["HF", "WSW", "MTF"]:
+        if agent_sex_type == 'HM' and partner_sex_type in ['HF', 'WSW', 'MTF']:
             SexPossible = True
-        # elif partner_sex_type == 'HM' and agent_sex_type in ['HF', 'WSW']:
+        #elif partner_sex_type == 'HM' and agent_sex_type in ['HF', 'WSW']:
         #    SexPossible = True
-        elif agent_sex_type == "MSM" and partner_sex_type in [
-            "MSM",
-            "WSW",
-            "HF",
-            "MTF",
-        ]:
+        elif agent_sex_type == 'MSM' and partner_sex_type in ['MSM', 'WSW', 'HF', 'MTF']:
             SexPossible = True
-        # elif partner_sex_type == 'MSM' and agent_sex_type in ['MSM', 'WSW', 'HF']:
+        #elif partner_sex_type == 'MSM' and agent_sex_type in ['MSM', 'WSW', 'HF']:
         #    SexPossible = True
-        elif agent_sex_type == "WSW" and partner_sex_type in ["MSM", "WSW", "HM"]:
+        elif agent_sex_type == 'WSW' and partner_sex_type in ['MSM', 'WSW', 'HM']:
             SexPossible = True
-        # elif partner_sex_type == 'WSW' and agent_sex_type in ['MSM', 'WSW', 'HM']:
+        #elif partner_sex_type == 'WSW' and agent_sex_type in ['MSM', 'WSW', 'HM']:
         #    SexPossible = True
-        elif agent_sex_type == "HF" and partner_sex_type in ["HM", "MSM"]:
+        elif agent_sex_type == 'HF' and partner_sex_type in ['HM', 'MSM']:
             SexPossible = True
-        elif agent_sex_type == "MTF" and partner_sex_type in ["HM", "MSM"]:
+        elif agent_sex_type == 'MTF' and partner_sex_type in ['HM', 'MSM']:
             SexPossible = True
         else:
             SexPossible = False
 
-        if agent_sex_type == "HM" and partner_sex_type == "HM" and SexPossible:
+        if agent_sex_type == 'HM' and partner_sex_type == 'HM' and SexPossible:
             raise ValueError("Check _sex_possible method!")
 
         return SexPossible
+
 
     def _drug_cessation(self, agent, agent_drug_type):
         """
@@ -1658,28 +1487,24 @@ class HIVModel(NetworkClass):
             agent : int
 
         """
-        if agent_drug_type == "IDU":
+        if agent_drug_type == 'IDU':
             if self.runRandom.random() < 0.017 / 12 / 2:
-                self.tmp_Agents[agent].update({"Drug Type": "NIDU"})
-                if (
-                    agent in self.tmp_IDU_agents
-                ):  # agent might have transitioned already
+                self.tmp_Agents[agent].update({'Drug Type': 'NIDU'})
+                if agent in self.tmp_IDU_agents:  # agent might have transitioned already
                     self.tmp_IDU_agents.remove(agent)
                 if agent not in self.tmp_NIDU_agents:
                     self.tmp_NIDU_agents.append(agent)
-        elif agent_drug_type == "NIDU":
+        elif agent_drug_type == 'NIDU':
             if self.runRandom.random() < 0.017 / 12:
-                self.tmp_Agents[agent].update({"Drug Type": "ND"})
-                if (
-                    agent in self.tmp_NIDU_agents
-                ):  # agent might have transitioned already
+                self.tmp_Agents[agent].update({'Drug Type': 'ND'})
+                if agent in self.tmp_NIDU_agents:  # agent might have transitioned already
                     self.tmp_NIDU_agents.remove(agent)
                 if agent not in self.tmp_ND_agents:
                     self.tmp_ND_agents.append(agent)
                 if agent in self.DrugTreatmentAgents_current:
                     self._exit_drug_treatment(agent)
         else:
-            raise ValueError("Drug cessation only valid for IDU and NIDU!")
+            raise ValueError('Drug cessation only valid for IDU and NIDU!')
 
     def _enroll_treatment(self, time):
         """
@@ -1690,31 +1515,17 @@ class HIVModel(NetworkClass):
             agent : int
 
         """
-        print(("\n\n!!!!Engaginge treatment process: %d" % time))
+        print("\n\n!!!!Engaginge treatment process: {}".format(time))
         self.treatmentEnrolled = True
-        for agent in self.All_agentSet.iter_agents():  # self.Agents: #NEW METHOD
-            # agent.print_agent()
-            # print("\nAgent:",agent)
+        for agent in self.All_agentSet.iter_agents():#self.Agents: #NEW METHOD
+            #agent.print_agent()
+            #print("\nAgent:",agent)
             # agent_dict = self.Agents[agent]
-            if self.runRandom.random() < params.treatmentCov and agent._DU == "IDU":
+            if self.runRandom.random() < params.treatmentCov and agent._DU == 'IDU':
                 agent._SNE_bool = True
 
-    def _becomeHighRisk(self, agent, HRtype=None, duration=None):
 
-        if agent not in self.highrisk_agentsSet._members:
-            self.highrisk_agentsSet.add_agent(agent)
-        if not agent._everhighrisk_bool:
-            self.NewHRrolls.add_agent(agent)
 
-        # agent._mean_num_partners = agent._mean_num_partners + params.HR_partnerScale
-        agent._highrisk_bool = True
-        agent._everhighrisk_bool = True
-        agent._highrisk_type = HRtype
-
-        if duration != None:
-            agent._highrisk_time = duration
-        else:
-            agent._highrisk_time = params.HR_M_dur
 
     def _incarcerate(self, agent, time):
         """
@@ -1726,142 +1537,88 @@ class HIVModel(NetworkClass):
 
         """
 
-        # agent_dict = self.Agents[agent]
-        drug_type = agent._DU  # self.get_agent_characteristic(agent, 'Drug Type')
-        sex_type = agent._SO  # self.get_agent_characteristic(agent, 'Sex Type')
-        race_type = agent._race  # self.get_agent_characteristic(agent, 'Race')
-        hiv_bool = agent._HIV_bool  # self.get_agent_characteristic(agent, 'HIV')
-        tested = agent._tested  # self.get_agent_characteristic(agent, 'Tested')
-        incar_t = agent._incar_time  # agent_dict['incar_t']
+        #agent_dict = self.Agents[agent]
+        drug_type = agent._DU#self.get_agent_characteristic(agent, 'Drug Type')
+        sex_type = agent._SO#self.get_agent_characteristic(agent, 'Sex Type')
+        race_type = agent._race#self.get_agent_characteristic(agent, 'Race')
+        hiv_bool = agent._HIV_bool#self.get_agent_characteristic(agent, 'HIV')
+        tested = agent._tested#self.get_agent_characteristic(agent, 'Tested')
+        incar_t = agent._incar_time#agent_dict['incar_t']
         incar_bool = agent._incar_bool
         haart_bool = agent._HAART_bool
 
-        if incar_bool:  # agent in self.Incarcerated:
+        if incar_bool:#agent in self.Incarcerated:
             agent._incar_time -= 1
 
-            # get out if t=0
-            if incar_t == 1:  # FREE AGENT
+
+            #get out if t=0
+            if incar_t == 1: #FREE AGENT
                 self.incarcerated_agentSet.remove_agent(agent)
                 self.NewIncarRelease.add_agent(agent)
                 agent._incar_bool = False
                 agent._ever_incar_bool = True
-                if params.model == "Incar":
-                    if (
-                        not agent._highrisk_bool and params.flag_HR
-                    ):  # If behavioral treatment on and agent HIV, ignore HR period.
-                        if (
-                            params.inc_treat_HRsex_beh
-                            and hiv_bool
-                            and (time >= params.inc_treatment_startdate)
-                        ):
+                if not agent._highrisk_bool:        #If behavioral treatment on and agent HIV, ignore HR period.
+                    if params.inc_treat_HRsex_beh and hiv_bool and (time >=params.inc_treatment_startdate):
+                        pass
+                    else:                           #Else, become high risk
+                        self.highrisk_agentsSet.add_agent(agent)
+                        if not agent._everhighrisk_bool:
+                            self.NewHRrolls.add_agent(agent)
+
+                        agent._mean_num_partners = agent._mean_num_partners + params.HR_partnerScale
+                        agent._highrisk_bool = True
+                        agent._everhighrisk_bool = True
+                        agent._highrisk_time = params.HR_M_dur
+
+
+                if (params.inc_treat_RIC or params.inc_treat_HRsex_beh or params.inc_treat_IDU_beh) and (time >=params.inc_treatment_startdate):
+                    agent._incar_treatment_time = params.inc_treatment_dur
+
+                if hiv_bool:
+                    if haart_bool:
+                        if self.runRandom.random() > params.inc_ARTdisc: #12% remain surpressed
                             pass
-                        else:  # Else, become high risk
-                            self.highrisk_agentsSet.add_agent(agent)
-                            if not agent._everhighrisk_bool:
-                                self.NewHRrolls.add_agent(agent)
 
-                            agent._mean_num_partners = (
-                                agent._mean_num_partners + params.HR_partnerScale
-                            )
-                            agent._highrisk_bool = True
-                            agent._everhighrisk_bool = True
-                            agent._highrisk_time = params.HR_M_dur
+                        else:
+                            agent._HAART_bool = False
+                            agent._HAART_adh = 0
+                            self.Trt_ART_agentSet.remove_agent(agent)
+		#Attempt couples based PrEP engagement
+                for tmpA in agent._partners:
+                    if (params.flag_PrEP and ('Couples' in params.PrEP_target_model)):
+                    #Atempt to put partner on prep if less than probability
+                        if not tmpA._HIV_bool:
+                            self._initiate_PrEP(tmpA, time)
+                        if not agent._HIV_bool:
+                            self._initiate_PrEP(agent, time)
+                        ### END FORCE ####
 
-                    if (
-                        params.inc_treat_RIC
-                        or params.inc_treat_HRsex_beh
-                        or params.inc_treat_IDU_beh
-                    ) and (time >= params.inc_treatment_startdate):
-                        agent._incar_treatment_time = params.inc_treatment_dur
-
-                    if hiv_bool:
-                        if haart_bool:
-                            if (
-                                self.runRandom.random() > params.inc_ARTdisc
-                            ):  # 12% remain surpressed
-                                pass
-
-                            else:
-                                agent._HAART_bool = False
-                                agent._HAART_adh = 0
-                                self.Trt_ART_agentSet.remove_agent(agent)
-
-                            ### END FORCE ####
-                elif params.model == "Overdose":
-                    self._becomeHighRisk(agent, HRtype="postIncar", duration=26)
-                    if self.runRandom.random() < params.p_enroll_OAT_post_release:
-                        self._enter_drug_treatment(agent, trtType="OAT")
-                        self._DOC_OAT_bool = True
-                    elif self.runRandom.random() < params.p_enroll_Nal_post_release:
-                        self._enter_drug_treatment(agent, trtType="NAL")
-                        self._DOC_NAL_bool = True
-
-        elif (
-            self.runRandom.random()
-            < params.DemographicParams[race_type][sex_type]["INCAR"]
-            * (1 + (hiv_bool * 4))
-            * params.cal_IncarP
-        ):
-            toss = 2  # random.choice( (1, 2) )
-            # M 61% for six months or less, 13% for six months to one year, 16% for 1-3 years, 4% for 3-5 years, 4% for 5-10 years
-            # F 22% for 6 months or less, 17% for 6mo-1 year, 24% for 1-3 years, 14% for 3-5 years 13% for 5-10years, 10% for 10+ years
-            if agent._SO == "HF":
-                jailDuration = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}}
-                jailDuration[1] = {"p_value": (0.40), "min": 1, "max": 2}
-                jailDuration[2] = {"p_value": (0.475), "min": 1, "max": 13}
-                jailDuration[3] = {"p_value": (0.065), "min": 13, "max": 26}
-                jailDuration[4] = {"p_value": (0.045), "min": 26, "max": 78}
-                jailDuration[5] = {"p_value": (0.01), "min": 78, "max": 130}
-                jailDuration[6] = {"p_value": (0.01), "min": 130, "max": 260}
-
-            elif agent._SO == "HM":
-                jailDuration = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}}
-                jailDuration[1] = {"p_value": (0.43), "min": 1, "max": 2}
-                jailDuration[2] = {"p_value": (0.50), "min": 1, "max": 13}
-                jailDuration[3] = {"p_value": (0.02), "min": 13, "max": 26}
-                jailDuration[4] = {"p_value": (0.02), "min": 26, "max": 78}
-                jailDuration[5] = {"p_value": (0.03), "min": 78, "max": 130}
-                jailDuration[6] = {"p_value": (0.01), "min": 130, "max": 260}
-            if toss == 1:  # JAIL
-                timestay = self.runRandom.randint(
-                    params.inc_JailMin, params.inc_JailMax
-                )  # int(random.triangular(8, 21, 15))
+        elif self.runRandom.random() < params.DemographicParams[race_type][sex_type]['INCAR'] * (1+(hiv_bool*4)) * params.cal_IncarP:
+            toss = 2#random.choice( (1, 2) )
+            if toss == 1: #JAIL
+                timestay = self.runRandom.randint(params.inc_JailMin, params.inc_JailMax) #int(random.triangular(8, 21, 15))
                 if hiv_bool and not tested:
-                    if self.runRandom.random() < params.inc_JailTestProb:
-                        agent._tested = (
-                            True
-                        )  # self.tmp_Agents[agent].update({'Tested': 1})
-                        # self.HIVidentified_agents.append(agent)
+                    if self.runRandom.random() < params.inc_JailTestProb :
+                        agent._tested = True #self.tmp_Agents[agent].update({'Tested': 1})
+                        #self.HIVidentified_agents.append(agent)
 
-            # M 13% for 6 months or less, 8% for 6 mo-1year, 20% for 1-3 years, 11% for 3-5 years, 16% for 5-10 years, 30% for 10+ years
-            # F 74% for 6 months or less, 12% for 6 months to one year, 10% for one to three years, 4% for over three years
-            else:  # PRISON
-                durationBin = current_p_value = 0
-                p = self.runRandom.random()
-                while p > current_p_value:
-                    durationBin += 1
-                    current_p_value += jailDuration[durationBin]["p_value"]
-                timestay = self.runRandom.randint(
-                    jailDuration[durationBin]["min"], jailDuration[durationBin]["max"]
-                )
-                # timestay = self.runRandom.randint(params.inc_PrisMin, params.inc_PrisMax)
+            else: #PRISON
+                timestay = self.runRandom.randint(params.inc_PrisMin, params.inc_PrisMax)
                 if hiv_bool:
                     if not tested:
                         if self.runRandom.random() < params.inc_PrisTestProb:
-                            agent._tested = (
-                                True
-                            )  # self.tmp_Agents[agent].update({'Tested': 1})
-                            # self.HIVidentified_agents.append(agent)
-                    else:  # Then tested and HIV, check to enroll in ART
+                            agent._tested = True #self.tmp_Agents[agent].update({'Tested': 1})
+                            #self.HIVidentified_agents.append(agent)
+                    else: #Then tested and HIV, check to enroll in ART
                         if self.runRandom.random() < params.inc_ARTenroll:
                             tmp_rnd = self.runRandom.random()
                             HAART_ADH = params.inc_ARTadh
                             if tmp_rnd < HAART_ADH:
                                 adherence = 5
                             else:
-                                adherence = self.runRandom.randint(1, 4)
+                                adherence = self.runRandom.randint(1,4)
 
-                            # Add agent to HAART class set, update agent params
+                            #Add agent to HAART class set, update agent params
                             agent._HAART_bool = True
                             agent._HAART_adh = adherence
                             agent._HAART_time = time
@@ -1872,38 +1629,28 @@ class HIVModel(NetworkClass):
             self.incarcerated_agentSet.add_agent(agent)
             self.totalIncarcerated += 1
 
-            if (
-                agent._treatment_bool
-                and self.runRandom.random() < params.p_discont_trt_on_incar
-            ):
-                self._exit_drug_treatment(agent)
-                agent._kickOff = True
-
-            # PUT PARTNERS IN HIGH RISK
+            #PUT PARTNERS IN HIGH RISK
             for tmpA in agent._partners:
                 if tmpA._highrisk_bool == True:
                     pass
-                    # print "ALREADY HR"
+                    #print "ALREADY HR"
                 else:
                     if self.runRandom.random() < params.HR_proportion:
-                        # print "Making agent %d (%s) HR"%(tmpA._ID, tmpA._SO)
+                        #print "Making agent %d (%s) HR"%(tmpA._ID, tmpA._SO)
                         if not tmpA._highrisk_bool:
                             self.highrisk_agentsSet.add_agent(tmpA)
                             if not tmpA._everhighrisk_bool:
                                 self.NewHRrolls.add_agent(tmpA)
-                            tmpA._mean_num_partners += (
-                                params.HR_partnerScale
-                            )  # 32.5 #2 + 3.25 from incar HR
+                            tmpA._mean_num_partners += params.HR_partnerScale #32.5 #2 + 3.25 from incar HR
                             tmpA._highrisk_bool = True
                             tmpA._everhighrisk_bool = True
                             tmpA._highrisk_time = params.HR_F_dur
-                if params.flag_PrEP and (
-                    params.PrEP_target_model == "Incar"
-                    or params.PrEP_target_model == "IncarHR"
-                ):
-                    # Atempt to put partner on prep if less than probability
+                if (params.flag_PrEP and ('Incar' in params.PrEP_target_model)):
+                    #Atempt to put partner on prep if less than probability
                     if not tmpA._HIV_bool:
                         self._initiate_PrEP(tmpA, time)
+
+
 
     def _HIVtest(self, agent, time):
         """
@@ -1920,31 +1667,35 @@ class HIVModel(NetworkClass):
         # Drug Treatment
         # SEP
 
-        drug_type = agent._DU  # self.get_agent_characteristic(agent, 'Drug Type')
-        sex_type = agent._SO  # self.get_agent_characteristic(agent, 'Sex Type')
-        race_type = agent._race  # self.get_agent_characteristic(agent, 'Race')
-        hiv_Status = agent._HIV_bool  # self.get_agent_characteristic(agent, 'HIV')
-        tested = agent._tested  # self.get_agent_characteristic(agent, 'Tested')
+        drug_type = agent._DU#self.get_agent_characteristic(agent, 'Drug Type')
+        sex_type = agent._SO#self.get_agent_characteristic(agent, 'Sex Type')
+        race_type = agent._race#self.get_agent_characteristic(agent, 'Race')
+        hiv_Status = agent._HIV_bool#self.get_agent_characteristic(agent, 'HIV')
+        tested = agent._tested#self.get_agent_characteristic(agent, 'Tested')
         if not tested:
-            test_prob = params.DemographicParams[race_type][sex_type]["HIVTEST"]
+            test_prob = params.DemographicParams[race_type][sex_type]['HIVTEST']
 
-            # Rescale based on calibration param
-            test_prob = test_prob * params.cal_TestFreq
+            #Rescale based on calibration param
+            test_prob = test_prob *  params.cal_TestFreq
 
-            # If roll less than test probablity
-            if self.runRandom.random() < test_prob:  ###WAS / 10
+            #If roll less than test probablity
+            if self.runRandom.random() < test_prob: ###WAS / 10
                 # Become tested, add to tested agent set
                 agent._tested = True
                 self.NewDiagnosis.add_agent(agent)
                 self.Trt_Tstd_agentSet.add_agent(agent)
                 # If treatment co-enrollment enabled and coverage greater than 0
                 if self.treatmentEnrolled and params.treatmentCov > 0:
-                    # For each partner, attempt to test for HIV
+                    #For each partner, attempt to test for HIV
                     for ptnr in agent._partners:
                         if ptnr._HIV_bool and not ptnr._tested:
-                            if self.runRandom.random < 0.87:
+                            if self.runRandom.random() < 0.87:
                                 ptnr._tested = True
                                 self.NewDiagnosis.add_agent(ptnr)
+
+
+
+
 
     def _VCT(self, agent, time):
         """
@@ -1961,28 +1712,27 @@ class HIVModel(NetworkClass):
         """
         # Drug Treatment
         # SEP
-        drug_type = self.get_agent_characteristic(agent, "Drug Type")
+        drug_type = self.get_agent_characteristic(agent, 'Drug Type')
         SEPstat = False
         if agent in self.SEPAgents:
             if time == self.SEPAgents[agent]:
                 SEPstat = True
-        if drug_type == "IDU":
+        if drug_type == 'IDU':
             if SEPstat:
                 if self.runRandom.random() < self.VCT_NSP:  # !!!!!!!!!!!!!!!!!!!!
                     self.VCTAgents.update({agent: time})
             else:
                 if self.runRandom.random() < self.VCT_NoNSP_IDU:  # !!!!!!!!!!!!!!!!!!!
                     self.VCTAgents.update({agent: time})
-        if drug_type == "NIDU":
+        if drug_type == 'NIDU':
             if self.runRandom.random() < self.VCT_NoNSP_NIDU:  # !!!!!!!!!!!!!!!!!!
                 self.VCTAgents.update({agent: time})
-        elif (
-            agent in self.MSM_agents and self.runRandom.random() < self.VCT_NoNSP_MSM
-        ):  # !
+        elif agent in self.MSM_agents and self.runRandom.random() < self.VCT_NoNSP_MSM:  # !
             self.VCTAgents.update({agent: time})
         else:
             if self.runRandom.random() < self.VCT_NoNSP_EE:  # !!!!!!!!!!!!!!!!!!!!!!!!!
                 self.VCTAgents.update({agent: time})
+
 
     def _SEP(self, agent, time):
         """
@@ -1995,11 +1745,10 @@ class HIVModel(NetworkClass):
         :Output:
             SEPstat : bool
         """
-        if self.get_agent_characteristic(agent, "Drug Type") != "IDU":
-            raise ValueError(
-                "_SEP only valid for IDU agents! agent: %d %s"
-                % (agent, str(self.get_agent_characteristic(agent, "Drug Type")))
-            )
+        if self.get_agent_characteristic(agent, 'Drug Type') != 'IDU':
+            raise ValueError("_SEP only valid for IDU agents! agent: {} {}".format(
+                             (agent, str(self.get_agent_characteristic(agent,
+                                                                       'Drug Type')))))
         # Drug treatment increases likelihood of SEP use
         if agent in self.DrugTreatmentAgents_current and self.IDU_agents:
 
@@ -2016,49 +1765,15 @@ class HIVModel(NetworkClass):
 
         return SEPstat
 
-    off = 0
 
     def _exit_drug_treatment(self, agent):
         """
         Agent exits drug treament.
         """
+        self.DrugTreatmentAgents_past.update({agent:
+                                                  self.DrugTreatmentAgents_current[agent]})
+        del self.DrugTreatmentAgents_current[agent]
 
-        if agent._OAT_bool:
-            # agent._highrisk_type == 'postTrtOAT'
-            agent._OAT_bool = False
-            self._becomeHighRisk(agent, HRtype="postTrtOAT", duration=1)
-        agent._off = True
-        if agent._naltrex_bool:
-            # agent._highrisk_type == 'postTrtNal'
-            agent._naltrex_bool = False
-            self._becomeHighRisk(agent, HRtype="postTrtNal", duration=1)
-        agent._off = True
-
-        agent._treatment_bool = False
-        self._naltrex_bool = False
-        self._OAT_bool = False
-        agent._treatment_time = 0
-        self.treatment_agentSet.remove_agent(agent)
-
-    def _enter_drug_treatment(self, agent, trtType=None):
-        agent._treatment_bool = True
-
-        if trtType == "OAT":
-            agent._OAT_bool = True
-        elif trtType == "NAL":
-            agent._naltrex_bool = True
-        elif self.runRandom.random() < params.MATasOAT:
-            agent._OAT_bool = True
-        else:
-            agent._naltrex_bool = True
-
-        try:
-            self.treatment_agentSet.add_agent(agent)
-        except:
-            print(
-                "agent %s is already a member of agent set %s"
-                % (agent.get_ID(), targetSet.get_ID())
-            )
 
     def _enter_and_exit_drug_treatment(self, agent, time):
         """
@@ -2081,30 +1796,33 @@ class HIVModel(NetworkClass):
         :Output:
             bool
         """
-        # agent_drug_type = self.get_agent_characteristic(agent, 'Drug Type')
-        # SEB edits here
-        agent_race = agent._race
-        agent_so = agent._SO
-        MATProb = params.DemographicParams[agent_race][agent_so]["MATProbScalar"]
-        discMATProb = params.DemographicParams[agent_race][agent_so]["MAT_disc_prob"]
-        if agent._treatment_bool:
-            if self.runRandom.random() < discMATProb:  # params.cal_MAT_disc_prob):
-                self._exit_drug_treatment(agent)
-        elif self.runRandom.random() < MATProb:
-            self._enter_drug_treatment(agent)
-        else:
+        agent_drug_type = self.get_agent_characteristic(agent, 'Drug Type')
+
+        N_TrSpots_Max = 100000  # max number of treatment spots
+        if (agent in self.DrugTreatmentAgents_current and self.runRandom.random() < self.SAT_disc):
+            self._exit_drug_treatment(agent)
+        elif self.N_TreatmentSpots < N_TrSpots_Max:
+            if agent in self.SEPAgents:
+                prob = self.SAT_NSP
+            elif agent in self.DrugTreatmentAgents_past:
+                prob = 0.18
+            else:
+                if agent_drug_type == 'IDU':
+                    prob = self.SAT_NoNSP_IDU
+                elif agent_drug_type == 'NIDU':
+                    prob = self.SAT_NIDU
+                else:
+                    mssg = 'Drug treatment only valid for NIDU and IDUs! %s'
+                    raise ValueError('Drug treatment only valid for NIDU and IDUs!'.format(agent_drug_type))
+            if self.runRandom.random() < prob and agent not in self.tmp_ND_agents:
+                self.DrugTreatmentAgents_current.update({agent: time})
+                self.N_TreatmentSpots += 1
+        elif self.N_TreatmentSpots == N_TrSpots_Max:
             pass
-        """elif agent._race == "BLACK":
-            if self.runRandom.random() < (params.MATProbScalar*6):
-                self._enter_drug_treatment(agent)
-            else:
-                pass
         else:
-            if self.runRandom.random() < (params.MATProbScalar):
-                self._enter_drug_treatment(agent)
-            else:
-                pass
-       """
+            #mssg = 'Check self.N_TreatmentSpots! Max value = 500! %d'
+            raise ValueError('mssg % self.N_TreatmentSpots')
+
 
     def _initiate_HAART(self, agent, time):
         """
@@ -2131,48 +1849,48 @@ class HIVModel(NetworkClass):
                 print("tmp_Agent[agent]", self.tmp_Agents[agent])
             except KeyError:
                 pass
-            raise ValueError("HAART only valid for HIV agents!agent:%s" % str(agent))
+            raise ValueError("HAART only valid for HIV agents!agent:{}".format(
+                             str(agent)))
 
-        agent_drug_type = agent._DU  # self.get_agent_characteristic(agent, 'Drug Type')
-        agent_haart = (
-            agent._HAART_bool
-        )  # self.get_agent_characteristic(agent, 'HAARTa')
-        agent_HIV = agent._HIV_bool  # self.get_agent_characteristic(agent, 'HIV')
-        agent_Test_bool = agent._tested  # self.Agents[agent]['Tested']
+        agent_drug_type = agent._DU#self.get_agent_characteristic(agent, 'Drug Type')
+        agent_haart = agent._HAART_bool#self.get_agent_characteristic(agent, 'HAARTa')
+        agent_HIV = agent._HIV_bool#self.get_agent_characteristic(agent, 'HIV')
+        agent_Test_bool = agent._tested#self.Agents[agent]['Tested']
         agent_race = agent._race
         agent_so = agent._SO
 
-        # Set HAART agents adherence at t=0 for all instanced HAART
+        #Set HAART agents adherence at t=0 for all instanced HAART
         if time == 0 and agent_haart:
-            # agent_haart = agent._HAART_bool#self.get_agent_characteristic(agent, 'HAARTa')
+            #agent_haart = agent._HAART_bool#self.get_agent_characteristic(agent, 'HAARTa')
             agent_haart_adh = agent._HAART_adh
             if agent_haart_adh == 0:
                 tmp_rnd = self.runRandom.random()
-                HAART_ADH = params.DemographicParams[agent_race][agent_so]["HAARTadh"]
+                HAART_ADH = params.DemographicParams[agent_race][agent_so]['HAARTadh']
                 if tmp_rnd < HAART_ADH:
                     adherence = 5
                 else:
-                    adherence = self.runRandom.randint(1, 4)
+                    adherence = self.runRandom.randint(1,4)
 
-                # add to agent haart set
+                #add to agent haart set
                 agent._HAART_adh = adherence
                 agent._HAART_time = time
-                # self.Trt_ART_agentSet.add_agent(agent)
+                #self.Trt_ART_agentSet.add_agent(agent)
+
 
         # Determine probability of HIV treatment
         if time >= 0 and agent_Test_bool:
-            # OLD WAY OF PUTTING AGENTS ON HAART
+            #OLD WAY OF PUTTING AGENTS ON HAART
             prob = 0
             if agent_Test_bool:
-                if agent_drug_type == "IDU":
-                    if agent:  # in self.DrugTreatmentAgents_current:
+                if agent_drug_type == 'IDU':
+                    if agent:# in self.DrugTreatmentAgents_current:
                         prob = 0.00625
 
-                elif agent_drug_type == "NIDU":
+                elif agent_drug_type == 'NIDU':
                     if agent in self.DrugTreatmentAgents_current:
                         prob = 0.0117
 
-                elif agent_drug_type == "NDU":
+                elif agent_drug_type == 'NDU':
                     prob = 0.0117
             else:
                 prob = 0.0
@@ -2181,31 +1899,25 @@ class HIVModel(NetworkClass):
             if not agent_haart and agent._HAART_time == 0:
                 if self.runRandom.random() < prob * params.cal_ART_cov:
 
-                    # self.tmp_Agents[agent].update({'HAARTa': 1})
-                    # self.tmp_HAART_agents.append(agent)
+                    #self.tmp_Agents[agent].update({'HAARTa': 1})
+                    #self.tmp_HAART_agents.append(agent)
 
                     tmp_rnd = self.runRandom.random()
-                    HAART_ADH = params.DemographicParams[agent_race][agent_so][
-                        "HAARTadh"
-                    ]
+                    HAART_ADH = params.DemographicParams[agent_race][agent_so]['HAARTadh']
                     if tmp_rnd < HAART_ADH:
                         adherence = 5
                     else:
-                        adherence = self.runRandom.randint(1, 4)
+                        adherence = self.runRandom.randint(1,4)
 
-                    # Add agent to HAART class set, update agent params
+                    #Add agent to HAART class set, update agent params
                     agent._HAART_bool = True
                     agent._HAART_adh = adherence
                     agent._HAART_time = time
                     self.Trt_ART_agentSet.add_agent(agent)
 
-                    # self.AdherenceAgents.update({agent: adherence})
+                    #self.AdherenceAgents.update({agent: adherence})
 
-            elif (
-                agent_haart
-                and self.runRandom.random()
-                < params.DemographicParams[agent_race][agent_so]["HAARTdisc"]
-            ):
+            elif agent_haart and self.runRandom.random() < params.DemographicParams[agent_race][agent_so]['HAARTdisc']:
                 if agent._incar_treatment_time > 0 and params.inc_treat_RIC:
                     pass
                 else:
@@ -2214,32 +1926,37 @@ class HIVModel(NetworkClass):
                     agent._HAART_time = 0
                     self.Trt_ART_agentSet.remove_agent(agent)
 
+
+
     def _PrEP_elligible(self, agent, time):
         elligble = False
-        if params.PrEP_target_model == "Allcomers":
+        if 'Allcomers' in params.PrEP_target_model:
             elligble = True
-        elif params.PrEP_target_model == "HighPN5":
+        elif 'HighPN5' in params.PrEP_target_model:
             if agent._mean_num_partners >= 5:
                 elligble = True
-        elif params.PrEP_target_model == "HighPN10":
+        elif 'HighPN10' in params.PrEP_target_model:
             if agent._mean_num_partners >= 10:
                 elligble = True
-        elif params.PrEP_target_model == "SRIns":
-            if agent._sexualRole == "Insertive":
+        elif 'SRIns' in params.PrEP_target_model:
+            if agent._sexualRole == 'Insertive':
                 elligble = True
-        elif params.PrEP_target_model == "MSM":
-            if agent._SO == ("MSM" or "MTF"):
+        elif 'MSM' in params.PrEP_target_model:
+            if agent._SO == ('MSM' or 'MTF'):
                 elligble = True
-        elif params.PrEP_target_model == "RandomTrial":
+        elif 'RandomTrial' in params.PrEP_target_model:
             # If using random trial
             if time == 0:
-                # if in init timestep 0, use agent set elligiblity
+                #if in init timestep 0, use agent set elligiblity
                 elligible = agent._PrEP_elligible
             if time > 0:
-                # else, false to not continue enrollment past random trial start
+                #else, false to not continue enrollment past random trial start
                 elligble = False
-
+        elif 'HF' in params.PrEP_clinic_cat:
+            if((len(agent._partners) >= 1) and (agent._SO == 'HF')):
+                elligble = True
         return elligble
+
 
     def _calc_PrEP_load(self, agent):
         """
@@ -2253,25 +1970,24 @@ class HIVModel(NetworkClass):
             none
         """
 
-        # N(t) = N0 (0.5)^(t/t_half)
-        # print agent._PrEP_load, agent._PrEP_lastDose
+        #N(t) = N0 (0.5)^(t/t_half)
+        #print agent._PrEP_load, agent._PrEP_lastDose
 
         agent._PrEP_lastDose += 1
         if agent._PrEP_lastDose > 12:
             agent._PrEP_load = 0.0
         else:
-            agent._PrEP_load = params.PrEP_peakLoad * (
-                (0.5) ** (agent._PrEP_lastDose / (params.PrEP_halflife / 30))
-            )
-        # print agent._ID, agent._PrEP_load, agent._PrEP_lastDose
+            agent._PrEP_load = params.PrEP_peakLoad * ((0.5)**(agent._PrEP_lastDose/(params.PrEP_halflife/30)))
+        #print agent._ID, agent._PrEP_load, agent._PrEP_lastDose
+
 
     def _discont_PrEP(self, agent, time, force=False):
 
-        # If force flag set, auto kick off prep.
-        if force == True:
+        #If force flag set, auto kick off prep.
+        if force==True:
             self.Trt_PrEP_agentSet.remove_agent(agent)
             agent._PrEP_bool = False
-        # else if agent is no longer enrolled on PrEP, increase time since last dose
+        #else if agent is no longer enrolled on PrEP, increase time since last dose
         elif agent._PrEP_time > 0:
             if agent._PrEP_time == 1:
                 agent._PrEP_bool = False
@@ -2279,24 +1995,21 @@ class HIVModel(NetworkClass):
             else:
                 agent._PrEP_time -= 1
 
-        # else if agent is on PrEP, see if they should discontinue
+        #else if agent is on PrEP, see if they should discontinue
         elif agent._PrEP_bool and agent._PrEP_time == 0:
-            if (
-                self.runRandom.random()
-                < params.DemographicParams[agent._race][agent._SO]["PrEPdisc"]
-            ):
+            if self.runRandom.random() < params.DemographicParams[agent._race][agent._SO]['PrEPdisc']:
                 agent._PrEP_time = params.PrEP_falloutT
                 self.Trt_PrEP_agentSet.remove_agent(agent)
 
-                if params.PrEP_type == "Oral":
+                if params.PrEP_type == 'Oral':
                     agent._PrEP_bool = False
-                # print 'Agent%d removed from PrEP\tP_T:%d'%(agent._ID, agent._PrEP_time)
-            else:  # if not discontinue, see if its time for a new shot.
+                #print 'Agent%d removed from PrEP\tP_T:%d'%(agent._ID, agent._PrEP_time)
+            else: #if not discontinue, see if its time for a new shot.
                 if agent._PrEP_lastDose > 2:
-                    # print 'Agent%d renewed PrEP'%(agent._ID)
+                    #print 'Agent%d renewed PrEP'%(agent._ID)
                     agent._PrEP_lastDose = -1
 
-        if params.PrEP_type == "Inj":
+        if params.PrEP_type == 'Inj':
             self._calc_PrEP_load(agent)
 
     def _initiate_PrEP(self, agent, time, force=False):
@@ -2311,39 +2024,36 @@ class HIVModel(NetworkClass):
         :Output:
             none
         """
-
         def _enrollPrEP(self, agent):
             agent._PrEP_bool = True
+            agent._PrEP_ever_bool = True
             agent._PrEP_time = 0
             self.Trt_PrEP_agentSet.add_agent(agent)
             tmp_rnd = self.runRandom.random()
-
+            self.newPrEPenrolls += 1
             if tmp_rnd < params.PrEP_Adherence:
                 agent._PrEP_adh = 1
             else:
                 agent._PrEP_adh = 0
 
-            # set PrEP load and dosestep for PCK
-            if params.PrEP_type == "Inj":
+            #set PrEP load and dosestep for PCK
+            if params.PrEP_type == 'Inj':
                 agent._PrEP_load = params.PrEP_peakLoad
                 agent._PrEP_lastDose = 0
+
 
         if agent == None:
             print("OHHH boi no prep agent")
             return None
         # Check valid input
-        # agent.print_agent()
+        #agent.print_agent()
         if agent._PrEP_bool:
-            print(agent._PrEP_bool)
+            #print agent._PrEP_bool
             return None
-            raise ValueError(
-                "PrEP only valid for agents not on PrEP!agent:%d" % agent.get_ID()
-            )
+            raise ValueError("PrEP only valid for agents not on PrEP!agent:{}".format(agent.get_ID()))
 
         if agent._HIV_bool:
-            raise ValueError(
-                "PrEP only valid for HIV- agents!agent:%d" % agent.get_ID()
-            )
+            raise ValueError("PrEP only valid for HIV- agents!agent:{}".format(agent.get_ID()))
 
         # Determine probability of HIV treatment
         agent_drug_type = agent._DU
@@ -2352,87 +2062,73 @@ class HIVModel(NetworkClass):
 
         if force:
             _enrollPrEP(self, agent)
+        elif time < params.PrEP_startT:
+            pass
         else:
             numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
 
-            if params.PrEP_target_model == "Clinical":
-                target_PrEP_population = (
-                    self.All_agentSet.num_members() - self.HIV_agentSet.num_members()
-                )
+            if 'Clinical' in params.PrEP_target_model:
+                target_PrEP_population = self.All_agentSet.num_members() - self.HIV_agentSet.num_members()
                 target_PrEP = target_PrEP_population * params.PrEP_Target
-            elif (
-                params.PrEP_target_model == "Incar"
-                or params.PrEP_target_model == "IncarHR"
-            ):
+            elif 'Incar' in params.PrEP_target_model:
                 if self.runRandom.random() < params.PrEP_Target:
                     _enrollPrEP(self, agent)
                 return None
-            else:
-                target_PrEP = int(
-                    (
-                        self.All_agentSet.num_members()
-                        - self.All_agentSet._subset["HIV"].num_members()
-                    )
-                    * params.PrEP_Target
-                )
-
-            if params.PrEP_clinic_cat == "Racial" and agent_race == "BLACK":
+            elif 'HR' in params.PrEP_target_model:
                 if self.runRandom.random() < params.PrEP_Target:
                     _enrollPrEP(self, agent)
-            elif (
-                numPrEP_agents < target_PrEP
-                and time >= params.PrEP_startT
-                and self._PrEP_elligible(agent, time)
-            ):
-                # print 'Agent%d added from PrEP'%(agent._ID)
+                return None
+            elif 'Couples' in params.PrEP_target_model:
+                if self.runRandom.random() < params.PrEP_Target:
+                    _enrollPrEP(self, agent)
+                return None
+
+            else:
+                target_PrEP = int((self.All_agentSet.num_members()-self.All_agentSet._subset["HIV"].num_members()) * params.PrEP_Target)
+
+            if params.PrEP_clinic_cat == 'Racial' and agent_race == 'BLACK':
+                if self.runRandom.random() < params.PrEP_Target:
+                    _enrollPrEP(self, agent)
+            elif numPrEP_agents < target_PrEP and time >= params.PrEP_startT:
+                #print 'Agent%d added from PrEP'%(agent._ID)
                 _enrollPrEP(self, agent)
+            
 
     def _get_clinic_agent(self, clinicBin, elligiblePool):
-        i = 1
-        pMatch = params.clinicAgents[clinicBin][i]["Prob"]
+        i=1
+        pMatch = params.clinicAgents[clinicBin][i]['Prob']
         RN = self.runRandom.random()
-        while True:
+        while(True):
             if RN <= pMatch:
                 break
             else:
-                i += 1
-                pMatch += params.clinicAgents[clinicBin][i]["Prob"]
-            if i == 5:
-                break
+                i+=1
+                pMatch += params.clinicAgents[clinicBin][i]['Prob']
+            if i==5:break
 
-        minNum = params.clinicAgents[clinicBin][i]["min"]
-        maxNum = params.clinicAgents[clinicBin][i]["max"]
+        minNum = params.clinicAgents[clinicBin][i]['min']
+        maxNum = params.clinicAgents[clinicBin][i]['max']
 
         iterations = 1
         while iterations < 3:
-            randomK_sample = self.runRandom.sample(
-                elligiblePool, params.cal_ptnrSampleDepth
-            )
-            # randomK_sample = self.runRandom.sample(self.All_agentSet._subset["MSM"]._members,params.cal_ptnrSampleDepth)
-            elligibleK_Pool = [
-                ag
-                for ag in randomK_sample
-                if (
-                    (ag._mean_num_partners >= minNum)
-                    and (ag._mean_num_partners <= maxNum)
-                )
-            ]
-            # for a in elligibleK_Pool: print minNum, maxNum, a._mean_num_partners
+            randomK_sample = self.runRandom.sample(elligiblePool,params.cal_ptnrSampleDepth)
+            #randomK_sample = self.runRandom.sample(self.All_agentSet._subset["MSM"]._members,params.cal_ptnrSampleDepth)
+            elligibleK_Pool = [ag for ag in randomK_sample if ((ag._mean_num_partners >= minNum) and (ag._mean_num_partners <= maxNum))]
+            #for a in elligibleK_Pool: print minNum, maxNum, a._mean_num_partners
             if elligibleK_Pool:
                 selected = self.runRandom.choice(elligibleK_Pool)
                 elligiblePool.remove(selected)
                 return selected
             else:
-                print(
-                    "Looking for agent with min:%d and max %d failed %d times"
-                    % (minNum, maxNum, iterations)
-                )
+                print("Looking for agent with min:{} and max {} failed {} times".format(minNum, maxNum,iterations))
                 iterations += 1
-                # print "Looking in another subsetK"
+                #print "Looking in another subsetK"
 
         print("No suitable PrEP agent")
-        # raise ValueError("No suitable PrEP agent")
+        #raise ValueError("No suitable PrEP agent")
         return None
+
+
 
     def _progress_to_AIDS(self, agent, agent_drug_type):
         """
@@ -2441,13 +2137,11 @@ class HIVModel(NetworkClass):
         """
         # only valid for HIV agents
         if not agent._HIV_bool:
-            raise ValueError(
-                "HAART only valid for HIV agents!agent:%s" % str(agent._ID)
-            )
+            raise ValueError("HAART only valid for HIV agents!agent:()".format(str(agent._ID)))
 
-        # if agent not in self.AIDS_agents:
+        #if agent not in self.AIDS_agents:
         if not agent._HAART_bool:
-            adherenceStat = agent._HAART_adh  # self.AdherenceAgents[agent]
+            adherenceStat = agent._HAART_adh#self.AdherenceAgents[agent]
             if adherenceStat > 0:
                 if adherenceStat == 1:
                     prob = 0.0051
@@ -2456,7 +2150,7 @@ class HIVModel(NetworkClass):
                     prob = 0.0039
 
                 if adherenceStat == 3:
-                    prob = 0.0032
+                      prob = 0.0032
 
                 if adherenceStat == 4:
                     prob = 0.0025
@@ -2468,20 +2162,21 @@ class HIVModel(NetworkClass):
                 prob = 0.0051
 
             if self.runRandom.random() < prob * params.cal_ProgAIDS:
-                # print "--------AIDS? -> yes"
+                #print "--------AIDS? -> yes"
                 agent._AIDS_bool = True
                 self.HIV_AIDS_agentSet.add_agent(agent)
-                # self.tmp_AIDS_agents.append(agent)
-                # self.tmp_Agents[agent].update({'AIDS': 1})
+                #self.tmp_AIDS_agents.append(agent)
+                #self.tmp_Agents[agent].update({'AIDS': 1})
+
 
     def _reset_death_count(self):
         self.num_Deaths = {}
         self.deathSet = []
-        # for HIV_status in ['Total','HIV-', 'HIV+']:
-        for HR_status in ["Total", "notHR", "HR"]:
-            self.num_Deaths.update({HR_status: {}})
-            for tmp_type in [HR_status, "MSM", "HM", "HF", "WSW", "MTF"]:
-                self.num_Deaths[HR_status].update({tmp_type: 0})
+        for HIV_status in ['Total','HIV-', 'HIV+']:
+            self.num_Deaths.update({HIV_status: {}})
+            for tmp_type in [HIV_status, 'MSM', 'HM', 'HF', 'WSW', 'MTF']:
+                self.num_Deaths[HIV_status].update({tmp_type: 0})
+
 
     def _remove_agent(self, agent):
         """
@@ -2495,45 +2190,45 @@ class HIVModel(NetworkClass):
         """
 
         # Drug type lists (agent might have been updated)
-        drug_type = self.tmp_Agents[agent]["Drug Type"]
+        drug_type = self.tmp_Agents[agent]['Drug Type']
 
-        if drug_type == "IDU":
+        if drug_type == 'IDU':
             try:
                 self.tmp_IDU_agents.remove(agent)
             except ValueError:
                 pass
-        elif drug_type == "NIDU":
+        elif drug_type == 'NIDU':
             try:
                 self.tmp_NIDU_agents.remove(agent)
             except ValueError:
                 pass
-        elif drug_type == "ND":
+        elif drug_type == 'ND':
             try:
                 self.tmp_ND_agents.remove(agent)
             except ValueError:
                 pass
-                # print "Agents[agent]", self.Agents[agent]
-                # print "tmp_Agents[agent]", self.tmp_Agents[agent]
-                # print "tmp_ND_agents", sorted(self.tmp_ND_agents)
+                #print "Agents[agent]", self.Agents[agent]
+                #print "tmp_Agents[agent]", self.tmp_Agents[agent]
+                #print "tmp_ND_agents", sorted(self.tmp_ND_agents)
         else:
-            raise ValueError("Invalid drug type! %s" % str(drug_type))
+            raise ValueError("Invalid drug type! {}".format(str(drug_type)))
 
         # Sex type lists
         try:
             # Agent might have been updated
-            sex_type = self.tmp_Agents[agent]["Sex Type"]
+            sex_type = self.tmp_Agents[agent]['Sex Type']
         except KeyError:
-            sex_type = self.get_agent_characteristic(agent, "Sex Type")
-        if sex_type == "MSM":
+            sex_type = self.get_agent_characteristic(agent, 'Sex Type')
+        if sex_type == 'MSM':
             self.tmp_MSM_agents.remove(agent)
-        elif sex_type == "HF":
+        elif sex_type == 'HF':
             self.tmp_HF_agents.remove(agent)
-        elif sex_type == "WSW":
+        elif sex_type == 'WSW':
             self.tmp_WSW_agents.remove(agent)
-        elif sex_type == "HM":
+        elif sex_type == 'HM':
             self.tmp_HM_agents.remove(agent)
         else:
-            raise ValueError("Invalid sex type! %s" % str(sex_type))
+            raise ValueError("Invalid sex type! {}".format(str(sex_type)))
 
         # HIV and AIDS lists
         try:
@@ -2554,13 +2249,13 @@ class HIVModel(NetworkClass):
         try:
             self.tmp_HAART_agents.remove(agent)
         except ValueError:
-            # print "WTFFFFF"
+            #print "WTFFFFF"
             pass
 
         try:
             self.HIVidentified_agents.remove(agent)
         except ValueError:
-            # print "WTFFFFF"
+            #print "WTFFFFF"
             pass
 
         # Other lists / dictionaries
@@ -2584,7 +2279,8 @@ class HIVModel(NetworkClass):
                 tmp_agents.remove(agent)
             self.HIV_key_transitiontime.update({time: tmp_agents})
 
-    def _die_and_replace(self, time, reported=True):
+
+    def _die_and_replace(self):
         """
         :Purpose:
             Let agents die and replace the dead agent with a new agent randomly.
@@ -2593,153 +2289,111 @@ class HIVModel(NetworkClass):
         # self.num_Deaths["Total"] = 0
         # self.num_Deaths["HIV+"] = 0
         # self.num_Deaths["HIV-"] = 0
-        # dynnetworkReport = open('Results/dynnetworkReport.txt', 'a')
-        for agent in self.All_agentSet._members:  # iter_agents(): #self.Agents:
+        #dynnetworkReport = open('Results/dynnetworkReport.txt', 'a')
+        for agent in self.All_agentSet._members:#iter_agents(): #self.Agents:
 
-            if agent._incar_bool:  # self.IncarceratedClass.is_member(agent):
-                # print "Agent %d is incarcerated. Cannot die" % agent.get_ID()
+            if agent._incar_bool:#self.IncarceratedClass.is_member(agent):
+                #print "Agent %d is incarcerated. Cannot die" % agent.get_ID()
                 pass
             else:
                 # Probability for dying
-                drug_type = (
-                    agent._DU
-                )  # self.get_agent_characteristic(agent, 'Drug Type')
-                sex_type = agent._SO  # self.get_agent_characteristic(agent, 'Sex Type')
-                HIV_status = (
-                    agent._HIV_bool
-                )  # self.get_agent_characteristic(agent, 'HIV')
-                HR_status = agent._highrisk_bool
-                HR_type = agent._highrisk_type
-                AIDSStatus = (
-                    agent._AIDS_bool
-                )  # self.get_agent_characteristic(agent, 'HIV')
-                agent_Race = agent._race  # self.get_agent_characteristic(agent, 'Race')
-                # adherence =  self.AdherenceAgents[agent]
+                drug_type = agent._DU #self.get_agent_characteristic(agent, 'Drug Type')
+                sex_type = agent._SO #self.get_agent_characteristic(agent, 'Sex Type')
+                HIV_status = agent._HIV_bool #self.get_agent_characteristic(agent, 'HIV')
+                AIDSStatus = agent._AIDS_bool #self.get_agent_characteristic(agent, 'HIV')
+                agent_Race = agent._race #self.get_agent_characteristic(agent, 'Race')
+                #adherence =  self.AdherenceAgents[agent]
+
 
                 if HIV_status:
-                    if AIDSStatus:  # AIDS DEATH RATE
-                        if agent_Race == "WHITE":
+                    if AIDSStatus: #AIDS DEATH RATE
+                        if agent_Race == 'WHITE':
                             p = 34.4
-                        elif agent_Race == "BLACK":
+                        elif agent_Race == 'BLACK':
                             p = 41.6
                         else:
-                            raise ValueError("Invalid RACE type! %s" % str(agent_Race))
-                        # p = self.ProbDeath[drug_type]['AIDS']
+                            raise ValueError("Invalid RACE type! {}".format(str(agent_Race)))
+                        #p = self.ProbDeath[drug_type]['AIDS']
 
-                    elif agent._HAART_adh > 1:  # HAART DEATH RATE
-                        if agent_Race == "WHITE":
+                    elif agent._HAART_adh > 1: #HAART DEATH RATE
+                        if agent_Race == 'WHITE':
                             p = 8.6
-                        elif agent_Race == "BLACK":
+                        elif agent_Race == 'BLACK':
                             p = 10.4
                         else:
-                            raise ValueError("Invalid RACE type! %s" % str(agent_Race))
-                        # p = self.ProbDeath[drug_type]['HIV+/HAART']
+                            raise ValueError("Invalid RACE type! {}".format(str(agent_Race)))
+                        #p = self.ProbDeath[drug_type]['HIV+/HAART']
 
-                    else:  # HIV+ DEATH RATE
-                        if agent_Race == "WHITE":
+                    else: #HIV+ DEATH RATE
+                        if agent_Race == 'WHITE':
                             p = 17.2
-                        elif agent_Race == "BLACK":
+                        elif agent_Race == 'BLACK':
                             p = 20.8
                         else:
-                            raise ValueError("Invalid RACE type! %s" % str(agent_Race))
-                        # p = self.ProbDeath[drug_type]['HIV+']
+                            raise ValueError("Invalid RACE type! {}".format((agent_Race)))
+                        #p = self.ProbDeath[drug_type]['HIV+']
                     p = p * params.cal_Mortality
 
-                elif not HIV_status:  # NON HIV DEATH RATE
-                    if agent_Race == "WHITE":
-                        p = 1.0
-                    elif agent_Race == "BLACK":
-                        p = 16.0
+                elif not HIV_status: # NON HIV DEATH RATE
+                    if agent_Race == 'WHITE':
+                        p = 8.6
+                    elif agent_Race == 'BLACK':
+                        p = 10.4
                     else:
-                        raise ValueError("Invalid RACE type! %s" % str(agent_Race))
-                    # p = self.ProbDeath[drug_type]['HIV-']
+                        raise ValueError("Invalid RACE type! {}".format(str(agent_Race)))
+                    #p = self.ProbDeath[drug_type]['HIV-']
 
                 else:
-                    raise ValueError("Invalid HIV type! %s" % str(HIV_status))
+                    raise ValueError("Invalid HIV type! {}".format(str(HIV_status)))
 
-                if agent._highrisk_bool:
-                    if agent._highrisk_type == "postIncar":
-                        if params.HR_M_dur - agent._highrisk_time >= 3:
-                            p = p * params.p_mort_post_release_scalars[3]
-                        elif params.HR_M_dur - agent._highrisk_time == 2:
-                            p = p * params.p_mort_post_release_scalars[2]
-                        elif params.HR_M_dur - agent._highrisk_time <= 1:
-                            p = p * params.p_mort_post_release_scalars[1]
-                    elif agent._highrisk_type == "postTrtOAT":
-                        p = p * params.p_mort_oat_postcess_scalar
-                    elif agent._highrisk_type == "postTrtNal":
-                        p = p * params.p_mort_nalt_postcess_scalar
-
-                if agent._OAT_bool:
-                    p = p * params.p_mort_oat_scalar
-                elif agent._naltrex_bool:
-                    p = p * params.p_mort_nalt_scalar
-
-                if sex_type == "HF":
-                    p = p * 1.2
-                # print("Unscaled mort p: {}".format(p))
-                p = p * params.cal_Mortality
-                # print("Scaled mort p: {}".format(p))
-                # p = p + time/36
-                # uncounted churn factor
-                if reported == False:
-                    if agent_Race == "WHITE":
-                        p = 1.23
-                    elif agent_Race == "BLACK":
-                        p = 2.40
-
-                p = p / 26000.0  # 12000.0 #putting it into per 1 person-month
-
-                # print("Final mort p: {}".format(p))
+                #print p
+                p = p / 12000.0#12000.0 #putting it into per 1 person-month
                 if self.runRandom.random() < p:
                     # print "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAgent %d died rolling under %.10lf" % (agent.get_ID(), p)
-
+                    self.deathSet.append(agent)
                     totalDeaths += 1
-                    if HR_type == "postIncar":
-                        ident = "HR"
-                    else:
-                        ident = "notHR"
-                    # if HIV_status: ident = "HIV+"
-                    # else: ident = "HIV-"
-                    if reported == True:
-                        self.num_Deaths["Total"][sex_type] += 1
-                        self.num_Deaths[ident][sex_type] += 1
-                        self.deathSet.append(agent)
+                    if HIV_status: ident = "HIV+"
+                    else: ident = "HIV-"
+                    self.num_Deaths["Total"][sex_type] += 1
+                    self.num_Deaths[ident][sex_type] += 1
                     ID_number = agent.get_ID()
                     race = agent._race
 
-                    # End all existing relationships
+                    #End all existing relationships
                     for rel in agent._relationships:
                         # print "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tDeleting relationship between %d and %d" % (rel._ID1.get_ID(), rel._ID2.get_ID())
                         rel.progress(forceKill=True)
 
                         self.Relationships.remove_agent(rel)
 
-                    # Remove agent node and edges from network graph
+                    
+                    #Remove agent node and edges from network graph
                     self.get_Graph().remove_node(agent)
 
-                    # Remove agent from agent class and sub-sets
+
+
+                    #Remove agent from agent class and sub-sets
                     self.All_agentSet.remove_agent(agent)
 
-                    # Delete agent object
+                    #Delete agent object
                     del agent
 
                     # Create new agent
-                    agent_cl = self._return_new_Agent_class(ID_number, race, sex_type)
+                    agent_cl = self._return_new_Agent_class(ID_number,race)
                     self.create_agent(agent_cl, race)
                     # print("Adding node {}".format(agent_cl))
 
                     self.G.add_node(agent_cl)
 
-                elif 1 == 0:
+                elif 1==0:
                     # Replace with new agent (random characteristics)
                     rv = self.runRandom.random()
-                    if rv < params.DemographicParams["WHITE"]["ALL"]["Proportion"]:
-                        deliminator = "WHITE"
-                        # print "\t\tReplaced with ND"
+                    if rv < params.DemographicParams['WHITE']['ALL']['Proportion']:
+                        deliminator = 'WHITE'
+                        #print "\t\tReplaced with ND"
                     else:
-                        deliminator = "BLACK"
-                        # print "\t\tReplaced with NIDU"
+                        deliminator = 'BLACK'
+                        #print "\t\tReplaced with NIDU"
 
                         """#################### OLD WAY
                     # Replace with new agent (random characteristics)
@@ -2755,79 +2409,76 @@ class HIVModel(NetworkClass):
                         print "\t\tReplaced with "
                         """
 
-                    #################### NOW SET TO REPLAC WITH WHAT DIED"
 
-                    # drug_type = 'IDU'
+                     #################### NOW SET TO REPLAC WITH WHAT DIED"
+
+                    #drug_type = 'IDU'
 
                     # New agent dict
                     agent_dict = self._return_new_agent_dict(deliminator)
-                    if deliminator != agent_dict["Race"]:
-                        raise ValueError(
-                            "Inconsistent drug type!%s" % str(agent_dict["Drug Type"])
-                        )
+                    if deliminator != agent_dict['Race']:
+                        raise ValueError("Inconsistent drug type! {}".format(str(agent_dict['Drug Type'])))
 
                     # Update tmp_Agents dictionary with new agent
                     self.tmp_Agents.update({agent: agent_dict})
-                    # print "New agent updated"
+                    #print "New agent updated"
 
                     # Drug Type
-                    drug_type = agent_dict["Drug Type"]
-                    if drug_type == "IDU":
+                    drug_type = agent_dict['Drug Type']
+                    if drug_type == 'IDU':
                         self.tmp_IDU_agents.append(agent)
-                    elif drug_type == "NIDU":
+                    elif drug_type == 'NIDU':
                         self.tmp_NIDU_agents.append(agent)
-                    elif drug_type == "ND":
+                    elif drug_type == 'ND':
                         self.tmp_ND_agents.append(agent)
                     else:
-                        raise ValueError("Invalid drug type! %s" % str(drug_type))
+                        raise ValueError("Invalid drug type! {}".format(str(drug_type)))
 
                     # Sex Type
-                    SexType = agent_dict["Sex Type"]
-                    if SexType == "HM":
+                    SexType = agent_dict['Sex Type']
+                    if SexType == 'HM':
                         self.tmp_HM_agents.append(agent)
-                    elif SexType == "HF":
+                    elif SexType == 'HF':
                         self.tmp_HF_agents.append(agent)
-                    elif SexType == "MSM":
+                    elif SexType == 'MSM':
                         self.tmp_MSM_agents.append(agent)
-                    elif SexType == "WSW":
+                    elif SexType == 'WSW':
                         self.tmp_WSW_agents.append(agent)
                     else:
-                        raise ValueError("Invalid SexType! %s" % str(SexType))
+                        raise ValueError("Invalid SexType! {}".format(str(SexType)))
 
                     # HIV
-                    HIVStatus = agent_dict["HIV"]
+                    HIVStatus = agent_dict['HIV']
                     if HIVStatus == 1:
-                        # print "NEW AGENT %d %s WAS HIV"%(agent, drug_type)
+                        #print "NEW AGENT %d %s WAS HIV"%(agent, drug_type)
                         self.tmp_HIV_agents.append(agent)
                     elif HIVStatus != 0:
-                        raise ValueError("Invalid HIVType! %s" % str(HIVStatus))
-                    # else:
-                    # print "NEW AGENT %d %s WAS NOT HIV"%(agent, drug_type)
+                        raise ValueError("Invalid HIVType!")
+                    #else:
+                        #print "NEW AGENT %d %s WAS NOT HIV"%(agent, drug_type)
 
                     # AIDS
-                    AIDSStatus = agent_dict["AIDS"]
+                    AIDSStatus = agent_dict['AIDS']
                     if AIDSStatus == 1:
-                        # print "NEW AGENT WAS AIDS"
+                        #print "NEW AGENT WAS AIDS"
                         self.tmp_AIDS_agents.append(agent)
                     elif AIDSStatus != 0:
-                        raise ValueError("Invalid AIDS Status! %s" % str(AIDSStatus))
+                        raise ValueError("Invalid AIDS Status! %s")
 
                     # HAART
-                    HAARTStatus = agent_dict["HAARTa"]
+                    HAARTStatus = agent_dict['HAARTa']
                     if HAARTStatus == 1:
-                        # print "NEW AGENT WAS HAART"
+                        #print "NEW AGENT WAS HAART"
                         self.tmp_HAART_agents.append(agent)
                     elif HAARTStatus != 0:
-                        raise ValueError("Invalid HAART Status! %s" % str(HAARTStatus))
+                        raise ValueError("Invalid HAART Status! {}".format(str(HAARTStatus)))
 
-                    # Incarcerated
-                    IncarceratedTime = agent_dict["incar_t"]
+                    #Incarcerated
+                    IncarceratedTime = agent_dict['incar_t']
                     if IncarceratedTime >= 1:
                         self.Incarcerated.append(agent)
                     elif IncarceratedTime < 0:
-                        raise ValueError(
-                            "Invalid AIDS Status! %s" % str(IncarceratedTime)
-                        )
+                        raise ValueError("Invalid AIDS Status! {}".format(str(IncarceratedTime)))
 
                     # Check
                     if HIVStatus == 1:
@@ -2850,23 +2501,23 @@ class HIVModel(NetworkClass):
                     #open('Results/dynnetworkReport.txt', 'a').write('\n' + reportLine)
                     dynnetworkReport.write('\n' + reportLine)"""
 
-            # if len(self.Agents) != self.PopulationSize:
+            #if len(self.Agents) != self.PopulationSize:
             #    raise ValueError("Wrong Population size!%s != %s" % (str(len(self.Agents)), str(self.PopulationSize)))
 
-            # iduPrec = self.num_Deaths['IDU']['IDU']/float(totalDeaths) if totalDeaths else 0
-            # niduPrec = self.num_Deaths['NIDU']['NIDU']/float(totalDeaths) if totalDeaths else 0
-            # ndPrec = self.num_Deaths['ND']['ND']/float(totalDeaths) if totalDeaths else 0
+            #iduPrec = self.num_Deaths['IDU']['IDU']/float(totalDeaths) if totalDeaths else 0
+            #niduPrec = self.num_Deaths['NIDU']['NIDU']/float(totalDeaths) if totalDeaths else 0
+            #ndPrec = self.num_Deaths['ND']['ND']/float(totalDeaths) if totalDeaths else 0
             """
-            print "\n\t=== DEATH REPORT ==="
-            print "\tType\tCount\t%"
-            print "\tIDU \t%d\t\t%.5lf" % (self.num_Deaths['IDU']['IDU'], iduPrec)
-            print "\tNIDU\t%d\t\t%.5lf" % (self.num_Deaths['NIDU']['NIDU'], niduPrec)
-            print "\tND  \t%d\t\t%.5lf" % (self.num_Deaths['ND']['ND'], ndPrec)
-            print "\tTotal\t%d\n" % totalDeaths
+            print("\n\t=== DEATH REPORT ==="
+            print("\tType\tCount\t%"
+            print("\tIDU \t%d\t\t%.5lf" % (self.num_Deaths['IDU']['IDU'], iduPrec))
+            print("\tNIDU\t%d\t\t%.5lf" % (self.num_Deaths['NIDU']['NIDU'], niduPrec))
+            print("\tND  \t%d\t\t%.5lf" % (self.num_Deaths['ND']['ND'], ndPrec))
+            print("\tTotal\t%d\n" % totalDeaths)
             """
-            # dynnetworkReport.close()
+            #dynnetworkReport.close()
 
-    # @profile
+    #@profile
     def _update_population(self):
         """
         :Purpose:
@@ -2897,8 +2548,9 @@ class HIVModel(NetworkClass):
         # self.HIV_agents = copy(list(set(self.tmp_HIV_agents)))
         # self.HAART_agents = copy(list(set(self.tmp_HAART_agents)))
 
-        # print "HIV population:", self.HIV_agents
+        #print "HIV population:", self.HIV_agents
         self.SEPAgents = {}  # SEP has no memory
+
 
     def _check_population(self):
         """
@@ -2909,10 +2561,8 @@ class HIVModel(NetworkClass):
         """
 
         # Check consistency of last partners
-        if not (
-            np.all(self.AdjMat.sum(0) == self.AdjMat.conj().sum(0))
-            and np.all(self.AdjMat.sum(1) == self.AdjMat.conj().sum(1))
-        ):
+        if (not (np.all(self.AdjMat.sum(0) == self.AdjMat.conj().sum(0)) and
+                     np.all(self.AdjMat.sum(1) == self.AdjMat.conj().sum(1)))):
             raise ValueError("Adjacency matrix not symmetric!")
 
         # Check consistency of real population
@@ -2925,81 +2575,81 @@ class HIVModel(NetworkClass):
         count_IDU = 0
         count_HIV = 0
         count_AIDS = 0
-        for (agent, d) in self.Agents.items():
+        for (agent, d) in self.Agents.iteritems():
             agent_dict = d
             # Sex type
-            sex_type = agent_dict["Sex Type"]
-            if sex_type == "HF":
+            sex_type = agent_dict['Sex Type']
+            if sex_type == 'HF':
                 if agent not in self.HF_agents:
                     print(self.Agents[agent])
-                    raise ValueError("Check agents HF Sex type %d" % agent)
+                    #raise ValueError("Check agents HF Sex type %d" % agent)
                 else:
                     count_HF += 1
-            elif sex_type == "HM":
+            elif sex_type == 'HM':
                 if agent not in self.HM_agents:
                     print(self.Agents[agent])
-                    raise ValueError("Check agents HM Sex type %d" % agent)
+                    #raise ValueError("Check agents HM Sex type %d" % agent)
                 else:
                     count_HM += 1
-            elif sex_type == "MSM":
+            elif sex_type == 'MSM':
                 if agent not in self.MSM_agents:
-                    raise ValueError("Check agents MSM Sex type %d" % agent)
+                    raise ValueError("Check agents MSM Sex type %d".format(agent))
                 else:
                     count_MSM += 1
-            elif sex_type == "WSW":
+            elif sex_type == 'WSW':
                 if agent not in self.WSW_agents:
                     print(self.Agents[agent])
-                    raise ValueError("Check agents WSW Sex type %d" % agent)
+                    #raise ValueError("Check agents WSW Sex type %d" % agent)
                 else:
                     count_WSW += 1
             else:
                 raise ValueError("Invalid sex type %s" % str(sex_type))
 
             # Drug type
-            drug_type = agent_dict["Drug Type"]
-            if drug_type == "ND":
+            drug_type = agent_dict['Drug Type']
+            if drug_type == 'ND':
                 if agent not in self.ND_agents:
                     print(self.Agents[agent])
-                    raise ValueError("Check agents ND Drug type %d" % agent)
+                    #raise ValueError("Check agents ND Drug type %d" % agent)
                 else:
                     count_ND += 1
-            elif drug_type == "NIDU":
+            elif drug_type == 'NIDU':
                 if agent not in self.NIDU_agents:
                     print(self.Agents[agent])
-                    raise ValueError("Check agents NIDU Drug type %d" % agent)
+                    #raise ValueError("Check agents NIDU Drug type %d" % agent)
                 else:
                     count_NIDU += 1
-            elif drug_type == "IDU":
+            elif drug_type == 'IDU':
                 if agent not in self.IDU_agents:
                     print(self.Agents[agent])
-                    raise ValueError("Check agents IDU Drug type %d" % agent)
+                    #raise ValueError("Check agents IDU Drug type %d" % agent)
                 else:
                     count_IDU += 1
             else:
                 raise ValueError("Invalid drug type %s" % str(drug_type))
 
             # HIV
-            HIVstatus = agent_dict["HIV"]
+            HIVstatus = agent_dict['HIV']
             if HIVstatus != 0:
                 if agent not in self.HIV_agents:
                     print(self.Agents[agent])
-                    raise ValueError("Check agent HIV %d" % agent)
+                    #raise ValueError("Check agent HIV %d" % agent)
                 else:
                     count_HIV += 1
             # AIDS
-            AIDSstatus = agent_dict["AIDS"]
+            AIDSstatus = agent_dict['AIDS']
             if AIDSstatus != 0:
                 if agent not in self.AIDS_agents:
                     print(self.Agents[agent])
-                    raise ValueError("Check agent AIDS %d" % agent)
+                    #raise ValueError("Check agent AIDS %d" % agent)
                 else:
                     count_AIDS += 1
 
         if len(self.HF_agents) != count_HF:
             raise ValueError("self.HF agents contains too many agents!")
         if len(self.HM_agents) != count_HM:
-            print("len(self.HM_agents)=%d" % len(self.HM_agents))
-            print("count_HM=%d" % count_HM)
+            #print "len(self.HM_agents)=%d" % len(self.HM_agents)
+            #print "count_HM=%d" % count_HM
             raise ValueError("self.HM agents contains too many agents!")
         if len(self.MSM_agents) != count_MSM:
             raise ValueError("self.MSM agents contains too many agents!")
@@ -3013,14 +2663,12 @@ class HIVModel(NetworkClass):
         if len(self.IDU_agents) != count_IDU:
             mssg = "self.IDU agents contains too many agents!\
                     \nlen(self.IDU_agents)=%d\ncount_IDU=%d\n"
-            raise ValueError(mssg % (len(self.IDU_agents), count_IDU))
+            raise ValueError(mssg)# % (len(self.IDU_agents), count_IDU))
 
         if len(self.HIV_agents) != count_HIV:
-            raise ValueError(
-                "self.HIV_agents contains too many agents!\
-                \nlen(self.HIV_agents) = %d\ncount_HIV = %d\n"
-                % (len(self.HIV_agents), count_HIV)
-            )
+            raise ValueError("self.HIV_agents contains too many agents!\
+                \nlen(self.HIV_agents) = {}\ncount_HIV = {}\n".format(
+                len(self.HIV_agents), count_HIV))
         if len(self.AIDS_agents) != count_AIDS:
             raise ValueError("self.AIDS agents contains too many agents!")
 
@@ -3034,74 +2682,74 @@ class HIVModel(NetworkClass):
         count_IDU = 0
         count_HIV = 0
         count_AIDS = 0
-        for (agent, d) in self.tmp_Agents.items():
+        for (agent, d) in self.tmp_Agents.iteritems():
             agent_dict = d
             # Sex type
-            sex_type = agent_dict["Sex Type"]
-            if sex_type == "HF":
+            sex_type = agent_dict['Sex Type']
+            if sex_type == 'HF':
                 if agent not in self.tmp_HF_agents:
                     print(self.tmp_Agents[agent])
-                    raise ValueError("Check tmp_agents Sex type %d" % agent)
+                    raise ValueError("Check tmp_agents Sex type %d")# % agent)
                 else:
                     count_HF += 1
-            elif sex_type == "HM":
+            elif sex_type == 'HM':
                 if agent not in self.tmp_HM_agents:
                     print(self.tmp_Agents[agent])
-                    raise ValueError("Check tmp_agents Sex type %d" % agent)
+                    raise ValueError("Check tmp_agents Sex type %d")# % agent)
                 else:
                     count_HM += 1
-            elif sex_type == "MSM":
+            elif sex_type == 'MSM':
                 if agent not in self.tmp_MSM_agents:
                     print(self.tmp_Agents[agent])
-                    raise ValueError("Check tmp_agents Sex type %d" % agent)
+                    raise ValueError("Check tmp_agents Sex type %d")# % agent)
                 else:
                     count_MSM += 1
-            elif sex_type == "WSW":
+            elif sex_type == 'WSW':
                 if agent not in self.tmp_WSW_agents:
                     print(self.tmp_Agents[agent])
-                    raise ValueError("Check tmp_agents Sex type %d" % agent)
+                    raise ValueError("Check tmp_agents Sex type %d")# % agent)
                 else:
                     count_WSW += 1
             else:
-                raise ValueError("Invalid sex type %s" % str(sex_type))
+                raise ValueError("Invalid sex type %s")# % str(sex_type))
 
             # Drug type
-            drug_type = agent_dict["Drug Type"]
-            if drug_type == "ND":
+            drug_type = agent_dict['Drug Type']
+            if drug_type == 'ND':
                 if agent not in self.tmp_ND_agents:
                     print(self.tmp_Agents[agent])
-                    raise ValueError("Check tmp_agents Drug type %d" % agent)
+                    raise ValueError("Check tmp_agents Drug type %d")# % agent)
                 else:
                     count_ND += 1
-            elif drug_type == "NIDU":
+            elif drug_type == 'NIDU':
                 if agent not in self.tmp_NIDU_agents:
                     print(self.tmp_Agents[agent])
-                    raise ValueError("Check tmp_agents Drug type %d" % agent)
+                    raise ValueError("Check tmp_agents Drug type %d")# % agent)
                 else:
                     count_NIDU += 1
-            elif drug_type == "IDU":
+            elif drug_type == 'IDU':
                 if agent not in self.tmp_IDU_agents:
                     print(self.tmp_Agents[agent])
-                    raise ValueError("Check tmp_agents Drug type %d" % agent)
+                    raise ValueError("Check tmp_agents Drug type %d")# % agent)
                 else:
                     count_IDU += 1
             else:
-                raise ValueError("Invalid drug type %s" % str(drug_type))
+                raise ValueError("Invalid drug type %s")# % str(drug_type))
 
             # HIV
-            HIVstatus = agent_dict["HIV"]
+            HIVstatus = agent_dict['HIV']
             if HIVstatus != 0:
                 if agent not in self.tmp_HIV_agents:
                     print(self.tmp_Agents[agent])
-                    raise ValueError("Check tmp_agent HIV %d" % agent)
+                    raise ValueError("Check tmp_agent HIV %d")# % agent)
                 else:
                     count_HIV += 1
             # AIDS
-            AIDSstatus = agent_dict["AIDS"]
+            AIDSstatus = agent_dict['AIDS']
             if AIDSstatus != 0:
                 if agent not in self.tmp_AIDS_agents:
                     print(self.tmp_Agents[agent])
-                    raise ValueError("Check agent AIDS %d" % agent)
+                    raise ValueError("Check agent AIDS %d")# % agent)
                 else:
                     count_AIDS += 1
 
@@ -3126,9 +2774,10 @@ class HIVModel(NetworkClass):
         if len(self.tmp_HIV_agents) != count_HIV:
             raise ValueError("self.tmp_HIV_agents contains too many agents!")
         if len(self.tmp_AIDS_agents) != count_AIDS:
-            print("len(self.tmp_AIDS_agents)=%d" % len(self.tmp_AIDS_agents))
-            print("count_AIDS=%d" % count_AIDS)
+            print("len(self.tmp_AIDS_agents)={}".format(len(self.tmp_AIDS_agents)))
+            print("count_AIDS=%d".format(count_AIDS))
             raise ValueError("self.tmp_AIDS agents contains too many agents!")
+
 
     def save_AgentPartner_list(self, t):
         """
@@ -3138,37 +2787,37 @@ class HIVModel(NetworkClass):
         t : int
         Time
         """
-        OutFileDir = os.path.expanduser(os.path.join(self.current_dir, "Results"))
+        OutFileDir = os.path.expanduser(os.path.join(self.current_dir, 'Results'))
         if not os.path.isdir(OutFileDir):  # create directory if not existing
             os.mkdir(OutFileDir)
-        OutFileName = os.path.join(
-            OutFileDir, "AgentPartnersList_atTime_%s.txt" % str(t)
-        )
-        if os.path.isfile(OutFileName):
-            os.remove(OutFileName)
-        outfile = open(OutFileName, "w")
-        outfile.write("agent\tdrug type\tsex type\tHIV\tAIDS\tHAART\t")
+        OutFileName = os.path.join(OutFileDir,
+                                   'AgentPartnersList_atTime_{}.txt'.format(str(t)))
+        if os.path.isfile(OutFileName): os.remove(OutFileName)
+        outfile = open(OutFileName, 'w')
+        outfile.write('agent\tdrug type\tsex type\tHIV\tAIDS\tHAART\t')
         maxpartners = 0
         for agent in self.Agents:
             numpartners = len(list(self.AdjMat.rows[agent]))
             if numpartners > maxpartners:
                 maxpartners = numpartners
-        outfile.write("\t".join(["partner\tp drug type\tp sex type"] * maxpartners))
-        outfile.write("\n")
+        outfile.write('\t'.join(['partner\tp drug type\tp sex type'] *
+                                maxpartners))
+        outfile.write('\n')
         for agent in sorted(self.Agents.keys()):
             agent_dict = self.Agents[agent]
-            outfile.write("%d\t" % agent)
-            outfile.write("%s\t" % agent_dict["Drug Type"])
-            outfile.write("%s\t" % agent_dict["Sex Type"])
-            outfile.write("%d\t" % agent_dict["HIV"])
-            outfile.write("%d\t" % agent_dict["AIDS"])
-            outfile.write("%d\t" % self.AdherenceAgents[agent])
+            outfile.write('{}\t'.format(agent))
+            outfile.write('{}\t'.format(agent_dict['Drug Type']))
+            outfile.write('{}\t'.format(agent_dict['Sex Type']))
+            outfile.write('{}\t'.format(agent_dict['HIV']))
+            outfile.write('{}\t'.format(agent_dict['AIDS']))
+            outfile.write('{}\t'.format(self.AdherenceAgents[agent]))
             for p in sorted(list(self.AdjMat.rows[agent])):
                 partner_dict = self.Agents[p]
-            outfile.write("%d\t" % int(p))
-            outfile.write("%s\t" % partner_dict["Drug Type"])
-            outfile.write("%s\t" % partner_dict["Sex Type"])
-            outfile.write("\n")
+            outfile.write('{}\t'.format(int(p)))
+            outfile.write('{}\t'.format(partner_dict['Drug Type']))
+            outfile.write('{}\t'.format(partner_dict['Sex Type']))
+            outfile.write('\n')
+
 
     def _reset_partner_count(self):
         """
@@ -3181,6 +2830,7 @@ class HIVModel(NetworkClass):
         self.tmp_IDU_NumPartners_Count = {}
         self.tmp_MSM_NumPartners_Count = {}
 
+
     def get_HIV_prevalence_drugs(self):
         """
         get HIV prevalence within all three drug user groups
@@ -3190,14 +2840,14 @@ class HIVModel(NetworkClass):
         count_HIV_ND = 0
 
         for agent in self.Agents:
-            HIVstatus = self.get_agent_characteristic(agent, "HIV")
+            HIVstatus = self.get_agent_characteristic(agent, 'HIV')
             if HIVstatus == 1:
-                agent_drug_type = self.get_agent_characteristic(agent, "Drug Type")
-            if agent_drug_type == "IDU":
+                agent_drug_type = self.get_agent_characteristic(agent, 'Drug Type')
+            if agent_drug_type == 'IDU':
                 count_HIV_IDU += 1
-            elif agent_drug_type == "NIDU":
+            elif agent_drug_type == 'NIDU':
                 count_HIV_NIDU += 1
-            elif agent_drug_type == "ND":
+            elif agent_drug_type == 'ND':
                 count_HIV_ND += 1
             elif HIVstatus != 0:
                 print(HIVstatus)
@@ -3207,6 +2857,7 @@ class HIVModel(NetworkClass):
                 raise ValueError("Agent must be either IDU, NIDU or ND !")
         return [count_HIV_IDU, count_HIV_NIDU, count_HIV_ND]
 
+
     def get_HIV_prevalence_sex(self):
         """ get HIV prevalence within all four sex groups """
         count_HIV_MSM = 0
@@ -3215,16 +2866,16 @@ class HIVModel(NetworkClass):
         count_HIV_WSW = 0
 
         for agent in self.Agents:
-            HIVstatus = self.get_agent_characteristic(agent, "HIV")
+            HIVstatus = self.get_agent_characteristic(agent, 'HIV')
             if HIVstatus == 1:
-                agent_sex_type = self.get_agent_characteristic(agent, "Sex Type")
-            if agent_sex_type == "MSM":
+                agent_sex_type = self.get_agent_characteristic(agent, 'Sex Type')
+            if agent_sex_type == 'MSM':
                 count_HIV_MSM += 1
-            elif agent_sex_type == "HM":
+            elif agent_sex_type == 'HM':
                 count_HIV_HM += 1
-            elif agent_sex_type == "HF":
+            elif agent_sex_type == 'HF':
                 count_HIV_HF += 1
-            elif agent_sex_type == "WSW":
+            elif agent_sex_type == 'WSW':
                 count_HIV_WSW += 1
             elif HIVstatus != 0:
                 print(HIVstatus)
@@ -3234,6 +2885,7 @@ class HIVModel(NetworkClass):
                 raise ValueError("Agent must be either MSM, HM, MF, or WSW !")
 
         return [count_HIV_MSM, count_HIV_HM, count_HIV_HF, count_HIV_WSW]
+
 
     def get_HIV_prevalence_drugs_sex(self):
         """prevalences without and msm only"""
@@ -3245,94 +2897,84 @@ class HIVModel(NetworkClass):
         count_HIV_NDnmsm = 0
 
         for agent in self.Agents:
-            HIVstatus = self.get_agent_characteristic(agent, "HIV")
+            HIVstatus = self.get_agent_characteristic(agent, 'HIV')
             if HIVstatus == 1:
-                agent_sex_type = self.get_agent_characteristic(agent, "Sex Type")
-            agent_drug_type = self.get_agent_characteristic(agent, "Drug Type")
-            if agent_drug_type == "IDU" and agent_sex_type in ["HM", "HF", "WSW"]:
+                agent_sex_type = self.get_agent_characteristic(agent, 'Sex Type')
+            agent_drug_type = self.get_agent_characteristic(agent, 'Drug Type')
+            if agent_drug_type == 'IDU' and agent_sex_type in ['HM', 'HF', 'WSW']:
                 count_HIV_IDUnmsm += 1
-            elif agent_drug_type == "IDU" and agent_sex_type == "MSM":
+            elif agent_drug_type == 'IDU' and agent_sex_type == 'MSM':
                 count_HIV_MIDU += 1
-            elif agent_drug_type == "NIDU" and agent_sex_type in ["HM", "HF", "WSW"]:
+            elif agent_drug_type == 'NIDU' and agent_sex_type in ['HM', 'HF', 'WSW']:
                 count_HIV_NIDUnmsm += 1
-            elif agent_drug_type == "NIDU" and agent_sex_type == "MSM":
+            elif agent_drug_type == 'NIDU' and agent_sex_type == 'MSM':
                 count_HIV_MNIDU += 1
-            elif agent_drug_type == "ND" and agent_sex_type in ["HM", "HF", "WSW"]:
+            elif agent_drug_type == 'ND' and agent_sex_type in ['HM', 'HF', 'WSW']:
                 count_HIV_NDnmsm += 1
-            elif agent_drug_type == "ND" and agent_sex_type == "MSM":
+            elif agent_drug_type == 'ND' and agent_sex_type == 'MSM':
                 count_HIV_MND += 1
             elif HIVstatus != 0:
                 print(HIVstatus)
             raise ValueError("HIV status must be either 0 or 1 !")
-        return [
-            count_HIV_MIDU,
-            count_HIV_MNIDU,
-            count_HIV_MND,
-            count_HIV_IDUnmsm,
-            count_HIV_NIDUnmsm,
-            count_HIV_NDnmsm,
-        ]
+        return [count_HIV_MIDU, count_HIV_MNIDU, count_HIV_MND, count_HIV_IDUnmsm, count_HIV_NIDUnmsm, count_HIV_NDnmsm]
+
 
     def get_HIV_prevalence(self):
         """ get HIV prevalence"""
         HIVcount = 0.0
-        for agent in list(self.Agents.keys()):
-            HIVstatus = self.get_agent_characteristic(agent, "HIV")
-            if HIVstatus == 1:
-                HIVcount += 1
+        for agent in self.Agents.keys():
+            HIVstatus = self.get_agent_characteristic(agent, 'HIV')
+            if HIVstatus == 1: HIVcount += 1
         return HIVcount
+
 
     def return_results(self):
         return self.ResultDict
 
+
+
     def save_result_dict(self):
-        OutFileDir = os.path.join(self.current_dir, "Results")
+        OutFileDir = os.path.join(self.current_dir, 'Results')
         if not os.path.isdir(OutFileDir):  # create directory if not existing
             os.mkdir(OutFileDir)
-        OutFileName = os.path.join(OutFileDir, "ResultDictionary.txt")
-        if os.path.isfile(OutFileName):
-            os.remove(OutFileName)
-        outfile = open(OutFileName, "w")
+        OutFileName = os.path.join(OutFileDir, 'ResultDictionary.txt')
+        if os.path.isfile(OutFileName): os.remove(OutFileName)
+        outfile = open(OutFileName, 'w')
         for result_property in sorted(self.ResultDict.keys()):
-            outfile.write("%s\t" % result_property)
+            outfile.write('{}\t'.format(result_property))
             for time_t in sorted(self.ResultDict[result_property].keys()):
-                outfile.write(
-                    "%4.5f\t" % float(self.ResultDict[result_property][time_t])
-                )
-            outfile.write("\n")
+                outfile.write('{:4.5f}\t'.format(float(self.ResultDict[result_property][time_t])))
+            outfile.write('\n')
+
 
     def save_AdjMat(self, t):
         """
         :Purpose:
         Save Adjacency matrix in sparse format.
         """
-        OutFileDir = os.path.expanduser(os.path.join(self.current_dir, "Results"))
+        OutFileDir = os.path.expanduser(os.path.join(self.current_dir, 'Results'))
         if not os.path.isdir(OutFileDir):  # create directory if not existing
             os.mkdir(OutFileDir)
-        OutFileName = os.path.join(OutFileDir, "AdjacencyMatrix_atTime_%d.txt" % t)
-        if os.path.isfile(OutFileName):
-            os.remove(OutFileName)
-        outfile = open(OutFileName, "w")
+        OutFileName = os.path.join(OutFileDir, 'AdjacencyMatrix_atTime_{}.txt'.format(t))
+        if os.path.isfile(OutFileName): os.remove(OutFileName)
+        outfile = open(OutFileName, 'w')
         for n, row in enumerate(self.AdjMat.rows):
-            outfile.write("%d:\t" % n)
+            outfile.write('{}:\t'.format(n))
             for partner in row:
-                outfile.write("%d," % partner)
-            outfile.write("\n")
+                outfile.write('{},'.format(partner))
+            outfile.write('\n')
 
     def _writeDNR(self):
-        dynnetworkReport = open("Results/dynnetworkReport.txt", "a")
+        dynnetworkReport = open('Results/dynnetworkReport.txt', 'a')
         for agent in self.Agents:
-            sextype = self.Agents[agent]["Sex Type"]
-            drugtype = self.Agents[agent]["Drug Type"]
-            HIV = self.Agents[agent]["HIV"]
-            reportLine = "\t".join(
-                ["0", "NEWAGENT", repr(agent), sextype, drugtype, repr(HIV)]
-            )
-            dynnetworkReport.write("\n" + reportLine)
-            # open('dynnetworkReport.txt', 'a').write('\n' + reportLine)
+            sextype = self.Agents[agent]['Sex Type']
+            drugtype = self.Agents[agent]['Drug Type']
+            HIV = self.Agents[agent]['HIV']
+            reportLine = '\t'.join(['0', 'NEWAGENT', repr(agent), sextype, drugtype, repr(HIV)])
+            dynnetworkReport.write('\n' + reportLine)
+            #open('dynnetworkReport.txt', 'a').write('\n' + reportLine)
 
         dynnetworkReport.close()
         # initiate HIV status
         for agent in self.Agents:
-            if self.Agents[agent]["HIV"] == 1:
-                self._become_HIV(agent, 0)
+            if self.Agents[agent]['HIV'] == 1: self._become_HIV(agent, 0)
