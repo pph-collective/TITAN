@@ -60,7 +60,7 @@ def print_population(agent_dict, dir_prefix, time=0):
     OutFileName = (dir_prefix + '/' +'Population_at_time_%d.txt'%time)
     outfile = open(OutFileName,'w')
     # create header
-    key_list = agent_dict[0].keys()
+    key_list = list(agent_dict[0].keys())
     outfile.write('Agent\t')
     for key in key_list:
         outfile.write('%s\t'%str(key))
@@ -212,10 +212,10 @@ class PopulationClass():
         self.Agents = dict()	# Main Dictionary Agents
         # List of IDU, NIDU, NDs
         # shuffle all Agents
-        allAgents = range(self.PopulationSize)
+        allAgents = list(range(self.PopulationSize))
         #self.popRandom.shuffle(allAgents)
 
-        print "\tBuilding class sets"
+        print("\tBuilding class sets")
         self.totalAgentClass = Agent_set(0,"TotalAgents")
 
 
@@ -273,7 +273,7 @@ class PopulationClass():
 
 
 
-        print "\tOrganizing subsets and heirarchy"
+        print("\tOrganizing subsets and heirarchy")
         # self.totalAgentClass.add_subset(self.HIV_agentsClass)
         # self.totalAgentClass.add_subset(self.PrEP_agentsClass)
         # self.totalAgentClass.add_subset(self.incarcerated_agentsClass)
@@ -329,7 +329,7 @@ class PopulationClass():
         self.NIDU_agents = []
         self.ND_agents = []
 
-        print "\tCreating agents"
+        print("\tCreating agents")
 
         for agent in self.White_agents:
             agent_cl = self._return_new_Agent_class(agent,'WHITE')
@@ -388,7 +388,7 @@ class PopulationClass():
             try:
                 return self.Agents[agent][property]
             except KeyError:
-                print self.Agents[agent]
+                print(self.Agents[agent])
                 raise KeyError("Check keys/Agents in self.Agents")
         else:
             raise ValueError("Check agents charactertic! Only 'HIV', 'Sex Type' \
@@ -536,7 +536,7 @@ class PopulationClass():
         tmp_rnd = self.popRandom.random()
         while SexType == 'NULL':
             #For each demographic class within race
-            for demClass in params.RaceClass1.keys():
+            for demClass in list(params.RaceClass1.keys()):
                 #If demClass is enabled for model
                 if demClass in params.agentSexTypes:
                     #Calculate probability
@@ -722,13 +722,13 @@ class PopulationClass():
             try:
                 targetSet.add_agent(agent)
             except:
-                print "agent %s is already a member of agent set %s"%(agent.get_ID(), targetSet.get_ID())
+                print("agent %s is already a member of agent set %s"%(agent.get_ID(), targetSet.get_ID()))
 
             if agentParam:
                 try:
                     targetSet._subset[agentParam].add_agent(agent)
                 except:
-                    print "agent %s is already a member of agent set %s"%(agent_cl.get_ID(), targetSet._subset[agentParam].get_ID())
+                    print("agent %s is already a member of agent set %s"%(agent_cl.get_ID(), targetSet._subset[agentParam].get_ID()))
 
         # Add to all agent set
         self.All_agentSet.add_agent(agent_cl)
@@ -906,10 +906,10 @@ class PopulationClass():
         :Purpose:
             Simple fprintf test on std out.
         """
-        print ('Number of agents '+str(self.PopulationSize))
-        print ('Number of IDU '+str(len(self.IDU_agents)))
-        print ('Number of NIDU '+str(len(self.NIDU_agents)))
-        print ('Number of ND '+str(len(self.ND_agents)))
+        print(('Number of agents '+str(self.PopulationSize)))
+        print(('Number of IDU '+str(len(self.IDU_agents))))
+        print(('Number of NIDU '+str(len(self.NIDU_agents))))
+        print(('Number of ND '+str(len(self.ND_agents))))
         """
 	# random IDU
 	agent = self.popRandom.choice(self.IDU.keys())
@@ -960,7 +960,7 @@ class PopulationClass():
                 elif SexType == 'HF':count_HIV_HF += 1
                 else:raise ValueError("Agent must be either HM, MSM, HF, WSW !")
             elif HIVstatus != 0:
-                print HIVstatus
+                print(HIVstatus)
                 raise ValueError("HIV status must be either 0 or 1 !")
         return {'Number of IDU HIV MSM':count_HIV_MSM,
                 'Number of IDU HIV HM':count_HIV_HM,
@@ -992,7 +992,7 @@ class PopulationClass():
         count_MSM_ND	= 0
         count_WSW_ND	= 0
 
-        for agent in self.Agents.keys():
+        for agent in list(self.Agents.keys()):
             SexType = self.get_agent_characteristic(agent, 'Sex Type')
             DrugType = self.get_agent_characteristic(agent, 'Drug Type')
             if SexType == 'HM':
@@ -1052,9 +1052,9 @@ class TestClassMethods(unittest.TestCase):
 
     def test_SexType(self):
         """ Test: Testing consistency of Sex type agents"""
-        print "\t__Testing HM agents list"
+        print("\t__Testing HM agents list")
         myPopulation = PopulationClass(n=self.N_pop)
-        for a in myPopulation.Agents.keys():
+        for a in list(myPopulation.Agents.keys()):
             SexType = myPopulation.get_agent_characteristic(a,'Sex Type')
             if SexType == 'HM':
                 self.assertTrue(a in myPopulation.HM_agents)
@@ -1076,10 +1076,10 @@ class TestClassMethods(unittest.TestCase):
 
     def test_HIV(self):
         """ Test: Testing HIV agent array"""
-        print "\t__Testing the HIV agent list"
+        print("\t__Testing the HIV agent list")
         tmpCount = 0
         myPopulation = PopulationClass(n=self.N_pop)
-        for a in myPopulation.Agents.keys():
+        for a in list(myPopulation.Agents.keys()):
             HIVstatus = myPopulation.get_agent_characteristic(a,'HIV')
             if HIVstatus != 0:
                 tmpCount += 1
@@ -1088,10 +1088,10 @@ class TestClassMethods(unittest.TestCase):
 
     def test_AIDS(self):
         """ Test: Testing AIDS agent array"""
-        print "\t__Testing the AIDS agent list"
+        print("\t__Testing the AIDS agent list")
         tmpCount = 0
         myPopulation = PopulationClass(n=self.N_pop)
-        for a in myPopulation.Agents.keys():
+        for a in list(myPopulation.Agents.keys()):
             AIDSstatus = myPopulation.get_agent_characteristic(a,'AIDS')
             if AIDSstatus != 0:
                 tmpCount += 1
@@ -1101,7 +1101,7 @@ class TestClassMethods(unittest.TestCase):
 
     def test_consistency(self):
         """ Test: Testing consistency"""
-        print "\t__Testing consistency of agent lists"
+        print("\t__Testing consistency of agent lists")
         myPop = PopulationClass(n=self.N_pop)
         NormalAgents = list(set(range(myPop.PopulationSize)).difference(
             set(myPop.IDU_agents).union(set(myPop.MSM_agents))))
@@ -1113,10 +1113,10 @@ class TestClassMethods(unittest.TestCase):
 
     def test_MSM(self):
         """ Test: Testing MSM agent array"""
-        print "\t__Testing the MSM agent list"
+        print("\t__Testing the MSM agent list")
         tmpCount = 0
         myPopulation = PopulationClass(n=self.N_pop)
-        for a in myPopulation.Agents.keys():
+        for a in list(myPopulation.Agents.keys()):
             SEXstatus = myPopulation.get_agent_characteristic(a,'Sex Type')
             if SEXstatus == 'MSM':
                 tmpCount += 1
@@ -1129,10 +1129,10 @@ class TestClassMethods(unittest.TestCase):
 
     def test_IDU(self):
         """ Test: Testing IDU agent array"""
-        print "\t__Testing the IDU agent list"
+        print("\t__Testing the IDU agent list")
         tmpCount = 0
         myPopulation = PopulationClass(n=self.N_pop)
-        for agent in myPopulation.Agents.keys():
+        for agent in list(myPopulation.Agents.keys()):
             agent_drug_status = myPopulation.get_agent_characteristic(agent,'Drug Type')
             if agent_drug_status == 'IDU':
                 tmpCount += 1
@@ -1145,10 +1145,10 @@ class TestClassMethods(unittest.TestCase):
 
     def test_NIDU(self):
         """ Test: Testing INDU agent array"""
-        print "\t__Testing the NIDU agent list"
+        print("\t__Testing the NIDU agent list")
         tmpCount = 0
         myPopulation = PopulationClass(n=self.N_pop)
-        for agent in myPopulation.Agents.keys():
+        for agent in list(myPopulation.Agents.keys()):
             agent_drug_status = myPopulation.get_agent_characteristic(agent,'Drug Type')
             if agent_drug_status == 'NIDU':
                 tmpCount += 1
@@ -1161,9 +1161,9 @@ class TestClassMethods(unittest.TestCase):
 
     def test_Population(self):
         """ Test: Testing the population"""
-        print "\t__Testing the population"
+        print("\t__Testing the population")
         myPopulation = PopulationClass(n=self.N_pop)
-        for agent in myPopulation.Agents.keys():
+        for agent in list(myPopulation.Agents.keys()):
             tmp_DrugType = myPopulation.get_agent_characteristic(agent,'Drug Type')
             self.assertTrue(tmp_DrugType in ['NIDU','IDU','ND'])
             if tmp_DrugType == 'NIDU':

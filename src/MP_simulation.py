@@ -117,13 +117,13 @@ def main():
         #print rslts
 
     for task, time_t in enumerate(wct):
-        print('wall clock time on for simulation %d: %8.4f seconds' %
-              (task, time_t))
+        print(('wall clock time on for simulation %d: %8.4f seconds' %
+              (task, time_t)))
     def mean(seq): return sum(seq)/len(seq)
-    print    ('\nSUMMARY:\nall tasks - mean: %8.4f seconds' % mean(wct))
-    print    ('all tasks - min:  %8.4f seconds' % min(wct))
-    print    ('all tasks - max:  %8.4f seconds' % max(wct))
-    print    ('all tasks - sum:  %8.4f seconds' % sum(wct))
+    print(('\nSUMMARY:\nall tasks - mean: %8.4f seconds' % mean(wct)))
+    print(('all tasks - min:  %8.4f seconds' % min(wct)))
+    print(('all tasks - max:  %8.4f seconds' % max(wct)))
+    print(('all tasks - sum:  %8.4f seconds' % sum(wct)))
 
     #plt.show(block=True)
 
@@ -141,7 +141,7 @@ def open_outputs():
             tmpReport.write("rseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\n")
             tmpReport.close()
 
-    for demographicTypes in params.DemographicParams.keys():
+    for demographicTypes in list(params.DemographicParams.keys()):
         name = 'basicReport_'+demographicTypes
         tmpReport = open('results/'+name+'.txt', 'w')
         tmpReport.write("rseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\n")

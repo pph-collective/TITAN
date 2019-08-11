@@ -334,7 +334,7 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
                 rsltdic[agentRace][agentTypes]['numPrEP'])))
             tmpReport.close()
 
-    for demographicTypes in params.DemographicParams.keys():
+    for demographicTypes in list(params.DemographicParams.keys()):
         name = 'basicReport_'+demographicTypes
         tmpReport = open('results/'+name+'.txt', 'a')
         tmpReport.write((
@@ -805,7 +805,7 @@ def assess_before_update(t,
             elif agent_HAART_adh == 0:
                 agent_HAART_class = 0
             else:
-                print "BROKE"
+                print("BROKE")
 
             incidenceMatrix[agent_drug_bool][agent_Test_bool][agent_HAART_class] += 1
             if agent_drug_type == 'ND': numFROM_ND += 1

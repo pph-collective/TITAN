@@ -187,7 +187,7 @@ def my_barabasi_albert_graph(n, m, node_list=None, seed=None):
     Num_source = m                                 # Start adding the other n-m nodes. The first node is m.
     while Num_source < n: 
         source = node_list[Num_source]
-        G.add_edges_from(zip([source]*m,targets)) # Add edges to m nodes from the source.
+        G.add_edges_from(list(zip([source]*m,targets))) # Add edges to m nodes from the source.
         repeated_nodes.extend(targets)            # Add one node to the list for each new edge just created.
         repeated_nodes.extend([source]*m)         # And the new node "source" has m edges to add to the list.
         # Now choose m unique nodes from the existing nodes 
@@ -218,7 +218,7 @@ class NetworkClass(PopulationClass):
             raise ValueError(('Population size must be integer,\
                                       n = %s, not %s')%(string(N), type(N)))	
         else: pass
-        if m_0 not in range(10):
+        if m_0 not in list(range(10)):
             raise ValueError('m_0 must be integer smaller than 10')
         else: self.m_0 = m_0
 
@@ -249,8 +249,8 @@ class NetworkClass(PopulationClass):
         Plot the node degree distribution of the graph. \n 
         INPUT: networkX graph
         """
-        print("\tNetwork size = "+str(self.NetworkSize))
-        degreeList = np.array( graph.degree().values() )	
+        print(("\tNetwork size = "+str(self.NetworkSize)))
+        degreeList = np.array( list(graph.degree().values()) )	
         x_degree = np.arange(max(degreeList)+1)	# include 0 and max
         degreehist = np.bincount(degreeList)
         ix = degreehist != 0			# delete zeros
@@ -369,7 +369,7 @@ class NetworkClass(PopulationClass):
         plt.savefig(filename)
         plt.show()
         
-        print graph.size()
+        print(graph.size())
         if return_layout:
             return pos
         
@@ -394,7 +394,7 @@ class TestClassMethods(unittest.TestCase):
 
     def test_NormalAgents(self):
         """Test if all non-IDU,ND,NIDU agents are in the population"""
-        print " ... Test: NormalAgents"
+        print(" ... Test: NormalAgents")
         myNetworkObj = NetworkClass(N=10000, m_0 = 3)
         for agent in myNetworkObj.NormalAgents:
             agent_sex_type = myNetworkObj.get_agent_characteristic(agent,'Sex Type')
@@ -404,7 +404,7 @@ class TestClassMethods(unittest.TestCase):
 
     def test_PartialNetwork(self):
         """Test if all non-IDU,ND,NIDU agents are in the population"""
-        print " ... Test: Network and Agent type consistency"
+        print(" ... Test: Network and Agent type consistency")
         myNetworkObj = NetworkClass(N=10000, m_0 = 3)
 
         for agent in myNetworkObj.NormalAgents:
@@ -418,14 +418,14 @@ class TestClassMethods(unittest.TestCase):
 
     def test_PopulationConsistency(self):
         """Test if Drug users add up"""
-        print " ... Test: Population consistency"
+        print(" ... Test: Population consistency")
         myNetworkObj = NetworkClass(N=10000, m_0 = 3)
         CheckSumDrug = len(myNetworkObj.IDU_agents)+len(myNetworkObj.NIDU_agents)+len(myNetworkObj.ND_agents)
         self.assertTrue(myNetworkObj.PopulationSize == CheckSumDrug)
 
     def test_HIVConsistency(self):
         """Test HIV consistency"""
-        print " ... Test: Test HIV consistency"
+        print(" ... Test: Test HIV consistency")
         myNetworkObj = NetworkClass(N=10000, m_0 = 3)
         for agent in myNetworkObj.Agents:
             HIV_status = myNetworkObj.get_agent_characteristic(agent,'HIV')

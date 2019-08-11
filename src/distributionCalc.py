@@ -3,7 +3,7 @@ from numpy import linspace
 from pylab import plot,show,hist,figure,title
 
 samp = rayleigh.rvs(loc=5,scale=2,size=10) # samples generation
-print samp
+print(samp)
 samp = [1,5,5,5,5,11,11,11,11,11,23,23,24]
 
 param = rayleigh.fit(samp) # distribution fitting

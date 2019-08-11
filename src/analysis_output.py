@@ -41,8 +41,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import numpy as np
 import matplotlib.pyplot as plt
 
-#from mpl_toolkits.axes_grid1 import host_subplot
-#import mpl_toolkits.axisartist as AA
+# from mpl_toolkits.axes_grid1 import host_subplot
+# import mpl_toolkits.axisartist as AA
 import params
 
 try:
@@ -50,23 +50,24 @@ try:
 except ImportError:
     raise ImportError("Can't import Agent class")
 
+
 def initiate_ResultDict():
     # nested dictionary for results (inner dictionary has the form: time:result)
-    #incidenceMatrix = [[[0 for x in range(2)] for x in range(2)] for x in range(2)]
-    ResultDict = {  'Prv_HIV':{},
-                    'Prv_AIDS':{},
-                    'Prv_Test':{},
-                    'Prv_ART':{},
-                    'Prv_PrEP':{},
-                    'n_Relations':{},
-                    'Inc_c_Tot':{},
-                    'Inc_c_HM':{},
-                    'Inc_c_HF':{},
-                    'Inc_t_HM':{},
-                    'Inc_t_HF':{},
-                }
+    # incidenceMatrix = [[[0 for x in range(2)] for x in range(2)] for x in range(2)]
+    ResultDict = {'Prv_HIV': {},
+                  'Prv_AIDS': {},
+                  'Prv_Test': {},
+                  'Prv_ART': {},
+                  'Prv_PrEP': {},
+                  'n_Relations': {},
+                  'Inc_c_Tot': {},
+                  'Inc_c_HM': {},
+                  'Inc_c_HF': {},
+                  'Inc_t_HM': {},
+                  'Inc_t_HF': {},
+                  }
 
-    #ResultDict = {}
+    # ResultDict = {}
 
     """
     whiteReport = open('Results/W_pop_report.txt', 'w')
@@ -96,24 +97,25 @@ def initiate_ResultDict():
     iduReport.close()
     """
 
-
     return ResultDict
 
-def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, NewInfections, NewDiagnosis, deaths, ResultDict, Relationships, newHR, newIncarRelease, deathSet, outifle=None):
+
+def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents, PrEPAgents, NewInfections, NewDiagnosis, deaths,
+                ResultDict, Relationships, newHR, newIncarRelease, deathSet, outifle=None):
     incidenceReport = open('results/IncidenceReport.txt', 'a')
     prevalenceReport = open('results/PrevalenceReport.txt', 'a')
     deathReport = open('results/DeathReport.txt', 'a')
     incarReport = open('results/IncarReport.txt', 'a')
-    #PrEPReport = open('results/PrEPReport.txt', 'a')
+    # PrEPReport = open('results/PrEPReport.txt', 'a')
     iduReport = open('results/iduReport.txt', 'a')
     highriskReport = open('results/HR_incidenceReport.txt', 'a')
     newlyhighriskReport = open('results/newlyHR_Report.txt', 'a')
     femaleReport = open('results/FemaleReport.txt', 'a')
     maleReport = open('results/MaleReport.txt', 'a')
     msmReport = open('results/MSMReport.txt', 'a')
-    nalReport = open('results/nalReport.txt','a')
-    oatReport = open('results/oatReport.txt','a')
-    peopleOff = open('results/peopleOff.txt','a')
+    nalReport = open('results/nalReport.txt', 'a')
+    oatReport = open('results/oatReport.txt', 'a')
+    peopleOff = open('results/peopleOff.txt', 'a')
     whiteReport = open('results/W_pop_report.txt', 'a')
     blackReport = open('results/B_pop_report.txt', 'a')
     num_SEP = 0
@@ -128,11 +130,10 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
     Naltrex_IDU_M = 0
     Naltrex_IDU_F = 0
     Prior_Year_Naltrex = 0
-    DOC_OAT_M =0
+    DOC_OAT_M = 0
     DOC_OAT_F = 0
     DOC_Naltrex_M = 0
     DOC_Naltrex_F = 0
-
 
     newHR_HM = 0
     newHR_HIV_HM = 0
@@ -150,36 +151,37 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
     newHR_ART_HF = 0
 
     rc_template = {
-                'numAgents':0,
-                'inf_HR6m':0,
-                'inf_HRever':0,
-                'inf_newInf':0,
-                'newHighRisk':0,
-                'newRelease':0,
-                'newReleaseHIV':0,
-                'numHIV':0,
-                'numTested':0,
-                'numAIDS':0,
-                'numART':0,
-                'numHR':0,
-                'newlyTested':0,
-                'deaths':0,
-                'incar':0,
-                'incarHIV':0,
-                'numPrEP':0,
-                }
-    #r = dict(dict1)
+        'numAgents': 0,
+        'inf_HR6m': 0,
+        'inf_HRever': 0,
+        'inf_newInf': 0,
+        'newHighRisk': 0,
+        'newRelease': 0,
+        'newReleaseHIV': 0,
+        'numHIV': 0,
+        'numTested': 0,
+        'numAIDS': 0,
+        'numART': 0,
+        'numHR': 0,
+        'newlyTested': 0,
+        'deaths': 0,
+        'incar': 0,
+        'incarHIV': 0,
+        'numPrEP': 0,
+    }
+    # r = dict(dict1)
 
+    rc1_infections = {'MTF': dict(rc_template), 'MSM': dict(rc_template), 'HM': dict(rc_template),
+                      'HF': dict(rc_template), 'IDU': dict(rc_template), 'ALL': dict(rc_template)}
 
-    rc1_infections = {'MTF':dict(rc_template), 'MSM':dict(rc_template), 'HM':dict(rc_template),'HF':dict(rc_template),'IDU':dict(rc_template), 'ALL':dict(rc_template)}
+    rc2_infections = {'MTF': dict(rc_template), 'MSM': dict(rc_template), 'HM': dict(rc_template),
+                      'HF': dict(rc_template), 'IDU': dict(rc_template), 'ALL': dict(rc_template)}
+    all_infections = {'MTF': dict(rc_template), 'MSM': dict(rc_template), 'HM': dict(rc_template),
+                      'HF': dict(rc_template), 'IDU': dict(rc_template), 'ALL': dict(rc_template)}
+    rsltdic = {'WHITE': rc1_infections, 'BLACK': rc2_infections, 'ALL': all_infections}
+    tot_rsltdic = {'ALL': all_infections}
 
-    rc2_infections = {'MTF':dict(rc_template), 'MSM':dict(rc_template), 'HM':dict(rc_template),'HF':dict(rc_template),'IDU':dict(rc_template), 'ALL':dict(rc_template)}
-    all_infections = {'MTF':dict(rc_template), 'MSM': dict(rc_template), 'HM': dict(rc_template), 'HF': dict(rc_template),'IDU':dict(rc_template), 'ALL': dict(rc_template)}
-    rsltdic = {'WHITE':rc1_infections, 'BLACK':rc2_infections, 'ALL':all_infections}
-    tot_rsltdic = {'ALL':all_infections}
-
-
-    #Incarceration metrics
+    # Incarceration metrics
     for tmpA in IncarAgents.iter_agents():
         rsltdic[tmpA._race][tmpA._SO]['incar'] += 1
         if tmpA._HIV_bool:
@@ -190,68 +192,68 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
         if tmpA._HIV_bool:
             rsltdic[tmpA._race][tmpA._SO]['newReleaseHIV'] += 1
 
-    #Newly infected tracker statistics (with HR within 6mo and HR ever bool check)
+    # Newly infected tracker statistics (with HR within 6mo and HR ever bool check)
 
     for tmpA in NewInfections.iter_agents():
         rsltdic[tmpA._race][tmpA._SO]['inf_newInf'] += 1
-        if tmpA._everhighrisk_bool:rsltdic[tmpA._race][tmpA._SO]['inf_HRever'] += 1
-        if tmpA._highrisk_bool:rsltdic[tmpA._race][tmpA._SO]['inf_HR6m'] += 1
+        if tmpA._everhighrisk_bool: rsltdic[tmpA._race][tmpA._SO]['inf_HRever'] += 1
+        if tmpA._highrisk_bool: rsltdic[tmpA._race][tmpA._SO]['inf_HR6m'] += 1
 
     # MAT statistics
     for tmpA in totalAgents.iter_agents():
         if tmpA._OAT_bool:
             if tmpA._race == 'WHITE':
-                if tmpA._SO =='HM':
+                if tmpA._SO == 'HM':
                     OAT_NIDU_M += 1
-                elif tmpA._SO =='HF':
+                elif tmpA._SO == 'HF':
                     OAT_NIDU_F += 1
             if tmpA._race == 'BLACK':
-                if tmpA._SO =='HM':
+                if tmpA._SO == 'HM':
                     OAT_IDU_M += 1
-                elif tmpA._SO =='HF':
+                elif tmpA._SO == 'HF':
                     OAT_IDU_F += 1
             if tmpA._highrisk_type == 'postIncar':
-                Prior_Year_OAT += 1 
+                Prior_Year_OAT += 1
         if tmpA._naltrex_bool:
             if tmpA._race == 'WHITE':
                 if tmpA._SO == 'HM':
-		    Naltrex_NIDU_M += 1
-		elif tmpA._SO == 'HF':
-		    Naltrex_NIDU_F += 1
+                    Naltrex_NIDU_M += 1
+                elif tmpA._SO == 'HF':
+                    Naltrex_NIDU_F += 1
             if tmpA._race == 'BLACK':
                 if tmpA._SO == 'HM':
                     Naltrex_IDU_M += 1
                 elif tmpA._SO == 'HF':
                     Naltrex_IDU_F += 1
             if tmpA._highrisk_type == 'postIncar':
-                Prior_Year_Naltrex +=1
+                Prior_Year_Naltrex += 1
 
     for tmpA in totalAgents.iter_agents():
         if tmpA._DOC_OAT_bool:
-	    if tmpA._SO == 'HM':
-		DOC_OAT_M += 1
-	    elif tmpA._SO == 'HF':
-		DOC_OAT_F += 1
-	if tmpA._DOC_NAL_bool:
-	    if tmpA._SO == 'HM':
-		DOC_Naltrex_M += 1
-	    elif tmpA._SO == 'HF':
-		DOC_Naltrex_F += 1
+            if tmpA._SO == 'HM':
+                DOC_OAT_M += 1
+            elif tmpA._SO == 'HF':
+                DOC_OAT_F += 1
+        if tmpA._DOC_NAL_bool:
+            if tmpA._SO == 'HM':
+                DOC_Naltrex_M += 1
+            elif tmpA._SO == 'HF':
+                DOC_Naltrex_F += 1
         if tmpA._kickOff:
             if tmpA._SO == 'HM':
                 kickOff_HM += 1
             if tmpA._SO == 'HF':
                 kickOff_HF += 1
- 	elif tmpA._off:
+        elif tmpA._off:
             if tmpA._SO == 'HM':
                 off_HM += 1
             if tmpA._SO == 'HF':
                 off_HF += 1
-    #Newly diagnosed tracker statistics
+    # Newly diagnosed tracker statistics
     for tmpA in NewDiagnosis.iter_agents():
         rsltdic[tmpA._race][tmpA._SO]['newlyTested'] += 1
 
-    #Newly HR agents
+    # Newly HR agents
     for tmpA in newHR.iter_agents():
         rsltdic[tmpA._race][tmpA._SO]['newHighRisk'] += 1
         if tmpA._SO == "HM":
@@ -275,46 +277,45 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
                     if tmpA._HAART_bool:
                         newHR_ART_HF += 1
 
-    #Total HIV summary snapshot for timestep
+    # Total HIV summary snapshot for timestep
     for tmpA in self.HIV_agentSet.iter_agents():
         rsltdic[tmpA._race][tmpA._SO]['numHIV'] += 1
-        if tmpA._AIDS_bool:rsltdic[tmpA._race][tmpA._SO]['numAIDS'] += 1
-        if tmpA._tested:rsltdic[tmpA._race][tmpA._SO]['numTested'] += 1
-        if tmpA._HAART_bool:rsltdic[tmpA._race][tmpA._SO]['numART'] += 1
+        if tmpA._AIDS_bool: rsltdic[tmpA._race][tmpA._SO]['numAIDS'] += 1
+        if tmpA._tested: rsltdic[tmpA._race][tmpA._SO]['numTested'] += 1
+        if tmpA._HAART_bool: rsltdic[tmpA._race][tmpA._SO]['numART'] += 1
 
     for tmpA in totalAgents._subset['DU']._subset['IDU'].iter_agents():
-        if tmpA._HIV_bool:rsltdic[tmpA._race]['IDU']['numHIV'] += 1
-        if tmpA._AIDS_bool:rsltdic[tmpA._race]['IDU']['numAIDS'] += 1
-        if tmpA._tested:rsltdic[tmpA._race]['IDU']['numTested'] += 1
-        if tmpA._HAART_bool:rsltdic[tmpA._race]['IDU']['numART'] += 1
+        if tmpA._HIV_bool: rsltdic[tmpA._race]['IDU']['numHIV'] += 1
+        if tmpA._AIDS_bool: rsltdic[tmpA._race]['IDU']['numAIDS'] += 1
+        if tmpA._tested: rsltdic[tmpA._race]['IDU']['numTested'] += 1
+        if tmpA._HAART_bool: rsltdic[tmpA._race]['IDU']['numART'] += 1
 
     for tmpA in totalAgents.iter_agents():
         rsltdic[tmpA._race][tmpA._SO]['numAgents'] += 1
         if tmpA._highrisk_type == 'postIncar':
             rsltdic[tmpA._race][tmpA._SO]['numHR'] += 1
-        #if tmpA._everhighrisk_bool:rsltdic[tmpA._race][tmpA._SO]['numHR'] += 1
+        # if tmpA._everhighrisk_bool:rsltdic[tmpA._race][tmpA._SO]['numHR'] += 1
 
     for tmpA in deathSet:
         rsltdic[tmpA._race][tmpA._SO]['deaths'] += 1
 
-
-    deaths_total = deaths["Total"]["HM"]+deaths["Total"]["HF"]+deaths["Total"]["MSM"]
+    deaths_total = deaths["Total"]["HM"] + deaths["Total"]["HF"] + deaths["Total"]["MSM"]
     deaths_HM = deaths["Total"]["HM"]
     deaths_MSM = deaths["Total"]["MSM"]
     deaths_HF = deaths["Total"]["HF"]
-    deaths_HIV_total = deaths["HR"]["HM"]+deaths["HR"]["HF"]+deaths["HR"]["MSM"]
+    deaths_HIV_total = deaths["HR"]["HM"] + deaths["HR"]["HF"] + deaths["HR"]["MSM"]
     deaths_HIV_HM = deaths["HR"]["HM"]
     deaths_HIV_MSM = deaths["HR"]["MSM"]
     deaths_HIV_HF = deaths["HR"]["HF"]
 
-
     W_rslts = rsltdic["WHITE"]
     B_rslts = rsltdic["BLACK"]
 
-    #Sum 'ALL' categories for race/SO bins
+    # Sum 'ALL' categories for race/SO bins
     for race in rsltdic:
         for param in rc_template:
-            rsltdic[race]['ALL'][param] = rsltdic[race]['MSM'][param] + rsltdic[race]['HM'][param] + rsltdic[race]['HF'][param]
+            rsltdic[race]['ALL'][param] = rsltdic[race]['MSM'][param] + rsltdic[race]['HM'][param] + \
+                                          rsltdic[race]['HF'][param]
     for race in rsltdic:
         for param in rc_template:
             tot_rsltdic['ALL']['ALL'][param] += rsltdic[race]['ALL'][param]
@@ -327,12 +328,12 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
             rsltdic['ALL']['HF'][param] += rsltdic[race]['HF'][param]
             rsltdic['ALL']['MSM'][param] += rsltdic[race]['MSM'][param]
             rsltdic['ALL']['IDU'][param] += rsltdic[race]['IDU'][param]
-    for agentRace in ['WHITE','BLACK','ALL']:
+    for agentRace in ['WHITE', 'BLACK', 'ALL']:
         for agentTypes in params.agentPopulations:
-            name = 'basicReport_'+agentTypes+'_'+agentRace
-            tmpReport = open('results/'+name+'.txt', 'a')
+            name = 'basicReport_' + agentTypes + '_' + agentRace
+            tmpReport = open('results/' + name + '.txt', 'a')
             tmpReport.write((
-            "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+                    "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
                 self.runseed,
                 self.popseed,
                 self.netseed,
@@ -351,11 +352,11 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
                 rsltdic[agentRace][agentTypes]['numPrEP'])))
             tmpReport.close()
 
-    for demographicTypes in params.DemographicParams.keys():
-        name = 'basicReport_'+demographicTypes
-        tmpReport = open('results/'+name+'.txt', 'a')
+    for demographicTypes in list(params.DemographicParams.keys()):
+        name = 'basicReport_' + demographicTypes
+        tmpReport = open('results/' + name + '.txt', 'a')
         tmpReport.write((
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+                "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
             self.runseed,
             self.popseed,
             self.netseed,
@@ -440,65 +441,65 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
             newHR_ART_HF))
 
     femaleReport.write((
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
-            rseed,
-            t,
-            totalAgents._subset['SO']._subset["HF"].num_members(),
-            tot_rsltdic['ALL']['HF']['numHIV'],
-            tot_rsltdic['ALL']['HF']['numAIDS'],
-            tot_rsltdic['ALL']['HF']['numTested'],
-            tot_rsltdic['ALL']['HF']['numART'],
-            tot_rsltdic['ALL']['HF']['inf_newInf'],
-            tot_rsltdic['ALL']['HF']['inf_HR6m'],
-            tot_rsltdic['ALL']['HF']['inf_HRever'],
-            tot_rsltdic['ALL']['HF']['newlyTested'],
-            tot_rsltdic['ALL']['HF']['deaths'],
-            tot_rsltdic['ALL']['HF']['numPrEP'])))
+            "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+        rseed,
+        t,
+        totalAgents._subset['SO']._subset["HF"].num_members(),
+        tot_rsltdic['ALL']['HF']['numHIV'],
+        tot_rsltdic['ALL']['HF']['numAIDS'],
+        tot_rsltdic['ALL']['HF']['numTested'],
+        tot_rsltdic['ALL']['HF']['numART'],
+        tot_rsltdic['ALL']['HF']['inf_newInf'],
+        tot_rsltdic['ALL']['HF']['inf_HR6m'],
+        tot_rsltdic['ALL']['HF']['inf_HRever'],
+        tot_rsltdic['ALL']['HF']['newlyTested'],
+        tot_rsltdic['ALL']['HF']['deaths'],
+        tot_rsltdic['ALL']['HF']['numPrEP'])))
 
     maleReport.write((
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
-            rseed,
-            t,
-            totalAgents._subset['SO']._subset["HM"].num_members(),
-            tot_rsltdic['ALL']['HM']['numHIV'],
-            tot_rsltdic['ALL']['HM']['numAIDS'],
-            tot_rsltdic['ALL']['HM']['numTested'],
-            tot_rsltdic['ALL']['HM']['numART'],
-            tot_rsltdic['ALL']['HM']['inf_newInf'],
-            tot_rsltdic['ALL']['HM']['inf_HR6m'],
-            tot_rsltdic['ALL']['HM']['inf_HRever'],
-            tot_rsltdic['ALL']['HM']['newlyTested'],
-            tot_rsltdic['ALL']['HM']['deaths'],
-            tot_rsltdic['ALL']['HM']['numPrEP'])))
+            "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+        rseed,
+        t,
+        totalAgents._subset['SO']._subset["HM"].num_members(),
+        tot_rsltdic['ALL']['HM']['numHIV'],
+        tot_rsltdic['ALL']['HM']['numAIDS'],
+        tot_rsltdic['ALL']['HM']['numTested'],
+        tot_rsltdic['ALL']['HM']['numART'],
+        tot_rsltdic['ALL']['HM']['inf_newInf'],
+        tot_rsltdic['ALL']['HM']['inf_HR6m'],
+        tot_rsltdic['ALL']['HM']['inf_HRever'],
+        tot_rsltdic['ALL']['HM']['newlyTested'],
+        tot_rsltdic['ALL']['HM']['deaths'],
+        tot_rsltdic['ALL']['HM']['numPrEP'])))
 
     msmReport.write((
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
-            rseed,
-            t,
-            totalAgents._subset['SO']._subset["HM"].num_members(),
-            tot_rsltdic['ALL']['MSM']['numHIV'],
-            tot_rsltdic['ALL']['MSM']['numAIDS'],
-            tot_rsltdic['ALL']['MSM']['numTested'],
-            tot_rsltdic['ALL']['MSM']['numART'],
-            tot_rsltdic['ALL']['MSM']['inf_newInf'],
-            tot_rsltdic['ALL']['MSM']['inf_HR6m'],
-            tot_rsltdic['ALL']['MSM']['inf_HRever'],
-            tot_rsltdic['ALL']['MSM']['newlyTested'],
-            tot_rsltdic['ALL']['MSM']['deaths'],
-            tot_rsltdic['ALL']['MSM']['numPrEP'])))
+            "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+        rseed,
+        t,
+        totalAgents._subset['SO']._subset["HM"].num_members(),
+        tot_rsltdic['ALL']['MSM']['numHIV'],
+        tot_rsltdic['ALL']['MSM']['numAIDS'],
+        tot_rsltdic['ALL']['MSM']['numTested'],
+        tot_rsltdic['ALL']['MSM']['numART'],
+        tot_rsltdic['ALL']['MSM']['inf_newInf'],
+        tot_rsltdic['ALL']['MSM']['inf_HR6m'],
+        tot_rsltdic['ALL']['MSM']['inf_HRever'],
+        tot_rsltdic['ALL']['MSM']['newlyTested'],
+        tot_rsltdic['ALL']['MSM']['deaths'],
+        tot_rsltdic['ALL']['MSM']['numPrEP'])))
 
     nalReport.write(
-	"%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
-	    self.runseed,
-	    self.popseed,
-	    self.netseed,
-	    t,
-	    Naltrex_NIDU_M,
-	    Naltrex_NIDU_F,
-	    Naltrex_IDU_M,
-	    Naltrex_IDU_F,
-	    DOC_Naltrex_M,
-	    DOC_Naltrex_F,
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+            self.runseed,
+            self.popseed,
+            self.netseed,
+            t,
+            Naltrex_NIDU_M,
+            Naltrex_NIDU_F,
+            Naltrex_IDU_M,
+            Naltrex_IDU_F,
+            DOC_Naltrex_M,
+            DOC_Naltrex_F,
             Prior_Year_Naltrex))
     oatReport.write(
         "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
@@ -514,7 +515,7 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
             DOC_OAT_F,
             Prior_Year_OAT))
 
-    peopleOff.write("%d\t%d\t%d\t%d\t%d\t%d\n" % (self.netseed, t,off_HM,off_HF,kickOff_HM,kickOff_HF))
+    peopleOff.write("%d\t%d\t%d\t%d\t%d\t%d\n" % (self.netseed, t, off_HM, off_HF, kickOff_HM, kickOff_HF))
 
     # msmReport.write(("%d,%s,%3.2f,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n" % (rseed,params.PrEP_type,params.PrEP_Target,t, totalAgents._subset["MSM"].num_members(), numHIV_MSM, numAIDS_MSM, numTested_MSM, numART_MSM, numToMSM, infMSM_HR6m,
     # infMSM_HRever, numNewlyTested_MSM, deaths_HIV_MSM, PrEPAgents.num_members())))
@@ -548,8 +549,7 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
             tot_rsltdic['ALL']['IDU']['numAIDS'],
             tot_rsltdic['ALL']['IDU']['numART'],
             tot_rsltdic['ALL']['IDU']['numTested'],))
-    #print infectionsArray['WHITE']
-
+    # print infectionsArray['WHITE']
 
     whiteReport.write("%d\t%d\t%d\t%d\t%d\t%d\n" % (
         rseed,
@@ -560,13 +560,13 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
         rsltdic['WHITE']['ALL']['numART']))
 
     blackReport.write("%d\t%d\t%d\t%d\t%d\t%d\n" % (
-        rseed,t,
+        rseed, t,
         rsltdic['BLACK']['ALL']['numHIV'],
         rsltdic['BLACK']['MSM']['numHIV'],
         rsltdic['BLACK']['ALL']['numTested'],
         rsltdic['BLACK']['ALL']['numART']))
 
-    #print "Age\tN\tHIV\tTested\tART\tPrEP"
+    # print "Age\tN\tHIV\tTested\tART\tPrEP"
     # for i in range(1,6):
     #     ageList = [ag for ag in totalAgents._subset["MSM"]._members if ag._ageBin == i]
     #     ageN_total = len(ageList)
@@ -581,12 +581,10 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
     #     ageNReport.write("%d\t%d\t%d\t%d\t%d\t%d\t%d\n"%(rseed,t,ageN_total,ageN_hiv,ageN_tested,ageN_ART,ageN_prep))
     #     ageNReport.close()
 
-
-
-    if t==0:
+    if t == 0:
         cumulativeI = len(NewInfections._members)
-        ResultDict['Inc_c_HM'].update({t:rsltdic['WHITE']['HM']['inf_newInf']})
-        ResultDict['Inc_c_HF'].update({t:rsltdic['WHITE']['HF']['inf_newInf']})
+        ResultDict['Inc_c_HM'].update({t: rsltdic['WHITE']['HM']['inf_newInf']})
+        ResultDict['Inc_c_HF'].update({t: rsltdic['WHITE']['HF']['inf_newInf']})
     else:
         cumulativeI = 0
         pass
@@ -594,32 +592,35 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
         # ResultDict['Inc_c_HM'].update({t:ResultDict['Inc_c_HM'][t-1]+rsltdic['WHITE']['HM']['inf_newInf']})
         # ResultDict['Inc_c_HF'].update({t:ResultDict['Inc_c_HF'][t-1]+rsltdic['WHITE']['HF']['inf_newInf']})
 
-    #ResultDict['ResistantCases'].update({t:len([ag for ag in NewInfections._members if ag._PrEPresistance==1])})
-    ResultDict['Inc_c_Tot'].update({t:cumulativeI})
+    # ResultDict['ResistantCases'].update({t:len([ag for ag in NewInfections._members if ag._PrEPresistance==1])})
+    ResultDict['Inc_c_Tot'].update({t: cumulativeI})
 
     try:
-        ResultDict['Prv_HIV'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numHIV']/totalAgents.num_members())})
+        ResultDict['Prv_HIV'].update({t: (1.0 * tot_rsltdic['ALL']['ALL']['numHIV'] / totalAgents.num_members())})
     except:
-        ResultDict['Prv_HIV'].update({t:(0.0)})
+        ResultDict['Prv_HIV'].update({t: (0.0)})
     try:
-        ResultDict['Prv_AIDS'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numAIDS']/tot_rsltdic['ALL']['ALL']['numHIV'])})
+        ResultDict['Prv_AIDS'].update(
+            {t: (1.0 * tot_rsltdic['ALL']['ALL']['numAIDS'] / tot_rsltdic['ALL']['ALL']['numHIV'])})
     except:
-        ResultDict['Prv_AIDS'].update({t:(0.0)})
+        ResultDict['Prv_AIDS'].update({t: (0.0)})
     try:
-        ResultDict['Prv_Test'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numTested']/max(tot_rsltdic['ALL']['ALL']['numHIV'],1))})
+        ResultDict['Prv_Test'].update(
+            {t: (1.0 * tot_rsltdic['ALL']['ALL']['numTested'] / max(tot_rsltdic['ALL']['ALL']['numHIV'], 1))})
     except:
-        ResultDict['Prv_Test'].update({t:(0.0)})
+        ResultDict['Prv_Test'].update({t: (0.0)})
     try:
-        ResultDict['Prv_ART'].update({t:(1.0*tot_rsltdic['ALL']['ALL']['numART']/tot_rsltdic['ALL']['ALL']['numTested'])})
+        ResultDict['Prv_ART'].update(
+            {t: (1.0 * tot_rsltdic['ALL']['ALL']['numART'] / tot_rsltdic['ALL']['ALL']['numTested'])})
     except:
-        ResultDict['Prv_ART'].update({t:(0.0)})
-    #ResultDict['PrEP_Prev'].update({t:(1.0*PrEPAgents.num_members()/(totalAgents.num_members()-numHIV_MSM))})
-    ResultDict['n_Relations'].update({t:Relationships.num_members()})
-    #ResultDict['WInc_T'].update({t:rsltdic['WHITE']['MSM']['inf_newInf']})
-    #ResultDict['BInc_T'].update({t:rsltdic['BLACK']['MSM']['inf_newInf']})
-    ResultDict['Inc_t_HM'].update({t:rsltdic['WHITE']['HM']['inf_newInf']})
-    ResultDict['Inc_t_HF'].update({t:rsltdic['WHITE']['HF']['inf_newInf']})
-    #ResultDict['Incid_T'].update({t:len(NewInfections._members)})
+        ResultDict['Prv_ART'].update({t: (0.0)})
+    # ResultDict['PrEP_Prev'].update({t:(1.0*PrEPAgents.num_members()/(totalAgents.num_members()-numHIV_MSM))})
+    ResultDict['n_Relations'].update({t: Relationships.num_members()})
+    # ResultDict['WInc_T'].update({t:rsltdic['WHITE']['MSM']['inf_newInf']})
+    # ResultDict['BInc_T'].update({t:rsltdic['BLACK']['MSM']['inf_newInf']})
+    ResultDict['Inc_t_HM'].update({t: rsltdic['WHITE']['HM']['inf_newInf']})
+    ResultDict['Inc_t_HF'].update({t: rsltdic['WHITE']['HF']['inf_newInf']})
+    # ResultDict['Incid_T'].update({t:len(NewInfections._members)})
 
     # PLOTTING FOR RUN]
     # plt.ion()
@@ -646,7 +647,7 @@ def assess_before_update(t,
                          ResultDict,
                          Agents,
                          HIV_agents, tmp_HIV_agents,
-                         AIDS_agents,tmp_AIDS_agents,
+                         AIDS_agents, tmp_AIDS_agents,
                          SEPAgents,
                          HAART_agents, tmp_HAART_agents,
                          AdherenceAgents,
@@ -688,16 +689,14 @@ def assess_before_update(t,
     blackReport = open('Results/B_pop_report.txt', 'a')
     num_SEP = 0
 
+    SexTrans = {'0': {}, '1': {}}
+    SexTrans['0'] = {'0': 0.005, '1': 0.005, '2': 0.004, '3': 0.002, '4': 0.001, '5': 0.0001}
+    SexTrans['1'] = {'0': 0.001, '1': 0.001, '2': 0.0008, '3': 0.0004, '4': 0.0002, '5': 0.0001}
 
-    SexTrans = {'0':{}, '1':{}}
-    SexTrans['0'] = {'0':0.005, '1':0.005, '2':0.004, '3':0.002, '4':0.001, '5':0.0001}
-    SexTrans['1'] = {'0':0.001, '1':0.001, '2':0.0008, '3':0.0004, '4':0.0002, '5':0.0001}
+    NeedleTrans = {'0': 0.007, '1': 0.007, '2': 0.0056, '3': 0.0028, '4': 0.0014, '5': 0.0002}
 
-    NeedleTrans = {'0':0.007, '1':0.007, '2':0.0056, '3':0.0028, '4':0.0014, '5':0.0002}
-
-
-    transmissionTotalCounter = {'0':SexTrans, '1':NeedleTrans}
-    transmissionAcuteCounter = {'SEX':SexTrans, 'NEEDLE':NeedleTrans}
+    transmissionTotalCounter = {'0': SexTrans, '1': NeedleTrans}
+    transmissionAcuteCounter = {'SEX': SexTrans, 'NEEDLE': NeedleTrans}
 
     demographicMatrix = [[[0 for x in range(2)] for x in range(2)] for x in range(2)]
     incidenceMatrix = [[[0 for x in range(3)] for x in range(2)] for x in range(2)]
@@ -778,11 +777,10 @@ def assess_before_update(t,
     numTested_Black = 0
     numHAART_Black = 0
 
-
     numTested_IDU = 0
 
-    num_SEP = len(list(set(SEPAgents.keys())))   #number of IDU in SEP
-    #print Acute_agents
+    num_SEP = len(list(set(SEPAgents.keys())))  # number of IDU in SEP
+    # print Acute_agents
     for agent in Agents:
         agent_sex_type = Agents[agent]['Sex Type']
         agent_drug_type = Agents[agent]['Drug Type']
@@ -794,32 +792,38 @@ def assess_before_update(t,
         agent_race_type = Agents[agent]['Race']
         agent_HAART_adh = AdherenceAgents[agent]
         # Booleans:
-        agent_HIV_bool = Agents[agent]['HIV']#agent in HIV_agents
-        agent_HIV_tmp_bool = 0#agent in tmp_HIV_agents
-        agent_AIDS_bool = Agents[agent]['AIDS']#agent in AIDS_agents
-        agent_AIDS_tmp_bool = 0#agent in tmp_AIDS_agents
-        agent_HAART_bool = Agents[agent]['HAARTa']#agent in HAART_agents
-        agent_HAART_tmp_bool = 0#agent in tmp_HAART_agents
-        agent_Incar_bool = 0#agent in Incarcerated_agents
-        agent_Test_bool = Agents[agent]['Tested']#agent in HIVIdentified_agents
+        agent_HIV_bool = Agents[agent]['HIV']  # agent in HIV_agents
+        agent_HIV_tmp_bool = 0  # agent in tmp_HIV_agents
+        agent_AIDS_bool = Agents[agent]['AIDS']  # agent in AIDS_agents
+        agent_AIDS_tmp_bool = 0  # agent in tmp_AIDS_agents
+        agent_HAART_bool = Agents[agent]['HAARTa']  # agent in HAART_agents
+        agent_HAART_tmp_bool = 0  # agent in tmp_HAART_agents
+        agent_Incar_bool = 0  # agent in Incarcerated_agents
+        agent_Test_bool = Agents[agent]['Tested']  # agent in HIVIdentified_agents
 
-        #print "DT: %d\tST: %d\t Test: %d"%(agent_drug_bool,agent_Test_bool, agent_HAART)
+        # print "DT: %d\tST: %d\t Test: %d"%(agent_drug_bool,agent_Test_bool, agent_HAART)
 
-
-        #transmissionTotalCounter[agent_drug_bool][agent_sex_type][agent_Test_bool][agent_HAART_bool]
-        #transmittedTotalArray[agent_Test_bool][agent_HIV_bool][agent_HAART_bool] += 1
-        #print agent_HAART_adh
+        # transmissionTotalCounter[agent_drug_bool][agent_sex_type][agent_Test_bool][agent_HAART_bool]
+        # transmittedTotalArray[agent_Test_bool][agent_HIV_bool][agent_HAART_bool] += 1
+        # print agent_HAART_adh
         if agent in Acute_agents:
-            if agent_drug_type == 'ND': numACUTE_ND += 1
-            elif agent_drug_type == 'IDU': numACUTE_IDU += 1
-            elif agent_drug_type == 'NIDU': numACUTE_NIDU += 1
-            if agent_sex_type=='HM': numACUTE_HM += 1
-            elif agent_sex_type=='HF': numACUTE_HF += 1
-            elif agent_sex_type=='MSM': numACUTE_MSM += 1
-            elif agent_sex_type=='WSW': numACUTE_WSW += 1
+            if agent_drug_type == 'ND':
+                numACUTE_ND += 1
+            elif agent_drug_type == 'IDU':
+                numACUTE_IDU += 1
+            elif agent_drug_type == 'NIDU':
+                numACUTE_NIDU += 1
+            if agent_sex_type == 'HM':
+                numACUTE_HM += 1
+            elif agent_sex_type == 'HF':
+                numACUTE_HF += 1
+            elif agent_sex_type == 'MSM':
+                numACUTE_MSM += 1
+            elif agent_sex_type == 'WSW':
+                numACUTE_WSW += 1
 
         if agent in Transmit_from_agents:
-            #Determine adh class. 0: nohaart, 1: haart w/ adh 1-4, 2: HAART w/ adh 5
+            # Determine adh class. 0: nohaart, 1: haart w/ adh 1-4, 2: HAART w/ adh 5
             if agent_HAART_adh == 5:
                 agent_HAART_class = 2
             elif agent_HAART_adh > 0:
@@ -827,32 +831,43 @@ def assess_before_update(t,
             elif agent_HAART_adh == 0:
                 agent_HAART_class = 0
             else:
-                print "BROKE"
+                print("BROKE")
 
             incidenceMatrix[agent_drug_bool][agent_Test_bool][agent_HAART_class] += 1
-            if agent_drug_type == 'ND': numFROM_ND += 1
-            elif agent_drug_type == 'IDU': numFROM_IDU += 1
-            elif agent_drug_type == 'NIDU': numFROM_NIDU += 1
+            if agent_drug_type == 'ND':
+                numFROM_ND += 1
+            elif agent_drug_type == 'IDU':
+                numFROM_IDU += 1
+            elif agent_drug_type == 'NIDU':
+                numFROM_NIDU += 1
 
-            if agent_sex_type=='HM': numFROM_HM += 1
-            elif agent_sex_type=='HM': numFROM_HF += 1
-            elif agent_sex_type=='MSM': numFROM_MSM += 1
-            elif agent_sex_type=='WSW': numFROM_WSW += 1
+            if agent_sex_type == 'HM':
+                numFROM_HM += 1
+            elif agent_sex_type == 'HM':
+                numFROM_HF += 1
+            elif agent_sex_type == 'MSM':
+                numFROM_MSM += 1
+            elif agent_sex_type == 'WSW':
+                numFROM_WSW += 1
 
 
         elif agent in Transmit_to_agents:
-            if agent_drug_type == 'ND': numToND += 1
-            elif agent_drug_type == 'IDU': numToIDU += 1
+            if agent_drug_type == 'ND':
+                numToND += 1
+            elif agent_drug_type == 'IDU':
+                numToIDU += 1
 
-            if agent_sex_type=='HM': numToHM += 1
-            elif agent_sex_type=='HF': numToHF += 1
-            elif agent_sex_type=='MSM': numToMSM += 1
+            if agent_sex_type == 'HM':
+                numToHM += 1
+            elif agent_sex_type == 'HF':
+                numToHF += 1
+            elif agent_sex_type == 'MSM':
+                numToMSM += 1
 
-
-        #if agent_sex_type=='MSM': numMSM += 1
-        #elif agent_sex_type=='WSW': numWSW += 1
-        #elif agent_sex_type=='HF': numHF += 1
-        #elif agent_sex_type=='HM': numHM += 1
+        # if agent_sex_type=='MSM': numMSM += 1
+        # elif agent_sex_type=='WSW': numWSW += 1
+        # elif agent_sex_type=='HF': numHF += 1
+        # elif agent_sex_type=='HM': numHM += 1
         if agent_drug_type == 'IDU':
             numIDU += 1
 
@@ -860,132 +875,126 @@ def assess_before_update(t,
                 numHIV_IDU_p += 1
 
                 if agent_AIDS_bool:
-                    numAIDS_IDU_p +=1
+                    numAIDS_IDU_p += 1
 
                 if agent_HAART_bool:
                     numHIDU += 1
 
                 if agent_Test_bool:
-                    numTested_IDU +=1
+                    numTested_IDU += 1
 
+        if agent_race_type == 'WHITE':
 
-
-        if agent_race_type=='WHITE':
-
-            num_White +=1
-            if agent_sex_type=='MSM':
-                numMSM_White +=1
-                numMSM +=1
-
+            num_White += 1
+            if agent_sex_type == 'MSM':
+                numMSM_White += 1
+                numMSM += 1
 
                 if agent_Incar_bool:
-                    numMSM_Incar_White +=1
-                    num_Incar_White +=1
+                    numMSM_Incar_White += 1
+                    num_Incar_White += 1
 
-            elif agent_sex_type=='HM':
-                numHM_White +=1
-                numHM +=1
-
-                if agent_Incar_bool:
-                    numHM_Incar_White +=1
-                    num_Incar_White +=1
-
-            elif agent_sex_type=='HF':
-                numHF_White +=1
-                numHF +=1
+            elif agent_sex_type == 'HM':
+                numHM_White += 1
+                numHM += 1
 
                 if agent_Incar_bool:
-                    numHF_Incar_White +=1
-                    num_Incar_White +=1
+                    numHM_Incar_White += 1
+                    num_Incar_White += 1
 
-            if agent_sex_type=='PWID':
-                numPWID_White +=1
-                numPWID +=1
+            elif agent_sex_type == 'HF':
+                numHF_White += 1
+                numHF += 1
 
                 if agent_Incar_bool:
-                    numPWID_Incar_White +=1
+                    numHF_Incar_White += 1
+                    num_Incar_White += 1
+
+            if agent_sex_type == 'PWID':
+                numPWID_White += 1
+                numPWID += 1
+
+                if agent_Incar_bool:
+                    numPWID_Incar_White += 1
 
             if agent_HIV_bool:
-                numHIV_White +=1
+                numHIV_White += 1
                 if agent_sex_type == 'MSM':
-                    numHIV_MSM_White +=1
+                    numHIV_MSM_White += 1
 
             if agent_HAART_bool:
-                numHAART_White +=1
+                numHAART_White += 1
             if agent_Test_bool:
-                numTested_White +=1
+                numTested_White += 1
 
-        elif agent_race_type=='BLACK':
+        elif agent_race_type == 'BLACK':
 
-            num_Black +=1
-            if agent_sex_type=='MSM':
-                numMSM_Black +=1
-                numMSM +=1
-
-
-                if agent_Incar_bool:
-                    numMSM_Incar_Black +=1
-                    num_Incar_Black +=1
-
-            elif agent_sex_type=='HM':
-                numHM_Black +=1
-                numHM +=1
+            num_Black += 1
+            if agent_sex_type == 'MSM':
+                numMSM_Black += 1
+                numMSM += 1
 
                 if agent_Incar_bool:
-                    numHM_Incar_Black +=1
-                    num_Incar_Black +=1
+                    numMSM_Incar_Black += 1
+                    num_Incar_Black += 1
 
-            elif agent_sex_type=='HF':
-                numHF_Black +=1
-                numHF +=1
-
-                if agent_Incar_bool:
-                    numHF_Incar_Black +=1
-                    num_Incar_Black +=1
-
-            if agent_sex_type=='PWID':
-                numPWID_Black +=1
-                numPWID +=1
+            elif agent_sex_type == 'HM':
+                numHM_Black += 1
+                numHM += 1
 
                 if agent_Incar_bool:
-                    numPWID_Incar_Black +=1
+                    numHM_Incar_Black += 1
+                    num_Incar_Black += 1
+
+            elif agent_sex_type == 'HF':
+                numHF_Black += 1
+                numHF += 1
+
+                if agent_Incar_bool:
+                    numHF_Incar_Black += 1
+                    num_Incar_Black += 1
+
+            if agent_sex_type == 'PWID':
+                numPWID_Black += 1
+                numPWID += 1
+
+                if agent_Incar_bool:
+                    numPWID_Incar_Black += 1
 
             if agent_HIV_bool:
-                numHIV_Black +=1
+                numHIV_Black += 1
                 if agent_sex_type == 'MSM':
-                    numHIV_MSM_Black +=1
+                    numHIV_MSM_Black += 1
 
             if agent_HAART_bool:
-                numHAART_Black +=1
+                numHAART_Black += 1
             if agent_Test_bool:
-                numTested_Black +=1
+                numTested_Black += 1
 
-
-    #PLOTTING FOR RUN
-    #plt.ion()
-    plt.subplot(2,2,1)
-    plt.plot(t,numHIV_White,'rs', color='cornflowerblue', linewidth=3)
+    # PLOTTING FOR RUN
+    # plt.ion()
+    plt.subplot(2, 2, 1)
+    plt.plot(t, numHIV_White, 'rs', color='cornflowerblue', linewidth=3)
     plt.title('Vampire Infection')
     plt.ylabel('Vampire Population')
-    plt.subplot(2,1,2)
-    plt.plot(t,numHIV_MSM,'bs')
+    plt.subplot(2, 1, 2)
+    plt.plot(t, numHIV_MSM, 'bs')
     plt.xlabel('time (hours)')
     plt.ylabel('Human Population')
     plt.draw()
 
-    #plt.show()
+    # plt.show()
     plt.pause(.1)
 
     numNEEDLE = Transmission_tracker['NEEDLE'][t]
 
-    incidenceReport.write("%d\t%d\t%d\t%d\n" % (t, numFROM_ND + numFROM_IDU + numFROM_NIDU, numFROM_IDU, numACUTE_IDU)) #3rd was numHIV_IDU_MSM_i + numHIV_ND_MSM_i
+    incidenceReport.write("%d\t%d\t%d\t%d\n" % (t, numFROM_ND + numFROM_IDU + numFROM_NIDU, numFROM_IDU,
+                                                numACUTE_IDU))  # 3rd was numHIV_IDU_MSM_i + numHIV_ND_MSM_i
     prevalenceReport.write("%d\t%d\t%d\t%d\t%d\t%d\n" % (t, numToND, numToIDU, numToHM, numToHF, numToMSM))
-    iduReport.write("%d\t%d\t%d\t%d\t%d\t%d\n" % (t,numIDU, numHIV_IDU_p, numAIDS_IDU_p, numHIDU, numTested_IDU))
+    iduReport.write("%d\t%d\t%d\t%d\t%d\t%d\n" % (t, numIDU, numHIV_IDU_p, numAIDS_IDU_p, numHIDU, numTested_IDU))
 
     whiteReport.write("%d\t%d\t%d\t%d\t%d\n" % (t, numHIV_White, numHIV_MSM_White, numTested_White, numHAART_White))
     blackReport.write("%d\t%d\t%d\t%d\t%d\n" % (t, numHIV_Black, numHIV_MSM_Black, numTested_Black, numHAART_Black))
-
-
 
     num_partners = []
     num_partners_hr = []
@@ -1026,23 +1035,24 @@ def assess_before_update(t,
     	plt.show()
     """
 
-    #ResultDict['Number Agents'].update({t:num_White})
-    #ResultDict['Total Incidence'].update({t:numMSM_White})
-    #ResultDict['Total IDU Incidence'].update({t:incidenceMatrix[1][0][1]})
+    # ResultDict['Number Agents'].update({t:num_White})
+    # ResultDict['Total Incidence'].update({t:numMSM_White})
+    # ResultDict['Total IDU Incidence'].update({t:incidenceMatrix[1][0][1]})
 
-    ResultDict['ND XMS UnDX'].update({t:incidenceMatrix[0][0][0]})
-    ResultDict['ND XMS DX'].update({t:incidenceMatrix[0][1][0]})
-    ResultDict['ND XMS HAART 5'].update({t:incidenceMatrix[0][1][2]})
-    ResultDict['ND XMS HAART Other'].update({t:incidenceMatrix[0][1][1]})
-    ResultDict['PWID XMS UnDX'].update({t:incidenceMatrix[1][0][0]})
-    ResultDict['PWID XMS DX'].update({t:incidenceMatrix[1][1][0]})
-    ResultDict['PWID XMS HAART 5'].update({t:incidenceMatrix[1][1][2]})
-    ResultDict['PWID XMS HAART Other'].update({t:incidenceMatrix[1][1][1]})
-    #ResultDict['HAART Proportion'].update({t:np.mean(ann_turnover)})
-    #ResultDict['DX Proportion'].update({t:Transmission_tracker['SEX_MSM'][t]})
-    #ResultDict['SEX_NMSM_transmissions'].update({t:Transmission_tracker['SEX_NMSM'][t]})
-    #ResultDict['NEEDLE_transmissions'].update({t:Transmission_tracker['NEEDLE'][t]})
+    ResultDict['ND XMS UnDX'].update({t: incidenceMatrix[0][0][0]})
+    ResultDict['ND XMS DX'].update({t: incidenceMatrix[0][1][0]})
+    ResultDict['ND XMS HAART 5'].update({t: incidenceMatrix[0][1][2]})
+    ResultDict['ND XMS HAART Other'].update({t: incidenceMatrix[0][1][1]})
+    ResultDict['PWID XMS UnDX'].update({t: incidenceMatrix[1][0][0]})
+    ResultDict['PWID XMS DX'].update({t: incidenceMatrix[1][1][0]})
+    ResultDict['PWID XMS HAART 5'].update({t: incidenceMatrix[1][1][2]})
+    ResultDict['PWID XMS HAART Other'].update({t: incidenceMatrix[1][1][1]})
+    # ResultDict['HAART Proportion'].update({t:np.mean(ann_turnover)})
+    # ResultDict['DX Proportion'].update({t:Transmission_tracker['SEX_MSM'][t]})
+    # ResultDict['SEX_NMSM_transmissions'].update({t:Transmission_tracker['SEX_NMSM'][t]})
+    # ResultDict['NEEDLE_transmissions'].update({t:Transmission_tracker['NEEDLE'][t]})
     return ResultDict
+
 
 def assess_interaction_distribution(Agents,
                                     agent, agent_drug_type, agent_sex_type,
@@ -1069,60 +1079,60 @@ def assess_interaction_distribution(Agents,
     """
     if agent_drug_type == 'ND':
         for p in partners:
-            p_drug_type=Agents[p]['Drug Type']
+            p_drug_type = Agents[p]['Drug Type']
             tmp_ND_NumPartners_Count.setdefault(agent,
-                {'ND':0, 'NIDU':0, 'IDU':0, 'MSM':0})[p_drug_type] += 1
-            if Agents[p]['Sex Type']=='MSM':
+                                                {'ND': 0, 'NIDU': 0, 'IDU': 0, 'MSM': 0})[p_drug_type] += 1
+            if Agents[p]['Sex Type'] == 'MSM':
                 tmp_ND_NumPartners_Count[agent]['MSM'] += 1
     elif agent_drug_type == 'NIDU':
         for p in partners:
-            p_drug_type=Agents[p]['Drug Type']
+            p_drug_type = Agents[p]['Drug Type']
             tmp_NIDU_NumPartners_Count.setdefault(agent,
-                                                       {'ND':0, 'NIDU':0, 'IDU':0, 'MSM':0})[p_drug_type] += 1
-            if Agents[p]['Sex Type']=='MSM':
+                                                  {'ND': 0, 'NIDU': 0, 'IDU': 0, 'MSM': 0})[p_drug_type] += 1
+            if Agents[p]['Sex Type'] == 'MSM':
                 tmp_NIDU_NumPartners_Count[agent]['MSM'] += 1
     elif agent_drug_type == 'IDU':
         for p in partners:
-            p_drug_type=Agents[p]['Drug Type']
+            p_drug_type = Agents[p]['Drug Type']
             tmp_IDU_NumPartners_Count.setdefault(agent,
-                                                      {'ND':0, 'NIDU':0, 'IDU':0, 'MSM':0})[p_drug_type] += 1
-            if Agents[p]['Sex Type']=='MSM':
+                                                 {'ND': 0, 'NIDU': 0, 'IDU': 0, 'MSM': 0})[p_drug_type] += 1
+            if Agents[p]['Sex Type'] == 'MSM':
                 tmp_IDU_NumPartners_Count[agent]['MSM'] += 1
     else:
-        raise ValueError("Invalid drug type! %s"%agent_drug_type)
+        raise ValueError("Invalid drug type! %s" % agent_drug_type)
 
     if agent_sex_type == 'MSM':
         for p in partners:
-            p_drug_type=Agents[p]['Drug Type']
+            p_drug_type = Agents[p]['Drug Type']
             tmp_MSM_NumPartners_Count.setdefault(agent,
-                                                      {'ND':0, 'NIDU':0, 'IDU':0, 'MSM':0})[p_drug_type] += 1
+                                                 {'ND': 0, 'NIDU': 0, 'IDU': 0, 'MSM': 0})[p_drug_type] += 1
     elif agent_sex_type == 'WSW':
         for p in partners:
-            p_drug_type=Agents[p]['Drug Type']
+            p_drug_type = Agents[p]['Drug Type']
             tmp_WSW_NumPartners_Count.setdefault(agent,
-                                                      {'ND':0, 'NIDU':0, 'IDU':0, 'MSM':0})[p_drug_type] += 1
-    elif agent_sex_type not in ['HM','HF']:
-        raise ValueError("Invalid sex type! %s"%agent_sex_type)
+                                                 {'ND': 0, 'NIDU': 0, 'IDU': 0, 'MSM': 0})[p_drug_type] += 1
+    elif agent_sex_type not in ['HM', 'HF']:
+        raise ValueError("Invalid sex type! %s" % agent_sex_type)
 
     for p in partners:
         partner_drug_type = Agents[p]['Drug Type']
         if partner_drug_type == 'ND':
             tmp_ND_NumPartners_Count.setdefault(p,
-                                                     {'ND':0, 'NIDU':0, 'IDU':0, 'MSM':0})[agent_drug_type] += 1
-            if agent_sex_type=='MSM':
+                                                {'ND': 0, 'NIDU': 0, 'IDU': 0, 'MSM': 0})[agent_drug_type] += 1
+            if agent_sex_type == 'MSM':
                 tmp_ND_NumPartners_Count[p]['MSM'] += 1
         elif partner_drug_type == 'NIDU':
             tmp_NIDU_NumPartners_Count.setdefault(p,
-                                                       {'ND':0, 'NIDU':0, 'IDU':0, 'MSM':0})[agent_drug_type] += 1
-            if agent_sex_type=='MSM':
+                                                  {'ND': 0, 'NIDU': 0, 'IDU': 0, 'MSM': 0})[agent_drug_type] += 1
+            if agent_sex_type == 'MSM':
                 tmp_NIDU_NumPartners_Count[p]['MSM'] += 1
         elif partner_drug_type == 'IDU':
             tmp_IDU_NumPartners_Count.setdefault(p,
-                                                      {'ND':0, 'NIDU':0, 'IDU':0, 'MSM':0})[agent_drug_type] += 1
-            if agent_sex_type=='MSM':
+                                                 {'ND': 0, 'NIDU': 0, 'IDU': 0, 'MSM': 0})[agent_drug_type] += 1
+            if agent_sex_type == 'MSM':
                 tmp_IDU_NumPartners_Count[p]['MSM'] += 1
         else:
-            raise ValueError("Invalid partner drug type! %s"%
+            raise ValueError("Invalid partner drug type! %s" %
                              partner_drug_type)
 
     return [tmp_ND_NumPartners_Count,
