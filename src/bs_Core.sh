@@ -32,7 +32,7 @@ echo This job has allocated $NCPU CPUs
 # $SLURM_NPROCS = nodes x ppn
 # Change global N_MC in MPI_simulation.py to $SLURM_NPROCS
 # and PROCESSES to a multiple of $SLURM_NPROCS for optimal distribution
-python MP_simulation.py
+python3 MP_simulation.py
 
 
 
