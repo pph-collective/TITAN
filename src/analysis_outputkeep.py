@@ -208,9 +208,9 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
         if tmpA._naltrex_bool:
             if tmpA._race == 'WHITE':
                 if tmpA._SO == 'HM':
-		    Naltrex_NIDU_M += 1
-		elif tmpA._SO == 'HF':
-		    Naltrex_NIDU_F += 1
+                    Naltrex_NIDU_M += 1
+        elif tmpA._SO == 'HF':
+            Naltrex_NIDU_F += 1
             if tmpA._race == 'BLACK':
                 if tmpA._SO == 'HM':
                     Naltrex_IDU_M += 1
@@ -219,15 +219,15 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
 
     for tmpA in totalAgents.iter_agents():
         if tmpA._DOC_OAT_bool:
-	    if tmpA._SO == 'HM':
-		DOC_OAT_M += 1
-	    elif tmpA._SO == 'HF':
-		DOC_OAT_F += 1
-	if tmpA._DOC_NAL_bool:
-	    if tmpA._SO == 'HM':
-		DOC_Naltrex_M += 1
-	    elif tmpA._SO == 'HF':
-		DOC_Naltrex_F += 1
+            if tmpA._SO == 'HM':
+                DOC_OAT_M += 1
+            elif tmpA._SO == 'HF':
+                DOC_OAT_F += 1
+    if tmpA._DOC_NAL_bool:
+        if tmpA._SO == 'HM':
+            DOC_Naltrex_M += 1
+        elif tmpA._SO == 'HF':
+            DOC_Naltrex_F += 1
     
     #Newly diagnosed tracker statistics
     for tmpA in NewDiagnosis.iter_agents():
@@ -472,17 +472,17 @@ def print_stats(self, rseed, t, totalAgents, HIVAgents, IncarAgents,PrEPAgents, 
             tot_rsltdic['ALL']['MSM']['numPrEP'])))
 
     nalReport.write(
-	"%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
-	    self.runseed,
-	    self.popseed,
-	    self.netseed,
-	    t,
-	    Naltrex_NIDU_M,
-	    Naltrex_NIDU_F,
-	    Naltrex_IDU_M,
-	    Naltrex_IDU_F,
-	    DOC_Naltrex_M,
-	    DOC_Naltrex_F))
+    "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
+        self.runseed,
+        self.popseed,
+        self.netseed,
+        t,
+        Naltrex_NIDU_M,
+        Naltrex_NIDU_F,
+        Naltrex_IDU_M,
+        Naltrex_IDU_F,
+        DOC_Naltrex_M,
+        DOC_Naltrex_F))
     oatReport.write(
         "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n" % (
             self.runseed,
@@ -998,10 +998,10 @@ def assess_before_update(t,
 
 
     if t == 1 or t == 12:
-    	bc = np.bincount(num_partners)
+        bc = np.bincount(num_partners)
         print np.mean(num_partners)
-    	plt.bar(np.arange(len(bc)), bc, width=.5)
-    	plt.show()
+        plt.bar(np.arange(len(bc)), bc, width=.5)
+        plt.show()
     """
 
     #ResultDict['Number Agents'].update({t:num_White})
