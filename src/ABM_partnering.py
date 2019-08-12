@@ -113,6 +113,7 @@ def update_partner_assignments(self, partnerTurnover, graph, agent=None):
                 else:
                     # print "Missed pass attempt",noMatch
                     noMatch += 1
+                    f("Didn't match {noMatch} times.)
 
     # print "\n\t\t-COULDNT MATCH",noMatch,"AGENTS IN NEED \t---"
 
