@@ -10,11 +10,11 @@ PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed_pop = 0           # seed for RNG for poulation building (0: pure random, -1: stepwise to N_REPS)
 rSeed_net = 0           # seed for RNG for network formation (0: pure random, -1: stepwise to N_REPS)
 rSeed_run = 0           # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
-N_MC = 1000              # total number of iterations (Monte Carlo runs)
+N_MC = 100              # total number of iterations (Monte Carlo runs)
 N_REPS = 1
-N_POP = 11000          # population size
-TIME_RANGE = 60        # total time steps to iterate
-burnDuration = 0       # total time for burning in period (equillibration)
+N_POP = 11245          # population size
+TIME_RANGE = 24        # total time steps to iterate
+burnDuration = 36       # total time for burning in period (equillibration)
 model = 'Custom'         # Model Type for fast flag toggling
 network_type = 'max_k_comp_size'
 setting = 'Atlanta_2015'
@@ -76,6 +76,7 @@ AssortMixType = "Race"            # Other assortative mixing types
 flag_AgeAssortMix = False       # Assortative mix by age
 flag_RaceAssortMix = True      # Assortative mix by race
 AssortMixCoeff = 0.750           # Proportion of following given assort mix rules
+AssortDrugs = 0.2                # Proportion of NIDU who assort with other NIDU
 safeNeedleExchangePrev = 1.0    # Prevalence scalar on SNE
 initTreatment = 999999
 treatmentCov = 0.0
@@ -108,7 +109,7 @@ inc_treat_RIC = False            # Force retention in care of ART therapy
 """
 PrEP params
 """
-PrEP_type = "Vaxx"              #Oral/Inj PrEP modes
+PrEP_type = "Oral"              #Oral/Inj PrEP modes
 PrEP_Target = 0.50              # Target coverage for PrEP therapy
 PrEP_startT = 0                 # Start date for PrEP program (-1 for init, 0 for start of model)
 PrEP_Adherence = 0.82           # Probability of being adherent
@@ -189,9 +190,10 @@ elif model == 'Custom':
     flag_DandR = False
     flag_staticN = True
     flag_agentZero = False
-
+    drug_use_risk = True
+    drug_assort = True
 agentPopulations = ['MSM','HM','HF']
-agentSexTypes = ['HM', 'HF', 'MSM', 'MTF']
+agentSexTypes = ['HM', 'HF', 'MSM']
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
 ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, IDU)
@@ -205,6 +207,7 @@ RC_template = {     'Race':None,            #Race of demographic
                     'HAARTprev':0.0,        #Proportion of HIV_TESTED_ID that are enrolled on ART
                     'INCARprev':0.0,        #Proportion of ID that are incarcerated
                     'TestedPrev':0.0,       #Proportion of HIV_ID that are tested positively
+                    'HighRiskPrev':0.0,     #Proportion of agents that are HRi
                     'mNPart':0.0,           #Mean number of sex partners
                     'NUMPartn':0.0,         #Number of partners (redundant)
                     'NUMSexActs':0.0,       #Mean number of sex acts with each partner
@@ -217,7 +220,10 @@ RC_template = {     'Race':None,            #Race of demographic
                     'PrEPprev':0.0,         #Proportion of HIV- that are enrolled on PrEP
                     'PrEPdisc':0.0,         #Probability of discontinuing PrEP treatment
                     'EligSE_PartnerType':[],   #List of agent SO types the agent cant partner with
-                    'AssortMixMatrix':[]    #List of assortMix Matrix to be zipped with EligPart
+                    'AssortMixMatrix':[],    #List of assortMix Matrix to be zipped with EligPart
+                    'NIDUprob':0.0,
+                    'MATProbScalar':0.0,
+                    'MAT_disc_prob':0.0
                 }
 
 RC_allTemplate = {  'Proportion':1.00,      #Proportion of total population that is raceclass
@@ -232,7 +238,7 @@ for a in ['MSM','HM','HF','IDU']:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
-RaceClass1['HM'] = {'POP':0.0,
+RaceClass1['HM'].update({'POP':0.0,
                      'HIV':0.0369,
                      'AIDS':0.6780,
                      'HAARTprev':0.41,
@@ -248,9 +254,9 @@ RaceClass1['HM'] = {'POP':0.0,
                      'HAARTdisc':0.000,
                      'PrEPdisc':0.0000,
                      'EligSE_PartnerType':['HF']
-                     }
+                     })
 
-RaceClass1['HF'] = {'POP':0.0,
+RaceClass1['HF'].update({'POP':0.0,
                      'HIV':0.01391,
                      'AIDS':0.573,
                      'HAARTprev':0.47,
@@ -266,9 +272,9 @@ RaceClass1['HF'] = {'POP':0.0,
                      'HAARTdisc':0.000,
                      'PrEPdisc':PrEP_disc,
                      'EligSE_PartnerType':['HM']
-                     }
+                     })
 
-RaceClass1['MSM'] = {'POP':1.0,
+RaceClass1['MSM'].update({'POP':1.0,
                      'HIV':0.132,
                      'AIDS':0.07,
                      'HAARTprev':0.0,
@@ -284,29 +290,11 @@ RaceClass1['MSM'] = {'POP':1.0,
                      'HAARTdisc':0.000,
                      'PrEPadh':0.55,
                      'PrEPdisc':PrEP_disc,
-                     'EligSE_PartnerType':['MSM']
-                     }
+                     'EligSE_PartnerType':['MSM'],
+                     'NIDUprob': 0.485
+                     })
 
-RaceClass1['MTF'] = {'POP':0.00,
-                     'HIV':0.33986,
-                     'AIDS':0.636,
-                     'HAARTprev':1.00,
-                     'INCARprev':0.000,
-                     'TestedPrev':0.95,
-                     'NUMPartn':4.7,
-                     'NUMSexActs':4.6,
-                     'UNSAFESEX':0.644,
-                     'NEEDLESH':0.00,
-                     'HIVTEST':0.155,
-                     'INCAR':0.00,
-                     'HAARTadh':0.67,
-                     'HAARTdisc':0.000,
-                     'PrEPadh':0.55,
-                     'PrEPdisc':PrEP_disc,
-                     'EligSE_PartnerType':['MSM']
-                     }
-
-RaceClass1['IDU'] = {'POP':0.0,
+RaceClass1['IDU'].update({'POP':0.0,
                      'HIV':0.1500,
                      'AIDS':0.6780,
                      'HAARTprev':0.41,
@@ -322,16 +310,16 @@ RaceClass1['IDU'] = {'POP':0.0,
                      'HAARTdisc':0.000,
                      'PrEPdisc':0.0000,
                      'EligSE_PartnerType':['IDU']
-                     }
+                     })
 
 
-RaceClass1['ALL'] = {'Proportion':0.488,
+RaceClass1['ALL'].update({'Proportion':0.488,
                       'HAARTdisc':0.00,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,
-                      }
+                      })
 
-RaceClass2['MSM'] = {'POP':1.0,
+RaceClass2['MSM'].update({'POP':1.0,
                      'HIV':0.434,
                      'AIDS':0.232,
                      'HAARTprev':0.0,
@@ -347,14 +335,15 @@ RaceClass2['MSM'] = {'POP':1.0,
                      'HAARTdisc':0.000,
                      'PrEPadh':0.55,
                      'PrEPdisc':PrEP_disc,
-                     'EligSE_PartnerType':['MSM']
-                     }
+                     'EligSE_PartnerType':['MSM'],
+                     'NIDUprob':0.30
+                     })
 
-RaceClass2['ALL'] = {'Proportion':0.512,
+RaceClass2['ALL'].update({'Proportion':0.512,
                       'HAARTdisc':0.00,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,
-                      }
+                      })
 
 DemographicParams = {'WHITE':RaceClass1, 'BLACK':RaceClass2}
 

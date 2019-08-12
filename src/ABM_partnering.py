@@ -270,9 +270,11 @@ def get_random_IDU_partner(self, agent, need_new_partners):
     if agent_drug_type not in ["IDU"]:
         raise ValueError("Invalid drug type! %s" % str(agent_drug_type))
     else:
-        RandomPartner = random.choice(need_new_partners._subset["DU"]._subset["IDU"]._members)
-        if RandomPartner in agent._partners or RandomPartner == agent:
-            RandomPartner = None
+        RandomPartner = None
+        while RandomPartner == None:
+            RandomPartner = random.choice(need_new_partners._subset["DU"]._subset["IDU"]._members)
+            if RandomPartner in agent._partners or RandomPartner == agent:
+                RandomPartner = None
 
     # print "\tReturned: %s" % RandomPartner
     if RandomPartner:
