@@ -1342,6 +1342,9 @@ class HIVModel(NetworkClass):
                             if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
                                 ppAct = ppAct * (1.0 - ppActReduction)  # 0.04
 
+                        elif params.PrEP_type == "Vaxx":
+                            ppActReduction = 1 - np.exp(-2.88 + 0.76 *(log(t + 0.001 * 30)))
+                            ppAct = ppAct * (1 - ppActReduction)
                     # p_transmission = binom.pmf(1, U_sex_acts1, p)
 
                     p_total_transmission = 0
@@ -2105,7 +2108,7 @@ class HIVModel(NetworkClass):
 
         return elligble
 
-    def _calc_PrEP_load(self, agent):
+    def _calc_PrEP_load(self, agent, injectible = False, vaccine = False):
         """
         :Purpose:
             Determine load of PrEP concentration in agent.
@@ -2123,10 +2126,14 @@ class HIVModel(NetworkClass):
         agent._PrEP_lastDose += 1
         if agent._PrEP_lastDose > 12:
             agent._PrEP_load = 0.0
-        else:
+        elif injectible:
             agent._PrEP_load = params.PrEP_peakLoad * (
                 (0.5) ** (agent._PrEP_lastDose / (params.PrEP_halflife / 30))
             )
+        elif vaccine:
+            pass 
+        else:
+            print("NO PREP TYPE")
         # print agent._ID, agent._PrEP_load, agent._PrEP_lastDose
 
     def _discont_PrEP(self, agent, time, force=False):
@@ -2161,7 +2168,9 @@ class HIVModel(NetworkClass):
                     agent._PrEP_lastDose = -1
 
         if params.PrEP_type == "Inj":
-            self._calc_PrEP_load(agent)
+            self._calc_PrEP_load(agent, injectible = True)
+        if params.PrEP_type == "Vaxx":
+            self._calc_PrEP_load(agent, vaccine = True)
 
     def _initiate_PrEP(self, agent, time, force=False):
         """
