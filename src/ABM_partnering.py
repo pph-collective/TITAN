@@ -113,7 +113,7 @@ def update_partner_assignments(self, partnerTurnover, graph, agent=None):
                 else:
                     # print "Missed pass attempt",noMatch
                     noMatch += 1
-                    f("Didn't match {noMatch} times.)
+        print(f"Didn't match {noMatch} times.")
 
     # print "\n\t\t-COULDNT MATCH",noMatch,"AGENTS IN NEED \t---"
 
@@ -213,29 +213,32 @@ def get_partner(self, agent, need_new_partners):
     RandomPartner = None
 
     # print("Finding partner for agent", agent._ID, agent_sex_type, agent_drug_type)
-    if agent_drug_type == "IDU":
-        if random.random() < 0.8:
+    while RandomPartner == None:
+        if agent_drug_type == "IDU":
+            if random.random() < 0.8:
             # choose from IDU agents
-            try:
-                RandomPartner = get_random_IDU_partner(self, agent, shortlist_NNP)
-            except:
-                print("No IDU matches")
+                try:
+                    RandomPartner = get_random_IDU_partner(self, agent, shortlist_NNP)
+                except:
+                    print("No IDU matches")
+                    get_random_sex_partner(self, agent, shortlist_NNP)
+                # print "\tReturned: %s" % RandomPartner
+            else:
                 get_random_sex_partner(self, agent, shortlist_NNP)
-            # print "\tReturned: %s" % RandomPartner
-        else:
-            get_random_sex_partner(self, agent, shortlist_NNP)
-    elif agent_drug_type in ("NDU", "NIDU"):
-        if params.flag_AssortativeMix:
-            if random.random() < params.DemographicParams[agent_race_type]["ALL"]["AssortMixCoeff"]:
-                RandomPartner = get_assort_sex_partner(self, agent, shortlist_NNP)
-                if not RandomPartner and params.AssortMixCoeff <= 1.0:
+        elif agent_drug_type in ("NDU", "NIDU"):
+            if params.flag_AssortativeMix:
+                if random.random() < params.DemographicParams[agent_race_type]["ALL"]["AssortMixCoeff"]:
+                    RandomPartner = get_assort_sex_partner(self, agent, shortlist_NNP)
+                    if not RandomPartner and params.AssortMixCoeff <= 1.0:
+                        RandomPartner = get_random_sex_partner(self, agent, shortlist_NNP)
+                else:
                     RandomPartner = get_random_sex_partner(self, agent, shortlist_NNP)
             else:
                 RandomPartner = get_random_sex_partner(self, agent, shortlist_NNP)
         else:
-            RandomPartner = get_random_sex_partner(self, agent, shortlist_NNP)
-    else:
-        raise ValueError("Check method _get_partners(). Agent not caught!")
+            raise ValueError("Check method _get_partners(). Agent not caught!")
+        if RandomPartner in agent._partners or RandomPartner == agent:
+            RandomPartner = None
     # print RandomPartner
 
     # RandomPartner = random.choice(need_new_partners)
@@ -271,7 +274,6 @@ def get_random_IDU_partner(self, agent, need_new_partners):
     if agent_drug_type not in ["IDU"]:
         raise ValueError("Invalid drug type! %s" % str(agent_drug_type))
     else:
-        RandomPartner = None
         while RandomPartner == None:
             RandomPartner = random.choice(need_new_partners._subset["DU"]._subset["IDU"]._members)
             if RandomPartner in agent._partners or RandomPartner == agent:
@@ -311,9 +313,10 @@ def get_assort_IDU_partner(self, agent, need_new_partners, assortType):
     if agent_drug_type not in ["IDU"]:
         raise ValueError("Invalid drug type! %s" % str(agent_drug_type))
     else:
-        RandomPartner = random.choice(need_new_partners._subset["IDU"]._members)
-        if RandomPartner in agent._partners or RandomPartner == agent:
-            RandomPartner = None
+        while RandomPartner == None:
+            RandomPartner = random.choice(need_new_partners._subset["IDU"]._members)
+            if RandomPartner in agent._partners or RandomPartner == agent:
+                RandomPartner = None
 
     # print "\tReturned: %s" % RandomPartner
     if RandomPartner:
@@ -397,8 +400,7 @@ def get_assort_sex_partner(self, agent, need_new_partners):
     assert agent_sex_type in ["HM", "HF", "MSM", "WSW", "MTF"]
 
     eligPartnerType = params.DemographicParams[agent_race_type][agent_sex_type][
-        "EligSE_PartnerType"
-    ][0]
+        "EligSE_PartnerType"][0]
 
     if params.AssortMixType == "Age":
         randomK_sample = random.sample(
@@ -406,7 +408,8 @@ def get_assort_sex_partner(self, agent, need_new_partners):
         )
         ageBinPick = getPartnerBin(agent)
         while True:
-            RandomPartner = random.choice([ag for ag in randomK_sample if ag._ageBin == ageBinPick])
+            while RandomPartner == None:
+                RandomPartner = random.choice([ag for ag in randomK_sample if ag._ageBin == ageBinPick])
             break
 
     # else if picking using race mix
@@ -421,7 +424,8 @@ def get_assort_sex_partner(self, agent, need_new_partners):
         except:
             randomK_sample = samplePop
         while True:
-            RandomPartner = random.choice(samplePop)
+            while RandomPartner == None:
+                RandomPartner = random.choice(samplePop)
             break
 
     elif params.AssortMixType == "Client":
@@ -465,8 +469,8 @@ def get_assort_sex_partner(self, agent, need_new_partners):
                 RandomPartner = random.choice(samplePop)
                 break
 
-    if RandomPartner == None or RandomPartner in agent._partners or RandomPartner == agent:
-        RandomPartner = None
+#    if RandomPartner == None or RandomPartner in agent._partners or RandomPartner == agent:
+#        RandomPartner = None
     else:
         try:
             RandomPartner = random.choice(tempList)
