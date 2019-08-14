@@ -891,10 +891,10 @@ class HIVModel(NetworkClass):
                 elif self._sex_possible(agent_sex_type, partner_sex_type):
                     # Sex is possible
                     rv = self.runRandom.random()
-                    if rv < 0.6:  # Needle only (60%)
+                    if rv < 0.876:  # Needle only (60%)
                         # print "Needle inc (IDUs)"
                         self._needle_transmission(agent, partner, time)
-                    elif rv < 0.6 + 0.2:  # Sex only (20%)
+                    elif rv < 0.0:  # Sex only (20%)
                         # print "Sex inc (IDUs)"
                         self._sex_transmission(agent, partner, time, rel)  # , num_interactions)
                     else:  # Both sex and needle (20%)
