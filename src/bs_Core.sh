@@ -27,7 +27,7 @@ echo `cat $PBS_NODEFILE`
 echo Starting execution at `date`
 NCPU=`wc -l < $PBS_NODEFILE`
 echo This job has allocated $NCPU CPUs
-
+git branch
 # execute an MPI program
 # $SLURM_NPROCS = nodes x ppn
 # Change global N_MC in MPI_simulation.py to $SLURM_NPROCS

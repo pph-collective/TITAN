@@ -207,6 +207,9 @@ def get_partner(self, agent, need_new_partners):
     """
     # print need_new_partners
     shortlist_NNP = need_new_partners
+    for tmpP in agent._partners:
+        shortlist_NNP.remove(tmpP)
+    shortlist_NNP.remove(agent)
     agent_race_type = agent._race
     agent_sex_type = agent._SO
     agent_drug_type = agent._DU
@@ -274,10 +277,9 @@ def get_random_IDU_partner(self, agent, need_new_partners):
     if agent_drug_type not in ["IDU"]:
         raise ValueError("Invalid drug type! %s" % str(agent_drug_type))
     else:
-        while RandomPartner == None:
-            RandomPartner = random.choice(need_new_partners._subset["DU"]._subset["IDU"]._members)
-            if RandomPartner in agent._partners or RandomPartner == agent:
-                RandomPartner = None
+        RandomPartner = random.choice(need_new_partners._subset["DU"]._subset["IDU"]._members)
+        if RandomPartner in agent._partners or RandomPartner == agent:
+            RandomPartner = None
 
     # print "\tReturned: %s" % RandomPartner
     if RandomPartner:
