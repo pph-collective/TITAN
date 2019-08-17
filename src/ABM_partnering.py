@@ -207,9 +207,10 @@ def get_partner(self, agent, need_new_partners):
     """
     # print need_new_partners
     shortlist_NNP = need_new_partners
-    for tmpP in agent._partners:
-        shortlist_NNP.remove(tmpP)
-    shortlist_NNP.remove(agent)
+    #for tmpP in agent._partners:
+    #    shortlist_NNP.remove(tmpP)
+    #shortlist_NNP.remove(agent)
+    # shortlist_NNP = [ptn for ptn in shortlist_NNP.iter_agents() if ptn not in agent._partners]
     agent_race_type = agent._race
     agent_sex_type = agent._SO
     agent_drug_type = agent._DU
