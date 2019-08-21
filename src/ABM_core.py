@@ -286,7 +286,7 @@ class HIVModel(NetworkClass):
 
         self.AdjMat = 0
         self.AdjMats_by_time = 0
-
+        self.newPrEPagents = 0
         # keep track of current time step globally for dynnetwork report
         self.TimeStep = 0
         self.totalIncarcerated = 0
@@ -319,7 +319,8 @@ class HIVModel(NetworkClass):
         self.treatmentEnrolled = False
 
         self.ResultDict = initiate_ResultDict()
-
+        self.newPrEPagents = 0
+        self.newPrEPenrolls = 0
         # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed value
 
         print(("\tRun seed was set to:", runseed))
@@ -376,20 +377,21 @@ class HIVModel(NetworkClass):
             components = sorted(nx.connected_component_subgraphs(self.G), key=len, reverse=True)
             compID = 0
             for comp in components:
-                totN = nhiv = ntrtmt = ntrthiv = nprep = 0
+                totN = nhiv = ntrtmt = ntrthiv = nprep = PrEP_ever_HIV = 0
                 for ag in comp.nodes():
                     totN += 1
                     if ag._HIV_bool:
                         nhiv += 1
                         if ag._treatment_bool:
                             ntrthiv += 1
+                        if ag._PrEP_ever_bool:
+                            PrEP_ever_HIV += 1
                     elif ag._treatment_bool:
                         ntrtmt += 1
                         if ag._PrEP_bool:
                             nprep += 1
-
                 compReport.write(
-                    "{rseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Ntrtmt}\t{Nprep}\t{NtrtHIV}\n".format(
+                    "{rseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Ntrtmt}\t{Nprep}\t{NtrtHIV}\t{NprepHIV}\n".format(
                         rseed=self.runseed,
                         pseed=self.popseed,
                         nseed=self.netseed,
@@ -400,6 +402,7 @@ class HIVModel(NetworkClass):
                         Ntrtmt=ntrtmt,
                         Nprep=nprep,
                         NtrtHIV=ntrthiv,
+                        NprepHIV=PrEP_ever_HIV
                     )
                 )
 
@@ -417,7 +420,6 @@ class HIVModel(NetworkClass):
                 if params.flag_DandR:
                     # print("\t\tdie and replace")
                     self._die_and_replace(t)
-                    self._die_and_replace(t, reported=False)
             # self.All_agentSet.print_subsets()
             print(("\tBurn Cuml Inc:\t{}".format(self.NewInfections.num_members())))
             self.NewInfections.clear_set()
@@ -508,8 +510,7 @@ class HIVModel(NetworkClass):
 
             print(
                 (
-                    "\tSTARTING HIV count:%d\tTotal Incarcerated:%d\tHR+:%d\tPrEP:%d"
-                    % (
+                    "\tSTARTING HIV count:{}\tTotal Incarcerated:{}\tHR+:{}\tPrEP:{}".format(
                         self.HIV_agentSet.num_members(),
                         self.incarcerated_agentSet.num_members(),
                         self.highrisk_agentsSet.num_members(),
@@ -545,7 +546,6 @@ class HIVModel(NetworkClass):
             if params.flag_DandR:
                 # print("\t\tdie and replace")
                 self._die_and_replace(t)
-                self._die_and_replace(t, reported=False)
 
             # print "\t\tENDING HIV count:%2.2f\tIncarcerated:%d\tHR+:%d"%(self.All_agentSet._subset["HIV"].num_members()/self.All_agentSet.num_members(), self.IncarceratedClass.num_members(),self.PrEP_agents_class.num_members()) #,self.HighriskClass.num_members())
             print(("Number of relationships: %d" % self.Relationships.num_members()))
@@ -574,7 +574,9 @@ class HIVModel(NetworkClass):
             self.NewHRrolls.clear_set()
             self.NewIncarRelease.clear_set()
             self.num_Deaths
-
+            prepReport = open('results/PrEPReport.txt', 'a')
+            prepReport.write("{seed}\t{time}\t{val}\n".format(seed=self.runseed,time=self.TimeStep,val=self.newPrEPenrolls))
+            prepReport.close()
             # If set to draw the edge list, print list at each timestep
             if params.drawEdgeList and t % params.intermPrintFreq == 0:
                 print("Drawing network edge list to file")
@@ -685,7 +687,6 @@ class HIVModel(NetworkClass):
         # print self.Relationships.num_members()
 
         if params.flag_HR:
-            # print("\t\t= High Risk Group functions =")
             for tmpA in self.highrisk_agentsSet.iter_agents():
                 if tmpA._highrisk_time > 0:
                     tmpA._highrisk_time -= 1
@@ -732,12 +733,11 @@ class HIVModel(NetworkClass):
             # if agent_drug_type == 'IDU':
             # self._SEP(agent, time)  # SEP: Syringe Exchange program
 
-            if agent_drug_type in ["NDU", "NIDU", "IDU"]:
+            if agent_drug_type in ["NIDU", "IDU"] and False:
                 # print("\tDrug Cessation")
                 # self._drug_cessation(agent, agent_drug_type)
                 # print("\tEnter/Exit Drug Treatment")
-                self._enter_and_exit_drug_treatment(agent, time)
-            else:
+                self._drug_cessation(agent, agent_drug_type)
                 self._enter_and_exit_drug_treatment(agent, time)
             if agent_HIV_status:
                 if burn:
@@ -1171,7 +1171,7 @@ class HIVModel(NetworkClass):
             params.DemographicParams[Race_Agent][Type_agent]["NUMSexActs"]
             * params.cal_NeedleActScaling
         )
-        share_acts = poisson.rvs(MEAN_N_ACTS, size=1)
+        share_acts = poisson.rvs(MEAN_N_ACTS, size=1)[0]
 
         if SEPstat:
             # print "SEP SAVE"
@@ -1810,7 +1810,7 @@ class HIVModel(NetworkClass):
                     # For each partner, attempt to test for HIV
                     for ptnr in agent._partners:
                         if ptnr._HIV_bool and not ptnr._tested:
-                            if self.runRandom.random < 0.87:
+                            if self.runRandom.random() < 0.87:
                                 ptnr._tested = True
                                 self.NewDiagnosis.add_agent(ptnr)
 

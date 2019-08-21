@@ -857,12 +857,6 @@ class PopulationClass:
         # print "New agent: %s\t%s\t%s\tHIV:%d" % (Deliminator,DrugType,SexType,HIVStatus)
         # agent_dict = {'Race':Race,'Drug Type': DrugType,'Sex Type':SexType, 'HIV':HIVStatus, 'Tested':TestedStatus, 'AIDS':AIDSStatus, 'HAARTa':HAARTStatus, 'incar_t':incar_time,'HIV_t':HIV_time}
 
-        if self.popRandom.random() < params.DemographicParams[Race][SexType]["MATprev"]:
-            newAgent._treatment_bool = True
-            if self.popRandom.random() < params.MATasOAT:
-                newAgent._OAT_bool = True
-            else:
-                newAgent._naltrex_bool = True
 
         return newAgent
 
