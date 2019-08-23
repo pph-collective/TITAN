@@ -270,7 +270,7 @@ def get_random_IDU_partner(self, agent, need_new_partners):
     if agent_drug_type not in ["IDU"]:
         raise ValueError("Invalid drug type! %s" % str(agent_drug_type))
     else:
-        RandomPartner = random.choice(need_new_partners._subset["DU"]._subset["IDU"]._members)
+        RandomPartner = random.choice([ptn for ptn in need_new_partners._subset["DU"]._subset["IDU"]._members if ptn not in agent._partners])
         if RandomPartner in agent._partners or RandomPartner == agent:
             RandomPartner = None
 
@@ -308,7 +308,7 @@ def get_assort_IDU_partner(self, agent, need_new_partners, assortType):
     if agent_drug_type not in ["IDU"]:
         raise ValueError("Invalid drug type! %s" % str(agent_drug_type))
     else:
-        RandomPartner = random.choice(need_new_partners._subset["IDU"]._members)
+        RandomPartner = random.choice([ptn for ptn in need_new_partners._subset["IDU"]._members if ptn not in agent._partners])
         if RandomPartner in agent._partners or RandomPartner == agent:
             RandomPartner = None
 
@@ -350,7 +350,7 @@ def get_assort_sex_partner(self, agent, need_new_partners):
                 print("Couldnt assortive mix (B), picking suitable agent")
             else:
                 # print Assortive_intersection
-                return random.choice(Assortive_intersection)
+                return random.choice(ptn for ptn in Assortive_intersection if ptn not in agent._partners)
         if intersection == []:
             return None
         else:
@@ -403,7 +403,8 @@ def get_assort_sex_partner(self, agent, need_new_partners):
         )
         ageBinPick = getPartnerBin(agent)
         while True:
-            RandomPartner = random.choice([ag for ag in randomK_sample if ag._ageBin == ageBinPick])
+            availableParts = [ag for ag in randomK_sample if ag not in agent._partners]
+            RandomPartner = random.choice([ag for ag in availableParts if ag._ageBin == ageBinPick])
             break
 
     # else if picking using race mix
@@ -411,7 +412,7 @@ def get_assort_sex_partner(self, agent, need_new_partners):
         samplePop = [
             tmpA
             for tmpA in need_new_partners._subset["SO"]._subset[eligPartnerType]._members
-            if tmpA._race == agent._race
+            if (tmpA._race == agent._race and tmpA not in agent._partners)
         ]
         try:
             randomK_sample = random.sample(samplePop, params.cal_ptnrSampleDepth)
@@ -426,7 +427,7 @@ def get_assort_sex_partner(self, agent, need_new_partners):
             samplePop = [
                 tmpA
                 for tmpA in need_new_partners._subset["SO"]._subset[eligPartnerType]._members
-                if (tmpA._race == "WHITE")
+                if (tmpA._race == "WHITE" and tmpA not in agent._partners)
             ]
             try:
                 randomK_sample = random.sample(samplePop, params.cal_ptnrSampleDepth)
@@ -436,7 +437,7 @@ def get_assort_sex_partner(self, agent, need_new_partners):
             samplePop = [
                 tmpA
                 for tmpA in need_new_partners._subset["SO"]._subset[eligPartnerType]._members
-                if (tmpA._race == "WHITE" and tmpA._everhighrisk_bool)
+                if (tmpA._race == "WHITE" and tmpA._everhighrisk_bool and tmpA not in agent._partners)
             ]
             try:
                 randomK_sample = random.sample(samplePop, params.cal_ptnrSampleDepth)
@@ -450,7 +451,7 @@ def get_assort_sex_partner(self, agent, need_new_partners):
         samplePop = [
             tmpA
             for tmpA in need_new_partners._subset["SO"]._subset[eligPartnerType]._members
-            if tmpA._everhighrisk_bool
+            if (tmpA._everhighrisk_bool and tmpA not in agent._partners)
         ]
         if samplePop:
             try:
