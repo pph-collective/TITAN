@@ -832,7 +832,7 @@ class PopulationClass:
             newAgent._everhighrisk_bool = True
 
         diceroll = self.popRandom.random()
-
+        '''
         if diceroll < 0.01:
             mNPart = 0
         elif diceroll < (0.01 + 0.14):
@@ -845,6 +845,32 @@ class PopulationClass:
             mNPart = self.popRandom.randrange(5, 10, 1)
         else:  # 16%
             mNPart = 10
+            '''
+        if DrugType == 'IDU':
+            if diceroll < 0.389:
+                mNPart = 1
+            elif diceroll < 0.389 + 0.150:
+                mNPart = 2
+            elif diceroll < 0.389 + 0.150 + 0.089:
+                mNPart = 3
+            elif diceroll < 0.389 + 0.150 + 0.089 + 0.067:
+                mNPart = 4
+            elif diceroll < 0.389 + 0.150 + 0.089 + 0.067 + 0.098:
+                mNPart = self.popRandom.randrange(5, 6, 1)
+            elif diceroll < 0.389 + 0.150 + 0.089 + 0.067 + 0.098 + 0.108:
+                mNPart = self.popRandom.randrange(7, 10, 1)
+            elif diceroll < 0.389 + 0.150 + 0.089 + 0.067 + 0.098 + 0.108 + 0.02212:
+                mNPart = self.popRandom.randrange(17, 30, 1)
+            else:
+                mNPart = self.popRandom.randrange(31, 60, 1)
+
+        else:
+            if diceroll < 0.84:
+                mNPart = 1
+            elif diceroll < 0.84 + 0.13:
+                mNPart = 2
+            else:
+                mNPart = self.popRandom.randrange(3, 4, 1)
         # Partnership demographics
         if params.setting == "Scott":
             newAgent._mean_num_partners = (

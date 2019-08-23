@@ -490,7 +490,7 @@ class HIVModel(NetworkClass):
             self.write_G_edgelist(fh)
             fh.close()
         for t in range(1, self.tmax + 1):
-            print(("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME", t))
+            print(f"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME {t}")
             if params.drawFigures and t % params.intermPrintFreq == 0:
                 # self.get_Graph.draw_histogram(0)
                 self.visualize_network(

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding: utf-8
 
 """
@@ -65,6 +65,7 @@ def main():
     # parameter_dict = read_parameter_dict(1)   # get parameters
     wct = []  # wall clock times
     open_outputs()
+
 
     # read_classifier_dict()
     for single_sim in range(params.N_MC):
@@ -252,7 +253,6 @@ def open_outputs():
     #     ageNReport = open('results/MSMReport_a%d.txt' %i, 'w')
     #     ageNReport.write('seed,t,total_N,HIV,Tested,ART,PrEP\n')
     #     ageNReport.close()
-
 
 if __name__ == "__main__":
     main()
