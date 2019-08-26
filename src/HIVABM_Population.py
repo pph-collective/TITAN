@@ -1046,27 +1046,44 @@ class PopulationClass:
         maxAge = 80
         ageBin = 0
         # print params.ageMatrix[race]['Prop'][1]
-
-        if rand < params.ageMatrix[race]["Prop"][1]:
-            minAge = 15
-            maxAge = 24
-            ageBin = 1
-        elif rand < params.ageMatrix[race]["Prop"][2]:
-            minAge = 25
-            maxAge = 34
-            ageBin = 2
-        elif rand < params.ageMatrix[race]["Prop"][3]:
-            minAge = 35
-            maxAge = 44
-            ageBin = 3
-        elif rand < params.ageMatrix[race]["Prop"][4]:
-            minAge = 45
-            maxAge = 54
-            ageBin = 4
+        if params.setting = "Atlanta":
+            if rand < params.ageMatrix[race]["Prop"][1]
+                minAge = 18
+                maxAge = 19
+                ageBin = 1
+            elif rand < params.ageMatrix[race]["Prop"][2]:
+                minAge = 20
+                maxAge = 24
+                ageBin = 2
+            elif rand < params.ageMatrix[race]["Prop"][3]:
+                minAge = 25
+                maxAge = 29
+                ageBin = 3
+            elif rand <= params.ageMatrix[race]["Prop"][4]:
+                minAge = 30
+                maxAge = 39
+                ageBin = 4
         else:
-            minAge = 55
-            maxAge = 80
-            ageBin = 5
+            if rand < params.ageMatrix[race]["Prop"][1]:
+                minAge = 15
+                maxAge = 24
+                ageBin = 1
+            elif rand < params.ageMatrix[race]["Prop"][2]:
+                minAge = 25
+                maxAge = 34
+                ageBin = 2
+            elif rand < params.ageMatrix[race]["Prop"][3]:
+                minAge = 35
+                maxAge = 44
+                ageBin = 3
+            elif rand < params.ageMatrix[race]["Prop"][4]:
+                minAge = 45
+                maxAge = 54
+                ageBin = 4
+            else:
+                minAge = 55
+                maxAge = 80
+                ageBin = 5
         # else:
         #     minAge = 15
         #     maxAge = 80
