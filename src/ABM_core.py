@@ -891,12 +891,12 @@ class HIVModel(NetworkClass):
                 elif self._sex_possible(agent_sex_type, partner_sex_type):
                     # Sex is possible
                     rv = self.runRandom.random()
-                    if rv < 0.6:  # Needle only (60%)
+                    if rv < 0.25:  # Needle only (60%)
                         # print "Needle inc (IDUs)"
                         self._needle_transmission(agent, partner, time)
-                    elif rv < 0.6 + 0.2:  # Sex only (20%)
+                    #elif rv < 0.6 + 0.2:  # Sex only (20%)
                         # print "Sex inc (IDUs)"
-                        self._sex_transmission(agent, partner, time, rel)  # , num_interactions)
+                     #   self._sex_transmission(agent, partner, time, rel)  # , num_interactions)
                     else:  # Both sex and needle (20%)
                         # print "Needle and sex inc (IDUs)"
                         self._needle_transmission(agent, partner, time)
@@ -2493,9 +2493,9 @@ class HIVModel(NetworkClass):
 
                 elif not HIV_status:  # NON HIV DEATH RATE
                     if agent_Race == "WHITE":
-                        p = 1.0
+                        p = 8.6
                     elif agent_Race == "BLACK":
-                        p = 16.0
+                        p = 10.4
                     else:
                         raise ValueError("Invalid RACE type! %s" % str(agent_Race))
                     # p = self.ProbDeath[drug_type]['HIV-']
@@ -2503,54 +2503,25 @@ class HIVModel(NetworkClass):
                 else:
                     raise ValueError("Invalid HIV type! %s" % str(HIV_status))
 
-                if agent._highrisk_bool:
-                    if agent._highrisk_type == "postIncar":
-                        if params.HR_M_dur - agent._highrisk_time >= 3:
-                            p = p * params.p_mort_post_release_scalars[3]
-                        elif params.HR_M_dur - agent._highrisk_time == 2:
-                            p = p * params.p_mort_post_release_scalars[2]
-                        elif params.HR_M_dur - agent._highrisk_time <= 1:
-                            p = p * params.p_mort_post_release_scalars[1]
-                    elif agent._highrisk_type == "postTrtOAT":
-                        p = p * params.p_mort_oat_postcess_scalar
-                    elif agent._highrisk_type == "postTrtNal":
-                        p = p * params.p_mort_nalt_postcess_scalar
-
-                if agent._OAT_bool:
-                    p = p * params.p_mort_oat_scalar
-                elif agent._naltrex_bool:
-                    p = p * params.p_mort_nalt_scalar
-
-                if sex_type == "HF":
-                    p = p * 1.2
                 # print("Unscaled mort p: {}".format(p))
-                p = p * params.cal_Mortality
+                # p = p * params.cal_Mortality
                 # print("Scaled mort p: {}".format(p))
                 # p = p + time/36
-                # uncounted churn factor
-                if reported == False:
-                    if agent_Race == "WHITE":
-                        p = 1.23
-                    elif agent_Race == "BLACK":
-                        p = 2.40
 
-                p = p / 26000.0  # 12000.0 #putting it into per 1 person-month
+
+                p = p / 12000.0  # 12000.0 #putting it into per 1 person-month
 
                 # print("Final mort p: {}".format(p))
                 if self.runRandom.random() < p:
                     # print "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAgent %d died rolling under %.10lf" % (agent.get_ID(), p)
 
                     totalDeaths += 1
-                    if HR_type == "postIncar":
-                        ident = "HR"
-                    else:
-                        ident = "notHR"
-                    # if HIV_status: ident = "HIV+"
-                    # else: ident = "HIV-"
-                    if reported == True:
-                        self.num_Deaths["Total"][sex_type] += 1
-                        self.num_Deaths[ident][sex_type] += 1
-                        self.deathSet.append(agent)
+                    if HIV_status: ident = "HIV+"
+                    else: ident = "HIV-"
+
+                    self.num_Deaths["Total"][sex_type] += 1
+                    self.num_Deaths[ident][sex_type] += 1
+                    self.deathSet.append(agent)
                     ID_number = agent.get_ID()
                     race = agent._race
 
