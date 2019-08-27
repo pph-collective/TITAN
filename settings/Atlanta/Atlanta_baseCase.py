@@ -5,13 +5,16 @@ Main model parameters.
 """
 
 ####################
-PROCESSES = 1  # number of processes in parallel (quadcore)
-rSeed = 0  # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
-N_MC = 100  # total number of iterations (Monte Carlo runs)
-N_POP = 10655  # population size
-TIME_RANGE = 120  # total time steps to iterate
-burnDuration = 12
-model = 'PrEP'  # Model Type for fast flag toggling
+PROCESSES = 1           # number of processes in parallel (quadcore)
+rSeed_pop = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
+rSeed_net = 0
+rSeed_run = 0
+N_MC = 1               # total number of iterations (Monte Carlo runs)
+N_REPS = 1
+N_POP = 1000           # population size
+TIME_RANGE = 10        # total time steps to iterate
+burnDuration = 1
+model = 'PrEP'         # Model Type for fast flag toggling
 setting = 'AtlantaMSM'
 network_type = 'scale_free'
 ####################
@@ -28,15 +31,19 @@ intermPrintFreq = 10
 MSMreport = True
 HMreport = False
 HFreport = False
+drawFigures = False
+calcComponentStats = False
+flag_agentZero = False
 
 """
 Calibration scaling parameters for fitting to empirical data
 """
 
-PARTNERTURNOVER = 7.5  # Partner acquisition parameters (higher number more partnering)
-
-cal_NeedleScaling = 1.0  # IDU transmission probability scaling factor
-cal_SexualScaling = 2.0  # Sexual transmission probability scaling factor
+PARTNERTURNOVER = 1.0/7.5  # Partner acquisition parameters (higher number more partnering)
+cal_NeedlePartScaling = 1.00     # IDU partner number scaling
+cal_NeedleActScaling = 1.00      # IDU act frequency scaling factor
+cal_SexualPartScaling = 1.0     # Sexual partner number scaling factor
+cal_SexualActScaling = 2.0      # Sexual acts  scaling factor
 cal_pXmissionScaling = 1.0  # 0.92 # Global transmission probability scaling factor
 cal_AcuteScaling = 4.3  # Infectivity multiplier ratio for Acute status infections
 cal_RR_Dx = 0.0  # Risk reduction in transmission probability for agents diagnosed
@@ -56,10 +63,14 @@ HR_M_dur = 6  # Duration of high risk for males
 HR_F_dur = 6  # Duration of high risk for females
 
 # Misc. params
+flag_AssortativeMix = True
+AssortMixType = "Race"
 flag_AgeAssortMix = False
 flag_RaceAssortMix = True
 AssortMixCoeff = 0.75  # Proportion of race1 mixing with race2 when partnering.
-safeNeedleExchangePrev = 1.0
+safeNeedleExchangePrev = 1.0    # Prevalence scalar on SNE
+initTreatment = 999999
+treatmentCov = 0.0
 
 # Incarceration params
 inc_JailMax = 9
@@ -84,13 +95,13 @@ PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
-PrEP_target_model = 'Clinical'  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,CDC,Racial
+PrEP_target_model = 'Allcomers'  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,CDC,Racial
 PrEP_init_var1 = 0.05
 PrEP_init_var2 = 0.025
 PrEP_clinic_cat = 'Racial'
 
 if PrEP_type == 'Oral':
-    PrEP_Adherence = 0.511
+    PrEP_Adherence = 'byRace'
     PrEP_AdhEffic = 0.96
     PrEP_NonAdhEffic = 0.76
     PrEP_falloutT = 1
@@ -147,7 +158,8 @@ elif model == 'Custom':
     flag_DandR = True
     flag_staticN = False
 
-agentSexTypes = ['HM', 'HF', 'MSM', 'MTF']
+agentPopulations = ['MSM']
+agentSexTypes = ['MSM']
 
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
@@ -169,10 +181,14 @@ RC_template = {'Race': None,  # Race of demographic
                'NEEDLESH': 0.0,  # Probability of sharing syringes during join drug use (per act)
                'HIVTEST': 0.0,  # Probability of testing for HIV
                'INCAR': 0.0,  # Probability of becoming incarcerated (rate)
+               'HAARTprev': 0.0,
                'HAARTadh': 0.0,  # Adherence to ART therapy
                'HAARTdisc': 0.0,  # Probability of discontinuing ART therapy
                'EligSE_PartnerType': [],  # List of agent SO types the agent cant partner with
-               'PrEPdisc': 0.0  # Probability of discontinuing PrEP treatment
+               'PrEPdisc': 0.0,  # Probability of discontinuing PrEP treatment
+               'HighRiskPrev': 0.0,
+               'EligSE_PartnerType': [],
+               'PrEPadh': 1.0
                }
 
 # RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
@@ -199,10 +215,11 @@ RaceClass1['MSM'] = {'POP': 1.00,
                      'NEEDLESH': 0.43,
                      'HIVTEST': 0.055,
                      'INCAR': 0.00,  # 0.00014,
-                     'HAARTadh': 0.363,  # 0.693,#0.57,
+                     'HAARTadh': 0.885,  # 0.693,#0.57,
                      'HAARTdisc': 0.008,
                      'PrEPdisc': PrEP_disc,
-                     'EligSE_PartnerType': ['MSM']
+                     'EligSE_PartnerType': ['MSM'],
+                     'PrEPadh': 0.911
                      }
 
 RaceClass1['ALL'] = {'Proportion': 0.611,
@@ -225,10 +242,11 @@ RaceClass2['MSM'] = {'POP': 1.00,  # 0.028,
                      'NEEDLESH': 0.27,
                      'HIVTEST': 0.06,
                      'INCAR': 0.00,  # 0.0011,
-                     'HAARTadh': 0.242,  # 0.598,#0.34,
+                     'HAARTadh': 0.817,  # 0.598,#0.34,
                      'HAARTdisc': 0.01,
                      'PrEPdisc': PrEP_disc,
                      'EligSE_PartnerType': ['MSM']
+                     'PrEPadh': 0.568
                      }
 
 RaceClass2['ALL'] = {'Proportion': 0.389,
@@ -286,9 +304,9 @@ PartnershipDurations = {'SEX': sexualDurations, 'NEEDLE': needleDurations}
 Sexual and injection transmission probabilities
 """
 SexTrans = {'MSM': {}, 'HM': {}, 'HF': {}}
-SexTrans['MSM'] = {'0': 0.00745, '1': 0.005, '2': 0.004, '3': 0.002, '4': 0.001, '5': 0.0001}
-SexTrans['HM'] = {'0': 0.001, '1': 0.001, '2': 0.0008, '3': 0.0004, '4': 0.0002, '5': 0.0001}
-SexTrans['HF'] = {'0': 0.001, '1': 0.001, '2': 0.0008, '3': 0.0004, '4': 0.0002, '5': 0.0001}
+SexTrans['MSM'] = {'0': 0.00745, '1': 0.00745 * 0.81, '2': 0.00745 * 0.81, '3': 0.00745 * 0.81, '4': 0.00745 * 0.81, '5': 0.000}
+SexTrans['HM'] = {'0': 0.001, '1': 0.001, '2': 0.0008, '3': 0.0004, '4': 0.0002, '5': 0.000}
+SexTrans['HF'] = {'0': 0.001, '1': 0.001, '2': 0.0008, '3': 0.0004, '4': 0.0002, '5': 0.000}
 
 NeedleTrans = {'0': 0.007, '1': 0.007, '2': 0.0056, '3': 0.0028, '4': 0.0014, '5': 0.0002}
 

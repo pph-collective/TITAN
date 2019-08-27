@@ -1046,7 +1046,7 @@ class HIVModel(NetworkClass):
         time : int
         :Output: -
         """
-        acuteTimePeriod = 3
+        acuteTimePeriod = 2
         hiv_t = agent._HIV_time  # self.Agents[agent]['HIV_t']
 
         # if time > 0:
@@ -1979,7 +1979,7 @@ class HIVModel(NetworkClass):
         :Purpose:
             Account for HIV treatment through highly active antiretroviral therapy (HAART).
             HAART was implemented in 1996, hence, there is treatment only after 1996.
-            HIV treatment assumes that the agent knows his HIV+ status.
+            HIV treatment assumes that the agent knows their HIV+ status.
 
         :Input:
             time : int
@@ -2027,7 +2027,7 @@ class HIVModel(NetworkClass):
 
         # Determine probability of HIV treatment
         if time >= 0 and agent_Test_bool:
-            # OLD WAY OF PUTTING AGENTS ON HAART
+            '''  # OLD WAY OF PUTTING AGENTS ON HAART
             prob = 0
             if agent_Test_bool:
                 if agent_drug_type == "IDU":
@@ -2042,10 +2042,10 @@ class HIVModel(NetworkClass):
                     prob = 0.0117
             else:
                 prob = 0.0
-
+            '''
             # Go on HAART
             if not agent_haart and agent._HAART_time == 0:
-                if self.runRandom.random() < prob * params.cal_ART_cov:
+                if self.runRandom.random() < params.DemographicParams[agent_race][agent_so]["HAARTprev"] * params.cal_ART_cov:
 
                     # self.tmp_Agents[agent].update({'HAARTa': 1})
                     # self.tmp_HAART_agents.append(agent)
@@ -2181,16 +2181,12 @@ class HIVModel(NetworkClass):
             agent._PrEP_time = 0
             self.Trt_PrEP_agentSet.add_agent(agent)
             tmp_rnd = self.runRandom.random()
-            if params.setting == 'AtlantaMSM':
-                print("atlantaaaaa")
+            if params.PrEP_Adherence == 'AtlantaMSM':
                 if tmp_rnd < params.DemographicParams[agent._race][agent._SO]["PrEPadh"]:
                     agent._PrEP_adh = 1
-                    print("adherent")
                 else:
                     agent._PrEP_adh = 0
-                    print("not adherent")
             else:
-                print("not atlanta")
                 if tmp_rnd < params.PrEP_Adherence:
                     agent._PrEP_adh = 1
                 else:
