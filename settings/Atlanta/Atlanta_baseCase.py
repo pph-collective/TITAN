@@ -192,9 +192,9 @@ RC_template = {'Race': None,  # Race of demographic
                }
 
 # RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
-RaceClass1 = {'MSM': {}, 'HM': {}, 'HF': {}, 'PWID': {}, 'ALL': {}}
-RaceClass2 = {'MSM': {}, 'HM': {}, 'HF': {}, 'PWID': {}, 'ALL': {}}
-for a in ['MSM', 'HM', 'HF', 'PWID']:
+RaceClass1 = {'MSM': {}, 'HM': {}, 'HF': {}, 'IDU': {}, 'ALL': {}}
+RaceClass2 = {'MSM': {}, 'HM': {}, 'HF': {}, 'IDU': {}, 'ALL': {}}
+for a in ['MSM', 'HM', 'HF', 'IDU']:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
@@ -202,7 +202,7 @@ RaceClass1['MSM']['POP'] = 1.0
 RaceClass1['MSM']['HIV'] = 0.4
 # StratW['MSM'] = {'POP':0.035, 'HIV':0.132, 'AIDS':0.048, 'HAARTprev':0.57, 'INCARprev':0.005, 'TestedPrev':0.84}
 
-RaceClass1['MSM'] = {'POP': 1.00,
+RaceClass1['MSM'].update({'POP': 1.00,
                      'HIV': 0.132,
                      'AIDS': 0.07,
                      'HAARTprev': 0.410,  # 0.895,
@@ -217,19 +217,19 @@ RaceClass1['MSM'] = {'POP': 1.00,
                      'INCAR': 0.00,  # 0.00014,
                      'HAARTadh': 0.885,  # 0.693,#0.57,
                      'HAARTdisc': 0.008,
-                     'PrEPdisc': PrEP_disc,
+                     'PrEPdisc': 0.13,
                      'EligSE_PartnerType': ['MSM'],
                      'PrEPadh': 0.911
-                     }
+                     })
 
-RaceClass1['ALL'] = {'Proportion': 0.611,
+RaceClass1['ALL'].update({'Proportion': 0.611,
                      'HAARTdisc': 0.018,
                      'PrEPdisc': 0.0,
                      'AssortMixCoeff': 0.722
-                     }
+                     })
 
 # RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
-RaceClass2['MSM'] = {'POP': 1.00,  # 0.028,
+RaceClass2['MSM'].update({'POP': 1.00,  # 0.028,
                      'HIV': 0.434,
                      'AIDS': 0.232,
                      'HAARTprev': 0.309,  # 0.845,
@@ -244,16 +244,16 @@ RaceClass2['MSM'] = {'POP': 1.00,  # 0.028,
                      'INCAR': 0.00,  # 0.0011,
                      'HAARTadh': 0.817,  # 0.598,#0.34,
                      'HAARTdisc': 0.01,
-                     'PrEPdisc': PrEP_disc,
-                     'EligSE_PartnerType': ['MSM']
+                     'PrEPdisc': 0.15,
+                     'EligSE_PartnerType': ['MSM'],
                      'PrEPadh': 0.568
-                     }
+                     })
 
-RaceClass2['ALL'] = {'Proportion': 0.389,
+RaceClass2['ALL'].update({'Proportion': 0.389,
                      'HAARTdisc': 0.018,
                      'PrEPdisc': 0.0,
                      'AssortMixCoeff': 0.765
-                     }
+                     })
 
 DemographicParams = {'WHITE': RaceClass1, 'BLACK': RaceClass2}
 
@@ -261,11 +261,11 @@ DemographicParams = {'WHITE': RaceClass1, 'BLACK': RaceClass2}
 Partnership durations and
 """
 sexualDurations = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
-sexualDurations[1] = {'p_value': (0.281), 'min': 0, 'max': 1}
-sexualDurations[2] = {'p_value': (0.281 + 0.209), 'min': 1, 'max': 3}
-sexualDurations[3] = {'p_value': (0.281 + 0.209 + 0.281), 'min': 3, 'max': 12}
-sexualDurations[4] = {'p_value': (0.281 + 0.209 + 0.281 + 0.230), 'min': 12, 'max': 36}
-sexualDurations[5] = {'min': 37, 'max': 48}
+sexualDurations[1] = {'p_value': 0.456, 'min': 1, 'max': 3}
+sexualDurations[2] = {'p_value': (0.456 + 0.300), 'min': 3, 'max': 12}
+sexualDurations[3] = {'p_value': (0.456 + 0.300 + 0.245), 'min': 13, 'max': 24}
+sexualDurations[4] = {'p_value': (0.281 + 0.209 + 0.281 + 0.230), 'min': 13, 'max': 24}
+sexualDurations[5] = {'min': 13, 'max': 24}
 
 needleDurations = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
 needleDurations[1] = {'p_value': 1.0, 'min': 1, 'max': 6}
@@ -281,15 +281,15 @@ Partnership acts and
 """
 # todo FINISH THESE AND IMPORT HTEM INTO SEXACTS
 sexualFrequency = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
-sexualFrequency[1] = {'p_value': (0.323 + 0.262), 'min': 1, 'max': 6}
-sexualFrequency[2] = {'p_value': (0.323 + 0.262 + 0.116), 'min': 7, 'max': 12}
-sexualFrequency[3] = {'p_value': (0.323 + 0.262 + 0.116 + 0.121), 'min': 13, 'max': 24}
-sexualFrequency[4] = {'p_value': (0.323 + 0.262 + 0.116 + 0.121 + 0.06), 'min': 25, 'max': 36}
-sexualFrequency[5] = {'p_value': (0.323 + 0.262 + 0.116 + 0.121 + 0.06), 'min': 25, 'max': 36}
-sexualFrequency[6] = {'p_value': (0.323 + 0.262 + 0.116 + 0.121 + 0.06), 'min': 25, 'max': 36}
-sexualFrequency[7] = {'p_value': (0.323 + 0.262 + 0.116 + 0.121 + 0.06), 'min': 25, 'max': 36}
-sexualFrequency[8] = {'p_value': (0.323 + 0.262 + 0.116 + 0.121 + 0.06), 'min': 25, 'max': 36}
-sexualFrequency[9] = {'min': 37, 'max': 48}
+sexualFrequency[1] = {'p_value': (0.244), 'min': 1, 'max': 2}
+sexualFrequency[2] = {'p_value': (0.244 + 0.493), 'min': 3, 'max': 4}
+sexualFrequency[3] = {'p_value': (0.244 + 0.493 + 0.123), 'min': 5, 'max': 12}
+sexualFrequency[4] = {'p_value': (0.244 + 0.493 + 0.123 + 0.14), 'min': 13, 'max': 20}
+sexualFrequency[5] = {'p_value': (0.244 + 0.493 + 0.123 + 0.14), 'min': 13, 'max': 20}
+sexualFrequency[6] = {'p_value': (0.244 + 0.493 + 0.123 + 0.14), 'min': 13, 'max': 20}
+sexualFrequency[7] = {'p_value': (0.244 + 0.493 + 0.123 + 0.14), 'min': 13, 'max': 20}
+sexualFrequency[8] = {'p_value': (0.244 + 0.493 + 0.123 + 0.14), 'min': 13, 'max': 20}
+sexualFrequency[9] = {'min': 13, 'max': 20}
 
 needleFrequency = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
 needleFrequency[1] = {'p_value': 1.0, 'min': 1, 'max': 6}
