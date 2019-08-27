@@ -161,18 +161,6 @@ def open_outputs():
         # whiteReport.write("0,0,0,0,0\n")
         tmpReport.close()
 
-    nalReport = open("results/nalReport.txt", "w")
-    nalReport.write(
-        "rseed\tpseed\tnseed\tt\tNIDU_M\tNIDU_F\tIDU_M\tIDU_F\tDOC_M\tDOC_F\tPrior_Year\n"
-    )
-    nalReport.close()
-
-    oatReport = open("results/oatReport.txt", "w")
-    oatReport.write(
-        "rseed\tpseed\tnseed\tt\tNIDU_M\tNIDU_F\tIDU_M\tIDU_F\tDOC_M\tDOC_F\tPrior_Year\n"
-    )
-    oatReport.close()
-
     # component report file creation
     name = "componentReport_ALL"
     tmpReport = open("results/" + name + ".txt", "w")
@@ -218,7 +206,7 @@ def open_outputs():
     highriskReport.close()
 
     deathReport = open("results/DeathReport.txt", "w")
-    deathReport.write("seed\tt\tTotal\tHM\tMSM\tHF\tHIV_tot\tpostIncar_HM\tHIV_MSM\tpostIncar_HF\n")
+    deathReport.write("seed\tt\tTotal\tHM\tMSM\tHF\tHIV_tot\tHIV_HM\tHIV_MSM\tHIV_HF\n")
     # prevalenceReport.write("0,0,0,0,0,0\n")
     deathReport.close()
 

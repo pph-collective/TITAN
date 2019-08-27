@@ -1046,8 +1046,8 @@ class PopulationClass:
         maxAge = 80
         ageBin = 0
         # print params.ageMatrix[race]['Prop'][1]
-        if params.setting = "Atlanta":
-            if rand < params.ageMatrix[race]["Prop"][1]
+        if params.setting == "AtlantaMSM":
+            if rand < params.ageMatrix[race]["Prop"][1]:
                 minAge = 18
                 maxAge = 19
                 ageBin = 1

@@ -2181,11 +2181,20 @@ class HIVModel(NetworkClass):
             agent._PrEP_time = 0
             self.Trt_PrEP_agentSet.add_agent(agent)
             tmp_rnd = self.runRandom.random()
-
-            if tmp_rnd < params.PrEP_Adherence:
-                agent._PrEP_adh = 1
+            if params.setting == 'AtlantaMSM':
+                print("atlantaaaaa")
+                if tmp_rnd < params.DemographicParams[agent._race][agent._SO]["PrEPadh"]:
+                    agent._PrEP_adh = 1
+                    print("adherent")
+                else:
+                    agent._PrEP_adh = 0
+                    print("not adherent")
             else:
-                agent._PrEP_adh = 0
+                print("not atlanta")
+                if tmp_rnd < params.PrEP_Adherence:
+                    agent._PrEP_adh = 1
+                else:
+                    agent._PrEP_adh = 0
 
             # set PrEP load and dosestep for PCK
             if params.PrEP_type == "Inj":
@@ -2329,11 +2338,11 @@ class HIVModel(NetworkClass):
     def _reset_death_count(self):
         self.num_Deaths = {}
         self.deathSet = []
-        # for HIV_status in ['Total','HIV-', 'HIV+']:
-        for HR_status in ["Total", "notHR", "HR"]:
-            self.num_Deaths.update({HR_status: {}})
-            for tmp_type in [HR_status, "MSM", "HM", "HF", "WSW", "MTF"]:
-                self.num_Deaths[HR_status].update({tmp_type: 0})
+        for HIV_status in ['Total','HIV-', 'HIV+']:
+        # for HR_status in ["Total", "notHR", "HR"]:
+            self.num_Deaths.update({HIV_status: {}})
+            for tmp_type in [HIV_status, "MSM", "HM", "HF", "WSW", "MTF"]:
+                self.num_Deaths[HIV_status].update({tmp_type: 0})
 
     def _remove_agent(self, agent):
         """
