@@ -1289,15 +1289,18 @@ class HIVModel(NetworkClass):
 
             num_int = rel._total_sex_acts
             # Get condom usage
-            if num_int < 10:
-                if num_int == 0:
-                    p_UnsafeSafeSex1 = 0.443
-                elif num_int == 1:
-                    p_UnsafeSafeSex1 = 0.481
-                else:
-                    p_UnsafeSafeSex1 = 0.514
-            else:  # More than 10 acts
-                p_UnsafeSafeSex1 = 0.759
+            if params.condomUseType == "Race":
+                p_UnsafeSafeSex1 = params.DemographicParams[Race_Agent][Type_agent]["UNSAFESEX"]
+            else:
+                if num_int < 10:
+                    if num_int == 0:
+                        p_UnsafeSafeSex1 = 0.443
+                    elif num_int == 1:
+                        p_UnsafeSafeSex1 = 0.481
+                    else:
+                        p_UnsafeSafeSex1 = 0.514
+                else:  # More than 10 acts
+                    p_UnsafeSafeSex1 = 0.759
 
             # Reduction of risk acts between partners for condom usage
             U_sex_acts1 = T_sex_acts1

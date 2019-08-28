@@ -61,6 +61,7 @@ HR_partnerScale = 300  # Linear increase to partner number during HR period
 HR_proportion = 0.3  # Proportion of people who enter HR group when partner incarcerated
 HR_M_dur = 6  # Duration of high risk for males
 HR_F_dur = 6  # Duration of high risk for females
+condomUseType = 'Race'  # Race or Acts
 
 # Misc. params
 flag_AssortativeMix = True
@@ -211,7 +212,7 @@ RaceClass1['MSM'].update({'POP': 1.00,
                      'mNPart': 7.0,
                      'NUMPartn': 7.0,
                      'NUMSexActs': 5.0,
-                     'UNSAFESEX': 0.43,
+                     'UNSAFESEX': 0.432,
                      'NEEDLESH': 0.43,
                      'HIVTEST': 0.055,
                      'INCAR': 0.00,  # 0.00014,
@@ -238,7 +239,7 @@ RaceClass2['MSM'].update({'POP': 1.00,  # 0.028,
                      'mNPart': 5.0,
                      'NUMPartn': 5.0,
                      'NUMSexActs': 5.0,
-                     'UNSAFESEX': 0.43,
+                     'UNSAFESEX': 0.312,
                      'NEEDLESH': 0.27,
                      'HIVTEST': 0.06,
                      'INCAR': 0.00,  # 0.0011,
