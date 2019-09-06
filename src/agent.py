@@ -65,7 +65,7 @@ class Agent(object):
         self._DU = DU
         self._gender = SO[
             -1:
-        ]  # Takes last letter of HM, HF, MSM, WSW, BiM, BiF to get agent gender
+        ]  # Takes last letter of HM, HF, MSM, WSW, BiM, BiF to get agent gender. CANT USE MSMW!
 
         self._ageBin = 0
 

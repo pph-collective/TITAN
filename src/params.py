@@ -11,7 +11,7 @@ rSeed_net = 0
 rSeed_run = 0
 N_MC = 1               # total number of iterations (Monte Carlo runs)
 N_REPS = 1
-N_POP = 1000           # population size
+N_POP = 11000           # population size
 TIME_RANGE = 10        # total time steps to iterate
 burnDuration = 1
 model = 'PrEP'         # Model Type for fast flag toggling
@@ -61,7 +61,7 @@ HR_partnerScale = 300  # Linear increase to partner number during HR period
 HR_proportion = 0.3  # Proportion of people who enter HR group when partner incarcerated
 HR_M_dur = 6  # Duration of high risk for males
 HR_F_dur = 6  # Duration of high risk for females
-condomUseType = 'Race'  # race or number of acts
+condomUseType = 'Race'  # Race or Acts
 
 # Misc. params
 flag_AssortativeMix = True

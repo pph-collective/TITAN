@@ -2085,6 +2085,18 @@ class HIVModel(NetworkClass):
         elligble = False
         if params.PrEP_target_model == "Allcomers":
             elligble = True
+
+        elif params.PrEP_target_model == "CDCwomen":
+            rships = set()
+            if agent._SO == 'HF':
+                for ptn in agent._relationships:
+                    if ptn._duration > 1:
+                        rships.add(ptn._ID1)
+                for ptn in agent._partners:
+                    if ptn in rships:
+                        if (ptn._tested or ptn._DU == 'IDU' or ptn._SO == 'MSMW'):
+                            elligble = True
+                            break
         elif params.PrEP_target_model == "HighPN5":
             if agent._mean_num_partners >= 5:
                 elligble = True
