@@ -1747,10 +1747,6 @@ class HIVModel(NetworkClass):
             self.incarcerated_agentSet.add_agent(agent)
             self.totalIncarcerated += 1
 
-            if agent._treatment_bool and self.runRandom.random() < params.p_discont_trt_on_incar:
-                self._exit_drug_treatment(agent)
-                agent._kickOff = True
-
             # PUT PARTNERS IN HIGH RISK
             for tmpA in agent._partners:
                 if tmpA._highrisk_bool == True:
@@ -2085,16 +2081,15 @@ class HIVModel(NetworkClass):
         elligble = False
         if params.PrEP_target_model == "Allcomers":
             elligble = True
-
         elif params.PrEP_target_model == "CDCwomen":
-            rships = set()
             if agent._SO == 'HF':
                 for ptn in agent._relationships:
+                    if ptn._ID1 == agent:
+                        partner = ptn._ID2
+                    else:
+                        partner = ptn._ID1
                     if ptn._duration > 1:
-                        rships.add(ptn._ID1)
-                for ptn in agent._partners:
-                    if ptn in rships:
-                        if (ptn._tested or ptn._DU == 'IDU' or ptn._SO == 'MSMW'):
+                        if (partner._tested or partner._DU == 'IDU'):
                             elligble = True
                             break
         elif params.PrEP_target_model == "HighPN5":
