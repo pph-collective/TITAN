@@ -733,6 +733,9 @@ class HIVModel(NetworkClass):
             # if agent_drug_type == 'IDU':
             # self._SEP(agent, time)  # SEP: Syringe Exchange program
 
+            if agent._MSMW and self.runRandom.random() < params.HIV_MSMW:
+                self._become_HIV(agent, 0)
+
             if agent_drug_type in ["NIDU", "IDU"] and False:
                 # print("\tDrug Cessation")
                 # self._drug_cessation(agent, agent_drug_type)
@@ -2089,7 +2092,18 @@ class HIVModel(NetworkClass):
                     else:
                         partner = ptn._ID1
                     if ptn._duration > 1:
-                        if (partner._tested or partner._DU == 'IDU'):
+                        if (partner._tested or partner._DU == 'IDU' or partner._MSMW):
+                            elligble = True
+                            break
+        elif params.PrEP_target_model == "CDCmsm":
+            if agent._SO == "MSM":
+                for ptn in agent._relationships:
+                    if ptn._ID1 == agent:
+                        partner = ptn._ID2
+                    else:
+                        partner = ptn._ID1
+                    if ptn._duration > 1:
+                        if (partner._tested or agent._mean_num_partners > 1):
                             elligble = True
                             break
         elif params.PrEP_target_model == "HighPN5":

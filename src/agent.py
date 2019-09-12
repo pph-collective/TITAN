@@ -68,6 +68,7 @@ class Agent(object):
         ]  # Takes last letter of HM, HF, MSM, WSW, BiM, BiF to get agent gender. CANT USE MSMW!
 
         self._ageBin = 0
+        self._MSMW = False
 
         # agent-partner params
         self._relationships = []

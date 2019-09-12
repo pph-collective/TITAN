@@ -13,7 +13,7 @@ rSeed_net = 0
 rSeed_run = 0
 N_REPS = 1
 N_MC = 1              # total number of iterations (Monte Carlo runs)
-N_POP = 1100          # population size
+N_POP = 11000          # population size
 TIME_RANGE = 12        # total time steps to iterate
 burnDuration = 12       # total time for burning in period (equillibration)
 model = 'Custom'         # Model Type for fast flag toggling
@@ -65,6 +65,7 @@ HR_partnerScale = 300           # Linear increase to partner number during HR pe
 HR_proportion = 0.3             # Proportion of people who enter HR group when partner incarcerated
 HR_M_dur = 6                    # Duration of high risk for males
 HR_F_dur = 6                    # Duration of high risk for females
+HIV_MSMW = 0.05
 
 
 """

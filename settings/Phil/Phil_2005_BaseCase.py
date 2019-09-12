@@ -63,6 +63,7 @@ HR_partnerScale = 300           # Linear increase to partner number during HR pe
 HR_proportion = 0.3             # Proportion of people who enter HR group when partner incarcerated
 HR_M_dur = 6                    # Duration of high risk for males
 HR_F_dur = 6                    # Duration of high risk for females
+HIV_MSMW = 0.01
 
 
 """

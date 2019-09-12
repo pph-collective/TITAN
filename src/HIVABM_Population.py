@@ -570,6 +570,8 @@ class PopulationClass:
             else:
                 SexType = "MSM"
 
+        tmp_rnd = self.popRandom.random()
+
         # Determine drugtype
         tmp_rnd = self.popRandom.random()
         # print "%.3lf must be less than%.3lf"%(tmp_rnd,params.DemographicParams[Deliminator]['IDU']['POP'])
@@ -585,6 +587,8 @@ class PopulationClass:
         else:
             prob_HIV = params.DemographicParams[Deliminator][SexType]["HIV"]
         # print "%s\t%s\t%.3lf"%(Deliminator,SexType,prob_HIV)
+        if self._MSMW:
+            prob_HIV *= 2
 
         if self.popRandom.random() < prob_HIV:
             HIVStatus = 1
@@ -732,6 +736,11 @@ class PopulationClass:
 
         newAgent = Agent(agentID, SexType, age, Race, DrugType)
         newAgent._ageBin = ageBin
+
+        if params.setting == 'Phil2005' and SexType == 'HM':
+            if tmp_rnd < 0.06:
+                newAgent._MSMW = True
+
         # HIV
         if DrugType == "IDU":
             prob_HIV = params.DemographicParams[Race]["IDU"]["HIV"]
