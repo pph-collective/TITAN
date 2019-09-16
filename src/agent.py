@@ -103,8 +103,7 @@ class Agent(object):
         self._DOC_NAL_bool = False
         self._MATprev = 0
         self._oatValue = 0
-        self._off = False
-        self._kickOff = False
+        self._PrEP_reason = []
 
         # PrEP pharmacokinetics
         self._PrEP_load = 0.0

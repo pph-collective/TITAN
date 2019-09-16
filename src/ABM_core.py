@@ -2086,14 +2086,23 @@ class HIVModel(NetworkClass):
             elligble = True
         elif params.PrEP_target_model == "CDCwomen":
             if agent._SO == 'HF':
-                for ptn in agent._relationships:
+                for ptn in set(agent._relationships):
                     if ptn._ID1 == agent:
                         partner = ptn._ID2
                     else:
                         partner = ptn._ID1
                     if ptn._duration > 1:
-                        if (partner._tested or partner._DU == 'IDU' or partner._MSMW):
+                        if partner._DU == 'IDU':
                             elligble = True
+                            self._PrEP_reason.append('IDU')
+                            break
+                        elif partner._tested:
+                            elligble = True
+                            self._PrEP_reason.append('HIV test')
+                            break
+                        elif partner._MSMW:
+                            elligible = True
+                            self._PrEP_reason.append('MSMW')
                             break
         elif params.PrEP_target_model == "CDCmsm":
             if agent._SO == "MSM":
