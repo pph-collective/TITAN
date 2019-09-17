@@ -46,70 +46,15 @@ import pprint
 
 # import random
 import matplotlib.pyplot as plt
-import params
+from . import params
 import numpy as np
 
-from ABM_core import HIVModel
+from .ABM_core import HIVModel
 
 try:
-    from HIVABM_Population import PopulationClass, print_population
+    from .HIVABM_Population import PopulationClass, print_population
 except ImportError:
     raise ImportError("Can't import PopulationClass")
-
-
-# from Evolution import HIVModel
-
-
-def read_parameter_dict(num_Simulations):
-    # Read parameters from file, put them into the
-    # dictionary parameter_dict and return parameter_dict
-
-    # Read scalars
-    infile = open("input/InputParameters.csv", "r")
-    lines = infile.readlines()
-    infile.close()
-    data_dict = {}  # data[run#][parameter]
-    first_line = lines[0]
-    properties = first_line.split(",")
-    properties.remove("Name")
-    properties.remove("Description")
-    # NumSimulations = len(properties)
-    NumSimulations = num_Simulations
-    for num_sim in range(NumSimulations):
-        data_dict[num_sim] = {}
-    for line in lines[1:]:
-        words = line.split(",")
-        name_key = words[0]
-        values = words[2:]
-        for i, value in enumerate(values):
-            data_dict[i][name_key] = float(value.strip())
-
-    # Read vector parameters (function of time t)
-    for vector_value in ["NSP_SAT", "NSP_NoSAT"]:
-        text = open(("input/" + vector_value + ".csv"), "r").read()
-        if "\r\n" in text:
-            lines = text.split("\r\n")
-        else:
-            lines = text.split("\r")
-        first_line = lines[0]
-        properties = first_line.split(",")
-        properties.remove("Time")
-        properties.remove("Description")
-        # assert len(properties)==NumSimulations,('Inconsistent parameter files!'+
-        # '\nInputParameter.csv, NSP_SAT.csv, and NSP_NoSAT.csv must have '+
-        # 'the same number of simulations! Each column contains the parameter '+
-        # 'set for one simulation.\nlen(properties) = %d\nNumSimulations = %d\n'%(
-        # len(properties),NumSimulations))
-        for num_run in range(NumSimulations):
-            data_dict[num_run].update({vector_value: {}})
-        for line in lines[1:]:
-            words = line.split(",")
-            t = int(words[0].strip())
-            values = words[2:]  # Time and Description column offset
-            for i, value in enumerate(values):
-                data_dict[i][vector_value][t] = float(value.strip())
-
-    return data_dict
 
 
 def simulation(
@@ -128,23 +73,18 @@ def simulation(
     # Check input
     if save_adjlist_flag not in [0, 1]:
         raise ValueError("Invalid input! save_adjlist_flag = %s" % str(save_adjlist_flag))
-    # if time_range != 30:
-    #   raise Warning('time_range=%d'%time_range)
+
     # Run nreps simulations using the given parameters.
     # Information are printed to outfile_dir directory.
     pid = os.getpid()
-    # print "Process %5s runs %d simulations:"%(pid, nreps)
-    # pprint.pprint(parameters)
     result_dict = {}
 
     for num_sim in range(nreps):
-        # random.seed(rSeed)
         inputSeed = runSeed
         if runSeed == -1:
             inputSeed = num_sim + 1
-
             print(inputSeed)
-        # print "\n\n------------------------------------------------------------------------------------------------------------------------------------------"
+
         print(
             "\tProcess %5s runs simulation %d/%d\t.:.\tInput rSeed: %d, pSeed: %d, nSeed: %d"
             % (pid, num_sim + 1, nreps, inputSeed, popSeed, netSeed)
@@ -308,4 +248,4 @@ def save_results(N_MC, time_range, rslts, outfile_dir, num_sim):
 
 
 if __name__ == "__main__":
-    print("Use MP_simulation and MPI_simulation!\n")
+    print("Use run_titan!\n")

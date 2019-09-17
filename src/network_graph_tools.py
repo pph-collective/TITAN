@@ -65,17 +65,17 @@ from operator import itemgetter
 #                           "PyGraphviz or PyDotPlus")
 
 try:
-    from HIVABM_Population import PopulationClass
+    from .HIVABM_Population import PopulationClass
 except ImportError:
     raise ImportError("Can't import PopulationClass")
 
 try:
-    from agent import *
+    from .agent import *
 except ImportError:
     raise ImportError("Can't import agent")
 
 try:
-    from ABM_partnering import *
+    from .ABM_partnering import *
 except ImportError as e:
     raise ImportError("Can't import ABM_partnering! %s" % str(e))
 
@@ -123,10 +123,10 @@ def _random_subset(seq, m):
 def my_erdos_renyi_binomial_random_graph(node_list=None, p=0.0, seed=None, directed=False):
 
     """Return a random graph G_{n,p} (Erdős-Rényi graph, binomial graph).
-   
+
     Chooses each of the possible edges with probability p.
 
-    This is also called binomial_graph and erdos_renyi_graph. 
+    This is also called binomial_graph and erdos_renyi_graph.
 
     Parameters
     ----------
@@ -135,11 +135,11 @@ def my_erdos_renyi_binomial_random_graph(node_list=None, p=0.0, seed=None, direc
     p : float
         Probability for edge creation.
     seed : int, optional
-        Seed for random number generator (default=None). 
+        Seed for random number generator (default=None).
     directed : bool, optional (default=False)
-        If True return a directed graph 
-    
-    See Also  
+        If True return a directed graph
+
+    See Also
     --------
     fast_gnp_random_graph
 
@@ -197,7 +197,7 @@ def my_barabasi_albert_graph(n, m, node_list=None, seed=None):
     node_list : list of nodes, optional
         The nodes used to build the graph.
     seed : int, optional
-        Seed for random number generator (default=None).   
+        Seed for random number generator (default=None).
 
     Returns
     -------
@@ -263,14 +263,14 @@ class NetworkClass(PopulationClass):
     def __init__(self, N, popSeed=0, netSeed=0, m_0=1, network_type="scale_free", node_list=None):
         """
         :Purpose:
-            This is the base class used to generate the social network 
+            This is the base class used to generate the social network
             for the other agents, i.e. . The class inherits from the PopulationClass.
 
-        :Input:	
+        :Input:
             N : int
               Number of agents. Default: 10000
 
-            m_0: int	
+            m_0: int
               Number of nodes each node is connected to in preferential
               attachment step
         """
@@ -825,7 +825,7 @@ class NetworkClass(PopulationClass):
 
 
 class TestClassMethods(unittest.TestCase):
-    """ 
+    """
     :Purpose:
     	Unittest for testing the methods of the HIV class.
     """
@@ -833,7 +833,7 @@ class TestClassMethods(unittest.TestCase):
     def setUp(self):
         """
         :Purpose:
-            Tests that all models from setup pass inspection. 
+            Tests that all models from setup pass inspection.
             ``setUp`` is perfomed before each method.
         """
         self.N_pop = 10000

@@ -48,7 +48,7 @@ options:
   -o outfile      save a copy of the session's output to outfile (default: off)
   -s seed         random seed for model [0 random, -1 stepwise] (default: $seed)
   -t timerange	  number of time steps per iteration in (default: $simT)
-  -b burntime	  number of time steps to burn for equilibration (default: $burn)     
+  -b burntime	  number of time steps to burn for equilibration (default: $burn)
 "
 echo "TITAN ver: "$version
 exit 0
@@ -66,7 +66,7 @@ echo "
 	seed:		$seed
 	time:		$simT
 	burn:		$burn
-	
+
 	walltime	$walltime
 	memory		$memory
 "
@@ -100,7 +100,7 @@ prepSubmit() {
     updateParams;
 
     #Submit job to cluster
-    sbatch bs_Core.sh
+    sbatch scripts/bs_Core.sh
 
     #Move back to base directory
     cd $basePath
@@ -112,7 +112,7 @@ do
         in
 	N) nPop=${OPTARG};;
 	m) memory=${OPTARG};;
-    n) nMC=${OPTARG};; 
+    n) nMC=${OPTARG};;
     s) seed=${OPTARG};;
     j) jobname=${OPTARG};;
 	t) simT=${OPTARG};;
@@ -137,7 +137,7 @@ fi
 if [ -d $outPath$jobname ]; then
     echo -e "\n\n!! WARNING !!\nThe folder $jobname already exists and will be OVERWRITTEN!\n"
     read -p "Continue (y/n)?" choice
-    case "$choice" in 
+    case "$choice" in
       y|Y ) echo "Proceeding";;
       n|N|* ) echo "Aborting"
 	    exit 0;;
@@ -158,8 +158,8 @@ if [ $srcCode ]; then
         nMc         $nMC
         seed        $seed
         model       $model"
-    echo -e "\n" 
-    
+    echo -e "\n"
+
     echo -e "\tMaking parent directory in scratch"
     mkdir -p $outPath
     echo -e "\t $outPath"
@@ -177,9 +177,8 @@ if [ $srcCode ]; then
         finalPath=$outPath$jobname
         prepSubmit;
     fi
-    
+
 else
     echo -e "\nSOMETHING WENT WRONG!!! Abort"
     exit 1;
 fi
-

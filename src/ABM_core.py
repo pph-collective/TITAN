@@ -53,22 +53,22 @@ from scipy.stats import poisson
 from functools import wraps
 
 try:
-    from HIVABM_Population import PopulationClass, print_population
+    from .HIVABM_Population import PopulationClass, print_population
 except ImportError:
     raise ImportError("Can't import PopulationClass")
 
 try:
-    from network_graph_tools import *
+    from .network_graph_tools import *
 except ImportError as e:
     raise ImportError("Can't import network_graph_tools! %s" % str(e))
 
 try:
-    from ABM_partnering import *
+    from .ABM_partnering import *
 except ImportError as e:
     raise ImportError("Can't import ABM_partnering! %s" % str(e))
 
 try:
-    from analysis_output import *  # assessment_lib import *   #OLD FILE
+    from .analysis_output import *  # assessment_lib import *   #OLD FILE
 except ImportError as e:
     raise ImportError("Can't import analysis_output! %s" % str(e))
 

@@ -46,10 +46,10 @@ import unittest
 from scipy.stats import poisson
 
 try:
-    from agent import *
+    from .agent import *
 except ImportError:
     raise ImportError("Can't import AgentClass")
-import params
+from . import params
 
 
 def print_population(agent_dict, dir_prefix, time=0):
@@ -81,13 +81,13 @@ class PopulationClass:
     :Purpose:
         This class constructs and represents the model population
 
-    :Input:	
-    
+    :Input:
+
         n : int
             Number of agents. Default: 10000
 
     :Attributes:
-    
+
         :py:attr:`PopulationSize` : int
             Size of the population.
 
@@ -1092,20 +1092,20 @@ class PopulationClass:
         return age, ageBin
 
     def get_agents(self):
-        """ 
+        """
         :Purpose:
             Return all agents and their characteristics.
 
-        :Output: 
+        :Output:
             :py:attr:`Agents`: dict
         	Dictionary of agents and their characteristics. The agents
         	are the `keys` and a dictionary of `characteristic:value`
-        	pair is the entry. 
+        	pair is the entry.
         """
         return self.Agents
 
     def print_info(self):
-        """ 
+        """
         :Purpose:
             Simple fprintf test on std out.
         """
@@ -1129,7 +1129,7 @@ class PopulationClass:
 	"""
 
     def get_info_DrugUserType(self):
-        """ 
+        """
         :Purpose:
             Return number of IDU, NIDU, and ND users in one array.
 
@@ -1144,11 +1144,11 @@ class PopulationClass:
 
     def get_info_HIV_IDU(self):
         """
-        :Purpose: 
-            Return number of HIV among IDU agents. 
+        :Purpose:
+            Return number of HIV among IDU agents.
             Distinguish between MSM, WSW, HM, and HIF agents.
 
-        :Ooutput: 
+        :Ooutput:
             data : dict
         """
         count_HIV_MSM = 0
@@ -1181,10 +1181,10 @@ class PopulationClass:
 
     def get_info_DrugSexType(self):
         """
-        :Purpose: 
+        :Purpose:
             Assess the Drug and Sex type prevalences of the population.
 
-        :Ooutput: 
+        :Ooutput:
             data : dict
         """
         count_HM = 0
@@ -1271,7 +1271,7 @@ class PopulationClass:
 
 
 class TestClassMethods(unittest.TestCase):
-    """ 
+    """
     :Purpose:
         unittest
     """

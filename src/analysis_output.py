@@ -43,10 +43,10 @@ import matplotlib.pyplot as plt
 
 # from mpl_toolkits.axes_grid1 import host_subplot
 # import mpl_toolkits.axisartist as AA
-import params
+from . import params
 
 try:
-    from agent import *
+    from .agent import *
 except ImportError:
     raise ImportError("Can't import Agent class")
 

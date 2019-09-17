@@ -54,21 +54,21 @@ from functools import wraps
 import numpy as np
 
 try:
-    from HIVABM_Population import PopulationClass, print_population
+    from .HIVABM_Population import PopulationClass, print_population
 except ImportError:
     raise ImportError("Can't import PopulationClass")
 
 try:
-    from ABM_core import *
+    from .ABM_core import *
 except ImportError:
     raise ImportError("Can't import PopulationClass")
 
 try:
-    from agent import *
+    from .agent import *
 except ImportError:
     raise ImportError("Can't import Agent class")
 
-import params
+from . import params
 
 
 def update_partner_assignments(self, partnerTurnover, graph, agent=None):

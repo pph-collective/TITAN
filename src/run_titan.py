@@ -47,8 +47,7 @@ import time as time_mod
 # import matplotlib.pyplot as plt
 
 from simulation_lib import *
-import params
-from loadInput import *
+from . import params
 import sys, os
 
 # Disable
@@ -62,12 +61,9 @@ def enablePrint():
 
 
 def main():
-    # parameter_dict = read_parameter_dict(1)   # get parameters
     wct = []  # wall clock times
     open_outputs()
 
-
-    # read_classifier_dict()
     for single_sim in range(params.N_MC):
         outfile_dir = os.path.join(os.getcwd(), "results/results_simulation_MP_%d" % single_sim)
         if not os.path.isdir(outfile_dir):
