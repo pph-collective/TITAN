@@ -241,6 +241,7 @@ def open_outputs():
     #     ageNReport = open('results/MSMReport_a%d.txt' %i, 'w')
     #     ageNReport.write('seed,t,total_N,HIV,Tested,ART,PrEP\n')
     #     ageNReport.close()
-
+    PrEPReport = open("results/PrEPReport.txt", "w")
+    PrEPReport.write("seed\tt\tNewEnroll\tIDUpartner\tTestedPartner\tMSMWpartner\n")
 if __name__ == "__main__":
     main()
