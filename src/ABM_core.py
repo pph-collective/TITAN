@@ -2094,16 +2094,13 @@ class HIVModel(NetworkClass):
                     if ptn._duration > 1:
                         if partner._DU == 'IDU':
                             elligble = True
-                            self._PrEP_reason.append('IDU')
-                            break
-                        elif partner._tested:
+                            agent._PrEP_reason.append('IDU')
+                        if partner._tested:
                             elligble = True
-                            self._PrEP_reason.append('HIV test')
-                            break
-                        elif partner._MSMW:
+                            agent._PrEP_reason.append('HIV test')
+                        if partner._MSMW:
                             elligible = True
-                            self._PrEP_reason.append('MSMW')
-                            break
+                            agent._PrEP_reason.append('MSMW')
         elif params.PrEP_target_model == "CDCmsm":
             if agent._SO == "MSM":
                 for ptn in agent._relationships:
@@ -2168,10 +2165,12 @@ class HIVModel(NetworkClass):
         if force == True:
             self.Trt_PrEP_agentSet.remove_agent(agent)
             agent._PrEP_bool = False
+            agent._PrEP_reason = []
         # else if agent is no longer enrolled on PrEP, increase time since last dose
         elif agent._PrEP_time > 0:
             if agent._PrEP_time == 1:
                 agent._PrEP_bool = False
+                agent._PrEP_reason = []
                 agent._PrEP_time -= 1
             else:
                 agent._PrEP_time -= 1
@@ -2187,6 +2186,7 @@ class HIVModel(NetworkClass):
 
                 if params.PrEP_type == "Oral":
                     agent._PrEP_bool = False
+                    agent._PrEP_reason = []
                 # print 'Agent%d removed from PrEP\tP_T:%d'%(agent._ID, agent._PrEP_time)
             else:  # if not discontinue, see if its time for a new shot.
                 if agent._PrEP_lastDose > 2:

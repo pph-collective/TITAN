@@ -107,7 +107,7 @@ inc_treat_RIC = False            # Force retention in care of ART therapy
 PrEP params
 """
 PrEP_type = "Oral"              #Oral/Inj PrEP modes
-PrEP_Target = 1.0              # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+PrEP_Target = 0.3              # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 PrEP_startT = 0                 # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82           # Probability of being adherent
 PrEP_AdhEffic = 0.96            # Efficacy of adherence PrEP
