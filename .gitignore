@@ -4,3 +4,4 @@
 .idea/
 venv/
 venv/*
+.vscode/

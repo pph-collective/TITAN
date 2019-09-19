@@ -740,21 +740,17 @@ class HIVModel(NetworkClass):
                 self._drug_cessation(agent, agent_drug_type)
                 self._enter_and_exit_drug_treatment(agent, time)
             if agent_HIV_status:
-                if burn:
-                    # print "Viral Load Reset"
-                    # self._become_HIV(agent, time)  # reset viral load ############# TURNED OFF NO NEED TO RESET VIRAL LOAD
-                    # P_HAART = self.runRandom.random()
-                    # if P_HAART < 0.005:
+                if not burn:
                     # print("\n\t\t= Testing agents =")
                     if agent._incar_treatment_time >= 1:
                         agent._incar_treatment_time -= 1
 
-                self._HIVtest(agent, time)
-                self._progress_to_AIDS(agent, agent_drug_type)
+                    self._HIVtest(agent, time)
+                    self._progress_to_AIDS(agent, agent_drug_type)
 
-                if params.flag_ART:
-                    self._initiate_HAART(agent, time)
-                    agent._HIV_time += 1
+                    if params.flag_ART:
+                        self._initiate_HAART(agent, time)
+                        agent._HIV_time += 1
             else:
                 if params.flag_PrEP:
                     if time >= params.PrEP_startT:
