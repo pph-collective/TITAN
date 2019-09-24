@@ -8,12 +8,16 @@ Main model parameters.
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
+rSeed_pop = 0
+rSeed_net = 0
+rSeed_run = 0
 N_MC = 100              # total number of iterations (Monte Carlo runs)
 N_POP = 110000          # population size
 TIME_RANGE = 168        # total time steps to iterate
 burnDuration = 30       # total time for burning in period (equillibration)
 model = 'Incar'         # Model Type for fast flag toggling
 setting = 'Phil2005'
+network_type = 'scale_free'
 ####################
 
 """
@@ -59,6 +63,7 @@ HR_partnerScale = 300           # Linear increase to partner number during HR pe
 HR_proportion = 0.3             # Proportion of people who enter HR group when partner incarcerated
 HR_M_dur = 6                    # Duration of high risk for males
 HR_F_dur = 6                    # Duration of high risk for females
+HIV_MSMW = 0.01
 
 
 """
@@ -72,6 +77,7 @@ AssortMixCoeff = 0.3           # Proportion of following given assort mix rules
 safeNeedleExchangePrev = 1.0    # Prevalence scalar on SNE
 initTreatment = 999999
 treatmentCov = 0.0
+condomUseType = 'Partners'
 
 """
 Incarceration params
@@ -214,13 +220,13 @@ RC_allTemplate = {  'Proportion':1.00,      #Proportion of total population that
                     'AssortMixCoeff':1.0,   #Proportion RC mixes with other raceclass
                 }
 
-RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
-RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
-for a in ['MSM','HM','HF','PWID']:
+RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}, 'ALL':{}}
+RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}, 'ALL':{}}
+for a in ['MSM', 'HM', 'HF', 'IDU']:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
-RaceClass1['HM'] = {'POP':0.4150,
+RaceClass1['HM'].update({'POP':0.4150,
                      'HIV':0.0369,
                      'AIDS':0.6780,
                      'HAARTprev':0.41,
@@ -236,9 +242,9 @@ RaceClass1['HM'] = {'POP':0.4150,
                      'HAARTdisc':0.000,
                      'PrEPdisc':0.0000,
                      'EligSE_PartnerType':['HF']
-                     }
+                     })
 
-RaceClass1['HF'] = {'POP':0.5850,
+RaceClass1['HF'].update({'POP':0.5850,
                      'HIV':0.01391,
                      'AIDS':0.573,
                      'HAARTprev':0.47,
@@ -254,9 +260,9 @@ RaceClass1['HF'] = {'POP':0.5850,
                      'HAARTdisc':0.000,
                      'PrEPdisc':PrEP_disc,
                      'EligSE_PartnerType':['HM']
-                     }
+                     })
 
-RaceClass1['MSM'] = {'POP':0.00,
+RaceClass1['MSM'].update({'POP':0.00,
                      'HIV':0.2093,
                      'AIDS':0.079,
                      'HAARTprev':0.926,
@@ -273,7 +279,7 @@ RaceClass1['MSM'] = {'POP':0.00,
                      'PrEPadh':0.55,
                      'PrEPdisc':PrEP_disc,
                      'EligSE_PartnerType':['MSM']
-                     }
+                     })
 
 RaceClass1['MTF'] = {'POP':0.00,
                      'HIV':0.33986,
@@ -294,7 +300,7 @@ RaceClass1['MTF'] = {'POP':0.00,
                      'EligSE_PartnerType':['MSM']
                      }
 
-RaceClass1['PWID'] = {'POP':0.0173,
+RaceClass1['IDU'].update({'POP':0.0173,
                      'HIV':0.1500,
                      'AIDS':0.6780,
                      'HAARTprev':0.41,
@@ -310,20 +316,20 @@ RaceClass1['PWID'] = {'POP':0.0173,
                      'HAARTdisc':0.000,
                      'PrEPdisc':0.0000,
                      'EligSE_PartnerType':['IDU']
-                     }
+                     })
 
 
-RaceClass1['ALL'] = {'Proportion':1.00,
+RaceClass1['ALL'].update({'Proportion':1.00,
                       'HAARTdisc':0.018,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,
-                      }
+                      })
 
-RaceClass2['ALL'] = {'Proportion':0.00,
+RaceClass2['ALL'].update({'Proportion':0.00,
                       'HAARTdisc':0.018,
                      'PrEPdisc':0.0,
                      'AssortMixCoeff':1.0,
-                      }
+                      })
 
 DemographicParams = {'WHITE':RaceClass1, 'BLACK':RaceClass2}
 

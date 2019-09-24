@@ -319,8 +319,11 @@ class HIVModel(NetworkClass):
         self.treatmentEnrolled = False
 
         self.ResultDict = initiate_ResultDict()
-        self.newPrEPagents = 0
+        self.newPrEPagents = Agent_set(3, "NewPrEPagents")
         self.newPrEPenrolls = 0
+        self.IDUprep = 0
+        self.HIVprep = 0
+        self.MSMWprep = 0
         # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed value
 
         print(("\tRun seed was set to:", runseed))
@@ -426,6 +429,11 @@ class HIVModel(NetworkClass):
             self.NewDiagnosis.clear_set()
             self.NewHRrolls.clear_set()
             self.NewIncarRelease.clear_set()
+            self.newPrEPagents.clear_set()
+            self.newPrEPenrolls = 0
+            self.IDUprep = 0
+            self.HIVprep = 0
+            self.MSMWprep = 0
 
             # print(self.num_Deaths)
             self._reset_death_count()
@@ -575,8 +583,14 @@ class HIVModel(NetworkClass):
             self.NewIncarRelease.clear_set()
             self.num_Deaths
             prepReport = open('results/PrEPReport.txt', 'a')
-            prepReport.write("{seed}\t{time}\t{val}\n".format(seed=self.runseed,time=self.TimeStep,val=self.newPrEPenrolls))
+            prepReport.write(
+                f"{self.runseed}\t{self.TimeStep}\t{self.newPrEPenrolls}\t{self.IDUprep}\t{self.HIVprep}\t{self.MSMWprep}\n")
             prepReport.close()
+            self.newPrEPagents.clear_set()
+            self.newPrEPenrolls = 0
+            self.IDUprep = 0
+            self.HIVprep = 0
+            self.MSMWprep = 0
             # If set to draw the edge list, print list at each timestep
             if params.drawEdgeList and t % params.intermPrintFreq == 0:
                 print("Drawing network edge list to file")
@@ -732,6 +746,9 @@ class HIVModel(NetworkClass):
 
             # if agent_drug_type == 'IDU':
             # self._SEP(agent, time)  # SEP: Syringe Exchange program
+
+            if agent._MSMW and self.runRandom.random() < params.HIV_MSMW:
+                self._become_HIV(agent, 0)
 
             if agent_drug_type in ["NIDU", "IDU"] and False:
                 # print("\tDrug Cessation")
@@ -1747,10 +1764,6 @@ class HIVModel(NetworkClass):
             self.incarcerated_agentSet.add_agent(agent)
             self.totalIncarcerated += 1
 
-            if agent._treatment_bool and self.runRandom.random() < params.p_discont_trt_on_incar:
-                self._exit_drug_treatment(agent)
-                agent._kickOff = True
-
             # PUT PARTNERS IN HIGH RISK
             for tmpA in agent._partners:
                 if tmpA._highrisk_bool == True:
@@ -2085,6 +2098,34 @@ class HIVModel(NetworkClass):
         elligble = False
         if params.PrEP_target_model == "Allcomers":
             elligble = True
+        elif params.PrEP_target_model == "CDCwomen":
+            if agent._SO == 'HF':
+                for ptn in set(agent._relationships):
+                    if ptn._ID1 == agent:
+                        partner = ptn._ID2
+                    else:
+                        partner = ptn._ID1
+                    if ptn._duration > 1:
+                        if partner._DU == 'IDU':
+                            elligble = True
+                            agent._PrEP_reason.append('IDU')
+                        if partner._tested:
+                            elligble = True
+                            agent._PrEP_reason.append('HIV test')
+                        if partner._MSMW:
+                            elligible = True
+                            agent._PrEP_reason.append('MSMW')
+        elif params.PrEP_target_model == "CDCmsm":
+            if agent._SO == "MSM":
+                for ptn in agent._relationships:
+                    if ptn._ID1 == agent:
+                        partner = ptn._ID2
+                    else:
+                        partner = ptn._ID1
+                    if ptn._duration > 1:
+                        if (partner._tested or agent._mean_num_partners > 1):
+                            elligble = True
+                            break
         elif params.PrEP_target_model == "HighPN5":
             if agent._mean_num_partners >= 5:
                 elligble = True
@@ -2138,10 +2179,12 @@ class HIVModel(NetworkClass):
         if force == True:
             self.Trt_PrEP_agentSet.remove_agent(agent)
             agent._PrEP_bool = False
+            agent._PrEP_reason = []
         # else if agent is no longer enrolled on PrEP, increase time since last dose
         elif agent._PrEP_time > 0:
             if agent._PrEP_time == 1:
                 agent._PrEP_bool = False
+                agent._PrEP_reason = []
                 agent._PrEP_time -= 1
             else:
                 agent._PrEP_time -= 1
@@ -2157,6 +2200,7 @@ class HIVModel(NetworkClass):
 
                 if params.PrEP_type == "Oral":
                     agent._PrEP_bool = False
+                    agent._PrEP_reason = []
                 # print 'Agent%d removed from PrEP\tP_T:%d'%(agent._ID, agent._PrEP_time)
             else:  # if not discontinue, see if its time for a new shot.
                 if agent._PrEP_lastDose > 2:
@@ -2183,6 +2227,15 @@ class HIVModel(NetworkClass):
             agent._PrEP_bool = True
             agent._PrEP_time = 0
             self.Trt_PrEP_agentSet.add_agent(agent)
+            self.newPrEPagents.add_agent(agent)
+            self.newPrEPenrolls += 1
+            if params.PrEP_target_model == "CDCwomen":
+                if 'IDU' in agent._PrEP_reason:
+                    self.IDUprep += 1
+                if 'HIV test' in agent._PrEP_reason:
+                    self.HIVprep += 1
+                if 'MSMW' in agent._PrEP_reason:
+                    self.MSMWprep += 1
             tmp_rnd = self.runRandom.random()
             if params.PrEP_Adherence == 'AtlantaMSM':
                 if tmp_rnd < params.DemographicParams[agent._race][agent._SO]["PrEPadh"]:
