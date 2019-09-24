@@ -2,20 +2,18 @@ import pytest
 
 from src.network_graph_tools import *
 
-
 n_pop = 10
 
 def test_NormalAgents():
     """Test if all non-IDU,ND,NIDU agents are in the population"""
     myNetworkObj = NetworkClass(N=n_pop, m_0=3)
-    count = 0
+    assert n_pop == myNetworkObj.All_agentSet.num_members()
     for agent in myNetworkObj.All_agentSet.get_agents():
-        count += 1
         agent_sex_type = agent._SO
         agent_drug_type = agent._DU
         assert agent_drug_type not in ["IDU", "NIDU"]
         assert agent_sex_type in ["MSM", "MSW", "HM", "HF"]
-    assert count == n_pop
+
 
 def test_PartialNetwork():
     """Test if all non-IDU,ND,NIDU agents are in the population"""
@@ -30,6 +28,7 @@ def test_PartialNetwork():
         assert agent_drug_type not in ["IDU", "NIDU"]
         assert agent_sex_type in ["MSM", "MSW", "HM", "HF"]
 
+
 def test_PopulationConsistency():
     """Test if Drug users add up"""
     myNetworkObj = NetworkClass(N=n_pop, m_0=3)
@@ -40,6 +39,7 @@ def test_PopulationConsistency():
     )
     assert myNetworkObj.drugUse_agentSet.num_members() == CheckSumDrug
     assert myNetworkObj.PopulationSize == CheckSumDrug
+
 
 def test_HIVConsistency():
     """Test HIV consistency"""

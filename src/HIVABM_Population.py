@@ -52,6 +52,7 @@ except ImportError:
 from . import params
 
 
+#REVIEW  not used anywhere (imported in several files, but never called)
 def print_population(agent_dict, dir_prefix, time=0):
     # Print the whole population to a file.
     # Format: agent_i characteristic 1 characteristic 2 ...
@@ -76,7 +77,6 @@ def print_population(agent_dict, dir_prefix, time=0):
 
 
 class PopulationClass:
-
     """
     :Purpose:
         This class constructs and represents the model population
@@ -85,6 +85,10 @@ class PopulationClass:
 
         n : int
             Number of agents. Default: 10000
+
+        r_seed : randomization seed
+
+        model :str - one of "PrEP", "Incar", "NoIncar"
 
     :Attributes:
 
@@ -146,22 +150,20 @@ class PopulationClass:
         :Purpose:
             Initialize PopulationClass object.
         """
-
         # Init RNG for population creation to rSeed
         self.popRandom = Random(rSeed)
         if type(n) is not int:
             raise ValueError("Population size must be integer")
         else:
             self.PopulationSize = n
-        # Parameters
 
+        # Parameters
         self.numWhite = int(
             params.DemographicParams["WHITE"]["ALL"]["Proportion"] * self.PopulationSize
         )
         self.numBlack = int(
             params.DemographicParams["BLACK"]["ALL"]["Proportion"] * self.PopulationSize
         )
-        # print 'W: %d, B: %d'%(self.numWhite, self.numBlack)
         # Nested dictionary for probability lookups by race
         # StratW = White, StratB = Black
         # HM incar @ 0.0279
@@ -458,8 +460,7 @@ class PopulationClass:
             dice = self.popRandom.random()
             prob_Incarc = params.DemographicParams[tmpA._race][tmpA._SO]["INCARprev"]
             if dice < prob_Incarc:
-                # print dice, prob_Incarc
-                toss = 2  # self.popRandom.choice( (1, 2) )
+                toss = 2 #REVIEW why is this hardcoded?
                 if toss == 1:  # JAIL
                     tmpA._incar_bool = True
                     tmpA._incar_time = int(self.popRandom.triangular(1, 9, 3))
@@ -473,13 +474,13 @@ class PopulationClass:
                     timestay = self.popRandom.randint(
                         jailDuration[durationBin]["min"], jailDuration[durationBin]["max"]
                     )
-                # self.incarcerated_agentsClass.add_agent(tmpA)
                 self.incarcerated_agentSet.add_agent(tmpA)
-            # self.totalAgentClass._subset["Incar"].add_agent(agent_cl)
+
 
     def _return_agent_set(self):
         return self.totalAgentClass
 
+    #REVIEW outdated method, not used anywhere (that is actually used)
     def get_agent_characteristic(self, agent, property):
         """
         :Purpose:
@@ -527,7 +528,6 @@ class PopulationClass:
         :Output:
              agent_dict : dict
         """
-        # SexType = 'NULL'
         Drugtype = "NULL"
 
         # Determine sextype
@@ -547,7 +547,6 @@ class PopulationClass:
 
         # Determine drugtype
         tmp_rnd = self.popRandom.random()
-        # print "%.3lf must be less than%.3lf"%(tmp_rnd,params.DemographicParams[Deliminator]['IDU']['POP'])
 
         if tmp_rnd < params.DemographicParams[Deliminator]["IDU"]["POP"]:
             DrugType = "IDU"
@@ -559,7 +558,7 @@ class PopulationClass:
             prob_HIV = params.DemographicParams[Deliminator]["IDU"]["HIV"]
         else:
             prob_HIV = params.DemographicParams[Deliminator][SexType]["HIV"]
-        # print "%s\t%s\t%.3lf"%(Deliminator,SexType,prob_HIV)
+
         if self._MSMW:
             prob_HIV *= 2
 
@@ -571,7 +570,6 @@ class PopulationClass:
                 prob_AIDS = params.DemographicParams[Deliminator]["IDU"]["AIDS"]
             else:
                 prob_AIDS = params.DemographicParams[Deliminator][SexType]["AIDS"]
-                # print "%s\t%s\t%.3lf"%(Deliminator,SexType,prob_HIV)
 
             if self.popRandom.random() < prob_AIDS:
                 AIDSStatus = 1
@@ -637,7 +635,6 @@ class PopulationClass:
         else:
             incar_time = 0
 
-        # print "New agent: %s\t%s\t%s\tHIV:%d" % (Deliminator,DrugType,SexType,HIVStatus)
         agent_dict = {
             "Race": Deliminator,
             "Drug Type": DrugType,
@@ -653,6 +650,7 @@ class PopulationClass:
 
         return agent_dict
 
+
     def _return_new_Agent_class(self, agentID, Race, SexType="NULL"):
         """
         :Purpose:
@@ -666,7 +664,6 @@ class PopulationClass:
         :Output:
              agent_dict : dict
         """
-        # SexType = 'NULL'
         Drugtype = "NULL"
 
         # Determine sextype
@@ -752,11 +749,9 @@ class PopulationClass:
                 HAARTStatus = 0
 
             # if HIV, how long has the agent had it? Random sample
-            # HIV_time = self.popRandom.randint(1,42)
             newAgent._HIV_time = self.popRandom.randint(1, 42)
 
         else:
-
             HIVStatus = 0
             AIDSStatus = 0
             HAARTStatus = 0
@@ -812,14 +807,14 @@ class PopulationClass:
         if params.setting == "Scott":
             newAgent._mean_num_partners = (
                 mNPart
-            )  # params.DemographicParams[Race][SexType]['mNPart']
+            )
         else:
             newAgent._mean_num_partners = poisson.rvs(
                 params.DemographicParams[Race][SexType]["NUMPartn"], size=1
             )
 
-
         return newAgent
+
 
     def create_agent(self, agent_cl, Deliminator):
         """
@@ -832,8 +827,8 @@ class PopulationClass:
         :Input:
             agent : int
 
-            DrugType : str
-                Either 'IDU','NIDU' or 'ND'
+            Deliminator : str currently race
+
         """
 
         def addToSubsets(targetSet, agent, agentParam=None):
@@ -895,7 +890,7 @@ class PopulationClass:
         minAge = 15
         maxAge = 80
         ageBin = 0
-        # print params.ageMatrix[race]['Prop'][1]
+
         if params.setting == "AtlantaMSM":
             if rand < params.ageMatrix[race]["Prop"][1]:
                 minAge = 18
@@ -938,7 +933,8 @@ class PopulationClass:
         age = self.popRandom.randrange(minAge, maxAge)
         return age, ageBin
 
-    def get_agents(self): #REVIEW
+    #REVIEW not used anywhere that is used
+    def get_agents(self):
         """
         :Purpose:
             Return all agents and their characteristics.
@@ -951,6 +947,8 @@ class PopulationClass:
         """
         return self.Agents
 
+
+    #REVIEW not used anywhere
     def print_info(self):
         """
         :Purpose:
@@ -960,21 +958,9 @@ class PopulationClass:
         print(("Number of IDU " + str(len(self.IDU_agents))))
         print(("Number of NIDU " + str(len(self.NIDU_agents))))
         print(("Number of ND " + str(len(self.ND_agents))))
-        """
-	# random IDU
-	agent = self.popRandom.choice(self.IDU.keys())
-	print (' Random IDU agent: ' + str(agent))
-	print self.IDU[agent]
-	# random NIDU
-	agent = self.popRandom.choice(self.NIDU.keys())
-	print (' Random NIDU agent: ' + str(agent))
-	print self.NIDU[agent]
-	# random ND
-	agent = self.popRandom.choice(self.ND.keys())
-	print (' Random ND agent: ' + str(agent))
-	print self.ND[agent]
-	"""
 
+
+    #REVIEW not used anywhere
     def get_info_DrugUserType(self):
         """
         :Purpose:
@@ -989,7 +975,9 @@ class PopulationClass:
             "Number of ND agents": len(self.ND_agents),
         }
 
-    def get_info_HIV_IDU(self): #REVIEW
+
+    #REVIEW not used anywhere
+    def get_info_HIV_IDU(self):
         """
         :Purpose:
             Return number of HIV among IDU agents.
@@ -1026,6 +1014,7 @@ class PopulationClass:
             "Number of IDU HIV HF": count_HIV_HF,
         }
 
+    #REVIEW not used anywhere
     def get_info_DrugSexType(self):
         """
         :Purpose:
@@ -1115,155 +1104,3 @@ class PopulationClass:
             "Number of HF NIDU": count_HF_NIDU,
             "Number of HF ND": count_HF_ND,
         }
-
-
-class TestClassMethods(unittest.TestCase):
-    """
-    :Purpose:
-        unittest
-    """
-
-    def setUp(self):
-        """
-        :Purpose:
-            Tests that all models from setup pass inspection. ``setUp`` is perfomed before each method.
-        """
-        self.N_pop = 10000
-
-    def test_SexType(self):
-        """ Test: Testing consistency of Sex type agents"""
-        print("\t__Testing HM agents list")
-        myPopulation = PopulationClass(n=self.N_pop)
-        for a in list(myPopulation.Agents.keys()):
-            SexType = myPopulation.get_agent_characteristic(a, "Sex Type")
-            if SexType == "HM":
-                self.assertTrue(a in myPopulation.HM_agents)
-            elif SexType == "HF":
-                self.assertTrue(a in myPopulation.HF_agents)
-            elif SexType == "MSM":
-                self.assertTrue(a in myPopulation.MSM_agents)
-            elif SexType == "WSW":
-                self.assertTrue(a in myPopulation.WSW_agents)
-
-        for agent in myPopulation.HM_agents:
-            self.assertTrue(myPopulation.get_agent_characteristic(agent, "Sex Type") == "HM")
-        for agent in myPopulation.HF_agents:
-            self.assertTrue(myPopulation.get_agent_characteristic(agent, "Sex Type") == "HF")
-        for agent in myPopulation.MSM_agents:
-            self.assertTrue(myPopulation.get_agent_characteristic(agent, "Sex Type") == "MSM")
-        for agent in myPopulation.WSW_agents:
-            self.assertTrue(myPopulation.get_agent_characteristic(agent, "Sex Type") == "WSW")
-
-    def test_HIV(self):
-        """ Test: Testing HIV agent array"""
-        print("\t__Testing the HIV agent list")
-        tmpCount = 0
-        myPopulation = PopulationClass(n=self.N_pop)
-        for a in list(myPopulation.Agents.keys()):
-            HIVstatus = myPopulation.get_agent_characteristic(a, "HIV")
-            if HIVstatus != 0:
-                tmpCount += 1
-                self.assertTrue(a in myPopulation.HIV_agents)
-        self.assertTrue(len(myPopulation.HIV_agents) == tmpCount)
-
-    def test_AIDS(self):
-        """ Test: Testing AIDS agent array"""
-        print("\t__Testing the AIDS agent list")
-        tmpCount = 0
-        myPopulation = PopulationClass(n=self.N_pop)
-        for a in list(myPopulation.Agents.keys()):
-            AIDSstatus = myPopulation.get_agent_characteristic(a, "AIDS")
-            if AIDSstatus != 0:
-                tmpCount += 1
-                self.assertTrue(a in myPopulation.AIDS_agents)
-                self.assertTrue(a in myPopulation.HIV_agents)
-        self.assertTrue(len(myPopulation.AIDS_agents) == tmpCount)
-
-    def test_consistency(self):
-        """ Test: Testing consistency"""
-        print("\t__Testing consistency of agent lists")
-        myPop = PopulationClass(n=self.N_pop)
-        NormalAgents = list(
-            set(range(myPop.PopulationSize)).difference(
-                set(myPop.IDU_agents).union(set(myPop.MSM_agents))
-            )
-        )
-        MSMAgents = list(set(myPop.MSM_agents).difference(set(myPop.IDU_agents)))
-        IDUagents = myPop.IDU_agents
-        NumAgents = len(NormalAgents) + len(MSMAgents) + len(IDUagents)
-        self.assertTrue(
-            NumAgents == self.N_pop,
-            "NumAgents=%d, \
-				PopulationSize = %d"
-            % (NumAgents, self.N_pop),
-        )
-
-    def test_MSM(self):
-        """ Test: Testing MSM agent array"""
-        print("\t__Testing the MSM agent list")
-        tmpCount = 0
-        myPopulation = PopulationClass(n=self.N_pop)
-        for a in list(myPopulation.Agents.keys()):
-            SEXstatus = myPopulation.get_agent_characteristic(a, "Sex Type")
-            if SEXstatus == "MSM":
-                tmpCount += 1
-                self.assertTrue(a in myPopulation.MSM_agents)
-        self.assertTrue(len(myPopulation.MSM_agents) == tmpCount)
-
-        for agent in myPopulation.MSM_agents:
-            agent_sex_type = myPopulation.get_agent_characteristic(agent, "Sex Type")
-            self.assertTrue(agent_sex_type == "MSM")
-
-    def test_IDU(self):
-        """ Test: Testing IDU agent array"""
-        print("\t__Testing the IDU agent list")
-        tmpCount = 0
-        myPopulation = PopulationClass(n=self.N_pop)
-        for agent in list(myPopulation.Agents.keys()):
-            agent_drug_status = myPopulation.get_agent_characteristic(agent, "Drug Type")
-            if agent_drug_status == "IDU":
-                tmpCount += 1
-                self.assertTrue(agent in myPopulation.IDU_agents)
-        self.assertTrue(len(myPopulation.IDU_agents) == tmpCount)
-
-        for agent in myPopulation.IDU_agents:
-            agent_drug_type = myPopulation.get_agent_characteristic(agent, "Drug Type")
-            self.assertTrue(agent_drug_type == "IDU")
-
-    def test_NIDU(self):
-        """ Test: Testing INDU agent array"""
-        print("\t__Testing the NIDU agent list")
-        tmpCount = 0
-        myPopulation = PopulationClass(n=self.N_pop)
-        for agent in list(myPopulation.Agents.keys()):
-            agent_drug_status = myPopulation.get_agent_characteristic(agent, "Drug Type")
-            if agent_drug_status == "NIDU":
-                tmpCount += 1
-                self.assertTrue(agent in myPopulation.NIDU_agents)
-        self.assertTrue(len(myPopulation.NIDU_agents) == tmpCount)
-
-        for agent in myPopulation.NIDU_agents:
-            agent_drug_type = myPopulation.get_agent_characteristic(agent, "Drug Type")
-            self.assertTrue(agent_drug_type == "NIDU")
-
-    def test_Population(self):
-        """ Test: Testing the population"""
-        print("\t__Testing the population")
-        myPopulation = PopulationClass(n=self.N_pop)
-        for agent in list(myPopulation.Agents.keys()):
-            tmp_DrugType = myPopulation.get_agent_characteristic(agent, "Drug Type")
-            self.assertTrue(tmp_DrugType in ["NIDU", "IDU", "ND"])
-            if tmp_DrugType == "NIDU":
-                self.assertTrue(agent in myPopulation.NIDU_agents)
-            elif tmp_DrugType == "IDU":
-                self.assertTrue(agent in myPopulation.IDU_agents)
-            else:
-                self.assertTrue(agent in myPopulation.ND_agents)
-        self.assertTrue(len(myPopulation.NIDU_agents) == myPopulation.numNIDU)
-        self.assertTrue(len(myPopulation.IDU_agents) == myPopulation.numIDU)
-        self.assertTrue(len(myPopulation.ND_agents) == myPopulation.numND)
-
-
-if __name__ == "__main__":
-    """unittest"""
-    unittest.main()

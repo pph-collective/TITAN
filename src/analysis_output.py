@@ -41,8 +41,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import numpy as np
 import matplotlib.pyplot as plt
 
-# from mpl_toolkits.axes_grid1 import host_subplot
-# import mpl_toolkits.axisartist as AA
 from . import params
 
 try:
@@ -53,7 +51,6 @@ except ImportError:
 
 def initiate_ResultDict():
     # nested dictionary for results (inner dictionary has the form: time:result)
-    # incidenceMatrix = [[[0 for x in range(2)] for x in range(2)] for x in range(2)]
     ResultDict = {
         "Prv_HIV": {},
         "Prv_AIDS": {},
@@ -67,36 +64,6 @@ def initiate_ResultDict():
         "Inc_t_HM": {},
         "Inc_t_HF": {},
     }
-
-    # ResultDict = {}
-
-    """
-    whiteReport = open('Results/W_pop_report.txt', 'w')
-    whiteReport.write("t\tTotal-HIV\tMSM\tTested+\tHAART\n")
-    whiteReport.write("0\t0\t0\t0\t0\n")
-    whiteReport.close()
-
-    blackReport = open('Results/B_pop_report.txt', 'a')
-    blackReport.write("t\tTotal-HIV\tMSM\tTested+\tHAART\n")
-    blackReport.write("0\t0\t0\t0\t0\n")
-    blackReport.close()
-
-    incidenceReport = open('Results/IncidenceReport.txt', 'w')
-    incidenceReport.write("t\ttotalIncidence\tIDU-incidence\tAcute-IDU\n")
-    incidenceReport.write("0\t0\t0\t0\n")
-    incidenceReport.close()
-
-
-    prevalenceReport = open('Results/PrevalenceReport.txt', 'w')
-    prevalenceReport.write("t\tND\tIDU\tHM\tHF\tMSM\n")
-    prevalenceReport.write("0\t0\t0\t0\t0\t0\n")
-    prevalenceReport.close()
-
-    iduReport = open('Results/iduReport.txt', 'w')
-    iduReport.write("t\tTotal-IDU\tIDU-HIV\tIDU-AIDS\tIDU-HAART\tIDU-tested\n")
-    iduReport.write("0\t0\t0\t0\t0\t0\n")
-    iduReport.close()
-    """
 
     return ResultDict
 
@@ -123,7 +90,6 @@ def print_stats(
     prevalenceReport = open("results/PrevalenceReport.txt", "a")
     deathReport = open("results/DeathReport.txt", "a")
     incarReport = open("results/IncarReport.txt", "a")
-    # PrEPReport = open('results/PrEPReport.txt', 'a')
     iduReport = open("results/iduReport.txt", "a")
     highriskReport = open("results/HR_incidenceReport.txt", "a")
     newlyhighriskReport = open("results/newlyHR_Report.txt", "a")
@@ -191,7 +157,6 @@ def print_stats(
         "msmwPartPrep": 0,
         "testedPartPrep": 0,
     }
-    # r = dict(dict1)
 
     rc1_infections = {
         "MTF": dict(rc_template),
@@ -306,7 +271,6 @@ def print_stats(
         rsltdic[tmpA._race][tmpA._SO]["numAgents"] += 1
         if tmpA._highrisk_type == "postIncar":
             rsltdic[tmpA._race][tmpA._SO]["numHR"] += 1
-        # if tmpA._everhighrisk_bool:rsltdic[tmpA._race][tmpA._SO]['numHR'] += 1
 
     for tmpA in deathSet:
         rsltdic[tmpA._race][tmpA._SO]["deaths"] += 1
@@ -577,9 +541,6 @@ def print_stats(
         )
     )
 
-    # msmReport.write(("%d,%s,%3.2f,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n" % (rseed,params.PrEP_type,params.PrEP_Target,t, totalAgents._subset["MSM"].num_members(), numHIV_MSM, numAIDS_MSM, numTested_MSM, numART_MSM, numToMSM, infMSM_HR6m,
-    # infMSM_HRever, numNewlyTested_MSM, deaths_HIV_MSM, PrEPAgents.num_members())))
-
     incarReport.write(
         "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
         % (
@@ -615,7 +576,6 @@ def print_stats(
             tot_rsltdic["ALL"]["IDU"]["numTested"],
         )
     )
-    # print infectionsArray['WHITE']
 
     whiteReport.write(
         "%d\t%d\t%d\t%d\t%d\t%d\n"
@@ -641,21 +601,6 @@ def print_stats(
         )
     )
 
-    # print "Age\tN\tHIV\tTested\tART\tPrEP"
-    # for i in range(1,6):
-    #     ageList = [ag for ag in totalAgents._subset["MSM"]._members if ag._ageBin == i]
-    #     ageN_total = len(ageList)
-    #     ageN_prep = len([ag for ag in ageList if ag._PrEP_bool])
-    #
-    #     ageHIV_List = [ag for ag in totalAgents._subset["HIV"]._members if ag._ageBin == i]
-    #     ageN_hiv =len(ageHIV_List)
-    #     ageN_tested = len([ag for ag in ageHIV_List if ag._tested])
-    #     ageN_ART = len([ag for ag in ageHIV_List if ag._HAART_bool])
-    #     #print "%d\t%d\t%d\t%d\t%d\t%d"%(i,ageN_total,ageN_hiv,ageN_tested,ageN_ART,ageN_prep)
-    #     ageNReport = open('Results/MSMReport_a%d.txt' %i, 'a')
-    #     ageNReport.write("%d\t%d\t%d\t%d\t%d\t%d\t%d\n"%(rseed,t,ageN_total,ageN_hiv,ageN_tested,ageN_ART,ageN_prep))
-    #     ageNReport.close()
-
     if t == 0:
         cumulativeI = len(NewInfections._members)
         ResultDict["Inc_c_HM"].update({t: rsltdic["WHITE"]["HM"]["inf_newInf"]})
@@ -663,11 +608,7 @@ def print_stats(
     else:
         cumulativeI = 0
         pass
-        # cumulativeI = ResultDict['Inc_c_Tot'][t-1] + len(NewInfections._members)
-        # ResultDict['Inc_c_HM'].update({t:ResultDict['Inc_c_HM'][t-1]+rsltdic['WHITE']['HM']['inf_newInf']})
-        # ResultDict['Inc_c_HF'].update({t:ResultDict['Inc_c_HF'][t-1]+rsltdic['WHITE']['HF']['inf_newInf']})
 
-    # ResultDict['ResistantCases'].update({t:len([ag for ag in NewInfections._members if ag._PrEPresistance==1])})
     ResultDict["Inc_c_Tot"].update({t: cumulativeI})
 
     try:
@@ -706,35 +647,18 @@ def print_stats(
         )
     except:
         ResultDict["Prv_ART"].update({t: (0.0)})
-    # ResultDict['PrEP_Prev'].update({t:(1.0*PrEPAgents.num_members()/(totalAgents.num_members()-numHIV_MSM))})
+
     ResultDict["n_Relations"].update({t: Relationships.num_members()})
-    # ResultDict['WInc_T'].update({t:rsltdic['WHITE']['MSM']['inf_newInf']})
-    # ResultDict['BInc_T'].update({t:rsltdic['BLACK']['MSM']['inf_newInf']})
     ResultDict["Inc_t_HM"].update({t: rsltdic["WHITE"]["HM"]["inf_newInf"]})
     ResultDict["Inc_t_HF"].update({t: rsltdic["WHITE"]["HF"]["inf_newInf"]})
-    # ResultDict['Incid_T'].update({t:len(NewInfections._members)})
 
-    # PLOTTING FOR RUN]
-    # plt.ion()
-    # plt.subplot(2, 2, 1)
-    # plt.plot(t, rsltdic['WHITE']['HM']['numHIV'], 'rs', color='cornflowerblue', linewidth=3)
-    # plt.title('W_HM HIV')
-    # plt.ylabel('N_HIV : HM')
-    # plt.subplot(2, 1, 2)
-    # plt.plot(t, rsltdic['WHITE']['HF']['numHIV'], 'bs')
-    # plt.xlabel('Timestep (mo)')
-    # plt.ylabel('W_HM HIV')
-    # plt.draw()
-    #
-    # plt.show()
-    # plt.pause(.1)
     num_partners = []
     num_partners_hr = []
     ann_num_partners = []
     turnover = []
     ann_turnover = []
 
-
+#REVIEW not used anywhere
 def assess_before_update(
         t,
         ResultDict,
@@ -877,7 +801,6 @@ def assess_before_update(
     numTested_IDU = 0
 
     num_SEP = len(list(set(SEPAgents.keys())))  # number of IDU in SEP
-    # print Acute_agents
     for agent in Agents:
         agent_sex_type = Agents[agent]["Sex Type"]
         agent_drug_type = Agents[agent]["Drug Type"]
@@ -898,11 +821,6 @@ def assess_before_update(
         agent_Incar_bool = 0  # agent in Incarcerated_agents
         agent_Test_bool = Agents[agent]["Tested"]  # agent in HIVIdentified_agents
 
-        # print "DT: %d\tST: %d\t Test: %d"%(agent_drug_bool,agent_Test_bool, agent_HAART)
-
-        # transmissionTotalCounter[agent_drug_bool][agent_sex_type][agent_Test_bool][agent_HAART_bool]
-        # transmittedTotalArray[agent_Test_bool][agent_HIV_bool][agent_HAART_bool] += 1
-        # print agent_HAART_adh
         if agent in Acute_agents:
             if agent_drug_type == "ND":
                 numACUTE_ND += 1
@@ -960,10 +878,6 @@ def assess_before_update(
             elif agent_sex_type == "MSM":
                 numToMSM += 1
 
-        # if agent_sex_type=='MSM': numMSM += 1
-        # elif agent_sex_type=='WSW': numWSW += 1
-        # elif agent_sex_type=='HF': numHF += 1
-        # elif agent_sex_type=='HM': numHM += 1
         if agent_drug_type == "IDU":
             numIDU += 1
 
@@ -1068,7 +982,6 @@ def assess_before_update(
                 numTested_Black += 1
 
     # PLOTTING FOR RUN
-    # plt.ion()
     plt.subplot(2, 2, 1)
     plt.plot(t, numHIV_White, "rs", color="cornflowerblue", linewidth=3)
     plt.title("Vampire Infection")
@@ -1110,43 +1023,6 @@ def assess_before_update(
     turnover = []
     ann_turnover = []
 
-    """
-    for agent in HIV_agents:#Agents:
-        current_partners = list(AdjMats_by_time[t].rows[agent])
-        last_month_partners = list(AdjMats_by_time[t-1].rows[agent])
-        if t > 12:
-            last_year_partners = list(AdjMats_by_time[t-12].rows[agent])
-            whole_year_partners = []
-            for tt in range(t-11,t+1):
-                whole_year_partners += list(AdjMats_by_time[tt].rows[agent])
-            whole_year_partners = list(set(whole_year_partners))
-        else:
-            last_year_partners = []
-            whole_year_partners = []
-
-        new_partners = [p for p in current_partners if not p in last_month_partners]
-        ann_new_partners = [p for p in current_partners if not p in last_year_partners]
-
-        num_partners += [len(current_partners)]
-        if agent in high_risk_agents: num_partners_hr += [len(current_partners)]
-        ann_num_partners += [len(whole_year_partners)]
-
-        if len(current_partners) > 0:
-            turnover += [float(len(new_partners)) / len(current_partners)]
-            ann_turnover += [float(len(ann_new_partners)) / len(current_partners)]
-
-
-    if t == 1 or t == 12:
-    	bc = np.bincount(num_partners)
-        print np.mean(num_partners)
-    	plt.bar(np.arange(len(bc)), bc, width=.5)
-    	plt.show()
-    """
-
-    # ResultDict['Number Agents'].update({t:num_White})
-    # ResultDict['Total Incidence'].update({t:numMSM_White})
-    # ResultDict['Total IDU Incidence'].update({t:incidenceMatrix[1][0][1]})
-
     ResultDict["ND XMS UnDX"].update({t: incidenceMatrix[0][0][0]})
     ResultDict["ND XMS DX"].update({t: incidenceMatrix[0][1][0]})
     ResultDict["ND XMS HAART 5"].update({t: incidenceMatrix[0][1][2]})
@@ -1155,13 +1031,11 @@ def assess_before_update(
     ResultDict["PWID XMS DX"].update({t: incidenceMatrix[1][1][0]})
     ResultDict["PWID XMS HAART 5"].update({t: incidenceMatrix[1][1][2]})
     ResultDict["PWID XMS HAART Other"].update({t: incidenceMatrix[1][1][1]})
-    # ResultDict['HAART Proportion'].update({t:np.mean(ann_turnover)})
-    # ResultDict['DX Proportion'].update({t:Transmission_tracker['SEX_MSM'][t]})
-    # ResultDict['SEX_NMSM_transmissions'].update({t:Transmission_tracker['SEX_NMSM'][t]})
-    # ResultDict['NEEDLE_transmissions'].update({t:Transmission_tracker['NEEDLE'][t]})
+
     return ResultDict
 
 
+#REVIEW not used anywhere
 def assess_interaction_distribution(
         Agents,
         agent,
