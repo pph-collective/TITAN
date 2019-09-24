@@ -1,5 +1,4 @@
 *.pyc
-*.txt
 *.png
 .idea/
 venv/
