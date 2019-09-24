@@ -653,7 +653,7 @@ def get_partnership_duration(self, agent):
 
     return duration
 
-
+#REVIEW not used anywhere
 def save_AgentPartner_list(self, t):
     """
     :Purpsose:

@@ -96,6 +96,7 @@ def save_adjlist(N_pop, graph, dir_prefix, time):
         outfile.write("%d\t%d\n" % (singleton, time))
 
 
+#REVIEW only used in one def that is also under review due to its use in stale code
 def _random_subset(seq, m):
     """ Return m unique elements from seq.
 
@@ -109,6 +110,7 @@ def _random_subset(seq, m):
     return targets
 
 
+#REVIEW only used in one place that is clearly not used anymore (references stale code)
 def my_erdos_renyi_binomial_random_graph(node_list=None, p=0.0, seed=None, directed=False):
 
     """Return a random graph G_{n,p} (Erdős-Rényi graph, binomial graph).
@@ -167,7 +169,7 @@ def my_erdos_renyi_binomial_random_graph(node_list=None, p=0.0, seed=None, direc
             G.add_edge(*e)
     return G
 
-
+#REVIEW not used anywhere
 def my_barabasi_albert_graph(n, m, node_list=None, seed=None):
     """Return random graph using Barabási-Albert preferential attachment model.
 
@@ -237,7 +239,7 @@ def my_barabasi_albert_graph(n, m, node_list=None, seed=None):
         Num_source += 1
     return G
 
-
+#REVIEW not used anywhere
 class populationGraph:
     def create_graph_from_relationships(self, relationships):
         G = nx.Graph()
@@ -248,6 +250,7 @@ class populationGraph:
         return G
 
 
+#REVIEW node_list - it's only used in unused methods
 class NetworkClass(PopulationClass):
     def __init__(self, N, popSeed=0, netSeed=0, m_0=1, network_type="scale_free", node_list=None):
         """
@@ -262,6 +265,8 @@ class NetworkClass(PopulationClass):
             m_0: int
               Number of nodes each node is connected to in preferential
               attachment step
+
+            network_type: defaul is "scale_free", other options are "max_k_comp_size" and "binomial"
         """
 
         random.seed(netSeed)
@@ -336,13 +341,13 @@ class NetworkClass(PopulationClass):
         G = self.G
         nx.write_edgelist(G, path, data=False)
 
-    def write_network_stats(self, t=0):
+    def write_network_stats(self, t=0, path="results/network/networkStats.txt"):
         from networkx.algorithms import approximation
 
         G = self.G
         components = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)
         bigG = components[0]
-        outfile = open("results/network/networkStats.txt", "w")
+        outfile = open(path, "w")
         outfile.write(nx.info(G))
 
         centDict = nx.degree_centrality(G)
