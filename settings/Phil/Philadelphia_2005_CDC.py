@@ -8,15 +8,15 @@ Main model parameters.
 ####################
 PROCESSES = 1           # number of processes in parallel (quadcore)
 rSeed = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
-rSeed = 0               # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 rSeed_pop = 0
 rSeed_net = 0
 rSeed_run = 0
-N_MC = 100              # total number of iterations (Monte Carlo runs)
-N_POP = 110000          # population size
-TIME_RANGE = 168        # total time steps to iterate
-burnDuration = 30       # total time for burning in period (equillibration)
-model = 'Incar'         # Model Type for fast flag toggling
+N_REPS = 1
+N_MC = 1              # total number of iterations (Monte Carlo runs)
+N_POP = 1100          # population size
+TIME_RANGE = 12        # total time steps to iterate
+burnDuration = 12       # total time for burning in period (equillibration)
+model = 'Custom'         # Model Type for fast flag toggling
 setting = 'Phil2005'
 network_type = 'scale_free'
 ####################
@@ -34,6 +34,7 @@ MSMreport = True
 HMreport = False
 HFreport = False
 drawFigures = False
+calcComponentStats = False
 
 
 """
@@ -98,14 +99,14 @@ inc_treatment_startdate = 48    # Timestep where inc treatment can begin
 inc_treatment_dur = 12          # Duration for which agents are forced on respective treatment post release
 inc_treat_set = ['HM']          # Set of agent classifiers effected by HR treatment
 inc_treat_HRsex_beh = True      # Remove sexual higrisk behaviour during treatment duration
-inc_treat_IDU_beh = True         # Remove IDU behaviour during treatment duration
+inc_treat_IDU_beh = True         # Remove IDU behav:iour during treatment duration
 inc_treat_RIC = False            # Force retention in care of ART therapy
 
 """
 PrEP params
 """
 PrEP_type = "Oral"              #Oral/Inj PrEP modes
-PrEP_Target = 0.0              # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+PrEP_Target = 1.0              # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 PrEP_startT = 0                 # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82           # Probability of being adherent
 PrEP_AdhEffic = 0.96            # Efficacy of adherence PrEP
@@ -113,7 +114,7 @@ PrEP_NonAdhEffic = 0.76         # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0               # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01              # Probability of PrEP resistance developing
 PrEP_disc = 0.15                # Per month probability of PrEP discontinuation
-PrEP_target_model = 'MSM'       # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
+PrEP_target_model = 'CDCwomen'       # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
 PrEP_clinic_cat = 'Mid'         # If clinical target model, which category does it follow
 
 if PrEP_type == 'Oral':
@@ -178,18 +179,19 @@ elif model == 'StaticZero':
     flag_agentZero = False
 
 elif model == 'Custom':
-    flag_incar = False
+    flag_incar = True
     flag_PrEP = True
-    flag_HR = False
+    flag_HR = True
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
     flag_agentZero = False
 
-agentSexTypes = ['HM', 'HF', 'MSM', 'MTF']
+agentSexTypes = ['HM', 'HF', 'MSM']
+agentPopulations = ['HM', 'HF', 'IDU']
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
-ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, IDU)
+ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, PWID)
 RaceClass agent classifier template
 """
 RC_template = {     'Race':None,            #Race of demographic
@@ -211,7 +213,8 @@ RC_template = {     'Race':None,            #Race of demographic
                     'HAARTdisc':0.0,        #Probability of discontinuing ART therapy
                     'PrEPdisc':0.0,         #Probability of discontinuing PrEP treatment
                     'EligSE_PartnerType':[],   #List of agent SO types the agent cant partner with
-                    'AssortMixMatrix':[]    #List of assortMix Matrix to be zipped with EligPart
+                    'AssortMixMatrix':[],    #List of assortMix Matrix to be zipped with EligPart
+                    'HighRiskPrev': 0
                 }
 
 RC_allTemplate = {  'Proportion':1.00,      #Proportion of total population that is raceclass
@@ -222,7 +225,7 @@ RC_allTemplate = {  'Proportion':1.00,      #Proportion of total population that
 
 RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}, 'ALL':{}}
 RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'IDU':{}, 'ALL':{}}
-for a in ['MSM','HM','HF','IDU']:
+for a in ['MSM', 'HM', 'HF','IDU']:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
@@ -280,6 +283,25 @@ RaceClass1['MSM'].update({'POP':0.00,
                      'PrEPdisc':PrEP_disc,
                      'EligSE_PartnerType':['MSM']
                      })
+
+RaceClass1['MTF'] = {'POP':0.00,
+                     'HIV':0.33986,
+                     'AIDS':0.636,
+                     'HAARTprev':1.00,
+                     'INCARprev':0.000,
+                     'TestedPrev':0.95,
+                     'NUMPartn':4.7,
+                     'NUMSexActs':4.6,
+                     'UNSAFESEX':0.644,
+                     'NEEDLESH':0.00,
+                     'HIVTEST':0.155,
+                     'INCAR':0.00,
+                     'HAARTadh':0.67,
+                     'HAARTdisc':0.000,
+                     'PrEPadh':0.55,
+                     'PrEPdisc':PrEP_disc,
+                     'EligSE_PartnerType':['MSM']
+                     }
 
 RaceClass1['IDU'].update({'POP':0.0173,
                      'HIV':0.1500,

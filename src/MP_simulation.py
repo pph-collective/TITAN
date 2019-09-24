@@ -148,7 +148,7 @@ def open_outputs():
             # print name
             tmpReport = open("results/" + name + ".txt", "w")
             tmpReport.write(
-                "rseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\n"
+                "rseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\n"
             )
             tmpReport.close()
 
@@ -241,6 +241,7 @@ def open_outputs():
     #     ageNReport = open('results/MSMReport_a%d.txt' %i, 'w')
     #     ageNReport.write('seed,t,total_N,HIV,Tested,ART,PrEP\n')
     #     ageNReport.close()
-
+    PrEPReport = open("results/PrEPReport.txt", "w")
+    PrEPReport.write("seed\tt\tNewEnroll\tIDUpartner\tTestedPartner\tMSMWpartner\n")
 if __name__ == "__main__":
     main()
