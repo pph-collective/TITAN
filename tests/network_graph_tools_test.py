@@ -14,7 +14,7 @@ def test_NormalAgents():
         agent_sex_type = agent._SO
         agent_drug_type = agent._DU
         assert agent_drug_type not in ["IDU", "NIDU"]
-        assert agent_sex_type in ["MSM", "MSW", "HM", "HW"]
+        assert agent_sex_type in ["MSM", "MSW", "HM", "HF"]
     assert count == n_pop
 
 def test_PartialNetwork():
@@ -28,7 +28,7 @@ def test_PartialNetwork():
         agent_sex_type = agent._SO
         agent_drug_type = agent._DU
         assert agent_drug_type not in ["IDU", "NIDU"]
-        assert agent_sex_type in ["MSM", "MSW", "HM", "HW"]
+        assert agent_sex_type in ["MSM", "MSW", "HM", "HF"]
 
 def test_PopulationConsistency():
     """Test if Drug users add up"""
