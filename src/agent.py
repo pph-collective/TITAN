@@ -449,44 +449,18 @@ class Agent_set(Agent):
 
     def add_agent(self, agent):
         "Adds a new agent to the set."
-        # agent.print_agent()
-        # if agent in self._members:
-        #    raise KeyError("agent %s is already a member of agent set %s"%(agent.get_ID(), self._ID))
         self._members.append(agent)
-        # self._members[agent.get_ID()] = agent
-
-        # if self._subset: #if subsets exist, try to add the agent from those sets
-        #     try:
-        #         self._subset[agent._SO].add_agent(agent)
-        #     except:
-        #         print "agent %s is already a member of agent set %s"%(agent.get_ID(), self.get_ID())
-        # Set the agent's _parent_agent to reflect the parent of this Agent_set
-        # instance (self)
-        # agent.set_parent_agent(self)
 
     def remove_agent(self, agent):
         "Removes agent from agent set."
 
-        # ID = agent.get_ID()
-        # print "Removing agent %d"%ID
-
         try:
             self._members.remove(agent)
-            # print "agent %s has been removed from agent set %s"%(agent._ID, self.get_ID())
-            # self._members.
         except:
-            # print "agent %s is not a member of agent set %s"%(agent.get_ID(), self.get_ID())
-            # agent.print_agent()
             pass
 
         for tmpS in self.iter_subset():
-            # tmpS.print_agents()
-
             tmpS.remove_agent(agent)
-        # Reset the agent's _parent_agent
-        # assert agent.get_parent_agent().get_ID() == self.get_ID(), "Removing agent from an Agent_set it does not appear to be assigned to."
-        # agent.set_parent_agent(None)
-        # print "Removed agent", agent._ID
 
     def iter_agents(self):
         for agent in self.get_agents():
@@ -497,9 +471,6 @@ class Agent_set(Agent):
 
     def random_agent(self):
         try:
-            # tmpA = random.choice(self._members.keys())
-            # #print "Returned agent", tmpA._ID
-            # return self._members[tmpA]
             return random.choice(self._members)
         except:
             pass

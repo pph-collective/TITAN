@@ -40,7 +40,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 # Imports
-# import random
+import random
 from copy import deepcopy, copy
 import os
 import time
@@ -58,10 +58,11 @@ try:
 except ImportError:
     raise ImportError("Can't import PopulationClass")
 
-try:
-    from .ABM_core import *
-except ImportError:
-    raise ImportError("Can't import PopulationClass")
+# IS THIS USED? CIRCULAR REFERENCES #REVIEW
+# try:
+#     from .ABM_core import *
+# except ImportError:
+#     raise ImportError("Can't import PopulationClass")
 
 try:
     from .agent import *
@@ -71,50 +72,39 @@ except ImportError:
 from . import params
 
 
-def update_partner_assignments(self, partnerTurnover, graph, agent=None):
+def update_partner_assignments(self, partnerTurnover, graph, agent=None): #REVIEW (graph is passed, but then never used, rather self.G is used directly, probably should be graph)
     # Now create partnerships until available partnerships are out
-    # print "Update partner random start ",random.randint(0,1000)
     if agent:
         partner = get_partner(self, agent, self.All_agentSet)
 
         if partner:
-            # print "Agent %d found partner %d!"%(agent.get_ID(), partner.get_ID())
             duration = get_partnership_duration(self, agent)
             tmp_relationship = Relationship(agent, partner, "MSM", "SE", duration)
             agent.bond(partner, tmp_relationship)
             self.Relationships.add_agent(tmp_relationship)
             self.G.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
     else:
-        EligibleAgents = self.All_agentSet  # ._subset["HIV"].iter_agents()
+        EligibleAgents = self.All_agentSet
         noMatch = 0
         for agent in EligibleAgents.iter_agents():
-            # print len(agent._partners)
             acquirePartnerProb = (
                 params.cal_SexualPartScaling * partnerTurnover * (agent._mean_num_partners / (12.0))
             )
-            # if agent._highrisk_bool:print acquirePartnerProb
             if np.random.uniform(0, 1) < acquirePartnerProb:
                 partner = get_partner(self, agent, self.All_agentSet)
 
                 if partner:
-                    # print "Agent %d found partner %d!"%(agent.get_ID(), partner.get_ID())
-
                     duration = get_partnership_duration(self, agent)
                     tmp_relationship = Relationship(agent, partner, "MSM", "SE", duration)
 
                     agent.bond(partner, tmp_relationship)
                     self.Relationships.add_agent(tmp_relationship)
                     self.G.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
-
-                    # ADD RELATIONSHIP EDGE TO GRAPH G of NetworkGraph
-                    # print "%d/%d partnets found for agent %d"%(len(agent._partners), agent._num_sex_partners, agent.get_ID())
-                    # print "%d/%d partnets found for partner %d"%(len(partner._partners), partner._num_sex_partners, partner.get_ID())
-
                 else:
-                    # print "Missed pass attempt",noMatch
                     noMatch += 1
-
-    # print "\n\t\t-COULDNT MATCH",noMatch,"AGENTS IN NEED \t---"
+                    self.G.add_node(agent)
+            else:
+                self.G.add_node(agent)
 
 
 def get_number_of_partners(self, agent, agent_drug_type, agent_sex_type):

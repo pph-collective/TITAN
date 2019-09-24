@@ -53,17 +53,6 @@ import matplotlib.patches as patches
 import matplotlib.animation as animation
 from operator import itemgetter
 
-# try:
-#     import pygraphviz
-#     from networkx.drawing.nx_agraph import graphviz_layout
-# except ImportError:
-#     try:
-#         import pydotplus
-#         from networkx.drawing.nx_pydot import graphviz_layout
-#     except ImportError:
-#         raise ImportError("This example needs Graphviz and either "
-#                           "PyGraphviz or PyDotPlus")
-
 try:
     from .HIVABM_Population import PopulationClass
 except ImportError:
@@ -297,12 +286,9 @@ class NetworkClass(PopulationClass):
             self.G = nx.Graph()
             for i in range(10):
                 update_partner_assignments(self, params.PARTNERTURNOVER, self.get_Graph)
-            # scale free Albert Barabsai Graph
-            # self.G = my_barabasi_albert_graph(self.NetworkSize,m_0, node_list = node_list)
         elif network_type == "max_k_comp_size":
 
             def trimComponent(component, maxComponentSize):
-                # print "TRIMMING", component.number_of_nodes(), component.number_of_edges()
                 for ag in component.nodes:
                     if random.random() < 0.1:
                         for rel in ag._relationships:
@@ -311,19 +297,14 @@ class NetworkClass(PopulationClass):
                             self.Relationships.remove_agent(rel)
                             component.remove_edge(rel._ID1, rel._ID2)
                             self.G.remove_edge(rel._ID1, rel._ID2)
-                            # print(self.G.number_of_nodes())
-
-                # print "RESULT:", component.number_of_nodes(), component.number_of_edges()
 
                 components = sorted(nx.connected_component_subgraphs(self.G), key=len, reverse=True)
                 totNods = 0
                 for comp in components:
                     cNodes = comp.number_of_nodes()
                     if cNodes > params.maxComponentSize:
-                        # print "TOO BIG", comp, comp.number_of_nodes()
                         trimComponent(comp, params.maxComponentSize)
                     elif cNodes < params.minComponentSize:
-                        # print "TOO SMALL", comp.nodes(), comp.number_of_nodes()
                         for a in comp.nodes():
                             try:
                                 self.G.remove_node(a)
@@ -331,7 +312,6 @@ class NetworkClass(PopulationClass):
                                 pass
                     else:
                         totNods += cNodes
-                # print "Total agents in graph: ",totNods,self.G.number_of_nodes()
 
             self.G = nx.Graph()
             for i in range(10):
@@ -344,7 +324,7 @@ class NetworkClass(PopulationClass):
                 elif comp.number_of_nodes() < params.minComponentSize:
                     print("TOO SMALL", comp, comp.number_of_nodes())
             print("Total agents in graph: ", self.G.number_of_nodes())
-        elif network_type == "binomial":
+        elif network_type == "binomial": #REVIEW (NormalAgents not used anymore)
             self.G = my_erdos_renyi_binomial_random_graph(
                 node_list=self.NormalAgents, p=0.5, seed=None, directed=False
             )
@@ -388,24 +368,14 @@ class NetworkClass(PopulationClass):
                 sum(centDict.values()) / len(list(centDict.values()))
             )
         )
-        # outfile.write("Average node connectivity: {}\n".format(nx.node_connectivity(G)))
+
         outfile.write("Average node clustering: {}\n".format(nx.average_clustering(G)))
         outfile.close()
-
-        # # Betweenness centrality
-        # bet_cen = nx.betweenness_centrality(bigG)
-        # # Closeness centrality
-        # clo_cen = nx.closeness_centrality(bigG)
-        # # Eigenvector centrality
-        # #eig_cen = nx.eigenvector_centrality(bigG)
-        # print bet_cen
-        # print clo_cen
 
         comps = []
         for i in components:
             comps.append(len(i))
 
-        # print np.histogram(comps)
 
     def create_graph_from_agents(self, agents):
         G = self.G
@@ -415,6 +385,7 @@ class NetworkClass(PopulationClass):
             G.add_node(tmpA)
         print("\tAdded %d/%d agents" % (numAdded, G.number_of_nodes()))
 
+
     def create_graph_from_relationships(self, relationships):
         G = self.G
         numAdded = 0
@@ -423,23 +394,15 @@ class NetworkClass(PopulationClass):
             self.G.add_edge(rel._ID1, rel._ID2)
         print("Added %d/%d relationships" % (numAdded, G.number_of_edges()))
 
+
     def draw_histogram(self, t=0):
         G = self.G
         degree_sequence = sorted([d for n, d in G.degree()], reverse=True)  # degree sequence
-        # print "Degree sequence", degree_sequence
         degreeCount = collections.Counter(degree_sequence)
         deg, cnt = list(zip(*list(degreeCount.items())))
 
         fig, ax = plt.subplots()
         plt.bar(deg, cnt, width=0.80, color="b")
-
-        # degree_sequence = sorted([d for n, d in G.degree() if n._HIV_bool], reverse=True)  # degree sequence
-        # # print "Degree sequence", degree_sequence
-        # degreeCount = collections.Counter(degree_sequence)
-        # deg, cnt = zip(*degreeCount.items())
-        # print deg
-        # plt.bar(deg,cnt,color="r")
-        # cntHIV =
 
         plt.title("Degree Histogram\nTime: %d" % t)
         plt.ylabel("Count")
@@ -451,34 +414,26 @@ class NetworkClass(PopulationClass):
         # draw graph in inset
         plt.axes([0.4, 0.4, 0.5, 0.5])
         Gcc = G  # sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)[0]
-        # pos = nx.spring_layout(G, iterations=10)
-        # pos = nx.circular_layout(G)
-        # pos = nx.shell_layout(G)
-        # ‘neato’|’dot’|’twopi’|’circo’|’fdp’|’nop’
         pos = graphviz_layout(Gcc, prog="neato", args="")
         plt.axis("off")
 
         node_shape = "o"
         node_color = []
         for v in Gcc:
-            # tmp_aids = self.get_agent_characteristic(v, 'AIDS')
-            # tmp_hiv = self.get_agent_characteristic(v, 'HIV')
             if v._AIDS_bool:  # tmp_hiv == 1:
                 node_color.append("r")
             elif v._HIV_bool:  # tmp_aids == 1:
                 node_color.append("r")
             else:
                 node_color.append("g")
-        # nx.draw(G, node_size=5, node_color=node_color)
         nx.draw_networkx_nodes(Gcc, pos, node_size=20, node_color=node_color, node_shape=node_shape)
         nx.draw_networkx_edges(Gcc, pos, alpha=0.4)
-        # nx.draw_networkx_labels(G, pos, t, font_size=16)
 
-        # line_ani = animation.FuncAnimation(fig, interval=50, blit=True)
         plt.show(block=False)
         plt.savefig("images/snapshot_%d.png" % t)
         plt.pause(0.5)
         plt.close()
+
 
     def plot_DegreeDistribution(self, time=0):
         """
@@ -487,43 +442,38 @@ class NetworkClass(PopulationClass):
         """
         graph = self.G
         Gsize = graph.number_of_nodes()
-        # print("\tNetwork size = "+str(self.NetworkSize))
         degreeList = np.array(graph.degree())
         x_degree = np.arange(max(degreeList) + 1)  # include 0 and max
         degreehist = np.bincount(degreeList)
         ix = degreehist != 0  # delete zeros
         degreehist = degreehist[ix]
         x_degree = x_degree[ix]
-        # plt.ion()
         plt.clf()
-        # print node degree distribution
-        # plt.loglog(x_degree, degreehist, 'bo')
-        # plt.semilogy(x_degree, degreehist, 'bo')
         plt.plot(x_degree, degreehist, "bo")
         plt.suptitle("Node degree distribution", fontsize=18)
         plt.title("Time=%d   N=%d" % (time, Gsize))
         plt.ylabel("Frequency")
         plt.xlabel("Node degree")
-        # plt.axis('equal')
-        # plt.axis([min(degreeList)-(0.05*max(degreeList)),
-        #          max(degreeList)+(0.05*max(degreeList)),
-        #          0.9, max(degreehist)+(0.05* max(degreehist))])
         plt.axis([0, 1.05 * max(degreeList), 0, 1.05 * max(degreehist)])
         plt.savefig("images/Degree_%d.png" % time)  # plt.show()
+
 
     def get_AdjacencyList(self):
         """ Return the adjacency list of the graph. """
         return self.G.adjacency_list()
 
+
     def stat_connectivity(self):
         G = self.G
         return nx.all_pairs_node_connectivity(G)
+
 
     def get_Graph(self):
         """
         Return random assortative graph produced by ``set_assortative_graph``.
         """
         return self.G
+
 
     def vizualize_network_circular(self):
         G = self.G
@@ -534,6 +484,7 @@ class NetworkClass(PopulationClass):
         plt.savefig("circular_tree.png")
         # plt.show()
 
+
     def vizualize_network_spectral(self):
         G = self.G
         pos = graphviz_layout(G, prog="twopi", args="")
@@ -541,7 +492,7 @@ class NetworkClass(PopulationClass):
         nx.draw_spectral(G, with_labels=False)
         plt.axis("equal")
         plt.savefig("spectral_tree.png")
-        # plt.show()
+
 
     def vizualize_network_graphviz(self, program="sfdp", coloring=None, time=0):
         G = self.G
@@ -556,15 +507,6 @@ class NetworkClass(PopulationClass):
         edge_color = "k"
         node_shape = "o"
         node_color = self.get_network_color(coloring)
-        # node_color = []
-        # if coloring == 'Tested':
-        #     for v in G:
-        #         if v._tested:#tmp_hiv == 1:
-        #             node_color.append('r')
-        #         elif v._HIV_bool: #tmp_aids == 1:
-        #             node_color.append('r')
-        #         else:
-        #             node_color.append('g')
 
         pos = graphviz_layout(G, prog="neato", args="")
         nx.draw(
@@ -579,18 +521,10 @@ class NetworkClass(PopulationClass):
             width=0.25,
         )
 
-        # nx.draw_graphviz(G,
-        #                  node_color=node_color,
-        #                  node_size=int(10000.0/size),
-        #                  alpha=1.0,
-        #                  prog=program,
-        #                  with_labels=False,
-        #                  linewidths = 0.25,
-        #                  width = 0.25)
         plt.axis("equal")
         filename = "images/Network_%d_%s_%s_%d.png" % (Gsize, program, coloring, time)
         plt.savefig(filename)
-        # plt.show()
+
 
     def vizualize_network_random(self):
         G = self.G
@@ -598,14 +532,13 @@ class NetworkClass(PopulationClass):
         nx.draw_random(G, with_labels=False)
         plt.axis("equal")
         plt.savefig("random.png")
-        # plt.show()
+
 
     def vizualize_network_ego(self):
         # Create a BA model graph
         G = self.G
         n = 1000
         m = 2
-        # G = nx.generators.barabasi_albert_graph(n, m)
         # find node with largest degree
         node_and_degree = G.degree()
         (largest_hub, degree) = sorted(list(node_and_degree.items()), key=itemgetter(1))[-1]
@@ -613,12 +546,7 @@ class NetworkClass(PopulationClass):
         hub_ego = nx.ego_graph(G, largest_hub)
         # Draw graph
         nx.draw_networkx(G, with_labels=False)
-        # pos = nx.spring_layout(hub_ego)
-        # nx.draw(hub_ego, pos, node_color='b', node_size=50, with_labels=False)
-        # Draw ego as large and red
-        # nx.draw_networkx_nodes(hub_ego, pos, nodelist=[largest_hub], node_size=300, node_color='r')
         plt.savefig("ego_graph.png")
-        # plt.show()
 
     def get_network_color(self, coloring="Sex Type"):
         G = self.G
@@ -671,8 +599,6 @@ class NetworkClass(PopulationClass):
                     node_color.append("gray")
         elif coloring == "HIV":
             for v in G:
-                # tmp_aids = self.get_agent_characteristic(v, 'AIDS')
-                # tmp_hiv = self.get_agent_characteristic(v, 'HIV')
                 if v._AIDS_bool:  # tmp_hiv == 1:
                     node_color.append("purple")
                 elif v._HIV_bool:  # tmpaids == 1:
@@ -753,14 +679,8 @@ class NetworkClass(PopulationClass):
         )
 
         ax.add_patch(p)
-        # plt.figure(figsize=(8,8))
 
         if not pos:
-            # pos=nx.spring_layout(G,iterations=iterations)
-            # pos = nx.circular_layout(G)
-            # pos=nx.shell_layout(G)
-            # pos=nx.random_layout(G)
-            # pos=nx.spectral_layout(G)
             pos = graphviz_layout(G, prog="neato", args="")
 
         edge_color = "k"
@@ -791,11 +711,6 @@ class NetworkClass(PopulationClass):
             width=0.5,
         )
 
-        # nx.draw_networkx_nodes(self.graph,pos,node_size=NodeSize)
-        # nx.draw_networkx_edges(self.graph,pos,alpha=0.4)
-        # print G.number_of_nodes()
-        # print curtime
-
         textstr = "\n".join((r"N infection=%.2f" % (txtboxLabel,), r"Time=%.2f" % (curtime,)))
 
         # these are matplotlib.patch.Patch properties
@@ -812,84 +727,9 @@ class NetworkClass(PopulationClass):
             bbox=props,
         )
 
-        # plt.axis('equal')
-        # plt.axis('off')
         filename = "images/%s_%d_%s_%d.png" % (label, G.number_of_nodes(), coloring, curtime)
 
-        # plt.show()
-        # plt.show(block=True)
         fig.savefig(filename)
-        # print G.size()
+
         if return_layout:
             return pos
-
-
-class TestClassMethods(unittest.TestCase):
-    """
-    :Purpose:
-    	Unittest for testing the methods of the HIV class.
-    """
-
-    def setUp(self):
-        """
-        :Purpose:
-            Tests that all models from setup pass inspection.
-            ``setUp`` is perfomed before each method.
-        """
-        self.N_pop = 10000
-
-    def test_NormalAgents(self):
-        """Test if all non-IDU,ND,NIDU agents are in the population"""
-        print(" ... Test: NormalAgents")
-        myNetworkObj = NetworkClass(N=10000, m_0=3)
-        for agent in myNetworkObj.NormalAgents:
-            agent_sex_type = myNetworkObj.get_agent_characteristic(agent, "Sex Type")
-            agent_drug_type = myNetworkObj.get_agent_characteristic(agent, "Drug Type")
-            self.assertTrue(
-                agent_drug_type not in ["IDU", "NIDU"], "Wrong drug type!%s" % str(agent_drug_type)
-            )
-            self.assertTrue(agent_sex_type != "MSM", "Wrong sex type!%s" % str(agent_sex_type))
-
-    def test_PartialNetwork(self):
-        """Test if all non-IDU,ND,NIDU agents are in the population"""
-        print(" ... Test: Network and Agent type consistency")
-        myNetworkObj = NetworkClass(N=10000, m_0=3)
-
-        for agent in myNetworkObj.NormalAgents:
-            self.assertTrue(agent in myNetworkObj.G.nodes())
-
-        for agent in myNetworkObj.G:
-            agent_sex_type = myNetworkObj.get_agent_characteristic(agent, "Sex Type")
-            agent_drug_type = myNetworkObj.get_agent_characteristic(agent, "Drug Type")
-            self.assertTrue(
-                agent_drug_type not in ["IDU", "NIDU"], "Wrong drug type!%s" % str(agent_drug_type)
-            )
-            self.assertTrue(agent_sex_type != "MSM", "Wrong sex type!%s" % str(agent_sex_type))
-
-    def test_PopulationConsistency(self):
-        """Test if Drug users add up"""
-        print(" ... Test: Population consistency")
-        myNetworkObj = NetworkClass(N=10000, m_0=3)
-        CheckSumDrug = (
-            len(myNetworkObj.IDU_agents)
-            + len(myNetworkObj.NIDU_agents)
-            + len(myNetworkObj.ND_agents)
-        )
-        self.assertTrue(myNetworkObj.PopulationSize == CheckSumDrug)
-
-    def test_HIVConsistency(self):
-        """Test HIV consistency"""
-        print(" ... Test: Test HIV consistency")
-        myNetworkObj = NetworkClass(N=10000, m_0=3)
-        for agent in myNetworkObj.Agents:
-            HIV_status = myNetworkObj.get_agent_characteristic(agent, "HIV")
-            if HIV_status == 1:
-                self.assertTrue(agent in myNetworkObj.HIV_agents)
-
-        for agent in myNetworkObj.HIV_agents:
-            HIV_status = myNetworkObj.get_agent_characteristic(agent, "HIV")
-            self.assertTrue(HIV_status == 1)
-
-
-if __name__ == "__main__":
-    unittest.main()
