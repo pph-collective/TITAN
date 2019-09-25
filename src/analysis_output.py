@@ -343,11 +343,15 @@ def print_stats(
     for tmpA in deathSet:
         rsltdic[tmpA._race][tmpA._SO]["deaths"] += 1
 
-    deaths_total = deaths["Total"]["HM"] + deaths["Total"]["HF"] + deaths["Total"]["MSM"]
+    deaths_total = (
+        deaths["Total"]["HM"] + deaths["Total"]["HF"] + deaths["Total"]["MSM"]
+    )
     deaths_HM = deaths["Total"]["HM"]
     deaths_MSM = deaths["Total"]["MSM"]
     deaths_HF = deaths["Total"]["HF"]
-    deaths_HIV_total = deaths["HIV+"]["HM"] + deaths["HIV+"]["HF"] + deaths["HIV+"]["MSM"]
+    deaths_HIV_total = (
+        deaths["HIV+"]["HM"] + deaths["HIV+"]["HF"] + deaths["HIV+"]["MSM"]
+    )
     deaths_HIV_HM = deaths["HIV+"]["HM"]
     deaths_HIV_MSM = deaths["HIV+"]["MSM"]
     deaths_HIV_HF = deaths["HIV+"]["HF"]
@@ -609,7 +613,8 @@ def print_stats(
     )
 
     peopleOff.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\n" % (self.netseed, t, off_HM, off_HF, kickOff_HM, kickOff_HF)
+        "%d\t%d\t%d\t%d\t%d\t%d\n"
+        % (self.netseed, t, off_HM, off_HF, kickOff_HM, kickOff_HF)
     )
 
     # msmReport.write(("%d,%s,%3.2f,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n" % (rseed,params.PrEP_type,params.PrEP_Target,t, totalAgents._subset["MSM"].num_members(), numHIV_MSM, numAIDS_MSM, numTested_MSM, numART_MSM, numToMSM, infMSM_HR6m,
@@ -713,7 +718,13 @@ def print_stats(
         ResultDict["Prv_HIV"].update({t: (0.0)})
     try:
         ResultDict["Prv_AIDS"].update(
-            {t: (1.0 * tot_rsltdic["ALL"]["ALL"]["numAIDS"] / tot_rsltdic["ALL"]["ALL"]["numHIV"])}
+            {
+                t: (
+                    1.0
+                    * tot_rsltdic["ALL"]["ALL"]["numAIDS"]
+                    / tot_rsltdic["ALL"]["ALL"]["numHIV"]
+                )
+            }
         )
     except:
         ResultDict["Prv_AIDS"].update({t: (0.0)})
@@ -822,10 +833,31 @@ def assess_before_update(
     num_SEP = 0
 
     SexTrans = {"0": {}, "1": {}}
-    SexTrans["0"] = {"0": 0.005, "1": 0.005, "2": 0.004, "3": 0.002, "4": 0.001, "5": 0.0001}
-    SexTrans["1"] = {"0": 0.001, "1": 0.001, "2": 0.0008, "3": 0.0004, "4": 0.0002, "5": 0.0001}
+    SexTrans["0"] = {
+        "0": 0.005,
+        "1": 0.005,
+        "2": 0.004,
+        "3": 0.002,
+        "4": 0.001,
+        "5": 0.0001,
+    }
+    SexTrans["1"] = {
+        "0": 0.001,
+        "1": 0.001,
+        "2": 0.0008,
+        "3": 0.0004,
+        "4": 0.0002,
+        "5": 0.0001,
+    }
 
-    NeedleTrans = {"0": 0.007, "1": 0.007, "2": 0.0056, "3": 0.0028, "4": 0.0014, "5": 0.0002}
+    NeedleTrans = {
+        "0": 0.007,
+        "1": 0.007,
+        "2": 0.0056,
+        "3": 0.0028,
+        "4": 0.0014,
+        "5": 0.0002,
+    }
 
     transmissionTotalCounter = {"0": SexTrans, "1": NeedleTrans}
     transmissionAcuteCounter = {"SEX": SexTrans, "NEEDLE": NeedleTrans}
@@ -1120,7 +1152,8 @@ def assess_before_update(
     numNEEDLE = Transmission_tracker["NEEDLE"][t]
 
     incidenceReport.write(
-        "%d\t%d\t%d\t%d\n" % (t, numFROM_ND + numFROM_IDU + numFROM_NIDU, numFROM_IDU, numACUTE_IDU)
+        "%d\t%d\t%d\t%d\n"
+        % (t, numFROM_ND + numFROM_IDU + numFROM_NIDU, numFROM_IDU, numACUTE_IDU)
     )  # 3rd was numHIV_IDU_MSM_i + numHIV_ND_MSM_i
     prevalenceReport.write(
         "%d\t%d\t%d\t%d\t%d\t%d\n" % (t, numToND, numToIDU, numToHM, numToHF, numToMSM)
@@ -1227,25 +1260,25 @@ def assess_interaction_distribution(
     if agent_drug_type == "ND":
         for p in partners:
             p_drug_type = Agents[p]["Drug Type"]
-            tmp_ND_NumPartners_Count.setdefault(agent, {"ND": 0, "NIDU": 0, "IDU": 0, "MSM": 0})[
-                p_drug_type
-            ] += 1
+            tmp_ND_NumPartners_Count.setdefault(
+                agent, {"ND": 0, "NIDU": 0, "IDU": 0, "MSM": 0}
+            )[p_drug_type] += 1
             if Agents[p]["Sex Type"] == "MSM":
                 tmp_ND_NumPartners_Count[agent]["MSM"] += 1
     elif agent_drug_type == "NIDU":
         for p in partners:
             p_drug_type = Agents[p]["Drug Type"]
-            tmp_NIDU_NumPartners_Count.setdefault(agent, {"ND": 0, "NIDU": 0, "IDU": 0, "MSM": 0})[
-                p_drug_type
-            ] += 1
+            tmp_NIDU_NumPartners_Count.setdefault(
+                agent, {"ND": 0, "NIDU": 0, "IDU": 0, "MSM": 0}
+            )[p_drug_type] += 1
             if Agents[p]["Sex Type"] == "MSM":
                 tmp_NIDU_NumPartners_Count[agent]["MSM"] += 1
     elif agent_drug_type == "IDU":
         for p in partners:
             p_drug_type = Agents[p]["Drug Type"]
-            tmp_IDU_NumPartners_Count.setdefault(agent, {"ND": 0, "NIDU": 0, "IDU": 0, "MSM": 0})[
-                p_drug_type
-            ] += 1
+            tmp_IDU_NumPartners_Count.setdefault(
+                agent, {"ND": 0, "NIDU": 0, "IDU": 0, "MSM": 0}
+            )[p_drug_type] += 1
             if Agents[p]["Sex Type"] == "MSM":
                 tmp_IDU_NumPartners_Count[agent]["MSM"] += 1
     else:
@@ -1254,36 +1287,36 @@ def assess_interaction_distribution(
     if agent_sex_type == "MSM":
         for p in partners:
             p_drug_type = Agents[p]["Drug Type"]
-            tmp_MSM_NumPartners_Count.setdefault(agent, {"ND": 0, "NIDU": 0, "IDU": 0, "MSM": 0})[
-                p_drug_type
-            ] += 1
+            tmp_MSM_NumPartners_Count.setdefault(
+                agent, {"ND": 0, "NIDU": 0, "IDU": 0, "MSM": 0}
+            )[p_drug_type] += 1
     elif agent_sex_type == "WSW":
         for p in partners:
             p_drug_type = Agents[p]["Drug Type"]
-            tmp_WSW_NumPartners_Count.setdefault(agent, {"ND": 0, "NIDU": 0, "IDU": 0, "MSM": 0})[
-                p_drug_type
-            ] += 1
+            tmp_WSW_NumPartners_Count.setdefault(
+                agent, {"ND": 0, "NIDU": 0, "IDU": 0, "MSM": 0}
+            )[p_drug_type] += 1
     elif agent_sex_type not in ["HM", "HF"]:
         raise ValueError("Invalid sex type! %s" % agent_sex_type)
 
     for p in partners:
         partner_drug_type = Agents[p]["Drug Type"]
         if partner_drug_type == "ND":
-            tmp_ND_NumPartners_Count.setdefault(p, {"ND": 0, "NIDU": 0, "IDU": 0, "MSM": 0})[
-                agent_drug_type
-            ] += 1
+            tmp_ND_NumPartners_Count.setdefault(
+                p, {"ND": 0, "NIDU": 0, "IDU": 0, "MSM": 0}
+            )[agent_drug_type] += 1
             if agent_sex_type == "MSM":
                 tmp_ND_NumPartners_Count[p]["MSM"] += 1
         elif partner_drug_type == "NIDU":
-            tmp_NIDU_NumPartners_Count.setdefault(p, {"ND": 0, "NIDU": 0, "IDU": 0, "MSM": 0})[
-                agent_drug_type
-            ] += 1
+            tmp_NIDU_NumPartners_Count.setdefault(
+                p, {"ND": 0, "NIDU": 0, "IDU": 0, "MSM": 0}
+            )[agent_drug_type] += 1
             if agent_sex_type == "MSM":
                 tmp_NIDU_NumPartners_Count[p]["MSM"] += 1
         elif partner_drug_type == "IDU":
-            tmp_IDU_NumPartners_Count.setdefault(p, {"ND": 0, "NIDU": 0, "IDU": 0, "MSM": 0})[
-                agent_drug_type
-            ] += 1
+            tmp_IDU_NumPartners_Count.setdefault(
+                p, {"ND": 0, "NIDU": 0, "IDU": 0, "MSM": 0}
+            )[agent_drug_type] += 1
             if agent_sex_type == "MSM":
                 tmp_IDU_NumPartners_Count[p]["MSM"] += 1
         else:

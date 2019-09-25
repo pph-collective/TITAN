@@ -127,7 +127,9 @@ def simulation(
 ):
     # Check input
     if save_adjlist_flag not in [0, 1]:
-        raise ValueError("Invalid input! save_adjlist_flag = %s" % str(save_adjlist_flag))
+        raise ValueError(
+            "Invalid input! save_adjlist_flag = %s" % str(save_adjlist_flag)
+        )
     # if time_range != 30:
     #   raise Warning('time_range=%d'%time_range)
     # Run nreps simulations using the given parameters.
@@ -260,7 +262,9 @@ def save_results(N_MC, time_range, rslts, outfile_dir, num_sim):
             x_v = []
 
             try:
-                x_v = np.array(rslts[result_property][t])  # result_dict[result_property][t])
+                x_v = np.array(
+                    rslts[result_property][t]
+                )  # result_dict[result_property][t])
                 x_v = x_v[np.logical_not(np.isnan(x_v))]
             except:
                 pass

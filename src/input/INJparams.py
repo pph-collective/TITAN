@@ -7,7 +7,9 @@ Main model parameters.
 
 ####################
 PROCESSES = 1  # number of processes in parallel (quadcore)
-rSeed = 1  # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
+rSeed = (
+    1
+)  # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_POP = 30000  # population size
 TIME_RANGE = 120  # total time steps to iterate
@@ -73,7 +75,9 @@ inc_Recidivism = 0.267
 
 # PrEP params
 PrEP_type = "Inj"  # Oral/Inj PrEP modes
-PrEP_Target = 0.0  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+PrEP_Target = (
+    0.0
+)  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 PrEP_startT = 0  # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82  # Probability of being adherent
 PrEP_AdhEffic = 0.96  # Efficacy of adherence PrEP
@@ -342,7 +346,11 @@ sexualDurations = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
 sexualDurations[1] = {"p_value": (0.323 + 0.262), "min": 1, "max": 6}
 sexualDurations[2] = {"p_value": (0.323 + 0.262 + 0.116), "min": 7, "max": 12}
 sexualDurations[3] = {"p_value": (0.323 + 0.262 + 0.116 + 0.121), "min": 13, "max": 24}
-sexualDurations[4] = {"p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06), "min": 25, "max": 36}
+sexualDurations[4] = {
+    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
+    "min": 25,
+    "max": 36,
+}
 sexualDurations[5] = {"min": 37, "max": 48}
 
 needleDurations = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
@@ -359,10 +367,38 @@ PartnershipDurations = {"SEX": sexualDurations, "NEEDLE": needleDurations}
 Sexual and injection transmission probabilities
 """
 SexTrans = {"MSM": {}, "HM": {}, "HF": {}}
-SexTrans["MSM"] = {"0": 0.005, "1": 0.005, "2": 0.004, "3": 0.002, "4": 0.001, "5": 0.0001}
-SexTrans["HM"] = {"0": 0.001, "1": 0.001, "2": 0.0008, "3": 0.0004, "4": 0.0002, "5": 0.0001}
-SexTrans["HF"] = {"0": 0.001, "1": 0.001, "2": 0.0008, "3": 0.0004, "4": 0.0002, "5": 0.0001}
+SexTrans["MSM"] = {
+    "0": 0.005,
+    "1": 0.005,
+    "2": 0.004,
+    "3": 0.002,
+    "4": 0.001,
+    "5": 0.0001,
+}
+SexTrans["HM"] = {
+    "0": 0.001,
+    "1": 0.001,
+    "2": 0.0008,
+    "3": 0.0004,
+    "4": 0.0002,
+    "5": 0.0001,
+}
+SexTrans["HF"] = {
+    "0": 0.001,
+    "1": 0.001,
+    "2": 0.0008,
+    "3": 0.0004,
+    "4": 0.0002,
+    "5": 0.0001,
+}
 
-NeedleTrans = {"0": 0.007, "1": 0.007, "2": 0.0056, "3": 0.0028, "4": 0.0014, "5": 0.0002}
+NeedleTrans = {
+    "0": 0.007,
+    "1": 0.007,
+    "2": 0.0056,
+    "3": 0.0028,
+    "4": 0.0014,
+    "5": 0.0002,
+}
 
 TransmissionProbabilities = {"SEX": SexTrans, "NEEDLE": NeedleTrans}

@@ -37,14 +37,18 @@ outfile.write(nx.info(G))
 
 centDict = nx.degree_centrality(G)
 
-outfile.write("\nNumber of connected components: {}\n".format(nx.number_connected_components(G)))
+outfile.write(
+    "\nNumber of connected components: {}\n".format(nx.number_connected_components(G))
+)
 conG = nx.connected_components(G)
 tot_nodes = 0
 for t in conG:
     thisComp = len(t)
     tot_nodes += thisComp
 outfile.write(
-    "Average component size: {}\n".format(tot_nodes * 1.0 / nx.number_connected_components(G))
+    "Average component size: {}\n".format(
+        tot_nodes * 1.0 / nx.number_connected_components(G)
+    )
 )
 outfile.write("Maximum component size: {}\n".format(nx.number_of_nodes(bigG)))
 outfile.write("Degree Histogram: {}\n".format(nx.degree_histogram(G)))

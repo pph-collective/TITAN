@@ -17,7 +17,9 @@ N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_POP = 23815  # population size
 TIME_RANGE = 1  # total time steps to iterate
 
-PrEPTarget = 1.2  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+PrEPTarget = (
+    1.2
+)  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 PrEPstartT = 48
 model = "Incar"  # Model Type for fast flag toggling
 ####################
@@ -258,7 +260,11 @@ sexualDurations = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
 sexualDurations[1] = {"p_value": (0.323 + 0.262), "min": 1, "max": 6}
 sexualDurations[2] = {"p_value": (0.323 + 0.262 + 0.116), "min": 7, "max": 12}
 sexualDurations[3] = {"p_value": (0.323 + 0.262 + 0.116 + 0.121), "min": 13, "max": 24}
-sexualDurations[4] = {"p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06), "min": 25, "max": 36}
+sexualDurations[4] = {
+    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
+    "min": 25,
+    "max": 36,
+}
 sexualDurations[5] = {"min": 37, "max": 48}
 
 needleDurations = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
@@ -283,8 +289,22 @@ SexTrans["MSM"] = {
     "4": 0.00745,
     "5": 0.000298,
 }
-SexTrans["HM"] = {"0": 0.001, "1": 0.001, "2": 0.0008, "3": 0.0004, "4": 0.0002, "5": 0.0001}
-SexTrans["HF"] = {"0": 0.001, "1": 0.001, "2": 0.0008, "3": 0.0004, "4": 0.0002, "5": 0.0001}
+SexTrans["HM"] = {
+    "0": 0.001,
+    "1": 0.001,
+    "2": 0.0008,
+    "3": 0.0004,
+    "4": 0.0002,
+    "5": 0.0001,
+}
+SexTrans["HF"] = {
+    "0": 0.001,
+    "1": 0.001,
+    "2": 0.0008,
+    "3": 0.0004,
+    "4": 0.0002,
+    "5": 0.0001,
+}
 
 NeedleTrans = {0: 0.007, "1": 0.007, "2": 0.0056, "3": 0.0028, "4": 0.0014, "5": 0.0002}
 

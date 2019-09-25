@@ -45,7 +45,20 @@ class Agent(object):
     "Class for agent objects."
 
     def __init__(self, ID, SO, age, race, DU, initial_agent=False):
+        """
+        Initialize an agent based on given properties
 
+        args:
+            ID (int) - Unique agent ID
+            SO (str) - Sexual orientation flag (HM, HF, MSM)
+            age (int) - Agents initialization age
+            race (str) - Race of agent
+            DU (str) - Drug use flag (IDU, NIDU, NDU)
+            initial_agent (bool) - If the agent was created during model init
+
+        returns:
+            None
+        """
         # self._ID is unique ID number used to track each person agent.
         self._ID = ID
         self._timeAlive = 0
@@ -124,6 +137,12 @@ class Agent(object):
         # Set gender on small switch statement.
 
     def __str__(self):
+        """
+        String formatting of agent object
+
+        returns:
+            String formatted tab-deliminated agent properties
+        """
         return "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s" % (
             self._ID,
             self._age,
@@ -136,83 +155,143 @@ class Agent(object):
         # return str(self._ID)+ '\t'+str(self._SO)+'\t'+str(self._DU)+'\t'+ str(self._HIV_bool)
 
     def __repr__(self):
+        """
+        Repr formatting of agent object
+
+        returns:
+            ID (str) - agent ID as str
+        """
         return str(self._ID)
 
     def get_ID(self):
+        """
+        Get the agent ID
+
+        returns:
+            ID (int) - agent ID
+        """
         return self._ID
 
-    def set_parent_agent(self, agent):
-        self._parent_agent = agent
+    def set_parent_agent(self, parent):
+        """
+        Set the parent of the agent.
+
+        args:
+            parent (Agent(object)) - Parent agent object
+        returns:
+            None
+        """
+        self._parent_agent = parent
 
     def get_parent_agent(self):
+        """
+        Get the parent of the agent.
+
+        returns:
+            parent (Agent(object)) - Parent agent object
+        """
         return self._parent_agent
 
     def bond(self, partner, relationship=None):
-        # self._partners[0] = partner
-        # self._partners.append(partner)
-        # partner._partners.append(self)
-        if relationship == None:
+        """
+        Bond two agents. Adds each to a relationship object, then partners in each
+        others' partner list.
+
+        todo: Disentangle this from partner. These can be condensed.
+
+        args:
+            partner (Agent(object)) - new partner of agent
+            relationship (Relationship(object)) - relationship for partnership
+        returns:
+            None
+        """
+
+        if relationship is None:
             exit(9)
-        # tmp_relationship = Relationship(self, partner, "MSM", "SE", duration)
+
+        # Append relationship to relationships list for each agent
         self._relationships.append(relationship)
         partner._relationships.append(relationship)
 
-        # Test this new code!!!
+        # Pair agent with partner and partner with agent
         self.pair(partner)
         partner.pair(self)
 
+        # Increment number of sex partners for both
         self._num_sex_partners += 1
         partner._num_sex_partners += 1
-        # self.pair(relationship._ID1)
-        # self.pair(relationship._ID2)
-        # partner.pair(relationship._ID1)
-        # partner.pair(relationship._ID2)
-        # partner.pair(self)
-        # print "Agent %d bound to partner %d"%(self._ID, partner._ID)
 
     def unbond(self, partner, relationship=None):
-        if relationship == None:
+        """
+        Unbond two agents. Adds each to a relationship object, then partners in each
+        others' partner list.
+
+        todo: Disentangle this from partner. These can be condensed.
+
+        args:
+            partner (Agent(object)) - new partner of agent
+            relationship (Relationship(object)) - relationship for partnership
+        returns:
+            None
+        """
+        if relationship is None:
             exit(9)
-        # tmp_relationship = Relationship(self, partner, "MSM", "SE", duration)
-        # self.print_agent()
-        # partner.print_agent()
+
+        # Remove relationship to relationships list for each agent
         self._relationships.remove(relationship)
         partner._relationships.remove(relationship)
 
+        # Unpair agent with partner and partner with agent
         self.unpair(relationship._ID1)
         self.unpair(relationship._ID2)
         partner.unpair(relationship._ID1)
         partner.unpair(relationship._ID2)
 
     def pair(self, partner):
-        "Pairs two agents to each other."
+        """
+        Pair two agents by adding each to the respective _partners list
+
+        args:
+            partner (Agent(object)) - new partner of agent
+        returns:
+            None
+        """
+
         if partner.get_ID() != self.get_ID():
             if partner in self._partners:
                 print(
                     "ASDF"
                 )  # raise KeyError("Partner %s is already bonded with agent %s"%(partner.get_ID(), self._ID))
             # assert partner not in self._partners
-
+            # todo: why was this (^) assertion and KeyError avoided?!
             else:
                 self._partners.append(partner)
 
-        # print "Agent %d bound to partner %d"%(self._ID, partner._ID)
-        # Set the agent's _parent_agent to reflect the parent of this Agent_set
-        # instance (self)
-        # agent.set_parent_agent(self)
+    def unpair(self, partner):
+        """
+        Unpair two agents by removing each to the respective _partners list
 
-    def unpair(self, agent):
-        "Removes agent from agent set."
+        args:
+            agent (Agent(object)) - new partner of agent
+        returns:
+            None
+        """
         try:
-            if self != agent:
-                self._partners.remove(agent)
-            # self._members.
+            if self != partner:
+                self._partners.remove(partner)
         except KeyError:
             raise KeyError(
-                "agent %s is not a member of agent set %s" % (agent.get_ID(), self.get_ID())
+                "agent %s is not a member of agent set %s"
+                % (partner.get_ID(), self.get_ID())
             )
 
     def partner_list(self):
+        """
+        Return the list of partners for this agent
+
+        returns:
+            _partners (list) - list of partners
+        """
         ptnrs = list()
         if self._partners != None:
             for temp in self._partners:
@@ -221,7 +300,12 @@ class Agent(object):
         return ptnrs
 
     def print_agent(self):
-        # print self.partner_list()
+        """
+        Print the agent properties to stdout
+
+        returns:
+            None
+        """
         print(
             "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s\t%s"
             % (
@@ -237,9 +321,21 @@ class Agent(object):
         )
 
     def print_agent_abridge(self):
+        """
+        Print the abridged agent properties to stdout
+
+        returns:
+            None
+        """
         print("\t%.6d\t%s\t%s\t%s" % (self._ID, self._gender, self._SO, self._DU))
 
     def vars(self):
+        """
+        Get agent specific variables (used for printing stats)
+
+        returns:
+            vars (str) - string of variables for agent
+        """
         return "%.6d,%d,%s,%s,%s,%s,%s,%d,%d,%d,%s,%s,%s,%s\n" % (
             self._ID,
             self._age,
@@ -258,6 +354,16 @@ class Agent(object):
         )
 
     def print_agent_to_file(self, filename, time=None, overWrite="a"):
+        """
+        Print the agent variables to a file
+
+        args:
+            filename (str) - name of file to write to
+            time (int) - timestep of print
+            overWrite (str) - write flag for f open
+        returns:
+            None
+        """
         if overWrite == "a":
             agentList = ""
         else:
@@ -268,6 +374,12 @@ class Agent(object):
         open(str(filename), overWrite).write(agentList)
 
     def print_relationships(self):
+        """
+        Print the agents relationships to stdout
+
+        returns:
+            None
+        """
         for tmpR in self._relationships:
             tmpR.print_rel()
 
@@ -509,7 +621,8 @@ class Agent_set(Agent):
         "Adds a new Agent_set to the current sets subset."
         if subset._ID in self._subset:
             raise KeyError(
-                "Subset %s is already a member of Agent_set set %s" % (subset.get_ID(), self._ID)
+                "Subset %s is already a member of Agent_set set %s"
+                % (subset.get_ID(), self._ID)
             )
         self._subset[subset._ID] = subset
 
@@ -522,7 +635,9 @@ class Agent_set(Agent):
         try:
             self._subset.pop(subset.ID)
         except KeyError:
-            raise KeyError("subset %s is not a member of set %s" % (subset.get_ID(), self.get_ID()))
+            raise KeyError(
+                "subset %s is not a member of set %s" % (subset.get_ID(), self.get_ID())
+            )
 
     def iter_subset(self):
         for subset in list(self._subset.values()):
@@ -556,9 +671,7 @@ class Agent_set(Agent):
         if overWrite == "a":
             agentList = ""
         else:
-            agentList = (
-                "Time,ID,Age,Gdr,SO,DU,Race,HIV+,Ptnrs,LTPtnrs,AliveTime,AIDS,Tested,PrEP,Incar\n"
-            )
+            agentList = "Time,ID,Age,Gdr,SO,DU,Race,HIV+,Ptnrs,LTPtnrs,AliveTime,AIDS,Tested,PrEP,Incar\n"
         for tmpA in self.iter_agents():
             agentList += str(time) + "," + tmpA.vars()
 
@@ -602,7 +715,11 @@ class Agent_set(Agent):
                         % (
                             tmpSS._ID,
                             tmpSS.num_members(),
-                            (1.0 * tmpSS.num_members() / tmpSS._numerator.num_members()),
+                            (
+                                1.0
+                                * tmpSS.num_members()
+                                / tmpSS._numerator.num_members()
+                            ),
                         )
                     )
         print("\t______________ END ______________")
