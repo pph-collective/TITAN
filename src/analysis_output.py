@@ -152,6 +152,10 @@ def print_stats(
     DOC_Naltrex_M = 0
     DOC_Naltrex_F = 0
 
+    MSMW_part = 0
+    IDU_part = 0
+    Test_part = 0
+
     newHR_HM = 0
     newHR_HIV_HM = 0
     newHR_AIDS_HM = 0
@@ -159,8 +163,6 @@ def print_stats(
     newHR_ART_HM = 0
     off_HF = 0
     off_HM = 0
-    kickOff_HF = 0
-    kickOff_HM = 0
     newHR_HF = 0
     newHR_HIV_HF = 0
     newHR_AIDS_HF = 0
@@ -185,6 +187,9 @@ def print_stats(
         "incar": 0,
         "incarHIV": 0,
         "numPrEP": 0,
+        "iduPartPrep": 0,
+        "msmwPartPrep": 0,
+        "testedPartPrep": 0,
     }
     # r = dict(dict1)
 
@@ -237,55 +242,18 @@ def print_stats(
             rsltdic[tmpA._race][tmpA._SO]["inf_HR6m"] += 1
 
     # MAT statistics
-    for tmpA in totalAgents.iter_agents():
-        if tmpA._OAT_bool:
-            if tmpA._race == "WHITE":
-                if tmpA._SO == "HM":
-                    OAT_NIDU_M += 1
-                elif tmpA._SO == "HF":
-                    OAT_NIDU_F += 1
-            if tmpA._race == "BLACK":
-                if tmpA._SO == "HM":
-                    OAT_IDU_M += 1
-                elif tmpA._SO == "HF":
-                    OAT_IDU_F += 1
-            if tmpA._highrisk_type == "postIncar":
-                Prior_Year_OAT += 1
-        if tmpA._naltrex_bool:
-            if tmpA._race == "WHITE":
-                if tmpA._SO == "HM":
-                    Naltrex_NIDU_M += 1
-                elif tmpA._SO == "HF":
-                    Naltrex_NIDU_F += 1
-            if tmpA._race == "BLACK":
-                if tmpA._SO == "HM":
-                    Naltrex_IDU_M += 1
-                elif tmpA._SO == "HF":
-                    Naltrex_IDU_F += 1
-            if tmpA._highrisk_type == "postIncar":
-                Prior_Year_Naltrex += 1
 
+    # PrEP reason tracker
     for tmpA in totalAgents.iter_agents():
-        if tmpA._DOC_OAT_bool:
-            if tmpA._SO == "HM":
-                DOC_OAT_M += 1
-            elif tmpA._SO == "HF":
-                DOC_OAT_F += 1
-        if tmpA._DOC_NAL_bool:
-            if tmpA._SO == "HM":
-                DOC_Naltrex_M += 1
-            elif tmpA._SO == "HF":
-                DOC_Naltrex_F += 1
-        if tmpA._kickOff:
-            if tmpA._SO == "HM":
-                kickOff_HM += 1
-            if tmpA._SO == "HF":
-                kickOff_HF += 1
-        elif tmpA._off:
-            if tmpA._SO == "HM":
-                off_HM += 1
-            if tmpA._SO == "HF":
-                off_HF += 1
+        if tmpA._PrEP_bool:
+            rsltdic[tmpA._race][tmpA._SO]["numPrEP"] += 1
+            if "IDU" in tmpA._PrEP_reason:
+                rsltdic[tmpA._race][tmpA._SO]["iduPartPrep"] += 1
+            if "MSMW" in tmpA._PrEP_reason:
+                rsltdic[tmpA._race][tmpA._SO]["msmwPartPrep"] += 1
+            if "HIV test" in tmpA._PrEP_reason:
+                rsltdic[tmpA._race][tmpA._SO]["testedPartPrep"] += 1
+
     # Newly diagnosed tracker statistics
     for tmpA in NewDiagnosis.iter_agents():
         rsltdic[tmpA._race][tmpA._SO]["newlyTested"] += 1
@@ -385,8 +353,7 @@ def print_stats(
             tmpReport = open("results/" + name + ".txt", "a")
             tmpReport.write(
                 (
-                    "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-                    % (
+                    "{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
                         self.runseed,
                         self.popseed,
                         self.netseed,
@@ -403,6 +370,9 @@ def print_stats(
                         rsltdic[agentRace][agentTypes]["newlyTested"],
                         rsltdic[agentRace][agentTypes]["deaths"],
                         rsltdic[agentRace][agentTypes]["numPrEP"],
+                        rsltdic[agentRace][agentTypes]["iduPartPrep"],
+                        rsltdic[agentRace][agentTypes]["msmwPartPrep"],
+                        rsltdic[agentRace][agentTypes]["testedPartPrep"],
                     )
                 )
             )
@@ -610,11 +580,6 @@ def print_stats(
             DOC_OAT_F,
             Prior_Year_OAT,
         )
-    )
-
-    peopleOff.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\n"
-        % (self.netseed, t, off_HM, off_HF, kickOff_HM, kickOff_HF)
     )
 
     # msmReport.write(("%d,%s,%3.2f,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n" % (rseed,params.PrEP_type,params.PrEP_Target,t, totalAgents._subset["MSM"].num_members(), numHIV_MSM, numAIDS_MSM, numTested_MSM, numART_MSM, numToMSM, infMSM_HR6m,
