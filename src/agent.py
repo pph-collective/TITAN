@@ -293,7 +293,7 @@ class Agent(object):
             _partners (list) - list of partners
         """
         ptnrs = list()
-        if self._partners != None:
+        if self._partners is not None:
             for temp in self._partners:
                 ptnrs.append(temp._ID)
 
@@ -586,7 +586,7 @@ class Agent_set(Agent):
             self._members.remove(agent)
             # print "agent %s has been removed from agent set %s"%(agent._ID, self.get_ID())
             # self._members.
-        except:
+        except KeyError:
             # print "agent %s is not a member of agent set %s"%(agent.get_ID(), self.get_ID())
             # agent.print_agent()
             pass
@@ -606,16 +606,6 @@ class Agent_set(Agent):
 
     def num_members(self):
         return len(self._members)
-
-    def random_agent(self):
-        try:
-            # tmpA = random.choice(self._members.keys())
-            # #print "Returned agent", tmpA._ID
-            # return self._members[tmpA]
-            return random.choice(self._members)
-        except:
-            pass
-            # print "No agents left", self._members
 
     def add_subset(self, subset):
         "Adds a new Agent_set to the current sets subset."
