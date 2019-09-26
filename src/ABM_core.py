@@ -2063,12 +2063,7 @@ class HIVModel(NetworkClass):
         try:
             self.treatment_agentSet.add_agent(agent)
         except:
-            print(
-                (
-                    "agent %s is already a member of agent set %s"
-                    % (agent.get_ID(), targetSet.get_ID())
-                )
-            )
+            print("Failed adding agent to treatment set.")
 
     def _enter_and_exit_drug_treatment(self, agent, time):
         """

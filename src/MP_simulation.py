@@ -48,7 +48,6 @@ import time as time_mod
 
 from simulation_lib import *
 import params
-from loadInput import *
 import sys, os
 
 # Disable
