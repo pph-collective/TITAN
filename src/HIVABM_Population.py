@@ -40,7 +40,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 from random import Random
-import copy
 from copy import deepcopy
 import unittest
 from scipy.stats import poisson
@@ -376,7 +375,9 @@ class PopulationClass:
             2, "Testd", parent=self.treatment_agentSet, numerator=self.HIV_agentSet
         )
         self.Trt_PrEP_agentSet = Agent_set(2, "PrEP", parent=self.treatment_agentSet)
-        self.Trt_PrEPelig_agentSet = Agent_set(2, "PrePelig", parent=self.treatment_agentSet)
+        self.Trt_PrEPelig_agentSet = Agent_set(
+            2, "PrePelig", parent=self.treatment_agentSet
+        )
         self.Trt_ART_agentSet = Agent_set(
             2, "ART", parent=self.treatment_agentSet, numerator=self.HIV_agentSet
         )
@@ -384,7 +385,9 @@ class PopulationClass:
         self.Trt_MAT_agentSet = Agent_set(2, "MAT", parent=self.treatment_agentSet)
 
         # Sexual orientation agent sets
-        self.SO_agentSet = Agent_set(1, "SO", parent=self.All_agentSet, numerator=self.All_agentSet)
+        self.SO_agentSet = Agent_set(
+            1, "SO", parent=self.All_agentSet, numerator=self.All_agentSet
+        )
         self.SO_HF_agentSet = Agent_set(
             2, "HF", parent=self.SO_agentSet, numerator=self.SO_agentSet
         )
@@ -498,7 +501,8 @@ class PopulationClass:
                         durationBin += 1
                         current_p_value += jailDuration[durationBin]["p_value"]
                     timestay = self.popRandom.randint(
-                        jailDuration[durationBin]["min"], jailDuration[durationBin]["max"]
+                        jailDuration[durationBin]["min"],
+                        jailDuration[durationBin]["max"],
                     )
                 # self.incarcerated_agentsClass.add_agent(tmpA)
                 self.incarcerated_agentSet.add_agent(tmpA)
@@ -609,16 +613,22 @@ class PopulationClass:
             if DrugType == "IDU":
                 prob_Tested = params.DemographicParams[Deliminator]["IDU"]["TestedPrev"]
             else:
-                prob_Tested = params.DemographicParams[Deliminator][SexType]["TestedPrev"]
+                prob_Tested = params.DemographicParams[Deliminator][SexType][
+                    "TestedPrev"
+                ]
 
             if self.popRandom.random() < prob_Tested:
                 TestedStatus = 1
 
                 # if tested HAART possible
                 if DrugType == "IDU":
-                    prob_HAART = params.DemographicParams[Deliminator]["IDU"]["HAARTprev"]
+                    prob_HAART = params.DemographicParams[Deliminator]["IDU"][
+                        "HAARTprev"
+                    ]
                 else:
-                    prob_HAART = params.DemographicParams[Deliminator][SexType]["HAARTprev"]
+                    prob_HAART = params.DemographicParams[Deliminator][SexType][
+                        "HAARTprev"
+                    ]
 
                 if self.popRandom.random() < prob_HAART:
                     HAARTStatus = 1
@@ -737,7 +747,7 @@ class PopulationClass:
         newAgent = Agent(agentID, SexType, age, Race, DrugType)
         newAgent._ageBin = ageBin
 
-        if params.setting == 'Phil2005' and SexType == 'HM':
+        if params.setting == "Phil2005" and SexType == "HM":
             if tmp_rnd < 0.06:
                 newAgent._MSMW = True
 
@@ -836,12 +846,15 @@ class PopulationClass:
         #     incar_time = 0
 
         # Check if agent is HR as baseline.
-        if self.popRandom.random() < params.DemographicParams[Race][SexType]["HighRiskPrev"]:
+        if (
+            self.popRandom.random()
+            < params.DemographicParams[Race][SexType]["HighRiskPrev"]
+        ):
             newAgent._highrisk_bool = True
             newAgent._everhighrisk_bool = True
 
         diceroll = self.popRandom.random()
-        '''
+        """
         if diceroll < 0.01:
             mNPart = 0
         elif diceroll < (0.01 + 0.14):
@@ -854,8 +867,8 @@ class PopulationClass:
             mNPart = self.popRandom.randrange(5, 10, 1)
         else:  # 16%
             mNPart = 10
-            '''
-        if DrugType == 'IDU':
+            """
+        if DrugType == "IDU":
             if diceroll < 0.389:
                 mNPart = 1
             elif diceroll < 0.389 + 0.150:
@@ -891,7 +904,6 @@ class PopulationClass:
             )
         # print "New agent: %s\t%s\t%s\tHIV:%d" % (Deliminator,DrugType,SexType,HIVStatus)
         # agent_dict = {'Race':Race,'Drug Type': DrugType,'Sex Type':SexType, 'HIV':HIVStatus, 'Tested':TestedStatus, 'AIDS':AIDSStatus, 'HAARTa':HAARTStatus, 'incar_t':incar_time,'HIV_t':HIV_time}
-
 
         return newAgent
 
@@ -1308,13 +1320,21 @@ class TestClassMethods(unittest.TestCase):
                 self.assertTrue(a in myPopulation.WSW_agents)
 
         for agent in myPopulation.HM_agents:
-            self.assertTrue(myPopulation.get_agent_characteristic(agent, "Sex Type") == "HM")
+            self.assertTrue(
+                myPopulation.get_agent_characteristic(agent, "Sex Type") == "HM"
+            )
         for agent in myPopulation.HF_agents:
-            self.assertTrue(myPopulation.get_agent_characteristic(agent, "Sex Type") == "HF")
+            self.assertTrue(
+                myPopulation.get_agent_characteristic(agent, "Sex Type") == "HF"
+            )
         for agent in myPopulation.MSM_agents:
-            self.assertTrue(myPopulation.get_agent_characteristic(agent, "Sex Type") == "MSM")
+            self.assertTrue(
+                myPopulation.get_agent_characteristic(agent, "Sex Type") == "MSM"
+            )
         for agent in myPopulation.WSW_agents:
-            self.assertTrue(myPopulation.get_agent_characteristic(agent, "Sex Type") == "WSW")
+            self.assertTrue(
+                myPopulation.get_agent_characteristic(agent, "Sex Type") == "WSW"
+            )
 
     def test_HIV(self):
         """ Test: Testing HIV agent array"""
@@ -1382,7 +1402,9 @@ class TestClassMethods(unittest.TestCase):
         tmpCount = 0
         myPopulation = PopulationClass(n=self.N_pop)
         for agent in list(myPopulation.Agents.keys()):
-            agent_drug_status = myPopulation.get_agent_characteristic(agent, "Drug Type")
+            agent_drug_status = myPopulation.get_agent_characteristic(
+                agent, "Drug Type"
+            )
             if agent_drug_status == "IDU":
                 tmpCount += 1
                 self.assertTrue(agent in myPopulation.IDU_agents)
@@ -1398,7 +1420,9 @@ class TestClassMethods(unittest.TestCase):
         tmpCount = 0
         myPopulation = PopulationClass(n=self.N_pop)
         for agent in list(myPopulation.Agents.keys()):
-            agent_drug_status = myPopulation.get_agent_characteristic(agent, "Drug Type")
+            agent_drug_status = myPopulation.get_agent_characteristic(
+                agent, "Drug Type"
+            )
             if agent_drug_status == "NIDU":
                 tmpCount += 1
                 self.assertTrue(agent in myPopulation.NIDU_agents)

@@ -48,7 +48,6 @@ import time as time_mod
 
 from simulation_lib import *
 import params
-from loadInput import *
 import sys, os
 
 # Disable
@@ -66,10 +65,11 @@ def main():
     wct = []  # wall clock times
     open_outputs()
 
-
     # read_classifier_dict()
     for single_sim in range(params.N_MC):
-        outfile_dir = os.path.join(os.getcwd(), "results/results_simulation_MP_%d" % single_sim)
+        outfile_dir = os.path.join(
+            os.getcwd(), "results/results_simulation_MP_%d" % single_sim
+        )
         if not os.path.isdir(outfile_dir):
             os.mkdir(outfile_dir)
         tic = time_mod.time()
@@ -164,7 +164,9 @@ def open_outputs():
     # component report file creation
     name = "componentReport_ALL"
     tmpReport = open("results/" + name + ".txt", "w")
-    tmpReport.write("rseed\tpseed\tnseed\tt\tcompID\ttotalN\tNhiv\tNprepElig\tNprep\tNnewinf\n")
+    tmpReport.write(
+        "rseed\tpseed\tnseed\tt\tcompID\ttotalN\tNhiv\tNprepElig\tNprep\tNnewinf\n"
+    )
     tmpReport.close()
 
     whiteReport = open("results/W_pop_report.txt", "w")
@@ -178,7 +180,9 @@ def open_outputs():
     blackReport.close()
 
     incidenceReport = open("results/IncidenceReport.txt", "w")
-    incidenceReport.write("seed\tt\tTotal\tW_HM\tB_HM\tHM\tW_HF\tB_HF\tHF\tW_MSM\tB_MSM\tMSM\n")
+    incidenceReport.write(
+        "seed\tt\tTotal\tW_HM\tB_HM\tHM\tW_HF\tB_HF\tHF\tW_MSM\tB_MSM\tMSM\n"
+    )
     # incidenceReport.write("0,0,0,0\n")
     incidenceReport.close()
 
@@ -243,5 +247,7 @@ def open_outputs():
     #     ageNReport.close()
     PrEPReport = open("results/PrEPReport.txt", "w")
     PrEPReport.write("seed\tt\tNewEnroll\tIDUpartner\tTestedPartner\tMSMWpartner\n")
+
+
 if __name__ == "__main__":
     main()
