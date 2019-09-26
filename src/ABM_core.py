@@ -51,6 +51,7 @@ import numpy as np
 from scipy.stats import binom
 from scipy.stats import poisson
 from functools import wraps
+import networkx as nx
 
 try:
     from agent import Agent_set
@@ -570,14 +571,14 @@ class HIVModel(NetworkClass):
                             [
                                 a
                                 for a in self.treatment_agentSet._members
-                                if a._OAT_bool == True
+                                if a._OAT_bool is True
                             ]
                         ),
                         nal=len(
                             [
                                 a
                                 for a in self.treatment_agentSet._members
-                                if a._naltrex_bool == True
+                                if a._naltrex_bool is True
                             ]
                         ),
                     )
@@ -844,7 +845,7 @@ class HIVModel(NetworkClass):
                         for ag in self.All_agentSet._subset["SO"]
                         ._subset["MSM"]
                         ._members
-                        if (ag._PrEP_bool == False and ag._HIV_bool == False)
+                        if (ag._PrEP_bool is False and ag._HIV_bool is False)
                     ]
                     # print "Eligible PrEP pool size: ",len(elligiblePool)
 
@@ -879,7 +880,7 @@ class HIVModel(NetworkClass):
                     if self.runRandom.random() < 0.5:
                         # Component selected as treatment pod!
                         for ag in comp.nodes():
-                            if (ag._HIV_bool == False) and (ag._PrEP_bool == False):
+                            if (ag._HIV_bool is False) and (ag._PrEP_bool is False):
                                 ag._treatment_bool = True
                                 if self.runRandom.random() < params.PrEP_Target:
                                     self._initiate_PrEP(ag, time, force=True)
