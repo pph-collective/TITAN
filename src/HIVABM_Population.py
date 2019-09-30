@@ -52,7 +52,7 @@ except ImportError:
 from . import params
 
 
-#REVIEW  not used anywhere (imported in several files, but never called)
+#REVIEW  not used anywhere (imported in several files, but never called) - delete
 def print_population(agent_dict, dir_prefix, time=0):
     # Print the whole population to a file.
     # Format: agent_i characteristic 1 characteristic 2 ...
@@ -334,7 +334,7 @@ class PopulationClass:
         self.numNIDU = int(self.propNIDU * self.PopulationSize)
         self.propND = 0.995  ##9170/10000.0
         self.numND = self.PopulationSize - self.numIDU - self.numNIDU
-        self.Agents = dict()  # Main Dictionary Agents #REVIEW
+        self.Agents = dict()  # Main Dictionary Agents #REVIEW - delete, update anything if need be
 
         # List of IDU, NIDU, NDs
         # shuffle all Agents
@@ -420,7 +420,7 @@ class PopulationClass:
         ND["WSW"] = {"HIV": 0.012, "AIDS": 0.0003, "HAARTa": 0}
         ND["HF"] = {"HIV": 0.012, "AIDS": 0.0003, "HAARTa": 0}
 
-        self.MSM_agents = [] #REVIEW
+        self.MSM_agents = [] #REVIEW - delete all of these
         self.HF_agents = [] #REVIEW
         self.WSW_agents = [] #REVIEW
         self.HM_agents = [] #REVIEW
@@ -460,7 +460,7 @@ class PopulationClass:
             dice = self.popRandom.random()
             prob_Incarc = params.DemographicParams[tmpA._race][tmpA._SO]["INCARprev"]
             if dice < prob_Incarc:
-                toss = 2 #REVIEW why is this hardcoded?
+                toss = 2 #REVIEW why is this hardcoded? - sarah to review
                 if toss == 1:  # JAIL
                     tmpA._incar_bool = True
                     tmpA._incar_time = int(self.popRandom.triangular(1, 9, 3))
@@ -480,7 +480,7 @@ class PopulationClass:
     def _return_agent_set(self):
         return self.totalAgentClass
 
-    #REVIEW outdated method, not used anywhere (that is actually used)
+    #REVIEW outdated method, not used anywhere (that is actually used) - delete
     def get_agent_characteristic(self, agent, property):
         """
         :Purpose:
@@ -933,7 +933,7 @@ class PopulationClass:
         age = self.popRandom.randrange(minAge, maxAge)
         return age, ageBin
 
-    #REVIEW not used anywhere that is used
+    #REVIEW not used anywhere that is used - delete
     def get_agents(self):
         """
         :Purpose:
@@ -948,7 +948,7 @@ class PopulationClass:
         return self.Agents
 
 
-    #REVIEW not used anywhere
+    #REVIEW not used anywhere - delete
     def print_info(self):
         """
         :Purpose:
@@ -960,7 +960,7 @@ class PopulationClass:
         print(("Number of ND " + str(len(self.ND_agents))))
 
 
-    #REVIEW not used anywhere
+    #REVIEW not used anywhere - delete
     def get_info_DrugUserType(self):
         """
         :Purpose:
@@ -976,7 +976,7 @@ class PopulationClass:
         }
 
 
-    #REVIEW not used anywhere
+    #REVIEW not used anywhere - delete
     def get_info_HIV_IDU(self):
         """
         :Purpose:
@@ -1014,7 +1014,7 @@ class PopulationClass:
             "Number of IDU HIV HF": count_HIV_HF,
         }
 
-    #REVIEW not used anywhere
+    #REVIEW not used anywhere - delete
     def get_info_DrugSexType(self):
         """
         :Purpose:

@@ -96,7 +96,7 @@ def save_adjlist(N_pop, graph, dir_prefix, time):
         outfile.write("%d\t%d\n" % (singleton, time))
 
 
-#REVIEW only used in one def that is also under review due to its use in stale code
+#REVIEW only used in one def that is also under review due to its use in stale code - delete
 def _random_subset(seq, m):
     """ Return m unique elements from seq.
 
@@ -110,7 +110,7 @@ def _random_subset(seq, m):
     return targets
 
 
-#REVIEW only used in one place that is clearly not used anymore (references stale code)
+#REVIEW only used in one place that is clearly not used anymore (references stale code) - delete
 def my_erdos_renyi_binomial_random_graph(node_list=None, p=0.0, seed=None, directed=False):
 
     """Return a random graph G_{n,p} (Erdős-Rényi graph, binomial graph).
@@ -169,7 +169,7 @@ def my_erdos_renyi_binomial_random_graph(node_list=None, p=0.0, seed=None, direc
             G.add_edge(*e)
     return G
 
-#REVIEW not used anywhere
+#REVIEW not used anywhere - delete
 def my_barabasi_albert_graph(n, m, node_list=None, seed=None):
     """Return random graph using Barabási-Albert preferential attachment model.
 
@@ -239,7 +239,7 @@ def my_barabasi_albert_graph(n, m, node_list=None, seed=None):
         Num_source += 1
     return G
 
-#REVIEW not used anywhere
+#REVIEW not used anywhere - delete
 class populationGraph:
     def create_graph_from_relationships(self, relationships):
         G = nx.Graph()
@@ -250,7 +250,7 @@ class populationGraph:
         return G
 
 
-#REVIEW node_list - it's only used in unused methods
+#REVIEW node_list - it's only used in unused methods - delete
 class NetworkClass(PopulationClass):
     def __init__(self, N, popSeed=0, netSeed=0, m_0=1, network_type="scale_free", node_list=None):
         """
@@ -329,7 +329,7 @@ class NetworkClass(PopulationClass):
                 elif comp.number_of_nodes() < params.minComponentSize:
                     print("TOO SMALL", comp, comp.number_of_nodes())
             print("Total agents in graph: ", self.G.number_of_nodes())
-        elif network_type == "binomial": #REVIEW (NormalAgents not used anymore)
+        elif network_type == "binomial": #REVIEW (NormalAgents not used anymore) - delete this branch
             self.G = my_erdos_renyi_binomial_random_graph(
                 node_list=self.NormalAgents, p=0.5, seed=None, directed=False
             )

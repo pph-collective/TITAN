@@ -364,6 +364,7 @@ class Relationship:
             self._total_sex_acts,
         )
 
+
 #REVIEW not used anywhere
 class Relationship_set(Relationship):
     """

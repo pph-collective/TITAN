@@ -53,7 +53,7 @@ try:
 except ImportError:
     raise ImportError("Can't import PopulationClass")
 
-# IS THIS USED? CIRCULAR REFERENCES #REVIEW
+# IS THIS USED? CIRCULAR REFERENCES #REVIEW - delete
 # try:
 #     from .ABM_core import *
 # except ImportError:
@@ -67,7 +67,7 @@ except ImportError:
 from . import params
 
 
-def update_partner_assignments(self, partnerTurnover, graph, agent=None): #REVIEW (graph is passed, but then never used, rather self.G is used directly, probably should be graph)
+def update_partner_assignments(self, partnerTurnover, graph, agent=None): #REVIEW (graph is passed, but then never used, rather self.G is used directly, probably should be graph) - replace with graph
     # Now create partnerships until available partnerships are out
     if agent:
         partner = get_partner(self, agent, self.All_agentSet)
@@ -101,7 +101,7 @@ def update_partner_assignments(self, partnerTurnover, graph, agent=None): #REVIE
             else:
                 self.G.add_node(agent)
 
-#REVIEW not used anywhere
+#REVIEW not used anywhere - delete
 def get_number_of_partners(self, agent, agent_drug_type, agent_sex_type):
     """
     :Purpose:
@@ -115,7 +115,7 @@ def get_number_of_partners(self, agent, agent_drug_type, agent_sex_type):
         Either 'IDU', 'NIDU', 'ND'
 
         agent_sex_type : str
-        Either 'HM', 'MSM', 'HF', 'WSW' #REVIEW MSW vs WSW
+        Either 'HM', 'MSM', 'HF', 'WSW'
 
     :Output:
         NumPartners : int
@@ -252,7 +252,7 @@ def get_random_IDU_partner(self, agent, need_new_partners):
         return None
 
 
-#REVIEW not used anywhere
+#REVIEW not used anywhere - sarah to review
 def get_assort_IDU_partner(self, agent, need_new_partners, assortType):
     """
     :Purpose:
@@ -303,7 +303,7 @@ def get_assort_sex_partner(self, agent, need_new_partners):
 
     """
 
-    #REVIEW not used anywhere
+    #REVIEW not used anywhere - delete
     def partner_choice(x):
         intersection = list(set(need_new_partners).intersection(set(x)))
         agent_race_type = self.get_agent_characteristic(agent, "Race")
@@ -486,7 +486,7 @@ def get_random_sex_partner(self, agent, need_new_partners):
     else:
         pass
 
-#REVIEW is this redundant with ABM_Core._sex_possible ?
+#REVIEW is this redundant with ABM_Core._sex_possible ? - replace this with _sex_possible, delete _sex_possible and update references
 def sex_possible(self, agent_sex_type, partner_sex_type):
     """
     :Purpose:
@@ -604,7 +604,7 @@ def get_partnership_duration(self, agent):
 
     return duration
 
-#REVIEW not used anywhere
+#REVIEW not used anywhere - delete
 def save_AgentPartner_list(self, t):
     """
     :Purpsose:
@@ -644,7 +644,7 @@ def save_AgentPartner_list(self, t):
         outfile.write("\n")
 
 
-#REVIEW not used anywhere
+#REVIEW not used anywhere - delete
 def reset_partner_count(self):
     """
     Reset partner count for method assess_interaction_distribution

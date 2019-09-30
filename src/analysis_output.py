@@ -658,7 +658,7 @@ def print_stats(
     turnover = []
     ann_turnover = []
 
-#REVIEW not used anywhere
+#REVIEW not used anywhere - delete
 def assess_before_update(
         t,
         ResultDict,
@@ -1035,7 +1035,7 @@ def assess_before_update(
     return ResultDict
 
 
-#REVIEW not used anywhere
+#REVIEW not used anywhere - delete
 def assess_interaction_distribution(
         Agents,
         agent,

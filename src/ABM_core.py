@@ -73,7 +73,7 @@ except ImportError as e:
 
 PROF_DATA = {}
 
-
+#REVIEW ask max about it
 def profile(function):
     @wraps(function)
     def with_profiling(*args, **kwargs):
@@ -319,11 +319,13 @@ class HIVModel(NetworkClass):
         np.random.seed(self.runseed)
         print(("\tFIRST RANDOM CALL %d" % random.randint(0, 100)))
 
+
+
         print("\tReseting death count")
         self._reset_death_count()  # Number of death
 
         print("\tCreating network graph")
-        self.create_graph_from_agents(self.All_agentSet) #REVIEW redundant with NetworkClass init?
+        self.create_graph_from_agents(self.All_agentSet) #REVIEW redundant with NetworkClass init? - review with max, logic feels scattered as NetworkClass also intializes a graph
 
         print("\n === Initialization Protocol Finished ===")
 
@@ -1235,7 +1237,7 @@ class HIVModel(NetworkClass):
         if agent._PrEP_bool:
             self._discont_PrEP(agent, time, force=True)
 
-
+    #REVIEW - see ABM_Partnering.sex_possible
     def _sex_possible(self, agent_sex_type, partner_sex_type):
         """
         :Purpose:
@@ -1548,7 +1550,7 @@ class HIVModel(NetworkClass):
                                 ptnr._tested = True
                                 self.NewDiagnosis.add_agent(ptnr)
 
-    #REVIEW not used anywhere
+    #REVIEW not used anywhere - delete
     def _VCT(self, agent, time):
         """
         :Purpose:
@@ -1585,7 +1587,7 @@ class HIVModel(NetworkClass):
             if self.runRandom.random() < self.VCT_NoNSP_EE:  # !!!!!!!!!!!!!!!!!!!!!!!!!
                 self.VCTAgents.update({agent: time})
 
-    #REVIEW not used anywhere
+    #REVIEW not used anywhere - delete
     def _SEP(self, agent, time):
         """
         :Purpose:
@@ -2225,7 +2227,7 @@ class HIVModel(NetworkClass):
                 else:
                     raise ValueError("Invalid HIV type! %s" % str(HIV_status))
 
-                p = p / 12000.0  #putting it into per 1 person-month #REVIEW does this imply some hardcoded population or timeframe?
+                p = p / 12000.0  #putting it into per 1 person-month from per 1000 person years
 
                 if self.runRandom.random() < p:
                     totalDeaths += 1
@@ -2339,7 +2341,7 @@ class HIVModel(NetworkClass):
                         if agent not in self.tmp_HAART_agents:
                             raise ValueError("Agent must be in HAART_agents")
 
-    #REVIEW not used anywhere
+    #REVIEW not used anywhere - delete
     def _update_population(self):
         """
         :Purpose:
@@ -2588,7 +2590,7 @@ class HIVModel(NetworkClass):
             raise ValueError("self.tmp_AIDS agents contains too many agents!")
 
 
-    #REVIEW not used anywhere
+    #REVIEW not used anywhere - delete
     def save_AgentPartner_list(self, t):
         """
         :Purpsose:
@@ -2628,7 +2630,7 @@ class HIVModel(NetworkClass):
             outfile.write("\n")
 
 
-    #REVIEW not used anywhere
+    #REVIEW not used anywhere - delete
     def _reset_partner_count(self):
         """
         Reset partner count for method assess_interaction_distribution
@@ -2639,7 +2641,7 @@ class HIVModel(NetworkClass):
         self.tmp_IDU_NumPartners_Count = {}
         self.tmp_MSM_NumPartners_Count = {}
 
-    #REVIEW not used anywhere
+    #REVIEW not used anywhere - delete
     def get_HIV_prevalence_drugs(self):
         """
         get HIV prevalence within all three drug user groups
@@ -2667,7 +2669,7 @@ class HIVModel(NetworkClass):
         return [count_HIV_IDU, count_HIV_NIDU, count_HIV_ND]
 
 
-    #REVIEW not used anywhere
+    #REVIEW not used anywhere - delete
     def get_HIV_prevalence_sex(self):
         """ get HIV prevalence within all four sex groups """
         count_HIV_MSM = 0
@@ -2696,7 +2698,7 @@ class HIVModel(NetworkClass):
 
         return [count_HIV_MSM, count_HIV_HM, count_HIV_HF, count_HIV_WSW]
 
-    #REVIEW not used anywhere
+    #REVIEW not used anywhere - delete
     def get_HIV_prevalence_drugs_sex(self):
         """prevalences without and msm only"""
         count_HIV_MIDU = 0
@@ -2736,7 +2738,7 @@ class HIVModel(NetworkClass):
         ]
 
 
-    #REVIEW not used anywhere
+    #REVIEW not used anywhere - delete
     def get_HIV_prevalence(self):
         """ get HIV prevalence"""
         HIVcount = 0.0
@@ -2750,7 +2752,7 @@ class HIVModel(NetworkClass):
     def return_results(self):
         return self.ResultDict
 
-    #REVIEW not used anywhere
+    #REVIEW not used anywhere - delete
     def save_result_dict(self):
         OutFileDir = os.path.join(self.current_dir, "Results")
         if not os.path.isdir(OutFileDir):  # create directory if not existing
@@ -2766,7 +2768,7 @@ class HIVModel(NetworkClass):
             outfile.write("\n")
 
 
-    #REVIEW not used anywhere
+    #REVIEW not used anywhere - delte
     def save_AdjMat(self, t):
         """
         :Purpose:
@@ -2785,7 +2787,7 @@ class HIVModel(NetworkClass):
                 outfile.write("%d," % partner)
             outfile.write("\n")
 
-    #REVIEW not used anywhere
+    #REVIEW not used anywhere - delete
     def _writeDNR(self):
         dynnetworkReport = open("Results/dynnetworkReport.txt", "a")
         for agent in self.Agents:
