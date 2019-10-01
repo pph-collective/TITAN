@@ -272,7 +272,7 @@ class populationGraph:
 
 class NetworkClass(PopulationClass):
     def __init__(
-        self, N, popSeed=0, netSeed=0, m_0=1, network_type="scale_free", node_list=None
+        self, N, population, popSeed=0, netSeed=0, m_0=1, network_type="scale_free", node_list=None
     ):
         """
         :Purpose:
@@ -290,7 +290,7 @@ class NetworkClass(PopulationClass):
 
         random.seed(netSeed)
         np.random.seed(netSeed)
-
+        self.G = nx.Graph()
         if type(N) is not int:
             raise ValueError(
                 "Population size must be integer,\
@@ -303,13 +303,12 @@ class NetworkClass(PopulationClass):
             raise ValueError("m_0 must be integer smaller than 10")
         else:
             self.m_0 = m_0
-        PopulationClass.__init__(self, n=N, rSeed=popSeed)  # Create population
-
+        self.create_graph_from_agents(population.totalAgentClass)
         self.NetworkSize = N
         if network_type == "scale_free":
             self.G = nx.Graph()
             for i in range(10):
-                update_partner_assignments(self, params.PARTNERTURNOVER, self.get_Graph)
+                update_partner_assignments(params.PARTNERTURNOVER, self.G, population)
             # scale free Albert Barabsai Graph
             # self.G = my_barabasi_albert_graph(self.NetworkSize,m_0, node_list = node_list)
         elif network_type == "max_k_comp_size":
@@ -542,7 +541,6 @@ class NetworkClass(PopulationClass):
         G = self.G
         return nx.all_pairs_node_connectivity(G)
 
-    def get_Graph(self):
         """
         Return random assortative graph produced by ``set_assortative_graph``.
         """

@@ -56,21 +56,21 @@ except ImportError:
 import params
 
 
-def update_partner_assignments(self, partnerTurnover, graph, agent=None):
+def update_partner_assignments(partnerTurnover, graph, population, agent=None):
     # Now create partnerships until available partnerships are out
     # print "Update partner random start ",random.randint(0,1000)
     if agent:
-        partner = get_partner(self, agent, self.All_agentSet)
+        partner = get_partner(agent, population.All_agentSet)
 
         if partner:
             # print "Agent %d found partner %d!"%(agent.get_ID(), partner.get_ID())
-            duration = get_partnership_duration(self, agent)
+            duration = get_partnership_duration(agent)
             tmp_relationship = Relationship(agent, partner, "MSM", "SE", duration)
             agent.bond(partner, tmp_relationship)
-            self.Relationships.add_agent(tmp_relationship)
-            self.G.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
+            population.Relationships.add_agent(tmp_relationship)
+            graph.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
     else:
-        EligibleAgents = self.All_agentSet
+        EligibleAgents = population.All_agentSet
         noMatch = 0
         for agent in EligibleAgents.iter_agents():
             acquirePartnerProb = (
@@ -80,19 +80,19 @@ def update_partner_assignments(self, partnerTurnover, graph, agent=None):
             )
 
             if np.random.uniform(0, 1) < acquirePartnerProb:
-                partner = get_partner(self, agent, self.All_agentSet)
+                partner = get_partner(agent, population.All_agentSet)
 
                 if partner:
                     # print "Agent %d found partner %d!"%(agent.get_ID(), partner.get_ID())
 
-                    duration = get_partnership_duration(self, agent)
+                    duration = get_partnership_duration(agent)
                     tmp_relationship = Relationship(
                         agent, partner, "MSM", "SE", duration
                     )
 
                     agent.bond(partner, tmp_relationship)
-                    self.Relationships.add_agent(tmp_relationship)
-                    self.G.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
+                    population.Relationships.add_agent(tmp_relationship)
+                    graph.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
 
                     # ADD RELATIONSHIP EDGE TO GRAPH G of NetworkGraph
                     # print "%d/%d partnets found for agent %d"%(len(agent._partners), agent._num_sex_partners, agent.get_ID())
@@ -105,7 +105,7 @@ def update_partner_assignments(self, partnerTurnover, graph, agent=None):
     # print "\n\t\t-COULDNT MATCH",noMatch,"AGENTS IN NEED \t---"
 
 
-def get_number_of_partners(self, agent, agent_drug_type, agent_sex_type):
+def get_number_of_partners(agent, agent_drug_type, agent_sex_type):
     """
     :Purpose:
         Get number of partners for a agent.
@@ -179,7 +179,7 @@ def get_number_of_partners(self, agent, agent_drug_type, agent_sex_type):
     return RandNumCont
 
 
-def get_partner(self, agent, need_new_partners):
+def get_partner(agent, need_new_partners):
     """
     :Purpose:
         Get partner for agent.
@@ -204,26 +204,26 @@ def get_partner(self, agent, need_new_partners):
         if random.random() < 0.8:
             # choose from IDU agents
             try:
-                RandomPartner = get_random_IDU_partner(self, agent, shortlist_NNP)
+                RandomPartner = get_random_IDU_partner(agent, shortlist_NNP)
             except:
                 print("No IDU matches")
-                get_random_sex_partner(self, agent, shortlist_NNP)
+                get_random_sex_partner(agent, shortlist_NNP)
             # print "\tReturned: %s" % RandomPartner
         else:
-            get_random_sex_partner(self, agent, shortlist_NNP)
+            get_random_sex_partner(agent, shortlist_NNP)
     elif agent_drug_type in ("NDU", "NIDU"):
         if params.flag_AssortativeMix:
             if (
                 random.random()
                 < params.DemographicParams[agent_race_type]["ALL"]["AssortMixCoeff"]
             ):
-                RandomPartner = get_assort_sex_partner(self, agent, shortlist_NNP)
+                RandomPartner = get_assort_sex_partner(agent, shortlist_NNP)
                 if not RandomPartner and params.AssortMixCoeff <= 1.0:
-                    RandomPartner = get_random_sex_partner(self, agent, shortlist_NNP)
+                    RandomPartner = get_random_sex_partner(agent, shortlist_NNP)
             else:
-                RandomPartner = get_random_sex_partner(self, agent, shortlist_NNP)
+                RandomPartner = get_random_sex_partner(agent, shortlist_NNP)
         else:
-            RandomPartner = get_random_sex_partner(self, agent, shortlist_NNP)
+            RandomPartner = get_random_sex_partner(agent, shortlist_NNP)
     else:
         raise ValueError("Check method _get_partners(). Agent not caught!")
     # print RandomPartner
@@ -235,7 +235,7 @@ def get_partner(self, agent, need_new_partners):
         return RandomPartner
 
 
-def get_random_IDU_partner(self, agent, need_new_partners):
+def get_random_IDU_partner(agent, need_new_partners):
     """
     :Purpose:
         Get a random partner which is sex compatible
@@ -279,7 +279,7 @@ def get_random_IDU_partner(self, agent, need_new_partners):
         # print "NO PATNEAS"
 
 
-def get_assort_IDU_partner(self, agent, need_new_partners, assortType):
+def get_assort_IDU_partner(agent, need_new_partners, assortType):
     """
     :Purpose:
         Get a random partner which is sex compatible and adherese to assortativity mixing defined by params
@@ -323,7 +323,7 @@ def get_assort_IDU_partner(self, agent, need_new_partners, assortType):
         # print "NO PATNEAS"
 
 
-def get_assort_sex_partner(self, agent, need_new_partners):
+def get_assort_sex_partner(agent, need_new_partners):
     """
     :Purpose:
         Get a random partner which is sex compatible and fits assortativity constraints
@@ -339,7 +339,7 @@ def get_assort_sex_partner(self, agent, need_new_partners):
 
     def partner_choice(x):
         intersection = list(set(need_new_partners).intersection(set(x)))
-        agent_race_type = self.get_agent_characteristic(agent, "Race")
+        agent_race_type = get_agent_characteristic(agent, "Race")
         # print agent_race_type
         if agent_race_type == "WHITE":
             Assortive_intersection = list(
@@ -506,7 +506,7 @@ def get_assort_sex_partner(self, agent, need_new_partners):
         # print "NO PATNEAS"
 
 
-def get_random_sex_partner(self, agent, need_new_partners):
+def get_random_sex_partner(agent, need_new_partners):
     """
     :Purpose:
         Get a random partner which is sex compatible
@@ -562,14 +562,14 @@ def get_random_sex_partner(self, agent, need_new_partners):
         # return RandomPartner[0]
         else:
             assert sex_possible(
-                self, agent._SO, RandomPartner._SO
+                agent._SO, RandomPartner._SO
             ), "Sex no possible between agents! ERROR 441"
             return RandomPartner
     else:
         pass
 
 
-def sex_possible(self, agent_sex_type, partner_sex_type):
+def sex_possible(agent_sex_type, partner_sex_type):
     """
     :Purpose:
     Determine if sex is possible.
@@ -629,7 +629,7 @@ def sex_possible(self, agent_sex_type, partner_sex_type):
     return SexPossible
 
 
-def get_partnership_duration(self, agent):
+def get_partnership_duration(agent):
     """
     :Purpose:
         Get number of partners for a agent.

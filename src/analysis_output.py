@@ -283,7 +283,7 @@ def print_stats(
                         newHR_ART_HF += 1
 
     # Total HIV summary snapshot for timestep
-    for tmpA in self.HIV_agentSet.iter_agents():
+    for tmpA in HIVAgents.iter_agents():
         rsltdic[tmpA._race][tmpA._SO]["numHIV"] += 1
         if tmpA._AIDS_bool:
             rsltdic[tmpA._race][tmpA._SO]["numAIDS"] += 1
