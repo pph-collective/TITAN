@@ -1,45 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-"""
-*****************************************************************************
-Author(s):	Maximilian King  (previous authors: Lars Seemann - lseemann@uh.edu)
-Email: Maximilian_King@brown.edu
-Organization: Marshall Lab, Department of Epidemiology - Brown University
-
-Description:
-    Module responsible for ABM simulation events. Operates main loop over simulation run.
-    Handles agent pairing, interaction, disease propagation, interventions, deaths, etc.
-
-
-Copyright (c) 2016, Maximilian King
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-    * Neither the name of the <organization> nor the
-      names of its contributors may be used to endorse or promote products
-      derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*****************************************************************************
-"""
-__author__ = "Lars Seemann (lseemann@uh.edu)"
-
 import os
 import random
 import collections
@@ -69,7 +30,7 @@ except ImportError as e:
     raise ImportError("Can't import ABM_partnering! %s" % str(e))
 
 # def save_adjlist(graph, dir_prefix, time):
-def save_adjlist(N_pop, graph, dir_prefix, time):
+def save_adjlist(N_pop, graph, dir_prefix, time): #REVIEW there are a few places where a flag referencing this is used, the the function isn't called anywhere
     """
     :Purpose:
     Write graph G in a single-ling agdacency-list format to path
@@ -96,163 +57,8 @@ def save_adjlist(N_pop, graph, dir_prefix, time):
         outfile.write("%d\t%d\n" % (singleton, time))
 
 
-#REVIEW only used in one def that is also under review due to its use in stale code - delete
-def _random_subset(seq, m):
-    """ Return m unique elements from seq.
-
-    This differs from random.sample which can return repeated
-    elements if seq holds repeated elements.
-    """
-    targets = set()
-    while len(targets) < m:
-        x = random.choice(seq)
-        targets.add(x)
-    return targets
-
-
-#REVIEW only used in one place that is clearly not used anymore (references stale code) - delete
-def my_erdos_renyi_binomial_random_graph(node_list=None, p=0.0, seed=None, directed=False):
-
-    """Return a random graph G_{n,p} (Erdős-Rényi graph, binomial graph).
-
-    Chooses each of the possible edges with probability p.
-
-    This is also called binomial_graph and erdos_renyi_graph.
-
-    Parameters
-    ----------
-    node_list : list of nodes, optional
-        The nodes used to build the graph.
-    p : float
-        Probability for edge creation.
-    seed : int, optional
-        Seed for random number generator (default=None).
-    directed : bool, optional (default=False)
-        If True return a directed graph
-
-    See Also
-    --------
-    fast_gnp_random_graph
-
-    Notes
-    -----
-    This is an O(n^2) algorithm.  For sparse graphs (small p) see
-    fast_gnp_random_graph for a faster algorithm.
-
-    References
-    ----------
-    .. [1] P. Erdős and A. Rényi, On Random Graphs, Publ. Math. 6, 290 (1959).
-    .. [2] E. N. Gilbert, Random Graphs, Ann. Math. Stat., 30, 1141 (1959).
-    """
-    if directed:
-        G = nx.DiGraph()
-    else:
-        G = nx.Graph()
-    n = len(node_list)
-    G.add_nodes_from(node_list)
-    G.name = "my_erdos_renyi_binomial_random_graph(%s,%s)" % (n, p)
-    if p <= 0:
-        return G
-    if p >= 1:
-        return complete_graph(n, create_using=G)
-
-    if not seed is None:
-        random.seed(seed)
-
-    if G.is_directed():
-        edges = itertools.permutations(node_list, 2)
-    else:
-        edges = itertools.combinations(node_list, 2)
-
-    for e in edges:
-        if random.random() < p:
-            G.add_edge(*e)
-    return G
-
-#REVIEW not used anywhere - delete
-def my_barabasi_albert_graph(n, m, node_list=None, seed=None):
-    """Return random graph using Barabási-Albert preferential attachment model.
-
-    Modified by Lars Seemann (lseemann@uh.edu).
-
-    A graph of n nodes is grown by attaching new nodes each with m
-    edges that are preferentially attached to existing nodes with high
-    degree.
-
-    Parameters
-    ----------
-    n : int
-        Number of nodes
-    m : int
-        Number of edges to attach from a new node to existing nodes
-    node_list : list of nodes, optional
-        The nodes used to build the graph.
-    seed : int, optional
-        Seed for random number generator (default=None).
-
-    Returns
-    -------
-    G : Graph
-
-    Notes
-    -----
-    The initialization is a graph with with m nodes and no edges.
-
-    References
-    ----------
-    .. [1] A. L. Barabási and R. Albert "Emergence of scaling in
-       random networks", Science 286, pp 509-512, 1999.
-    """
-
-    if m < 1 or m >= n:
-        raise nx.NetworkXError("Barabási-Albert network must have m>=1 and m<n, m=%d,n=%d" % (m, n))
-
-    if node_list is not None:
-        if n != len(node_list):
-            raise nx.NetworkXError(
-                "node_list must have smae length as n! len(node_list)=%d,n=%d" % (len(node_list), n)
-            )
-        else:
-            random.shuffle(node_list)  # Shuffle node_list
-            targets = node_list[:m]
-    else:
-        targets = random.shuffle(list(range(m)))  # Target nodes for new edges
-
-    if seed is not None:
-        random.seed(seed)
-
-    G = nx.Graph()  # networkX graph
-    G.add_nodes_from(tavideorgets[:m])  # Add m initial nodes (m0 in barabasi-speak)
-    G.name = "mod_barabasi_albert_graph(%s,%s)" % (n, m)
-    repeated_nodes = []  # List of existing nodes, with nodes repeated once for each adjacent edge
-    Num_source = m  # Start adding the other n-m nodes. The first node is m.
-    while Num_source < n:
-        source = node_list[Num_source]
-        G.add_edges_from(list(zip([source] * m, targets)))  # Add edges to m nodes from the source.
-        repeated_nodes.extend(targets)  # Add one node to the list for each new edge just created.
-        repeated_nodes.extend(
-            [source] * m
-        )  # And the new node "source" has m edges to add to the list.
-        # Now choose m unique nodes from the existing nodes
-        # Pick uniformly from repeated_nodes (preferential attachement)
-        targets = _random_subset(repeated_nodes, m)
-        Num_source += 1
-    return G
-
-#REVIEW not used anywhere - delete
-class populationGraph:
-    def create_graph_from_relationships(self, relationships):
-        G = nx.Graph()
-
-        for rel in relationships.iter_agents():
-            G.add_edge(rel._ID1, rel._ID2)
-
-        return G
-
-
-#REVIEW node_list - it's only used in unused methods - delete
 class NetworkClass(PopulationClass):
-    def __init__(self, N, popSeed=0, netSeed=0, m_0=1, network_type="scale_free", node_list=None):
+    def __init__(self, N, popSeed=0, netSeed=0, m_0=1, network_type="scale_free"):
         """
         :Purpose:
             This is the base class used to generate the social network
@@ -329,10 +135,6 @@ class NetworkClass(PopulationClass):
                 elif comp.number_of_nodes() < params.minComponentSize:
                     print("TOO SMALL", comp, comp.number_of_nodes())
             print("Total agents in graph: ", self.G.number_of_nodes())
-        elif network_type == "binomial": #REVIEW (NormalAgents not used anymore) - delete this branch
-            self.G = my_erdos_renyi_binomial_random_graph(
-                node_list=self.NormalAgents, p=0.5, seed=None, directed=False
-            )
         else:
             print("HUIH")
             raise ValueError("Invalid network type! %s" % str(network_type))
@@ -418,16 +220,16 @@ class NetworkClass(PopulationClass):
 
         # draw graph in inset
         plt.axes([0.4, 0.4, 0.5, 0.5])
-        Gcc = G  # sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)[0]
+        Gcc = G
         pos = graphviz_layout(Gcc, prog="neato", args="")
         plt.axis("off")
 
         node_shape = "o"
         node_color = []
         for v in Gcc:
-            if v._AIDS_bool:  # tmp_hiv == 1:
+            if v._AIDS_bool:
                 node_color.append("r")
-            elif v._HIV_bool:  # tmp_aids == 1:
+            elif v._HIV_bool:
                 node_color.append("r")
             else:
                 node_color.append("g")
@@ -479,7 +281,6 @@ class NetworkClass(PopulationClass):
         """
         return self.G
 
-
     def vizualize_network_circular(self):
         G = self.G
         pos = graphviz_layout(G, prog="twopi", args="")
@@ -487,8 +288,6 @@ class NetworkClass(PopulationClass):
         nx.draw(G, pos, node_size=20, alpha=0.5, node_color="blue", with_labels=False)
         plt.axis("equal")
         plt.savefig("circular_tree.png")
-        # plt.show()
-
 
     def vizualize_network_spectral(self):
         G = self.G
@@ -497,7 +296,6 @@ class NetworkClass(PopulationClass):
         nx.draw_spectral(G, with_labels=False)
         plt.axis("equal")
         plt.savefig("spectral_tree.png")
-
 
     def vizualize_network_graphviz(self, program="sfdp", coloring=None, time=0):
         G = self.G

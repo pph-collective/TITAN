@@ -1,44 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-"""
-*****************************************************************************
-Author(s):	Maximilian King  (previous authors: Lars Seemann - lseemann@uh.edu)
-Email: Maximilian_King@brown.edu
-Organization: Marshall Lab, Department of Epidemiology - Brown University
-
-Description:
-    Module responsible for partnering agents within network. Assortative mixing,
-    partnering preferences, and eligible lists.
-
-
-Copyright (c) 2016, Maximilian King
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-    * Neither the name of the <organization> nor the
-      names of its contributors may be used to endorse or promote products
-      derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*****************************************************************************
-"""
-
 # Imports
 import random
 from copy import deepcopy, copy
@@ -67,7 +29,7 @@ except ImportError:
 from . import params
 
 
-def update_partner_assignments(self, partnerTurnover, graph, agent=None): #REVIEW (graph is passed, but then never used, rather self.G is used directly, probably should be graph) - replace with graph
+def update_partner_assignments(self, partnerTurnover, graph, agent=None):
     # Now create partnerships until available partnerships are out
     if agent:
         partner = get_partner(self, agent, self.All_agentSet)
@@ -77,7 +39,7 @@ def update_partner_assignments(self, partnerTurnover, graph, agent=None): #REVIE
             tmp_relationship = Relationship(agent, partner, "MSM", "SE", duration)
             agent.bond(partner, tmp_relationship)
             self.Relationships.add_agent(tmp_relationship)
-            self.G.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
+            graph.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
     else:
         EligibleAgents = self.All_agentSet
         noMatch = 0
@@ -94,79 +56,12 @@ def update_partner_assignments(self, partnerTurnover, graph, agent=None): #REVIE
 
                     agent.bond(partner, tmp_relationship)
                     self.Relationships.add_agent(tmp_relationship)
-                    self.G.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
+                    graph.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
                 else:
                     noMatch += 1
-                    self.G.add_node(agent)
+                    graph.add_node(agent)
             else:
-                self.G.add_node(agent)
-
-#REVIEW not used anywhere - delete
-def get_number_of_partners(self, agent, agent_drug_type, agent_sex_type):
-    """
-    :Purpose:
-        Get number of partners for a agent.
-        Drawn from Poisson distribution.
-
-    :Input:
-        agent : Agent
-
-        agent_drug_type : str
-        Either 'IDU', 'NIDU', 'ND'
-
-        agent_sex_type : str
-        Either 'HM', 'MSM', 'HF', 'WSW'
-
-    :Output:
-        NumPartners : int
-        Zero partners possible.
-    """
-    # Check input
-    # Drug type
-    if agent_drug_type not in ["IDU", "NIDU", "ND"]:
-        raise ValueError("Invalid drug type! %s" % str(agent_drug_type))
-    # Sex type
-    if agent_sex_type not in ["HM", "HF", "MSM", "WSW"]:
-        raise ValueError("Invalid sex type! %s" % str(agent_sex_type))
-
-    agent_race_type = agent._race
-
-    n_trials = self.ProbTables[agent_race_type][agent_sex_type]["NUMPartn"]
-    p_success = 0.8
-
-    ##Random number of contacts using negative binomial
-    if agent_sex_type == "WSW":
-        RandNumCont = np.random.negative_binomial(n_trials, p_success, 1)[0]
-    elif agent_sex_type == "MSM" and agent_drug_type != "NIDU":
-        RandNumCont = np.random.negative_binomial(n_trials, p_success, 1)[0]
-    elif agent_sex_type == "MSM" and agent_drug_type == "NIDU":
-        RandNumCont = np.random.negative_binomial(n_trials, p_success, 1)[0]
-        RandNumCont = int(RandNumCont * 2)
-    elif agent_drug_type == "NIDU":
-        RandNumCont = np.random.negative_binomial(n_trials, p_success, 1)[0]
-    elif agent_drug_type == "IDU":
-        n_trials = 7
-        p_success = 0.7
-        RandNumCont = np.random.negative_binomial(n_trials, p_success, 1)[0]
-    elif agent_drug_type == "ND":
-        RandNumCont = np.random.negative_binomial(n_trials, p_success, 1)[0]
-    if RandNumCont < 0:
-        raise ValueError("Invalid number of contacts!%s" % str(RandNumCont))
-
-    if RandNumCont == 0 and np.random.uniform() < 0.5:
-        RandNumCont = 1
-
-    MEAN_PARTNER_YEAR = self.ProbTables[agent_race_type][agent_sex_type]["NUMPartn"]
-    RandNumCont = poisson.rvs(MEAN_PARTNER_YEAR, size=1)
-
-    if agent_drug_type == "IDU":
-        RandNumCont = RandNumCont * params.cal_NeedlePartScaling
-
-    else:
-        RandNumCont = RandNumCont * params.cal_SexualPartScaling
-
-    return RandNumCont
-
+                graph.add_node(agent)
 
 def get_partner(self, agent, need_new_partners):
     """
@@ -251,44 +146,6 @@ def get_random_IDU_partner(self, agent, need_new_partners):
     else:
         return None
 
-
-#REVIEW not used anywhere - sarah to review
-def get_assort_IDU_partner(self, agent, need_new_partners, assortType):
-    """
-    :Purpose:
-        Get a random partner which is sex compatible and adherese to assortativity mixing defined by params
-
-    :Input:
-        agent: int
-        need_new_partners: list of available partners
-
-    :Output:
-        partner : int
-
-    """
-    agent_sex_type = agent._SO
-    agent_drug_type = agent._DU
-    RandomPartner = None
-    tempList = []
-
-    AssortMix = False
-    if random.random() < params.AssortMixCoeff:
-        AssortMix = True
-
-    # todo: Make the random agent never return the agent or any of their partners
-    if agent_drug_type not in ["IDU"]:
-        raise ValueError("Invalid drug type! %s" % str(agent_drug_type))
-    else:
-        RandomPartner = random.choice([ptn for ptn in need_new_partners._subset["IDU"]._members if ptn not in agent._partners])
-        if RandomPartner in agent._partners or RandomPartner == agent:
-            RandomPartner = None
-
-    if RandomPartner:
-        return RandomPartner
-    else:
-        return None
-
-
 def get_assort_sex_partner(self, agent, need_new_partners):
     """
     :Purpose:
@@ -302,29 +159,6 @@ def get_assort_sex_partner(self, agent, need_new_partners):
         partner : int
 
     """
-
-    #REVIEW not used anywhere - delete
-    def partner_choice(x):
-        intersection = list(set(need_new_partners).intersection(set(x)))
-        agent_race_type = self.get_agent_characteristic(agent, "Race")
-
-        if agent_race_type == "WHITE":
-            Assortive_intersection = list(set(self.Race_WHITE_agentSet).intersection(intersection))
-            if Assortive_intersection == []:
-                print("Couldnt assortive mix (W), picking suitable agent")
-            else:
-                return random.choice(Assortive_intersection)
-        elif agent_race_type == "BLACK":
-            Assortive_intersection = list(set(self.Race_BLACK_agentSet).intersection(intersection))
-            if Assortive_intersection == []:
-                print("Couldnt assortive mix (B), picking suitable agent")
-            else:
-                return random.choice(ptn for ptn in Assortive_intersection if ptn not in agent._partners)
-        if intersection == []:
-            return None
-        else:
-            print("NO PATNAS")
-
 
     def getPartnerBin(agent):
         testRand = random.random()
@@ -603,55 +437,3 @@ def get_partnership_duration(self, agent):
         )
 
     return duration
-
-#REVIEW not used anywhere - delete
-def save_AgentPartner_list(self, t):
-    """
-    :Purpsose:
-    Save all agent-partners connections.
-    :Input:
-    t : int
-    Time
-    """
-    OutFileDir = os.path.expanduser(os.path.join(self.current_dir, "Results"))
-    if not os.path.isdir(OutFileDir):  # create directory if not existing
-        os.mkdir(OutFileDir)
-    OutFileName = os.path.join(OutFileDir, "AgentPartnersList_atTime_%s.txt" % str(t))
-    if os.path.isfile(OutFileName):
-        os.remove(OutFileName)
-    outfile = open(OutFileName, "w")
-    outfile.write("agent\tdrug type\tsex type\tHIV\tAIDS\tHAART\t")
-    maxpartners = 0
-    for agent in self.Agents:
-        numpartners = len(list(self.AdjMat.rows[agent]))
-        if numpartners > maxpartners:
-            maxpartners = numpartners
-    outfile.write("\t".join(["partner\tp drug type\tp sex type"] * maxpartners))
-    outfile.write("\n")
-    for agent in sorted(self.Agents.keys()):
-        agent_dict = self.Agents[agent]
-        outfile.write("%d\t" % agent)
-        outfile.write("%s\t" % agent_dict["Drug Type"])
-        outfile.write("%s\t" % agent_dict["Sex Type"])
-        outfile.write("%d\t" % agent_dict["HIV"])
-        outfile.write("%d\t" % agent_dict["AIDS"])
-        outfile.write("%d\t" % self.AdherenceAgents[agent])
-        for p in sorted(list(self.AdjMat.rows[agent])):
-            partner_dict = self.Agents[p]
-        outfile.write("%d\t" % int(p))
-        outfile.write("%s\t" % partner_dict["Drug Type"])
-        outfile.write("%s\t" % partner_dict["Sex Type"])
-        outfile.write("\n")
-
-
-#REVIEW not used anywhere - delete
-def reset_partner_count(self):
-    """
-    Reset partner count for method assess_interaction_distribution
-    """
-
-    # set ND partner count to zero for the next time step
-    self.tmp_ND_NumPartners_Count = {}
-    self.tmp_NIDU_NumPartners_Count = {}
-    self.tmp_IDU_NumPartners_Count = {}
-    self.tmp_MSM_NumPartners_Count = {}

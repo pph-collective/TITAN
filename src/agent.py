@@ -1,44 +1,5 @@
 #!/usr/bin/env python
 # encoding: utf-8
-"""
-*****************************************************************************
-Author(s):	Maximilian King  (previous authors: Lars Seemann - lseemann@uh.edu)
-Email: Maximilian_King@brown.edu
-Organization: Marshall Lab, Department of Epidemiology - Brown University
-
-Description:
-    Contains classes to assist in making agents. 'Person' agents, for example,
-would be subclasses of the Agent class, while Household, Neighborhood, and
-Region agents would be represented as subclasses of the Agent_set object (as
-households, neighborhoods, and regions all contain lower-level agents).
-
-
-Copyright (c) 2016, Maximilian King
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-    * Neither the name of the <organization> nor the
-      names of its contributors may be used to endorse or promote products
-      derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*****************************************************************************
-"""
 
 import random
 
@@ -46,6 +7,18 @@ class Agent:
     "Class for agent objects."
 
     def __init__(self, ID, SO, age, race, DU, initial_agent=False):
+        """
+        :Purpose:
+            Constructor for an Agent
+
+        :Input:
+            :ID: Unique ID number to track each person agent
+            :SO: Sexual Orientation of the agent
+            :age: Age of the agent
+            :race: Race of the agent (currently just "BLACK" or "WHITE")
+            :DU: Drug use type ("IDU", "NIDU", "NDU")
+            :initial_agent: whether this is the first agent created (default is False)
+        """
 
         # self._ID is unique ID number used to track each person agent.
         self._ID = ID
@@ -66,7 +39,7 @@ class Agent:
         self._DU = DU
         self._gender = SO[
             -1:
-        ]  # Takes last letter of HM, HF, MSM, WSW, BiM, BiF to get agent gender. CANT USE MSMW!
+        ]  # Takes last letter of HM, HF, MSM, WSW, BiM, BiF to get agent gender. CANT USE MSMW! #REVIEW - inconsistent female
 
         self._ageBin = 0
         self._MSMW = False
@@ -268,6 +241,18 @@ class Relationship:
     "Class for agent relationships."
 
     def __init__(self, ID1, ID2, SO, rel_type, duration, initial_agent=False):
+        """
+        :Purpose:
+            Constructor for a Relationship
+
+        :Input:
+            :ID1: ID of first agent
+            :ID2: ID of second agent
+            :SO: Orientation of relationship
+            :rel_type: #REVIEW
+            :duration: length of relationship
+            :initial_agent: #REVIEW
+        """
 
         # self._ID is unique ID number used to track each person agent.
         self._ID1 = ID1
@@ -300,7 +285,6 @@ class Relationship:
         self._incar_bool = False
         self._incar_time = 0
 
-
     def progress(self, forceKill=False):
         if self._duration <= 0 or forceKill:
             agent = self._ID1
@@ -313,15 +297,8 @@ class Relationship:
             self._duration = self._duration - 1
             return False
 
-
-    #REVIEW not used
-    def delete(self):
-        del self
-
-
     def get_ID(self):
         return self._IDq
-
 
     def __repr__(self):
         return "\t%.6d\t%.6d\t%s\t%s\t%d\t%d" % (
@@ -333,7 +310,6 @@ class Relationship:
             self._total_sex_acts,
         )
 
-
     def print_rel(self):
         return "\t%.6d\t%.6d\t%s\t%s\t%d\t%d" % (
             self._ID1.get_ID(),
@@ -343,7 +319,6 @@ class Relationship:
             self._duration,
             self._total_sex_acts,
         )
-
 
     def print_rels(self):
         print("\t_____________ %s _____________" % self.get_ID())
@@ -363,32 +338,6 @@ class Relationship:
             self._duration,
             self._total_sex_acts,
         )
-
-
-#REVIEW not used anywhere
-class Relationship_set(Relationship):
-    """
-    Class for agents that contain a "set" of relationsips from a lower
-    hierarchical  level.
-    """
-
-    def __init__(self, world, ID, parent=None, numerator=None):
-        # _members stores agent set members in a dictionary keyed by ID
-        self._ID = ID
-        self._members = []
-        self._subset = {}
-
-        # _parent_set stores the parent set if this set is a member of an
-        # Agent_set class instance. For example, for a set that is a
-        # member of a larger set, the _parent_set for that set  would
-        # be that larger set.
-        self._parent_set = parent
-        if parent:
-            parent.add_subset(self)
-        if numerator:
-            self._numerator = numerator
-        else:
-            self._numerator = self
 
 
 class Agent_set(Agent):
@@ -499,63 +448,6 @@ class Agent_set(Agent):
 
     def get_parent_set(self):
         return self._parent_set
-
-    #REVIEW not used anywhere
-    def print_agents(self):
-        print("\t_____________ %s _____________" % self.get_ID())
-        print("\tID\tAge\tGdr\tSO\tDU\tRace\tHIV+\tPtnrs")
-
-        for tmpA in self.iter_agents():
-            tmpA.print_agent()
-        print("\t______________ END ______________")
-
-
-    #REVIEW not used anywhere
-    def print_agents_abridged(self):
-        print("\t_________ %s _________" % self.get_ID())
-        print("\tID\tGdr\tSO\tDU")
-
-        for tmpA in self.iter_agents():
-            tmpA.print_agent_abridge()
-        print("\t__________ END __________")
-
-
-    #REVIEW not used anywhere
-    def print_agents_to_file(
-        self, time=None, overWrite="a", filename="Results/Tableau_Agent_Output_File.txt"
-    ):
-        if overWrite == "a":
-            agentList = ""
-        else:
-            agentList = (
-                "Time,ID,Age,Gdr,SO,DU,Race,HIV+,Ptnrs,LTPtnrs,AliveTime,AIDS,Tested,PrEP,Incar\n"
-            )
-        for tmpA in self.iter_agents():
-            agentList += str(time) + "," + tmpA.vars()
-
-        open(filename, overWrite).write(agentList)
-
-    #REVIEW not used anywhere
-    def print_agent_relationshps(self):
-        print("\t_____________ %s _____________" % self.get_ID())
-        print("\tID1\t\tID2\t\tSO\tTy\tDur\tActs")
-
-        for tmpR in self._members:
-            tmpR.print_rel()
-        print("\t______________ END ______________")
-
-
-    #REVIEW not used anywhere
-    def print_agent_relationships_to_file(self, time=None, overWrite="a"):
-        if overWrite == "a":
-            agentList = ""
-        else:
-            agentList = "Time,ID1,ID2,SO,Ty,Dur,Acts\n"
-        for tmpR in self.iter_agents():
-            agentList += str(time) + "," + tmpR.vars()
-
-        open("Results/Tableau_Rel_Output_File.txt", overWrite).write(agentList)
-
 
     def print_subsets(self):
         print("\t__________ %s __________" % self.get_ID())

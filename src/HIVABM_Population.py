@@ -1,44 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-"""
-*****************************************************************************
-Author(s):	Maximilian King  (previous authors: Lars Seemann - lseemann@uh.edu)
-Email: Maximilian_King@brown.edu
-Organization: Marshall Lab, Department of Epidemiology - Brown University
-
-Description:
-    Module for population dictionary construction and initial parameters.
-    Contains population demographics for model inputs, and creates respective
-    population subsets.
-
-Copyright (c) 2016, Maximilian King
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-    * Neither the name of the <organization> nor the
-      names of its contributors may be used to endorse or promote products
-      derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*****************************************************************************
-"""
-
 from random import Random
 import copy
 from copy import deepcopy
@@ -50,30 +12,6 @@ try:
 except ImportError:
     raise ImportError("Can't import AgentClass")
 from . import params
-
-
-#REVIEW  not used anywhere (imported in several files, but never called) - delete
-def print_population(agent_dict, dir_prefix, time=0):
-    # Print the whole population to a file.
-    # Format: agent_i characteristic 1 characteristic 2 ...
-    # Input: agent_dict : dictionary of agents (self.Agents)
-    #        dir_prefix : outfile name (str)
-    #        time : time at which snapshot was taken (int)
-    OutFileName = dir_prefix + "/" + "Population_at_time_%d.txt" % time
-    outfile = open(OutFileName, "w")
-    # create header
-    key_list = list(agent_dict[0].keys())
-    outfile.write("Agent\t")
-    for key in key_list:
-        outfile.write("%s\t" % str(key))
-    outfile.write("\n")
-    for agent in sorted(agent_dict.keys()):
-        outfile.write("%d\t" % agent)
-        tmp_agent_prop = agent_dict[agent]
-        for key in key_list:
-            outfile.write("%s\t" % str(tmp_agent_prop[key]))
-        outfile.write("\n")
-    outfile.close()
 
 
 class PopulationClass:
@@ -420,23 +358,9 @@ class PopulationClass:
         ND["WSW"] = {"HIV": 0.012, "AIDS": 0.0003, "HAARTa": 0}
         ND["HF"] = {"HIV": 0.012, "AIDS": 0.0003, "HAARTa": 0}
 
-        self.MSM_agents = [] #REVIEW - delete all of these
-        self.HF_agents = [] #REVIEW
-        self.WSW_agents = [] #REVIEW
-        self.HM_agents = [] #REVIEW
-        self.IDU_agents = [] #REVIEW
-        self.HIV_agents = [] #REVIEW
-        self.AIDS_agents = [] #REVIEW
-        self.HIVidentified_agents = [] #REVIEW
-        self.HAART_agents = [] #REVIEW
-        self.Incarcerated = [] #REVIEW
-
         # Create agents in allAgents list
         self.White_agents = deepcopy(allAgents[0 : self.numWhite])
         self.Black_agents = deepcopy(allAgents[self.numWhite :])
-        self.IDU_agents = [] #REVIEW
-        self.NIDU_agents = [] #REVIEW
-        self.ND_agents = [] #REVIEW
 
         print("\tCreating agents")
 
@@ -479,41 +403,6 @@ class PopulationClass:
 
     def _return_agent_set(self):
         return self.totalAgentClass
-
-    #REVIEW outdated method, not used anywhere (that is actually used) - delete
-    def get_agent_characteristic(self, agent, property):
-        """
-        :Purpose:
-            Determine an agents interal characteristics.
-        :Input:
-            agent : int \n
-            property: string
-        	Allowed properties: \n
-        	`HIV`, `Sex Type`, `Drug Type`, `AIDS`, `HAARTa`, `incar_t`, `HIV_t`, `Race`, `Tested`
-        :Output:
-            Characteristic : string
-        """
-        if property in [
-            "HIV",
-            "Sex Type",
-            "Drug Type",
-            "AIDS",
-            "HAARTa",
-            "incar_t",
-            "HIV_t",
-            "Race",
-            "Tested",
-        ]:
-            try:
-                return self.Agents[agent][property]
-            except KeyError:
-                print(self.Agents[agent])
-                raise KeyError("Check keys/Agents in self.Agents")
-        else:
-            raise ValueError(
-                "Check agents charactertic! Only 'HIV', 'Sex Type' \
-			     'Drug Type' , 'AIDS' possible."
-            )
 
     def _return_new_agent_dict(self, Deliminator, SexType="NULL"):
         """
@@ -932,175 +821,3 @@ class PopulationClass:
 
         age = self.popRandom.randrange(minAge, maxAge)
         return age, ageBin
-
-    #REVIEW not used anywhere that is used - delete
-    def get_agents(self):
-        """
-        :Purpose:
-            Return all agents and their characteristics.
-
-        :Output:
-            :py:attr:`Agents`: dict
-        	Dictionary of agents and their characteristics. The agents
-        	are the `keys` and a dictionary of `characteristic:value`
-        	pair is the entry.
-        """
-        return self.Agents
-
-
-    #REVIEW not used anywhere - delete
-    def print_info(self):
-        """
-        :Purpose:
-            Simple fprintf test on std out.
-        """
-        print(("Number of agents " + str(self.PopulationSize)))
-        print(("Number of IDU " + str(len(self.IDU_agents))))
-        print(("Number of NIDU " + str(len(self.NIDU_agents))))
-        print(("Number of ND " + str(len(self.ND_agents))))
-
-
-    #REVIEW not used anywhere - delete
-    def get_info_DrugUserType(self):
-        """
-        :Purpose:
-            Return number of IDU, NIDU, and ND users in one array.
-
-        :Output:
-            data : dict
-        """
-        return {
-            "Number of IDU agents": len(self.IDU_agents),
-            "Number of NIDU agents": len(self.NIDU_agents),
-            "Number of ND agents": len(self.ND_agents),
-        }
-
-
-    #REVIEW not used anywhere - delete
-    def get_info_HIV_IDU(self):
-        """
-        :Purpose:
-            Return number of HIV among IDU agents.
-            Distinguish between MSM, WSW, HM, and HIF agents.
-
-        :Ooutput:
-            data : dict
-        """
-        count_HIV_MSM = 0
-        count_HIV_HM = 0
-        count_HIV_WSW = 0
-        count_HIV_HF = 0
-        for agent in self.IDU_agents:
-            HIVstatus = self.get_agent_characteristic(agent, "HIV")
-            if HIVstatus == 1:
-                SexType = self.get_agent_characteristic(agent, "Sex Type")
-                if SexType == "MSM":
-                    count_HIV_MSM += 1
-                elif SexType == "HM":
-                    count_HIV_HM += 1
-                elif SexType == "WSW":
-                    count_HIV_WSW += 1
-                elif SexType == "HF":
-                    count_HIV_HF += 1
-                else:
-                    raise ValueError("Agent must be either HM, MSM, HF, WSW !")
-            elif HIVstatus != 0:
-                print(HIVstatus)
-                raise ValueError("HIV status must be either 0 or 1 !")
-        return {
-            "Number of IDU HIV MSM": count_HIV_MSM,
-            "Number of IDU HIV HM": count_HIV_HM,
-            "Number of IDU HIV WSW": count_HIV_WSW,
-            "Number of IDU HIV HF": count_HIV_HF,
-        }
-
-    #REVIEW not used anywhere - delete
-    def get_info_DrugSexType(self):
-        """
-        :Purpose:
-            Assess the Drug and Sex type prevalences of the population.
-
-        :Ooutput:
-            data : dict
-        """
-        count_HM = 0
-        count_HF = 0
-        count_MSM = 0
-        count_WSW = 0
-        count_HM_IDU = 0
-        count_HF_IDU = 0
-        count_MSM_IDU = 0
-        count_WSW_IDU = 0
-        count_HM_NIDU = 0
-        count_HF_NIDU = 0
-        count_MSM_NIDU = 0
-        count_WSW_NIDU = 0
-        count_HM_ND = 0
-        count_HF_ND = 0
-        count_MSM_ND = 0
-        count_WSW_ND = 0
-
-        for agent in list(self.Agents.keys()):
-            SexType = self.get_agent_characteristic(agent, "Sex Type")
-            DrugType = self.get_agent_characteristic(agent, "Drug Type")
-            if SexType == "HM":
-                count_HM += 1
-                if DrugType == "IDU":
-                    count_HM_IDU += 1
-                elif DrugType == "NIDU":
-                    count_HM_NIDU += 1
-                elif DrugType == "ND":
-                    count_HM_ND += 1
-                else:
-                    raise ValueError("Drug test must either be IDU, NIDU or ND !")
-            elif SexType == "HF":
-                count_HF += 1
-                if DrugType == "IDU":
-                    count_HF_IDU += 1
-                elif DrugType == "NIDU":
-                    count_HF_NIDU += 1
-                elif DrugType == "ND":
-                    count_HF_ND += 1
-                else:
-                    raise ValueError("Drug test must either be IDU, NIDU or ND !")
-            elif SexType == "MSM":
-                count_MSM += 1
-                if DrugType == "IDU":
-                    count_MSM_IDU += 1
-                elif DrugType == "NIDU":
-                    count_MSM_NIDU += 1
-                elif DrugType == "ND":
-                    count_MSM_ND += 1
-                else:
-                    raise ValueError("Drug test must either be IDU, NIDU or ND !")
-            elif SexType == "WSW":
-                count_WSW += 1
-                if DrugType == "IDU":
-                    count_WSW_IDU += 1
-                elif DrugType == "NIDU":
-                    count_WSW_NIDU += 1
-                elif DrugType == "ND":
-                    count_WSW_ND += 1
-                else:
-                    raise ValueError("Drug test must either be IDU, NIDU or ND !")
-            else:
-                raise ValueError("Agent must be either HM, MSM, HF, WSW !")
-
-        return {
-            "Number of HM": count_HM,
-            "Number of HF": count_HF,
-            "Number of MSM": count_MSM,
-            "Number of WSW": count_WSW,
-            "Number of MSM IDU": count_MSM_IDU,
-            "Number of MSM NIDU": count_MSM_NIDU,
-            "Number of MSM ND": count_MSM_ND,
-            "Number of HM IDU": count_HM_IDU,
-            "Number of HM NIDU": count_HM_NIDU,
-            "Number of HM ND": count_HM_ND,
-            "Number of WSW IDU": count_WSW_IDU,
-            "Number of WSW NIDU": count_WSW_NIDU,
-            "Number of WSW ND": count_WSW_ND,
-            "Number of HF IDU": count_HF_IDU,
-            "Number of HF NIDU": count_HF_NIDU,
-            "Number of HF ND": count_HF_ND,
-        }
