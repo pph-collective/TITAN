@@ -4,14 +4,11 @@
 import os
 import random
 import collections
-import itertools
-import unittest
 
-# import numpy as np
+import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-import matplotlib.animation as animation
 from operator import itemgetter
 
 try:
@@ -19,18 +16,11 @@ try:
 except ImportError:
     raise ImportError("Can't import PopulationClass")
 
-try:
-    from .agent import *
-except ImportError:
-    raise ImportError("Can't import agent")
+from . import params
 
-try:
-    from .ABM_partnering import *
-except ImportError as e:
-    raise ImportError("Can't import ABM_partnering! %s" % str(e))
-
-# def save_adjlist(graph, dir_prefix, time):
-def save_adjlist(N_pop, graph, dir_prefix, time): #REVIEW there are a few places where a flag referencing this is used, the the function isn't called anywhere
+def save_adjlist(
+    N_pop, graph, dir_prefix, time
+):  # REVIEW there are a few places where a flag referencing this is used, the the function isn't called anywhere
     """
     :Purpose:
     Write graph G in a single-ling agdacency-list format to path
@@ -40,7 +30,6 @@ def save_adjlist(N_pop, graph, dir_prefix, time): #REVIEW there are a few places
               delimiter: string, optional, separator for node labels
               encoding: string, optional, text enconding
     """
-    # nx.write_adjlist(graph,(dir_prefix +'/'+'test_adjlist_at_time_%d.txt'%time))
     if not os.path.isdir(dir_prefix):
         os.mkdir(dir_prefix)
     OutFileName = dir_prefix + "/" + "Interactions_at_time_%d.txt" % time
@@ -96,7 +85,7 @@ class NetworkClass(PopulationClass):
         if network_type == "scale_free":
             self.G = nx.Graph()
             for i in range(10):
-                update_partner_assignments(self, params.PARTNERTURNOVER, self.get_Graph)
+                self.update_partner_assignments(params.PARTNERTURNOVER, self.G)
         elif network_type == "max_k_comp_size":
 
             def trimComponent(component, maxComponentSize):
@@ -109,7 +98,9 @@ class NetworkClass(PopulationClass):
                             component.remove_edge(rel._ID1, rel._ID2)
                             self.G.remove_edge(rel._ID1, rel._ID2)
 
-                components = sorted(nx.connected_component_subgraphs(self.G), key=len, reverse=True)
+                components = sorted(
+                    nx.connected_component_subgraphs(self.G), key=len, reverse=True
+                )
                 totNods = 0
                 for comp in components:
                     cNodes = comp.number_of_nodes()
@@ -126,8 +117,10 @@ class NetworkClass(PopulationClass):
 
             self.G = nx.Graph()
             for i in range(10):
-                update_partner_assignments(self, params.PARTNERTURNOVER, self.get_Graph)
-            components = sorted(nx.connected_component_subgraphs(self.G), key=len, reverse=True)
+                self.update_partner_assignments(params.PARTNERTURNOVER, self.get_Graph)
+            components = sorted(
+                nx.connected_component_subgraphs(self.G), key=len, reverse=True
+            )
             for comp in components:
                 if comp.number_of_nodes() > params.maxComponentSize:
                     print("TOO BIG", comp, comp.number_of_nodes())
@@ -155,7 +148,9 @@ class NetworkClass(PopulationClass):
         centDict = nx.degree_centrality(G)
 
         outfile.write(
-            "\nNumber of connected components: {}\n".format(nx.number_connected_components(G))
+            "\nNumber of connected components: {}\n".format(
+                nx.number_connected_components(G)
+            )
         )
         conG = nx.connected_components(G)
         tot_nodes = 0
@@ -183,7 +178,6 @@ class NetworkClass(PopulationClass):
         for i in components:
             comps.append(len(i))
 
-
     def create_graph_from_agents(self, agents):
         G = self.G
         numAdded = 0
@@ -191,7 +185,6 @@ class NetworkClass(PopulationClass):
             numAdded += 1
             G.add_node(tmpA)
         print("\tAdded %d/%d agents" % (numAdded, G.number_of_nodes()))
-
 
     def create_graph_from_relationships(self, relationships):
         G = self.G
@@ -201,10 +194,11 @@ class NetworkClass(PopulationClass):
             self.G.add_edge(rel._ID1, rel._ID2)
         print("Added %d/%d relationships" % (numAdded, G.number_of_edges()))
 
-
     def draw_histogram(self, t=0):
         G = self.G
-        degree_sequence = sorted([d for n, d in G.degree()], reverse=True)  # degree sequence
+        degree_sequence = sorted(
+            [d for n, d in G.degree()], reverse=True
+        )  # degree sequence
         degreeCount = collections.Counter(degree_sequence)
         deg, cnt = list(zip(*list(degreeCount.items())))
 
@@ -233,14 +227,15 @@ class NetworkClass(PopulationClass):
                 node_color.append("r")
             else:
                 node_color.append("g")
-        nx.draw_networkx_nodes(Gcc, pos, node_size=20, node_color=node_color, node_shape=node_shape)
+        nx.draw_networkx_nodes(
+            Gcc, pos, node_size=20, node_color=node_color, node_shape=node_shape
+        )
         nx.draw_networkx_edges(Gcc, pos, alpha=0.4)
 
         plt.show(block=False)
         plt.savefig("images/snapshot_%d.png" % t)
         plt.pause(0.5)
         plt.close()
-
 
     def plot_DegreeDistribution(self, time=0):
         """
@@ -264,16 +259,13 @@ class NetworkClass(PopulationClass):
         plt.axis([0, 1.05 * max(degreeList), 0, 1.05 * max(degreehist)])
         plt.savefig("images/Degree_%d.png" % time)  # plt.show()
 
-
     def get_AdjacencyList(self):
         """ Return the adjacency list of the graph. """
         return self.G.adjacency_list()
 
-
     def stat_connectivity(self):
         G = self.G
         return nx.all_pairs_node_connectivity(G)
-
 
     def get_Graph(self):
         """
@@ -328,14 +320,12 @@ class NetworkClass(PopulationClass):
         filename = "images/Network_%d_%s_%s_%d.png" % (Gsize, program, coloring, time)
         plt.savefig(filename)
 
-
     def vizualize_network_random(self):
         G = self.G
         plt.figure(figsize=(8, 8))
         nx.draw_random(G, with_labels=False)
         plt.axis("equal")
         plt.savefig("random.png")
-
 
     def vizualize_network_ego(self):
         # Create a BA model graph
@@ -344,7 +334,9 @@ class NetworkClass(PopulationClass):
         m = 2
         # find node with largest degree
         node_and_degree = G.degree()
-        (largest_hub, degree) = sorted(list(node_and_degree.items()), key=itemgetter(1))[-1]
+        (largest_hub, degree) = sorted(
+            list(node_and_degree.items()), key=itemgetter(1)
+        )[-1]
         # Create ego graph of main hub
         hub_ego = nx.ego_graph(G, largest_hub)
         # Draw graph
@@ -478,7 +470,12 @@ class NetworkClass(PopulationClass):
 
         # axes coordinates are 0,0 is bottom left and 1,1 is upper right
         p = patches.Rectangle(
-            (left, bottom), width, height, fill=False, transform=ax.transAxes, clip_on=False
+            (left, bottom),
+            width,
+            height,
+            fill=False,
+            transform=ax.transAxes,
+            clip_on=False,
         )
 
         ax.add_patch(p)
@@ -514,7 +511,9 @@ class NetworkClass(PopulationClass):
             width=0.5,
         )
 
-        textstr = "\n".join((r"N infection=%.2f" % (txtboxLabel,), r"Time=%.2f" % (curtime,)))
+        textstr = "\n".join(
+            (r"N infection=%.2f" % (txtboxLabel,), r"Time=%.2f" % (curtime,))
+        )
 
         # these are matplotlib.patch.Patch properties
         props = dict(boxstyle="round", facecolor="wheat", alpha=0.9)
@@ -530,7 +529,12 @@ class NetworkClass(PopulationClass):
             bbox=props,
         )
 
-        filename = "images/%s_%d_%s_%d.png" % (label, G.number_of_nodes(), coloring, curtime)
+        filename = "images/%s_%d_%s_%d.png" % (
+            label,
+            G.number_of_nodes(),
+            coloring,
+            curtime,
+        )
 
         fig.savefig(filename)
 

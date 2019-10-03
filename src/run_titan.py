@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 # encoding: utf-8
 
-# import os
 import time as time_mod
+import sys, os
 
 from simulation_lib import *
 from . import params
-import sys, os
 
 # Disable
 def blockPrint():
@@ -23,7 +22,9 @@ def main():
     open_outputs()
 
     for single_sim in range(params.N_MC):
-        outfile_dir = os.path.join(os.getcwd(), "results/results_simulation_MP_%d" % single_sim)
+        outfile_dir = os.path.join(
+            os.getcwd(), "results/results_simulation_MP_%d" % single_sim
+        )
         if not os.path.isdir(outfile_dir):
             os.mkdir(outfile_dir)
         tic = time_mod.time()
@@ -75,6 +76,7 @@ def main():
     print(("all tasks - max:  %8.4f seconds" % max(wct)))
     print(("all tasks - sum:  %8.4f seconds" % sum(wct)))
 
+
 def open_outputs():
     off = 0
     kickoff = 0
@@ -98,7 +100,9 @@ def open_outputs():
     # component report file creation
     name = "componentReport_ALL"
     tmpReport = open("results/" + name + ".txt", "w")
-    tmpReport.write("rseed\tpseed\tnseed\tt\tcompID\ttotalN\tNhiv\tNprepElig\tNprep\tNnewinf\n")
+    tmpReport.write(
+        "rseed\tpseed\tnseed\tt\tcompID\ttotalN\tNhiv\tNprepElig\tNprep\tNnewinf\n"
+    )
     tmpReport.close()
 
     whiteReport = open("results/W_pop_report.txt", "w")
@@ -110,7 +114,9 @@ def open_outputs():
     blackReport.close()
 
     incidenceReport = open("results/IncidenceReport.txt", "w")
-    incidenceReport.write("seed\tt\tTotal\tW_HM\tB_HM\tHM\tW_HF\tB_HF\tHF\tW_MSM\tB_MSM\tMSM\n")
+    incidenceReport.write(
+        "seed\tt\tTotal\tW_HM\tB_HM\tHM\tW_HF\tB_HF\tHF\tW_MSM\tB_MSM\tMSM\n"
+    )
     incidenceReport.close()
 
     prevalenceReport = open("results/PrevalenceReport.txt", "w")
@@ -161,6 +167,7 @@ def open_outputs():
 
     PrEPReport = open("results/PrEPReport.txt", "w")
     PrEPReport.write("seed\tt\tNewEnroll\tIDUpartner\tTestedPartner\tMSMWpartner\n")
-    
+
+
 if __name__ == "__main__":
     main()

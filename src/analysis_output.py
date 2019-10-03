@@ -32,22 +32,22 @@ def initiate_ResultDict():
 
 
 def print_stats(
-        self,
-        rseed,
-        t,
-        totalAgents,
-        HIVAgents,
-        IncarAgents,
-        PrEPAgents,
-        NewInfections,
-        NewDiagnosis,
-        deaths,
-        ResultDict,
-        Relationships,
-        newHR,
-        newIncarRelease,
-        deathSet,
-        outifle=None,
+    self,
+    rseed,
+    t,
+    totalAgents,
+    HIVAgents,
+    IncarAgents,
+    PrEPAgents,
+    NewInfections,
+    NewDiagnosis,
+    deaths,
+    ResultDict,
+    Relationships,
+    newHR,
+    newIncarRelease,
+    deathSet,
+    outifle=None,
 ):
     incidenceReport = open("results/IncidenceReport.txt", "a")
     prevalenceReport = open("results/PrevalenceReport.txt", "a")
@@ -174,13 +174,13 @@ def print_stats(
     # PrEP reason tracker
     for tmpA in totalAgents.iter_agents():
         if tmpA._PrEP_bool:
-            rsltdic[tmpA._race][tmpA._SO]['numPrEP'] += 1
-            if 'IDU' in tmpA._PrEP_reason:
-                rsltdic[tmpA._race][tmpA._SO]['iduPartPrep'] += 1
-            if 'MSMW' in tmpA._PrEP_reason:
-                rsltdic[tmpA._race][tmpA._SO]['msmwPartPrep'] += 1
-            if 'HIV test' in tmpA._PrEP_reason:
-                rsltdic[tmpA._race][tmpA._SO]['testedPartPrep'] += 1
+            rsltdic[tmpA._race][tmpA._SO]["numPrEP"] += 1
+            if "IDU" in tmpA._PrEP_reason:
+                rsltdic[tmpA._race][tmpA._SO]["iduPartPrep"] += 1
+            if "MSMW" in tmpA._PrEP_reason:
+                rsltdic[tmpA._race][tmpA._SO]["msmwPartPrep"] += 1
+            if "HIV test" in tmpA._PrEP_reason:
+                rsltdic[tmpA._race][tmpA._SO]["testedPartPrep"] += 1
 
     # Newly diagnosed tracker statistics
     for tmpA in NewDiagnosis.iter_agents():
@@ -238,11 +238,15 @@ def print_stats(
     for tmpA in deathSet:
         rsltdic[tmpA._race][tmpA._SO]["deaths"] += 1
 
-    deaths_total = deaths["Total"]["HM"] + deaths["Total"]["HF"] + deaths["Total"]["MSM"]
+    deaths_total = (
+        deaths["Total"]["HM"] + deaths["Total"]["HF"] + deaths["Total"]["MSM"]
+    )
     deaths_HM = deaths["Total"]["HM"]
     deaths_MSM = deaths["Total"]["MSM"]
     deaths_HF = deaths["Total"]["HF"]
-    deaths_HIV_total = deaths["HIV+"]["HM"] + deaths["HIV+"]["HF"] + deaths["HIV+"]["MSM"]
+    deaths_HIV_total = (
+        deaths["HIV+"]["HM"] + deaths["HIV+"]["HF"] + deaths["HIV+"]["MSM"]
+    )
     deaths_HIV_HM = deaths["HIV+"]["HM"]
     deaths_HIV_MSM = deaths["HIV+"]["MSM"]
     deaths_HIV_HF = deaths["HIV+"]["HF"]
@@ -254,9 +258,9 @@ def print_stats(
     for race in rsltdic:
         for param in rc_template:
             rsltdic[race]["ALL"][param] = (
-                    rsltdic[race]["MSM"][param]
-                    + rsltdic[race]["HM"][param]
-                    + rsltdic[race]["HF"][param]
+                rsltdic[race]["MSM"][param]
+                + rsltdic[race]["HM"][param]
+                + rsltdic[race]["HF"][param]
             )
     for race in rsltdic:
         for param in rc_template:
@@ -276,26 +280,27 @@ def print_stats(
             tmpReport = open("results/" + name + ".txt", "a")
             tmpReport.write(
                 (
-                    "{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n"
-                        .format(self.runseed,
-                                self.popseed,
-                                self.netseed,
-                                t,
-                                rsltdic[agentRace][agentTypes]["numAgents"],
-                                rsltdic[agentRace][agentTypes]["numHIV"],
-                                rsltdic[agentRace][agentTypes]["numAIDS"],
-                                rsltdic[agentRace][agentTypes]["numTested"],
-                                rsltdic[agentRace][agentTypes]["numART"],
-                                rsltdic[agentRace][agentTypes]["numHR"],
-                                rsltdic[agentRace][agentTypes]["inf_newInf"],
-                                rsltdic[agentRace][agentTypes]["inf_HR6m"],
-                                rsltdic[agentRace][agentTypes]["inf_HRever"],
-                                rsltdic[agentRace][agentTypes]["newlyTested"],
-                                rsltdic[agentRace][agentTypes]["deaths"],
-                                rsltdic[agentRace][agentTypes]["numPrEP"],
-                                rsltdic[agentRace][agentTypes]["iduPartPrep"],
-                                rsltdic[agentRace][agentTypes]["msmwPartPrep"],
-                                rsltdic[agentRace][agentTypes]["testedPartPrep"], )
+                    "{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
+                        self.runseed,
+                        self.popseed,
+                        self.netseed,
+                        t,
+                        rsltdic[agentRace][agentTypes]["numAgents"],
+                        rsltdic[agentRace][agentTypes]["numHIV"],
+                        rsltdic[agentRace][agentTypes]["numAIDS"],
+                        rsltdic[agentRace][agentTypes]["numTested"],
+                        rsltdic[agentRace][agentTypes]["numART"],
+                        rsltdic[agentRace][agentTypes]["numHR"],
+                        rsltdic[agentRace][agentTypes]["inf_newInf"],
+                        rsltdic[agentRace][agentTypes]["inf_HR6m"],
+                        rsltdic[agentRace][agentTypes]["inf_HRever"],
+                        rsltdic[agentRace][agentTypes]["newlyTested"],
+                        rsltdic[agentRace][agentTypes]["deaths"],
+                        rsltdic[agentRace][agentTypes]["numPrEP"],
+                        rsltdic[agentRace][agentTypes]["iduPartPrep"],
+                        rsltdic[agentRace][agentTypes]["msmwPartPrep"],
+                        rsltdic[agentRace][agentTypes]["testedPartPrep"],
+                    )
                 )
             )
             tmpReport.close()
@@ -305,25 +310,25 @@ def print_stats(
         tmpReport = open("results/" + name + ".txt", "a")
         tmpReport.write(
             (
-                    "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-                    % (
-                        self.runseed,
-                        self.popseed,
-                        self.netseed,
-                        t,
-                        totalAgents._subset["Race"]._subset[demographicTypes].num_members(),
-                        rsltdic[demographicTypes]["ALL"]["numHIV"],
-                        rsltdic[demographicTypes]["ALL"]["numAIDS"],
-                        rsltdic[demographicTypes]["ALL"]["numTested"],
-                        rsltdic[demographicTypes]["ALL"]["numART"],
-                        rsltdic[demographicTypes]["ALL"]["numHR"],
-                        rsltdic[demographicTypes]["ALL"]["inf_newInf"],
-                        rsltdic[demographicTypes]["ALL"]["inf_HR6m"],
-                        rsltdic[demographicTypes]["ALL"]["inf_HRever"],
-                        rsltdic[demographicTypes]["ALL"]["newlyTested"],
-                        rsltdic[demographicTypes]["ALL"]["deaths"],
-                        rsltdic[demographicTypes]["ALL"]["numPrEP"],
-                    )
+                "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
+                % (
+                    self.runseed,
+                    self.popseed,
+                    self.netseed,
+                    t,
+                    totalAgents._subset["Race"]._subset[demographicTypes].num_members(),
+                    rsltdic[demographicTypes]["ALL"]["numHIV"],
+                    rsltdic[demographicTypes]["ALL"]["numAIDS"],
+                    rsltdic[demographicTypes]["ALL"]["numTested"],
+                    rsltdic[demographicTypes]["ALL"]["numART"],
+                    rsltdic[demographicTypes]["ALL"]["numHR"],
+                    rsltdic[demographicTypes]["ALL"]["inf_newInf"],
+                    rsltdic[demographicTypes]["ALL"]["inf_HR6m"],
+                    rsltdic[demographicTypes]["ALL"]["inf_HRever"],
+                    rsltdic[demographicTypes]["ALL"]["newlyTested"],
+                    rsltdic[demographicTypes]["ALL"]["deaths"],
+                    rsltdic[demographicTypes]["ALL"]["numPrEP"],
+                )
             )
         )
         tmpReport.close()
@@ -410,64 +415,64 @@ def print_stats(
 
     femaleReport.write(
         (
-                "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-                % (
-                    rseed,
-                    t,
-                    totalAgents._subset["SO"]._subset["HF"].num_members(),
-                    tot_rsltdic["ALL"]["HF"]["numHIV"],
-                    tot_rsltdic["ALL"]["HF"]["numAIDS"],
-                    tot_rsltdic["ALL"]["HF"]["numTested"],
-                    tot_rsltdic["ALL"]["HF"]["numART"],
-                    tot_rsltdic["ALL"]["HF"]["inf_newInf"],
-                    tot_rsltdic["ALL"]["HF"]["inf_HR6m"],
-                    tot_rsltdic["ALL"]["HF"]["inf_HRever"],
-                    tot_rsltdic["ALL"]["HF"]["newlyTested"],
-                    tot_rsltdic["ALL"]["HF"]["deaths"],
-                    tot_rsltdic["ALL"]["HF"]["numPrEP"],
-                )
+            "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
+            % (
+                rseed,
+                t,
+                totalAgents._subset["SO"]._subset["HF"].num_members(),
+                tot_rsltdic["ALL"]["HF"]["numHIV"],
+                tot_rsltdic["ALL"]["HF"]["numAIDS"],
+                tot_rsltdic["ALL"]["HF"]["numTested"],
+                tot_rsltdic["ALL"]["HF"]["numART"],
+                tot_rsltdic["ALL"]["HF"]["inf_newInf"],
+                tot_rsltdic["ALL"]["HF"]["inf_HR6m"],
+                tot_rsltdic["ALL"]["HF"]["inf_HRever"],
+                tot_rsltdic["ALL"]["HF"]["newlyTested"],
+                tot_rsltdic["ALL"]["HF"]["deaths"],
+                tot_rsltdic["ALL"]["HF"]["numPrEP"],
+            )
         )
     )
 
     maleReport.write(
         (
-                "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-                % (
-                    rseed,
-                    t,
-                    totalAgents._subset["SO"]._subset["HM"].num_members(),
-                    tot_rsltdic["ALL"]["HM"]["numHIV"],
-                    tot_rsltdic["ALL"]["HM"]["numAIDS"],
-                    tot_rsltdic["ALL"]["HM"]["numTested"],
-                    tot_rsltdic["ALL"]["HM"]["numART"],
-                    tot_rsltdic["ALL"]["HM"]["inf_newInf"],
-                    tot_rsltdic["ALL"]["HM"]["inf_HR6m"],
-                    tot_rsltdic["ALL"]["HM"]["inf_HRever"],
-                    tot_rsltdic["ALL"]["HM"]["newlyTested"],
-                    tot_rsltdic["ALL"]["HM"]["deaths"],
-                    tot_rsltdic["ALL"]["HM"]["numPrEP"],
-                )
+            "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
+            % (
+                rseed,
+                t,
+                totalAgents._subset["SO"]._subset["HM"].num_members(),
+                tot_rsltdic["ALL"]["HM"]["numHIV"],
+                tot_rsltdic["ALL"]["HM"]["numAIDS"],
+                tot_rsltdic["ALL"]["HM"]["numTested"],
+                tot_rsltdic["ALL"]["HM"]["numART"],
+                tot_rsltdic["ALL"]["HM"]["inf_newInf"],
+                tot_rsltdic["ALL"]["HM"]["inf_HR6m"],
+                tot_rsltdic["ALL"]["HM"]["inf_HRever"],
+                tot_rsltdic["ALL"]["HM"]["newlyTested"],
+                tot_rsltdic["ALL"]["HM"]["deaths"],
+                tot_rsltdic["ALL"]["HM"]["numPrEP"],
+            )
         )
     )
 
     msmReport.write(
         (
-                "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-                % (
-                    rseed,
-                    t,
-                    totalAgents._subset["SO"]._subset["HM"].num_members(),
-                    tot_rsltdic["ALL"]["MSM"]["numHIV"],
-                    tot_rsltdic["ALL"]["MSM"]["numAIDS"],
-                    tot_rsltdic["ALL"]["MSM"]["numTested"],
-                    tot_rsltdic["ALL"]["MSM"]["numART"],
-                    tot_rsltdic["ALL"]["MSM"]["inf_newInf"],
-                    tot_rsltdic["ALL"]["MSM"]["inf_HR6m"],
-                    tot_rsltdic["ALL"]["MSM"]["inf_HRever"],
-                    tot_rsltdic["ALL"]["MSM"]["newlyTested"],
-                    tot_rsltdic["ALL"]["MSM"]["deaths"],
-                    tot_rsltdic["ALL"]["MSM"]["numPrEP"],
-                )
+            "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
+            % (
+                rseed,
+                t,
+                totalAgents._subset["SO"]._subset["HM"].num_members(),
+                tot_rsltdic["ALL"]["MSM"]["numHIV"],
+                tot_rsltdic["ALL"]["MSM"]["numAIDS"],
+                tot_rsltdic["ALL"]["MSM"]["numTested"],
+                tot_rsltdic["ALL"]["MSM"]["numART"],
+                tot_rsltdic["ALL"]["MSM"]["inf_newInf"],
+                tot_rsltdic["ALL"]["MSM"]["inf_HR6m"],
+                tot_rsltdic["ALL"]["MSM"]["inf_HRever"],
+                tot_rsltdic["ALL"]["MSM"]["newlyTested"],
+                tot_rsltdic["ALL"]["MSM"]["deaths"],
+                tot_rsltdic["ALL"]["MSM"]["numPrEP"],
+            )
         )
     )
 
@@ -582,7 +587,13 @@ def print_stats(
         ResultDict["Prv_HIV"].update({t: (0.0)})
     try:
         ResultDict["Prv_AIDS"].update(
-            {t: (1.0 * tot_rsltdic["ALL"]["ALL"]["numAIDS"] / tot_rsltdic["ALL"]["ALL"]["numHIV"])}
+            {
+                t: (
+                    1.0
+                    * tot_rsltdic["ALL"]["ALL"]["numAIDS"]
+                    / tot_rsltdic["ALL"]["ALL"]["numHIV"]
+                )
+            }
         )
     except:
         ResultDict["Prv_AIDS"].update({t: (0.0)})
@@ -590,9 +601,9 @@ def print_stats(
         ResultDict["Prv_Test"].update(
             {
                 t: (
-                        1.0
-                        * tot_rsltdic["ALL"]["ALL"]["numTested"]
-                        / max(tot_rsltdic["ALL"]["ALL"]["numHIV"], 1)
+                    1.0
+                    * tot_rsltdic["ALL"]["ALL"]["numTested"]
+                    / max(tot_rsltdic["ALL"]["ALL"]["numHIV"], 1)
                 )
             }
         )
@@ -602,9 +613,9 @@ def print_stats(
         ResultDict["Prv_ART"].update(
             {
                 t: (
-                        1.0
-                        * tot_rsltdic["ALL"]["ALL"]["numART"]
-                        / tot_rsltdic["ALL"]["ALL"]["numTested"]
+                    1.0
+                    * tot_rsltdic["ALL"]["ALL"]["numART"]
+                    / tot_rsltdic["ALL"]["ALL"]["numTested"]
                 )
             }
         )

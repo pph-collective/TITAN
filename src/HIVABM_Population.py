@@ -6,12 +6,20 @@ import copy
 from copy import deepcopy
 import unittest
 from scipy.stats import poisson
+import numpy as np
 
 try:
     from .agent import *
 except ImportError:
     raise ImportError("Can't import AgentClass")
+
+try:
+    from .ABM_partnering import *
+except ImportError as e:
+    raise ImportError("Can't import ABM_partnering! %s" % str(e))
+
 from . import params
+from . import probabilities as prob
 
 
 class PopulationClass:
@@ -118,168 +126,24 @@ class PopulationClass:
         elif model == "NoIncar":
             MT_NoIncar = True
 
-        # Quick calc based on traj: 0.596 Female -> 0,01175/0.75 HIV -> 0.75 Tested+ = 11.75% HIV DIAG
-        StratW = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}}
-        if MT_PrEP:
-            StratW["MSM"] = {
-                "POP": 1.0,
-                "HIV": 0.036195675,
-                "AIDS": 0.51,
-                "HAARTprev": 0.33,
-                "INCARprev": 0.0,
-                "TestedPrev": 0.816,
-                "mNPart": 3,
-            }
-            StratW["HM"] = {
-                "POP": 0.0,
-                "HIV": 0.0,
-                "AIDS": 0.0,
-                "HAARTprev": 0.0,
-                "INCARprev": 0.0,
-                "TestedPrev": 0.0,
-            }
-            StratW["HF"] = {
-                "POP": 0.0,
-                "HIV": 0.0,
-                "AIDS": 0.0,
-                "HAARTprev": 0.0,
-                "INCARprev": 0.0,
-                "TestedPrev": 0.0,
-            }
-            StratW["IDU"] = {
-                "POP": 0.0,
-                "HIV": 0.0,
-                "AIDS": 0.0,
-                "HAARTprev": 0.0,
-                "INCARprev": 0.0,
-                "TestedPrev": 0.0,
-            }
-        elif MT_Incar:
-            StratW["MSM"] = {
-                "POP": 0.0,
-                "HIV": 0.05,
-                "AIDS": 0.05,
-                "HAARTprev": 0.0,
-                "INCARprev": 0.0,
-                "TestedPrev": 0.86,
-                "mNPart": 3,
-            }
-            StratW["HM"] = {
-                "POP": 0.4044435412,
-                "HIV": 0.0158 / 0.75,
-                "AIDS": 0.678,
-                "HAARTprev": 0.03748,
-                "INCARprev": 0.0279,
-                "TestedPrev": 0.75,
-                "mNPart": 3,
-            }
-            StratW["HF"] = {
-                "POP": 0.5955564588,
-                "HIV": 0.01175 / 0.75,
-                "AIDS": 0.573,
-                "HAARTprev": 0.04054,
-                "INCARprev": 0.0,
-                "TestedPrev": 0.75,
-                "mNPart": 2,
-            }
-            StratW["IDU"] = {
-                "POP": 0.0,
-                "HIV": 0.0,
-                "AIDS": 0.0,
-                "HAARTprev": 0.0,
-                "INCARprev": 0.0,
-                "TestedPrev": 0.0,
-                "mNPart": 3,
-            }
-        elif MT_NoIncar:
-            StratW["MSM"] = {
-                "POP": 0.0,
-                "HIV": 0.05,
-                "AIDS": 0.05,
-                "HAARTprev": 0.0,
-                "INCARprev": 0.0,
-                "TestedPrev": 0.86,
-                "mNPart": 3,
-            }
-            StratW["HM"] = {
-                "POP": 0.4044435412,
-                "HIV": 0.0158 / 0.75,
-                "AIDS": 0.678,
-                "HAARTprev": 0.03748,
-                "INCARprev": 0.0,
-                "TestedPrev": 0.75,
-                "mNPart": 3,
-            }
-            StratW["HF"] = {
-                "POP": 0.5955564588,
-                "HIV": 0.01175 / 0.75,
-                "AIDS": 0.573,
-                "HAARTprev": 0.04054,
-                "INCARprev": 0.0,
-                "TestedPrev": 0.75,
-                "mNPart": 2,
-            }
-            StratW["IDU"] = {
-                "POP": 0.0,
-                "HIV": 0.0,
-                "AIDS": 0.0,
-                "HAARTprev": 0.0,
-                "INCARprev": 0.0,
-                "TestedPrev": 0.0,
-                "mNPart": 3,
-            }
-
-        StratB = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}}
-        StratB["MSM"] = {
-            "POP": 0.0,
-            "HIV": 0.0,
-            "AIDS": 0.0,
-            "HAARTprev": 0.0,
-            "INCARprev": 0.0,
-            "TestedPrev": 0.0,
-        }
-        StratB["HM"] = {
-            "POP": 0.0,
-            "HIV": 0.0,
-            "AIDS": 0.0,
-            "HAARTprev": 0.0,
-            "INCARprev": 0.0,
-            "TestedPrev": 0.0,
-        }
-        StratB["HF"] = {
-            "POP": 0.0,
-            "HIV": 0.0,
-            "AIDS": 0.0,
-            "HAARTprev": 0.0,
-            "INCARprev": 0.0,
-            "TestedPrev": 0.0,
-        }
-        StratB["IDU"] = {
-            "POP": 0.0,
-            "HIV": 0.0,
-            "AIDS": 0.0,
-            "HAARTprev": 0.0,
-            "INCARprev": 0.0,
-            "TestedPrev": 0.0,
-        }
-
+        StratW = prob.get_strat_white(MT_PrEP, MT_Incar, MT_NoIncar)
+        StratB = prob.get_strat_black()
         self.ProbLookUp = {"WHITE": StratW, "BLACK": StratB}
-        # drug user prevalence (proportion)
 
+        # drug user prevalence (proportion) #REVIEW - not used anywhere
         self.propIDU = 0  ##190/10000.0
         self.numIDU = int(self.propIDU * self.PopulationSize)
         self.propNIDU = 0  ##640/10000.0
         self.numNIDU = int(self.propNIDU * self.PopulationSize)
         self.propND = 0.995  ##9170/10000.0
         self.numND = self.PopulationSize - self.numIDU - self.numNIDU
-        self.Agents = dict()  # Main Dictionary Agents #REVIEW - delete, update anything if need be
 
         # List of IDU, NIDU, NDs
         # shuffle all Agents
         allAgents = list(range(self.PopulationSize))
 
         print("\tBuilding class sets")
-        self.totalAgentClass = Agent_set(0, "TotalAgents") #REVIEW
+        self.totalAgentClass = Agent_set(0, "TotalAgents")  # REVIEW
 
         # All agent set list
         self.All_agentSet = Agent_set(0, "AllAgents")
@@ -304,7 +168,9 @@ class PopulationClass:
             2, "Testd", parent=self.treatment_agentSet, numerator=self.HIV_agentSet
         )
         self.Trt_PrEP_agentSet = Agent_set(2, "PrEP", parent=self.treatment_agentSet)
-        self.Trt_PrEPelig_agentSet = Agent_set(2, "PrePelig", parent=self.treatment_agentSet)
+        self.Trt_PrEPelig_agentSet = Agent_set(
+            2, "PrePelig", parent=self.treatment_agentSet
+        )
         self.Trt_ART_agentSet = Agent_set(
             2, "ART", parent=self.treatment_agentSet, numerator=self.HIV_agentSet
         )
@@ -312,7 +178,9 @@ class PopulationClass:
         self.Trt_MAT_agentSet = Agent_set(2, "MAT", parent=self.treatment_agentSet)
 
         # Sexual orientation agent sets
-        self.SO_agentSet = Agent_set(1, "SO", parent=self.All_agentSet, numerator=self.All_agentSet)
+        self.SO_agentSet = Agent_set(
+            1, "SO", parent=self.All_agentSet, numerator=self.All_agentSet
+        )
         self.SO_HF_agentSet = Agent_set(
             2, "HF", parent=self.SO_agentSet, numerator=self.SO_agentSet
         )
@@ -337,26 +205,12 @@ class PopulationClass:
         # High risk agent sets
         self.highrisk_agentsSet = Agent_set(1, "HRisk", parent=self.All_agentSet)
 
-
         self.Relationships = Agent_set(0, "Relationships")
 
         # Nested dictionary for probability look-up
-        IDU = {"MSM": {}, "HM": {}, "WSW": {}, "HF": {}}
-        IDU["MSM"] = {"HIV": 0.55, "AIDS": 0.058, "HAARTa": 0}
-        IDU["HM"] = {"HIV": 0.42, "AIDS": 0.058, "HAARTa": 0}
-        IDU["WSW"] = {"HIV": 0.53, "AIDS": 0.058, "HAARTa": 0}
-        IDU["HF"] = {"HIV": 0.39, "AIDS": 0.058, "HAARTa": 0}
-        NIDU = {"MSM": {}, "HM": {}, "WSW": {}, "HF": {}}
-        NIDU["MSM"] = {"HIV": 0.18, "AIDS": 0.02, "HAARTa": 0}
-        NIDU["HM"] = {"HIV": 0.048, "AIDS": 0.002, "HAARTa": 0}
-        NIDU["WSW"] = {"HIV": 0.048, "AIDS": 0.002, "HAARTa": 0}
-        NIDU["HF"] = {"HIV": 0.048, "AIDS": 0.002, "HAARTa": 0}
-        ND = {"MSM": {}, "HM": {}, "WSW": {}, "HF": {}}
-        ND["Type"] = ([0, 1, 2, 3], [0.469, 0.493, 0.022, 0.016])
-        ND["MSM"] = {"HIV": 0.08, "AIDS": 0.02, "HAARTa": 0}
-        ND["HM"] = {"HIV": 0.015, "AIDS": 0.0003, "HAARTa": 0}
-        ND["WSW"] = {"HIV": 0.012, "AIDS": 0.0003, "HAARTa": 0}
-        ND["HF"] = {"HIV": 0.012, "AIDS": 0.0003, "HAARTa": 0}
+        IDU = prob.get_IDU()
+        NIDU = prob.get_NIDU()
+        ND = prob.get_ND()
 
         # Create agents in allAgents list
         self.White_agents = deepcopy(allAgents[0 : self.numWhite])
@@ -371,20 +225,15 @@ class PopulationClass:
             agent_cl = self._return_new_Agent_class(agent, "BLACK")
             self.create_agent(agent_cl, "BLACK")
         # jail stock duration?
-        jailDuration = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}}
-        jailDuration[1] = {"p_value": (0.14), "min": 1, "max": 13}
-        jailDuration[2] = {"p_value": (0.09), "min": 13, "max": 26}
-        jailDuration[3] = {"p_value": (0.20), "min": 26, "max": 78}
-        jailDuration[4] = {"p_value": (0.11), "min": 78, "max": 130}
-        jailDuration[5] = {"p_value": (0.16), "min": 130, "max": 260}
-        jailDuration[6] = {"p_value": (0.30), "min": 260, "max": 520}
+        jailDuration = prob.jail_duration()
+
         prob_Incarc = params.DemographicParams["WHITE"]["HM"]["mNPart"]
         for tmpA in self.All_agentSet._members:
 
             dice = self.popRandom.random()
             prob_Incarc = params.DemographicParams[tmpA._race][tmpA._SO]["INCARprev"]
             if dice < prob_Incarc:
-                toss = 2 #REVIEW why is this hardcoded? - sarah to review
+                toss = 2  # REVIEW why is this hardcoded? - sarah to review
                 if toss == 1:  # JAIL
                     tmpA._incar_bool = True
                     tmpA._incar_time = int(self.popRandom.triangular(1, 9, 3))
@@ -396,10 +245,10 @@ class PopulationClass:
                         durationBin += 1
                         current_p_value += jailDuration[durationBin]["p_value"]
                     timestay = self.popRandom.randint(
-                        jailDuration[durationBin]["min"], jailDuration[durationBin]["max"]
+                        jailDuration[durationBin]["min"],
+                        jailDuration[durationBin]["max"],
                     )
                 self.incarcerated_agentSet.add_agent(tmpA)
-
 
     def _return_agent_set(self):
         return self.totalAgentClass
@@ -412,8 +261,8 @@ class PopulationClass:
             characteristics in form of an additinoal dictionary of the form
             ``characteristic:value``.
         :Input:
-        DrugType : str
-            Either 'IDU','NIDU' or 'ND'
+        Deliminator : str
+            Either "BLACK" or "WHITE"
         :Output:
              agent_dict : dict
         """
@@ -432,11 +281,8 @@ class PopulationClass:
             else:
                 SexType = "MSM"
 
-        tmp_rnd = self.popRandom.random()
-
         # Determine drugtype
         tmp_rnd = self.popRandom.random()
-
         if tmp_rnd < params.DemographicParams[Deliminator]["IDU"]["POP"]:
             DrugType = "IDU"
         else:
@@ -469,16 +315,22 @@ class PopulationClass:
             if DrugType == "IDU":
                 prob_Tested = params.DemographicParams[Deliminator]["IDU"]["TestedPrev"]
             else:
-                prob_Tested = params.DemographicParams[Deliminator][SexType]["TestedPrev"]
+                prob_Tested = params.DemographicParams[Deliminator][SexType][
+                    "TestedPrev"
+                ]
 
             if self.popRandom.random() < prob_Tested:
                 TestedStatus = 1
 
                 # if tested HAART possible
                 if DrugType == "IDU":
-                    prob_HAART = params.DemographicParams[Deliminator]["IDU"]["HAARTprev"]
+                    prob_HAART = params.DemographicParams[Deliminator]["IDU"][
+                        "HAARTprev"
+                    ]
                 else:
-                    prob_HAART = params.DemographicParams[Deliminator][SexType]["HAARTprev"]
+                    prob_HAART = params.DemographicParams[Deliminator][SexType][
+                        "HAARTprev"
+                    ]
 
                 if self.popRandom.random() < prob_HAART:
                     HAARTStatus = 1
@@ -539,7 +391,6 @@ class PopulationClass:
 
         return agent_dict
 
-
     def _return_new_Agent_class(self, agentID, Race, SexType="NULL"):
         """
         :Purpose:
@@ -548,10 +399,11 @@ class PopulationClass:
             characteristics in form of an additinoal dictionary of the form
             ``characteristic:value``.
         :Input:
-        DrugType : str
-            Either 'IDU','NIDU' or 'ND'
+            agentID : int
+            Race : "BLACK" or "WHITE"
+            SexType : default "NULL"
         :Output:
-             agent_dict : dict
+             newAgent : Agent
         """
         Drugtype = "NULL"
 
@@ -584,7 +436,7 @@ class PopulationClass:
         newAgent = Agent(agentID, SexType, age, Race, DrugType)
         newAgent._ageBin = ageBin
 
-        if params.setting == 'Phil2005' and SexType == 'HM':
+        if params.setting == "Phil2005" and SexType == "HM":
             if tmp_rnd < 0.06:
                 newAgent._MSMW = True
 
@@ -661,41 +513,17 @@ class PopulationClass:
                     PrEP_Status = 0
 
         # Check if agent is HR as baseline.
-        if self.popRandom.random() < params.DemographicParams[Race][SexType]["HighRiskPrev"]:
+        if (
+            self.popRandom.random()
+            < params.DemographicParams[Race][SexType]["HighRiskPrev"]
+        ):
             newAgent._highrisk_bool = True
             newAgent._everhighrisk_bool = True
 
-        diceroll = self.popRandom.random()
-
-        if DrugType == 'IDU':
-            if diceroll < 0.389:
-                mNPart = 1
-            elif diceroll < 0.389 + 0.150:
-                mNPart = 2
-            elif diceroll < 0.389 + 0.150 + 0.089:
-                mNPart = 3
-            elif diceroll < 0.389 + 0.150 + 0.089 + 0.067:
-                mNPart = 4
-            elif diceroll < 0.389 + 0.150 + 0.089 + 0.067 + 0.098:
-                mNPart = self.popRandom.randrange(5, 6, 1)
-            elif diceroll < 0.389 + 0.150 + 0.089 + 0.067 + 0.098 + 0.108:
-                mNPart = self.popRandom.randrange(7, 10, 1)
-            elif diceroll < 0.389 + 0.150 + 0.089 + 0.067 + 0.098 + 0.108 + 0.02212:
-                mNPart = self.popRandom.randrange(17, 30, 1)
-            else:
-                mNPart = self.popRandom.randrange(31, 60, 1)
-        else:
-            if diceroll < 0.84:
-                mNPart = 1
-            elif diceroll < 0.84 + 0.13:
-                mNPart = 2
-            else:
-                mNPart = self.popRandom.randrange(3, 4, 1)
-
         # Partnership demographics
         if params.setting == "Scott":
-            newAgent._mean_num_partners = (
-                mNPart
+            newAgent._mean_num_partners = prob.get_mean_num_partners(
+                DrugType, self.popRandom
             )
         else:
             newAgent._mean_num_partners = poisson.rvs(
@@ -703,7 +531,6 @@ class PopulationClass:
             )
 
         return newAgent
-
 
     def create_agent(self, agent_cl, Deliminator):
         """
@@ -773,7 +600,6 @@ class PopulationClass:
         if agent_cl._highrisk_bool:
             addToSubsets(self.highrisk_agentsSet, agent_cl)
 
-
     def getAge(self, race):
         rand = self.popRandom.random()
         minAge = 15
@@ -821,3 +647,41 @@ class PopulationClass:
 
         age = self.popRandom.randrange(minAge, maxAge)
         return age, ageBin
+
+    def update_partner_assignments(self, partnerTurnover, graph, agent=None):
+        # Now create partnerships until available partnerships are out
+        if agent:
+            partner = get_partner(agent, self.All_agentSet)
+
+            if partner:
+                duration = get_partnership_duration(agent)
+                tmp_relationship = Relationship(agent, partner, "MSM", "SE", duration)
+                agent.bond(partner, tmp_relationship)
+                self.Relationships.add_agent(tmp_relationship)
+                graph.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
+        else:
+            EligibleAgents = self.All_agentSet
+            noMatch = 0
+            for agent in EligibleAgents.iter_agents():
+                acquirePartnerProb = (
+                    params.cal_SexualPartScaling
+                    * partnerTurnover
+                    * (agent._mean_num_partners / (12.0))
+                )
+                if np.random.uniform(0, 1) < acquirePartnerProb:
+                    partner = get_partner(agent, self.All_agentSet)
+
+                    if partner:
+                        duration = get_partnership_duration(agent)
+                        tmp_relationship = Relationship(
+                            agent, partner, "MSM", "SE", duration
+                        )
+
+                        agent.bond(partner, tmp_relationship)
+                        self.Relationships.add_agent(tmp_relationship)
+                        graph.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
+                    else:
+                        noMatch += 1
+                        graph.add_node(agent)
+                else:
+                    graph.add_node(agent)

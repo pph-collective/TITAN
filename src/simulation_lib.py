@@ -2,22 +2,10 @@
 # encoding: utf-8
 
 import os
-import time as time_mod
-import itertools
-import pprint
-
-# import random
-import matplotlib.pyplot as plt
-from . import params
 import numpy as np
 
+from . import params
 from .ABM_core import HIVModel
-
-try:
-    from .HIVABM_Population import PopulationClass, print_population
-except ImportError:
-    raise ImportError("Can't import PopulationClass")
-
 
 def simulation(
     nreps,
@@ -34,7 +22,9 @@ def simulation(
 ):
     # Check input
     if save_adjlist_flag not in [0, 1]:
-        raise ValueError("Invalid input! save_adjlist_flag = %s" % str(save_adjlist_flag))
+        raise ValueError(
+            "Invalid input! save_adjlist_flag = %s" % str(save_adjlist_flag)
+        )
 
     # Run nreps simulations using the given parameters.
     # Information are printed to outfile_dir directory.
@@ -114,14 +104,6 @@ def save_results(N_MC, time_range, rslts, outfile_dir, num_sim):
     """
     # convert list of dicts into one nested result dict
     result_dict = {}
-    """for tmp_dict in rslts:
-       for (key, tmp_dict_L2) in tmp_dict.iteritems():
-          if key not in result_dict:
-             result_dict.update({key:{}})
-          for (t,x) in tmp_dict_L2.iteritems():
-             if t not in result_dict[key]:
-                result_dict[key].update({t:[]})
-             result_dict[key][t].extend(x)"""
 
     # save results
     if not os.path.isdir(outfile_dir):
@@ -138,48 +120,26 @@ def save_results(N_MC, time_range, rslts, outfile_dir, num_sim):
             % (result_property, result_property, result_property, result_property)
         )
     outfile.write("\n")
-    # for result_property in sorted(rslts):  # result_dict.keys()):
-    for t in range(0, time_range + 1):
-        # outfile.write('%s\t' % result_property)
-        # print result_property
-        """
-        # print SUM
-        outfile.write('%s\tSum\t'%result_property)
-        for t in sorted(rslts[result_property]):  # result_dict[result_property].keys()):
-            x_v = np.array(rslts[result_property][t])  # result_dict[result_property][t])
-            x_v = x_v[np.logical_not(np.isnan(x_v))]
-            if len(x_v) > 0:
-                mean = np.sum(x_v)
-                outfile.write('%4.2f\t' % mean)
-            else:
-                outfile.write('%4.5f\t' % np.NaN)
-        outfile.write('\n')
-        """
 
+    for t in range(0, time_range + 1):
         outfile.write("%d,%s,%0.2f" % (t, params.PrEP_type, params.PrEP_Target))
-        for result_property in sorted(rslts):  # result_dict.keys()):
-            # outfile.write('%s\tMean\t'%result_property)
+        for result_property in sorted(rslts):
             x_v = []
 
             try:
-                x_v = np.array(rslts[result_property][t])  # result_dict[result_property][t])
+                x_v = np.array(
+                    rslts[result_property][t]
+                )
                 x_v = x_v[np.logical_not(np.isnan(x_v))]
             except:
                 pass
 
-            # print sum
-            # if len(x_v) > 0:
-            #     sum = np.sum(x_v)
-            #     outfile.write(',%4.5f' % sum)
-            # else:
-            #     outfile.write(',%4.5f' % np.NaN)
-
-            # print mean
             if len(x_v) > 0:
                 mean = np.mean(x_v)
                 outfile.write(",%4.5f" % mean)
             else:
                 outfile.write(",%4.5f" % np.NaN)
+
             # print std
             if len(x_v) > 0:
                 std_dev = np.std(x_v)
@@ -200,10 +160,7 @@ def save_results(N_MC, time_range, rslts, outfile_dir, num_sim):
             else:
                 p90 = np.NaN
             outfile.write(",%4.5f" % p90)
-            # outfile.write('\n')
 
-            # print std. deviation of mean
-            # outfile.write('%s\tStd.Dev\t'%result_property)
         outfile.write("\n")
 
     outfile.close()

@@ -11,7 +11,7 @@ def test_NormalAgents():
     for agent in myNetworkObj.All_agentSet.get_agents():
         agent_sex_type = agent._SO
         agent_drug_type = agent._DU
-        assert agent_drug_type not in ["IDU", "NIDU"]
+        assert agent_drug_type in ["IDU", "NIDU", "NDU"]
         assert agent_sex_type in ["MSM", "MSW", "HM", "HF"]
 
 
@@ -25,7 +25,7 @@ def test_PartialNetwork():
     for agent in myNetworkObj.G:
         agent_sex_type = agent._SO
         agent_drug_type = agent._DU
-        assert agent_drug_type not in ["IDU", "NIDU"]
+        assert agent_drug_type in ["IDU", "NIDU", "NDU"]
         assert agent_sex_type in ["MSM", "MSW", "HM", "HF"]
 
 

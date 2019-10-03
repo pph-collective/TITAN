@@ -3,6 +3,7 @@
 
 import random
 
+
 class Agent:
     "Class for agent objects."
 
@@ -95,7 +96,6 @@ class Agent:
         self._incar_time = 0
         self._incar_treatment_time = 0
 
-
     def __str__(self):
         return "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s" % (
             self._ID,
@@ -107,22 +107,17 @@ class Agent:
             self._HIV_bool,
         )
 
-
     def __repr__(self):
         return str(self._ID)
-
 
     def get_ID(self):
         return self._ID
 
-
     def set_parent_agent(self, agent):
         self._parent_agent = agent
 
-
     def get_parent_agent(self):
         return self._parent_agent
-
 
     def bond(self, partner, relationship=None):
         if relationship == None:
@@ -137,7 +132,6 @@ class Agent:
         self._num_sex_partners += 1
         partner._num_sex_partners += 1
 
-
     def unbond(self, partner, relationship=None):
         if relationship == None:
             exit(9)
@@ -149,17 +143,13 @@ class Agent:
         partner.unpair(relationship._ID1)
         partner.unpair(relationship._ID2)
 
-
     def pair(self, partner):
         "Pairs two agents to each other."
         if partner.get_ID() != self.get_ID():
             if partner in self._partners:
-                print(
-                    "ASDF"
-                )
+                print("ASDF")
             else:
                 self._partners.append(partner)
-
 
     def unpair(self, agent):
         "Removes agent from agent set."
@@ -168,9 +158,9 @@ class Agent:
                 self._partners.remove(agent)
         except KeyError:
             raise KeyError(
-                "agent %s is not a member of agent set %s" % (agent.get_ID(), self.get_ID())
+                "agent %s is not a member of agent set %s"
+                % (agent.get_ID(), self.get_ID())
             )
-
 
     def partner_list(self):
         ptnrs = list()
@@ -180,8 +170,7 @@ class Agent:
 
         return ptnrs
 
-
-    #REVIEW seems like this should reference __str__ logic instead of rewriting it
+    # REVIEW seems like this should reference __str__ logic instead of rewriting it
     def print_agent(self):
         print(
             "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s\t%s"
@@ -197,10 +186,8 @@ class Agent:
             )
         )
 
-
     def print_agent_abridge(self):
         print("\t%.6d\t%s\t%s\t%s" % (self._ID, self._gender, self._SO, self._DU))
-
 
     def vars(self):
         return "%.6d,%d,%s,%s,%s,%s,%s,%d,%d,%d,%s,%s,%s,%s\n" % (
@@ -220,7 +207,6 @@ class Agent:
             self._incar_bool,
         )
 
-
     def print_agent_to_file(self, filename, time=None, overWrite="a"):
         if overWrite == "a":
             agentList = ""
@@ -230,7 +216,6 @@ class Agent:
         agentList += str(time) + "," + self.vars()
 
         open(str(filename), overWrite).write(agentList)
-
 
     def print_relationships(self):
         for tmpR in self._relationships:
@@ -328,7 +313,6 @@ class Relationship:
             print(tmpA)
         print("\t______________ END ______________")
 
-
     def vars(self):
         return "%.6d,%.6d,%s,%s,%d,%d\n" % (
             self._ID1.get_ID(),
@@ -364,30 +348,24 @@ class Agent_set(Agent):
         else:
             self._numerator = self
 
-
     def clear_set(self):
         self._members = []
         self._subset = {}
 
-
     def get_agents(self):
         return self._members.__iter__()
-
 
     def get_agent(self, ID):
         "Returns an agent given the agent's ID"
         return self._members[ID]
 
-
     def is_member(self, ID):
         "Returns true if agent is a member of this set"
         return ID in self._members
 
-
     def add_agent(self, agent):
         "Adds a new agent to the set."
         self._members.append(agent)
-
 
     def remove_agent(self, agent):
         "Removes agent from agent set."
@@ -399,15 +377,12 @@ class Agent_set(Agent):
         for tmpS in self.iter_subset():
             tmpS.remove_agent(agent)
 
-
     def iter_agents(self):
         for agent in self.get_agents():
             yield agent
 
-
     def num_members(self):
         return len(self._members)
-
 
     def random_agent(self):
         try:
@@ -415,12 +390,12 @@ class Agent_set(Agent):
         except:
             pass
 
-
     def add_subset(self, subset):
         "Adds a new Agent_set to the current sets subset."
         if subset._ID in self._subset:
             raise KeyError(
-                "Subset %s is already a member of Agent_set set %s" % (subset.get_ID(), self._ID)
+                "Subset %s is already a member of Agent_set set %s"
+                % (subset.get_ID(), self._ID)
             )
         self._subset[subset._ID] = subset
 
@@ -428,23 +403,21 @@ class Agent_set(Agent):
         # instance (self)
         subset.set_parent_agent(self)
 
-
     def remove_subset(self, subset):
         "Removes Agent_set to the current sets subset."
         try:
             self._subset.pop(subset.ID)
         except KeyError:
-            raise KeyError("subset %s is not a member of set %s" % (subset.get_ID(), self.get_ID()))
-
+            raise KeyError(
+                "subset %s is not a member of set %s" % (subset.get_ID(), self.get_ID())
+            )
 
     def iter_subset(self):
         for subset in list(self._subset.values()):
             yield subset
 
-
     def set_parent_set(self, master_set):
         self._parent_set = master_set
-
 
     def get_parent_set(self):
         return self._parent_set
@@ -469,7 +442,11 @@ class Agent_set(Agent):
                         % (
                             tmpSS._ID,
                             tmpSS.num_members(),
-                            (1.0 * tmpSS.num_members() / tmpSS._numerator.num_members()),
+                            (
+                                1.0
+                                * tmpSS.num_members()
+                                / tmpSS._numerator.num_members()
+                            ),
                         )
                     )
         print("\t______________ END ______________")
