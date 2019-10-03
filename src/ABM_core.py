@@ -1940,9 +1940,9 @@ class HIVModel(NetworkClass):
         # if agent not in self.AIDS_agents:
         if not agent._HAART_bool:
             adherenceStat = agent._HAART_adh
-            prob = prob.adherence_prob(adherenceStat)
+            p = prob.adherence_prob(adherenceStat)
 
-            if self.runRandom.random() < prob * params.cal_ProgAIDS:
+            if self.runRandom.random() < p * params.cal_ProgAIDS:
                 agent._AIDS_bool = True
                 self.HIV_AIDS_agentSet.add_agent(agent)
 
