@@ -132,7 +132,7 @@ def save_results(N_MC, time_range, rslts, outfile_dir, num_sim):
             try:
                 x_v = np.array(rslts[result_property][t])
                 x_v = x_v[np.logical_not(np.isnan(x_v))]
-            except: #REVIEW why the bare except?
+            except:  # REVIEW why the bare except?
                 pass
 
             if len(x_v) > 0:

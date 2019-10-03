@@ -375,7 +375,7 @@ class Agent_set(Agent):
         for tmpS in self.iter_subset():
             tmpS.remove_agent(agent)
 
-    def iter_agents(self): #REVIEW isn't this redundant with get_agents?
+    def iter_agents(self):  # REVIEW isn't this redundant with get_agents?
         for agent in self.get_agents():
             yield agent
 

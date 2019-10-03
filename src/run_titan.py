@@ -12,9 +12,11 @@ from . import params
 def blockPrint():
     sys.stdout = open(os.devnull, "w")
 
+
 # Restore
 def enablePrint():
     sys.stdout = sys.__stdout__
+
 
 def main():
     wct = []  # wall clock times

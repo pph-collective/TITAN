@@ -338,7 +338,9 @@ class NetworkClass(PopulationClass):
         hub_ego = nx.ego_graph(G, largest_hub)
 
         # Draw graph
-        nx.draw_networkx(G, with_labels=False) #REVIEW should this be plotting hub_ego?
+        nx.draw_networkx(
+            G, with_labels=False
+        )  # REVIEW should this be plotting hub_ego?
         plt.savefig("ego_graph.png")
 
     def get_network_color(self, coloring="Sex Type"):
