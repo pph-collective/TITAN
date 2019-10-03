@@ -7,6 +7,7 @@ import collections
 
 import numpy as np
 import networkx as nx
+from ns.nx_agraph import graphviz_layout
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from operator import itemgetter
