@@ -2,20 +2,19 @@
 # encoding: utf-8
 
 import time as time_mod
-import sys, os
+import sys
+import os
 
-from simulation_lib import *
+from .simulation_lib import *
 from . import params
 
 # Disable
 def blockPrint():
     sys.stdout = open(os.devnull, "w")
 
-
 # Restore
 def enablePrint():
     sys.stdout = sys.__stdout__
-
 
 def main():
     wct = []  # wall clock times
@@ -78,8 +77,6 @@ def main():
 
 
 def open_outputs():
-    off = 0
-    kickoff = 0
     for agentRace in ["WHITE", "BLACK", "ALL"]:
         for agentTypes in params.agentPopulations:
             name = "basicReport_" + agentTypes + "_" + agentRace

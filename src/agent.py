@@ -120,7 +120,7 @@ class Agent:
         return self._parent_agent
 
     def bond(self, partner, relationship=None):
-        if relationship == None:
+        if relationship is None:
             exit(9)
         self._relationships.append(relationship)
         partner._relationships.append(relationship)
@@ -133,7 +133,7 @@ class Agent:
         partner._num_sex_partners += 1
 
     def unbond(self, partner, relationship=None):
-        if relationship == None:
+        if relationship is None:
             exit(9)
         self._relationships.remove(relationship)
         partner._relationships.remove(relationship)
@@ -164,7 +164,7 @@ class Agent:
 
     def partner_list(self):
         ptnrs = list()
-        if self._partners != None:
+        if self._partners is not None:
             for temp in self._partners:
                 ptnrs.append(temp._ID)
 
@@ -369,15 +369,13 @@ class Agent_set(Agent):
 
     def remove_agent(self, agent):
         "Removes agent from agent set."
-        try:
+        if self.is_member(agent._ID):
             self._members.remove(agent)
-        except:
-            pass
 
         for tmpS in self.iter_subset():
             tmpS.remove_agent(agent)
 
-    def iter_agents(self):
+    def iter_agents(self): #REVIEW isn't this redundant with get_agents?
         for agent in self.get_agents():
             yield agent
 
@@ -388,7 +386,7 @@ class Agent_set(Agent):
         try:
             return random.choice(self._members)
         except:
-            pass
+            return None
 
     def add_subset(self, subset):
         "Adds a new Agent_set to the current sets subset."

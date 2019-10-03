@@ -7,7 +7,7 @@ import collections
 
 import numpy as np
 import networkx as nx
-from networkx.nx_agraph import graphviz_layout
+from networkx.drawing.nx_agraph import graphviz_layout
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from operator import itemgetter
@@ -110,10 +110,9 @@ class NetworkClass(PopulationClass):
                         trimComponent(comp, params.maxComponentSize)
                     elif cNodes < params.minComponentSize:
                         for a in comp.nodes():
-                            try:
+                            if a in self.G:
                                 self.G.remove_node(a)
-                            except:
-                                pass
+
                     else:
                         totNods += cNodes
 
@@ -139,8 +138,6 @@ class NetworkClass(PopulationClass):
         nx.write_edgelist(G, path, data=False)
 
     def write_network_stats(self, t=0, path="results/network/networkStats.txt"):
-        from networkx.algorithms import approximation
-
         G = self.G
         components = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)
         bigG = components[0]
@@ -285,7 +282,6 @@ class NetworkClass(PopulationClass):
 
     def vizualize_network_spectral(self):
         G = self.G
-        pos = graphviz_layout(G, prog="twopi", args="")
         plt.figure(figsize=(8, 8))
         nx.draw_spectral(G, with_labels=False)
         plt.axis("equal")
@@ -299,7 +295,6 @@ class NetworkClass(PopulationClass):
         plt.figure(figsize=(8, 8))
         plt.suptitle("Agent Network %s" % program, fontsize=18)
         plt.title("Time=%d   N=%d" % (time, Gsize))
-        size = G.size()
 
         edge_color = "k"
         node_shape = "o"
@@ -332,17 +327,18 @@ class NetworkClass(PopulationClass):
     def vizualize_network_ego(self):
         # Create a BA model graph
         G = self.G
-        n = 1000
-        m = 2
+
         # find node with largest degree
         node_and_degree = G.degree()
         (largest_hub, degree) = sorted(
             list(node_and_degree.items()), key=itemgetter(1)
         )[-1]
+
         # Create ego graph of main hub
         hub_ego = nx.ego_graph(G, largest_hub)
+
         # Draw graph
-        nx.draw_networkx(G, with_labels=False)
+        nx.draw_networkx(G, with_labels=False) #REVIEW should this be plotting hub_ego?
         plt.savefig("ego_graph.png")
 
     def get_network_color(self, coloring="Sex Type"):
@@ -500,7 +496,7 @@ class NetworkClass(PopulationClass):
             for v in G:
                 NodeSize.append((10 * G.degree(v)) ** (1.0))
 
-        # draw:
+        # draw: #REVIEW - used anywhere?
         drawMe = nx.draw(
             G,
             pos,

@@ -103,18 +103,20 @@ def save_results(N_MC, time_range, rslts, outfile_dir, num_sim):
                        the applied parameters. Must be consistent with
                        parameter input file columns.
     """
-    # convert list of dicts into one nested result dict
-    result_dict = {}
 
     # save results
     if not os.path.isdir(outfile_dir):
         os.mkdir(outfile_dir)
+
     OutFileName = os.path.join(outfile_dir, ("Result_simulation_%d.txt" % num_sim))
     print("\n\tSaving results to:\n\t%s\n" % str(OutFileName))
+
     if os.path.isfile(OutFileName):
         os.remove(OutFileName)
+
     outfile = open(OutFileName, "w")
     outfile.write("t,model,coverage")
+
     for result_property in sorted(rslts):
         outfile.write(
             ",%s_mean,%s_std,%s_10th,%s_90th"
@@ -130,7 +132,7 @@ def save_results(N_MC, time_range, rslts, outfile_dir, num_sim):
             try:
                 x_v = np.array(rslts[result_property][t])
                 x_v = x_v[np.logical_not(np.isnan(x_v))]
-            except:
+            except: #REVIEW why the bare except?
                 pass
 
             if len(x_v) > 0:
