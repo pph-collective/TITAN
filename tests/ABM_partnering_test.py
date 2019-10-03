@@ -3,6 +3,7 @@ import pytest
 from src.ABM_partnering import *
 from src.agent import Agent
 
+
 @pytest.fixture
 def make_agent():
     def _make_agent(id, SO="MSM", age=30, race="BLACK", DU="NDU"):
@@ -10,12 +11,14 @@ def make_agent():
 
     return _make_agent
 
+
 @pytest.mark.skip(reason="#REVIEW - EligSE_PartnerType")
 def test_get_IDU_partner_no_IDU(make_agent):
     idu_agent = make_agent(1, DU="IDU")
     nd_agent = make_agent(2)
     avail_partners = [nd_agent]
     assert get_partner(idu_agent, avail_partners) == nd_agent
+
 
 def test_sex_possible():
     # agent sex types are ["HM", "MSM", "WSW", "HF", "MTF"]

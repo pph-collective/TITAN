@@ -19,6 +19,7 @@ except ImportError:
 
 from . import params
 
+
 def save_adjlist(
     N_pop, graph, dir_prefix, time
 ):  # REVIEW there are a few places where a flag referencing this is used, the the function isn't called anywhere

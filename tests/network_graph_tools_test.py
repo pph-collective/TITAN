@@ -4,6 +4,7 @@ from src.network_graph_tools import *
 
 n_pop = 10
 
+
 def test_NormalAgents():
     """Test if all non-IDU,ND,NIDU agents are in the population"""
     myNetworkObj = NetworkClass(N=n_pop, m_0=3)

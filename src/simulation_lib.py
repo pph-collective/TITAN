@@ -7,6 +7,7 @@ import numpy as np
 from . import params
 from .ABM_core import HIVModel
 
+
 def simulation(
     nreps,
     save_adjlist_flag,
@@ -127,9 +128,7 @@ def save_results(N_MC, time_range, rslts, outfile_dir, num_sim):
             x_v = []
 
             try:
-                x_v = np.array(
-                    rslts[result_property][t]
-                )
+                x_v = np.array(rslts[result_property][t])
                 x_v = x_v[np.logical_not(np.isnan(x_v))]
             except:
                 pass

@@ -7,6 +7,7 @@ import random
 from . import params
 from . import probabilities as prob
 
+
 def get_partner(agent, need_new_partners):
     """
     :Purpose:
@@ -43,9 +44,7 @@ def get_partner(agent, need_new_partners):
             ):
                 RandomPartner = get_assort_sex_partner(agent, need_new_partners)
                 if not RandomPartner and params.AssortMixCoeff <= 1.0:
-                    RandomPartner = get_random_sex_partner(
-                        agent, need_new_partners
-                    )
+                    RandomPartner = get_random_sex_partner(agent, need_new_partners)
             else:
                 RandomPartner = get_random_sex_partner(agent, need_new_partners)
         else:
@@ -147,9 +146,15 @@ def get_assort_sex_partner(agent, need_new_partners):
 
     rv = random.random()
     # todo: Make the random agent never return the agent or any of their partners
-    assert agent_sex_type in ["HM", "HF", "MSM", "WSW", "MTF"] #REVIEW shouldn't this be the params. agent sex types?
+    assert agent_sex_type in [
+        "HM",
+        "HF",
+        "MSM",
+        "WSW",
+        "MTF",
+    ]  # REVIEW shouldn't this be the params. agent sex types?
 
-    #REVIEW in default params this is an empty list, in atlanta it's a len 1 list - why is this a list at all? (and is it eligible or ineligible)
+    # REVIEW in default params this is an empty list, in atlanta it's a len 1 list - why is this a list at all? (and is it eligible or ineligible)
     eligPartnerType = params.DemographicParams[agent_race_type][agent_sex_type][
         "EligSE_PartnerType"
     ][0]
