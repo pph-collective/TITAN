@@ -721,12 +721,8 @@ class HIVModel(NetworkClass):
 
         """
         # print agent
-        partner_HIV_status = (
-            agent_2._HIV_bool
-        )
-        agent_HIV_status = (
-            agent_1._HIV_bool
-        )
+        partner_HIV_status = agent_2._HIV_bool
+        agent_HIV_status = agent_1._HIV_bool
         agent_incar = agent_1._incar_bool
         partner_incar = agent_2._incar_bool
 
@@ -755,24 +751,12 @@ class HIVModel(NetworkClass):
             eligible = True
 
         if eligible:
-            partner_drug_type = (
-                partner._DU
-            )
-            agent_drug_type = (
-                agent._DU
-            )
-            partner_sex_type = (
-                partner._SO
-            )
-            agent_sex_type = (
-                agent._SO
-            )
-            partner_HIV_status = (
-                partner._HIV_bool
-            )
-            agent_HIV_status = (
-                agent._HIV_bool
-            )
+            partner_drug_type = partner._DU
+            agent_drug_type = agent._DU
+            partner_sex_type = partner._SO
+            agent_sex_type = agent._SO
+            partner_HIV_status = partner._HIV_bool
+            agent_HIV_status = agent._HIV_bool
             agent_incar = agent._incar_bool
             partner_incar = partner._incar_bool
             if partner_drug_type == "IDU" and agent_drug_type == "IDU":
