@@ -9,18 +9,19 @@ class Agent:
 
     def __init__(self, ID, SO, age, race, DU, initial_agent=False):
         """
-        :Purpose:
-            Constructor for an Agent
+        Initialize an agent based on given properties
 
-        :Input:
-            :ID: Unique ID number to track each person agent
-            :SO: Sexual Orientation of the agent
-            :age: Age of the agent
-            :race: Race of the agent (currently just "BLACK" or "WHITE")
-            :DU: Drug use type ("IDU", "NIDU", "NDU")
-            :initial_agent: whether this is the first agent created (default is False)
+        args:
+            ID (int) - Unique agent ID
+            SO (str) - Sexual orientation flag (HM, HF, MSM)
+            age (int) - Agents initialization age
+            race (str) - Race of agent
+            DU (str) - Drug use flag (IDU, NIDU, NDU)
+            initial_agent (bool) - If the agent was created during model init
+
+        returns:
+            None
         """
-
         # self._ID is unique ID number used to track each person agent.
         self._ID = ID
         self._timeAlive = 0
@@ -97,6 +98,12 @@ class Agent:
         self._incar_treatment_time = 0
 
     def __str__(self):
+        """
+        String formatting of agent object
+
+        returns:
+            String formatted tab-deliminated agent properties
+        """
         return "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s" % (
             self._ID,
             self._age,
@@ -108,61 +115,143 @@ class Agent:
         )
 
     def __repr__(self):
+        """
+        Repr formatting of agent object
+
+        returns:
+            ID (str) - agent ID as str
+        """
         return str(self._ID)
 
     def get_ID(self):
+        """
+        Get the agent ID
+
+        returns:
+            ID (int) - agent ID
+        """
         return self._ID
 
-    def set_parent_agent(self, agent):
-        self._parent_agent = agent
+    def set_parent_agent(self, parent):
+        """
+        Set the parent of the agent.
+
+        args:
+            parent (Agent(object)) - Parent agent object
+        returns:
+            None
+        """
+        self._parent_agent = parent
 
     def get_parent_agent(self):
+        """
+        Get the parent of the agent.
+
+        returns:
+            parent (Agent(object)) - Parent agent object
+        """
         return self._parent_agent
 
     def bond(self, partner, relationship=None):
+        """
+        Bond two agents. Adds each to a relationship object, then partners in each
+        others' partner list.
+
+        todo: Disentangle this from partner. These can be condensed.
+
+        args:
+            partner (Agent(object)) - new partner of agent
+            relationship (Relationship(object)) - relationship for partnership
+        returns:
+            None
+        """
+
         if relationship is None:
             exit(9)
+
+        # Append relationship to relationships list for each agent
         self._relationships.append(relationship)
         partner._relationships.append(relationship)
 
-        # Test this new code!!!
+        # Pair agent with partner and partner with agent
         self.pair(partner)
         partner.pair(self)
 
+        # Increment number of sex partners for both
         self._num_sex_partners += 1
         partner._num_sex_partners += 1
 
     def unbond(self, partner, relationship=None):
+        """
+        Unbond two agents. Adds each to a relationship object, then partners in each
+        others' partner list.
+
+        todo: Disentangle this from partner. These can be condensed.
+
+        args:
+            partner (Agent(object)) - new partner of agent
+            relationship (Relationship(object)) - relationship for partnership
+        returns:
+            None
+        """
         if relationship is None:
             exit(9)
+
+        # Remove relationship to relationships list for each agent
         self._relationships.remove(relationship)
         partner._relationships.remove(relationship)
 
+        # Unpair agent with partner and partner with agent
         self.unpair(relationship._ID1)
         self.unpair(relationship._ID2)
         partner.unpair(relationship._ID1)
         partner.unpair(relationship._ID2)
 
     def pair(self, partner):
-        "Pairs two agents to each other."
+        """
+        Pair two agents by adding each to the respective _partners list
+
+        args:
+            partner (Agent(object)) - new partner of agent
+        returns:
+            None
+        """
+
         if partner.get_ID() != self.get_ID():
             if partner in self._partners:
-                print("ASDF")
+                print(
+                    "ASDF"
+                )  # raise KeyError("Partner %s is already bonded with agent %s"%(partner.get_ID(), self._ID))
+            # assert partner not in self._partners
+            # todo: why was this (^) assertion and KeyError avoided?!
             else:
                 self._partners.append(partner)
 
-    def unpair(self, agent):
-        "Removes agent from agent set."
+    def unpair(self, partner):
+        """
+        Unpair two agents by removing each to the respective _partners list
+
+        args:
+            agent (Agent(object)) - new partner of agent
+        returns:
+            None
+        """
         try:
-            if self != agent:
-                self._partners.remove(agent)
+            if self != partner:
+                self._partners.remove(partner)
         except KeyError:
             raise KeyError(
                 "agent %s is not a member of agent set %s"
-                % (agent.get_ID(), self.get_ID())
+                % (partner.get_ID(), self.get_ID())
             )
 
     def partner_list(self):
+        """
+        Return the list of partners for this agent
+
+        returns:
+            _partners (list) - list of partners
+        """
         ptnrs = list()
         if self._partners is not None:
             for temp in self._partners:
@@ -172,6 +261,12 @@ class Agent:
 
     # REVIEW seems like this should reference __str__ logic instead of rewriting it
     def print_agent(self):
+        """
+        Print the agent properties to stdout
+
+        returns:
+            None
+        """
         print(
             "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s\t%s"
             % (
@@ -187,9 +282,21 @@ class Agent:
         )
 
     def print_agent_abridge(self):
+        """
+        Print the abridged agent properties to stdout
+
+        returns:
+            None
+        """
         print("\t%.6d\t%s\t%s\t%s" % (self._ID, self._gender, self._SO, self._DU))
 
     def vars(self):
+        """
+        Get agent specific variables (used for printing stats)
+
+        returns:
+            vars (str) - string of variables for agent
+        """
         return "%.6d,%d,%s,%s,%s,%s,%s,%d,%d,%d,%s,%s,%s,%s\n" % (
             self._ID,
             self._age,
@@ -208,6 +315,16 @@ class Agent:
         )
 
     def print_agent_to_file(self, filename, time=None, overWrite="a"):
+        """
+        Print the agent variables to a file
+
+        args:
+            filename (str) - name of file to write to
+            time (int) - timestep of print
+            overWrite (str) - write flag for f open
+        returns:
+            None
+        """
         if overWrite == "a":
             agentList = ""
         else:
@@ -218,6 +335,12 @@ class Agent:
         open(str(filename), overWrite).write(agentList)
 
     def print_relationships(self):
+        """
+        Print the agents relationships to stdout
+
+        returns:
+            None
+        """
         for tmpR in self._relationships:
             tmpR.print_rel()
 
@@ -348,6 +471,12 @@ class Agent_set(Agent):
         else:
             self._numerator = self
 
+    def __repr__(self):
+        return self._ID
+
+    def __str__(self):
+        return self._ID
+
     def clear_set(self):
         self._members = []
         self._subset = {}
@@ -381,12 +510,6 @@ class Agent_set(Agent):
 
     def num_members(self):
         return len(self._members)
-
-    def random_agent(self):
-        try:
-            return random.choice(self._members)
-        except:
-            return None
 
     def add_subset(self, subset):
         "Adds a new Agent_set to the current sets subset."

@@ -2,7 +2,6 @@
 # encoding: utf-8
 
 from random import Random
-import copy
 from copy import deepcopy
 import unittest
 from scipy.stats import poisson

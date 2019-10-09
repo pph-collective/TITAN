@@ -26,7 +26,12 @@ def simulation(
         raise ValueError(
             "Invalid input! save_adjlist_flag = %s" % str(save_adjlist_flag)
         )
+<<<<<<< HEAD
 
+=======
+    # if time_range != 30:
+    #   raise Warning('time_range=%d'%time_range)
+>>>>>>> origin/master
     # Run nreps simulations using the given parameters.
     # Information are printed to outfile_dir directory.
     pid = os.getpid()
@@ -130,7 +135,8 @@ def save_results(N_MC, time_range, rslts, outfile_dir, num_sim):
             x_v = []
 
             try:
-                x_v = np.array(rslts[result_property][t])
+                x_v = np.array(
+                    rslts[result_property][t]
                 x_v = x_v[np.logical_not(np.isnan(x_v))]
             except:  # REVIEW why the bare except?
                 pass

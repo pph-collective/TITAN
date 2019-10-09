@@ -7,19 +7,20 @@ from random import Random
 
 import os
 import time
-import collections
-
+import params
+import numpy as np
 from scipy.stats import binom
 from scipy.stats import poisson
 from functools import wraps
+import networkx as nx
 
 try:
-    from .HIVABM_Population import PopulationClass
-except ImportError:
-    raise ImportError("Can't import PopulationClass")
+    from agent import Agent_set
+except ImportError as e:
+    raise ImportError("Can't import network_graph_tools! %s" % str(e))
 
 try:
-    from .network_graph_tools import *
+    from network_graph_tools import NetworkClass
 except ImportError as e:
     raise ImportError("Can't import network_graph_tools! %s" % str(e))
 
@@ -450,14 +451,14 @@ class HIVModel(NetworkClass):
                             [
                                 a
                                 for a in self.treatment_agentSet._members
-                                if a._OAT_bool == True
+                                if a._OAT_bool is True
                             ]
                         ),
                         nal=len(
                             [
                                 a
                                 for a in self.treatment_agentSet._members
-                                if a._naltrex_bool == True
+                                if a._naltrex_bool is True
                             ]
                         ),
                     )
@@ -558,10 +559,13 @@ class HIVModel(NetworkClass):
         self.Transmit_to_agents = []
 
         for rel in self.Relationships._members:
+            # If in burn, ignore interactions
             if burn:
                 pass
             else:
                 self._agents_interact(rel._ID1, rel._ID2, time, rel)
+
+            # If static network, ignore relationship progression
             if params.flag_staticN:
                 pass
             else:
@@ -618,16 +622,17 @@ class HIVModel(NetworkClass):
                 self._enter_and_exit_drug_treatment(agent, time)
 
             if agent_HIV_status:
+                # If in burnin, ignore HIV
                 if burn:
                     if agent._incar_treatment_time >= 1:
                         agent._incar_treatment_time -= 1
 
-                self._HIVtest(agent, time)
-                self._progress_to_AIDS(agent, agent_drug_type)
+                    self._HIVtest(agent, time)
+                    self._progress_to_AIDS(agent, agent_drug_type)
 
-                if params.flag_ART:
-                    self._initiate_HAART(agent, time)
-                    agent._HIV_time += 1
+                    if params.flag_ART:
+                        self._initiate_HAART(agent, time)
+                        agent._HIV_time += 1
             else:
                 if params.flag_PrEP:
                     if time >= params.PrEP_startT:
@@ -656,7 +661,7 @@ class HIVModel(NetworkClass):
                         for ag in self.All_agentSet._subset["SO"]
                         ._subset["MSM"]
                         ._members
-                        if (ag._PrEP_bool == False and ag._HIV_bool == False)
+                        if (ag._PrEP_bool is False and ag._HIV_bool is False)
                     ]
 
                     while numPrEP_agents < target_PrEP:
@@ -687,7 +692,7 @@ class HIVModel(NetworkClass):
                     if self.runRandom.random() < 0.5:
                         # Component selected as treatment pod!
                         for ag in comp.nodes():
-                            if (ag._HIV_bool == False) and (ag._PrEP_bool == False):
+                            if (ag._HIV_bool is False) and (ag._PrEP_bool is False):
                                 ag._treatment_bool = True
                                 if self.runRandom.random() < params.PrEP_Target:
                                     self._initiate_PrEP(ag, time, force=True)
@@ -715,9 +720,13 @@ class HIVModel(NetworkClass):
             none
 
         """
-        # REVIEW - these assignments later get overwritten once agent/partner are assigned - needed? (could instead directly use vars)
-        partner_HIV_status = agent_2._HIV_bool
-        agent_HIV_status = agent_1._HIV_bool
+        # print agent
+        partner_HIV_status = (
+            agent_2._HIV_bool
+        )
+        agent_HIV_status = (
+            agent_1._HIV_bool
+        )
         agent_incar = agent_1._incar_bool
         partner_incar = agent_2._incar_bool
 
@@ -746,12 +755,24 @@ class HIVModel(NetworkClass):
             eligible = True
 
         if eligible:
-            partner_drug_type = partner._DU
-            agent_drug_type = agent._DU
-            partner_sex_type = partner._SO
-            agent_sex_type = agent._SO
-            partner_HIV_status = partner._HIV_bool
-            agent_HIV_status = agent._HIV_bool
+            partner_drug_type = (
+                partner._DU
+            )
+            agent_drug_type = (
+                agent._DU
+            )
+            partner_sex_type = (
+                partner._SO
+            )
+            agent_sex_type = (
+                agent._SO
+            )
+            partner_HIV_status = (
+                partner._HIV_bool
+            )
+            agent_HIV_status = (
+                agent._HIV_bool
+            )
             agent_incar = agent._incar_bool
             partner_incar = partner._incar_bool
             if partner_drug_type == "IDU" and agent_drug_type == "IDU":
@@ -767,7 +788,9 @@ class HIVModel(NetworkClass):
                         self._needle_transmission(agent, partner, time)
                     else:  # Both sex and needle (20%)
                         self._needle_transmission(agent, partner, time)
-                        self._sex_transmission(agent, partner, time, rel)
+                        self._sex_transmission(
+                            agent, partner, time, rel
+                        )  # , num_interactions)
                 else:
                     # Sex not possible, needle only
                     self._needle_transmission(agent, partner, time)
@@ -1407,6 +1430,9 @@ class HIVModel(NetworkClass):
                 if hiv_bool and not tested:
                     if self.runRandom.random() < params.inc_JailTestProb:
                         agent._tested = True
+
+            # M 13% for 6 months or less, 8% for 6 mo-1year, 20% for 1-3 years, 11% for 3-5 years, 16% for 5-10 years, 30% for 10+ years
+            # F 74% for 6 months or less, 12% for 6 months to one year, 10% for one to three years, 4% for over three years
             else:  # PRISON
                 durationBin = current_p_value = 0
                 p = self.runRandom.random()
@@ -1538,12 +1564,7 @@ class HIVModel(NetworkClass):
         try:
             self.treatment_agentSet.add_agent(agent)
         except:
-            print(
-                (
-                    "agent %s is already a member of agent set %s"
-                    % (agent.get_ID(), targetSet.get_ID())
-                )
-            )
+            print("Failed adding agent to treatment set.")
 
     def _enter_and_exit_drug_treatment(self, agent, time):
         """
