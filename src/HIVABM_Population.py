@@ -3,17 +3,16 @@
 
 from random import Random
 from copy import deepcopy
-import unittest
 from scipy.stats import poisson
 import numpy as np
 
 try:
-    from .agent import *
+    from .agent import Agent_set, Agent, Relationship
 except ImportError:
     raise ImportError("Can't import AgentClass")
 
 try:
-    from .ABM_partnering import *
+    from .ABM_partnering import get_partner, get_partnership_duration
 except ImportError as e:
     raise ImportError("Can't import ABM_partnering! %s" % str(e))
 
@@ -130,11 +129,11 @@ class PopulationClass:
         self.ProbLookUp = {"WHITE": StratW, "BLACK": StratB}
 
         # drug user prevalence (proportion) #REVIEW - not used anywhere
-        self.propIDU = 0  ##190/10000.0
+        self.propIDU = 0  # 190/10000.0
         self.numIDU = int(self.propIDU * self.PopulationSize)
-        self.propNIDU = 0  ##640/10000.0
+        self.propNIDU = 0  # 640/10000.0
         self.numNIDU = int(self.propNIDU * self.PopulationSize)
-        self.propND = 0.995  ##9170/10000.0
+        self.propND = 0.995  # 9170/10000.0
         self.numND = self.PopulationSize - self.numIDU - self.numNIDU
 
         # List of IDU, NIDU, NDs
@@ -206,7 +205,7 @@ class PopulationClass:
 
         self.Relationships = Agent_set(0, "Relationships")
 
-        # Nested dictionary for probability look-up
+        # Nested dictionary for probability look-up #REVIEW - not used anywhere
         IDU = prob.get_IDU()
         NIDU = prob.get_NIDU()
         ND = prob.get_ND()
@@ -232,21 +231,14 @@ class PopulationClass:
             dice = self.popRandom.random()
             prob_Incarc = params.DemographicParams[tmpA._race][tmpA._SO]["INCARprev"]
             if dice < prob_Incarc:
-                toss = 2  # REVIEW why is this hardcoded? - sarah to review
-                if toss == 1:  # JAIL
-                    tmpA._incar_bool = True
-                    tmpA._incar_time = int(self.popRandom.triangular(1, 9, 3))
-                else:  # PRISON
-                    tmpA._incar_bool = True
-                    durationBin = current_p_value = 0
-                    p = self.popRandom.random()
-                    while p > current_p_value:
-                        durationBin += 1
-                        current_p_value += jailDuration[durationBin]["p_value"]
-                    timestay = self.popRandom.randint(
-                        jailDuration[durationBin]["min"],
-                        jailDuration[durationBin]["max"],
-                    )
+                tmpA._incar_bool = True
+                durationBin = current_p_value = 0
+                p = self.popRandom.random()
+
+                while p > current_p_value:
+                    durationBin += 1
+                    current_p_value += jailDuration[durationBin]["p_value"]
+
                 self.incarcerated_agentSet.add_agent(tmpA)
 
     def _return_agent_set(self):
@@ -265,7 +257,6 @@ class PopulationClass:
         :Output:
              agent_dict : dict
         """
-        Drugtype = "NULL"
 
         # Determine sextype
         tmp_rnd = self.popRandom.random()
@@ -404,7 +395,6 @@ class PopulationClass:
         :Output:
              newAgent : Agent
         """
-        Drugtype = "NULL"
 
         # Determine sextype
         demBinP = 0.0
@@ -456,10 +446,7 @@ class PopulationClass:
                 prob_AIDS = params.DemographicParams[Race][SexType]["AIDS"]
 
             if self.popRandom.random() < prob_AIDS:
-                AIDSStatus = 1
                 newAgent._AIDS_bool = True
-            else:
-                AIDSStatus = 0
 
             # HIV testing params
             if DrugType == "IDU":
@@ -468,7 +455,6 @@ class PopulationClass:
                 prob_Tested = params.DemographicParams[Race][SexType]["TestedPrev"]
 
             if self.popRandom.random() < prob_Tested:
-                TestedStatus = 1
                 newAgent._tested = True
 
                 # if tested HAART possible
@@ -478,25 +464,13 @@ class PopulationClass:
                     prob_HAART = params.DemographicParams[Race][SexType]["HAARTprev"]
 
                 if self.popRandom.random() < prob_HAART:
-                    HAARTStatus = 1
                     newAgent._HAART_bool = True
                     newAgent._treatment_bool = True
-                else:
-                    HAARTStatus = 0
-
-            else:
-                TestedStatus = 0
-                HAARTStatus = 0
 
             # if HIV, how long has the agent had it? Random sample
             newAgent._HIV_time = self.popRandom.randint(1, 42)
 
         else:
-            HIVStatus = 0
-            AIDSStatus = 0
-            HAARTStatus = 0
-            HIV_time = 0
-            TestedStatus = 0
 
             if params.flag_PrEP:
                 if params.PrEP_startT == -1:
@@ -549,14 +523,14 @@ class PopulationClass:
         def addToSubsets(targetSet, agent, agentParam=None):
             try:
                 targetSet.add_agent(agent)
-            except:
+            except:  # REVIEW why try/print?
                 print(
                     "agent %s is already a member of agent set %s"
                     % (agent.get_ID(), targetSet.get_ID())
                 )
 
             if agentParam:
-                try:
+                try:  # REVIEW why try/print?
                     targetSet._subset[agentParam].add_agent(agent)
                 except:
                     print(

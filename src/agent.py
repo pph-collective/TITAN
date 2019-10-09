@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import random
-
 
 class Agent:
     "Class for agent objects."

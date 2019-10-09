@@ -1,15 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import numpy as np
-import matplotlib.pyplot as plt
-
 from . import params
-
-try:
-    from .agent import *
-except ImportError:
-    raise ImportError("Can't import Agent class")
 
 
 def initiate_ResultDict():
@@ -61,10 +53,10 @@ def print_stats(
     msmReport = open("results/MSMReport.txt", "a")
     nalReport = open("results/nalReport.txt", "a")
     oatReport = open("results/oatReport.txt", "a")
-    peopleOff = open("results/peopleOff.txt", "a")
+    peopleOff = open("results/peopleOff.txt", "a")  # REVIEW unused
     whiteReport = open("results/W_pop_report.txt", "a")
     blackReport = open("results/B_pop_report.txt", "a")
-    num_SEP = 0
+    num_SEP = 0  # REVIEW unused
 
     OAT_IDU_F = 0
     OAT_IDU_M = 0
@@ -81,17 +73,17 @@ def print_stats(
     DOC_Naltrex_M = 0
     DOC_Naltrex_F = 0
 
-    MSMW_part = 0
-    IDU_part = 0
-    Test_part = 0
+    MSMW_part = 0  # REVIEW unused
+    IDU_part = 0  # REVIEW unused
+    Test_part = 0  # REVIEW unused
 
     newHR_HM = 0
     newHR_HIV_HM = 0
     newHR_AIDS_HM = 0
     newHR_Tested_HM = 0
     newHR_ART_HM = 0
-    off_HF = 0
-    off_HM = 0
+    off_HF = 0  # REVIEW unused
+    off_HM = 0  # REVIEW unused
     newHR_HF = 0
     newHR_HIV_HF = 0
     newHR_AIDS_HF = 0
@@ -251,8 +243,8 @@ def print_stats(
     deaths_HIV_MSM = deaths["HIV+"]["MSM"]
     deaths_HIV_HF = deaths["HIV+"]["HF"]
 
-    W_rslts = rsltdic["WHITE"]
-    B_rslts = rsltdic["BLACK"]
+    W_rslts = rsltdic["WHITE"]  # REVIEW unused
+    B_rslts = rsltdic["BLACK"]  # REVIEW unused
 
     # Sum 'ALL' categories for race/SO bins
     for race in rsltdic:
@@ -579,13 +571,14 @@ def print_stats(
 
     ResultDict["Inc_c_Tot"].update({t: cumulativeI})
 
-    try:
+    try:  # REVIEW try/except refactor?
         ResultDict["Prv_HIV"].update(
             {t: (1.0 * tot_rsltdic["ALL"]["ALL"]["numHIV"] / totalAgents.num_members())}
         )
     except:
         ResultDict["Prv_HIV"].update({t: (0.0)})
-    try:
+
+    try:  # REVIEW try/except refactor?
         ResultDict["Prv_AIDS"].update(
             {
                 t: (
@@ -597,7 +590,8 @@ def print_stats(
         )
     except:
         ResultDict["Prv_AIDS"].update({t: (0.0)})
-    try:
+
+    try:  # REVIEW try/except refactor?
         ResultDict["Prv_Test"].update(
             {
                 t: (
@@ -609,7 +603,8 @@ def print_stats(
         )
     except:
         ResultDict["Prv_Test"].update({t: (0.0)})
-    try:
+
+    try:  # REVIEW try/except refactor?
         ResultDict["Prv_ART"].update(
             {
                 t: (
@@ -625,9 +620,3 @@ def print_stats(
     ResultDict["n_Relations"].update({t: Relationships.num_members()})
     ResultDict["Inc_t_HM"].update({t: rsltdic["WHITE"]["HM"]["inf_newInf"]})
     ResultDict["Inc_t_HF"].update({t: rsltdic["WHITE"]["HF"]["inf_newInf"]})
-
-    num_partners = []
-    num_partners_hr = []
-    ann_num_partners = []
-    turnover = []
-    ann_turnover = []

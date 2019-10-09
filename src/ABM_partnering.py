@@ -22,14 +22,13 @@ def get_partner(agent, need_new_partners):
         partner: new partner
     """
     agent_race_type = agent._race
-    agent_sex_type = agent._SO
     agent_drug_type = agent._DU
     RandomPartner = None
 
     if agent_drug_type == "IDU":
         if random.random() < 0.8:
             # choose from IDU agents
-            try:
+            try:  # REVIEW perhaps get_random_IDU_partner should return none instead of throw exception
                 RandomPartner = get_random_IDU_partner(agent, need_new_partners)
             except:
                 print("No IDU matches")
@@ -71,11 +70,10 @@ def get_random_IDU_partner(agent, need_new_partners):
         partner : int
 
     """
-    agent_sex_type = agent._SO
     agent_drug_type = agent._DU
     RandomPartner = None
-    tempList = []
 
+    # REVIEW AssortMix never used
     AssortMix = False
     if random.random() < params.AssortMixCoeff:
         AssortMix = True
@@ -133,18 +131,17 @@ def get_assort_sex_partner(agent, need_new_partners):
             return i
 
     agent_sex_type = agent._SO
-    agent_drug_type = agent._DU
     agent_race_type = agent._race
 
     RandomPartner = None
     tempList = []
 
+    # REVIEW AssortMix never used
     if random.random() < params.AssortMixCoeff:
         AssortMix = True
     else:
         AssortMix = False
 
-    rv = random.random()
     # todo: Make the random agent never return the agent or any of their partners
     assert agent_sex_type in [
         "HM",
@@ -180,7 +177,7 @@ def get_assort_sex_partner(agent, need_new_partners):
             ._members
             if (tmpA._race == agent._race and tmpA not in agent._partners)
         ]
-        try:
+        try:  # REVIEW refactor from try/except?
             randomK_sample = random.sample(samplePop, params.cal_ptnrSampleDepth)
         except:
             randomK_sample = samplePop
@@ -197,7 +194,7 @@ def get_assort_sex_partner(agent, need_new_partners):
                 ._members
                 if (tmpA._race == "WHITE" and tmpA not in agent._partners)
             ]
-            try:
+            try:  # REVIEW refactor from try/except?
                 randomK_sample = random.sample(samplePop, params.cal_ptnrSampleDepth)
             except:
                 randomK_sample = samplePop
@@ -213,7 +210,7 @@ def get_assort_sex_partner(agent, need_new_partners):
                     and tmpA not in agent._partners
                 )
             ]
-            try:
+            try:  # REVIEW refactor from try/except?
                 randomK_sample = random.sample(samplePop, params.cal_ptnrSampleDepth)
             except:
                 randomK_sample = samplePop
@@ -230,7 +227,7 @@ def get_assort_sex_partner(agent, need_new_partners):
             if (tmpA._everhighrisk_bool and tmpA not in agent._partners)
         ]
         if samplePop:
-            try:
+            try:  # REVIEW refactor from try/except? (also generally repetitive code)
                 randomK_sample = random.sample(samplePop, params.cal_ptnrSampleDepth)
             except:
                 randomK_sample = samplePop
@@ -240,7 +237,7 @@ def get_assort_sex_partner(agent, need_new_partners):
                 break
 
     if (
-        RandomPartner == None
+        RandomPartner is None
         or RandomPartner in agent._partners
         or RandomPartner == agent
     ):
@@ -248,7 +245,7 @@ def get_assort_sex_partner(agent, need_new_partners):
     else:
         try:
             RandomPartner = random.choice(tempList)
-        except:
+        except:  # REVIEW refactor from try/except?
             pass
 
     if RandomPartner:
@@ -272,7 +269,6 @@ def get_random_sex_partner(agent, need_new_partners):
     """
     agent_sex_type = agent._SO
     agent_race_type = agent._race
-    agent_drug_type = agent._DU
 
     RandomPartner = None
 

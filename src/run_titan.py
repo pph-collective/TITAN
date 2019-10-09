@@ -5,8 +5,9 @@ import time as time_mod
 import sys
 import os
 
-from .simulation_lib import *
+from .simulation_lib import simulation, save_results
 from . import params
+
 
 # Disable
 def blockPrint():

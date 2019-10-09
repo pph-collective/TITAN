@@ -3,7 +3,6 @@ __author__ = "MaximilianKing"
 import matplotlib.pyplot as plt
 import networkx as nx
 import random as random
-import numpy as np
 from scipy import stats
 
 num_agents = 10000
@@ -21,16 +20,13 @@ while num_agents > 0:
         tempG = nx.random_geometric_graph(curPodN, 1.0)
     else:
         tempG = nx.connected_watts_strogatz_graph(curPodN, 2, 0.125, tries=200)
-    # tempG = nx.random_geometric_graph(curPodN, 0.125)
     while not nx.is_connected(tempG):
         tempG = nx.random_geometric_graph(curPodN, 0.125)
-    # tempG.graph['ID']=graphNum
     G = nx.disjoint_union(G, tempG)
 
 print(nx.number_of_nodes(G))
 print(nx.number_connected_components(G))
 print(nx.info(G))
-from networkx.algorithms import approximation
 
 components = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)
 bigG = components[0]
@@ -60,27 +56,16 @@ outfile.write(
         sum(centDict.values()) / len(list(centDict.values()))
     )
 )
-# outfile.write("Average node connectivity: {}\n".format(nx.node_connectivity(G)))
 outfile.write("Average node clustering: {}\n".format(nx.average_clustering(G)))
 outfile.close()
 
-# # Betweenness centrality
-# bet_cen = nx.betweenness_centrality(bigG)
-# # Closeness centrality
-# clo_cen = nx.closeness_centrality(bigG)
-# # Eigenvector centrality
-# #eig_cen = nx.eigenvector_centrality(bigG)
-# print bet_cen
-# print clo_cen
 
 comps = []
 for i in components:
     comps.append(len(i))
-# print np.histogram(comps, bins=np.arange(maxPodSize))
 
 print(stats.describe(comps))
 
-import matplotlib.pyplot as plt
 
 plt.hist(comps, bins="auto")  # arguments are passed to np.histogram
 plt.title("Histogram with 'auto' bins")
