@@ -7,7 +7,6 @@ from random import Random
 
 import os
 import time
-import params
 import numpy as np
 from scipy.stats import binom
 from scipy.stats import poisson
@@ -15,12 +14,12 @@ from functools import wraps
 import networkx as nx
 
 try:
-    from agent import Agent_set
+    from .agent import Agent_set
 except ImportError as e:
     raise ImportError("Can't import network_graph_tools! %s" % str(e))
 
 try:
-    from network_graph_tools import NetworkClass
+    from .network_graph_tools import NetworkClass
 except ImportError as e:
     raise ImportError("Can't import network_graph_tools! %s" % str(e))
 
