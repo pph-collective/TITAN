@@ -10,7 +10,6 @@ import networkx as nx
 from networkx.drawing.nx_agraph import graphviz_layout
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-from operator import itemgetter
 
 try:
     from .HIVABM_Population import PopulationClass
@@ -390,7 +389,7 @@ class NetworkClass(PopulationClass):
                 NodeSize.append((10 * G.degree(v)) ** (1.0))
 
         # draw: #REVIEW - used anywhere?
-        drawMe = nx.draw(
+        nx.draw(
             G,
             pos,
             node_size=NodeSize,

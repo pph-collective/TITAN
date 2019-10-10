@@ -204,11 +204,6 @@ class PopulationClass:
 
         self.Relationships = Agent_set(0, "Relationships")
 
-        # Nested dictionary for probability look-up #REVIEW - not used anywhere
-        IDU = prob.get_IDU()
-        NIDU = prob.get_NIDU()
-        ND = prob.get_ND()
-
         # Create agents in allAgents list
         self.White_agents = deepcopy(allAgents[0 : self.numWhite])
         self.Black_agents = deepcopy(allAgents[self.numWhite :])
@@ -435,7 +430,6 @@ class PopulationClass:
             prob_HIV = params.DemographicParams[Race][SexType]["HIV"]
 
         if self.popRandom.random() < prob_HIV:
-            HIVStatus = 1
             newAgent._HIV_bool = True
 
             # if HIV AIDS possible
@@ -478,11 +472,8 @@ class PopulationClass:
                     prob_PrEP = 0.0
 
                 if self.popRandom.random() < prob_PrEP:
-                    PrEP_Status = 1
                     newAgent._PrEP_bool = True
                     newAgent._treatment_bool = True
-                else:
-                    PrEP_Status = 0
 
         # Check if agent is HR as baseline.
         if (

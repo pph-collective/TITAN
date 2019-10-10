@@ -1549,7 +1549,7 @@ class HIVModel(NetworkClass):
 
     def _discont_PrEP(self, agent, time, force=False):
         # If force flag set, auto kick off prep.
-        if force == True:
+        if force is True:
             self.Trt_PrEP_agentSet.remove_agent(agent)
             agent._PrEP_bool = False
             agent._PrEP_reason = []
@@ -1771,7 +1771,6 @@ class HIVModel(NetworkClass):
                 pass
             else:
                 # Probability for dying
-                drug_type = agent._DU
                 sex_type = agent._SO
                 HIV_status = agent._HIV_bool
                 AIDSStatus = agent._AIDS_bool
