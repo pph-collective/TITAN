@@ -22,7 +22,7 @@ from . import params
 
 def save_adjlist(
     N_pop, graph, dir_prefix, time
-):  # REVIEW there are a few places where a flag referencing this is used, the the function isn't called anywhere
+):  # REVIEW there are a few places where a flag referencing this is used, the the function isn't called anywhere - delete all of the references to save adjlists
     """
     :Purpose:
     Write graph G in a single-ling agdacency-list format to path
@@ -185,14 +185,6 @@ class NetworkClass(PopulationClass):
             G.add_node(tmpA)
         print("\tAdded %d/%d agents" % (numAdded, G.number_of_nodes()))
 
-    def create_graph_from_relationships(self, relationships):
-        G = self.G
-        numAdded = 0
-        for rel in relationships.iter_agents():
-            numAdded += 1
-            self.G.add_edge(rel._ID1, rel._ID2)
-        print("Added %d/%d relationships" % (numAdded, G.number_of_edges()))
-
     def draw_histogram(self, t=0):
         G = self.G
         degree_sequence = sorted(
@@ -236,112 +228,11 @@ class NetworkClass(PopulationClass):
         plt.pause(0.5)
         plt.close()
 
-    def plot_DegreeDistribution(self, time=0):
-        """
-        Plot the node degree distribution of the graph. \n
-        INPUT: networkX graph
-        """
-        graph = self.G
-        Gsize = graph.number_of_nodes()
-        degreeList = np.array(graph.degree())
-        x_degree = np.arange(max(degreeList) + 1)  # include 0 and max
-        degreehist = np.bincount(degreeList)
-        ix = degreehist != 0  # delete zeros
-        degreehist = degreehist[ix]
-        x_degree = x_degree[ix]
-        plt.clf()
-        plt.plot(x_degree, degreehist, "bo")
-        plt.suptitle("Node degree distribution", fontsize=18)
-        plt.title("Time=%d   N=%d" % (time, Gsize))
-        plt.ylabel("Frequency")
-        plt.xlabel("Node degree")
-        plt.axis([0, 1.05 * max(degreeList), 0, 1.05 * max(degreehist)])
-        plt.savefig("images/Degree_%d.png" % time)  # plt.show()
-
-    def get_AdjacencyList(self):
-        """ Return the adjacency list of the graph. """
-        return self.G.adjacency_list()
-
-    def stat_connectivity(self):
-        G = self.G
-        return nx.all_pairs_node_connectivity(G)
-
     def get_Graph(self):
         """
         Return random assortative graph produced by ``set_assortative_graph``.
         """
         return self.G
-
-    def vizualize_network_circular(self):
-        G = self.G
-        pos = graphviz_layout(G, prog="twopi", args="")
-        plt.figure(figsize=(8, 8))
-        nx.draw(G, pos, node_size=20, alpha=0.5, node_color="blue", with_labels=False)
-        plt.axis("equal")
-        plt.savefig("circular_tree.png")
-
-    def vizualize_network_spectral(self):
-        G = self.G
-        plt.figure(figsize=(8, 8))
-        nx.draw_spectral(G, with_labels=False)
-        plt.axis("equal")
-        plt.savefig("spectral_tree.png")
-
-    def vizualize_network_graphviz(self, program="sfdp", coloring=None, time=0):
-        G = self.G
-        Gsize = G.number_of_nodes()
-
-        plt.clf()
-        plt.figure(figsize=(8, 8))
-        plt.suptitle("Agent Network %s" % program, fontsize=18)
-        plt.title("Time=%d   N=%d" % (time, Gsize))
-
-        edge_color = "k"
-        node_shape = "o"
-        node_color = self.get_network_color(coloring)
-
-        pos = graphviz_layout(G, prog="neato", args="")
-        nx.draw(
-            G,
-            pos,
-            node_size=1,
-            node_color=node_color,
-            node_shape=node_shape,
-            edge_color=edge_color,
-            with_labels=False,
-            linewidths=0.25,
-            width=0.25,
-        )
-
-        plt.axis("equal")
-        filename = "images/Network_%d_%s_%s_%d.png" % (Gsize, program, coloring, time)
-        plt.savefig(filename)
-
-    def vizualize_network_random(self):
-        G = self.G
-        plt.figure(figsize=(8, 8))
-        nx.draw_random(G, with_labels=False)
-        plt.axis("equal")
-        plt.savefig("random.png")
-
-    def vizualize_network_ego(self):
-        # Create a BA model graph
-        G = self.G
-
-        # find node with largest degree
-        node_and_degree = G.degree()
-        (largest_hub, degree) = sorted(
-            list(node_and_degree.items()), key=itemgetter(1)
-        )[-1]
-
-        # Create ego graph of main hub
-        hub_ego = nx.ego_graph(G, largest_hub)
-
-        # Draw graph
-        nx.draw_networkx(
-            G, with_labels=False
-        )  # REVIEW should this be plotting hub_ego?
-        plt.savefig("ego_graph.png")
 
     def get_network_color(self, coloring="Sex Type"):
         G = self.G

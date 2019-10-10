@@ -53,10 +53,8 @@ def print_stats(
     msmReport = open("results/MSMReport.txt", "a")
     nalReport = open("results/nalReport.txt", "a")
     oatReport = open("results/oatReport.txt", "a")
-    peopleOff = open("results/peopleOff.txt", "a")  # REVIEW unused
     whiteReport = open("results/W_pop_report.txt", "a")
     blackReport = open("results/B_pop_report.txt", "a")
-    num_SEP = 0  # REVIEW unused
 
     OAT_IDU_F = 0
     OAT_IDU_M = 0
@@ -73,17 +71,11 @@ def print_stats(
     DOC_Naltrex_M = 0
     DOC_Naltrex_F = 0
 
-    MSMW_part = 0  # REVIEW unused
-    IDU_part = 0  # REVIEW unused
-    Test_part = 0  # REVIEW unused
-
     newHR_HM = 0
     newHR_HIV_HM = 0
     newHR_AIDS_HM = 0
     newHR_Tested_HM = 0
     newHR_ART_HM = 0
-    off_HF = 0  # REVIEW unused
-    off_HM = 0  # REVIEW unused
     newHR_HF = 0
     newHR_HIV_HF = 0
     newHR_AIDS_HF = 0
@@ -242,9 +234,6 @@ def print_stats(
     deaths_HIV_HM = deaths["HIV+"]["HM"]
     deaths_HIV_MSM = deaths["HIV+"]["MSM"]
     deaths_HIV_HF = deaths["HIV+"]["HF"]
-
-    W_rslts = rsltdic["WHITE"]  # REVIEW unused
-    B_rslts = rsltdic["BLACK"]  # REVIEW unused
 
     # Sum 'ALL' categories for race/SO bins
     for race in rsltdic:

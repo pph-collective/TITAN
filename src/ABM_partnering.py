@@ -92,10 +92,7 @@ def get_random_IDU_partner(agent, need_new_partners):
         if RandomPartner in agent._partners or RandomPartner == agent:
             RandomPartner = None
 
-    if RandomPartner:
-        return RandomPartner
-    else:
-        return None
+    return RandomPartner
 
 
 def get_assort_sex_partner(agent, need_new_partners):
@@ -136,7 +133,7 @@ def get_assort_sex_partner(agent, need_new_partners):
     RandomPartner = None
     tempList = []
 
-    # REVIEW AssortMix never used
+    # REVIEW AssortMix never used - Sarah to reiew
     if random.random() < params.AssortMixCoeff:
         AssortMix = True
     else:
@@ -149,12 +146,14 @@ def get_assort_sex_partner(agent, need_new_partners):
         "MSM",
         "WSW",
         "MTF",
-    ]  # REVIEW shouldn't this be the params. agent sex types?
+    ]  # REVIEW shouldn't this be the params. agent sex types? - switch this over
 
     # REVIEW in default params this is an empty list, in atlanta it's a len 1 list - why is this a list at all? (and is it eligible or ineligible)
     eligPartnerType = params.DemographicParams[agent_race_type][agent_sex_type][
         "EligSE_PartnerType"
-    ][0]
+    ][
+        0
+    ]  # Make this not a list - CHECK ALL OF THE SETTINGS
 
     if params.AssortMixType == "Age":
         randomK_sample = random.sample(
@@ -334,7 +333,7 @@ def sex_possible(agent_sex_type, partner_sex_type):
 def get_partnership_duration(agent):
     """
     :Purpose:
-        Get number of partners for a agent. #REVIEW - this doesn't match method name
+        Get duration of a relationship #REVIEW sarah to look at why this is at the agent level
         Drawn from Poisson distribution.
 
     :Input:

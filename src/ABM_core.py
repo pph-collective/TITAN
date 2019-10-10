@@ -182,27 +182,10 @@ class HIVModel(NetworkClass):
         print("\tDictionary Read")
 
         # Risk network replaced social network
-        if HIVABM_Agent_set:
-            print("\tReading prefab agent set for population")
-            self.All_agentSet = network_type
-            self.Relationships = Agent_set(
-                1, "Relationships"
-            )  # REVIEW self.Relationships only created in this branch, therefore is else never used?
-        else:
-            print("\tCreating population Class")
-            NetworkClass.__init__(
-                self,
-                N=N,
-                network_type=network_type,
-                popSeed=self.popseed,
-                netSeed=self.netseed,
-            )
-            self.All_agentSet.print_subsets()
+        print("\tReading prefab agent set for population")
+        self.All_agentSet = network_type
+        self.Relationships = Agent_set(1, "Relationships")
 
-        # REVIEW AdjMat fields not used anywhere
-        self.AdjMat = 0
-        self.AdjMats_by_time = 0
-        self.newPrEPagents = 0  # REVIEW overwritten on line 234
         # keep track of current time step globally for dynnetwork report
         self.TimeStep = 0
         self.totalIncarcerated = 0
@@ -241,21 +224,10 @@ class HIVModel(NetworkClass):
             "MSM": [],
         }  # final counts
 
-        # REVIEW - not used anywhere
-        self.tmp_ND_NumPartners_Count = {}
-        self.tmp_NIDU_NumPartners_Count = {}
-        self.tmp_IDU_NumPartners_Count = {}
-        self.tmp_MSM_NumPartners_Count = {}
-        self.tmp_WSW_NumPartners_Count = {}
-
         self.Acute_agents = []
         self.Transmit_from_agents = []
         self.Transmit_to_agents = []
-        self.Transmission_tracker = {
-            "SEX_MSM": {1: 0},
-            "SEX_NMSM": {1: 0},
-            "NEEDLE": {1: 0},
-        }  # REVIEW - not used anywhere
+
         self.totalDiagnosis = 0
         self.treatmentEnrolled = False
 
@@ -297,7 +269,6 @@ class HIVModel(NetworkClass):
         """
 
         def getStats(t):
-            self.filler = 0  # REVIEW - not used anywhere
             print_stats(
                 self,
                 self.runseed,
@@ -498,7 +469,7 @@ class HIVModel(NetworkClass):
             self.NewDiagnosis.clear_set()
             self.NewHRrolls.clear_set()
             self.NewIncarRelease.clear_set()
-            self.num_Deaths  # REVIEW ?
+            self.num_Deaths = {}
             prepReport = open("results/PrEPReport.txt", "a")
             prepReport.write(
                 f"{self.runseed}\t{self.TimeStep}\t{self.newPrEPenrolls}\t{self.IDUprep}\t{self.HIVprep}\t{self.MSMWprep}\n"
@@ -543,13 +514,8 @@ class HIVModel(NetworkClass):
         :Output:
             none
         """
-        # REVIEW i not used anywhere
-        if time == 0:
-            i = 0
-        elif params.flag_staticN is False:
+        if time > 0 and params.flag_staticN is False:
             self.update_partner_assignments(params.PARTNERTURNOVER, self.get_Graph())
-        else:
-            pass
 
         self.Acute_agents = []
         self.Transmit_from_agents = []
@@ -612,7 +578,9 @@ class HIVModel(NetworkClass):
             if agent._MSMW and self.runRandom.random() < params.HIV_MSMW:
                 self._become_HIV(agent, 0)
 
-            if agent_drug_type in ["NIDU", "IDU"] and False:  # REVIEW - always False
+            if (
+                agent_drug_type in ["NIDU", "IDU"] and False
+            ):  # REVIEW - always False - Sarah to review and add real logic
                 self._drug_cessation(agent, agent_drug_type)
                 self._enter_and_exit_drug_treatment(agent, time)
 
@@ -784,138 +752,6 @@ class HIVModel(NetworkClass):
                     return
             else:
                 raise ValueError("Agents must be either IDU, NIDU, or ND")
-
-    # REVIEW - not used anywhere
-    def _drug_transition(self, agent, partner):
-        """
-        :Purpose:
-            Simulate transition of drug behavior. The following scenarios are
-            possible:
-            + ND agent might become NIDU when meeting NIDU
-            + NIDU might become IDU when meeting IDU
-            The function is only applied for NIDU and ND users.
-
-        :Input:
-            agents : int
-            partner : int
-
-        :Output: -
-        """
-
-        partner_drug_type = self.get_agent_characteristic(partner, "Drug Type")
-        agent_drug_type = self.get_agent_characteristic(agent, "Drug Type")
-
-        # NIDU -> IDU
-        if agent_drug_type == "NIDU" and partner_drug_type == "IDU":
-            if self.runRandom.random() < 0.00875 / 12:
-                self.tmp_Agents[agent].update({"Drug Type": "IDU"})  # agent becomes IDU
-            # Sex type lists
-            if agent in self.tmp_NIDU_agents:
-                self.tmp_NIDU_agents.remove(agent)
-            if (
-                agent in self.tmp_ND_agents
-            ):  # agent might have transitioned into ND before
-                self.tmp_ND_agents.remove(agent)
-            if agent not in self.tmp_IDU_agents:
-                self.tmp_IDU_agents.append(agent)
-
-        elif partner_drug_type == "NIDU" and agent_drug_type == "IDU":
-            if self.runRandom.random() < 0.0175 / 12:
-                self.tmp_Agents[partner].update(
-                    {"Drug Type": "IDU"}
-                )  # partner becomes IDU
-            # Sex type lists
-            if partner in self.tmp_NIDU_agents:
-                self.tmp_NIDU_agents.remove(partner)
-            if (
-                partner in self.tmp_ND_agents
-            ):  # agent might have transitioned into ND before
-                self.tmp_ND_agents.remove(partner)
-            if partner not in self.tmp_IDU_agents:
-                self.tmp_IDU_agents.append(partner)
-
-        # ND -> IDU
-        elif agent_drug_type == "ND" and partner_drug_type == "IDU":
-            if self.runRandom.random() < 0.001:
-                self.tmp_Agents[agent].update(
-                    {"Drug Type": "IDU"}
-                )  # agent becomes NIDU
-            # Sex type lists
-            if agent in self.tmp_ND_agents:  # agent might have transitioned already
-                self.tmp_ND_agents.remove(agent)
-            if agent not in self.tmp_IDU_agents:
-                self.tmp_IDU_agents.append(agent)
-
-        # ND -> IDU
-        elif partner_drug_type == "ND" and agent_drug_type == "IDU":
-            if self.runRandom.random() < 0.001:
-                self.tmp_Agents[agent].update(
-                    {"Drug Type": "IDU"}
-                )  # agent becomes NIDU
-            # Sex type lists
-            if agent in self.tmp_ND_agents:  # agent might have transitioned already
-                self.tmp_ND_agents.remove(agent)
-            if agent not in self.tmp_IDU_agents:
-                self.tmp_IDU_agents.append(agent)
-
-        # ND -> NIDU
-        elif agent_drug_type == "ND" and partner_drug_type == "NIDU":
-            if self.runRandom.random() < 0.005:
-                self.tmp_Agents[agent].update(
-                    {"Drug Type": "NIDU"}
-                )  # agent becomes NIDU
-            # Sex type lists
-            if agent in self.tmp_ND_agents:  # agent might have transitioned already
-                self.tmp_ND_agents.remove(agent)
-            if agent not in self.tmp_NIDU_agents:
-                self.tmp_NIDU_agents.append(agent)
-        # ND -> NIDU
-        elif partner_drug_type == "ND" and agent_drug_type == "NIDU":
-            if self.runRandom.random() < 0.005:
-                self.tmp_Agents[partner].update(
-                    {"Drug Type": "NIDU"}
-                )  # partner becomes NIDU
-            # Sex type lists
-            if partner in self.tmp_ND_agents:  # agent might have transitioned already
-                self.tmp_ND_agents.remove(partner)
-            if partner not in self.tmp_NIDU_agents:
-                self.tmp_NIDU_agents.append(partner)
-
-        # NIDU -> ND from agent's perspective
-        elif agent_drug_type == "NIDU" and partner_drug_type == "ND":
-            if self.runRandom.random() < 0.001:
-                self.tmp_Agents[agent].update({"Drug Type": "ND"})
-            # Sex type lists
-            if agent in self.tmp_NIDU_agents:  # agent might have transitioned already
-                self.tmp_NIDU_agents.remove(agent)
-            if (
-                agent in self.tmp_IDU_agents
-            ):  # agent might have previously transitioned into IDU
-                self.tmp_IDU_agents.remove(agent)
-            if agent not in self.tmp_ND_agents:
-                self.tmp_ND_agents.append(agent)
-            if agent in self.DrugTreatmentAgents_current:
-                self._exit_drug_treatment(agent)
-
-        # NIDU -> ND from partner's perspective
-        elif partner_drug_type == "NIDU" and agent_drug_type == "ND":
-            if self.runRandom.random() < 0.001:
-                self.tmp_Agents[partner].update({"Drug Type": "ND"})
-            # Sex type lists
-            if (
-                partner in self.tmp_NIDU_agents
-            ):  # partner might have transitioned already
-                self.tmp_NIDU_agents.remove(partner)
-            if (
-                partner in self.tmp_IDU_agents
-            ):  # partner might have previously transitioned into IDU
-                self.tmp_IDU_agents.remove(partner)
-            if partner not in self.tmp_ND_agents:
-                self.tmp_ND_agents.append(partner)
-            if partner in self.DrugTreatmentAgents_current:
-                self._exit_drug_treatment(partner)
-        else:
-            pass  # transition not possible
 
     def get_acute_status(self, agent, time):
         """
@@ -1105,19 +941,9 @@ class HIVModel(NetworkClass):
         if HIVstatus_Agent and HIVstatus_Partner:
             return
         elif HIVstatus_Agent or HIVstatus_Partner:
-            # Sex between men? #REVIEW SexBetweenMen never used after this
-            if (
-                Type_agent == "MSM" and Type_partner == "MSM"
-            ):  # REVIEW wouldn't it be safter to check both agent and partner are men?
-                SexBetweenMen = 1
-            else:
-                SexBetweenMen = 0
             # Define probabilities for unsafe sex
 
             # unprotected sex probabilities for primary partnerships
-            p_UnsafeSafeSex1 = params.DemographicParams[Race_Agent][Type_agent][
-                "UNSAFESEX"
-            ]  # REVIEW - this always gets overwritten
             MSexActs = self._get_number_of_sexActs(agent) * params.cal_SexualActScaling
             T_sex_acts1 = int(poisson.rvs(MSexActs, size=1))
 
@@ -1131,7 +957,7 @@ class HIVModel(NetworkClass):
                 p_UnsafeSafeSex1 = prob.unsafe_sex(num_int)
 
             # Reduction of risk acts between partners for condom usage
-            # REVIEW - what's with U_sex_acts1 and U_sex_acts2, U_sex_acts2 never seems to update
+            # REVIEW - what's with U_sex_acts1 and U_sex_acts2, U_sex_acts2 never seems to update - max to review
             U_sex_acts1 = T_sex_acts1
             for n in range(U_sex_acts1):
                 if self.runRandom.random() < p_UnsafeSafeSex1:
@@ -1386,22 +1212,12 @@ class HIVModel(NetworkClass):
             * (1 + (hiv_bool * 4))
             * params.cal_IncarP
         ):
-            toss = (
-                2
-            )  # REVIEW - hardcoded, will never hit `if toss==1` logic in a few lines
-
-            if agent._SO == "HF":  # REVIEW - what if _SO isn't HF or HM?
+            if (
+                agent._SO == "HF"
+            ):  # REVIEW - what if _SO isn't HF or HM? - currently fine, should be made more robust in the future
                 jailDuration = prob.HF_jail_duration
             elif agent._SO == "HM":
                 jailDuration = prob.HM_jail_duration
-
-            if toss == 1:  # JAIL
-                timestay = self.runRandom.randint(
-                    params.inc_JailMin, params.inc_JailMax
-                )
-                if hiv_bool and not tested:
-                    if self.runRandom.random() < params.inc_JailTestProb:
-                        agent._tested = True
 
             # M 13% for 6 months or less, 8% for 6 mo-1year, 20% for 1-3 years, 11% for 3-5 years, 16% for 5-10 years, 30% for 10+ years
             # F 74% for 6 months or less, 12% for 6 months to one year, 10% for one to three years, 4% for over three years
@@ -1499,7 +1315,9 @@ class HIVModel(NetworkClass):
                                 ptnr._tested = True
                                 self.NewDiagnosis.add_agent(ptnr)
 
-    def _exit_drug_treatment(self, agent):
+    def _exit_drug_treatment(
+        self, agent
+    ):  # REVIEW use of self in this method is confusing
         """
         Agent exits drug treament.
         """
@@ -1691,7 +1509,9 @@ class HIVModel(NetworkClass):
             if agent._mean_num_partners >= 10:
                 eligible = True
         elif params.PrEP_target_model == "SRIns":
-            if agent._sexualRole == "Insertive":
+            if (
+                agent._sexualRole == "Insertive"
+            ):  # REVIEW _sexualRole is initialized, but doesn't seemt to every be updated so this is unreachable
                 eligible = True
         elif params.PrEP_target_model == "MSM":
             if agent._SO == ("MSM" or "MTF"):
@@ -1809,7 +1629,7 @@ class HIVModel(NetworkClass):
                 agent._PrEP_load = params.PrEP_peakLoad
                 agent._PrEP_lastDose = 0
 
-        # REVIEW - is this really neccessary?
+        # REVIEW - is this really neccessary? - change to an assertion that agen't isn't none
         if agent is None:
             print("OHHH boi no prep agent")
             return None
@@ -1939,104 +1759,6 @@ class HIVModel(NetworkClass):
             for tmp_type in [HIV_status, "MSM", "HM", "HF", "WSW", "MTF"]:
                 self.num_Deaths[HIV_status].update({tmp_type: 0})
 
-    # REVIEW - not used anywhere
-    def _remove_agent(self, agent):
-        """
-        :Purpose:
-            Remove agent from the population.
-            Delete agent is a key to an associated dictionary which stores the internal.
-
-        :Input:
-            agent : int
-
-        """
-        # Drug type lists (agent might have been updated)
-        drug_type = self.tmp_Agents[agent]["Drug Type"]
-
-        if drug_type == "IDU":
-            try:
-                self.tmp_IDU_agents.remove(agent)
-            except ValueError:
-                pass
-        elif drug_type == "NIDU":
-            try:
-                self.tmp_NIDU_agents.remove(agent)
-            except ValueError:
-                pass
-        elif drug_type == "ND":
-            try:
-                self.tmp_ND_agents.remove(agent)
-            except ValueError:
-                pass
-        else:
-            raise ValueError("Invalid drug type! %s" % str(drug_type))
-
-        # Sex type lists
-        try:
-            # Agent might have been updated
-            sex_type = self.tmp_Agents[agent]["Sex Type"]
-        except KeyError:
-            sex_type = self.get_agent_characteristic(agent, "Sex Type")
-        if sex_type == "MSM":
-            self.tmp_MSM_agents.remove(agent)
-        elif sex_type == "HF":
-            self.tmp_HF_agents.remove(agent)
-        elif sex_type == "WSW":
-            self.tmp_WSW_agents.remove(agent)
-        elif sex_type == "HM":
-            self.tmp_HM_agents.remove(agent)
-        else:
-            raise ValueError("Invalid sex type! %s" % str(sex_type))
-
-        # HIV and AIDS lists
-        try:
-            self.tmp_HIV_agents.remove(agent)
-        except ValueError:
-            pass
-
-        try:
-            self.tmp_AIDS_agents.remove(agent)
-        except ValueError:
-            pass
-
-        try:
-            self.Incarcerated.remove(agent)
-        except ValueError:
-            pass
-
-        try:
-            self.tmp_HAART_agents.remove(agent)
-        except ValueError:
-            # print "WTFFFFF"
-            pass
-
-        try:
-            self.HIVidentified_agents.remove(agent)
-        except ValueError:
-            # print "WTFFFFF"
-            pass
-
-        # Other lists / dictionaries
-        if agent in self.SEPAgents:
-            # dict of users who used SEP (agent:time)
-            del self.SEPAgents[agent]
-        if agent in self.SEPAgents_past:
-            del self.SEPAgents_past[agent]
-        if agent in self.DrugTreatmentAgents_current:
-            # dictionary of users who are currently undergoing
-            del self.DrugTreatmentAgents_current[agent]
-        if agent in self.DrugTreatmentAgents_past:
-            # dictionary of users who underwent drug treatment
-            del self.DrugTreatmentAgents_past[agent]
-        if agent in self.VCTAgents:
-            # list of agents who get tested for HIV ((agent:time)
-            del self.VCTAgents[agent]
-        for time in self.HIV_key_transitiontime:
-            tmp_agents = self.HIV_key_transitiontime[time]
-            if agent in tmp_agents:
-                tmp_agents.remove(agent)
-            self.HIV_key_transitiontime.update({time: tmp_agents})
-
     def _die_and_replace(self, time, reported=True):
         """
         :Purpose:
@@ -2128,91 +1850,6 @@ class HIVModel(NetworkClass):
                     agent_cl = self._return_new_Agent_class(ID_number, race, sex_type)
                     self.create_agent(agent_cl, race)
                     self.get_Graph().add_node(agent_cl)
-
-                elif 1 == 0:  # REVIEW always false
-                    # Replace with new agent (random characteristics)
-                    rv = self.runRandom.random()
-                    if rv < params.DemographicParams["WHITE"]["ALL"]["Proportion"]:
-                        deliminator = "WHITE"
-                    else:
-                        deliminator = "BLACK"
-
-                    #################### NOW SET TO REPLACE WITH WHAT DIED"
-
-                    # New agent dict
-                    agent_dict = self._return_new_agent_dict(deliminator)
-                    if deliminator != agent_dict["Race"]:
-                        raise ValueError(
-                            "Inconsistent drug type!%s" % str(agent_dict["Drug Type"])
-                        )
-
-                    # Update tmp_Agents dictionary with new agent
-                    self.tmp_Agents.update({agent: agent_dict})
-
-                    # Drug Type
-                    drug_type = agent_dict["Drug Type"]
-                    if drug_type == "IDU":
-                        self.tmp_IDU_agents.append(agent)
-                    elif drug_type == "NIDU":
-                        self.tmp_NIDU_agents.append(agent)
-                    elif drug_type == "ND":
-                        self.tmp_ND_agents.append(agent)
-                    else:
-                        raise ValueError("Invalid drug type! %s" % str(drug_type))
-
-                    # Sex Type
-                    SexType = agent_dict["Sex Type"]
-                    if SexType == "HM":
-                        self.tmp_HM_agents.append(agent)
-                    elif SexType == "HF":
-                        self.tmp_HF_agents.append(agent)
-                    elif SexType == "MSM":
-                        self.tmp_MSM_agents.append(agent)
-                    elif SexType == "WSW":
-                        self.tmp_WSW_agents.append(agent)
-                    else:
-                        raise ValueError("Invalid SexType! %s" % str(SexType))
-
-                    # HIV
-                    HIVStatus = agent_dict["HIV"]
-                    if HIVStatus == 1:
-                        self.tmp_HIV_agents.append(agent)
-                    elif HIVStatus != 0:
-                        raise ValueError("Invalid HIVType! %s" % str(HIVStatus))
-
-                    # AIDS
-                    AIDSStatus = agent_dict["AIDS"]
-                    if AIDSStatus == 1:
-                        self.tmp_AIDS_agents.append(agent)
-                    elif AIDSStatus != 0:
-                        raise ValueError("Invalid AIDS Status! %s" % str(AIDSStatus))
-
-                    # HAART
-                    HAARTStatus = agent_dict["HAARTa"]
-                    if HAARTStatus == 1:
-                        self.tmp_HAART_agents.append(agent)
-                    elif HAARTStatus != 0:
-                        raise ValueError("Invalid HAART Status! %s" % str(HAARTStatus))
-
-                    # Incarcerated
-                    IncarceratedTime = agent_dict["incar_t"]
-                    if IncarceratedTime >= 1:
-                        self.Incarcerated.append(agent)
-                    elif IncarceratedTime < 0:
-                        raise ValueError(
-                            "Invalid AIDS Status! %s" % str(IncarceratedTime)
-                        )
-
-                    # Check
-                    if HIVStatus == 1:
-                        if agent not in self.tmp_HIV_agents:
-                            raise ValueError("Agent must be in HIV_agents")
-                    if AIDSStatus == 1:
-                        if agent not in self.tmp_AIDS_agents:
-                            raise ValueError("Agent must be in AIDS_agents")
-                    if HAARTStatus == 1:
-                        if agent not in self.tmp_HAART_agents:
-                            raise ValueError("Agent must be in HAART_agents")
 
     def return_results(self):
         return self.ResultDict

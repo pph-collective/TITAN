@@ -141,7 +141,6 @@ class PopulationClass:
         allAgents = list(range(self.PopulationSize))
 
         print("\tBuilding class sets")
-        self.totalAgentClass = Agent_set(0, "TotalAgents")  # REVIEW
 
         # All agent set list
         self.All_agentSet = Agent_set(0, "AllAgents")
@@ -242,7 +241,7 @@ class PopulationClass:
                 self.incarcerated_agentSet.add_agent(tmpA)
 
     def _return_agent_set(self):
-        return self.totalAgentClass
+        return self.All_agentSet
 
     def _return_new_agent_dict(self, Deliminator, SexType="NULL"):
         """

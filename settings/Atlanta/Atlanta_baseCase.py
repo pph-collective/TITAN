@@ -197,7 +197,6 @@ RC_template = {
     "EligSE_PartnerType": [],  # List of agent SO types the agent cant partner with
     "PrEPdisc": 0.0,  # Probability of discontinuing PrEP treatment
     "HighRiskPrev": 0.0,
-    "EligSE_PartnerType": [],
     "PrEPadh": 1.0,
 }
 
