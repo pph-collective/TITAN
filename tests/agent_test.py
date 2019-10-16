@@ -23,7 +23,6 @@ def test_agent_init(make_agent):
     a = make_agent(1)
     assert a._ID == 1
     assert a._timeAlive == 0
-    assert a._initial_agent is False
 
     # demographics
     assert a._SO == "MSM"
