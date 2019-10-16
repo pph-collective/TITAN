@@ -24,14 +24,12 @@ def test_agent_init(make_agent):
     assert a._ID == 1
     assert a._timeAlive == 0
     assert a._initial_agent is False
-    assert a._parent_agent is None
 
     # demographics
     assert a._SO == "MSM"
     assert a._age == 30
     assert a._race == "BLACK"
     assert a._DU == "NDU"
-    assert a._gender == "M"
     assert a._ageBin == 0
     assert a._MSMW is False
 
@@ -90,13 +88,6 @@ def test_agent_init(make_agent):
 def test_get_id(make_agent):
     a = make_agent(1)
     assert a.get_ID() == 1
-
-
-def test_get_set_parent_agent(make_agent):
-    a = make_agent(1)
-    p = make_agent(2)
-    a.set_parent_agent(p)
-    assert a.get_parent_agent() == p
 
 
 def test_bond_unbond(make_agent, make_relationship):

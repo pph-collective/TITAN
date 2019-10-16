@@ -27,10 +27,6 @@ def unsafe_sex(num_acts):
         return 0.759
 
 
-# TO_REVIEW -these comments?
-# F 22% for 6 months or less, 17% for 6mo-1 year, 24% for 1-3 years, 14% for 3-5 years 13% for 5-10years, 10% for 10+ years
-
-# F 74% for 6 months or less, 12% for 6 months to one year, 10% for one to three years, 4% for over three years
 HF_jail_duration = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}}
 HF_jail_duration[1] = {"p_value": (0.40), "min": 1, "max": 2}
 HF_jail_duration[2] = {"p_value": (0.475), "min": 1, "max": 13}
@@ -39,9 +35,7 @@ HF_jail_duration[4] = {"p_value": (0.045), "min": 26, "max": 78}
 HF_jail_duration[5] = {"p_value": (0.01), "min": 78, "max": 130}
 HF_jail_duration[6] = {"p_value": (0.01), "min": 130, "max": 260}
 
-# M 61% for six months or less, 13% for six months to one year, 16% for 1-3 years, 4% for 3-5 years, 4% for 5-10 years
 
-# M 13% for 6 months or less, 8% for 6 mo-1year, 20% for 1-3 years, 11% for 3-5 years, 16% for 5-10 years, 30% for 10+ years
 HM_jail_duration = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}}
 HM_jail_duration[1] = {"p_value": (0.43), "min": 1, "max": 2}
 HM_jail_duration[2] = {"p_value": (0.50), "min": 1, "max": 13}
@@ -67,163 +61,6 @@ def adherence_prob(adherenceStat):
 
 
 # ======================== HIVABM_Population =========================
-
-# Quick calc based on traj: 0.596 Female -> 0,01175/0.75 HIV -> 0.75 Tested+ = 11.75% HIV DIAG
-def get_strat_white(MT_PrEP, MT_Incar, MT_NoIncar):
-    """
-    Get dictionary of probabilities for white race
-    """
-    StratW = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}}
-    if MT_PrEP:
-        StratW["MSM"] = {
-            "POP": 1.0,
-            "HIV": 0.036195675,
-            "AIDS": 0.51,
-            "HAARTprev": 0.33,
-            "INCARprev": 0.0,
-            "TestedPrev": 0.816,
-            "mNPart": 3,
-        }
-        StratW["HM"] = {
-            "POP": 0.0,
-            "HIV": 0.0,
-            "AIDS": 0.0,
-            "HAARTprev": 0.0,
-            "INCARprev": 0.0,
-            "TestedPrev": 0.0,
-        }
-        StratW["HF"] = {
-            "POP": 0.0,
-            "HIV": 0.0,
-            "AIDS": 0.0,
-            "HAARTprev": 0.0,
-            "INCARprev": 0.0,
-            "TestedPrev": 0.0,
-        }
-        StratW["IDU"] = {
-            "POP": 0.0,
-            "HIV": 0.0,
-            "AIDS": 0.0,
-            "HAARTprev": 0.0,
-            "INCARprev": 0.0,
-            "TestedPrev": 0.0,
-        }
-    elif MT_Incar:
-        StratW["MSM"] = {
-            "POP": 0.0,
-            "HIV": 0.05,
-            "AIDS": 0.05,
-            "HAARTprev": 0.0,
-            "INCARprev": 0.0,
-            "TestedPrev": 0.86,
-            "mNPart": 3,
-        }
-        StratW["HM"] = {
-            "POP": 0.4044435412,
-            "HIV": 0.0158 / 0.75,
-            "AIDS": 0.678,
-            "HAARTprev": 0.03748,
-            "INCARprev": 0.0279,
-            "TestedPrev": 0.75,
-            "mNPart": 3,
-        }
-        StratW["HF"] = {
-            "POP": 0.5955564588,
-            "HIV": 0.01175 / 0.75,
-            "AIDS": 0.573,
-            "HAARTprev": 0.04054,
-            "INCARprev": 0.0,
-            "TestedPrev": 0.75,
-            "mNPart": 2,
-        }
-        StratW["IDU"] = {
-            "POP": 0.0,
-            "HIV": 0.0,
-            "AIDS": 0.0,
-            "HAARTprev": 0.0,
-            "INCARprev": 0.0,
-            "TestedPrev": 0.0,
-            "mNPart": 3,
-        }
-    elif MT_NoIncar:
-        StratW["MSM"] = {
-            "POP": 0.0,
-            "HIV": 0.05,
-            "AIDS": 0.05,
-            "HAARTprev": 0.0,
-            "INCARprev": 0.0,
-            "TestedPrev": 0.86,
-            "mNPart": 3,
-        }
-        StratW["HM"] = {
-            "POP": 0.4044435412,
-            "HIV": 0.0158 / 0.75,
-            "AIDS": 0.678,
-            "HAARTprev": 0.03748,
-            "INCARprev": 0.0,
-            "TestedPrev": 0.75,
-            "mNPart": 3,
-        }
-        StratW["HF"] = {
-            "POP": 0.5955564588,
-            "HIV": 0.01175 / 0.75,
-            "AIDS": 0.573,
-            "HAARTprev": 0.04054,
-            "INCARprev": 0.0,
-            "TestedPrev": 0.75,
-            "mNPart": 2,
-        }
-        StratW["IDU"] = {
-            "POP": 0.0,
-            "HIV": 0.0,
-            "AIDS": 0.0,
-            "HAARTprev": 0.0,
-            "INCARprev": 0.0,
-            "TestedPrev": 0.0,
-            "mNPart": 3,
-        }
-    return StratW
-
-
-def get_strat_black():  # TO_REVIEW - why all zero?
-    """
-    Return dictionary of probabilities for black race
-    """
-    StratB = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}}
-    StratB["MSM"] = {
-        "POP": 0.0,
-        "HIV": 0.0,
-        "AIDS": 0.0,
-        "HAARTprev": 0.0,
-        "INCARprev": 0.0,
-        "TestedPrev": 0.0,
-    }
-    StratB["HM"] = {
-        "POP": 0.0,
-        "HIV": 0.0,
-        "AIDS": 0.0,
-        "HAARTprev": 0.0,
-        "INCARprev": 0.0,
-        "TestedPrev": 0.0,
-    }
-    StratB["HF"] = {
-        "POP": 0.0,
-        "HIV": 0.0,
-        "AIDS": 0.0,
-        "HAARTprev": 0.0,
-        "INCARprev": 0.0,
-        "TestedPrev": 0.0,
-    }
-    StratB["IDU"] = {
-        "POP": 0.0,
-        "HIV": 0.0,
-        "AIDS": 0.0,
-        "HAARTprev": 0.0,
-        "INCARprev": 0.0,
-        "TestedPrev": 0.0,
-    }
-
-    return StratB
 
 
 def get_IDU():

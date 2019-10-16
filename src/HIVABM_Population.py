@@ -124,18 +124,6 @@ class PopulationClass:
         elif model == "NoIncar":
             MT_NoIncar = True
 
-        StratW = prob.get_strat_white(MT_PrEP, MT_Incar, MT_NoIncar)
-        StratB = prob.get_strat_black()
-        self.ProbLookUp = {"WHITE": StratW, "BLACK": StratB}
-
-        # drug user prevalence (proportion) # TO_REVIEW - not used anywhere
-        self.propIDU = 0  # 190/10000.0
-        self.numIDU = int(self.propIDU * self.PopulationSize)
-        self.propNIDU = 0  # 640/10000.0
-        self.numNIDU = int(self.propNIDU * self.PopulationSize)
-        self.propND = 0.995  # 9170/10000.0
-        self.numND = self.PopulationSize - self.numIDU - self.numNIDU
-
         # List of IDU, NIDU, NDs
         # shuffle all Agents
         allAgents = list(range(self.PopulationSize))

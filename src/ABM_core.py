@@ -44,7 +44,7 @@ class HIVModel(NetworkClass):
         tmax: int
             Number of simulation steps (years).
 
-        :py:class:`SocialNetworkClass` : Inherited
+        :py:class:`NetworkClass` : Inherited
         :py:class:`PopulationClass` : Inherited
 
     :Attributes:
@@ -69,7 +69,7 @@ class HIVModel(NetworkClass):
             and applying the update rules are stored
             in :py:attr:`tmp_agent_dict`.
 
-        All attributes from :py:class:`SocialNetworkClass` \n
+        All attributes from :py:class:`NetworkClass` \n
 
         All attributes from :py:class:`PopulationClass`
 
@@ -77,23 +77,13 @@ class HIVModel(NetworkClass):
         :py:meth:`_update_population` \n
         :py:meth:`_needle_transmission` \n
         :py:meth:`_sex_transmission` \n
-        :py:meth:`_drug_transition` \n
         :py:meth:`_update_IDU` \n
-        :py:meth:`_update_NIDU_ND` \n
         :py:meth:`_update_AllAgents` \n
-        :py:meth:`_VCT` \n
-        :py:meth:`_SEP` \n
         :py:meth:`_enter_drug_treatment` \n
         :py:meth:`_initiate_HAART` \n
-        :py:meth:'_discontinue_HAART' \n
-        :py:meth:`_get_partner` \n
         :py:meth:`_update_AllAgents` \n
         :py:meth:`run` \n
-        :py:meth:`store_results` \n
-        :py:meth:`get_HIV_prevalence_drugs` \n
-        :py:meth:`get_HIV_prevalence` \n
-        :py:meth:`plot_results` \n
-        All methods from :py:class:`SocialNetworkClass` \n
+        All methods from :py:class:`NetworkClass` \n
         All methods from :py:class:`PopulationClass`
     """
 
@@ -151,11 +141,6 @@ class HIVModel(NetworkClass):
         self.popseed = get_check_rand_int(popseed)
         self.netseed = get_check_rand_int(netseed)
 
-        # TO_REVIEW - should this be the passed seeds or the updated seeds (since zero could be passed but not used)?
-        self.uniqueSeedID = (
-            "r" + str(runseed) + "_p" + str(popseed) + "_n" + str(netseed)
-        )
-
         self.current_dir = os.getcwd()
         print("=== Begin Initialization Protocol ===\n")
         self.ExistingLinksCollapsedList = list()
@@ -197,7 +182,7 @@ class HIVModel(NetworkClass):
         print(("\tRun seed was set to:", runseed))
         self.runRandom = Random(
             runseed
-        )  # TO_REVIEW - what if self.runseed != runseed (if 0 passed)
+        )  #  - what if self.runseed != runseed (if 0 passed)
         random.seed(self.runseed)
         np.random.seed(self.runseed)
         print(("\tFIRST RANDOM CALL %d" % random.randint(0, 100)))
@@ -540,7 +525,7 @@ class HIVModel(NetworkClass):
 
             if (
                 agent_drug_type in ["NIDU", "IDU"] and False
-            ):  # REVIEW - always False - Sarah to review and add real logic
+            ):  # REVIEWED - always False - Sarah to review and add real logic
                 self._drug_cessation(agent, agent_drug_type)
                 self._enter_and_exit_drug_treatment(agent, time)
 
@@ -744,7 +729,7 @@ class HIVModel(NetworkClass):
                 tmax: int
                 Number of simulation steps (years).
 
-                :py:class:`SocialNetworkClass` : Inherited
+                :py:class:`NetworkClass` : Inherited
                 :py:class:`PopulationClass` : Inherited
 
             :Attributes:
@@ -1172,9 +1157,7 @@ class HIVModel(NetworkClass):
             * (1 + (hiv_bool * 4))
             * params.cal_IncarP
         ):
-            if (
-                agent._SO == "HF"
-            ):  # REVIEWED - what if _SO isn't HF or HM? - currently fine, should be made more robust in the future
+            if agent._SO == "HF":
                 jailDuration = prob.HF_jail_duration
             elif agent._SO == "HM":
                 jailDuration = prob.HM_jail_duration
@@ -1588,7 +1571,7 @@ class HIVModel(NetworkClass):
         # agent must exist
         assert agent is not None
 
-        # Check valid input # TO_REVIEW why does this error instead of just returning?
+        # Check valid input
         # Prep only valid for agents not on prep and are HIV negative
         if agent._PrEP_bool or agent._HIV_bool:
             return None

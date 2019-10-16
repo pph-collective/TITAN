@@ -24,24 +24,11 @@ class Agent:
         self._ID = ID
         self._timeAlive = 0
 
-        # TO_REVIEW - initial agent doesn't seem to be used anywhere - should it be?
-        # self._initial_agent is set to "True" for agents that were used to
-        # initialize the model.
-        self._initial_agent = initial_agent
-
-        # TO_REVIEW - parent agent not used anywhere outside of agent and agent_set
-        # _parent_agent stores the parent agent if this agent is a member of an
-        # Agent_set class instance.
-        self._parent_agent = None
-
         # agent properties
         self._SO = SO
         self._age = age
         self._race = race
         self._DU = DU
-        self._gender = SO[
-            -1:
-        ]  # Takes last letter of HM, HF, MSM, WSW, BiM, BiF to get agent gender. CANT USE MSMW! # TO_REVIEW - inconsistent female
 
         self._ageBin = 0
         self._MSMW = False
@@ -104,10 +91,9 @@ class Agent:
         returns:
             String formatted tab-deliminated agent properties
         """
-        return "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s" % (
+        return "\t%.6d\t%d\t%s\t%s\t%s\t%s" % (
             self._ID,
             self._age,
-            self._gender,
             self._SO,
             self._DU,
             self._race,
@@ -131,26 +117,6 @@ class Agent:
             ID (int) - agent ID
         """
         return self._ID
-
-    def set_parent_agent(self, parent):
-        """
-        Set the parent of the agent.
-
-        args:
-            parent (Agent(object)) - Parent agent object
-        returns:
-            None
-        """
-        self._parent_agent = parent
-
-    def get_parent_agent(self):
-        """
-        Get the parent of the agent.
-
-        returns:
-            parent (Agent(object)) - Parent agent object
-        """
-        return self._parent_agent
 
     def bond(self, partner, relationship):
         """
@@ -252,11 +218,10 @@ class Agent:
             None
         """
         print(
-            "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s\t%s"
+            "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s"
             % (
                 self._ID,
                 self._age,
-                self._gender,
                 self._SO,
                 self._DU,
                 self._race,
@@ -272,7 +237,7 @@ class Agent:
         returns:
             None
         """
-        print("\t%.6d\t%s\t%s\t%s" % (self._ID, self._gender, self._SO, self._DU))
+        print("\t%.6d\t%s\t%s" % (self._ID, self._SO, self._DU))
 
     def vars(self):
         """
@@ -281,10 +246,9 @@ class Agent:
         returns:
             vars (str) - string of variables for agent
         """
-        return "%.6d,%d,%s,%s,%s,%s,%s,%d,%d,%d,%s,%s,%s,%s\n" % (
+        return "%.6d,%d,%s,%s,%s,%s,%d,%d,%d,%s,%s,%s,%s\n" % (
             self._ID,
             self._age,
-            self._gender,
             self._SO,
             self._DU,
             self._race,
@@ -351,12 +315,12 @@ class Relationship:
         self._ID = self._ID1.get_ID() * 100000 + self._ID2.get_ID()
 
         # Relationship properties
-        self._SO = SO  # TO_REVIEW is this used?? low priority
+        self._SO = SO
         self._rel_type = rel_type
         self._duration = duration
         self._total_sex_acts = 0
 
-        # REVIEWED - sarah to think about if these can be calculated from underlying agents as needed
+        # REVIEWED - issue open to address this
 
         # Relationship STI params
         self._STI_pool = []
@@ -499,10 +463,6 @@ class Agent_set(Agent):
                 % (subset.get_ID(), self._ID)
             )
         self._subset[subset._ID] = subset
-
-        # Set the agent's _parent_agent to reflect the parent of this Agent_set
-        # instance (self)
-        subset.set_parent_agent(self)
 
     def remove_subset(self, subset):
         "Removes Agent_set to the current sets subset."

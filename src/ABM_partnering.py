@@ -145,11 +145,10 @@ def get_assort_sex_partner(agent, need_new_partners):
         "EligSE_PartnerType"
     ]
 
-    if (
-        params.AssortMixType == "Age"
-    ):  # TO_REVIEW why is MSM the subset here? shouldn't it be eligPartnerType
+    if params.AssortMixType == "Age":
         randomK_sample = random.sample(
-            need_new_partners._subset["MSM"]._members, params.cal_ptnrSampleDepth
+            need_new_partners._subset[eligPartnerType]._members,
+            params.cal_ptnrSampleDepth,
         )
         ageBinPick = getPartnerBin(agent)
         availableParts = [ag for ag in randomK_sample if ag not in agent._partners]
