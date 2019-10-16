@@ -127,7 +127,7 @@ class HIVModel(NetworkClass):
             "inc_treat_IDU_beh",
             "calcNetworkStats",
         ]
-        for attr in bc_attr:
+        for attr in bc_attrs:
             if not hasattr(params, attr):
                 setattr(params, attr, False)
 
