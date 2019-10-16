@@ -560,14 +560,14 @@ def print_stats(
 
     ResultDict["Inc_c_Tot"].update({t: cumulativeI})
 
-    try:  # REVIEW try/except refactor?
+    try:
         ResultDict["Prv_HIV"].update(
             {t: (1.0 * tot_rsltdic["ALL"]["ALL"]["numHIV"] / totalAgents.num_members())}
         )
     except:
         ResultDict["Prv_HIV"].update({t: (0.0)})
 
-    try:  # REVIEW try/except refactor?
+    try:
         ResultDict["Prv_AIDS"].update(
             {
                 t: (
@@ -580,7 +580,7 @@ def print_stats(
     except:
         ResultDict["Prv_AIDS"].update({t: (0.0)})
 
-    try:  # REVIEW try/except refactor?
+    try:
         ResultDict["Prv_Test"].update(
             {
                 t: (
@@ -593,7 +593,7 @@ def print_stats(
     except:
         ResultDict["Prv_Test"].update({t: (0.0)})
 
-    try:  # REVIEW try/except refactor?
+    try:
         ResultDict["Prv_ART"].update(
             {
                 t: (

@@ -54,7 +54,6 @@ def main():
         # runs simulations
         rslts = simulation(
             params.N_REPS,
-            1,
             params.TIME_RANGE,
             params.N_POP,
             outfile_dir,

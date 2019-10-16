@@ -121,52 +121,37 @@ class HIVModel(NetworkClass):
     ):
         """ Initialize HIVModel object """
         # Ensure param variable is are defined. For backwards compatibility with params.py files
-        try:
-            params.drawEdgeList
-        except AttributeError:
-            params.drawEdgeList = False
-
-        try:
-            params.inc_treat_HRsex_beh
-        except AttributeError:
-            params.inc_treat_HRsex_beh = False
-
-        try:
-            params.inc_treat_IDU_beh
-        except AttributeError:
-            params.inc_treat_IDU_beh = False
-
-        try:
-            params.calcNetworkStats
-        except AttributeError:
-            params.calcNetworkStats = False
+        bc_attrs = [
+            "drawEdgeList",
+            "inc_treat_HRsex_beh",
+            "inc_treat_IDU_beh",
+            "calcNetworkStats",
+        ]
+        for attr in bc_attr:
+            if not hasattr(params, attr):
+                setattr(params, attr, False)
 
         if type(tmax) is not int:
             raise ValueError("Number of time steps must be integer")
         else:
             self.tmax = tmax
 
-        if type(runseed) is not int:
-            raise ValueError("Random seed must be integer")
-        elif runseed == 0:
-            self.runseed = random.randint(1, 1000000)
-        else:
-            self.runseed = runseed
+        def get_check_rand_int(seed):
+            """
+            Check the value passed of a seed, make sure it's an int, if 0, get a random seed
+            """
+            if type(seed) is not int:
+                raise ValueError("Random seed must be integer")
+            elif seed == 0:
+                return random.randint(1, 1000000)
+            else:
+                return seed
 
-        if type(popseed) is not int:
-            raise ValueError("Random seed must be integer")
-        elif popseed == 0:
-            self.popseed = random.randint(1, 1000000)
-        else:
-            self.popseed = popseed
+        self.runseed = get_check_rand_int(runseed)
+        self.popseed = get_check_rand_int(popseeed)
+        self.netseed = get_check_rand_int(netseed)
 
-        if type(netseed) is not int:
-            raise ValueError("Random seed must be integer")
-        elif popseed == 0:
-            self.netseed = random.randint(1, 1000000)
-        else:
-            self.netseed = netseed
-
+        # TO_REVIEW - should this be the passed seeds or the updated seeds (since zero could be passed but not used)?
         self.uniqueSeedID = (
             "r" + str(runseed) + "_p" + str(popseed) + "_n" + str(netseed)
         )
@@ -175,16 +160,12 @@ class HIVModel(NetworkClass):
         print("=== Begin Initialization Protocol ===\n")
         self.ExistingLinksCollapsedList = list()
 
-        # Computation runtime tic/tocs #REVIEW - not used anywhere
-        self.TIC = 0
-        self.TOC = 0
-
         print("\tDictionary Read")
 
         # Risk network replaced social network
         print("\tReading prefab agent set for population")
         self.All_agentSet = network_type
-        self.Relationships = Agent_set(1, "Relationships")
+        self.Relationships = Agent_set("Relationships")
 
         # keep track of current time step globally for dynnetwork report
         self.TimeStep = 0
@@ -193,36 +174,10 @@ class HIVModel(NetworkClass):
         print("\n\tCreating lists")
         # Other lists / dictionaries
 
-        self.NewInfections = Agent_set(3, "NewInfections")
-        self.NewDiagnosis = Agent_set(3, "NewDiagnosis")
-        self.NewIncarRelease = Agent_set(3, "NewIncarRelease")
-        self.NewHRrolls = Agent_set(3, "NewHRrolls")
-
-        # Assess the distribution of number of interactions per timestep for each agent type #REVIEW - not used anywhere
-        self.ND_NumPartners = {
-            "ND": [],
-            "NIDU": [],
-            "IDU": [],
-            "MSM": [],
-        }  # final counts
-        self.NIDU_NumPartners = {
-            "ND": [],
-            "NIDU": [],
-            "IDU": [],
-            "MSM": [],
-        }  # final counts
-        self.IDU_NumPartners = {
-            "ND": [],
-            "NIDU": [],
-            "IDU": [],
-            "MSM": [],
-        }  # final counts
-        self.MSM_NumPartners = {
-            "ND": [],
-            "NIDU": [],
-            "IDU": [],
-            "MSM": [],
-        }  # final counts
+        self.NewInfections = Agent_set("NewInfections")
+        self.NewDiagnosis = Agent_set("NewDiagnosis")
+        self.NewIncarRelease = Agent_set("NewIncarRelease")
+        self.NewHRrolls = Agent_set("NewHRrolls")
 
         self.Acute_agents = []
         self.Transmit_from_agents = []
@@ -232,7 +187,7 @@ class HIVModel(NetworkClass):
         self.treatmentEnrolled = False
 
         self.ResultDict = initiate_ResultDict()
-        self.newPrEPagents = Agent_set(3, "NewPrEPagents")
+        self.newPrEPagents = Agent_set("NewPrEPagents")
         self.newPrEPenrolls = 0
         self.IDUprep = 0
         self.HIVprep = 0
@@ -240,22 +195,24 @@ class HIVModel(NetworkClass):
         # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed value
 
         print(("\tRun seed was set to:", runseed))
-        self.runRandom = Random(runseed)
+        self.runRandom = Random(
+            runseed
+        )  # TO_REVIEW - what if self.runseed != runseed (if 0 passed)
         random.seed(self.runseed)
         np.random.seed(self.runseed)
         print(("\tFIRST RANDOM CALL %d" % random.randint(0, 100)))
 
-        print("\tReseting death count")
+        print("\tResetting death count")
         self._reset_death_count()  # Number of death
 
         print("\tCreating network graph")
         self.create_graph_from_agents(
             self.All_agentSet
-        )  # REVIEW redundant with NetworkClass init? - review with max, logic feels scattered as NetworkClass also intializes a graph
+        )  # REVIEWED redundant with NetworkClass init? - review with max, logic feels scattered as NetworkClass also intializes a graph
 
         print("\n === Initialization Protocol Finished ===")
 
-    def run(self, save_adjlist_flag=1, dir_prefix="Results"):
+    def run(self, dir_prefix="Results"):
         """
         Core of the model:
             1. Prints networkReport for first agents.
@@ -291,7 +248,9 @@ class HIVModel(NetworkClass):
             name = "componentReport_ALL"
             compReport = open("results/" + name + ".txt", "a")
             components = sorted(
-                nx.connected_component_subgraphs(self.G), key=len, reverse=True
+                nx.connected_component_subgraphs(self.get_Graph()),
+                key=len,
+                reverse=True,
             )
             compID = 0
             for comp in components:
@@ -390,6 +349,7 @@ class HIVModel(NetworkClass):
             fh = open("results/network/Edgelist_t{}.txt".format(0), "wb")
             self.write_G_edgelist(fh)
             fh.close()
+
         for t in range(1, self.tmax + 1):
             print(f"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME {t}")
             if params.drawFigures and t % params.intermPrintFreq == 0:
@@ -533,10 +493,10 @@ class HIVModel(NetworkClass):
                 pass
             else:
                 if rel.progress():
-                    try:
-                        self.get_Graph().remove_edge(rel._ID1, rel._ID2)
-                    except:  # REVIEW bare except
-                        pass
+                    g = self.get_Graph()
+                    if g.has_edge(rel._ID1, rel._ID2):
+                        g.remove_edge(rel._ID1, rel._ID2)
+
                     self.Relationships.remove_agent(rel)
                     del rel
 
@@ -957,7 +917,7 @@ class HIVModel(NetworkClass):
                 p_UnsafeSafeSex1 = prob.unsafe_sex(num_int)
 
             # Reduction of risk acts between partners for condom usage
-            # REVIEW - what's with U_sex_acts1 and U_sex_acts2, U_sex_acts2 never seems to update - max to review
+            # REVIEWED - what's with U_sex_acts1 and U_sex_acts2, U_sex_acts2 never seems to update - max to review
             U_sex_acts1 = T_sex_acts1
             for n in range(U_sex_acts1):
                 if self.runRandom.random() < p_UnsafeSafeSex1:
@@ -1214,7 +1174,7 @@ class HIVModel(NetworkClass):
         ):
             if (
                 agent._SO == "HF"
-            ):  # REVIEW - what if _SO isn't HF or HM? - currently fine, should be made more robust in the future
+            ):  # REVIEWED - what if _SO isn't HF or HM? - currently fine, should be made more robust in the future
                 jailDuration = prob.HF_jail_duration
             elif agent._SO == "HM":
                 jailDuration = prob.HM_jail_duration
@@ -1315,9 +1275,7 @@ class HIVModel(NetworkClass):
                                 ptnr._tested = True
                                 self.NewDiagnosis.add_agent(ptnr)
 
-    def _exit_drug_treatment(
-        self, agent
-    ):  # REVIEW use of self in this method is confusing
+    def _exit_drug_treatment(self, agent):
         """
         Agent exits drug treament.
         """
@@ -1509,9 +1467,7 @@ class HIVModel(NetworkClass):
             if agent._mean_num_partners >= 10:
                 eligible = True
         elif params.PrEP_target_model == "SRIns":
-            if (
-                agent._sexualRole == "Insertive"
-            ):  # REVIEW _sexualRole is initialized, but doesn't seemt to every be updated so this is unreachable
+            if agent._sexualRole == "Insertive":
                 eligible = True
         elif params.PrEP_target_model == "MSM":
             if agent._SO == ("MSM" or "MTF"):
@@ -1629,23 +1585,13 @@ class HIVModel(NetworkClass):
                 agent._PrEP_load = params.PrEP_peakLoad
                 agent._PrEP_lastDose = 0
 
-        # REVIEW - is this really neccessary? - change to an assertion that agen't isn't none
-        if agent is None:
-            print("OHHH boi no prep agent")
-            return None
+        # agent must exist
+        assert agent is not None
 
-        # Check valid input #REVIEW why does this error instead of just returning?
-        if agent._PrEP_bool:
-            print((agent._PrEP_bool))
+        # Check valid input # TO_REVIEW why does this error instead of just returning?
+        # Prep only valid for agents not on prep and are HIV negative
+        if agent._PrEP_bool or agent._HIV_bool:
             return None
-            raise ValueError(
-                "PrEP only valid for agents not on PrEP!agent:%d" % agent.get_ID()
-            )
-
-        if agent._HIV_bool:
-            raise ValueError(
-                "PrEP only valid for HIV negative agents!agent:%d" % agent.get_ID()
-            )
 
         # Determine probability of HIV treatment
         agent_race = agent._race

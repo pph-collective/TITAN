@@ -194,7 +194,7 @@ RC_template = {
     "HAARTprev": 0.0,
     "HAARTadh": 0.0,  # Adherence to ART therapy
     "HAARTdisc": 0.0,  # Probability of discontinuing ART therapy
-    "EligSE_PartnerType": [],  # List of agent SO types the agent cant partner with
+    "EligSE_PartnerType": None,  # List of agent SO types the agent cant partner with
     "PrEPdisc": 0.0,  # Probability of discontinuing PrEP treatment
     "HighRiskPrev": 0.0,
     "PrEPadh": 1.0,
@@ -229,7 +229,7 @@ RaceClass1["MSM"].update(
         "HAARTadh": 0.885,  # 0.693,#0.57,
         "HAARTdisc": 0.008,
         "PrEPdisc": 0.13,
-        "EligSE_PartnerType": ["MSM"],
+        "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.911,
     }
 )
@@ -257,7 +257,7 @@ RaceClass2["MSM"].update(
         "HAARTadh": 0.817,  # 0.598,#0.34,
         "HAARTdisc": 0.01,
         "PrEPdisc": 0.15,
-        "EligSE_PartnerType": ["MSM"],
+        "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.568,
     }
 )

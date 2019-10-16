@@ -8,6 +8,9 @@ __pycache__/*
 .python-version
 poetry.lock
 pyproject.toml
+.pytest_cache/
 .pytest_cache/*
 
 .vscode/
+
+ipynb/.ipynb_checkpoints/

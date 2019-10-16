@@ -19,34 +19,6 @@ except ImportError:
 from . import params
 
 
-def save_adjlist(
-    N_pop, graph, dir_prefix, time
-):  # REVIEW there are a few places where a flag referencing this is used, the the function isn't called anywhere - delete all of the references to save adjlists
-    """
-    :Purpose:
-    Write graph G in a single-ling agdacency-list format to path
-    Parameters graph:NetworkX graph
-              path: string or file. Filename or file handle for data output.
-              comments: marker for comment lines
-              delimiter: string, optional, separator for node labels
-              encoding: string, optional, text enconding
-    """
-    if not os.path.isdir(dir_prefix):
-        os.mkdir(dir_prefix)
-    OutFileName = dir_prefix + "/" + "Interactions_at_time_%d.txt" % time
-    outfile = open(OutFileName, "w")
-    outfile.write("Agent 1\ttime\tAgent 2\n")
-    not_singletons = []
-
-    for e in graph.edges_iter():
-        not_singletons.append(e[0])
-        not_singletons.append(e[1])
-        outfile.write("%d\t%d\t%d\n" % (e[0], time, e[1]))
-    singletons = list(set(range(N_pop)).difference(set(not_singletons)))
-    for singleton in singletons:
-        outfile.write("%d\t%d\n" % (singleton, time))
-
-
 class NetworkClass(PopulationClass):
     def __init__(self, N, popSeed=0, netSeed=0, m_0=1, network_type="scale_free"):
         """
@@ -388,7 +360,7 @@ class NetworkClass(PopulationClass):
             for v in G:
                 NodeSize.append((10 * G.degree(v)) ** (1.0))
 
-        # draw: #REVIEW - used anywhere?
+        # draw:
         nx.draw(
             G,
             pos,

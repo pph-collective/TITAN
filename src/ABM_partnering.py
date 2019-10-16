@@ -28,7 +28,7 @@ def get_partner(agent, need_new_partners):
     if agent_drug_type == "IDU":
         if random.random() < 0.8:
             # choose from IDU agents
-            try:  # REVIEW perhaps get_random_IDU_partner should return none instead of throw exception
+            try:
                 RandomPartner = get_random_IDU_partner(agent, need_new_partners)
             except:
                 print("No IDU matches")
@@ -73,7 +73,7 @@ def get_random_IDU_partner(agent, need_new_partners):
     agent_drug_type = agent._DU
     RandomPartner = None
 
-    # REVIEW AssortMix never used
+    # REVIEWED AssortMix never used - sarah to review
     AssortMix = False
     if random.random() < params.AssortMixCoeff:
         AssortMix = True
@@ -131,41 +131,29 @@ def get_assort_sex_partner(agent, need_new_partners):
     agent_race_type = agent._race
 
     RandomPartner = None
-    tempList = []
 
-    # REVIEW AssortMix never used - Sarah to reiew
+    # REVIEWED AssortMix never used - Sarah to reiew
     if random.random() < params.AssortMixCoeff:
         AssortMix = True
     else:
         AssortMix = False
 
     # todo: Make the random agent never return the agent or any of their partners
-    assert agent_sex_type in [
-        "HM",
-        "HF",
-        "MSM",
-        "WSW",
-        "MTF",
-    ]  # REVIEW shouldn't this be the params. agent sex types? - switch this over
+    assert agent_sex_type in params.agentSexTypes
 
-    # REVIEW in default params this is an empty list, in atlanta it's a len 1 list - why is this a list at all? (and is it eligible or ineligible)
     eligPartnerType = params.DemographicParams[agent_race_type][agent_sex_type][
         "EligSE_PartnerType"
-    ][
-        0
-    ]  # Make this not a list - CHECK ALL OF THE SETTINGS
+    ]
 
-    if params.AssortMixType == "Age":
+    if (
+        params.AssortMixType == "Age"
+    ):  # TO_REVIEW why is MSM the subset here? shouldn't it be eligPartnerType
         randomK_sample = random.sample(
             need_new_partners._subset["MSM"]._members, params.cal_ptnrSampleDepth
         )
         ageBinPick = getPartnerBin(agent)
-        while True:
-            availableParts = [ag for ag in randomK_sample if ag not in agent._partners]
-            RandomPartner = random.choice(
-                [ag for ag in availableParts if ag._ageBin == ageBinPick]
-            )
-            break
+        availableParts = [ag for ag in randomK_sample if ag not in agent._partners]
+        samplePop = [ag for ag in availableParts if ag._ageBin == ageBinPick]
 
     # else if picking using race mix
     elif params.AssortMixType == "Race":
@@ -176,13 +164,6 @@ def get_assort_sex_partner(agent, need_new_partners):
             ._members
             if (tmpA._race == agent._race and tmpA not in agent._partners)
         ]
-        try:  # REVIEW refactor from try/except?
-            randomK_sample = random.sample(samplePop, params.cal_ptnrSampleDepth)
-        except:
-            randomK_sample = samplePop
-        while True:
-            RandomPartner = random.choice(samplePop)
-            break
 
     elif params.AssortMixType == "Client":
         if agent._race == "WHITE":
@@ -193,10 +174,6 @@ def get_assort_sex_partner(agent, need_new_partners):
                 ._members
                 if (tmpA._race == "WHITE" and tmpA not in agent._partners)
             ]
-            try:  # REVIEW refactor from try/except?
-                randomK_sample = random.sample(samplePop, params.cal_ptnrSampleDepth)
-            except:
-                randomK_sample = samplePop
         else:
             samplePop = [
                 tmpA
@@ -209,13 +186,6 @@ def get_assort_sex_partner(agent, need_new_partners):
                     and tmpA not in agent._partners
                 )
             ]
-            try:  # REVIEW refactor from try/except?
-                randomK_sample = random.sample(samplePop, params.cal_ptnrSampleDepth)
-            except:
-                randomK_sample = samplePop
-        while True:
-            RandomPartner = random.choice(samplePop)
-            break
 
     elif params.AssortMixType == "HR":
         samplePop = [
@@ -225,32 +195,16 @@ def get_assort_sex_partner(agent, need_new_partners):
             ._members
             if (tmpA._everhighrisk_bool and tmpA not in agent._partners)
         ]
-        if samplePop:
-            try:  # REVIEW refactor from try/except? (also generally repetitive code)
-                randomK_sample = random.sample(samplePop, params.cal_ptnrSampleDepth)
-            except:
-                randomK_sample = samplePop
 
-            while True:
-                RandomPartner = random.choice(samplePop)
-                break
+    # list is not empty
+    if samplePop:
+        RandomPartner = random.choice(samplePop)
 
-    if (
-        RandomPartner is None
-        or RandomPartner in agent._partners
-        or RandomPartner == agent
-    ):
+    # partner can't be existing parter or agent themself
+    if RandomPartner in agent._partners or RandomPartner == agent:
         RandomPartner = None
-    else:
-        try:
-            RandomPartner = random.choice(tempList)
-        except:  # REVIEW refactor from try/except?
-            pass
 
-    if RandomPartner:
-        return RandomPartner
-    else:
-        pass
+    return RandomPartner
 
 
 def get_random_sex_partner(agent, need_new_partners):
@@ -273,7 +227,7 @@ def get_random_sex_partner(agent, need_new_partners):
 
     eligPtnType = params.DemographicParams[agent_race_type][agent_sex_type][
         "EligSE_PartnerType"
-    ][0]
+    ]
 
     elig_partner_pool = need_new_partners._subset["SO"]._subset[eligPtnType]._members
 
@@ -333,7 +287,7 @@ def sex_possible(agent_sex_type, partner_sex_type):
 def get_partnership_duration(agent):
     """
     :Purpose:
-        Get duration of a relationship #REVIEW sarah to look at why this is at the agent level
+        Get duration of a relationship # REVIEWED sarah to look at why this is at the agent level
         Drawn from Poisson distribution.
 
     :Input:

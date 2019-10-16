@@ -142,7 +142,6 @@ def test_relationship_init(make_agent, make_relationship):
     assert r._ID2 == p
     assert r._ID == 100002
     assert r.get_ID() == 100002
-    assert r._initial_agent is False
 
     # properties
     assert r._SO == "MSM"
@@ -176,7 +175,7 @@ def test_progress(make_agent, make_relationship):
 
 
 def test_Agent_set_init(make_agent):
-    s = Agent_set(0, "test")
+    s = Agent_set("test")
 
     assert s._ID == "test"
     assert s._members == []
@@ -188,7 +187,7 @@ def test_Agent_set_init(make_agent):
 
 def test_add_remove_agent(make_agent):
     a = make_agent(1)
-    s = Agent_set(0, "test")
+    s = Agent_set("test")
 
     s.add_agent(a)
 

@@ -220,7 +220,7 @@ RC_template = {
     "HAARTadh": 0.0,  # Adherence to ART therapy
     "HAARTdisc": 0.0,  # Probability of discontinuing ART therapy
     "PrEPdisc": 0.0,  # Probability of discontinuing PrEP treatment
-    "EligSE_PartnerType": [],  # List of agent SO types the agent cant partner with
+    "EligSE_PartnerType": None,  # List of agent SO types the agent cant partner with
     "AssortMixMatrix": [],  # List of assortMix Matrix to be zipped with EligPart
     "HighRiskPrev": 0,
 }
@@ -255,7 +255,7 @@ RaceClass1["HM"].update(
         "HAARTadh": 0.405,
         "HAARTdisc": 0.000,
         "PrEPdisc": 0.0000,
-        "EligSE_PartnerType": ["HF"],
+        "EligSE_PartnerType": "HF",
     }
 )
 
@@ -276,7 +276,7 @@ RaceClass1["HF"].update(
         "HAARTadh": 0.405,
         "HAARTdisc": 0.000,
         "PrEPdisc": PrEP_disc,
-        "EligSE_PartnerType": ["HM"],
+        "EligSE_PartnerType": "HM",
     }
 )
 
@@ -297,7 +297,7 @@ RaceClass1["IDU"].update(
         "HAARTadh": 0.405,
         "HAARTdisc": 0.000,
         "PrEPdisc": 0.0000,
-        "EligSE_PartnerType": ["IDU"],
+        "EligSE_PartnerType": "IDU",
     }
 )
 

@@ -10,7 +10,6 @@ from .ABM_core import HIVModel
 
 def simulation(
     nreps,
-    save_adjlist_flag,
     time_range,
     N_pop,
     outfile_dir,
@@ -21,11 +20,6 @@ def simulation(
     uniqueSeed=False,
     model=None,
 ):
-    # Check input
-    if save_adjlist_flag not in [0, 1]:
-        raise ValueError(
-            "Invalid input! save_adjlist_flag = %s" % str(save_adjlist_flag)
-        )
 
     # Run nreps simulations using the given parameters.
     # Information are printed to outfile_dir directory.
@@ -55,10 +49,10 @@ def simulation(
             network_type=params.network_type,
         )
 
-        if save_adjlist_flag == 1 and num_sim == 0:
-            MyModel.run(save_adjlist_flag=1, dir_prefix=outfile_dir)
+        if num_sim == 0:
+            MyModel.run(dir_prefix=outfile_dir)
         else:
-            MyModel.run(save_adjlist_flag=0, dir_prefix=outfile_dir)
+            MyModel.run(dir_prefix=outfile_dir)
 
         # print MyModel
         result_dict_tmp = MyModel.return_results()

@@ -24,22 +24,24 @@ class Agent:
         self._ID = ID
         self._timeAlive = 0
 
+        # TO_REVIEW - initial agent doesn't seem to be used anywhere - should it be?
         # self._initial_agent is set to "True" for agents that were used to
         # initialize the model.
         self._initial_agent = initial_agent
 
+        # TO_REVIEW - parent agent not used anywhere outside of agent and agent_set
         # _parent_agent stores the parent agent if this agent is a member of an
         # Agent_set class instance.
         self._parent_agent = None
 
-        # agent properties #REVIEW the `_` implies these are private, but they're used all over
+        # agent properties
         self._SO = SO
         self._age = age
         self._race = race
         self._DU = DU
         self._gender = SO[
             -1:
-        ]  # Takes last letter of HM, HF, MSM, WSW, BiM, BiF to get agent gender. CANT USE MSMW! #REVIEW - inconsistent female
+        ]  # Takes last letter of HM, HF, MSM, WSW, BiM, BiF to get agent gender. CANT USE MSMW! # TO_REVIEW - inconsistent female
 
         self._ageBin = 0
         self._MSMW = False
@@ -164,10 +166,8 @@ class Agent:
             None
         """
 
-        if (
-            relationship is None
-        ):  # REVIEW why have default of relationship be none if that causes the program to exit?
-            exit(9)  # throw a better error
+        if relationship is None:
+            raise ValueError("relationship can't be None")
 
         # Append relationship to relationships list for each agent
         self._relationships.append(relationship)
@@ -194,18 +194,16 @@ class Agent:
         returns:
             None
         """
-        if relationship is None:  # REVIEW why have default none then crash exit python?
-            exit(9)  # throw a better error
+        if relationship is None:
+            raise ValueError("relationship can't be None")
 
         # Remove relationship to relationships list for each agent
         self._relationships.remove(relationship)
         partner._relationships.remove(relationship)
 
-        # Unpair agent with partner and partner with agent #REVIEW why use the relationship_IDs here instead of the partner/agent terminology? #switch this over - test thoroughly
-        self.unpair(relationship._ID1)
-        self.unpair(relationship._ID2)
-        partner.unpair(relationship._ID1)
-        partner.unpair(relationship._ID2)
+        # Unpair agent with partner and partner with agent # REVIEWED switched this over - needs test thoroughly
+        self.unpair(partner)
+        partner.unpair(self)
 
     def pair(self, partner):
         """
@@ -217,19 +215,8 @@ class Agent:
             None
         """
 
-        if (
-            partner.get_ID() != self.get_ID()
-        ):  # REVIEW why check partner not agent here instead of further upstream?
-            if (
-                partner in self._partners
-            ):  # make sure this is checked earlier and maybe remove this check
-                print(
-                    "ASDF"
-                )  # raise KeyError("Partner %s is already bonded with agent %s"%(partner.get_ID(), self._ID))
-            # assert partner not in self._partners
-            # todo: why was this (^) assertion and KeyError avoided?! #REVIEW
-            else:
-                self._partners.append(partner)
+        if partner.get_ID() != self.get_ID() and partner not in self._partners:
+            self._partners.append(partner)
 
     def unpair(self, partner):
         """
@@ -240,17 +227,8 @@ class Agent:
         returns:
             None
         """
-        try:
-            if (
-                self != partner
-            ):  # REVIEW why check partner not agent here instead of further upstream? would one ever pair and not bond?
-                if partner in self._partners:
-                    self._partners.remove(partner)
-        except KeyError:
-            raise KeyError(
-                "agent %s is not a member of agent set %s"
-                % (partner.get_ID(), self.get_ID())
-            )
+        if partner in self._partners:
+            self._partners.remove(partner)
 
     def partner_list(self):
         """
@@ -266,7 +244,6 @@ class Agent:
 
         return ptnrs
 
-    # REVIEW seems like this should reference __str__ logic instead of rewriting it
     def print_agent(self):
         """
         Print the agent properties to stdout
@@ -355,7 +332,7 @@ class Agent:
 class Relationship:
     "Class for agent relationships."
 
-    def __init__(self, ID1, ID2, SO, rel_type, duration, initial_agent=False):
+    def __init__(self, ID1, ID2, SO, rel_type, duration):
         """
         :Purpose:
             Constructor for a Relationship
@@ -366,7 +343,6 @@ class Relationship:
             :SO: Orientation of relationship
             :rel_type: (future feature) - sex bond or idu bond or both
             :duration: length of relationship
-            :initial_agent: #REVIEW
         """
 
         # self._ID is unique ID number used to track each person agent.
@@ -374,17 +350,13 @@ class Relationship:
         self._ID2 = ID2
         self._ID = self._ID1.get_ID() * 100000 + self._ID2.get_ID()
 
-        # self._initial_agent is set to "True" for agents that were used to
-        # initialize the model. #REVIEW how does this relate to relatinship?
-        self._initial_agent = initial_agent  # maybe probably delete this
-
         # Relationship properties
-        self._SO = SO  # REVIEW is this used?? low priority
+        self._SO = SO  # TO_REVIEW is this used?? low priority
         self._rel_type = rel_type
         self._duration = duration
         self._total_sex_acts = 0
 
-        # REVIEW sarah to think about if these can be calculated from underlying agents as needed
+        # REVIEWED - sarah to think about if these can be calculated from underlying agents as needed
 
         # Relationship STI params
         self._STI_pool = []
@@ -463,9 +435,7 @@ class Agent_set(Agent):
     hierarchical  level.
     """
 
-    def __init__(
-        self, world, ID, parent=None, numerator=None
-    ):  # REVIEW world not used - delete world from everywhere
+    def __init__(self, ID, parent=None, numerator=None):
         # _members stores agent set members in a dictionary keyed by ID
         self._ID = ID
         self._members = []
@@ -481,9 +451,7 @@ class Agent_set(Agent):
         if numerator:
             self._numerator = numerator
         else:
-            self._numerator = (
-                self
-            )  # REVIEW circular reference? test some more and see if numerator is used anywhere
+            self._numerator = self
 
     def __repr__(self):
         return self._ID
@@ -534,9 +502,7 @@ class Agent_set(Agent):
 
         # Set the agent's _parent_agent to reflect the parent of this Agent_set
         # instance (self)
-        subset.set_parent_agent(
-            self
-        )  # REVIEW subset is an Agent_set (?), but set_parent_agent is a method of Agent (?)
+        subset.set_parent_agent(self)
 
     def remove_subset(self, subset):
         "Removes Agent_set to the current sets subset."

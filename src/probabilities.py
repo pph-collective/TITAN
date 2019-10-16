@@ -27,7 +27,7 @@ def unsafe_sex(num_acts):
         return 0.759
 
 
-# REVIEW -these comments?
+# TO_REVIEW -these comments?
 # F 22% for 6 months or less, 17% for 6mo-1 year, 24% for 1-3 years, 14% for 3-5 years 13% for 5-10years, 10% for 10+ years
 
 # F 74% for 6 months or less, 12% for 6 months to one year, 10% for one to three years, 4% for over three years
@@ -185,7 +185,7 @@ def get_strat_white(MT_PrEP, MT_Incar, MT_NoIncar):
     return StratW
 
 
-def get_strat_black():  # REVIEW - why all zero?
+def get_strat_black():  # TO_REVIEW - why all zero?
     """
     Return dictionary of probabilities for black race
     """

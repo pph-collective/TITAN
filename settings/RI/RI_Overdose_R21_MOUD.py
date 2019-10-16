@@ -293,7 +293,7 @@ RaceClass1["HM"].update(
         "INCARprev": 0.015,
         "INCAR": incarNIDUProb * incarProbScalar,
         "MATprev": 0.0924,
-        "EligSE_PartnerType": ["HF"],
+        "EligSE_PartnerType": "HF",
         "MATProbScalar": 0.011,
         "MAT_disc_prob": 0.11 * discSensitivity,
     }
@@ -306,7 +306,7 @@ RaceClass1["HF"].update(
         "HighRiskPrev": 0.0,
         "INCAR": incarNIDUProb * incarProbScalar * 0.3,
         "MATprev": 0.0924,
-        "EligSE_PartnerType": ["HM"],
+        "EligSE_PartnerType": "HM",
         "MATProbScalar": 0.0125,
         "MAT_disc_prob": 0.12 * discSensitivity,
     }
@@ -331,7 +331,7 @@ RaceClass2["HM"].update(
         "HighRiskPrev": 0.0,
         "INCAR": incarIDUProb * incarProbScalar,
         "MATprev": 0.578,
-        "EligSE_PartnerType": ["HF"],
+        "EligSE_PartnerType": "HF",
         "MATProbScalar": 0.1487,
         "MAT_disc_prob": 0.1 * discSensitivity,
     }
@@ -344,7 +344,7 @@ RaceClass2["HF"].update(
         "HighRiskPrev": 0.0,
         "INCAR": incarIDUProb * incarProbScalar * 0.3,
         "MATprev": 0.578,
-        "EligSE_PartnerType": ["HM"],
+        "EligSE_PartnerType": "HM",
         "MATProbScalar": 0.081,
         "MAT_disc_prob": 0.061 * discSensitivity,
     }

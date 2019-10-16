@@ -128,7 +128,7 @@ class PopulationClass:
         StratB = prob.get_strat_black()
         self.ProbLookUp = {"WHITE": StratW, "BLACK": StratB}
 
-        # drug user prevalence (proportion) #REVIEW - not used anywhere
+        # drug user prevalence (proportion) # TO_REVIEW - not used anywhere
         self.propIDU = 0  # 190/10000.0
         self.numIDU = int(self.propIDU * self.PopulationSize)
         self.propNIDU = 0  # 640/10000.0
@@ -143,66 +143,66 @@ class PopulationClass:
         print("\tBuilding class sets")
 
         # All agent set list
-        self.All_agentSet = Agent_set(0, "AllAgents")
+        self.All_agentSet = Agent_set("AllAgents")
 
         # HIV status agent sets
         self.HIV_agentSet = Agent_set(
-            1, "HIV", parent=self.All_agentSet, numerator=self.All_agentSet
+            "HIV", parent=self.All_agentSet, numerator=self.All_agentSet
         )
         self.HIV_AIDS_agentSet = Agent_set(
-            2, "AIDS", parent=self.HIV_agentSet, numerator=self.HIV_agentSet
+            "AIDS", parent=self.HIV_agentSet, numerator=self.HIV_agentSet
         )
 
         # Drug use agent sets
-        self.drugUse_agentSet = Agent_set(1, "DU", parent=self.All_agentSet)
-        self.DU_NIDU_agentSet = Agent_set(2, "NIDU", parent=self.drugUse_agentSet)
-        self.DU_IDU_agentSet = Agent_set(2, "IDU", parent=self.drugUse_agentSet)
-        self.DU_NDU_agentSet = Agent_set(2, "NDU", parent=self.drugUse_agentSet)
+        self.drugUse_agentSet = Agent_set("DU", parent=self.All_agentSet)
+        self.DU_NIDU_agentSet = Agent_set("NIDU", parent=self.drugUse_agentSet)
+        self.DU_IDU_agentSet = Agent_set("IDU", parent=self.drugUse_agentSet)
+        self.DU_NDU_agentSet = Agent_set("NDU", parent=self.drugUse_agentSet)
 
         # Treatment agent sets
-        self.treatment_agentSet = Agent_set(1, "Trtmt", parent=self.All_agentSet)
+        self.treatment_agentSet = Agent_set("Trtmt", parent=self.All_agentSet)
         self.Trt_Tstd_agentSet = Agent_set(
-            2, "Testd", parent=self.treatment_agentSet, numerator=self.HIV_agentSet
+            "Testd", parent=self.treatment_agentSet, numerator=self.HIV_agentSet
         )
-        self.Trt_PrEP_agentSet = Agent_set(2, "PrEP", parent=self.treatment_agentSet)
+        self.Trt_PrEP_agentSet = Agent_set("PrEP", parent=self.treatment_agentSet)
         self.Trt_PrEPelig_agentSet = Agent_set(
-            2, "PrePelig", parent=self.treatment_agentSet
+            "PrePelig", parent=self.treatment_agentSet
         )
         self.Trt_ART_agentSet = Agent_set(
-            2, "ART", parent=self.treatment_agentSet, numerator=self.HIV_agentSet
+            "ART", parent=self.treatment_agentSet, numerator=self.HIV_agentSet
         )
-        self.Trt_SNE_agentSet = Agent_set(2, "SNE", parent=self.treatment_agentSet)
-        self.Trt_MAT_agentSet = Agent_set(2, "MAT", parent=self.treatment_agentSet)
+        self.Trt_SNE_agentSet = Agent_set("SNE", parent=self.treatment_agentSet)
+        self.Trt_MAT_agentSet = Agent_set("MAT", parent=self.treatment_agentSet)
 
         # Sexual orientation agent sets
         self.SO_agentSet = Agent_set(
-            1, "SO", parent=self.All_agentSet, numerator=self.All_agentSet
+            "SO", parent=self.All_agentSet, numerator=self.All_agentSet
         )
         self.SO_HF_agentSet = Agent_set(
-            2, "HF", parent=self.SO_agentSet, numerator=self.SO_agentSet
+            "HF", parent=self.SO_agentSet, numerator=self.SO_agentSet
         )
         self.SO_HM_agentSet = Agent_set(
-            2, "HM", parent=self.SO_agentSet, numerator=self.SO_agentSet
+            "HM", parent=self.SO_agentSet, numerator=self.SO_agentSet
         )
         self.SO_MSM_agentSet = Agent_set(
-            2, "MSM", parent=self.SO_agentSet, numerator=self.SO_agentSet
+            "MSM", parent=self.SO_agentSet, numerator=self.SO_agentSet
         )
         self.SO_MSW_agentSet = Agent_set(
-            2, "MSW", parent=self.SO_agentSet, numerator=self.SO_agentSet
+            "MSW", parent=self.SO_agentSet, numerator=self.SO_agentSet
         )
 
         # Racial agent sets
-        self.racial_agentSet = Agent_set(1, "Race", parent=self.All_agentSet)
-        self.Race_WHITE_agentSet = Agent_set(2, "WHITE", parent=self.racial_agentSet)
-        self.Race_BLACK_agentSet = Agent_set(2, "BLACK", parent=self.racial_agentSet)
+        self.racial_agentSet = Agent_set("Race", parent=self.All_agentSet)
+        self.Race_WHITE_agentSet = Agent_set("WHITE", parent=self.racial_agentSet)
+        self.Race_BLACK_agentSet = Agent_set("BLACK", parent=self.racial_agentSet)
 
         # Incarcerated agent sets
-        self.incarcerated_agentSet = Agent_set(1, "Incar", parent=self.All_agentSet)
+        self.incarcerated_agentSet = Agent_set("Incar", parent=self.All_agentSet)
 
         # High risk agent sets
-        self.highrisk_agentsSet = Agent_set(1, "HRisk", parent=self.All_agentSet)
+        self.highrisk_agentsSet = Agent_set("HRisk", parent=self.All_agentSet)
 
-        self.Relationships = Agent_set(0, "Relationships")
+        self.Relationships = Agent_set("Relationships")
 
         # Create agents in allAgents list
         self.White_agents = deepcopy(allAgents[0 : self.numWhite])
@@ -511,22 +511,9 @@ class PopulationClass:
         """
 
         def addToSubsets(targetSet, agent, agentParam=None):
-            try:
-                targetSet.add_agent(agent)
-            except:  # REVIEW why try/print?
-                print(
-                    "agent %s is already a member of agent set %s"
-                    % (agent.get_ID(), targetSet.get_ID())
-                )
-
+            targetSet.add_agent(agent)
             if agentParam:
-                try:  # REVIEW why try/print?
-                    targetSet._subset[agentParam].add_agent(agent)
-                except:
-                    print(
-                        "agent %s is already a member of agent set %s"
-                        % (agent_cl.get_ID(), targetSet._subset[agentParam].get_ID())
-                    )
+                targetSet._subset[agentParam].add_agent(agent)
 
         # Add to all agent set
         self.All_agentSet.add_agent(agent_cl)
