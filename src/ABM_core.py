@@ -148,7 +148,7 @@ class HIVModel(NetworkClass):
                 return seed
 
         self.runseed = get_check_rand_int(runseed)
-        self.popseed = get_check_rand_int(popseeed)
+        self.popseed = get_check_rand_int(popseed)
         self.netseed = get_check_rand_int(netseed)
 
         # TO_REVIEW - should this be the passed seeds or the updated seeds (since zero could be passed but not used)?
