@@ -1,47 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
-"""
-*****************************************************************************
-Author(s):	Maximilian King  (previous authors: Lars Seemann - lseemann@uh.edu)
-Email: Maximilian_King@brown.edu
-Organization: Marshall Lab, Department of Epidemiology - Brown University
-
-Description:
-    Contains classes to assist in making agents. 'Person' agents, for example,
-would be subclasses of the Agent class, while Household, Neighborhood, and
-Region agents would be represented as subclasses of the Agent_set object (as
-households, neighborhoods, and regions all contain lower-level agents).
 
 
-Copyright (c) 2016, Maximilian King
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-    * Neither the name of the <organization> nor the
-      names of its contributors may be used to endorse or promote products
-      derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*****************************************************************************
-"""
-
-
-class Agent(object):
+class Agent:
     "Class for agent objects."
 
     def __init__(self, ID, SO, age, race, DU, initial_agent=False):
@@ -63,22 +24,11 @@ class Agent(object):
         self._ID = ID
         self._timeAlive = 0
 
-        # self._initial_agent is set to "True" for agents that were used to
-        # initialize the model.
-        self._initial_agent = initial_agent
-
-        # _parent_agent stores the parent agent if this agent is a member of an
-        # Agent_set class instance.
-        self._parent_agent = None
-
         # agent properties
         self._SO = SO
         self._age = age
         self._race = race
         self._DU = DU
-        self._gender = SO[
-            -1:
-        ]  # Takes last letter of HM, HF, MSM, WSW, BiM, BiF to get agent gender. CANT USE MSMW!
 
         self._ageBin = 0
         self._MSMW = False
@@ -134,8 +84,6 @@ class Agent(object):
         self._incar_time = 0
         self._incar_treatment_time = 0
 
-        # Set gender on small switch statement.
-
     def __str__(self):
         """
         String formatting of agent object
@@ -143,16 +91,14 @@ class Agent(object):
         returns:
             String formatted tab-deliminated agent properties
         """
-        return "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s" % (
+        return "\t%.6d\t%d\t%s\t%s\t%s\t%s" % (
             self._ID,
             self._age,
-            self._gender,
             self._SO,
             self._DU,
             self._race,
             self._HIV_bool,
         )
-        # return str(self._ID)+ '\t'+str(self._SO)+'\t'+str(self._DU)+'\t'+ str(self._HIV_bool)
 
     def __repr__(self):
         """
@@ -172,27 +118,7 @@ class Agent(object):
         """
         return self._ID
 
-    def set_parent_agent(self, parent):
-        """
-        Set the parent of the agent.
-
-        args:
-            parent (Agent(object)) - Parent agent object
-        returns:
-            None
-        """
-        self._parent_agent = parent
-
-    def get_parent_agent(self):
-        """
-        Get the parent of the agent.
-
-        returns:
-            parent (Agent(object)) - Parent agent object
-        """
-        return self._parent_agent
-
-    def bond(self, partner, relationship=None):
+    def bond(self, partner, relationship):
         """
         Bond two agents. Adds each to a relationship object, then partners in each
         others' partner list.
@@ -207,7 +133,7 @@ class Agent(object):
         """
 
         if relationship is None:
-            exit(9)
+            raise ValueError("relationship can't be None")
 
         # Append relationship to relationships list for each agent
         self._relationships.append(relationship)
@@ -221,7 +147,7 @@ class Agent(object):
         self._num_sex_partners += 1
         partner._num_sex_partners += 1
 
-    def unbond(self, partner, relationship=None):
+    def unbond(self, partner, relationship):
         """
         Unbond two agents. Adds each to a relationship object, then partners in each
         others' partner list.
@@ -235,17 +161,15 @@ class Agent(object):
             None
         """
         if relationship is None:
-            exit(9)
+            raise ValueError("relationship can't be None")
 
         # Remove relationship to relationships list for each agent
         self._relationships.remove(relationship)
         partner._relationships.remove(relationship)
 
-        # Unpair agent with partner and partner with agent
-        self.unpair(relationship._ID1)
-        self.unpair(relationship._ID2)
-        partner.unpair(relationship._ID1)
-        partner.unpair(relationship._ID2)
+        # Unpair agent with partner and partner with agent # REVIEWED switched this over - needs test thoroughly
+        self.unpair(partner)
+        partner.unpair(self)
 
     def pair(self, partner):
         """
@@ -257,15 +181,8 @@ class Agent(object):
             None
         """
 
-        if partner.get_ID() != self.get_ID():
-            if partner in self._partners:
-                print(
-                    "ASDF"
-                )  # raise KeyError("Partner %s is already bonded with agent %s"%(partner.get_ID(), self._ID))
-            # assert partner not in self._partners
-            # todo: why was this (^) assertion and KeyError avoided?!
-            else:
-                self._partners.append(partner)
+        if partner.get_ID() != self.get_ID() and partner not in self._partners:
+            self._partners.append(partner)
 
     def unpair(self, partner):
         """
@@ -276,14 +193,8 @@ class Agent(object):
         returns:
             None
         """
-        try:
-            if self != partner:
-                self._partners.remove(partner)
-        except KeyError:
-            raise KeyError(
-                "agent %s is not a member of agent set %s"
-                % (partner.get_ID(), self.get_ID())
-            )
+        if partner in self._partners:
+            self._partners.remove(partner)
 
     def partner_list(self):
         """
@@ -307,11 +218,10 @@ class Agent(object):
             None
         """
         print(
-            "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s\t%s"
+            "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s"
             % (
                 self._ID,
                 self._age,
-                self._gender,
                 self._SO,
                 self._DU,
                 self._race,
@@ -327,7 +237,7 @@ class Agent(object):
         returns:
             None
         """
-        print("\t%.6d\t%s\t%s\t%s" % (self._ID, self._gender, self._SO, self._DU))
+        print("\t%.6d\t%s\t%s" % (self._ID, self._SO, self._DU))
 
     def vars(self):
         """
@@ -336,10 +246,9 @@ class Agent(object):
         returns:
             vars (str) - string of variables for agent
         """
-        return "%.6d,%d,%s,%s,%s,%s,%s,%d,%d,%d,%s,%s,%s,%s\n" % (
+        return "%.6d,%d,%s,%s,%s,%s,%d,%d,%d,%s,%s,%s,%s\n" % (
             self._ID,
             self._age,
-            self._gender,
             self._SO,
             self._DU,
             self._race,
@@ -384,24 +293,34 @@ class Agent(object):
             tmpR.print_rel()
 
 
-class Relationship(object):
+class Relationship:
     "Class for agent relationships."
 
-    def __init__(self, ID1, ID2, SO, rel_type, duration, initial_agent=False):
+    def __init__(self, ID1, ID2, SO, rel_type, duration):
+        """
+        :Purpose:
+            Constructor for a Relationship
+
+        :Input:
+            :ID1: first agent
+            :ID2: second agent
+            :SO: Orientation of relationship
+            :rel_type: (future feature) - sex bond or idu bond or both
+            :duration: length of relationship
+        """
 
         # self._ID is unique ID number used to track each person agent.
         self._ID1 = ID1
         self._ID2 = ID2
         self._ID = self._ID1.get_ID() * 100000 + self._ID2.get_ID()
-        # self._initial_agent is set to "True" for agents that were used to
-        # initialize the model.
-        self._initial_agent = initial_agent
 
         # Relationship properties
         self._SO = SO
         self._rel_type = rel_type
         self._duration = duration
         self._total_sex_acts = 0
+
+        # REVIEWED - issue open to address this
 
         # Relationship STI params
         self._STI_pool = []
@@ -422,33 +341,20 @@ class Relationship(object):
 
     def progress(self, forceKill=False):
         if self._duration <= 0 or forceKill:
-            # print self._duration
             agent = self._ID1
             partner = self._ID2
 
-            # print "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tDeleting relationship between %d and %d" % (agent.get_ID(), partner.get_ID())
-            # print "\tAgt:",agent
-            # print "\tPtn:", partner
-            # self.print_rel()
             agent.unbond(partner, self)
-            # agent.unpair(partner)
-            # partner.unpair(agent)
-            # del self
+
             return True
-            # self._ID1._relationships.remove(self)
-            # self._ID2._relationships.remove(self)
         else:
             self._duration = self._duration - 1
             return False
 
-    def delete(self):
-        del self
-
     def get_ID(self):
-        return self._IDq
+        return self._ID
 
     def __repr__(self):
-
         return "\t%.6d\t%.6d\t%s\t%s\t%d\t%d" % (
             self._ID1.get_ID(),
             self._ID2.get_ID(),
@@ -459,7 +365,6 @@ class Relationship(object):
         )
 
     def print_rel(self):
-
         return "\t%.6d\t%.6d\t%s\t%s\t%d\t%d" % (
             self._ID1.get_ID(),
             self._ID2.get_ID(),
@@ -470,14 +375,12 @@ class Relationship(object):
         )
 
     def print_rels(self):
-        # print self.partner_list()
         print("\t_____________ %s _____________" % self.get_ID())
         print("\tID1\tID2\tSO\tRel\tDur\tSexA")
 
         for tmpA in self.iter_agents():
             print(tmpA)
         print("\t______________ END ______________")
-        # print "\t%.6d\t%.6d\t%s\t%s\t%d\t%d" % (self._ID1.get_ID(), self._ID2.get_ID(), self._SO, self._rel_type, self._duration, self._total_sex_acts)
 
     def vars(self):
         return "%.6d,%.6d,%s,%s,%d,%d\n" % (
@@ -490,42 +393,13 @@ class Relationship(object):
         )
 
 
-class Relationship_set(Relationship):
-    """
-    Class for agents that contain a "set" of relationsips from a lower
-    hierarchical  level.
-    """
-
-    def __init__(self, world, ID, parent=None, numerator=None):
-        # Agent.__init__(self, world, ID, initial_agent)
-
-        # _members stores agent set members in a dictionary keyed by ID
-        self._ID = ID
-        self._members = []
-        self._subset = {}
-
-        # _parent_set stores the parent set if this set is a member of an
-        # Agent_set class instance. For example, for a set that is a
-        # member of a larger set, the _parent_set for that set  would
-        # be that larger set.
-        self._parent_set = parent
-        if parent:
-            parent.add_subset(self)
-        if numerator:
-            self._numerator = numerator
-        else:
-            self._numerator = self
-
-
 class Agent_set(Agent):
     """
     Class for agents that contain a "set" of agents from a lower
     hierarchical  level.
     """
 
-    def __init__(self, world, ID, parent=None, numerator=None):
-        # Agent.__init__(self, world, ID, initial_agent)
-
+    def __init__(self, ID, parent=None, numerator=None):
         # _members stores agent set members in a dictionary keyed by ID
         self._ID = ID
         self._members = []
@@ -554,50 +428,27 @@ class Agent_set(Agent):
         self._subset = {}
 
     def get_agents(self):
-        # return self._members.values()
         return self._members.__iter__()
 
-    def get_agent(self, ID):
-        "Returns an agent given the agent's ID"
-        return self._members[ID]
-
-    def is_member(self, ID):
+    def is_member(self, agent):
         "Returns true if agent is a member of this set"
-        return ID in self._members
+        return agent in self._members
 
     def add_agent(self, agent):
         "Adds a new agent to the set."
-        if agent in self._members:
-            pass
         self._members.append(agent)
-
-        # if self._subset: #if subsets exist, try to add the agent from those sets
-        #     try:
-        #         self._subset[agent._SO].add_agent(agent)
-        #     except:
-        #         print "agent %s is already a member of agent set %s"%(agent.get_ID(), self.get_ID())
-        # Set the agent's _parent_agent to reflect the parent of this Agent_set
-        # instance (self)
-        # agent.set_parent_agent(self)
 
     def remove_agent(self, agent):
         "Removes agent from agent set."
-
-        # print("Removing agent {} from set {}".format(agent._ID, self))
-        try:
+        if self.is_member(agent):
             self._members.remove(agent)
-        except ValueError:
-            # print("Agent {} is not in set {}".format(agent._ID, self))
-            pass
 
         for tmpS in self.iter_subset():
             tmpS.remove_agent(agent)
-        # Reset the agent's _parent_agent
-        # assert agent.get_parent_agent().get_ID() == self.get_ID(), "Removing agent from an Agent_set it does not appear to be assigned to."
-        # agent.set_parent_agent(None)
-        # print "Removed agent", agent._ID
 
-    def iter_agents(self):
+    def iter_agents(
+        self
+    ):  # REVIEWED isn't this redundant with get_agents? why not have __iter__ return the agents? then we could use the syntax agent in agent_set - maybe consolidate later
         for agent in self.get_agents():
             yield agent
 
@@ -612,10 +463,6 @@ class Agent_set(Agent):
                 % (subset.get_ID(), self._ID)
             )
         self._subset[subset._ID] = subset
-
-        # Set the agent's _parent_agent to reflect the parent of this Agent_set
-        # instance (self)
-        subset.set_parent_agent(self)
 
     def remove_subset(self, subset):
         "Removes Agent_set to the current sets subset."
@@ -635,52 +482,6 @@ class Agent_set(Agent):
 
     def get_parent_set(self):
         return self._parent_set
-
-    def print_agents(self):
-        print("\t_____________ %s _____________" % self.get_ID())
-        print("\tID\tAge\tGdr\tSO\tDU\tRace\tHIV+\tPtnrs")
-
-        for tmpA in self.iter_agents():
-            tmpA.print_agent()
-        print("\t______________ END ______________")
-
-    def print_agents_abridged(self):
-        print("\t_________ %s _________" % self.get_ID())
-        print("\tID\tGdr\tSO\tDU")
-
-        for tmpA in self.iter_agents():
-            tmpA.print_agent_abridge()
-        print("\t__________ END __________")
-
-    def print_agents_to_file(
-        self, time=None, overWrite="a", filename="Results/Tableau_Agent_Output_File.txt"
-    ):
-        if overWrite == "a":
-            agentList = ""
-        else:
-            agentList = "Time,ID,Age,Gdr,SO,DU,Race,HIV+,Ptnrs,LTPtnrs,AliveTime,AIDS,Tested,PrEP,Incar\n"
-        for tmpA in self.iter_agents():
-            agentList += str(time) + "," + tmpA.vars()
-
-        open(filename, overWrite).write(agentList)
-
-    def print_agent_relationshps(self):
-        print("\t_____________ %s _____________" % self.get_ID())
-        print("\tID1\t\tID2\t\tSO\tTy\tDur\tActs")
-
-        for tmpR in self._members:
-            tmpR.print_rel()
-        print("\t______________ END ______________")
-
-    def print_agent_relationships_to_file(self, time=None, overWrite="a"):
-        if overWrite == "a":
-            agentList = ""
-        else:
-            agentList = "Time,ID1,ID2,SO,Ty,Dur,Acts\n"
-        for tmpR in self.iter_agents():
-            agentList += str(time) + "," + tmpR.vars()
-
-        open("Results/Tableau_Rel_Output_File.txt", overWrite).write(agentList)
 
     def print_subsets(self):
         print("\t__________ %s __________" % self.get_ID())

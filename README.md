@@ -6,7 +6,7 @@ Agent populations are defined as graphs (nodes connected by edges). Nodes in the
 
 ## Getting Started
 
-To get started, install the requirements listed in the `requirements.txt` using a local python install or virtual env. Once installed, the model can be run using the `MP_simulation.py` program and configured using the `params.py` file.
+To get started, install the requirements listed in the `requirements.txt` using a local python install or virtual env. Once installed, the model can be run using the `run_titan.py` program and configured using the `params.py` file.
 
 ### Prerequisites
 
@@ -22,7 +22,7 @@ Currently, TITAN does not require any further installation as the source code ex
 
 ## Running the Model
 
-To run the model, execute the `MP_simluation.py` program within the `/src/` directory. It will natively read in the `params.py` configuration file as the input parameters for the model. These can be configured as desired for the target model setting and configuration. Other examples of calibrated settings exist within the `/settings/` directory. 
+To run the model, execute the `MP_simluation.py` program within the `/src/` directory. It will natively read in the `params.py` configuration file as the input parameters for the model. These can be configured as desired for the target model setting and configuration. Other examples of calibrated settings exist within the `/settings/` directory.
 
 Results of the model are generated and aggregated into the `/src/results/` directory. If the model is re-run, the existing results will be overwriten. A helper script has been written to prepare simulations for use with OSCAR, and is labelled `subTitan.sh` in the root directory.
 
@@ -40,14 +40,13 @@ TODO: Test coverage and examples.
 
 ## Authors
 
-* **Lars Seeman** - *Initial work* 
-* **Max King** - *Continued development* 
-* **Sarah Bessey** - *Continued development* 
-* **Mary McGrath** - *Continued development* 
+* **Lars Seeman** - *Initial work*
+* **Max King** - *Continued development*
+* **Sarah Bessey** - *Continued development*
+* **Mary McGrath** - *Continued development*
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
-
