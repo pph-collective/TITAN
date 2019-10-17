@@ -1,6 +1,6 @@
 import pytest
 
-from src.ABM_core import *
+from titan.ABM_core import *
 
 # #REVIEW not used anywhere, but may be useful in writing tests?
 # def _check_population(self):

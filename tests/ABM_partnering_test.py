@@ -1,7 +1,7 @@
 import pytest
 
-from src.ABM_partnering import *
-from src.agent import Agent
+from titan.ABM_partnering import *
+from titan.agent import Agent
 
 
 @pytest.fixture

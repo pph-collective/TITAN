@@ -149,7 +149,7 @@ class NetworkClass(PopulationClass):
             comps.append(len(i))
 
     def create_graph_from_agents(self, agents):
-        G = self.G
+        G = self.get_Graph()
         numAdded = 0
         for tmpA in agents.iter_agents():
             numAdded += 1

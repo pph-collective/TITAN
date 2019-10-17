@@ -1,6 +1,6 @@
 import pytest
 
-from src.agent import *
+from titan.agent import *
 
 
 @pytest.fixture

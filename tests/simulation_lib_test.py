@@ -1,6 +1,6 @@
 import pytest
 
-import src.simulation_lib as sl
+import titan.simulation_lib as sl
 
 
 @pytest.mark.skip(reason="to do")
