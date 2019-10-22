@@ -4,12 +4,14 @@
 venv/
 venv/*
 
+__pycache__/
 __pycache__/*
 .python-version
 poetry.lock
 pyproject.toml
 .pytest_cache/
 .pytest_cache/*
+.mypy_cache
 
 .vscode/
 

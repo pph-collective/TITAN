@@ -4,7 +4,7 @@
 import os
 import numpy as np
 
-from . import params
+from . import params # type: ignore
 from .ABM_core import HIVModel
 
 
@@ -17,8 +17,6 @@ def simulation(
     runSeed,
     popSeed,
     netSeed,
-    uniqueSeed=False,
-    model=None,
 ):
 
     # Run nreps simulations using the given parameters.
@@ -44,8 +42,6 @@ def simulation(
             runseed=inputSeed,
             popseed=popSeed,
             netseed=netSeed,
-            runtime_diffseed=uniqueSeed,
-            model=model,
             network_type=params.network_type,
         )
 

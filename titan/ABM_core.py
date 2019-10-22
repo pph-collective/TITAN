@@ -4,12 +4,13 @@
 # Imports
 import random
 from random import Random
-
+from typing import Dict, Any, List, Iterable
 import os
-import numpy as np
-from scipy.stats import binom
-from scipy.stats import poisson
-import networkx as nx
+
+import numpy as np # type: ignore
+from scipy.stats import binom # type: ignore
+from scipy.stats import poisson # type: ignore
+import networkx as nx # type: ignore
 
 try:
     from .agent import Agent_set
@@ -27,7 +28,7 @@ except ImportError as e:
     raise ImportError("Can't import analysis_output! %s" % str(e))
 
 from . import probabilities as prob
-from . import params
+from . import params # type: ignore
 from .ABM_partnering import sex_possible
 
 
@@ -98,16 +99,13 @@ class HIVModel(NetworkClass):
 
     def __init__(
         self,
-        N,
-        tmax,
-        parameter_dict,
-        runseed,
-        popseed,
-        netseed,
-        runtime_diffseed=False,
-        model=None,
-        network_type=None,
-        HIVABM_Agent_set=None,
+        N: int,
+        tmax: int,
+        parameter_dict: Dict[str, Any],
+        runseed: int,
+        popseed: int,
+        netseed: int,
+        network_type: str = None,
     ):
         """ Initialize HIVModel object """
         # Ensure param variable is are defined. For backwards compatibility with params.py files
@@ -143,14 +141,14 @@ class HIVModel(NetworkClass):
 
         self.current_dir = os.getcwd()
         print("=== Begin Initialization Protocol ===\n")
-        self.ExistingLinksCollapsedList = list()
 
-        print("\tDictionary Read")
-
-        # Risk network replaced social network
-        print("\tReading prefab agent set for population")
-        self.All_agentSet = network_type
-        self.Relationships = Agent_set("Relationships")
+        NetworkClass.__init__(
+                self,
+                N=N,
+                network_type=network_type,
+                popSeed=self.popseed,
+                netSeed=self.netseed,
+            )
 
         # keep track of current time step globally for dynnetwork report
         self.TimeStep = 0
@@ -414,7 +412,7 @@ class HIVModel(NetworkClass):
             self.NewDiagnosis.clear_set()
             self.NewHRrolls.clear_set()
             self.NewIncarRelease.clear_set()
-            self.num_Deaths = {}
+            # self.num_Deaths = {} # TO_REVIEW - this isn't in constructor - also not expected to be an empty dict (expects sub dicts)
             prepReport = open("results/PrEPReport.txt", "a")
             prepReport.write(
                 f"{self.runseed}\t{self.TimeStep}\t{self.newPrEPenrolls}\t{self.IDUprep}\t{self.HIVprep}\t{self.MSMWprep}\n"
@@ -1162,36 +1160,33 @@ class HIVModel(NetworkClass):
             elif agent._SO == "HM":
                 jailDuration = prob.HM_jail_duration
 
-            # M 13% for 6 months or less, 8% for 6 mo-1year, 20% for 1-3 years, 11% for 3-5 years, 16% for 5-10 years, 30% for 10+ years
-            # F 74% for 6 months or less, 12% for 6 months to one year, 10% for one to three years, 4% for over three years
-            else:  # PRISON
-                durationBin = current_p_value = 0
-                p = self.runRandom.random()
-                while p > current_p_value:
-                    durationBin += 1
-                    current_p_value += jailDuration[durationBin]["p_value"]
-                timestay = self.runRandom.randint(
-                    jailDuration[durationBin]["min"], jailDuration[durationBin]["max"]
-                )
+            durationBin = current_p_value = 0
+            p = self.runRandom.random()
+            while p > current_p_value:
+                durationBin += 1
+                current_p_value += jailDuration[durationBin]["p_value"]
+            timestay = self.runRandom.randint(
+                jailDuration[durationBin]["min"], jailDuration[durationBin]["max"]
+            )
 
-                if hiv_bool:
-                    if not tested:
-                        if self.runRandom.random() < params.inc_PrisTestProb:
-                            agent._tested = True
-                    else:  # Then tested and HIV, check to enroll in ART
-                        if self.runRandom.random() < params.inc_ARTenroll:
-                            tmp_rnd = self.runRandom.random()
-                            HAART_ADH = params.inc_ARTadh
-                            if tmp_rnd < HAART_ADH:
-                                adherence = 5
-                            else:
-                                adherence = self.runRandom.randint(1, 4)
+            if hiv_bool:
+                if not tested:
+                    if self.runRandom.random() < params.inc_PrisTestProb:
+                        agent._tested = True
+                else:  # Then tested and HIV, check to enroll in ART
+                    if self.runRandom.random() < params.inc_ARTenroll:
+                        tmp_rnd = self.runRandom.random()
+                        HAART_ADH = params.inc_ARTadh
+                        if tmp_rnd < HAART_ADH:
+                            adherence = 5
+                        else:
+                            adherence = self.runRandom.randint(1, 4)
 
-                            # Add agent to HAART class set, update agent params
-                            agent._HAART_bool = True
-                            agent._HAART_adh = adherence
-                            agent._HAART_time = time
-                            self.Trt_ART_agentSet.add_agent(agent)
+                        # Add agent to HAART class set, update agent params
+                        agent._HAART_bool = True
+                        agent._HAART_adh = adherence
+                        agent._HAART_time = time
+                        self.Trt_ART_agentSet.add_agent(agent)
 
             agent._incar_bool = True
             agent._incar_time = timestay

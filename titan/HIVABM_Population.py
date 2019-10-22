@@ -3,8 +3,8 @@
 
 from random import Random
 from copy import deepcopy
-from scipy.stats import poisson
-import numpy as np
+from scipy.stats import poisson # type: ignore
+import numpy as np # type: ignore
 
 try:
     from .agent import Agent_set, Agent, Relationship
@@ -16,7 +16,7 @@ try:
 except ImportError as e:
     raise ImportError("Can't import ABM_partnering! %s" % str(e))
 
-from . import params
+from . import params # type: ignore
 from . import probabilities as prob
 
 

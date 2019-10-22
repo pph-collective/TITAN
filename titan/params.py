@@ -86,6 +86,9 @@ safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
 initTreatment = 999999
 treatmentCov = 0.0
 condomUseType = "Partners"
+limitComponentSize = True
+maxComponentSize = 100
+minComponentSize = 2
 
 """
 Incarceration params

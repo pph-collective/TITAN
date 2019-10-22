@@ -61,7 +61,6 @@ def main():
             runSeed=inputRunSeed,
             popSeed=inputPopSeed,
             netSeed=inputNetSeed,
-            model=params.model,
         )
         wct.append(time_mod.time() - tic)
         save_results(params.N_MC, params.TIME_RANGE, rslts, outfile_dir, single_sim)
