@@ -4,19 +4,12 @@
 import os
 import numpy as np
 
-from . import params # type: ignore
+from . import params  # type: ignore
 from .ABM_core import HIVModel
 
 
 def simulation(
-    nreps,
-    time_range,
-    N_pop,
-    outfile_dir,
-    parameters,
-    runSeed,
-    popSeed,
-    netSeed,
+    nreps, time_range, N_pop, outfile_dir, parameters, runSeed, popSeed, netSeed
 ):
 
     # Run nreps simulations using the given parameters.

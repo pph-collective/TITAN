@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from typing import Sequence, List, Dict, Optional
 
 class Agent:
     "Class for agent objects."
 
-    def __init__(self, ID, SO, age, race, DU, initial_agent=False):
+    def __init__(self, ID: int, SO: str, age: int, race: str, DU: str, initial_agent: bool = False):
         """
         Initialize an agent based on given properties
 
@@ -34,15 +35,14 @@ class Agent:
         self._MSMW = False
 
         # agent-partner params
-        self._relationships = []
-        self._partners = []
+        self._relationships: List[Relationship] = []
+        self._partners: List[Agent] = []
         self._num_sex_partners = 0
         self._num_NE_partners = 0
         self._mean_num_partners = 0
         self._sexualRole = "Vers"
 
         # agent STI params
-        self._STI_pool = []
         self._HIV_bool = False
         self._HIV_time = 0
         self._AIDS_bool = False
@@ -66,7 +66,7 @@ class Agent:
         self._DOC_NAL_bool = False
         self._MATprev = 0
         self._oatValue = 0
-        self._PrEP_reason = []
+        self._PrEP_reason: List[str] = []
 
         # PrEP pharmacokinetics
         self._PrEP_load = 0.0
@@ -118,7 +118,7 @@ class Agent:
         """
         return self._ID
 
-    def bond(self, partner, relationship):
+    def bond(self, partner: 'Agent', relationship: 'Relationship'):
         """
         Bond two agents. Adds each to a relationship object, then partners in each
         others' partner list.
@@ -147,7 +147,7 @@ class Agent:
         self._num_sex_partners += 1
         partner._num_sex_partners += 1
 
-    def unbond(self, partner, relationship):
+    def unbond(self, partner: 'Agent', relationship: 'Relationship'):
         """
         Unbond two agents. Adds each to a relationship object, then partners in each
         others' partner list.
@@ -171,7 +171,7 @@ class Agent:
         self.unpair(partner)
         partner.unpair(self)
 
-    def pair(self, partner):
+    def pair(self, partner: 'Agent'):
         """
         Pair two agents by adding each to the respective _partners list
 
@@ -184,7 +184,7 @@ class Agent:
         if partner.get_ID() != self.get_ID() and partner not in self._partners:
             self._partners.append(partner)
 
-    def unpair(self, partner):
+    def unpair(self, partner: 'Agent'):
         """
         Unpair two agents by removing each to the respective _partners list
 
@@ -262,7 +262,7 @@ class Agent:
             self._incar_bool,
         )
 
-    def print_agent_to_file(self, filename, time=None, overWrite="a"):
+    def print_agent_to_file(self, filename: str, time: int = 0, overWrite: str ="a"):
         """
         Print the agent variables to a file
 
@@ -296,7 +296,7 @@ class Agent:
 class Relationship:
     "Class for agent relationships."
 
-    def __init__(self, ID1, ID2, SO, rel_type, duration):
+    def __init__(self, ID1: Agent, ID2: Agent, SO: str, rel_type: str, duration: int):
         """
         :Purpose:
             Constructor for a Relationship
@@ -315,31 +315,11 @@ class Relationship:
         self._ID = self._ID1.get_ID() * 100000 + self._ID2.get_ID()
 
         # Relationship properties
-        self._SO = SO
-        self._rel_type = rel_type
         self._duration = duration
         self._total_sex_acts = 0
 
-        # REVIEWED - issue open to address this
 
-        # Relationship STI params
-        self._STI_pool = []
-        self._HIV_bool = False
-        self._HIV_time = 0
-        self._AIDS_bool = False
-        self._AIDS_time = 0
-
-        # Relationship treatment params
-        self._tested = False
-        self._HAART_bool = False
-        self._HAART_time = 0
-        self._HAART_adh = 0
-
-        # Relationship incarcartion params
-        self._incar_bool = False
-        self._incar_time = 0
-
-    def progress(self, forceKill=False):
+    def progress(self, forceKill: bool = False):
         if self._duration <= 0 or forceKill:
             agent = self._ID1
             partner = self._ID2
@@ -393,17 +373,17 @@ class Relationship:
         )
 
 
-class Agent_set(Agent):
+class Agent_set:
     """
     Class for agents that contain a "set" of agents from a lower
     hierarchical  level.
     """
 
-    def __init__(self, ID, parent=None, numerator=None):
+    def __init__(self, ID: str, parent: 'Agent_set' = None, numerator: 'Agent_set' = None):
         # _members stores agent set members in a dictionary keyed by ID
         self._ID = ID
-        self._members = []
-        self._subset = {}
+        self._members: List[Agent] = []
+        self._subset: Dict[str, Agent_set] = {}
 
         # _parent_set stores the parent set if this set is a member of an
         # Agent_set class instance. For example, for a set that is a
@@ -424,21 +404,24 @@ class Agent_set(Agent):
         return self._ID
 
     def clear_set(self):
-        self._members = []
-        self._subset = {}
+        self._members: List[Agent] = []
+        self._subset: Dict[str, str] = {}
+
+    def get_ID(self):
+        return self._ID
 
     def get_agents(self):
         return self._members.__iter__()
 
-    def is_member(self, agent):
+    def is_member(self, agent: Agent):
         "Returns true if agent is a member of this set"
         return agent in self._members
 
-    def add_agent(self, agent):
+    def add_agent(self, agent: Agent):
         "Adds a new agent to the set."
         self._members.append(agent)
 
-    def remove_agent(self, agent):
+    def remove_agent(self, agent: Agent):
         "Removes agent from agent set."
         if self.is_member(agent):
             self._members.remove(agent)
@@ -452,10 +435,10 @@ class Agent_set(Agent):
         for agent in self.get_agents():
             yield agent
 
-    def num_members(self):
+    def num_members(self) -> int:
         return len(self._members)
 
-    def add_subset(self, subset):
+    def add_subset(self, subset: 'Agent_set'):
         "Adds a new Agent_set to the current sets subset."
         if subset._ID in self._subset:
             raise KeyError(
@@ -464,10 +447,10 @@ class Agent_set(Agent):
             )
         self._subset[subset._ID] = subset
 
-    def remove_subset(self, subset):
+    def remove_subset(self, subset: 'Agent_set'):
         "Removes Agent_set to the current sets subset."
         try:
-            self._subset.pop(subset.ID)
+            self._subset.pop(subset._ID)
         except KeyError:
             raise KeyError(
                 "subset %s is not a member of set %s" % (subset.get_ID(), self.get_ID())
@@ -477,10 +460,10 @@ class Agent_set(Agent):
         for subset in list(self._subset.values()):
             yield subset
 
-    def set_parent_set(self, master_set):
+    def set_parent_set(self, master_set: 'Agent_set'):
         self._parent_set = master_set
 
-    def get_parent_set(self):
+    def get_parent_set(self) -> Optional['Agent_set']:
         return self._parent_set
 
     def print_subsets(self):

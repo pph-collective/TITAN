@@ -435,6 +435,7 @@ PartnershipFrequency = {"SEX": sexualFrequency, "NEEDLE": needleFrequency}
 Sexual and injection transmission probabilities
 """
 SexTrans = {"MSM": {}, "HM": {}, "HF": {}}
+
 SexTrans["MSM"] = {
     "0": 0.00745,
     "1": 0.005,
@@ -443,6 +444,7 @@ SexTrans["MSM"] = {
     "4": 0.001,
     "5": 0.0001,
 }
+
 SexTrans["MTF"] = {
     "0": 0.00745,
     "1": 0.005,
@@ -451,6 +453,7 @@ SexTrans["MTF"] = {
     "4": 0.001,
     "5": 0.0001,
 }
+
 SexTrans["HM"] = {
     "0": 0.001,
     "1": 0.001,
@@ -459,6 +462,7 @@ SexTrans["HM"] = {
     "4": 0.0002,
     "5": 0.0001,
 }
+
 SexTrans["HF"] = {
     "0": 0.001,
     "1": 0.001,
@@ -476,6 +480,7 @@ NeedleTrans = {
     "4": 0.0014,
     "5": 0.0002,
 }
+
 TransmissionProbabilities = {"SEX": SexTrans, "NEEDLE": NeedleTrans}
 
 

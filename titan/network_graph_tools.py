@@ -5,23 +5,30 @@ import os
 import random
 import collections
 
-import numpy as np # type: ignore
-import networkx as nx # type: ignore
-from networkx.drawing.nx_agraph import graphviz_layout # type: ignore
-import matplotlib.pyplot as plt # type: ignore
-import matplotlib.patches as patches # type: ignore
+import numpy as np  # type: ignore
+import networkx as nx  # type: ignore
+from networkx.drawing.nx_agraph import graphviz_layout  # type: ignore
+import matplotlib.pyplot as plt  # type: ignore
+import matplotlib.patches as patches  # type: ignore
 
 try:
     from .HIVABM_Population import PopulationClass
 except ImportError:
     raise ImportError("Can't import PopulationClass")
 
-from . import params # type: ignore
+from . import params  # type: ignore
 from .agent import Agent_set
 
 
 class NetworkClass(PopulationClass):
-    def __init__(self, N: int, popSeed: int = 0, netSeed: int = 0, m_0: int = 1, network_type: str = "scale_free"):
+    def __init__(
+        self,
+        N: int,
+        popSeed: int = 0,
+        netSeed: int = 0,
+        m_0: int = 1,
+        network_type: str = "scale_free",
+    ):
         """
         :Purpose:
             This is the base class used to generate the social network
@@ -109,7 +116,9 @@ class NetworkClass(PopulationClass):
         G = self.G
         nx.write_edgelist(G, path, data=False)
 
-    def write_network_stats(self, t: int = 0, path: str = "results/network/networkStats.txt"):
+    def write_network_stats(
+        self, t: int = 0, path: str = "results/network/networkStats.txt"
+    ):
         G = self.G
         components = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)
         bigG = components[0]

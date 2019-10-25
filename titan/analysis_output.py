@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from . import params # type: ignore
+from . import params  # type: ignore
 
 
 def initiate_ResultDict():

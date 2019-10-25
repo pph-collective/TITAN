@@ -4,7 +4,7 @@
 # Imports
 import random
 
-from . import params # type: ignore
+from . import params  # type: ignore
 from . import probabilities as prob
 
 
