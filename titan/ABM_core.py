@@ -1009,7 +1009,6 @@ class HIVModel(NetworkClass):
         if agent._PrEP_bool:
             self._discont_PrEP(agent, time, force=True)
 
-
     def _enroll_treatment(self, time: int):
         """
         :Purpose:
@@ -1215,7 +1214,6 @@ class HIVModel(NetworkClass):
                                 ptnr._tested = True
                                 self.NewDiagnosis.add_agent(ptnr)
 
-
     def _initiate_HAART(self, agent: Agent, time: int):
         """
         :Purpose:
@@ -1406,9 +1404,7 @@ class HIVModel(NetworkClass):
         if params.PrEP_type == "Inj":
             self._calc_PrEP_load(agent)
 
-    def _initiate_PrEP(
-        self, agent: Agent, time: int, force: bool = False
-    ):
+    def _initiate_PrEP(self, agent: Agent, time: int, force: bool = False):
         """
         :Purpose:
             Place agents onto PrEP treatment.
@@ -1503,7 +1499,9 @@ class HIVModel(NetworkClass):
             ):
                 _enrollPrEP(self, agent)
 
-    def _get_clinic_agent(self, clinicBin: str, eligiblePool: Sequence[Agent]) -> Optional[Agent]:
+    def _get_clinic_agent(
+        self, clinicBin: str, eligiblePool: Sequence[Agent]
+    ) -> Optional[Agent]:
         pMatch = 0.0
         RN = self.runRandom.random()
         for i in range(6):  # 6 is exclusive

@@ -3,10 +3,19 @@
 
 from typing import Sequence, List, Dict, Optional
 
+
 class Agent:
     "Class for agent objects."
 
-    def __init__(self, ID: int, SO: str, age: int, race: str, DU: str, initial_agent: bool = False):
+    def __init__(
+        self,
+        ID: int,
+        SO: str,
+        age: int,
+        race: str,
+        DU: str,
+        initial_agent: bool = False,
+    ):
         """
         Initialize an agent based on given properties
 
@@ -118,7 +127,7 @@ class Agent:
         """
         return self._ID
 
-    def bond(self, partner: 'Agent', relationship: 'Relationship'):
+    def bond(self, partner: "Agent", relationship: "Relationship"):
         """
         Bond two agents. Adds each to a relationship object, then partners in each
         others' partner list.
@@ -147,7 +156,7 @@ class Agent:
         self._num_sex_partners += 1
         partner._num_sex_partners += 1
 
-    def unbond(self, partner: 'Agent', relationship: 'Relationship'):
+    def unbond(self, partner: "Agent", relationship: "Relationship"):
         """
         Unbond two agents. Adds each to a relationship object, then partners in each
         others' partner list.
@@ -171,7 +180,7 @@ class Agent:
         self.unpair(partner)
         partner.unpair(self)
 
-    def pair(self, partner: 'Agent'):
+    def pair(self, partner: "Agent"):
         """
         Pair two agents by adding each to the respective _partners list
 
@@ -184,7 +193,7 @@ class Agent:
         if partner.get_ID() != self.get_ID() and partner not in self._partners:
             self._partners.append(partner)
 
-    def unpair(self, partner: 'Agent'):
+    def unpair(self, partner: "Agent"):
         """
         Unpair two agents by removing each to the respective _partners list
 
@@ -262,7 +271,7 @@ class Agent:
             self._incar_bool,
         )
 
-    def print_agent_to_file(self, filename: str, time: int = 0, overWrite: str ="a"):
+    def print_agent_to_file(self, filename: str, time: int = 0, overWrite: str = "a"):
         """
         Print the agent variables to a file
 
@@ -317,7 +326,6 @@ class Relationship:
         # Relationship properties
         self._duration = duration
         self._total_sex_acts = 0
-
 
     def progress(self, forceKill: bool = False):
         if self._duration <= 0 or forceKill:
@@ -379,7 +387,9 @@ class Agent_set:
     hierarchical  level.
     """
 
-    def __init__(self, ID: str, parent: 'Agent_set' = None, numerator: 'Agent_set' = None):
+    def __init__(
+        self, ID: str, parent: "Agent_set" = None, numerator: "Agent_set" = None
+    ):
         # _members stores agent set members in a dictionary keyed by ID
         self._ID = ID
         self._members: List[Agent] = []
@@ -438,7 +448,7 @@ class Agent_set:
     def num_members(self) -> int:
         return len(self._members)
 
-    def add_subset(self, subset: 'Agent_set'):
+    def add_subset(self, subset: "Agent_set"):
         "Adds a new Agent_set to the current sets subset."
         if subset._ID in self._subset:
             raise KeyError(
@@ -447,7 +457,7 @@ class Agent_set:
             )
         self._subset[subset._ID] = subset
 
-    def remove_subset(self, subset: 'Agent_set'):
+    def remove_subset(self, subset: "Agent_set"):
         "Removes Agent_set to the current sets subset."
         try:
             self._subset.pop(subset._ID)
@@ -460,10 +470,10 @@ class Agent_set:
         for subset in list(self._subset.values()):
             yield subset
 
-    def set_parent_set(self, master_set: 'Agent_set'):
+    def set_parent_set(self, master_set: "Agent_set"):
         self._parent_set = master_set
 
-    def get_parent_set(self) -> Optional['Agent_set']:
+    def get_parent_set(self) -> Optional["Agent_set"]:
         return self._parent_set
 
     def print_subsets(self):
