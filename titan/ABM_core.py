@@ -920,19 +920,26 @@ class HIVModel(NetworkClass):
                         if agent._PrEPresistance or partner._PrEPresistance:
                             pass
 
-                        elif params.PrEP_type == "Oral":
-                            if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
-                                ppAct = ppAct * (1.0 - params.PrEP_AdhEffic)  # 0.04
-                            else:
-                                ppAct = ppAct * (1.0 - params.PrEP_NonAdhEffic)  # 0.24
+                        else:
+                            if "Oral" in params.PrEP_type: # params.PrEP_type == "Oral":
+                                if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
+                                    ppAct = ppAct * (1.0 - params.PrEP_AdhEffic)  # 0.04
+                                else:
+                                    ppAct = ppAct * (1.0 - params.PrEP_NonAdhEffic)  # 0.24
 
-                        elif params.PrEP_type == "Inj":
-                            ppActReduction = (
-                                -1.0 * np.exp(-5.528636721 * partner._PrEP_load) + 1
-                            )
-                            if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
-                                ppAct = ppAct * (1.0 - ppActReduction)  # 0.04
-
+                            if "Inj" in params.PrEP_type:
+                                ppActReduction = (
+                                    -1.0 * np.exp(-5.528636721 * partner._PrEP_load) + 1
+                                )
+                                if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
+                                    ppAct = ppAct * (1.0 - ppActReduction)  # 0.04
+                            if "Vaccine" in params.PrEP_type:
+                                if params.vaccine_type == "RV144":
+                                    ppActReduction = (
+                                        1 - np.exp(-2.88 + 0.76 * (np.log(agent.vaccine_time + 0.001 * 30)))
+                                        # TODO find/implement "time since injection"
+                                    )
+                                    ppAct *= (1 - ppActReduction)
                     p_total_transmission: float
                     if U_sex_acts2 == 1:
                         p_total_transmission = ppAct
@@ -1465,7 +1472,7 @@ class HIVModel(NetworkClass):
 
         if force:
             _enrollPrEP(self, agent)
-        else:
+        elif agent.vaccine_time == 0:
             numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
 
             if params.PrEP_target_model == "Clinical":

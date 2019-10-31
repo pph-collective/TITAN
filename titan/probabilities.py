@@ -141,3 +141,5 @@ def get_mean_num_partners(drug_type, rand_generator):
             return 2
         else:
             return rand_generator.randrange(3, 4, 1)
+
+

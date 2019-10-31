@@ -73,7 +73,11 @@ HR_M_dur = 6  # Duration of high risk for males
 HR_F_dur = 6  # Duration of high risk for females
 HIV_MSMW = 0.05
 
-
+"""
+Vaccine params
+"""
+vaccine_type = "RV144"
+booster = True
 """
 Misc. params
 """
