@@ -190,7 +190,9 @@ class PopulationClass:
         # High risk agent sets
         self.highrisk_agentsSet = Agent_set("HRisk", parent=self.All_agentSet)
 
-        self.Relationships = Agent_set("Relationships")
+        self.Relationships = Agent_set(
+            "Relationships"
+        )  # TO_REVIEW why is relationships an Agent_set filled with Relationship? Maybe just make this one a list as that's all it's used for
 
         # Create agents in allAgents list
         self.White_agents = deepcopy(allAgents[0 : self.numWhite])

@@ -10,12 +10,9 @@ import networkx as nx  # type: ignore
 from networkx.drawing.nx_agraph import graphviz_layout  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 import matplotlib.patches as patches  # type: ignore
+from typing import Sequence, List, Dict, Optional
 
-try:
-    from .HIVABM_Population import PopulationClass
-except ImportError:
-    raise ImportError("Can't import PopulationClass")
-
+from .HIVABM_Population import PopulationClass
 from . import params  # type: ignore
 from .agent import Agent_set
 

@@ -2,9 +2,11 @@
 # encoding: utf-8
 
 from . import params  # type: ignore
+from typing import Dict, Any, List, Sequence, Optional
+from .agent import Agent_set
 
-
-def initiate_ResultDict():
+# TO_REVIEW - result dict doesn't seemed to actually be used anywhere - I think we can delete this whole file
+def initiate_ResultDict() -> Dict[str, Any]:
     # nested dictionary for results (inner dictionary has the form: time:result)
     ResultDict = {
         "Prv_HIV": {},
@@ -23,23 +25,23 @@ def initiate_ResultDict():
     return ResultDict
 
 
+# TO_REVIEW - self - what does it refer to? Also, this isn't used anywhere
 def print_stats(
     self,
-    rseed,
-    t,
-    totalAgents,
-    HIVAgents,
-    IncarAgents,
-    PrEPAgents,
-    NewInfections,
-    NewDiagnosis,
-    deaths,
-    ResultDict,
-    Relationships,
-    newHR,
-    newIncarRelease,
-    deathSet,
-    outifle=None,
+    rseed: int,
+    t: int,
+    totalAgents: Agent_set,
+    HIVAgents: Agent_set,
+    IncarAgents: Agent_set,
+    PrEPAgents: Agent_set,
+    NewInfections: Agent_set,
+    NewDiagnosis: Agent_set,
+    deaths: Dict,
+    ResultDict: Dict,
+    Relationships: Agent_set,
+    newHR: Agent_set,
+    newIncarRelease: Agent_set,
+    deathSet: Agent_set,
 ):
     incidenceReport = open("results/IncidenceReport.txt", "a")
     prevalenceReport = open("results/PrevalenceReport.txt", "a")
@@ -243,6 +245,7 @@ def print_stats(
                 + rsltdic[race]["HM"][param]
                 + rsltdic[race]["HF"][param]
             )
+
     for race in rsltdic:
         for param in rc_template:
             tot_rsltdic["ALL"]["ALL"][param] += rsltdic[race]["ALL"][param]
@@ -255,6 +258,7 @@ def print_stats(
             rsltdic["ALL"]["HF"][param] += rsltdic[race]["HF"][param]
             rsltdic["ALL"]["MSM"][param] += rsltdic[race]["MSM"][param]
             rsltdic["ALL"]["IDU"][param] += rsltdic[race]["IDU"][param]
+
     for agentRace in ["WHITE", "BLACK", "ALL"]:
         for agentTypes in params.agentPopulations:
             name = "basicReport_" + agentTypes + "_" + agentRace

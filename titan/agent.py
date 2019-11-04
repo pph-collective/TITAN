@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 from typing import Sequence, List, Dict, Optional
+from . import params
 
 
 class Agent:
@@ -82,7 +83,7 @@ class Agent:
         self._PrEP_lastDose = 0
 
         # agent high risk params
-        self._highrisk_type = None
+        self._highrisk_type = ""  # TO_REVIEW not really used?
         self._highrisk_bool = False
         self._highrisk_time = 0
         self._everhighrisk_bool = False
@@ -219,6 +220,7 @@ class Agent:
 
         return ptnrs
 
+    # TO_REVIEW - not used anywhere
     def print_agent(self):
         """
         Print the agent properties to stdout
@@ -239,6 +241,7 @@ class Agent:
             )
         )
 
+    # TO_REVIEW not used anywhere
     def print_agent_abridge(self):
         """
         Print the abridged agent properties to stdout
@@ -248,6 +251,7 @@ class Agent:
         """
         print("\t%.6d\t%s\t%s" % (self._ID, self._SO, self._DU))
 
+    # TO_REVIEW - not used anywhere
     def vars(self):
         """
         Get agent specific variables (used for printing stats)
@@ -271,6 +275,7 @@ class Agent:
             self._incar_bool,
         )
 
+    # TO_REVIEW - not used anywhere
     def print_agent_to_file(self, filename: str, time: int = 0, overWrite: str = "a"):
         """
         Print the agent variables to a file
@@ -291,7 +296,7 @@ class Agent:
 
         open(str(filename), overWrite).write(agentList)
 
-    def print_relationships(self):
+    def print_relationships(self):  # TO_REVIEW - not used anywhere
         """
         Print the agents relationships to stdout
 
@@ -300,6 +305,187 @@ class Agent:
         """
         for tmpR in self._relationships:
             tmpR.print_rel()
+
+    def get_acute_status(self, time: int) -> bool:
+        """
+        :Purpose:
+            Get acute status of agent at time period
+        :Input:
+            time : int
+        :Output:
+            acute_status : bool
+        """
+        acuteTimePeriod = 2
+        hiv_t = self._HIV_time
+
+        if hiv_t <= acuteTimePeriod and hiv_t > 0:
+            return True
+        else:
+            return False
+
+    def PrEP_eligible(self, time: int) -> bool:
+        """
+        :Purpose:
+            Determine if an agent is eligible for PrEP
+
+        :Input:
+            time : int
+
+        :Output:
+            eligibility : bool
+        """
+        eligible = False
+        if params.PrEP_target_model == "Allcomers":
+            eligible = True
+        elif params.PrEP_target_model == "CDCwomen":
+            if self._SO == "HF":
+                for rel in set(self._relationships):
+                    if rel._ID1 == self:
+                        partner = rel._ID2
+                    else:
+                        partner = rel._ID1
+
+                    if rel._duration > 1:
+                        if partner._DU == "IDU":
+                            eligible = True
+                            self._PrEP_reason.append("IDU")
+                        if partner._tested:
+                            eligible = True
+                            self._PrEP_reason.append("HIV test")
+                        if partner._MSMW:
+                            eligible = True
+                            self._PrEP_reason.append("MSMW")
+        elif params.PrEP_target_model == "CDCmsm":
+            if self._SO == "MSM":
+                for rel in self._relationships:
+                    if rel._ID1 == self:
+                        partner = rel._ID2
+                    else:
+                        partner = rel._ID1
+
+                    if rel._duration > 1:
+                        if partner._tested or self._mean_num_partners > 1:
+                            eligible = True
+        elif params.PrEP_target_model == "HighPN5":
+            if self._mean_num_partners >= 5:
+                eligible = True
+        elif params.PrEP_target_model == "HighPN10":
+            if self._mean_num_partners >= 10:
+                eligible = True
+        elif params.PrEP_target_model == "SRIns":
+            if self._sexualRole == "Insertive":
+                eligible = True
+        elif params.PrEP_target_model == "MSM":
+            if self._SO in ("MSM", "MTF"):
+                eligible = True
+        elif params.PrEP_target_model == "RandomTrial":
+            # If using random trial
+            if time == 0:
+                # if in init timestep 0, use agent set elligiblity
+                eligible = (
+                    self._PrEP_eligible
+                )  # TO_REVIEW agent doesn't have this attribute (and this is the method)
+            if time > 0:
+                # else, false to not continue enrollment past random trial start
+                eligible = False
+
+        return eligible
+
+    def update_PrEP_load(self):
+        """
+        :Purpose:
+            Determine and update load of PrEP concentration in agent.
+
+        :Input:
+            none
+
+        :Output:
+            none
+        """
+        # N(t) = N0 (0.5)^(t/t_half)
+        self._PrEP_lastDose += 1
+        if self._PrEP_lastDose > 12:
+            self._PrEP_load = 0.0
+        else:
+            self._PrEP_load = params.PrEP_peakLoad * (
+                (0.5) ** (self._PrEP_lastDose / (params.PrEP_halflife / 30))
+            )
+
+    def get_transmission_probability(self, interaction: str) -> float:
+        """ Decriptor
+        :Purpose:
+            Determines the probability of a transmission event based on interaction type.
+
+        :Input:
+            interaction : str - "NEEDLE" or "SEX"
+
+        :Output:
+            probability : float
+        """
+
+        sex_type = self._SO
+        agentAdherence = self._HAART_adh
+
+        # Logic for if needle or sex type interaction
+        p: float
+        if interaction == "NEEDLE":
+            p = params.TransmissionProbabilities["NEEDLE"][str(agentAdherence)]
+        elif interaction == "SEX":
+            p = params.TransmissionProbabilities["SEX"][sex_type][str(agentAdherence)]
+
+        # Scaling parameter for acute HIV infections
+        if self.get_acute_status(0):
+            p = p * params.cal_AcuteScaling
+
+        # Scaling parameter for positively identified HIV agents
+        if self._tested:
+            p = p * (1 - params.cal_RR_Dx)
+
+        # Tuning parameter for ART efficiency
+        if self._HAART_bool:  # self.AdherenceAgents[agent] > 0:
+            p = p * params.cal_RR_HAART
+
+        # Racial calibration parameter to attain proper race incidence disparity
+        if self._race == "BLACK":
+            p = p * params.cal_raceXmission
+
+        # Scaling parameter for per act transmission.
+        p = p * params.cal_pXmissionScaling
+
+        return p
+
+    # TO_REVIEW as written, it's not guaranteed to return an int, but seems likely given params, can't this be more clearly written as a for loop? it also looks like the params adds the p values, while this loop also adds p-values, is that correct?
+    def get_number_of_sexActs(self, rand_gen) -> int:
+        """
+        :Purpose:
+            Number of sexActs an agent has done.
+
+        :Input:
+            rand_gen : random number generator (e.g. self.runRandom in ABM_core)
+
+        :Output:
+            number_sex_act : int
+        """
+        # 1 time per year 96 1.9 29 0.9 67 3.4
+        # 2–5 times per year 428 8.2 184 5.8 244 12.2
+        # 6–11 times per year 328 6.3 183 5.7 145 7.3
+        # 12–23 times per year 376 7.2 251 7.9 125 6.3
+        # 24–35 times per year 1,551 29.9 648 20.3 903 45.3
+        # 36–51 times per year 1,037 20.0 668 20.9 369 18.5
+        # 52–155 times per year 644 12.4 605 18.9 39 2.0
+        # >156 times per year 733 14.1 631 19.7 102 5.1
+        rv = rand_gen.random()
+        pMatch = 0.0
+
+        for i in range(1, 6):
+            pMatch += params.sexualFrequency[i]["p_value"]
+            if rv <= pMatch:
+                minSA = params.sexualFrequency[i]["min"]
+                maxSA = params.sexualFrequency[i]["max"]
+                return rand_gen.randrange(minSA, maxSA, 1)
+
+        # TO_REVIEW - fallthrough return? 0?
+        return 0
 
 
 class Relationship:

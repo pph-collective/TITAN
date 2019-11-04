@@ -1,5 +1,7 @@
 __author__ = "MaximilianKing"
 
+from typing import Sequence, List, Dict, Optional, Any
+
 
 """
 Main model parameters.
@@ -481,7 +483,7 @@ NeedleTrans = {
     "5": 0.0002,
 }
 
-TransmissionProbabilities = {"SEX": SexTrans, "NEEDLE": NeedleTrans}
+TransmissionProbabilities: Dict[Str, Any] = {"SEX": SexTrans, "NEEDLE": NeedleTrans}
 
 
 """

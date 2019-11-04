@@ -2,14 +2,22 @@
 # encoding: utf-8
 
 import os
-import numpy as np
+import numpy as np  # type: ignore
+from typing import Sequence, List, Dict, Optional, Any
 
 from . import params  # type: ignore
 from .ABM_core import HIVModel
 
 
 def simulation(
-    nreps, time_range, N_pop, outfile_dir, parameters, runSeed, popSeed, netSeed
+    nreps: int,
+    time_range: int,
+    N_pop: int,
+    outfile_dir: str,
+    parameters: Dict[str, Any],
+    runSeed: int,
+    popSeed: int,
+    netSeed: int,
 ):
 
     # Run nreps simulations using the given parameters.
