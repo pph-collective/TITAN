@@ -483,7 +483,7 @@ NeedleTrans = {
     "5": 0.0002,
 }
 
-TransmissionProbabilities: Dict[Str, Any] = {"SEX": SexTrans, "NEEDLE": NeedleTrans}
+TransmissionProbabilities: Dict[str, Any] = {"SEX": SexTrans, "NEEDLE": NeedleTrans}
 
 
 """
