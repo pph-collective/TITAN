@@ -1128,9 +1128,7 @@ class HIVModel(NetworkClass):
                 else:
                     agent._PrEP_adh = 0
             else:
-                if (
-                    tmp_rnd < params.PrEP_Adherence
-                ):
+                if tmp_rnd < params.PrEP_Adherence:
                     agent._PrEP_adh = 1
                 else:
                     agent._PrEP_adh = 0
@@ -1234,9 +1232,7 @@ class HIVModel(NetworkClass):
         """
         # only valid for HIV agents
         if not agent._HIV_bool:
-            raise ValueError(
-                "AIDS only valid for HIV agents!agent:%s" % str(agent._ID)
-            )
+            raise ValueError("AIDS only valid for HIV agents!agent:%s" % str(agent._ID))
 
         # if agent not in self.AIDS_agents:
         if not agent._HAART_bool:
