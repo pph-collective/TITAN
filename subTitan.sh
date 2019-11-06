@@ -100,7 +100,7 @@ prepSubmit() {
     updateParams;
 
     #Submit job to cluster
-    sbatch scripts/bs_Core.sh
+    sbatch bs_Core.sh
 
     #Move back to base directory
     cd $basePath

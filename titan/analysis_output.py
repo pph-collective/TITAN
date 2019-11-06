@@ -170,7 +170,6 @@ def print_stats(
         if tmpA.vaccine_time >= 1:
             rsltdic[tmpA._race][tmpA._SO]["vaccinated"] += 1
 
-
     # Newly diagnosed tracker statistics
     for tmpA in NewDiagnosis.iter_agents():
         rsltdic[tmpA._race][tmpA._SO]["newlyTested"] += 1
@@ -286,7 +285,7 @@ def print_stats(
                         rsltdic[agentRace][agentTypes]["iduPartPrep"],
                         rsltdic[agentRace][agentTypes]["msmwPartPrep"],
                         rsltdic[agentRace][agentTypes]["testedPartPrep"],
-                        rsltdic[agentRace][agentTypes]["vaccinated"]
+                        rsltdic[agentRace][agentTypes]["vaccinated"],
                     )
                 )
             )

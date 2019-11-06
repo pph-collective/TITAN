@@ -464,7 +464,10 @@ class PopulationClass:
                     newAgent._treatment_bool = True
 
             if "Vaccine" in params.PrEP_type and newAgent._PrEP_bool == False:
-                if self.popRandom.random() < params.DemographicParams[Race][SexType]["vaccinePrev"]:
+                if (
+                    self.popRandom.random()
+                    < params.DemographicParams[Race][SexType]["vaccinePrev"]
+                ):
                     newAgent.vaccine_time = 1
 
         # Check if agent is HR as baseline.

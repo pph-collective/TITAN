@@ -208,7 +208,7 @@ RC_template = {
     "HighRiskPrev": 0.0,
     "PrEPadh": 1.0,
     "boosterInterval": 0,
-    "vaccinePrev": 0
+    "vaccinePrev": 0,
 }
 
 # RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
@@ -242,7 +242,7 @@ RaceClass1["MSM"].update(
         "PrEPdisc": 0.13,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.911,
-        "vaccinePrev": 0.5
+        "vaccinePrev": 0.5,
     }
 )
 
