@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -J MODEL_NAME
+#SBATCH -J Analysis_2019-11-06-T11-26-35
 #SBATCH --ntasks=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --time=12:00:00
