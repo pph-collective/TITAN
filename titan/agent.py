@@ -83,7 +83,7 @@ class Agent:
         self._PrEP_lastDose = 0
 
         # agent high risk params
-        self._highrisk_type = ""  # TO_REVIEW not really used?
+        self._highrisk_type = ""  # REVIEWED not really used? - delete
         self._highrisk_bool = False
         self._highrisk_time = 0
         self._everhighrisk_bool = False
@@ -220,92 +220,6 @@ class Agent:
 
         return ptnrs
 
-    # TO_REVIEW - not used anywhere
-    def print_agent(self):
-        """
-        Print the agent properties to stdout
-
-        returns:
-            None
-        """
-        print(
-            "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s"
-            % (
-                self._ID,
-                self._age,
-                self._SO,
-                self._DU,
-                self._race,
-                self._HIV_bool,
-                self._incar_bool,
-            )
-        )
-
-    # TO_REVIEW not used anywhere
-    def print_agent_abridge(self):
-        """
-        Print the abridged agent properties to stdout
-
-        returns:
-            None
-        """
-        print("\t%.6d\t%s\t%s" % (self._ID, self._SO, self._DU))
-
-    # TO_REVIEW - not used anywhere
-    def vars(self):
-        """
-        Get agent specific variables (used for printing stats)
-
-        returns:
-            vars (str) - string of variables for agent
-        """
-        return "%.6d,%d,%s,%s,%s,%s,%d,%d,%d,%s,%s,%s,%s\n" % (
-            self._ID,
-            self._age,
-            self._SO,
-            self._DU,
-            self._race,
-            self._HIV_bool,
-            len(self._partners),
-            self._num_sex_partners,
-            self._timeAlive,
-            self._AIDS_bool,
-            self._tested,
-            self._PrEP_bool,
-            self._incar_bool,
-        )
-
-    # TO_REVIEW - not used anywhere
-    def print_agent_to_file(self, filename: str, time: int = 0, overWrite: str = "a"):
-        """
-        Print the agent variables to a file
-
-        args:
-            filename (str) - name of file to write to
-            time (int) - timestep of print
-            overWrite (str) - write flag for f open
-        returns:
-            None
-        """
-        if overWrite == "a":
-            agentList = ""
-        else:
-            agentList = "Time,ID,Age,Gdr,SO,DU,Race,HIV+,Ptnrs,AIDS,Tested,PrEP,Incar\n"
-
-        agentList += str(time) + "," + self.vars()
-
-        open(str(filename), overWrite).write(agentList)
-
-    def print_relationships(self):  # TO_REVIEW - not used anywhere
-        """
-        Print the agents relationships to stdout
-
-        returns:
-            None
-        """
-        for tmpR in self._relationships:
-            tmpR.print_rel()
-
     def get_acute_status(self, time: int) -> bool:
         """
         :Purpose:
@@ -378,16 +292,6 @@ class Agent:
         elif params.PrEP_target_model == "MSM":
             if self._SO in ("MSM", "MTF"):
                 eligible = True
-        elif params.PrEP_target_model == "RandomTrial":
-            # If using random trial
-            if time == 0:
-                # if in init timestep 0, use agent set elligiblity
-                eligible = (
-                    self._PrEP_eligible
-                )  # TO_REVIEW agent doesn't have this attribute (and this is the method)
-            if time > 0:
-                # else, false to not continue enrollment past random trial start
-                eligible = False
 
         return eligible
 
@@ -454,7 +358,7 @@ class Agent:
 
         return p
 
-    # TO_REVIEW as written, it's not guaranteed to return an int, but seems likely given params, can't this be more clearly written as a for loop? it also looks like the params adds the p values, while this loop also adds p-values, is that correct?
+    # REVIEWED as written, it's not guaranteed to return an int, but seems likely given params, can't this be more clearly written as a for loop? it also looks like the params adds the p values, while this loop also adds p-values, is that correct? - Sarah to review with Max
     def get_number_of_sexActs(self, rand_gen) -> int:
         """
         :Purpose:
@@ -478,13 +382,13 @@ class Agent:
         pMatch = 0.0
 
         for i in range(1, 6):
-            pMatch += params.sexualFrequency[i]["p_value"]
+            pMatch = params.sexualFrequency[i]["p_value"]
             if rv <= pMatch:
                 minSA = params.sexualFrequency[i]["min"]
                 maxSA = params.sexualFrequency[i]["max"]
                 return rand_gen.randrange(minSA, maxSA, 1)
 
-        # TO_REVIEW - fallthrough return? 0?
+        # REVIEWED - fallthrough return? 0? - Sarah to review with Max
         return 0
 
 

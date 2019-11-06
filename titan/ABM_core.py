@@ -55,7 +55,7 @@ class HIVModel(NetworkClass):
         self,
         N: int,
         tmax: int,
-        parameter_dict: Dict[str, Any],  # TO_REVIEW not used anywhere
+        parameter_dict: Dict[str, Any],  # REVIEWED - not used anywhere - delete
         runseed: int,
         popseed: int,
         netseed: int,
@@ -92,7 +92,6 @@ class HIVModel(NetworkClass):
         self.popseed = get_check_rand_int(popseed)
         self.netseed = get_check_rand_int(netseed)
 
-        self.current_dir = os.getcwd()  # TO_REVIEW not used anywhere
         print("=== Begin Initialization Protocol ===\n")
 
         NetworkClass.__init__(
@@ -163,8 +162,7 @@ class HIVModel(NetworkClass):
         """
 
         def getStats(t):
-
-            (
+            print_stats(
                 self,
                 self.runseed,
                 t,
@@ -601,7 +599,7 @@ class HIVModel(NetworkClass):
             # Injection is possible
             # If agent is on post incar HR treatment to prevent IDU behavior, pass IUD infections
             if agent._incar_treatment_time > 0 and params.inc_treat_IDU_beh:
-                pass  # TO_REVIEW shouldn't this just return?
+                return  # REVIEWED shouldn't this just return?
 
             elif rel_sex_possible:
                 # Sex is possible
@@ -620,7 +618,7 @@ class HIVModel(NetworkClass):
                 self._sex_transmission(time, rel)
             else:
                 return
-        else:  # TO_REVIEW - how would we get here?
+        else:  # REVIEWED - sanity test, with params re-write this logic/check can move there
             raise ValueError("Agents must be either IDU, NIDU, or ND")
 
     def _needle_transmission(self, agent: Agent, partner: Agent, time: int):
@@ -707,15 +705,7 @@ class HIVModel(NetworkClass):
             agent = rel._ID2
             partner = rel._ID1
         else:
-            return  # TO_REVIEW should this error?
-
-        # Double check: Sex possible? # TO_REVIEW given all other checks, why check again?
-        Type_agent = agent._SO
-        Type_partner = partner._SO
-        if not sex_possible(Type_agent, Type_partner):
-            raise ValueError(
-                "Sex must be possible! %s %s" % (str(Type_agent), str(Type_partner))
-            )
+            return  # REVIEWED - this should error
 
         # HIV status of agent and partner
         # Everything from here is only run if one of them is HIV+
@@ -748,13 +738,12 @@ class HIVModel(NetworkClass):
             ppAct = agent.get_transmission_probability("SEX")
 
             # Reduction of transmissibility for acts between partners for PrEP adherence
-            # TO_REVIEW - if agent is guaranteed the one with HIV, don't we only care about _PrEP related things for the partner?
-            if agent._PrEP_bool or partner._PrEP_bool:
-                if agent._PrEPresistance or partner._PrEPresistance:
-                    pass
+            if partner._PrEP_bool:
+                if partner._PrEPresistance:
+                    pass  # partner prep resistant, no risk reduction
 
                 elif params.PrEP_type == "Oral":
-                    if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
+                    if partner._PrEP_adh == 1:
                         ppAct = ppAct * (1.0 - params.PrEP_AdhEffic)  # 0.04
                     else:
                         ppAct = ppAct * (1.0 - params.PrEP_NonAdhEffic)  # 0.24
@@ -763,7 +752,7 @@ class HIVModel(NetworkClass):
                     ppActReduction = (
                         -1.0 * np.exp(-5.528636721 * partner._PrEP_load) + 1
                     )
-                    if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
+                    if partner._PrEP_adh == 1:
                         ppAct = ppAct * (1.0 - ppActReduction)  # 0.04
 
             p_total_transmission: float
@@ -802,7 +791,7 @@ class HIVModel(NetworkClass):
         if agent._PrEP_bool:
             self._discont_PrEP(agent, time, force=True)
 
-    # TO_REVIEW - I'm a bit confused by what this function is doing
+    # REVIEWED - _enroll_treatment and treatmentEnrolled should be extricated
     def _enroll_treatment(self, time: int):
         """
         :Purpose:
@@ -969,7 +958,7 @@ class HIVModel(NetworkClass):
                     if not tmpA._HIV_bool:
                         self._initiate_PrEP(tmpA, time)
 
-    # TO_REVIEW - this logic seems to assume that the agend has HIV already - is that the case?
+    # REVIEW - change verbage to diagnosed
     def _HIVtest(self, agent: Agent, time: int):
         """
         :Purpose:
@@ -997,16 +986,6 @@ class HIVModel(NetworkClass):
             agent._tested = True
             self.NewDiagnosis.add_agent(agent)
             self.Trt_Tstd_agentSet.add_agent(agent)
-            # If treatment co-enrollment enabled and coverage greater than 0
-            if self.treatmentEnrolled and params.treatmentCov > 0:
-                # For each partner, attempt to test for HIV
-                for ptnr in agent._partners:
-                    if ptnr._HIV_bool and not ptnr._tested:
-                        if self.runRandom.random() < 0.87:
-                            ptnr._tested = True
-                            self.NewDiagnosis.add_agent(
-                                ptnr
-                            )  # TO_REVIEW why isn't the partner added to the Trt_Tstd_agentSet ?
 
     def _initiate_HAART(self, agent: Agent, time: int):
         """
@@ -1067,7 +1046,7 @@ class HIVModel(NetworkClass):
                     agent._HAART_time = time
                     self.Trt_ART_agentSet.add_agent(agent)
 
-            # TO_REVIEW - is this to go off HAART? seems at odds with method name
+            # REVIEWED - is this to go off HAART? seems at odds with method name - rename to updateHAARTStatus or something
             elif (
                 agent_haart
                 and self.runRandom.random()
@@ -1080,23 +1059,17 @@ class HIVModel(NetworkClass):
                     self.Trt_ART_agentSet.remove_agent(agent)
 
     def _discont_PrEP(self, agent: Agent, time: int, force: bool = False):
-        # TO_REVIEW - should this assert agent _PreP_bool is true?
+        # REVIEWED - should this assert agent _PreP_bool is true? - yes
 
         # If force flag set, auto kick off prep.
-        if force is True:  # TO_REVIEW should this set _PrEP_time to 0?
+        if force:
             self.Trt_PrEP_agentSet.remove_agent(agent)
             agent._PrEP_bool = False
             agent._PrEP_reason = []
+            agent._PrEP_time = 0
         # else if agent is no longer enrolled on PrEP, increase time since last dose
-        elif (
-            agent._PrEP_time > 0
-        ):  # TO_REVIEW doesn't this logic mean the next branch will never hit?
-            if agent._PrEP_time == 1:
-                agent._PrEP_bool = False
-                agent._PrEP_reason = []
-                agent._PrEP_time -= 1
-            else:
-                agent._PrEP_time -= 1
+        elif agent._PrEP_time > 0:
+            agent._PrEP_time -= 1
         # else if agent is on PrEP, see if they should discontinue
         elif agent._PrEP_bool and agent._PrEP_time == 0:
             if (
@@ -1146,7 +1119,7 @@ class HIVModel(NetworkClass):
                     self.MSMWprep += 1
 
             tmp_rnd = self.runRandom.random()
-            if params.PrEP_Adherence == "AtlantaMSM":
+            if params.setting == "AtlantaMSM":
                 if (
                     tmp_rnd
                     < params.DemographicParams[agent._race][agent._SO]["PrEPadh"]
@@ -1157,7 +1130,7 @@ class HIVModel(NetworkClass):
             else:
                 if (
                     tmp_rnd < params.PrEP_Adherence
-                ):  # TO_REVIEW sometimes PrEP_Adherence is a string and sometimes it's a number?
+                ):
                     agent._PrEP_adh = 1
                 else:
                     agent._PrEP_adh = 0
@@ -1191,7 +1164,7 @@ class HIVModel(NetworkClass):
             elif (
                 params.PrEP_target_model == "Incar"
                 or params.PrEP_target_model == "IncarHR"
-            ):  # TO_REVIEW the other two branches determine how many people should be on prep, this one enrolls - why the difference?
+            ):  # REVIEWED the other two branches determine how many people should be on prep, this one enrolls - why the difference? - move this branch of the logic to the next if/else statement
                 if self.runRandom.random() < params.PrEP_Target:
                     _enrollPrEP(self, agent)
                 return
@@ -1253,7 +1226,7 @@ class HIVModel(NetworkClass):
         print("No suitable PrEP agent")
         return None
 
-    # TO_REVIEW - agent_drug type not used
+    # REVIEWED - agent_drug type not used - delete
     def _progress_to_AIDS(self, agent: Agent, agent_drug_type: str):
         """
         :Purpose:
@@ -1262,8 +1235,8 @@ class HIVModel(NetworkClass):
         # only valid for HIV agents
         if not agent._HIV_bool:
             raise ValueError(
-                "HAART only valid for HIV agents!agent:%s" % str(agent._ID)
-            )  # TO_REVIEW this error message doesn't make sense to me
+                "AIDS only valid for HIV agents!agent:%s" % str(agent._ID)
+            )
 
         # if agent not in self.AIDS_agents:
         if not agent._HAART_bool:
@@ -1323,7 +1296,7 @@ class HIVModel(NetworkClass):
 
                     self.Relationships.remove_agent(
                         rel
-                    )  # TO_REVIEW shouldn't this be agent?
+                    )  # REVIEWED shouldn't this be agent? - change self.Relationships to list
 
                 # Remove agent node and edges from network graph
                 self.get_Graph().remove_node(agent)
@@ -1334,7 +1307,7 @@ class HIVModel(NetworkClass):
                 # Delete agent object
                 del agent
 
-                # Create new agent - TO_REVIEW - why do we want the same ID too?
+                # Create new agent - REVIEWED - why do we want the same ID too? - change to be next incremental ID number
                 agent_cl = self._return_new_Agent_class(ID_number, agent_race, sex_type)
                 self.create_agent(agent_cl, agent_race)
                 self.get_Graph().add_node(agent_cl)

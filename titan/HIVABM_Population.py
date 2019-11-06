@@ -192,7 +192,7 @@ class PopulationClass:
 
         self.Relationships = Agent_set(
             "Relationships"
-        )  # TO_REVIEW why is relationships an Agent_set filled with Relationship? Maybe just make this one a list as that's all it's used for
+        )  # REVIEWED why is relationships an Agent_set filled with Relationship? Maybe just make this one a list as that's all it's used for - change to list, update references
 
         # Create agents in allAgents list
         self.White_agents = deepcopy(allAgents[0 : self.numWhite])

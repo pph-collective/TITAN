@@ -5,7 +5,7 @@ from . import params  # type: ignore
 from typing import Dict, Any, List, Sequence, Optional
 from .agent import Agent_set
 
-# TO_REVIEW - result dict doesn't seemed to actually be used anywhere - I think we can delete this whole file
+# REVIEWED - result dict doesn't seemed to actually be used anywhere - result dict not used anywhwere really, extricate it
 def initiate_ResultDict() -> Dict[str, Any]:
     # nested dictionary for results (inner dictionary has the form: time:result)
     ResultDict = {
@@ -25,7 +25,7 @@ def initiate_ResultDict() -> Dict[str, Any]:
     return ResultDict
 
 
-# TO_REVIEW - self - what does it refer to? Also, this isn't used anywhere
+# REVIEWED - break this into small per report/type of report functions, add list to params with reports to write, change abm_core to have print_stats there which loops through params and writes appropriate files
 def print_stats(
     self,
     rseed: int,
