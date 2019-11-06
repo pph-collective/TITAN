@@ -41,7 +41,6 @@ def test_agent_init(make_agent):
     assert a._sexualRole == "Vers"
 
     # STI params
-    assert a._STI_pool == []
     assert a._HIV_bool is False
     assert a._HIV_time == 0
     assert a._AIDS_bool is False
@@ -72,7 +71,7 @@ def test_agent_init(make_agent):
     assert a._PrEP_lastDose == 0
 
     # high risk params
-    assert a._highrisk_type is None
+    assert a._highrisk_type == ""
     assert a._highrisk_bool is False
     assert a._highrisk_time == 0
     assert a._everhighrisk_bool is False
@@ -134,27 +133,8 @@ def test_relationship_init(make_agent, make_relationship):
     assert r.get_ID() == 100002
 
     # properties
-    assert r._SO == "MSM"
-    assert r._rel_type == "#REVIEW"
     assert r._duration == 10
     assert r._total_sex_acts == 0
-
-    # STI
-    assert r._STI_pool == []
-    assert r._HIV_bool is False
-    assert r._HIV_time == 0
-    assert r._AIDS_bool is False
-    assert r._AIDS_time == 0
-
-    # treatment
-    assert r._tested is False
-    assert r._HAART_bool is False
-    assert r._HAART_time == 0
-    assert r._HAART_adh == 0
-
-    # incarceration
-    assert r._incar_bool is False
-    assert r._incar_time == 0
 
 
 @pytest.mark.skip(
