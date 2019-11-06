@@ -21,6 +21,12 @@ def enablePrint():
 
 def main():
     wct = []  # wall clock times
+
+    # need to make sure results exists before creating outputs - REVIEWED - rewrite this better?
+    outfile_dir = os.path.join(os.getcwd(), "results")
+    if not os.path.isdir(outfile_dir):
+        os.mkdir(outfile_dir)
+
     open_outputs()
 
     for single_sim in range(params.N_MC):
