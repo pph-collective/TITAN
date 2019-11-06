@@ -78,12 +78,12 @@ def main():
 
 
 def open_outputs():
-    for agentRace in ["WHITE", "BLACK", "ALL"]:
+    for agentRace in ["WHITE", "BLACK"]:
         for agentTypes in params.agentPopulations:
             name = "basicReport_" + agentTypes + "_" + agentRace
             tmpReport = open("results/" + name + ".txt", "w")
             tmpReport.write(
-                "rseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\n"
+                "rseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\tvaccinated\n"
             )
             tmpReport.close()
 

@@ -103,6 +103,7 @@ def print_stats(
         "iduPartPrep": 0,
         "msmwPartPrep": 0,
         "testedPartPrep": 0,
+        "vaccinated": 0,
     }
 
     rc1_infections = {
@@ -165,6 +166,10 @@ def print_stats(
                 rsltdic[tmpA._race][tmpA._SO]["msmwPartPrep"] += 1
             if "HIV test" in tmpA._PrEP_reason:
                 rsltdic[tmpA._race][tmpA._SO]["testedPartPrep"] += 1
+    for tmpA in totalAgents.iter_agents():
+        if tmpA.vaccine_time >= 1:
+            rsltdic[tmpA._race][tmpA._SO]["vaccinated"] += 1
+
 
     # Newly diagnosed tracker statistics
     for tmpA in NewDiagnosis.iter_agents():
@@ -255,13 +260,13 @@ def print_stats(
             rsltdic["ALL"]["HF"][param] += rsltdic[race]["HF"][param]
             rsltdic["ALL"]["MSM"][param] += rsltdic[race]["MSM"][param]
             rsltdic["ALL"]["IDU"][param] += rsltdic[race]["IDU"][param]
-    for agentRace in ["WHITE", "BLACK", "ALL"]:
+    for agentRace in ["WHITE", "BLACK"]:
         for agentTypes in params.agentPopulations:
             name = "basicReport_" + agentTypes + "_" + agentRace
             tmpReport = open("results/" + name + ".txt", "a")
             tmpReport.write(
                 (
-                    "{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
+                    "{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
                         self.runseed,
                         self.popseed,
                         self.netseed,
@@ -281,6 +286,7 @@ def print_stats(
                         rsltdic[agentRace][agentTypes]["iduPartPrep"],
                         rsltdic[agentRace][agentTypes]["msmwPartPrep"],
                         rsltdic[agentRace][agentTypes]["testedPartPrep"],
+                        rsltdic[agentRace][agentTypes]["vaccinated"]
                     )
                 )
             )

@@ -16,7 +16,7 @@ N_REPS = 1
 N_POP = 1000  # population size
 TIME_RANGE = 10  # total time steps to iterate
 burnDuration = 1
-model = "PrEP"  # Model Type for fast flag toggling
+model = "Custom"  # Model Type for fast flag toggling
 setting = "AtlantaMSM"
 network_type = "scale_free"
 ####################
@@ -59,6 +59,7 @@ cal_ART_cov = 0.4  # Scaling factor for enrollment on ART probability
 cal_IncarP = 1.0
 cal_raceXmission = 4.0
 cal_ptnrSampleDepth = 100
+cal_Vaccine = 0
 
 # High risk params
 HR_partnerScale = 300  # Linear increase to partner number during HR period
@@ -77,6 +78,13 @@ safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
 initTreatment = 999999
 treatmentCov = 0.0
 
+"""
+Vaccine params
+"""
+vaccine_type = "RV144"
+booster = False
+vaccine_start = 99999
+
 # Incarceration params
 inc_JailMax = 9
 inc_JailMin = 1
@@ -91,7 +99,7 @@ inc_ARTdisc = 0.12
 inc_Recidivism = 0.267
 
 # PrEP params
-PrEP_type = "Oral"  # Oral/Inj PrEP modes
+PrEP_type = ["Oral", "Vaccine"]  # Oral/Inj PrEP modes
 PrEP_Target = (
     0.00
 )  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
@@ -109,7 +117,7 @@ PrEP_init_var1 = 0.05
 PrEP_init_var2 = 0.025
 PrEP_clinic_cat = "Racial"
 
-if PrEP_type == "Oral":
+if "Oral" in PrEP_type:
     PrEP_Adherence = "byRace"
     PrEP_AdhEffic = 0.96
     PrEP_NonAdhEffic = 0.76
@@ -166,6 +174,7 @@ elif model == "Custom":
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
+    flag_booster = False
 
 agentPopulations = ["MSM"]
 agentSexTypes = ["MSM"]
@@ -198,6 +207,8 @@ RC_template = {
     "PrEPdisc": 0.0,  # Probability of discontinuing PrEP treatment
     "HighRiskPrev": 0.0,
     "PrEPadh": 1.0,
+    "boosterInterval": 0,
+    "vaccinePrev": 0
 }
 
 # RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
@@ -231,6 +242,7 @@ RaceClass1["MSM"].update(
         "PrEPdisc": 0.13,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.911,
+        "vaccinePrev": 0.5
     }
 )
 
