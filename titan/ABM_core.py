@@ -477,7 +477,7 @@ class HIVModel(NetworkClass):
                 if burn:
                     if agent._incar_treatment_time >= 1:
                         agent._incar_treatment_time -= 1
-
+                else:
                     self._HIVtest(agent, time)
                     self._progress_to_AIDS(agent, agent_drug_type)
 
