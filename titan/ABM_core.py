@@ -527,6 +527,7 @@ class HIVModel(NetworkClass):
                     if agent._incar_treatment_time >= 1:
                         agent._incar_treatment_time -= 1
 
+                else:
                     self._HIVtest(agent, time)
                     self._progress_to_AIDS(agent, agent_drug_type)
 
@@ -1212,6 +1213,7 @@ class HIVModel(NetworkClass):
         sex_type = agent._SO
         race_type = agent._race
         tested = agent._tested
+
         if not tested:
             test_prob = params.DemographicParams[race_type][sex_type]["HIVTEST"]
 
@@ -1225,7 +1227,7 @@ class HIVModel(NetworkClass):
                 self.NewDiagnosis.add_agent(agent)
                 self.Trt_Tstd_agentSet.add_agent(agent)
                 # If treatment co-enrollment enabled and coverage greater than 0
-                if self.treatmentEnrolled and params.treatmentCov > 0:
+                if self.treatmentEnrolled and params.treatmentCov > 0: #TODO fix this logic
                     # For each partner, attempt to test for HIV
                     for ptnr in agent._partners:
                         if ptnr._HIV_bool and not ptnr._tested:
