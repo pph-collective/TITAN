@@ -363,7 +363,7 @@ class PopulationClass:
 
         return agent_dict
 
-    def _return_new_Agent_class(self, agentID, Race, SexType="NULL"):
+    def _return_new_Agent_class(self, agentID, Race, SexType="NULL", replacement=False):
         """
         :Purpose:
         Return random agent dict of a new agent..
@@ -463,7 +463,7 @@ class PopulationClass:
                     newAgent._PrEP_bool = True
                     newAgent._treatment_bool = True
 
-            if "Vaccine" in params.PrEP_type and newAgent._PrEP_bool == False:
+            if "Vaccine" in params.PrEP_type and newAgent._PrEP_bool == False and replacement == False:
                 if (
                     self.popRandom.random()
                     < params.DemographicParams[Race][SexType]["vaccinePrev"]

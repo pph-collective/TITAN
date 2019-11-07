@@ -949,18 +949,17 @@ class HIVModel(NetworkClass):
                                 if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
                                     ppAct = ppAct * (1.0 - ppActReduction)  # 0.04
                     if partner.vaccine_time >= 1:
-                        if params.vaccine_type == "RV144":
+                        if params.vaccine_type == "HVTN702":
                             ppActReduction = 1 - np.exp(
                                 -2.88
                                 + 0.76 * (np.log(partner.vaccine_time + 0.001 * 30))
                             )
-                            ppAct *= 1 - ppActReduction
-                    elif agent.vaccine_time >= 1:
-                        if params.vaccine_type == "RV144":
-                            ppActReduction = 1 - np.exp(
-                                -2.88 + 0.76 * (np.log(agent.vaccine_time + 0.001 * 30))
-                            )
-                            ppAct *= 1 - ppActReduction
+
+                        elif params.vaccine_type == "RV144":
+                            ppActReduction = 1 - np.exp(-2.40 + 0.76 * (np.log(partner.vaccine_time)))
+                        ppAct *= 1 - ppActReduction
+
+
                     p_total_transmission: float
                     if U_sex_acts2 == 1:
                         p_total_transmission = ppAct
@@ -1448,7 +1447,7 @@ class HIVModel(NetworkClass):
         """
         timeSinceVaccination = agent.vaccine_time - 1
 
-        def vaccinate(self, agent: Agent, vaxType: str):
+        def vaccinate(agent: Agent, vaxType: str):
             agent.vaccine_time = 1
             agent.vaccine_type = vaxType
 
@@ -1635,7 +1634,7 @@ class HIVModel(NetworkClass):
             for tmp_type in [HIV_status, "MSM", "HM", "HF", "WSW", "MTF"]:
                 self.num_Deaths[HIV_status].update({tmp_type: 0})
 
-    def _die_and_replace(self, time: int, reported: bool = True):
+    def _die_and_replace(self, time: int):
         """
         :Purpose:
             Let agents die and replace the dead agent with a new agent randomly.
@@ -1722,7 +1721,7 @@ class HIVModel(NetworkClass):
                     del agent
 
                     # Create new agent
-                    agent_cl = self._return_new_Agent_class(ID_number, race, sex_type)
+                    agent_cl = self._return_new_Agent_class(ID_number, race, sex_type, replacement=True)
                     self.create_agent(agent_cl, race)
                     self.get_Graph().add_node(agent_cl)
 
