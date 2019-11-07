@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -J MODEL_NAME
+#SBATCH -J Analysis_2019-11-06-T11-26-35
 #SBATCH --ntasks=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --time=12:00:00
@@ -33,4 +33,4 @@ echo This job has allocated $NCPU CPUs
 # $SLURM_NPROCS = nodes x ppn
 # Change global N_MC in MPI_simulation.py to $SLURM_NPROCS
 # and PROCESSES to a multiple of $SLURM_NPROCS for optimal distribution
-python run_titan.py
+python3 run_titan.py

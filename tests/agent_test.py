@@ -134,7 +134,6 @@ def test_relationship_init(make_agent, make_relationship):
     assert r.get_ID() == 100002
 
     # properties
-    assert r._SO == "MSM"
     assert r._rel_type == "#REVIEW"
     assert r._duration == 10
     assert r._total_sex_acts == 0

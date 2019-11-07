@@ -543,7 +543,11 @@ class HIVModel(NetworkClass):
                             pass
                         elif params.PrEP_target_model == "RandomTrial":
                             pass
-                        elif self._PrEP_eligible(agent, time) and not agent._PrEP_bool and agent.vaccine_time == 0:
+                        elif (
+                            self._PrEP_eligible(agent, time)
+                            and not agent._PrEP_bool
+                            and agent.vaccine_time == 0
+                        ):
                             self._initiate_PrEP(agent, time)
                 if "Vaccine" in params.PrEP_type and not agent._PrEP_bool and not burn:
                     self.initiate_Vaccine(agent, time, vaxType=params.vaccine_type)
@@ -599,10 +603,12 @@ class HIVModel(NetworkClass):
                         for ag in comp.nodes():
                             if (ag._HIV_bool is False) and (ag._PrEP_bool is False):
                                 ag._treatment_bool = True
-                                if self.runRandom.random() < params.PrEP_Target and agent.vaccine_time == 0:
+                                if (
+                                    self.runRandom.random() < params.PrEP_Target
+                                    and agent.vaccine_time == 0
+                                ):
                                     self._initiate_PrEP(ag, time, force=True)
                 print(("Total agents in trial: ", totNods))
-
 
     def _agents_interact(
         self, agent_1: Agent, agent_2: Agent, time: int, rel: Relationship
@@ -926,11 +932,15 @@ class HIVModel(NetworkClass):
                             pass
 
                         else:
-                            if "Oral" in params.PrEP_type: # params.PrEP_type == "Oral":
+                            if (
+                                "Oral" in params.PrEP_type
+                            ):  # params.PrEP_type == "Oral":
                                 if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
                                     ppAct = ppAct * (1.0 - params.PrEP_AdhEffic)  # 0.04
                                 else:
-                                    ppAct = ppAct * (1.0 - params.PrEP_NonAdhEffic)  # 0.24
+                                    ppAct = ppAct * (
+                                        1.0 - params.PrEP_NonAdhEffic
+                                    )  # 0.24
 
                             elif "Inj" in params.PrEP_type:
                                 ppActReduction = (
@@ -940,22 +950,22 @@ class HIVModel(NetworkClass):
                                     ppAct = ppAct * (1.0 - ppActReduction)  # 0.04
                     if partner.vaccine_time >= 1:
                         if params.vaccine_type == "RV144":
-                            ppActReduction = (
-                                 1 - np.exp(-2.88 + 0.76 * (np.log(partner.vaccine_time + 0.001 * 30)))
+                            ppActReduction = 1 - np.exp(
+                                -2.88
+                                + 0.76 * (np.log(partner.vaccine_time + 0.001 * 30))
                             )
-                            ppAct *= (1 - ppActReduction)
+                            ppAct *= 1 - ppActReduction
                     elif agent.vaccine_time >= 1:
                         if params.vaccine_type == "RV144":
-                            ppActReduction = (
-                                 1 - np.exp(-2.88 + 0.76 * (np.log(agent.vaccine_time + 0.001 * 30)))
+                            ppActReduction = 1 - np.exp(
+                                -2.88 + 0.76 * (np.log(agent.vaccine_time + 0.001 * 30))
                             )
-                            ppAct *= (1 - ppActReduction)
+                            ppAct *= 1 - ppActReduction
                     p_total_transmission: float
                     if U_sex_acts2 == 1:
                         p_total_transmission = ppAct
                     else:
                         p_total_transmission = 1.0 - binom.pmf(0, U_sex_acts1, ppAct)
-
 
                     if self.runRandom.random() < p_total_transmission:
 
@@ -1027,7 +1037,6 @@ class HIVModel(NetworkClass):
 
         if agent._PrEP_bool:
             self._discont_PrEP(agent, time, force=True)
-
 
     def _enroll_treatment(self, time: int):
         """
@@ -1438,21 +1447,30 @@ class HIVModel(NetworkClass):
             none
         """
         timeSinceVaccination = agent.vaccine_time - 1
+
         def vaccinate(self, agent: Agent, vaxType: str):
             agent.vaccine_time = 1
             agent.vaccine_type = vaxType
 
-        if agent.vaccine_time >=1:
+        if agent.vaccine_time >= 1:
             agent.vaccine_time += 1
 
-        if params.flag_booster and timeSinceVaccination % params.DemographicParams[agent._race][agent._SO][
-            "boosterInterval"] == 1 and params.DemographicParams[agent._race][agent._SO]["boosterProb"]:
+        if (
+            params.flag_booster
+            and timeSinceVaccination
+            % params.DemographicParams[agent._race][agent._SO]["boosterInterval"]
+            == 1
+            and params.DemographicParams[agent._race][agent._SO]["boosterProb"]
+        ):
             vaccinate(agent, vaxType)
 
         if time >= params.vaccine_start:
-            if random.random() < params.DemographicParams[agent._race][agent._SO]["prevVaccine"] * params.cal_Vaccine:
+            if (
+                random.random()
+                < params.DemographicParams[agent._race][agent._SO]["prevVaccine"]
+                * params.cal_Vaccine
+            ):
                 vaccinate(agent, vaxType)
-
 
     def _initiate_PrEP(self, agent: Agent, time: int, force: bool = False):
         """
