@@ -1447,21 +1447,25 @@ class HIVModel(NetworkClass):
         """
         timeSinceVaccination = agent.vaccine_time - 1
 
-        def vaccinate(agent: Agent, vaxType: str):
-            agent.vaccine_time = 1
-            agent.vaccine_type = vaxType
+        def vaccinate(ag: Agent, vax: str):
+            ag.vaccine_time = 1
+            ag.vaccine_type = vax
 
-        if agent.vaccine_time >= 1:
-            agent.vaccine_time += 1
 
-        if (
-            params.flag_booster
-            and timeSinceVaccination
-            % params.DemographicParams[agent._race][agent._SO]["boosterInterval"]
-            == 1
-            and params.DemographicParams[agent._race][agent._SO]["boosterProb"]
-        ):
-            vaccinate(agent, vaxType)
+        if time == 1:
+            if self.runRandom.random() < params.DemographicParams[agent._race][agent._SO]["vaccinePrev"]:
+                vaccinate(agent, vaxType)
+        else:
+            if agent.vaccine_time >= 1:
+                agent.vaccine_time += 1
+            if (
+                params.flag_booster
+                and timeSinceVaccination
+                % params.DemographicParams[agent._race][agent._SO]["boosterInterval"]
+                == 1
+                and  self.runRandom.random() < params.DemographicParams[agent._race][agent._SO]["boosterProb"]
+            ):
+                vaccinate(agent, vaxType)
 
         if time >= params.vaccine_start:
             if (
@@ -1721,7 +1725,7 @@ class HIVModel(NetworkClass):
                     del agent
 
                     # Create new agent
-                    agent_cl = self._return_new_Agent_class(ID_number, race, sex_type, replacement=True)
+                    agent_cl = self._return_new_Agent_class(ID_number, race, sex_type)
                     self.create_agent(agent_cl, race)
                     self.get_Graph().add_node(agent_cl)
 

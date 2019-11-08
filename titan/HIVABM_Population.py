@@ -363,7 +363,7 @@ class PopulationClass:
 
         return agent_dict
 
-    def _return_new_Agent_class(self, agentID, Race, SexType="NULL", replacement=False):
+    def _return_new_Agent_class(self, agentID, Race, SexType="NULL"):
         """
         :Purpose:
         Return random agent dict of a new agent..
@@ -462,13 +462,6 @@ class PopulationClass:
                 if self.popRandom.random() < prob_PrEP:
                     newAgent._PrEP_bool = True
                     newAgent._treatment_bool = True
-
-            if "Vaccine" in params.PrEP_type and newAgent._PrEP_bool == False and replacement == False:
-                if (
-                    self.popRandom.random()
-                    < params.DemographicParams[Race][SexType]["vaccinePrev"]
-                ):
-                    newAgent.vaccine_time = 1
 
         # Check if agent is HR as baseline.
         if (
