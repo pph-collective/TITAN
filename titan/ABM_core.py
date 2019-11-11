@@ -1404,6 +1404,7 @@ class HIVModel(NetworkClass):
         # If force flag set, auto kick off prep.
         if force is True:
             self.Trt_PrEP_agentSet.remove_agent(agent)
+            self.PrEPagents[agent._race][agent._SO] -= 1
             agent._PrEP_bool = False
             agent._PrEP_reason = []
         # else if agent is no longer enrolled on PrEP, increase time since last dose
@@ -1412,6 +1413,7 @@ class HIVModel(NetworkClass):
                 agent._PrEP_bool = False
                 agent._PrEP_reason = []
                 agent._PrEP_time -= 1
+                self.PrEPagents[agent._race][agent._SO] -= 1
             else:
                 agent._PrEP_time -= 1
 
@@ -1423,6 +1425,7 @@ class HIVModel(NetworkClass):
             ):
                 agent._PrEP_time = params.PrEP_falloutT
                 self.Trt_PrEP_agentSet.remove_agent(agent)
+                self.PrEPagents[agent._race][agent._SO] -= 1
 
                 if "Oral" in params.PrEP_type:
                     agent._PrEP_bool = False
@@ -1496,6 +1499,7 @@ class HIVModel(NetworkClass):
             agent._PrEP_time = 0
             self.Trt_PrEP_agentSet.add_agent(agent)
             self.newPrEPagents.add_agent(agent)
+            self.PrEPagents[agent._race][agent._SO] += 1
             self.newPrEPenrolls += 1
             if params.PrEP_target_model == "CDCwomen":
                 if "IDU" in agent._PrEP_reason:
@@ -1734,6 +1738,10 @@ class HIVModel(NetworkClass):
 
                     # Remove agent from agent class and sub-sets
                     self.All_agentSet.remove_agent(agent)
+
+                    # Remove agent from PrEP agents
+                    if agent._PrEP_bool:
+                        self.PrEPagents[agent._race][agent._SO] -= 1
 
                     # Delete agent object
                     del agent
