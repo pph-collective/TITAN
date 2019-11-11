@@ -171,6 +171,7 @@ class HIVModel(NetworkClass):
 
         self.ResultDict = initiate_ResultDict()
         self.newPrEPagents = Agent_set("NewPrEPagents")
+        self.PrEPagents = {"BLACK": {"MSM": 0, "HF": 0, "HM": 0}, 'WHITE': {"MSM": 0, "HF": 0, "HM": 0}}
         self.newPrEPenrolls = 0
         self.IDUprep = 0
         self.HIVprep = 0
@@ -1322,7 +1323,7 @@ class HIVModel(NetworkClass):
         self, agent: Agent, time: int
     ) -> bool:  # REVIEWED should this be in agent? self not used - move to agent
         eligible = False
-        if params.PrEP_target_model == "Allcomers":
+        if params.PrEP_target_model in ["Allcomers", "Racial"]:
             eligible = True
         elif params.PrEP_target_model == "CDCwomen":
             if agent._SO == "HF":
@@ -1528,7 +1529,7 @@ class HIVModel(NetworkClass):
 
         # Check valid input
         # Prep only valid for agents not on prep and are HIV negative
-        if agent._PrEP_bool or agent._HIV_bool or agent.vaccine_time == 0:
+        if agent._PrEP_bool or agent._HIV_bool or agent.vaccine_time > 0:
             return None
 
         # Determine probability of HIV treatment
@@ -1537,7 +1538,10 @@ class HIVModel(NetworkClass):
         if force:
             _enrollPrEP(self, agent)
         else:
-            numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
+            if params.PrEP_target_model == "Racial":
+                numPrEP_agents = sum(self.PrEPagents[agent_race].values())
+            else:
+                numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
 
             if params.PrEP_target_model == "Clinical":
                 target_PrEP_population = (
@@ -1551,6 +1555,16 @@ class HIVModel(NetworkClass):
                 if self.runRandom.random() < params.PrEP_Target:
                     _enrollPrEP(self, agent)
                 return None
+            elif params.PrEP_target_model == "Racial":
+                all_HIV_agents = set(self.All_agentSet._subset["HIV"]._members)
+                all_race = set(self.All_agentSet._subset["Race"]._subset[agent._race]._members)
+                HIV_agents = len(all_HIV_agents & all_race)
+                # print("HIV agents", HIV_agents, "totHIV", len(all_HIV_agents))
+                target_PrEP = (
+                                  (int(self.All_agentSet._subset["Race"]._subset[agent._race].num_members())
+                                   - HIV_agents)
+                                  * params.DemographicParams[agent._race][agent._SO]["PrEP_coverage"]
+                               )
             else:
                 target_PrEP = int(
                     (
