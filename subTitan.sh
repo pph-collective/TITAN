@@ -11,7 +11,7 @@ if [ $settingPath ]; then
 fi
 
 date=`date +%Y-%m-%d-T%H-%M-%S`
-srcCode="${titanPath}src/"
+srcCode="${titanPath}titan/"
 parentPath="Module_$setting/"
 jobname=Analysis_$setting_$date
 outPath="$HOME/scratch/$parentPath"

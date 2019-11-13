@@ -14,7 +14,6 @@ def simulation(
     time_range: int,
     N_pop: int,
     outfile_dir: str,
-    parameters: Dict[str, Any],
     runSeed: int,
     popSeed: int,
     netSeed: int,
@@ -23,7 +22,7 @@ def simulation(
     # Run nreps simulations using the given parameters.
     # Information are printed to outfile_dir directory.
     pid = os.getpid()
-    result_dict = {}
+    result_dict: Dict[str,Any] = {}
 
     for num_sim in range(nreps):
         inputSeed = runSeed
@@ -39,7 +38,6 @@ def simulation(
         MyModel = HIVModel(
             N=N_pop,
             tmax=time_range,
-            parameter_dict=parameters,
             runseed=inputSeed,
             popseed=popSeed,
             netseed=netSeed,
@@ -68,7 +66,7 @@ def simulation(
                     result_dict[key][t].append(x)
     return result_dict
 
-
+# TO_REVIEW not used anywhere
 def simulation_star(zipped_input):
     """
     This helper function is needed because multithreading pool only

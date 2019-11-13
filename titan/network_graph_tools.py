@@ -72,7 +72,7 @@ class NetworkClass(PopulationClass):
                         for rel in ag._relationships:
                             # print("Removed edge:",rel)
                             rel.progress(forceKill=True)
-                            self.Relationships.remove_agent(rel)
+                            self.Relationships.remove(rel)
                             component.remove_edge(rel._ID1, rel._ID2)
                             self.G.remove_edge(rel._ID1, rel._ID2)
 

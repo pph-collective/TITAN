@@ -212,7 +212,7 @@ RaceClass is a distinct racial/ethnic/social classification for demographics of 
 ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, PWID)
 RaceClass agent classifier template
 """
-RC_template = {
+RC_template: Dict[str,Any] = {
     "Race": None,  # Race of demographic
     "Class": None,  # Classification of networking
     "POP": 0.0,  # Percentage of total raceclass population that are ID
@@ -243,8 +243,8 @@ RC_allTemplate = {
     "AssortMixCoeff": 1.0,  # Proportion RC mixes with other raceclass
 }
 
-RaceClass1 = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
-RaceClass2 = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
+RaceClass1: Dict[str,Any] = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
+RaceClass2: Dict[str,Any] = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
 for a in ["MSM", "HM", "HF", "IDU"]:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
@@ -369,7 +369,7 @@ DemographicParams = {"WHITE": RaceClass1, "BLACK": RaceClass2}
 """
 Partnership duration distribution bins
 """
-sexualDurations = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
+sexualDurations: Dict[int,Any] = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
 sexualDurations[1] = {"p_value": (0.323 + 0.262), "min": 1, "max": 6}
 sexualDurations[2] = {"p_value": (0.323 + 0.262 + 0.116), "min": 7, "max": 12}
 sexualDurations[3] = {"p_value": (0.323 + 0.262 + 0.116 + 0.121), "min": 13, "max": 24}
@@ -380,7 +380,7 @@ sexualDurations[4] = {
 }
 sexualDurations[5] = {"min": 37, "max": 48}
 
-needleDurations = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
+needleDurations: Dict[int,Any] = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
 needleDurations[1] = {"p_value": 1.0, "min": 1, "max": 6}
 needleDurations[2] = {"p_value": (0.323 + 0.262), "min": 1, "max": 6}
 needleDurations[3] = {"p_value": (0.323 + 0.262), "min": 1, "max": 6}
@@ -392,7 +392,7 @@ PartnershipDurations = {"SEX": sexualDurations, "NEEDLE": needleDurations}
 """
 Partnership acts distribution bins
 """
-sexualFrequency = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
+sexualFrequency: Dict[int,Any] = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
 sexualFrequency[1] = {"p_value": (0.323 + 0.262), "min": 1, "max": 6}
 sexualFrequency[2] = {"p_value": (0.323 + 0.262 + 0.116), "min": 7, "max": 12}
 sexualFrequency[3] = {"p_value": (0.323 + 0.262 + 0.116 + 0.121), "min": 13, "max": 24}
@@ -423,7 +423,7 @@ sexualFrequency[8] = {
 }
 sexualFrequency[9] = {"min": 37, "max": 48}
 
-needleFrequency = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
+needleFrequency: Dict[int,Any] = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
 needleFrequency[1] = {"p_value": 1.0, "min": 1, "max": 6}
 needleFrequency[2] = {"p_value": (0.323 + 0.262), "min": 3, "max": 12}
 needleFrequency[3] = {"p_value": (0.323 + 0.262), "min": 6, "max": 24}
@@ -436,7 +436,7 @@ PartnershipFrequency = {"SEX": sexualFrequency, "NEEDLE": needleFrequency}
 """
 Sexual and injection transmission probabilities
 """
-SexTrans = {"MSM": {}, "HM": {}, "HF": {}}
+SexTrans: Dict[str,Any] = {"MSM": {}, "HM": {}, "HF": {}}
 
 SexTrans["MSM"] = {
     "0": 0.00745,
@@ -489,7 +489,7 @@ TransmissionProbabilities: Dict[str, Any] = {"SEX": SexTrans, "NEEDLE": NeedleTr
 """
 Age bin distributions and HIV if utilized
 """
-ageMatrix = {"WHITE": {}, "BLACK": {}}
+ageMatrix: Dict[str,Any] = {"WHITE": {}, "BLACK": {}}
 ageMatrix["WHITE"] = {
     "Prop": {
         0: 0.0,
@@ -517,7 +517,7 @@ ageMatrix["BLACK"] = {
 """
 Age mixing matrix for assortative mixing by age
 """
-mixingMatrix = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
+mixingMatrix: Dict[int,Any] = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
 mixingMatrix[1] = {1: 0.500, 2: 0.226, 3: 0.123, 4: 0.088, 5: 0.064}
 mixingMatrix[2] = {1: 0.156, 2: 0.500, 3: 0.185, 4: 0.099, 5: 0.061}
 mixingMatrix[3] = {1: 0.074, 2: 0.162, 3: 0.500, 4: 0.184, 5: 0.079}
@@ -528,7 +528,7 @@ mixingMatrix[5] = {1: 0.062, 2: 0.086, 3: 0.128, 4: 0.224, 5: 0.500}
 Clinic bins for targetting strategies
 Bins represent partner numbers of the following category 0:0, 1:1, 2:2,  3:3-4, 4:5-9, 5:10+
 """
-clinicAgents = {"Low": {}, "Mid": {}, "High": {}}
+clinicAgents: Dict[str,Any] = {"Low": {}, "Mid": {}, "High": {}}
 clinicAgents["Mid"] = {
     0: {"Prob": 0.0, "min": 0, "max": 0},
     1: {"Prob": 0.054, "min": 0, "max": 1},

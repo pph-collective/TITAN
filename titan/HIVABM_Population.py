@@ -190,9 +190,7 @@ class PopulationClass:
         # High risk agent sets
         self.highrisk_agentsSet = Agent_set("HRisk", parent=self.All_agentSet)
 
-        self.Relationships = Agent_set(
-            "Relationships"
-        )  # REVIEWED why is relationships an Agent_set filled with Relationship? Maybe just make this one a list as that's all it's used for - change to list, update references
+        self.Relationships = []
 
         # Create agents in allAgents list
         self.White_agents = deepcopy(allAgents[0 : self.numWhite])
@@ -597,7 +595,7 @@ class PopulationClass:
                 duration = get_partnership_duration(agent)
                 tmp_relationship = Relationship(agent, partner, "MSM", "SE", duration)
                 agent.bond(partner, tmp_relationship)
-                self.Relationships.add_agent(tmp_relationship)
+                self.Relationships.append(tmp_relationship)
                 graph.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
         else:
             EligibleAgents = self.All_agentSet
@@ -618,7 +616,7 @@ class PopulationClass:
                         )
 
                         agent.bond(partner, tmp_relationship)
-                        self.Relationships.add_agent(tmp_relationship)
+                        self.Relationships.append(tmp_relationship)
                         graph.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
                     else:
                         noMatch += 1

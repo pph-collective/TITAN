@@ -22,7 +22,6 @@ def enablePrint():
 def main():
     wct = []  # wall clock times
 
-    # need to make sure results exists before creating outputs - REVIEWED - rewrite this better?
     outfile_dir = os.path.join(os.getcwd(), "results")
     if not os.path.isdir(outfile_dir):
         os.mkdir(outfile_dir)
@@ -36,7 +35,6 @@ def main():
         if not os.path.isdir(outfile_dir):
             os.mkdir(outfile_dir)
         tic = time_mod.time()
-        parameters = None
 
         inputPopSeed = params.rSeed_pop
         inputNetSeed = params.rSeed_net
@@ -63,7 +61,6 @@ def main():
             params.TIME_RANGE,
             params.N_POP,
             outfile_dir,
-            parameters,
             runSeed=inputRunSeed,
             popSeed=inputPopSeed,
             netSeed=inputNetSeed,

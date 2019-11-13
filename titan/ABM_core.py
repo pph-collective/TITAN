@@ -55,7 +55,6 @@ class HIVModel(NetworkClass):
         self,
         N: int,
         tmax: int,
-        parameter_dict: Dict[str, Any],  # REVIEWED - not used anywhere - delete
         runseed: int,
         popseed: int,
         netseed: int,
@@ -340,7 +339,7 @@ class HIVModel(NetworkClass):
             if params.flag_DandR:
                 self._die_and_replace(t)
 
-            print(("Number of relationships: %d" % self.Relationships.num_members()))
+            print(("Number of relationships: %d" % len(self.Relationships)))
             self.All_agentSet.print_subsets()
 
             newInfB = len(
@@ -415,7 +414,7 @@ class HIVModel(NetworkClass):
         self.Transmit_from_agents = []
         self.Transmit_to_agents = []
 
-        for rel in self.Relationships._members:
+        for rel in self.Relationships:
             # If in burn, ignore interactions
             if burn:
                 pass
@@ -431,7 +430,7 @@ class HIVModel(NetworkClass):
                     if g.has_edge(rel._ID1, rel._ID2):
                         g.remove_edge(rel._ID1, rel._ID2)
 
-                    self.Relationships.remove_agent(rel)
+                    self.Relationships.remove(rel)
                     del rel
 
         if params.flag_HR:
@@ -460,10 +459,6 @@ class HIVModel(NetworkClass):
                             tmpA._mean_num_partners -= params.HR_partnerScale
 
         for agent in self.All_agentSet.iter_agents():
-
-            agent_drug_type = agent._DU
-            agent_HIV_status = agent._HIV_bool
-
             agent._timeAlive += 1
 
             if params.flag_incar:  # and not burn:
@@ -472,17 +467,17 @@ class HIVModel(NetworkClass):
             if agent._MSMW and self.runRandom.random() < params.HIV_MSMW:
                 self._become_HIV(agent, 0)
 
-            if agent_HIV_status:
+            if agent._HIV_bool:
                 # If in burnin, ignore HIV
                 if burn:
                     if agent._incar_treatment_time >= 1:
                         agent._incar_treatment_time -= 1
 
                     self._HIVtest(agent, time)
-                    self._progress_to_AIDS(agent, agent_drug_type)
+                    self._progress_to_AIDS(agent)
 
                     if params.flag_ART:
-                        self._initiate_HAART(agent, time)
+                        self._update_HAART(agent, time)
                         agent._HIV_time += 1
             else:
                 if params.flag_PrEP:
@@ -599,7 +594,7 @@ class HIVModel(NetworkClass):
             # Injection is possible
             # If agent is on post incar HR treatment to prevent IDU behavior, pass IUD infections
             if agent._incar_treatment_time > 0 and params.inc_treat_IDU_beh:
-                return  # REVIEWED shouldn't this just return?
+                return
 
             elif rel_sex_possible:
                 # Sex is possible
@@ -705,7 +700,7 @@ class HIVModel(NetworkClass):
             agent = rel._ID2
             partner = rel._ID1
         else:
-            return  # REVIEWED - this should error
+            raise ValueError("rel must have an agent with HIV")
 
         # HIV status of agent and partner
         # Everything from here is only run if one of them is HIV+
@@ -720,7 +715,7 @@ class HIVModel(NetworkClass):
 
         # Get condom usage
         if params.condomUseType == "Race":
-            p_UnsafeSafeSex = params.DemographicParams[agent._race][Type_agent][
+            p_UnsafeSafeSex = params.DemographicParams[agent._race][agent._SO][
                 "UNSAFESEX"
             ]
         else:
@@ -791,7 +786,7 @@ class HIVModel(NetworkClass):
         if agent._PrEP_bool:
             self._discont_PrEP(agent, time, force=True)
 
-    # REVIEWED - _enroll_treatment and treatmentEnrolled should be extricated
+    # TO_REVIEW - what should be the docstring here?
     def _enroll_treatment(self, time: int):
         """
         :Purpose:
@@ -987,7 +982,7 @@ class HIVModel(NetworkClass):
             self.NewDiagnosis.add_agent(agent)
             self.Trt_Tstd_agentSet.add_agent(agent)
 
-    def _initiate_HAART(self, agent: Agent, time: int):
+    def _update_HAART(self, agent: Agent, time: int):
         """
         :Purpose:
             Account for HIV treatment through highly active antiretroviral therapy (HAART).
@@ -1046,7 +1041,7 @@ class HIVModel(NetworkClass):
                     agent._HAART_time = time
                     self.Trt_ART_agentSet.add_agent(agent)
 
-            # REVIEWED - is this to go off HAART? seems at odds with method name - rename to updateHAARTStatus or something
+            # Go off HAART
             elif (
                 agent_haart
                 and self.runRandom.random()
@@ -1059,7 +1054,8 @@ class HIVModel(NetworkClass):
                     self.Trt_ART_agentSet.remove_agent(agent)
 
     def _discont_PrEP(self, agent: Agent, time: int, force: bool = False):
-        # REVIEWED - should this assert agent _PreP_bool is true? - yes
+        # Agent must be on PrEP to discontinue PrEP
+        assert agent._PrEP_bool
 
         # If force flag set, auto kick off prep.
         if force:
@@ -1159,13 +1155,6 @@ class HIVModel(NetworkClass):
                     self.All_agentSet.num_members() - self.HIV_agentSet.num_members()
                 )
                 target_PrEP = target_PrEP_population * params.PrEP_Target
-            elif (
-                params.PrEP_target_model == "Incar"
-                or params.PrEP_target_model == "IncarHR"
-            ):  # REVIEWED the other two branches determine how many people should be on prep, this one enrolls - why the difference? - move this branch of the logic to the next if/else statement
-                if self.runRandom.random() < params.PrEP_Target:
-                    _enrollPrEP(self, agent)
-                return
             else:
                 target_PrEP = int(
                     (
@@ -1176,6 +1165,12 @@ class HIVModel(NetworkClass):
                 )
 
             if params.PrEP_clinic_cat == "Racial" and agent_race == "BLACK":
+                if self.runRandom.random() < params.PrEP_Target:
+                    _enrollPrEP(self, agent)
+            elif (
+                params.PrEP_target_model == "Incar"
+                or params.PrEP_target_model == "IncarHR"
+            ):
                 if self.runRandom.random() < params.PrEP_Target:
                     _enrollPrEP(self, agent)
             elif (
@@ -1224,8 +1219,7 @@ class HIVModel(NetworkClass):
         print("No suitable PrEP agent")
         return None
 
-    # REVIEWED - agent_drug type not used - delete
-    def _progress_to_AIDS(self, agent: Agent, agent_drug_type: str):
+    def _progress_to_AIDS(self, agent: Agent):
         """
         :Purpose:
             Model the progression of HIV agents to AIDS agents
@@ -1290,9 +1284,9 @@ class HIVModel(NetworkClass):
                 for rel in agent._relationships:
                     rel.progress(forceKill=True)
 
-                    self.Relationships.remove_agent(
+                    self.Relationships.remove(
                         rel
-                    )  # REVIEWED shouldn't this be agent? - change self.Relationships to list
+                    )
 
                 # Remove agent node and edges from network graph
                 self.get_Graph().remove_node(agent)

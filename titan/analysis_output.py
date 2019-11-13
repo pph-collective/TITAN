@@ -3,12 +3,12 @@
 
 from . import params  # type: ignore
 from typing import Dict, Any, List, Sequence, Optional
-from .agent import Agent_set
+from .agent import Agent_set, Relationship, Agent
 
 # REVIEWED - result dict doesn't seemed to actually be used anywhere - result dict not used anywhwere really, extricate it
 def initiate_ResultDict() -> Dict[str, Any]:
     # nested dictionary for results (inner dictionary has the form: time:result)
-    ResultDict = {
+    ResultDict: Dict[str,Any] = {
         "Prv_HIV": {},
         "Prv_AIDS": {},
         "Prv_Test": {},
@@ -38,10 +38,10 @@ def print_stats(
     NewDiagnosis: Agent_set,
     deaths: Dict,
     ResultDict: Dict,
-    Relationships: Agent_set,
+    Relationships: List[Relationship],
     newHR: Agent_set,
     newIncarRelease: Agent_set,
-    deathSet: Agent_set,
+    deathSet: List[Agent],
 ):
     incidenceReport = open("results/IncidenceReport.txt", "a")
     prevalenceReport = open("results/PrevalenceReport.txt", "a")
@@ -610,6 +610,6 @@ def print_stats(
     except:
         ResultDict["Prv_ART"].update({t: (0.0)})
 
-    ResultDict["n_Relations"].update({t: Relationships.num_members()})
+    ResultDict["n_Relations"].update({t: len(Relationships)})
     ResultDict["Inc_t_HM"].update({t: rsltdic["WHITE"]["HM"]["inf_newInf"]})
     ResultDict["Inc_t_HF"].update({t: rsltdic["WHITE"]["HF"]["inf_newInf"]})
