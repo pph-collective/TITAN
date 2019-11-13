@@ -1284,9 +1284,7 @@ class HIVModel(NetworkClass):
                 for rel in agent._relationships:
                     rel.progress(forceKill=True)
 
-                    self.Relationships.remove(
-                        rel
-                    )
+                    self.Relationships.remove(rel)
 
                 # Remove agent node and edges from network graph
                 self.get_Graph().remove_node(agent)

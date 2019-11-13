@@ -8,7 +8,7 @@ from .agent import Agent_set, Relationship, Agent
 # REVIEWED - result dict doesn't seemed to actually be used anywhere - result dict not used anywhwere really, extricate it
 def initiate_ResultDict() -> Dict[str, Any]:
     # nested dictionary for results (inner dictionary has the form: time:result)
-    ResultDict: Dict[str,Any] = {
+    ResultDict: Dict[str, Any] = {
         "Prv_HIV": {},
         "Prv_AIDS": {},
         "Prv_Test": {},

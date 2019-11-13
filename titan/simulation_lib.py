@@ -22,7 +22,7 @@ def simulation(
     # Run nreps simulations using the given parameters.
     # Information are printed to outfile_dir directory.
     pid = os.getpid()
-    result_dict: Dict[str,Any] = {}
+    result_dict: Dict[str, Any] = {}
 
     for num_sim in range(nreps):
         inputSeed = runSeed
@@ -65,6 +65,7 @@ def simulation(
                 else:
                     result_dict[key][t].append(x)
     return result_dict
+
 
 # TO_REVIEW not used anywhere
 def simulation_star(zipped_input):
