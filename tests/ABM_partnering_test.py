@@ -6,8 +6,8 @@ from titan.agent import Agent
 
 @pytest.fixture
 def make_agent():
-    def _make_agent(id, SO="MSM", age=30, race="BLACK", DU="NDU"):
-        return Agent(id, SO, age, race, DU)
+    def _make_agent(SO="MSM", age=30, race="BLACK", DU="NDU"):
+        return Agent(SO, age, race, DU)
 
     return _make_agent
 

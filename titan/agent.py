@@ -8,14 +8,15 @@ from . import params
 class Agent:
     "Class for agent objects."
 
+    # class variable for agent creation
+    next_agent_id = 0
+
+    @classmethod
+    def update_id_counter(cls):
+        cls.next_agent_id += 1
+
     def __init__(
-        self,
-        ID: int,
-        SO: str,
-        age: int,
-        race: str,
-        DU: str,
-        initial_agent: bool = False,
+        self, SO: str, age: int, race: str, DU: str, initial_agent: bool = False,
     ):
         """
         Initialize an agent based on given properties
@@ -32,7 +33,8 @@ class Agent:
             None
         """
         # self._ID is unique ID number used to track each person agent.
-        self._ID = ID
+        self._ID = self.next_agent_id
+        self.update_id_counter()
         self._timeAlive = 0
 
         # agent properties

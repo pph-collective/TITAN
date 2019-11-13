@@ -37,7 +37,7 @@ TODO: Test coverage and examples.
 ## Built With
 * [Python3.x](https://www.python.org/downloads/release/python-374/) - Programming language
 * [Networkx](https://networkx.github.io/) - Network structure backend
-* [Numpy](http://www.numpy.org/) - Numberical libraries
+* [Numpy](http://www.numpy.org/) - Numerical libraries
 
 
 ## Authors

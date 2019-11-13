@@ -179,7 +179,7 @@ class HIVModel(NetworkClass):
                 self.deathSet,
             )
 
-        def print_components(t):
+        def print_components(t: int):
             name = "componentReport_ALL"
             compReport = open("results/" + name + ".txt", "a")
             components = sorted(
@@ -1295,8 +1295,7 @@ class HIVModel(NetworkClass):
                 # Delete agent object
                 del agent
 
-                # Create new agent - REVIEWED - why do we want the same ID too? - change to be next incremental ID number
-                agent_cl = self._return_new_Agent_class(ID_number, agent_race, sex_type)
+                agent_cl = self._return_new_Agent_class(agent_race, sex_type)
                 self.create_agent(agent_cl, agent_race)
                 self.get_Graph().add_node(agent_cl)
 
