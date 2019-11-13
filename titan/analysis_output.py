@@ -528,6 +528,10 @@ def print_stats(
         )
     )
 
+    assert (
+        tot_rsltdic["ALL"] == rsltdic["ALL"]
+    )  # TO_REVIEW - consolidate these to one thing?
+
     whiteReport.write(
         "%d\t%d\t%d\t%d\t%d\t%d\n"
         % (
@@ -611,3 +615,12 @@ def print_stats(
     ResultDict["n_Relations"].update({t: len(Relationships)})
     ResultDict["Inc_t_HM"].update({t: rsltdic["WHITE"]["HM"]["inf_newInf"]})
     ResultDict["Inc_t_HF"].update({t: rsltdic["WHITE"]["HF"]["inf_newInf"]})
+
+
+# THOUGHTS ON BREAKING THIS UP
+# * function to create and return rsltdic
+#   * uses param for which things to pivot on? (or always race then SO? and IDU?)
+#   * creates dicts for each of those things
+#   * creates all that recursively sums everything with matching keys
+# * function update model's result_dict (move this to ABM_core?)
+# * functions that take in rsltdic and write what is needed - function names in params

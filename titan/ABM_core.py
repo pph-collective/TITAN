@@ -307,27 +307,6 @@ class HIVModel(NetworkClass):
                     )
                 )
             )
-            print(
-                (
-                    "Trt:{trt} \t OAT:{oat} \t NAL:{nal}".format(
-                        trt=self.treatment_agentSet.num_members(),
-                        oat=len(
-                            [
-                                a
-                                for a in self.treatment_agentSet._members
-                                if a._OAT_bool is True
-                            ]
-                        ),
-                        nal=len(
-                            [
-                                a
-                                for a in self.treatment_agentSet._members
-                                if a._naltrex_bool is True
-                            ]
-                        ),
-                    )
-                )
-            )
             self.TimeStep = t
 
             self._update_AllAgents(t)
@@ -786,11 +765,10 @@ class HIVModel(NetworkClass):
         if agent._PrEP_bool:
             self._discont_PrEP(agent, time, force=True)
 
-    # TO_REVIEW - what should be the docstring here?
     def _enroll_treatment(self, time: int):
         """
         :Purpose:
-            Enroll agents with HIV in ART
+            Enroll IDU agents in needle exchange
 
         :Input:
             time : int
@@ -801,7 +779,7 @@ class HIVModel(NetworkClass):
             if self.runRandom.random() < params.treatmentCov and agent._DU == "IDU":
                 agent._SNE_bool = True
 
-    # TO_REVIEW this isn't used anywhere
+    # REVIEWED this isn't used anywhere, but should be! _incarcerate makes things high risk and should reference this
     def _becomeHighRisk(self, agent: Agent, HRtype: str = "", duration: int = None):
 
         if agent not in self.highrisk_agentsSet._members:

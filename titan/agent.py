@@ -72,12 +72,6 @@ class Agent:
         self._PrEP_adh = 0
         self._treatment_bool = False
         self._treatment_time = 0
-        self._OAT_bool = False
-        self._naltrex_bool = False
-        self._DOC_OAT_bool = False
-        self._DOC_NAL_bool = False
-        self._MATprev = 0
-        self._oatValue = 0
         self._PrEP_reason: List[str] = []
 
         # PrEP pharmacokinetics
@@ -412,7 +406,9 @@ class Relationship:
         # self._ID is unique ID number used to track each person agent.
         self._ID1 = ID1
         self._ID2 = ID2
-        self._ID = self._ID1.get_ID() * 100000 + self._ID2.get_ID()
+        self._ID = (
+            self._ID1.get_ID() * 100000 + self._ID2.get_ID()
+        )  # REVIEWED - is this ID scheme important for things? or should we use an auto-incrementer like Agent? = MAKE IT LIKE AGENT
 
         # Relationship properties
         self._duration = duration

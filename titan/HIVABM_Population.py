@@ -251,10 +251,6 @@ class PopulationClass:
         else:
             prob_HIV = params.DemographicParams[Deliminator][SexType]["HIV"]
 
-        # TO_REVIEW this field doesn't exist
-        # if self._MSMW:
-        #     prob_HIV *= 2
-
         if self.popRandom.random() < prob_HIV:
             HIVStatus = 1
 
@@ -571,7 +567,7 @@ class PopulationClass:
         age = self.popRandom.randrange(minAge, maxAge)
         return age, ageBin
 
-    # TO_REVIEW if if updates partners for an agent, the else seems to update a population of agent's partners - should this be two functions? The agent part is never used by other functions
+    # REVIEWED if if updates partners for an agent, the else seems to update a population of agent's partners - should this be two functions? The agent part is never used by other functions - SPLIT THIS UP
     def update_partner_assignments(
         self, partnerTurnover: float, graph, agent: Optional[Agent] = None
     ):

@@ -60,12 +60,6 @@ def test_agent_init(make_agent):
     assert a._PrEP_adh == 0
     assert a._treatment_bool is False
     assert a._treatment_time == 0
-    assert a._OAT_bool is False
-    assert a._naltrex_bool is False
-    assert a._DOC_OAT_bool is False
-    assert a._DOC_NAL_bool is False
-    assert a._MATprev == 0
-    assert a._oatValue == 0
     assert a._PrEP_reason == []
 
     # prep pharmacokinetics

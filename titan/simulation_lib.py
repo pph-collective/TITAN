@@ -67,21 +67,6 @@ def simulation(
     return result_dict
 
 
-# TO_REVIEW not used anywhere
-def simulation_star(zipped_input):
-    """
-    This helper function is needed because multithreading pool only
-    accepts one input argument. This helper function converts combined
-    arguments and calls the simulation function.
-    """
-    try:
-        return simulation(*zipped_input)
-    except TypeError:
-        for input_info in zipped_input:
-            print(input_info)
-        raise TypeError("Wrong input for simulation_star()!")
-
-
 def save_results(N_MC, time_range, rslts, outfile_dir, num_sim):
     """
     Save the result dictionary.
