@@ -78,6 +78,7 @@ class Agent:
         self._PrEP_reason: List[str] = []
         self.vaccine_time = 0
         self.vaccine_type = None
+        self.partnerTraced = False
 
         # PrEP pharmacokinetics
         self._PrEP_load = 0.0

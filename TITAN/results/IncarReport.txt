@@ -1,0 +1,5 @@
+seed	t	Total	W_HM	B_HM	W_HF	B_HF	W_MSM	B_MSM	W_HIV	B_HIV	W_rlsd_HM	W_rlsd_HF	B_rlsd_HM	B_rlsd_HF	W_rlsdHIV	B_rlsdHIV
+385774	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+385774	2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+385774	3	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+385774	4	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0

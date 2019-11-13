@@ -79,9 +79,9 @@ sed -i "s/\(TIME_RANGE = \)\([0-9]*\)/\1${simT}/g" titan/params.py
 sed -i "s/\(burnDuration = \)\([0-9]*\)/\1${burn}/g" titan/params.py
 
 #Submit script params
-sed -i "s/MODEL_NAME/$jobname/g" scripts/bs_Core.sh
-sed -i "s/WALL_TIME/$walltime/g" scripts/bs_Core.sh
-sed -i "s/MEMORY/$memory/g" scripts/bs_Core.sh
+sed -i "s/MODEL_NAME/$jobname/g" ${titanPath}scripts/bs_Core.sh
+sed -i "s/WALL_TIME/$walltime/g" ${titanPath}scripts/bs_Core.sh
+sed -i "s/MEMORY/$memory/g" ${titanPath}scripts/bs_Core.sh
 
 }
 
@@ -100,7 +100,7 @@ prepSubmit() {
     updateParams;
 
     #Submit job to cluster
-    sbatch scripts/bs_Core.sh
+    sbatch ${titanPath}scripts/bs_Core.sh
 
     #Move back to base directory
     cd $basePath

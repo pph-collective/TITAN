@@ -1,12 +1,12 @@
 #!/bin/bash
-#SBATCH -J MODEL_NAME
+#SBATCH -J Analysis_2019-11-06-T11-26-35
 #SBATCH --ntasks=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --time=WALL_TIME
+#SBATCH --time=12:00:00
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-type=END
-#SBATCH --mail-user=NoMail
-#SBATCH --mem=MEMORYGB
+#SBATCH --mail-user=Maximilian_King.brown.edu
+#SBATCH --mem=14GB
 
 if [ -z "$SLURM_NPROCS" ] ; then
   if [ -z "$SLURM_NTASKS_PER_NODE" ] ; then
@@ -17,6 +17,7 @@ fi
 #Conduct Dual analysis for 100 runs
 
 #!/bin/bash
+module load graphviz
 
 cd $PWD
 

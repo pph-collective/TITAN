@@ -13,11 +13,11 @@ rSeed_net = 0
 rSeed_run = 0
 N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_REPS = 1
-N_POP = 17440  # population size
-TIME_RANGE = 120  # total time steps to iterate
-burnDuration = 36
+N_POP = 1744  # population size
+TIME_RANGE = 5  # total time steps to iterate
+burnDuration = 12
 model = "VaccinePrEP"  # Model Type for fast flag toggling
-setting = "AtlantaMSM"
+setting = "Scott"
 network_type = "scale_free"
 ####################
 
@@ -37,6 +37,7 @@ drawFigures = False
 calcComponentStats = False
 flag_agentZero = False
 drawEdgeList = False
+partTrace = True
 
 """
 Calibration scaling parameters for fitting to empirical data
@@ -54,7 +55,7 @@ cal_AcuteScaling = 4.3  # Infectivity multiplier ratio for Acute status infectio
 cal_RR_Dx = 0.0  # Risk reduction in transmission probability for agents diagnosed
 cal_RR_HAART = 1.0  # Scaling factor for effectiveness of ART therapy on xmission P
 cal_TestFreq = 0.3  # Scaling factor for testing frequency
-cal_Mortality = 0.5  # Scaling factor for all cause mortality rates
+cal_Mortality = 1  # Scaling factor for all cause mortality rates
 cal_ProgAIDS = 0.05  # Scaling factor for all progression to AIDS from HIV rates
 cal_ART_cov = 0.2  # Scaling factor for enrollment on ART probability
 cal_IncarP = 1.0
@@ -82,7 +83,7 @@ treatmentCov = 0.0
 """
 Vaccine params
 """
-vaccine_type = "HVTN702"
+vaccine_type = "RV144"
 booster = False
 vaccine_start = 99999
 
@@ -252,8 +253,8 @@ RaceClass1["MSM"].update(
         "PrEPdisc": 0.13,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.911,
-        "PrEP_coverage": 0.415,
-        "vaccinePrev": 0.1,
+        "PrEP_coverage": 1.0,
+        "vaccinePrev": 0,
     }
 )
 
@@ -282,8 +283,8 @@ RaceClass2["MSM"].update(
         "PrEPdisc": 0.10,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.568,
-        "PrEP_coverage": 0.258,
-        "vaccinePrev": 0.1,
+        "PrEP_coverage": 0.0,
+        "vaccinePrev": 0.0,
     }
 )
 
