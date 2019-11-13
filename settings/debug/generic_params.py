@@ -45,8 +45,8 @@ inc_Recidivism = 0.267
 # PrEP params
 PrEP_type = "Inj"  # Oral/Inj PrEP modes
 PrEP_Target = (
-    0.05
-)  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+    0.05  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+)
 PrEP_startT = 0  # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82  # Probability of being adherent
 PrEP_AdhEffic = 0.96  # Efficacy of adherence PrEP

@@ -8,14 +8,14 @@ Main model parameters.
 ####################
 PROCESSES = 1  # number of processes in parallel (quadcore)
 rSeed_pop = (
-    0
-)  # seed for RNG for poulation building (0: pure random, -1: stepwise to N_REPS)
+    0  # seed for RNG for poulation building (0: pure random, -1: stepwise to N_REPS)
+)
 rSeed_net = (
-    0
-)  # seed for RNG for network formation (0: pure random, -1: stepwise to N_REPS)
+    0  # seed for RNG for network formation (0: pure random, -1: stepwise to N_REPS)
+)
 rSeed_run = (
-    0
-)  # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
+    0  # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
+)
 N_MC = 1000  # total number of iterations (Monte Carlo runs)
 N_REPS = 1
 N_POP = 11000  # population size
@@ -65,8 +65,8 @@ cal_ProgAIDS = 0.05  # Scaling factor for all progression to AIDS from HIV rates
 cal_ART_cov = 0.40  # Scaling factor for enrollment on ART probability
 cal_IncarP = 1.0  # Scaling factor for probability of becoming incarcerated
 cal_raceXmission = (
-    4.0
-)  # Scaling factor for increased STI transmission P comparing race1/race2
+    4.0  # Scaling factor for increased STI transmission P comparing race1/race2
+)
 cal_ptnrSampleDepth = 100  # Sampling depth for partnering algorithm.
 
 """
@@ -110,8 +110,8 @@ inc_Recidivism = 0.267
 inc_PtnrDissolution = 0.55
 inc_treatment_startdate = 48  # Timestep where inc treatment can begin
 inc_treatment_dur = (
-    12
-)  # Duration for which agents are forced on respective treatment post release
+    12  # Duration for which agents are forced on respective treatment post release
+)
 inc_treat_set = ["HM"]  # Set of agent classifiers effected by HR treatment
 inc_treat_HRsex_beh = True  # Remove sexual higrisk behaviour during treatment duration
 inc_treat_IDU_beh = True  # Remove IDU behav:iour during treatment duration
@@ -129,9 +129,7 @@ PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.00  # Probability of PrEP resistance developing
 PrEP_disc = 0.00  # Per month probability of PrEP discontinuation
-PrEP_target_model = (
-    "RandomTrial"
-)  # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
+PrEP_target_model = "RandomTrial"  # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
 PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it follow
 
 if PrEP_type == "Oral":
