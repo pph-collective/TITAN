@@ -801,6 +801,7 @@ class HIVModel(NetworkClass):
             if self.runRandom.random() < params.treatmentCov and agent._DU == "IDU":
                 agent._SNE_bool = True
 
+    # TO_REVIEW this isn't used anywhere
     def _becomeHighRisk(self, agent: Agent, HRtype: str = "", duration: int = None):
 
         if agent not in self.highrisk_agentsSet._members:
@@ -810,7 +811,6 @@ class HIVModel(NetworkClass):
 
         agent._highrisk_bool = True
         agent._everhighrisk_bool = True
-        agent._highrisk_type = HRtype
 
         if duration is not None:
             agent._highrisk_time = duration

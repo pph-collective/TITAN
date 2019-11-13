@@ -73,7 +73,6 @@ def test_agent_init(make_agent):
     assert a._PrEP_lastDose == 0
 
     # high risk params
-    assert a._highrisk_type == ""
     assert a._highrisk_bool is False
     assert a._highrisk_time == 0
     assert a._everhighrisk_bool is False

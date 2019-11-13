@@ -218,8 +218,6 @@ def print_stats(
 
     for tmpA in totalAgents.iter_agents():
         rsltdic[tmpA._race][tmpA._SO]["numAgents"] += 1
-        if tmpA._highrisk_type == "postIncar":
-            rsltdic[tmpA._race][tmpA._SO]["numHR"] += 1
 
     for tmpA in deathSet:
         rsltdic[tmpA._race][tmpA._SO]["deaths"] += 1

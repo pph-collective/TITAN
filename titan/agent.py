@@ -85,7 +85,6 @@ class Agent:
         self._PrEP_lastDose = 0
 
         # agent high risk params
-        self._highrisk_type = ""  # REVIEWED not really used? - delete
         self._highrisk_bool = False
         self._highrisk_time = 0
         self._everhighrisk_bool = False
@@ -179,7 +178,7 @@ class Agent:
         self._relationships.remove(relationship)
         partner._relationships.remove(relationship)
 
-        # Unpair agent with partner and partner with agent # REVIEWED switched this over - needs test thoroughly
+        # Unpair agent with partner and partner with agent
         self.unpair(partner)
         partner.unpair(self)
 
