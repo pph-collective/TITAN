@@ -1,5 +1,0 @@
-seed	t	Total	HIV	AIDS	Tested	ART	Incidence	HRInc_6mo	HRInc_Ev	NewlyDiag	Deaths	PrEP
-385774	1	0	0	0	0	0	0	0	0	0	0	7456
-385774	2	0	0	0	0	0	0	0	0	0	8	7648
-385774	3	0	8	0	0	0	8	0	0	0	24	7392
-385774	4	0	0	0	0	0	0	0	0	0	24	7464

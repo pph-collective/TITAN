@@ -16,7 +16,7 @@ try:
 except ImportError:
     raise ImportError("Can't import PopulationClass")
 
-from . import params  # type: ignore
+from titan import params
 from .agent import Agent_set
 
 

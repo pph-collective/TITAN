@@ -4,8 +4,7 @@
 # Imports
 import random
 
-from . import params  # type: ignore
-from . import probabilities as prob
+from titan import params, probabilities as prob
 
 
 def get_partner(agent, need_new_partners):

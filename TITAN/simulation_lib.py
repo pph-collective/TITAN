@@ -4,7 +4,7 @@
 import os
 import numpy as np
 
-from . import params  # type: ignore
+from titan import params
 from .ABM_core import HIVModel
 
 

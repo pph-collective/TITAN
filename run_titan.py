@@ -5,8 +5,8 @@ import time as time_mod
 import sys
 import os
 
-from titan.simulation_lib import simulation, save_results
-from titan import params
+from titan.titan.simulation_lib import simulation, save_results
+from titan.titan import params
 
 
 # Disable

@@ -27,8 +27,7 @@ try:
 except ImportError as e:
     raise ImportError("Can't import analysis_output! %s" % str(e))
 
-from . import probabilities as prob
-from . import params  # type: ignore
+from titan import params, probabilities as prob
 from .ABM_partnering import sex_possible
 
 
@@ -590,7 +589,7 @@ class HIVModel(NetworkClass):
                             )  # shouldn't be selected again
                             self._initiate_PrEP(selectedAgent, time)
             elif (
-                params.PrEP_target_model == "RandomTrial" and time == params.PrEP_startT
+                    params.PrEP_target_model == "RandomTrial" and time == params.PrEP_startT
             ):
                 print("Starting random trial")
                 components = sorted(
@@ -818,8 +817,8 @@ class HIVModel(NetworkClass):
         HIV_agent = agent._HIV_bool
         HIV_partner = partner._HIV_bool
         MEAN_N_ACTS = (
-            params.DemographicParams[Race_Agent][Type_agent]["NUMSexActs"]
-            * params.cal_NeedleActScaling
+                params.DemographicParams[Race_Agent][Type_agent]["NUMSexActs"]
+                * params.cal_NeedleActScaling
         )
         share_acts = poisson.rvs(MEAN_N_ACTS, size=1)[0]
 
@@ -831,8 +830,8 @@ class HIVModel(NetworkClass):
                 share_acts = 1
 
             p_UnsafeNeedleShare = (
-                params.DemographicParams[agent_race][agent_sex_type]["NEEDLESH"]
-                * params.safeNeedleExchangePrev
+                    params.DemographicParams[agent_race][agent_sex_type]["NEEDLESH"]
+                    * params.safeNeedleExchangePrev
             )
 
         for n in range(share_acts):
@@ -940,7 +939,7 @@ class HIVModel(NetworkClass):
                                     ppAct = ppAct * (1.0 - params.PrEP_AdhEffic)  # 0.04
                                 else:
                                     ppAct = ppAct * (
-                                        1.0 - params.PrEP_NonAdhEffic
+                                            1.0 - params.PrEP_NonAdhEffic
                                     )  # 0.24
 
                             elif "Inj" in params.PrEP_type:
@@ -1112,16 +1111,16 @@ class HIVModel(NetworkClass):
                                 self.NewHRrolls.add_agent(agent)
 
                             agent._mean_num_partners = (
-                                agent._mean_num_partners + params.HR_partnerScale
+                                    agent._mean_num_partners + params.HR_partnerScale
                             )
                             agent._highrisk_bool = True
                             agent._everhighrisk_bool = True
                             agent._highrisk_time = params.HR_M_dur
 
                     if (
-                        params.inc_treat_RIC
-                        or params.inc_treat_HRsex_beh
-                        or params.inc_treat_IDU_beh
+                            params.inc_treat_RIC
+                            or params.inc_treat_HRsex_beh
+                            or params.inc_treat_IDU_beh
                     ) and (time >= params.inc_treatment_startdate):
                         agent._incar_treatment_time = params.inc_treatment_dur
 
@@ -1140,10 +1139,10 @@ class HIVModel(NetworkClass):
                             # END FORCE
 
         elif (
-            self.runRandom.random()
-            < params.DemographicParams[race_type][sex_type]["INCAR"]
-            * (1 + (hiv_bool * 4))
-            * params.cal_IncarP
+                self.runRandom.random()
+                < params.DemographicParams[race_type][sex_type]["INCAR"]
+                * (1 + (hiv_bool * 4))
+                * params.cal_IncarP
         ):
             if agent._SO == "HF":
                 jailDuration = prob.HF_jail_duration
@@ -1200,8 +1199,8 @@ class HIVModel(NetworkClass):
                             tmpA._everhighrisk_bool = True
                             tmpA._highrisk_time = params.HR_F_dur
                 if params.flag_PrEP and (
-                    params.PrEP_target_model == "Incar"
-                    or params.PrEP_target_model == "IncarHR"
+                        params.PrEP_target_model == "Incar"
+                        or params.PrEP_target_model == "IncarHR"
                 ):
                     # Atempt to put partner on prep if less than probability
                     if not tmpA._HIV_bool and agent.vaccine_time == 0:
@@ -1309,9 +1308,9 @@ class HIVModel(NetworkClass):
                     agent._HAART_time = time
                     self.Trt_ART_agentSet.add_agent(agent)
             elif (
-                agent_haart
-                and self.runRandom.random()
-                < params.DemographicParams[agent_race][agent_so]["HAARTdisc"]
+                    agent_haart
+                    and self.runRandom.random()
+                    < params.DemographicParams[agent_race][agent_so]["HAARTdisc"]
             ):
                 if agent._incar_treatment_time > 0 and params.inc_treat_RIC:
                     pass
@@ -1555,8 +1554,8 @@ class HIVModel(NetworkClass):
                 )
                 target_PrEP = target_PrEP_population * params.PrEP_Target
             elif (
-                params.PrEP_target_model == "Incar"
-                or params.PrEP_target_model == "IncarHR"
+                    params.PrEP_target_model == "Incar"
+                    or params.PrEP_target_model == "IncarHR"
             ):
                 if self.runRandom.random() < params.PrEP_Target:
                     _enrollPrEP(self, agent)
@@ -1567,9 +1566,9 @@ class HIVModel(NetworkClass):
                 HIV_agents = len(all_HIV_agents & all_race)
                 # print("HIV agents", HIV_agents, "totHIV", len(all_HIV_agents))
                 target_PrEP = (
-                                  (int(self.All_agentSet._subset["Race"]._subset[agent._race].num_members())
+                        (int(self.All_agentSet._subset["Race"]._subset[agent._race].num_members())
                                    - HIV_agents)
-                                  * params.DemographicParams[agent._race][agent._SO]["PrEP_coverage"]
+                        * params.DemographicParams[agent._race][agent._SO]["PrEP_coverage"]
                                )
             else:
                 target_PrEP = int(
@@ -1584,9 +1583,9 @@ class HIVModel(NetworkClass):
                 if self.runRandom.random() < params.PrEP_Target:
                     _enrollPrEP(self, agent)
             elif (
-                numPrEP_agents < target_PrEP
-                and time >= params.PrEP_startT
-                and self._PrEP_eligible(agent, time)
+                    numPrEP_agents < target_PrEP
+                    and time >= params.PrEP_startT
+                    and self._PrEP_eligible(agent, time)
             ):
                 _enrollPrEP(self, agent)
 
