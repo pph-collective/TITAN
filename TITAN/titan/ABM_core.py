@@ -171,7 +171,10 @@ class HIVModel(NetworkClass):
 
         self.ResultDict = initiate_ResultDict()
         self.newPrEPagents = Agent_set("NewPrEPagents")
-        self.PrEPagents = {"BLACK": {"MSM": 0, "HF": 0, "HM": 0}, 'WHITE': {"MSM": 0, "HF": 0, "HM": 0}}
+        self.PrEPagents = {
+            "BLACK": {"MSM": 0, "HF": 0, "HM": 0},
+            "WHITE": {"MSM": 0, "HF": 0, "HM": 0},
+        }
         self.newPrEPenrolls = 0
         self.IDUprep = 0
         self.HIVprep = 0
@@ -957,9 +960,10 @@ class HIVModel(NetworkClass):
                             )
 
                         elif params.vaccine_type == "RV144":
-                            ppActReduction = 1 - np.exp(-2.40 + 0.76 * (np.log(partner.vaccine_time)))
-                        ppAct *= (1 - ppActReduction)
-
+                            ppActReduction = 1 - np.exp(
+                                -2.40 + 0.76 * (np.log(partner.vaccine_time))
+                            )
+                        ppAct *= 1 - ppActReduction
 
                     p_total_transmission: float
                     if U_sex_acts2 == 1:
@@ -1236,7 +1240,9 @@ class HIVModel(NetworkClass):
                 self.NewDiagnosis.add_agent(agent)
                 self.Trt_Tstd_agentSet.add_agent(agent)
                 # If treatment co-enrollment enabled and coverage greater than 0
-                if self.treatmentEnrolled and params.treatmentCov > 0: #TODO fix this logic
+                if (
+                    self.treatmentEnrolled and params.treatmentCov > 0
+                ):  # TODO fix this logic
                     # For each partner, attempt to test for HIV
                     for ptnr in agent._partners:
                         if ptnr._HIV_bool and not ptnr._tested:
@@ -1455,9 +1461,11 @@ class HIVModel(NetworkClass):
             ag.vaccine_time = 1
             ag.vaccine_type = vax
 
-
         if time == 1:
-            if self.runRandom.random() < params.DemographicParams[agent._race][agent._SO]["vaccinePrev"]:
+            if (
+                self.runRandom.random()
+                < params.DemographicParams[agent._race][agent._SO]["vaccinePrev"]
+            ):
                 vaccinate(agent, vaxType)
         else:
             if agent.vaccine_time >= 1:
@@ -1467,7 +1475,8 @@ class HIVModel(NetworkClass):
                 and timeSinceVaccination
                 % params.DemographicParams[agent._race][agent._SO]["boosterInterval"]
                 == 1
-                and  self.runRandom.random() < params.DemographicParams[agent._race][agent._SO]["boosterProb"]
+                and self.runRandom.random()
+                < params.DemographicParams[agent._race][agent._SO]["boosterProb"]
             ):
                 vaccinate(agent, vaxType)
 
@@ -1561,14 +1570,19 @@ class HIVModel(NetworkClass):
                 return None
             elif params.PrEP_target_model == "Racial":
                 all_HIV_agents = set(self.All_agentSet._subset["HIV"]._members)
-                all_race = set(self.All_agentSet._subset["Race"]._subset[agent._race]._members)
+                all_race = set(
+                    self.All_agentSet._subset["Race"]._subset[agent._race]._members
+                )
                 HIV_agents = len(all_HIV_agents & all_race)
                 # print("HIV agents", HIV_agents, "totHIV", len(all_HIV_agents))
                 target_PrEP = (
-                                  (int(self.All_agentSet._subset["Race"]._subset[agent._race].num_members())
-                                   - HIV_agents)
-                                  * params.DemographicParams[agent._race][agent._SO]["PrEP_coverage"]
-                               )
+                    int(
+                        self.All_agentSet._subset["Race"]
+                        ._subset[agent._race]
+                        .num_members()
+                    )
+                    - HIV_agents
+                ) * params.DemographicParams[agent._race][agent._SO]["PrEP_coverage"]
             else:
                 target_PrEP = int(
                     (
