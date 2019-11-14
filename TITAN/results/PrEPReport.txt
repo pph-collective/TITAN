@@ -1,5 +1,0 @@
-seed	t	NewEnroll	IDUpartner	TestedPartner	MSMWpartner
-385774	1	135	0	0	0
-385774	2	133	0	0	0
-385774	3	109	0	0	0
-385774	4	142	0	0	0

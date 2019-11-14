@@ -1,5 +1,0 @@
-seed	t	newHR_HM	newHR_HIV_HM	newHR_AIDS_HM	newHR_Tested_HM	newHR_ART_HM	newHR_HF	newHR_HIV_HF	newHR_AIDS_HF	newHR_Tested_HF	newHR_ART_HF
-385774	1	0	0	0	0	0	0	0	0	0	0
-385774	2	0	0	0	0	0	0	0	0	0	0
-385774	3	0	0	0	0	0	0	0	0	0	0
-385774	4	0	0	0	0	0	0	0	0	0	0

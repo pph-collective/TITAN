@@ -1,1 +1,0 @@
-rseed	pseed	nseed	t	compID	totalN	Nhiv	NprepElig	Nprep	Nnewinf
