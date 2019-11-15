@@ -91,7 +91,7 @@ prepSubmit() {
     echo -e "\n\tMoving setting $setting into $srcCode"
     cp $settingPath $srcCode/params.py
     echo -e "\n\tCopying $srcCode to $finalPath"
-    cp -rT $titanPath $finalPath
+    cp -rT $titanPath/* $finalPath
 
     #Move into new source code folder
     echo -e "\n\tMoving to model folder directory"
