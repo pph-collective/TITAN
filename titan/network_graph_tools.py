@@ -53,10 +53,13 @@ class NetworkClass(PopulationClass):
             )
         else:
             pass
+
+        # TO_REVIEW m_0 not used
         if m_0 not in list(range(10)):
             raise ValueError("m_0 must be integer smaller than 10")
         else:
             self.m_0 = m_0
+
         PopulationClass.__init__(self, n=N, rSeed=popSeed)  # Create population
 
         self.NetworkSize = N

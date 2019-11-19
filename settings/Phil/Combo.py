@@ -38,6 +38,20 @@ HFreport = False
 drawFigures = False
 calcComponentStats = False
 
+reports = [
+    "incidenceReport",
+    "prevalenceReport",
+    "deathReport",
+    "incarReport",
+    "iduReport",
+    "highriskReport",
+    "newlyhighriskReport",
+    "sexReport",
+    "raceReport",
+    "prepReport",
+    "basicReport",
+]
+
 """
 Calibration scaling parameters for fitting to empirical data
 """

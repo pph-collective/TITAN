@@ -5,91 +5,36 @@ from . import params  # type: ignore
 from typing import Dict, Any, List, Sequence, Optional
 from .agent import Agent_set, Relationship, Agent
 
-# REVIEWED - result dict doesn't seemed to actually be used anywhere - result dict not used anywhwere really, extricate it
-def initiate_ResultDict() -> Dict[str, Any]:
-    # nested dictionary for results (inner dictionary has the form: time:result)
-    ResultDict: Dict[str, Any] = {
-        "Prv_HIV": {},
-        "Prv_AIDS": {},
-        "Prv_Test": {},
-        "Prv_ART": {},
-        "Prv_PrEP": {},
-        "n_Relations": {},
-        "Inc_c_Tot": {},
-        "Inc_c_HM": {},
-        "Inc_c_HF": {},
-        "Inc_t_HM": {},
-        "Inc_t_HF": {},
-    }
-
-    return ResultDict
+MAIN_CAT = list(params.DemographicParams.keys())
+MAIN_CAT.append("ALL")
+SUB_CAT = params.agentPopulations
+SUB_CAT.append("ALL")
 
 
-# REVIEWED - break this into small per report/type of report functions, add list to params with reports to write, change abm_core to have print_stats there which loops through params and writes appropriate files
-def print_stats(
-    self,
-    rseed: int,
-    t: int,
+def get_stats(
     totalAgents: Agent_set,
     HIVAgents: Agent_set,
     IncarAgents: Agent_set,
     PrEPAgents: Agent_set,
+    newPrEPAgents: Agent_set,
     NewInfections: Agent_set,
     NewDiagnosis: Agent_set,
-    deaths: Dict,
-    ResultDict: Dict,
     Relationships: List[Relationship],
     newHR: Agent_set,
     newIncarRelease: Agent_set,
     deathSet: List[Agent],
 ):
-    incidenceReport = open("results/IncidenceReport.txt", "a")
-    prevalenceReport = open("results/PrevalenceReport.txt", "a")
-    deathReport = open("results/DeathReport.txt", "a")
-    incarReport = open("results/IncarReport.txt", "a")
-    iduReport = open("results/iduReport.txt", "a")
-    highriskReport = open("results/HR_incidenceReport.txt", "a")
-    newlyhighriskReport = open("results/newlyHR_Report.txt", "a")
-    femaleReport = open("results/FemaleReport.txt", "a")
-    maleReport = open("results/MaleReport.txt", "a")
-    msmReport = open("results/MSMReport.txt", "a")
-    nalReport = open("results/nalReport.txt", "a")
-    oatReport = open("results/oatReport.txt", "a")
-    whiteReport = open("results/W_pop_report.txt", "a")
-    blackReport = open("results/B_pop_report.txt", "a")
 
-    OAT_IDU_F = 0
-    OAT_IDU_M = 0
-    OAT_NIDU_F = 0
-    OAT_NIDU_M = 0
-    Prior_Year_OAT = 0
-    Naltrex_NIDU_M = 0
-    Naltrex_NIDU_F = 0
-    Naltrex_IDU_M = 0
-    Naltrex_IDU_F = 0
-    Prior_Year_Naltrex = 0
-    DOC_OAT_M = 0
-    DOC_OAT_F = 0
-    DOC_Naltrex_M = 0
-    DOC_Naltrex_F = 0
-
-    newHR_HM = 0
-    newHR_HIV_HM = 0
-    newHR_AIDS_HM = 0
-    newHR_Tested_HM = 0
-    newHR_ART_HM = 0
-    newHR_HF = 0
-    newHR_HIV_HF = 0
-    newHR_AIDS_HF = 0
-    newHR_Tested_HF = 0
-    newHR_ART_HF = 0
-
-    rc_template = {
+    stats_template = {
         "numAgents": 0,
         "inf_HR6m": 0,
         "inf_HRever": 0,
         "inf_newInf": 0,
-        "newHighRisk": 0,
+        "newHR": 0,
+        "newHR_HIV": 0,
+        "newHR_AIDS": 0,
+        "newHR_Tested": 0,
+        "newHR_ART": 0,
         "newRelease": 0,
         "newReleaseHIV": 0,
         "numHIV": 0,
@@ -99,528 +44,487 @@ def print_stats(
         "numHR": 0,
         "newlyTested": 0,
         "deaths": 0,
+        "deaths_HIV": 0,
         "incar": 0,
         "incarHIV": 0,
         "numPrEP": 0,
+        "newNumPrEP": 0,
         "iduPartPrep": 0,
         "msmwPartPrep": 0,
         "testedPartPrep": 0,
     }
 
-    rc1_infections = {
-        "MTF": dict(rc_template),
-        "MSM": dict(rc_template),
-        "HM": dict(rc_template),
-        "HF": dict(rc_template),
-        "IDU": dict(rc_template),
-        "ALL": dict(rc_template),
-    }
-
-    rc2_infections = {
-        "MTF": dict(rc_template),
-        "MSM": dict(rc_template),
-        "HM": dict(rc_template),
-        "HF": dict(rc_template),
-        "IDU": dict(rc_template),
-        "ALL": dict(rc_template),
-    }
-    all_infections = {
-        "MTF": dict(rc_template),
-        "MSM": dict(rc_template),
-        "HM": dict(rc_template),
-        "HF": dict(rc_template),
-        "IDU": dict(rc_template),
-        "ALL": dict(rc_template),
-    }
-    rsltdic = {"WHITE": rc1_infections, "BLACK": rc2_infections, "ALL": all_infections}
-    tot_rsltdic = {"ALL": all_infections}
+    stats = {}
+    for cat in MAIN_CAT:
+        stats[cat] = {sc: dict(stats_template) for sc in SUB_CAT}
 
     # Incarceration metrics
     for tmpA in IncarAgents.iter_agents():
-        rsltdic[tmpA._race][tmpA._SO]["incar"] += 1
+        stats[tmpA._race][tmpA._SO]["incar"] += 1
         if tmpA._HIV_bool:
-            rsltdic[tmpA._race][tmpA._SO]["incarHIV"] += 1
+            stats[tmpA._race][tmpA._SO]["incarHIV"] += 1
 
     for tmpA in newIncarRelease.iter_agents():
-        rsltdic[tmpA._race][tmpA._SO]["newRelease"] += 1
+        stats[tmpA._race][tmpA._SO]["newRelease"] += 1
         if tmpA._HIV_bool:
-            rsltdic[tmpA._race][tmpA._SO]["newReleaseHIV"] += 1
+            stats[tmpA._race][tmpA._SO]["newReleaseHIV"] += 1
 
     # Newly infected tracker statistics (with HR within 6mo and HR ever bool check)
-
     for tmpA in NewInfections.iter_agents():
-        rsltdic[tmpA._race][tmpA._SO]["inf_newInf"] += 1
+        stats[tmpA._race][tmpA._SO]["inf_newInf"] += 1
         if tmpA._everhighrisk_bool:
-            rsltdic[tmpA._race][tmpA._SO]["inf_HRever"] += 1
+            stats[tmpA._race][tmpA._SO]["inf_HRever"] += 1
         if tmpA._highrisk_bool:
-            rsltdic[tmpA._race][tmpA._SO]["inf_HR6m"] += 1
-
-    # MAT statistics
+            stats[tmpA._race][tmpA._SO]["inf_HR6m"] += 1
 
     # PrEP reason tracker
     for tmpA in totalAgents.iter_agents():
         if tmpA._PrEP_bool:
-            rsltdic[tmpA._race][tmpA._SO]["numPrEP"] += 1
+            stats[tmpA._race][tmpA._SO]["numPrEP"] += 1
             if "IDU" in tmpA._PrEP_reason:
-                rsltdic[tmpA._race][tmpA._SO]["iduPartPrep"] += 1
+                stats[tmpA._race][tmpA._SO]["iduPartPrep"] += 1
             if "MSMW" in tmpA._PrEP_reason:
-                rsltdic[tmpA._race][tmpA._SO]["msmwPartPrep"] += 1
+                stats[tmpA._race][tmpA._SO]["msmwPartPrep"] += 1
             if "HIV test" in tmpA._PrEP_reason:
-                rsltdic[tmpA._race][tmpA._SO]["testedPartPrep"] += 1
+                stats[tmpA._race][tmpA._SO]["testedPartPrep"] += 1
+
+    # Newly PrEP tracker statistics
+    for tmpA in newPrEPAgents.iter_agents():
+        stats[tmpA._race][tmpA._SO]["newNumPrEP"] += 1
 
     # Newly diagnosed tracker statistics
     for tmpA in NewDiagnosis.iter_agents():
-        rsltdic[tmpA._race][tmpA._SO]["newlyTested"] += 1
+        stats[tmpA._race][tmpA._SO]["newlyTested"] += 1
 
     # Newly HR agents
     for tmpA in newHR.iter_agents():
-        rsltdic[tmpA._race][tmpA._SO]["newHighRisk"] += 1
-        if tmpA._SO == "HM":
-            newHR_HM += 1
-            if tmpA._HIV_bool:
-                newHR_HIV_HM += 1
-                if tmpA._AIDS_bool:
-                    newHR_AIDS_HM += 1
-                if tmpA._tested:
-                    newHR_Tested_HM += 1
-                    if tmpA._HAART_bool:
-                        newHR_ART_HM += 1
-        elif tmpA._SO == "HF":
-            newHR_HF += 1
-            if tmpA._HIV_bool:
-                newHR_HIV_HF += 1
-                if tmpA._AIDS_bool:
-                    newHR_AIDS_HF += 1
-                if tmpA._tested:
-                    newHR_Tested_HF += 1
-                    if tmpA._HAART_bool:
-                        newHR_ART_HF += 1
+        stats[tmpA._race][tmpA._SO]["newHR"] += 1
+        if tmpA._HIV_bool:
+            stats[tmpA._race][tmpA._SO]["newHR_HIV"] += 1
+            if tmpA._AIDS_bool:
+                stats[tmpA._race][tmpA._SO]["newHR_AIDS"] += 1
+            if tmpA._tested:
+                stats[tmpA._race][tmpA._SO]["newHR_tested"] += 1
+                if tmpA._HAART_bool:
+                    stats[tmpA._race][tmpA._SO]["newHR_ART"] += 1
 
     # Total HIV summary snapshot for timestep
-    for tmpA in self.HIV_agentSet.iter_agents():
-        rsltdic[tmpA._race][tmpA._SO]["numHIV"] += 1
+    for tmpA in HIVAgents.iter_agents():
+        stats[tmpA._race][tmpA._SO]["numHIV"] += 1
         if tmpA._AIDS_bool:
-            rsltdic[tmpA._race][tmpA._SO]["numAIDS"] += 1
+            stats[tmpA._race][tmpA._SO]["numAIDS"] += 1
         if tmpA._tested:
-            rsltdic[tmpA._race][tmpA._SO]["numTested"] += 1
+            stats[tmpA._race][tmpA._SO]["numTested"] += 1
         if tmpA._HAART_bool:
-            rsltdic[tmpA._race][tmpA._SO]["numART"] += 1
+            stats[tmpA._race][tmpA._SO]["numART"] += 1
 
     for tmpA in totalAgents._subset["DU"]._subset["IDU"].iter_agents():
+        stats[tmpA._race]["IDU"]["numAgents"] += 1
         if tmpA._HIV_bool:
-            rsltdic[tmpA._race]["IDU"]["numHIV"] += 1
+            stats[tmpA._race]["IDU"]["numHIV"] += 1
         if tmpA._AIDS_bool:
-            rsltdic[tmpA._race]["IDU"]["numAIDS"] += 1
+            stats[tmpA._race]["IDU"]["numAIDS"] += 1
         if tmpA._tested:
-            rsltdic[tmpA._race]["IDU"]["numTested"] += 1
+            stats[tmpA._race]["IDU"]["numTested"] += 1
         if tmpA._HAART_bool:
-            rsltdic[tmpA._race]["IDU"]["numART"] += 1
+            stats[tmpA._race]["IDU"]["numART"] += 1
 
     for tmpA in totalAgents.iter_agents():
-        rsltdic[tmpA._race][tmpA._SO]["numAgents"] += 1
+        stats[tmpA._race][tmpA._SO]["numAgents"] += 1
 
     for tmpA in deathSet:
-        rsltdic[tmpA._race][tmpA._SO]["deaths"] += 1
-
-    deaths_total = (
-        deaths["Total"]["HM"] + deaths["Total"]["HF"] + deaths["Total"]["MSM"]
-    )
-    deaths_HM = deaths["Total"]["HM"]
-    deaths_MSM = deaths["Total"]["MSM"]
-    deaths_HF = deaths["Total"]["HF"]
-    deaths_HIV_total = (
-        deaths["HIV+"]["HM"] + deaths["HIV+"]["HF"] + deaths["HIV+"]["MSM"]
-    )
-    deaths_HIV_HM = deaths["HIV+"]["HM"]
-    deaths_HIV_MSM = deaths["HIV+"]["MSM"]
-    deaths_HIV_HF = deaths["HIV+"]["HF"]
+        stats[tmpA._race][tmpA._SO]["deaths"] += 1
+        if tmpA._HIV_bool:
+            stats[tmpA._race][tmpA._SO]["deaths_HIV"] += 1
 
     # Sum 'ALL' categories for race/SO bins
-    for race in rsltdic:
-        for param in rc_template:
-            rsltdic[race]["ALL"][param] = (
-                rsltdic[race]["MSM"][param]
-                + rsltdic[race]["HM"][param]
-                + rsltdic[race]["HF"][param]
+    for race in stats:
+        for param in stats_template:
+            for sc in SUB_CAT:
+                if sc in params.agentSexTypes:
+                    stats[race]["ALL"][param] += stats[race][sc][param]
+            for sc in SUB_CAT:
+                stats["ALL"][sc][param] += stats[race][sc][param]
+
+    # add relationship count (only makes sense at the all level)
+    stats["ALL"]["ALL"]["numRels"] = len(Relationships)
+
+    return stats
+
+
+# ================== Printer Functions =========================
+# Each of the following functions takes in the time, seeds, and stats dict for that time
+# and prints the appropriate stats to file
+
+
+def incidenceReport(
+    t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]
+):
+    f = open("results/IncidenceReport.txt", "a")
+
+    # if this is a new file, write the header info
+    if f.tell() == 0:
+        f.write("seed\tt\tTotal\tW_HM\tB_HM\tHM\tW_HF\tB_HF\tHF\tW_MSM\tB_MSM\tMSM\n")
+
+    f.write(
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
+        % (
+            runseed,
+            t,
+            stats["ALL"]["ALL"]["inf_newInf"],
+            stats["WHITE"]["HM"]["inf_newInf"],
+            stats["BLACK"]["HM"]["inf_newInf"],
+            stats["ALL"]["HM"]["inf_newInf"],
+            stats["WHITE"]["HF"]["inf_newInf"],
+            stats["BLACK"]["HF"]["inf_newInf"],
+            stats["ALL"]["HF"]["inf_newInf"],
+            stats["WHITE"]["MSM"]["inf_newInf"],
+            stats["BLACK"]["MSM"]["inf_newInf"],
+            stats["ALL"]["MSM"]["inf_newInf"],
+        )
+    )
+    f.close()
+
+
+def prevalenceReport(
+    t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]
+):
+    f = open("results/PrevalenceReport.txt", "a")
+
+    # if this is a new file, write the header info
+    if f.tell() == 0:
+        f.write("seed\tt\tTotal\tHM\tHF\tHIV_tot\tHIV_HM\tHIV_HF\n")
+
+    f.write(
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
+        % (
+            runseed,
+            t,
+            stats["ALL"]["ALL"]["numAgents"],
+            stats["ALL"]["HM"]["numAgents"],
+            stats["ALL"]["HF"]["numAgents"],
+            stats["ALL"]["ALL"]["numHIV"],
+            stats["ALL"]["HM"]["numHIV"],
+            stats["ALL"]["HF"]["numHIV"],
+        )
+    )
+    f.close()
+
+
+def deathReport(
+    t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]
+):
+    f = open("results/DeathReport.txt", "a")
+
+    # if this is a new file, write the header info
+    if f.tell() == 0:
+        f.write("seed\tt\tTotal\tHM\tMSM\tHF\tHIV_tot\tHIV_HM\tHIV_MSM\tHIV_HF\n")
+
+    f.write(
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
+        % (
+            runseed,
+            t,
+            stats["ALL"]["ALL"]["deaths"],
+            stats["ALL"]["HM"]["deaths"],
+            stats["ALL"]["MSM"]["deaths"],
+            stats["ALL"]["HF"]["deaths"],
+            stats["ALL"]["ALL"]["deaths_HIV"],
+            stats["ALL"]["HM"]["deaths_HIV"],
+            stats["ALL"]["MSM"]["deaths_HIV"],
+            stats["ALL"]["HF"]["deaths_HIV"],
+        )
+    )
+    f.close()
+
+
+def incarReport(
+    t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]
+):
+    f = open("results/IncarReport.txt", "a")
+
+    # if this is a new file, write the header info
+    if f.tell() == 0:
+        f.write(
+            "seed\tt\tTotal\tW_HM\tB_HM\tW_HF\tB_HF\tW_MSM\tB_MSM\tW_HIV\tB_HIV\tW_rlsd_HM\tW_rlsd_HF\tB_rlsd_HM\tB_rlsd_HF\tW_rlsdHIV\tB_rlsdHIV\n"
+        )
+
+    f.write(
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
+        % (
+            runseed,
+            t,
+            stats["ALL"]["ALL"]["incar"],
+            stats["WHITE"]["HM"]["incar"],
+            stats["BLACK"]["HM"]["incar"],
+            stats["WHITE"]["HF"]["incar"],
+            stats["BLACK"]["HF"]["incar"],
+            stats["WHITE"]["MSM"]["incar"],
+            stats["BLACK"]["MSM"]["incar"],
+            stats["WHITE"]["ALL"]["incarHIV"],
+            stats["BLACK"]["ALL"]["incarHIV"],
+            stats["WHITE"]["HM"]["newRelease"],
+            stats["WHITE"]["HF"]["newRelease"],
+            stats["BLACK"]["HM"]["newRelease"],
+            stats["BLACK"]["HF"]["newRelease"],
+            stats["WHITE"]["ALL"]["newReleaseHIV"],
+            stats["BLACK"]["ALL"]["newReleaseHIV"],
+        )
+    )
+    f.close()
+
+
+def iduReport(t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]):
+    f = open("results/iduReport.txt", "a")
+
+    # if this is a new file, write the header info
+    if f.tell() == 0:
+        f.write("seed\tt\tTotal-IDU\tIDU-HIV\tIDU-AIDS\tIDU-HAART\tIDU-tested\n")
+
+    f.write(
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
+        % (
+            runseed,
+            t,
+            stats["ALL"]["IDU"]["numAgents"],
+            stats["ALL"]["IDU"]["numHIV"],
+            stats["ALL"]["IDU"]["numAIDS"],
+            stats["ALL"]["IDU"]["numART"],
+            stats["ALL"]["IDU"]["numTested"],
+        )
+    )
+    f.close()
+
+
+def highriskReport(
+    t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]
+):
+    f = open("results/HR_incidenceReport.txt", "a")
+
+    # if this is a new file, write the header info
+    if f.tell() == 0:
+        f.write("seed\tt\tTot_Ev\tHM_Ev\tHF_Ev\tTot_6mo\tHM_6mo\tHF_6mo\n")
+
+    f.write(
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
+        % (
+            runseed,
+            t,
+            stats["ALL"]["ALL"]["inf_HRever"],
+            stats["ALL"]["HM"]["inf_HRever"],
+            stats["ALL"]["HF"]["inf_HRever"],
+            stats["ALL"]["ALL"]["inf_HR6m"],
+            stats["ALL"]["HM"]["inf_HR6m"],
+            stats["ALL"]["HF"]["inf_HR6m"],
+        )
+    )
+    f.close()
+
+
+def newlyhighriskReport(
+    t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]
+):
+    f = open("results/newlyHR_Report.txt", "a")
+
+    # if this is a new file, write the header info
+    if f.tell() == 0:
+        f.write(
+            "seed\tt\tnewHR_HM\tnewHR_HIV_HM\tnewHR_AIDS_HM\tnewHR_Tested_HM\tnewHR_ART_HM\tnewHR_HF\tnewHR_HIV_HF\tnewHR_AIDS_HF\tnewHR_Tested_HF\tnewHR_ART_HF\n"
+        )
+
+    f.write(
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
+        % (
+            runseed,
+            t,
+            stats["ALL"]["HM"]["newHR"],
+            stats["ALL"]["HM"]["newHR_HIV"],
+            stats["ALL"]["HM"]["newHR_AIDS"],
+            stats["ALL"]["HM"]["newHR_Tested"],
+            stats["ALL"]["HM"]["newHR_ART"],
+            stats["ALL"]["HF"]["newHR"],
+            stats["ALL"]["HF"]["newHR_HIV"],
+            stats["ALL"]["HF"]["newHR_AIDS"],
+            stats["ALL"]["HF"]["newHR_Tested"],
+            stats["ALL"]["HF"]["newHR_ART"],
+        )
+    )
+    f.close()
+
+
+# TO_REVIEW this is really the HM vs HF vs MSM report - should it be more general?
+def sexReport(t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]):
+    for sexType in ["HF", "HM", "MSM"]:
+        if sexType == "HF":
+            longName = "Female"
+        elif sexType == "HM":
+            longName = "Male"
+        else:
+            longName = sexType
+
+        f = open(f"results/{longName}Report.txt", "a")
+
+        # if this is a new file, write the header info
+        if f.tell() == 0:
+            f.write(
+                "seed\tt\tTotal\tHIV\tAIDS\tTested\tART\tIncidence\tHRInc_6mo\tHRInc_Ev\tNewlyDiag\tDeaths\n"
             )
 
-    for race in rsltdic:
-        for param in rc_template:
-            tot_rsltdic["ALL"]["ALL"][param] += rsltdic[race]["ALL"][param]
-            tot_rsltdic["ALL"]["HM"][param] += rsltdic[race]["HM"][param]
-            tot_rsltdic["ALL"]["HF"][param] += rsltdic[race]["HF"][param]
-            tot_rsltdic["ALL"]["MSM"][param] += rsltdic[race]["MSM"][param]
-            tot_rsltdic["ALL"]["IDU"][param] += rsltdic[race]["IDU"][param]
-            rsltdic["ALL"]["ALL"][param] += rsltdic[race]["ALL"][param]
-            rsltdic["ALL"]["HM"][param] += rsltdic[race]["HM"][param]
-            rsltdic["ALL"]["HF"][param] += rsltdic[race]["HF"][param]
-            rsltdic["ALL"]["MSM"][param] += rsltdic[race]["MSM"][param]
-            rsltdic["ALL"]["IDU"][param] += rsltdic[race]["IDU"][param]
+        f.write(
+            (
+                "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
+                % (
+                    runseed,
+                    t,
+                    stats["ALL"][sexType]["numAgents"],
+                    stats["ALL"][sexType]["numHIV"],
+                    stats["ALL"][sexType]["numAIDS"],
+                    stats["ALL"][sexType]["numTested"],
+                    stats["ALL"][sexType]["numART"],
+                    stats["ALL"][sexType]["inf_newInf"],
+                    stats["ALL"][sexType]["inf_HR6m"],
+                    stats["ALL"][sexType]["inf_HRever"],
+                    stats["ALL"][sexType]["newlyTested"],
+                    stats["ALL"][sexType]["deaths"],
+                    stats["ALL"][sexType]["numPrEP"],
+                )
+            )
+        )
+        f.close()
 
-    for agentRace in ["WHITE", "BLACK", "ALL"]:
-        for agentTypes in params.agentPopulations:
+
+# TO_REVIEW data doesn't match headers
+def raceReport(t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]):
+    for race in ["WHITE", "BLACK"]:
+        r_init = race[0]
+        f = open(f"results/{r_init}_pop_report.txt", "a")
+
+        # if this is a new file, write the header info
+        if f.tell() == 0:
+            f.write("seed\tt\tTotal\tHM\tHF\tHIV_tot\tHIV_HM\tHIV_HF\n")
+
+        f.write(
+            "%d\t%d\t%d\t%d\t%d\t%d\n"
+            % (
+                runseed,
+                t,
+                stats[race]["ALL"]["numHIV"],
+                stats[race]["MSM"]["numHIV"],
+                stats[race]["ALL"]["numTested"],
+                stats[race]["ALL"]["numART"],
+            )
+        )
+        f.close()
+
+
+def prepReport(t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]):
+    f = open("results/PrEPReport.txt", "a")
+
+    # if this is a new file, write the header info
+    if f.tell() == 0:
+        f.write("seed\tt\tNewEnroll\tIDUpartner\tTestedPartner\tMSMWpartner\n")
+
+    f.write(
+        "%d\t%d\t%d\t%d\t%d\t%d\n"
+        % (
+            runseed,
+            t,
+            stats["ALL"]["ALL"]["newNumPrEP"],
+            stats["ALL"]["ALL"]["iduPartPrep"],
+            stats["ALL"]["ALL"]["testedPartPrep"],
+            stats["ALL"]["ALL"]["msmwPartPrep"],
+        )
+    )
+    f.close()
+
+
+def basicReport(
+    t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]
+):
+    for agentRace in MAIN_CAT:
+        for agentTypes in SUB_CAT:
             name = "basicReport_" + agentTypes + "_" + agentRace
             tmpReport = open("results/" + name + ".txt", "a")
+
+            # if this is a new file, write the header info
+            if tmpReport.tell() == 0:
+                tmpReport.write(
+                    "rseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\n"
+                )
+
             tmpReport.write(
                 (
                     "{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
-                        self.runseed,
-                        self.popseed,
-                        self.netseed,
+                        runseed,
+                        popseed,
+                        netseed,
                         t,
-                        rsltdic[agentRace][agentTypes]["numAgents"],
-                        rsltdic[agentRace][agentTypes]["numHIV"],
-                        rsltdic[agentRace][agentTypes]["numAIDS"],
-                        rsltdic[agentRace][agentTypes]["numTested"],
-                        rsltdic[agentRace][agentTypes]["numART"],
-                        rsltdic[agentRace][agentTypes]["numHR"],
-                        rsltdic[agentRace][agentTypes]["inf_newInf"],
-                        rsltdic[agentRace][agentTypes]["inf_HR6m"],
-                        rsltdic[agentRace][agentTypes]["inf_HRever"],
-                        rsltdic[agentRace][agentTypes]["newlyTested"],
-                        rsltdic[agentRace][agentTypes]["deaths"],
-                        rsltdic[agentRace][agentTypes]["numPrEP"],
-                        rsltdic[agentRace][agentTypes]["iduPartPrep"],
-                        rsltdic[agentRace][agentTypes]["msmwPartPrep"],
-                        rsltdic[agentRace][agentTypes]["testedPartPrep"],
+                        stats[agentRace][agentTypes]["numAgents"],
+                        stats[agentRace][agentTypes]["numHIV"],
+                        stats[agentRace][agentTypes]["numAIDS"],
+                        stats[agentRace][agentTypes]["numTested"],
+                        stats[agentRace][agentTypes]["numART"],
+                        stats[agentRace][agentTypes]["numHR"],
+                        stats[agentRace][agentTypes]["inf_newInf"],
+                        stats[agentRace][agentTypes]["inf_HR6m"],
+                        stats[agentRace][agentTypes]["inf_HRever"],
+                        stats[agentRace][agentTypes]["newlyTested"],
+                        stats[agentRace][agentTypes]["deaths"],
+                        stats[agentRace][agentTypes]["numPrEP"],
+                        stats[agentRace][agentTypes]["iduPartPrep"],
+                        stats[agentRace][agentTypes]["msmwPartPrep"],
+                        stats[agentRace][agentTypes]["testedPartPrep"],
                     )
                 )
             )
             tmpReport.close()
 
-    for demographicTypes in list(params.DemographicParams.keys()):
-        name = "basicReport_" + demographicTypes
-        tmpReport = open("results/" + name + ".txt", "a")
-        tmpReport.write(
-            (
-                "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-                % (
-                    self.runseed,
-                    self.popseed,
-                    self.netseed,
-                    t,
-                    totalAgents._subset["Race"]._subset[demographicTypes].num_members(),
-                    rsltdic[demographicTypes]["ALL"]["numHIV"],
-                    rsltdic[demographicTypes]["ALL"]["numAIDS"],
-                    rsltdic[demographicTypes]["ALL"]["numTested"],
-                    rsltdic[demographicTypes]["ALL"]["numART"],
-                    rsltdic[demographicTypes]["ALL"]["numHR"],
-                    rsltdic[demographicTypes]["ALL"]["inf_newInf"],
-                    rsltdic[demographicTypes]["ALL"]["inf_HR6m"],
-                    rsltdic[demographicTypes]["ALL"]["inf_HRever"],
-                    rsltdic[demographicTypes]["ALL"]["newlyTested"],
-                    rsltdic[demographicTypes]["ALL"]["deaths"],
-                    rsltdic[demographicTypes]["ALL"]["numPrEP"],
-                )
+
+# ========================== Other Print Functions ============================
+
+
+def print_components(t: int, runseed: int, popseed: int, netseed: int, components):
+    """
+    Write stats describing the components (sub-graphs) in a graph to file
+    """
+    f = open("results/componentReport_ALL.txt", "a")
+
+    # if this is a new file, write the header info
+    if f.tell() == 0:
+        f.write(
+            "runseed\tpopseed\tnetseed\tt\tcompID\ttotalN\tTestedPartner\tMSMWpartner\n"
+        )
+
+    compID = 0
+    for comp in components:
+        totN = nhiv = ntrtmt = ntrthiv = nprep = PrEP_ever_HIV = 0
+        for ag in comp.nodes():
+            totN += 1
+            if ag._HIV_bool:
+                nhiv += 1
+                if ag._treatment_bool:
+                    ntrthiv += 1
+                if ag._PrEP_ever_bool:
+                    PrEP_ever_HIV += 1
+            elif ag._treatment_bool:
+                ntrtmt += 1
+                if ag._PrEP_bool:
+                    nprep += 1
+        f.write(
+            "{runseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Ntrtmt}\t{Nprep}\t{NtrtHIV}\t{NprepHIV}\n".format(
+                runseed=runseed,
+                pseed=popseed,
+                nseed=netseed,
+                t=t,
+                compID=compID,
+                totalN=totN,
+                Nhiv=nhiv,
+                Ntrtmt=ntrtmt,
+                Nprep=nprep,
+                NtrtHIV=ntrthiv,
+                NprepHIV=PrEP_ever_HIV,
             )
         )
-        tmpReport.close()
 
-    incidenceReport.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-        % (
-            rseed,
-            t,
-            NewInfections.num_members(),
-            rsltdic["WHITE"]["HM"]["inf_newInf"],
-            rsltdic["BLACK"]["HM"]["inf_newInf"],
-            tot_rsltdic["ALL"]["HM"]["inf_newInf"],
-            rsltdic["WHITE"]["HF"]["inf_newInf"],
-            rsltdic["BLACK"]["HF"]["inf_newInf"],
-            tot_rsltdic["ALL"]["HF"]["inf_newInf"],
-            rsltdic["WHITE"]["MSM"]["inf_newInf"],
-            rsltdic["BLACK"]["MSM"]["inf_newInf"],
-            tot_rsltdic["ALL"]["MSM"]["inf_newInf"],
-        )
-    )
-
-    prevalenceReport.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-        % (
-            rseed,
-            t,
-            totalAgents.num_members(),
-            totalAgents._subset["SO"]._subset["HM"].num_members(),
-            totalAgents._subset["SO"]._subset["HF"].num_members(),
-            HIVAgents.num_members(),
-            tot_rsltdic["ALL"]["HM"]["numHIV"],
-            tot_rsltdic["ALL"]["HF"]["numHIV"],
-        )
-    )
-
-    deathReport.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-        % (
-            rseed,
-            t,
-            deaths_total,
-            deaths_HM,
-            deaths_MSM,
-            deaths_HF,
-            deaths_HIV_total,
-            deaths_HIV_HM,
-            deaths_HIV_MSM,
-            deaths_HIV_HF,
-        )
-    )
-
-    highriskReport.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-        % (
-            rseed,
-            t,
-            tot_rsltdic["ALL"]["ALL"]["inf_HRever"],
-            tot_rsltdic["ALL"]["HM"]["inf_HRever"],
-            tot_rsltdic["ALL"]["HF"]["inf_HRever"],
-            tot_rsltdic["ALL"]["ALL"]["inf_HR6m"],
-            tot_rsltdic["ALL"]["HM"]["inf_HR6m"],
-            tot_rsltdic["ALL"]["HF"]["inf_HR6m"],
-        )
-    )
-
-    newlyhighriskReport.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-        % (
-            rseed,
-            t,
-            newHR_HM,
-            newHR_HIV_HM,
-            newHR_AIDS_HM,
-            newHR_Tested_HM,
-            newHR_ART_HM,
-            newHR_HF,
-            newHR_HIV_HF,
-            newHR_AIDS_HF,
-            newHR_Tested_HF,
-            newHR_ART_HF,
-        )
-    )
-
-    femaleReport.write(
-        (
-            "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-            % (
-                rseed,
-                t,
-                totalAgents._subset["SO"]._subset["HF"].num_members(),
-                tot_rsltdic["ALL"]["HF"]["numHIV"],
-                tot_rsltdic["ALL"]["HF"]["numAIDS"],
-                tot_rsltdic["ALL"]["HF"]["numTested"],
-                tot_rsltdic["ALL"]["HF"]["numART"],
-                tot_rsltdic["ALL"]["HF"]["inf_newInf"],
-                tot_rsltdic["ALL"]["HF"]["inf_HR6m"],
-                tot_rsltdic["ALL"]["HF"]["inf_HRever"],
-                tot_rsltdic["ALL"]["HF"]["newlyTested"],
-                tot_rsltdic["ALL"]["HF"]["deaths"],
-                tot_rsltdic["ALL"]["HF"]["numPrEP"],
-            )
-        )
-    )
-
-    maleReport.write(
-        (
-            "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-            % (
-                rseed,
-                t,
-                totalAgents._subset["SO"]._subset["HM"].num_members(),
-                tot_rsltdic["ALL"]["HM"]["numHIV"],
-                tot_rsltdic["ALL"]["HM"]["numAIDS"],
-                tot_rsltdic["ALL"]["HM"]["numTested"],
-                tot_rsltdic["ALL"]["HM"]["numART"],
-                tot_rsltdic["ALL"]["HM"]["inf_newInf"],
-                tot_rsltdic["ALL"]["HM"]["inf_HR6m"],
-                tot_rsltdic["ALL"]["HM"]["inf_HRever"],
-                tot_rsltdic["ALL"]["HM"]["newlyTested"],
-                tot_rsltdic["ALL"]["HM"]["deaths"],
-                tot_rsltdic["ALL"]["HM"]["numPrEP"],
-            )
-        )
-    )
-
-    msmReport.write(
-        (
-            "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-            % (
-                rseed,
-                t,
-                totalAgents._subset["SO"]._subset["HM"].num_members(),
-                tot_rsltdic["ALL"]["MSM"]["numHIV"],
-                tot_rsltdic["ALL"]["MSM"]["numAIDS"],
-                tot_rsltdic["ALL"]["MSM"]["numTested"],
-                tot_rsltdic["ALL"]["MSM"]["numART"],
-                tot_rsltdic["ALL"]["MSM"]["inf_newInf"],
-                tot_rsltdic["ALL"]["MSM"]["inf_HR6m"],
-                tot_rsltdic["ALL"]["MSM"]["inf_HRever"],
-                tot_rsltdic["ALL"]["MSM"]["newlyTested"],
-                tot_rsltdic["ALL"]["MSM"]["deaths"],
-                tot_rsltdic["ALL"]["MSM"]["numPrEP"],
-            )
-        )
-    )
-
-    nalReport.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-        % (
-            self.runseed,
-            self.popseed,
-            self.netseed,
-            t,
-            Naltrex_NIDU_M,
-            Naltrex_NIDU_F,
-            Naltrex_IDU_M,
-            Naltrex_IDU_F,
-            DOC_Naltrex_M,
-            DOC_Naltrex_F,
-            Prior_Year_Naltrex,
-        )
-    )
-    oatReport.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-        % (
-            self.runseed,
-            self.popseed,
-            self.netseed,
-            t,
-            OAT_NIDU_M,
-            OAT_NIDU_F,
-            OAT_IDU_M,
-            OAT_IDU_F,
-            DOC_OAT_M,
-            DOC_OAT_F,
-            Prior_Year_OAT,
-        )
-    )
-
-    incarReport.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-        % (
-            rseed,
-            t,
-            IncarAgents.num_members(),
-            rsltdic["WHITE"]["HM"]["incar"],
-            rsltdic["BLACK"]["HM"]["incar"],
-            rsltdic["WHITE"]["HF"]["incar"],
-            rsltdic["BLACK"]["HF"]["incar"],
-            rsltdic["WHITE"]["MSM"]["incar"],
-            rsltdic["BLACK"]["MSM"]["incar"],
-            rsltdic["WHITE"]["ALL"]["incarHIV"],
-            rsltdic["BLACK"]["ALL"]["incarHIV"],
-            rsltdic["WHITE"]["HM"]["newRelease"],
-            rsltdic["WHITE"]["HF"]["newRelease"],
-            rsltdic["BLACK"]["HM"]["newRelease"],
-            rsltdic["BLACK"]["HF"]["newRelease"],
-            rsltdic["WHITE"]["ALL"]["newReleaseHIV"],
-            rsltdic["BLACK"]["ALL"]["newReleaseHIV"],
-        )
-    )
-
-    iduReport.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-        % (
-            rseed,
-            t,
-            totalAgents._subset["DU"]._subset["IDU"].num_members(),
-            tot_rsltdic["ALL"]["IDU"]["numHIV"],
-            tot_rsltdic["ALL"]["IDU"]["numAIDS"],
-            tot_rsltdic["ALL"]["IDU"]["numART"],
-            tot_rsltdic["ALL"]["IDU"]["numTested"],
-        )
-    )
-
-    assert (
-        tot_rsltdic["ALL"] == rsltdic["ALL"]
-    )  # TO_REVIEW - consolidate these to one thing?
-
-    whiteReport.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\n"
-        % (
-            rseed,
-            t,
-            rsltdic["WHITE"]["ALL"]["numHIV"],
-            rsltdic["WHITE"]["MSM"]["numHIV"],
-            rsltdic["WHITE"]["ALL"]["numTested"],
-            rsltdic["WHITE"]["ALL"]["numART"],
-        )
-    )
-
-    blackReport.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\n"
-        % (
-            rseed,
-            t,
-            rsltdic["BLACK"]["ALL"]["numHIV"],
-            rsltdic["BLACK"]["MSM"]["numHIV"],
-            rsltdic["BLACK"]["ALL"]["numTested"],
-            rsltdic["BLACK"]["ALL"]["numART"],
-        )
-    )
-
-    if t == 0:
-        cumulativeI = len(NewInfections._members)
-        ResultDict["Inc_c_HM"].update({t: rsltdic["WHITE"]["HM"]["inf_newInf"]})
-        ResultDict["Inc_c_HF"].update({t: rsltdic["WHITE"]["HF"]["inf_newInf"]})
-    else:
-        cumulativeI = 0
-        pass
-
-    ResultDict["Inc_c_Tot"].update({t: cumulativeI})
-
-    try:
-        ResultDict["Prv_HIV"].update(
-            {t: (1.0 * tot_rsltdic["ALL"]["ALL"]["numHIV"] / totalAgents.num_members())}
-        )
-    except:
-        ResultDict["Prv_HIV"].update({t: (0.0)})
-
-    try:
-        ResultDict["Prv_AIDS"].update(
-            {
-                t: (
-                    1.0
-                    * tot_rsltdic["ALL"]["ALL"]["numAIDS"]
-                    / tot_rsltdic["ALL"]["ALL"]["numHIV"]
-                )
-            }
-        )
-    except:
-        ResultDict["Prv_AIDS"].update({t: (0.0)})
-
-    try:
-        ResultDict["Prv_Test"].update(
-            {
-                t: (
-                    1.0
-                    * tot_rsltdic["ALL"]["ALL"]["numTested"]
-                    / max(tot_rsltdic["ALL"]["ALL"]["numHIV"], 1)
-                )
-            }
-        )
-    except:
-        ResultDict["Prv_Test"].update({t: (0.0)})
-
-    try:
-        ResultDict["Prv_ART"].update(
-            {
-                t: (
-                    1.0
-                    * tot_rsltdic["ALL"]["ALL"]["numART"]
-                    / tot_rsltdic["ALL"]["ALL"]["numTested"]
-                )
-            }
-        )
-    except:
-        ResultDict["Prv_ART"].update({t: (0.0)})
-
-    ResultDict["n_Relations"].update({t: len(Relationships)})
-    ResultDict["Inc_t_HM"].update({t: rsltdic["WHITE"]["HM"]["inf_newInf"]})
-    ResultDict["Inc_t_HF"].update({t: rsltdic["WHITE"]["HF"]["inf_newInf"]})
-
-
-# THOUGHTS ON BREAKING THIS UP
-# * function to create and return rsltdic
-#   * uses param for which things to pivot on? (or always race then SO? and IDU?)
-#   * creates dicts for each of those things
-#   * creates all that recursively sums everything with matching keys
-# * function update model's result_dict (move this to ABM_core?)
-# * functions that take in rsltdic and write what is needed - function names in params
+        compID += 1
+    f.close()

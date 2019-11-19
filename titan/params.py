@@ -40,6 +40,19 @@ HFreport = False
 drawFigures = False
 calcComponentStats = False
 
+reports = [
+    "incidenceReport",
+    "prevalenceReport",
+    "deathReport",
+    "incarReport",
+    "iduReport",
+    "highriskReport",
+    "newlyhighriskReport",
+    "sexReport",
+    "raceReport",
+    "prepReport",
+    "basicReport",
+]
 
 """
 Calibration scaling parameters for fitting to empirical data
@@ -206,7 +219,8 @@ elif model == "Custom":
     flag_agentZero = False
 
 agentSexTypes = ["HM", "HF", "MSM", "WSW", "MTF"]
-agentPopulations = ["HM", "HF", "IDU"]
+agentPopulations = ["MTF", "MSM", "HF", "HM", "IDU"]
+
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
 ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, PWID)

@@ -2,6 +2,22 @@
 Settings profiles for different locations
 """
 
+# TO_REVIEW these params look really old
+
+reports = [
+    "incidenceReport",
+    "prevalenceReport",
+    "deathReport",
+    "incarReport",
+    "iduReport",
+    "highriskReport",
+    "newlyhighriskReport",
+    "sexReport",
+    "raceReport",
+    "prepReport",
+    "basicReport",
+]
+
 
 PARTNERTURNOVER = 7.5  # Partner acquisition parameters (higher number more partnering)
 

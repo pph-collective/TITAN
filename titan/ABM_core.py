@@ -14,7 +14,7 @@ import networkx as nx  # type: ignore
 
 from .agent import Agent_set, Agent, Relationship
 from .network_graph_tools import NetworkClass
-from .analysis_output import initiate_ResultDict, print_stats
+from . import analysis_output as ao
 from . import probabilities as prob
 from . import params  # type: ignore
 from .ABM_partnering import sex_possible
@@ -119,18 +119,10 @@ class HIVModel(NetworkClass):
 
         self.totalDiagnosis = 0
         self.treatmentEnrolled = False
-        self.num_Deaths = self._reset_death_count()
 
-        self.ResultDict = (
-            initiate_ResultDict()
-        )  # this isn't updated at all, or actually used anywhere? - how do results actually work?
         self.newPrEPagents = Agent_set("NewPrEPagents")
-        self.newPrEPenrolls = 0
-        self.IDUprep = 0
-        self.HIVprep = 0
-        self.MSMWprep = 0
-        # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed value
 
+        # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed value
         print(("\tRun seed was set to:", runseed))
         self.runRandom = Random(runseed)
         random.seed(self.runseed)
@@ -138,7 +130,7 @@ class HIVModel(NetworkClass):
         print(("\tFIRST RANDOM CALL %d" % random.randint(0, 100)))
 
         print("\tResetting death count")
-        self._reset_death_count()  # Number of death
+        self.deathSet: List[Agent] = []  # Number of death
 
         print("\tCreating network graph")
         self.create_graph_from_agents(
@@ -147,79 +139,30 @@ class HIVModel(NetworkClass):
 
         print("\n === Initialization Protocol Finished ===")
 
-    def run(self, dir_prefix="Results"):
+    def run(self):
         """
         Core of the model:
             1. Prints networkReport for first agents.
             2. Makes agents become HIV (used for current key_time tracking for acute)
             3. Loops over all time steps
                 a. _update AllAgents()
-                b. _reset_death_counts()
+                b. reset death count
                 c. _ self._die_and_replace()
                 d. self._update_population()
                 e. self._reset_partner_count()
         """
 
-        def getStats(t):
-            print_stats(
-                self,
-                self.runseed,
-                t,
-                self.All_agentSet,
-                self.HIV_agentSet,
-                self.incarcerated_agentSet,
-                self.Trt_PrEP_agentSet,
-                self.NewInfections,
-                self.NewDiagnosis,
-                self.num_Deaths,
-                self.ResultDict,
-                self.Relationships,
-                self.NewHRrolls,
-                self.NewIncarRelease,
-                self.deathSet,
-            )
+        def print_stats(stat):
+            for report in params.reports:
+                printer = getattr(ao, report)
+                printer(t, self.runseed, self.popseed, self.netseed, stat)
 
-        def print_components(t: int):
-            name = "componentReport_ALL"
-            compReport = open("results/" + name + ".txt", "a")
-            components = sorted(
+        def get_components():
+            return sorted(
                 nx.connected_component_subgraphs(self.get_Graph()),
                 key=len,
                 reverse=True,
             )
-            compID = 0
-            for comp in components:
-                totN = nhiv = ntrtmt = ntrthiv = nprep = PrEP_ever_HIV = 0
-                for ag in comp.nodes():
-                    totN += 1
-                    if ag._HIV_bool:
-                        nhiv += 1
-                        if ag._treatment_bool:
-                            ntrthiv += 1
-                        if ag._PrEP_ever_bool:
-                            PrEP_ever_HIV += 1
-                    elif ag._treatment_bool:
-                        ntrtmt += 1
-                        if ag._PrEP_bool:
-                            nprep += 1
-                compReport.write(
-                    "{rseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Ntrtmt}\t{Nprep}\t{NtrtHIV}\t{NprepHIV}\n".format(
-                        rseed=self.runseed,
-                        pseed=self.popseed,
-                        nseed=self.netseed,
-                        t=t,
-                        compID=compID,
-                        totalN=totN,
-                        Nhiv=nhiv,
-                        Ntrtmt=ntrtmt,
-                        Nprep=nprep,
-                        NtrtHIV=ntrthiv,
-                        NprepHIV=PrEP_ever_HIV,
-                    )
-                )
-
-                compID += 1
-            compReport.close()
 
         def burnSimulation(burnDuration: int):
             print(
@@ -236,12 +179,8 @@ class HIVModel(NetworkClass):
             self.NewHRrolls.clear_set()
             self.NewIncarRelease.clear_set()
             self.newPrEPagents.clear_set()
-            self.newPrEPenrolls = 0
-            self.IDUprep = 0
-            self.HIVprep = 0
-            self.MSMWprep = 0
 
-            self._reset_death_count()
+            self.deathSet = []
             print(" === Simulation Burn Complete ===")
 
         burnSimulation(params.burnDuration)
@@ -256,8 +195,12 @@ class HIVModel(NetworkClass):
                 iterations=10,
                 label="Seed" + str(self.runseed),
             )
+
+        # TO_REVIEW why only print the time 0 for components?
         if params.calcComponentStats:
-            print_components(0)
+            ao.print_components(
+                0, self.runseed, self.popseed, self.netseed, get_components()
+            )
 
         self.cumInfT = 0
         self.cumInfW = 0
@@ -274,6 +217,9 @@ class HIVModel(NetworkClass):
             self._become_HIV(firstHIV, 0)
 
         print("\t===! Start Main Loop !===")
+
+        # dictionary to hold results over time
+        stats = {}
 
         # If we are using an agent zero method, create agent zero.
         if params.flag_agentZero:
@@ -311,9 +257,25 @@ class HIVModel(NetworkClass):
 
             self._update_AllAgents(t)
 
-            getStats(t)
+            stats[t] = ao.get_stats(
+                self.All_agentSet,
+                self.HIV_agentSet,
+                self.incarcerated_agentSet,
+                self.Trt_PrEP_agentSet,
+                self.newPrEPagents,
+                self.NewInfections,
+                self.NewDiagnosis,
+                self.Relationships,
+                self.NewHRrolls,
+                self.NewIncarRelease,
+                self.deathSet,
+            )
+            print_stats(stats[t])
 
-            self._reset_death_count()
+            # import code
+            # code.interact(local=dict(globals(), **locals()))
+
+            self.deathSet = []
 
             if params.flag_DandR:
                 self._die_and_replace(t)
@@ -321,6 +283,7 @@ class HIVModel(NetworkClass):
             print(("Number of relationships: %d" % len(self.Relationships)))
             self.All_agentSet.print_subsets()
 
+            # TO_REVIEW not used anywhere
             newInfB = len(
                 [tmpA for tmpA in self.NewInfections._members if tmpA._race == "BLACK"]
             )
@@ -343,17 +306,8 @@ class HIVModel(NetworkClass):
             self.NewDiagnosis.clear_set()
             self.NewHRrolls.clear_set()
             self.NewIncarRelease.clear_set()
-            # self.num_Deaths = {} # REVIEWED - not expected to be an empty dict (expects sub dicts) - should this be _reset_death_count? check if something else breaks (num deaths)
-            prepReport = open("results/PrEPReport.txt", "a")
-            prepReport.write(
-                f"{self.runseed}\t{self.TimeStep}\t{self.newPrEPenrolls}\t{self.IDUprep}\t{self.HIVprep}\t{self.MSMWprep}\n"
-            )
-            prepReport.close()
             self.newPrEPagents.clear_set()
-            self.newPrEPenrolls = 0
-            self.IDUprep = 0
-            self.HIVprep = 0
-            self.MSMWprep = 0
+
             # If set to draw the edge list, print list at each timestep
             if params.drawEdgeList and t % params.intermPrintFreq == 0:
                 print("Drawing network edge list to file")
@@ -366,7 +320,11 @@ class HIVModel(NetworkClass):
                 if params.calcNetworkStats:
                     self.write_network_stats(t=t)
                 if params.calcComponentStats:
-                    print_components(t)
+                    ao.print_components(
+                        t, self.runseed, self.popseed, self.netseed, get_components()
+                    )  # TO_REVIEW isn't this redundant with the previous one
+
+        return stats
 
     def _update_AllAgents(self, time: int, burn: bool = False):
         """
@@ -1078,19 +1036,12 @@ class HIVModel(NetworkClass):
             none
         """
 
+        # TO_REVIEW _PrEP_time is initialized to zero, but then decremented to remove from PrEP
         def _enrollPrEP(self, agent: Agent):
             agent._PrEP_bool = True
             agent._PrEP_time = 0
             self.Trt_PrEP_agentSet.add_agent(agent)
             self.newPrEPagents.add_agent(agent)
-            self.newPrEPenrolls += 1
-            if params.PrEP_target_model == "CDCwomen":
-                if "IDU" in agent._PrEP_reason:
-                    self.IDUprep += 1
-                if "HIV test" in agent._PrEP_reason:
-                    self.HIVprep += 1
-                if "MSMW" in agent._PrEP_reason:
-                    self.MSMWprep += 1
 
             tmp_rnd = self.runRandom.random()
             if params.setting == "AtlantaMSM":
@@ -1215,48 +1166,24 @@ class HIVModel(NetworkClass):
                 agent._AIDS_bool = True
                 self.HIV_AIDS_agentSet.add_agent(agent)
 
-    def _reset_death_count(self):
-        self.num_Deaths = {}
-        self.deathSet = []
-        for HIV_status in ["Total", "HIV-", "HIV+"]:
-            self.num_Deaths.update({HIV_status: {}})
-            for tmp_type in [HIV_status, "MSM", "HM", "HF", "WSW", "MTF"]:
-                self.num_Deaths[HIV_status].update({tmp_type: 0})
-
     def _die_and_replace(self, time: int, reported: bool = True):
         """
         :Purpose:
             Let agents die and replace the dead agent with a new agent randomly.
         """
-        totalDeaths = 0
         for agent in self.All_agentSet._members:
 
             # agent incarcerated, don't evaluate for death
             if agent._incar_bool:
                 pass
 
-            # Probability for dying
-            sex_type = agent._SO
-            HIV_status = agent._HIV_bool
-            AIDS_status = agent._AIDS_bool
-            agent_race = agent._race
-
             # death rate per 1 person-month
             p = prob.get_death_rate(
-                HIV_status, AIDS_status, agent_race, agent._HAART_adh
+                agent._HIV_bool, agent._AIDS_bool, agent._race, agent._HAART_adh
             )
 
             if self.runRandom.random() < p:
-                totalDeaths += 1
-                if HIV_status:
-                    ident = "HIV+"
-                else:
-                    ident = "HIV-"
-
-                self.num_Deaths["Total"][sex_type] += 1
-                self.num_Deaths[ident][sex_type] += 1
                 self.deathSet.append(agent)
-                ID_number = agent.get_ID()
 
                 # End all existing relationships
                 for rel in agent._relationships:
@@ -1270,12 +1197,6 @@ class HIVModel(NetworkClass):
                 # Remove agent from agent class and sub-sets
                 self.All_agentSet.remove_agent(agent)
 
-                # Delete agent object
-                del agent
-
-                agent_cl = self._return_new_Agent_class(agent_race, sex_type)
-                self.create_agent(agent_cl, agent_race)
+                agent_cl = self._return_new_Agent_class(agent._race, agent._SO)
+                self.create_agent(agent_cl, agent._race)
                 self.get_Graph().add_node(agent_cl)
-
-    def return_results(self):
-        return self.ResultDict
