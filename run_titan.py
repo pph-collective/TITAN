@@ -47,6 +47,7 @@ def main():
         if inputNetSeed == -1:
             inputNetSeed = single_sim + 1
 
+        # TO_REVIEW what is num_runs used for?
         # distribute simulations manually
         if params.N_MC % params.PROCESSES == 0:
             nreps = params.N_MC / params.PROCESSES

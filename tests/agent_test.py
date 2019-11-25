@@ -86,7 +86,7 @@ def test_get_id(make_agent):
 def test_bond_unbond(make_agent, make_relationship):
     a = make_agent()  # 3
     p = make_agent()  # 4
-    r = make_relationship(a, p)
+    r = make_relationship(a, p)  # 0
     a.bond(p, r)
     assert r in p._relationships
     assert p in a._partners
@@ -110,7 +110,7 @@ def test_partner_list(make_agent, make_relationship):
     assert a.partner_list() == []
 
     p = make_agent()  # 6
-    r = make_relationship(a, p)
+    r = make_relationship(a, p)  # 1
     a.bond(p, r)  # REVIEW what is the logic behind relationship -> bond -> pair?
 
     assert a.partner_list() == [6]
@@ -120,12 +120,12 @@ def test_partner_list(make_agent, make_relationship):
 def test_relationship_init(make_agent, make_relationship):
     a = make_agent()  # 7
     p = make_agent()  # 8
-    r = make_relationship(a, p)
+    r = make_relationship(a, p)  # 2
 
     assert r._ID1 == a
     assert r._ID2 == p
-    assert r._ID == 700008
-    assert r.get_ID() == 700008
+    assert r._ID == 2
+    assert r.get_ID() == 2
 
     # properties
     assert r._duration == 10
@@ -133,7 +133,7 @@ def test_relationship_init(make_agent, make_relationship):
 
 
 @pytest.mark.skip(
-    reason="#REVIEW relationships are assumed to be bonded, but that's not enforced in the code/constructor (at least compactly)"
+    reason="# TO_REVIEW relationships are assumed to be bonded, but that's not enforced in the code/constructor (at least compactly)"
 )
 def test_progress(make_agent, make_relationship):
     pass

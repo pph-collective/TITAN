@@ -18,9 +18,6 @@ def initiate_ResultDict(tmax: int) -> Dict[str, Any]:
         "Prv_ART": {},
         "Prv_PrEP": {},
         "n_Relations": {},
-        "Inc_c_Tot": {},
-        "Inc_c_HM": {},
-        "Inc_c_HF": {},
         "Inc_t_HM": {},
         "Inc_t_HF": {},
     }
@@ -37,10 +34,6 @@ def statsToResults(stats: Dict[str, Any], results: Dict[str, Any]):
     Update results dict with stats from this simulation
     """
     for t in stats.keys():
-        results["Inc_c_HM"][t].append(stats[t]["WHITE"]["HM"]["inf_newInf"])
-        results["Inc_c_HF"][t].append(stats[t]["WHITE"]["HF"]["inf_newInf"])
-        results["Inc_c_Tot"][t].append(stats[t]["ALL"]["ALL"]["inf_newInf"])
-
         results["Prv_HIV"][t].append(
             1.0 * stats[t]["ALL"]["ALL"]["numHIV"] / stats[t]["ALL"]["ALL"]["numAgents"]
         )
@@ -59,16 +52,14 @@ def statsToResults(stats: Dict[str, Any], results: Dict[str, Any]):
             1.0 * stats[t]["ALL"]["ALL"]["numART"] / stats[t]["ALL"]["ALL"]["numTested"]
         )
 
-        # TO_REVIEW this was in the template, but not the logic - what should it be
         results["Prv_PrEP"][t].append(
             1.0
             * stats[t]["ALL"]["ALL"]["numPrEP"]
-            / stats[t]["ALL"]["ALL"]["numTested"]
+            / stats[t]["ALL"]["ALL"]["numAgents"]
         )
 
         results["n_Relations"][t].append(stats[t]["ALL"]["ALL"]["numRels"])
 
-        # TO_REVIEW - how is this different from Inc_c_XX ?
         results["Inc_t_HM"][t].append(stats[t]["WHITE"]["HM"]["inf_newInf"])
         results["Inc_t_HF"][t].append(stats[t]["WHITE"]["HF"]["inf_newInf"])
 
@@ -137,9 +128,6 @@ def save_results(time_range, rslts, outfile_dir, num_sim):
             % (result_property, result_property, result_property, result_property)
         )
     outfile.write("\n")
-
-    # import code
-    # code.interact(local=dict(globals(), **locals()))
 
     for t in range(1, time_range + 1):
 

@@ -23,30 +23,26 @@ def get_partner(agent: Agent, need_new_partners: Agent_set) -> Optional[Agent]:
     :Output:
         partner: new partner
     """
-    agent_race_type = agent._race
     agent_drug_type = agent._DU
     RandomPartner = None
 
     if agent_drug_type == "IDU":
         if random.random() < 0.8:
             # choose from IDU agents
-            try:
-                RandomPartner = get_random_IDU_partner(agent, need_new_partners)
-            except:
-                print("No IDU matches")
-                get_random_sex_partner(agent, need_new_partners)
-        else:
+            RandomPartner = get_random_IDU_partner(agent, need_new_partners)
+
+        # either didn't try to get IDU partner, or failed to get IDU partner
+        if RandomPartner is None:
             get_random_sex_partner(agent, need_new_partners)
     elif agent_drug_type in ("NDU", "NIDU"):
-        if params.flag_AssortativeMix:
-            if (
-                random.random()
-                < params.DemographicParams[agent_race_type]["ALL"]["AssortMixCoeff"]
-            ):
-                RandomPartner = get_assort_sex_partner(agent, need_new_partners)
-                if not RandomPartner and params.AssortMixCoeff <= 1.0:
-                    RandomPartner = get_random_sex_partner(agent, need_new_partners)
-            else:
+        if params.flag_AssortativeMix and (
+            random.random()
+            < params.DemographicParams[agent._race]["ALL"]["AssortMixCoeff"]
+        ):
+            RandomPartner = get_assort_sex_partner(agent, need_new_partners)
+
+            # potentially try again randomly
+            if RandomPartner is None and params.AssortMixCoeff <= 1.0:
                 RandomPartner = get_random_sex_partner(agent, need_new_partners)
         else:
             RandomPartner = get_random_sex_partner(agent, need_new_partners)

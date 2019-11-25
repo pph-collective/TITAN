@@ -1,7 +1,7 @@
 __author__ = "MaximilianKing"
 
 from typing import Sequence, List, Dict, Optional, Any
-
+from copy import deepcopy
 
 """
 Main model parameters.
@@ -49,7 +49,6 @@ reports = [
     "highriskReport",
     "newlyhighriskReport",
     "sexReport",
-    "raceReport",
     "prepReport",
     "basicReport",
 ]
@@ -219,7 +218,8 @@ elif model == "Custom":
     flag_agentZero = False
 
 agentSexTypes = ["HM", "HF", "MSM", "WSW", "MTF"]
-agentPopulations = ["MTF", "MSM", "HF", "HM", "IDU"]
+agentPopulations = deepcopy(agentSexTypes)
+agentPopulations.append("IDU")
 
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.

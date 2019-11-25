@@ -23,7 +23,6 @@ class NetworkClass(PopulationClass):
         N: int,
         popSeed: int = 0,
         netSeed: int = 0,
-        m_0: int = 1,
         network_type: str = "scale_free",
     ):
         """
@@ -34,10 +33,6 @@ class NetworkClass(PopulationClass):
         :Input:
             N : int
               Number of agents. Default: 10000
-
-            m_0: int
-              Number of nodes each node is connected to in preferential
-              attachment step
 
             network_type: defaul is "scale_free", other options are "max_k_comp_size" and "binomial"
         """
@@ -53,12 +48,6 @@ class NetworkClass(PopulationClass):
             )
         else:
             pass
-
-        # TO_REVIEW m_0 not used
-        if m_0 not in list(range(10)):
-            raise ValueError("m_0 must be integer smaller than 10")
-        else:
-            self.m_0 = m_0
 
         PopulationClass.__init__(self, n=N, rSeed=popSeed)  # Create population
 

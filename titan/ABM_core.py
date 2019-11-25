@@ -6,6 +6,7 @@ import random
 from random import Random
 from typing import Dict, Any, List, Sequence, Optional
 import os
+import uuid
 
 import numpy as np  # type: ignore
 from scipy.stats import binom  # type: ignore
@@ -102,7 +103,6 @@ class HIVModel(NetworkClass):
         )
 
         # keep track of current time step globally for dynnetwork report
-        self.TimeStep = 0
         self.totalIncarcerated = 0
 
         print("\n\tCreating lists")
@@ -152,10 +152,10 @@ class HIVModel(NetworkClass):
                 e. self._reset_partner_count()
         """
 
-        def print_stats(stat):
+        def print_stats(stat: Dict[str, Dict[str, int]], run_id: uuid.UUID):
             for report in params.reports:
                 printer = getattr(ao, report)
-                printer(t, self.runseed, self.popseed, self.netseed, stat)
+                printer(run_id, t, self.runseed, self.popseed, self.netseed, stat)
 
         def get_components():
             return sorted(
@@ -183,6 +183,8 @@ class HIVModel(NetworkClass):
             self.deathSet = []
             print(" === Simulation Burn Complete ===")
 
+        run_id = uuid.uuid4()
+
         burnSimulation(params.burnDuration)
 
         print("\n === Begin Simulation Run ===")
@@ -196,24 +198,15 @@ class HIVModel(NetworkClass):
                 label="Seed" + str(self.runseed),
             )
 
-        # TO_REVIEW why only print the time 0 for components?
         if params.calcComponentStats:
             ao.print_components(
-                0, self.runseed, self.popseed, self.netseed, get_components()
+                run_id, 0, self.runseed, self.popseed, self.netseed, get_components()
             )
-
-        self.cumInfT = 0
-        self.cumInfW = 0
-        self.cumInfB = 0
 
         def makeAgentZero(numPartners: int):
             firstHIV = self.runRandom.choice(self.DU_IDU_agentSet._members)
-            i = 0
-            while i <= numPartners:
-                self.update_partner_assignments(
-                    10000.0, self.get_Graph(), agent=firstHIV
-                )
-                i += 1
+            for i in range(numPartners):
+                self.update_agent_partners(self.get_Graph(), firstHIV)
             self._become_HIV(firstHIV, 0)
 
         print("\t===! Start Main Loop !===")
@@ -244,18 +237,18 @@ class HIVModel(NetworkClass):
             # todo: GET THIS TO THE NEW HIV COUNT
 
             print(
-                (
-                    "\tSTARTING HIV count:{}\tTotal Incarcerated:{}\tHR+:{}\tPrEP:{}".format(
-                        self.HIV_agentSet.num_members(),
-                        self.incarcerated_agentSet.num_members(),
-                        self.highrisk_agentsSet.num_members(),
-                        self.Trt_PrEP_agentSet.num_members(),
-                    )
+                "\tSTARTING HIV count:{}\tTotal Incarcerated:{}\tHR+:{}\tPrEP:{}".format(
+                    self.HIV_agentSet.num_members(),
+                    self.incarcerated_agentSet.num_members(),
+                    self.highrisk_agentsSet.num_members(),
+                    self.Trt_PrEP_agentSet.num_members(),
                 )
             )
-            self.TimeStep = t
 
             self._update_AllAgents(t)
+
+            if params.flag_DandR:
+                self._die_and_replace(t)
 
             stats[t] = ao.get_stats(
                 self.All_agentSet,
@@ -270,30 +263,10 @@ class HIVModel(NetworkClass):
                 self.NewIncarRelease,
                 self.deathSet,
             )
-            print_stats(stats[t])
-
-            # import code
-            # code.interact(local=dict(globals(), **locals()))
-
-            self.deathSet = []
-
-            if params.flag_DandR:
-                self._die_and_replace(t)
+            print_stats(stats[t], run_id)
 
             print(("Number of relationships: %d" % len(self.Relationships)))
             self.All_agentSet.print_subsets()
-
-            # TO_REVIEW not used anywhere
-            newInfB = len(
-                [tmpA for tmpA in self.NewInfections._members if tmpA._race == "BLACK"]
-            )
-            newInfW = len(
-                [tmpA for tmpA in self.NewInfections._members if tmpA._race == "WHITE"]
-            )
-            newInfT = len(self.NewInfections._members)
-            self.cumInfB += newInfB
-            self.cumInfW += newInfW
-            self.cumInfT += newInfT
 
             self.totalDiagnosis += len(self.NewDiagnosis._members)
             if (
@@ -302,18 +275,13 @@ class HIVModel(NetworkClass):
             ):
                 self._enroll_treatment(t)
 
+            # RESET counters for the next time step
+            self.deathSet = []
             self.NewInfections.clear_set()
             self.NewDiagnosis.clear_set()
             self.NewHRrolls.clear_set()
             self.NewIncarRelease.clear_set()
             self.newPrEPagents.clear_set()
-
-            # If set to draw the edge list, print list at each timestep
-            if params.drawEdgeList and t % params.intermPrintFreq == 0:
-                print("Drawing network edge list to file")
-                fh = open("results/network/Edgelist_t{}.txt".format(t), "wb")
-                self.write_G_edgelist(fh)
-                fh.close()
 
             print((t % params.intermPrintFreq))
             if t % params.intermPrintFreq == 0:
@@ -321,8 +289,18 @@ class HIVModel(NetworkClass):
                     self.write_network_stats(t=t)
                 if params.calcComponentStats:
                     ao.print_components(
-                        t, self.runseed, self.popseed, self.netseed, get_components()
-                    )  # TO_REVIEW isn't this redundant with the previous one
+                        run_id,
+                        t,
+                        self.runseed,
+                        self.popseed,
+                        self.netseed,
+                        get_components(),
+                    )
+                if params.drawEdgeList:
+                    print("Drawing network edge list to file")
+                    fh = open("results/network/Edgelist_t{}.txt".format(t), "wb")
+                    self.write_G_edgelist(fh)
+                    fh.close()
 
         return stats
 
@@ -1036,7 +1014,7 @@ class HIVModel(NetworkClass):
             none
         """
 
-        # TO_REVIEW _PrEP_time is initialized to zero, but then decremented to remove from PrEP
+        # REVIEWED _PrEP_time is initialized to zero, but then decremented to remove from PrEP - Sarah to review with Max
         def _enrollPrEP(self, agent: Agent):
             agent._PrEP_bool = True
             agent._PrEP_time = 0

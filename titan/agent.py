@@ -390,6 +390,13 @@ class Agent:
 class Relationship:
     "Class for agent relationships."
 
+    # class variable for relationship creation
+    next_rel_id = 0
+
+    @classmethod
+    def update_id_counter(cls):
+        cls.next_rel_id += 1
+
     def __init__(self, ID1: Agent, ID2: Agent, SO: str, rel_type: str, duration: int):
         """
         :Purpose:
@@ -406,9 +413,8 @@ class Relationship:
         # self._ID is unique ID number used to track each person agent.
         self._ID1 = ID1
         self._ID2 = ID2
-        self._ID = (
-            self._ID1.get_ID() * 100000 + self._ID2.get_ID()
-        )  # REVIEWED - is this ID scheme important for things? or should we use an auto-incrementer like Agent? = MAKE IT LIKE AGENT
+        self._ID = self.next_rel_id
+        self.update_id_counter()
 
         # Relationship properties
         self._duration = duration

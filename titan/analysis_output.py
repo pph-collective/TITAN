@@ -4,6 +4,8 @@
 from . import params  # type: ignore
 from typing import Dict, Any, List, Sequence, Optional
 from .agent import Agent_set, Relationship, Agent
+from copy import deepcopy
+from uuid import UUID
 
 MAIN_CAT = list(params.DemographicParams.keys())
 MAIN_CAT.append("ALL")
@@ -156,19 +158,28 @@ def get_stats(
 # Each of the following functions takes in the time, seeds, and stats dict for that time
 # and prints the appropriate stats to file
 
-
+# TO_REVIEW this is a pure subset of basicReport
+# for MAIN_CAT, params.agentSexTypes
 def incidenceReport(
-    t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]
+    run_id: UUID,
+    t: int,
+    runseed: int,
+    popseed: int,
+    netseed: int,
+    stats: Dict[str, Any],
 ):
     f = open("results/IncidenceReport.txt", "a")
 
     # if this is a new file, write the header info
     if f.tell() == 0:
-        f.write("seed\tt\tTotal\tW_HM\tB_HM\tHM\tW_HF\tB_HF\tHF\tW_MSM\tB_MSM\tMSM\n")
+        f.write(
+            "run_id\tseed\tt\tTotal\tW_HM\tB_HM\tHM\tW_HF\tB_HF\tHF\tW_MSM\tB_MSM\tMSM\n"
+        )
 
     f.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
         % (
+            run_id,
             runseed,
             t,
             stats["ALL"]["ALL"]["inf_newInf"],
@@ -186,18 +197,26 @@ def incidenceReport(
     f.close()
 
 
+# TO_REVIEW this is a pure subset of basicReport
+# for params.agentSexTypes
 def prevalenceReport(
-    t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]
+    run_id: UUID,
+    t: int,
+    runseed: int,
+    popseed: int,
+    netseed: int,
+    stats: Dict[str, Any],
 ):
     f = open("results/PrevalenceReport.txt", "a")
 
     # if this is a new file, write the header info
     if f.tell() == 0:
-        f.write("seed\tt\tTotal\tHM\tHF\tHIV_tot\tHIV_HM\tHIV_HF\n")
+        f.write("run_id\tseed\tt\tTotal\tHM\tHF\tHIV_tot\tHIV_HM\tHIV_HF\n")
 
     f.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
         % (
+            run_id,
             runseed,
             t,
             stats["ALL"]["ALL"]["numAgents"],
@@ -212,78 +231,100 @@ def prevalenceReport(
 
 
 def deathReport(
-    t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]
+    run_id: UUID,
+    t: int,
+    runseed: int,
+    popseed: int,
+    netseed: int,
+    stats: Dict[str, Any],
 ):
     f = open("results/DeathReport.txt", "a")
+    sex_types = deepcopy(params.agentSexTypes)
+    sex_types.append("ALL")
 
     # if this is a new file, write the header info
     if f.tell() == 0:
-        f.write("seed\tt\tTotal\tHM\tMSM\tHF\tHIV_tot\tHIV_HM\tHIV_MSM\tHIV_HF\n")
+        f.write("run_id\tseed\tt")  # start header
 
-    f.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-        % (
-            runseed,
-            t,
-            stats["ALL"]["ALL"]["deaths"],
-            stats["ALL"]["HM"]["deaths"],
-            stats["ALL"]["MSM"]["deaths"],
-            stats["ALL"]["HF"]["deaths"],
-            stats["ALL"]["ALL"]["deaths_HIV"],
-            stats["ALL"]["HM"]["deaths_HIV"],
-            stats["ALL"]["MSM"]["deaths_HIV"],
-            stats["ALL"]["HF"]["deaths_HIV"],
+        template = "\ttot_{st}\tHIV_{st}"
+        for sex_type in sex_types:
+            f.write(template.format(st=sex_type))
+
+        f.write("\n")
+
+    f.write("%d\t%d\t%d" % (run_id, runseed, t))  # start row
+
+    for sex_type in sex_types:
+        f.write(
+            "\t%d\t%d"
+            % (stats["ALL"][sex_type]["deaths"], stats["ALL"][sex_type]["deaths_HIV"])
         )
-    )
+
+    f.write("\n")
     f.close()
 
 
 def incarReport(
-    t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]
+    run_id: UUID,
+    t: int,
+    runseed: int,
+    popseed: int,
+    netseed: int,
+    stats: Dict[str, Any],
 ):
     f = open("results/IncarReport.txt", "a")
 
-    # if this is a new file, write the header info
-    if f.tell() == 0:
-        f.write(
-            "seed\tt\tTotal\tW_HM\tB_HM\tW_HF\tB_HF\tW_MSM\tB_MSM\tW_HIV\tB_HIV\tW_rlsd_HM\tW_rlsd_HF\tB_rlsd_HM\tB_rlsd_HF\tW_rlsdHIV\tB_rlsdHIV\n"
-        )
+    name_map = {
+        "incar": "tot",
+        "incarHIV": "HIV",
+        "newRelease": "rlsd",
+        "newReleaseHIV": "rlsdHIV",
+    }
 
-    f.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-        % (
-            runseed,
-            t,
-            stats["ALL"]["ALL"]["incar"],
-            stats["WHITE"]["HM"]["incar"],
-            stats["BLACK"]["HM"]["incar"],
-            stats["WHITE"]["HF"]["incar"],
-            stats["BLACK"]["HF"]["incar"],
-            stats["WHITE"]["MSM"]["incar"],
-            stats["BLACK"]["MSM"]["incar"],
-            stats["WHITE"]["ALL"]["incarHIV"],
-            stats["BLACK"]["ALL"]["incarHIV"],
-            stats["WHITE"]["HM"]["newRelease"],
-            stats["WHITE"]["HF"]["newRelease"],
-            stats["BLACK"]["HM"]["newRelease"],
-            stats["BLACK"]["HF"]["newRelease"],
-            stats["WHITE"]["ALL"]["newReleaseHIV"],
-            stats["BLACK"]["ALL"]["newReleaseHIV"],
-        )
-    )
+    if f.tell() == 0:
+        f.write("run_id\tseed\tt")  # start header
+
+        template = "\t{mc}_{st}_{p}"
+        for p in name_map.values():
+            for mc in MAIN_CAT:
+                for sex_type in params.agentSexTypes:
+                    f.write(template.format(mc=mc, st=sex_type, p=p))
+
+        f.write("\n")
+
+    f.write("%d\t%d\t%d" % (run_id, runseed, t))
+
+    for p in name_map:
+        for mc in MAIN_CAT:
+            for st in params.agentSexTypes:
+                f.write("\t")
+                f.write(str(stats[mc][st][p]))
+
+    f.write("\n")
     f.close()
 
 
-def iduReport(t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]):
+# TO_REVIEW this is a pure subset of basicReport
+def iduReport(
+    run_id: UUID,
+    t: int,
+    runseed: int,
+    popseed: int,
+    netseed: int,
+    stats: Dict[str, Any],
+):
     f = open("results/iduReport.txt", "a")
 
     # if this is a new file, write the header info
     if f.tell() == 0:
-        f.write("seed\tt\tTotal-IDU\tIDU-HIV\tIDU-AIDS\tIDU-HAART\tIDU-tested\n")
+        f.write(
+            "run_id\tseed\tt\tTotal-IDU\tIDU-HIV\tIDU-AIDS\tIDU-HAART\tIDU-tested\n"
+        )
 
     f.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
         % (
+            run_id,
             runseed,
             t,
             stats["ALL"]["IDU"]["numAgents"],
@@ -296,18 +337,26 @@ def iduReport(t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str,
     f.close()
 
 
+# TO_REVIEW this is a pure subset of basicReport
+# for params.agentSexTypes
 def highriskReport(
-    t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]
+    run_id: UUID,
+    t: int,
+    runseed: int,
+    popseed: int,
+    netseed: int,
+    stats: Dict[str, Any],
 ):
     f = open("results/HR_incidenceReport.txt", "a")
 
     # if this is a new file, write the header info
     if f.tell() == 0:
-        f.write("seed\tt\tTot_Ev\tHM_Ev\tHF_Ev\tTot_6mo\tHM_6mo\tHF_6mo\n")
+        f.write("run_id\tseed\tt\tTot_Ev\tHM_Ev\tHF_Ev\tTot_6mo\tHM_6mo\tHF_6mo\n")
 
     f.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
         % (
+            run_id,
             runseed,
             t,
             stats["ALL"]["ALL"]["inf_HRever"],
@@ -322,58 +371,66 @@ def highriskReport(
 
 
 def newlyhighriskReport(
-    t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]
+    run_id: UUID,
+    t: int,
+    runseed: int,
+    popseed: int,
+    netseed: int,
+    stats: Dict[str, Any],
 ):
     f = open("results/newlyHR_Report.txt", "a")
 
     # if this is a new file, write the header info
     if f.tell() == 0:
+        f.write("run_id\tseed\tt")  # start header
+
+        template = "\tnewHR_{st}\tnewHR_HIV_{st}\tnewHR_AIDS_{st}\tnewHR_Tested_{st}\tnewHR_ART_{st}"
+        for sex_type in params.agentSexTypes:
+            f.write(template.format(st=sex_type))
+
+        f.write("\n")
+
+    f.write("%d\t%d\t%d" % (run_id, runseed, t))  # start row
+
+    for sex_type in params.agentSexTypes:
         f.write(
-            "seed\tt\tnewHR_HM\tnewHR_HIV_HM\tnewHR_AIDS_HM\tnewHR_Tested_HM\tnewHR_ART_HM\tnewHR_HF\tnewHR_HIV_HF\tnewHR_AIDS_HF\tnewHR_Tested_HF\tnewHR_ART_HF\n"
+            "\t%d\t%d\t%d\t%d\t%d"
+            % (
+                stats["ALL"][sex_type]["newHR"],
+                stats["ALL"][sex_type]["newHR_HIV"],
+                stats["ALL"][sex_type]["newHR_AIDS"],
+                stats["ALL"][sex_type]["newHR_Tested"],
+                stats["ALL"][sex_type]["newHR_ART"],
+            )
         )
 
-    f.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-        % (
-            runseed,
-            t,
-            stats["ALL"]["HM"]["newHR"],
-            stats["ALL"]["HM"]["newHR_HIV"],
-            stats["ALL"]["HM"]["newHR_AIDS"],
-            stats["ALL"]["HM"]["newHR_Tested"],
-            stats["ALL"]["HM"]["newHR_ART"],
-            stats["ALL"]["HF"]["newHR"],
-            stats["ALL"]["HF"]["newHR_HIV"],
-            stats["ALL"]["HF"]["newHR_AIDS"],
-            stats["ALL"]["HF"]["newHR_Tested"],
-            stats["ALL"]["HF"]["newHR_ART"],
-        )
-    )
+    f.write("\n")
     f.close()
 
 
-# TO_REVIEW this is really the HM vs HF vs MSM report - should it be more general?
-def sexReport(t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]):
-    for sexType in ["HF", "HM", "MSM"]:
-        if sexType == "HF":
-            longName = "Female"
-        elif sexType == "HM":
-            longName = "Male"
-        else:
-            longName = sexType
-
-        f = open(f"results/{longName}Report.txt", "a")
+# TO_REVIEW this is a pure sub-set of basicReport
+def sexReport(
+    run_id: UUID,
+    t: int,
+    runseed: int,
+    popseed: int,
+    netseed: int,
+    stats: Dict[str, Any],
+):
+    for sexType in params.agentSexTypes:
+        f = open(f"results/{sexType}_Report.txt", "a")
 
         # if this is a new file, write the header info
         if f.tell() == 0:
             f.write(
-                "seed\tt\tTotal\tHIV\tAIDS\tTested\tART\tIncidence\tHRInc_6mo\tHRInc_Ev\tNewlyDiag\tDeaths\n"
+                "run_id\tseed\tt\tTotal\tHIV\tAIDS\tTested\tART\tIncidence\tHRInc_6mo\tHRInc_Ev\tNewlyDiag\tDeaths\n"
             )
 
         f.write(
             (
-                "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
+                "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
                 % (
+                    run_id,
                     runseed,
                     t,
                     stats["ALL"][sexType]["numAgents"],
@@ -393,40 +450,24 @@ def sexReport(t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str,
         f.close()
 
 
-# TO_REVIEW data doesn't match headers
-def raceReport(t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]):
-    for race in ["WHITE", "BLACK"]:
-        r_init = race[0]
-        f = open(f"results/{r_init}_pop_report.txt", "a")
-
-        # if this is a new file, write the header info
-        if f.tell() == 0:
-            f.write("seed\tt\tTotal\tHM\tHF\tHIV_tot\tHIV_HM\tHIV_HF\n")
-
-        f.write(
-            "%d\t%d\t%d\t%d\t%d\t%d\n"
-            % (
-                runseed,
-                t,
-                stats[race]["ALL"]["numHIV"],
-                stats[race]["MSM"]["numHIV"],
-                stats[race]["ALL"]["numTested"],
-                stats[race]["ALL"]["numART"],
-            )
-        )
-        f.close()
-
-
-def prepReport(t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]):
+def prepReport(
+    run_id: UUID,
+    t: int,
+    runseed: int,
+    popseed: int,
+    netseed: int,
+    stats: Dict[str, Any],
+):
     f = open("results/PrEPReport.txt", "a")
 
     # if this is a new file, write the header info
     if f.tell() == 0:
-        f.write("seed\tt\tNewEnroll\tIDUpartner\tTestedPartner\tMSMWpartner\n")
+        f.write("run_id\tseed\tt\tNewEnroll\tIDUpartner\tTestedPartner\tMSMWpartner\n")
 
     f.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\n"
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
         % (
+            run_id,
             runseed,
             t,
             stats["ALL"]["ALL"]["newNumPrEP"],
@@ -439,7 +480,12 @@ def prepReport(t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str
 
 
 def basicReport(
-    t: int, runseed: int, popseed: int, netseed: int, stats: Dict[str, Any]
+    run_id: UUID,
+    t: int,
+    runseed: int,
+    popseed: int,
+    netseed: int,
+    stats: Dict[str, Any],
 ):
     for agentRace in MAIN_CAT:
         for agentTypes in SUB_CAT:
@@ -449,12 +495,13 @@ def basicReport(
             # if this is a new file, write the header info
             if tmpReport.tell() == 0:
                 tmpReport.write(
-                    "rseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\n"
+                    "run_id\trseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\n"
                 )
 
             tmpReport.write(
                 (
-                    "{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
+                    "{:s}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
+                        str(run_id),
                         runseed,
                         popseed,
                         netseed,
@@ -480,10 +527,12 @@ def basicReport(
             tmpReport.close()
 
 
-# ========================== Other Print Functions ============================
+# ========================== Other Print Functions =============================
 
 
-def print_components(t: int, runseed: int, popseed: int, netseed: int, components):
+def print_components(
+    run_id: UUID, t: int, runseed: int, popseed: int, netseed: int, components
+):
     """
     Write stats describing the components (sub-graphs) in a graph to file
     """
@@ -492,26 +541,27 @@ def print_components(t: int, runseed: int, popseed: int, netseed: int, component
     # if this is a new file, write the header info
     if f.tell() == 0:
         f.write(
-            "runseed\tpopseed\tnetseed\tt\tcompID\ttotalN\tTestedPartner\tMSMWpartner\n"
+            "run_id\trunseed\tpopseed\tnetseed\tt\tcompID\ttotalN\tTestedPartner\tMSMWpartner\n"
         )
 
     compID = 0
     for comp in components:
         totN = nhiv = ntrtmt = ntrthiv = nprep = PrEP_ever_HIV = 0
-        for ag in comp.nodes():
+        for agent in comp.nodes():
             totN += 1
-            if ag._HIV_bool:
+            if agent._HIV_bool:
                 nhiv += 1
-                if ag._treatment_bool:
+                if agent._treatment_bool:
                     ntrthiv += 1
-                if ag._PrEP_ever_bool:
+                if agent._PrEP_ever_bool:
                     PrEP_ever_HIV += 1
-            elif ag._treatment_bool:
+            elif agent._treatment_bool:
                 ntrtmt += 1
-                if ag._PrEP_bool:
+                if agent._PrEP_bool:
                     nprep += 1
         f.write(
-            "{runseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Ntrtmt}\t{Nprep}\t{NtrtHIV}\t{NprepHIV}\n".format(
+            "{run_id}\t{runseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Ntrtmt}\t{Nprep}\t{NtrtHIV}\t{NprepHIV}\n".format(
+                run_id=run_id,
                 runseed=runseed,
                 pseed=popseed,
                 nseed=netseed,

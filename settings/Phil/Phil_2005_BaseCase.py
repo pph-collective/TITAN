@@ -45,7 +45,6 @@ reports = [
     "highriskReport",
     "newlyhighriskReport",
     "sexReport",
-    "raceReport",
     "prepReport",
     "basicReport",
 ]
