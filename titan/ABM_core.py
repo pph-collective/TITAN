@@ -1222,6 +1222,18 @@ class HIVModel(NetworkClass):
         race_type = agent._race
         tested = agent._tested
 
+        def diagnose(agent):
+            agent._tested = True
+            self.NewDiagnosis.add_agent(agent)
+            self.Trt_Tstd_agentSet.add_agent(agent)
+            print("diagnosed!")
+            if params.setting == "Scott":  # TODO fix this logic; should get partnerTraced and then lose it after
+                # For each partner, determine if found by partner testing
+                for ptnr in agent._partners:
+                    if ptnr._HIV_bool and not ptnr._tested:
+                        ptnr.partnerTraced = True
+                        print("traced!")
+
         if not tested:
             test_prob = params.DemographicParams[race_type][sex_type]["HIVTEST"]
 
@@ -1231,20 +1243,13 @@ class HIVModel(NetworkClass):
             # If roll less than test probablity
             if self.runRandom.random() < test_prob:
                 # Become tested, add to tested agent set
-                agent._tested = True
-                self.NewDiagnosis.add_agent(agent)
-                self.Trt_Tstd_agentSet.add_agent(agent)
+                diagnose(agent)
                 # If treatment co-enrollment enabled and coverage greater than 0
-                if self.treatmentEnrolled and params.setting == "Scott" and params.git : #TODO fix this logic; should get partnerTraced and then lose it after
-                    # For each partner, attempt to test for HIV
-                    for ptnr in agent._partners:
-                        if not ptnr._tested:
-                            ptnr.partnerTraced = True
+
             elif agent.partnerTraced and self.runRandom.random() < 0.87:
-                agent._tested = True
-                self.NewDiagnosis.add_agent(agent)
-                self.Trt_Tstd_agentSet.add_agent(agent)
+                diagnose(agent)
         agent.partnerTraced = False
+
     def _initiate_HAART(self, agent: Agent, time: int):
         """
         :Purpose:

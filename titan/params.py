@@ -236,7 +236,7 @@ RaceClass1["MSM"]["HIV"] = 0.4
 RaceClass1["MSM"].update(
     {
         "POP": 1.00,
-        "HIV": 0.132,
+        "HIV": 0.532,
         "AIDS": 0.07,
         "HAARTprev": 0.583,
         "INCARprev": 0.000,
@@ -253,7 +253,7 @@ RaceClass1["MSM"].update(
         "PrEPdisc": 0.13,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.911,
-        "PrEP_coverage": 1.0,
+        "PrEP_coverage": 0.0,
         "vaccinePrev": 0,
     }
 )
