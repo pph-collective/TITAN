@@ -443,7 +443,7 @@ class Agent_set:
             tmpS.remove_agent(agent)
 
     def iter_agents(
-        self
+        self,
     ):  # REVIEWED isn't this redundant with get_agents? why not have __iter__ return the agents? then we could use the syntax agent in agent_set - maybe consolidate later
         for agent in self.get_agents():
             yield agent

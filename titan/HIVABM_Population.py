@@ -245,8 +245,8 @@ class PopulationClass:
             if tmp_rnd < params.DemographicParams[Deliminator]["HM"]["POP"]:
                 SexType = "HM"
             elif tmp_rnd < (
-                    params.DemographicParams[Deliminator]["HM"]["POP"]
-                    + params.DemographicParams[Deliminator]["HF"]["POP"]
+                params.DemographicParams[Deliminator]["HM"]["POP"]
+                + params.DemographicParams[Deliminator]["HF"]["POP"]
             ):
                 SexType = "HF"
             else:
@@ -601,9 +601,9 @@ class PopulationClass:
             noMatch = 0
             for agent in EligibleAgents.iter_agents():
                 acquirePartnerProb = (
-                        params.cal_SexualPartScaling
-                        * partnerTurnover
-                        * (agent._mean_num_partners / (12.0))
+                    params.cal_SexualPartScaling
+                    * partnerTurnover
+                    * (agent._mean_num_partners / (12.0))
                 )
                 if np.random.uniform(0, 1) < acquirePartnerProb:
                     partner = get_partner(agent, self.All_agentSet)

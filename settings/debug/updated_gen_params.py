@@ -8,8 +8,8 @@ Main model parameters.
 ####################
 PROCESSES = 1  # number of processes in parallel (quadcore)
 rSeed = (
-    1
-)  # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
+    1  # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
+)
 N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_POP = 100  # population size
 TIME_RANGE = 12  # total time steps to iterate
@@ -52,8 +52,8 @@ cal_ProgAIDS = 1.0  # Scaling factor for all progression to AIDS from HIV rates
 cal_ART_cov = 1.0  # Scaling factor for enrollment on ART probability
 cal_IncarP = 1.0  # Scaling factor for probability of becoming incarcerated
 cal_raceXmission = (
-    1.0
-)  # Scaling factor for increased STI transmission P comparing race1/race2
+    1.0  # Scaling factor for increased STI transmission P comparing race1/race2
+)
 cal_ptnrSampleDepth = 100  # Sampling depth for partnering algorithm.
 
 """
@@ -93,8 +93,8 @@ inc_ARTdisc = 0.12
 inc_Recidivism = 0.267
 inc_PtnrDissolution = 0.55
 inc_treatment_dur = (
-    0
-)  # Duration for which agents are forced on respective treatment post release
+    0  # Duration for which agents are forced on respective treatment post release
+)
 inc_treat_set = ["HM"]  # Set of agent classifiers effected by HR treatment
 inc_treat_behavior = False  # Remove IDU behaviour during treatment duration
 inc_treat_RIC = False  # Force retention in care of ART therapy
@@ -104,8 +104,8 @@ PrEP params
 """
 PrEP_type = "Oral"  # Oral/Inj PrEP modes
 PrEP_Target = (
-    0.0
-)  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+    0.0  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+)
 PrEP_startT = 0  # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82  # Probability of being adherent
 PrEP_AdhEffic = 0.96  # Efficacy of adherence PrEP
@@ -114,8 +114,8 @@ PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01  # Probability of PrEP resistance developing
 PrEP_disc = 0.15  # Per month probability of PrEP discontinuation
 PrEP_target_model = (
-    "MSM"
-)  # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
+    "MSM"  # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
+)
 PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it follow
 
 if PrEP_type == "Oral":
