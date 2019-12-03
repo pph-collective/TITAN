@@ -1175,6 +1175,6 @@ class HIVModel(NetworkClass):
                 # Remove agent from agent class and sub-sets
                 self.All_agentSet.remove_agent(agent)
 
-                agent_cl = self._return_new_Agent_class(agent._race, agent._SO)
-                self.create_agent(agent_cl, agent._race)
-                self.get_Graph().add_node(agent_cl)
+                new_agent = self.create_agent(agent._race, agent._SO)
+                self.add_agent_to_pop(new_agent)
+                self.get_Graph().add_node(new_agent)

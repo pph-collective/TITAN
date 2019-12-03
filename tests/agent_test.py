@@ -13,17 +13,16 @@ def make_agent():
 
 @pytest.fixture
 def make_relationship():
-    def _make_relationship(id1, id2, SO="MSM", rel_type="#REVIEW", duration=10):
+    def _make_relationship(id1, id2, SO="MSM", rel_type="#REVIEW", duration=2):
         return Relationship(id1, id2, SO, rel_type, duration)
 
     return _make_relationship
 
 
 def test_agent_init(make_agent):
-    a = make_agent()  # 0
-    b = make_agent()  # 1
-    assert a._ID == 0
-    assert b._ID == 1
+    a = make_agent()
+    b = make_agent()
+    assert b._ID == a._ID + 1
     assert a._timeAlive == 0
 
     # demographics
@@ -79,64 +78,83 @@ def test_agent_init(make_agent):
 
 
 def test_get_id(make_agent):
-    a = make_agent()  # 2
-    assert a.get_ID() == 2
-
-
-def test_bond_unbond(make_agent, make_relationship):
-    a = make_agent()  # 3
-    p = make_agent()  # 4
-    r = make_relationship(a, p)  # 0
-    a.bond(p, r)
-    assert r in p._relationships
-    assert p in a._partners
-    assert r in a._relationships
-    assert a in p._partners
-    assert a._num_sex_partners == 1
-    assert p._num_sex_partners == 1
-
-    p.unbond(a, r)
-    assert r not in p._relationships
-    assert p not in a._partners
-    assert r not in a._relationships
-    assert a not in p._partners
-    assert a._num_sex_partners == 1
-    assert p._num_sex_partners == 1
+    a = make_agent()
+    assert a.get_ID() == a._ID
 
 
 def test_partner_list(make_agent, make_relationship):
-    a = make_agent()  # 5
+    a = make_agent()
 
     assert a.partner_list() == []
 
-    p = make_agent()  # 6
-    r = make_relationship(a, p)  # 1
-    a.bond(p, r)  # REVIEW what is the logic behind relationship -> bond -> pair?
+    p = make_agent()
+    r = make_relationship(a, p)
 
-    assert a.partner_list() == [6]
-    assert p.partner_list() == [5]
+    assert a.partner_list() == [p._ID]
+    assert p.partner_list() == [a._ID]
 
 
-def test_relationship_init(make_agent, make_relationship):
-    a = make_agent()  # 7
-    p = make_agent()  # 8
-    r = make_relationship(a, p)  # 2
+def test_relationship(make_agent, make_relationship):
+    a = make_agent()
+    p1 = make_agent()
+    p2 = make_agent()
+    r1 = make_relationship(a, p1)
+    r2 = make_relationship(a, p2)
 
-    assert r._ID1 == a
-    assert r._ID2 == p
-    assert r._ID == 2
-    assert r.get_ID() == 2
+    assert r1._ID1 == a
+    assert r1._ID2 == p1
+    assert r2.get_ID() == r1.get_ID() + 1
 
     # properties
-    assert r._duration == 10
-    assert r._total_sex_acts == 0
+    assert r1._duration == 2
+    assert r1._total_sex_acts == 0
 
+    assert r2._duration == 2
+    assert r2._total_sex_acts == 0
 
-@pytest.mark.skip(
-    reason="# TO_REVIEW relationships are assumed to be bonded, but that's not enforced in the code/constructor (at least compactly)"
-)
-def test_progress(make_agent, make_relationship):
-    pass
+    assert a._num_sex_partners == 2
+    assert p1._num_sex_partners == 1
+    assert p2._num_sex_partners == 1
+
+    assert p1._ID in a.partner_list()
+    assert p2._ID in a.partner_list()
+    assert a._ID in p1.partner_list()
+    assert a._ID in p2.partner_list()
+
+    assert r1 in a._relationships
+    assert r1 in p1._relationships
+    assert r2 in a._relationships
+    assert r2 in p2._relationships
+
+    # move forward one time step in the relationship, duration 2 -> 1
+    ended = r1.progress()
+    assert ended == False
+    assert r1._duration == 1
+    assert p1._ID in a.partner_list()
+    assert p2._ID in a.partner_list()
+    assert a._ID in p1.partner_list()
+    assert a._ID in p2.partner_list()
+
+    assert r1 in a._relationships
+    assert r1 in p1._relationships
+    assert r2 in a._relationships
+    assert r2 in p2._relationships
+
+    # move forward one more timestep, duration 1 -> 0, rel over on next progress
+    ended = r1.progress()
+    assert r1._duration == 0
+    ended = r1.progress()
+    assert ended == True
+    assert r1._duration == 0
+    assert p1._ID not in a.partner_list()
+    assert p2._ID in a.partner_list()
+    assert a._ID not in p1.partner_list()
+    assert a._ID in p2.partner_list()
+
+    assert r1 not in a._relationships
+    assert r1 not in p1._relationships
+    assert r2 in a._relationships
+    assert r2 in p2._relationships
 
 
 def test_Agent_set_init(make_agent):

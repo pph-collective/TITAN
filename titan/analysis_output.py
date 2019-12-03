@@ -106,7 +106,7 @@ def get_stats(
             if tmpA._AIDS_bool:
                 stats[tmpA._race][tmpA._SO]["newHR_AIDS"] += 1
             if tmpA._tested:
-                stats[tmpA._race][tmpA._SO]["newHR_tested"] += 1
+                stats[tmpA._race][tmpA._SO]["newHR_Tested"] += 1
                 if tmpA._HAART_bool:
                     stats[tmpA._race][tmpA._SO]["newHR_ART"] += 1
 

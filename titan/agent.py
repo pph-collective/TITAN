@@ -49,8 +49,8 @@ class Agent:
         # agent-partner params
         self._relationships: List[Relationship] = []
         self._partners: List[Agent] = []
-        self._num_sex_partners = 0
-        self._num_NE_partners = 0
+        self._num_sex_partners = 0  # TO_REVIEW - not actually used anywhere
+        self._num_NE_partners = 0  # TO_REVIEW - not actually used anywhere
         self._mean_num_partners = 0
         self._sexualRole = "Vers"
 
@@ -122,84 +122,6 @@ class Agent:
             ID (int) - agent ID
         """
         return self._ID
-
-    def bond(self, partner: "Agent", relationship: "Relationship"):
-        """
-        Bond two agents. Adds each to a relationship object, then partners in each
-        others' partner list.
-
-        todo: Disentangle this from partner. These can be condensed.
-
-        args:
-            partner (Agent(object)) - new partner of agent
-            relationship (Relationship(object)) - relationship for partnership
-        returns:
-            None
-        """
-
-        if relationship is None:
-            raise ValueError("relationship can't be None")
-
-        # Append relationship to relationships list for each agent
-        self._relationships.append(relationship)
-        partner._relationships.append(relationship)
-
-        # Pair agent with partner and partner with agent
-        self.pair(partner)
-        partner.pair(self)
-
-        # Increment number of sex partners for both
-        self._num_sex_partners += 1
-        partner._num_sex_partners += 1
-
-    def unbond(self, partner: "Agent", relationship: "Relationship"):
-        """
-        Unbond two agents. Adds each to a relationship object, then partners in each
-        others' partner list.
-
-        todo: Disentangle this from partner. These can be condensed.
-
-        args:
-            partner (Agent(object)) - new partner of agent
-            relationship (Relationship(object)) - relationship for partnership
-        returns:
-            None
-        """
-        if relationship is None:
-            raise ValueError("relationship can't be None")
-
-        # Remove relationship to relationships list for each agent
-        self._relationships.remove(relationship)
-        partner._relationships.remove(relationship)
-
-        # Unpair agent with partner and partner with agent
-        self.unpair(partner)
-        partner.unpair(self)
-
-    def pair(self, partner: "Agent"):
-        """
-        Pair two agents by adding each to the respective _partners list
-
-        args:
-            partner (Agent(object)) - new partner of agent
-        returns:
-            None
-        """
-
-        if partner.get_ID() != self.get_ID() and partner not in self._partners:
-            self._partners.append(partner)
-
-    def unpair(self, partner: "Agent"):
-        """
-        Unpair two agents by removing each to the respective _partners list
-
-        args:
-            agent (Agent(object)) - new partner of agent
-        returns:
-            None
-        """
-        if partner in self._partners:
-            self._partners.remove(partner)
 
     def partner_list(self):
         """
@@ -409,6 +331,11 @@ class Relationship:
             :rel_type: (future feature) - sex bond or idu bond or both
             :duration: length of relationship
         """
+        # make sure these agents can be in a relationship
+        assert ID1 != ID2, "Cannot create relationship with same agent"
+        assert (
+            ID1 not in ID2._partners and ID2 not in ID1._partners
+        ), "Agent's already partnered!"
 
         # self._ID is unique ID number used to track each person agent.
         self._ID1 = ID1
@@ -420,17 +347,58 @@ class Relationship:
         self._duration = duration
         self._total_sex_acts = 0
 
+        self.bond(ID1, ID2)
+
     def progress(self, forceKill: bool = False):
         if self._duration <= 0 or forceKill:
-            agent = self._ID1
-            partner = self._ID2
-
-            agent.unbond(partner, self)
-
+            self.unbond(self._ID1, self._ID2)
             return True
         else:
             self._duration = self._duration - 1
             return False
+
+    def bond(self, agent: "Agent", partner: "Agent"):
+        """
+        Bond two agents. Adds each to a relationship object, then partners in each
+        others' partner list.
+
+        args:
+            agent: Agent - new partner of partner
+            partner: Agent - new partner of agent
+        returns:
+            None
+        """
+
+        # Append relationship to relationships list for each agent
+        agent._relationships.append(self)
+        partner._relationships.append(self)
+
+        # Pair agent with partner and partner with agent
+        agent._partners.append(partner)
+        partner._partners.append(agent)
+
+        # Increment number of sex partners for both
+        agent._num_sex_partners += 1
+        partner._num_sex_partners += 1
+
+    def unbond(self, agent: "Agent", partner: "Agent"):
+        """
+        Unbond two agents. Removes relationship from relationship lists. Removes partners in each others' partner list.
+
+        args:
+            agent: Agent - former partner of partner
+            partner: Agent - former partner of agent
+        returns:
+            None
+        """
+
+        # Remove relationship to relationships list for each agent
+        agent._relationships.remove(self)
+        partner._relationships.remove(self)
+
+        # Unpair agent with partner and partner with agent
+        agent._partners.remove(partner)
+        partner._partners.remove(agent)
 
     def get_ID(self):
         return self._ID

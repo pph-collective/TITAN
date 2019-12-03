@@ -245,7 +245,7 @@ RC_template: Dict[str, Any] = {
     "HAARTadh": 0.0,  # Adherence to ART therapy
     "HAARTdisc": 0.0,  # Probability of discontinuing ART therapy
     "PrEPdisc": 0.0,  # Probability of discontinuing PrEP treatment
-    "EligSE_PartnerType": None,  # List of agent SO types the agent cant partner with
+    "EligSE_PartnerType": None,  # agent SO type the agent cant partner with
     "AssortMixMatrix": [],  # List of assortMix Matrix to be zipped with EligPart
     "HighRiskPrev": 0,
 }

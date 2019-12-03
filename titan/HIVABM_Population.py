@@ -184,11 +184,11 @@ class PopulationClass:
         print("\tCreating agents")
 
         for agent in range(self.numWhite):
-            agent_cl = self._return_new_Agent_class("WHITE")
-            self.create_agent(agent_cl, "WHITE")
+            agent_cl = self.create_agent("WHITE")
+            self.add_agent_to_pop(agent_cl)
         for agent in range(self.numBlack):
-            agent_cl = self._return_new_Agent_class("BLACK")
-            self.create_agent(agent_cl, "BLACK")
+            agent_cl = self.create_agent("BLACK")
+            self.add_agent_to_pop(agent_cl)
         # jail stock duration?
         jailDuration = prob.jail_duration()
 
@@ -208,9 +208,7 @@ class PopulationClass:
 
                 self.incarcerated_agentSet.add_agent(tmpA)
 
-    def _return_agent_set(self):
-        return self.All_agentSet
-
+    # TO_REVIEW not used anywhere
     def _return_new_agent_dict(self, Deliminator: str, SexType: str = "NULL"):
         """
         :Purpose:
@@ -345,7 +343,7 @@ class PopulationClass:
 
         return agent_dict
 
-    def _return_new_Agent_class(self, Race: str, SexType: str = "NULL") -> Agent:
+    def create_agent(self, Race: str, SexType: str = "NULL") -> Agent:
         """
         :Purpose:
         Return random agent dict of a new agent..
@@ -464,7 +462,7 @@ class PopulationClass:
 
         return newAgent
 
-    def create_agent(self, agent_cl: Agent, Deliminator: str):
+    def add_agent_to_pop(self, agent_cl: Agent):
         """
         :Purpose:
             Creat a new agent in the population.
@@ -574,8 +572,6 @@ class PopulationClass:
         if partner:
             duration = get_partnership_duration(agent)
             tmp_relationship = Relationship(agent, partner, "MSM", "SE", duration)
-
-            agent.bond(partner, tmp_relationship)
             self.Relationships.append(tmp_relationship)
             graph.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
         else:

@@ -9,7 +9,7 @@ from . import params  # type: ignore
 from .ABM_core import HIVModel
 
 
-def initiate_ResultDict(tmax: int) -> Dict[str, Any]:
+def initiate_result_dict(tmax: int) -> Dict[str, Dict[int, Sequence]]:
     # nested dictionary for results (inner dictionary has the form: time:result)
     d: Dict[str, Any] = {
         "Prv_HIV": {},
@@ -29,55 +29,43 @@ def initiate_ResultDict(tmax: int) -> Dict[str, Any]:
     return d
 
 
-def statsToResults(stats: Dict[str, Any], results: Dict[str, Any]):
+def safe_divide(numerator: int, denominator: int):
+    """
+    Default 0 if denominator is 0, otherwise divide as normal
+    """
+    if denominator == 0:
+        return 0.0
+    else:
+        return 1.0 * numerator / denominator
+
+
+def stats_to_results(
+    stats: Dict[str, Any], results: Dict[str, Any]
+) -> Dict[str, Dict[int, Sequence]]:
     """
     Update results dict with stats from this simulation
     """
     for t in stats.keys():
-        results["Prv_HIV"][t].append(
-            1.0 * stats[t]["ALL"]["ALL"]["numHIV"] / stats[t]["ALL"]["ALL"]["numAgents"]
-        )
+        stat = stats[t]["ALL"]["ALL"]
 
-        results["Prv_AIDS"][t].append(
-            1.0 * stats[t]["ALL"]["ALL"]["numAIDS"] / stats[t]["ALL"]["ALL"]["numHIV"]
-        )
+        results["Prv_HIV"][t].append(safe_divide(stat["numHIV"], stat["numAgents"]))
+        results["Prv_AIDS"][t].append(safe_divide(stat["numAIDS"], stat["numHIV"]))
+        results["Prv_Test"][t].append(safe_divide(stat["numTested"], stat["numHIV"]))
+        results["Prv_ART"][t].append(safe_divide(stat["numART"], stat["numTested"]))
+        results["Prv_PrEP"][t].append(safe_divide(stat["numPrEP"], stat["numAgents"]))
 
-        results["Prv_Test"][t].append(
-            1.0
-            * stats[t]["ALL"]["ALL"]["numTested"]
-            / max(stats[t]["ALL"]["ALL"]["numHIV"], 1)
-        )
-
-        results["Prv_ART"][t].append(
-            1.0 * stats[t]["ALL"]["ALL"]["numART"] / stats[t]["ALL"]["ALL"]["numTested"]
-        )
-
-        results["Prv_PrEP"][t].append(
-            1.0
-            * stats[t]["ALL"]["ALL"]["numPrEP"]
-            / stats[t]["ALL"]["ALL"]["numAgents"]
-        )
-
-        results["n_Relations"][t].append(stats[t]["ALL"]["ALL"]["numRels"])
-
+        results["n_Relations"][t].append(stat["numRels"])
         results["Inc_t_HM"][t].append(stats[t]["WHITE"]["HM"]["inf_newInf"])
         results["Inc_t_HF"][t].append(stats[t]["WHITE"]["HF"]["inf_newInf"])
 
 
 def simulation(
-    nreps: int,
-    time_range: int,
-    N_pop: int,
-    outfile_dir: str,
-    runSeed: int,
-    popSeed: int,
-    netSeed: int,
+    nreps: int, time_range: int, N_pop: int, runSeed: int, popSeed: int, netSeed: int,
 ):
 
     # Run nreps simulations using the given parameters.
-    # Information are printed to outfile_dir directory.
     pid = os.getpid()
-    result_dict: Dict[str, Any] = initiate_ResultDict(time_range)
+    result_dict: Dict[str, Any] = initiate_result_dict(time_range)
 
     for rep in range(nreps):
         inputSeed = runSeed
@@ -100,12 +88,18 @@ def simulation(
         )
 
         stats = MyModel.run()
-        statsToResults(stats, result_dict)
+        stats_to_results(stats, result_dict)
 
     return result_dict
 
 
-def save_results(time_range, rslts, outfile_dir, num_sim):
+# TO_REVIEW if time_range is number of timesteps, why not get this from the rslts?
+def save_results(
+    time_range: int,
+    rslts: Dict[str, Dict[int, Sequence]],
+    outfile_dir: str,
+    num_sim: int,
+):
     """
     Save the result dictionary.
     Input:

@@ -62,7 +62,6 @@ def main():
             params.N_REPS,
             params.TIME_RANGE,
             params.N_POP,
-            outfile_dir,
             runSeed=inputRunSeed,
             popSeed=inputPopSeed,
             netSeed=inputNetSeed,
