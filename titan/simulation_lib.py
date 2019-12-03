@@ -39,9 +39,7 @@ def safe_divide(numerator: int, denominator: int):
         return 1.0 * numerator / denominator
 
 
-def stats_to_results(
-    stats: Dict[str, Any], results: Dict[str, Any]
-) -> Dict[str, Dict[int, Sequence]]:
+def stats_to_results(stats: Dict[str, Any], results: Dict[str, Any]):
     """
     Update results dict with stats from this simulation
     """
