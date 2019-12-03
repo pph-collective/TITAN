@@ -79,9 +79,9 @@ sed -i "s/\(TIME_RANGE = \)\([0-9]*\)/\1${simT}/g" titan/params.py
 sed -i "s/\(burnDuration = \)\([0-9]*\)/\1${burn}/g" titan/params.py
 
 #Submit script params
-sed -i "s/MODEL_NAME/$jobname/g" ${titanPath}scripts/bs_Core.sh
-sed -i "s/WALL_TIME/$walltime/g" ${titanPath}scripts/bs_Core.sh
-sed -i "s/MEMORY/$memory/g" ${titanPath}scripts/bs_Core.sh
+sed -i "s/MODEL_NAME/$jobname/g" scripts/bs_Core.sh
+sed -i "s/WALL_TIME/$walltime/g" scripts/bs_Core.sh
+sed -i "s/MEMORY/$memory/g" scripts/bs_Core.sh
 
 }
 
@@ -91,8 +91,7 @@ prepSubmit() {
     echo -e "\n\tMoving setting $setting into $srcCode"
     cp $settingPath $srcCode/params.py
     echo -e "\n\tCopying $srcCode to $finalPath"
-    cp -rT $titanPath/* $finalPath
-
+    cp -rT $titanPath $finalPath
     #Move into new source code folder
     echo -e "\n\tMoving to model folder directory"
     cd $finalPath
@@ -100,7 +99,7 @@ prepSubmit() {
     updateParams;
 
     #Submit job to cluster
-    sbatch ${titanPath}scripts/bs_Core.sh
+    sbatch scripts/bs_Core.sh
 
     #Move back to base directory
     cd $basePath
