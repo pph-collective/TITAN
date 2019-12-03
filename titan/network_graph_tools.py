@@ -5,22 +5,27 @@ import os
 import random
 import collections
 
-import numpy as np
-import networkx as nx
-from networkx.drawing.nx_agraph import graphviz_layout
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
+import numpy as np  # type: ignore
+import networkx as nx  # type: ignore
+from networkx.drawing.nx_agraph import graphviz_layout  # type: ignore
+import matplotlib.pyplot as plt  # type: ignore
+import matplotlib.patches as patches  # type: ignore
+from typing import Sequence, List, Dict, Optional
 
-try:
-    from .HIVABM_Population import PopulationClass
-except ImportError:
-    raise ImportError("Can't import PopulationClass")
-
-from . import params
+from .HIVABM_Population import PopulationClass
+from . import params  # type: ignore
+from .agent import Agent_set
 
 
 class NetworkClass(PopulationClass):
-    def __init__(self, N, popSeed=0, netSeed=0, m_0=1, network_type="scale_free"):
+    def __init__(
+        self,
+        N: int,
+        popSeed: int = 0,
+        netSeed: int = 0,
+        m_0: int = 1,
+        network_type: str = "scale_free",
+    ):
         """
         :Purpose:
             This is the base class used to generate the social network
@@ -67,7 +72,7 @@ class NetworkClass(PopulationClass):
                         for rel in ag._relationships:
                             # print("Removed edge:",rel)
                             rel.progress(forceKill=True)
-                            self.Relationships.remove_agent(rel)
+                            self.Relationships.remove(rel)
                             component.remove_edge(rel._ID1, rel._ID2)
                             self.G.remove_edge(rel._ID1, rel._ID2)
 
@@ -104,11 +109,13 @@ class NetworkClass(PopulationClass):
             print("HUIH")
             raise ValueError("Invalid network type! %s" % str(network_type))
 
-    def write_G_edgelist(self, path):
+    def write_G_edgelist(self, path: str):
         G = self.G
         nx.write_edgelist(G, path, data=False)
 
-    def write_network_stats(self, t=0, path="results/network/networkStats.txt"):
+    def write_network_stats(
+        self, t: int = 0, path: str = "results/network/networkStats.txt"
+    ):
         G = self.G
         components = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)
         bigG = components[0]
@@ -124,8 +131,8 @@ class NetworkClass(PopulationClass):
         )
         conG = nx.connected_components(G)
         tot_nodes = 0
-        for t in conG:
-            thisComp = len(t)
+        for c in conG:
+            thisComp = len(c)
             tot_nodes += thisComp
         outfile.write(
             "Average component size: {}\n".format(
@@ -148,15 +155,15 @@ class NetworkClass(PopulationClass):
         for i in components:
             comps.append(len(i))
 
-    def create_graph_from_agents(self, agents):
-        G = self.G
+    def create_graph_from_agents(self, agents: Agent_set):
+        G = self.get_Graph()
         numAdded = 0
         for tmpA in agents.iter_agents():
             numAdded += 1
             G.add_node(tmpA)
         print("\tAdded %d/%d agents" % (numAdded, G.number_of_nodes()))
 
-    def draw_histogram(self, t=0):
+    def draw_histogram(self, t: int = 0):
         G = self.G
         degree_sequence = sorted(
             [d for n, d in G.degree()], reverse=True

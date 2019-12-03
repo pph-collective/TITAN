@@ -63,8 +63,8 @@ cal_ProgAIDS = 1.0  # Scaling factor for all progression to AIDS from HIV rates
 cal_ART_cov = 0.70  # Scaling factor for enrollment on ART probability
 cal_IncarP = 3.80  # Scaling factor for probability of becoming incarcerated
 cal_raceXmission = (
-    1.0
-)  # Scaling factor for increased STI transmission P comparing race1/race2
+    1.0  # Scaling factor for increased STI transmission P comparing race1/race2
+)
 cal_ptnrSampleDepth = 100  # Sampling depth for partnering algorithm.
 
 
@@ -106,8 +106,8 @@ inc_Recidivism = 0.267
 inc_PtnrDissolution = 0.55
 inc_treatment_startdate = 48  # Timestep where inc treatment can begin
 inc_treatment_dur = (
-    12
-)  # Duration for which agents are forced on respective treatment post release
+    12  # Duration for which agents are forced on respective treatment post release
+)
 inc_treat_set = ["HM"]  # Set of agent classifiers effected by HR treatment
 inc_treat_HRsex_beh = True  # Remove sexual higrisk behaviour during treatment duration
 inc_treat_IDU_beh = True  # Remove IDU behav:iour during treatment duration
@@ -141,8 +141,8 @@ PrEP params
 """
 PrEP_type = "Oral"  # Oral/Inj PrEP modes
 PrEP_Target = (
-    0.10
-)  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+    0.10  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+)
 PrEP_startT = 0  # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82  # Probability of being adherent
 PrEP_AdhEffic = 0.96  # Efficacy of adherence PrEP
@@ -150,9 +150,7 @@ PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.0
 PrEP_disc = 0.15
-PrEP_target_model = (
-    "IncarHR"
-)  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, Incar,IncarHR, HR
+PrEP_target_model = "IncarHR"  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, Incar,IncarHR, HR
 PrEP_clinic_cat = "Mid"
 
 if PrEP_type == "Oral":

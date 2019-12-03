@@ -8,8 +8,8 @@ Main model parameters.
 ####################
 PROCESSES = 1  # number of processes in parallel (quadcore)
 rSeed = (
-    0
-)  # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
+    0  # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
+)
 N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_POP = 86481  # 6           # population size
 TIME_RANGE = 36  # total time steps to iterate
@@ -92,8 +92,8 @@ PrEP params
 """
 PrEP_type = "Oral"  # Oral/Inj PrEP modes
 PrEP_Target = (
-    0.000
-)  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+    0.000  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+)
 PrEP_startT = 0  # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82  # Probability of being adherent
 PrEP_AdhEffic = 0.96  # Efficacy of adherence PrEP

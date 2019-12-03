@@ -1,6 +1,6 @@
 import pytest
 
-from src.network_graph_tools import *
+from titan.network_graph_tools import *
 
 n_pop = 10
 

@@ -2,29 +2,27 @@
 # encoding: utf-8
 
 import os
-import numpy as np
+import numpy as np  # type: ignore
+from typing import Sequence, List, Dict, Optional, Any
 
-from . import params
+from . import params  # type: ignore
 from .ABM_core import HIVModel
 
 
 def simulation(
-    nreps,
-    time_range,
-    N_pop,
-    outfile_dir,
-    parameters,
-    runSeed,
-    popSeed,
-    netSeed,
-    uniqueSeed=False,
-    model=None,
+    nreps: int,
+    time_range: int,
+    N_pop: int,
+    outfile_dir: str,
+    runSeed: int,
+    popSeed: int,
+    netSeed: int,
 ):
 
     # Run nreps simulations using the given parameters.
     # Information are printed to outfile_dir directory.
     pid = os.getpid()
-    result_dict = {}
+    result_dict: Dict[str, Any] = {}
 
     for num_sim in range(nreps):
         inputSeed = runSeed
@@ -40,12 +38,9 @@ def simulation(
         MyModel = HIVModel(
             N=N_pop,
             tmax=time_range,
-            parameter_dict=parameters,
             runseed=inputSeed,
             popseed=popSeed,
             netseed=netSeed,
-            runtime_diffseed=uniqueSeed,
-            model=model,
             network_type=params.network_type,
         )
 
@@ -70,20 +65,6 @@ def simulation(
                 else:
                     result_dict[key][t].append(x)
     return result_dict
-
-
-def simulation_star(zipped_input):
-    """
-    This helper function is needed because multithreading pool only
-    accepts one input argument. This helper function converts combined
-    arguments and calls the simulation function.
-    """
-    try:
-        return simulation(*zipped_input)
-    except TypeError:
-        for input_info in zipped_input:
-            print(input_info)
-        raise TypeError("Wrong input for simulation_star()!")
 
 
 def save_results(N_MC, time_range, rslts, outfile_dir, num_sim):

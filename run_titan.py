@@ -5,8 +5,8 @@ import time as time_mod
 import sys
 import os
 
-from .simulation_lib import simulation, save_results
-from . import params
+from titan.simulation_lib import simulation, save_results
+from titan import params
 
 
 # Disable
@@ -21,6 +21,11 @@ def enablePrint():
 
 def main():
     wct = []  # wall clock times
+
+    outfile_dir = os.path.join(os.getcwd(), "results")
+    if not os.path.isdir(outfile_dir):
+        os.mkdir(outfile_dir)
+
     open_outputs()
 
     for single_sim in range(params.N_MC):
@@ -30,7 +35,6 @@ def main():
         if not os.path.isdir(outfile_dir):
             os.mkdir(outfile_dir)
         tic = time_mod.time()
-        parameters = None
 
         inputPopSeed = params.rSeed_pop
         inputNetSeed = params.rSeed_net
@@ -57,11 +61,9 @@ def main():
             params.TIME_RANGE,
             params.N_POP,
             outfile_dir,
-            parameters,
             runSeed=inputRunSeed,
             popSeed=inputPopSeed,
             netSeed=inputNetSeed,
-            model=params.model,
         )
         wct.append(time_mod.time() - tic)
         save_results(params.N_MC, params.TIME_RANGE, rslts, outfile_dir, single_sim)

@@ -1,11 +1,23 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from typing import Sequence, List, Dict, Optional
+from . import params
+
 
 class Agent:
     "Class for agent objects."
 
-    def __init__(self, ID, SO, age, race, DU, initial_agent=False):
+    # class variable for agent creation
+    next_agent_id = 0
+
+    @classmethod
+    def update_id_counter(cls):
+        cls.next_agent_id += 1
+
+    def __init__(
+        self, SO: str, age: int, race: str, DU: str, initial_agent: bool = False,
+    ):
         """
         Initialize an agent based on given properties
 
@@ -21,7 +33,8 @@ class Agent:
             None
         """
         # self._ID is unique ID number used to track each person agent.
-        self._ID = ID
+        self._ID = self.next_agent_id
+        self.update_id_counter()
         self._timeAlive = 0
 
         # agent properties
@@ -34,15 +47,14 @@ class Agent:
         self._MSMW = False
 
         # agent-partner params
-        self._relationships = []
-        self._partners = []
+        self._relationships: List[Relationship] = []
+        self._partners: List[Agent] = []
         self._num_sex_partners = 0
         self._num_NE_partners = 0
         self._mean_num_partners = 0
         self._sexualRole = "Vers"
 
         # agent STI params
-        self._STI_pool = []
         self._HIV_bool = False
         self._HIV_time = 0
         self._AIDS_bool = False
@@ -60,20 +72,13 @@ class Agent:
         self._PrEP_adh = 0
         self._treatment_bool = False
         self._treatment_time = 0
-        self._OAT_bool = False
-        self._naltrex_bool = False
-        self._DOC_OAT_bool = False
-        self._DOC_NAL_bool = False
-        self._MATprev = 0
-        self._oatValue = 0
-        self._PrEP_reason = []
+        self._PrEP_reason: List[str] = []
 
         # PrEP pharmacokinetics
         self._PrEP_load = 0.0
         self._PrEP_lastDose = 0
 
         # agent high risk params
-        self._highrisk_type = None
         self._highrisk_bool = False
         self._highrisk_time = 0
         self._everhighrisk_bool = False
@@ -118,7 +123,7 @@ class Agent:
         """
         return self._ID
 
-    def bond(self, partner, relationship):
+    def bond(self, partner: "Agent", relationship: "Relationship"):
         """
         Bond two agents. Adds each to a relationship object, then partners in each
         others' partner list.
@@ -147,7 +152,7 @@ class Agent:
         self._num_sex_partners += 1
         partner._num_sex_partners += 1
 
-    def unbond(self, partner, relationship):
+    def unbond(self, partner: "Agent", relationship: "Relationship"):
         """
         Unbond two agents. Adds each to a relationship object, then partners in each
         others' partner list.
@@ -167,11 +172,11 @@ class Agent:
         self._relationships.remove(relationship)
         partner._relationships.remove(relationship)
 
-        # Unpair agent with partner and partner with agent # REVIEWED switched this over - needs test thoroughly
+        # Unpair agent with partner and partner with agent
         self.unpair(partner)
         partner.unpair(self)
 
-    def pair(self, partner):
+    def pair(self, partner: "Agent"):
         """
         Pair two agents by adding each to the respective _partners list
 
@@ -184,7 +189,7 @@ class Agent:
         if partner.get_ID() != self.get_ID() and partner not in self._partners:
             self._partners.append(partner)
 
-    def unpair(self, partner):
+    def unpair(self, partner: "Agent"):
         """
         Unpair two agents by removing each to the respective _partners list
 
@@ -210,93 +215,182 @@ class Agent:
 
         return ptnrs
 
-    def print_agent(self):
+    def get_acute_status(self, time: int) -> bool:
         """
-        Print the agent properties to stdout
+        :Purpose:
+            Get acute status of agent at time period
+        :Input:
+            time : int
+        :Output:
+            acute_status : bool
+        """
+        acuteTimePeriod = 2
+        hiv_t = self._HIV_time
 
-        returns:
-            None
-        """
-        print(
-            "\t%.6d\t%d\t%s\t%s\t%s\t%s\t%s"
-            % (
-                self._ID,
-                self._age,
-                self._SO,
-                self._DU,
-                self._race,
-                self._HIV_bool,
-                self._incar_bool,
-            )
-        )
-
-    def print_agent_abridge(self):
-        """
-        Print the abridged agent properties to stdout
-
-        returns:
-            None
-        """
-        print("\t%.6d\t%s\t%s" % (self._ID, self._SO, self._DU))
-
-    def vars(self):
-        """
-        Get agent specific variables (used for printing stats)
-
-        returns:
-            vars (str) - string of variables for agent
-        """
-        return "%.6d,%d,%s,%s,%s,%s,%d,%d,%d,%s,%s,%s,%s\n" % (
-            self._ID,
-            self._age,
-            self._SO,
-            self._DU,
-            self._race,
-            self._HIV_bool,
-            len(self._partners),
-            self._num_sex_partners,
-            self._timeAlive,
-            self._AIDS_bool,
-            self._tested,
-            self._PrEP_bool,
-            self._incar_bool,
-        )
-
-    def print_agent_to_file(self, filename, time=None, overWrite="a"):
-        """
-        Print the agent variables to a file
-
-        args:
-            filename (str) - name of file to write to
-            time (int) - timestep of print
-            overWrite (str) - write flag for f open
-        returns:
-            None
-        """
-        if overWrite == "a":
-            agentList = ""
+        if hiv_t <= acuteTimePeriod and hiv_t > 0:
+            return True
         else:
-            agentList = "Time,ID,Age,Gdr,SO,DU,Race,HIV+,Ptnrs,AIDS,Tested,PrEP,Incar\n"
+            return False
 
-        agentList += str(time) + "," + self.vars()
-
-        open(str(filename), overWrite).write(agentList)
-
-    def print_relationships(self):
+    def PrEP_eligible(self, time: int) -> bool:
         """
-        Print the agents relationships to stdout
+        :Purpose:
+            Determine if an agent is eligible for PrEP
 
-        returns:
-            None
+        :Input:
+            time : int
+
+        :Output:
+            eligibility : bool
         """
-        for tmpR in self._relationships:
-            tmpR.print_rel()
+        eligible = False
+        if params.PrEP_target_model == "Allcomers":
+            eligible = True
+        elif params.PrEP_target_model == "CDCwomen":
+            if self._SO == "HF":
+                for rel in set(self._relationships):
+                    if rel._ID1 == self:
+                        partner = rel._ID2
+                    else:
+                        partner = rel._ID1
+
+                    if rel._duration > 1:
+                        if partner._DU == "IDU":
+                            eligible = True
+                            self._PrEP_reason.append("IDU")
+                        if partner._tested:
+                            eligible = True
+                            self._PrEP_reason.append("HIV test")
+                        if partner._MSMW:
+                            eligible = True
+                            self._PrEP_reason.append("MSMW")
+        elif params.PrEP_target_model == "CDCmsm":
+            if self._SO == "MSM":
+                for rel in self._relationships:
+                    if rel._ID1 == self:
+                        partner = rel._ID2
+                    else:
+                        partner = rel._ID1
+
+                    if rel._duration > 1:
+                        if partner._tested or self._mean_num_partners > 1:
+                            eligible = True
+        elif params.PrEP_target_model == "HighPN5":
+            if self._mean_num_partners >= 5:
+                eligible = True
+        elif params.PrEP_target_model == "HighPN10":
+            if self._mean_num_partners >= 10:
+                eligible = True
+        elif params.PrEP_target_model == "SRIns":
+            if self._sexualRole == "Insertive":
+                eligible = True
+        elif params.PrEP_target_model == "MSM":
+            if self._SO in ("MSM", "MTF"):
+                eligible = True
+
+        return eligible
+
+    def update_PrEP_load(self):
+        """
+        :Purpose:
+            Determine and update load of PrEP concentration in agent.
+
+        :Input:
+            none
+
+        :Output:
+            none
+        """
+        # N(t) = N0 (0.5)^(t/t_half)
+        self._PrEP_lastDose += 1
+        if self._PrEP_lastDose > 12:
+            self._PrEP_load = 0.0
+        else:
+            self._PrEP_load = params.PrEP_peakLoad * (
+                (0.5) ** (self._PrEP_lastDose / (params.PrEP_halflife / 30))
+            )
+
+    def get_transmission_probability(self, interaction: str) -> float:
+        """ Decriptor
+        :Purpose:
+            Determines the probability of a transmission event based on interaction type.
+
+        :Input:
+            interaction : str - "NEEDLE" or "SEX"
+
+        :Output:
+            probability : float
+        """
+
+        sex_type = self._SO
+        agentAdherence = self._HAART_adh
+
+        # Logic for if needle or sex type interaction
+        p: float
+        if interaction == "NEEDLE":
+            p = params.TransmissionProbabilities["NEEDLE"][str(agentAdherence)]
+        elif interaction == "SEX":
+            p = params.TransmissionProbabilities["SEX"][sex_type][str(agentAdherence)]
+
+        # Scaling parameter for acute HIV infections
+        if self.get_acute_status(0):
+            p = p * params.cal_AcuteScaling
+
+        # Scaling parameter for positively identified HIV agents
+        if self._tested:
+            p = p * (1 - params.cal_RR_Dx)
+
+        # Tuning parameter for ART efficiency
+        if self._HAART_bool:  # self.AdherenceAgents[agent] > 0:
+            p = p * params.cal_RR_HAART
+
+        # Racial calibration parameter to attain proper race incidence disparity
+        if self._race == "BLACK":
+            p = p * params.cal_raceXmission
+
+        # Scaling parameter for per act transmission.
+        p = p * params.cal_pXmissionScaling
+
+        return p
+
+    # REVIEWED as written, it's not guaranteed to return an int, but seems likely given params, can't this be more clearly written as a for loop? it also looks like the params adds the p values, while this loop also adds p-values, is that correct? - Sarah to review with Max
+    def get_number_of_sexActs(self, rand_gen) -> int:
+        """
+        :Purpose:
+            Number of sexActs an agent has done.
+
+        :Input:
+            rand_gen : random number generator (e.g. self.runRandom in ABM_core)
+
+        :Output:
+            number_sex_act : int
+        """
+        # 1 time per year 96 1.9 29 0.9 67 3.4
+        # 2–5 times per year 428 8.2 184 5.8 244 12.2
+        # 6–11 times per year 328 6.3 183 5.7 145 7.3
+        # 12–23 times per year 376 7.2 251 7.9 125 6.3
+        # 24–35 times per year 1,551 29.9 648 20.3 903 45.3
+        # 36–51 times per year 1,037 20.0 668 20.9 369 18.5
+        # 52–155 times per year 644 12.4 605 18.9 39 2.0
+        # >156 times per year 733 14.1 631 19.7 102 5.1
+        rv = rand_gen.random()
+        pMatch = 0.0
+
+        for i in range(1, 6):
+            pMatch = params.sexualFrequency[i]["p_value"]
+            if rv <= pMatch:
+                minSA = params.sexualFrequency[i]["min"]
+                maxSA = params.sexualFrequency[i]["max"]
+                return rand_gen.randrange(minSA, maxSA, 1)
+
+        # REVIEWED - fallthrough return? 0? - Sarah to review with Max
+        return 0
 
 
 class Relationship:
     "Class for agent relationships."
 
-    def __init__(self, ID1, ID2, SO, rel_type, duration):
+    def __init__(self, ID1: Agent, ID2: Agent, SO: str, rel_type: str, duration: int):
         """
         :Purpose:
             Constructor for a Relationship
@@ -312,34 +406,15 @@ class Relationship:
         # self._ID is unique ID number used to track each person agent.
         self._ID1 = ID1
         self._ID2 = ID2
-        self._ID = self._ID1.get_ID() * 100000 + self._ID2.get_ID()
+        self._ID = (
+            self._ID1.get_ID() * 100000 + self._ID2.get_ID()
+        )  # REVIEWED - is this ID scheme important for things? or should we use an auto-incrementer like Agent? = MAKE IT LIKE AGENT
 
         # Relationship properties
-        self._SO = SO
-        self._rel_type = rel_type
         self._duration = duration
         self._total_sex_acts = 0
 
-        # REVIEWED - issue open to address this
-
-        # Relationship STI params
-        self._STI_pool = []
-        self._HIV_bool = False
-        self._HIV_time = 0
-        self._AIDS_bool = False
-        self._AIDS_time = 0
-
-        # Relationship treatment params
-        self._tested = False
-        self._HAART_bool = False
-        self._HAART_time = 0
-        self._HAART_adh = 0
-
-        # Relationship incarcartion params
-        self._incar_bool = False
-        self._incar_time = 0
-
-    def progress(self, forceKill=False):
+    def progress(self, forceKill: bool = False):
         if self._duration <= 0 or forceKill:
             agent = self._ID1
             partner = self._ID2
@@ -393,17 +468,19 @@ class Relationship:
         )
 
 
-class Agent_set(Agent):
+class Agent_set:
     """
     Class for agents that contain a "set" of agents from a lower
     hierarchical  level.
     """
 
-    def __init__(self, ID, parent=None, numerator=None):
+    def __init__(
+        self, ID: str, parent: "Agent_set" = None, numerator: "Agent_set" = None
+    ):
         # _members stores agent set members in a dictionary keyed by ID
         self._ID = ID
-        self._members = []
-        self._subset = {}
+        self._members: List[Agent] = []
+        self._subset: Dict[str, Agent_set] = {}
 
         # _parent_set stores the parent set if this set is a member of an
         # Agent_set class instance. For example, for a set that is a
@@ -424,21 +501,24 @@ class Agent_set(Agent):
         return self._ID
 
     def clear_set(self):
-        self._members = []
-        self._subset = {}
+        self._members: List[Agent] = []
+        self._subset: Dict[str, str] = {}
+
+    def get_ID(self):
+        return self._ID
 
     def get_agents(self):
         return self._members.__iter__()
 
-    def is_member(self, agent):
+    def is_member(self, agent: Agent):
         "Returns true if agent is a member of this set"
         return agent in self._members
 
-    def add_agent(self, agent):
+    def add_agent(self, agent: Agent):
         "Adds a new agent to the set."
         self._members.append(agent)
 
-    def remove_agent(self, agent):
+    def remove_agent(self, agent: Agent):
         "Removes agent from agent set."
         if self.is_member(agent):
             self._members.remove(agent)
@@ -447,15 +527,15 @@ class Agent_set(Agent):
             tmpS.remove_agent(agent)
 
     def iter_agents(
-        self
+        self,
     ):  # REVIEWED isn't this redundant with get_agents? why not have __iter__ return the agents? then we could use the syntax agent in agent_set - maybe consolidate later
         for agent in self.get_agents():
             yield agent
 
-    def num_members(self):
+    def num_members(self) -> int:
         return len(self._members)
 
-    def add_subset(self, subset):
+    def add_subset(self, subset: "Agent_set"):
         "Adds a new Agent_set to the current sets subset."
         if subset._ID in self._subset:
             raise KeyError(
@@ -464,10 +544,10 @@ class Agent_set(Agent):
             )
         self._subset[subset._ID] = subset
 
-    def remove_subset(self, subset):
+    def remove_subset(self, subset: "Agent_set"):
         "Removes Agent_set to the current sets subset."
         try:
-            self._subset.pop(subset.ID)
+            self._subset.pop(subset._ID)
         except KeyError:
             raise KeyError(
                 "subset %s is not a member of set %s" % (subset.get_ID(), self.get_ID())
@@ -477,10 +557,10 @@ class Agent_set(Agent):
         for subset in list(self._subset.values()):
             yield subset
 
-    def set_parent_set(self, master_set):
+    def set_parent_set(self, master_set: "Agent_set"):
         self._parent_set = master_set
 
-    def get_parent_set(self):
+    def get_parent_set(self) -> Optional["Agent_set"]:
         return self._parent_set
 
     def print_subsets(self):

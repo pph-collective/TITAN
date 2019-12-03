@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from . import params
+from . import params  # type: ignore
+from typing import Dict, Any, List, Sequence, Optional
+from .agent import Agent_set, Relationship, Agent
 
-
-def initiate_ResultDict():
+# REVIEWED - result dict doesn't seemed to actually be used anywhere - result dict not used anywhwere really, extricate it
+def initiate_ResultDict() -> Dict[str, Any]:
     # nested dictionary for results (inner dictionary has the form: time:result)
-    ResultDict = {
+    ResultDict: Dict[str, Any] = {
         "Prv_HIV": {},
         "Prv_AIDS": {},
         "Prv_Test": {},
@@ -23,23 +25,23 @@ def initiate_ResultDict():
     return ResultDict
 
 
+# REVIEWED - break this into small per report/type of report functions, add list to params with reports to write, change abm_core to have print_stats there which loops through params and writes appropriate files
 def print_stats(
     self,
-    rseed,
-    t,
-    totalAgents,
-    HIVAgents,
-    IncarAgents,
-    PrEPAgents,
-    NewInfections,
-    NewDiagnosis,
-    deaths,
-    ResultDict,
-    Relationships,
-    newHR,
-    newIncarRelease,
-    deathSet,
-    outifle=None,
+    rseed: int,
+    t: int,
+    totalAgents: Agent_set,
+    HIVAgents: Agent_set,
+    IncarAgents: Agent_set,
+    PrEPAgents: Agent_set,
+    NewInfections: Agent_set,
+    NewDiagnosis: Agent_set,
+    deaths: Dict,
+    ResultDict: Dict,
+    Relationships: List[Relationship],
+    newHR: Agent_set,
+    newIncarRelease: Agent_set,
+    deathSet: List[Agent],
 ):
     incidenceReport = open("results/IncidenceReport.txt", "a")
     prevalenceReport = open("results/PrevalenceReport.txt", "a")
@@ -216,8 +218,6 @@ def print_stats(
 
     for tmpA in totalAgents.iter_agents():
         rsltdic[tmpA._race][tmpA._SO]["numAgents"] += 1
-        if tmpA._highrisk_type == "postIncar":
-            rsltdic[tmpA._race][tmpA._SO]["numHR"] += 1
 
     for tmpA in deathSet:
         rsltdic[tmpA._race][tmpA._SO]["deaths"] += 1
@@ -243,6 +243,7 @@ def print_stats(
                 + rsltdic[race]["HM"][param]
                 + rsltdic[race]["HF"][param]
             )
+
     for race in rsltdic:
         for param in rc_template:
             tot_rsltdic["ALL"]["ALL"][param] += rsltdic[race]["ALL"][param]
@@ -255,6 +256,7 @@ def print_stats(
             rsltdic["ALL"]["HF"][param] += rsltdic[race]["HF"][param]
             rsltdic["ALL"]["MSM"][param] += rsltdic[race]["MSM"][param]
             rsltdic["ALL"]["IDU"][param] += rsltdic[race]["IDU"][param]
+
     for agentRace in ["WHITE", "BLACK", "ALL"]:
         for agentTypes in params.agentPopulations:
             name = "basicReport_" + agentTypes + "_" + agentRace
@@ -526,6 +528,10 @@ def print_stats(
         )
     )
 
+    assert (
+        tot_rsltdic["ALL"] == rsltdic["ALL"]
+    )  # TO_REVIEW - consolidate these to one thing?
+
     whiteReport.write(
         "%d\t%d\t%d\t%d\t%d\t%d\n"
         % (
@@ -606,6 +612,15 @@ def print_stats(
     except:
         ResultDict["Prv_ART"].update({t: (0.0)})
 
-    ResultDict["n_Relations"].update({t: Relationships.num_members()})
+    ResultDict["n_Relations"].update({t: len(Relationships)})
     ResultDict["Inc_t_HM"].update({t: rsltdic["WHITE"]["HM"]["inf_newInf"]})
     ResultDict["Inc_t_HF"].update({t: rsltdic["WHITE"]["HF"]["inf_newInf"]})
+
+
+# THOUGHTS ON BREAKING THIS UP
+# * function to create and return rsltdic
+#   * uses param for which things to pivot on? (or always race then SO? and IDU?)
+#   * creates dicts for each of those things
+#   * creates all that recursively sums everything with matching keys
+# * function update model's result_dict (move this to ABM_core?)
+# * functions that take in rsltdic and write what is needed - function names in params

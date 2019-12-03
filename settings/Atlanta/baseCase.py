@@ -8,8 +8,8 @@ Main model parameters.
 ####################
 PROCESSES = 1  # number of processes in parallel (quadcore)
 rSeed = (
-    0
-)  # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
+    0  # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
+)
 N_MC = 100  # total number of iterations (Monte Carlo runs)
 N_POP = 11245  # population size
 TIME_RANGE = 120  # total time steps to iterate
@@ -81,8 +81,8 @@ inc_Recidivism = 0.267
 # PrEP params
 PrEP_type = "Oral"  # Oral/Inj PrEP modes
 PrEP_Target = (
-    0.00
-)  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+    0.00  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+)
 PrEP_startT = 0  # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82  # Probability of being adherent
 PrEP_AdhEffic = 0.96  # Efficacy of adherence PrEP
@@ -91,8 +91,8 @@ PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
 PrEP_target_model = (
-    "Clinical"
-)  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,CDC,Racial
+    "Clinical"  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,CDC,Racial
+)
 PrEP_init_var1 = 0.05
 PrEP_init_var2 = 0.025
 PrEP_clinic_cat = "Racial"
