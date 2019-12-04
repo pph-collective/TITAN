@@ -33,18 +33,12 @@ rSeed_events = True
 drawFigures = False
 
 reports = [
-    "incidenceReport",
-    "prevalenceReport",
     "deathReport",
     "incarReport",
-    "iduReport",
-    "highriskReport",
     "newlyhighriskReport",
-    "sexReport",
     "prepReport",
     "basicReport",
 ]
-
 """
 Calibration scaling parameters for fitting to empirical data
 """
