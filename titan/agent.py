@@ -243,16 +243,14 @@ class Agent:
         :Output:
             probability : float
         """
-
-        sex_type = self._SO
-        agentAdherence = self._HAART_adh
+        agentAdherence = str(self._HAART_adh)
 
         # Logic for if needle or sex type interaction
         p: float
         if interaction == "NEEDLE":
-            p = params.TransmissionProbabilities["NEEDLE"][str(agentAdherence)]
+            p = params.TransmissionProbabilities["NEEDLE"][agentAdherence]
         elif interaction == "SEX":
-            p = params.TransmissionProbabilities["SEX"][sex_type][str(agentAdherence)]
+            p = params.TransmissionProbabilities["SEX"][self._SO][agentAdherence]
 
         # Scaling parameter for acute HIV infections
         if self.get_acute_status():
@@ -263,7 +261,7 @@ class Agent:
             p = p * (1 - params.cal_RR_Dx)
 
         # Tuning parameter for ART efficiency
-        if self._HAART_bool:  # self.AdherenceAgents[agent] > 0:
+        if self._HAART_bool:
             p = p * params.cal_RR_HAART
 
         # Racial calibration parameter to attain proper race incidence disparity
@@ -488,6 +486,7 @@ class Agent_set:
         "Returns true if agent is a member of this set"
         return agent in self._members
 
+    # TO_REVIEW - shold this add the agent to the parents as well?
     def add_agent(self, agent: Agent):
         "Adds a new agent to the set."
         self._members.append(agent)
@@ -518,6 +517,7 @@ class Agent_set:
             )
         self._subset[subset._ID] = subset
 
+    # TO_REVIEW not used anywhere
     def remove_subset(self, subset: "Agent_set"):
         "Removes Agent_set to the current sets subset."
         try:
@@ -531,9 +531,11 @@ class Agent_set:
         for subset in list(self._subset.values()):
             yield subset
 
+    # TO_REVIEW not used anywhere and doesn't reciprocate have the parent with child
     def set_parent_set(self, master_set: "Agent_set"):
         self._parent_set = master_set
 
+    # TO_REVIEW not used anywhere
     def get_parent_set(self) -> Optional["Agent_set"]:
         return self._parent_set
 

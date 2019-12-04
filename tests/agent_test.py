@@ -1,6 +1,9 @@
 import pytest
 
 from titan.agent import *
+from titan import params
+
+import random
 
 
 @pytest.fixture
@@ -19,7 +22,21 @@ def make_relationship():
     return _make_relationship
 
 
+# helper method to generate a fake number deterministically
+class FakeRandom:
+    def __init__(self, num: float):
+        assert num >= 0 and num <= 1
+        self.num = num
+
+    def random(self):
+        return self.num
+
+    def randrange(self, start, stop, step):
+        return start
+
+
 # ============================= AGENT TESTS ============================
+
 
 def test_agent_init(make_agent):
     a = make_agent()
@@ -95,11 +112,13 @@ def test_partner_list(make_agent, make_relationship):
     assert a.partner_list() == [p._ID]
     assert p.partner_list() == [a._ID]
 
+
 def test_get_acute_status(make_agent):
-    a = make_agent() # no HIV on init
+    a = make_agent()  # no HIV on init
     assert a.get_acute_status() == False
-    a._HIV_time = 1 # manually force this to test logic
+    a._HIV_time = 1  # manually force this to test logic
     assert a.get_acute_status() == True
+
 
 def test_update_PrEP_load(make_agent):
     a = make_agent()
@@ -109,7 +128,62 @@ def test_update_PrEP_load(make_agent):
     assert a._PrEP_lastDose == 1
     assert a._PrEP_load > 0
 
+
+def test_get_transmission_probability(make_agent):
+    a = make_agent(race="WHITE", SO="HM")
+    a._HAART_adh = 1  # set this explicitly
+
+    p_needle = params.TransmissionProbabilities["NEEDLE"]["1"]
+    p_sex = params.TransmissionProbabilities["SEX"]["HM"]["1"]
+    scale = params.cal_pXmissionScaling
+
+    # test base case (not tested, not HAART, "WHITE")
+    assert a.get_transmission_probability("NEEDLE") == p_needle * scale
+    assert a.get_transmission_probability("SEX") == p_sex * scale
+
+    # test acute
+    a._HIV_time = 1
+    assert (
+        a.get_transmission_probability("SEX") == p_sex * scale * params.cal_AcuteScaling
+    )
+    a._HIV_time = 0
+
+    # test tested status
+    a._tested = True
+    assert a.get_transmission_probability("SEX") == p_sex * scale * (
+        1 - params.cal_RR_Dx
+    )
+    a._tested = False
+
+    # test HAART
+    a._HAART_bool = True
+    assert a.get_transmission_probability("SEX") == p_sex * scale * params.cal_RR_HAART
+    a._HAART_bool = False
+
+    # test Black
+    a._race = "BLACK"
+    assert (
+        a.get_transmission_probability("SEX") == p_sex * scale * params.cal_raceXmission
+    )
+    a._race = "WHITE"
+
+
+def test_get_number_of_sex_acts(make_agent):
+    a = make_agent()
+
+    rand_gen_low = FakeRandom(0.0)
+    min_val_low = params.sexualFrequency[1]["min"]
+
+    rand_gen_high = FakeRandom(1.0)
+
+    assert a.get_number_of_sexActs(rand_gen_low) == min_val_low
+
+    # test fallthrough
+    assert a.get_number_of_sexActs(rand_gen_high) == 0
+
+
 # ============== RELATIONSHIP TESTS ===================
+
 
 def test_relationship(make_agent, make_relationship):
     a = make_agent()
@@ -174,6 +248,9 @@ def test_relationship(make_agent, make_relationship):
     assert r2 in p2._relationships
 
 
+# ============================== AGENT SET TESTS ===============================
+
+
 def test_Agent_set_init(make_agent):
     s = Agent_set("test")
 
@@ -184,19 +261,43 @@ def test_Agent_set_init(make_agent):
     assert s._parent_set is None
     assert s._numerator == s
 
+    # add another agent set as the child of s
+    c = Agent_set("child", s, s)
+
+    assert c._ID == "child"
+    assert c._parent_set == s
+    assert c.get_parent_set() == s
+    assert s._subset["child"] == c
+    assert c._numerator == s
+
+    # remove the child
+    s.remove_subset(c)
+
+    assert s._subset == {}
+
 
 def test_add_remove_agent(make_agent):
-    a = make_agent()  # 9
+    a = make_agent()
     s = Agent_set("test")
+    c = Agent_set("child", s)
 
+    c.add_agent(a)
     s.add_agent(a)
 
     assert s._members == [a]
     assert s.is_member(a)
     assert s.num_members() == 1
 
+    assert c._members == [a]
+    assert c.is_member(a)
+    assert c.num_members() == 1
+
     s.remove_agent(a)
 
     assert s._members == []
     assert s.is_member(a) is False
     assert s.num_members() == 0
+
+    assert c._members == []
+    assert c.is_member(a) is False
+    assert c.num_members() == 0
