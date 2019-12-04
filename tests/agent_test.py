@@ -54,7 +54,6 @@ def test_agent_init(make_agent):
     assert a._SNE_bool is False
     assert a._treatment_bool is False
     assert a._treatment_time == 0
-    assert a._oatValue == 0
     assert a._PrEP_reason == []
     assert a.vaccine_time == 0
     assert a.vaccine_type is None
