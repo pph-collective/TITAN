@@ -19,6 +19,8 @@ def make_relationship():
     return _make_relationship
 
 
+# ============================= AGENT TESTS ============================
+
 def test_agent_init(make_agent):
     a = make_agent()
     b = make_agent()
@@ -93,6 +95,21 @@ def test_partner_list(make_agent, make_relationship):
     assert a.partner_list() == [p._ID]
     assert p.partner_list() == [a._ID]
 
+def test_get_acute_status(make_agent):
+    a = make_agent() # no HIV on init
+    assert a.get_acute_status() == False
+    a._HIV_time = 1 # manually force this to test logic
+    assert a.get_acute_status() == True
+
+def test_update_PrEP_load(make_agent):
+    a = make_agent()
+    assert a._PrEP_lastDose == 0
+    assert a._PrEP_load == 0
+    a.update_PrEP_load()
+    assert a._PrEP_lastDose == 1
+    assert a._PrEP_load > 0
+
+# ============== RELATIONSHIP TESTS ===================
 
 def test_relationship(make_agent, make_relationship):
     a = make_agent()

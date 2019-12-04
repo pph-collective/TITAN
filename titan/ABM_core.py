@@ -589,7 +589,7 @@ class HIVModel(NetworkClass):
                 self._become_HIV(partner, time)
                 self.Transmit_from_agents.append(agent)
                 self.Transmit_to_agents.append(partner)
-                if agent.get_acute_status(time):
+                if agent.get_acute_status():
                     self.Acute_agents.append(agent)
 
     def _sex_transmission(self, time: int, rel: Relationship):
@@ -676,7 +676,7 @@ class HIVModel(NetworkClass):
                 self.Transmit_from_agents.append(agent)
                 self.Transmit_to_agents.append(partner)
                 self._become_HIV(partner, time)
-                if agent.get_acute_status(time):
+                if agent.get_acute_status():
                     self.Acute_agents.append(agent)
 
     def _become_HIV(self, agent: Agent, time: int):

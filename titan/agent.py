@@ -137,12 +137,12 @@ class Agent:
 
         return ptnrs
 
-    def get_acute_status(self, time: int) -> bool:
+    def get_acute_status(self) -> bool:
         """
         :Purpose:
             Get acute status of agent at time period
         :Input:
-            time : int
+            None
         :Output:
             acute_status : bool
         """
@@ -255,7 +255,7 @@ class Agent:
             p = params.TransmissionProbabilities["SEX"][sex_type][str(agentAdherence)]
 
         # Scaling parameter for acute HIV infections
-        if self.get_acute_status(0):
+        if self.get_acute_status():
             p = p * params.cal_AcuteScaling
 
         # Scaling parameter for positively identified HIV agents

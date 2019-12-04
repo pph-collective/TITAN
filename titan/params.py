@@ -131,7 +131,7 @@ inc_treat_RIC = False  # Force retention in care of ART therapy
 """
 PrEP params
 """
-PrEP_type = "Oral"  # Oral/Inj PrEP modes
+PrEP_type = "Inj"  # Oral/Inj PrEP modes
 PrEP_Target = (
     0.3  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 )
