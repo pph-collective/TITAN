@@ -257,7 +257,7 @@ def test_relationship(make_agent, make_relationship):
     def test_get_partner(make_agent, make_relationship):
         a = make_agent()
         p = make_agent()
-        rel = make_relationship(a,p)
+        rel = make_relationship(a, p)
 
         assert rel.get_partner(a) == p
         assert rel.get_partner(p) == a
