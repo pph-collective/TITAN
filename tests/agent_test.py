@@ -136,22 +136,6 @@ def test_relationship_init(make_agent, make_relationship):
     assert r._duration == 10
     assert r._total_sex_acts == 0
 
-    # STI
-    assert r._HIV_bool is False
-    assert r._HIV_time == 0
-    assert r._AIDS_bool is False
-    assert r._AIDS_time == 0
-
-    # treatment
-    assert r._tested is False
-    assert r._HAART_bool is False
-    assert r._HAART_time == 0
-    assert r._HAART_adh == 0
-
-    # incarceration
-    assert r._incar_bool is False
-    assert r._incar_time == 0
-
 
 @pytest.mark.skip(
     reason="#REVIEW relationships are assumed to be bonded, but that's not enforced in the code/constructor (at least compactly)"
