@@ -4,13 +4,18 @@ coverage:
     project:
       default:
         target: 80%
-        threshhold: null
+        threshold: 2%
       unit:
         flags: unit
         target: 60%
+        threshold: 2%
       integration:
         flags: integration
         target: 90%
+        threshold: 2%
 
 ignore:
   - "*_test.py"
+
+comment:
+  layout: "header, diff, flags"
