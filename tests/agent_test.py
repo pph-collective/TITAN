@@ -137,7 +137,6 @@ def test_relationship_init(make_agent, make_relationship):
     assert r._total_sex_acts == 0
 
     # STI
-    assert r._STI_pool == []
     assert r._HIV_bool is False
     assert r._HIV_time == 0
     assert r._AIDS_bool is False
