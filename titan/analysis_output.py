@@ -54,7 +54,6 @@ def print_stats(
     whiteReport = open("results/W_pop_report.txt", "a")
     blackReport = open("results/B_pop_report.txt", "a")
 
-
     newHR_HM = 0
     newHR_HIV_HM = 0
     newHR_AIDS_HM = 0
@@ -137,7 +136,6 @@ def print_stats(
             rsltdic[tmpA._race][tmpA._SO]["inf_HRever"] += 1
         if tmpA._highrisk_bool:
             rsltdic[tmpA._race][tmpA._SO]["inf_HR6m"] += 1
-
 
     # PrEP reason tracker
     for tmpA in totalAgents.iter_agents():
