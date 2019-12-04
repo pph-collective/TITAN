@@ -128,6 +128,13 @@ def test_update_PrEP_load(make_agent):
     assert a._PrEP_lastDose == 1
     assert a._PrEP_load > 0
 
+    # make time pass
+    for i in range(12):
+        a.update_PrEP_load()
+
+    assert a._PrEP_lastDose == 13
+    assert a._PrEP_load == 0.0
+
 
 def test_get_transmission_probability(make_agent):
     a = make_agent(race="WHITE", SO="HM")
@@ -246,6 +253,14 @@ def test_relationship(make_agent, make_relationship):
     assert r1 not in p1._relationships
     assert r2 in a._relationships
     assert r2 in p2._relationships
+
+    def test_get_partner(make_agent, make_relationship):
+        a = make_agent()
+        p = make_agent()
+        rel = make_relationship(a,p)
+
+        assert rel.get_partner(a) == p
+        assert rel.get_partner(p) == a
 
 
 # ============================== AGENT SET TESTS ===============================

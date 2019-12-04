@@ -171,11 +171,7 @@ class Agent:
         elif params.PrEP_target_model == "CDCwomen":
             if self._SO == "HF":
                 for rel in set(self._relationships):
-                    if rel._ID1 == self:
-                        partner = rel._ID2
-                    else:
-                        partner = rel._ID1
-
+                    partner = rel.get_partner(self)
                     if rel._duration > 1:
                         if partner._DU == "IDU":
                             eligible = True
@@ -189,10 +185,7 @@ class Agent:
         elif params.PrEP_target_model == "CDCmsm":
             if self._SO == "MSM":
                 for rel in self._relationships:
-                    if rel._ID1 == self:
-                        partner = rel._ID2
-                    else:
-                        partner = rel._ID1
+                    partner = rel.get_partner(self)
 
                     if rel._duration > 1:
                         if partner._tested or self._mean_num_partners > 1:
@@ -398,6 +391,12 @@ class Relationship:
         agent._partners.remove(partner)
         partner._partners.remove(agent)
 
+    def get_partner(self, agent: "Agent") -> "Agent":
+        if agent == self._ID1:
+            return self._ID2
+        else:
+            return self._ID1
+
     def get_ID(self):
         return self._ID
 
@@ -508,6 +507,7 @@ class Agent_set:
     def num_members(self) -> int:
         return len(self._members)
 
+    # TO_REVIEW can we make this not error? the desired outcome is the same either way I think
     def add_subset(self, subset: "Agent_set"):
         "Adds a new Agent_set to the current sets subset."
         if subset._ID in self._subset:
