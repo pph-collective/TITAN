@@ -238,7 +238,7 @@ RC_template = {
     "boosterInterval": 9999999,
     "boosterProb": 0,
     "vaccinePrev": 0,
-    "vaccineInit": 0
+    "vaccineInit": 0,
 }
 
 RC_allTemplate = {
