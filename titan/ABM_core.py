@@ -358,27 +358,7 @@ class HIVModel(NetworkClass):
                     )
                 )
             )
-            print(
-                (
-                    "Trt:{trt} \t OAT:{oat} \t NAL:{nal}".format(
-                        trt=self.treatment_agentSet.num_members(),
-                        oat=len(
-                            [
-                                a
-                                for a in self.treatment_agentSet._members
-                                if a._OAT_bool is True
-                            ]
-                        ),
-                        nal=len(
-                            [
-                                a
-                                for a in self.treatment_agentSet._members
-                                if a._naltrex_bool is True
-                            ]
-                        ),
-                    )
-                )
-            )
+
             self.TimeStep = t
 
             self._update_AllAgents(t)

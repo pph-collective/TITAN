@@ -48,23 +48,23 @@ def test_agent_init(make_agent):
     assert a._PrEPresistance == 0
 
     # treatment params
-    assert a._tested is False
     assert a._HAART_bool is False
     assert a._HAART_time == 0
     assert a._HAART_adh == 0
     assert a._SNE_bool is False
+    assert a._treatment_bool is False
+    assert a._treatment_time == 0
+    assert a._oatValue == 0
+    assert a._PrEP_reason == []
+    assert a.vaccine_time == 0
+    assert a.vaccine_type is None
+    assert a.partnerTraced is False
+
+    # prevention parameters
+    assert a._tested is False
     assert a._PrEP_bool is False
     assert a._PrEP_time == 0
     assert a._PrEP_adh == 0
-    assert a._treatment_bool is False
-    assert a._treatment_time == 0
-    assert a._OAT_bool is False
-    assert a._naltrex_bool is False
-    assert a._DOC_OAT_bool is False
-    assert a._DOC_NAL_bool is False
-    assert a._MATprev == 0
-    assert a._oatValue == 0
-    assert a._PrEP_reason == []
 
     # prep pharmacokinetics
     assert a._PrEP_load == 0.0

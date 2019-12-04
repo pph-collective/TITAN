@@ -51,25 +51,9 @@ def print_stats(
     femaleReport = open("results/FemaleReport.txt", "a")
     maleReport = open("results/MaleReport.txt", "a")
     msmReport = open("results/MSMReport.txt", "a")
-    nalReport = open("results/nalReport.txt", "a")
-    oatReport = open("results/oatReport.txt", "a")
     whiteReport = open("results/W_pop_report.txt", "a")
     blackReport = open("results/B_pop_report.txt", "a")
 
-    OAT_IDU_F = 0
-    OAT_IDU_M = 0
-    OAT_NIDU_F = 0
-    OAT_NIDU_M = 0
-    Prior_Year_OAT = 0
-    Naltrex_NIDU_M = 0
-    Naltrex_NIDU_F = 0
-    Naltrex_IDU_M = 0
-    Naltrex_IDU_F = 0
-    Prior_Year_Naltrex = 0
-    DOC_OAT_M = 0
-    DOC_OAT_F = 0
-    DOC_Naltrex_M = 0
-    DOC_Naltrex_F = 0
 
     newHR_HM = 0
     newHR_HIV_HM = 0
@@ -154,7 +138,6 @@ def print_stats(
         if tmpA._highrisk_bool:
             rsltdic[tmpA._race][tmpA._SO]["inf_HR6m"] += 1
 
-    # MAT statistics
 
     # PrEP reason tracker
     for tmpA in totalAgents.iter_agents():
@@ -459,39 +442,6 @@ def print_stats(
                 tot_rsltdic["ALL"]["MSM"]["deaths"],
                 tot_rsltdic["ALL"]["MSM"]["numPrEP"],
             )
-        )
-    )
-
-    nalReport.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-        % (
-            self.runseed,
-            self.popseed,
-            self.netseed,
-            t,
-            Naltrex_NIDU_M,
-            Naltrex_NIDU_F,
-            Naltrex_IDU_M,
-            Naltrex_IDU_F,
-            DOC_Naltrex_M,
-            DOC_Naltrex_F,
-            Prior_Year_Naltrex,
-        )
-    )
-    oatReport.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-        % (
-            self.runseed,
-            self.popseed,
-            self.netseed,
-            t,
-            OAT_NIDU_M,
-            OAT_NIDU_F,
-            OAT_IDU_M,
-            OAT_IDU_F,
-            DOC_OAT_M,
-            DOC_OAT_F,
-            Prior_Year_OAT,
         )
     )
 

@@ -69,12 +69,6 @@ class Agent:
         self._PrEP_adh = 0
         self._treatment_bool = False
         self._treatment_time = 0
-        self._OAT_bool = False
-        self._naltrex_bool = False
-        self._DOC_OAT_bool = False
-        self._DOC_NAL_bool = False
-        self._MATprev = 0
-        self._oatValue = 0
         self._PrEP_reason: List[str] = []
         self.vaccine_time = 0
         self.vaccine_type = None
