@@ -41,7 +41,6 @@ def test_agent_init(make_agent):
     assert a._sexualRole == "Vers"
 
     # STI params
-    assert a._STI_pool == []
     assert a._HIV_bool is False
     assert a._HIV_time == 0
     assert a._AIDS_bool is False
@@ -134,7 +133,6 @@ def test_relationship_init(make_agent, make_relationship):
     assert r.get_ID() == 100002
 
     # properties
-    assert r._rel_type == "#REVIEW"
     assert r._duration == 10
     assert r._total_sex_acts == 0
 

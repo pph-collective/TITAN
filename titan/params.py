@@ -185,7 +185,7 @@ elif model == "Custom":
     flag_staticN = False
 
 agentPopulations = ["MSM"]
-agentSexTypes = ["MSM"]
+agentSexTypes = ["MSM", "HM"]
 
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.

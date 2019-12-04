@@ -1476,20 +1476,22 @@ class HIVModel(NetworkClass):
         else:
             if agent.vaccine_time >= 1:
                 agent.vaccine_time += 1
-            if (
-                params.flag_booster
-                and timeSinceVaccination
-                % params.DemographicParams[agent._race][agent._SO]["boosterInterval"]
-                == 1
-                and self.runRandom.random()
-                < params.DemographicParams[agent._race][agent._SO]["boosterProb"]
-            ):
-                vaccinate(agent, vaxType)
+                if (
+                    params.flag_booster
+                    and timeSinceVaccination
+                    == params.DemographicParams[agent._race][agent._SO][
+                        "boosterInterval"
+                    ]
+                    and self.runRandom.random()
+                    < params.DemographicParams[agent._race][agent._SO]["boosterProb"]
+                ):
+                    vaccinate(agent, vaxType)
+                    print(agent.vaccine_time)
 
         if time >= params.vaccine_start:
             if (
                 random.random()
-                < params.DemographicParams[agent._race][agent._SO]["prevVaccine"]
+                < params.DemographicParams[agent._race][agent._SO]["vaccineInit"]
                 * params.cal_Vaccine
             ):
                 vaccinate(agent, vaxType)
