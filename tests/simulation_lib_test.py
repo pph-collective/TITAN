@@ -1,9 +1,20 @@
 import pytest
 import os
+import shutil
 import csv
 import numpy as np
 
 import titan.simulation_lib as sl
+
+
+@pytest.fixture
+def setup_results_dir():
+    outfile_dir = os.path.join(os.getcwd(), "results")
+    if os.path.isdir(outfile_dir):
+        shutil.rmtree(outfile_dir)
+    os.mkdir(outfile_dir)
+    yield outfile_dir
+    shutil.rmtree(outfile_dir)
 
 
 def test_initiate_result_dict():
@@ -21,7 +32,7 @@ def test_safe_divide():
     assert sl.safe_divide(1, 2) == 0.5
 
 
-def test_simulation_one_rep():
+def test_simulation_one_rep(setup_results_dir):
     result_dict = sl.simulation(1, 2, 10, 2, 2, 2)
 
     assert "Prv_HIV" in result_dict
@@ -29,7 +40,7 @@ def test_simulation_one_rep():
     assert len(result_dict["Prv_HIV"][2]) == 1
 
 
-def test_simulation_multi_rep():
+def test_simulation_multi_rep(setup_results_dir):
     result_dict = sl.simulation(3, 2, 10, 2, 2, 2)
 
     assert "Prv_HIV" in result_dict
@@ -37,7 +48,7 @@ def test_simulation_multi_rep():
     assert len(result_dict["Prv_HIV"][2]) == 3
 
 
-def test_save_results(tmpdir):
+def test_save_results(tmpdir, setup_results_dir):
     result_dict = sl.simulation(3, 2, 10, 2, 2, 2)
     dir_str = str(tmpdir)
     sim_num = 123
