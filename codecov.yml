@@ -1,0 +1,15 @@
+coverage:
+  branch: develop # change this once master is real master again
+  range: "50...75"
+  status:
+    project:
+      target: 80%
+    unit:
+      flags: unit
+      target: 60%
+    integration:
+      flags: integration
+      target: 90%
+
+ignore:
+  - "*_test.py"
