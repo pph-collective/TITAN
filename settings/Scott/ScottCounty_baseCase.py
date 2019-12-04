@@ -83,6 +83,13 @@ treatmentCov = 0.60  # Prop that receive treatment
 limitComponentSize = False
 maxComponentSize = 100
 minComponentSize = 2
+condomUseType = "Acts"
+"""
+Vaccine params
+"""
+vaccine_type = "RV144"
+booster = True
+vaccine_start = 1
 
 """
 Incarceration params
@@ -109,7 +116,7 @@ inc_treat_RIC = False  # Force retention in care of ART therapy
 """
 PrEP params
 """
-PrEP_type = "Oral"  # Oral/Inj PrEP modes
+PrEP_type = ["Oral"]  # Oral/Inj PrEP modes
 PrEP_Target = (
     0.000  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 )
@@ -156,6 +163,7 @@ if model == "PrEP":
     flag_DandR = True
     flag_staticN = False
     flag_agentZero = False
+    flag_booster = False
 
 elif model == "Incar":
     flag_incar = True
@@ -165,6 +173,7 @@ elif model == "Incar":
     flag_DandR = True
     flag_staticN = False
     flag_agentZero = False
+    flag_booster = False
 
 elif model == "NoIncar":
     flag_incar = False
@@ -174,6 +183,7 @@ elif model == "NoIncar":
     flag_DandR = True
     flag_staticN = False
     flag_agentZero = False
+    flag_booster = False
 
 elif model == "StaticZero":
     flag_incar = False
@@ -183,6 +193,7 @@ elif model == "StaticZero":
     flag_DandR = False
     flag_staticN = True
     flag_agentZero = True
+    flag_booster = False
 
 elif model == "Custom":
     flag_incar = False
@@ -192,6 +203,7 @@ elif model == "Custom":
     flag_DandR = False
     flag_staticN = True
     flag_agentZero = False
+    flag_booster = False
 
 agentPopulations = ["HM", "HF"]
 agentSexTypes = ["HM", "HF", "MSM"]
@@ -223,6 +235,10 @@ RC_template = {
     "PrEPdisc": 0.0,  # Probability of discontinuing PrEP treatment
     "EligSE_PartnerType": None,  # List of agent SO types the agent cant partner with
     "AssortMixMatrix": [],  # List of assortMix Matrix to be zipped with EligPart
+    "boosterInterval": 9999999,
+    "boosterProb": 0,
+    "vaccinePrev": 0,
+    "vaccineInit": 0
 }
 
 RC_allTemplate = {
