@@ -530,7 +530,11 @@ class HIVModel(NetworkClass):
                             and not agent.vaccine_bool
                         ):
                             self._initiate_PrEP(agent, time)
-                    if "Vaccine" in params.PrEP_type and not agent._PrEP_bool and not burn:
+                    if (
+                        "Vaccine" in params.PrEP_type
+                        and not agent._PrEP_bool
+                        and not burn
+                    ):
                         self.advance_vaccine(agent, time, vaxType=params.vaccine_type)
 
         if params.flag_PrEP and time >= params.PrEP_startT:
@@ -1226,7 +1230,11 @@ class HIVModel(NetworkClass):
                 diagnose(agent)
                 # If treatment co-enrollment enabled and coverage greater than 0
 
-            elif agent.partnerTraced and self.runRandom.random() < 0.87 and agent.traceTime == time:
+            elif (
+                agent.partnerTraced
+                and self.runRandom.random() < 0.87
+                and agent.traceTime == time
+            ):
                 diagnose(agent)
         agent.partnerTraced = False
 
@@ -1443,13 +1451,11 @@ class HIVModel(NetworkClass):
             agent.vaccine_time += 1
             timeSinceVaccination = agent.vaccine_time
             if (
-                    params.flag_booster
-                    and timeSinceVaccination
-                    == params.DemographicParams[agent._race][agent._SO][
-                "boosterInterval"
-            ]
-                    and self.runRandom.random()
-                    < params.DemographicParams[agent._race][agent._SO]["boosterProb"]
+                params.flag_booster
+                and timeSinceVaccination
+                == params.DemographicParams[agent._race][agent._SO]["boosterInterval"]
+                and self.runRandom.random()
+                < params.DemographicParams[agent._race][agent._SO]["boosterProb"]
             ):
                 self.vaccinate(agent, vaxType)
         elif time == params.vaccine_start:
