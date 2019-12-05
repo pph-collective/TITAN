@@ -1,36 +1,25 @@
 import pytest
 
 from titan.network_graph_tools import *
+from titan import params
 
 n_pop = 10
 
 
-def test_NormalAgents():
+def test_network_init():
     """Test if all non-IDU,ND,NIDU agents are in the population"""
     myNetworkObj = NetworkClass(N=n_pop)
     assert n_pop == myNetworkObj.All_agentSet.num_members()
-    for agent in myNetworkObj.All_agentSet.get_agents():
-        agent_sex_type = agent._SO
-        agent_drug_type = agent._DU
-        assert agent_drug_type in ["IDU", "NIDU", "NDU"]
-        assert agent_sex_type in ["MSM", "MSW", "HM", "HF"]
-
-
-def test_PartialNetwork():
-    """Test if all non-IDU,ND,NIDU agents are in the population"""
-    myNetworkObj = NetworkClass(N=n_pop)
 
     for agent in myNetworkObj.All_agentSet.get_agents():
         assert agent in myNetworkObj.G.nodes()
 
-    for agent in myNetworkObj.G:
-        agent_sex_type = agent._SO
-        agent_drug_type = agent._DU
-        assert agent_drug_type in ["IDU", "NIDU", "NDU"]
-        assert agent_sex_type in ["MSM", "MSW", "HM", "HF"]
+    for agent in myNetworkObj.All_agentSet.get_agents():
+        assert agent._DU in ["IDU", "NIDU", "NDU"]
+        assert agent._SO in params.agentSexTypes
 
 
-def test_PopulationConsistency():
+def test_population_consistency_DU():
     """Test if Drug users add up"""
     myNetworkObj = NetworkClass(N=n_pop)
     CheckSumDrug = (
@@ -42,7 +31,7 @@ def test_PopulationConsistency():
     assert myNetworkObj.PopulationSize == CheckSumDrug
 
 
-def test_HIVConsistency():
+def test_population_consistency_HIV():
     """Test HIV consistency"""
     myNetworkObj = NetworkClass(N=n_pop,)
     for agent in myNetworkObj.All_agentSet.get_agents():

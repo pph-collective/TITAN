@@ -248,13 +248,14 @@ def test_relationship(make_agent, make_relationship):
     assert r2 in a._relationships
     assert r2 in p2._relationships
 
-    def test_get_partner(make_agent, make_relationship):
-        a = make_agent()
-        p = make_agent()
-        rel = make_relationship(a, p)
 
-        assert rel.get_partner(a) == p
-        assert rel.get_partner(p) == a
+def test_get_partner(make_agent, make_relationship):
+    a = make_agent()
+    p = make_agent()
+    rel = make_relationship(a, p)
+
+    assert rel.get_partner(a) == p
+    assert rel.get_partner(p) == a
 
 
 # ============================== AGENT SET TESTS ===============================
@@ -284,6 +285,8 @@ def test_add_remove_agent(make_agent):
     s = Agent_set("test")
     c = Agent_set("child", s)
 
+    assert s.get_ID() == "test"
+
     c.add_agent(a)
     s.add_agent(a)
 
@@ -304,3 +307,19 @@ def test_add_remove_agent(make_agent):
     assert c._members == []
     assert c.is_member(a) is False
     assert c.num_members() == 0
+
+
+def test_clear_set(make_agent):
+    a = make_agent()
+    s = Agent_set("test")
+    s.add_agent(a)
+
+    assert s._members == [a]
+    assert s.is_member(a)
+    assert s.num_members() == 1
+
+    s.clear_set()
+
+    assert s._members == []
+    assert s.is_member(a) == False
+    assert s.num_members() == 0

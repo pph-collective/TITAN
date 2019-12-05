@@ -97,33 +97,11 @@ def get_assort_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
         partner : Agent or None
 
     """
-
-    def getPartnerBin(agent: Agent) -> int:
-        testRand = random.random()
-        i = 1
-        pMatch = params.mixingMatrix[agent._ageBin][i]
-
-        if params.flag_AgeAssortMix:
-            while True:
-                if testRand <= pMatch:
-                    return i
-                else:
-                    i += 1
-                    pMatch += params.mixingMatrix[agent._ageBin][i]
-                if i == 5:
-                    return i
-        else:
-            i = random.randrange(1, 6)
-            return i
-
-    agent_sex_type = agent._SO
-    agent_race_type = agent._race
-
     RandomPartner = None
 
-    assert agent_sex_type in params.agentSexTypes
+    assert agent._SO in params.agentSexTypes
 
-    eligPartnerType = params.DemographicParams[agent_race_type][agent_sex_type][
+    eligPartnerType = params.DemographicParams[agent._race][agent._SO][
         "EligSE_PartnerType"
     ]
     eligible_partners = all_agent_set._subset["SO"]._subset[eligPartnerType]._members
@@ -182,28 +160,20 @@ def get_random_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
         partner : Agent or None
 
     """
-    agent_sex_type = agent._SO
-    agent_race_type = agent._race
-
     RandomPartner = None
 
-    eligPtnType = params.DemographicParams[agent_race_type][agent_sex_type][
-        "EligSE_PartnerType"
-    ]
+    eligPtnType = params.DemographicParams[agent._race][agent._SO]["EligSE_PartnerType"]
     elig_partner_pool = all_agent_set._subset["SO"]._subset[eligPtnType]._members
 
     RandomPartner = safe_random_choice(elig_partner_pool)
 
-    if agent_sex_type not in params.agentSexTypes:
-        raise ValueError("Invalid sex type! %s" % str(agent_sex_type))
+    if (RandomPartner in agent._partners) or (RandomPartner == agent):
+        RandomPartner = None
 
     if RandomPartner is not None:
-        if (RandomPartner in agent._partners) or (RandomPartner == agent):
-            RandomPartner = None
-        else:
-            assert sex_possible(
-                agent._SO, RandomPartner._SO
-            ), "Sex no possible between agents! ERROR 441"
+        assert sex_possible(
+            agent._SO, RandomPartner._SO
+        ), "Sex no possible between agents! ERROR 441"
 
     return RandomPartner
 
