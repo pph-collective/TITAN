@@ -159,9 +159,7 @@ class HIVModel(NetworkClass):
 
         def get_components():
             return sorted(
-                nx.connected_component_subgraphs(self.get_Graph()),
-                key=len,
-                reverse=True,
+                self.get_Graph().connected_components(), key=len, reverse=True,
             )
 
         def burnSimulation(burnDuration: int):
@@ -183,6 +181,12 @@ class HIVModel(NetworkClass):
             self.deathSet = []
             print(" === Simulation Burn Complete ===")
 
+        def makeAgentZero(numPartners: int):
+            firstHIV = self.runRandom.choice(self.DU_IDU_agentSet._members)
+            for i in range(numPartners):
+                self.update_agent_partners(self.get_Graph(), firstHIV)
+            self._become_HIV(firstHIV, 0)
+
         run_id = uuid.uuid4()
 
         burnSimulation(params.burnDuration)
@@ -203,12 +207,6 @@ class HIVModel(NetworkClass):
                 run_id, 0, self.runseed, self.popseed, self.netseed, get_components()
             )
 
-        def makeAgentZero(numPartners: int):
-            firstHIV = self.runRandom.choice(self.DU_IDU_agentSet._members)
-            for i in range(numPartners):
-                self.update_agent_partners(self.get_Graph(), firstHIV)
-            self._become_HIV(firstHIV, 0)
-
         print("\t===! Start Main Loop !===")
 
         # dictionary to hold results over time
@@ -219,10 +217,8 @@ class HIVModel(NetworkClass):
             makeAgentZero(4)
 
         if params.drawEdgeList:
-            print("Drawing network edge list to file")
-            fh = open("results/network/Edgelist_t{}.txt".format(0), "wb")
-            self.write_G_edgelist(fh)
-            fh.close()
+            path = "results/network/Edgelist_t0.txt"
+            self.write_G_edgelist(path)
 
         for t in range(1, self.tmax + 1):
             print(f"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME {t}")
@@ -283,7 +279,6 @@ class HIVModel(NetworkClass):
             self.NewIncarRelease.clear_set()
             self.newPrEPagents.clear_set()
 
-            print((t % params.intermPrintFreq))
             if t % params.intermPrintFreq == 0:
                 if params.calcNetworkStats:
                     self.write_network_stats(t=t)
@@ -297,10 +292,8 @@ class HIVModel(NetworkClass):
                         get_components(),
                     )
                 if params.drawEdgeList:
-                    print("Drawing network edge list to file")
-                    fh = open("results/network/Edgelist_t{}.txt".format(t), "wb")
-                    self.write_G_edgelist(fh)
-                    fh.close()
+                    path = f"results/network/Edgelist_t{t}.txt"
+                    self.write_G_edgelist(path)
 
         return stats
 
@@ -446,9 +439,7 @@ class HIVModel(NetworkClass):
                 params.PrEP_target_model == "RandomTrial" and time == params.PrEP_startT
             ):
                 print("Starting random trial")
-                components = sorted(
-                    nx.connected_component_subgraphs(self.G), key=len, reverse=True
-                )
+                components = sorted(self.connected_components(), key=len, reverse=True)
                 totNods = 0
                 for comp in components:
                     totNods += comp.number_of_nodes()

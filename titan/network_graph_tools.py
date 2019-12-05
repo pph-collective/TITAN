@@ -62,15 +62,13 @@ class NetworkClass(PopulationClass):
                 for ag in component.nodes:
                     if random.random() < 0.1:
                         for rel in ag._relationships:
-                            # print("Removed edge:",rel)
                             rel.progress(forceKill=True)
                             self.Relationships.remove(rel)
                             component.remove_edge(rel._ID1, rel._ID2)
                             self.G.remove_edge(rel._ID1, rel._ID2)
 
-                components = sorted(
-                    nx.connected_component_subgraphs(self.G), key=len, reverse=True
-                )
+                # TO_REVIEW is this indent level right? this doesn't quite make sense as a recursive function
+                components = sorted(self.connected_components(), key=len, reverse=True)
                 totNods = 0
                 for comp in components:
                     cNodes = comp.number_of_nodes()
@@ -86,30 +84,36 @@ class NetworkClass(PopulationClass):
 
             self.G = nx.Graph()
             for i in range(10):
-                self.update_partner_assignments(params.PARTNERTURNOVER, self.get_Graph)
-            components = sorted(
-                nx.connected_component_subgraphs(self.G), key=len, reverse=True
-            )
+                self.update_partner_assignments(
+                    params.PARTNERTURNOVER, self.get_Graph()
+                )
+            components = sorted(self.connected_components(), key=len, reverse=True)
             for comp in components:
                 if comp.number_of_nodes() > params.maxComponentSize:
                     print("TOO BIG", comp, comp.number_of_nodes())
                     trimComponent(comp, params.maxComponentSize)
-                elif comp.number_of_nodes() < params.minComponentSize:
+                elif (
+                    comp.number_of_nodes() < params.minComponentSize
+                ):  # TO_REVIEW what should happen if it's too small?
                     print("TOO SMALL", comp, comp.number_of_nodes())
             print("Total agents in graph: ", self.G.number_of_nodes())
         else:
-            print("HUIH")
             raise ValueError("Invalid network type! %s" % str(network_type))
 
+    def connected_components(self):
+        return (self.G.subgraph(c).copy() for c in nx.connected_components(self.G))
+
     def write_G_edgelist(self, path: str):
+        f = open(path, "wb")
         G = self.G
-        nx.write_edgelist(G, path, data=False)
+        nx.write_edgelist(G, f, data=False)
+        f.close()
 
     def write_network_stats(
         self, t: int = 0, path: str = "results/network/networkStats.txt"
     ):
         G = self.G
-        components = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)
+        components = sorted(self.connected_components(), key=len, reverse=True)
         bigG = components[0]
         outfile = open(path, "w")
         outfile.write(nx.info(G))
@@ -142,10 +146,6 @@ class NetworkClass(PopulationClass):
 
         outfile.write("Average node clustering: {}\n".format(nx.average_clustering(G)))
         outfile.close()
-
-        comps = []
-        for i in components:
-            comps.append(len(i))
 
     def create_graph_from_agents(self, agents: Agent_set):
         G = self.get_Graph()
