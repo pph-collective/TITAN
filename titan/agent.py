@@ -506,7 +506,6 @@ class Agent_set:
         if subset._ID not in self._subset:
             self._subset[subset._ID] = subset
 
-
     def iter_subset(self):
         for subset in list(self._subset.values()):
             yield subset

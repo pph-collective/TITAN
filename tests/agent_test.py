@@ -184,7 +184,7 @@ def test_get_number_of_sex_acts(make_agent):
     assert a.get_number_of_sexActs(rand_gen_low) == min_val_low
 
     # test fallthrough
-    assert a.get_number_of_sexActs(rand_gen_high) == 0
+    assert a.get_number_of_sexActs(rand_gen_high) == 36
 
 
 # ============== RELATIONSHIP TESTS ===================
@@ -275,14 +275,8 @@ def test_Agent_set_init(make_agent):
 
     assert c._ID == "child"
     assert c._parent_set == s
-    assert c.get_parent_set() == s
     assert s._subset["child"] == c
     assert c._numerator == s
-
-    # remove the child
-    s.remove_subset(c)
-
-    assert s._subset == {}
 
 
 def test_add_remove_agent(make_agent):

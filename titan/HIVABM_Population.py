@@ -208,7 +208,6 @@ class PopulationClass:
 
                 self.incarcerated_agentSet.add_agent(tmpA)
 
-
     def create_agent(self, Race: str, SexType: str = "NULL") -> Agent:
         """
         :Purpose:

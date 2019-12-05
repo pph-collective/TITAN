@@ -32,6 +32,7 @@ def test_safe_divide():
     assert sl.safe_divide(1, 2) == 0.5
 
 
+@pytest.mark.integration
 def test_simulation_one_rep(setup_results_dir):
     result_dict = sl.simulation(1, 2, 10, 2, 2, 2)
 
@@ -40,6 +41,7 @@ def test_simulation_one_rep(setup_results_dir):
     assert len(result_dict["Prv_HIV"][2]) == 1
 
 
+@pytest.mark.integration
 def test_simulation_multi_rep(setup_results_dir):
     result_dict = sl.simulation(3, 2, 10, 2, 2, 2)
 
@@ -48,6 +50,7 @@ def test_simulation_multi_rep(setup_results_dir):
     assert len(result_dict["Prv_HIV"][2]) == 3
 
 
+@pytest.mark.integration
 def test_save_results(tmpdir, setup_results_dir):
     result_dict = sl.simulation(3, 2, 10, 2, 2, 2)
     dir_str = str(tmpdir)
