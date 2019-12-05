@@ -38,14 +38,9 @@ calcComponentStats = False
 flag_agentZero = False
 
 reports = [
-    "incidenceReport",
-    "prevalenceReport",
     "deathReport",
     "incarReport",
-    "iduReport",
-    "highriskReport",
     "newlyhighriskReport",
-    "sexReport",
     "prepReport",
     "basicReport",
 ]

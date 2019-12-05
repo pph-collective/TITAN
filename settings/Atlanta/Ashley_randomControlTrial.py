@@ -44,14 +44,9 @@ drawEdgeList = False
 drawFigureColor = "Race"
 
 reports = [
-    "incidenceReport",
-    "prevalenceReport",
     "deathReport",
     "incarReport",
-    "iduReport",
-    "highriskReport",
     "newlyhighriskReport",
-    "sexReport",
     "prepReport",
     "basicReport",
 ]
