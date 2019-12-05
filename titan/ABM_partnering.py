@@ -73,11 +73,6 @@ def get_random_IDU_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
 
     RandomPartner = None
 
-    # REVIEWED AssortMix never used - sarah to review
-    AssortMix = False
-    if random.random() < params.AssortMixCoeff:
-        AssortMix = True
-
     RandomPartner = safe_random_choice(
         [
             ptn
@@ -126,12 +121,6 @@ def get_assort_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
 
     RandomPartner = None
 
-    # REVIEWED AssortMix never used - Sarah to reiew
-    if random.random() < params.AssortMixCoeff:
-        AssortMix = True
-    else:
-        AssortMix = False
-
     assert agent_sex_type in params.agentSexTypes
 
     eligPartnerType = params.DemographicParams[agent_race_type][agent_sex_type][
@@ -139,17 +128,7 @@ def get_assort_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
     ]
     eligible_partners = all_agent_set._subset["SO"]._subset[eligPartnerType]._members
 
-    if params.AssortMixType == "Age":
-        # TO_REVIEW why is this subset directly on eligPartnerType, if it's an SO, it won't exist
-        randomK_sample = random.sample(
-            all_agent_set._subset[eligPartnerType]._members, params.cal_ptnrSampleDepth,
-        )
-        ageBinPick = getPartnerBin(agent)
-        availableParts = [ag for ag in randomK_sample if ag not in agent._partners]
-        samplePop = [ag for ag in availableParts if ag._ageBin == ageBinPick]
-
-    # else if picking using race mix
-    elif params.AssortMixType == "Race":
+    if params.AssortMixType == "Race":
         samplePop = [
             tmpA
             for tmpA in eligible_partners
@@ -157,7 +136,6 @@ def get_assort_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
         ]
 
     elif params.AssortMixType == "Client":
-        # TO_REVIEW only "WHITE" agents can be partners?
         if agent._race == "WHITE":
             samplePop = [
                 tmpA
@@ -267,7 +245,7 @@ def sex_possible(agent_sex_type: str, partner_sex_type: str) -> bool:
 def get_partnership_duration(agent: Agent) -> int:
     """
     :Purpose:
-        Get duration of a relationship # REVIEWED sarah to look at why this is at the agent level
+        Get duration of a relationship
         Drawn from Poisson distribution.
 
     :Input:

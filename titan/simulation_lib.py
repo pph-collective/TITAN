@@ -91,7 +91,7 @@ def simulation(
     return result_dict
 
 
-# TO_REVIEW if time_range is number of timesteps, why not get this from the rslts?
+# REVIEWED if time_range is number of timesteps, why not get this from the rslts? - get it from the dict
 def save_results(
     time_range: int,
     rslts: Dict[str, Dict[int, Sequence]],

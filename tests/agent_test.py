@@ -55,8 +55,6 @@ def test_agent_init(make_agent):
     # partner params
     assert a._relationships == []
     assert a._partners == []
-    assert a._num_sex_partners == 0
-    assert a._num_NE_partners == 0
     assert a._mean_num_partners == 0
     assert a._sexualRole == "Vers"
 
@@ -209,10 +207,6 @@ def test_relationship(make_agent, make_relationship):
 
     assert r2._duration == 2
     assert r2._total_sex_acts == 0
-
-    assert a._num_sex_partners == 2
-    assert p1._num_sex_partners == 1
-    assert p2._num_sex_partners == 1
 
     assert p1._ID in a.partner_list()
     assert p2._ID in a.partner_list()

@@ -49,8 +49,6 @@ class Agent:
         # agent-partner params
         self._relationships: List[Relationship] = []
         self._partners: List[Agent] = []
-        self._num_sex_partners = 0  # TO_REVIEW - not actually used anywhere
-        self._num_NE_partners = 0  # TO_REVIEW - not actually used anywhere
         self._mean_num_partners = 0
         self._sexualRole = "Vers"
 
@@ -296,8 +294,8 @@ class Agent:
                 maxSA = params.sexualFrequency[i]["max"]
                 return rand_gen.randrange(minSA, maxSA, 1)
 
-        # REVIEWED - fallthrough return? 0? - Sarah to review with Max
-        return 0
+        # REVIEWED - fallthrough return? 36? - Sarah to review with Max
+        return 36
 
 
 class Relationship:
@@ -367,10 +365,6 @@ class Relationship:
         # Pair agent with partner and partner with agent
         agent._partners.append(partner)
         partner._partners.append(agent)
-
-        # Increment number of sex partners for both
-        agent._num_sex_partners += 1
-        partner._num_sex_partners += 1
 
     def unbond(self, agent: "Agent", partner: "Agent"):
         """
@@ -485,7 +479,7 @@ class Agent_set:
         "Returns true if agent is a member of this set"
         return agent in self._members
 
-    # TO_REVIEW - shold this add the agent to the parents as well?
+    # REVIEWED - shold this add the agent to the parents as well?, make this trickle up
     def add_agent(self, agent: Agent):
         "Adds a new agent to the set."
         self._members.append(agent)
@@ -507,37 +501,15 @@ class Agent_set:
     def num_members(self) -> int:
         return len(self._members)
 
-    # TO_REVIEW can we make this not error? the desired outcome is the same either way I think
     def add_subset(self, subset: "Agent_set"):
         "Adds a new Agent_set to the current sets subset."
-        if subset._ID in self._subset:
-            raise KeyError(
-                "Subset %s is already a member of Agent_set set %s"
-                % (subset.get_ID(), self._ID)
-            )
-        self._subset[subset._ID] = subset
+        if subset._ID not in self._subset:
+            self._subset[subset._ID] = subset
 
-    # TO_REVIEW not used anywhere
-    def remove_subset(self, subset: "Agent_set"):
-        "Removes Agent_set to the current sets subset."
-        try:
-            self._subset.pop(subset._ID)
-        except KeyError:
-            raise KeyError(
-                "subset %s is not a member of set %s" % (subset.get_ID(), self.get_ID())
-            )
 
     def iter_subset(self):
         for subset in list(self._subset.values()):
             yield subset
-
-    # TO_REVIEW not used anywhere and doesn't reciprocate have the parent with child
-    def set_parent_set(self, master_set: "Agent_set"):
-        self._parent_set = master_set
-
-    # TO_REVIEW not used anywhere
-    def get_parent_set(self) -> Optional["Agent_set"]:
-        return self._parent_set
 
     def print_subsets(self):
         print("\t__________ %s __________" % self.get_ID())
