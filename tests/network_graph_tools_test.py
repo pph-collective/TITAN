@@ -15,7 +15,7 @@ def setup_results_dir():
     outfile_dir = os.path.join(os.getcwd(), "results", "network")
     if os.path.isdir(outfile_dir):
         shutil.rmtree(outfile_dir)
-    os.mkdir(outfile_dir)
+    os.makedirs(outfile_dir)
     yield outfile_dir
     shutil.rmtree(outfile_dir)
 
