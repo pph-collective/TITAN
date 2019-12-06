@@ -29,16 +29,24 @@ Output flags and settings
 outputDir = ""
 
 printIncidenceEvents = False  # this needs a description
-printStartAgentList = False  # prints the full agent list at the beginning of model run, after burn TODO check this
+printStartAgentList = (
+    False
+)  # prints the full agent list at the beginning of model run, after burn TODO check this
 printEndingAgentList = False  # prints the full agent list at the end of model run
-printIntermAgentList = False  # prints the full agent list at intervals during model run, determined by interimPrintFreq
-intermPrintFreq = 60  # if printing agent lists during model run, determines frequency of printouts
+printIntermAgentList = (
+    False
+)  # prints the full agent list at intervals during model run, determined by interimPrintFreq
+intermPrintFreq = (
+    60
+)  # if printing agent lists during model run, determines frequency of printouts
 calcNetworkStats = False  # TODO: ask Aly abt this?
-calcComponentStats = False  # prints individual component starting HIV, PrEP coverage, ending HIV, etc.
+calcComponentStats = (
+    False
+)  # prints individual component starting HIV, PrEP coverage, ending HIV, etc.
 # TODO: only ashley?
 drawFigures = False  # TODO: check. Used?
 drawEdgeList = True  # prints the full network edge list (TODO: at time?)
-drawFigureColor = "MSW"  #TODO: what?
+drawFigureColor = "MSW"  # TODO: what?
 
 """
 Calibration scaling parameters for fitting to empirical data
@@ -49,16 +57,24 @@ cal_NeedlePartScaling = 1.0  # Scaling IDU partner number
 cal_NeedleActScaling = 2.0  # Scaling factor IDU act frequency
 cal_SexualPartScaling = 1.0  # Scaling factor for sexual partner number
 cal_SexualActScaling = 1.0  # Scaling factor for sexual acts
-cal_pXmissionScaling = 1.0  # Global transmission probability scaling factor. Do not change for calibration
-cal_AcuteScaling = 4.3  # Infectivity multiplier ratio for Acute status infections. REVIEW: WILL, is this set in stone?
-cal_RR_Dx = 0.53  # Scaling factor for risk reduction in transmission probability for agents diagnosed
+cal_pXmissionScaling = (
+    1.0
+)  # Global transmission probability scaling factor. Do not change for calibration
+cal_AcuteScaling = (
+    4.3
+)  # Infectivity multiplier ratio for Acute status infections. REVIEW: WILL, is this set in stone?
+cal_RR_Dx = (
+    0.53
+)  # Scaling factor for risk reduction in transmission probability for agents diagnosed
 cal_RR_HAART = 1.0  # Scaling factor for effectiveness of ART therapy on transmission
 cal_TestFreq = 1.0  # Scaling factor for testing/diagnosis frequency
 cal_Mortality = 0.5  # Scaling factor for all cause mortality rates
 cal_ProgAIDS = 1.0  # Scaling factor for all rates of progression to AIDS from HIV
 cal_ART_cov = 1.0  # Scaling factor for probability of enrollment on ART
 cal_IncarP = 1.0  # Scaling factor for incarceration probability
-cal_raceXmission = 1.0  # Scaling factor for racial disparities in transmission not accounted for in other factors
+cal_raceXmission = (
+    1.0
+)  # Scaling factor for racial disparities in transmission not accounted for in other factors
 cal_ptnrSampleDepth = 100
 
 """
@@ -84,13 +100,19 @@ treatmentCov = 0.60  # Prop that receive treatment
 limitComponentSize = False  # Maintains a maximum component size
 maxComponentSize = 100  # Component size maximum if limited
 minComponentSize = 2  # Doesn't work?
-condomUseType = "Acts"  # Racial or Acts. Acts is standard. Determines how likelihood of condom use is decided
+condomUseType = (
+    "Acts"
+)  # Racial or Acts. Acts is standard. Determines how likelihood of condom use is decided
 """
 Vaccine params
 """
 vaccine_type = "RV144"  # RV144 or "HVTN702". Type of vaccine administered.
-booster = True  # Allows boosting for the vaccine a defined time from first administration
-vaccine_start = 1  # Time that vaccine is started. Agents cannot be given the first dose of
+booster = (
+    True
+)  # Allows boosting for the vaccine a defined time from first administration
+vaccine_start = (
+    1
+)  # Time that vaccine is started. Agents cannot be given the first dose of
 # vaccine in any other time step.
 
 """
@@ -119,7 +141,9 @@ inc_treat_RIC = False  # Force retention in care of ART therapy
 """
 PrEP params
 """
-PrEP_type = ["Oral"]  # Type(s) of PrEP/prevention measure included. Current: Oral, Inj, Vaccine
+PrEP_type = [
+    "Oral"
+]  # Type(s) of PrEP/prevention measure included. Current: Oral, Inj, Vaccine
 PrEP_Target = (
     0.000  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 )
@@ -128,9 +152,13 @@ PrEP_Adherence = 0.82  # Probability of being fully adherent to PrEP
 PrEP_AdhEffic = 0.96  # Efficacy of PrEP with full adherence
 PrEP_NonAdhEffic = 0.76  # Efficacy of PrEP with partial adherence
 PrEP_falloutT = 0  # Duration PrEP remains effective after discontinuation
-PrEP_resist = 0.01  # PrEP resistance probability  TODO: what exactly is this and how does it work
+PrEP_resist = (
+    0.01
+)  # PrEP resistance probability  TODO: what exactly is this and how does it work
 PrEP_disc = 0.15  # Probability of agent discontinuing PrEP in a given time step
-PrEP_target_model = "Allcomers"  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR, Rec
+PrEP_target_model = (
+    "Allcomers"
+)  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR, Rec
 PrEP_clinic_cat = "Mid"
 # TODO the above get overwritten by the below?
 if PrEP_type == "Oral":
@@ -208,7 +236,10 @@ elif model == "Custom":
     flag_agentZero = False
     flag_booster = False
 
-agentPopulations = ["HM", "HF"]  # Populations in the model, possibilities HM, HF, MSM, WSW, MTF
+agentPopulations = [
+    "HM",
+    "HF",
+]  # Populations in the model, possibilities HM, HF, MSM, WSW, MTF
 agentSexTypes = ["HM", "HF", "MSM"]  # redundant w above?
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
@@ -456,8 +487,7 @@ ageMatrix["WHITE"] = {
         3: 0.18 + 0.16 + 0.15,
         4: 0.18 + 0.16 + 0.15 + 0.20,
         5: 0.18 + 0.16 + 0.15 + 0.20 + 0.31,
-    },
-    "HIV": {0: 0.0, 1: 0.006, 2: 0.029, 3: 0.055, 4: 0.069, 5: 0.025},
+    }
 }
 ageMatrix["BLACK"] = {
     "Prop": {
@@ -467,27 +497,15 @@ ageMatrix["BLACK"] = {
         3: 0.28 + 0.24 + 0.19,
         4: 0.28 + 0.24 + 0.19 + 0.15,
         5: 0.28 + 0.24 + 0.19 + 0.15 + 0.14,
-    },
-    "HIV": {0: 0.0, 1: 0.144, 2: 0.144, 3: 0.250, 4: 0.377, 5: 0.194},
+    }
 }
 
-
-"""
-Age mixing matrix for assortative mixing by age
-"""
-# TODO: delete
-mixingMatrix = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
-mixingMatrix[1] = {1: 0.500, 2: 0.226, 3: 0.123, 4: 0.088, 5: 0.064}
-mixingMatrix[2] = {1: 0.156, 2: 0.500, 3: 0.185, 4: 0.099, 5: 0.061}
-mixingMatrix[3] = {1: 0.074, 2: 0.162, 3: 0.500, 4: 0.184, 5: 0.079}
-mixingMatrix[4] = {1: 0.057, 2: 0.093, 3: 0.199, 4: 0.500, 5: 0.150}
-mixingMatrix[5] = {1: 0.062, 2: 0.086, 3: 0.128, 4: 0.224, 5: 0.500}
 
 """
 Clinic bins for targetting strategies
 Bins represent partner numbers of the following category 0:0, 1:1, 2:2,  3:3-4, 4:5-9, 5:10+
 """
-# TODO: is this used?
+# REVIEW: clinic model might be completely out-of-date
 clinicAgents = {"Low": {}, "Mid": {}, "High": {}}
 clinicAgents["Mid"] = {
     0: {"Prob": 0.0, "min": 0, "max": 0},
