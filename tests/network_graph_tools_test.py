@@ -7,7 +7,7 @@ n_pop = 10
 
 def test_NormalAgents():
     """Test if all non-IDU,ND,NIDU agents are in the population"""
-    myNetworkObj = NetworkClass(N=n_pop, m_0=3)
+    myNetworkObj = NetworkClass(N=n_pop)
     assert n_pop == myNetworkObj.All_agentSet.num_members()
     for agent in myNetworkObj.All_agentSet.get_agents():
         agent_sex_type = agent._SO
@@ -18,7 +18,7 @@ def test_NormalAgents():
 
 def test_PartialNetwork():
     """Test if all non-IDU,ND,NIDU agents are in the population"""
-    myNetworkObj = NetworkClass(N=n_pop, m_0=3)
+    myNetworkObj = NetworkClass(N=n_pop)
 
     for agent in myNetworkObj.All_agentSet.get_agents():
         assert agent in myNetworkObj.G.nodes()
@@ -32,7 +32,7 @@ def test_PartialNetwork():
 
 def test_PopulationConsistency():
     """Test if Drug users add up"""
-    myNetworkObj = NetworkClass(N=n_pop, m_0=3)
+    myNetworkObj = NetworkClass(N=n_pop)
     CheckSumDrug = (
         myNetworkObj.DU_IDU_agentSet.num_members()
         + myNetworkObj.DU_NIDU_agentSet.num_members()
@@ -44,7 +44,7 @@ def test_PopulationConsistency():
 
 def test_HIVConsistency():
     """Test HIV consistency"""
-    myNetworkObj = NetworkClass(N=n_pop, m_0=3)
+    myNetworkObj = NetworkClass(N=n_pop)
     for agent in myNetworkObj.All_agentSet.get_agents():
         HIV_status = agent._HIV_bool
         if HIV_status:

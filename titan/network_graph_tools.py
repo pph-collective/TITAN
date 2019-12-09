@@ -10,13 +10,10 @@ import networkx as nx  # type: ignore
 from networkx.drawing.nx_agraph import graphviz_layout  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 import matplotlib.patches as patches  # type: ignore
+from typing import Sequence, List, Dict, Optional
 
-try:
-    from .HIVABM_Population import PopulationClass
-except ImportError:
-    raise ImportError("Can't import PopulationClass")
-
-from titan import params
+from .HIVABM_Population import PopulationClass
+from . import params  # type: ignore
 from .agent import Agent_set
 
 
@@ -26,7 +23,6 @@ class NetworkClass(PopulationClass):
         N: int,
         popSeed: int = 0,
         netSeed: int = 0,
-        m_0: int = 1,
         network_type: str = "scale_free",
     ):
         """
@@ -37,10 +33,6 @@ class NetworkClass(PopulationClass):
         :Input:
             N : int
               Number of agents. Default: 10000
-
-            m_0: int
-              Number of nodes each node is connected to in preferential
-              attachment step
 
             network_type: defaul is "scale_free", other options are "max_k_comp_size" and "binomial"
         """
@@ -56,10 +48,7 @@ class NetworkClass(PopulationClass):
             )
         else:
             pass
-        if m_0 not in list(range(10)):
-            raise ValueError("m_0 must be integer smaller than 10")
-        else:
-            self.m_0 = m_0
+
         PopulationClass.__init__(self, n=N, rSeed=popSeed)  # Create population
 
         self.NetworkSize = N
@@ -75,7 +64,7 @@ class NetworkClass(PopulationClass):
                         for rel in ag._relationships:
                             # print("Removed edge:",rel)
                             rel.progress(forceKill=True)
-                            self.Relationships.remove_agent(rel)
+                            self.Relationships.remove(rel)
                             component.remove_edge(rel._ID1, rel._ID2)
                             self.G.remove_edge(rel._ID1, rel._ID2)
 

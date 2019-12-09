@@ -3,20 +3,14 @@
 
 from random import Random
 from copy import deepcopy
+from typing import Sequence, List, Dict, Optional, Any
 from scipy.stats import poisson  # type: ignore
 import numpy as np  # type: ignore
 
-try:
-    from .agent import Agent_set, Agent, Relationship
-except ImportError:
-    raise ImportError("Can't import AgentClass")
-
-try:
-    from .ABM_partnering import get_partner, get_partnership_duration
-except ImportError as e:
-    raise ImportError("Can't import ABM_partnering! %s" % str(e))
-
-from titan import params, probabilities as prob
+from .agent import Agent_set, Agent, Relationship
+from .ABM_partnering import get_partner, get_partnership_duration
+from . import params  # type: ignore
+from . import probabilities as prob
 
 
 class PopulationClass:
@@ -88,7 +82,7 @@ class PopulationClass:
         :py:meth:`get_info_DrugSexType`
     """
 
-    def __init__(self, n=10000, rSeed=0, model=None):
+    def __init__(self, n: int = 10000, rSeed: int = 0, model: str = None):
         """
         :Purpose:
             Initialize PopulationClass object.
@@ -122,10 +116,6 @@ class PopulationClass:
             MT_Incar = True
         elif model == "NoIncar":
             MT_NoIncar = True
-
-        # List of IDU, NIDU, NDs
-        # shuffle all Agents
-        allAgents = list(range(self.PopulationSize))
 
         print("\tBuilding class sets")
 
@@ -188,19 +178,15 @@ class PopulationClass:
         # High risk agent sets
         self.highrisk_agentsSet = Agent_set("HRisk", parent=self.All_agentSet)
 
-        self.Relationships = Agent_set("Relationships")
-
-        # Create agents in allAgents list
-        self.White_agents = deepcopy(allAgents[0 : self.numWhite])
-        self.Black_agents = deepcopy(allAgents[self.numWhite :])
+        self.Relationships: List[Relationship] = []
 
         print("\tCreating agents")
 
-        for agent in self.White_agents:
-            agent_cl = self._return_new_Agent_class(agent, "WHITE")
+        for agent in range(self.numWhite):
+            agent_cl = self._return_new_Agent_class("WHITE")
             self.create_agent(agent_cl, "WHITE")
-        for agent in self.Black_agents:
-            agent_cl = self._return_new_Agent_class(agent, "BLACK")
+        for agent in range(self.numBlack):
+            agent_cl = self._return_new_Agent_class("BLACK")
             self.create_agent(agent_cl, "BLACK")
         # jail stock duration?
         jailDuration = prob.jail_duration()
@@ -224,7 +210,7 @@ class PopulationClass:
     def _return_agent_set(self):
         return self.All_agentSet
 
-    def _return_new_agent_dict(self, Deliminator, SexType="NULL"):
+    def _return_new_agent_dict(self, Deliminator: str, SexType: str = "NULL"):
         """
         :Purpose:
         Return random agent dict of a new agent..
@@ -263,9 +249,6 @@ class PopulationClass:
             prob_HIV = params.DemographicParams[Deliminator]["IDU"]["HIV"]
         else:
             prob_HIV = params.DemographicParams[Deliminator][SexType]["HIV"]
-
-        if self._MSMW:
-            prob_HIV *= 2
 
         if self.popRandom.random() < prob_HIV:
             HIVStatus = 1
@@ -361,7 +344,7 @@ class PopulationClass:
 
         return agent_dict
 
-    def _return_new_Agent_class(self, agentID, Race, SexType="NULL"):
+    def _return_new_Agent_class(self, Race: str, SexType: str = "NULL") -> Agent:
         """
         :Purpose:
         Return random agent dict of a new agent..
@@ -369,7 +352,6 @@ class PopulationClass:
             characteristics in form of an additinoal dictionary of the form
             ``characteristic:value``.
         :Input:
-            agentID : int
             Race : "BLACK" or "WHITE"
             SexType : default "NULL"
         :Output:
@@ -402,7 +384,7 @@ class PopulationClass:
 
         age, ageBin = self.getAge(Race)
 
-        newAgent = Agent(agentID, SexType, age, Race, DrugType)
+        newAgent = Agent(SexType, age, Race, DrugType)
         newAgent._ageBin = ageBin
 
         if params.setting == "Phil2005" and SexType == "HM":
@@ -481,7 +463,7 @@ class PopulationClass:
 
         return newAgent
 
-    def create_agent(self, agent_cl, Deliminator):
+    def create_agent(self, agent_cl: Agent, Deliminator: str):
         """
         :Purpose:
             Creat a new agent in the population.
@@ -536,7 +518,7 @@ class PopulationClass:
         if agent_cl._highrisk_bool:
             addToSubsets(self.highrisk_agentsSet, agent_cl)
 
-    def getAge(self, race):
+    def getAge(self, race: str):
         rand = self.popRandom.random()
         minAge = 15
         maxAge = 80
@@ -584,40 +566,34 @@ class PopulationClass:
         age = self.popRandom.randrange(minAge, maxAge)
         return age, ageBin
 
-    def update_partner_assignments(self, partnerTurnover, graph, agent=None):
-        # Now create partnerships until available partnerships are out
-        if agent:
-            partner = get_partner(agent, self.All_agentSet)
+    def update_agent_partners(self, graph, agent: Agent) -> bool:
+        partner = get_partner(agent, self.All_agentSet)
+        noMatch = False
 
-            if partner:
-                duration = get_partnership_duration(agent)
-                tmp_relationship = Relationship(agent, partner, "MSM", "SE", duration)
-                agent.bond(partner, tmp_relationship)
-                self.Relationships.add_agent(tmp_relationship)
-                graph.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
+        if partner:
+            duration = get_partnership_duration(agent)
+            tmp_relationship = Relationship(agent, partner, "MSM", "SE", duration)
+
+            agent.bond(partner, tmp_relationship)
+            self.Relationships.append(tmp_relationship)
+            graph.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
         else:
-            EligibleAgents = self.All_agentSet
-            noMatch = 0
-            for agent in EligibleAgents.iter_agents():
-                acquirePartnerProb = (
-                    params.cal_SexualPartScaling
-                    * partnerTurnover
-                    * (agent._mean_num_partners / (12.0))
-                )
-                if np.random.uniform(0, 1) < acquirePartnerProb:
-                    partner = get_partner(agent, self.All_agentSet)
+            graph.add_node(agent)
+            noMatch = True
 
-                    if partner:
-                        duration = get_partnership_duration(agent)
-                        tmp_relationship = Relationship(
-                            agent, partner, "MSM", "SE", duration
-                        )
+        return noMatch
 
-                        agent.bond(partner, tmp_relationship)
-                        self.Relationships.add_agent(tmp_relationship)
-                        graph.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
-                    else:
-                        noMatch += 1
-                        graph.add_node(agent)
-                else:
-                    graph.add_node(agent)
+    def update_partner_assignments(self, partnerTurnover: float, graph):
+        # Now create partnerships until available partnerships are out
+        EligibleAgents = self.All_agentSet
+        noMatch = 0
+        for agent in EligibleAgents.iter_agents():
+            acquirePartnerProb = (
+                params.cal_SexualPartScaling
+                * partnerTurnover
+                * (agent._mean_num_partners / (12.0))
+            )
+            if np.random.uniform(0, 1) < acquirePartnerProb:
+                noMatch += self.update_agent_partners(graph, agent)
+            else:
+                graph.add_node(agent)

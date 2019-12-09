@@ -3,11 +3,14 @@
 
 # Imports
 import random
+from typing import Sequence, List, Dict, Optional
 
-from titan import params, probabilities as prob
+from . import params  # type: ignore
+from . import probabilities as prob
+from .agent import Agent, Agent_set
 
 
-def get_partner(agent, need_new_partners):
+def get_partner(agent: Agent, need_new_partners: Agent_set) -> Optional[Agent]:
     """
     :Purpose:
         Get partner for agent.
@@ -20,30 +23,26 @@ def get_partner(agent, need_new_partners):
     :Output:
         partner: new partner
     """
-    agent_race_type = agent._race
     agent_drug_type = agent._DU
     RandomPartner = None
 
     if agent_drug_type == "IDU":
         if random.random() < 0.8:
             # choose from IDU agents
-            try:
-                RandomPartner = get_random_IDU_partner(agent, need_new_partners)
-            except:
-                print("No IDU matches")
-                get_random_sex_partner(agent, need_new_partners)
-        else:
+            RandomPartner = get_random_IDU_partner(agent, need_new_partners)
+
+        # either didn't try to get IDU partner, or failed to get IDU partner
+        if RandomPartner is None:
             get_random_sex_partner(agent, need_new_partners)
     elif agent_drug_type in ("NDU", "NIDU"):
-        if params.flag_AssortativeMix:
-            if (
-                random.random()
-                < params.DemographicParams[agent_race_type]["ALL"]["AssortMixCoeff"]
-            ):
-                RandomPartner = get_assort_sex_partner(agent, need_new_partners)
-                if not RandomPartner and params.AssortMixCoeff <= 1.0:
-                    RandomPartner = get_random_sex_partner(agent, need_new_partners)
-            else:
+        if params.flag_AssortativeMix and (
+            random.random()
+            < params.DemographicParams[agent._race]["ALL"]["AssortMixCoeff"]
+        ):
+            RandomPartner = get_assort_sex_partner(agent, need_new_partners)
+
+            # potentially try again randomly
+            if RandomPartner is None and params.AssortMixCoeff <= 1.0:
                 RandomPartner = get_random_sex_partner(agent, need_new_partners)
         else:
             RandomPartner = get_random_sex_partner(agent, need_new_partners)
@@ -56,17 +55,19 @@ def get_partner(agent, need_new_partners):
         return RandomPartner
 
 
-def get_random_IDU_partner(agent, need_new_partners):
+def get_random_IDU_partner(
+    agent: Agent, need_new_partners: Agent_set
+) -> Optional[Agent]:
     """
     :Purpose:
         Get a random partner which is sex compatible
 
     :Input:
-        agent: int
+        agent: Agent
         need_new_partners: AgentSet of partners to pair with
 
     :Output:
-        partner : int
+        partner : Agent or None
 
     """
     agent_drug_type = agent._DU
@@ -88,13 +89,15 @@ def get_random_IDU_partner(agent, need_new_partners):
                 if ptn not in agent._partners
             ]
         )
-        if RandomPartner in agent._partners or RandomPartner == agent:
+        if RandomPartner == agent:
             RandomPartner = None
 
     return RandomPartner
 
 
-def get_assort_sex_partner(agent, need_new_partners):
+def get_assort_sex_partner(
+    agent: Agent, need_new_partners: Agent_set
+) -> Optional[Agent]:
     """
     :Purpose:
         Get a random partner which is sex compatible and fits assortativity constraints
@@ -104,11 +107,11 @@ def get_assort_sex_partner(agent, need_new_partners):
         need_new_partners: AgentSet of partners to pair with
 
     :Output:
-        partner : int
+        partner : Agent or None
 
     """
 
-    def getPartnerBin(agent):
+    def getPartnerBin(agent: Agent) -> int:
         testRand = random.random()
         i = 1
         pMatch = params.mixingMatrix[agent._ageBin][i]
@@ -205,17 +208,19 @@ def get_assort_sex_partner(agent, need_new_partners):
     return RandomPartner
 
 
-def get_random_sex_partner(agent, need_new_partners):
+def get_random_sex_partner(
+    agent: Agent, need_new_partners: Agent_set
+) -> Optional[Agent]:
     """
     :Purpose:
         Get a random partner which is sex compatible
 
     :Input:
-        agent: int
-        need_new_partners: list of available partners
+        agent: Agent
+        need_new_partners: list of available partners (Agent_set)
 
     :Output:
-        partner : int
+        partner : Agent or None
 
     """
     agent_sex_type = agent._SO
@@ -233,22 +238,19 @@ def get_random_sex_partner(agent, need_new_partners):
 
     if agent_sex_type not in params.agentSexTypes:
         raise ValueError("Invalid sex type! %s" % str(agent_sex_type))
-    else:
-        pass
 
-    if RandomPartner:
+    if RandomPartner is not None:
         if (RandomPartner in agent._partners) or (RandomPartner == agent):
-            pass
+            RandomPartner = None
         else:
             assert sex_possible(
                 agent._SO, RandomPartner._SO
             ), "Sex no possible between agents! ERROR 441"
-            return RandomPartner
-    else:
-        pass
+
+    return RandomPartner
 
 
-def sex_possible(agent_sex_type, partner_sex_type):
+def sex_possible(agent_sex_type: str, partner_sex_type: str) -> bool:
     """
     :Purpose:
     Determine if sex is possible.
@@ -282,7 +284,7 @@ def sex_possible(agent_sex_type, partner_sex_type):
     )
 
 
-def get_partnership_duration(agent):
+def get_partnership_duration(agent: Agent) -> int:
     """
     :Purpose:
         Get duration of a relationship # REVIEWED sarah to look at why this is at the agent level

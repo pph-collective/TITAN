@@ -1,6 +1,9 @@
+from . import params
+from typing import Sequence, List, Dict, Optional, Any
+
 # ============== PARTNERING PROBABILITIES ======================
 
-MSWsexualDurations = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
+MSWsexualDurations: Dict[int, Dict[str, Any]] = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
 MSWsexualDurations[1] = {"p_value": (0.27 + 0.22), "min": 1, "max": 6}
 MSWsexualDurations[2] = {"p_value": (0.09 + 0.262 + 0.116), "min": 7, "max": 12}
 MSWsexualDurations[3] = {"p_value": (0.09 + 0.09), "min": 13, "max": 24}
@@ -27,7 +30,7 @@ def unsafe_sex(num_acts):
         return 0.759
 
 
-HF_jail_duration = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}}
+HF_jail_duration: Dict[int, Dict[str, Any]] = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}}
 HF_jail_duration[1] = {"p_value": (0.40), "min": 1, "max": 2}
 HF_jail_duration[2] = {"p_value": (0.475), "min": 1, "max": 13}
 HF_jail_duration[3] = {"p_value": (0.065), "min": 13, "max": 26}
@@ -36,7 +39,7 @@ HF_jail_duration[5] = {"p_value": (0.01), "min": 78, "max": 130}
 HF_jail_duration[6] = {"p_value": (0.01), "min": 130, "max": 260}
 
 
-HM_jail_duration = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}}
+HM_jail_duration: Dict[int, Dict[str, Any]] = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}}
 HM_jail_duration[1] = {"p_value": (0.43), "min": 1, "max": 2}
 HM_jail_duration[2] = {"p_value": (0.50), "min": 1, "max": 13}
 HM_jail_duration[3] = {"p_value": (0.02), "min": 13, "max": 26}
@@ -58,6 +61,46 @@ def adherence_prob(adherenceStat):
         return 0.0008
     else:
         return 0.0051
+
+
+def get_death_rate(HIV_status, AIDS_status, agent_race, agent_HAART_adh):
+    if HIV_status:
+        if AIDS_status:  # AIDS DEATH RATE
+            if agent_race == "WHITE":
+                p = 34.4
+            elif agent_race == "BLACK":
+                p = 41.6
+            else:
+                raise ValueError("Invalid RACE type! %s" % str(agent_Race))
+
+        elif agent_HAART_adh > 1:  # HAART DEATH RATE
+            if agent_race == "WHITE":
+                p = 8.6
+            elif agent_race == "BLACK":
+                p = 10.4
+            else:
+                raise ValueError("Invalid RACE type! %s" % str(agent_Race))
+
+        else:  # HIV+ DEATH RATE
+            if agent_race == "WHITE":
+                p = 17.2
+            elif agent_race == "BLACK":
+                p = 20.8
+            else:
+                raise ValueError("Invalid RACE type! %s" % str(agent_Race))
+
+        p = p * params.cal_Mortality
+
+    else:  # NON HIV DEATH RATE
+        if agent_race == "WHITE":
+            p = 8.6
+        elif agent_race == "BLACK":
+            p = 10.4
+        else:
+            raise ValueError("Invalid RACE type! %s" % str(agent_Race))
+
+    # putting it into per 1 person-month from per 1000 person years
+    return p / 12000.0
 
 
 # ======================== HIVABM_Population =========================

@@ -2,83 +2,113 @@
 # encoding: utf-8
 
 import os
-import numpy as np
+import numpy as np  # type: ignore
+from typing import Sequence, List, Dict, Optional, Any
 
 from titan import params
 from .ABM_core import HIVModel
 
 
+def initiate_ResultDict(tmax: int) -> Dict[str, Any]:
+    # nested dictionary for results (inner dictionary has the form: time:result)
+    d: Dict[str, Any] = {
+        "Prv_HIV": {},
+        "Prv_AIDS": {},
+        "Prv_Test": {},
+        "Prv_ART": {},
+        "Prv_PrEP": {},
+        "n_Relations": {},
+        "Inc_t_HM": {},
+        "Inc_t_HF": {},
+    }
+
+    for key in d:
+        for t in range(1, tmax + 1):
+            d[key].update({t: []})
+
+    return d
+
+
+def statsToResults(stats: Dict[str, Any], results: Dict[str, Any]):
+    """
+    Update results dict with stats from this simulation
+    """
+    for t in stats.keys():
+        results["Prv_HIV"][t].append(
+            1.0 * stats[t]["ALL"]["ALL"]["numHIV"] / stats[t]["ALL"]["ALL"]["numAgents"]
+        )
+
+        results["Prv_AIDS"][t].append(
+            1.0 * stats[t]["ALL"]["ALL"]["numAIDS"] / stats[t]["ALL"]["ALL"]["numHIV"]
+        )
+
+        results["Prv_Test"][t].append(
+            1.0
+            * stats[t]["ALL"]["ALL"]["numTested"]
+            / max(stats[t]["ALL"]["ALL"]["numHIV"], 1)
+        )
+
+        results["Prv_ART"][t].append(
+            1.0 * stats[t]["ALL"]["ALL"]["numART"] / stats[t]["ALL"]["ALL"]["numTested"]
+        )
+
+        results["Prv_PrEP"][t].append(
+            1.0
+            * stats[t]["ALL"]["ALL"]["numPrEP"]
+            / stats[t]["ALL"]["ALL"]["numAgents"]
+        )
+
+        results["n_Relations"][t].append(stats[t]["ALL"]["ALL"]["numRels"])
+
+        results["Inc_t_HM"][t].append(stats[t]["WHITE"]["HM"]["inf_newInf"])
+        results["Inc_t_HF"][t].append(stats[t]["WHITE"]["HF"]["inf_newInf"])
+
+
 def simulation(
-    nreps, time_range, N_pop, outfile_dir, parameters, runSeed, popSeed, netSeed
+    nreps: int,
+    time_range: int,
+    N_pop: int,
+    outfile_dir: str,
+    runSeed: int,
+    popSeed: int,
+    netSeed: int,
 ):
 
     # Run nreps simulations using the given parameters.
     # Information are printed to outfile_dir directory.
     pid = os.getpid()
-    result_dict = {}
+    result_dict: Dict[str, Any] = initiate_ResultDict(time_range)
 
-    for num_sim in range(nreps):
+    for rep in range(nreps):
         inputSeed = runSeed
         if runSeed == -1:
-            inputSeed = num_sim + 1
+            inputSeed = rep + 1
             print(inputSeed)
 
         print(
             "\tProcess %5s runs simulation %d/%d\t.:.\tInput rSeed: %d, pSeed: %d, nSeed: %d"
-            % (pid, num_sim + 1, nreps, inputSeed, popSeed, netSeed)
+            % (pid, rep + 1, nreps, inputSeed, popSeed, netSeed)
         )
 
         MyModel = HIVModel(
             N=N_pop,
             tmax=time_range,
-            parameter_dict=parameters,
             runseed=inputSeed,
             popseed=popSeed,
             netseed=netSeed,
             network_type=params.network_type,
         )
 
-        if num_sim == 0:
-            MyModel.run(dir_prefix=outfile_dir)
-        else:
-            MyModel.run(dir_prefix=outfile_dir)
+        stats = MyModel.run()
+        statsToResults(stats, result_dict)
 
-        # print MyModel
-        result_dict_tmp = MyModel.return_results()
-        for (key, x_v) in result_dict_tmp.items():
-            if key not in result_dict:
-                result_dict.update({key: {}})
-            for t, x in x_v.items():
-                if t not in result_dict[key]:
-                    result_dict[key].update({t: []})
-                if np.isnan(x):
-                    # mssg = '\tWARNING:\
-                    # NaN encountered in pid %5s run %d for %s at time %d'
-                    # print mssg%(pid, num_sim,key, t)
-                    result_dict[key][t].append(0)
-                else:
-                    result_dict[key][t].append(x)
     return result_dict
 
 
-def simulation_star(zipped_input):
-    """
-    This helper function is needed because multithreading pool only
-    accepts one input argument. This helper function converts combined
-    arguments and calls the simulation function.
-    """
-    try:
-        return simulation(*zipped_input)
-    except TypeError:
-        for input_info in zipped_input:
-            print(input_info)
-        raise TypeError("Wrong input for simulation_star()!")
-
-
-def save_results(N_MC, time_range, rslts, outfile_dir, num_sim):
+def save_results(time_range, rslts, outfile_dir, num_sim):
     """
     Save the result dictionary.
-    Input:   N_MC : Number of Monte Carlo runs for each simulation.
+    Input:
              time_range : Number of time steps in each simulation.
              rslts : Result dictionary.
              outfile_dir : Directory for output file.
@@ -86,16 +116,8 @@ def save_results(N_MC, time_range, rslts, outfile_dir, num_sim):
                        the applied parameters. Must be consistent with
                        parameter input file columns.
     """
-
-    # save results
-    if not os.path.isdir(outfile_dir):
-        os.mkdir(outfile_dir)
-
     OutFileName = os.path.join(outfile_dir, ("Result_simulation_%d.txt" % num_sim))
     print("\n\tSaving results to:\n\t%s\n" % str(OutFileName))
-
-    if os.path.isfile(OutFileName):
-        os.remove(OutFileName)
 
     outfile = open(OutFileName, "w")
     outfile.write("t,model,coverage")
@@ -107,43 +129,19 @@ def save_results(N_MC, time_range, rslts, outfile_dir, num_sim):
         )
     outfile.write("\n")
 
-    for t in range(0, time_range + 1):
+    for t in range(1, time_range + 1):
+
+        # write timestep, model, coverage
         outfile.write("%d,%s,%0.2f" % (t, params.PrEP_type, params.PrEP_Target))
+
+        # for each property in the result dict, write the mean, std dev, 10th % and 90th % over the mante carlo iterations (params.N_MC) in the simulation
         for result_property in sorted(rslts):
-            x_v = []
+            x_v = np.array(rslts[result_property][t])
 
-            try:
-                x_v = np.array(rslts[result_property][t])
-                x_v = x_v[np.logical_not(np.isnan(x_v))]
-            except:  # REVIEW why the bare except?
-                pass
-
-            if len(x_v) > 0:
-                mean = np.mean(x_v)
-                outfile.write(",%4.5f" % mean)
-            else:
-                outfile.write(",%4.5f" % np.NaN)
-
-            # print std
-            if len(x_v) > 0:
-                std_dev = np.std(x_v)
-                outfile.write(",%4.5f" % std_dev)
-            else:
-                outfile.write(",%4.5f" % np.NaN)
-
-            # print 10th
-            if len(x_v) > 0:
-                p10 = np.percentile(x_v, 10)
-            else:
-                p10 = np.NaN
-            outfile.write(",%4.5f" % p10)
-
-            # print 90th
-            if len(x_v) > 0:
-                p90 = np.percentile(x_v, 90)
-            else:
-                p90 = np.NaN
-            outfile.write(",%4.5f" % p90)
+            outfile.write(",%4.5f" % np.mean(x_v))
+            outfile.write(",%4.5f" % np.std(x_v))
+            outfile.write(",%4.5f" % np.percentile(x_v, 10))
+            outfile.write(",%4.5f" % np.percentile(x_v, 90))
 
         outfile.write("\n")
 

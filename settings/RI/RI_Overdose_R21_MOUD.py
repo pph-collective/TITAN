@@ -7,50 +7,48 @@ Main model parameters.
 
 ####################
 PROCESSES = 1  # number of processes in parallel (quadcore)
-rSeed = (
-    0  # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
-)
-rSeed_pop = 0
+rSeed_pop = 0  # seed for population RNG (0 for pure random, -1 for stepwise up to N_NC
 rSeed_net = 0
 rSeed_run = 0
-N_MC = 100  # total number of iterations (Monte Carlo runs)
-N_POP = 110000  # population size
-TIME_RANGE = 168  # total time steps to iterate
-burnDuration = 30  # total time for burning in period (equillibration)
-model = "Incar"  # Model Type for fast flag toggling
-setting = "Phil2005"
-network_type = "scale_free"
+N_MC = 1  # total number of iterations (Monte Carlo runs)
+N_REPS = 1
+N_POP = 55000  # population size
+TIME_RANGE = 60  # total time steps to iterate
+burnDuration = 60
+model = "Overdose"  # Model Type for fast flag toggling
+network_type = "scale_free"  # scale_free or max_k_comp_size
+setting = "RI_OD_Morality"
 ####################
+
+"""
+Sensitivity
+"""
+
+discSensitivity = 1
+oatIncarSensitivity = 1
+nalIncarSensitivity = 1
 
 """
 Output flags and settings
 """
 outputDir = ""
 
-startAgentList = False
-endingAgentList = False
-intermAgentList = False
-intermPrintFreq = 10
-MSMreport = True
-HMreport = False
-HFreport = False
+printIncidenceEvents = False
+printStartAgentList = False
+printEndingAgentList = False
+printIntermAgentList = False
+intermPrintFreq = 60
+calcNetworkStats = False
+calcComponentStats = False
 drawFigures = False
-
-reports = [
-    "deathReport",
-    "incarReport",
-    "newlyhighriskReport",
-    "prepReport",
-    "basicReport",
-]
+drawEdgeList = False
+drawFigureColor = "SO"
 
 """
 Calibration scaling parameters for fitting to empirical data
 """
 
-PARTNERTURNOVER = (
-    1.0 / 7.5
-)  # Partner acquisition parameters (higher number more partnering)
+PARTNERTURNOVER = 0.0  # Partner acquisition parameters (higher number more partnering)
 cal_NeedlePartScaling = 0.90  # IDU partner number scaling
 cal_NeedleActScaling = 0.60  # IDU act frequency scaling factor
 cal_SexualPartScaling = 0.90  # Sexual partner number scaling factor
@@ -60,43 +58,42 @@ cal_AcuteScaling = 4.3  # Infectivity multiplier ratio for Acute status infectio
 cal_RR_Dx = 0.53  # Risk reduction in transmission probability for agents diagnosed
 cal_RR_HAART = 1.0  # Scaling factor for effectiveness of ART therapy on xmission P
 cal_TestFreq = 0.70  # Scaling factor for testing frequency
-cal_Mortality = 0.5  # Scaling factor for all cause mortality rates
+cal_Mortality = 1.5  # Scaling factor for overdose mortality rates
 cal_ProgAIDS = 1.0  # Scaling factor for all progression to AIDS from HIV rates
 cal_ART_cov = 0.70  # Scaling factor for enrollment on ART probability
-cal_IncarP = 1.0  # Scaling factor for probability of becoming incarcerated
+cal_IncarP = 3.80  # Scaling factor for probability of becoming incarcerated
 cal_raceXmission = (
     1.0  # Scaling factor for increased STI transmission P comparing race1/race2
 )
 cal_ptnrSampleDepth = 100  # Sampling depth for partnering algorithm.
 
+
 """
 High risk params
 """
-HR_partnerScale = 300  # Linear increase to partner number during HR period
-HR_proportion = 0.3  # Proportion of people who enter HR group when partner incarcerated
-HR_M_dur = 6  # Duration of high risk for males
-HR_F_dur = 6  # Duration of high risk for females
-HIV_MSMW = 0.01
-
+HR_partnerScale = 0  # Linear increase to partner number during HR period
+HR_proportion = 0.0  # Proportion of people who enter HR group when partner incarcerated
+HR_M_dur = 26  # Duration of high risk for males post release
+HR_F_dur = 26  # Duration of high risk for females post release
 
 """
 Misc. params
 """
-flag_AssortativeMix = True  # Boolean for if assortative mixing occurs at all
+
+flag_AssortativeMix = False  # Boolean for if assortative mixing occurs at all
 AssortMixType = "HR"  # Other assortative mixing types
 flag_AgeAssortMix = False  # Assortative mix by age
 flag_RaceAssortMix = False  # Assortative mix by race
 AssortMixCoeff = 0.3  # Proportion of following given assort mix rules
 safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
-initTreatment = 999999
-treatmentCov = 0.0
-condomUseType = "Partners"
+initTreatment = 9999999  # Requirement to start treatment
+treatmentCov = 0.0  # Prop that receive treatment
 
 """
 Incarceration params
 """
 inc_JailMax = 22
-inc_JailMin = 8
+inc_JailMin = 1
 inc_JailTestProb = 0.69
 inc_PrisMax = 96
 inc_PrisMin = 45
@@ -117,23 +114,46 @@ inc_treat_IDU_beh = True  # Remove IDU behav:iour during treatment duration
 inc_treat_RIC = False  # Force retention in care of ART therapy
 
 """
+IDU/NIDU Treatment params
+"""
+p_mort_oat_scalar = 0.4  # Prob mortatlity risk for on OAT
+p_mort_nalt_scalar = 0.2  # Prob mort risk for on naltrx
+p_mort_oat_postcess_scalar = 2.0  # Prob mortality risk post exit OAT
+p_mort_nalt_postcess_scalar = 8.0  # Prob mort risk post ext Naltx
+p_mort_post_release_scalars = {
+    1: 108,  # Prob mort risk post release (1 timestep, 2 timestep, 3-HR dura)
+    2: 22,
+    3: 11,
+}
+
+MATasOAT = 0.992  # Percentage of MAT as OAT in community
+p_enroll_OAT_post_release = (
+    0.992 * oatIncarSensitivity
+)  # prob of enrolling OAT post release
+p_enroll_Nal_post_release = (
+    0.008 * nalIncarSensitivity
+)  # prob of enrolling naltx post release
+p_discont_trt_on_incar = 0.7  # Probability of exit trt upon incarceration
+
+
+"""
 PrEP params
 """
 PrEP_type = "Oral"  # Oral/Inj PrEP modes
 PrEP_Target = (
-    0.0  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+    0.10  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 )
 PrEP_startT = 0  # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82  # Probability of being adherent
 PrEP_AdhEffic = 0.96  # Efficacy of adherence PrEP
 PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
-PrEP_resist = 0.01  # Probability of PrEP resistance developing
-PrEP_disc = 0.15  # Per month probability of PrEP discontinuation
+PrEP_resist = 0.0
+PrEP_disc = 0.15
 PrEP_target_model = (
-    "MSM"  # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
-)
-PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it follow
+    "IncarHR"
+)  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, Incar,IncarHR, HR
+PrEP_clinic_cat = "Mid"
 
 if PrEP_type == "Oral":
     PrEP_Adherence = 0.923
@@ -171,7 +191,7 @@ if model == "PrEP":
 
 elif model == "Incar":
     flag_incar = True
-    flag_PrEP = False
+    flag_PrEP = True
     flag_HR = True
     flag_ART = True
     flag_DandR = True
@@ -194,18 +214,28 @@ elif model == "StaticZero":
     flag_ART = False
     flag_DandR = False
     flag_staticN = True
+    flag_agentZero = True
+
+elif model == "Overdose":
+    flag_incar = True
+    flag_PrEP = False
+    flag_HR = True
+    flag_ART = False
+    flag_DandR = True
+    flag_staticN = True
     flag_agentZero = False
 
 elif model == "Custom":
-    flag_incar = False
-    flag_PrEP = True
-    flag_HR = False
-    flag_ART = True
+    flag_incar = True
+    flag_PrEP = False
+    flag_HR = True
+    flag_ART = False
     flag_DandR = True
-    flag_staticN = False
+    flag_staticN = True
     flag_agentZero = False
 
-agentSexTypes = ["HM", "HF", "MSM", "MTF"]
+agentPopulations = ["HM", "HF"]
+agentSexTypes = ["HM", "HF", "MSM"]
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
 ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, PWID)
@@ -220,6 +250,8 @@ RC_template = {
     "HAARTprev": 0.0,  # Proportion of HIV_TESTED_ID that are enrolled on ART
     "INCARprev": 0.0,  # Proportion of ID that are incarcerated
     "TestedPrev": 0.0,  # Proportion of HIV_ID that are tested positively
+    "HighRiskPrev": 0.0,  # Proportion of agents that are HR
+    "IDUprev": 0.0,  # Proportion of agents that are IDU
     "mNPart": 0.0,  # Mean number of sex partners
     "NUMPartn": 0.0,  # Number of partners (redundant)
     "NUMSexActs": 0.0,  # Mean number of sex acts with each partner
@@ -230,7 +262,10 @@ RC_template = {
     "HAARTadh": 0.0,  # Adherence to ART therapy
     "HAARTdisc": 0.0,  # Probability of discontinuing ART therapy
     "PrEPdisc": 0.0,  # Probability of discontinuing PrEP treatment
-    "EligSE_PartnerType": None,  # List of agent SO types the agent cant partner with
+    "MATprev": 0.0,
+    "EligPartnerType": [],  # List of agent SO types the agent cant partner with
+    "MATProbScalar": 0.0,
+    "MAT_disc_prob": 0.0,
     "AssortMixMatrix": [],  # List of assortMix Matrix to be zipped with EligPart
 }
 
@@ -247,118 +282,83 @@ for a in ["MSM", "HM", "HF", "IDU"]:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
+incarNIDUProb = 0.010 * 2
+incarIDUProb = 0.010
+incarProbScalar = 0.01
+cal_MAT_disc_prob = 0.02
+# MATProbScalar = 0.015
 RaceClass1["HM"].update(
     {
-        "POP": 0.4150,
-        "HIV": 0.0369,
-        "AIDS": 0.6780,
-        "HAARTprev": 0.41,
-        "INCARprev": 0.0274,
-        "TestedPrev": 0.90,
-        "NUMPartn": 1.5,
-        "NUMSexActs": 5.0,
-        "UNSAFESEX": 0.89,
-        "NEEDLESH": 0.43,
-        "HIVTEST": 0.034,
-        "INCAR": 0.001,
-        "HAARTadh": 0.405,
-        "HAARTdisc": 0.000,
-        "PrEPdisc": 0.0000,
+        "POP": 0.60,
+        "INCARprev": 0.015,
+        "INCAR": incarNIDUProb * incarProbScalar,
+        "MATprev": 0.0924,
         "EligSE_PartnerType": "HF",
+        "MATProbScalar": 0.011,
+        "MAT_disc_prob": 0.11 * discSensitivity,
     }
 )
 
 RaceClass1["HF"].update(
     {
-        "POP": 0.5850,
-        "HIV": 0.01391,
-        "AIDS": 0.573,
-        "HAARTprev": 0.47,
-        "INCARprev": 0.000,
-        "TestedPrev": 0.90,
-        "NUMPartn": 1.5,
-        "NUMSexActs": 5.0,
-        "UNSAFESEX": 0.43,
-        "NEEDLESH": 0.43,
-        "HIVTEST": 0.034,
-        "INCAR": 0.00,
-        "HAARTadh": 0.405,
-        "HAARTdisc": 0.000,
-        "PrEPdisc": PrEP_disc,
+        "POP": 0.40,
+        "INCARprev": 0.003,
+        "HighRiskPrev": 0.0,
+        "INCAR": incarNIDUProb * incarProbScalar * 0.3,
+        "MATprev": 0.0924,
         "EligSE_PartnerType": "HM",
-    }
-)
-
-RaceClass1["MSM"].update(
-    {
-        "POP": 0.00,
-        "HIV": 0.2093,
-        "AIDS": 0.079,
-        "HAARTprev": 0.926,
-        "INCARprev": 0.000,
-        "TestedPrev": 0.956,
-        "NUMPartn": 4.0,
-        "NUMSexActs": 2.8,
-        "UNSAFESEX": 0.49,
-        "NEEDLESH": 0.00,
-        "HIVTEST": 0.13,
-        "INCAR": 0.00,
-        "HAARTadh": 0.66,
-        "HAARTdisc": 0.000,
-        "PrEPadh": 0.55,
-        "PrEPdisc": PrEP_disc,
-        "EligSE_PartnerType": "MSM",
-    }
-)
-
-RaceClass1["MTF"] = {
-    "POP": 0.00,
-    "HIV": 0.33986,
-    "AIDS": 0.636,
-    "HAARTprev": 1.00,
-    "INCARprev": 0.000,
-    "TestedPrev": 0.95,
-    "NUMPartn": 4.7,
-    "NUMSexActs": 4.6,
-    "UNSAFESEX": 0.644,
-    "NEEDLESH": 0.00,
-    "HIVTEST": 0.155,
-    "INCAR": 0.00,
-    "HAARTadh": 0.67,
-    "HAARTdisc": 0.000,
-    "PrEPadh": 0.55,
-    "PrEPdisc": PrEP_disc,
-    "EligSE_PartnerType": "MSM",
-}
-
-RaceClass1["IDU"].update(
-    {
-        "POP": 0.0173,
-        "HIV": 0.1500,
-        "AIDS": 0.6780,
-        "HAARTprev": 0.41,
-        "INCARprev": 0.0274,
-        "TestedPrev": 0.90,
-        "NUMPartn": 1.5,
-        "NUMSexActs": 5.0,
-        "UNSAFESEX": 0.89,
-        "NEEDLESH": 0.63,
-        "HIVTEST": 0.055,
-        "INCAR": 0.001,
-        "HAARTadh": 0.405,
-        "HAARTdisc": 0.000,
-        "PrEPdisc": 0.0000,
-        "EligSE_PartnerType": "IDU",
+        "MATProbScalar": 0.0125,
+        "MAT_disc_prob": 0.12 * discSensitivity,
     }
 )
 
 
 RaceClass1["ALL"].update(
-    {"Proportion": 1.00, "HAARTdisc": 0.018, "PrEPdisc": 0.0, "AssortMixCoeff": 1.0}
+    {
+        "Proportion": 0.818,
+        "HAARTdisc": 0.0,
+        "PrEPdisc": 0.0,
+        "AssortMixCoeff": 1.0,
+        "MATProbScalar": 0.005,
+        "MAT_disc_prob": 0.07 * discSensitivity,
+    }
+)
+
+RaceClass2["HM"].update(
+    {
+        "POP": 0.80,
+        "INCARprev": 0.015 * 2,
+        "HighRiskPrev": 0.0,
+        "INCAR": incarIDUProb * incarProbScalar,
+        "MATprev": 0.578,
+        "EligSE_PartnerType": "HF",
+        "MATProbScalar": 0.1487,
+        "MAT_disc_prob": 0.1 * discSensitivity,
+    }
+)
+
+RaceClass2["HF"].update(
+    {
+        "POP": 0.20,
+        "INCARprev": 0.008,
+        "HighRiskPrev": 0.0,
+        "INCAR": incarIDUProb * incarProbScalar * 0.3,
+        "MATprev": 0.578,
+        "EligSE_PartnerType": "HM",
+        "MATProbScalar": 0.081,
+        "MAT_disc_prob": 0.061 * discSensitivity,
+    }
 )
 
 RaceClass2["ALL"].update(
-    {"Proportion": 0.00, "HAARTdisc": 0.018, "PrEPdisc": 0.0, "AssortMixCoeff": 1.0}
+    {
+        "Proportion": 0.182,
+        "HAARTdisc": 0.018,
+        "PrEPdisc": 0.0,
+        "AssortMixCoeff": 1.0,
+        "MATProbScalar": 0.3,  # MATProbScalarNIDU
+        "MAT_disc_prob": 0.3 * discSensitivity,
+    }
 )
 
 DemographicParams = {"WHITE": RaceClass1, "BLACK": RaceClass2}
@@ -436,14 +436,6 @@ Sexual and injection transmission probabilities
 """
 SexTrans = {"MSM": {}, "HM": {}, "HF": {}}
 SexTrans["MSM"] = {
-    "0": 0.00745,
-    "1": 0.005,
-    "2": 0.004,
-    "3": 0.002,
-    "4": 0.001,
-    "5": 0.0001,
-}
-SexTrans["MTF"] = {
     "0": 0.00745,
     "1": 0.005,
     "2": 0.004,

@@ -48,6 +48,14 @@ drawFigures = False  # TODO: check. Used?
 drawEdgeList = True  # prints the full network edge list (TODO: at time?)
 drawFigureColor = "MSW"  # TODO: what?
 
+reports = [
+    "deathReport",
+    "incarReport",
+    "newlyhighriskReport",
+    "prepReport",
+    "basicReport",
+]
+
 """
 Calibration scaling parameters for fitting to empirical data
 """

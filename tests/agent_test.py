@@ -5,8 +5,8 @@ from titan.agent import *
 
 @pytest.fixture
 def make_agent():
-    def _make_agent(id, SO="MSM", age=30, race="BLACK", DU="NDU"):
-        return Agent(id, SO, age, race, DU)
+    def _make_agent(SO="MSM", age=30, race="BLACK", DU="NDU"):
+        return Agent(SO, age, race, DU)
 
     return _make_agent
 
@@ -20,8 +20,10 @@ def make_relationship():
 
 
 def test_agent_init(make_agent):
-    a = make_agent(1)
-    assert a._ID == 1
+    a = make_agent()  # 0
+    b = make_agent()  # 1
+    assert a._ID == 0
+    assert b._ID == 1
     assert a._timeAlive == 0
 
     # demographics
@@ -70,7 +72,6 @@ def test_agent_init(make_agent):
     assert a._PrEP_lastDose == 0
 
     # high risk params
-    assert a._highrisk_type is None
     assert a._highrisk_bool is False
     assert a._highrisk_time == 0
     assert a._everhighrisk_bool is False
@@ -83,14 +84,14 @@ def test_agent_init(make_agent):
 
 
 def test_get_id(make_agent):
-    a = make_agent(1)
-    assert a.get_ID() == 1
+    a = make_agent()  # 2
+    assert a.get_ID() == 2
 
 
 def test_bond_unbond(make_agent, make_relationship):
-    a = make_agent(1)
-    p = make_agent(2)
-    r = make_relationship(a, p)
+    a = make_agent()  # 3
+    p = make_agent()  # 4
+    r = make_relationship(a, p)  # 0
     a.bond(p, r)
     assert r in p._relationships
     assert p in a._partners
@@ -109,27 +110,27 @@ def test_bond_unbond(make_agent, make_relationship):
 
 
 def test_partner_list(make_agent, make_relationship):
-    a = make_agent(1)
+    a = make_agent()  # 5
 
     assert a.partner_list() == []
 
-    p = make_agent(2)
-    r = make_relationship(a, p)
+    p = make_agent()  # 6
+    r = make_relationship(a, p)  # 1
     a.bond(p, r)  # REVIEW what is the logic behind relationship -> bond -> pair?
 
-    assert a.partner_list() == [2]
-    assert p.partner_list() == [1]
+    assert a.partner_list() == [6]
+    assert p.partner_list() == [5]
 
 
 def test_relationship_init(make_agent, make_relationship):
-    a = make_agent(1)
-    p = make_agent(2)
-    r = make_relationship(a, p)
+    a = make_agent()  # 7
+    p = make_agent()  # 8
+    r = make_relationship(a, p)  # 2
 
     assert r._ID1 == a
     assert r._ID2 == p
-    assert r._ID == 100002
-    assert r.get_ID() == 100002
+    assert r._ID == 2
+    assert r.get_ID() == 2
 
     # properties
     assert r._duration == 10
@@ -137,7 +138,7 @@ def test_relationship_init(make_agent, make_relationship):
 
 
 @pytest.mark.skip(
-    reason="#REVIEW relationships are assumed to be bonded, but that's not enforced in the code/constructor (at least compactly)"
+    reason="# TO_REVIEW relationships are assumed to be bonded, but that's not enforced in the code/constructor (at least compactly)"
 )
 def test_progress(make_agent, make_relationship):
     pass
@@ -155,7 +156,7 @@ def test_Agent_set_init(make_agent):
 
 
 def test_add_remove_agent(make_agent):
-    a = make_agent(1)
+    a = make_agent()  # 9
     s = Agent_set("test")
 
     s.add_agent(a)
