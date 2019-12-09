@@ -44,7 +44,7 @@ def test_PopulationConsistency():
 
 def test_HIVConsistency():
     """Test HIV consistency"""
-    myNetworkObj = NetworkClass(N=n_pop,)
+    myNetworkObj = NetworkClass(N=n_pop)
     for agent in myNetworkObj.All_agentSet.get_agents():
         HIV_status = agent._HIV_bool
         if HIV_status:

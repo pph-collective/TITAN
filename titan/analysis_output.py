@@ -54,6 +54,7 @@ def get_stats(
         "iduPartPrep": 0,
         "msmwPartPrep": 0,
         "testedPartPrep": 0,
+        "vaccinated": 0,
     }
 
     stats = {}
@@ -140,6 +141,7 @@ def get_stats(
             stats[tmpA._race][tmpA._SO]["deaths_HIV"] += 1
 
     # Sum 'ALL' categories for race/SO bins
+
     for race in stats:
         for param in stats_template:
             for sc in SUB_CAT:
@@ -147,7 +149,6 @@ def get_stats(
                     stats[race]["ALL"][param] += stats[race][sc][param]
             for sc in SUB_CAT:
                 stats["ALL"][sc][param] += stats[race][sc][param]
-
     # add relationship count (only makes sense at the all level)
     stats["ALL"]["ALL"]["numRels"] = len(Relationships)
 
@@ -266,9 +267,31 @@ def newlyhighriskReport(
                 stats["ALL"][sex_type]["newHR_ART"],
             )
         )
+        f.write("\n")
+        f.close()
 
-    f.write("\n")
-    f.close()
+    incarReport.write(
+        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
+        % (
+            rseed,
+            t,
+            IncarAgents.num_members(),
+            rsltdic["WHITE"]["HM"]["incar"],
+            rsltdic["BLACK"]["HM"]["incar"],
+            rsltdic["WHITE"]["HF"]["incar"],
+            rsltdic["BLACK"]["HF"]["incar"],
+            rsltdic["WHITE"]["MSM"]["incar"],
+            rsltdic["BLACK"]["MSM"]["incar"],
+            rsltdic["WHITE"]["ALL"]["incarHIV"],
+            rsltdic["BLACK"]["ALL"]["incarHIV"],
+            rsltdic["WHITE"]["HM"]["newRelease"],
+            rsltdic["WHITE"]["HF"]["newRelease"],
+            rsltdic["BLACK"]["HM"]["newRelease"],
+            rsltdic["BLACK"]["HF"]["newRelease"],
+            rsltdic["WHITE"]["ALL"]["newReleaseHIV"],
+            rsltdic["BLACK"]["ALL"]["newReleaseHIV"],
+        )
+    )
 
 
 def prepReport(

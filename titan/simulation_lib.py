@@ -5,7 +5,7 @@ import os
 import numpy as np  # type: ignore
 from typing import Sequence, List, Dict, Optional, Any
 
-from . import params  # type: ignore
+from titan import params
 from .ABM_core import HIVModel
 
 
