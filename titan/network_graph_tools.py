@@ -36,9 +36,10 @@ class NetworkClass(PopulationClass):
 
             network_type: defaul is "scale_free", other options are "max_k_comp_size" and "binomial"
         """
-
         random.seed(netSeed)
         np.random.seed(netSeed)
+        self.test = 10
+        self.test = 10
 
         if type(N) is not int:
             raise ValueError(
@@ -51,7 +52,7 @@ class NetworkClass(PopulationClass):
 
         PopulationClass.__init__(self, n=N, rSeed=popSeed)  # Create population
 
-        self.NetworkSize = N
+        # self.NetworkSize = N
         if network_type == "scale_free":
             self.G = nx.Graph()
             for i in range(10):

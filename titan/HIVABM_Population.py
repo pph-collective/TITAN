@@ -6,6 +6,7 @@ from copy import deepcopy
 from typing import Sequence, List, Dict, Optional, Any
 from scipy.stats import poisson  # type: ignore
 import numpy as np  # type: ignore
+import math
 
 from .agent import Agent_set, Agent, Relationship
 from .ABM_partnering import get_partner, get_partnership_duration
@@ -95,10 +96,10 @@ class PopulationClass:
             self.PopulationSize = n
 
         # Parameters
-        self.numWhite = int(
+        self.numWhite = round(
             params.DemographicParams["WHITE"]["ALL"]["Proportion"] * self.PopulationSize
         )
-        self.numBlack = int(
+        self.numBlack = round(
             params.DemographicParams["BLACK"]["ALL"]["Proportion"] * self.PopulationSize
         )
         # Nested dictionary for probability lookups by race

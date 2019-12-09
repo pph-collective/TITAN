@@ -37,20 +37,28 @@ def statsToResults(stats: Dict[str, Any], results: Dict[str, Any]):
         results["Prv_HIV"][t].append(
             1.0 * stats[t]["ALL"]["ALL"]["numHIV"] / stats[t]["ALL"]["ALL"]["numAgents"]
         )
-
-        results["Prv_AIDS"][t].append(
-            1.0 * stats[t]["ALL"]["ALL"]["numAIDS"] / stats[t]["ALL"]["ALL"]["numHIV"]
-        )
+        if stats[t]["ALL"]["ALL"]["numHIV"] == 0:
+            results["Prv_AIDS"][t].append(0)
+        else:
+            results["Prv_AIDS"][t].append(
+                1.0
+                * stats[t]["ALL"]["ALL"]["numAIDS"]
+                / stats[t]["ALL"]["ALL"]["numHIV"]
+            )
 
         results["Prv_Test"][t].append(
             1.0
             * stats[t]["ALL"]["ALL"]["numTested"]
             / max(stats[t]["ALL"]["ALL"]["numHIV"], 1)
         )
-
-        results["Prv_ART"][t].append(
-            1.0 * stats[t]["ALL"]["ALL"]["numART"] / stats[t]["ALL"]["ALL"]["numTested"]
-        )
+        if stats[t]["ALL"]["ALL"]["numTested"] == 0:
+            results["Prv_ART"][t].append(0)
+        else:
+            results["Prv_ART"][t].append(
+                1.0
+                * stats[t]["ALL"]["ALL"]["numART"]
+                / stats[t]["ALL"]["ALL"]["numTested"]
+            )
 
         results["Prv_PrEP"][t].append(
             1.0

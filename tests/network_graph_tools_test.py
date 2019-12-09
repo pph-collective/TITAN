@@ -38,6 +38,7 @@ def test_PopulationConsistency():
         + myNetworkObj.DU_NIDU_agentSet.num_members()
         + myNetworkObj.DU_NDU_agentSet.num_members()
     )
+
     assert myNetworkObj.drugUse_agentSet.num_members() == CheckSumDrug
     assert myNetworkObj.PopulationSize == CheckSumDrug
 
