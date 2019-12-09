@@ -567,43 +567,34 @@ class PopulationClass:
         age = self.popRandom.randrange(minAge, maxAge)
         return age, ageBin
 
-    # REVIEWED if if updates partners for an agent, the else seems to update a population of agent's partners - should this be two functions? The agent part is never used by other functions - SPLIT THIS UP
-    def update_partner_assignments(
-        self, partnerTurnover: float, graph, agent: Optional[Agent] = None
-    ):
-        # Now create partnerships until available partnerships are out
-        if agent:
-            partner = get_partner(agent, self.All_agentSet)
+    def update_agent_partners(self, graph, agent: Agent) -> bool:
+        partner = get_partner(agent, self.All_agentSet)
+        noMatch = False
 
-            if partner:
-                duration = get_partnership_duration(agent)
-                tmp_relationship = Relationship(agent, partner, "MSM", "SE", duration)
-                agent.bond(partner, tmp_relationship)
-                self.Relationships.append(tmp_relationship)
-                graph.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
+        if partner:
+            duration = get_partnership_duration(agent)
+            tmp_relationship = Relationship(agent, partner, "MSM", "SE", duration)
+
+            agent.bond(partner, tmp_relationship)
+            self.Relationships.append(tmp_relationship)
+            graph.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
         else:
-            EligibleAgents = self.All_agentSet
-            noMatch = 0
-            for a in EligibleAgents.iter_agents():
-                acquirePartnerProb = (
-                    params.cal_SexualPartScaling
-                    * partnerTurnover
-                    * (a._mean_num_partners / (12.0))
-                )
-                if np.random.uniform(0, 1) < acquirePartnerProb:
-                    partner = get_partner(a, self.All_agentSet)
+            graph.add_node(agent)
+            noMatch = True
 
-                    if partner:
-                        duration = get_partnership_duration(a)
-                        tmp_relationship = Relationship(
-                            a, partner, "MSM", "SE", duration
-                        )
+        return noMatch
 
-                        a.bond(partner, tmp_relationship)
-                        self.Relationships.append(tmp_relationship)
-                        graph.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
-                    else:
-                        noMatch += 1
-                        graph.add_node(a)
-                else:
-                    graph.add_node(a)
+    def update_partner_assignments(self, partnerTurnover: float, graph):
+        # Now create partnerships until available partnerships are out
+        EligibleAgents = self.All_agentSet
+        noMatch = 0
+        for agent in EligibleAgents.iter_agents():
+            acquirePartnerProb = (
+                params.cal_SexualPartScaling
+                * partnerTurnover
+                * (agent._mean_num_partners / (12.0))
+            )
+            if np.random.uniform(0, 1) < acquirePartnerProb:
+                noMatch += self.update_agent_partners(graph, agent)
+            else:
+                graph.add_node(agent)

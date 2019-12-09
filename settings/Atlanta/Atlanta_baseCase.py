@@ -37,6 +37,14 @@ drawFigures = False
 calcComponentStats = False
 flag_agentZero = False
 
+reports = [
+    "deathReport",
+    "incarReport",
+    "newlyhighriskReport",
+    "prepReport",
+    "basicReport",
+]
+
 """
 Calibration scaling parameters for fitting to empirical data
 """

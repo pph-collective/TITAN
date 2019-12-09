@@ -33,6 +33,14 @@ HFreport = False
 drawFigures = False
 drawNED = True
 
+reports = [
+    "deathReport",
+    "incarReport",
+    "newlyhighriskReport",
+    "prepReport",
+    "basicReport",
+]
+
 """
 Calibration scaling parameters for fitting to empirical data
 """

@@ -11,7 +11,7 @@ if [ $settingPath ]; then
 fi
 
 date=`date +%Y-%m-%d-T%H-%M-%S`
-srcCode="${titanPath}titan/"
+srcCode="${titanPath}"
 parentPath="Module_$setting/"
 jobname=Analysis_$setting_$date
 outPath="$HOME/scratch/$parentPath"
@@ -89,9 +89,9 @@ prepSubmit() {
 
     #Copy source code into parent path
     echo -e "\n\tMoving setting $setting into $srcCode"
-    cp $settingPath $srcCode/params.py
+    cp $settingPath $srcCode/titan/params.py
     echo -e "\n\tCopying $srcCode to $finalPath"
-    cp -rT $srcCode $finalPath
+    cp -rT $srcCode/* $finalPath
 
     #Move into new source code folder
     echo -e "\n\tMoving to model folder directory"

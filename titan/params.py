@@ -1,7 +1,7 @@
 __author__ = "MaximilianKing"
 
 from typing import Sequence, List, Dict, Optional, Any
-
+from copy import deepcopy
 
 """
 Main model parameters.
@@ -40,6 +40,13 @@ HFreport = False
 drawFigures = False
 calcComponentStats = False
 
+reports = [
+    "deathReport",
+    "incarReport",
+    "newlyhighriskReport",
+    "prepReport",
+    "basicReport",
+]
 
 """
 Calibration scaling parameters for fitting to empirical data
@@ -206,7 +213,9 @@ elif model == "Custom":
     flag_agentZero = False
 
 agentSexTypes = ["HM", "HF", "MSM", "WSW", "MTF"]
-agentPopulations = ["HM", "HF", "IDU"]
+agentPopulations = deepcopy(agentSexTypes)
+agentPopulations.append("IDU")
+
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
 ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, PWID)
