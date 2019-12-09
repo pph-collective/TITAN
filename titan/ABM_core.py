@@ -1151,7 +1151,6 @@ class HIVModel(NetworkClass):
         :Output:
             none
         """
-        print(vaxType)
         if agent.vaccine_bool:
             agent.vaccine_time += 1
             timeSinceVaccination = agent.vaccine_time
@@ -1169,6 +1168,7 @@ class HIVModel(NetworkClass):
                 < params.DemographicParams[agent._race][agent._SO]["vaccinePrev"]
             ):
                 self.vaccinate(agent, vaxType)
+                agent.vaccine_time = 1
 
     def _initiate_PrEP(self, agent: Agent, time: int, force: bool = False):
         """
