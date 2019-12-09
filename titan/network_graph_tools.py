@@ -155,6 +155,13 @@ class NetworkClass(PopulationClass):
             G.add_node(tmpA)
         print("\tAdded %d/%d agents" % (numAdded, G.number_of_nodes()))
 
+    def get_Graph(self):
+        """
+        Return random assortative graph produced by ``set_assortative_graph``.
+        """
+        return self.G
+
+    # TO_REVIEW this isn't used anywhere in this repo or the examples - can always resuscitate it if needed?
     def draw_histogram(self, t: int = 0):
         G = self.G
         degree_sequence = sorted(
@@ -197,12 +204,6 @@ class NetworkClass(PopulationClass):
         plt.savefig("images/snapshot_%d.png" % t)
         plt.pause(0.5)
         plt.close()
-
-    def get_Graph(self):
-        """
-        Return random assortative graph produced by ``set_assortative_graph``.
-        """
-        return self.G
 
     def get_network_color(self, coloring="Sex Type"):
         G = self.G
