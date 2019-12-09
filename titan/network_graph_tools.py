@@ -92,10 +92,16 @@ class NetworkClass(PopulationClass):
                 nx.connected_component_subgraphs(self.G), key=len, reverse=True
             )
             for comp in components:
-                if comp.number_of_nodes() > params.maxComponentSize:
+                if (
+                    params.calcComponentStats
+                    and comp.number_of_nodes() > params.maxComponentSize
+                ):
                     print("TOO BIG", comp, comp.number_of_nodes())
                     trimComponent(comp, params.maxComponentSize)
-                elif comp.number_of_nodes() < params.minComponentSize:
+                elif (
+                    params.calcComponentStats
+                    and comp.number_of_nodes() < params.minComponentSize
+                ):
                     print("TOO SMALL", comp, comp.number_of_nodes())
             print("Total agents in graph: ", self.G.number_of_nodes())
         else:

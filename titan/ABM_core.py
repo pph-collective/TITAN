@@ -122,6 +122,10 @@ class HIVModel(NetworkClass):
         self.treatmentEnrolled = False
 
         self.newPrEPagents = Agent_set("NewPrEPagents")
+        self.PrEPagents = {
+            "BLACK": {"MSM": 0, "HF": 0, "HM": 0},
+            "WHITE": {"MSM": 0, "HF": 0, "HM": 0},
+        }
         # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed value
         print(("\tRun seed was set to:", runseed))
         self.runRandom = Random(runseed)
@@ -1065,8 +1069,8 @@ class HIVModel(NetworkClass):
             # If using random trial
             if time == 0:
                 # if in init timestep 0, use agent set elligiblity
-                eligible = (
-                    agent._PrEP_eligible
+                eligible = agent.PrEP_eligible(
+                    time
                 )  # REVIEWED agent doesn't have this attribute, should this refer to the method? - use method (method needs to be moved, do that first)
             if time > 0:
                 # else, false to not continue enrollment past random trial start
@@ -1147,6 +1151,7 @@ class HIVModel(NetworkClass):
         :Output:
             none
         """
+        print(vaxType)
         if agent.vaccine_bool:
             agent.vaccine_time += 1
             timeSinceVaccination = agent.vaccine_time

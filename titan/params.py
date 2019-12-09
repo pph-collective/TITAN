@@ -82,6 +82,7 @@ HR_proportion = 0.3  # Proportion of people who enter HR group when partner inca
 HR_M_dur = 6  # Duration of high risk for males
 HR_F_dur = 6  # Duration of high risk for females
 condomUseType = "Race"  # Race or Acts
+HIV_MSMW = 0.0
 
 # Misc. params
 flag_AssortativeMix = True
@@ -92,6 +93,8 @@ AssortMixCoeff = 0.75  # Proportion of race1 mixing with race2 when partnering.
 safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
 initTreatment = 0
 treatmentCov = 0.0
+maxComponentSize = 1000
+minComponentSize = 1
 
 """
 Vaccine params
@@ -140,7 +143,7 @@ PrEP_target_model = (
 PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it follow
 
 if "Oral" in PrEP_type:
-    PrEP_Adherence = "AtlantaMSM"
+    PrEP_Adherence = 1.0
     PrEP_AdhEffic = 0.96
     PrEP_NonAdhEffic = 0.76
     PrEP_falloutT = 1

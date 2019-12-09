@@ -74,7 +74,7 @@ class Agent:
         self._treatment_time = 0
         self._PrEP_reason: List[str] = []
         self.vaccine_time = 0
-        self.vaccine_type = None
+        self.vaccine_type = ""
         self.vaccine_bool = False
         self.partnerTraced = False
         self.traceTime = 0
