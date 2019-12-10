@@ -38,8 +38,6 @@ class NetworkClass(PopulationClass):
         """
         random.seed(netSeed)
         np.random.seed(netSeed)
-        self.test = 10
-        self.test = 10
 
         if type(N) is not int:
             raise ValueError(
