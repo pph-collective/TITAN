@@ -693,7 +693,7 @@ class HIVModel(NetworkClass):
                         ppActReduction = 1 - np.exp(
                             -2.40 + 0.76 * (np.log(partner.vaccine_time))
                         )
-                    ppAct *= (1 - ppActReduction)
+                    ppAct *= 1 - ppActReduction
 
                 p_total_transmission: float
                 if U_sex_acts == 1:
