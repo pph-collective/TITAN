@@ -205,7 +205,7 @@ class NetworkClass(PopulationClass):
         plt.pause(0.5)
         plt.close()
 
-    def get_network_color(self, coloring="Sex Type"):
+    def get_network_color(self, coloring):
         G = self.G
         node_color = []
         if coloring == "SO":
@@ -223,8 +223,8 @@ class NetworkClass(PopulationClass):
                     raise ValueError("Check agents %s sextype %s" % (v, tmp_sextype))
         elif coloring == "DU":
             for v in G:
-                tmp_drugtype = self.get_agent_characteristic(v, "Drug Type")
-                if tmp_drugtype == "ND":
+                tmp_drugtype = v._DU
+                if tmp_drugtype == "NDU":
                     node_color.append("g")
                 elif tmp_drugtype == "NIDU":
                     node_color.append("b")

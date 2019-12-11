@@ -15,6 +15,7 @@ class Agent:
     def update_id_counter(cls):
         cls.next_agent_id += 1
 
+    # TO_REVIEW initial_agent not used
     def __init__(
         self, SO: str, age: int, race: str, DU: str, initial_agent: bool = False,
     ):
@@ -480,11 +481,16 @@ class Agent_set:
         "Returns true if agent is a member of this set"
         return agent in self._members
 
-    # REVIEWED - shold this add the agent to the parents as well?, make this trickle up
+    # adding trickles up
     def add_agent(self, agent: Agent):
         "Adds a new agent to the set."
-        self._members.append(agent)
+        if not self.is_member(agent):
+            self._members.append(agent)
 
+            if self._parent_set is not None:
+                self._parent_set.add_agent(agent)
+
+    # removing trickles down
     def remove_agent(self, agent: Agent):
         "Removes agent from agent set."
         if self.is_member(agent):

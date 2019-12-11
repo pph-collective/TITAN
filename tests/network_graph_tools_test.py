@@ -123,3 +123,39 @@ def test_create_graph_from_agents(make_agent):
     net.create_graph_from_agents(s)
 
     assert net.G.number_of_nodes() == n_pop + 2
+
+
+def test_get_network_color():
+    net = NetworkClass(N=n_pop)
+
+    colors = net.get_network_color("SO")
+    assert len(colors) == n_pop
+    assert "b" in colors  # pop includes HM
+
+    colors = net.get_network_color("DU")
+    assert len(colors) == n_pop
+    assert "g" in colors  # pop includes ND
+
+    colors = net.get_network_color("Tested")
+    assert len(colors) == n_pop
+    assert "purple" in colors  # pop includes not HIV/tested/HAART
+
+    colors = net.get_network_color("Trtmt")
+    assert len(colors) == n_pop
+    assert "gray" in colors  # pop includes not HIV
+
+    colors = net.get_network_color("HIV")
+    assert len(colors) == n_pop
+    assert "g" in colors  # pop includes not HIV
+
+    colors = net.get_network_color("HR")
+    assert len(colors) == n_pop
+    assert "g" in colors  # pop includes not HR
+
+    colors = net.get_network_color("Race")
+    assert len(colors) == n_pop
+    assert "y" in colors  # pop includes WHITE
+
+    colors = net.get_network_color("MSW")
+    assert len(colors) == n_pop
+    assert "g" in colors  # pop includes WHITE

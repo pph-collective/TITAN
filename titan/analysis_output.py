@@ -120,6 +120,7 @@ def get_stats(
         if tmpA._HAART_bool:
             stats[tmpA._race][tmpA._SO]["numART"] += 1
 
+    # IDU agent summary
     for tmpA in totalAgents._subset["DU"]._subset["IDU"].iter_agents():
         stats[tmpA._race]["IDU"]["numAgents"] += 1
         if tmpA._HIV_bool:
@@ -131,6 +132,7 @@ def get_stats(
         if tmpA._HAART_bool:
             stats[tmpA._race]["IDU"]["numART"] += 1
 
+    # total number of agents
     for tmpA in totalAgents.iter_agents():
         stats[tmpA._race][tmpA._SO]["numAgents"] += 1
 
@@ -141,12 +143,13 @@ def get_stats(
 
     # Sum 'ALL' categories for race/SO bins
     for race in stats:
-        for param in stats_template:
-            for sc in SUB_CAT:
-                if sc in params.agentSexTypes:
-                    stats[race]["ALL"][param] += stats[race][sc][param]
-            for sc in SUB_CAT:
-                stats["ALL"][sc][param] += stats[race][sc][param]
+        if race != "ALL":
+            for param in stats_template:
+                for sc in SUB_CAT:
+                    if sc in params.agentSexTypes:
+                        stats[race]["ALL"][param] += stats[race][sc][param]
+                for sc in SUB_CAT:
+                    stats["ALL"][sc][param] += stats[race][sc][param]
 
     # add relationship count (only makes sense at the all level)
     stats["ALL"]["ALL"]["numRels"] = len(Relationships)
@@ -181,7 +184,7 @@ def deathReport(
 
         f.write("\n")
 
-    f.write("%d\t%d\t%d" % (run_id, runseed, t))  # start row
+    f.write("%s\t%d\t%d" % (run_id, runseed, t))  # start row
 
     for sex_type in sex_types:
         f.write(
@@ -221,7 +224,7 @@ def incarReport(
 
         f.write("\n")
 
-    f.write("%d\t%d\t%d" % (run_id, runseed, t))
+    f.write("%s\t%d\t%d" % (run_id, runseed, t))
 
     for p in name_map:
         for mc in MAIN_CAT:
@@ -253,7 +256,7 @@ def newlyhighriskReport(
 
         f.write("\n")
 
-    f.write("%d\t%d\t%d" % (run_id, runseed, t))  # start row
+    f.write("%s\t%d\t%d" % (run_id, runseed, t))  # start row
 
     for sex_type in params.agentSexTypes:
         f.write(
@@ -286,7 +289,7 @@ def prepReport(
         f.write("run_id\tseed\tt\tNewEnroll\tIDUpartner\tTestedPartner\tMSMWpartner\n")
 
     f.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
+        "%s\t%d\t%d\t%d\t%d\t%d\t%d\n"
         % (
             run_id,
             runseed,
@@ -368,7 +371,7 @@ def print_components(
     compID = 0
     for comp in components:
         totN = nhiv = ntrtmt = ntrthiv = nprep = PrEP_ever_HIV = 0
-        for agent in comp.nodes():
+        for agent in comp:
             totN += 1
             if agent._HIV_bool:
                 nhiv += 1

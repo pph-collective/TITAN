@@ -1,5 +1,5 @@
 coverage:
-  range: "50...75"
+  range: "50..75"
   status:
     patch: off
     project:
@@ -16,7 +16,7 @@ coverage:
         threshold: 2%
 
 ignore:
-  - "tests"
+  - "tests/**/*"
 
 comment:
   layout: "header, diff, flags"

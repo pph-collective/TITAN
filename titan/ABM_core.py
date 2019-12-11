@@ -159,7 +159,7 @@ class HIVModel(NetworkClass):
 
         def get_components():
             return sorted(
-                self.get_Graph().connected_components(), key=len, reverse=True,
+                nx.connected_components(self.get_Graph()), key=len, reverse=True,
             )
 
         def burnSimulation(burnDuration: int):
