@@ -16,7 +16,7 @@ coverage:
         threshold: 2%
 
 ignore:
-  - "tests/**/*"
+  - "test_*.py"
 
 comment:
   layout: "header, diff, flags"
