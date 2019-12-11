@@ -43,7 +43,7 @@ class Agent:
         self._race = race
         self._DU = DU
 
-        self._ageBin = 0
+        self._ageBin = 0  # TO_REVIEW age and ageBin not really used
         self._MSMW = False
 
         # agent-partner params
@@ -308,7 +308,7 @@ class Relationship:
     def update_id_counter(cls):
         cls.next_rel_id += 1
 
-    def __init__(self, ID1: Agent, ID2: Agent, SO: str, rel_type: str, duration: int):
+    def __init__(self, ID1: Agent, ID2: Agent, duration: int):
         """
         :Purpose:
             Constructor for a Relationship
@@ -433,6 +433,7 @@ class Relationship:
         )
 
 
+# TO_REVIEW numerator is only used in print_subsets, is this really needed?
 class Agent_set:
     """
     Class for agents that contain a "set" of agents from a lower

@@ -254,9 +254,13 @@ RC_allTemplate = {
 
 RaceClass1: Dict[str, Any] = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
 RaceClass2: Dict[str, Any] = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
-for a in ["MSM", "HM", "HF", "IDU"]:
+for a in agentPopulations:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
+
+# TO_REVIEW added this so testing wouldn't break
+RaceClass2["HM"].update({"POP": 0.2})
+RaceClass2["HF"].update({"POP": 0.8})
 
 RaceClass1["HM"].update(
     {
