@@ -685,12 +685,12 @@ class HIVModel(NetworkClass):
                                 ppAct = ppAct * (1.0 - ppActReduction)  # 0.04
                 if partner.vaccine_bool:
                     if params.vaccine_type == "HVTN702":
-                        ppAct = np.exp(
+                        ppAct *= np.exp(
                             -2.88 + 0.76 * (np.log(partner.vaccine_time + 0.001 * 30))
                         )
 
                     elif params.vaccine_type == "RV144":
-                        ppAct = np.exp(-2.40 + 0.76 * (np.log(partner.vaccine_time)))
+                        ppAct *= np.exp(-2.40 + 0.76 * (np.log(partner.vaccine_time)))
 
                 p_total_transmission: float
                 if U_sex_acts == 1:
@@ -1135,6 +1135,7 @@ class HIVModel(NetworkClass):
     def vaccinate(self, ag: Agent, vax: str):
         ag.vaccine_bool = True
         ag.vaccine_type = vax
+        ag.vaccine_time = 1
 
     def advance_vaccine(self, agent: Agent, time: int, vaxType: str):
         """
@@ -1150,22 +1151,21 @@ class HIVModel(NetworkClass):
         """
         if agent.vaccine_bool:
             agent.vaccine_time += 1
-            timeSinceVaccination = agent.vaccine_time
             if (
                 params.flag_booster
-                and timeSinceVaccination
+                and agent.vaccine_time
                 == params.DemographicParams[agent._race][agent._SO]["boosterInterval"]
                 and self.runRandom.random()
                 < params.DemographicParams[agent._race][agent._SO]["boosterProb"]
             ):
                 self.vaccinate(agent, vaxType)
+
         elif time == params.vaccine_start:
             if (
                 self.runRandom.random()
                 < params.DemographicParams[agent._race][agent._SO]["vaccinePrev"]
             ):
                 self.vaccinate(agent, vaxType)
-                agent.vaccine_time = 1
 
     def _initiate_PrEP(self, agent: Agent, time: int, force: bool = False):
         """

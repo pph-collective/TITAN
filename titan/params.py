@@ -18,7 +18,7 @@ rSeed_run = 0
 N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_REPS = 1
 N_POP = 1040  # population size
-TIME_RANGE = 5  # total time steps to iterate
+TIME_RANGE = 6  # total time steps to iterate
 burnDuration = 0
 model = "VaccinePrEP"  # Model Type for fast flag toggling
 setting = "AtlantaMSM"
@@ -281,7 +281,7 @@ RaceClass1["MSM"].update(
         "PrEP_coverage": 0.0,
         "vaccinePrev": 1,
         "boosterInterval": 3,
-        "boosterProb": 1,
+        "boosterProb": 1.0,
     }
 )
 
@@ -313,7 +313,7 @@ RaceClass2["MSM"].update(
         "PrEP_coverage": 0.0,
         "vaccinePrev": 1.0,
         "boosterInterval": 3,
-        "boosterProb": 1,
+        "boosterProb": 1.0,
     }
 )
 
