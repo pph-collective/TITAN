@@ -268,30 +268,7 @@ def newlyhighriskReport(
             )
         )
         f.write("\n")
-        f.close()
-
-    incarReport.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
-        % (
-            rseed,
-            t,
-            IncarAgents.num_members(),
-            rsltdic["WHITE"]["HM"]["incar"],
-            rsltdic["BLACK"]["HM"]["incar"],
-            rsltdic["WHITE"]["HF"]["incar"],
-            rsltdic["BLACK"]["HF"]["incar"],
-            rsltdic["WHITE"]["MSM"]["incar"],
-            rsltdic["BLACK"]["MSM"]["incar"],
-            rsltdic["WHITE"]["ALL"]["incarHIV"],
-            rsltdic["BLACK"]["ALL"]["incarHIV"],
-            rsltdic["WHITE"]["HM"]["newRelease"],
-            rsltdic["WHITE"]["HF"]["newRelease"],
-            rsltdic["BLACK"]["HM"]["newRelease"],
-            rsltdic["BLACK"]["HF"]["newRelease"],
-            rsltdic["WHITE"]["ALL"]["newReleaseHIV"],
-            rsltdic["BLACK"]["ALL"]["newReleaseHIV"],
-        )
-    )
+    f.close()
 
 
 def prepReport(

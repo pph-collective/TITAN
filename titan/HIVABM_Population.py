@@ -95,10 +95,10 @@ class PopulationClass:
             self.PopulationSize = n
 
         # Parameters
-        self.numWhite = int(
+        self.numWhite = round(
             params.DemographicParams["WHITE"]["ALL"]["Proportion"] * self.PopulationSize
         )
-        self.numBlack = int(
+        self.numBlack = round(
             params.DemographicParams["BLACK"]["ALL"]["Proportion"] * self.PopulationSize
         )
         # Nested dictionary for probability lookups by race

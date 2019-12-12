@@ -122,6 +122,10 @@ class HIVModel(NetworkClass):
         self.treatmentEnrolled = False
 
         self.newPrEPagents = Agent_set("NewPrEPagents")
+        self.PrEPagents = {
+            "BLACK": {"MSM": 0, "HF": 0, "HM": 0},
+            "WHITE": {"MSM": 0, "HF": 0, "HM": 0},
+        }
         # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed value
         print(("\tRun seed was set to:", runseed))
         self.runRandom = Random(runseed)
@@ -631,16 +635,19 @@ class HIVModel(NetworkClass):
         # Everything from here is only run if one of them is HIV+
         if partner._HIV_bool:
             return
-        elif HIVstatus_Agent or HIVstatus_Partner:
+        elif agent._HIV_bool or partner._HIV_bool:  # REVIEW: can't this just be else?
             # Define probabilities for unsafe sex
             # unprotected sex probabilities for primary partnerships
-            MSexActs = self._get_number_of_sexActs(agent) * params.cal_SexualActScaling
-            T_sex_acts1 = int(poisson.rvs(MSexActs, size=1))
+            MSexActs = (
+                agent.get_number_of_sexActs(self.runRandom)
+                * params.cal_SexualActScaling
+            )
+            T_sex_acts = int(poisson.rvs(MSexActs, size=1))
 
             num_int = rel._total_sex_acts
             # Get condom usage
             if params.condomUseType == "Race":
-                p_UnsafeSafeSex1 = params.DemographicParams[Race_Agent][Type_agent][
+                p_UnsafeSafeSex1 = params.DemographicParams[agent._race][agent._SO][
                     "UNSAFESEX"
                 ]
             else:
@@ -648,80 +655,56 @@ class HIVModel(NetworkClass):
 
             # Reduction of risk acts between partners for condom usage
             # REVIEWED - what's with U_sex_acts1 and U_sex_acts2, U_sex_acts2 never seems to update - max to review
-            U_sex_acts1 = T_sex_acts1
-            for n in range(U_sex_acts1):
+            U_sex_acts = T_sex_acts
+            for n in range(U_sex_acts):
                 if self.runRandom.random() < p_UnsafeSafeSex1:
-                    U_sex_acts1 -= 1
+                    U_sex_acts -= 1
 
-            U_sex_acts2 = U_sex_acts1
-
-            if U_sex_acts2 >= 1:
+            if U_sex_acts >= 1:
                 # if agent HIV+
-                rel._total_sex_acts += U_sex_acts2
-                if HIVstatus_Agent == 1 or HIVstatus_Partner == 1:
-                    ppAct = self.get_transmission_probability(agent, "SEX")
+                rel._total_sex_acts += U_sex_acts
+                ppAct = agent.get_transmission_probability("SEX")
 
-                    # Reduction of transmissibility for acts between partners for PrEP adherence
-                    if agent._PrEP_bool or partner._PrEP_bool:
-                        if agent._PrEPresistance or partner._PrEPresistance:
-                            pass
-
-                        else:
-                            if (
-                                "Oral" in params.PrEP_type
-                            ):  # params.PrEP_type == "Oral":
-                                if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
-                                    ppAct = ppAct * (1.0 - params.PrEP_AdhEffic)  # 0.04
-                                else:
-                                    ppAct = ppAct * (
-                                        1.0 - params.PrEP_NonAdhEffic
-                                    )  # 0.24
-
-                            elif "Inj" in params.PrEP_type:
-                                ppActReduction = (
-                                    -1.0 * np.exp(-5.528636721 * partner._PrEP_load) + 1
-                                )
-                                if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
-                                    ppAct = ppAct * (1.0 - ppActReduction)  # 0.04
-                    if partner.vaccine_bool:
-                        if params.vaccine_type == "HVTN702":
-                            ppActReduction = 1 - np.exp(
-                                -2.88
-                                + 0.76 * (np.log(partner.vaccine_time + 0.001 * 30))
-                            )
-
-                        elif params.vaccine_type == "RV144":
-                            ppActReduction = 1 - np.exp(
-                                -2.40 + 0.76 * (np.log(partner.vaccine_time))
-                            )
-                        ppAct *= 1 - ppActReduction
-
-                    if U_sex_acts2 == 1:
-                        p_total_transmission = ppAct
+                # Reduction of transmissibility for acts between partners for PrEP adherence
+                if agent._PrEP_bool or partner._PrEP_bool:
+                    if agent._PrEPresistance or partner._PrEPresistance:
+                        pass
 
                     else:
-                        ppAct = ppAct * (1.0 - params.PrEP_NonAdhEffic)  # 0.24
+                        if "Oral" in params.PrEP_type:  # params.PrEP_type == "Oral":
+                            if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
+                                ppAct = ppAct * (1.0 - params.PrEP_AdhEffic)  # 0.04
+                            else:
+                                ppAct = ppAct * (1.0 - params.PrEP_NonAdhEffic)  # 0.24
 
-                elif params.PrEP_type == "Inj":
-                    ppActReduction = (
-                        -1.0 * np.exp(-5.528636721 * partner._PrEP_load) + 1
-                    )
-                    if partner._PrEP_adh == 1:
-                        ppAct = ppAct * (1.0 - ppActReduction)  # 0.04
+                        elif "Inj" in params.PrEP_type:
+                            ppActReduction = (
+                                -1.0 * np.exp(-5.528636721 * partner._PrEP_load) + 1
+                            )
+                            if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
+                                ppAct = ppAct * (1.0 - ppActReduction)  # 0.04
+                if partner.vaccine_bool:
+                    if params.vaccine_type == "HVTN702":
+                        ppAct *= np.exp(
+                            -2.88 + 0.76 * (np.log(partner.vaccine_time + 0.001 * 30))
+                        )
 
-            p_total_transmission: float
-            if U_sex_acts == 1:
-                p_total_transmission = ppAct
-            else:
-                p_total_transmission = 1.0 - binom.pmf(0, U_sex_acts, ppAct)
+                    elif params.vaccine_type == "RV144":
+                        ppAct *= np.exp(-2.40 + 0.76 * (np.log(partner.vaccine_time)))
 
-            if self.runRandom.random() < p_total_transmission:
-                # if agent HIV+ partner becomes HIV+
-                self.Transmit_from_agents.append(agent)
-                self.Transmit_to_agents.append(partner)
-                self._become_HIV(partner, time)
-                if agent.get_acute_status(time):
-                    self.Acute_agents.append(agent)
+                p_total_transmission: float
+                if U_sex_acts == 1:
+                    p_total_transmission = ppAct
+                else:
+                    p_total_transmission = 1.0 - binom.pmf(0, U_sex_acts, ppAct)
+
+                if self.runRandom.random() < p_total_transmission:
+                    # if agent HIV+ partner becomes HIV+
+                    self.Transmit_from_agents.append(agent)
+                    self.Transmit_to_agents.append(partner)
+                    self._become_HIV(partner, time)
+                    if agent.get_acute_status(time):
+                        self.Acute_agents.append(agent)
 
     def _become_HIV(self, agent: Agent, time: int):
         """
@@ -1083,8 +1066,8 @@ class HIVModel(NetworkClass):
             # If using random trial
             if time == 0:
                 # if in init timestep 0, use agent set elligiblity
-                eligible = (
-                    agent._PrEP_eligible
+                eligible = agent.PrEP_eligible(
+                    time
                 )  # REVIEWED agent doesn't have this attribute, should this refer to the method? - use method (method needs to be moved, do that first)
             if time > 0:
                 # else, false to not continue enrollment past random trial start
@@ -1152,6 +1135,7 @@ class HIVModel(NetworkClass):
     def vaccinate(self, ag: Agent, vax: str):
         ag.vaccine_bool = True
         ag.vaccine_type = vax
+        ag.vaccine_time = 1
 
     def advance_vaccine(self, agent: Agent, time: int, vaxType: str):
         """
@@ -1167,15 +1151,15 @@ class HIVModel(NetworkClass):
         """
         if agent.vaccine_bool:
             agent.vaccine_time += 1
-            timeSinceVaccination = agent.vaccine_time
             if (
                 params.flag_booster
-                and timeSinceVaccination
+                and agent.vaccine_time
                 == params.DemographicParams[agent._race][agent._SO]["boosterInterval"]
                 and self.runRandom.random()
                 < params.DemographicParams[agent._race][agent._SO]["boosterProb"]
             ):
                 self.vaccinate(agent, vaxType)
+
         elif time == params.vaccine_start:
             if (
                 self.runRandom.random()

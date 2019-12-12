@@ -29,20 +29,16 @@ Output flags and settings
 outputDir = ""
 
 printIncidenceEvents = False  # this needs a description
-printStartAgentList = (
-    False
-)  # prints the full agent list at the beginning of model run, after burn TODO check this
+printStartAgentList = False  # prints the full agent list at the beginning of model run, after burn TODO check this
 printEndingAgentList = False  # prints the full agent list at the end of model run
-printIntermAgentList = (
-    False
-)  # prints the full agent list at intervals during model run, determined by interimPrintFreq
+printIntermAgentList = False  # prints the full agent list at intervals during model run, determined by interimPrintFreq
 intermPrintFreq = (
-    60
-)  # if printing agent lists during model run, determines frequency of printouts
+    60  # if printing agent lists during model run, determines frequency of printouts
+)
 calcNetworkStats = False  # TODO: ask Aly abt this?
 calcComponentStats = (
-    False
-)  # prints individual component starting HIV, PrEP coverage, ending HIV, etc.
+    False  # prints individual component starting HIV, PrEP coverage, ending HIV, etc.
+)
 # TODO: only ashley?
 drawFigures = False  # TODO: check. Used?
 drawEdgeList = True  # prints the full network edge list (TODO: at time?)
@@ -66,23 +62,17 @@ cal_NeedleActScaling = 2.0  # Scaling factor IDU act frequency
 cal_SexualPartScaling = 1.0  # Scaling factor for sexual partner number
 cal_SexualActScaling = 1.0  # Scaling factor for sexual acts
 cal_pXmissionScaling = (
-    1.0
-)  # Global transmission probability scaling factor. Do not change for calibration
-cal_AcuteScaling = (
-    4.3
-)  # Infectivity multiplier ratio for Acute status infections. REVIEW: WILL, is this set in stone?
-cal_RR_Dx = (
-    0.53
-)  # Scaling factor for risk reduction in transmission probability for agents diagnosed
+    1.0  # Global transmission probability scaling factor. Do not change for calibration
+)
+cal_AcuteScaling = 4.3  # Infectivity multiplier ratio for Acute status infections. REVIEW: WILL, is this set in stone?
+cal_RR_Dx = 0.53  # Scaling factor for risk reduction in transmission probability for agents diagnosed
 cal_RR_HAART = 1.0  # Scaling factor for effectiveness of ART therapy on transmission
 cal_TestFreq = 1.0  # Scaling factor for testing/diagnosis frequency
 cal_Mortality = 0.5  # Scaling factor for all cause mortality rates
 cal_ProgAIDS = 1.0  # Scaling factor for all rates of progression to AIDS from HIV
 cal_ART_cov = 1.0  # Scaling factor for probability of enrollment on ART
 cal_IncarP = 1.0  # Scaling factor for incarceration probability
-cal_raceXmission = (
-    1.0
-)  # Scaling factor for racial disparities in transmission not accounted for in other factors
+cal_raceXmission = 1.0  # Scaling factor for racial disparities in transmission not accounted for in other factors
 cal_ptnrSampleDepth = 100
 
 """
@@ -108,19 +98,17 @@ treatmentCov = 0.60  # Prop that receive treatment
 limitComponentSize = False  # Maintains a maximum component size
 maxComponentSize = 100  # Component size maximum if limited
 minComponentSize = 2  # Doesn't work?
-condomUseType = (
-    "Acts"
-)  # Racial or Acts. Acts is standard. Determines how likelihood of condom use is decided
+condomUseType = "Acts"  # Racial or Acts. Acts is standard. Determines how likelihood of condom use is decided
 """
 Vaccine params
 """
 vaccine_type = "RV144"  # RV144 or "HVTN702". Type of vaccine administered.
 booster = (
-    True
-)  # Allows boosting for the vaccine a defined time from first administration
+    True  # Allows boosting for the vaccine a defined time from first administration
+)
 vaccine_start = (
-    1
-)  # Time that vaccine is started. Agents cannot be given the first dose of
+    1  # Time that vaccine is started. Agents cannot be given the first dose of
+)
 # vaccine in any other time step.
 
 """
@@ -161,12 +149,12 @@ PrEP_AdhEffic = 0.96  # Efficacy of PrEP with full adherence
 PrEP_NonAdhEffic = 0.76  # Efficacy of PrEP with partial adherence
 PrEP_falloutT = 0  # Duration PrEP remains effective after discontinuation
 PrEP_resist = (
-    0.01
-)  # PrEP resistance probability  TODO: what exactly is this and how does it work
+    0.01  # PrEP resistance probability  TODO: what exactly is this and how does it work
+)
 PrEP_disc = 0.15  # Probability of agent discontinuing PrEP in a given time step
 PrEP_target_model = (
-    "Allcomers"
-)  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR, Rec
+    "Allcomers"  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR, Rec
+)
 PrEP_clinic_cat = "Mid"
 # TODO the above get overwritten by the below?
 if PrEP_type == "Oral":

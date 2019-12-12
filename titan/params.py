@@ -18,7 +18,7 @@ rSeed_run = 0
 N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_REPS = 1
 N_POP = 1040  # population size
-TIME_RANGE = 5  # total time steps to iterate
+TIME_RANGE = 6  # total time steps to iterate
 burnDuration = 0
 model = "VaccinePrEP"  # Model Type for fast flag toggling
 setting = "AtlantaMSM"
@@ -39,6 +39,7 @@ HMreport = False
 HFreport = False
 drawFigures = False
 calcComponentStats = False
+flag_agentZero = False
 
 reports = [
     "deathReport",
@@ -81,6 +82,7 @@ HR_proportion = 0.3  # Proportion of people who enter HR group when partner inca
 HR_M_dur = 6  # Duration of high risk for males
 HR_F_dur = 6  # Duration of high risk for females
 condomUseType = "Race"  # Race or Acts
+HIV_MSMW = 0.0
 
 # Misc. params
 flag_AssortativeMix = True
@@ -91,6 +93,8 @@ AssortMixCoeff = 0.75  # Proportion of race1 mixing with race2 when partnering.
 safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
 initTreatment = 0
 treatmentCov = 0.0
+maxComponentSize = 1000
+minComponentSize = 1
 
 """
 Vaccine params
@@ -139,7 +143,7 @@ PrEP_target_model = (
 PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it follow
 
 if "Oral" in PrEP_type:
-    PrEP_Adherence = "AtlantaMSM"
+    PrEP_Adherence = 1.0
     PrEP_AdhEffic = 0.96
     PrEP_NonAdhEffic = 0.76
     PrEP_falloutT = 1
@@ -257,7 +261,7 @@ RaceClass1["MSM"]["HIV"] = 0.4
 RaceClass1["MSM"].update(
     {
         "POP": 1.00,
-        "HIV": 0.0,  #  0.132,
+        "HIV": 0.5,
         "AIDS": 0.07,
         "HAARTprev": 0.583,
         "INCARprev": 0.000,
@@ -277,7 +281,7 @@ RaceClass1["MSM"].update(
         "PrEP_coverage": 0.0,
         "vaccinePrev": 1,
         "boosterInterval": 3,
-        "boosterProb": 1,
+        "boosterProb": 1.0,
     }
 )
 
@@ -289,7 +293,7 @@ RaceClass1["ALL"].update(
 RaceClass2["MSM"].update(
     {
         "POP": 1.00,  # 0.028,
-        "HIV": 0.0,  # 0.434,
+        "HIV": 0.5,  # 0.434,
         "AIDS": 0.232,
         "HAARTprev": 0.627,
         "INCARprev": 0.00,
@@ -309,7 +313,7 @@ RaceClass2["MSM"].update(
         "PrEP_coverage": 0.0,
         "vaccinePrev": 1.0,
         "boosterInterval": 3,
-        "boosterProb": 1,
+        "boosterProb": 1.0,
     }
 )
 
