@@ -6,7 +6,6 @@ from copy import deepcopy
 from typing import Sequence, List, Dict, Optional, Any
 from scipy.stats import poisson  # type: ignore
 import numpy as np  # type: ignore
-import math
 
 from .agent import Agent_set, Agent, Relationship
 from .ABM_partnering import get_partner, get_partnership_duration
