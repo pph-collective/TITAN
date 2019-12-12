@@ -2,7 +2,7 @@
 
 #Read in source code path, then shift for optargs
 version="0.92c"
-titanPath="/gpfs/data/bm8/TITAN/TITAN/"
+titanPath="/gpfs/data/bm8/shared/TITAN_atlantaCal/TITAN/"
 settingPath="$1"
 shift
 
@@ -11,7 +11,7 @@ if [ $settingPath ]; then
 fi
 
 date=`date +%Y-%m-%d-T%H-%M-%S`
-srcCode="${titanPath}src/"
+srcCode="${titanPath}titan/"
 parentPath="Module_$setting/"
 jobname=Analysis_$setting_$date
 outPath="$HOME/scratch/$parentPath"
@@ -48,7 +48,7 @@ options:
   -o outfile      save a copy of the session's output to outfile (default: off)
   -s seed         random seed for model [0 random, -1 stepwise] (default: $seed)
   -t timerange	  number of time steps per iteration in (default: $simT)
-  -b burntime	  number of time steps to burn for equilibration (default: $burn)     
+  -b burntime	  number of time steps to burn for equilibration (default: $burn)
 "
 echo "TITAN ver: "$version
 exit 0
@@ -66,22 +66,22 @@ echo "
 	seed:		$seed
 	time:		$simT
 	burn:		$burn
-	
+
 	walltime	$walltime
 	memory		$memory
 "
 
 #TITAN params
-sed -i "s/\(rSeed = \)\([0-9]*\)/\1${seed}/g" params.py
-sed -i "s/\(N_MC = \)\([0-9]*\)/\1${nMC}/g" params.py
-sed -i "s/\(N_POP = \)\([0-9]*\)/\1${nPop}/g" params.py
-sed -i "s/\(TIME_RANGE = \)\([0-9]*\)/\1${simT}/g" params.py
-sed -i "s/\(burnDuration = \)\([0-9]*\)/\1${burn}/g" params.py
+sed -i "s/\(rSeed = \)\([0-9]*\)/\1${seed}/g" titan/params.py
+sed -i "s/\(N_MC = \)\([0-9]*\)/\1${nMC}/g" titan/params.py
+sed -i "s/\(N_POP = \)\([0-9]*\)/\1${nPop}/g" titan/params.py
+sed -i "s/\(TIME_RANGE = \)\([0-9]*\)/\1${simT}/g" titan/params.py
+sed -i "s/\(burnDuration = \)\([0-9]*\)/\1${burn}/g" titan/params.py
 
 #Submit script params
-sed -i "s/MODEL_NAME/$jobname/g" bs_Core.sh
-sed -i "s/WALL_TIME/$walltime/g" bs_Core.sh
-sed -i "s/MEMORY/$memory/g" bs_Core.sh
+sed -i "s/MODEL_NAME/$jobname/g" scripts/bs_Core.sh
+sed -i "s/WALL_TIME/$walltime/g" scripts/bs_Core.sh
+sed -i "s/MEMORY/$memory/g" scripts/bs_Core.sh
 
 }
 
@@ -89,9 +89,9 @@ prepSubmit() {
 
     #Copy source code into parent path
     echo -e "\n\tMoving setting $setting into $srcCode"
-    cp $settingPath $srcCode/params.py
+    cp $settingPath $srcCode/titan/params.py
     echo -e "\n\tCopying $srcCode to $finalPath"
-    cp -rT $srcCode $finalPath
+    cp -rT $titanPath/* $finalPath
 
     #Move into new source code folder
     echo -e "\n\tMoving to model folder directory"
@@ -100,7 +100,7 @@ prepSubmit() {
     updateParams;
 
     #Submit job to cluster
-    sbatch bs_Core.sh
+    sbatch scripts/bs_Core.sh
 
     #Move back to base directory
     cd $basePath
@@ -112,7 +112,7 @@ do
         in
 	N) nPop=${OPTARG};;
 	m) memory=${OPTARG};;
-    n) nMC=${OPTARG};; 
+    n) nMC=${OPTARG};;
     s) seed=${OPTARG};;
     j) jobname=${OPTARG};;
 	t) simT=${OPTARG};;
@@ -137,7 +137,7 @@ fi
 if [ -d $outPath$jobname ]; then
     echo -e "\n\n!! WARNING !!\nThe folder $jobname already exists and will be OVERWRITTEN!\n"
     read -p "Continue (y/n)?" choice
-    case "$choice" in 
+    case "$choice" in
       y|Y ) echo "Proceeding";;
       n|N|* ) echo "Aborting"
 	    exit 0;;
@@ -158,8 +158,8 @@ if [ $srcCode ]; then
         nMc         $nMC
         seed        $seed
         model       $model"
-    echo -e "\n" 
-    
+    echo -e "\n"
+
     echo -e "\tMaking parent directory in scratch"
     mkdir -p $outPath
     echo -e "\t $outPath"
@@ -177,9 +177,8 @@ if [ $srcCode ]; then
         finalPath=$outPath$jobname
         prepSubmit;
     fi
-    
+
 else
     echo -e "\nSOMETHING WENT WRONG!!! Abort"
     exit 1;
 fi
-
