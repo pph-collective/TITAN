@@ -236,9 +236,11 @@ agentPopulations = [
     "HM",
     "HF",
     "IDU",
-    "MSM"
+    "MSM",
+    "WSW",
+    "MTF",
 ]  # Populations in the model, possibilities HM, HF, MSM, WSW, MTF
-agentSexTypes = ["HM", "HF", "MSM", "IDU"]  # redundant w above?
+agentSexTypes = ["MTF", "HM", "HF", "MSM", "IDU", "WSW"]  # redundant w above?
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
 ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, PWID)

@@ -236,7 +236,7 @@ agentPopulations = [
     "HM",
     "HF",
     "IDU",
-    "MSM"
+    "MSM",
 ]  # Populations in the model, possibilities HM, HF, MSM, WSW, MTF
 agentSexTypes = ["HM", "HF", "MSM", "IDU"]  # redundant w above?
 """
