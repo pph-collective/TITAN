@@ -88,14 +88,15 @@ sed -i "s/MEMORY/$memory/g" scripts/bs_Core.sh
 prepSubmit() {
 
     #Copy source code into parent path
-    echo -e "\n\tMoving setting $setting into $srcCode"
-    cp $settingPath $srcCode/params.py
+    #echo -e "\n\tMoving setting $setting into $srcCode"
+    #cp $settingPath $srcCode/params.py
     echo -e "\n\tCopying $srcCode to $finalPath"
     mkdir -p $finalPath
     cp $titanPath/run_titan.py $finalPath
     cp -rT $titanPath/titan $finalPath/titan
     cp -rT $titanPath/scripts $finalPath/scripts
     mkdir -p $finalPath/results/network
+    cp $settingPath $finalPath/titan/params.py
     #Move into new source code folder
     echo -e "\n\tMoving to model folder directory"
     cd $finalPath

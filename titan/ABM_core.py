@@ -223,9 +223,6 @@ class HIVModel(NetworkClass):
             makeAgentZero(4)
 
         if params.drawEdgeList:
-            if not os.path.exists("results/network"):
-                print("Creating network directory")
-                os.makedirs("results/network")
             print("Drawing network edge list to file")
             fh = open("results/network/Edgelist_t{}.txt".format(0), "wb")
             self.write_G_edgelist(fh)
