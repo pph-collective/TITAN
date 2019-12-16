@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #Read in source code path, then shift for optargs
-version="0.92c"
-titanPath="/gpfs/data/bm8/shared/TITAN_atlantaCal/TITAN/"
+version="0.1.0"
+titanPath="/gpfs/data/bm8/TITAN/TITANv0.1.0/"
 settingPath="$1"
 shift
 
@@ -88,11 +88,15 @@ sed -i "s/MEMORY/$memory/g" scripts/bs_Core.sh
 prepSubmit() {
 
     #Copy source code into parent path
-    echo -e "\n\tMoving setting $setting into $srcCode"
-    cp $settingPath $srcCode/titan/params.py
+    #echo -e "\n\tMoving setting $setting into $srcCode"
+    #cp $settingPath $srcCode/params.py
     echo -e "\n\tCopying $srcCode to $finalPath"
-    cp -rT $titanPath/* $finalPath
-
+    mkdir -p $finalPath
+    cp $titanPath/run_titan.py $finalPath
+    cp -rT $titanPath/titan $finalPath/titan
+    cp -rT $titanPath/scripts $finalPath/scripts
+    mkdir -p $finalPath/results/network
+    cp $settingPath $finalPath/titan/params.py
     #Move into new source code folder
     echo -e "\n\tMoving to model folder directory"
     cd $finalPath
