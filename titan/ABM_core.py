@@ -59,7 +59,7 @@ class HIVModel(NetworkClass):
         runseed: int,
         popseed: int,
         netseed: int,
-        network_type: str = "",
+        network_type: str,
     ):
         # Ensure param variables are defined. For backwards compatibility with params.py files
         bc_attrs = [
@@ -102,25 +102,23 @@ class HIVModel(NetworkClass):
             netSeed=self.netseed,
         )
 
-        # keep track of current time step globally for dynnetwork report
-        self.totalIncarcerated = 0
-
         print("\n\tCreating lists")
         # Other lists / dictionaries
 
+        # TO_REVIEW why are thesee agent sets and the next block lists of agents?
         self.NewInfections = Agent_set("NewInfections")
         self.NewDiagnosis = Agent_set("NewDiagnosis")
         self.NewIncarRelease = Agent_set("NewIncarRelease")
         self.NewHRrolls = Agent_set("NewHRrolls")
+        self.newPrEPagents = Agent_set("NewPrEPagents")
 
         self.Acute_agents: List[Agent] = []
         self.Transmit_from_agents: List[Agent] = []
         self.Transmit_to_agents: List[Agent] = []
 
+        self.totalIncarcerated = 0
         self.totalDiagnosis = 0
         self.treatmentEnrolled = False
-
-        self.newPrEPagents = Agent_set("NewPrEPagents")
 
         # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed value
         print(("\tRun seed was set to:", runseed))
@@ -958,6 +956,7 @@ class HIVModel(NetworkClass):
                     agent._HAART_time = 0
                     self.Trt_ART_agentSet.remove_agent(agent)
 
+    # TO_REVIEW time not used
     def _discont_PrEP(self, agent: Agent, time: int, force: bool = False):
         # Agent must be on PrEP to discontinue PrEP
         assert agent._PrEP_bool
@@ -980,10 +979,12 @@ class HIVModel(NetworkClass):
                 agent._PrEP_time = params.PrEP_falloutT
                 self.Trt_PrEP_agentSet.remove_agent(agent)
 
-                if params.PrEP_type == "Oral":
+                if (
+                    params.PrEP_type == "Oral"
+                ):  # TO_REVIEW why only reset bool and reason if Oral, but always on force?
                     agent._PrEP_bool = False
                     agent._PrEP_reason = []
-            else:  # if not discontinue, see if its time for a new shot.
+            else:  # if not discontinue, see if its time for a new shot. # TO_REVIEW what is this logic doing? This decrements, then update_PrEP_load increments
                 if agent._PrEP_lastDose > 2:
                     agent._PrEP_lastDose = -1
 
@@ -1126,7 +1127,7 @@ class HIVModel(NetworkClass):
         if not agent._HIV_bool:
             raise ValueError("AIDS only valid for HIV agents!agent:%s" % str(agent._ID))
 
-        # if agent not in self.AIDS_agents:
+        # TO_REVIEW Why do we check for not HAART, but then get HAART adherance?
         if not agent._HAART_bool:
             adherenceStat = agent._HAART_adh
             p = prob.adherence_prob(adherenceStat)
@@ -1135,16 +1136,21 @@ class HIVModel(NetworkClass):
                 agent._AIDS_bool = True
                 self.HIV_AIDS_agentSet.add_agent(agent)
 
+    # TO_REVIEW time and reported not used
     def _die_and_replace(self, time: int, reported: bool = True):
         """
         :Purpose:
             Let agents die and replace the dead agent with a new agent randomly.
         """
+        # TO_REVIEW - I changed this to two stages because when I tried to die/replace the whole population, I saw some odd behavior as the iterated set was being modified during iteration
+
+        # die stage
         for agent in self.All_agentSet._members:
 
             # agent incarcerated, don't evaluate for death
+            # TO_REVIEW - changed from pass to continue based on comment
             if agent._incar_bool:
-                pass
+                continue
 
             # death rate per 1 person-month
             p = prob.get_death_rate(
@@ -1163,9 +1169,11 @@ class HIVModel(NetworkClass):
                 # Remove agent node and edges from network graph
                 self.get_Graph().remove_node(agent)
 
-                # Remove agent from agent class and sub-sets
-                self.All_agentSet.remove_agent(agent)
+        # replace stage
+        for agent in self.deathSet:
+            # Remove agent from agent class and sub-sets
+            self.All_agentSet.remove_agent(agent)
 
-                new_agent = self.create_agent(agent._race, agent._SO)
-                self.add_agent_to_pop(new_agent)
-                self.get_Graph().add_node(new_agent)
+            new_agent = self.create_agent(agent._race, agent._SO)
+            self.add_agent_to_pop(new_agent)
+            self.get_Graph().add_node(new_agent)

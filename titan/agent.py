@@ -153,6 +153,7 @@ class Agent:
         else:
             return False
 
+    # TO_REVIEW time not used
     def PrEP_eligible(self, time: int) -> bool:
         """
         :Purpose:
