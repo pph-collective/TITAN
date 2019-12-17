@@ -15,8 +15,5 @@ coverage:
         target: 90%
         threshold: 2%
 
-ignore:
-  - "**_test.py"
-
 comment:
   layout: "header, diff, flags"
