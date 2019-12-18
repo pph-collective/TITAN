@@ -26,7 +26,6 @@ def make_model():
 # helper method to generate a fake number deterministically
 class FakeRandom:
     def __init__(self, num: float):
-        assert num >= 0 and num <= 1
         self.num = num
 
     def random(self):
@@ -40,6 +39,9 @@ class FakeRandom:
 
     def choice(self, seq):
         return seq[0]
+
+    def randint(self, start, stop):
+        return start
 
 
 # ================================ MODEL TESTS =================================
@@ -71,54 +73,337 @@ def test_model_init():
     assert model.treatmentEnrolled == False
 
 
-@pytest.mark.skip("to do")
+@pytest.mark.skip("too parameter dependent to test at this point")
 def test_update_AllAgents():
     pass
 
 
-@pytest.mark.skip("to do")
-def test_agents_interact():
-    pass
+def test_agents_interact(make_model, make_agent):
+    model = make_model()
+    a = make_agent(race="WHITE", SO="HM")
+    p = make_agent(race="WHITE", SO="HF")
+    rel = Relationship(a, p, 10)
+
+    a._incar_bool = True
+    assert model._agents_interact(0, rel) is False
+
+    a._incar_bool = False
+    assert model._agents_interact(0, rel) is False  # neither HIV
+
+    a._HIV_bool = True
+    p._HIV_bool = True
+    assert model._agents_interact(0, rel) is False  # both HIV
+
+    p._HIV_bool = False
+
+    assert model._agents_interact(0, rel)  # sex transmssion
+    assert p._HIV_bool is False  # but nothing happened (see skipped test)
+
+    a._DU = "IDU"
+    p._DU = "IDU"
+
+    a._incar_treatment_time = 1
+    assert (
+        model._agents_interact(0, rel) is False
+    )  # short circuit due to incar treatment
+
+    a._incar_treatment_time = 0
+    model.runRandom = FakeRandom(-0.1)
+
+    assert model._agents_interact(0, rel)  # needle transmission
+    assert p._HIV_bool
+
+    p._HIV_bool = False
+    model.runRandom = FakeRandom(1.1)
+
+    assert model._agents_interact(0, rel)  # needle and sex
+    assert p._HIV_bool is False  # but nothing happened
 
 
-@pytest.mark.skip("to do")
-def test_needle_transmission():
-    pass
+def test_needle_transmission(make_model, make_agent):
+    model = make_model()
+    a = make_agent(race="WHITE", DU="IDU", SO="HM")
+    p = make_agent(race="WHITE", DU="IDU", SO="HF")
+
+    with pytest.raises(AssertionError):
+        model._needle_transmission(a, p, 0)
+
+    a._HIV_bool = True
+    a._HIV_time = 1  # acute
+
+    model.runRandom = FakeRandom(-0.1)
+
+    model._needle_transmission(a, p, 0)
+
+    assert p._HIV_bool
+    assert a in model.Transmit_from_agents
+    assert p in model.Transmit_to_agents
+    assert a in model.Acute_agents
 
 
-@pytest.mark.skip("to do")
-def test_sex_transmission():
-    pass
+@pytest.mark.skip("# TO_REVIEW can't get this to pass see to reviews in code")
+def test_sex_transmission(make_model, make_agent):
+    model = make_model()
+    a = make_agent()
+    p = make_agent()
+    rel = Relationship(a, p, 10)
+
+    a._HIV_bool = True
+    a._HIV_time = 1  # acute
+
+    rel._total_sex_acts = 0
+
+    model.runRandom = FakeRandom(0.6)
+
+    # test partner becomes
+    model._sex_transmission(0, rel)
+
+    assert a in model.Transmit_from_agents
+    assert p in model.Transmit_to_agents
+    assert p._HIV_bool
+    assert a in model.Acute_agents
 
 
-@pytest.mark.skip("to do")
-def test_become_HIV():
-    pass
+def test_sex_transmission_do_nothing(make_model, make_agent):
+    model = make_model()
+    a = make_agent()
+    p = make_agent()
+    rel = Relationship(a, p, 10)
+
+    with pytest.raises(ValueError):
+        model._sex_transmission(0, rel)
+
+    a._HIV_bool = True
+    p._HIV_bool = True
+
+    # test nothing happens
+    model._sex_transmission(0, rel)
+
+    assert a not in model.Transmit_from_agents
+    assert p not in model.Transmit_from_agents
+    assert a not in model.Transmit_to_agents
+    assert p not in model.Transmit_to_agents
 
 
-@pytest.mark.skip("to do")
-def test_enroll_treatment():
-    pass
+def test_become_HIV(make_model, make_agent):
+    model = make_model()
+    a = make_agent()
+    a._PrEP_bool = True
+    a._PrEP_time = 10
+
+    model.runRandom = FakeRandom(-0.1)
+
+    model._become_HIV(a, 0)
+
+    assert a._HIV_bool
+    assert a._HIV_time == 1
+    assert a in model.NewInfections._members
+    assert a in model.HIV_agentSet._members
+    assert a._PrEPresistance == 1
+    assert a._PrEP_bool is False
 
 
-@pytest.mark.skip("to do")
-def test_becomeHighRisk():
-    pass
+def test_enroll_treatment(make_model):
+    model = make_model()
+    model.runRandom = FakeRandom(-0.1)  # all "IDU" agents will be _SNE_bool
+
+    # make at least one agent IDU
+    model.All_agentSet._members[0]._DU = "IDU"
+
+    assert model.treatmentEnrolled is False
+
+    model._enroll_treatment(0)
+
+    assert model.treatmentEnrolled is True
+
+    for a in model.All_agentSet._members:
+        if a._DU == "IDU":
+            assert a._SNE_bool
 
 
-@pytest.mark.skip("to do")
-def test_incarcerate():
-    pass
+def test_becomeHighRisk(make_model, make_agent):
+    model = make_model()
+    a = make_agent()
+
+    model._becomeHighRisk(a, 10)
+
+    assert a in model.highrisk_agentsSet._members
+    assert a in model.NewHRrolls._members
+    assert a._highrisk_bool
+    assert a._everhighrisk_bool
+    assert a._highrisk_time == 10
 
 
-@pytest.mark.skip("to do")
-def test_HIVtest():
-    pass
+def test_incarcerate_tested(make_model, make_agent):
+    model = make_model()
+    a = make_agent(SO="HM", race="WHITE")  # incarceration only for HM and HF?
+    a._HIV_bool = True
+    a._tested = True
+
+    model.runRandom = FakeRandom(0.0000001)  # always less than params
+
+    model._incarcerate(a, 10)
+
+    assert a._incar_bool
+    assert a._incar_time == 1
+    assert a in model.incarcerated_agentSet._members
+    assert a._HAART_bool
+    assert a._HAART_adh == 5
+    assert a._HAART_time == 10
+    assert a in model.Trt_ART_agentSet._members
+
+    assert model.totalIncarcerated == 1
 
 
-@pytest.mark.skip("to do")
-def test_update_HAART():
-    pass
+def test_incarcerate_not_tested(make_model, make_agent):
+    model = make_model()
+    a = make_agent(SO="HM", race="WHITE")  # incarceration only for HM and HF?
+    a._HIV_bool = True
+
+    p = make_agent(SO="HF")
+    rel = Relationship(a, p, 10)
+
+    model.runRandom = FakeRandom(0.0000001)  # always less than params
+
+    model._incarcerate(a, 0)
+
+    assert a._incar_bool
+    assert a._incar_time == 1
+    assert a in model.incarcerated_agentSet._members
+    assert a._tested
+
+    assert model.totalIncarcerated == 1
+
+    assert p in model.highrisk_agentsSet._members
+    assert p in model.NewHRrolls._members
+    assert p._highrisk_bool
+    assert p._everhighrisk_bool
+    assert p._highrisk_time > 0
+
+
+def test_incarcerate_unincarcerate(make_model, make_agent):
+    model = make_model()
+    a = make_agent()
+
+    a._incar_bool = True
+    a._incar_time = 2
+    model.incarcerated_agentSet.add_agent(a)
+
+    model._incarcerate(a, 0)
+
+    assert a._incar_bool
+    assert a._incar_time == 1
+    assert a in model.incarcerated_agentSet._members
+
+    model._incarcerate(a, 0)
+
+    assert a._incar_bool is False
+    assert a._incar_time == 0
+    assert a not in model.incarcerated_agentSet._members
+    assert a in model.NewIncarRelease._members
+    assert a._ever_incar_bool
+
+
+def test_HIVtest(make_model, make_agent):
+    model = make_model()
+    a = make_agent()
+
+    model.runRandom = FakeRandom(1.1)  # always greater than param
+    model._HIVtest(a, 0)
+
+    assert a._tested is False
+    assert a not in model.NewDiagnosis._members
+    assert a not in model.Trt_Tstd_agentSet._members
+
+    model.runRandom = FakeRandom(-0.1)  # always less than param
+    model._HIVtest(a, 0)
+
+    assert a._tested
+    assert a in model.NewDiagnosis._members
+    assert a in model.Trt_Tstd_agentSet._members
+
+
+def test_HIVtest_already_tested(make_model, make_agent):
+    model = make_model()
+    a = make_agent()
+
+    a._tested = True
+
+    model.runRandom = FakeRandom(-0.1)  # always less than param
+    model._HIVtest(a, 0)
+
+    assert a._tested
+    assert a not in model.NewDiagnosis._members
+    assert a not in model.Trt_Tstd_agentSet._members
+
+
+def test_update_HAART_t0(make_model, make_agent):
+    model = make_model()
+    a = make_agent(race="WHITE")
+
+    # test error case, agent must be HIV+
+    with pytest.raises(AssertionError):
+        model._update_HAART(a, 0)
+
+    a._HIV_bool = True
+
+    # nothing happens
+    model._update_HAART(a, 0)
+    assert a._HAART_adh == 0
+    assert a._HAART_bool is False
+    assert a not in model.Trt_ART_agentSet._members
+
+    # t0 agent initialized HAART
+    a._HAART_bool = True
+
+    model.runRandom = FakeRandom(0.0)
+    model._update_HAART(a, 0)
+
+    assert a._HAART_adh == 5
+    assert a._HAART_time == 0
+
+    # reset for other branch
+    a._HAART_adh = 0
+    model.runRandom = FakeRandom(1.0)
+    model._update_HAART(a, 0)
+
+    assert a._HAART_adh == 1
+    assert a._HAART_time == 0
+
+
+def test_update_HAART_t1(make_model, make_agent):
+    model = make_model()
+    a = make_agent(race="WHITE")
+
+    a._HIV_bool = True
+
+    # nothing happens, not tested
+    model._update_HAART(a, 1)
+    assert a._HAART_adh == 0
+    assert a._HAART_bool is False
+    assert a not in model.Trt_ART_agentSet._members
+
+    # t0 agent initialized HAART
+    a._tested = True
+
+    # go on haart
+    model.runRandom = FakeRandom(
+        -0.1
+    )  # means this will always be less than params even though not physically possible in reality
+    model._update_HAART(a, 1)
+
+    assert a._HAART_adh == 5
+    assert a._HAART_time == 1
+    assert a._HAART_bool
+    assert a in model.Trt_ART_agentSet._members
+
+    # go off haart
+    model._update_HAART(a, 1)
+
+    assert a._HAART_adh == 0
+    assert a._HAART_time == 0
+    assert a._HAART_bool is False
+    assert a not in model.Trt_ART_agentSet._members
 
 
 def test_discont_PrEP_force(make_model, make_agent):

@@ -450,7 +450,7 @@ class HIVModel(NetworkClass):
                                     self._initiate_PrEP(ag, time, force=True)
                 print(("Total agents in trial: ", totNods))
 
-    def _agents_interact(self, time: int, rel: Relationship):
+    def _agents_interact(self, time: int, rel: Relationship) -> bool:
         """
         :Purpose:
             Let IDU agent interact with a partner.
@@ -469,13 +469,13 @@ class HIVModel(NetworkClass):
             rand_gen : random number generator
 
         Output:
-            none
+            boolean : whether interaction happened
 
         """
 
         # If either agent is incarcerated, skip their interaction
         if rel._ID1._incar_bool or rel._ID2._incar_bool:
-            return
+            return False
 
         if (
             rel._ID1._HIV_bool and not rel._ID2._HIV_bool
@@ -488,7 +488,7 @@ class HIVModel(NetworkClass):
             agent = rel._ID2
             partner = rel._ID1
         else:  # neither agent is HIV or both are
-            return
+            return False
 
         rel_sex_possible = sex_possible(agent._SO, partner._SO)
         partner_drug_type = partner._DU
@@ -498,7 +498,7 @@ class HIVModel(NetworkClass):
             # Injection is possible
             # If agent is on post incar HR treatment to prevent IDU behavior, pass IUD infections
             if agent._incar_treatment_time > 0 and params.inc_treat_IDU_beh:
-                return
+                return False
 
             elif rel_sex_possible:
                 # Sex is possible
@@ -516,9 +516,11 @@ class HIVModel(NetworkClass):
             if rel_sex_possible:
                 self._sex_transmission(time, rel)
             else:
-                return
+                return False
         else:  # REVIEWED - sanity test, with params re-write this logic/check can move there
             raise ValueError("Agents must be either IDU, NIDU, or ND")
+
+        return True  # if didn't short circuit, agents interacted
 
     def _needle_transmission(self, agent: Agent, partner: Agent, time: int):
         """
@@ -546,13 +548,15 @@ class HIVModel(NetworkClass):
             params.DemographicParams[agent_race][agent_sex_type]["NUMSexActs"]
             * params.cal_NeedleActScaling
         )
-        share_acts = poisson.rvs(MEAN_N_ACTS, size=1)[0]
+        share_acts = poisson.rvs(MEAN_N_ACTS, size=1)[
+            0
+        ]  # TO_REVIEW should this be rounded?
 
         if agent._SNE_bool:  # Do they share a needle?
-            p_UnsafeNeedleShare = 0.02  # no needle sharing
+            p_UnsafeNeedleShare = 0.02  # no needle sharing # TO_REVIEW this comment doesn't match if statement or  is SNE needle exchange?
         else:  # they do share a needle
             # HIV+ ?
-            if share_acts < 1:
+            if share_acts < 1:  # TO_REVIEW should this go outside the if/else?
                 share_acts = 1
 
             p_UnsafeNeedleShare = (
@@ -615,7 +619,9 @@ class HIVModel(NetworkClass):
         MSexActs = (
             agent.get_number_of_sexActs(self.runRandom) * params.cal_SexualActScaling
         )
-        T_sex_acts = int(poisson.rvs(MSexActs, size=1))
+        T_sex_acts = round(
+            poisson.rvs(MSexActs, size=1)[0]
+        )  # TO_REVIEW should this be round - this was int, but changed it because testing wasn't working?
 
         # Get condom usage
         if params.condomUseType == "Race":
@@ -628,7 +634,9 @@ class HIVModel(NetworkClass):
         # Reduction of risk acts between partners for condom usage
         U_sex_acts = T_sex_acts
         for n in range(U_sex_acts):
-            if self.runRandom.random() < p_UnsafeSafeSex:
+            if (
+                self.runRandom.random() < p_UnsafeSafeSex
+            ):  # TO_REVIEW p unsafe sex gets higher with more sex acts, but then if the random number is lower than that we reduce u_sex_acts - is this right?
                 U_sex_acts -= 1
 
         if U_sex_acts >= 1:
@@ -666,7 +674,7 @@ class HIVModel(NetworkClass):
                 self.Transmit_to_agents.append(partner)
                 self._become_HIV(partner, time)
                 if agent.get_acute_status():
-                    self.Acute_agents.append(agent)
+                    self.Acute_agents.append(agent)  # TO_REVIEW, why is this done here?
 
     def _become_HIV(self, agent: Agent, time: int):
         """
@@ -690,6 +698,7 @@ class HIVModel(NetworkClass):
         if agent._PrEP_bool:
             self._discont_PrEP(agent, time, force=True)
 
+    # TO_REVIEW time only used for printing
     def _enroll_treatment(self, time: int):
         """
         :Purpose:
@@ -705,10 +714,11 @@ class HIVModel(NetworkClass):
                 agent._SNE_bool = True
 
     # REVIEWED this isn't used anywhere, but should be! _incarcerate makes things high risk and should reference this
-    def _becomeHighRisk(self, agent: Agent, HRtype: str = "", duration: int = None):
+    def _becomeHighRisk(self, agent: Agent, duration: int = None):
 
         if agent not in self.highrisk_agentsSet._members:
             self.highrisk_agentsSet.add_agent(agent)
+
         if not agent._everhighrisk_bool:
             self.NewHRrolls.add_agent(agent)
 
@@ -730,19 +740,12 @@ class HIVModel(NetworkClass):
             time : int
 
         """
-        sex_type = agent._SO
-        race_type = agent._race
         hiv_bool = agent._HIV_bool
-        tested = agent._tested
-        incar_t = agent._incar_time
-        incar_bool = agent._incar_bool
-        haart_bool = agent._HAART_bool
 
-        if incar_bool:
+        if agent._incar_bool:
             agent._incar_time -= 1
 
-            # get out if t=0
-            if incar_t == 1:  # FREE AGENT
+            if agent._incar_time == 0:  # FREE AGENT
                 self.incarcerated_agentSet.remove_agent(agent)
                 self.NewIncarRelease.add_agent(agent)
                 agent._incar_bool = False
@@ -777,7 +780,7 @@ class HIVModel(NetworkClass):
                         agent._incar_treatment_time = params.inc_treatment_dur
 
                     if hiv_bool:
-                        if haart_bool:
+                        if agent._HAART_bool:
                             if (
                                 self.runRandom.random() > params.inc_ARTdisc
                             ):  # 12% remain surpressed
@@ -792,10 +795,11 @@ class HIVModel(NetworkClass):
 
         elif (
             self.runRandom.random()
-            < params.DemographicParams[race_type][sex_type]["INCAR"]
+            < params.DemographicParams[agent._race][agent._SO]["INCAR"]
             * (1 + (hiv_bool * 4))
             * params.cal_IncarP
         ):
+            # TO_REVIEW what about other sex types?
             if agent._SO == "HF":
                 jailDuration = prob.HF_jail_duration
             elif agent._SO == "HM":
@@ -803,15 +807,18 @@ class HIVModel(NetworkClass):
 
             durationBin = current_p_value = 0
             p = self.runRandom.random()
-            while p > current_p_value:
+            while (
+                p > current_p_value
+            ):  # TO_REVIEW though unlikely p could be initialized at 0
                 durationBin += 1
                 current_p_value += jailDuration[durationBin]["p_value"]
+
             timestay = self.runRandom.randint(
                 jailDuration[durationBin]["min"], jailDuration[durationBin]["max"]
             )
 
             if hiv_bool:
-                if not tested:
+                if not agent._tested:
                     if self.runRandom.random() < params.inc_PrisTestProb:
                         agent._tested = True
                 else:  # Then tested and HIV, check to enroll in ART
@@ -857,6 +864,7 @@ class HIVModel(NetworkClass):
                         self._initiate_PrEP(tmpA, time)
 
     # REVIEW - change verbage to diagnosed
+    # TO_REVIEW time not used
     def _HIVtest(self, agent: Agent, time: int):
         """
         :Purpose:
@@ -908,6 +916,7 @@ class HIVModel(NetworkClass):
         agent_so = agent._SO
 
         # Set HAART agents adherence at t=0 for all instanced HAART
+        # TO_REVIEW why aren't these agents in the Trt_ART_agentSet?
         if time == 0 and agent_haart:
             if agent._HAART_adh == 0:
                 HAART_ADH = params.DemographicParams[agent_race][agent_so]["HAARTadh"]

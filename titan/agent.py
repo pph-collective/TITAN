@@ -287,7 +287,6 @@ class Agent:
         # 52–155 times per year 644 12.4 605 18.9 39 2.0
         # >156 times per year 733 14.1 631 19.7 102 5.1
         rv = rand_gen.random()
-        pMatch = 0.0
 
         for i in range(1, 6):
             pMatch = params.sexualFrequency[i]["p_value"]
