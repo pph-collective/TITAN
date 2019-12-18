@@ -689,7 +689,9 @@ class HIVModel(NetworkClass):
                             -2.88 + 0.76 * (np.log(partner.vaccine_time + 0.001 * 30))
                         )
                     elif params.vaccine_type == "RV144":
-                        ppActReduction = 1 - np.exp(-2.40 + 0.76 * (np.log(partner.vaccine_time)))
+                        ppActReduction = 1 - np.exp(
+                            -2.40 + 0.76 * (np.log(partner.vaccine_time))
+                        )
                     ppAct = 1 - ppActReduction
                 p_total_transmission: float
                 if U_sex_acts == 1:
