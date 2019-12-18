@@ -664,7 +664,6 @@ class HIVModel(NetworkClass):
             if agent._PrEP_bool or partner._PrEP_bool:
                 if agent._PrEPresistance or partner._PrEPresistance:
                     pass
-
                 else:
                     if "Oral" in params.PrEP_type:  # params.PrEP_type == "Oral":
                         if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
@@ -678,6 +677,7 @@ class HIVModel(NetworkClass):
                         )
                         if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
                             ppAct = ppAct * (1.0 - ppActReduction)  # 0.04
+
             if partner.vaccine_bool:
                 if params.vaccine_type == "HVTN702":
                     ppAct *= np.exp(
@@ -698,7 +698,7 @@ class HIVModel(NetworkClass):
                 self.Transmit_from_agents.append(agent)
                 self.Transmit_to_agents.append(partner)
                 self._become_HIV(partner, time)
-                if agent.get_acute_status(time):
+                if agent.get_acute_status():
                     self.Acute_agents.append(agent)
 
     def _become_HIV(self, agent: Agent, time: int):
@@ -1048,6 +1048,7 @@ class HIVModel(NetworkClass):
         if params.PrEP_type == "Inj":
             agent.update_PrEP_load()
 
+    # TO_REVIEW this should go in agent?
     def vaccinate(self, ag: Agent, vax: str):
         ag.vaccine_bool = True
         ag.vaccine_type = vax
@@ -1106,14 +1107,6 @@ class HIVModel(NetworkClass):
             self.newPrEPagents.add_agent(agent)
 
             self.PrEPagents[agent._race][agent._SO] += 1
-            self.newPrEPenrolls += 1
-            if params.PrEP_target_model == "CDCwomen":
-                if "IDU" in agent._PrEP_reason:
-                    self.IDUprep += 1
-                if "HIV test" in agent._PrEP_reason:
-                    self.HIVprep += 1
-                if "MSMW" in agent._PrEP_reason:
-                    self.MSMWprep += 1
 
             tmp_rnd = self.runRandom.random()
             if params.setting == "AtlantaMSM":

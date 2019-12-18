@@ -97,7 +97,7 @@ class NetworkClass(PopulationClass):
                 elif (
                     params.calcComponentStats
                     and comp.number_of_nodes() < params.minComponentSize
-                ): # TO_REVIEW what should happen if it's too small?
+                ):  # TO_REVIEW what should happen if it's too small?
                     print("TOO SMALL", comp, comp.number_of_nodes())
             print("Total agents in graph: ", self.G.number_of_nodes())
         else:

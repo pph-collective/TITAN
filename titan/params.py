@@ -16,6 +16,7 @@ rSeed_pop = 0
 rSeed_net = 0
 rSeed_run = 0
 N_MC = 1  # total number of iterations (Monte Carlo runs)
+N_REPS = 1
 N_POP = 100  # population size
 TIME_RANGE = 12  # total time steps to iterate
 burnDuration = 6  # total time for burning in period (equillibration)
@@ -147,6 +148,8 @@ if "Oral" in PrEP_type:
     PrEP_NonAdhEffic = 0.76
     PrEP_falloutT = 1
     PrEP_disc = 0.15
+    PrEP_peakLoad = 1.0  # TO_REVIEW these weren't here, but for testing purposes, variables need to be consistent
+    PrEP_halflife = 1.0
 elif "Inj" in PrEP_type:
     PrEP_Adherence = 1.0
     PrEP_AdhEffic = 1.0
@@ -177,6 +180,7 @@ if model == "PrEP":
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
+    flag_booster = False
 elif model == "Incar":
     flag_incar = True
     flag_PrEP = False
@@ -184,6 +188,7 @@ elif model == "Incar":
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
+    flag_booster = False
 elif model == "NoIncar":
     flag_incar = False
     flag_PrEP = False
@@ -191,6 +196,7 @@ elif model == "NoIncar":
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
+    flag_booster = False
 elif model == "VaccinePrEP":
     flag_incar = False
     flag_PrEP = True
@@ -198,7 +204,7 @@ elif model == "VaccinePrEP":
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
-    flag_booster = True
+    flag_booster = True  # TO_REVIEW flag_booster was only here - added everywhere else otherwise crashed
 elif model == "Custom":
     flag_incar = False
     flag_PrEP = True
@@ -206,6 +212,7 @@ elif model == "Custom":
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
+    flag_booster = False
 
 agentSexTypes = ["HM", "HF", "MSM", "WSW", "MTF"]
 agentPopulations = deepcopy(agentSexTypes)
@@ -259,7 +266,7 @@ RaceClass2["HF"].update({"POP": 0.8})
 
 RaceClass1["HM"].update(
     {
-        "POP": 0.4150,
+        "POP": 0.0,
         "HIV": 0.0369,
         "AIDS": 0.6780,
         "HAARTprev": 0.41,
@@ -312,7 +319,7 @@ RaceClass1["ALL"].update(
 # RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
 RaceClass2["MSM"].update(
     {
-        "POP": 1.00,  # 0.028,
+        "POP": 0.00,  # 0.028,
         "HIV": 0.5,  # 0.434,
         "AIDS": 0.232,
         "HAARTprev": 0.627,

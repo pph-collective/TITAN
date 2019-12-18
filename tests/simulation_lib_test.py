@@ -66,5 +66,8 @@ def test_save_results(tmpdir, setup_results_dir):
         reader = csv.DictReader(f)
         for i, row in enumerate(reader):
             t = i + 1
+            print(t)
+            print(result_dict["n_Relations"][t])
+            print(row["n_Relations_mean"])
             num_rels_mean = np.mean(result_dict["n_Relations"][t])
             assert num_rels_mean == float(row["n_Relations_mean"])

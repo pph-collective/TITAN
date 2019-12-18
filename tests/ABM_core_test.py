@@ -445,7 +445,7 @@ def test_discont_PrEP_decrement_end(make_model, make_agent):
     model = make_model()
     a = make_agent(race="WHITE")
 
-    model.runRandom = FakeRandom(0.00000001)
+    model.runRandom = FakeRandom(-0.1)
 
     # set up so the agent appears to be on PrEP
     a._PrEP_bool = True
@@ -455,8 +455,8 @@ def test_discont_PrEP_decrement_end(make_model, make_agent):
 
     model._discont_PrEP(a, 0)
 
-    assert a._PrEP_bool
-    assert a._PrEP_reason == ["blah"]
+    assert a._PrEP_bool is False
+    assert a._PrEP_reason == []
     assert a._PrEP_time == params.PrEP_falloutT
     assert a not in model.Trt_PrEP_agentSet._members
 
@@ -465,7 +465,7 @@ def test_discont_PrEP_decrement_not_end(make_model, make_agent):
     model = make_model()
     a = make_agent()
 
-    model.runRandom = FakeRandom(0.9999)
+    model.runRandom = FakeRandom(1.1)
 
     # set up so the agent appears to be on PrEP
     a._PrEP_bool = True
@@ -479,9 +479,9 @@ def test_discont_PrEP_decrement_not_end(make_model, make_agent):
     assert a._PrEP_bool
     assert a._PrEP_reason == ["blah"]
     assert a._PrEP_time == 0
-    assert a._PrEP_lastDose == 0  # 3 -> -1 -> +1 == 0
+    assert a._PrEP_lastDose == -1  # 3 -> -1 -> +1 == 0 # Inj no longer in PrEP types
     assert a in model.Trt_PrEP_agentSet._members
-    assert a._PrEP_load > 0
+    # assert a._PrEP_load > 0 # Inj no longer in PrEP types
 
 
 def test_initiate_PrEP_assertions(make_model, make_agent):
@@ -510,7 +510,7 @@ def test_initiate_PrEP_force_adh(make_model, make_agent):
     assert a in model.Trt_PrEP_agentSet._members
     assert a in model.newPrEPagents._members
     assert a._PrEP_adh == 1
-    assert a._PrEP_load > 0.0
+    # assert a._PrEP_load > 0.0 # Inj no longer in PrEP types
     assert a._PrEP_lastDose == 0
 
 
@@ -525,7 +525,7 @@ def test_initiate_PrEP_force_non_adh(make_model, make_agent):
     assert a in model.Trt_PrEP_agentSet._members
     assert a in model.newPrEPagents._members
     assert a._PrEP_adh == 0
-    assert a._PrEP_load > 0.0
+    # assert a._PrEP_load > 0.0 # Inj no longer in PrEP types
     assert a._PrEP_lastDose == 0
 
 
@@ -544,7 +544,7 @@ def test_initiate_PrEP_eligible(make_model, make_agent):
     assert a in model.Trt_PrEP_agentSet._members
     assert a in model.newPrEPagents._members
     assert a._PrEP_adh == 1
-    assert a._PrEP_load > 0.0
+    # assert a._PrEP_load > 0.0 # Inj not in params prep_type anymore
     assert a._PrEP_lastDose == 0
     assert "IDU" in a._PrEP_reason
     assert "HIV test" in a._PrEP_reason

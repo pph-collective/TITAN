@@ -25,7 +25,6 @@ def make_population():
 # helper method to generate a fake number deterministically
 class FakeRandom:
     def __init__(self, num: float):
-        assert num >= 0 and num <= 1
         self.num = num
 
     def random(self):
@@ -73,7 +72,7 @@ def test_create_agent(make_population):
     assert a3._race == "WHITE"
 
     # check IDU and HIV and high risk
-    pop.popRandom = FakeRandom(0.00001)
+    pop.popRandom = FakeRandom(-0.1)
     a4 = pop.create_agent("WHITE")
     assert a4._DU == "IDU"
     assert a4._HIV_bool
@@ -81,8 +80,8 @@ def test_create_agent(make_population):
     assert a4._tested
     assert a4._HAART_bool
     assert a4._treatment_bool
-    assert a4._highrisk_bool is False  # params HighRiskPrev set to 0
-    assert a4._everhighrisk_bool is False
+    assert a4._highrisk_bool
+    assert a4._everhighrisk_bool
 
     # check not IDU and HIV
     pop.popRandom = FakeRandom(0.999)
@@ -171,7 +170,7 @@ def test_get_age(make_population):
         assert ageBin == i
 
     # test else case
-    pop.popRandom = FakeRandom(0.99)
+    pop.popRandom = FakeRandom(1.1)
     age, ageBin = pop.get_age(race)
     assert age == 55
     assert ageBin == 5

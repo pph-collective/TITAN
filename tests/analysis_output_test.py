@@ -80,6 +80,7 @@ def test_get_stats(stats):
     assert stats["BLACK"]["MSM"]["newNumPrEP"] == 1
     assert stats["BLACK"]["MSM"]["newlyTested"] == 1
     assert stats["BLACK"]["MSM"]["newHR"] == 1
+    assert stats["ALL"]["MSM"]["newHR"] == 1
     assert stats["BLACK"]["MSM"]["newHR_HIV"] == 1
     assert stats["BLACK"]["MSM"]["newHR_AIDS"] == 1
     assert stats["BLACK"]["MSM"]["newHR_Tested"] == 1
@@ -159,8 +160,8 @@ def test_newlyhighriskReport(stats, setup_results_dir):
             assert row["t"] == "0"
             assert row["run_id"] == str(run_id)
             assert row["seed"] == "1"
-            assert row["newHR_MSM"] == "1"
             assert row["newHR_HM"] == "0"
+            assert row["newHR_MSM"] == "1"
             assert row["newHR_Tested_MSM"] == "1"
             assert row["newHR_ART_MSM"] == "1"
 

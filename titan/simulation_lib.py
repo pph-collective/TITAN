@@ -123,7 +123,11 @@ def save_results(
     for t in range(1, time_range + 1):
 
         # write timestep, model, coverage
-        outfile.write("%d,%s,%0.2f" % (t, params.PrEP_type, params.PrEP_Target))
+        prep_type = "+".join(
+            params.PrEP_type
+        )  # TO_REVIEW this was added as prep type used to be one thing and is now an array
+
+        outfile.write("%d,%s,%0.2f" % (t, prep_type, params.PrEP_Target))
 
         # for each property in the result dict, write the mean, std dev, 10th % and 90th % over the mante carlo iterations (params.N_MC) in the simulation
         for result_property in sorted(rslts):

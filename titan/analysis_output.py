@@ -143,7 +143,6 @@ def get_stats(
             stats[tmpA._race][tmpA._SO]["deaths_HIV"] += 1
 
     # Sum 'ALL' categories for race/SO bins
-
     for race in stats:
         if race != "ALL":
             for param in stats_template:
@@ -271,7 +270,8 @@ def newlyhighriskReport(
                 stats["ALL"][sex_type]["newHR_ART"],
             )
         )
-        f.write("\n")
+
+    f.write("\n")
     f.close()
 
 
@@ -371,21 +371,19 @@ def print_components(
 
     compID = 0
     for comp in components:
-        totN = nhiv = ntrtmt = ntrthiv = nprep = PrEP_ever_HIV = 0
+        totN = nhiv = ntrtmt = ntrthiv = nprep = 0
         for agent in comp:
             totN += 1
             if agent._HIV_bool:
                 nhiv += 1
                 if agent._treatment_bool:
                     ntrthiv += 1
-                if agent._PrEP_ever_bool:
-                    PrEP_ever_HIV += 1
             elif agent._treatment_bool:
                 ntrtmt += 1
                 if agent._PrEP_bool:
                     nprep += 1
         f.write(
-            "{run_id}\t{runseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Ntrtmt}\t{Nprep}\t{NtrtHIV}\t{NprepHIV}\n".format(
+            "{run_id}\t{runseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Ntrtmt}\t{Nprep}\t{NtrtHIV}\n".format(
                 run_id=run_id,
                 runseed=runseed,
                 pseed=popseed,
@@ -397,7 +395,6 @@ def print_components(
                 Ntrtmt=ntrtmt,
                 Nprep=nprep,
                 NtrtHIV=ntrthiv,
-                NprepHIV=PrEP_ever_HIV,
             )
         )
 
