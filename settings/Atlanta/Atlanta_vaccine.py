@@ -38,6 +38,12 @@ calcComponentStats = False
 flag_agentZero = False
 drawEdgeList = False
 
+reports = ["deathReport",
+	"incarReport",
+	"newlyhighriskReport",
+	"prepReport",
+	"basicReport"]
+
 """
 Calibration scaling parameters for fitting to empirical data
 """
@@ -82,9 +88,9 @@ treatmentCov = 0.0
 """
 Vaccine params
 """
-vaccine_type = "RV144"
-booster = False
-vaccine_start = 99999
+vaccine_type = "HVTN702"
+booster = True
+vaccine_start = 1
 
 # Incarceration params
 inc_JailMax = 9
@@ -175,7 +181,7 @@ elif model == "VaccinePrEP":
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
-    flag_booster = False
+    flag_booster = True
 elif model == "Custom":
     flag_incar = False
     flag_PrEP = True
@@ -184,8 +190,8 @@ elif model == "Custom":
     flag_DandR = True
     flag_staticN = False
 
-agentPopulations = ["MSM"]
-agentSexTypes = ["MSM"]
+agentPopulations = ["MSM", "HF", "HM", "IDU"]
+agentSexTypes = ["MSM", "HF", "HM", "IDU"]
 
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
@@ -235,7 +241,7 @@ RaceClass1["MSM"]["HIV"] = 0.4
 RaceClass1["MSM"].update(
     {
         "POP": 1.00,
-        "HIV": 0.0,  #  0.132,
+        "HIV":  0.132,
         "AIDS": 0.07,
         "HAARTprev": 0.583,
         "INCARprev": 0.000,
@@ -265,7 +271,7 @@ RaceClass1["ALL"].update(
 RaceClass2["MSM"].update(
     {
         "POP": 1.00,  # 0.028,
-        "HIV": 0.0,  # 0.434,
+        "HIV": 0.434,
         "AIDS": 0.232,
         "HAARTprev": 0.627,
         "INCARprev": 0.00,
@@ -276,7 +282,7 @@ RaceClass2["MSM"].update(
         "UNSAFESEX": 0.312,
         "NEEDLESH": 0.27,
         "HIVTEST": 0.06,
-        "INCAR": 0.00,  # 0.0011,
+        "INCAR": 0.0,
         "HAARTadh": 0.817,  # 0.598,#0.34,
         "HAARTdisc": 0.07,
         "PrEPdisc": 0.10,
