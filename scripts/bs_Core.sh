@@ -2,11 +2,11 @@
 #SBATCH -J MODEL_NAME
 #SBATCH --ntasks=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --time=12:00:00
+#SBATCH --time=WALL_TIME
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-type=END
-#SBATCH --mail-user=Maximilian_King.brown.edu
-#SBATCH --mem=14GB
+#SBATCH --mail-user=NoMail
+#SBATCH --mem=MEMORYGB
 
 if [ -z "$SLURM_NPROCS" ] ; then
   if [ -z "$SLURM_NTASKS_PER_NODE" ] ; then
@@ -33,4 +33,4 @@ echo This job has allocated $NCPU CPUs
 # $SLURM_NPROCS = nodes x ppn
 # Change global N_MC in MPI_simulation.py to $SLURM_NPROCS
 # and PROCESSES to a multiple of $SLURM_NPROCS for optimal distribution
-python run_titan.py
+python3 run_titan.py

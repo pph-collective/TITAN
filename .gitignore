@@ -17,4 +17,5 @@ pyproject.toml
 
 ipynb/.ipynb_checkpoints/
 
-results/*
+results/*.txt
+results/*/*.txt

@@ -54,6 +54,7 @@ def get_stats(
         "iduPartPrep": 0,
         "msmwPartPrep": 0,
         "testedPartPrep": 0,
+        "vaccinated": 0,
     }
 
     stats = {}
@@ -142,6 +143,7 @@ def get_stats(
             stats[tmpA._race][tmpA._SO]["deaths_HIV"] += 1
 
     # Sum 'ALL' categories for race/SO bins
+
     for race in stats:
         if race != "ALL":
             for param in stats_template:
@@ -269,8 +271,7 @@ def newlyhighriskReport(
                 stats["ALL"][sex_type]["newHR_ART"],
             )
         )
-
-    f.write("\n")
+        f.write("\n")
     f.close()
 
 

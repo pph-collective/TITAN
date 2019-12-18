@@ -17,7 +17,7 @@ class Agent:
 
     # TO_REVIEW initial_agent not used
     def __init__(
-        self, SO: str, age: int, race: str, DU: str, initial_agent: bool = False,
+        self, SO: str, age: int, race: str, DU: str, initial_agent: bool = False
     ):
         """
         Initialize an agent based on given properties
@@ -72,6 +72,11 @@ class Agent:
         self._treatment_bool = False
         self._treatment_time = 0
         self._PrEP_reason: List[str] = []
+        self.vaccine_time = 0
+        self.vaccine_type = ""
+        self.vaccine_bool = False
+        self.partnerTraced = False
+        self.traceTime = 0
 
         # PrEP pharmacokinetics
         self._PrEP_load = 0.0

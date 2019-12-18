@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding: utf-8
 
 # Imports
@@ -12,6 +12,7 @@ import numpy as np  # type: ignore
 from scipy.stats import binom  # type: ignore
 from scipy.stats import poisson  # type: ignore
 import networkx as nx  # type: ignore
+
 
 from .agent import Agent_set, Agent, Relationship
 from .network_graph_tools import NetworkClass
@@ -120,6 +121,11 @@ class HIVModel(NetworkClass):
         self.totalDiagnosis = 0
         self.treatmentEnrolled = False
 
+        self.newPrEPagents = Agent_set("NewPrEPagents")
+        self.PrEPagents = {
+            "BLACK": {"MSM": 0, "HF": 0, "HM": 0},
+            "WHITE": {"MSM": 0, "HF": 0, "HM": 0},
+        }
         # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed value
         print(("\tRun seed was set to:", runseed))
         self.runRandom = Random(runseed)
@@ -352,7 +358,7 @@ class HIVModel(NetworkClass):
                         )
                     ):
                         for part in tmpA._partners:
-                            if not part._HIV_bool:
+                            if not (part._HIV_bool or part.vaccine_bool):
                                 self._initiate_PrEP(part, time)
                 else:
                     self.highrisk_agentsSet.remove_agent(tmpA)
@@ -378,6 +384,7 @@ class HIVModel(NetworkClass):
                 if burn:
                     if agent._incar_treatment_time >= 1:
                         agent._incar_treatment_time -= 1
+
                 else:
                     self._HIVtest(agent, time)
                     self._progress_to_AIDS(agent)
@@ -396,6 +403,12 @@ class HIVModel(NetworkClass):
                             pass
                         elif agent.PrEP_eligible(time) and not agent._PrEP_bool:
                             self._initiate_PrEP(agent, time)
+                    if (
+                        "Vaccine" in params.PrEP_type
+                        and not agent._PrEP_bool
+                        and not burn
+                    ):
+                        self.advance_vaccine(agent, time, vaxType=params.vaccine_type)
 
         if params.flag_PrEP and time >= params.PrEP_startT:
             if params.PrEP_target_model == "Clinical":
@@ -446,7 +459,10 @@ class HIVModel(NetworkClass):
                         for ag in comp.nodes():
                             if (ag._HIV_bool is False) and (ag._PrEP_bool is False):
                                 ag._treatment_bool = True
-                                if self.runRandom.random() < params.PrEP_Target:
+                                if (
+                                    self.runRandom.random() < params.PrEP_Target
+                                    and not agent.vaccine_bool
+                                ):
                                     self._initiate_PrEP(ag, time, force=True)
                 print(("Total agents in trial: ", totNods))
 
@@ -645,22 +661,31 @@ class HIVModel(NetworkClass):
             ppAct = agent.get_transmission_probability("SEX")
 
             # Reduction of transmissibility for acts between partners for PrEP adherence
-            if partner._PrEP_bool:
-                if partner._PrEPresistance:
-                    pass  # partner prep resistant, no risk reduction
+            if agent._PrEP_bool or partner._PrEP_bool:
+                if agent._PrEPresistance or partner._PrEPresistance:
+                    pass
 
-                elif params.PrEP_type == "Oral":
-                    if partner._PrEP_adh == 1:
-                        ppAct = ppAct * (1.0 - params.PrEP_AdhEffic)  # 0.04
-                    else:
-                        ppAct = ppAct * (1.0 - params.PrEP_NonAdhEffic)  # 0.24
+                else:
+                    if "Oral" in params.PrEP_type:  # params.PrEP_type == "Oral":
+                        if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
+                            ppAct = ppAct * (1.0 - params.PrEP_AdhEffic)  # 0.04
+                        else:
+                            ppAct = ppAct * (1.0 - params.PrEP_NonAdhEffic)  # 0.24
 
-                elif params.PrEP_type == "Inj":
-                    ppActReduction = (
-                        -1.0 * np.exp(-5.528636721 * partner._PrEP_load) + 1
+                    elif "Inj" in params.PrEP_type:
+                        ppActReduction = (
+                            -1.0 * np.exp(-5.528636721 * partner._PrEP_load) + 1
+                        )
+                        if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
+                            ppAct = ppAct * (1.0 - ppActReduction)  # 0.04
+            if partner.vaccine_bool:
+                if params.vaccine_type == "HVTN702":
+                    ppAct *= np.exp(
+                        -2.88 + 0.76 * (np.log(partner.vaccine_time + 0.001 * 30))
                     )
-                    if partner._PrEP_adh == 1:
-                        ppAct = ppAct * (1.0 - ppActReduction)  # 0.04
+
+                elif params.vaccine_type == "RV144":
+                    ppAct *= np.exp(-2.40 + 0.76 * (np.log(partner.vaccine_time)))
 
             p_total_transmission: float
             if U_sex_acts == 1:
@@ -673,8 +698,8 @@ class HIVModel(NetworkClass):
                 self.Transmit_from_agents.append(agent)
                 self.Transmit_to_agents.append(partner)
                 self._become_HIV(partner, time)
-                if agent.get_acute_status():
-                    self.Acute_agents.append(agent)  # TO_REVIEW, why is this done here?
+                if agent.get_acute_status(time):
+                    self.Acute_agents.append(agent)
 
     def _become_HIV(self, agent: Agent, time: int):
         """
@@ -689,6 +714,7 @@ class HIVModel(NetworkClass):
         if not agent._HIV_bool:
             agent._HIV_bool = True
             agent._HIV_time = 1
+            agent.vaccine_bool = False
             self.NewInfections.add_agent(agent)
             self.HIV_agentSet.add_agent(agent)
             if agent._PrEP_time > 0:
@@ -860,7 +886,7 @@ class HIVModel(NetworkClass):
                     or params.PrEP_target_model == "IncarHR"
                 ):
                     # Atempt to put partner on prep if less than probability
-                    if not tmpA._HIV_bool:
+                    if not tmpA._HIV_bool and not agent.vaccine_bool:
                         self._initiate_PrEP(tmpA, time)
 
     # REVIEW - change verbage to diagnosed
@@ -877,21 +903,42 @@ class HIVModel(NetworkClass):
         :Output:
             none
         """
-        if agent._tested:  # agent already tested, no need to test
-            return
+        sex_type = agent._SO
+        race_type = agent._race
+        tested = agent._tested
 
-        # Rescale based on calibration param
-        test_prob = (
-            params.DemographicParams[agent._race][agent._SO]["HIVTEST"]
-            * params.cal_TestFreq
-        )
-
-        # If roll less than test probablity
-        if self.runRandom.random() < test_prob:
-            # Become tested, add to tested agent set
+        def diagnose(agent):
             agent._tested = True
             self.NewDiagnosis.add_agent(agent)
             self.Trt_Tstd_agentSet.add_agent(agent)
+            if (
+                params.setting == "Scott"
+            ):  # TODO fix this logic; should get partnerTraced and then lose it after
+                # For each partner, determine if found by partner testing
+                for ptnr in agent._partners:
+                    if ptnr._HIV_bool and not ptnr._tested:
+                        ptnr.partnerTraced = True
+                        ptnr.traceTime = time + 1
+
+        if not tested:
+            test_prob = params.DemographicParams[race_type][sex_type]["HIVTEST"]
+
+            # Rescale based on calibration param
+            test_prob *= params.cal_TestFreq
+
+            # If roll less than test probablity
+            if self.runRandom.random() < test_prob:
+                # Become tested, add to tested agent set
+                diagnose(agent)
+                # If treatment co-enrollment enabled and coverage greater than 0
+
+            elif (
+                agent.partnerTraced
+                and self.runRandom.random() < 0.87
+                and agent.traceTime == time
+            ):
+                diagnose(agent)
+        agent.partnerTraced = False
 
     def _update_HAART(self, agent: Agent, time: int):
         """
@@ -973,12 +1020,14 @@ class HIVModel(NetworkClass):
         # If force flag set, auto kick off prep.
         if force:
             self.Trt_PrEP_agentSet.remove_agent(agent)
+            self.PrEPagents[agent._race][agent._SO] -= 1
             agent._PrEP_bool = False
             agent._PrEP_reason = []
             agent._PrEP_time = 0
         # else if agent is no longer enrolled on PrEP, increase time since last dose
         elif agent._PrEP_time > 0:
             agent._PrEP_time -= 1
+
         # else if agent is on PrEP, see if they should discontinue
         elif agent._PrEP_bool and agent._PrEP_time == 0:
             if (
@@ -987,10 +1036,9 @@ class HIVModel(NetworkClass):
             ):
                 agent._PrEP_time = params.PrEP_falloutT
                 self.Trt_PrEP_agentSet.remove_agent(agent)
+                self.PrEPagents[agent._race][agent._SO] -= 1
 
-                if (
-                    params.PrEP_type == "Oral"
-                ):  # TO_REVIEW why only reset bool and reason if Oral, but always on force?
+                if "Oral" in params.PrEP_type:
                     agent._PrEP_bool = False
                     agent._PrEP_reason = []
             else:  # if not discontinue, see if its time for a new shot. # TO_REVIEW what is this logic doing? This decrements, then update_PrEP_load increments
@@ -999,6 +1047,41 @@ class HIVModel(NetworkClass):
 
         if params.PrEP_type == "Inj":
             agent.update_PrEP_load()
+
+    def vaccinate(self, ag: Agent, vax: str):
+        ag.vaccine_bool = True
+        ag.vaccine_type = vax
+        ag.vaccine_time = 1
+
+    def advance_vaccine(self, agent: Agent, time: int, vaxType: str):
+        """
+        :Purpose:
+            Progress vaccine. Agents may receive injection or progress in time since injection.
+
+        :Input:
+            agent: Agent
+            time: int
+
+        :Output:
+            none
+        """
+        if agent.vaccine_bool:
+            agent.vaccine_time += 1
+            if (
+                params.flag_booster
+                and agent.vaccine_time
+                == params.DemographicParams[agent._race][agent._SO]["boosterInterval"]
+                and self.runRandom.random()
+                < params.DemographicParams[agent._race][agent._SO]["boosterProb"]
+            ):
+                self.vaccinate(agent, vaxType)
+
+        elif time == params.vaccine_start:
+            if (
+                self.runRandom.random()
+                < params.DemographicParams[agent._race][agent._SO]["vaccinePrev"]
+            ):
+                self.vaccinate(agent, vaxType)
 
     def _initiate_PrEP(self, agent: Agent, time: int, force: bool = False):
         """
@@ -1021,6 +1104,16 @@ class HIVModel(NetworkClass):
             agent._PrEP_time = 0
             self.Trt_PrEP_agentSet.add_agent(agent)
             self.newPrEPagents.add_agent(agent)
+
+            self.PrEPagents[agent._race][agent._SO] += 1
+            self.newPrEPenrolls += 1
+            if params.PrEP_target_model == "CDCwomen":
+                if "IDU" in agent._PrEP_reason:
+                    self.IDUprep += 1
+                if "HIV test" in agent._PrEP_reason:
+                    self.HIVprep += 1
+                if "MSMW" in agent._PrEP_reason:
+                    self.MSMWprep += 1
 
             tmp_rnd = self.runRandom.random()
             if params.setting == "AtlantaMSM":
@@ -1046,6 +1139,7 @@ class HIVModel(NetworkClass):
         assert agent is not None
 
         # Check valid input
+
         # Prep only valid for agents not on prep and are HIV negative
         if agent._PrEP_bool or agent._HIV_bool:
             return
@@ -1056,13 +1150,40 @@ class HIVModel(NetworkClass):
         if force:
             _enrollPrEP(self, agent)
         else:
-            numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
+            if params.PrEP_target_model == "Racial":
+                numPrEP_agents = sum(self.PrEPagents[agent_race].values())
+            else:
+                numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
 
             if params.PrEP_target_model == "Clinical":
                 target_PrEP_population = (
                     self.All_agentSet.num_members() - self.HIV_agentSet.num_members()
                 )
                 target_PrEP = target_PrEP_population * params.PrEP_Target
+
+            elif (
+                params.PrEP_target_model == "Incar"
+                or params.PrEP_target_model == "IncarHR"
+            ):
+                if self.runRandom.random() < params.PrEP_Target:
+                    _enrollPrEP(self, agent)
+                return None
+            elif params.PrEP_target_model == "Racial":
+                all_HIV_agents = set(self.All_agentSet._subset["HIV"]._members)
+                all_race = set(
+                    self.All_agentSet._subset["Race"]._subset[agent._race]._members
+                )
+                HIV_agents = len(all_HIV_agents & all_race)
+                # print("HIV agents", HIV_agents, "totHIV", len(all_HIV_agents))
+                target_PrEP = (
+                    int(
+                        self.All_agentSet._subset["Race"]
+                        ._subset[agent._race]
+                        .num_members()
+                    )
+                    - HIV_agents
+                ) * params.DemographicParams[agent._race][agent._SO]["PrEP_coverage"]
+
             else:
                 target_PrEP = int(
                     (
@@ -1147,6 +1268,7 @@ class HIVModel(NetworkClass):
 
     # TO_REVIEW time and reported not used
     def _die_and_replace(self, time: int, reported: bool = True):
+
         """
         :Purpose:
             Let agents die and replace the dead agent with a new agent randomly.

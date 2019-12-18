@@ -36,7 +36,6 @@ class NetworkClass(PopulationClass):
 
             network_type: defaul is "scale_free", other options are "max_k_comp_size" and "binomial"
         """
-
         random.seed(netSeed)
         np.random.seed(netSeed)
 
@@ -51,7 +50,7 @@ class NetworkClass(PopulationClass):
 
         PopulationClass.__init__(self, n=N, rSeed=popSeed)  # Create population
 
-        self.NetworkSize = N
+        # self.NetworkSize = N
         if network_type == "scale_free":
             self.G = nx.Graph()
             for i in range(10):
@@ -89,12 +88,16 @@ class NetworkClass(PopulationClass):
                 )
             components = sorted(self.connected_components(), key=len, reverse=True)
             for comp in components:
-                if comp.number_of_nodes() > params.maxComponentSize:
+                if (
+                    params.calcComponentStats
+                    and comp.number_of_nodes() > params.maxComponentSize
+                ):
                     print("TOO BIG", comp, comp.number_of_nodes())
                     trimComponent(comp, params.maxComponentSize)
                 elif (
-                    comp.number_of_nodes() < params.minComponentSize
-                ):  # TO_REVIEW what should happen if it's too small?
+                    params.calcComponentStats
+                    and comp.number_of_nodes() < params.minComponentSize
+                ): # TO_REVIEW what should happen if it's too small?
                     print("TOO SMALL", comp, comp.number_of_nodes())
             print("Total agents in graph: ", self.G.number_of_nodes())
         else:

@@ -5,7 +5,7 @@ import os
 import numpy as np  # type: ignore
 from typing import Sequence, List, Dict, Optional, Any
 
-from . import params  # type: ignore
+from titan import params
 from .ABM_core import HIVModel
 
 
@@ -45,7 +45,6 @@ def stats_to_results(stats: Dict[str, Any], results: Dict[str, Any]):
     """
     for t in stats.keys():
         stat = stats[t]["ALL"]["ALL"]
-
         results["Prv_HIV"][t].append(safe_divide(stat["numHIV"], stat["numAgents"]))
         results["Prv_AIDS"][t].append(safe_divide(stat["numAIDS"], stat["numHIV"]))
         results["Prv_Test"][t].append(safe_divide(stat["numTested"], stat["numHIV"]))

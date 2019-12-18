@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #Read in source code path, then shift for optargs
-version="0.92c"
-titanPath="/gpfs/data/bm8/TITAN/TITAN/"
+version="0.1.1"
+titanPath="/gpfs/data/bm8/TITAN/TITANv0.1.0/"
 settingPath="$1"
 shift
 
@@ -11,7 +11,7 @@ if [ $settingPath ]; then
 fi
 
 date=`date +%Y-%m-%d-T%H-%M-%S`
-srcCode="${titanPath}"
+srcCode="${titanPath}titan/"
 parentPath="Module_$setting/"
 jobname=Analysis_$setting_$date
 outPath="$HOME/scratch/$parentPath"
@@ -72,27 +72,31 @@ echo "
 "
 
 #TITAN params
-sed -i "s/\(rSeed = \)\([0-9]*\)/\1${seed}/g" params.py
-sed -i "s/\(N_MC = \)\([0-9]*\)/\1${nMC}/g" params.py
-sed -i "s/\(N_POP = \)\([0-9]*\)/\1${nPop}/g" params.py
-sed -i "s/\(TIME_RANGE = \)\([0-9]*\)/\1${simT}/g" params.py
-sed -i "s/\(burnDuration = \)\([0-9]*\)/\1${burn}/g" params.py
+sed -i "s/\(rSeed = \)\([0-9]*\)/\1${seed}/g" titan/params.py
+sed -i "s/\(N_MC = \)\([0-9]*\)/\1${nMC}/g" titan/params.py
+sed -i "s/\(N_POP = \)\([0-9]*\)/\1${nPop}/g" titan/params.py
+sed -i "s/\(TIME_RANGE = \)\([0-9]*\)/\1${simT}/g" titan/params.py
+sed -i "s/\(burnDuration = \)\([0-9]*\)/\1${burn}/g" titan/params.py
 
 #Submit script params
-sed -i "s/MODEL_NAME/$jobname/g" bs_Core.sh
-sed -i "s/WALL_TIME/$walltime/g" bs_Core.sh
-sed -i "s/MEMORY/$memory/g" bs_Core.sh
+sed -i "s/MODEL_NAME/$jobname/g" scripts/bs_Core.sh
+sed -i "s/WALL_TIME/$walltime/g" scripts/bs_Core.sh
+sed -i "s/MEMORY/$memory/g" scripts/bs_Core.sh
 
 }
 
 prepSubmit() {
 
     #Copy source code into parent path
-    echo -e "\n\tMoving setting $setting into $srcCode"
-    cp $settingPath $srcCode/titan/params.py
+    #echo -e "\n\tMoving setting $setting into $srcCode"
+    #cp $settingPath $srcCode/params.py
     echo -e "\n\tCopying $srcCode to $finalPath"
-    cp -rT $srcCode/* $finalPath
-
+    mkdir -p $finalPath
+    cp $titanPath/run_titan.py $finalPath
+    cp -rT $titanPath/titan $finalPath/titan
+    cp -rT $titanPath/scripts $finalPath/scripts
+    mkdir -p $finalPath/results/network
+    cp $settingPath $finalPath/titan/params.py
     #Move into new source code folder
     echo -e "\n\tMoving to model folder directory"
     cd $finalPath

@@ -28,7 +28,8 @@ def main():
     if os.path.isdir(outfile_dir):
         shutil.rmtree(outfile_dir)
     os.mkdir(outfile_dir)
-
+    if not os.path.exists("results/network"):
+        os.makedirs("results/network")
     for single_sim in range(params.N_MC):
         outfile_dir = os.path.join(
             os.getcwd(), "results/results_simulation_MP_%d" % single_sim

@@ -13,10 +13,10 @@ rSeed_net = 0
 rSeed_run = 0
 N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_REPS = 1
-N_POP = 1000  # population size
-TIME_RANGE = 10  # total time steps to iterate
-burnDuration = 1
-model = "Custom"  # Model Type for fast flag toggling
+N_POP = 17440  # population size
+TIME_RANGE = 120  # total time steps to iterate
+burnDuration = 36
+model = "VaccinePrEP"  # Model Type for fast flag toggling
 setting = "AtlantaMSM"
 network_type = "scale_free"
 ####################
@@ -36,14 +36,7 @@ HFreport = False
 drawFigures = False
 calcComponentStats = False
 flag_agentZero = False
-
-reports = [
-    "deathReport",
-    "incarReport",
-    "newlyhighriskReport",
-    "prepReport",
-    "basicReport",
-]
+drawEdgeList = False
 
 """
 Calibration scaling parameters for fitting to empirical data
@@ -55,7 +48,7 @@ PARTNERTURNOVER = (
 cal_NeedlePartScaling = 1.00  # IDU partner number scaling
 cal_NeedleActScaling = 1.00  # IDU act frequency scaling factor
 cal_SexualPartScaling = 1.0  # Sexual partner number scaling factor
-cal_SexualActScaling = 2.0  # Sexual acts  scaling factor
+cal_SexualActScaling = 0.45  # Sexual acts  scaling factor
 cal_pXmissionScaling = 1.0  # 0.92 # Global transmission probability scaling factor
 cal_AcuteScaling = 4.3  # Infectivity multiplier ratio for Acute status infections
 cal_RR_Dx = 0.0  # Risk reduction in transmission probability for agents diagnosed
@@ -63,11 +56,11 @@ cal_RR_HAART = 1.0  # Scaling factor for effectiveness of ART therapy on xmissio
 cal_TestFreq = 0.3  # Scaling factor for testing frequency
 cal_Mortality = 0.5  # Scaling factor for all cause mortality rates
 cal_ProgAIDS = 0.05  # Scaling factor for all progression to AIDS from HIV rates
-cal_ART_cov = 0.4  # Scaling factor for enrollment on ART probability
+cal_ART_cov = 0.2  # Scaling factor for enrollment on ART probability
 cal_IncarP = 1.0
-cal_raceXmission = 4.0
+cal_raceXmission = 3.75
 cal_ptnrSampleDepth = 100
-cal_Vaccine = 0
+cal_Vaccine = 0  # determines vaccine initiation during run
 
 # High risk params
 HR_partnerScale = 300  # Linear increase to partner number during HR period
@@ -83,7 +76,7 @@ flag_AgeAssortMix = False
 flag_RaceAssortMix = True
 AssortMixCoeff = 0.75  # Proportion of race1 mixing with race2 when partnering.
 safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
-initTreatment = 999999
+initTreatment = 0
 treatmentCov = 0.0
 
 """
@@ -107,9 +100,9 @@ inc_ARTdisc = 0.12
 inc_Recidivism = 0.267
 
 # PrEP params
-PrEP_type = ["Oral", "Vaccine"]  # Oral/Inj PrEP modes
+PrEP_type = ["Oral", "Vaccine"]  # Oral/Inj PrEP and/or vaccine
 PrEP_Target = (
-    0.00  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+    1.0  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 )
 PrEP_startT = 0  # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82  # Probability of being adherent
@@ -119,19 +112,19 @@ PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
 PrEP_target_model = (
-    "Allcomers"  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,CDC,Racial
+    "Racial"  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,CDC,Racial
 )
-PrEP_init_var1 = 0.05
-PrEP_init_var2 = 0.025
-PrEP_clinic_cat = "Racial"
+PrEP_init_var1 = 0.5
+PrEP_init_var2 = 0.05
+PrEP_clinic_cat = ""
 
 if "Oral" in PrEP_type:
-    PrEP_Adherence = "byRace"
+    PrEP_Adherence = "AtlantaMSM"
     PrEP_AdhEffic = 0.96
     PrEP_NonAdhEffic = 0.76
     PrEP_falloutT = 1
     PrEP_disc = 0.15
-elif PrEP_type == "Inj":
+elif "Inj" in PrEP_type:
     PrEP_Adherence = 1.0
     PrEP_AdhEffic = 1.0
     PrEP_NonAdhEffic = 1.00
@@ -175,7 +168,7 @@ elif model == "NoIncar":
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
-elif model == "Custom":
+elif model == "VaccinePrEP":
     flag_incar = False
     flag_PrEP = True
     flag_HR = False
@@ -183,6 +176,13 @@ elif model == "Custom":
     flag_DandR = True
     flag_staticN = False
     flag_booster = False
+elif model == "Custom":
+    flag_incar = False
+    flag_PrEP = True
+    flag_HR = False
+    flag_ART = True
+    flag_DandR = True
+    flag_staticN = False
 
 agentPopulations = ["MSM"]
 agentSexTypes = ["MSM"]
@@ -211,10 +211,12 @@ RC_template = {
     "HAARTprev": 0.0,
     "HAARTadh": 0.0,  # Adherence to ART therapy
     "HAARTdisc": 0.0,  # Probability of discontinuing ART therapy
-    "EligSE_PartnerType": None,  # List of agent SO types the agent cant partner with
+    "EligSE_PartnerType": [],  # List of agent SO types the agent cant partner with
     "PrEPdisc": 0.0,  # Probability of discontinuing PrEP treatment
     "HighRiskPrev": 0.0,
+    "EligSE_PartnerType": [],
     "PrEPadh": 1.0,
+    "PrEP_coverage": 0,
     "boosterInterval": 0,
     "vaccinePrev": 0,
 }
@@ -233,9 +235,9 @@ RaceClass1["MSM"]["HIV"] = 0.4
 RaceClass1["MSM"].update(
     {
         "POP": 1.00,
-        "HIV": 0.132,
+        "HIV": 0.0,  #  0.132,
         "AIDS": 0.07,
-        "HAARTprev": 0.410,  # 0.895,
+        "HAARTprev": 0.583,
         "INCARprev": 0.000,
         "TestedPrev": 0.826,
         "mNPart": 7.0,
@@ -246,11 +248,12 @@ RaceClass1["MSM"].update(
         "HIVTEST": 0.055,
         "INCAR": 0.00,  # 0.00014,
         "HAARTadh": 0.885,  # 0.693,#0.57,
-        "HAARTdisc": 0.008,
+        "HAARTdisc": 0.10,
         "PrEPdisc": 0.13,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.911,
-        "vaccinePrev": 0.5,
+        "PrEP_coverage": 0.0,
+        "vaccinePrev": 1,
     }
 )
 
@@ -262,9 +265,9 @@ RaceClass1["ALL"].update(
 RaceClass2["MSM"].update(
     {
         "POP": 1.00,  # 0.028,
-        "HIV": 0.434,
+        "HIV": 0.0,  # 0.434,
         "AIDS": 0.232,
-        "HAARTprev": 0.309,  # 0.845,
+        "HAARTprev": 0.627,
         "INCARprev": 0.00,
         "TestedPrev": 0.655,
         "mNPart": 5.0,
@@ -275,10 +278,12 @@ RaceClass2["MSM"].update(
         "HIVTEST": 0.06,
         "INCAR": 0.00,  # 0.0011,
         "HAARTadh": 0.817,  # 0.598,#0.34,
-        "HAARTdisc": 0.01,
-        "PrEPdisc": 0.15,
+        "HAARTdisc": 0.07,
+        "PrEPdisc": 0.10,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.568,
+        "PrEP_coverage": 0.0,
+        "vaccinePrev": 1.0,
     }
 )
 
@@ -292,9 +297,9 @@ DemographicParams = {"WHITE": RaceClass1, "BLACK": RaceClass2}
 Partnership durations and
 """
 sexualDurations = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
-sexualDurations[1] = {"p_value": 0.456, "min": 1, "max": 3}
-sexualDurations[2] = {"p_value": (0.456 + 0.300), "min": 3, "max": 12}
-sexualDurations[3] = {"p_value": (0.456 + 0.300 + 0.245), "min": 13, "max": 24}
+sexualDurations[1] = {"p_value": 0.525, "min": 1, "max": 3}
+sexualDurations[2] = {"p_value": (0.525 + 0.300), "min": 3, "max": 12}
+sexualDurations[3] = {"p_value": (0.525 + 0.300 + 0.245), "min": 13, "max": 24}
 sexualDurations[4] = {"p_value": (0.281 + 0.209 + 0.281 + 0.230), "min": 13, "max": 24}
 sexualDurations[5] = {"min": 13, "max": 24}
 

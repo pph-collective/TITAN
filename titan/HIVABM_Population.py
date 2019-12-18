@@ -163,7 +163,6 @@ class PopulationClass:
 
         # TO_REVIEW below two agent sets not used anywhere
         self.Trt_SNE_agentSet = Agent_set("SNE", parent=self.treatment_agentSet)
-        self.Trt_MAT_agentSet = Agent_set("MAT", parent=self.treatment_agentSet)
 
         # Sexual orientation agent sets
         self.SO_agentSet = Agent_set(
