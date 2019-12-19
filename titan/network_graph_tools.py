@@ -66,20 +66,9 @@ class NetworkClass(PopulationClass):
                             component.remove_edge(rel._ID1, rel._ID2)
                             self.G.remove_edge(rel._ID1, rel._ID2)
 
-                # TO_REVIEW is this indent level right? this doesn't quite make sense as a recursive function
-                components = sorted(self.connected_components(), key=len, reverse=True)
-                totNods = 0
-                for comp in components:
-                    cNodes = comp.number_of_nodes()
-                    if cNodes > params.maxComponentSize:
-                        trimComponent(comp, params.maxComponentSize)
-                    elif cNodes < params.minComponentSize:
-                        for a in comp.nodes():
-                            if a in self.G:
-                                self.G.remove_node(a)
-
-                    else:
-                        totNods += cNodes
+                # still too big, recurse
+                if component.number_of_nodes() > maxComponentSize:
+                    trimComponent(componenent, maxComponentSize)
 
             self.G = nx.Graph()
             for i in range(10):
@@ -97,7 +86,7 @@ class NetworkClass(PopulationClass):
                 elif (
                     params.calcComponentStats
                     and comp.number_of_nodes() < params.minComponentSize
-                ):  # TO_REVIEW what should happen if it's too small?
+                ):  # REVIEWED what should happen if it's too small? - this should be addressed someday, but it's a larger question than is advisable at the moment
                     print("TOO SMALL", comp, comp.number_of_nodes())
             print("Total agents in graph: ", self.G.number_of_nodes())
         else:
@@ -163,50 +152,6 @@ class NetworkClass(PopulationClass):
         Return random assortative graph produced by ``set_assortative_graph``.
         """
         return self.G
-
-    # TO_REVIEW this isn't used anywhere in this repo or the examples - can always resuscitate it if needed?
-    def draw_histogram(self, t: int = 0):
-        G = self.G
-        degree_sequence = sorted(
-            [d for n, d in G.degree()], reverse=True
-        )  # degree sequence
-        degreeCount = collections.Counter(degree_sequence)
-        deg, cnt = list(zip(*list(degreeCount.items())))
-
-        fig, ax = plt.subplots()
-        plt.bar(deg, cnt, width=0.80, color="b")
-
-        plt.title("Degree Histogram\nTime: %d" % t)
-        plt.ylabel("Count")
-        plt.xlabel("Degree")
-        plt.ylim(0, len(G.nodes))
-        ax.set_xticks([d + 0.4 for d in deg])
-        ax.set_xticklabels(deg)
-
-        # draw graph in inset
-        plt.axes([0.4, 0.4, 0.5, 0.5])
-        Gcc = G
-        pos = graphviz_layout(Gcc, prog="neato", args="")
-        plt.axis("off")
-
-        node_shape = "o"
-        node_color = []
-        for v in Gcc:
-            if v._AIDS_bool:
-                node_color.append("r")
-            elif v._HIV_bool:
-                node_color.append("r")
-            else:
-                node_color.append("g")
-        nx.draw_networkx_nodes(
-            Gcc, pos, node_size=20, node_color=node_color, node_shape=node_shape
-        )
-        nx.draw_networkx_edges(Gcc, pos, alpha=0.4)
-
-        plt.show(block=False)
-        plt.savefig("images/snapshot_%d.png" % t)
-        plt.pause(0.5)
-        plt.close()
 
     def get_network_color(self, coloring):
         G = self.G

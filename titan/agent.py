@@ -15,10 +15,7 @@ class Agent:
     def update_id_counter(cls):
         cls.next_agent_id += 1
 
-    # TO_REVIEW initial_agent not used
-    def __init__(
-        self, SO: str, age: int, race: str, DU: str, initial_agent: bool = False
-    ):
+    def __init__(self, SO: str, age: int, race: str, DU: str):
         """
         Initialize an agent based on given properties
 
@@ -28,7 +25,6 @@ class Agent:
             age (int) - Agents initialization age
             race (str) - Race of agent
             DU (str) - Drug use flag (IDU, NIDU, NDU)
-            initial_agent (bool) - If the agent was created during model init
 
         returns:
             None
@@ -44,7 +40,7 @@ class Agent:
         self._race = race
         self._DU = DU
 
-        self._ageBin = 0  # TO_REVIEW age and ageBin not really used
+        self._ageBin = 0
         self._MSMW = False
 
         # agent-partner params
@@ -158,8 +154,7 @@ class Agent:
         else:
             return False
 
-    # TO_REVIEW time not used
-    def PrEP_eligible(self, time: int) -> bool:
+    def PrEP_eligible(self) -> bool:
         """
         :Purpose:
             Determine if an agent is eligible for PrEP
@@ -229,6 +224,21 @@ class Agent:
             self._PrEP_load = params.PrEP_peakLoad * (
                 (0.5) ** (self._PrEP_lastDose / (params.PrEP_halflife / 30))
             )
+
+    def vaccinate(self, vax: str):
+        """
+        :Purpose:
+            Vaccinate an agent and update relevant fields.
+
+        :Input:
+            vax - str : Vaccine type
+
+        :Output:
+            none
+        """
+        self.vaccine_bool = True
+        self.vaccine_type = vax
+        self.vaccine_time = 1
 
     def get_transmission_probability(self, interaction: str) -> float:
         """ Decriptor
@@ -439,7 +449,6 @@ class Relationship:
         )
 
 
-# TO_REVIEW numerator is only used in print_subsets, is this really needed?
 class Agent_set:
     """
     Class for agents that contain a "set" of agents from a lower

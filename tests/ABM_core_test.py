@@ -64,9 +64,9 @@ def test_model_init():
     assert model.NewIncarRelease.num_members() == 0
     assert model.NewHRrolls.num_members() == 0
 
-    assert len(model.Acute_agents) == 0
-    assert len(model.Transmit_from_agents) == 0
-    assert len(model.Transmit_to_agents) == 0
+    assert len(model.Acute_agents._members) == 0
+    assert len(model.Transmit_from_agents._members) == 0
+    assert len(model.Transmit_to_agents._members) == 0
 
     assert model.totalDiagnosis == 0
     assert model.totalIncarcerated == 0
@@ -85,38 +85,36 @@ def test_agents_interact(make_model, make_agent):
     rel = Relationship(a, p, 10)
 
     a._incar_bool = True
-    assert model._agents_interact(0, rel) is False
+    assert model._agents_interact(rel) is False
 
     a._incar_bool = False
-    assert model._agents_interact(0, rel) is False  # neither HIV
+    assert model._agents_interact(rel) is False  # neither HIV
 
     a._HIV_bool = True
     p._HIV_bool = True
-    assert model._agents_interact(0, rel) is False  # both HIV
+    assert model._agents_interact(rel) is False  # both HIV
 
     p._HIV_bool = False
 
-    assert model._agents_interact(0, rel)  # sex transmssion
+    assert model._agents_interact(rel)  # sex transmssion
     assert p._HIV_bool is False  # but nothing happened (see skipped test)
 
     a._DU = "IDU"
     p._DU = "IDU"
 
     a._incar_treatment_time = 1
-    assert (
-        model._agents_interact(0, rel) is False
-    )  # short circuit due to incar treatment
+    assert model._agents_interact(rel) is False  # short circuit due to incar treatment
 
     a._incar_treatment_time = 0
     model.runRandom = FakeRandom(-0.1)
 
-    assert model._agents_interact(0, rel)  # needle transmission
+    assert model._agents_interact(rel)  # needle transmission
     assert p._HIV_bool
 
     p._HIV_bool = False
     model.runRandom = FakeRandom(1.1)
 
-    assert model._agents_interact(0, rel)  # needle and sex
+    assert model._agents_interact(rel)  # needle and sex
     assert p._HIV_bool is False  # but nothing happened
 
 
@@ -126,22 +124,24 @@ def test_needle_transmission(make_model, make_agent):
     p = make_agent(race="WHITE", DU="IDU", SO="HF")
 
     with pytest.raises(AssertionError):
-        model._needle_transmission(a, p, 0)
+        model._needle_transmission(a, p)
 
     a._HIV_bool = True
     a._HIV_time = 1  # acute
 
     model.runRandom = FakeRandom(-0.1)
 
-    model._needle_transmission(a, p, 0)
+    model._needle_transmission(a, p)
 
     assert p._HIV_bool
-    assert a in model.Transmit_from_agents
-    assert p in model.Transmit_to_agents
-    assert a in model.Acute_agents
+    assert a in model.Transmit_from_agents._members
+    assert p in model.Transmit_to_agents._members
+    assert a in model.Acute_agents._members
 
 
-@pytest.mark.skip("# TO_REVIEW can't get this to pass see to reviews in code")
+@pytest.mark.skip(
+    "# REVIEWED can't get this to pass see to reviews in code - stuck until unsafe sex probability </> issue resolved"
+)
 def test_sex_transmission(make_model, make_agent):
     model = make_model()
     a = make_agent()
@@ -156,12 +156,12 @@ def test_sex_transmission(make_model, make_agent):
     model.runRandom = FakeRandom(0.6)
 
     # test partner becomes
-    model._sex_transmission(0, rel)
+    model._sex_transmission(rel)
 
-    assert a in model.Transmit_from_agents
-    assert p in model.Transmit_to_agents
+    assert a in model.Transmit_from_agents._members
+    assert p in model.Transmit_to_agents._members
     assert p._HIV_bool
-    assert a in model.Acute_agents
+    assert a in model.Acute_agents._members
 
 
 def test_sex_transmission_do_nothing(make_model, make_agent):
@@ -171,18 +171,18 @@ def test_sex_transmission_do_nothing(make_model, make_agent):
     rel = Relationship(a, p, 10)
 
     with pytest.raises(ValueError):
-        model._sex_transmission(0, rel)
+        model._sex_transmission(rel)
 
     a._HIV_bool = True
     p._HIV_bool = True
 
     # test nothing happens
-    model._sex_transmission(0, rel)
+    model._sex_transmission(rel)
 
-    assert a not in model.Transmit_from_agents
-    assert p not in model.Transmit_from_agents
-    assert a not in model.Transmit_to_agents
-    assert p not in model.Transmit_to_agents
+    assert a not in model.Transmit_from_agents._members
+    assert p not in model.Transmit_from_agents._members
+    assert a not in model.Transmit_to_agents._members
+    assert p not in model.Transmit_to_agents._members
 
 
 def test_become_HIV(make_model, make_agent):
@@ -193,7 +193,7 @@ def test_become_HIV(make_model, make_agent):
 
     model.runRandom = FakeRandom(-0.1)
 
-    model._become_HIV(a, 0)
+    model._become_HIV(a)
 
     assert a._HIV_bool
     assert a._HIV_time == 1
@@ -212,7 +212,7 @@ def test_enroll_treatment(make_model):
 
     assert model.treatmentEnrolled is False
 
-    model._enroll_treatment(0)
+    model._enroll_treatment()
 
     assert model.treatmentEnrolled is True
 
@@ -337,40 +337,6 @@ def test_HIVtest_already_tested(make_model, make_agent):
     assert a not in model.Trt_Tstd_agentSet._members
 
 
-def test_update_HAART_t0(make_model, make_agent):
-    model = make_model()
-    a = make_agent(race="WHITE")
-
-    # test error case, agent must be HIV+
-    with pytest.raises(AssertionError):
-        model._update_HAART(a, 0)
-
-    a._HIV_bool = True
-
-    # nothing happens
-    model._update_HAART(a, 0)
-    assert a._HAART_adh == 0
-    assert a._HAART_bool is False
-    assert a not in model.Trt_ART_agentSet._members
-
-    # t0 agent initialized HAART
-    a._HAART_bool = True
-
-    model.runRandom = FakeRandom(0.0)
-    model._update_HAART(a, 0)
-
-    assert a._HAART_adh == 5
-    assert a._HAART_time == 0
-
-    # reset for other branch
-    a._HAART_adh = 0
-    model.runRandom = FakeRandom(1.0)
-    model._update_HAART(a, 0)
-
-    assert a._HAART_adh == 1
-    assert a._HAART_time == 0
-
-
 def test_update_HAART_t1(make_model, make_agent):
     model = make_model()
     a = make_agent(race="WHITE")
@@ -416,7 +382,7 @@ def test_discont_PrEP_force(make_model, make_agent):
     a._PrEP_time = 1000
     model.Trt_PrEP_agentSet.add_agent(a)
 
-    model._discont_PrEP(a, 0, True)
+    model._discont_PrEP(a, True)
 
     assert a._PrEP_bool is False
     assert a._PrEP_reason == []
@@ -434,7 +400,7 @@ def test_discont_PrEP_decrement_time(make_model, make_agent):
     a._PrEP_time = 1000
     model.Trt_PrEP_agentSet.add_agent(a)
 
-    model._discont_PrEP(a, 0)
+    model._discont_PrEP(a)
 
     assert a._PrEP_bool
     assert a._PrEP_reason == ["blah"]
@@ -453,7 +419,7 @@ def test_discont_PrEP_decrement_end(make_model, make_agent):
     a._PrEP_time = 0
     model.Trt_PrEP_agentSet.add_agent(a)
 
-    model._discont_PrEP(a, 0)
+    model._discont_PrEP(a)
 
     assert a._PrEP_bool is False
     assert a._PrEP_reason == []
@@ -474,7 +440,7 @@ def test_discont_PrEP_decrement_not_end(make_model, make_agent):
     a._PrEP_lastDose = 3
     model.Trt_PrEP_agentSet.add_agent(a)
 
-    model._discont_PrEP(a, 0)
+    model._discont_PrEP(a)
 
     assert a._PrEP_bool
     assert a._PrEP_reason == ["blah"]
@@ -631,7 +597,7 @@ def test_die_and_replace_none(make_model):
     model.runRandom = FakeRandom(0.999)  # always greater than death rate
     baseline_pop = deepcopy(model.All_agentSet._members)
 
-    model._die_and_replace(0)  # add arbitrarty time
+    model._die_and_replace()
 
     ids = [a._ID for a in baseline_pop]
     for agent in model.All_agentSet._members:
@@ -652,7 +618,7 @@ def test_die_and_replace_all(make_model):
     num_HM = len([x for x in baseline_pop if x._SO == "HM"])
     num_WHITE = len([x for x in baseline_pop if x._race == "WHITE"])
 
-    model._die_and_replace(0)  # add arbitrarty time
+    model._die_and_replace()
 
     assert num_HM == len([x for x in model.All_agentSet._members if x._SO == "HM"])
     assert num_WHITE == len(
@@ -681,7 +647,7 @@ def test_die_and_replace_incar(make_model):
     model.All_agentSet._members[0]._incar_bool = True
     agent_id = model.All_agentSet._members[0]._ID
 
-    model._die_and_replace(0)  # add arbitrarty time
+    model._die_and_replace()
 
     new_ids = [a._ID for a in model.All_agentSet._members]
     death_ids = [a._ID for a in model.deathSet]

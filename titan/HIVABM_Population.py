@@ -94,7 +94,7 @@ class PopulationClass:
         if type(n) is not int:
             raise ValueError("Population size must be integer")
         else:
-            self.PopulationSize = n  # TO_REVIEW PopulationSize not really used and is calculable - needed?
+            self.PopulationSize = n  # REVIWED PopulationSize not really used and is calculable - needed? - nope
 
         # Parameters
         self.numWhite = round(
@@ -104,7 +104,7 @@ class PopulationClass:
             params.DemographicParams["BLACK"]["ALL"]["Proportion"] * self.PopulationSize
         )
 
-        # build weights of population sex types by race
+        # build weights of population sex types by race - SARAH READ THIS
         self.pop_weights: Dict[str, Dict[str, List[Any]]] = {}
         for race in params.DemographicParams.keys():
             self.pop_weights[race] = {}
@@ -115,19 +115,6 @@ class PopulationClass:
                 self.pop_weights[race]["weights"].append(
                     params.DemographicParams[race][st]["POP"]
                 )
-
-        # TO_REVIEW these aren't used anywhere
-        # MODEL TYPES
-        MT_PrEP = False
-        MT_Incar = False
-        MT_NoIncar = False
-
-        if model == "PrEP":
-            MT_PrEP = True
-        elif model == "Incar":
-            MT_Incar = True
-        elif model == "NoIncar":
-            MT_NoIncar = True
 
         print("\tBuilding class sets")
 
@@ -160,9 +147,6 @@ class PopulationClass:
         self.Trt_ART_agentSet = Agent_set(
             "ART", parent=self.treatment_agentSet, numerator=self.HIV_agentSet
         )
-
-        # TO_REVIEW below two agent sets not used anywhere
-        self.Trt_SNE_agentSet = Agent_set("SNE", parent=self.treatment_agentSet)
 
         # Sexual orientation agent sets
         self.SO_agentSet = Agent_set(
@@ -204,13 +188,11 @@ class PopulationClass:
             agent = self.create_agent("BLACK")
             self.add_agent_to_pop(agent)
 
-        # jail stock duration?
-        # TO_REVIEW shouldn't this be part of createing an agent? Also what are lines 204-209 for?
+        self.initialize_incarceration()
+
+    def initialize_incarceration(self):
         jailDuration = prob.jail_duration()
 
-        prob_Incarc = params.DemographicParams["WHITE"]["HM"][
-            "mNPart"
-        ]  # TO_REVIEW not used
         for tmpA in self.All_agentSet._members:
 
             prob_Incarc = params.DemographicParams[tmpA._race][tmpA._SO]["INCARprev"]
@@ -235,23 +217,6 @@ class PopulationClass:
         :Output:
              newAgent : Agent
         """
-
-        # TO_REVIEW why not create a probability distribution of sex classes then choose from that? Test was infinite loopin so commented is old, and not is new
-        # Determine sextype
-        # demBinP = 0.0
-        # tmp_rnd = self.popRandom.random()
-        # while SexType == "NULL":
-        #     # TO_REVIEW - why does this use RaceClass1?
-        #     # For each demographic class within race
-        #     for demClass in list(params.RaceClass1.keys()):
-        #         # If demClass is enabled for model
-        #         if demClass in params.agentSexTypes:
-        #             # Calculate probability # TO_REVIEW why is this cumulative?
-        #             demBinP += params.DemographicParams[Race][demClass]["POP"]
-        #             # If match, set SexType
-        #             if tmp_rnd < demBinP:
-        #                 SexType = demClass
-        #                 break
         if SexType == "NULL":
             SexType = np.random.choice(
                 self.pop_weights[Race]["values"], p=self.pop_weights[Race]["weights"]
@@ -270,9 +235,7 @@ class PopulationClass:
         newAgent._ageBin = ageBin
 
         if params.setting == "Phil2005" and SexType == "HM":
-            if (
-                self.popRandom.random() < 0.06
-            ):  # TO_REVIEW I changed this from tmp_rand is that important?
+            if self.popRandom.random() < 0.06:
                 newAgent._MSMW = True
 
         # HIV
@@ -311,6 +274,16 @@ class PopulationClass:
                 if self.popRandom.random() < prob_HAART:
                     newAgent._HAART_bool = True
                     newAgent._treatment_bool = True
+
+                    HAART_ADH = params.DemographicParams[Race][SexType]["HAARTadh"]
+                    if self.popRandom.random() < HAART_ADH:
+                        adherence = 5
+                    else:
+                        adherence = self.popRandom.randint(1, 4)
+
+                    # add to agent haart set
+                    newAgent._HAART_adh = adherence
+                    newAgent._HAART_time = 0
 
             # if HIV, how long has the agent had it? Random sample
             newAgent._HIV_time = self.popRandom.randint(1, 42)
@@ -405,12 +378,7 @@ class PopulationClass:
     def get_age(self, race: str):
         rand = self.popRandom.random()
 
-        # TO_REVIEW why the fallthrough case and an else?
-        minAge = 15
-        maxAge = 80
-        ageBin = 0
-
-        # TO_REVIEW why does AtlantaMSM use different age bins? should this all be paramable?
+        # REVIEWED why does AtlantaMSM use different age bins? should this all be paramable? - this will be revisited with future age things
         if params.setting == "AtlantaMSM":
             if rand < params.ageMatrix[race]["Prop"][1]:
                 minAge = 18
@@ -428,6 +396,10 @@ class PopulationClass:
                 minAge = 30
                 maxAge = 39
                 ageBin = 4
+            else:
+                minAge = 15
+                maxAge = 80
+                ageBin = 0
         else:
             if rand < params.ageMatrix[race]["Prop"][1]:
                 minAge = 15
@@ -453,7 +425,7 @@ class PopulationClass:
         age = self.popRandom.randrange(minAge, maxAge)
         return age, ageBin
 
-    # TO_REVIEW should these be in the network class?
+    # REVIEWED should these be in the network class? - max to incorporate with network/pop/model disentangling?
     def update_agent_partners(self, graph, agent: Agent) -> bool:
         partner = get_partner(agent, self.All_agentSet)
         noMatch = False
@@ -472,16 +444,13 @@ class PopulationClass:
     def update_partner_assignments(self, partnerTurnover: float, graph):
         # Now create partnerships until available partnerships are out
         EligibleAgents = self.All_agentSet
-        num_no_match = 0  # TO_REVIEW this number not used, needed?
         for agent in EligibleAgents.iter_agents():
             acquirePartnerProb = (
                 params.cal_SexualPartScaling
                 * partnerTurnover
                 * (agent._mean_num_partners / (12.0))
             )
-            if (
-                np.random.uniform(0, 1) < acquirePartnerProb
-            ):  # TO_REVIEW why np.random.uniform here instead of self.popRandom.random()?
-                num_no_match += self.update_agent_partners(graph, agent)
+            if self.popRandom.random() < acquirePartnerProb:
+                self.update_agent_partners(graph, agent)
             else:
                 graph.add_node(agent)

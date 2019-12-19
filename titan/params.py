@@ -148,7 +148,7 @@ if "Oral" in PrEP_type:
     PrEP_NonAdhEffic = 0.76
     PrEP_falloutT = 1
     PrEP_disc = 0.15
-    PrEP_peakLoad = 1.0  # TO_REVIEW these weren't here, but for testing purposes, variables need to be consistent
+    PrEP_peakLoad = 1.0
     PrEP_halflife = 1.0
 elif "Inj" in PrEP_type:
     PrEP_Adherence = 1.0
@@ -204,7 +204,7 @@ elif model == "VaccinePrEP":
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
-    flag_booster = True  # TO_REVIEW flag_booster was only here - added everywhere else otherwise crashed
+    flag_booster = True
 elif model == "Custom":
     flag_incar = False
     flag_PrEP = True
@@ -260,7 +260,6 @@ for a in agentPopulations:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
-# TO_REVIEW added this so testing wouldn't break
 RaceClass2["HM"].update({"POP": 0.2})
 RaceClass2["HF"].update({"POP": 0.8})
 

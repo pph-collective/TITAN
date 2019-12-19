@@ -123,9 +123,7 @@ def save_results(
     for t in range(1, time_range + 1):
 
         # write timestep, model, coverage
-        prep_type = "+".join(
-            params.PrEP_type
-        )  # TO_REVIEW this was added as prep type used to be one thing and is now an array
+        prep_type = "+".join(params.PrEP_type)
 
         outfile.write("%d,%s,%0.2f" % (t, prep_type, params.PrEP_Target))
 

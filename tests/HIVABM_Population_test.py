@@ -79,6 +79,8 @@ def test_create_agent(make_population):
     assert a4._AIDS_bool
     assert a4._tested
     assert a4._HAART_bool
+    assert a4._HAART_adh == 5
+    assert a4._HAART_time == 0
     assert a4._treatment_bool
     assert a4._highrisk_bool
     assert a4._everhighrisk_bool
