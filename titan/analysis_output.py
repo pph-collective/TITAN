@@ -54,7 +54,7 @@ def get_stats(
         "iduPartPrep": 0,
         "msmwPartPrep": 0,
         "testedPartPrep": 0,
-        "vaccinated": 0,
+        "numVaccinated": 0,
     }
 
     stats = {}
@@ -134,6 +134,8 @@ def get_stats(
 
     for tmpA in totalAgents.iter_agents():
         stats[tmpA._race][tmpA._SO]["numAgents"] += 1
+        if tmpA.vaccine_bool:
+            stats[tmpA._race][tmpA._SO]["numVaccinated"] += 1
 
     for tmpA in deathSet:
         stats[tmpA._race][tmpA._SO]["deaths"] += 1
@@ -316,12 +318,12 @@ def basicReport(
             # if this is a new file, write the header info
             if tmpReport.tell() == 0:
                 tmpReport.write(
-                    "run_id\trseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\n"
+                    "run_id\trseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\tVaccinated\n"
                 )
 
             tmpReport.write(
                 (
-                    "{:s}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
+                    "{:s}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
                         str(run_id),
                         runseed,
                         popseed,
@@ -342,6 +344,7 @@ def basicReport(
                         stats[agentRace][agentTypes]["iduPartPrep"],
                         stats[agentRace][agentTypes]["msmwPartPrep"],
                         stats[agentRace][agentTypes]["testedPartPrep"],
+                        stats[agentRace][agentTypes]["numVaccinated"],
                     )
                 )
             )

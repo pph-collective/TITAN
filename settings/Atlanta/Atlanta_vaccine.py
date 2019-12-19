@@ -65,7 +65,7 @@ cal_ART_cov = 0.2  # Scaling factor for enrollment on ART probability
 cal_IncarP = 1.0
 cal_raceXmission = 3.75
 cal_ptnrSampleDepth = 100
-cal_Vaccine = 0  # determines vaccine initiation during run
+cal_Vaccine = 1.0  # determines vaccine initiation during run
 
 # High risk params
 HR_partnerScale = 300  # Linear increase to partner number during HR period
@@ -89,7 +89,7 @@ Vaccine params
 """
 vaccine_type = "HVTN702"
 booster = True
-vaccine_start = 1
+vaccine_start = 0
 
 # Incarceration params
 inc_JailMax = 9
@@ -257,7 +257,7 @@ RaceClass1["MSM"].update(
         "PrEPdisc": 0.13,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.911,
-        "PrEP_coverage": 0.415,
+        "PrEP_coverage": 0.424,
         "boosterInterval": WHITE_BOOSTER,
         "boosterProb": 1.0,
         "vaccinePrev": 0.5,
@@ -289,7 +289,7 @@ RaceClass2["MSM"].update(
         "PrEPdisc": 0.10,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.568,
-        "PrEP_coverage": 0.258,
+        "PrEP_coverage": 0.262,
         "boosterInterval": BLACK_BOOSTER,
         "boosterProb": 1.0,
         "vaccinePrev": 0.5,

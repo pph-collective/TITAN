@@ -379,13 +379,10 @@ class HIVModel(NetworkClass):
 
         for agent in self.All_agentSet.iter_agents():
             agent._timeAlive += 1
-
             if params.flag_incar:  # and not burn:
                 self._incarcerate(agent, time)
-
             if agent._MSMW and self.runRandom.random() < params.HIV_MSMW:
                 self._become_HIV(agent, 0)
-
             if agent._HIV_bool:
                 # If in burnin, ignore HIV
                 if burn:
@@ -416,7 +413,6 @@ class HIVModel(NetworkClass):
                         and not burn
                     ):
                         self.advance_vaccine(agent, time, vaxType=params.vaccine_type)
-
         if params.flag_PrEP and time >= params.PrEP_startT:
             if params.PrEP_target_model == "Clinical":
                 if time > params.PrEP_startT:
@@ -683,16 +679,16 @@ class HIVModel(NetworkClass):
                             )
                             if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
                                 ppAct = ppAct * (1.0 - ppActReduction)  # 0.04
-                if partner.vaccine_bool:
+                if partner.vaccine_bool or agent.vaccine_bool:
                     if params.vaccine_type == "HVTN702":
-                        ppActReduction = 1 - np.exp(
-                            -2.88 + 0.76 * (np.log(partner.vaccine_time + 0.001 * 30))
+                        ppActPerc = np.exp(
+                            -2.88 + 0.76 * (np.log((partner.vaccine_time + 0.001) * 30))
                         )
                     elif params.vaccine_type == "RV144":
-                        ppActReduction = 1 - np.exp(
+                        ppActPerc = np.exp(
                             -2.40 + 0.76 * (np.log(partner.vaccine_time))
                         )
-                    ppAct = 1 - ppActReduction
+                    ppAct *= (ppActPerc)
                 p_total_transmission: float
                 if U_sex_acts == 1:
                     p_total_transmission = ppAct
@@ -1021,7 +1017,9 @@ class HIVModel(NetworkClass):
         self, agent: Agent, time: int
     ) -> bool:  # REVIEWED should this be in agent? self not used - move to agent
         eligible = False
-        if params.PrEP_target_model in ["Allcomers", "Racial"]:
+        print("Got here")
+        if len(params.PrEP_target_model & {"Allcomers", "Racial"}) > 0:
+            print("eligible")
             eligible = True
         elif params.PrEP_target_model == "CDCwomen":
             if agent._SO == "HF":
@@ -1137,7 +1135,6 @@ class HIVModel(NetworkClass):
         ag.vaccine_bool = True
         ag.vaccine_type = vax
         ag.vaccine_time = 1
-
     def advance_vaccine(self, agent: Agent, time: int, vaxType: str):
         """
         :Purpose:
@@ -1191,7 +1188,6 @@ class HIVModel(NetworkClass):
             self.newPrEPagents.add_agent(agent)
 
             self.PrEPagents[agent._race][agent._SO] += 1
-            self.newPrEPenrolls += 1
             if params.PrEP_target_model == "CDCwomen":
                 if "IDU" in agent._PrEP_reason:
                     self.IDUprep += 1
@@ -1237,6 +1233,7 @@ class HIVModel(NetworkClass):
         else:
             if params.PrEP_target_model == "Racial":
                 numPrEP_agents = sum(self.PrEPagents[agent_race].values())
+                print("prep agents", numPrEP_agents)
             else:
                 numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
 
@@ -1258,7 +1255,7 @@ class HIVModel(NetworkClass):
                 all_race = set(
                     self.All_agentSet._subset["Race"]._subset[agent._race]._members
                 )
-                HIV_agents = len(all_HIV_agents & all_race)
+                HIV_agents = sum(all_HIV_agents & all_race)
                 # print("HIV agents", HIV_agents, "totHIV", len(all_HIV_agents))
                 target_PrEP = (
                     int(
