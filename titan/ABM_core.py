@@ -174,7 +174,6 @@ class HIVModel(NetworkClass):
             )
             for t in range(0, burnDuration + 1):
                 self._update_AllAgents(t, burn=True)
-
                 if params.flag_DandR:
                     self._die_and_replace(t)
             print(("\tBurn Cuml Inc:\t{}".format(self.NewInfections.num_members())))
@@ -407,12 +406,10 @@ class HIVModel(NetworkClass):
                             pass
                         elif agent.PrEP_eligible(time) and not agent._PrEP_bool:
                             self._initiate_PrEP(agent, time)
-                    if (
-                        "Vaccine" in params.PrEP_type
-                        and not agent._PrEP_bool
-                        and not burn
-                    ):
-                        self.advance_vaccine(agent, time, vaxType=params.vaccine_type)
+                    if "Vaccine" in params.PrEP_type and not agent._PrEP_bool:
+                        self.advance_vaccine(
+                            agent, time, vaxType=params.vaccine_type, burn=burn
+                        )
         if params.flag_PrEP and time >= params.PrEP_startT:
             if params.PrEP_target_model == "Clinical":
                 if time > params.PrEP_startT:
@@ -688,7 +685,7 @@ class HIVModel(NetworkClass):
                         ppActPerc = np.exp(
                             -2.40 + 0.76 * (np.log(partner.vaccine_time))
                         )
-                    ppAct *= (ppActPerc)
+                    ppAct *= ppActPerc
                 p_total_transmission: float
                 if U_sex_acts == 1:
                     p_total_transmission = ppAct
@@ -1135,7 +1132,8 @@ class HIVModel(NetworkClass):
         ag.vaccine_bool = True
         ag.vaccine_type = vax
         ag.vaccine_time = 1
-    def advance_vaccine(self, agent: Agent, time: int, vaxType: str):
+
+    def advance_vaccine(self, agent: Agent, time: int, vaxType: str, burn: bool):
         """
         :Purpose:
             Progress vaccine. Agents may receive injection or progress in time since injection.
@@ -1147,6 +1145,7 @@ class HIVModel(NetworkClass):
         :Output:
             none
         """
+        initVaccine = params.init_with_vaccine
         if agent.vaccine_bool:
             agent.vaccine_time += 1
             if (
@@ -1159,11 +1158,18 @@ class HIVModel(NetworkClass):
                 self.vaccinate(agent, vaxType)
 
         elif time == params.vaccine_start:
-            if (
-                self.runRandom.random()
-                < params.DemographicParams[agent._race][agent._SO]["vaccinePrev"]
-            ):
-                self.vaccinate(agent, vaxType)
+            if initVaccine and burn:
+                if (
+                    self.runRandom.random()
+                    < params.DemographicParams[agent._race][agent._SO]["vaccinePrev"]
+                ):
+                    self.vaccinate(agent, vaxType)
+            elif not initVaccine and not burn:
+                if (
+                    self.runRandom.random()
+                    < params.DemographicParams[agent._race][agent._SO]["vaccinePrev"]
+                ):
+                    self.vaccinate(agent, vaxType)
 
     def _initiate_PrEP(self, agent: Agent, time: int, force: bool = False):
         """

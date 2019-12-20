@@ -2,7 +2,7 @@
 
 #Read in source code path, then shift for optargs
 version="0.1.0"
-titanPath="/gpfs/data/bm8/TITAN/TITANv0.1.0/"
+titanPath="/gpfs/data/bm8/TITAN/TITAN/"
 settingPath="$1"
 shift
 
