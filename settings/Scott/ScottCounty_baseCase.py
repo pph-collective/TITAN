@@ -235,6 +235,8 @@ elif model == "Custom":
 agentPopulations = [
     "HM",
     "HF",
+    "IDU",
+    "MSM",
 ]  # Populations in the model, possibilities HM, HF, MSM, WSW, MTF
 agentSexTypes = ["HM", "HF", "MSM"]  # redundant w above?
 """
