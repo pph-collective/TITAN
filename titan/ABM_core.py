@@ -1237,9 +1237,8 @@ class HIVModel(NetworkClass):
         if force:
             _enrollPrEP(self, agent)
         else:
-            if params.PrEP_target_model == "Racial":
+            if "Racial" in params.PrEP_target_model:
                 numPrEP_agents = sum(self.PrEPagents[agent_race].values())
-                print("prep agents", numPrEP_agents)
             else:
                 numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
 
@@ -1256,7 +1255,7 @@ class HIVModel(NetworkClass):
                 if self.runRandom.random() < params.PrEP_Target:
                     _enrollPrEP(self, agent)
                 return None
-            elif params.PrEP_target_model == "Racial":
+            elif "Racial" in params.PrEP_target_model:
                 all_HIV_agents = set(self.All_agentSet._subset["HIV"]._members)
                 all_race = set(
                     self.All_agentSet._subset["Race"]._subset[agent._race]._members
