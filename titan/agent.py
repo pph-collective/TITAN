@@ -78,6 +78,8 @@ class Agent:
         self.vaccine_bool = False
         self.partnerTraced = False
         self.traceTime = 0
+        self.awareness = False
+        self.opinion = 0
 
         # PrEP pharmacokinetics
         self._PrEP_load = 0.0
@@ -402,7 +404,7 @@ class Relationship:
     def update_id_counter(cls):
         cls.next_rel_id += 1
 
-    def __init__(self, ID1: Agent, ID2: Agent, SO: str, rel_type: str, duration: int):
+    def __init__(self, ID1: Agent, ID2: Agent, SO: str, duration: int, rel_type: str):
         """
         :Purpose:
             Constructor for a Relationship
@@ -424,6 +426,7 @@ class Relationship:
         # Relationship properties
         self._duration = duration
         self._total_sex_acts = 0
+        self._rel_type = rel_type
 
     def progress(self, forceKill: bool = False):
         if self._duration <= 0 or forceKill:
