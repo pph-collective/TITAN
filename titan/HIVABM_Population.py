@@ -573,18 +573,35 @@ class PopulationClass:
         if partner:  # TODO add these to params
             duration = get_partnership_duration(agent)
             rTypeProb = self.popRandom.random()
-            if rTypeProb < params.injection:
-                tmp_relationship = Relationship(
-                    agent, partner, "MSM", duration, rel_type="injection"
-                )
-            elif rTypeProb < params.multiplex:
-                tmp_relationship = Relationship(
-                    agent, partner, "MSM", duration, rel_type="multiplex"
-                )
-            elif rTypeProb < params.sexOnly:
-                tmp_relationship = Relationship(
-                    agent, partner, "MSM", duration, rel_type="sexOnly"
-                )
+
+            if params.bond_type:
+                if agent._DU == "IDU" and "injection" in params.bond_type:
+                    if rTypeProb < params.nonSex:
+                        tmp_relationship = Relationship(
+                            agent, partner, "MSM", duration, rel_type="injection"
+                        )
+                    elif rTypeProb < params.multiplex + params.nonSex:
+                        tmp_relationship = Relationship(
+                            agent, partner, "MSM", duration, rel_type="multiplex"
+                        )
+                    else:
+                        tmp_relationship = Relationship(
+                            agent, partner, "MSM", duration, rel_type="sexOnly"
+                        )
+                elif "social" in params.bond_type:
+                    if rTypeProb < params.nonSex:
+                        tmp_relationship = Relationship(
+                            agent, partner, "MSM", duration, rel_type="social"
+                        )
+                    elif rTypeProb < params.multiplex + params.nonSex:
+                        tmp_relationship = Relationship(
+                            agent, partner, "MSM", duration, rel_type="multiplex"
+                        )
+                    else:
+                        tmp_relationship = Relationship(
+                            agent, partner, "MSM", duration, rel_type="sexOnly"
+                        )
+
 
             agent.bond(partner, tmp_relationship)
             self.Relationships.append(tmp_relationship)
