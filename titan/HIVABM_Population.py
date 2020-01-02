@@ -602,7 +602,6 @@ class PopulationClass:
                             agent, partner, "MSM", duration, rel_type="sexOnly"
                         )
 
-
             agent.bond(partner, tmp_relationship)
             self.Relationships.append(tmp_relationship)
             graph.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)

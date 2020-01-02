@@ -68,6 +68,7 @@ class Agent:
         self._HAART_adh = 0
         self._SNE_bool = False
         self._PrEP_bool = False
+        self._PrEP_ever_bool = False
         self._PrEP_time = 0
         self._PrEP_adh = 0
         self._treatment_bool = False

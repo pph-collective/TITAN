@@ -22,7 +22,7 @@ TIME_RANGE = 6  # total time steps to iterate
 burnDuration = 0
 model = "VaccinePrEP"  # Model Type for fast flag toggling
 setting = "AtlantaMSM"
-network_type = "scale_free"
+network_type = "max_k_comp_size"
 ####################
 
 """
@@ -38,7 +38,7 @@ MSMreport = True
 HMreport = False
 HFreport = False
 drawFigures = False
-calcComponentStats = False
+calcComponentStats = True
 flag_agentZero = False
 
 reports = [
@@ -73,6 +73,17 @@ cal_raceXmission = (
     1.0  # Scaling factor for increased STI transmission P comparing race1/race2
 )
 cal_ptnrSampleDepth = 100  # Sampling depth for partnering algorithm.
+
+"""
+Network Params
+"""
+nonSex = 0.5
+multiplex = 0.2
+bond_type = ["social"]
+
+maxComponentSize = 0
+minComponentSize = 2500
+
 
 """
 High risk params
@@ -126,6 +137,7 @@ inc_treat_IDU_beh = True  # Remove IDU behav:iour during treatment duration
 inc_treat_RIC = False  # Force retention in care of ART therapy
 
 # PrEP params
+init_with_vaccine = True
 PrEP_type = ["Oral", "Vaccine"]  # Oral/Inj PrEP and/or vaccine
 PrEP_Target = (
     0.3  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
@@ -137,9 +149,9 @@ PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
-PrEP_target_model = (
+PrEP_target_model = {
     "CDCwomen"  # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
-)
+}
 PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it follow
 
 if "Oral" in PrEP_type:

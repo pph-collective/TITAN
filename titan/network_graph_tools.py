@@ -85,7 +85,7 @@ class NetworkClass(PopulationClass):
 
             self.G = nx.Graph()
             for i in range(10):
-                self.update_partner_assignments(params.PARTNERTURNOVER, self.get_Graph)
+                self.update_partner_assignments(params.PARTNERTURNOVER, self.G)
             components = sorted(
                 nx.connected_component_subgraphs(self.G), key=len, reverse=True
             )
