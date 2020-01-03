@@ -365,7 +365,7 @@ def print_components(
     # if this is a new file, write the header info
     if f.tell() == 0:
         f.write(
-            "run_id\trunseed\tpopseed\tnetseed\tt\tcompID\ttotalN\tTestedPartner\tMSMWpartner\n"
+            "run_id\trunseed\tpopseed\tnetseed\tt\tcompID\tNhiv\tNtrtmt\tNprep\tNtrtHIV\tNprepHIV\n"
         )
 
     compID = 0
