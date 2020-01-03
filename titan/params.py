@@ -18,9 +18,9 @@ rSeed_run = 0
 N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_REPS = 1
 N_POP = 1040  # population size
-TIME_RANGE = 6  # total time steps to iterate
+TIME_RANGE = 2  # total time steps to iterate
 burnDuration = 0
-model = "VaccinePrEP"  # Model Type for fast flag toggling
+model = "Custom"  # Model Type for fast flag toggling
 setting = "AtlantaMSM"
 network_type = "max_k_comp_size"
 ####################
@@ -81,9 +81,6 @@ nonSex = 0.5
 multiplex = 0.2
 bond_type = ["social"]
 
-maxComponentSize = 0
-minComponentSize = 2500
-
 
 """
 High risk params
@@ -140,7 +137,7 @@ inc_treat_RIC = False  # Force retention in care of ART therapy
 init_with_vaccine = True
 PrEP_type = ["Oral", "Vaccine"]  # Oral/Inj PrEP and/or vaccine
 PrEP_Target = (
-    0.3  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+    10.3  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 )
 PrEP_startT = 0  # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82  # Probability of being adherent
@@ -150,7 +147,7 @@ PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
 PrEP_target_model = {
-    "CDCwomen"  # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
+    "Racial"  # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
 }
 PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it follow
 
@@ -190,6 +187,7 @@ if model == "PrEP":
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
+    flag_PCA = True
 elif model == "Incar":
     flag_incar = True
     flag_PrEP = False
@@ -197,6 +195,7 @@ elif model == "Incar":
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
+    flag_PCA = True
 elif model == "NoIncar":
     flag_incar = False
     flag_PrEP = False
@@ -204,6 +203,7 @@ elif model == "NoIncar":
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
+    flag_PCA = True
 elif model == "VaccinePrEP":
     flag_incar = False
     flag_PrEP = True
@@ -212,13 +212,15 @@ elif model == "VaccinePrEP":
     flag_DandR = True
     flag_staticN = False
     flag_booster = True
+    flag_PCA = True
 elif model == "Custom":
     flag_incar = False
     flag_PrEP = True
     flag_HR = False
-    flag_ART = True
-    flag_DandR = True
-    flag_staticN = False
+    flag_ART = False
+    flag_DandR = False
+    flag_staticN = True
+    flag_PCA = True
 
 agentSexTypes = ["HM", "HF", "MSM", "WSW", "MTF"]
 agentPopulations = deepcopy(agentSexTypes)
