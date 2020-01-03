@@ -499,7 +499,6 @@ class HIVModel(NetworkClass):
                     agent = random.choice(bridge)
                     agent.awareness = True
 
-
     def _agents_interact(self, time: int, rel: Relationship):
         """
         :Purpose:

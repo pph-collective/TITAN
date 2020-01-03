@@ -86,7 +86,7 @@ Peer change params
 """
 knowledge = 0.05
 attitude = {1: 0.25, 2: 0.40, 3: 0.20, 4: 0.10, 5: 0.05}
-pcaChoice = "eigenvector" # eigenvector or bridge
+pcaChoice = "eigenvector"  # eigenvector or bridge
 awarenessProb = 0.05
 
 """
