@@ -55,28 +55,27 @@ class NetworkClass(PopulationClass):
             self.G = nx.Graph()
             for i in range(10):
                 self.update_partner_assignments(params.PARTNERTURNOVER, self.G)
+
         elif network_type == "max_k_comp_size":
 
             def trimComponent(component, maxComponentSize):
                 for ag in component.nodes:
-                    if random.random() < 0.1:
-                        for rel in ag._relationships:
-                            # print("Removed edge:",rel)
-                            rel.progress(forceKill=True)
-                            self.Relationships.remove(rel)
-                            component.remove_edge(rel._ID1, rel._ID2)
-                            self.G.remove_edge(rel._ID1, rel._ID2)
+                    # if random.random() < 0.1:
+                    for rel in ag._relationships:
+                        # print("Removed edge:",rel)
+                        rel.progress(forceKill=True)
+                        self.Relationships.remove(rel)
+                        component.remove_edge(rel._ID1, rel._ID2)
+                        self.G.remove_edge(rel._ID1, rel._ID2)
 
-                components = sorted(
-                    nx.connected_component_subgraphs(self.G), key=len, reverse=True
-                )
+                comps = list(nx.connected_component_subgraphs(self.G))
                 totNods = 0
-                for comp in components:
-                    cNodes = comp.number_of_nodes()
+                for component in comps:
+                    cNodes = len(component)
                     if cNodes > params.maxComponentSize:
-                        trimComponent(comp, params.maxComponentSize)
+                        trimComponent(component, params.maxComponentSize)
                     elif cNodes < params.minComponentSize:
-                        for a in comp.nodes():
+                        for a in component.nodes():
                             if a in self.G:
                                 self.G.remove_node(a)
 
@@ -84,11 +83,11 @@ class NetworkClass(PopulationClass):
                         totNods += cNodes
 
             self.G = nx.Graph()
+            self.Ginit = self.G
             for i in range(10):
                 self.update_partner_assignments(params.PARTNERTURNOVER, self.G)
-            components = sorted(
-                nx.connected_component_subgraphs(self.G), key=len, reverse=True
-            )
+            components = list(nx.connected_component_subgraphs(self.G))
+
             for comp in components:
                 if (
                     params.calcComponentStats
@@ -101,7 +100,10 @@ class NetworkClass(PopulationClass):
                     and comp.number_of_nodes() < params.minComponentSize
                 ):
                     print("TOO SMALL", comp, comp.number_of_nodes())
-            print("Total agents in graph: ", self.G.number_of_nodes())
+                    for a in comp.nodes():
+                        print(a)
+                        self.G.remove_node(a)
+
         else:
             print("HUIH")
             raise ValueError("Invalid network type! %s" % str(network_type))

@@ -102,6 +102,12 @@ class HIVModel(NetworkClass):
             popSeed=self.popseed,
             netSeed=self.netseed,
         )
+        initial = [len(x) for x in nx.connected_component_subgraphs(self.Ginit)]
+        later = [len(x) for x in nx.connected_component_subgraphs(self.G)]
+        # for comp in list(nx.connected_component_subgraphs(self.Ginit)):
+        # print(len(comp), comp.number_of_nodes())
+        print("initial", np.mean(initial))
+        print("later", np.mean(later))
 
         # keep track of current time step globally for dynnetwork report
         self.totalIncarcerated = 0
@@ -447,16 +453,15 @@ class HIVModel(NetworkClass):
                             )  # shouldn't be selected again
                             self._initiate_PrEP(selectedAgent, time)
             elif (
-                params.PrEP_target_model == "RandomTrial" and time == params.PrEP_startT
+                "RandomTrial" in params.PrEP_target_model and time == params.PrEP_startT
             ):
                 print("Starting random trial")
-                components = sorted(
-                    nx.connected_component_subgraphs(self.G), key=len, reverse=True
-                )
+                components = list(nx.connected_component_subgraphs(self.G))
                 totNods = 0
                 for comp in components:
                     totNods += comp.number_of_nodes()
-                    if self.runRandom.random() < 0.5:
+
+                    if self.runRandom.random() < 10.5 and len(comp) > 1:
                         # Component selected as treatment pod!
                         for ag in comp.nodes():
                             if (ag._HIV_bool is False) and (ag._PrEP_bool is False):
