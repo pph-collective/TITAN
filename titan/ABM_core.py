@@ -543,6 +543,46 @@ class HIVModel(NetworkClass):
         else:  # REVIEWED - sanity test, with params re-write this logic/check can move there
             raise ValueError("Agents must be either IDU, NIDU, or ND")
 
+        if params.flag_PCA:
+            if rel._ID1.awareness and not rel._ID2.awareness:
+                self._PCA_interaction(rel._ID1, rel._ID2, PCAtype="Knowledge")
+            elif rel._ID2.awareness and not rel._ID1.awareness:
+                self._PCA_interaction(rel._ID2, rel._ID1, PCAtype="Knowledge")
+            elif rel._ID1.awareness and rel._ID2.awareness:
+                self._PCA_interaction(rel._ID1, rel._ID2, PCAtype="Opinion")
+
+    def _PCA_interaction(
+        self, agent: Agent, partner: Agent, PCAtype: str = "Knowledge"
+    ):
+        """
+        :Purpose:
+            Simulate peer change agent interactions
+            Knowledge if one agent is aware and one unaware, opinion if one agent swayint the other
+        :Input:
+            agent: Agent
+            partner: Agent
+            PCAtype: str, either 'Knowledge' or 'Opinion'
+        :return:
+        """
+
+        def knowledgeDissemination(partner):
+            partner.awareness = True
+
+        def influence(agent, partner):
+            agent_influence = nx.closeness_centrality(self.get_Graph(), agent)
+            partner_influence = nx.closeness_centrality(self.get_Graph(), partner)
+            if agent_influence > partner_influence:
+                partner.opinion = np.mean(agent.opinion, partner.opinion)
+            else:
+                agent.opinion = np.mean(agent.opinion, partner.opinion)
+
+        if PCAtype == "Knowledge":
+            knowledgeDissemination(partner)
+        elif PCAtype == "Opinion":
+            influence(agent, partner)
+        else:
+            raise ValueError(f"No PCA type {PCAtype}")
+
     def _needle_transmission(self, agent: Agent, partner: Agent, time: int):
         """
         :Purpose:
@@ -1262,10 +1302,11 @@ class HIVModel(NetworkClass):
                 return None
             elif "Racial" in params.PrEP_target_model:
                 all_HIV_agents = set(self.All_agentSet._subset["HIV"]._members)
+
                 all_race = set(
                     self.All_agentSet._subset["Race"]._subset[agent._race]._members
                 )
-                HIV_agents = sum(all_HIV_agents & all_race)
+                HIV_agents = len(all_HIV_agents & all_race)
                 # print("HIV agents", HIV_agents, "totHIV", len(all_HIV_agents))
                 target_PrEP = (
                     int(
