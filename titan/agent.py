@@ -80,7 +80,7 @@ class Agent:
         self.partnerTraced = False
         self.traceTime = 0
         self.awareness = False
-        self.opinion = 0
+        self.opinion = 0.0
 
         # PrEP pharmacokinetics
         self._PrEP_load = 0.0

@@ -81,6 +81,13 @@ nonSex = 0.5
 multiplex = 0.2
 bond_type = ["social"]
 
+"""
+Peer change params
+"""
+knowledge = 0.05
+attitude = {1: 0.25, 2: 0.40, 3: 0.20, 4: 0.10, 5: 0.05}
+pcaChoice = "eigenvector" # eigenvector or bridge
+awarenessProb = 0.05
 
 """
 High risk params
@@ -135,7 +142,7 @@ inc_treat_RIC = False  # Force retention in care of ART therapy
 
 # PrEP params
 init_with_vaccine = True
-PrEP_type = ["Oral", "Vaccine"]  # Oral/Inj PrEP and/or vaccine
+PrEP_type = ["Oral", "Inj"]  # Oral/Inj PrEP and/or vaccine
 PrEP_Target = (
     10.3  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 )
@@ -300,14 +307,14 @@ RaceClass1["MSM"].update(
 )
 
 RaceClass1["ALL"].update(
-    {"Proportion": 0.611, "HAARTdisc": 0.018, "PrEPdisc": 0.0, "AssortMixCoeff": 0.722}
+    {"Proportion": 0.00, "HAARTdisc": 0.018, "PrEPdisc": 0.0, "AssortMixCoeff": 0.722}
 )
 
 # RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
 RaceClass2["MSM"].update(
     {
         "POP": 1.00,  # 0.028,
-        "HIV": 0.5,  # 0.434,
+        "HIV": 0.0,  # 0.434,
         "AIDS": 0.232,
         "HAARTprev": 0.627,
         "INCARprev": 0.00,
@@ -324,7 +331,7 @@ RaceClass2["MSM"].update(
         "PrEPdisc": 0.10,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.568,
-        "PrEP_coverage": 0.0,
+        "PrEP_coverage": 0.5,
         "vaccinePrev": 1.0,
         "boosterInterval": 3,
         "boosterProb": 1.0,
@@ -332,7 +339,7 @@ RaceClass2["MSM"].update(
 )
 
 RaceClass2["ALL"].update(
-    {"Proportion": 0.389, "HAARTdisc": 0.018, "PrEPdisc": 0.0, "AssortMixCoeff": 0.765}
+    {"Proportion": 1.00, "HAARTdisc": 0.018, "PrEPdisc": 0.0, "AssortMixCoeff": 0.765}
 )
 
 DemographicParams = {"WHITE": RaceClass1, "BLACK": RaceClass2}

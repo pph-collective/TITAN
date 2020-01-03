@@ -384,6 +384,8 @@ class HIVModel(NetworkClass):
 
         for agent in self.All_agentSet.iter_agents():
             agent._timeAlive += 1
+            if self.runRandom.random() < params.awarenessProb:
+                agent.awareness = True
             if params.flag_incar:  # and not burn:
                 self._incarcerate(agent, time)
             if agent._MSMW and self.runRandom.random() < params.HIV_MSMW:
@@ -461,7 +463,7 @@ class HIVModel(NetworkClass):
                 for comp in components:
                     totNods += comp.number_of_nodes()
 
-                    if self.runRandom.random() < 10.5 and len(comp) > 1:
+                    if self.runRandom.random() < 0.5:
                         # Component selected as treatment pod!
                         for ag in comp.nodes():
                             if (ag._HIV_bool is False) and (ag._PrEP_bool is False):
@@ -471,7 +473,32 @@ class HIVModel(NetworkClass):
                                     and not agent.vaccine_bool
                                 ):
                                     self._initiate_PrEP(ag, time, force=True)
+                        if params.pcaChoice == "eigenvector":
+                            centrality = nx.eigenvector_centrality(self.get_Graph())
+                            orderedCentrality = sorted(centrality, key=centrality.get)
+                            agent = orderedCentrality[1]
+                            agent.awareness = True
+                            print("found agent!", agent)
+
+                        elif params.pcaChoice == "bridge":
+                            all_bridges = list(nx.bridges)
+                            bridge = random.choice(all_bridges)
+                            agent = random.choice(bridge)
+                            agent.awareness = True
                 print(("Total agents in trial: ", totNods))
+
+                if params.pcaChoice == "eigenvector":
+                    centrality = nx.eigenvector_centrality(self.get_Graph())
+                    orderedCentrality = sorted(centrality, key=centrality.get)
+                    agent = orderedCentrality[1]
+                    agent.awareness = True
+
+                elif params.pcaChoice == "bridge":
+                    all_bridges = list(nx.bridges)
+                    bridge = random.choice(all_bridges)
+                    agent = random.choice(bridge)
+                    agent.awareness = True
+
 
     def _agents_interact(self, time: int, rel: Relationship):
         """
@@ -562,7 +589,7 @@ class HIVModel(NetworkClass):
             agent: Agent
             partner: Agent
             PCAtype: str, either 'Knowledge' or 'Opinion'
-        :return:
+        :Output: -
         """
 
         def knowledgeDissemination(partner):
@@ -593,7 +620,7 @@ class HIVModel(NetworkClass):
         :Input:
             agents : int
             partner : int
-        time : int
+            time : int
         :Output: -
         """
 
@@ -1170,7 +1197,7 @@ class HIVModel(NetworkClass):
                 if agent._PrEP_lastDose > 2:
                     agent._PrEP_lastDose = -1
 
-        if params.PrEP_type == "Inj":
+        if "Inj" in params.PrEP_type:
             agent.update_PrEP_load()
 
     def vaccinate(self, ag: Agent, vax: str):
@@ -1263,7 +1290,7 @@ class HIVModel(NetworkClass):
                     agent._PrEP_adh = 0
 
             # set PrEP load and dosestep for PCK
-            if params.PrEP_type == "Inj":
+            if "Inj" in params.PrEP_type:
                 agent._PrEP_load = params.PrEP_peakLoad
                 agent._PrEP_lastDose = 0
 

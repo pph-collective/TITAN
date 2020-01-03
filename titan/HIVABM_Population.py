@@ -461,6 +461,18 @@ class PopulationClass:
                 params.DemographicParams[Race][SexType]["NUMPartn"], size=1
             )
 
+        if params.flag_PCA:
+            # if self.popRandom.random() < params.knowledge:
+            #     newAgent.awareness = True
+            attprob = self.popRandom.random()
+            pvalue = 0.0
+            for key in params.attitude:
+                pvalue += params.attitude[key]
+                if attprob < pvalue:
+                    newAgent.opinion = key
+            if newAgent.opinion == 0:
+                raise ValueError("No opinion of LAI-PrEP")
+
         return newAgent
 
     def create_agent(self, agent_cl: Agent, Deliminator: str):
