@@ -678,14 +678,14 @@ class HIVModel(NetworkClass):
                                 ppAct = ppAct * (1.0 - ppActReduction)  # 0.04
                 if partner.vaccine_bool or agent.vaccine_bool:
                     if params.vaccine_type == "HVTN702":
-                        ppActPerc = np.exp(
+                        ppActPerc = 1 - np.exp(
                             -2.88 + 0.76 * (np.log((partner.vaccine_time + 0.001) * 30))
                         )
                     elif params.vaccine_type == "RV144":
-                        ppActPerc = np.exp(
+                        ppActPerc = 1 - np.exp(
                             -2.40 + 0.76 * (np.log(partner.vaccine_time))
                         )
-                    ppAct *= ppActPerc
+                    ppAct *= 1 - ppActPerc
                 p_total_transmission: float
                 if U_sex_acts == 1:
                     p_total_transmission = ppAct
