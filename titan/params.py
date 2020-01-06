@@ -19,7 +19,7 @@ N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_REPS = 1
 N_POP = 1040  # population size
 TIME_RANGE = 6  # total time steps to iterate
-burnDuration = 0
+burnDuration = 1
 model = "VaccinePrEP"  # Model Type for fast flag toggling
 setting = "AtlantaMSM"
 network_type = "scale_free"
@@ -101,6 +101,7 @@ Vaccine params
 """
 vaccine_type = "RV144"
 booster = True
+init_with_vaccine = True
 vaccine_start = 1
 
 # Incarceration params
@@ -137,9 +138,9 @@ PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
-PrEP_target_model = (
-    "CDCwomen"  # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
-)
+PrEP_target_model = {
+    "Racial"  # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
+}
 PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it follow
 
 if "Oral" in PrEP_type:
@@ -245,7 +246,6 @@ RC_template: Dict[str, Any] = {
     "boosterInterval": 0,
     "boosterProb": 0,
     "vaccinePrev": 0,
-    "vaccineInit": 0,
 }
 
 RaceClass1: Dict[str, Any] = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
@@ -278,7 +278,7 @@ RaceClass1["MSM"].update(
         "PrEPdisc": 0.13,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.911,
-        "PrEP_coverage": 0.0,
+        "PrEP_coverage": 0.5,
         "vaccinePrev": 1,
         "boosterInterval": 3,
         "boosterProb": 1.0,
@@ -310,7 +310,7 @@ RaceClass2["MSM"].update(
         "PrEPdisc": 0.10,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.568,
-        "PrEP_coverage": 0.0,
+        "PrEP_coverage": 0.5,
         "vaccinePrev": 1.0,
         "boosterInterval": 3,
         "boosterProb": 1.0,

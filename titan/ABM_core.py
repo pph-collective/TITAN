@@ -1260,7 +1260,7 @@ class HIVModel(NetworkClass):
                 all_race = set(
                     self.All_agentSet._subset["Race"]._subset[agent._race]._members
                 )
-                HIV_agents = sum(all_HIV_agents & all_race)
+                HIV_agents = len(all_HIV_agents & all_race)
                 # print("HIV agents", HIV_agents, "totHIV", len(all_HIV_agents))
                 target_PrEP = (
                     int(
