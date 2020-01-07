@@ -89,7 +89,7 @@ Vaccine params
 """
 vaccine_type = "HVTN702"
 booster = True
-vaccine_start = 0
+vaccine_start = 1
 init_with_vaccine = True
 
 # Incarceration params
@@ -257,9 +257,9 @@ RaceClass1["MSM"].update(
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.911,
         "PrEP_coverage": 0.415,
-        "boosterInterval": 0,
-        "boosterProb": 0.0,
-        "vaccinePrev": 0.0,
+        "boosterInterval": 6,
+        "boosterProb": 1.0,
+        "vaccinePrev": 0.50,
     }
 )
 
@@ -289,9 +289,9 @@ RaceClass2["MSM"].update(
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.568,
         "PrEP_coverage": 0.258,
-        "boosterInterval": 0,
-        "boosterProb": 0.0,
-        "vaccinePrev": 0.0,
+        "boosterInterval": 6,
+        "boosterProb": 1.0,
+        "vaccinePrev": 0.50,
     }
 )
 
