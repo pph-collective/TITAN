@@ -164,7 +164,9 @@ if "Oral" in PrEP_type:
     PrEP_NonAdhEffic = 0.76
     PrEP_falloutT = 1
     PrEP_disc = 0.15
-elif "Inj" in PrEP_type:
+    PrEP_peakLoad = 0
+    PrEP_halflife = 0
+elif "Inj" in PrEP_type: #TODO make both of these compatible; can use both at once??
     PrEP_Adherence = 1.0
     PrEP_AdhEffic = 1.0
     PrEP_NonAdhEffic = 1.00

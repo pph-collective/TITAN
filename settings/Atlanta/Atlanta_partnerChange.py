@@ -138,7 +138,7 @@ if "Oral" in PrEP_type:
     PrEP_NonAdhEffic = 0.76
     PrEP_falloutT = 1
     PrEP_disc = 0.15
-elif PrEP_type == "Inj":
+if PrEP_type == "Inj":
     PrEP_Adherence = 1.0
     PrEP_AdhEffic = 1.0
     PrEP_NonAdhEffic = 1.00
