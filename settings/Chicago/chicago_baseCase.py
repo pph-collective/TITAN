@@ -96,22 +96,22 @@ interactionProb = {
     "multiplex": {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}},
     "social": {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}},
 }  # prob of interaction per timestep (or at relationship formation for sexual)
-interactionProb["sexOnly"][1] = {"pvalue": .450, "min": 0, "max": 0}
-interactionProb["sexOnly"][2] = {"pvalue": .550, "min": 1, "max": 1}
+interactionProb["sexOnly"][1] = {"pvalue": 0.450, "min": 0, "max": 0}
+interactionProb["sexOnly"][2] = {"pvalue": 0.550, "min": 1, "max": 1}
 
-interactionProb["multiplex"][1] = {"pvalue": .306, "min": 0, "max": 0}
-interactionProb["multiplex"][2] = {"pvalue": .144, "min": 1, "max": 1}
-interactionProb["multiplex"][3] = {"pvalue": .067, "min": 2, "max": 2}
-interactionProb["multiplex"][4] = {"pvalue": .106, "min": 4, "max": 4}
-interactionProb["multiplex"][5] = {"pvalue": .150, "min": 5, "max": 29}
-interactionProb["multiplex"][6] = {"pvalue": .228, "min": 30, "max": 30}
+interactionProb["multiplex"][1] = {"pvalue": 0.306, "min": 0, "max": 0}
+interactionProb["multiplex"][2] = {"pvalue": 0.144, "min": 1, "max": 1}
+interactionProb["multiplex"][3] = {"pvalue": 0.067, "min": 2, "max": 2}
+interactionProb["multiplex"][4] = {"pvalue": 0.106, "min": 4, "max": 4}
+interactionProb["multiplex"][5] = {"pvalue": 0.150, "min": 5, "max": 29}
+interactionProb["multiplex"][6] = {"pvalue": 0.228, "min": 30, "max": 30}
 
-interactionProb["social"][1] = {"pvalue": .253, "min": 0, "max": 0}
-interactionProb["social"][2] = {"pvalue": .123, "min": 1, "max": 1}
-interactionProb["social"][3] = {"pvalue": .060, "min": 2, "max": 2}
-interactionProb["social"][4] = {"pvalue": .140, "min": 4, "max": 4}
-interactionProb["social"][5] = {"pvalue": .168, "min": 5, "max": 29}
-interactionProb["social"][6] = {"pvalue": .256, "min": 30, "max": 30}
+interactionProb["social"][1] = {"pvalue": 0.253, "min": 0, "max": 0}
+interactionProb["social"][2] = {"pvalue": 0.123, "min": 1, "max": 1}
+interactionProb["social"][3] = {"pvalue": 0.060, "min": 2, "max": 2}
+interactionProb["social"][4] = {"pvalue": 0.140, "min": 4, "max": 4}
+interactionProb["social"][5] = {"pvalue": 0.168, "min": 5, "max": 29}
+interactionProb["social"][6] = {"pvalue": 0.256, "min": 30, "max": 30}
 
 
 """

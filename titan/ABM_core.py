@@ -571,8 +571,6 @@ class HIVModel(NetworkClass):
         else:  # REVIEWED - sanity test, with params re-write this logic/check can move there
             raise ValueError("Agents must be either IDU, NIDU, or ND")
 
-
-
     def _PCA_interaction(self, relationship: Relationship, time):
         """
         :Purpose:
@@ -611,7 +609,9 @@ class HIVModel(NetworkClass):
 
         while acts_prob > current_p_value:
             actsBin += 1
-            current_p_value += params.interactionProb[relationship._rel_type][actsBin]["pvalue"]
+            current_p_value += params.interactionProb[relationship._rel_type][actsBin][
+                "pvalue"
+            ]
 
         minimum = params.interactionProb[relationship._rel_type][actsBin]["min"]
         maximum = params.interactionProb[relationship._rel_type][actsBin]["max"]
