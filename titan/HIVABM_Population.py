@@ -137,11 +137,14 @@ class PopulationClass:
         self.DU_NDU_agentSet = Agent_set("NDU", parent=self.drugUse_agentSet)
 
         # Treatment agent sets
+        self.aware_agentSet = Agent_set("LAI aware", parent=self.All_agentSet)
         self.treatment_agentSet = Agent_set("Trtmt", parent=self.All_agentSet)
         self.Trt_Tstd_agentSet = Agent_set(
             "Testd", parent=self.treatment_agentSet, numerator=self.HIV_agentSet
         )
         self.Trt_PrEP_agentSet = Agent_set("PrEP", parent=self.treatment_agentSet)
+        self.LAI_agentSet = Agent_set("LAI", parent=self.Trt_PrEP_agentSet)
+        self.oralPrEP_agentSet = Agent_set("Oral", parent=self.Trt_PrEP_agentSet)
         self.Trt_PrEPelig_agentSet = Agent_set(
             "PrePelig", parent=self.treatment_agentSet
         )
@@ -462,15 +465,15 @@ class PopulationClass:
             )
 
         if params.flag_PCA:
-            # if self.popRandom.random() < params.knowledge:
-            #     newAgent.awareness = True
+            if self.popRandom.random() < params.starting_awareness:
+                newAgent.awareness = True
             attprob = self.popRandom.random()
             pvalue = 0.0
             for key in params.attitude:
                 pvalue += params.attitude[key]
                 if attprob < pvalue:
                     newAgent.opinion = key
-            if newAgent.opinion == 0:
+            if newAgent.opinion not in range(5):
                 raise ValueError("No opinion of LAI-PrEP")
 
         return newAgent
@@ -513,6 +516,8 @@ class PopulationClass:
                 addToSubsets(self.HIV_AIDS_agentSet, agent_cl)
 
         # Add to correct treatment set
+        if agent_cl.awareness:
+            addToSubsets(self.aware_agentSet, agent_cl)
         if agent_cl._treatment_bool:
             addToSubsets(self.treatment_agentSet, agent_cl)
             if agent_cl._HAART_bool:

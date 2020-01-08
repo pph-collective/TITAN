@@ -426,6 +426,7 @@ class Relationship:
 
         # Relationship properties
         self._duration = duration
+        self._total_duration = duration
         self._total_sex_acts = 0
         self._rel_type = rel_type
 

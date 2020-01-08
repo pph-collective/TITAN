@@ -386,6 +386,7 @@ class HIVModel(NetworkClass):
             agent._timeAlive += 1
             if self.runRandom.random() < params.awarenessProb:
                 agent.awareness = True
+                self.aware_agentSet.add_agent(agent)
             if params.flag_incar:  # and not burn:
                 self._incarcerate(agent, time)
             if agent._MSMW and self.runRandom.random() < params.HIV_MSMW:
@@ -460,6 +461,10 @@ class HIVModel(NetworkClass):
                 print("Starting random trial")
                 components = list(nx.connected_component_subgraphs(self.G))
                 totNods = 0
+                print(
+                    "Number of components",
+                    len([1 for comp in components if comp.number_of_nodes() > 1]),
+                )
                 for comp in components:
                     totNods += comp.number_of_nodes()
 
@@ -474,30 +479,22 @@ class HIVModel(NetworkClass):
                                 ):
                                     self._initiate_PrEP(ag, time, force=True)
                         if params.pcaChoice == "eigenvector":
-                            centrality = nx.eigenvector_centrality(self.get_Graph())
+                            centrality = nx.eigenvector_centrality_numpy(self.G)
+                            assert len(centrality) >= 1, "Empty centrality"
                             orderedCentrality = sorted(centrality, key=centrality.get)
-                            agent = orderedCentrality[1]
+                            agent = orderedCentrality[0]
+                            print("found change agent!", agent)
                             agent.awareness = True
-                            print("found agent!", agent)
+                            self.aware_agentSet.add_agent(agent)
 
                         elif params.pcaChoice == "bridge":
-                            all_bridges = list(nx.bridges)
+                            all_bridges = list(nx.bridges(self.G))
+                            assert len(all_bridges) >= 1, "No bridges"
                             bridge = random.choice(all_bridges)
-                            agent = random.choice(bridge)
-                            agent.awareness = True
+                            tmpA = random.choice(bridge)
+                            tmpA.awareness = True
+                            self.aware_agentSet.add_agent(tmpA)
                 print(("Total agents in trial: ", totNods))
-
-                if params.pcaChoice == "eigenvector":
-                    centrality = nx.eigenvector_centrality(self.get_Graph())
-                    orderedCentrality = sorted(centrality, key=centrality.get)
-                    agent = orderedCentrality[1]
-                    agent.awareness = True
-
-                elif params.pcaChoice == "bridge":
-                    all_bridges = list(nx.bridges)
-                    bridge = random.choice(all_bridges)
-                    agent = random.choice(bridge)
-                    agent.awareness = True
 
     def _agents_interact(self, time: int, rel: Relationship):
         """
@@ -521,10 +518,15 @@ class HIVModel(NetworkClass):
             none
 
         """
-
         # If either agent is incarcerated, skip their interaction
         if rel._ID1._incar_bool or rel._ID2._incar_bool:
             return
+
+        if params.flag_PCA:
+            if rel._rel_type == "sexOnly" and rel._duration != rel._total_duration:
+                pass
+            else:
+                self._PCA_interaction(rel, time)
 
         if (
             rel._ID1._HIV_bool and not rel._ID2._HIV_bool
@@ -569,17 +571,9 @@ class HIVModel(NetworkClass):
         else:  # REVIEWED - sanity test, with params re-write this logic/check can move there
             raise ValueError("Agents must be either IDU, NIDU, or ND")
 
-        if params.flag_PCA:
-            if rel._ID1.awareness and not rel._ID2.awareness:
-                self._PCA_interaction(rel._ID1, rel._ID2, PCAtype="Knowledge")
-            elif rel._ID2.awareness and not rel._ID1.awareness:
-                self._PCA_interaction(rel._ID2, rel._ID1, PCAtype="Knowledge")
-            elif rel._ID1.awareness and rel._ID2.awareness:
-                self._PCA_interaction(rel._ID1, rel._ID2, PCAtype="Opinion")
 
-    def _PCA_interaction(
-        self, agent: Agent, partner: Agent, PCAtype: str = "Knowledge"
-    ):
+
+    def _PCA_interaction(self, relationship: Relationship, time):
         """
         :Purpose:
             Simulate peer change agent interactions
@@ -591,23 +585,58 @@ class HIVModel(NetworkClass):
         :Output: -
         """
 
-        def knowledgeDissemination(partner):
-            partner.awareness = True
-
         def influence(agent, partner):
+            agent_opinion = agent.opinion
+            partner_opinion = partner.opinion
             agent_influence = nx.closeness_centrality(self.get_Graph(), agent)
             partner_influence = nx.closeness_centrality(self.get_Graph(), partner)
             if agent_influence > partner_influence:
-                partner.opinion = np.mean(agent.opinion, partner.opinion)
+                partner.opinion = np.mean([agent.opinion, partner.opinion])
+            elif agent_influence == partner_influence:
+                pass
             else:
-                agent.opinion = np.mean(agent.opinion, partner.opinion)
+                agent.opinion = np.mean([agent.opinion, partner.opinion])
+            if self.runRandom.random() < params.PCA_prep:
+                if agent_opinion < params.opinion_threshold < agent.opinion:
+                    self._initiate_PrEP(agent, time, force=True)
+                elif partner_opinion < params.opinion_threshold < partner.opinion:
+                    self._initiate_PrEP(partner, time, force=True)
 
-        if PCAtype == "Knowledge":
-            knowledgeDissemination(partner)
-        elif PCAtype == "Opinion":
-            influence(agent, partner)
+        def knowledgeDissemination(partner):
+            partner.awareness = True
+            self.aware_agentSet.add_agent(partner)
+
+        acts_prob = self.runRandom.random()
+        current_p_value = actsBin = 0
+
+        while acts_prob > current_p_value:
+            actsBin += 1
+            current_p_value += params.interactionProb[relationship._rel_type][actsBin]["pvalue"]
+
+        minimum = params.interactionProb[relationship._rel_type][actsBin]["min"]
+        maximum = params.interactionProb[relationship._rel_type][actsBin]["max"]
+        if minimum == maximum:
+            num_acts = minimum
         else:
-            raise ValueError(f"No PCA type {PCAtype}")
+            num_acts = self.runRandom.randrange(minimum, maximum)
+
+        p = params.perActTransmission
+        if num_acts == 1:
+            p_total_transmission = p
+        elif num_acts >= 1:
+            p_total_transmission = 1.0 - binom.pmf(0, num_acts, p)
+        else:
+            p_total_transmission = 0
+
+        if self.runRandom.random() < p_total_transmission:
+            if relationship._ID1.awareness and not relationship._ID2.awareness:
+                partner = relationship._ID2
+                knowledgeDissemination(partner)
+            elif not relationship._ID1.awareness and relationship._ID2.awareness:
+                partner = relationship._ID2
+                knowledgeDissemination(partner)
+            elif relationship._ID1.awareness and relationship._ID2.awareness:
+                influence(relationship._ID1, relationship._ID2)
 
     def _needle_transmission(self, agent: Agent, partner: Agent, time: int):
         """
@@ -1292,6 +1321,12 @@ class HIVModel(NetworkClass):
             if "Inj" in params.PrEP_type:
                 agent._PrEP_load = params.PrEP_peakLoad
                 agent._PrEP_lastDose = 0
+
+            if len(params.PrEP_type) > 1:
+                if self.runRandom.random() > params.LAI_chance:
+                    self.LAI_agentSet.add_agent(agent)
+                else:
+                    self.oralPrEP_agentSet.add_agent(agent)
 
         # agent must exist
         assert agent is not None
