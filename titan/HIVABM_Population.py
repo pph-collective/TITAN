@@ -473,6 +473,7 @@ class PopulationClass:
                 pvalue += params.attitude[key]
                 if attprob < pvalue:
                     newAgent.opinion = key
+                    break
             if newAgent.opinion not in range(5):
                 raise ValueError("No opinion of LAI-PrEP")
 

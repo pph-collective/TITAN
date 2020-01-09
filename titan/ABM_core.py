@@ -600,6 +600,8 @@ class HIVModel(NetworkClass):
                 elif partner_opinion < params.opinion_threshold < partner.opinion:
                     self._initiate_PrEP(partner, time, force=True)
 
+            print(partner_opinion, partner.opinion)
+
         def knowledgeDissemination(partner):
             partner.awareness = True
             self.aware_agentSet.add_agent(partner)

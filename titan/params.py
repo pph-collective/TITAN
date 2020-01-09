@@ -18,7 +18,7 @@ rSeed_run = 0
 N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_REPS = 1
 N_POP = 1040  # population size
-TIME_RANGE = 2  # total time steps to iterate
+TIME_RANGE = 3  # total time steps to iterate
 burnDuration = 0
 model = "Custom"  # Model Type for fast flag toggling
 setting = "AtlantaMSM"
@@ -84,14 +84,15 @@ bond_type = ["social"]
 """
 Peer change params
 """
-attitude = {0: 0.25, 1: 0.40, 2: 0.20, 3: 0.10, 4: 0.05}
+# attitude = {0: 0.25, 1: 0.40, 2: 0.20, 3: 0.10, 4: 0.05}
+attitude = {0: 0.5, 1: 0.0, 2: 0.0, 3: 0.0, 4: 0.5}
 PCA_prep = 1.0
-opinion_threshold = 2.5
+opinion_threshold = 1.5
 pcaChoice = "bridge"  # eigenvector or bridge
 awarenessProb = 0.05
 starting_awareness = 0.55
 perActTransmission = 0.05
-interactionProb = {
+interactionProb: Dict[str, Any] = {
     "sexOnly": {1: {}, 2: {}},
     "multiplex": {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}},
     "social": {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}},
@@ -190,8 +191,8 @@ if "Oral" in PrEP_type:
     PrEP_NonAdhEffic = 0.76
     PrEP_falloutT = 1
     PrEP_disc = 0.00  # 0.15
-    PrEP_peakLoad = 1
-    PrEP_halflife = 1
+    PrEP_peakLoad = 1.0
+    PrEP_halflife = 1.0
 elif "Inj" in PrEP_type:  # TODO make both of these compatible; can use both at once??
     PrEP_Adherence = 1.0
     PrEP_AdhEffic = 1.0
