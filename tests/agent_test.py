@@ -189,7 +189,7 @@ def test_get_number_of_sex_acts(make_agent):
     assert a.get_number_of_sexActs(rand_gen_low) == min_val_low
 
     # test fallthrough
-    assert a.get_number_of_sexActs(rand_gen_high) == 36
+    assert a.get_number_of_sexActs(rand_gen_high) == 37
 
 
 # ============== RELATIONSHIP TESTS ===================
