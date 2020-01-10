@@ -88,7 +88,7 @@ Peer change params
 # attitude = {0: 0.25, 1: 0.40, 2: 0.20, 3: 0.10, 4: 0.05}
 attitude = {0: 0.5, 1: 0.0, 2: 0.0, 3: 0.0, 4: 0.5}
 PCA_PrEP = 0.452 * 0.664
-opinion_threshold = 3.0
+opinion_threshold = 0.0
 pcaChoice = "eigenvector"  # eigenvector or bridge
 awarenessProb = 0.05
 starting_awareness = 0.05
@@ -345,7 +345,7 @@ RaceClass1["ALL"].update(
 RaceClass2["MSM"].update(
     {
         "POP": 1.00,  # 0.028,
-        "HIV": 0.0,  # 0.434,
+        "HIV": 0.367,  # 0.434,
         "AIDS": 0.232,
         "HAARTprev": 0.627,
         "INCARprev": 0.00,

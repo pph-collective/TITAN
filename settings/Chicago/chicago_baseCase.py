@@ -60,7 +60,7 @@ cal_NeedlePartScaling = 1.00  # IDU partner number scaling
 cal_NeedleActScaling = 1.00  # IDU act frequency scaling factor
 cal_SexualPartScaling = 1.0  # Sexual partner number scaling factor
 cal_SexualActScaling = 0.45  # Sexual acts  scaling factor
-cal_pXmissionScaling = 1.0  # 0.92 # Global transmission probability scaling factor
+cal_pXmissionScaling = 0.0  # 0.92 # Global transmission probability scaling factor
 cal_AcuteScaling = 4.3  # Infectivity multiplier ratio for Acute status infections
 cal_RR_Dx = 0.0  # Risk reduction in transmission probability for agents diagnosed
 cal_RR_HAART = 1.0  # Scaling factor for effectiveness of ART therapy on xmission P
@@ -344,7 +344,7 @@ RaceClass1["ALL"].update(
 RaceClass2["MSM"].update(
     {
         "POP": 1.00,  # 0.028,
-        "HIV": 0.0,  # 0.434,
+        "HIV": 0.367,
         "AIDS": 0.232,
         "HAARTprev": 0.627,
         "INCARprev": 0.00,
