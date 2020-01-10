@@ -281,7 +281,6 @@ class Agent:
 
         return p
 
-    # REVIEWED as written, it's not guaranteed to return an int, but seems likely given params, can't this be more clearly written as a for loop? it also looks like the params adds the p values, while this loop also adds p-values, is that correct? - Sarah to review with Max
     def get_number_of_sexActs(self, rand_gen) -> int:
         """
         :Purpose:
@@ -310,8 +309,10 @@ class Agent:
                 maxSA = params.sexualFrequency[i]["max"]
                 return rand_gen.randrange(minSA, maxSA, 1)
 
-        # REVIEWED - fallthrough return? 36? - Sarah to review with Max
-        return 36
+        # fallthrough is last i
+        minSA = params.sexualFrequency[i]["min"]
+        maxSA = params.sexualFrequency[i]["max"]
+        return rand_gen.randrange(minSA, maxSA, 1)
 
 
 class Relationship:

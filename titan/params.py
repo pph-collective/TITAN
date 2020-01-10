@@ -218,7 +218,7 @@ RC_template: Dict[str, Any] = {
     "mNPart": 0.0,  # Mean number of sex partners
     "NUMPartn": 0.0,  # Number of partners (redundant)
     "NUMSexActs": 0.0,  # Mean number of sex acts with each partner
-    "UNSAFESEX": 0.0,  # Probability of engaging in unsafe sex (per act)
+    "SAFESEX": 0.0,  # Probability of engaging in safe sex (per act)
     "NEEDLESH": 0.0,  # Probability of sharing syringes during join drug use (per act)
     "HIVTEST": 0.0,  # Probability of testing for HIV
     "INCAR": 0.0,  # Probability of becoming incarcerated (rate)
@@ -256,7 +256,7 @@ RaceClass1["HM"].update(
         "TestedPrev": 0.90,
         "NUMPartn": 1.5,
         "NUMSexActs": 5.0,
-        "UNSAFESEX": 0.89,
+        "SAFESEX": 0.89,
         "NEEDLESH": 0.43,
         "HIVTEST": 0.034,
         "INCAR": 0.001,
@@ -278,7 +278,7 @@ RaceClass1["MSM"].update(
         "mNPart": 7.0,
         "NUMPartn": 7.0,
         "NUMSexActs": 5.0,
-        "UNSAFESEX": 0.432,
+        "SAFESEX": 0.432,
         "NEEDLESH": 0.43,
         "HIVTEST": 0.055,
         "INCAR": 0.00,  # 0.00014,
@@ -310,7 +310,7 @@ RaceClass2["MSM"].update(
         "mNPart": 5.0,
         "NUMPartn": 5.0,
         "NUMSexActs": 5.0,
-        "UNSAFESEX": 0.312,
+        "SAFESEX": 0.312,
         "NEEDLESH": 0.27,
         "HIVTEST": 0.06,
         "INCAR": 0.00,  # 0.0011,
@@ -368,26 +368,10 @@ sexualFrequency[4] = {
     "max": 36,
 }
 sexualFrequency[5] = {
-    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
-    "min": 25,
-    "max": 36,
+    "p_value": 1.0,
+    "min": 37,
+    "max": 48,
 }
-sexualFrequency[6] = {
-    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
-    "min": 25,
-    "max": 36,
-}
-sexualFrequency[7] = {
-    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
-    "min": 25,
-    "max": 36,
-}
-sexualFrequency[8] = {
-    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
-    "min": 25,
-    "max": 36,
-}
-sexualFrequency[9] = {"min": 37, "max": 48}
 
 needleFrequency: Dict[int, Any] = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
 needleFrequency[1] = {"p_value": 1.0, "min": 1, "max": 6}

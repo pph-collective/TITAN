@@ -64,12 +64,7 @@ def test_model_init():
     assert model.NewIncarRelease.num_members() == 0
     assert model.NewHRrolls.num_members() == 0
 
-    assert len(model.Acute_agents._members) == 0
-    assert len(model.Transmit_from_agents._members) == 0
-    assert len(model.Transmit_to_agents._members) == 0
-
     assert model.totalDiagnosis == 0
-    assert model.totalIncarcerated == 0
     assert model.treatmentEnrolled == False
 
 
@@ -134,9 +129,6 @@ def test_needle_transmission(make_model, make_agent):
     model._needle_transmission(a, p)
 
     assert p._HIV_bool
-    assert a in model.Transmit_from_agents._members
-    assert p in model.Transmit_to_agents._members
-    assert a in model.Acute_agents._members
 
 
 @pytest.mark.skip(
@@ -158,10 +150,7 @@ def test_sex_transmission(make_model, make_agent):
     # test partner becomes
     model._sex_transmission(rel)
 
-    assert a in model.Transmit_from_agents._members
-    assert p in model.Transmit_to_agents._members
     assert p._HIV_bool
-    assert a in model.Acute_agents._members
 
 
 def test_sex_transmission_do_nothing(make_model, make_agent):
@@ -178,11 +167,6 @@ def test_sex_transmission_do_nothing(make_model, make_agent):
 
     # test nothing happens
     model._sex_transmission(rel)
-
-    assert a not in model.Transmit_from_agents._members
-    assert p not in model.Transmit_from_agents._members
-    assert a not in model.Transmit_to_agents._members
-    assert p not in model.Transmit_to_agents._members
 
 
 def test_become_HIV(make_model, make_agent):
@@ -252,8 +236,6 @@ def test_incarcerate_tested(make_model, make_agent):
     assert a._HAART_time == 10
     assert a in model.Trt_ART_agentSet._members
 
-    assert model.totalIncarcerated == 1
-
 
 def test_incarcerate_not_tested(make_model, make_agent):
     model = make_model()
@@ -271,8 +253,6 @@ def test_incarcerate_not_tested(make_model, make_agent):
     assert a._incar_time == 1
     assert a in model.incarcerated_agentSet._members
     assert a._tested
-
-    assert model.totalIncarcerated == 1
 
     assert p in model.highrisk_agentsSet._members
     assert p in model.NewHRrolls._members

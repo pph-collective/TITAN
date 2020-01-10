@@ -111,12 +111,6 @@ class HIVModel(NetworkClass):
         self.NewHRrolls = Agent_set("NewHRrolls")
         self.newPrEPagents = Agent_set("NewPrEPagents")
 
-        # TO_REVIEW these are added to and cleared, but never used in logic or saved off
-        self.Acute_agents = Agent_set("Acute_agents")
-        self.Transmit_from_agents = Agent_set("Transmit_from_agents")
-        self.Transmit_to_agents = Agent_set("Transmit_to_agents")
-
-        self.totalIncarcerated = 0  # TO_REVIEW this isn't really used
         self.totalDiagnosis = 0
         self.treatmentEnrolled = False
 
@@ -319,10 +313,6 @@ class HIVModel(NetworkClass):
         """
         if time > 0 and params.flag_staticN is False:
             self.update_partner_assignments(params.PARTNERTURNOVER, self.get_Graph())
-
-        self.Acute_agents.clear_set()
-        self.Transmit_from_agents.clear_set()
-        self.Transmit_to_agents.clear_set()
 
         for rel in self.Relationships:
             # If in burn, ignore interactions
@@ -590,10 +580,6 @@ class HIVModel(NetworkClass):
             if self.runRandom.random() < p_total_transmission:
                 # if agent HIV+ partner becomes HIV+
                 self._become_HIV(partner)
-                self.Transmit_from_agents.add_agent(agent)
-                self.Transmit_to_agents.add_agent(partner)
-                if agent.get_acute_status():
-                    self.Acute_agents.add_agent(agent)
 
     def _sex_transmission(self, rel: Relationship):
         """
@@ -632,18 +618,14 @@ class HIVModel(NetworkClass):
 
         # Get condom usage
         if params.condomUseType == "Race":
-            p_UnsafeSafeSex = params.DemographicParams[agent._race][agent._SO][
-                "UNSAFESEX"
-            ]
+            p_SafeSex = params.DemographicParams[agent._race][agent._SO]["SAFESEX"]
         else:
-            p_UnsafeSafeSex = prob.unsafe_sex(rel._total_sex_acts)
+            p_SafeSex = prob.safe_sex(rel._total_sex_acts)
 
         # Reduction of risk acts between partners for condom usage
         U_sex_acts = T_sex_acts
         for n in range(U_sex_acts):
-            if (
-                self.runRandom.random() < p_UnsafeSafeSex
-            ):  # REVIEWED p unsafe sex gets higher with more sex acts, but then if the random number is lower than that we reduce u_sex_acts - is this right? REVIEWED - Sarah to follow up with max
+            if self.runRandom.random() < p_SafeSex:
                 U_sex_acts -= 1
 
         if U_sex_acts >= 1:
@@ -686,11 +668,7 @@ class HIVModel(NetworkClass):
 
             if self.runRandom.random() < p_total_transmission:
                 # if agent HIV+ partner becomes HIV+
-                self.Transmit_from_agents.add_agent(agent)
-                self.Transmit_to_agents.add_agent(partner)
                 self._become_HIV(partner)
-                if agent.get_acute_status():
-                    self.Acute_agents.add_agent(agent)
 
     def _become_HIV(self, agent: Agent):
         """
@@ -849,7 +827,6 @@ class HIVModel(NetworkClass):
             agent._incar_bool = True
             agent._incar_time = timestay
             self.incarcerated_agentSet.add_agent(agent)
-            self.totalIncarcerated += 1
 
             # PUT PARTNERS IN HIGH RISK
             for tmpA in agent._partners:

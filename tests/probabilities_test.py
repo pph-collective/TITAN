@@ -18,12 +18,12 @@ class FakeRandom:
         return start
 
 
-def test_unsafe_sex():
+def test_safe_sex():
     # initiate result dict with 2 time steps
-    assert probs.unsafe_sex(0) == 0.443
-    assert probs.unsafe_sex(1) == 0.481
-    assert probs.unsafe_sex(5) == 0.514
-    assert probs.unsafe_sex(100) == 0.759
+    assert probs.safe_sex(0) == 0.443
+    assert probs.safe_sex(1) == 0.481
+    assert probs.safe_sex(5) == 0.514
+    assert probs.safe_sex(100) == 0.759
 
 
 def test_adherence_prob():
