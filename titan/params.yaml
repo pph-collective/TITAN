@@ -1,0 +1,91 @@
+model:
+  type: Custom
+  setting: Phil2005
+  processes: 1
+  seeds:
+    run: 0
+    net: 0
+    pop: 0
+  num_mc: 1
+  num_reps: 1
+  num_pop: 100
+  time_range: 12
+  burn_duration: 6
+  network_type: scale_free
+
+outputs:
+  print_freq: 10
+  draw_figures: false
+  calc_component_stats: false
+  flag_agent_zero: false # TO_REVIEW this doesn't seem like an output thing
+  reports:
+    - deathReport
+    - incarReport
+    - newlyhighriskReport
+    - basicReport
+
+calibration:
+  partner_turnover: 0.133
+  needle_partner_scaling: 1.0
+  needle_act_scaling: 1.0
+  sexual_partner_scaling: 1.0
+  sexual_act_scaling: 0.45
+  prob_xmission_scaling: 1.0
+  acute_scaling: 4.3
+  risk_reduction_dx: 1.0
+  risk_reduction_haart: 1.0
+  test_frequency: 0.3
+  mortality: 0.5
+  aids_progression: 1.0
+  prob_incarceration: 1.0
+  race_transmission: 1.0
+  partner_sample_depth: 100
+
+high_risk:
+  partner_scale: 300
+  proportion: 0.3
+  male_duration: 6
+  female_duration: 6
+  condom_use_type: Race
+  hiv_msmw: 0.0
+
+misc:
+  flag_assortative_mix: true
+  assort_mix_type: Race
+  assort_mix_coeff: 0.75
+  sne_prevalence: 1.0
+  init_treatment: 0
+  treatment_cov: 0.0
+  max_componenet_size: 1000
+  min_component_size: 1
+
+vaccine:
+  type: RV144
+  booster: true
+  start_time: 1
+
+incarceration:
+  prison_test_prob: 0.69
+  art_enroll: 0.51
+  art_adh: 0.21
+  art_disc: 0.12
+  treatment_start_time: 48
+  treatment_duration: 12
+  treatment_hr_behavior: true
+  treatment_idu_behavior: true
+  treatment_ric: false
+
+prep:
+  type:
+    - Oral
+    - Vaccine
+  target: 0.3
+  start_time: 0
+  adherence: 0.82
+  adherence_efficiency: 0.96
+  nonadherence_efficiency: 0.76
+  fallout_time: 0
+  resistance: 0.01
+  disc: 0.15
+  target_model: CDCwomen
+  clinic_cat: Mid

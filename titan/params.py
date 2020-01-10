@@ -9,9 +9,7 @@ Main model parameters.
 
 ####################
 PROCESSES = 1  # number of processes in parallel (quadcore)
-rSeed = (
-    0  # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
-)
+
 rSeed_pop = 0
 rSeed_net = 0
 rSeed_run = 0
@@ -28,15 +26,10 @@ network_type = "scale_free"
 """
 Output flags and settings
 """
-outputDir = ""
-
-startAgentList = False
-endingAgentList = False
-intermAgentList = False
+startAgentList = False # REVIEWED not used anywhere - Sarah to review
+endingAgentList = False # REVIEWED not used anywhere
+intermAgentList = False # REVIEWED not used anywhere
 intermPrintFreq = 10
-MSMreport = True
-HMreport = False
-HFreport = False
 drawFigures = False
 calcComponentStats = False
 flag_agentZero = False
@@ -87,8 +80,6 @@ HIV_MSMW = 0.0
 # Misc. params
 flag_AssortativeMix = True
 AssortMixType = "Race"
-flag_AgeAssortMix = False
-flag_RaceAssortMix = True
 AssortMixCoeff = 0.75  # Proportion of race1 mixing with race2 when partnering.
 safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
 initTreatment = 0
@@ -104,25 +95,16 @@ booster = True
 vaccine_start = 1
 
 # Incarceration params
-inc_JailMax = 9
-inc_JailMin = 1
-inc_JailTestProb = 0.69
-inc_PrisMax = 60
-inc_PrisMin = 6
 inc_PrisTestProb = 0.69
-inc_PropPrison = 0.5
 inc_ARTenroll = 0.51
 inc_ARTadh = 0.21
 inc_ARTdisc = 0.12
-inc_Recidivism = 0.267
-inc_PtnrDissolution = 0.55
 inc_treatment_startdate = 48  # Timestep where inc treatment can begin
 inc_treatment_dur = (
     12  # Duration for which agents are forced on respective treatment post release
 )
-inc_treat_set = ["HM"]  # Set of agent classifiers effected by HR treatment
-inc_treat_HRsex_beh = True  # Remove sexual higrisk behaviour during treatment duration
-inc_treat_IDU_beh = True  # Remove IDU behav:iour during treatment duration
+inc_treat_HRsex_beh = True  # Remove sexual higrisk behaviour during treatment duration # REVIEWED this is an addiotional intervention on top of incarceration/treatment, indicate that and change name
+inc_treat_IDU_beh = True  # Remove IDU behav:iour during treatment duration # REVIEWED this is an addiotional intervention on top of incarceration/treatment, indicate that and change name
 inc_treat_RIC = False  # Force retention in care of ART therapy
 
 # PrEP params
@@ -137,13 +119,13 @@ PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
-PrEP_target_model = (
+PrEP_target_model = ( # REVIEWED - extract "Clinical" and code
     "CDCwomen"  # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
 )
 PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it follow
 
 if "Oral" in PrEP_type:
-    PrEP_Adherence = 1.0
+    PrEP_Adherence = 1.0 # REVIEWED would these things ever be changed for a specific model? or are they static? - just use values above, add Inj peakload and halflife up there
     PrEP_AdhEffic = 0.96
     PrEP_NonAdhEffic = 0.76
     PrEP_falloutT = 1
@@ -173,6 +155,7 @@ Model Type for fast flag toggling
 
 ####################
 
+# REVIEWED make these all default false, get rid of model and make people actively opt in
 if model == "PrEP":
     flag_incar = False
     flag_PrEP = True
@@ -509,3 +492,5 @@ clinicAgents["Mid"] = {
     4: {"Prob": 0.246, "min": 5, "max": 9},
     5: {"Prob": 0.471, "min": 10, "max": 120},
 }
+
+# REVIEWED get rid of clinical model
