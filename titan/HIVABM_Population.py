@@ -539,6 +539,13 @@ class PopulationClass:
 
         if agent_cl._PrEP_bool:
             addToSubsets(self.Trt_PrEP_agentSet, agent_cl)
+            if (
+                self.popRandom.random() > params.LAI_chance
+                and "Inj" in params.PrEP_type
+            ):
+                addToSubsets(self.LAI_agentSet, agent_cl)
+            else:
+                addToSubsets(self.oralPrEP_agentSet, agent_cl)
 
         if agent_cl._tested:
             addToSubsets(self.Trt_Tstd_agentSet, agent_cl)

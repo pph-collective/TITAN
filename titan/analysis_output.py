@@ -59,6 +59,7 @@ def get_stats(
         "numVaccinated": 0,
         "LAIagents": 0,
         "oralAgents": 0,
+        "awareAgents": 0,
     }
 
     stats = {}
@@ -146,7 +147,12 @@ def get_stats(
         if tmpA._HIV_bool:
             stats[tmpA._race][tmpA._SO]["deaths_HIV"] += 1
 
-    for tmpA in LAIagents.iter_agents():
+    for (
+        tmpA
+    ) in (
+        LAIagents.iter_agents()
+    ):  # TODO this should have a way of doing a for loop of PrEP types
+        # TODO: use num_members and subsets? Or other non-loop method
         stats[tmpA._race][tmpA._SO]["LAIagents"] += 1
     for tmpA in oralAgents.iter_agents():
         stats[tmpA._race][tmpA._SO]["oralAgents"] += 1
@@ -327,12 +333,12 @@ def basicReport(
             # if this is a new file, write the header info
             if tmpReport.tell() == 0:
                 tmpReport.write(
-                    "run_id\trseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\tVaccinated\tLAI\tOral\n"
+                    "run_id\trseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\tVaccinated\tLAI\tOral\tOpinion\n"
                 )
 
             tmpReport.write(
                 (
-                    "{:s}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
+                    "{:s}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
                         str(run_id),
                         runseed,
                         popseed,
@@ -356,6 +362,8 @@ def basicReport(
                         stats[agentRace][agentTypes]["numVaccinated"],
                         stats[agentRace][agentTypes]["LAIagents"],
                         stats[agentRace][agentTypes]["oralAgents"],
+                        1
+                        # np.mean(stats[agentRace][agentTypes]["agentOpinions"])
                     )
                 )
             )
