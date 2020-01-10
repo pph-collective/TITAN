@@ -17,7 +17,7 @@ rSeed_net = 0
 rSeed_run = 0
 N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_REPS = 1
-N_POP = 1040  # population size
+N_POP = 5578  # population size
 TIME_RANGE = 2  # total time steps to iterate
 burnDuration = 0
 model = "Custom"  # Model Type for fast flag toggling
@@ -77,20 +77,22 @@ cal_ptnrSampleDepth = 100  # Sampling depth for partnering algorithm.
 """
 Network Params
 """
-nonSex = 0.5
-multiplex = 0.2
+nonSex = 0.308
+multiplex = 0.105
+sexualOnly = 0.587
 bond_type = ["social"]
+mean_partner_type = "bins"
 
 """
 Peer change params
 """
 attitude = {0: 0.25, 1: 0.40, 2: 0.20, 3: 0.10, 4: 0.05}
-PCA_prep = 1.0
+PCA_PrEP = 1.0
 opinion_threshold = 2.5
 pcaChoice = "bridge"  # eigenvector or bridge
 awarenessProb = 0.05
-starting_awareness = 0.55
-perActTransmission = 0.05
+starting_awareness = 0.05
+perActTransmission = 0.005
 interactionProb = {
     "sexOnly": {1: {}, 2: {}},
     "multiplex": {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}},
@@ -531,4 +533,17 @@ clinicAgents["Mid"] = {
     3: {"Prob": 0.168, "min": 3, "max": 4},
     4: {"Prob": 0.246, "min": 5, "max": 9},
     5: {"Prob": 0.471, "min": 10, "max": 120},
+}
+
+partnerNumber: Dict[int, Any] = {
+    0: 0.083,
+    1: 0.181,
+    2: 0.229,
+    3: 0.172,
+    4: 0.112,
+    5: 0.102,
+    6: 0.071,
+    7: 0.028,
+    8: 0.019,
+    9: 0.005,
 }

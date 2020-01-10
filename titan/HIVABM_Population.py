@@ -459,6 +459,14 @@ class PopulationClass:
             newAgent._mean_num_partners = prob.get_mean_num_partners(
                 DrugType, self.popRandom
             )
+        elif params.mean_partner_type == "bins":
+            pn_prob = self.popRandom.random()
+            current_p_value = ptnBin = 0
+
+            while pn_prob > current_p_value:
+                current_p_value += params.partnerNumber[ptnBin]
+                ptnBin += 1
+            newAgent._mean_num_partners = ptnBin
         else:
             newAgent._mean_num_partners = poisson.rvs(
                 params.DemographicParams[Race][SexType]["NUMPartn"], size=1
@@ -474,8 +482,13 @@ class PopulationClass:
                 if attprob < pvalue:
                     newAgent.opinion = key
                     break
-            if newAgent.opinion not in range(5):
-                raise ValueError("No opinion of LAI-PrEP")
+            assert newAgent.opinion in range(
+                5
+            ), "No opinion of LAI-PrEP"  # TODO: move to testing
+
+            if newAgent.awareness and newAgent.opinion > params.opinion_threshold:
+                newAgent._PrEP_bool = True
+                newAgent._treatment_bool = True
 
         return newAgent
 

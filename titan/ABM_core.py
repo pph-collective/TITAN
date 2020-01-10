@@ -102,12 +102,6 @@ class HIVModel(NetworkClass):
             popSeed=self.popseed,
             netSeed=self.netseed,
         )
-        initial = [len(x) for x in nx.connected_component_subgraphs(self.Ginit)]
-        later = [len(x) for x in nx.connected_component_subgraphs(self.G)]
-        # for comp in list(nx.connected_component_subgraphs(self.Ginit)):
-        # print(len(comp), comp.number_of_nodes())
-        print("initial", np.mean(initial))
-        print("later", np.mean(later))
 
         # keep track of current time step globally for dynnetwork report
         self.totalIncarcerated = 0
@@ -168,8 +162,9 @@ class HIVModel(NetworkClass):
                 printer(run_id, t, self.runseed, self.popseed, self.netseed, stat)
 
         def get_components():
+            G = self.get_Graph()
             return sorted(
-                nx.connected_component_subgraphs(self.get_Graph()),
+                (G.subgraph(c).copy() for c in nx.connected_components(G)),
                 key=len,
                 reverse=True,
             )
@@ -387,6 +382,7 @@ class HIVModel(NetworkClass):
             if self.runRandom.random() < params.awarenessProb:
                 agent.awareness = True
                 self.aware_agentSet.add_agent(agent)
+                self._initiate_PrEP(agent, time)
             if params.flag_incar:  # and not burn:
                 self._incarcerate(agent, time)
             if agent._MSMW and self.runRandom.random() < params.HIV_MSMW:
@@ -459,7 +455,7 @@ class HIVModel(NetworkClass):
                 "RandomTrial" in params.PrEP_target_model and time == params.PrEP_startT
             ):
                 print("Starting random trial")
-                components = list(nx.connected_component_subgraphs(self.G))
+                components = list(self.G.subgraph(c).copy() for c in nx.connected_components(self.G))
                 totNods = 0
                 print(
                     "Number of components",
@@ -483,7 +479,6 @@ class HIVModel(NetworkClass):
                             assert len(centrality) >= 1, "Empty centrality"
                             orderedCentrality = sorted(centrality, key=centrality.get)
                             agent = orderedCentrality[0]
-                            print("found change agent!", agent)
                             agent.awareness = True
                             self.aware_agentSet.add_agent(agent)
 
@@ -594,17 +589,31 @@ class HIVModel(NetworkClass):
                 pass
             else:
                 agent.opinion = np.mean([agent.opinion, partner.opinion])
-            if self.runRandom.random() < params.PCA_prep:
+            if self.runRandom.random() < params.PCA_PrEP:
                 if agent_opinion < params.opinion_threshold < agent.opinion:
                     self._initiate_PrEP(agent, time, force=True)
                 elif partner_opinion < params.opinion_threshold < partner.opinion:
                     self._initiate_PrEP(partner, time, force=True)
 
-            print(partner_opinion, partner.opinion)
-
         def knowledgeDissemination(partner):
             partner.awareness = True
             self.aware_agentSet.add_agent(partner)
+            if partner.opinion > params.opinion_threshold:
+                self._initiate_PrEP(partner, time, force=True)
+
+        def transmissionProbability():
+            if relationship._ID1.awareness and relationship._ID2.awareness:
+                p = params.opinionTransmission
+            else:
+                p = params.knowledgeTransmission
+
+            if num_acts == 1:
+                p_total_transmission = p
+            elif num_acts >= 1:
+                p_total_transmission = 1.0 - binom.pmf(0, num_acts, p)
+            else:
+                p_total_transmission = 0
+            return p_total_transmission
 
         acts_prob = self.runRandom.random()
         current_p_value = actsBin = 0
@@ -622,22 +631,16 @@ class HIVModel(NetworkClass):
         else:
             num_acts = self.runRandom.randrange(minimum, maximum)
 
-        p = params.perActTransmission
-        if num_acts == 1:
-            p_total_transmission = p
-        elif num_acts >= 1:
-            p_total_transmission = 1.0 - binom.pmf(0, num_acts, p)
-        else:
-            p_total_transmission = 0
-
-        if self.runRandom.random() < p_total_transmission:
-            if relationship._ID1.awareness and not relationship._ID2.awareness:
+        if relationship._ID1.awareness and not relationship._ID2.awareness:
+            if self.runRandom.random() < transmissionProbability():
                 partner = relationship._ID2
                 knowledgeDissemination(partner)
-            elif not relationship._ID1.awareness and relationship._ID2.awareness:
+        elif not relationship._ID1.awareness and relationship._ID2.awareness:
+            if self.runRandom.random() < transmissionProbability():
                 partner = relationship._ID2
                 knowledgeDissemination(partner)
-            elif relationship._ID1.awareness and relationship._ID2.awareness:
+        elif relationship._ID1.awareness and relationship._ID2.awareness:
+            if self.runRandom.random() < transmissionProbability():
                 influence(relationship._ID1, relationship._ID2)
 
     def _needle_transmission(self, agent: Agent, partner: Agent, time: int):
@@ -1160,7 +1163,7 @@ class HIVModel(NetworkClass):
         elif params.PrEP_target_model == "MSM":
             if agent._SO == ("MSM" or "MTF"):
                 eligible = True
-        elif params.PrEP_target_model == "RandomTrial":
+        elif params.PrEP_target_model == "RandomTrial" and not params.flag_PCA:
             # If using random trial
             if time == 0:
                 # if in init timestep 0, use agent set elligiblity
