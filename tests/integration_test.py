@@ -3,6 +3,7 @@ import pytest
 import os
 
 
+@pytest.mark.integration
 def test_model_runs():
     g = globals().copy()
     g["__name__"] = "__main__"

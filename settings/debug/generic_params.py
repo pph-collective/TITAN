@@ -86,7 +86,7 @@ RC_template = {
     "mNPart": 0.0,  # Mean number of sex partners
     "NUMPartn": 0.0,  # Number of partners (redundant)
     "NUMSexActs": 0.0,  # Mean number of sex acts with each partner
-    "UNSAFESEX": 0.0,  # Probability of engaging in unsafe sex (per act)
+    "SAFESEX": 0.0,  # Probability of engaging in safe sex (per act)
     "NEEDLESH": 0.0,  # Probability of sharing syringes during join drug use (per act)
     "HIVTEST": 0.0,  # Probability of testing for HIV
     "INCAR": 0.0,  # Probability of becoming incarcerated (rate)
@@ -116,7 +116,7 @@ RaceClass1["MSM"] = {
     "mNPart": 3,
     "NUMPartn": 1.5,
     "NUMSexActs": 5.0,
-    "UNSAFESEX": 0.43,
+    "SAFESEX": 0.43,
     "NEEDLESH": 0.43,
     "HIVTEST": 0.055,
     "INCAR": 0.00,  # 0.00014,
@@ -135,7 +135,7 @@ RaceClass1["PWID"] = {
     "mNPart": 3,
     "NUMPartn": 1.2,
     "NUMSexActs": 5.0,
-    "UNSAFESEX": 0.72,
+    "SAFESEX": 0.72,
     "NEEDLESH": 0.43,
     "HIVTEST": 0.037,
     "INCAR": 0.00,  # 0.0050,
@@ -156,7 +156,7 @@ RaceClass2["MSM"] = {
     "mNPart": 3,
     "NUMPartn": 4.9,
     "NUMSexActs": 6.0,
-    "UNSAFESEX": 0.43,
+    "SAFESEX": 0.43,
     "NEEDLESH": 0.27,
     "HIVTEST": 0.06,
     "INCAR": 0.00,  # 0.0011,
@@ -175,7 +175,7 @@ RaceClass2["PWID"] = {
     "mNPart": 3,
     "NUMPartn": 3.5,
     "NUMSexActs": 5.0,
-    "UNSAFESEX": 0.69,
+    "SAFESEX": 0.69,
     "NEEDLESH": 0.27,
     "HIVTEST": 0.043,
     "INCAR": 0.00,  # 0.0060,

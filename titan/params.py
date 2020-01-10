@@ -17,11 +17,11 @@ rSeed_net = 0
 rSeed_run = 0
 N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_REPS = 1
-N_POP = 1040  # population size
-TIME_RANGE = 6  # total time steps to iterate
-burnDuration = 0
-model = "VaccinePrEP"  # Model Type for fast flag toggling
-setting = "AtlantaMSM"
+N_POP = 100  # population size
+TIME_RANGE = 12  # total time steps to iterate
+burnDuration = 6  # total time for burning in period (equillibration)
+model = "Custom"  # Model Type for fast flag toggling
+setting = "Phil2005"
 network_type = "scale_free"
 ####################
 
@@ -148,6 +148,8 @@ if "Oral" in PrEP_type:
     PrEP_NonAdhEffic = 0.76
     PrEP_falloutT = 1
     PrEP_disc = 0.15
+    PrEP_peakLoad = 1.0
+    PrEP_halflife = 1.0
 elif "Inj" in PrEP_type:
     PrEP_Adherence = 1.0
     PrEP_AdhEffic = 1.0
@@ -178,6 +180,7 @@ if model == "PrEP":
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
+    flag_booster = False
 elif model == "Incar":
     flag_incar = True
     flag_PrEP = False
@@ -185,6 +188,7 @@ elif model == "Incar":
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
+    flag_booster = False
 elif model == "NoIncar":
     flag_incar = False
     flag_PrEP = False
@@ -192,6 +196,7 @@ elif model == "NoIncar":
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
+    flag_booster = False
 elif model == "VaccinePrEP":
     flag_incar = False
     flag_PrEP = True
@@ -207,6 +212,7 @@ elif model == "Custom":
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
+    flag_booster = False
 
 agentSexTypes = ["HM", "HF", "MSM", "WSW", "MTF"]
 agentPopulations = deepcopy(agentSexTypes)
@@ -229,7 +235,7 @@ RC_template: Dict[str, Any] = {
     "mNPart": 0.0,  # Mean number of sex partners
     "NUMPartn": 0.0,  # Number of partners (redundant)
     "NUMSexActs": 0.0,  # Mean number of sex acts with each partner
-    "UNSAFESEX": 0.0,  # Probability of engaging in unsafe sex (per act)
+    "SAFESEX": 0.0,  # Probability of engaging in safe sex (per act)
     "NEEDLESH": 0.0,  # Probability of sharing syringes during join drug use (per act)
     "HIVTEST": 0.0,  # Probability of testing for HIV
     "INCAR": 0.0,  # Probability of becoming incarcerated (rate)
@@ -250,13 +256,33 @@ RC_template: Dict[str, Any] = {
 
 RaceClass1: Dict[str, Any] = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
 RaceClass2: Dict[str, Any] = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
-for a in ["MSM", "HM", "HF", "IDU"]:
+for a in agentPopulations:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
-RaceClass1["MSM"]["POP"] = 1.0
-RaceClass1["MSM"]["HIV"] = 0.4
-# StratW['MSM'] = {'POP':0.035, 'HIV':0.132, 'AIDS':0.048, 'HAARTprev':0.57, 'INCARprev':0.005, 'TestedPrev':0.84}
+RaceClass2["HM"].update({"POP": 0.2})
+RaceClass2["HF"].update({"POP": 0.8})
+
+RaceClass1["HM"].update(
+    {
+        "POP": 0.0,
+        "HIV": 0.0369,
+        "AIDS": 0.6780,
+        "HAARTprev": 0.41,
+        "INCARprev": 0.0274,
+        "TestedPrev": 0.90,
+        "NUMPartn": 1.5,
+        "NUMSexActs": 5.0,
+        "SAFESEX": 0.89,
+        "NEEDLESH": 0.43,
+        "HIVTEST": 0.034,
+        "INCAR": 0.001,
+        "HAARTadh": 0.405,
+        "HAARTdisc": 0.000,
+        "PrEPdisc": 0.0000,
+        "EligSE_PartnerType": "HF",
+    }
+)
 
 RaceClass1["MSM"].update(
     {
@@ -269,7 +295,7 @@ RaceClass1["MSM"].update(
         "mNPart": 7.0,
         "NUMPartn": 7.0,
         "NUMSexActs": 5.0,
-        "UNSAFESEX": 0.432,
+        "SAFESEX": 0.432,
         "NEEDLESH": 0.43,
         "HIVTEST": 0.055,
         "INCAR": 0.00,  # 0.00014,
@@ -292,7 +318,7 @@ RaceClass1["ALL"].update(
 # RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
 RaceClass2["MSM"].update(
     {
-        "POP": 1.00,  # 0.028,
+        "POP": 0.00,  # 0.028,
         "HIV": 0.5,  # 0.434,
         "AIDS": 0.232,
         "HAARTprev": 0.627,
@@ -301,7 +327,7 @@ RaceClass2["MSM"].update(
         "mNPart": 5.0,
         "NUMPartn": 5.0,
         "NUMSexActs": 5.0,
-        "UNSAFESEX": 0.312,
+        "SAFESEX": 0.312,
         "NEEDLESH": 0.27,
         "HIVTEST": 0.06,
         "INCAR": 0.00,  # 0.0011,
@@ -359,26 +385,10 @@ sexualFrequency[4] = {
     "max": 36,
 }
 sexualFrequency[5] = {
-    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
-    "min": 25,
-    "max": 36,
+    "p_value": 1.0,
+    "min": 37,
+    "max": 48,
 }
-sexualFrequency[6] = {
-    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
-    "min": 25,
-    "max": 36,
-}
-sexualFrequency[7] = {
-    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
-    "min": 25,
-    "max": 36,
-}
-sexualFrequency[8] = {
-    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
-    "min": 25,
-    "max": 36,
-}
-sexualFrequency[9] = {"min": 37, "max": 48}
 
 needleFrequency: Dict[int, Any] = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
 needleFrequency[1] = {"p_value": 1.0, "min": 1, "max": 6}

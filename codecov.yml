@@ -1,0 +1,19 @@
+coverage:
+  range: "50..75"
+  status:
+    patch: off
+    project:
+      default:
+        target: 80%
+        threshold: 2%
+      unit:
+        flags: unit
+        target: 60%
+        threshold: 2%
+      integration:
+        flags: integration
+        target: 90%
+        threshold: 2%
+
+comment:
+  layout: "header, diff, flags"
