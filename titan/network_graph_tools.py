@@ -68,7 +68,9 @@ class NetworkClass(PopulationClass):
                         component.remove_edge(rel._ID1, rel._ID2)
                         self.G.remove_edge(rel._ID1, rel._ID2)
 
-                comps = list(self.G.subgraph(c).copy() for c in nx.connected_components(self.G))
+                comps = list(
+                    self.G.subgraph(c).copy() for c in nx.connected_components(self.G)
+                )
                 totNods = 0
                 for component in comps:
                     cNodes = len(component)
@@ -86,7 +88,9 @@ class NetworkClass(PopulationClass):
             self.Ginit = self.G
             for i in range(10):
                 self.update_partner_assignments(params.PARTNERTURNOVER, self.G)
-            components = list(self.G.subgraph(c).copy() for c in nx.connected_components(self.G))
+            components = list(
+                self.G.subgraph(c).copy() for c in nx.connected_components(self.G)
+            )
 
             for comp in components:
                 if (
@@ -147,7 +151,9 @@ class NetworkClass(PopulationClass):
             )
         )
 
-        outfile.write("Average node clustering: {}\n".format(nx.average_clustering(self.G)))
+        outfile.write(
+            "Average node clustering: {}\n".format(nx.average_clustering(self.G))
+        )
         outfile.close()
 
         comps = []

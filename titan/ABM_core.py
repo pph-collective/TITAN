@@ -266,6 +266,8 @@ class HIVModel(NetworkClass):
                 self.NewHRrolls,
                 self.NewIncarRelease,
                 self.deathSet,
+                self.LAI_agentSet,
+                self.oralPrEP_agentSet,
             )
             print_stats(stats[t], run_id)
 
@@ -455,7 +457,9 @@ class HIVModel(NetworkClass):
                 "RandomTrial" in params.PrEP_target_model and time == params.PrEP_startT
             ):
                 print("Starting random trial")
-                components = list(self.G.subgraph(c).copy() for c in nx.connected_components(self.G))
+                components = list(
+                    self.G.subgraph(c).copy() for c in nx.connected_components(self.G)
+                )
                 totNods = 0
                 print(
                     "Number of components",
