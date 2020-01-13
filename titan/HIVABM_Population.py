@@ -139,6 +139,7 @@ class PopulationClass:
         # Treatment agent sets
         self.aware_agentSet = Agent_set("LAI aware", parent=self.All_agentSet)
         self.treatment_agentSet = Agent_set("Trtmt", parent=self.All_agentSet)
+        self.PCA_agentSet = Agent_set("PCA", parent=self.All_agentSet)
         self.Trt_Tstd_agentSet = Agent_set(
             "Testd", parent=self.treatment_agentSet, numerator=self.HIV_agentSet
         )

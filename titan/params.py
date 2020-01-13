@@ -21,7 +21,7 @@ N_POP = 1040  # population size
 TIME_RANGE = 3  # total time steps to iterate
 burnDuration = 0
 model = "Custom"  # Model Type for fast flag toggling
-setting = "AtlantaMSM"
+setting = "Chicago"
 network_type = "max_k_comp_size"
 ####################
 
@@ -137,7 +137,7 @@ safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
 initTreatment = 0
 treatmentCov = 0.0
 maxComponentSize = 1000
-minComponentSize = 1
+minComponentSize = 2
 
 """
 Vaccine params

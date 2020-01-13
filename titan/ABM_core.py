@@ -162,11 +162,8 @@ class HIVModel(NetworkClass):
                 printer(run_id, t, self.runseed, self.popseed, self.netseed, stat)
 
         def get_components():
-            G = self.get_Graph()
-            return sorted(
-                (G.subgraph(c).copy() for c in nx.connected_components(G)),
-                key=len,
-                reverse=True,
+            return list(
+            self.G.subgraph(c).copy() for c in nx.connected_components(self.G) if len(c) >= params.minComponentSize
             )
 
         def burnSimulation(burnDuration: int):
@@ -457,13 +454,16 @@ class HIVModel(NetworkClass):
                 "RandomTrial" in params.PrEP_target_model and time == params.PrEP_startT
             ):
                 print("Starting random trial")
+
                 components = list(
-                    self.G.subgraph(c).copy() for c in nx.connected_components(self.G)
+                    self.G.subgraph(c).copy()
+                    for c in nx.connected_components(self.G)
+                    if len(c) >= params.minComponentSize
                 )
                 totNods = 0
                 print(
                     "Number of components",
-                    len([1 for comp in components if comp.number_of_nodes() > 1]),
+                    len([1 for comp in components if comp.number_of_nodes() >= params.minComponentSize]),
                 )
                 for comp in components:
                     totNods += comp.number_of_nodes()
@@ -471,38 +471,39 @@ class HIVModel(NetworkClass):
                     if self.runRandom.random() < 0.5:
                         # Component selected as treatment pod!
                         for ag in comp.nodes():
-                            if (ag._HIV_bool is False) and (ag._PrEP_bool is False):
+                            if (ag._HIV_bool is False) and (ag._PrEP_bool is False) and not params.flag_PCA:
                                 ag._treatment_bool = True
                                 if (
                                     self.runRandom.random() < params.PrEP_Target
-                                    and not agent.vaccine_bool
+                                    and not ag.vaccine_bool
                                 ):
                                     self._initiate_PrEP(ag, time, force=True)
                         if params.pcaChoice == "eigenvector":
                             centrality = nx.eigenvector_centrality_numpy(self.G)
                             assert len(centrality) >= 1, "Empty centrality"
                             orderedCentrality = sorted(centrality, key=centrality.get)
-                            i = 0
-                            while orderedCentrality[i]._HIV_bool:
-                                i += 1
-                            agent = orderedCentrality[i]
-                            agent.awareness = True
-                            self.aware_agentSet.add_agent(agent)
+                            for i in orderedCentrality:
+                                if not i._HIV_bool:
+                                    ag = i
+                                    self.PCA_agentSet.add_agent(ag)
+                                    ag.awareness = True
+                                    ag._PCA = True
+                                    self.aware_agentSet.add_agent(ag)
+                                    break
+                                else:
+                                    pass
+                        if params.pcaChoice == "bridge":
+                            all_bridges = list(nx.bridges(self.G))  # get a list of bridges
+                            all_agents = [ag for ag, j in all_bridges if not ag._HIV_bool]  # all agents in bridge (first half)
+                            ag = random.choice(all_agents)  # select change agent
+                            self.aware_agentSet.add_agent(ag)  # add to aware agents
+                            ag.awareness = True  # make aware
+                            self.PCA_agentSet.add_agent(ag)  # add to PCA agents
+                            ag._PCA = True  # make change agent
 
-                        elif params.pcaChoice == "bridge":
-                            all_bridges = list(nx.bridges(self.G))
-                            all_agents = [i for i, j in all_bridges] + [
-                                j for i, j in all_bridges
-                            ]
-                            random.shuffle(all_agents)
-                            i = 0
-                            while all_agents[i]._HIV_bool:
-                                i += 1
-                            agent = all_agents[i]
-                            agent.awareness = True
-                            self.aware_agentSet.add_agent(agent)
 
                 print(("Total agents in trial: ", totNods))
+                print("Number of Change Agents:", self.PCA_agentSet.num_members())
 
     def _agents_interact(self, time: int, rel: Relationship):
         """f
@@ -610,7 +611,10 @@ class HIVModel(NetworkClass):
         def knowledgeDissemination(partner):
             partner.awareness = True
             self.aware_agentSet.add_agent(partner)
-            if partner.opinion > params.opinion_threshold:
+            if (
+                partner.opinion > params.opinion_threshold
+                and self.runRandom.random() > params.PCA_PrEP
+            ):
                 self._initiate_PrEP(partner, time, force=True)
 
         def transmissionProbability():
@@ -1131,9 +1135,7 @@ class HIVModel(NetworkClass):
         self, agent: Agent, time: int
     ) -> bool:  # REVIEWED should this be in agent? self not used - move to agent
         eligible = False
-        print("Got here")
         if len(params.PrEP_target_model & {"Allcomers", "Racial"}) > 0:
-            print("eligible")
             eligible = True
         elif params.PrEP_target_model == "CDCwomen":
             if agent._SO == "HF":
@@ -1384,7 +1386,6 @@ class HIVModel(NetworkClass):
                     self.All_agentSet._subset["Race"]._subset[agent._race]._members
                 )
                 HIV_agents = len(all_HIV_agents & all_race)
-                # print("HIV agents", HIV_agents, "totHIV", len(all_HIV_agents))
                 target_PrEP = (
                     int(
                         self.All_agentSet._subset["Race"]
