@@ -163,7 +163,9 @@ class HIVModel(NetworkClass):
 
         def get_components():
             return list(
-            self.G.subgraph(c).copy() for c in nx.connected_components(self.G) if len(c) >= params.minComponentSize
+                self.G.subgraph(c).copy()
+                for c in nx.connected_components(self.G)
+                if len(c) >= params.minComponentSize
             )
 
         def burnSimulation(burnDuration: int):
@@ -454,7 +456,6 @@ class HIVModel(NetworkClass):
                 "RandomTrial" in params.PrEP_target_model and time == params.PrEP_startT
             ):
                 print("Starting random trial")
-
                 components = list(
                     self.G.subgraph(c).copy()
                     for c in nx.connected_components(self.G)
@@ -463,7 +464,13 @@ class HIVModel(NetworkClass):
                 totNods = 0
                 print(
                     "Number of components",
-                    len([1 for comp in components if comp.number_of_nodes() >= params.minComponentSize]),
+                    len(
+                        [
+                            1
+                            for comp in components
+                            if comp.number_of_nodes() >= params.minComponentSize
+                        ]
+                    ),
                 )
                 for comp in components:
                     totNods += comp.number_of_nodes()
@@ -471,7 +478,11 @@ class HIVModel(NetworkClass):
                     if self.runRandom.random() < 0.5:
                         # Component selected as treatment pod!
                         for ag in comp.nodes():
-                            if (ag._HIV_bool is False) and (ag._PrEP_bool is False) and not params.flag_PCA:
+                            if (
+                                (ag._HIV_bool is False)
+                                and (ag._PrEP_bool is False)
+                                and not params.flag_PCA
+                            ):
                                 ag._treatment_bool = True
                                 if (
                                     self.runRandom.random() < params.PrEP_Target
@@ -493,14 +504,24 @@ class HIVModel(NetworkClass):
                                 else:
                                     pass
                         if params.pcaChoice == "bridge":
-                            all_bridges = list(nx.bridges(self.G))  # get a list of bridges
-                            all_agents = [ag for ag, j in all_bridges if not ag._HIV_bool]  # all agents in bridge (first half)
-                            ag = random.choice(all_agents)  # select change agent
-                            self.aware_agentSet.add_agent(ag)  # add to aware agents
-                            ag.awareness = True  # make aware
-                            self.PCA_agentSet.add_agent(ag)  # add to PCA agents
-                            ag._PCA = True  # make change agent
-
+                            all_bridges = list(
+                                nx.bridges(comp)
+                            )  # get a list of bridges
+                            assert len(all_bridges) > 0, "No Bridges"
+                            comp_agents = [
+                                ag for ag, j in all_bridges if not ag._HIV_bool
+                            ]  # all agents in bridge (first half)
+                            chosen_agent = random.choice(
+                                comp_agents
+                            )  # select change agent
+                            self.aware_agentSet.add_agent(
+                                chosen_agent
+                            )  # add to aware agents
+                            chosen_agent.awareness = True  # make aware
+                            self.PCA_agentSet.add_agent(
+                                chosen_agent
+                            )  # add to PCA agents
+                            chosen_agent._PCA = True  # make change agent
 
                 print(("Total agents in trial: ", totNods))
                 print("Number of Change Agents:", self.PCA_agentSet.num_members())
