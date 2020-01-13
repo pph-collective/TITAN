@@ -482,22 +482,30 @@ class HIVModel(NetworkClass):
                             centrality = nx.eigenvector_centrality_numpy(self.G)
                             assert len(centrality) >= 1, "Empty centrality"
                             orderedCentrality = sorted(centrality, key=centrality.get)
-                            agent = orderedCentrality[0]
+                            i = 0
+                            while orderedCentrality[i]._HIV_bool:
+                                i += 1
+                            agent = orderedCentrality[i]
                             agent.awareness = True
                             self.aware_agentSet.add_agent(agent)
 
                         elif params.pcaChoice == "bridge":
                             all_bridges = list(nx.bridges(self.G))
-                            assert len(all_bridges) >= 1, "No bridges"
-                            bridge = random.choice(all_bridges)
-                            tmpA = random.choice(bridge)
-                            tmpA.awareness = True
-                            self.aware_agentSet.add_agent(tmpA)
+                            all_agents = [i for i, j in all_bridges] + [
+                                j for i, j in all_bridges
+                            ]
+                            random.shuffle(all_agents)
+                            i = 0
+                            while all_agents[i]._HIV_bool:
+                                i += 1
+                            agent = all_agents[i]
+                            agent.awareness = True
+                            self.aware_agentSet.add_agent(agent)
+
                 print(("Total agents in trial: ", totNods))
 
     def _agents_interact(self, time: int, rel: Relationship):
-        """
-        :Purpose:
+        """f
             Let IDU agent interact with a partner.
             Update IDU agents:
                 1 - determine transition type
