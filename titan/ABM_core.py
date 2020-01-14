@@ -681,6 +681,8 @@ class HIVModel(NetworkClass):
             num_acts = minimum
         else:
             num_acts = self.runRandom.randrange(minimum, maximum)
+        if num_acts < 1:
+            return
 
         if relationship._ID1.awareness and not relationship._ID2.awareness:
             if self.runRandom.random() < transmissionProbability():

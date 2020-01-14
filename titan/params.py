@@ -17,7 +17,7 @@ rSeed_net = 0
 rSeed_run = 0
 N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_REPS = 1
-N_POP = 1040  # population size
+N_POP = 5578  # population size
 TIME_RANGE = 3  # total time steps to iterate
 burnDuration = 2
 model = "Custom"  # Model Type for fast flag toggling
@@ -100,7 +100,7 @@ interactionProb: Dict[str, Any] = {
     "social": {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}},
 }  # prob of interaction per timestep (or at relationship formation for sexual)
 interactionProb["sexOnly"][1] = {"pvalue": 0.450, "min": 0, "max": 0}
-interactionProb["sexOnly"][2] = {"pvalue": 0.550, "min": 1, "max": 1}
+interactionProb["sexOnly"][2] = {"pvalue": 0.550, "min": 0, "max": 0}
 
 interactionProb["multiplex"][1] = {"pvalue": 0.306, "min": 0, "max": 0}
 interactionProb["multiplex"][2] = {"pvalue": 0.144, "min": 1, "max": 1}
@@ -174,7 +174,7 @@ init_with_vaccine = True
 PrEP_type = ["Oral", "Inj"]  # Oral/Inj PrEP and/or vaccine
 LAI_chance = 0.5
 PrEP_Target = (
-    1.3  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+    0.088  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 )
 PrEP_startT = -1  # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82  # Probability of being adherent
