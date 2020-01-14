@@ -63,9 +63,9 @@ cal_Mortality = 0.5  # Scaling factor for all cause mortality rates
 cal_ProgAIDS = 0.05  # Scaling factor for all progression to AIDS from HIV rates
 cal_ART_cov = 0.2  # Scaling factor for enrollment on ART probability
 cal_IncarP = 1.0
-cal_raceXmission = 3.75
+cal_raceXmission = 1.95
 cal_ptnrSampleDepth = 100
-cal_Vaccine = 1.0  # determines vaccine initiation during run
+cal_Vaccine = 0  # determines vaccine initiation during run
 
 # High risk params
 HR_partnerScale = 300  # Linear increase to partner number during HR period
@@ -89,7 +89,8 @@ Vaccine params
 """
 vaccine_type = "HVTN702"
 booster = True
-vaccine_start = 0
+vaccine_start = 1
+init_with_vaccine = True
 
 # Incarceration params
 inc_JailMax = 9
@@ -116,9 +117,7 @@ PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
-PrEP_target_model = (
-    "Racial"  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,CDC,Racial
-)
+PrEP_target_model = {"Racial"}
 PrEP_init_var1 = 0.5
 PrEP_init_var2 = 0.05
 PrEP_clinic_cat = ""
@@ -248,7 +247,7 @@ RaceClass1["MSM"].update(
         "mNPart": 7.0,
         "NUMPartn": 7.0,
         "NUMSexActs": 5.0,
-        "UNSAFESEX": 0.432,
+        "UNSAFESEX": 0.6608,
         "NEEDLESH": 0.43,
         "HIVTEST": 0.055,
         "INCAR": 0.00,  # 0.00014,
@@ -257,10 +256,10 @@ RaceClass1["MSM"].update(
         "PrEPdisc": 0.13,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.911,
-        "PrEP_coverage": 0.424,
-        "boosterInterval": WHITE_BOOSTER,
-        "boosterProb": 1.0,
-        "vaccinePrev": 0.5,
+        "PrEP_coverage": 0.415,
+        "boosterInterval": 0,
+        "boosterProb": 0.0,
+        "vaccinePrev": 0.0,
     }
 )
 
@@ -289,10 +288,10 @@ RaceClass2["MSM"].update(
         "PrEPdisc": 0.10,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.568,
-        "PrEP_coverage": 0.262,
-        "boosterInterval": BLACK_BOOSTER,
-        "boosterProb": 1.0,
-        "vaccinePrev": 0.5,
+        "PrEP_coverage": 0.258,
+        "boosterInterval": 0,
+        "boosterProb": 0.0,
+        "vaccinePrev": 0.0,
     }
 )
 

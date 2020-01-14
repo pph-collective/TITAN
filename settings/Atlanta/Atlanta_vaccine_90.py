@@ -1,28 +1,24 @@
 __author__ = "MaximilianKing"
 
-from typing import Sequence, List, Dict, Optional, Any
-from copy import deepcopy
-
 """
 Main model parameters.
 """
 
 ####################
 PROCESSES = 1  # number of processes in parallel (quadcore)
-rSeed = (
+rSeed_pop = (
     0  # seed for random number generator (0 for pure random, -1 for stepwise up to N_NC
 )
-rSeed_pop = 0
 rSeed_net = 0
 rSeed_run = 0
 N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_REPS = 1
-N_POP = 1040  # population size
-TIME_RANGE = 3  # total time steps to iterate
-burnDuration = 0
-model = "Custom"  # Model Type for fast flag toggling
-setting = "Chicago"
-network_type = "max_k_comp_size"
+N_POP = 17440  # population size
+TIME_RANGE = 120  # total time steps to iterate
+burnDuration = 36
+model = "VaccinePrEP"  # Model Type for fast flag toggling
+setting = "AtlantaMSM"
+network_type = "scale_free"
 ####################
 
 """
@@ -38,16 +34,14 @@ MSMreport = True
 HMreport = False
 HFreport = False
 drawFigures = False
-calcComponentStats = True
+calcComponentStats = False
 flag_agentZero = False
+drawEdgeList = False
 
 reports = [
-    "deathReport",
-    "incarReport",
-    "newlyhighriskReport",
-    "prepReport",
     "basicReport",
 ]
+
 
 """
 Calibration scaling parameters for fitting to empirical data
@@ -66,66 +60,19 @@ cal_RR_Dx = 0.0  # Risk reduction in transmission probability for agents diagnos
 cal_RR_HAART = 1.0  # Scaling factor for effectiveness of ART therapy on xmission P
 cal_TestFreq = 0.3  # Scaling factor for testing frequency
 cal_Mortality = 0.5  # Scaling factor for all cause mortality rates
-cal_ProgAIDS = 1.0  # Scaling factor for all progression to AIDS from HIV rates
-cal_ART_cov = 0.70  # Scaling factor for enrollment on ART probability
-cal_IncarP = 1.0  # Scaling factor for probability of becoming incarcerated
-cal_raceXmission = (
-    1.0  # Scaling factor for increased STI transmission P comparing race1/race2
-)
-cal_ptnrSampleDepth = 100  # Sampling depth for partnering algorithm.
+cal_ProgAIDS = 0.05  # Scaling factor for all progression to AIDS from HIV rates
+cal_ART_cov = 0.2  # Scaling factor for enrollment on ART probability
+cal_IncarP = 1.0
+cal_raceXmission = 1.95
+cal_ptnrSampleDepth = 100
+cal_Vaccine = 0  # determines vaccine initiation during run
 
-"""
-Network Params
-"""
-nonSex = 0.5
-multiplex = 0.2
-bond_type = ["social"]
-mean_partner_type = "bins"
-
-"""
-Peer change params
-"""
-# attitude = {0: 0.25, 1: 0.40, 2: 0.20, 3: 0.10, 4: 0.05}
-attitude = {0: 0.5, 1: 0.0, 2: 0.0, 3: 0.0, 4: 0.5}
-PCA_PrEP = 0.452 * 0.664
-opinion_threshold = 0.0
-pcaChoice = "eigenvector"  # eigenvector or bridge
-awarenessProb = 0.05
-starting_awareness = 0.05
-knowledgeTransmission = 0.05
-opinionTransmission = 1.0
-interactionProb: Dict[str, Any] = {
-    "sexOnly": {1: {}, 2: {}},
-    "multiplex": {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}},
-    "social": {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}},
-}  # prob of interaction per timestep (or at relationship formation for sexual)
-interactionProb["sexOnly"][1] = {"pvalue": 0.450, "min": 0, "max": 0}
-interactionProb["sexOnly"][2] = {"pvalue": 0.550, "min": 1, "max": 1}
-
-interactionProb["multiplex"][1] = {"pvalue": 0.306, "min": 0, "max": 0}
-interactionProb["multiplex"][2] = {"pvalue": 0.144, "min": 1, "max": 1}
-interactionProb["multiplex"][3] = {"pvalue": 0.067, "min": 2, "max": 2}
-interactionProb["multiplex"][4] = {"pvalue": 0.106, "min": 4, "max": 4}
-interactionProb["multiplex"][5] = {"pvalue": 0.150, "min": 5, "max": 29}
-interactionProb["multiplex"][6] = {"pvalue": 0.228, "min": 30, "max": 30}
-
-interactionProb["social"][1] = {"pvalue": 0.253, "min": 0, "max": 0}
-interactionProb["social"][2] = {"pvalue": 0.123, "min": 1, "max": 1}
-interactionProb["social"][3] = {"pvalue": 0.060, "min": 2, "max": 2}
-interactionProb["social"][4] = {"pvalue": 0.140, "min": 4, "max": 4}
-interactionProb["social"][5] = {"pvalue": 0.168, "min": 5, "max": 29}
-interactionProb["social"][6] = {"pvalue": 0.256, "min": 30, "max": 30}
-
-
-"""
-High risk params
-"""
+# High risk params
 HR_partnerScale = 300  # Linear increase to partner number during HR period
 HR_proportion = 0.3  # Proportion of people who enter HR group when partner incarcerated
 HR_M_dur = 6  # Duration of high risk for males
 HR_F_dur = 6  # Duration of high risk for females
 condomUseType = "Race"  # Race or Acts
-HIV_MSMW = 0.0
 
 # Misc. params
 flag_AssortativeMix = True
@@ -136,16 +83,14 @@ AssortMixCoeff = 0.75  # Proportion of race1 mixing with race2 when partnering.
 safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
 initTreatment = 0
 treatmentCov = 0.0
-maxComponentSize = 1000
-minComponentSize = 2
 
 """
 Vaccine params
 """
-vaccine_type = "RV144"
+vaccine_type = "HVTN702"
 booster = True
-init_with_vaccine = True
 vaccine_start = 1
+init_with_vaccine = True
 
 # Incarceration params
 inc_JailMax = 9
@@ -159,22 +104,11 @@ inc_ARTenroll = 0.51
 inc_ARTadh = 0.21
 inc_ARTdisc = 0.12
 inc_Recidivism = 0.267
-inc_PtnrDissolution = 0.55
-inc_treatment_startdate = 48  # Timestep where inc treatment can begin
-inc_treatment_dur = (
-    12  # Duration for which agents are forced on respective treatment post release
-)
-inc_treat_set = ["HM"]  # Set of agent classifiers effected by HR treatment
-inc_treat_HRsex_beh = True  # Remove sexual higrisk behaviour during treatment duration
-inc_treat_IDU_beh = True  # Remove IDU behav:iour during treatment duration
-inc_treat_RIC = False  # Force retention in care of ART therapy
 
 # PrEP params
-init_with_vaccine = True
-PrEP_type = ["Oral", "Inj"]  # Oral/Inj PrEP and/or vaccine
-LAI_chance = 0.5
+PrEP_type = ["Oral", "Vaccine"]  # Oral/Inj PrEP and/or vaccine
 PrEP_Target = (
-    0.0  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+    1.0  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 )
 PrEP_startT = 0  # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82  # Probability of being adherent
@@ -183,25 +117,23 @@ PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
-PrEP_target_model = {
-    "Racial"  # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
-}
-PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it follow
+PrEP_target_model = {"Racial"}
+PrEP_init_var1 = 0.5
+PrEP_init_var2 = 0.05
+PrEP_clinic_cat = ""
 
 if "Oral" in PrEP_type:
-    PrEP_Adherence = 1.0
+    PrEP_Adherence = "AtlantaMSM"
     PrEP_AdhEffic = 0.96
     PrEP_NonAdhEffic = 0.76
     PrEP_falloutT = 1
-    PrEP_disc = 0.00  # 0.15
-    PrEP_peakLoad = 1.0
-    PrEP_halflife = 1.0
-elif "Inj" in PrEP_type:  # TODO make both of these compatible; can use both at once??
+    PrEP_disc = 0.15
+elif "Inj" in PrEP_type:
     PrEP_Adherence = 1.0
     PrEP_AdhEffic = 1.0
     PrEP_NonAdhEffic = 1.00
     PrEP_falloutT = 12
-    PrEP_disc = 0.00  # 0.04
+    PrEP_disc = 0.04
     PrEP_peakLoad = 4.91
     PrEP_halflife = 40.0
 
@@ -226,7 +158,6 @@ if model == "PrEP":
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
-    flag_PCA = True
 elif model == "Incar":
     flag_incar = True
     flag_PrEP = False
@@ -234,7 +165,6 @@ elif model == "Incar":
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
-    flag_PCA = True
 elif model == "NoIncar":
     flag_incar = False
     flag_PrEP = False
@@ -242,7 +172,6 @@ elif model == "NoIncar":
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
-    flag_PCA = True
 elif model == "VaccinePrEP":
     flag_incar = False
     flag_PrEP = True
@@ -251,26 +180,23 @@ elif model == "VaccinePrEP":
     flag_DandR = True
     flag_staticN = False
     flag_booster = True
-    flag_PCA = True
 elif model == "Custom":
     flag_incar = False
     flag_PrEP = True
     flag_HR = False
-    flag_ART = False
-    flag_DandR = False
-    flag_staticN = True
-    flag_PCA = True
+    flag_ART = True
+    flag_DandR = True
+    flag_staticN = False
 
-agentSexTypes = ["HM", "HF", "MSM", "WSW", "MTF"]
-agentPopulations = deepcopy(agentSexTypes)
-agentPopulations.append("IDU")
+agentPopulations = ["MSM", "HF", "HM", "IDU"]
+agentSexTypes = ["MSM", "HF", "HM", "IDU"]
 
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
 ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, PWID)
 RaceClass agent classifier template
 """
-RC_template: Dict[str, Any] = {
+RC_template = {
     "Race": None,  # Race of demographic
     "Class": None,  # Classification of networking
     "POP": 0.0,  # Percentage of total agent population that are ID
@@ -296,12 +222,12 @@ RC_template: Dict[str, Any] = {
     "PrEPadh": 1.0,
     "PrEP_coverage": 0,
     "boosterInterval": 0,
-    "boosterProb": 0,
     "vaccinePrev": 0,
 }
 
-RaceClass1: Dict[str, Any] = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
-RaceClass2: Dict[str, Any] = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
+# RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
+RaceClass1 = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
+RaceClass2 = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
 for a in ["MSM", "HM", "HF", "IDU"]:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
@@ -313,43 +239,43 @@ RaceClass1["MSM"]["HIV"] = 0.4
 RaceClass1["MSM"].update(
     {
         "POP": 1.00,
-        "HIV": 0.5,
+        "HIV": 0.132,
         "AIDS": 0.07,
-        "HAARTprev": 0.583,
+        "HAARTprev": 0.90,
         "INCARprev": 0.000,
-        "TestedPrev": 0.826,
+        "TestedPrev": 0.90,
         "mNPart": 7.0,
         "NUMPartn": 7.0,
         "NUMSexActs": 5.0,
-        "UNSAFESEX": 0.432,
+        "UNSAFESEX": 0.6608,
         "NEEDLESH": 0.43,
         "HIVTEST": 0.055,
         "INCAR": 0.00,  # 0.00014,
-        "HAARTadh": 0.885,  # 0.693,#0.57,
+        "HAARTadh": 0.90,  # 0.693,#0.57,
         "HAARTdisc": 0.10,
         "PrEPdisc": 0.13,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.911,
-        "PrEP_coverage": 0.5,
-        "vaccinePrev": 1,
-        "boosterInterval": 3,
-        "boosterProb": 1.0,
+        "PrEP_coverage": 0.415,
+        "boosterInterval": 0,
+        "boosterProb": 0.0,
+        "vaccinePrev": 0.8,
     }
 )
 
 RaceClass1["ALL"].update(
-    {"Proportion": 0.00, "HAARTdisc": 0.018, "PrEPdisc": 0.0, "AssortMixCoeff": 0.722}
+    {"Proportion": 0.611, "HAARTdisc": 0.018, "PrEPdisc": 0.0, "AssortMixCoeff": 0.722}
 )
 
 # RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
 RaceClass2["MSM"].update(
     {
         "POP": 1.00,  # 0.028,
-        "HIV": 0.367,  # 0.434,
+        "HIV": 0.434,
         "AIDS": 0.232,
-        "HAARTprev": 0.627,
+        "HAARTprev": 0.90,
         "INCARprev": 0.00,
-        "TestedPrev": 0.655,
+        "TestedPrev": 0.90,
         "mNPart": 5.0,
         "NUMPartn": 5.0,
         "NUMSexActs": 5.0,
@@ -357,20 +283,20 @@ RaceClass2["MSM"].update(
         "NEEDLESH": 0.27,
         "HIVTEST": 0.06,
         "INCAR": 0.00,  # 0.0011,
-        "HAARTadh": 0.817,  # 0.598,#0.34,
+        "HAARTadh": 0.90,  # 0.598,#0.34,
         "HAARTdisc": 0.07,
-        "PrEPdisc": 0.00,
+        "PrEPdisc": 0.10,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.568,
-        "PrEP_coverage": 0.5,
-        "vaccinePrev": 1.0,
-        "boosterInterval": 3,
+        "PrEP_coverage": 0.258,
+        "boosterInterval": 6,
         "boosterProb": 1.0,
+        "vaccinePrev": 0.8,
     }
 )
 
 RaceClass2["ALL"].update(
-    {"Proportion": 1.00, "HAARTdisc": 0.018, "PrEPdisc": 0.0, "AssortMixCoeff": 0.765}
+    {"Proportion": 0.389, "HAARTdisc": 0.018, "PrEPdisc": 0.0, "AssortMixCoeff": 0.765}
 )
 
 DemographicParams = {"WHITE": RaceClass1, "BLACK": RaceClass2}
@@ -378,18 +304,14 @@ DemographicParams = {"WHITE": RaceClass1, "BLACK": RaceClass2}
 """
 Partnership durations and
 """
-sexualDurations: Dict[int, Any] = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
-sexualDurations[1] = {"p_value": (0.323 + 0.262), "min": 1, "max": 6}
-sexualDurations[2] = {"p_value": (0.323 + 0.262 + 0.116), "min": 7, "max": 12}
-sexualDurations[3] = {"p_value": (0.323 + 0.262 + 0.116 + 0.121), "min": 13, "max": 24}
-sexualDurations[4] = {
-    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
-    "min": 25,
-    "max": 36,
-}
-sexualDurations[5] = {"min": 37, "max": 48}
+sexualDurations = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
+sexualDurations[1] = {"p_value": 0.525, "min": 1, "max": 3}
+sexualDurations[2] = {"p_value": (0.525 + 0.300), "min": 3, "max": 12}
+sexualDurations[3] = {"p_value": (0.525 + 0.300 + 0.245), "min": 13, "max": 24}
+sexualDurations[4] = {"p_value": (0.281 + 0.209 + 0.281 + 0.230), "min": 13, "max": 24}
+sexualDurations[5] = {"min": 13, "max": 24}
 
-needleDurations: Dict[int, Any] = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
+needleDurations = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
 needleDurations[1] = {"p_value": 1.0, "min": 1, "max": 6}
 needleDurations[2] = {"p_value": (0.323 + 0.262), "min": 1, "max": 6}
 needleDurations[3] = {"p_value": (0.323 + 0.262), "min": 1, "max": 6}
@@ -401,38 +323,19 @@ PartnershipDurations = {"SEX": sexualDurations, "NEEDLE": needleDurations}
 """
 Partnership acts and
 """
-sexualFrequency: Dict[int, Any] = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
-sexualFrequency[1] = {"p_value": (0.323 + 0.262), "min": 1, "max": 6}
-sexualFrequency[2] = {"p_value": (0.323 + 0.262 + 0.116), "min": 7, "max": 12}
-sexualFrequency[3] = {"p_value": (0.323 + 0.262 + 0.116 + 0.121), "min": 13, "max": 24}
-sexualFrequency[4] = {
-    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
-    "min": 25,
-    "max": 36,
-}
-sexualFrequency[5] = {
-    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
-    "min": 25,
-    "max": 36,
-}
-sexualFrequency[6] = {
-    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
-    "min": 25,
-    "max": 36,
-}
-sexualFrequency[7] = {
-    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
-    "min": 25,
-    "max": 36,
-}
-sexualFrequency[8] = {
-    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
-    "min": 25,
-    "max": 36,
-}
-sexualFrequency[9] = {"min": 37, "max": 48}
+# todo FINISH THESE AND IMPORT HTEM INTO SEXACTS
+sexualFrequency = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
+sexualFrequency[1] = {"p_value": (0.244), "min": 1, "max": 2}
+sexualFrequency[2] = {"p_value": (0.244 + 0.493), "min": 3, "max": 4}
+sexualFrequency[3] = {"p_value": (0.244 + 0.493 + 0.123), "min": 5, "max": 12}
+sexualFrequency[4] = {"p_value": (0.244 + 0.493 + 0.123 + 0.14), "min": 13, "max": 20}
+sexualFrequency[5] = {"p_value": (0.244 + 0.493 + 0.123 + 0.14), "min": 13, "max": 20}
+sexualFrequency[6] = {"p_value": (0.244 + 0.493 + 0.123 + 0.14), "min": 13, "max": 20}
+sexualFrequency[7] = {"p_value": (0.244 + 0.493 + 0.123 + 0.14), "min": 13, "max": 20}
+sexualFrequency[8] = {"p_value": (0.244 + 0.493 + 0.123 + 0.14), "min": 13, "max": 20}
+sexualFrequency[9] = {"min": 13, "max": 20}
 
-needleFrequency: Dict[int, Any] = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
+needleFrequency = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
 needleFrequency[1] = {"p_value": 1.0, "min": 1, "max": 6}
 needleFrequency[2] = {"p_value": (0.323 + 0.262), "min": 1, "max": 6}
 needleFrequency[3] = {"p_value": (0.323 + 0.262), "min": 1, "max": 6}
@@ -444,8 +347,7 @@ PartnershipDurations = {"SEX": sexualDurations, "NEEDLE": needleDurations}
 """
 Sexual and injection transmission probabilities
 """
-SexTrans: Dict[str, Any] = {"MSM": {}, "HM": {}, "HF": {}}
-
+SexTrans = {"MSM": {}, "HM": {}, "HF": {}}
 SexTrans["MSM"] = {
     "0": 0.00745,
     "1": 0.00745 * 0.81,
@@ -480,14 +382,11 @@ NeedleTrans = {
     "5": 0.0002,
 }
 
-TransmissionProbabilities: Dict[str, Any] = {"SEX": SexTrans, "NEEDLE": NeedleTrans}
+TransmissionProbabilities = {"SEX": SexTrans, "NEEDLE": NeedleTrans}
 
 # ageMatrix[race][2]['Prop']
 
-"""
-Age bin distributions and HIV if utilized
-"""
-ageMatrix: Dict[str, Any] = {"WHITE": {}, "BLACK": {}}
+ageMatrix = {"WHITE": {}, "BLACK": {}}
 ageMatrix["WHITE"] = {
     "Prop": {
         0: 0.0,
@@ -511,22 +410,23 @@ ageMatrix["BLACK"] = {
     "HIV": {0: 0.0, 1: 0.144, 2: 0.144, 3: 0.250, 4: 0.377, 5: 0.194},
 }
 
-
-"""
-Age mixing matrix for assortative mixing by age
-"""
-mixingMatrix: Dict[int, Any] = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
+mixingMatrix = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
 mixingMatrix[1] = {1: 0.500, 2: 0.226, 3: 0.123, 4: 0.088, 5: 0.064}
 mixingMatrix[2] = {1: 0.156, 2: 0.500, 3: 0.185, 4: 0.099, 5: 0.061}
 mixingMatrix[3] = {1: 0.074, 2: 0.162, 3: 0.500, 4: 0.184, 5: 0.079}
 mixingMatrix[4] = {1: 0.057, 2: 0.093, 3: 0.199, 4: 0.500, 5: 0.150}
 mixingMatrix[5] = {1: 0.062, 2: 0.086, 3: 0.128, 4: 0.224, 5: 0.500}
 
-"""
-Clinic bins for targetting strategies
-Bins represent partner numbers of the following category 0:0, 1:1, 2:2,  3:3-4, 4:5-9, 5:10+
-"""
-clinicAgents: Dict[str, Any] = {"Low": {}, "Mid": {}, "High": {}}
+# Bins represent partner numbers of the following category 0:0, 1:1, 2:2,  3:3-4, 4:5-9, 5:10+
+clinicAgents = {"Racial": {}, "Mid": {}, "High": {}}
+clinicAgents["Racial"] = {
+    0: {"Prob": 10.0, "min": 0, "max": 0},
+    1: {"Prob": 10.054, "min": 0, "max": 1},
+    2: {"Prob": 10.061, "min": 1, "max": 2},
+    3: {"Prob": 10.168, "min": 3, "max": 4},
+    4: {"Prob": 10.246, "min": 5, "max": 9},
+    5: {"Prob": 10.471, "min": 10, "max": 120},
+}
 clinicAgents["Mid"] = {
     0: {"Prob": 0.0, "min": 0, "max": 0},
     1: {"Prob": 0.054, "min": 0, "max": 1},
@@ -534,17 +434,4 @@ clinicAgents["Mid"] = {
     3: {"Prob": 0.168, "min": 3, "max": 4},
     4: {"Prob": 0.246, "min": 5, "max": 9},
     5: {"Prob": 0.471, "min": 10, "max": 120},
-}
-
-partnerNumber: Dict[int, Any] = {
-    0: 0.083,
-    1: 0.181,
-    2: 0.229,
-    3: 0.172,
-    4: 0.112,
-    5: 0.102,
-    6: 0.071,
-    7: 0.028,
-    8: 0.019,
-    9: 0.005,
 }
