@@ -493,16 +493,21 @@ class HIVModel(NetworkClass):
                             centrality = nx.eigenvector_centrality_numpy(self.G)
                             assert len(centrality) >= 1, "Empty centrality"
                             orderedCentrality = sorted(centrality, key=centrality.get)
-                            for i in orderedCentrality:
-                                if not i._HIV_bool:
-                                    ag = i
+                            intervention_agent = False
+                            for ag in orderedCentrality:
+                                if not ag._HIV_bool:
                                     self.PCA_agentSet.add_agent(ag)
                                     ag.awareness = True
                                     ag._PCA = True
                                     self.aware_agentSet.add_agent(ag)
+                                    intervention_agent = True
                                     break
                                 else:
                                     pass
+                            if not intervention_agent:
+                                ag = orderedCentrality[0]
+                                ag._PCA = True
+
                         if params.pcaChoice == "bridge":
                             all_bridges = list(
                                 nx.bridges(comp)
@@ -511,16 +516,22 @@ class HIVModel(NetworkClass):
                             comp_agents = [
                                 ag for ag, j in all_bridges if not ag._HIV_bool
                             ]  # all agents in bridge (first half)
-                            chosen_agent = random.choice(
-                                comp_agents
-                            )  # select change agent
-                            self.aware_agentSet.add_agent(
-                                chosen_agent
-                            )  # add to aware agents
-                            chosen_agent.awareness = True  # make aware
-                            self.PCA_agentSet.add_agent(
-                                chosen_agent
-                            )  # add to PCA agents
+                            if comp_agents:
+                                chosen_agent = random.choice(
+                                    comp_agents
+                                )  # select change agent
+                                self.aware_agentSet.add_agent(
+                                    chosen_agent
+                                )  # add to aware agents
+                                chosen_agent.awareness = True  # make aware
+                                self.PCA_agentSet.add_agent(
+                                    chosen_agent
+                                )  # add to PCA agents
+                            else:
+                                chosen_bridge = random.choice(
+                                    all_bridges
+                                )  # not true change agent, just mark component
+                                chosen_agent = random.choice(chosen_bridge)
                             chosen_agent._PCA = True  # make change agent
 
                 print(("Total agents in trial: ", totNods))
