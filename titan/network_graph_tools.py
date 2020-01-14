@@ -55,28 +55,29 @@ class NetworkClass(PopulationClass):
             self.G = nx.Graph()
             for i in range(10):
                 self.update_partner_assignments(params.PARTNERTURNOVER, self.G)
+
         elif network_type == "max_k_comp_size":
 
             def trimComponent(component, maxComponentSize):
                 for ag in component.nodes:
-                    if random.random() < 0.1:
-                        for rel in ag._relationships:
-                            # print("Removed edge:",rel)
-                            rel.progress(forceKill=True)
-                            self.Relationships.remove(rel)
-                            component.remove_edge(rel._ID1, rel._ID2)
-                            self.G.remove_edge(rel._ID1, rel._ID2)
+                    # if random.random() < 0.1:
+                    for rel in ag._relationships:
+                        # print("Removed edge:",rel)
+                        rel.progress(forceKill=True)
+                        self.Relationships.remove(rel)
+                        component.remove_edge(rel._ID1, rel._ID2)
+                        self.G.remove_edge(rel._ID1, rel._ID2)
 
-                components = sorted(
-                    nx.connected_component_subgraphs(self.G), key=len, reverse=True
+                comps = list(
+                    self.G.subgraph(c).copy() for c in nx.connected_components(self.G)
                 )
                 totNods = 0
-                for comp in components:
-                    cNodes = comp.number_of_nodes()
+                for component in comps:
+                    cNodes = len(component)
                     if cNodes > params.maxComponentSize:
-                        trimComponent(comp, params.maxComponentSize)
+                        trimComponent(component, params.maxComponentSize)
                     elif cNodes < params.minComponentSize:
-                        for a in comp.nodes():
+                        for a in component.nodes():
                             if a in self.G:
                                 self.G.remove_node(a)
 
@@ -84,11 +85,13 @@ class NetworkClass(PopulationClass):
                         totNods += cNodes
 
             self.G = nx.Graph()
+            self.Ginit = self.G
             for i in range(10):
-                self.update_partner_assignments(params.PARTNERTURNOVER, self.get_Graph)
-            components = sorted(
-                nx.connected_component_subgraphs(self.G), key=len, reverse=True
+                self.update_partner_assignments(params.PARTNERTURNOVER, self.G)
+            components = list(
+                self.G.subgraph(c).copy() for c in nx.connected_components(self.G)
             )
+
             for comp in components:
                 if (
                     params.calcComponentStats
@@ -101,7 +104,10 @@ class NetworkClass(PopulationClass):
                     and comp.number_of_nodes() < params.minComponentSize
                 ):
                     print("TOO SMALL", comp, comp.number_of_nodes())
-            print("Total agents in graph: ", self.G.number_of_nodes())
+                    for a in comp.nodes():
+                        print(a)
+                        self.G.remove_node(a)
+
         else:
             print("HUIH")
             raise ValueError("Invalid network type! %s" % str(network_type))
@@ -113,39 +119,41 @@ class NetworkClass(PopulationClass):
     def write_network_stats(
         self, t: int = 0, path: str = "results/network/networkStats.txt"
     ):
-        G = self.G
-        components = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)
+        subgraphs = (self.G.subgraph(c).copy() for c in nx.connected_components(self.G))
+        components = sorted(subgraphs, key=len, reverse=True)
         bigG = components[0]
         outfile = open(path, "w")
-        outfile.write(nx.info(G))
+        outfile.write(nx.info(self.G))
 
-        centDict = nx.degree_centrality(G)
+        centDict = nx.degree_centrality(self.G)
 
         outfile.write(
             "\nNumber of connected components: {}\n".format(
-                nx.number_connected_components(G)
+                nx.number_connected_components(self.G)
             )
         )
-        conG = nx.connected_components(G)
+        conG = nx.connected_components(self.G)
         tot_nodes = 0
         for c in conG:
             thisComp = len(c)
             tot_nodes += thisComp
         outfile.write(
             "Average component size: {}\n".format(
-                tot_nodes * 1.0 / nx.number_connected_components(G)
+                tot_nodes * 1.0 / nx.number_connected_components(self.G)
             )
         )
         outfile.write("Maximum component size: {}\n".format(nx.number_of_nodes(bigG)))
-        outfile.write("Degree Histogram: {}\n".format(nx.degree_histogram(G)))
-        outfile.write("Graph density: {}\n".format(nx.density(G)))
+        outfile.write("Degree Histogram: {}\n".format(nx.degree_histogram(self.G)))
+        outfile.write("Graph density: {}\n".format(nx.density(self.G)))
         outfile.write(
             "Average node degree centrality: {}\n".format(
                 sum(centDict.values()) / len(list(centDict.values()))
             )
         )
 
-        outfile.write("Average node clustering: {}\n".format(nx.average_clustering(G)))
+        outfile.write(
+            "Average node clustering: {}\n".format(nx.average_clustering(self.G))
+        )
         outfile.close()
 
         comps = []

@@ -25,6 +25,8 @@ def get_stats(
     newHR: Agent_set,
     newIncarRelease: Agent_set,
     deathSet: List[Agent],
+    LAIagents: Agent_set,
+    oralAgents: Agent_set,
 ):
 
     stats_template = {
@@ -55,6 +57,9 @@ def get_stats(
         "msmwPartPrep": 0,
         "testedPartPrep": 0,
         "numVaccinated": 0,
+        "LAIagents": 0,
+        "oralAgents": 0,
+        "awareAgents": 0,
     }
 
     stats = {}
@@ -141,6 +146,16 @@ def get_stats(
         stats[tmpA._race][tmpA._SO]["deaths"] += 1
         if tmpA._HIV_bool:
             stats[tmpA._race][tmpA._SO]["deaths_HIV"] += 1
+
+    for (
+        tmpA
+    ) in (
+        LAIagents.iter_agents()
+    ):  # TODO this should have a way of doing a for loop of PrEP types
+        # TODO: use num_members and subsets? Or other non-loop method
+        stats[tmpA._race][tmpA._SO]["LAIagents"] += 1
+    for tmpA in oralAgents.iter_agents():
+        stats[tmpA._race][tmpA._SO]["oralAgents"] += 1
 
     # Sum 'ALL' categories for race/SO bins
 
@@ -318,12 +333,12 @@ def basicReport(
             # if this is a new file, write the header info
             if tmpReport.tell() == 0:
                 tmpReport.write(
-                    "run_id\trseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\tVaccinated\n"
+                    "run_id\trseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\tVaccinated\tLAI\tOral\tOpinion\n"
                 )
 
             tmpReport.write(
                 (
-                    "{:s}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
+                    "{:s}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
                         str(run_id),
                         runseed,
                         popseed,
@@ -345,6 +360,10 @@ def basicReport(
                         stats[agentRace][agentTypes]["msmwPartPrep"],
                         stats[agentRace][agentTypes]["testedPartPrep"],
                         stats[agentRace][agentTypes]["numVaccinated"],
+                        stats[agentRace][agentTypes]["LAIagents"],
+                        stats[agentRace][agentTypes]["oralAgents"],
+                        1
+                        # np.mean(stats[agentRace][agentTypes]["agentOpinions"])
                     )
                 )
             )
@@ -365,12 +384,12 @@ def print_components(
     # if this is a new file, write the header info
     if f.tell() == 0:
         f.write(
-            "run_id\trunseed\tpopseed\tnetseed\tt\tcompID\ttotalN\tTestedPartner\tMSMWpartner\n"
+            "run_id\trunseed\tpopseed\tnetseed\tt\tcompID\ttotalN\tNhiv\tNtrtmt\tNprep\tNtrtHIV\tNprepHIV\tTrtBool\n"
         )
 
     compID = 0
     for comp in components:
-        totN = nhiv = ntrtmt = ntrthiv = nprep = PrEP_ever_HIV = 0
+        totN = nhiv = ntrtmt = ntrthiv = nprep = PrEP_ever_HIV = trtbool = 0
         for agent in comp.nodes():
             totN += 1
             if agent._HIV_bool:
@@ -383,8 +402,11 @@ def print_components(
                 ntrtmt += 1
                 if agent._PrEP_bool:
                     nprep += 1
+            if agent._PCA:
+                trtbool += 1
         f.write(
-            "{run_id}\t{runseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Ntrtmt}\t{Nprep}\t{NtrtHIV}\t{NprepHIV}\n".format(
+            "{run_id}\t{runseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Ntrtmt}\t{Nprep}\t{NtrtHIV}"
+            "\t{NprepHIV}\t{trtbool}\n".format(
                 run_id=run_id,
                 runseed=runseed,
                 pseed=popseed,
@@ -397,6 +419,7 @@ def print_components(
                 Nprep=nprep,
                 NtrtHIV=ntrthiv,
                 NprepHIV=PrEP_ever_HIV,
+                trtbool=trtbool,
             )
         )
 

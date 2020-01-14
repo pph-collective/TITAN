@@ -137,11 +137,15 @@ class PopulationClass:
         self.DU_NDU_agentSet = Agent_set("NDU", parent=self.drugUse_agentSet)
 
         # Treatment agent sets
+        self.aware_agentSet = Agent_set("LAI aware", parent=self.All_agentSet)
         self.treatment_agentSet = Agent_set("Trtmt", parent=self.All_agentSet)
+        self.PCA_agentSet = Agent_set("PCA", parent=self.All_agentSet)
         self.Trt_Tstd_agentSet = Agent_set(
             "Testd", parent=self.treatment_agentSet, numerator=self.HIV_agentSet
         )
         self.Trt_PrEP_agentSet = Agent_set("PrEP", parent=self.treatment_agentSet)
+        self.LAI_agentSet = Agent_set("LAI", parent=self.Trt_PrEP_agentSet)
+        self.oralPrEP_agentSet = Agent_set("Oral", parent=self.Trt_PrEP_agentSet)
         self.Trt_PrEPelig_agentSet = Agent_set(
             "PrePelig", parent=self.treatment_agentSet
         )
@@ -456,10 +460,36 @@ class PopulationClass:
             newAgent._mean_num_partners = prob.get_mean_num_partners(
                 DrugType, self.popRandom
             )
+        elif params.mean_partner_type == "bins":
+            pn_prob = self.popRandom.random()
+            current_p_value = ptnBin = 0
+
+            while pn_prob > current_p_value:
+                current_p_value += params.partnerNumber[ptnBin]
+                ptnBin += 1
+            newAgent._mean_num_partners = ptnBin
         else:
             newAgent._mean_num_partners = poisson.rvs(
                 params.DemographicParams[Race][SexType]["NUMPartn"], size=1
             )
+
+        if params.flag_PCA:
+            if self.popRandom.random() < params.starting_awareness:
+                newAgent.awareness = True
+            attprob = self.popRandom.random()
+            pvalue = 0.0
+            for key in params.attitude:
+                pvalue += params.attitude[key]
+                if attprob < pvalue:
+                    newAgent.opinion = key
+                    break
+            assert newAgent.opinion in range(
+                5
+            ), "No opinion of LAI-PrEP"  # TODO: move to testing
+
+            if newAgent.awareness and newAgent.opinion > params.opinion_threshold:
+                newAgent._PrEP_bool = True
+                newAgent._treatment_bool = True
 
         return newAgent
 
@@ -501,6 +531,8 @@ class PopulationClass:
                 addToSubsets(self.HIV_AIDS_agentSet, agent_cl)
 
         # Add to correct treatment set
+        if agent_cl.awareness:
+            addToSubsets(self.aware_agentSet, agent_cl)
         if agent_cl._treatment_bool:
             addToSubsets(self.treatment_agentSet, agent_cl)
             if agent_cl._HAART_bool:
@@ -508,6 +540,13 @@ class PopulationClass:
 
         if agent_cl._PrEP_bool:
             addToSubsets(self.Trt_PrEP_agentSet, agent_cl)
+            if (
+                self.popRandom.random() > params.LAI_chance
+                and "Inj" in params.PrEP_type
+            ):
+                addToSubsets(self.LAI_agentSet, agent_cl)
+            else:
+                addToSubsets(self.oralPrEP_agentSet, agent_cl)
 
         if agent_cl._tested:
             addToSubsets(self.Trt_Tstd_agentSet, agent_cl)
@@ -570,9 +609,37 @@ class PopulationClass:
         partner = get_partner(agent, self.All_agentSet)
         noMatch = False
 
-        if partner:
+        if partner:  # TODO add these to params
             duration = get_partnership_duration(agent)
-            tmp_relationship = Relationship(agent, partner, "MSM", "SE", duration)
+            rTypeProb = self.popRandom.random()
+
+            if params.bond_type:
+                if agent._DU == "IDU" and "injection" in params.bond_type:
+                    if rTypeProb < params.nonSex:
+                        tmp_relationship = Relationship(
+                            agent, partner, "MSM", duration, rel_type="injection"
+                        )
+                    elif rTypeProb < params.multiplex + params.nonSex:
+                        tmp_relationship = Relationship(
+                            agent, partner, "MSM", duration, rel_type="multiplex"
+                        )
+                    else:
+                        tmp_relationship = Relationship(
+                            agent, partner, "MSM", duration, rel_type="sexOnly"
+                        )
+                elif "social" in params.bond_type:
+                    if rTypeProb < params.nonSex:
+                        tmp_relationship = Relationship(
+                            agent, partner, "MSM", duration, rel_type="social"
+                        )
+                    elif rTypeProb < params.multiplex + params.nonSex:
+                        tmp_relationship = Relationship(
+                            agent, partner, "MSM", duration, rel_type="multiplex"
+                        )
+                    else:
+                        tmp_relationship = Relationship(
+                            agent, partner, "MSM", duration, rel_type="sexOnly"
+                        )
 
             agent.bond(partner, tmp_relationship)
             self.Relationships.append(tmp_relationship)

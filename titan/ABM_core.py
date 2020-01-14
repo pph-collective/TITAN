@@ -162,10 +162,10 @@ class HIVModel(NetworkClass):
                 printer(run_id, t, self.runseed, self.popseed, self.netseed, stat)
 
         def get_components():
-            return sorted(
-                nx.connected_component_subgraphs(self.get_Graph()),
-                key=len,
-                reverse=True,
+            return list(
+                self.G.subgraph(c).copy()
+                for c in nx.connected_components(self.G)
+                if len(c) >= params.minComponentSize
             )
 
         def burnSimulation(burnDuration: int):
@@ -265,6 +265,8 @@ class HIVModel(NetworkClass):
                 self.NewHRrolls,
                 self.NewIncarRelease,
                 self.deathSet,
+                self.LAI_agentSet,
+                self.oralPrEP_agentSet,
             )
             print_stats(stats[t], run_id)
 
@@ -378,6 +380,10 @@ class HIVModel(NetworkClass):
 
         for agent in self.All_agentSet.iter_agents():
             agent._timeAlive += 1
+            if self.runRandom.random() < params.awarenessProb:
+                agent.awareness = True
+                self.aware_agentSet.add_agent(agent)
+                self._initiate_PrEP(agent, time)
             if params.flag_incar:  # and not burn:
                 self._incarcerate(agent, time)
             if agent._MSMW and self.runRandom.random() < params.HIV_MSMW:
@@ -447,30 +453,92 @@ class HIVModel(NetworkClass):
                             )  # shouldn't be selected again
                             self._initiate_PrEP(selectedAgent, time)
             elif (
-                params.PrEP_target_model == "RandomTrial" and time == params.PrEP_startT
+                "RandomTrial" in params.PrEP_target_model and time == params.PrEP_startT
             ):
                 print("Starting random trial")
-                components = sorted(
-                    nx.connected_component_subgraphs(self.G), key=len, reverse=True
+                components = list(
+                    self.G.subgraph(c).copy()
+                    for c in nx.connected_components(self.G)
+                    if len(c) >= params.minComponentSize
                 )
                 totNods = 0
+                print(
+                    "Number of components",
+                    len(
+                        [
+                            1
+                            for comp in components
+                            if comp.number_of_nodes() >= params.minComponentSize
+                        ]
+                    ),
+                )
                 for comp in components:
                     totNods += comp.number_of_nodes()
+
                     if self.runRandom.random() < 0.5:
                         # Component selected as treatment pod!
                         for ag in comp.nodes():
-                            if (ag._HIV_bool is False) and (ag._PrEP_bool is False):
+                            if (
+                                (ag._HIV_bool is False)
+                                and (ag._PrEP_bool is False)
+                                and not params.flag_PCA
+                            ):
                                 ag._treatment_bool = True
                                 if (
                                     self.runRandom.random() < params.PrEP_Target
-                                    and not agent.vaccine_bool
+                                    and not ag.vaccine_bool
                                 ):
                                     self._initiate_PrEP(ag, time, force=True)
+                        if params.pcaChoice == "eigenvector":
+                            centrality = nx.eigenvector_centrality_numpy(self.G)
+                            assert len(centrality) >= 1, "Empty centrality"
+                            orderedCentrality = sorted(centrality, key=centrality.get)
+                            intervention_agent = False
+                            for ag in orderedCentrality:
+                                if not ag._HIV_bool:
+                                    self.PCA_agentSet.add_agent(ag)
+                                    ag.awareness = True
+                                    ag._PCA = True
+                                    self.aware_agentSet.add_agent(ag)
+                                    intervention_agent = True
+                                    break
+                                else:
+                                    pass
+                            if not intervention_agent:
+                                ag = orderedCentrality[0]
+                                ag._PCA = True
+
+                        if params.pcaChoice == "bridge":
+                            all_bridges = list(
+                                nx.bridges(comp)
+                            )  # get a list of bridges
+                            assert len(all_bridges) > 0, "No Bridges"
+                            comp_agents = [
+                                ag for ag, j in all_bridges if not ag._HIV_bool
+                            ]  # all agents in bridge (first half)
+                            if comp_agents:
+                                chosen_agent = random.choice(
+                                    comp_agents
+                                )  # select change agent
+                                self.aware_agentSet.add_agent(
+                                    chosen_agent
+                                )  # add to aware agents
+                                chosen_agent.awareness = True  # make aware
+                                self.PCA_agentSet.add_agent(
+                                    chosen_agent
+                                )  # add to PCA agents
+                            else:
+                                chosen_bridge = random.choice(
+                                    all_bridges
+                                )  # not true change agent, just mark component
+                                chosen_agent = random.choice(chosen_bridge)
+                            chosen_agent._PCA = True  # make change agent
+
                 print(("Total agents in trial: ", totNods))
+                print("Number of Change Agents:", self.PCA_agentSet.num_members())
 
     def _agents_interact(self, time: int, rel: Relationship):
-        """
-        :Purpose:
+        """f
             Let IDU agent interact with a partner.
             Update IDU agents:
                 1 - determine transition type
@@ -490,10 +558,15 @@ class HIVModel(NetworkClass):
             none
 
         """
-
         # If either agent is incarcerated, skip their interaction
         if rel._ID1._incar_bool or rel._ID2._incar_bool:
             return
+
+        if params.flag_PCA:
+            if rel._rel_type == "sexOnly" and rel._duration != rel._total_duration:
+                pass
+            else:
+                self._PCA_interaction(rel, time)
 
         if (
             rel._ID1._HIV_bool and not rel._ID2._HIV_bool
@@ -538,6 +611,86 @@ class HIVModel(NetworkClass):
         else:  # REVIEWED - sanity test, with params re-write this logic/check can move there
             raise ValueError("Agents must be either IDU, NIDU, or ND")
 
+    def _PCA_interaction(self, relationship: Relationship, time):
+        """
+        :Purpose:
+            Simulate peer change agent interactions
+            Knowledge if one agent is aware and one unaware, opinion if one agent swayint the other
+        :Input:
+            agent: Agent
+            partner: Agent
+            PCAtype: str, either 'Knowledge' or 'Opinion'
+        :Output: -
+        """
+
+        def influence(agent, partner):
+            agent_opinion = agent.opinion
+            partner_opinion = partner.opinion
+            agent_influence = nx.closeness_centrality(self.get_Graph(), agent)
+            partner_influence = nx.closeness_centrality(self.get_Graph(), partner)
+            if agent_influence > partner_influence:
+                partner.opinion = np.mean([agent.opinion, partner.opinion])
+            elif agent_influence == partner_influence:
+                pass
+            else:
+                agent.opinion = np.mean([agent.opinion, partner.opinion])
+            if self.runRandom.random() < params.PCA_PrEP:
+                if agent_opinion < params.opinion_threshold < agent.opinion:
+                    self._initiate_PrEP(agent, time, force=True)
+                elif partner_opinion < params.opinion_threshold < partner.opinion:
+                    self._initiate_PrEP(partner, time, force=True)
+
+        def knowledgeDissemination(partner):
+            partner.awareness = True
+            self.aware_agentSet.add_agent(partner)
+            if (
+                partner.opinion > params.opinion_threshold
+                and self.runRandom.random() > params.PCA_PrEP
+            ):
+                self._initiate_PrEP(partner, time, force=True)
+
+        def transmissionProbability():
+            if relationship._ID1.awareness and relationship._ID2.awareness:
+                p = params.opinionTransmission
+            else:
+                p = params.knowledgeTransmission
+
+            if num_acts == 1:
+                p_total_transmission = p
+            elif num_acts >= 1:
+                p_total_transmission = 1.0 - binom.pmf(0, num_acts, p)
+            else:
+                p_total_transmission = 0
+            return p_total_transmission
+
+        acts_prob = self.runRandom.random()
+        current_p_value = actsBin = 0
+
+        while acts_prob > current_p_value:
+            actsBin += 1
+            current_p_value += params.interactionProb[relationship._rel_type][actsBin][
+                "pvalue"
+            ]
+
+        minimum = params.interactionProb[relationship._rel_type][actsBin]["min"]
+        maximum = params.interactionProb[relationship._rel_type][actsBin]["max"]
+        if minimum == maximum:
+            num_acts = minimum
+        else:
+            num_acts = self.runRandom.randrange(minimum, maximum)
+
+        if relationship._ID1.awareness and not relationship._ID2.awareness:
+            if self.runRandom.random() < transmissionProbability():
+                partner = relationship._ID2
+                knowledgeDissemination(partner)
+        elif not relationship._ID1.awareness and relationship._ID2.awareness:
+            if self.runRandom.random() < transmissionProbability():
+                partner = relationship._ID2
+                knowledgeDissemination(partner)
+        elif relationship._ID1.awareness and relationship._ID2.awareness:
+            if self.runRandom.random() < transmissionProbability():
+                influence(relationship._ID1, relationship._ID2)
+
     def _needle_transmission(self, agent: Agent, partner: Agent, time: int):
         """
         :Purpose:
@@ -548,7 +701,7 @@ class HIVModel(NetworkClass):
         :Input:
             agents : int
             partner : int
-        time : int
+            time : int
         :Output: -
         """
 
@@ -1015,9 +1168,7 @@ class HIVModel(NetworkClass):
         self, agent: Agent, time: int
     ) -> bool:  # REVIEWED should this be in agent? self not used - move to agent
         eligible = False
-        print("Got here")
         if len(params.PrEP_target_model & {"Allcomers", "Racial"}) > 0:
-            print("eligible")
             eligible = True
         elif params.PrEP_target_model == "CDCwomen":
             if agent._SO == "HF":
@@ -1059,7 +1210,7 @@ class HIVModel(NetworkClass):
         elif params.PrEP_target_model == "MSM":
             if agent._SO == ("MSM" or "MTF"):
                 eligible = True
-        elif params.PrEP_target_model == "RandomTrial":
+        elif params.PrEP_target_model == "RandomTrial" and not params.flag_PCA:
             # If using random trial
             if time == 0:
                 # if in init timestep 0, use agent set elligiblity
@@ -1126,7 +1277,7 @@ class HIVModel(NetworkClass):
                 if agent._PrEP_lastDose > 2:
                     agent._PrEP_lastDose = -1
 
-        if params.PrEP_type == "Inj":
+        if "Inj" in params.PrEP_type:
             agent.update_PrEP_load()
 
     def vaccinate(self, ag: Agent, vax: str):
@@ -1219,9 +1370,14 @@ class HIVModel(NetworkClass):
                     agent._PrEP_adh = 0
 
             # set PrEP load and dosestep for PCK
-            if params.PrEP_type == "Inj":
+            if "Inj" in params.PrEP_type:
                 agent._PrEP_load = params.PrEP_peakLoad
                 agent._PrEP_lastDose = 0
+                # TODO: make this work for vaccines, all prep types
+                if self.runRandom.random() > params.LAI_chance:
+                    self.LAI_agentSet.add_agent(agent)
+                else:
+                    self.oralPrEP_agentSet.add_agent(agent)
 
         # agent must exist
         assert agent is not None
@@ -1258,11 +1414,11 @@ class HIVModel(NetworkClass):
                 return None
             elif "Racial" in params.PrEP_target_model:
                 all_HIV_agents = set(self.All_agentSet._subset["HIV"]._members)
+
                 all_race = set(
                     self.All_agentSet._subset["Race"]._subset[agent._race]._members
                 )
                 HIV_agents = len(all_HIV_agents & all_race)
-                # print("HIV agents", HIV_agents, "totHIV", len(all_HIV_agents))
                 target_PrEP = (
                     int(
                         self.All_agentSet._subset["Race"]
