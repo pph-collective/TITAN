@@ -76,6 +76,18 @@ cal_raceXmission = 1.0  # Scaling factor for racial disparities in transmission 
 cal_ptnrSampleDepth = 100
 
 """
+Network Params
+"""
+bond_type = []
+mean_partner_type = "mean"
+
+"""
+Peer Change Params
+"""
+flag_PCA = False
+
+
+"""
 High risk params
 """
 HR_partnerScale = 300  # Linear increase to partner number during HR period

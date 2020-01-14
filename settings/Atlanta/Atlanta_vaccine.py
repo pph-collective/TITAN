@@ -67,14 +67,30 @@ cal_raceXmission = 1.95
 cal_ptnrSampleDepth = 100
 cal_Vaccine = 0  # determines vaccine initiation during run
 
-# High risk params
+"""
+Network Params
+"""
+bond_type = []
+mean_partner_type = "mean"
+
+"""
+Peer Change Params
+"""
+flag_PCA = False
+
+
+"""
+High risk params
+"""
 HR_partnerScale = 300  # Linear increase to partner number during HR period
 HR_proportion = 0.3  # Proportion of people who enter HR group when partner incarcerated
 HR_M_dur = 6  # Duration of high risk for males
 HR_F_dur = 6  # Duration of high risk for females
 condomUseType = "Race"  # Race or Acts
 
-# Misc. params
+"""
+Misc. params
+"""
 flag_AssortativeMix = True
 AssortMixType = "Race"
 flag_AgeAssortMix = False

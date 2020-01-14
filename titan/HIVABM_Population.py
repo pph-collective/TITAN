@@ -312,7 +312,7 @@ class PopulationClass:
                 prob_PrEP = params.PrEP_Target
             else:
                 prob_PrEP = 0.0
-
+            # TODO: agents entering after PrEP_startT should be able to be on PrEP??
             if self.popRandom.random() < prob_PrEP:
                 PrEP_Status = 1
             else:
