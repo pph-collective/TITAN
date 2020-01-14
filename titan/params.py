@@ -19,7 +19,7 @@ N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_REPS = 1
 N_POP = 1040  # population size
 TIME_RANGE = 3  # total time steps to iterate
-burnDuration = 0
+burnDuration = 2
 model = "Custom"  # Model Type for fast flag toggling
 setting = "Chicago"
 network_type = "max_k_comp_size"
@@ -88,7 +88,7 @@ Peer change params
 # attitude = {0: 0.25, 1: 0.40, 2: 0.20, 3: 0.10, 4: 0.05}
 attitude = {0: 0.5, 1: 0.0, 2: 0.0, 3: 0.0, 4: 0.5}
 PCA_PrEP = 0.452 * 0.664
-opinion_threshold = 0.0
+opinion_threshold = 3.0  # 0.0
 pcaChoice = "eigenvector"  # eigenvector or bridge
 awarenessProb = 0.05
 starting_awareness = 0.05
@@ -174,9 +174,9 @@ init_with_vaccine = True
 PrEP_type = ["Oral", "Inj"]  # Oral/Inj PrEP and/or vaccine
 LAI_chance = 0.5
 PrEP_Target = (
-    0.0  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+    1.3  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 )
-PrEP_startT = 0  # Start date for PrEP program (0 for start of model)
+PrEP_startT = -1  # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82  # Probability of being adherent
 PrEP_AdhEffic = 0.96  # Efficacy of adherence PrEP
 PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
@@ -184,7 +184,7 @@ PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
 PrEP_target_model = {
-    "Racial"  # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
+    "RandomTrial"  # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
 }
 PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it follow
 
