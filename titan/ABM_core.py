@@ -176,6 +176,7 @@ class HIVModel(NetworkClass):
                 self._update_AllAgents(t, burn=True)
                 if params.flag_DandR:
                     self._die_and_replace(t)
+            self.All_agentSet.print_subsets()
             print(("\tBurn Cuml Inc:\t{}".format(self.NewInfections.num_members())))
             self.NewInfections.clear_set()
             self.NewDiagnosis.clear_set()
@@ -380,10 +381,11 @@ class HIVModel(NetworkClass):
 
         for agent in self.All_agentSet.iter_agents():
             agent._timeAlive += 1
-            if self.runRandom.random() < params.awarenessProb:
+            if self.runRandom.random() < params.awarenessProb and not burn:
                 agent.awareness = True
                 self.aware_agentSet.add_agent(agent)
-                self._initiate_PrEP(agent, time)
+                if self.runRandom.random() < params.PCA_PrEP:
+                    self._initiate_PrEP(agent, time, force=True)
             if params.flag_incar:  # and not burn:
                 self._incarcerate(agent, time)
             if agent._MSMW and self.runRandom.random() < params.HIV_MSMW:
@@ -477,18 +479,19 @@ class HIVModel(NetworkClass):
 
                     if self.runRandom.random() < 0.5:
                         # Component selected as treatment pod!
-                        for ag in comp.nodes():
-                            if (
-                                (ag._HIV_bool is False)
-                                and (ag._PrEP_bool is False)
-                                and not params.flag_PCA
-                            ):
-                                ag._treatment_bool = True
+                        if not params.flag_PCA:
+                            for ag in comp.nodes():
                                 if (
-                                    self.runRandom.random() < params.PrEP_Target
-                                    and not ag.vaccine_bool
+                                    (ag._HIV_bool is False)
+                                    and (ag._PrEP_bool is False)
+                                    and not params.flag_PCA
                                 ):
-                                    self._initiate_PrEP(ag, time, force=True)
+                                    ag._treatment_bool = True
+                                    if (
+                                        self.runRandom.random() < params.PrEP_Target
+                                        and not ag.vaccine_bool
+                                    ):
+                                        self._initiate_PrEP(ag, time, force=True)
                         if params.pcaChoice == "eigenvector":
                             centrality = nx.eigenvector_centrality_numpy(self.G)
                             assert len(centrality) >= 1, "Empty centrality"
@@ -645,7 +648,7 @@ class HIVModel(NetworkClass):
             self.aware_agentSet.add_agent(partner)
             if (
                 partner.opinion > params.opinion_threshold
-                and self.runRandom.random() > params.PCA_PrEP
+                and self.runRandom.random() < params.PCA_PrEP
             ):
                 self._initiate_PrEP(partner, time, force=True)
 
@@ -678,6 +681,8 @@ class HIVModel(NetworkClass):
             num_acts = minimum
         else:
             num_acts = self.runRandom.randrange(minimum, maximum)
+        if num_acts < 1:
+            return
 
         if relationship._ID1.awareness and not relationship._ID2.awareness:
             if self.runRandom.random() < transmissionProbability():
@@ -1374,7 +1379,7 @@ class HIVModel(NetworkClass):
                 agent._PrEP_load = params.PrEP_peakLoad
                 agent._PrEP_lastDose = 0
                 # TODO: make this work for vaccines, all prep types
-                if self.runRandom.random() > params.LAI_chance:
+                if self.runRandom.random() < params.LAI_chance:
                     self.LAI_agentSet.add_agent(agent)
                 else:
                     self.oralPrEP_agentSet.add_agent(agent)

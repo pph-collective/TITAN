@@ -436,7 +436,6 @@ class PopulationClass:
             newAgent._HIV_time = self.popRandom.randint(1, 42)
 
         else:
-
             if params.flag_PrEP:
                 if params.PrEP_startT == -1:
                     prob_PrEP = params.PrEP_Target
@@ -461,6 +460,9 @@ class PopulationClass:
                 DrugType, self.popRandom
             )
         elif params.mean_partner_type == "bins":
+            assert (
+                sum(params.partnerNumber.values()) >= 1
+            ), "Probability of partner number less than one"
             pn_prob = self.popRandom.random()
             current_p_value = ptnBin = 0
 
@@ -486,10 +488,6 @@ class PopulationClass:
             assert newAgent.opinion in range(
                 5
             ), "No opinion of LAI-PrEP"  # TODO: move to testing
-
-            if newAgent.awareness and newAgent.opinion > params.opinion_threshold:
-                newAgent._PrEP_bool = True
-                newAgent._treatment_bool = True
 
         return newAgent
 

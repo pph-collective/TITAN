@@ -95,6 +95,8 @@ def get_stats(
                 stats[tmpA._race][tmpA._SO]["msmwPartPrep"] += 1
             if "HIV test" in tmpA._PrEP_reason:
                 stats[tmpA._race][tmpA._SO]["testedPartPrep"] += 1
+        if tmpA.awareness:
+            stats[tmpA._race][tmpA._SO]["awareAgents"] += 1
 
     # Newly PrEP tracker statistics
     for tmpA in newPrEPAgents.iter_agents():
@@ -333,7 +335,7 @@ def basicReport(
             # if this is a new file, write the header info
             if tmpReport.tell() == 0:
                 tmpReport.write(
-                    "run_id\trseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\tVaccinated\tLAI\tOral\tOpinion\n"
+                    "run_id\trseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\tVaccinated\tLAI\tOral\tAware\n"
                 )
 
             tmpReport.write(
@@ -362,7 +364,7 @@ def basicReport(
                         stats[agentRace][agentTypes]["numVaccinated"],
                         stats[agentRace][agentTypes]["LAIagents"],
                         stats[agentRace][agentTypes]["oralAgents"],
-                        1
+                        stats[agentRace][agentTypes]["awareAgents"]
                         # np.mean(stats[agentRace][agentTypes]["agentOpinions"])
                     )
                 )
