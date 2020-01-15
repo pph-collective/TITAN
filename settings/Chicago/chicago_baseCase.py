@@ -42,9 +42,6 @@ calcComponentStats = True
 flag_agentZero = False
 
 reports = [
-    "deathReport",
-    "incarReport",
-    "newlyhighriskReport",
     "prepReport",
     "basicReport",
 ]
@@ -86,20 +83,29 @@ mean_partner_type = "bins"
 """
 Peer change params
 """
-attitude = {0: 0.25, 1: 0.40, 2: 0.20, 3: 0.10, 4: 0.05}
-PCA_PrEP = 1.0
-opinion_threshold = 2.5
-pcaChoice = "bridge"  # eigenvector or bridge
-awarenessProb = 0.05
-starting_awareness = 0.05
-perActTransmission = 0.005
+attitude = {0: 0.164, 1: 0.088, 2: 0.181, 3: 0.15, 4: 0.416}
+PCA_PrEP = 0.30 * (
+    1 - 0.522
+)  # chance of attempting * chance of initiating oral or inj PrEP
+opinion_threshold = (
+    3.0  # opinion needed to initiate PrEP on a 0-4 scale (translated from 1-5 scale)
+)
+pcaChoice = "bridge"  # eigenvector or bridge, how the PCA is selected
+awarenessProb = 0.05  # static probability of becoming spontaneously aware of PrEP
+starting_awareness = 0.00  # awareness of PrEP at t0
+knowledgeTransmission = (
+    0.005  # per-act probability of knowledge change in unaware partner
+)
+opinionTransmission = (
+    0.01  # per-act probability of opinion change in less-prominent partner
+)
 interactionProb = {
-    "sexOnly": {1: {}, 2: {}},
+    "sexOnly": {1: {}},
     "multiplex": {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}},
     "social": {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}},
 }  # prob of interaction per timestep (or at relationship formation for sexual)
-interactionProb["sexOnly"][1] = {"pvalue": 0.450, "min": 0, "max": 0}
-interactionProb["sexOnly"][2] = {"pvalue": 0.550, "min": 1, "max": 1}
+interactionProb["sexOnly"][1] = {"pvalue": 1.00, "min": 0, "max": 0}
+
 
 interactionProb["multiplex"][1] = {"pvalue": 0.306, "min": 0, "max": 0}
 interactionProb["multiplex"][2] = {"pvalue": 0.144, "min": 1, "max": 1}

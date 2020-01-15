@@ -460,6 +460,9 @@ class PopulationClass:
                 DrugType, self.popRandom
             )
         elif params.mean_partner_type == "bins":
+            assert (
+                sum(params.partnerNumber.values()) >= 1
+            ), "Probability of partner number less than one"
             pn_prob = self.popRandom.random()
             current_p_value = ptnBin = 0
 

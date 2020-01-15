@@ -1379,7 +1379,7 @@ class HIVModel(NetworkClass):
                 agent._PrEP_load = params.PrEP_peakLoad
                 agent._PrEP_lastDose = 0
                 # TODO: make this work for vaccines, all prep types
-                if self.runRandom.random() > params.LAI_chance:
+                if self.runRandom.random() < params.LAI_chance:
                     self.LAI_agentSet.add_agent(agent)
                 else:
                     self.oralPrEP_agentSet.add_agent(agent)
