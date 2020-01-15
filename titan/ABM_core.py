@@ -381,7 +381,11 @@ class HIVModel(NetworkClass):
 
         for agent in self.All_agentSet.iter_agents():
             agent._timeAlive += 1
-            if params.flag_PCA and self.runRandom.random() < params.awarenessProb and not burn:
+            if (
+                params.flag_PCA
+                and self.runRandom.random() < params.awarenessProb
+                and not burn
+            ):
                 agent.awareness = True
                 self.aware_agentSet.add_agent(agent)
                 if self.runRandom.random() < params.PCA_PrEP:
@@ -897,7 +901,7 @@ class HIVModel(NetworkClass):
                 agent._SNE_bool = True
 
     # REVIEWED this isn't used anywhere, but should be! _incarcerate makes things high risk and should reference this
-    def _becomeHighRisk(self, agent: Agent, HRtype: str = "", duration: int = None):
+    def _becomeHighRisk(self, agent: Agent, duration: int = None):
 
         if agent not in self.highrisk_agentsSet._members:
             self.highrisk_agentsSet.add_agent(agent)
@@ -910,7 +914,9 @@ class HIVModel(NetworkClass):
         if duration is not None:
             agent._highrisk_time = duration
         else:
-            agent._highrisk_time = params.HR_M_dur
+            agent._highrisk_time = params.DemographicParams[agent._race][agent._SO][
+                "HighRiskDuration"
+            ]
 
     def _incarcerate(self, agent: Agent, time: int):
         """
@@ -950,16 +956,11 @@ class HIVModel(NetworkClass):
                         ):
                             pass
                         else:  # Else, become high risk
-                            self.highrisk_agentsSet.add_agent(agent)
-                            if not agent._everhighrisk_bool:
-                                self.NewHRrolls.add_agent(agent)
+                            self._becomeHighRisk(agent)
 
                             agent._mean_num_partners = (
                                 agent._mean_num_partners + params.HR_partnerScale
                             )
-                            agent._highrisk_bool = True
-                            agent._everhighrisk_bool = True
-                            agent._highrisk_time = params.HR_M_dur
 
                     if (
                         params.inc_treat_RIC
@@ -989,7 +990,9 @@ class HIVModel(NetworkClass):
             * params.cal_IncarP
         ):
             if agent._SO == "HF":
-                jailDuration = prob.HF_jail_duration
+                jailDuration = (
+                    prob.HF_jail_duration
+                )  # TODO: make this into one dict for all SOs
             elif agent._SO == "HM":
                 jailDuration = prob.HM_jail_duration
 
@@ -1030,16 +1033,8 @@ class HIVModel(NetworkClass):
             for tmpA in agent._partners:
                 if not tmpA._highrisk_bool:
                     if self.runRandom.random() < params.HR_proportion:
-                        if not tmpA._highrisk_bool:
-                            self.highrisk_agentsSet.add_agent(tmpA)
-                            if not tmpA._everhighrisk_bool:
-                                self.NewHRrolls.add_agent(tmpA)
-                            tmpA._mean_num_partners += (
-                                params.HR_partnerScale
-                            )  # 32.5 #2 + 3.25 from incar HR
-                            tmpA._highrisk_bool = True
-                            tmpA._everhighrisk_bool = True
-                            tmpA._highrisk_time = params.HR_F_dur
+                        self._becomeHighRisk(tmpA)
+
                 if params.flag_PrEP and (
                     params.PrEP_target_model == "Incar"
                     or params.PrEP_target_model == "IncarHR"

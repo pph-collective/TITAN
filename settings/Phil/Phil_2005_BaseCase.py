@@ -13,10 +13,10 @@ rSeed = (
 rSeed_pop = 0
 rSeed_net = 0
 rSeed_run = 0
-N_REPS = 0
-N_MC = 100  # total number of iterations (Monte Carlo runs)
-N_POP = 110000  # population size
-TIME_RANGE = 168  # total time steps to iterate
+N_MC = 1  # total number of iterations (Monte Carlo runs)
+N_REPS = 1
+N_POP = 1100  # population size
+TIME_RANGE = 12  # total time steps to iterate
 burnDuration = 30  # total time for burning in period (equillibration)
 model = "Incar"  # Model Type for fast flag toggling
 setting = "Phil2005"
@@ -71,12 +71,16 @@ cal_raceXmission = (
 cal_ptnrSampleDepth = 100  # Sampling depth for partnering algorithm.
 
 """
+Network Params
+"""
+mean_partner_type = "mean"
+bond_type = []
+
+"""
 High risk params
 """
 HR_partnerScale = 300  # Linear increase to partner number during HR period
 HR_proportion = 0.3  # Proportion of people who enter HR group when partner incarcerated
-HR_M_dur = 6  # Duration of high risk for males
-HR_F_dur = 6  # Duration of high risk for females
 HIV_MSMW = 0.01
 
 
@@ -208,7 +212,8 @@ elif model == "Custom":
     flag_agentZero = False
 
 agentSexTypes = ["HM", "HF"]
-agentPopulations= ["HM", "HF", "IDU"]
+agentPopulations = ["HM", "HF", "IDU"]
+
 
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
@@ -236,6 +241,8 @@ RC_template = {
     "PrEPdisc": 0.0,  # Probability of discontinuing PrEP treatment
     "EligSE_PartnerType": None,  # List of agent SO types the agent cant partner with
     "AssortMixMatrix": [],  # List of assortMix Matrix to be zipped with EligPart
+    "HighRiskPrev": 0,
+    "HighRiskDuration": 0,
 }
 
 RC_allTemplate = {
@@ -269,6 +276,7 @@ RaceClass1["HM"].update(
         "HAARTdisc": 0.000,
         "PrEPdisc": 0.0000,
         "EligSE_PartnerType": "HF",
+        "HighRiskDuration": 6,
     }
 )
 
@@ -290,6 +298,7 @@ RaceClass1["HF"].update(
         "HAARTdisc": 0.000,
         "PrEPdisc": PrEP_disc,
         "EligSE_PartnerType": "HM",
+        "HighRiskDuration": 6,
     }
 )
 
