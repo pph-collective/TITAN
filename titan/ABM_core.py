@@ -381,7 +381,7 @@ class HIVModel(NetworkClass):
 
         for agent in self.All_agentSet.iter_agents():
             agent._timeAlive += 1
-            if self.runRandom.random() < params.awarenessProb and not burn:
+            if params.flag_PCA and self.runRandom.random() < params.awarenessProb and not burn:
                 agent.awareness = True
                 self.aware_agentSet.add_agent(agent)
                 if self.runRandom.random() < params.PCA_PrEP:

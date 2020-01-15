@@ -615,29 +615,33 @@ class PopulationClass:
                 if agent._DU == "IDU" and "injection" in params.bond_type:
                     if rTypeProb < params.nonSex:
                         tmp_relationship = Relationship(
-                            agent, partner, "MSM", duration, rel_type="injection"
+                            agent, partner, duration, rel_type="injection"
                         )
                     elif rTypeProb < params.multiplex + params.nonSex:
                         tmp_relationship = Relationship(
-                            agent, partner, "MSM", duration, rel_type="multiplex"
+                            agent, partner, duration, rel_type="multiplex"
                         )
                     else:
                         tmp_relationship = Relationship(
-                            agent, partner, "MSM", duration, rel_type="sexOnly"
+                            agent, partner, duration, rel_type="sexOnly"
                         )
                 elif "social" in params.bond_type:
                     if rTypeProb < params.nonSex:
                         tmp_relationship = Relationship(
-                            agent, partner, "MSM", duration, rel_type="social"
+                            agent, partner, duration, rel_type="social"
                         )
                     elif rTypeProb < params.multiplex + params.nonSex:
                         tmp_relationship = Relationship(
-                            agent, partner, "MSM", duration, rel_type="multiplex"
+                            agent, partner, duration, rel_type="multiplex"
                         )
                     else:
                         tmp_relationship = Relationship(
-                            agent, partner, "MSM", duration, rel_type="sexOnly"
+                            agent, partner, duration, rel_type="sexOnly"
                         )
+            else:
+                tmp_relationship = Relationship(
+                    agent, partner, duration, rel_type="sexOnly"
+                )
 
             agent.bond(partner, tmp_relationship)
             self.Relationships.append(tmp_relationship)

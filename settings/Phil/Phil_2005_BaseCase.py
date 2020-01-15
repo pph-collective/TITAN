@@ -13,6 +13,7 @@ rSeed = (
 rSeed_pop = 0
 rSeed_net = 0
 rSeed_run = 0
+N_REPS = 0
 N_MC = 100  # total number of iterations (Monte Carlo runs)
 N_POP = 110000  # population size
 TIME_RANGE = 168  # total time steps to iterate
@@ -35,9 +36,9 @@ MSMreport = True
 HMreport = False
 HFreport = False
 drawFigures = False
+calcComponentStats = False
 
 reports = [
-    "deathReport",
     "incarReport",
     "newlyhighriskReport",
     "prepReport",
@@ -177,6 +178,7 @@ elif model == "Incar":
     flag_DandR = True
     flag_staticN = False
     flag_agentZero = False
+    flag_PCA = False
 
 elif model == "NoIncar":
     flag_incar = False
@@ -205,7 +207,9 @@ elif model == "Custom":
     flag_staticN = False
     flag_agentZero = False
 
-agentSexTypes = ["HM", "HF", "MSM", "MTF"]
+agentSexTypes = ["HM", "HF"]
+agentPopulations= ["HM", "HF", "IDU"]
+
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
 ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, PWID)

@@ -406,7 +406,7 @@ class Relationship:
     def update_id_counter(cls):
         cls.next_rel_id += 1
 
-    def __init__(self, ID1: Agent, ID2: Agent, SO: str, duration: int, rel_type: str):
+    def __init__(self, ID1: Agent, ID2: Agent, duration: int, rel_type: str):
         """
         :Purpose:
             Constructor for a Relationship
