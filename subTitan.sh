@@ -72,7 +72,7 @@ echo "
 "
 
 #TITAN params
-sed -i "s/\(rSeed = \)\([0-9]*\)/\1${seed}/g" titan/params.py
+# sed -i "s/\(rSeed = \)\([0-9]*\)/\1${seed}/g" titan/params.py
 sed -i "s/\(N_MC = \)\([0-9]*\)/\1${nMC}/g" titan/params.py
 sed -i "s/\(N_POP = \)\([0-9]*\)/\1${nPop}/g" titan/params.py
 sed -i "s/\(TIME_RANGE = \)\([0-9]*\)/\1${simT}/g" titan/params.py
