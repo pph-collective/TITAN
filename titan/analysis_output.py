@@ -404,8 +404,7 @@ def print_components(
                 ntrtmt += 1
                 if agent._PrEP_bool:
                     nprep += 1
-            if agent._PCA:
-                trtbool += 1
+            trtbool += agent._PCA
         f.write(
             "{run_id}\t{runseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Ntrtmt}\t{Nprep}\t{NtrtHIV}"
             "\t{NprepHIV}\t{trtbool}\n".format(
