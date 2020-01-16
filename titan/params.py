@@ -73,8 +73,45 @@ cal_ptnrSampleDepth = 100  # Sampling depth for partnering algorithm.
 """
 Network Params
 """
-mean_partner_type = "mean"
-bond_type = []
+nonSex = 0.5
+multiplex = 0.2
+bond_type = ["social"]
+mean_partner_type = "bins"
+
+"""
+Peer change params
+"""
+# attitude = {0: 0.25, 1: 0.40, 2: 0.20, 3: 0.10, 4: 0.05}
+attitude = {0: 0.5, 1: 0.0, 2: 0.0, 3: 0.0, 4: 0.5}
+PCA_PrEP = 0.452 * 0.664
+opinion_threshold = 3.0  # 0.0
+pcaChoice = "random"  # eigenvector or bridge or random
+awarenessProb = 0.05
+starting_awareness = 0.05
+knowledgeTransmission = 0.05
+opinionTransmission = 1.0
+interactionProb: Dict[str, Any] = {
+    "sexOnly": {1: {}, 2: {}},
+    "multiplex": {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}},
+    "social": {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}},
+}  # prob of interaction per timestep (or at relationship formation for sexual)
+interactionProb["sexOnly"][1] = {"pvalue": 0.450, "min": 0, "max": 0}
+interactionProb["sexOnly"][2] = {"pvalue": 0.550, "min": 0, "max": 0}
+
+interactionProb["multiplex"][1] = {"pvalue": 0.306, "min": 0, "max": 0}
+interactionProb["multiplex"][2] = {"pvalue": 0.144, "min": 1, "max": 1}
+interactionProb["multiplex"][3] = {"pvalue": 0.067, "min": 2, "max": 2}
+interactionProb["multiplex"][4] = {"pvalue": 0.106, "min": 4, "max": 4}
+interactionProb["multiplex"][5] = {"pvalue": 0.150, "min": 5, "max": 29}
+interactionProb["multiplex"][6] = {"pvalue": 0.228, "min": 30, "max": 30}
+
+interactionProb["social"][1] = {"pvalue": 0.253, "min": 0, "max": 0}
+interactionProb["social"][2] = {"pvalue": 0.123, "min": 1, "max": 1}
+interactionProb["social"][3] = {"pvalue": 0.060, "min": 2, "max": 2}
+interactionProb["social"][4] = {"pvalue": 0.140, "min": 4, "max": 4}
+interactionProb["social"][5] = {"pvalue": 0.168, "min": 5, "max": 29}
+interactionProb["social"][6] = {"pvalue": 0.256, "min": 30, "max": 30}
+
 
 """
 High risk params

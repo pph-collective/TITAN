@@ -90,7 +90,7 @@ PCA_PrEP = 0.30 * (
 opinion_threshold = (
     3.0  # opinion needed to initiate PrEP on a 0-4 scale (translated from 1-5 scale)
 )
-pcaChoice = "eigenvector"  # eigenvector or bridge, how the PCA is selected
+pcaChoice = "bridge"  # eigenvector or bridge, how the PCA is selected
 awarenessProb = 0.05  # static probability of becoming spontaneously aware of PrEP
 starting_awareness = 0.00  # awareness of PrEP at t0
 knowledgeTransmission = (
