@@ -505,7 +505,7 @@ class HIVModel(NetworkClass):
                                 if not ag._HIV_bool:
                                     self.PCA_agentSet.add_agent(ag)
                                     ag.awareness = True
-                                    ag._PCA = True
+                                    ag._PCA = 1
                                     self.aware_agentSet.add_agent(ag)
                                     intervention_agent = True
                                     break
@@ -513,13 +513,14 @@ class HIVModel(NetworkClass):
                                     pass
                             if not intervention_agent:
                                 ag = orderedCentrality[0]
-                                ag._PCA = True
+                                ag._PCA = -1
 
-                        if params.pcaChoice == "bridge":
+                        elif params.pcaChoice == "bridge":
+                            print("Choosing Agent")
+
                             all_bridges = list(
                                 nx.bridges(comp)
                             )  # get a list of bridges
-                            assert len(all_bridges) > 0, "No Bridges"
                             comp_agents = [
                                 ag for ag, j in all_bridges if not ag._HIV_bool
                             ]  # all agents in bridge (first half)
@@ -534,12 +535,36 @@ class HIVModel(NetworkClass):
                                 self.PCA_agentSet.add_agent(
                                     chosen_agent
                                 )  # add to PCA agents
-                            else:
+                                chosen_agent._PCA = 1
+                            elif all_bridges:
                                 chosen_bridge = random.choice(
                                     all_bridges
                                 )  # not true change agent, just mark component
                                 chosen_agent = random.choice(chosen_bridge)
-                            chosen_agent._PCA = True  # make change agent
+                                chosen_agent._PCA = -1  # make change agent
+                            else:
+                                chosen_agent = random.choice(comp.nodes)
+                                chosen_agent._PCA = -1
+
+                        elif params.pcaChoice == "random":
+                            chosen_agent = None
+                            for ag in comp:
+                                if not ag._HIV_bool:
+                                    chosen_agent = ag
+                                    chosen_agent._PCA = 1
+                                    self.aware_agentSet.add_agent(
+                                        chosen_agent
+                                    )  # add to aware agents
+                                    chosen_agent.awareness = True  # make aware
+                                    self.PCA_agentSet.add_agent(
+                                        chosen_agent
+                                    )  # add to PCA agents
+                                    break
+                                else:
+                                    pass
+                            if not chosen_agent:
+                                chosen_agent = random.choice(list(comp.nodes))
+                                chosen_agent._PCA = -1
 
                 print(("Total agents in trial: ", totNods))
                 print("Number of Change Agents:", self.PCA_agentSet.num_members())
@@ -1376,8 +1401,10 @@ class HIVModel(NetworkClass):
                 # TODO: make this work for vaccines, all prep types
                 if self.runRandom.random() < params.LAI_chance:
                     self.LAI_agentSet.add_agent(agent)
+                    agent.PrEP_type = "LAI"
                 else:
                     self.oralPrEP_agentSet.add_agent(agent)
+                    agent.PrEP_type = "Oral"
 
         # agent must exist
         assert agent is not None
