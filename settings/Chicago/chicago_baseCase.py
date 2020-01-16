@@ -90,7 +90,7 @@ PCA_PrEP = 0.30 * (
 opinion_threshold = (
     3.0  # opinion needed to initiate PrEP on a 0-4 scale (translated from 1-5 scale)
 )
-pcaChoice = "bridge"  # eigenvector or bridge, how the PCA is selected
+pcaChoice = "eigenvector"  # eigenvector or bridge, how the PCA is selected
 awarenessProb = 0.05  # static probability of becoming spontaneously aware of PrEP
 starting_awareness = 0.00  # awareness of PrEP at t0
 knowledgeTransmission = (
@@ -178,9 +178,9 @@ init_with_vaccine = True
 PrEP_type = ["Oral", "Inj"]  # Oral/Inj PrEP and/or vaccine
 LAI_chance = 0.5
 PrEP_Target = (
-    0.0  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+    0.088  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 )
-PrEP_startT = 0  # Start date for PrEP program (0 for start of model)
+PrEP_startT = -1  # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82  # Probability of being adherent
 PrEP_AdhEffic = 0.96  # Efficacy of adherence PrEP
 PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP

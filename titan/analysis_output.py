@@ -410,9 +410,7 @@ def print_components(
                         LAI += 1
                     elif agent.PrEP_type == "Oral":
                         oral += 1
-            if agent._PCA:
-                trtbool += 1
-
+            trtbool += agent._PCA
         f.write(
             "{run_id}\t{runseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Ntrtmt}\t{Nprep}\t{NtrtHIV}"
             "\t{NprepHIV}\t{trtbool}\t{Oral}\t{LAI}\n".format(

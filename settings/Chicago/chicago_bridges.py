@@ -18,10 +18,10 @@ rSeed_run = 0
 N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_REPS = 1
 N_POP = 5578  # population size
-TIME_RANGE = 3  # total time steps to iterate
-burnDuration = 2
+TIME_RANGE = 2  # total time steps to iterate
+burnDuration = 0
 model = "Custom"  # Model Type for fast flag toggling
-setting = "Chicago"
+setting = "AtlantaMSM"
 network_type = "max_k_comp_size"
 ####################
 
@@ -42,9 +42,6 @@ calcComponentStats = True
 flag_agentZero = False
 
 reports = [
-    "deathReport",
-    "incarReport",
-    "newlyhighriskReport",
     "prepReport",
     "basicReport",
 ]
@@ -60,7 +57,7 @@ cal_NeedlePartScaling = 1.00  # IDU partner number scaling
 cal_NeedleActScaling = 1.00  # IDU act frequency scaling factor
 cal_SexualPartScaling = 1.0  # Sexual partner number scaling factor
 cal_SexualActScaling = 0.45  # Sexual acts  scaling factor
-cal_pXmissionScaling = 1.0  # 0.92 # Global transmission probability scaling factor
+cal_pXmissionScaling = 0.0  # 0.92 # Global transmission probability scaling factor
 cal_AcuteScaling = 4.3  # Infectivity multiplier ratio for Acute status infections
 cal_RR_Dx = 0.0  # Risk reduction in transmission probability for agents diagnosed
 cal_RR_HAART = 1.0  # Scaling factor for effectiveness of ART therapy on xmission P
@@ -77,30 +74,38 @@ cal_ptnrSampleDepth = 100  # Sampling depth for partnering algorithm.
 """
 Network Params
 """
-nonSex = 0.5
-multiplex = 0.2
+nonSex = 0.308
+multiplex = 0.105
+sexualOnly = 0.587
 bond_type = ["social"]
 mean_partner_type = "bins"
 
 """
 Peer change params
 """
-# attitude = {0: 0.25, 1: 0.40, 2: 0.20, 3: 0.10, 4: 0.05}
-attitude = {0: 0.5, 1: 0.0, 2: 0.0, 3: 0.0, 4: 0.5}
-PCA_PrEP = 0.452 * 0.664
-opinion_threshold = 3.0  # 0.0
-pcaChoice = "bridge"  # eigenvector or bridge
-awarenessProb = 0.05
-starting_awareness = 0.05
-knowledgeTransmission = 0.05
-opinionTransmission = 1.0
-interactionProb: Dict[str, Any] = {
-    "sexOnly": {1: {}, 2: {}},
+attitude = {0: 0.164, 1: 0.088, 2: 0.181, 3: 0.15, 4: 0.416}
+PCA_PrEP = 0.30 * (
+    1 - 0.522
+)  # chance of attempting * chance of initiating oral or inj PrEP
+opinion_threshold = (
+    3.0  # opinion needed to initiate PrEP on a 0-4 scale (translated from 1-5 scale)
+)
+pcaChoice = "bridge"  # eigenvector or bridge, how the PCA is selected
+awarenessProb = 0.05  # static probability of becoming spontaneously aware of PrEP
+starting_awareness = 0.00  # awareness of PrEP at t0
+knowledgeTransmission = (
+    0.005  # per-act probability of knowledge change in unaware partner
+)
+opinionTransmission = (
+    0.01  # per-act probability of opinion change in less-prominent partner
+)
+interactionProb = {
+    "sexOnly": {1: {}},
     "multiplex": {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}},
     "social": {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}},
 }  # prob of interaction per timestep (or at relationship formation for sexual)
-interactionProb["sexOnly"][1] = {"pvalue": 0.450, "min": 0, "max": 0}
-interactionProb["sexOnly"][2] = {"pvalue": 0.550, "min": 0, "max": 0}
+interactionProb["sexOnly"][1] = {"pvalue": 1.00, "min": 0, "max": 0}
+
 
 interactionProb["multiplex"][1] = {"pvalue": 0.306, "min": 0, "max": 0}
 interactionProb["multiplex"][2] = {"pvalue": 0.144, "min": 1, "max": 1}
@@ -137,14 +142,13 @@ safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
 initTreatment = 0
 treatmentCov = 0.0
 maxComponentSize = 1000
-minComponentSize = 2
+minComponentSize = 1
 
 """
 Vaccine params
 """
 vaccine_type = "RV144"
 booster = True
-init_with_vaccine = True
 vaccine_start = 1
 
 # Incarceration params
@@ -176,7 +180,7 @@ LAI_chance = 0.5
 PrEP_Target = (
     0.088  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 )
-PrEP_startT = 0  # Start date for PrEP program (0 for start of model)
+PrEP_startT = -1  # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82  # Probability of being adherent
 PrEP_AdhEffic = 0.96  # Efficacy of adherence PrEP
 PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
@@ -194,8 +198,8 @@ if "Oral" in PrEP_type:
     PrEP_NonAdhEffic = 0.76
     PrEP_falloutT = 1
     PrEP_disc = 0.00  # 0.15
-    PrEP_peakLoad = 1.0
-    PrEP_halflife = 1.0
+    PrEP_peakLoad = 1
+    PrEP_halflife = 1
 elif "Inj" in PrEP_type:  # TODO make both of these compatible; can use both at once??
     PrEP_Adherence = 1.0
     PrEP_AdhEffic = 1.0
@@ -298,6 +302,7 @@ RC_template: Dict[str, Any] = {
     "boosterInterval": 0,
     "boosterProb": 0,
     "vaccinePrev": 0,
+    "vaccineInit": 0,
 }
 
 RaceClass1: Dict[str, Any] = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
@@ -330,7 +335,7 @@ RaceClass1["MSM"].update(
         "PrEPdisc": 0.13,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.911,
-        "PrEP_coverage": 0.5,
+        "PrEP_coverage": 0.0,
         "vaccinePrev": 1,
         "boosterInterval": 3,
         "boosterProb": 1.0,
@@ -345,7 +350,7 @@ RaceClass1["ALL"].update(
 RaceClass2["MSM"].update(
     {
         "POP": 1.00,  # 0.028,
-        "HIV": 0.367,  # 0.434,
+        "HIV": 0.367,
         "AIDS": 0.232,
         "HAARTprev": 0.627,
         "INCARprev": 0.00,
