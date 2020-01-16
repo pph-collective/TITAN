@@ -386,14 +386,14 @@ def print_components(
     # if this is a new file, write the header info
     if f.tell() == 0:
         f.write(
-            "run_id\trunseed\tpopseed\tnetseed\tt\tcompID\ttotalN\tNhiv\tNtrtmt\tNprep\tNtrtHIV\tNprepHIV\tAware\tOral\tLAI\n"
+            "run_id\trunseed\tpopseed\tnetseed\tt\tcompID\ttotalN\tNhiv\tNtrtmt\tNprep\tNtrtHIV\tNprepHIV\tTrtComponent\tOral\tLAI\tAware\n"
         )
 
     compID = 0
     for comp in components:
         totN = (
             nhiv
-        ) = ntrtmt = ntrthiv = nprep = PrEP_ever_HIV = trtbool = LAI = oral = 0
+        ) = ntrtmt = ntrthiv = nprep = PrEP_ever_HIV = trtbool = LAI = oral = aware = 0
         for agent in comp.nodes():
             totN += 1
             if agent._HIV_bool:
@@ -411,9 +411,12 @@ def print_components(
                     elif agent.PrEP_type == "Oral":
                         oral += 1
             trtbool += agent._PCA
+            if agent.awareness:
+                aware += 1
+
         f.write(
             "{run_id}\t{runseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Ntrtmt}\t{Nprep}\t{NtrtHIV}"
-            "\t{NprepHIV}\t{trtbool}\t{Oral}\t{LAI}\n".format(
+            "\t{NprepHIV}\t{trtbool}\t{Oral}\t{LAI}\t{aware}\n".format(
                 run_id=run_id,
                 runseed=runseed,
                 pseed=popseed,
@@ -429,6 +432,7 @@ def print_components(
                 trtbool=trtbool,
                 Oral=oral,
                 LAI=LAI,
+                aware=aware,
             )
         )
 
