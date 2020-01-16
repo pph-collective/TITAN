@@ -99,7 +99,7 @@ knowledgeTransmission = (
 opinionTransmission = (
     0.01  # per-act probability of opinion change in less-prominent partner
 )
-interactionProb = {
+interactionProb: Dict[str, Any] = {
     "sexOnly": {1: {}},
     "multiplex": {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}},
     "social": {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}},
@@ -198,8 +198,8 @@ if "Oral" in PrEP_type:
     PrEP_NonAdhEffic = 0.76
     PrEP_falloutT = 1
     PrEP_disc = 0.00  # 0.15
-    PrEP_peakLoad = 1
-    PrEP_halflife = 1
+    PrEP_peakLoad = 1.0
+    PrEP_halflife = 1.0
 elif "Inj" in PrEP_type:  # TODO make both of these compatible; can use both at once??
     PrEP_Adherence = 1.0
     PrEP_AdhEffic = 1.0

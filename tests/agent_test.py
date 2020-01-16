@@ -13,8 +13,8 @@ def make_agent():
 
 @pytest.fixture
 def make_relationship():
-    def _make_relationship(id1, id2, SO="MSM", rel_type="#REVIEW", duration=10):
-        return Relationship(id1, id2, SO, duration, rel_type)
+    def _make_relationship(id1, id2, rel_type="#REVIEW", duration=10):
+        return Relationship(id1, id2, duration, rel_type)
 
     return _make_relationship
 
