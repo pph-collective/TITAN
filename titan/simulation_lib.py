@@ -57,7 +57,7 @@ def stats_to_results(stats: Dict[str, Any], results: Dict[str, Any]):
 
 
 def simulation(
-    nreps: int, time_range: int, N_pop: int, runSeed: int, popSeed: int, netSeed: int,
+    nreps: int, time_range: int, N_pop: int, runSeed: int, popSeed: int, netSeed: int
 ):
 
     # Run nreps simulations using the given parameters.

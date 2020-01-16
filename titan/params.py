@@ -26,9 +26,9 @@ network_type = "scale_free"
 """
 Output flags and settings
 """
-startAgentList = False # REVIEWED not used anywhere - Sarah to review
-endingAgentList = False # REVIEWED not used anywhere
-intermAgentList = False # REVIEWED not used anywhere
+startAgentList = False  # REVIEWED not used anywhere - Sarah to review
+endingAgentList = False  # REVIEWED not used anywhere
+intermAgentList = False  # REVIEWED not used anywhere
 intermPrintFreq = 10
 drawFigures = False
 calcComponentStats = False
@@ -103,8 +103,12 @@ inc_treatment_startdate = 48  # Timestep where inc treatment can begin
 inc_treatment_dur = (
     12  # Duration for which agents are forced on respective treatment post release
 )
-inc_treat_HRsex_beh = True  # Remove sexual higrisk behaviour during treatment duration # REVIEWED this is an addiotional intervention on top of incarceration/treatment, indicate that and change name
-inc_treat_IDU_beh = True  # Remove IDU behav:iour during treatment duration # REVIEWED this is an addiotional intervention on top of incarceration/treatment, indicate that and change name
+inc_treat_HRsex_beh = (
+    True
+)  # Remove sexual higrisk behaviour during treatment duration # REVIEWED this is an addiotional intervention on top of incarceration/treatment, indicate that and change name
+inc_treat_IDU_beh = (
+    True
+)  # Remove IDU behav:iour during treatment duration # REVIEWED this is an addiotional intervention on top of incarceration/treatment, indicate that and change name
 inc_treat_RIC = False  # Force retention in care of ART therapy
 
 # PrEP params
@@ -119,13 +123,15 @@ PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
-PrEP_target_model = ( # REVIEWED - extract "Clinical" and code
+PrEP_target_model = (  # REVIEWED - extract "Clinical" and code
     "CDCwomen"  # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
 )
 PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it follow
 
 if "Oral" in PrEP_type:
-    PrEP_Adherence = 1.0 # REVIEWED would these things ever be changed for a specific model? or are they static? - just use values above, add Inj peakload and halflife up there
+    PrEP_Adherence = (
+        1.0
+    )  # REVIEWED would these things ever be changed for a specific model? or are they static? - just use values above, add Inj peakload and halflife up there
     PrEP_AdhEffic = 0.96
     PrEP_NonAdhEffic = 0.76
     PrEP_falloutT = 1
@@ -222,13 +228,11 @@ RC_template: Dict[str, Any] = {
     "NEEDLESH": 0.0,  # Probability of sharing syringes during join drug use (per act)
     "HIVTEST": 0.0,  # Probability of testing for HIV
     "INCAR": 0.0,  # Probability of becoming incarcerated (rate)
-    "HAARTprev": 0.0,
     "HAARTadh": 0.0,  # Adherence to ART therapy
     "HAARTdisc": 0.0,  # Probability of discontinuing ART therapy
-    "EligSE_PartnerType": [],  # List of agent SO types the agent cant partner with
+    "EligSE_PartnerType": [],  # List of agent SO types the agent cant partner with # TO_REVIEW is this really needed - we have the logic around partner-ability
     "PrEPdisc": 0.0,  # Probability of discontinuing PrEP treatment
     "HighRiskPrev": 0.0,
-    "EligSE_PartnerType": [],
     "PrEPadh": 1.0,
     "PrEP_coverage": 0,
     "boosterInterval": 0,
@@ -367,11 +371,7 @@ sexualFrequency[4] = {
     "min": 25,
     "max": 36,
 }
-sexualFrequency[5] = {
-    "p_value": 1.0,
-    "min": 37,
-    "max": 48,
-}
+sexualFrequency[5] = {"p_value": 1.0, "min": 37, "max": 48}
 
 needleFrequency: Dict[int, Any] = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
 needleFrequency[1] = {"p_value": 1.0, "min": 1, "max": 6}

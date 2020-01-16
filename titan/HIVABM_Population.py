@@ -94,7 +94,9 @@ class PopulationClass:
         if type(n) is not int:
             raise ValueError("Population size must be integer")
         else:
-            self.PopulationSize = n  # REVIWED PopulationSize not really used and is calculable - needed? - nope
+            self.PopulationSize = (
+                n
+            )  # REVIWED PopulationSize not really used and is calculable - needed? - nope
 
         # Parameters
         self.numWhite = round(

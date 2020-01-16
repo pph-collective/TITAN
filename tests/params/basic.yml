@@ -1,0 +1,21 @@
+classes:
+  races:
+    - BLACK
+  sex_types:
+    - MSM
+
+demographics:    
+  BLACK:
+    pop: 1.0
+    MSM:
+      pop: 1.0
+
+partnership:
+  sex:
+    durations:
+      2:
+        min: 9
+    transmission:
+      MSM:
+        0:
+          prob: 0.08

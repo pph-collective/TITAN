@@ -240,9 +240,7 @@ def test_print_components(stats, setup_results_dir):
     run_id = uuid.uuid4()
 
     net = NetworkClass(N=1)
-    components = sorted(
-        nx.connected_components(net.get_Graph()), key=len, reverse=True,
-    )
+    components = sorted(nx.connected_components(net.get_Graph()), key=len, reverse=True)
 
     print_components(run_id, 0, 1, 2, 3, components)
 

@@ -155,7 +155,7 @@ class HIVModel(NetworkClass):
 
         def get_components():
             return sorted(
-                nx.connected_components(self.get_Graph()), key=len, reverse=True,
+                nx.connected_components(self.get_Graph()), key=len, reverse=True
             )
 
         def burnSimulation(burnDuration: int):
@@ -545,6 +545,7 @@ class HIVModel(NetworkClass):
         agent_race = agent._race
         agent_sex_type = agent._SO
 
+        # TO_REVIEW why is the mean number of sex acts for a class multiplied by needle calibration?
         MEAN_N_ACTS = (
             params.DemographicParams[agent_race][agent_sex_type]["NUMSexActs"]
             * params.cal_NeedleActScaling
