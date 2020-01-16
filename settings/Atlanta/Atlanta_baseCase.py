@@ -4,6 +4,8 @@ __author__ = "MaximilianKing"
 Main model parameters.
 """
 
+from typing import Sequence, List, Dict, Optional, Any
+
 ####################
 PROCESSES = 1  # number of processes in parallel (quadcore)
 rSeed_pop = (
@@ -118,7 +120,7 @@ inc_ARTdisc = 0.12
 inc_Recidivism = 0.267
 
 # PrEP params
-PrEP_type = ["Oral", "Vaccine"]  # Oral/Inj PrEP modes
+PrEP_type = ["Oral"]  # Oral/Inj PrEP modes
 PrEP_Target = (
     0.00  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 )
@@ -129,9 +131,9 @@ PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
-PrEP_target_model = (
-    "Allcomers"  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,CDC,Racial
-)
+PrEP_target_model = {
+    "Racial"  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,CDC,Racial
+}
 PrEP_init_var1 = 0.05
 PrEP_init_var2 = 0.025
 PrEP_clinic_cat = "Racial"
@@ -195,8 +197,8 @@ elif model == "Custom":
     flag_staticN = False
     flag_booster = False
 
-agentPopulations = ["MSM"]
-agentSexTypes = ["MSM"]
+agentPopulations = ["MSM", "HF", "HM", "IDU"]
+agentSexTypes = ["MSM", "HF", "HM", "IDU"]
 
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
@@ -228,11 +230,12 @@ RC_template = {
     "PrEPadh": 1.0,
     "boosterInterval": 0,
     "vaccinePrev": 0,
+    "PrEP_coverage": 0,
 }
 
 # RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
-RaceClass1 = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
-RaceClass2 = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
+RaceClass1: Dict[str, Any] = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
+RaceClass2: Dict[str, Any] = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
 for a in ["MSM", "HM", "HF", "IDU"]:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
@@ -262,6 +265,7 @@ RaceClass1["MSM"].update(
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.911,
         "vaccinePrev": 0.5,
+        "PrEP_coverage": 0.415,
     }
 )
 
@@ -290,6 +294,7 @@ RaceClass2["MSM"].update(
         "PrEPdisc": 0.15,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.568,
+        "PrEP_coverage": 0.258,
     }
 )
 
