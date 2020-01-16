@@ -81,6 +81,7 @@ class Agent:
         self.traceTime = 0
         self.awareness = False
         self.opinion = 0.0
+        self.PrEP_type = ""
         self._PCA = False
 
         # PrEP pharmacokinetics

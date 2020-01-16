@@ -1381,8 +1381,10 @@ class HIVModel(NetworkClass):
                 # TODO: make this work for vaccines, all prep types
                 if self.runRandom.random() < params.LAI_chance:
                     self.LAI_agentSet.add_agent(agent)
+                    agent.PrEP_type = "LAI"
                 else:
                     self.oralPrEP_agentSet.add_agent(agent)
+                    agent.PrEP_type = "Oral"
 
         # agent must exist
         assert agent is not None
