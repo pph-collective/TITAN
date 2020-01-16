@@ -89,7 +89,7 @@ Peer change params
 attitude = {0: 0.5, 1: 0.0, 2: 0.0, 3: 0.0, 4: 0.5}
 PCA_PrEP = 0.452 * 0.664
 opinion_threshold = 3.0  # 0.0
-pcaChoice = "bridge"  # eigenvector or bridge
+pcaChoice = "random"  # eigenvector or bridge or random
 awarenessProb = 0.05
 starting_awareness = 0.05
 knowledgeTransmission = 0.05

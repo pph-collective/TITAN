@@ -511,7 +511,7 @@ class HIVModel(NetworkClass):
                                 ag = orderedCentrality[0]
                                 ag._PCA = -1
 
-                        if params.pcaChoice == "bridge":
+                        elif params.pcaChoice == "bridge":
                             print("Choosing Agent")
 
                             all_bridges = list(
@@ -541,6 +541,27 @@ class HIVModel(NetworkClass):
                             else:
                                 chosen_agent = random.choice(comp.nodes)
                                 chosen_agent._PCA = -1
+
+                        elif params.pcaChoice == "random":
+                            chosen_agent = None
+                            for ag in comp:
+                                if not ag._HIV_bool:
+                                    chosen_agent = ag
+                                    chosen_agent._PCA = 1
+                                    self.aware_agentSet.add_agent(
+                                        chosen_agent
+                                    )  # add to aware agents
+                                    chosen_agent.awareness = True  # make aware
+                                    self.PCA_agentSet.add_agent(
+                                        chosen_agent
+                                    )  # add to PCA agents
+                                    break
+                                else:
+                                    pass
+                            if not chosen_agent:
+                                chosen_agent = random.choice(list(comp.nodes))
+                                chosen_agent._PCA = -1
+
                 print(("Total agents in trial: ", totNods))
                 print("Number of Change Agents:", self.PCA_agentSet.num_members())
 
