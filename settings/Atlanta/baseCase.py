@@ -66,7 +66,6 @@ HR_F_dur = 6  # Duration of high risk for females
 
 
 # Misc. params
-flag_AgeAssortMix = False
 flag_RaceAssortMix = True
 AssortMixCoeff = 0.75  # Proportion of race1 mixing with race2 when partnering.
 safeNeedleExchangePrev = 1.0

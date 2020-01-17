@@ -391,7 +391,7 @@ class PopulationClass:
         newAgent = Agent(SexType, age, Race, DrugType)
         newAgent._ageBin = ageBin
 
-        if params.setting == "Phil2005" and SexType == "HM":
+        if params.setting == "Phil2005" and SexType == "HM":  # TODO: flag for MSMW or just if it's there
             if tmp_rnd < 0.06:
                 newAgent._MSMW = True
 

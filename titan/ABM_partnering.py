@@ -26,14 +26,14 @@ def get_partner(agent: Agent, need_new_partners: Agent_set) -> Optional[Agent]:
     agent_drug_type = agent._DU
     RandomPartner = None
 
-    if agent_drug_type == "IDU":
-        if random.random() < 0.8:
+    if agent_drug_type == "IDU":  # REVIEW: is this assort mixing IDU?
+        if random.random() < 0.8:  # TODO: bring this out to params/prob
             # choose from IDU agents
             RandomPartner = get_random_IDU_partner(agent, need_new_partners)
 
         # either didn't try to get IDU partner, or failed to get IDU partner
-        if RandomPartner is None:
-            get_random_sex_partner(agent, need_new_partners)
+        if RandomPartner is None:  # TODO: flag rship type
+            get_random_sex_partner(agent, need_new_partners)  # REVIEW is there any reason for this to be 2 functions and not an if branch in a single function
     elif agent_drug_type in ("NDU", "NIDU"):
         if params.flag_AssortativeMix and (
             random.random()
@@ -73,7 +73,7 @@ def get_random_IDU_partner(
     agent_drug_type = agent._DU
     RandomPartner = None
 
-    # REVIEWED AssortMix never used - sarah to review
+    # REVIEWED AssortMix never used, should be, similar to sex assort mix
     AssortMix = False
     if random.random() < params.AssortMixCoeff:
         AssortMix = True
@@ -111,24 +111,6 @@ def get_assort_sex_partner(
 
     """
 
-    def getPartnerBin(agent: Agent) -> int:
-        testRand = random.random()
-        i = 1
-        pMatch = params.mixingMatrix[agent._ageBin][i]
-
-        if params.flag_AgeAssortMix:
-            while True:
-                if testRand <= pMatch:
-                    return i
-                else:
-                    i += 1
-                    pMatch += params.mixingMatrix[agent._ageBin][i]
-                if i == 5:
-                    return i
-        else:
-            i = random.randrange(1, 6)
-            return i
-
     agent_sex_type = agent._SO
     agent_race_type = agent._race
 
@@ -147,17 +129,8 @@ def get_assort_sex_partner(
         "EligSE_PartnerType"
     ]
 
-    if params.AssortMixType == "Age":
-        randomK_sample = random.sample(
-            need_new_partners._subset[eligPartnerType]._members,
-            params.cal_ptnrSampleDepth,
-        )
-        ageBinPick = getPartnerBin(agent)
-        availableParts = [ag for ag in randomK_sample if ag not in agent._partners]
-        samplePop = [ag for ag in availableParts if ag._ageBin == ageBinPick]
-
     # else if picking using race mix
-    elif params.AssortMixType == "Race":
+    if params.AssortMixType == "Race":
         samplePop = [
             tmpA
             for tmpA in need_new_partners._subset["SO"]

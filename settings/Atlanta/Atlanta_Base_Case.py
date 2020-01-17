@@ -83,7 +83,6 @@ condomUseType = "Race"  # Race or Acts
 # Misc. params
 flag_AssortativeMix = True
 AssortMixType = "Race"
-flag_AgeAssortMix = False
 flag_RaceAssortMix = True
 AssortMixCoeff = 0.75  # Proportion of race1 mixing with race2 when partnering.
 safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE

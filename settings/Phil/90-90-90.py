@@ -82,7 +82,6 @@ Misc. params
 """
 flag_AssortativeMix = True  # Boolean for if assortative mixing occurs at all
 AssortMixType = "HR"  # Other assortative mixing types
-flag_AgeAssortMix = False  # Assortative mix by age
 flag_RaceAssortMix = False  # Assortative mix by race
 AssortMixCoeff = 0.3  # Proportion of following given assort mix rules
 safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
@@ -483,17 +482,6 @@ ageMatrix["BLACK"] = {
     },
     "HIV": {0: 0.0, 1: 0.144, 2: 0.144, 3: 0.250, 4: 0.377, 5: 0.194},
 }
-
-
-"""
-Age mixing matrix for assortative mixing by age
-"""
-mixingMatrix = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
-mixingMatrix[1] = {1: 0.500, 2: 0.226, 3: 0.123, 4: 0.088, 5: 0.064}
-mixingMatrix[2] = {1: 0.156, 2: 0.500, 3: 0.185, 4: 0.099, 5: 0.061}
-mixingMatrix[3] = {1: 0.074, 2: 0.162, 3: 0.500, 4: 0.184, 5: 0.079}
-mixingMatrix[4] = {1: 0.057, 2: 0.093, 3: 0.199, 4: 0.500, 5: 0.150}
-mixingMatrix[5] = {1: 0.062, 2: 0.086, 3: 0.128, 4: 0.224, 5: 0.500}
 
 """
 Clinic bins for targetting strategies

@@ -68,7 +68,6 @@ Misc. params
 
 flag_AssortativeMix = False  # Boolean for if assortative mixing occurs at all
 AssortMixType = None  # Other assortative mixing types
-flag_AgeAssortMix = False  # Assortative mix by age
 flag_RaceAssortMix = False  # Assortative mix by race
 AssortMixCoeff = 0.8  # Proportion of following given assort mix rules
 safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
