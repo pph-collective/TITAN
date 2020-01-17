@@ -960,6 +960,9 @@ class HIVModel(NetworkClass):
         incar_t = agent._incar_time
         incar_bool = agent._incar_bool
         haart_bool = agent._HAART_bool
+        recidivism = 1
+        if agent._ever_incar_bool:
+            recidivism = params.inc_Recidivism
 
         if incar_bool:
             agent._incar_time -= 1
@@ -1013,6 +1016,7 @@ class HIVModel(NetworkClass):
             < params.DemographicParams[race_type][sex_type]["INCAR"]
             * (1 + (hiv_bool * 4))
             * params.cal_IncarP
+            * recidivism
         ):
             if agent._SO == "HF":
                 jailDuration = (
