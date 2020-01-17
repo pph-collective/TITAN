@@ -141,7 +141,7 @@ elif PrEP_type == "Inj":
 Model Type for fast flag toggling
     flag_incar      Incarceration effects
     flag_PrEP       PrEP enrollment
-    flag_HR         High risk behavior for incar or genPop
+    flag_high_risk         High risk behavior for incar or genPop
     flag_ART        ART therapy enrollment
     flag_DandR      Die and replace functionality
 
@@ -149,7 +149,7 @@ Model Type for fast flag toggling
 if model == "PrEP":
     flag_incar = False
     flag_PrEP = True
-    flag_HR = False
+    flag_high_risk = False
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
@@ -158,7 +158,7 @@ if model == "PrEP":
 elif model == "Incar":
     flag_incar = True
     flag_PrEP = False
-    flag_HR = True
+    flag_high_risk = True
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
@@ -167,7 +167,7 @@ elif model == "Incar":
 elif model == "NoIncar":
     flag_incar = False
     flag_PrEP = False
-    flag_HR = True
+    flag_high_risk = True
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
@@ -176,7 +176,7 @@ elif model == "NoIncar":
 elif model == "StaticZero":
     flag_incar = False
     flag_PrEP = False
-    flag_HR = False
+    flag_high_risk = False
     flag_ART = False
     flag_DandR = False
     flag_staticN = True
@@ -185,7 +185,7 @@ elif model == "StaticZero":
 elif model == "Custom":
     flag_incar = False
     flag_PrEP = False
-    flag_HR = False
+    flag_high_risk = False
     flag_ART = False
     flag_DandR = False
     flag_staticN = True

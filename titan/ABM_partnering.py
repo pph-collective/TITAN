@@ -95,7 +95,7 @@ def get_random_IDU_partner(
     return RandomPartner
 
 
-def get_assort_sex_partner(
+def get_assort_sex_partner(  # todo: make this encompass both assort and non-assortative mixing
     agent: Agent, need_new_partners: Agent_set
 ) -> Optional[Agent]:
     """
@@ -113,6 +113,7 @@ def get_assort_sex_partner(
 
     agent_sex_type = agent._SO
     agent_race_type = agent._race
+    samplePop = []
 
     RandomPartner = None
 
@@ -128,7 +129,6 @@ def get_assort_sex_partner(
     eligPartnerType = params.DemographicParams[agent_race_type][agent_sex_type][
         "EligSE_PartnerType"
     ]
-
     # else if picking using race mix
     if params.AssortMixType == "Race":
         samplePop = [
@@ -161,13 +161,13 @@ def get_assort_sex_partner(
                 )
             ]
 
-    elif params.AssortMixType == "HR":
+    elif params.AssortMixType == "high_risk":
         samplePop = [
             tmpA
             for tmpA in need_new_partners._subset["SO"]
             ._subset[eligPartnerType]
             ._members
-            if (tmpA._everhighrisk_bool and tmpA not in agent._partners)
+            if (tmpA._everhighrisk_bool and tmpA not in agent._partners and not tmpA == agent)
         ]
 
     # list is not empty

@@ -75,7 +75,7 @@ HR_F_dur = 6  # Duration of high risk for females
 Misc. params
 """
 flag_AssortativeMix = True  # Boolean for if assortative mixing occurs at all
-AssortMixType = "HR"  # Other assortative mixing types
+AssortMixType = "high_risk"  # Other assortative mixing types
 flag_RaceAssortMix = False  # Assortative mix by race
 AssortMixCoeff = 0.3  # Proportion of following given assort mix rules
 safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
@@ -143,7 +143,7 @@ elif PrEP_type == "Inj":
 Model Type for fast flag toggling
     flag_incar      Incarceration effects
     flag_PrEP       PrEP enrollment
-    flag_HR         High risk behavior for incar or genPop
+    flag_high_risk         High risk behavior for incar or genPop
     flag_ART        ART therapy enrollment
     flag_DandR      Die and replace functionality
 

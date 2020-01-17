@@ -147,7 +147,7 @@ elif "Inj" in PrEP_type:
 Model Type for fast flag toggling
     flag_incar      Incarceration effects
     flag_PrEP       PrEP enrollment
-    flag_HR         High risk behavior for incar or genPop
+    flag_high_risk         High risk behavior for incar or genPop
     flag_ART        ART therapy enrollment
     flag_DandR      Die and replace functionality
 

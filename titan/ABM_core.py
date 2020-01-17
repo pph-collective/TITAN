@@ -103,25 +103,18 @@ class HIVModel(NetworkClass):
             netSeed=self.netseed,
         )
 
-        # keep track of current time step globally for dynnetwork report
-        self.totalIncarcerated = 0
-
         print("\n\tCreating lists")
         # Other lists / dictionaries
 
         self.NewInfections = Agent_set("NewInfections")
         self.NewDiagnosis = Agent_set("NewDiagnosis")
-        self.NewIncarRelease = Agent_set("NewIncarRelease")
-        self.NewHRrolls = Agent_set("NewHRrolls")
-
-        self.Acute_agents: List[Agent] = []
-        self.Transmit_from_agents: List[Agent] = []
-        self.Transmit_to_agents: List[Agent] = []
+        self.NewIncarRelease = Agent_set("NewIncarRelease")  # REVIEW: ask wgoedel if this is needed (doesn't print)
+        self.NewHRrolls = Agent_set("NewHRrolls")  # REVIEW: ditto above
 
         self.totalDiagnosis = 0
         self.treatmentEnrolled = False
 
-        self.newPrEPagents = Agent_set("NewPrEPagents")
+        self.newPrEPagents = Agent_set("NewPrEPagents")  # REVIEW is this ever used
         self.PrEPagents = {
             "BLACK": {"MSM": 0, "HF": 0, "HM": 0},
             "WHITE": {"MSM": 0, "HF": 0, "HM": 0},
@@ -192,7 +185,7 @@ class HIVModel(NetworkClass):
         burnSimulation(params.burnDuration)
 
         print("\n === Begin Simulation Run ===")
-        if params.drawFigures:
+        if params.drawFigures:  # REVIEW: is this ever used? seems deprecated
             nNodes = self.G.number_of_nodes()
             self.visualize_network(
                 coloring=params.drawFigureColor,
@@ -289,7 +282,7 @@ class HIVModel(NetworkClass):
             self.NewIncarRelease.clear_set()
             self.newPrEPagents.clear_set()
 
-            print((t % params.intermPrintFreq))
+            print((t % params.intermPrintFreq))  # REVIEW: is this broken?
             if t % params.intermPrintFreq == 0:
                 if params.calcNetworkStats:
                     self.write_network_stats(t=t)
@@ -302,7 +295,7 @@ class HIVModel(NetworkClass):
                         self.netseed,
                         get_components(),
                     )
-                if params.drawEdgeList:
+                if params.drawEdgeList:  # REVIEW: is this broken?
                     print("Drawing network edge list to file")
                     fh = open("results/network/Edgelist_t{}.txt".format(t), "wb")
                     self.write_G_edgelist(fh)
@@ -331,10 +324,6 @@ class HIVModel(NetworkClass):
         if time > 0 and params.flag_staticN is False:
             self.update_partner_assignments(params.PARTNERTURNOVER, self.get_Graph())
 
-        self.Acute_agents = []
-        self.Transmit_from_agents = []
-        self.Transmit_to_agents = []
-
         for rel in self.Relationships:
             # If in burn, ignore interactions
             if burn:
@@ -354,7 +343,7 @@ class HIVModel(NetworkClass):
                     self.Relationships.remove(rel)
                     del rel
 
-        if params.flag_HR:
+        if params.flag_high_risk:  # TODO: abstract this
             for tmpA in self.highrisk_agentsSet.iter_agents():
                 if tmpA._highrisk_time > 0:
                     tmpA._highrisk_time -= 1
@@ -781,10 +770,6 @@ class HIVModel(NetworkClass):
             if self.runRandom.random() < p_total_transmission:
                 # if agent HIV+ partner becomes HIV+
                 self._become_HIV(partner, time)
-                self.Transmit_from_agents.append(agent)
-                self.Transmit_to_agents.append(partner)
-                if agent.get_acute_status(time):
-                    self.Acute_agents.append(agent)
 
     def _sex_transmission(self, time: int, rel: Relationship):
         """
@@ -882,11 +867,7 @@ class HIVModel(NetworkClass):
 
                 if self.runRandom.random() < p_total_transmission:
                     # if agent HIV+ partner becomes HIV+
-                    self.Transmit_from_agents.append(agent)
-                    self.Transmit_to_agents.append(partner)
                     self._become_HIV(partner, time)
-                    if agent.get_acute_status(time):
-                        self.Acute_agents.append(agent)
 
     def _become_HIV(self, agent: Agent, time: int):
         """
@@ -975,7 +956,7 @@ class HIVModel(NetworkClass):
                 agent._ever_incar_bool = True
                 if params.model == "Incar":
                     if (
-                        not agent._highrisk_bool and params.flag_HR
+                        not agent._highrisk_bool and params.flag_high_risk
                     ):  # If behavioral treatment on and agent HIV, ignore HR period.
                         if (
                             params.inc_treat_HRsex_beh
@@ -1056,7 +1037,6 @@ class HIVModel(NetworkClass):
             agent._incar_bool = True
             agent._incar_time = timestay
             self.incarcerated_agentSet.add_agent(agent)
-            self.totalIncarcerated += 1
 
             # PUT PARTNERS IN HIGH RISK
             for tmpA in agent._partners:
