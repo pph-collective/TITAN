@@ -127,9 +127,9 @@ PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01  # Probability of PrEP resistance developing
 PrEP_disc = 0.15  # Per month probability of PrEP discontinuation
-PrEP_target_model = (
+PrEP_target_model = {
     "MSM"  # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
-)
+}
 PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it follow
 
 if PrEP_type == "Oral":
@@ -160,7 +160,7 @@ Model Type for fast flag toggling
 if model == "PrEP":
     flag_incar = False
     flag_PrEP = True
-     = False
+    flag_high_risk = False
     flag_ART = True
     flag_DandR = True
     flag_staticN = False

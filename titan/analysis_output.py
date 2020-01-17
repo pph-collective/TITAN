@@ -37,7 +37,7 @@ def get_stats(
         "newHR": 0,
         "newHR_HIV": 0,
         "newHR_AIDS": 0,
-        "newHR_Tested": 0,
+        "newHR_tested": 0,
         "newHR_ART": 0,
         "newRelease": 0,
         "newReleaseHIV": 0,
@@ -282,7 +282,7 @@ def newlyhighriskReport(
                 stats["ALL"][sex_type]["newHR"],
                 stats["ALL"][sex_type]["newHR_HIV"],
                 stats["ALL"][sex_type]["newHR_AIDS"],
-                stats["ALL"][sex_type]["newHR_Tested"],
+                stats["ALL"][sex_type]["newHR_tested"],
                 stats["ALL"][sex_type]["newHR_ART"],
             )
         )

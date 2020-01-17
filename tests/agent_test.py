@@ -60,6 +60,10 @@ def test_agent_init(make_agent):
     assert a.vaccine_time == 0
     assert a.vaccine_type == ""
     assert a.partnerTraced is False
+    assert a.awareness is False
+    assert a.opinion == 0.0
+    assert a.PrEP_type == ""
+    assert a._PCA == 0
 
     # prevention parameters
     assert a._tested is False
