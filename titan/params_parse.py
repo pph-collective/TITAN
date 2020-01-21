@@ -1,4 +1,4 @@
-import oyaml as yaml # type: ignore
+import oyaml as yaml  # type: ignore
 import os
 import sys
 import collections
@@ -112,13 +112,12 @@ def parse_classes(defs, params):
 
 
 def create_params(param_path):
-    with open(
-        os.path.join(
-            os.path.dirname(os.path.realpath(sys.argv[0])), "params_definitions.yml"
-        ),
-        "r",
-    ) as f:
-        defs = yaml.safe_load(f)
+    defs = {}
+    root = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), "params")
+    for file in os.listdir(root):
+        with open(os.path.join(root, file), "r") as f:
+            this_defs = yaml.safe_load(f)
+            defs.update(this_defs)
 
     with open(param_path, "r") as f:
         params = yaml.safe_load(f)

@@ -1,0 +1,29 @@
+classes:
+  races:
+    default:
+      - WHITE
+      - BLACK
+    description: "Which races to use in model (currently only 'WHITE' and 'BLACK' supported)"
+    type: array
+    values:
+      - WHITE
+      - BLACK
+  sex_types:
+    default:
+      - HM
+      - HF
+    description: "Which sex types to use in model"
+    type: array
+    values:
+      - HM
+      - HF
+      - MSM
+      - WSW
+      - MTF
+  populations:
+    default:
+      - IDU
+    description: "Which demographic populations to track in addition to sex_types"
+    type: array
+    values:
+      - IDU

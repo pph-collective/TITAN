@@ -17,7 +17,7 @@ outputs:
   print_freq: 10
   draw_figures: false
   calc_component_stats: false
-  flag_agent_zero: false # TO_REVIEW this doesn't seem like an output thing
+  flag_agent_zero: false # REVIEWED this doesn't seem like an output thing - put this somewhere else!
   reports:
     - deathReport
     - incarReport

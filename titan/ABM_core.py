@@ -545,7 +545,7 @@ class HIVModel(NetworkClass):
         agent_race = agent._race
         agent_sex_type = agent._SO
 
-        # TO_REVIEW why is the mean number of sex acts for a class multiplied by needle calibration?
+        # REVIEWED why is the mean number of sex acts for a class multiplied by needle calibration? - change to num_needle_acts
         MEAN_N_ACTS = (
             params.DemographicParams[agent_race][agent_sex_type]["NUMSexActs"]
             * params.cal_NeedleActScaling

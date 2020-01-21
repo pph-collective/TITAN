@@ -1,0 +1,151 @@
+demographics:
+  type: sub-dict
+  description: "Paramters controlling population class level probabilities and behaviors"
+  keys:
+    - races
+    - populations
+  default:
+    pop:
+      default: 0.0
+      description: "Percentage of agent population with given parent key that is this class.  Across races this must add up to one, and at the sex type level within a race, this must also add up to one. Other demographic params can have proportions of any value."
+      type: float
+      min: 0.0
+      max: 1.0
+    hiv:
+      init:
+        default: 0.0
+        description: "Probability that an agent in this class initially has HIV"
+        type: float
+        min: 0.0
+        max: 1.0
+    aids:
+      init:
+        default: 0.0
+        description: "Probability that an agent in this class with HIV has AIDS initially"
+        type: float
+        min: 0.0
+        max: 1.0
+    haart: # REVIEWED, the naming of this param implied duality, so I split it, but it isn't actually currently dual - keep dual, implement change when get to code updates
+      init:
+        default: 0.0
+        description: "Probability that an agent in this class with HIV is initially enrolled in HAART"
+        type: float
+        min: 0.0
+        max: 1.0
+      prob:
+        default: 0.0
+        description: "Probability that an agent in this class with HIV becomes enrolled in HAART at a given time step"
+        type: float
+        min: 0.0
+        max: 1.0
+      adherence:
+        default: 0.0
+        description: "Probability that an agent is assigne adherence of 5, otherwise randomly assigned 1-4"
+        type: float
+        min: 0.0
+        max: 1.0
+      discontinue:
+        default: 0.0
+        description: "Probability that an agent on HAART discontinues HAART in a given time step"
+        type: float
+        min: 0.0
+        max: 1.0
+    incarceration:
+      init:
+        default: 0.0
+        description: "Probability that an agent in this class is initially incarcerated"
+        type: float
+        min: 0.0
+        max: 1.0
+      prob:
+        default: 0.0
+        description: "Probability that an agent in this class becomes incarcerated at a given time step"
+        type: float
+        min: 0.0
+        max: 1.0
+    tested:
+      init:
+        default: 0.0
+        description: "Probability that an agent with HIV is initially tested and 'knows' their HIV status, therefore enabling enrollment in treatment"
+        type: float
+        min: 0.0
+        max: 1.0
+      prob:
+        default: 0.0
+        description: "Probability that an agent with HIV becomes tested at a given time step and 'knows' their HIV status, therefore enabling enrollment in treatment"
+        type: float
+        min: 0.0
+        max: 1.0
+    num_partners:
+      default: 0.0
+      description: "Mean number of partners for an agent in this class"
+      type: float
+      min: 0.0
+    num_needle_acts: # REVIEWED this is used with needle, and agent.py has a function for getting number of sex acts - this corresponds to NUMSexActs
+      default: 0.0
+      description: "???"
+      type: float
+      min: 0.0
+    safe_sex:
+      default: 0.0
+      description: "Pobability of safe sex (condom use) per sex act"
+      type: float
+      min: 0.0
+      max: 1.0
+    needle_sharing:
+      default: 0.0
+      description: "Probability of sharing a needle per act"
+      type: float
+      min: 0.0
+      max: 1.0
+    prep:
+      discontinue:
+        default: 0.0
+        description: "Probability that an agent on PrEP discontinues PrEP at a given time step"
+        type: float
+        min: 0.0
+        max: 1.0
+      adherence: # REVIEWED on the code side should probably be a bool instead of a 0/1
+        default: 0.0
+        description: "Probability that an agent on PrEP is assigned an adherence of 1, otherwise assigned 0"
+        type: float
+        min: 0.0
+        max: 1.0
+      coverage:
+        default: 0.0
+        description: "Target percentage of PrEP coverage for this population class"
+        type: float
+        min: 0.0
+        max: 1.0
+    high_risk:
+      init:
+        default: 0.0
+        description: "Probability that an agent is initially marked as high risk"
+        type: float
+        min: 0.0
+        max: 1.0
+    vaccine:
+      init: # to review - not currently used
+        default: 0.0
+        description: "Probability that an agent is initially vaccinated"
+        type: float
+        min: 0.0
+        max: 1.0
+      prob:
+        default: 0.0
+        description: "Probability that an agent becomes vaccinated at a given time step"
+        type: float
+        min: 0.0
+        max: 1.0
+      booster:
+        interval:
+          default: 0
+          description: "Number of time steps from vaccination at which booster vaccine is required"
+          type: int
+          min: 0
+        prob:
+          default: 0.0
+          description: "Probability of an agent getting booster vaccine at required time step"
+          type: float
+          min: 0.0
+          max: 1.0

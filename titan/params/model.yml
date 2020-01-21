@@ -1,0 +1,58 @@
+model:
+  setting:
+    default: Phil2005
+    description: "Population the model is being run on"
+    type: enum
+    values:
+      - Phil2005
+      - AtlantaMSM
+      - Scott
+  processes:
+    default: 1
+    description: "Number of processes in parallel to use for computation"
+    type: int
+    min: 1
+  seeds:
+    run:
+      default: 0
+      description: "Seed for random number generator for running the model. 0 is pure random, -1 for stepwise through number of number of repetitions (num_reps), other numbers will be used to explicitly set the seed."
+      type: int
+    net:
+      default: 0
+      description: "Seed for random number generator for creating the network. 0 is pure random, other numbers will be used to explicitly set the seed"
+      type: int
+    pop:
+      default: 0
+      description: "Seed for random number generator for creating the population. 0 is pure random, other numbers will be used to explicitly set the seed"
+      type: int
+  num_mc:
+    default: 1
+    description: "Number of monte carlo iterations to run"
+    type: int
+    min: 1
+  num_reps:
+    default: 1
+    description: "Number of repetitions a simulation is done"
+    type: int
+    min: 1
+  num_pop:
+    default: 100
+    description: "Size of population to model"
+    type: int
+    min: 1
+  time_range:
+    default: 12
+    description: "Number of time steps to run the model"
+    type: int
+    min: 1
+  burn_duration:
+    default: 6
+    description: "Number of time steps of burn in period, if 0, there is no burn in period."
+    type: int
+  network_type:
+    default: scale_free
+    description: "Algorithm used for network initialization"
+    type: enum
+    values:
+      - scale_free
+      - max_k_comp_size

@@ -124,7 +124,7 @@ PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
 PrEP_target_model = (  # REVIEWED - extract "Clinical" and code
-    "CDCwomen"  # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
+    "CDCwomen"  # Allcomers, Clinical, HighPN5, HighPN10, SRIns, SR,Rec, MSM
 )
 PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it follow
 
@@ -230,7 +230,7 @@ RC_template: Dict[str, Any] = {
     "INCAR": 0.0,  # Probability of becoming incarcerated (rate)
     "HAARTadh": 0.0,  # Adherence to ART therapy
     "HAARTdisc": 0.0,  # Probability of discontinuing ART therapy
-    "EligSE_PartnerType": [],  # List of agent SO types the agent cant partner with # TO_REVIEW is this really needed - we have the logic around partner-ability
+    "EligSE_PartnerType": [],  # List of agent SO types the agent cant partner with # REVIEWED is this really needed - we have the logic around partner-ability - lean on sex possible logic to replace this usage
     "PrEPdisc": 0.0,  # Probability of discontinuing PrEP treatment
     "HighRiskPrev": 0.0,
     "PrEPadh": 1.0,
