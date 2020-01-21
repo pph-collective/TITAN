@@ -48,22 +48,11 @@ def main():
         if inputNetSeed == -1:
             inputNetSeed = single_sim + 1
 
-        # TO_REVIEW what is num_runs used for?
-        # distribute simulations manually
-        if params.N_MC % params.PROCESSES == 0:
-            nreps = params.N_MC / params.PROCESSES
-            num_runs = [nreps] * params.PROCESSES
-        else:
-            num_runs = [int(params.N_MC / params.PROCESSES)] * params.PROCESSES
-            for i in range(params.N_MC % params.PROCESSES):
-                num_runs[i] += 1
-
         # runs simulations
         rslts = simulation(
             params.N_REPS,
             params.TIME_RANGE,
             params.N_POP,
-            outfile_dir,
             runSeed=inputRunSeed,
             popSeed=inputPopSeed,
             netSeed=inputNetSeed,

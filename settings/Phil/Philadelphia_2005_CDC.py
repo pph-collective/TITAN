@@ -224,7 +224,7 @@ RC_template = {
     "mNPart": 0.0,  # Mean number of sex partners
     "NUMPartn": 0.0,  # Number of partners (redundant)
     "NUMSexActs": 0.0,  # Mean number of sex acts with each partner
-    "UNSAFESEX": 0.0,  # Probability of engaging in unsafe sex (per act)
+    "SAFESEX": 0.0,  # Probability of engaging in safe sex (per act)
     "NEEDLESH": 0.0,  # Probability of sharing syringes during join drug use (per act)
     "HIVTEST": 0.0,  # Probability of testing for HIV
     "INCAR": 0.0,  # Probability of becoming incarcerated (rate)
@@ -259,7 +259,7 @@ RaceClass1["HM"].update(
         "TestedPrev": 0.90,
         "NUMPartn": 1.5,
         "NUMSexActs": 5.0,
-        "UNSAFESEX": 0.89,
+        "SAFESEX": 0.89,
         "NEEDLESH": 0.43,
         "HIVTEST": 0.034,
         "INCAR": 0.001,
@@ -280,7 +280,7 @@ RaceClass1["HF"].update(
         "TestedPrev": 0.90,
         "NUMPartn": 1.5,
         "NUMSexActs": 5.0,
-        "UNSAFESEX": 0.43,
+        "SAFESEX": 0.43,
         "NEEDLESH": 0.43,
         "HIVTEST": 0.034,
         "INCAR": 0.00,
@@ -301,7 +301,7 @@ RaceClass1["MSM"].update(
         "TestedPrev": 0.956,
         "NUMPartn": 4.0,
         "NUMSexActs": 2.8,
-        "UNSAFESEX": 0.49,
+        "SAFESEX": 0.49,
         "NEEDLESH": 0.00,
         "HIVTEST": 0.13,
         "INCAR": 0.00,
@@ -322,7 +322,7 @@ RaceClass1["MTF"] = {
     "TestedPrev": 0.95,
     "NUMPartn": 4.7,
     "NUMSexActs": 4.6,
-    "UNSAFESEX": 0.644,
+    "SAFESEX": 0.644,
     "NEEDLESH": 0.00,
     "HIVTEST": 0.155,
     "INCAR": 0.00,
@@ -343,7 +343,7 @@ RaceClass1["IDU"].update(
         "TestedPrev": 0.90,
         "NUMPartn": 1.5,
         "NUMSexActs": 5.0,
-        "UNSAFESEX": 0.89,
+        "SAFESEX": 0.89,
         "NEEDLESH": 0.63,
         "HIVTEST": 0.055,
         "INCAR": 0.001,

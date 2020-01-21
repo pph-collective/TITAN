@@ -3,14 +3,14 @@
 
 # Imports
 import random
-from typing import Sequence, List, Dict, Optional
+from typing import Sequence, List, Dict, Optional, TypeVar
 
 from . import params  # type: ignore
 from . import probabilities as prob
 from .agent import Agent, Agent_set
 
 
-def get_partner(agent: Agent, need_new_partners: Agent_set) -> Optional[Agent]:
+def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
     """
     :Purpose:
         Get partner for agent.
@@ -18,36 +18,37 @@ def get_partner(agent: Agent, need_new_partners: Agent_set) -> Optional[Agent]:
     :Input:
         agent : Agent
 
-        need_new_partners: AgentSet of partners to pair with
+        all_agent_set: AgentSet of partners to pair with
 
     :Output:
         partner: new partner
     """
+
     agent_drug_type = agent._DU
     RandomPartner = None
 
     if agent_drug_type == "IDU":  # REVIEW: is this assort mixing IDU?
         if random.random() < 0.8:  # TODO: bring this out to params/prob
             # choose from IDU agents
-            RandomPartner = get_random_IDU_partner(agent, need_new_partners)
+            RandomPartner = get_random_IDU_partner(agent, all_agent_set)
 
         # either didn't try to get IDU partner, or failed to get IDU partner
         if RandomPartner is None:  # TODO: flag rship type
             get_random_sex_partner(
-                agent, need_new_partners
+                agent, all_agent_set
             )  # REVIEW is there any reason for this to be 2 functions and not an if branch in a single function
     elif agent_drug_type in ("NDU", "NIDU"):
         if params.flag_AssortativeMix and (
             random.random()
             < params.DemographicParams[agent._race]["ALL"]["AssortMixCoeff"]
         ):
-            RandomPartner = get_assort_sex_partner(agent, need_new_partners)
+            RandomPartner = get_assort_sex_partner(agent, all_agent_set)
 
-            # potentially try again randomly
+            # try again with random sex partner is assort mix percent not 100%
             if RandomPartner is None and params.AssortMixCoeff <= 1.0:
-                RandomPartner = get_random_sex_partner(agent, need_new_partners)
+                RandomPartner = get_random_sex_partner(agent, all_agent_set)
         else:
-            RandomPartner = get_random_sex_partner(agent, need_new_partners)
+            RandomPartner = get_random_sex_partner(agent, all_agent_set)
     else:
         raise ValueError("Check method _get_partners(). Agent not caught!")
 
@@ -57,87 +58,62 @@ def get_partner(agent: Agent, need_new_partners: Agent_set) -> Optional[Agent]:
         return RandomPartner
 
 
-def get_random_IDU_partner(
-    agent: Agent, need_new_partners: Agent_set
-) -> Optional[Agent]:
+def get_random_IDU_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
     """
     :Purpose:
         Get a random partner which is sex compatible
 
     :Input:
         agent: Agent
-        need_new_partners: AgentSet of partners to pair with
+        all_agent_set: AgentSet of partners to pair with
 
     :Output:
         partner : Agent or None
 
     """
     agent_drug_type = agent._DU
+    assert agent_drug_type == "IDU", "Agent's drug type must be IDU"
+
     RandomPartner = None
 
-    # REVIEWED AssortMix never used, should be, similar to sex assort mix
-    AssortMix = False
-    if random.random() < params.AssortMixCoeff:
-        AssortMix = True
-
-    # todo: Make the random agent never return the agent or any of their partners
-    if agent_drug_type not in ["IDU"]:
-        raise ValueError("Invalid drug type! %s" % str(agent_drug_type))
-    else:
-        RandomPartner = random.choice(
-            [
-                ptn
-                for ptn in need_new_partners._subset["DU"]._subset["IDU"]._members
-                if ptn not in agent._partners
-            ]
-        )
-        if RandomPartner == agent:
-            RandomPartner = None
+    RandomPartner = safe_random_choice(
+        [
+            ptn
+            for ptn in all_agent_set._subset["DU"]._subset["IDU"]._members
+            if ptn not in agent._partners and ptn != agent
+        ]
+    )
 
     return RandomPartner
 
 
-def get_assort_sex_partner(  # todo: make this encompass both assort and non-assortative mixing
-    agent: Agent, need_new_partners: Agent_set
-) -> Optional[Agent]:
+def get_assort_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
     """
     :Purpose:
         Get a random partner which is sex compatible and fits assortativity constraints
 
     :Input:
         agent: int
-        need_new_partners: AgentSet of partners to pair with
+        all_agent_set: AgentSet of partners to pair with
 
     :Output:
         partner : Agent or None
 
     """
 
-    agent_sex_type = agent._SO
-    agent_race_type = agent._race
-    samplePop = []
-
     RandomPartner = None
 
-    # REVIEWED AssortMix never used - Sarah to reiew
-    if random.random() < params.AssortMixCoeff:
-        AssortMix = True
-    else:
-        AssortMix = False
+    assert agent._SO in params.agentSexTypes
 
-    # todo: Make the random agent never return the agent or any of their partners
-    assert agent_sex_type in params.agentSexTypes
-
-    eligPartnerType = params.DemographicParams[agent_race_type][agent_sex_type][
+    eligPartnerType = params.DemographicParams[agent._race][agent._SO][
         "EligSE_PartnerType"
     ]
-    # else if picking using race mix
+
+    eligible_partners = all_agent_set._subset["SO"]._subset[eligPartnerType]._members
     if params.AssortMixType == "Race":
         samplePop = [
             tmpA
-            for tmpA in need_new_partners._subset["SO"]
-            ._subset[eligPartnerType]
-            ._members
+            for tmpA in eligible_partners
             if (tmpA._race == agent._race and tmpA not in agent._partners)
         ]
 
@@ -145,17 +121,13 @@ def get_assort_sex_partner(  # todo: make this encompass both assort and non-ass
         if agent._race == "WHITE":
             samplePop = [
                 tmpA
-                for tmpA in need_new_partners._subset["SO"]
-                ._subset[eligPartnerType]
-                ._members
+                for tmpA in eligible_partners
                 if (tmpA._race == "WHITE" and tmpA not in agent._partners)
             ]
         else:
             samplePop = [
                 tmpA
-                for tmpA in need_new_partners._subset["SO"]
-                ._subset[eligPartnerType]
-                ._members
+                for tmpA in eligible_partners
                 if (
                     tmpA._race == "WHITE"
                     and tmpA._everhighrisk_bool
@@ -166,19 +138,11 @@ def get_assort_sex_partner(  # todo: make this encompass both assort and non-ass
     elif params.AssortMixType == "high_risk":
         samplePop = [
             tmpA
-            for tmpA in need_new_partners._subset["SO"]
-            ._subset[eligPartnerType]
-            ._members
-            if (
-                tmpA._everhighrisk_bool
-                and tmpA not in agent._partners
-                and not tmpA == agent
-            )
+            for tmpA in eligible_partners
+            if (tmpA._everhighrisk_bool and tmpA not in agent._partners)
         ]
 
-    # list is not empty
-    if samplePop:
-        RandomPartner = random.choice(samplePop)
+    RandomPartner = safe_random_choice(samplePop)
 
     # partner can't be existing parter or agent themself
     if RandomPartner in agent._partners or RandomPartner == agent:
@@ -187,44 +151,35 @@ def get_assort_sex_partner(  # todo: make this encompass both assort and non-ass
     return RandomPartner
 
 
-def get_random_sex_partner(
-    agent: Agent, need_new_partners: Agent_set
-) -> Optional[Agent]:
+def get_random_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
     """
     :Purpose:
         Get a random partner which is sex compatible
 
     :Input:
         agent: Agent
-        need_new_partners: list of available partners (Agent_set)
+        all_agent_set: list of available partners (Agent_set)
 
     :Output:
         partner : Agent or None
 
     """
-    agent_sex_type = agent._SO
-    agent_race_type = agent._race
-
     RandomPartner = None
 
-    eligPtnType = params.DemographicParams[agent_race_type][agent_sex_type][
-        "EligSE_PartnerType"
-    ]
+    eligPtnType = params.DemographicParams[agent._race][agent._SO]["EligSE_PartnerType"]
+    elig_partner_pool = all_agent_set._subset["SO"]._subset[eligPtnType]._members
 
-    elig_partner_pool = need_new_partners._subset["SO"]._subset[eligPtnType]._members
+    RandomPartner = safe_random_choice(elig_partner_pool)
 
-    RandomPartner = random.choice(elig_partner_pool)
-
-    if agent_sex_type not in params.agentSexTypes:
-        raise ValueError("Invalid sex type! %s" % str(agent_sex_type))
+    if (RandomPartner in agent._partners) or (RandomPartner == agent):
+        RandomPartner = None
 
     if RandomPartner is not None:
-        if (RandomPartner in agent._partners) or (RandomPartner == agent):
-            RandomPartner = None
-        else:
-            assert sex_possible(
-                agent._SO, RandomPartner._SO
-            ), "Sex no possible between agents! ERROR 441"
+        assert sex_possible(
+            agent._SO, RandomPartner._SO
+        ), "Sex no possible between agents! ERROR 441, {}, {}".format(
+            agent._SO, RandomPartner._SO
+        )
 
     return RandomPartner
 
@@ -266,7 +221,7 @@ def sex_possible(agent_sex_type: str, partner_sex_type: str) -> bool:
 def get_partnership_duration(agent: Agent) -> int:
     """
     :Purpose:
-        Get duration of a relationship # REVIEWED sarah to look at why this is at the agent level
+        Get duration of a relationship
         Drawn from Poisson distribution.
 
     :Input:
@@ -335,3 +290,16 @@ def get_partnership_duration(agent: Agent) -> int:
         )
 
     return duration
+
+
+T = TypeVar("T")
+
+
+def safe_random_choice(seq: Sequence[T]) -> Optional[T]:
+    """
+    Return None or a random choice
+    """
+    if seq:
+        return random.choice(seq)
+    else:
+        return None

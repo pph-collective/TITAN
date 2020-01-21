@@ -13,10 +13,10 @@ MSWsexualDurations[5] = {"min": 37, "max": 48}
 # ================ CORE PROBABILITIES ========================
 
 
-def unsafe_sex(num_acts):
+def safe_sex(num_acts):
     """
     :Purpose:
-        Return probability of unsafe sex in base case
+        Return probability of safe sex in base case
     :Input:
         :num_acts: Number of sex acts
     """
