@@ -2,11 +2,11 @@
 #SBATCH -J MODEL_NAME
 #SBATCH --ntasks=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --time=12:00:00
+#SBATCH --time=WALL_TIME
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-type=END
 #SBATCH --mail-user=NoMail
-#SBATCH --mem=12gGB
+#SBATCH --mem=MEMORYGB
 
 if [ -z "$SLURM_NPROCS" ] ; then
   if [ -z "$SLURM_NTASKS_PER_NODE" ] ; then
