@@ -108,7 +108,9 @@ class HIVModel(NetworkClass):
 
         self.NewInfections = Agent_set("NewInfections")
         self.NewDiagnosis = Agent_set("NewDiagnosis")
-        self.NewIncarRelease = Agent_set("NewIncarRelease")  # REVIEW: ask wgoedel if this is needed (doesn't print)
+        self.NewIncarRelease = Agent_set(
+            "NewIncarRelease"
+        )  # REVIEW: ask wgoedel if this is needed (doesn't print)
         self.NewHRrolls = Agent_set("NewHRrolls")  # REVIEW: ditto above
 
         self.totalDiagnosis = 0
@@ -540,7 +542,7 @@ class HIVModel(NetworkClass):
                                     chosen_agent = ag
                                     chosen_agent._PCA = 1
                                     self.aware_agentSet.add_agent(
-                                        list(chosen_agent)
+                                        chosen_agent
                                     )  # add to aware agents
                                     chosen_agent.awareness = True  # make aware
                                     self.PCA_agentSet.add_agent(
@@ -991,13 +993,9 @@ class HIVModel(NetworkClass):
 
                             # END FORCE
 
-        elif (
-            self.runRandom.random()
-            < params.DemographicParams[race_type][sex_type]["INCAR"]
-            * (1 + (hiv_bool * 4))
-            * params.cal_IncarP
-            * (1 + recidivism)
-        ):
+        elif self.runRandom.random() < params.DemographicParams[race_type][sex_type][
+            "INCAR"
+        ] * (1 + (hiv_bool * 4)) * params.cal_IncarP * (1 + recidivism):
             if agent._SO == "HF":
                 jailDuration = (
                     prob.HF_jail_duration
@@ -1195,7 +1193,7 @@ class HIVModel(NetworkClass):
                         if partner._MSMW:
                             eligible = True
                             agent._PrEP_reason.append("MSMW")
-        elif cdc_msm in params.PrEP_target_model:
+        elif "cdc_msm" in params.PrEP_target_model:
             if agent._SO == "MSM":
                 for ptn in agent._relationships:
                     if ptn._ID1 == agent:
@@ -1209,7 +1207,9 @@ class HIVModel(NetworkClass):
         elif params.PrEP_target_model == "HighPN5":
             if agent._mean_num_partners >= 5:
                 eligible = True
-        elif params.PrEP_target_model == "HighPN10":  # REVIEW is this used? if so, update to if x in y
+        elif (
+            params.PrEP_target_model == "HighPN10"
+        ):  # REVIEW is this used? if so, update to if x in y
             if agent._mean_num_partners >= 10:
                 eligible = True
         elif params.PrEP_target_model == "MSM":

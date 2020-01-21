@@ -114,7 +114,8 @@ class NetworkClass(PopulationClass):
 
     def write_G_edgelist(self, path: str):
         G = self.G
-        nx.write_edgelist(G, path, data=False)
+
+        nx.write_edgelist(G, path, data=["relationship"], delimiter="\t")
 
     def write_network_stats(
         self, t: int = 0, path: str = "results/network/networkStats.txt"

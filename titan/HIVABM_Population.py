@@ -391,7 +391,9 @@ class PopulationClass:
         newAgent = Agent(SexType, age, Race, DrugType)
         newAgent._ageBin = ageBin
 
-        if params.setting == "Phil2005" and SexType == "HM":  # TODO: flag for MSMW or just if it's there
+        if (
+            params.setting == "Phil2005" and SexType == "HM"
+        ):  # TODO: flag for MSMW or just if it's there
             if tmp_rnd < 0.06:
                 newAgent._MSMW = True
 
@@ -606,6 +608,7 @@ class PopulationClass:
     def update_agent_partners(self, graph, agent: Agent) -> bool:
         partner = get_partner(agent, self.All_agentSet)
         noMatch = False
+        rel_type = ""
 
         if partner:  # TODO add these to params
             duration = get_partnership_duration(agent)
@@ -627,14 +630,17 @@ class PopulationClass:
                         )
                 elif "social" in params.bond_type:
                     if rTypeProb < params.nonSex:
+                        rel_type = "social"
                         tmp_relationship = Relationship(
                             agent, partner, duration, rel_type="social"
                         )
-                    elif rTypeProb < params.multiplex + params.nonSex:
+                    elif rTypeProb < (params.multiplex + params.nonSex):
+                        rel_type = "multiplex"
                         tmp_relationship = Relationship(
                             agent, partner, duration, rel_type="multiplex"
                         )
                     else:
+                        rel_type = "sexOnly"
                         tmp_relationship = Relationship(
                             agent, partner, duration, rel_type="sexOnly"
                         )
@@ -645,7 +651,9 @@ class PopulationClass:
 
             agent.bond(partner, tmp_relationship)
             self.Relationships.append(tmp_relationship)
-            graph.add_edge(tmp_relationship._ID1, tmp_relationship._ID2)
+            graph.add_edge(
+                tmp_relationship._ID1, tmp_relationship._ID2, relationship=rel_type
+            )
         else:
             graph.add_node(agent)
             noMatch = True

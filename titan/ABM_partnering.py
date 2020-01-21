@@ -33,7 +33,9 @@ def get_partner(agent: Agent, need_new_partners: Agent_set) -> Optional[Agent]:
 
         # either didn't try to get IDU partner, or failed to get IDU partner
         if RandomPartner is None:  # TODO: flag rship type
-            get_random_sex_partner(agent, need_new_partners)  # REVIEW is there any reason for this to be 2 functions and not an if branch in a single function
+            get_random_sex_partner(
+                agent, need_new_partners
+            )  # REVIEW is there any reason for this to be 2 functions and not an if branch in a single function
     elif agent_drug_type in ("NDU", "NIDU"):
         if params.flag_AssortativeMix and (
             random.random()
@@ -167,7 +169,11 @@ def get_assort_sex_partner(  # todo: make this encompass both assort and non-ass
             for tmpA in need_new_partners._subset["SO"]
             ._subset[eligPartnerType]
             ._members
-            if (tmpA._everhighrisk_bool and tmpA not in agent._partners and not tmpA == agent)
+            if (
+                tmpA._everhighrisk_bool
+                and tmpA not in agent._partners
+                and not tmpA == agent
+            )
         ]
 
     # list is not empty

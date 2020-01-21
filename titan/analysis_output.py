@@ -391,9 +391,7 @@ def print_components(
 
     compID = 0
     for comp in components:
-        totN = (
-            nhiv
-        ) = ntrthiv = nprep = PrEP_ever_HIV = trtbool = LAI = oral = aware = 0
+        totN = nhiv = ntrthiv = nprep = PrEP_ever_HIV = trtbool = LAI = oral = aware = 0
         for agent in comp.nodes():
             totN += 1
             if agent._HIV_bool:
