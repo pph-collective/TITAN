@@ -76,11 +76,16 @@ Network Params
 """
 bond_type = []
 mean_partner_type = "mean"
+minComponentSize = 0
+maxComponentSize = N_POP
 
 """
 Peer Change Params
 """
 flag_PCA = False
+awarenessProb = 0.0
+PCA_PrEP = 0.0
+
 
 # High risk params
 HR_partnerScale = 300  # Linear increase to partner number during HR period
@@ -88,6 +93,9 @@ HR_proportion = 0.3  # Proportion of people who enter HR group when partner inca
 HR_M_dur = 6  # Duration of high risk for males
 HR_F_dur = 6  # Duration of high risk for females
 condomUseType = "Race"  # Race or Acts
+HIV_MSMW = 0.0
+cdc_msmw = 0.0
+pcaChoice = ""
 
 # Misc. params
 flag_AssortativeMix = True
@@ -97,6 +105,7 @@ AssortMixCoeff = 0.75  # Proportion of race1 mixing with race2 when partnering.
 safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
 initTreatment = 999999
 treatmentCov = 0.0
+interactionProb = {"sexOnly": {1: {"pvalue": 1.0, "min": 0, "max": 0}}}
 
 """
 Vaccine params
@@ -117,6 +126,11 @@ inc_ARTenroll = 0.51
 inc_ARTadh = 0.21
 inc_ARTdisc = 0.12
 inc_Recidivism = 0.267
+inc_treat_IDU_beh = 0.0
+inc_treat_HRsex_beh = 0.0
+inc_treatment_startdate = 99999
+inc_treatment_dur = 0
+inc_treat_RIC = 0.0
 
 # PrEP params
 PrEP_type = ["Oral"]  # Oral/Inj PrEP modes
@@ -135,6 +149,7 @@ PrEP_target_model = {
 }
 PrEP_init_var1 = 0.05
 PrEP_init_var2 = 0.025
+LAI_chance = 0.0
 PrEP_clinic_cat = "Racial"
 
 if "Oral" in PrEP_type:
@@ -190,11 +205,12 @@ elif model == "NoIncar":
 elif model == "Custom":
     flag_incar = False
     flag_PrEP = True
-    flag_HR = False
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
     flag_booster = False
+    flag_high_risk = False
+    init_with_vaccine = False
 
 agentPopulations = ["MSM", "HF", "HM", "IDU"]
 agentSexTypes = ["MSM", "HF", "HM", "IDU"]

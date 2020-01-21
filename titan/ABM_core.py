@@ -685,7 +685,8 @@ class HIVModel(NetworkClass):
             return p_total_transmission
 
         acts_prob = self.runRandom.random()
-        current_p_value = actsBin = 0
+        actsBin = 0
+        current_p_value = 0.0
 
         while acts_prob > current_p_value:
             actsBin += 1
@@ -698,7 +699,7 @@ class HIVModel(NetworkClass):
         if minimum == maximum:
             num_acts = minimum
         else:
-            num_acts = self.runRandom.randrange(minimum, maximum)
+            num_acts = self.runRandom.randrange(int(minimum), int(maximum))
         if num_acts < 1:
             return
 
@@ -941,7 +942,7 @@ class HIVModel(NetworkClass):
         incar_t = agent._incar_time
         incar_bool = agent._incar_bool
         haart_bool = agent._HAART_bool
-        recidivism = 1
+        recidivism = 1.0
         if agent._ever_incar_bool:
             recidivism = params.inc_Recidivism
 
@@ -997,7 +998,7 @@ class HIVModel(NetworkClass):
             < params.DemographicParams[race_type][sex_type]["INCAR"]
             * (1 + (hiv_bool * 4))
             * params.cal_IncarP
-            * recidivism
+            * (1 + recidivism)
         ):
             if agent._SO == "HF":
                 jailDuration = (
