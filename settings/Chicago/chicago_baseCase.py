@@ -18,7 +18,7 @@ rSeed_run = 0
 N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_REPS = 1
 N_POP = 5578  # population size
-TIME_RANGE = 2  # total time steps to iterate
+TIME_RANGE = 24  # total time steps to iterate
 burnDuration = 0
 model = "Custom"  # Model Type for fast flag toggling
 setting = "AtlantaMSM"
@@ -33,11 +33,12 @@ outputDir = ""
 startAgentList = False
 endingAgentList = False
 intermAgentList = False
-intermPrintFreq = 10
+intermPrintFreq = 12
 MSMreport = True
 HMreport = False
 HFreport = False
 drawFigures = False
+drawEdgeList = True
 calcComponentStats = True
 flag_agentZero = False
 
@@ -83,21 +84,21 @@ mean_partner_type = "bins"
 """
 Peer change params
 """
-attitude = {0: 0.164, 1: 0.088, 2: 0.181, 3: 0.15, 4: 0.416}
+attitude = {0: 0.167, 1: 0.082, 2: 0.184, 3: 0.139, 4: 0.429}
 PCA_PrEP = 0.30 * (
-    1 - 0.522
+    1 - 0.575
 )  # chance of attempting * chance of initiating oral or inj PrEP
 opinion_threshold = (
     3.0  # opinion needed to initiate PrEP on a 0-4 scale (translated from 1-5 scale)
 )
-pcaChoice = "eigenvector"  # eigenvector or bridge, how the PCA is selected
-awarenessProb = 0.05  # static probability of becoming spontaneously aware of PrEP
+pcaChoice = "bridge"  # eigenvector or bridge, how the PCA is selected
+awarenessProb = 0.055  # static probability of becoming spontaneously aware of PrEP
 starting_awareness = 0.00  # awareness of PrEP at t0
 knowledgeTransmission = (
-    0.005  # per-act probability of knowledge change in unaware partner
+    0.01  # per-act probability of knowledge change in unaware partner
 )
 opinionTransmission = (
-    0.01  # per-act probability of opinion change in less-prominent partner
+    0.005  # per-act probability of opinion change in less-prominent partner
 )
 interactionProb: Dict[str, Any] = {
     "sexOnly": {1: {}},
@@ -179,7 +180,7 @@ LAI_chance = 0.5
 PrEP_Target = (
     0.088  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 )
-PrEP_startT = -1  # Start date for PrEP program (0 for start of model)
+PrEP_startT = 0  # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82  # Probability of being adherent
 PrEP_AdhEffic = 0.96  # Efficacy of adherence PrEP
 PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP

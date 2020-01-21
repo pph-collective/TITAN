@@ -505,8 +505,6 @@ class HIVModel(NetworkClass):
                                 ag._PCA = -1
 
                         elif params.pcaChoice == "bridge":
-                            print("Choosing Agent")
-
                             all_bridges = list(
                                 nx.bridges(comp)
                             )  # get a list of bridges
@@ -527,12 +525,12 @@ class HIVModel(NetworkClass):
                                 chosen_agent._PCA = 1
                             elif all_bridges:
                                 chosen_bridge = random.choice(
-                                    all_bridges
+                                    list(all_bridges)
                                 )  # not true change agent, just mark component
-                                chosen_agent = random.choice(chosen_bridge)
+                                chosen_agent = random.choice(list(chosen_bridge))
                                 chosen_agent._PCA = -1  # make change agent
                             else:
-                                chosen_agent = random.choice(comp.nodes)
+                                chosen_agent = random.choice(list(comp.nodes))
                                 chosen_agent._PCA = -1
 
                         elif params.pcaChoice == "random":
@@ -542,7 +540,7 @@ class HIVModel(NetworkClass):
                                     chosen_agent = ag
                                     chosen_agent._PCA = 1
                                     self.aware_agentSet.add_agent(
-                                        chosen_agent
+                                        list(chosen_agent)
                                     )  # add to aware agents
                                     chosen_agent.awareness = True  # make aware
                                     self.PCA_agentSet.add_agent(
