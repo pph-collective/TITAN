@@ -1193,7 +1193,7 @@ class HIVModel(NetworkClass):
                         if partner._MSMW:
                             eligible = True
                             agent._PrEP_reason.append("MSMW")
-        elif "cdc_msm" in params.PrEP_target_model:
+        elif "cdc_msm" in params.PrEP_target_model:  # TODO make this clearer
             if agent._SO == "MSM":
                 for ptn in agent._relationships:
                     if ptn._ID1 == agent:
