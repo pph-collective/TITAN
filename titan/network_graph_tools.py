@@ -60,13 +60,13 @@ class NetworkClass(PopulationClass):
 
             def trimComponent(component, maxComponentSize):
                 for ag in component.nodes:
-                    # if random.random() < 0.1:
-                    for rel in ag._relationships:
-                        # print("Removed edge:",rel)
-                        rel.progress(forceKill=True)
-                        self.Relationships.remove(rel)
-                        component.remove_edge(rel._ID1, rel._ID2)
-                        self.G.remove_edge(rel._ID1, rel._ID2)
+                    if random.random() < 0.1:
+                        for rel in ag._relationships:
+                            # print("Removed edge:",rel)
+                            rel.progress(forceKill=True)
+                            self.Relationships.remove(rel)
+                            component.remove_edge(rel._ID1, rel._ID2)
+                            self.G.remove_edge(rel._ID1, rel._ID2)
 
                 comps = list(
                     self.G.subgraph(c).copy() for c in nx.connected_components(self.G)
@@ -85,7 +85,6 @@ class NetworkClass(PopulationClass):
                         totNods += cNodes
 
             self.G = nx.Graph()
-            self.Ginit = self.G
             for i in range(10):
                 self.update_partner_assignments(params.PARTNERTURNOVER, self.G)
             components = list(

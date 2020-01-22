@@ -132,7 +132,7 @@ PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
-PrEP_target_model = {"Racial"}
+PrEP_target_model = ("Racial")
 PrEP_init_var1 = 0.5
 PrEP_init_var2 = 0.05
 PrEP_clinic_cat = ""
@@ -262,7 +262,7 @@ RaceClass1["MSM"].update(
         "mNPart": 7.0,
         "NUMPartn": 7.0,
         "NUMSexActs": 5.0,
-        "UNSAFESEX": 0.6608,
+        "SAFESEX": 0.6608,
         "NEEDLESH": 0.43,
         "HIVTEST": 0.055,
         "INCAR": 0.00,  # 0.00014,

@@ -171,7 +171,7 @@ class Agent:
             eligibility : bool
         """
         eligible = False
-        if len(params.PrEP_target_model & {"Allcomers", "Racial"}) > 0:
+        if "Allcomers" or "Racial" in params.PrEP_target_model:
             eligible = True
         elif "CDCwomen" in params.PrEP_target_model:
             if self._SO == "HF":

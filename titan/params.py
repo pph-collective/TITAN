@@ -137,9 +137,9 @@ PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
-PrEP_target_model = {
+PrEP_target_model = (
     "CDCwomen"  # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
-}
+)
 PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it follow
 
 if "Oral" in PrEP_type:
@@ -528,9 +528,9 @@ opinionTransmission = (
     0.005  # per-act probability of opinion change in less-prominent partner
 )
 interactionProb: Dict[str, Any] = {
-    "sexOnly": {1: {}},
-    "multiplex": {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}},
-    "social": {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}},
+    "sexOnly": {},
+    "multiplex": {},
+    "social": {},
 }  # prob of interaction per timestep (or at relationship formation for sexual)
 interactionProb["sexOnly"][1] = {"pvalue": 1.00, "min": 0, "max": 0}
 

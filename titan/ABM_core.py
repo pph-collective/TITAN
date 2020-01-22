@@ -1147,7 +1147,7 @@ class HIVModel(NetworkClass):
         self, agent: Agent, time: int
     ) -> bool:  # REVIEWED should this be in agent? self not used - move to agent
         eligible = False
-        if len(params.PrEP_target_model & {"Allcomers", "Racial"}) > 0:
+        if "Allcomers" or "Racial" in params.PrEP_target_model:
             eligible = True
         elif "CDCwomen" in params.PrEP_target_model:
             if agent._SO == "HF":

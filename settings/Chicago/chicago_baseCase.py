@@ -187,9 +187,9 @@ PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
-PrEP_target_model = {
+PrEP_target_model = (
     "RandomTrial"  # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
-}
+)
 PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it follow
 
 if "Oral" in PrEP_type:

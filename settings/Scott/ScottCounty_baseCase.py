@@ -163,9 +163,9 @@ PrEP_resist = (
     0.01  # PrEP resistance probability  TODO: what exactly is this and how does it work
 )
 PrEP_disc = 0.15  # Probability of agent discontinuing PrEP in a given time step
-PrEP_target_model = {
+PrEP_target_model = (
     "Allcomers"  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR, Rec
-}
+)
 PrEP_clinic_cat = "Mid"
 # TODO the above get overwritten by the below?
 if PrEP_type == "Oral":
