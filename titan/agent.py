@@ -171,9 +171,12 @@ class Agent:
             eligibility : bool
         """
         eligible = False
-        if "Allcomers" or "Racial" in params.PrEP_target_model:
+        if (
+            "Allcomers" in params.PrEP_target_model
+            or "Racial" in params.PrEP_target_model
+        ):
             eligible = True
-        elif "CDCwomen" in params.PrEP_target_model:
+        elif params.PrEP_target_model == "CDCwomen":
             if self._SO == "HF":
                 for rel in set(self._relationships):
                     partner = rel.get_partner(self)

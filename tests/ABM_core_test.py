@@ -480,7 +480,7 @@ def test_initiate_PrEP_force_non_adh(make_model, make_agent):
 def test_initiate_PrEP_eligible(make_model, make_agent):
     model = make_model()
     a = make_agent(SO="HF")  # model is "CDCwomen"
-    p = make_agent(DU="IDU")
+    p = make_agent(SO="HM", DU="IDU")
     p._tested = True
     p._MSMW = True
     rel = Relationship(a, p, 10, rel_type="sexOnly")
