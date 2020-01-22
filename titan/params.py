@@ -498,7 +498,7 @@ clinicAgents["Mid"] = {
 
 
 """
-Network Params
+Bond Params
 """
 nonSex = 0.308
 multiplex = 0.105
