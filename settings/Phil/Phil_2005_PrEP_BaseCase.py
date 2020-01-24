@@ -221,6 +221,7 @@ RC_template = {
     "NEEDLESH": 0.0,  # Probability of sharing syringes during join drug use (per act)
     "HIVTEST": 0.0,  # Probability of testing for HIV
     "INCAR": 0.0,  # Probability of becoming incarcerated (rate)
+    "Recidivism": 0.0,  # Probability of agents with previous incarcerated becoming incarcerated
     "HAARTadh": 0.0,  # Adherence to ART therapy
     "HAARTdisc": 0.0,  # Probability of discontinuing ART therapy
     "PrEPdisc": 0.0,  # Probability of discontinuing PrEP treatment

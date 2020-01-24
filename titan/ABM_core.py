@@ -882,7 +882,14 @@ class HIVModel(NetworkClass):
         incar_t = agent._incar_time
         incar_bool = agent._incar_bool
         haart_bool = agent._HAART_bool
-        recidivism = params.inc_Recidivism
+        if agent._ever_incar_bool:
+            incarceration_probability = params.DemographicParams[agent._race][
+                agent._SO
+            ]["Recidivism"]
+        else:
+            incarceration_probability = params.DemographicParams[agent._race][
+                agent._SO
+            ]["INCAR"]
 
         if agent._incar_bool:
             agent._incar_time -= 1
@@ -930,11 +937,9 @@ class HIVModel(NetworkClass):
 
                             # END FORCE
 
-        elif (  # TODO: add recidivism
+        elif (
             self.runRandom.random()
-            < params.DemographicParams[agent._race][agent._SO]["INCAR"]
-            * (1 + (hiv_bool * 4))
-            * params.cal_IncarP
+            < incarceration_probability * (1 + (hiv_bool * 4)) * params.cal_IncarP
         ):
             # REVIEWED what about other sex types? -needs to be generalized - Sarah meeting with someone
             if agent._SO == "HF":

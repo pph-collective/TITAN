@@ -238,7 +238,7 @@ RC_template: Dict[str, Any] = {
     "NEEDLESH": 0.0,  # Probability of sharing syringes during join drug use (per act)
     "HIVTEST": 0.0,  # Probability of testing for HIV
     "INCAR": 0.0,  # Probability of becoming incarcerated (rate)
-    "HAARTprev": 0.0,
+    "Recidivism": 0.0,
     "HAARTadh": 0.0,  # Adherence to ART therapy
     "HAARTdisc": 0.0,  # Probability of discontinuing ART therapy
     "EligSE_PartnerType": "MSM",  # List of agent SO types the agent cant partner with
