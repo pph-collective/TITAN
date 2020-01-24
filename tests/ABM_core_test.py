@@ -170,6 +170,7 @@ def test_sex_transmission_do_nothing(make_model, make_agent):
     # test nothing happens
     model._sex_transmission(rel, 0)
 
+
 def test_pca_interaction(make_model, make_agent):
     model = make_model()
     a = make_agent()

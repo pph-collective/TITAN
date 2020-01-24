@@ -95,9 +95,7 @@ PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
-PrEP_target_model = {
-    "Clinical"  # Clinical, Allcomers, Racial
-}
+PrEP_target_model = {"Clinical"}  # Clinical, Allcomers, Racial
 PrEP_init_var1 = 0.05
 PrEP_init_var2 = 0.025
 PrEP_clinic_cat = "Racial"
