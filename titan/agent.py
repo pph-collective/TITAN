@@ -63,6 +63,7 @@ class Agent:
         self._HAART_adh = 0
         self._SNE_bool = False
         self._PrEP_bool = False
+        self._PrEP_ever_bool = False
         self._PrEP_time = 0
         self._PrEP_adh = 0
         self._treatment_bool = False
@@ -73,6 +74,10 @@ class Agent:
         self.vaccine_bool = False
         self.partnerTraced = False
         self.traceTime = 0
+        self.awareness = False
+        self.opinion = 0.0
+        self.PrEP_type = ""
+        self._PCA = 0
 
         # PrEP pharmacokinetics
         self._PrEP_load = 0.0
@@ -166,7 +171,10 @@ class Agent:
             eligibility : bool
         """
         eligible = False
-        if params.PrEP_target_model == "Allcomers":
+        if (
+            "Allcomers" in params.PrEP_target_model
+            or "Racial" in params.PrEP_target_model
+        ):
             eligible = True
         elif params.PrEP_target_model == "CDCwomen":
             if self._SO == "HF":
@@ -190,15 +198,6 @@ class Agent:
                     if rel._duration > 1:
                         if partner._tested or self._mean_num_partners > 1:
                             eligible = True
-        elif params.PrEP_target_model == "HighPN5":
-            if self._mean_num_partners >= 5:
-                eligible = True
-        elif params.PrEP_target_model == "HighPN10":
-            if self._mean_num_partners >= 10:
-                eligible = True
-        elif params.PrEP_target_model == "SRIns":
-            if self._sexualRole == "Insertive":
-                eligible = True
         elif params.PrEP_target_model == "MSM":
             if self._SO in ("MSM", "MTF"):
                 eligible = True
@@ -325,7 +324,7 @@ class Relationship:
     def update_id_counter(cls):
         cls.next_rel_id += 1
 
-    def __init__(self, ID1: Agent, ID2: Agent, duration: int):
+    def __init__(self, ID1: Agent, ID2: Agent, duration: int, rel_type: str):
         """
         :Purpose:
             Constructor for a Relationship
@@ -351,7 +350,9 @@ class Relationship:
 
         # Relationship properties
         self._duration = duration
+        self._total_duration = duration
         self._total_sex_acts = 0
+        self._rel_type = rel_type
 
         self.bond(ID1, ID2)
 

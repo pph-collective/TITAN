@@ -23,17 +23,20 @@ def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
     :Output:
         partner: new partner
     """
+
     agent_drug_type = agent._DU
     RandomPartner = None
 
-    if agent_drug_type == "IDU":
-        if random.random() < 0.8:
+    if agent_drug_type == "IDU":  # REVIEW: is this assort mixing IDU?
+        if random.random() < 0.8:  # TODO: bring this out to params/prob
             # choose from IDU agents
             RandomPartner = get_random_IDU_partner(agent, all_agent_set)
 
         # either didn't try to get IDU partner, or failed to get IDU partner
         if RandomPartner is None:
-            get_random_sex_partner(agent, all_agent_set)
+            get_random_sex_partner(
+                agent, all_agent_set
+            )  # REVIEW is there any reason for this to be 2 functions and not an if branch in a single function
     elif agent_drug_type in ("NDU", "NIDU"):
         if params.flag_AssortativeMix and (
             random.random()
@@ -97,6 +100,7 @@ def get_assort_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
         partner : Agent or None
 
     """
+
     RandomPartner = None
 
     assert agent._SO in params.agentSexTypes
@@ -104,8 +108,8 @@ def get_assort_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
     eligPartnerType = params.DemographicParams[agent._race][agent._SO][
         "EligSE_PartnerType"
     ]
-    eligible_partners = all_agent_set._subset["SO"]._subset[eligPartnerType]._members
 
+    eligible_partners = all_agent_set._subset["SO"]._subset[eligPartnerType]._members
     if params.AssortMixType == "Race":
         samplePop = [
             tmpA
@@ -131,7 +135,7 @@ def get_assort_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
                 )
             ]
 
-    elif params.AssortMixType == "HR":
+    elif params.AssortMixType == "high_risk":
         samplePop = [
             tmpA
             for tmpA in eligible_partners
@@ -173,7 +177,9 @@ def get_random_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
     if RandomPartner is not None:
         assert sex_possible(
             agent._SO, RandomPartner._SO
-        ), "Sex no possible between agents! ERROR 441"
+        ), "Sex no possible between agents! ERROR 441, {}, {}".format(
+            agent._SO, RandomPartner._SO
+        )
 
     return RandomPartner
 

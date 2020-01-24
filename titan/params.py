@@ -128,7 +128,7 @@ inc_treat_RIC = False  # Force retention in care of ART therapy
 # PrEP params
 PrEP_type = ["Oral", "Vaccine"]  # Oral/Inj PrEP and/or vaccine
 PrEP_Target = (
-    0.3  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
+    0.5  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 )
 PrEP_startT = 0  # Start date for PrEP program (0 for start of model)
 PrEP_Adherence = 0.82  # Probability of being adherent
@@ -137,9 +137,7 @@ PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
-PrEP_target_model = (
-    "CDCwomen"  # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
-)
+PrEP_target_model = "CDCwomen"
 PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it follow
 
 if "Oral" in PrEP_type:
@@ -166,7 +164,6 @@ Model Type for fast flag toggling
     flag_HR         High risk behavior for incar or genPop
     flag_ART        ART therapy enrollment
     flag_DandR      Die and replace functionality
-
 """
 
 ####################
@@ -176,7 +173,7 @@ Model Type for fast flag toggling
 if model == "PrEP":
     flag_incar = False
     flag_PrEP = True
-    flag_HR = False
+    flag_high_risk = False
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
@@ -184,7 +181,7 @@ if model == "PrEP":
 elif model == "Incar":
     flag_incar = True
     flag_PrEP = False
-    flag_HR = True
+    flag_high_risk = True
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
@@ -192,7 +189,7 @@ elif model == "Incar":
 elif model == "NoIncar":
     flag_incar = False
     flag_PrEP = False
-    flag_HR = False
+    flag_high_risk = False
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
@@ -200,7 +197,7 @@ elif model == "NoIncar":
 elif model == "VaccinePrEP":
     flag_incar = False
     flag_PrEP = True
-    flag_HR = False
+    flag_high_risk = False
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
@@ -208,11 +205,13 @@ elif model == "VaccinePrEP":
 elif model == "Custom":
     flag_incar = False
     flag_PrEP = True
-    flag_HR = False
+    flag_high_risk = False
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
     flag_booster = False
+    flag_PCA = False
+    init_with_vaccine = False
 
 agentSexTypes = ["HM", "HF", "MSM", "WSW", "MTF"]
 agentPopulations = deepcopy(agentSexTypes)
@@ -242,16 +241,16 @@ RC_template: Dict[str, Any] = {
     "HAARTprev": 0.0,
     "HAARTadh": 0.0,  # Adherence to ART therapy
     "HAARTdisc": 0.0,  # Probability of discontinuing ART therapy
-    "EligSE_PartnerType": [],  # List of agent SO types the agent cant partner with
+    "EligSE_PartnerType": "MSM",  # List of agent SO types the agent cant partner with
     "PrEPdisc": 0.0,  # Probability of discontinuing PrEP treatment
     "HighRiskPrev": 0.0,
-    "EligSE_PartnerType": [],
     "PrEPadh": 1.0,
     "PrEP_coverage": 0,
     "boosterInterval": 0,
     "boosterProb": 0,
     "vaccinePrev": 0,
     "vaccineInit": 0,
+    "HighRiskDuration": 10,
 }
 
 RaceClass1: Dict[str, Any] = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
@@ -342,6 +341,7 @@ RaceClass2["MSM"].update(
         "boosterProb": 1.0,
     }
 )
+RaceClass2["HM"].update({"EligSE_PartnerType": "HF"})
 
 RaceClass2["ALL"].update(
     {"Proportion": 0.389, "HAARTdisc": 0.018, "PrEPdisc": 0.0, "AssortMixCoeff": 0.765}
@@ -492,4 +492,69 @@ clinicAgents["Mid"] = {
     3: {"Prob": 0.168, "min": 3, "max": 4},
     4: {"Prob": 0.246, "min": 5, "max": 9},
     5: {"Prob": 0.471, "min": 10, "max": 120},
+}
+
+
+"""
+Bond Params
+"""
+bond_type_probs = {"social": 0.308, "multiplex": 0.105, "sexualOnly": 0.587}
+bond_type_probs_IDU = {"social": 0.308, "multiplex": 0.105, "sexualOnly": 0.587}
+bond_type = ["social"]
+mean_partner_type = "bins"
+
+"""
+Peer change params
+"""
+
+LAI_chance = 0
+attitude = {0: 0.167, 1: 0.082, 2: 0.184, 3: 0.139, 4: 0.429}
+PCA_PrEP = 0.30 * (
+    1 - 0.575
+)  # chance of attempting * chance of initiating oral or inj PrEP
+opinion_threshold = (
+    3.0  # opinion needed to initiate PrEP on a 0-4 scale (translated from 1-5 scale)
+)
+pcaChoice = "bridge"  # eigenvector or bridge, how the PCA is selected
+awarenessProb = 0.055  # static probability of becoming spontaneously aware of PrEP
+starting_awareness = 0.00  # awareness of PrEP at t0
+knowledgeTransmission = (
+    0.01  # per-act probability of knowledge change in unaware partner
+)
+opinionTransmission = (
+    0.005  # per-act probability of opinion change in less-prominent partner
+)
+interactionProb: Dict[str, Any] = {
+    "sexOnly": {},
+    "multiplex": {},
+    "social": {},
+}  # prob of interaction per timestep (or at relationship formation for sexual)
+interactionProb["sexOnly"][1] = {"pvalue": 1.00, "min": 0, "max": 0}
+
+
+interactionProb["multiplex"][1] = {"pvalue": 0.306, "min": 0, "max": 0}
+interactionProb["multiplex"][2] = {"pvalue": 0.144, "min": 1, "max": 1}
+interactionProb["multiplex"][3] = {"pvalue": 0.067, "min": 2, "max": 2}
+interactionProb["multiplex"][4] = {"pvalue": 0.106, "min": 4, "max": 4}
+interactionProb["multiplex"][5] = {"pvalue": 0.150, "min": 5, "max": 29}
+interactionProb["multiplex"][6] = {"pvalue": 0.228, "min": 30, "max": 30}
+
+interactionProb["social"][1] = {"pvalue": 0.253, "min": 0, "max": 0}
+interactionProb["social"][2] = {"pvalue": 0.123, "min": 1, "max": 1}
+interactionProb["social"][3] = {"pvalue": 0.060, "min": 2, "max": 2}
+interactionProb["social"][4] = {"pvalue": 0.140, "min": 4, "max": 4}
+interactionProb["social"][5] = {"pvalue": 0.168, "min": 5, "max": 29}
+interactionProb["social"][6] = {"pvalue": 0.256, "min": 30, "max": 30}
+
+partnerNumber: Dict[int, Any] = {
+    0: 0.083,
+    1: 0.181,
+    2: 0.229,
+    3: 0.172,
+    4: 0.112,
+    5: 0.102,
+    6: 0.071,
+    7: 0.028,
+    8: 0.019,
+    9: 0.005,
 }

@@ -131,7 +131,7 @@ def test_get_network_color():
 
     colors = net.get_network_color("SO")
     assert len(colors) == n_pop
-    assert "b" in colors  # pop includes HM
+    assert "r" in colors  # pop includes MSM
 
     colors = net.get_network_color("DU")
     assert len(colors) == n_pop

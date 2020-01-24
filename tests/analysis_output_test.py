@@ -38,7 +38,7 @@ def stats():
     a._PrEP_reason = ["IDU", "MSMW", "HIV test"]
 
     p = agent.Agent("MSM", 20, "BLACK", "IDU")
-    rel = agent.Relationship(a, p, 12)
+    rel = agent.Relationship(a, p, 12, rel_type="sexOnly")
 
     agent_set = agent.Agent_set("test")
     DU_set = agent.Agent_set("DU", agent_set)
@@ -83,7 +83,7 @@ def test_get_stats(stats):
     assert stats["ALL"]["MSM"]["newHR"] == 1
     assert stats["BLACK"]["MSM"]["newHR_HIV"] == 1
     assert stats["BLACK"]["MSM"]["newHR_AIDS"] == 1
-    assert stats["BLACK"]["MSM"]["newHR_Tested"] == 1
+    assert stats["BLACK"]["MSM"]["newHR_tested"] == 1
     assert stats["BLACK"]["MSM"]["newHR_ART"] == 1
     assert stats["BLACK"]["MSM"]["numHIV"] == 1
     assert stats["BLACK"]["MSM"]["numAIDS"] == 1
@@ -240,9 +240,8 @@ def test_print_components(stats, setup_results_dir):
     run_id = uuid.uuid4()
 
     net = NetworkClass(N=1)
-    components = sorted(
-        nx.connected_components(net.get_Graph()), key=len, reverse=True,
-    )
+    G = net.get_Graph()
+    components = list(G.subgraph(c).copy() for c in nx.connected_components(G))
 
     print_components(run_id, 0, 1, 2, 3, components)
 

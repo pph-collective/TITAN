@@ -136,7 +136,9 @@ class PopulationClass:
         self.DU_NDU_agentSet = Agent_set("NDU", parent=self.drugUse_agentSet)
 
         # Treatment agent sets
+        self.aware_agentSet = Agent_set("LAI aware", parent=self.All_agentSet)
         self.treatment_agentSet = Agent_set("Trtmt", parent=self.All_agentSet)
+        self.PCA_agentSet = Agent_set("PCA", parent=self.All_agentSet)
         self.Trt_Tstd_agentSet = Agent_set(
             "Testd", parent=self.treatment_agentSet, numerator=self.HIV_agentSet
         )
@@ -289,7 +291,6 @@ class PopulationClass:
             newAgent._HIV_time = self.popRandom.randint(1, 42)
 
         else:
-
             if params.flag_PrEP:
                 if params.PrEP_startT == -1:
                     prob_PrEP = params.PrEP_Target
@@ -299,6 +300,13 @@ class PopulationClass:
                 if self.popRandom.random() < prob_PrEP:
                     newAgent._PrEP_bool = True
                     newAgent._treatment_bool = True
+                    if (
+                        self.popRandom.random() > params.LAI_chance
+                        and "Inj" in params.PrEP_type
+                    ):
+                        newAgent.PrEP_type = "Inj"
+                    else:
+                        newAgent.PrEP_type = "Oral"
 
         # Check if agent is HR as baseline.
         if (
@@ -313,10 +321,35 @@ class PopulationClass:
             newAgent._mean_num_partners = prob.get_mean_num_partners(
                 DrugType, self.popRandom
             )
+        elif params.mean_partner_type == "bins":
+            assert (
+                sum(params.partnerNumber.values()) >= 1
+            ), "Bin probabilities must add up to 1!"
+            pn_prob = self.popRandom.random()
+            current_p_value = ptnBin = 0
+
+            while pn_prob > current_p_value:
+                current_p_value += params.partnerNumber[ptnBin]
+                ptnBin += 1
+            newAgent._mean_num_partners = ptnBin
         else:
             newAgent._mean_num_partners = poisson.rvs(
                 params.DemographicParams[Race][SexType]["NUMPartn"], size=1
             )
+
+        if params.flag_PCA:
+            if self.popRandom.random() < params.starting_awareness:
+                newAgent.awareness = True
+            attprob = self.popRandom.random()
+            pvalue = 0.0
+            for k, v in params.attitude.items():
+                pvalue += v
+                if attprob < pvalue:
+                    newAgent.opinion = v
+                    break
+            assert newAgent.opinion in range(
+                5
+            ), "Agents opinion of injectible PrEP is out of bounds"  # TODO: move to testing
 
         return newAgent
 
@@ -358,6 +391,12 @@ class PopulationClass:
                 addToSubsets(self.HIV_AIDS_agentSet, agent)
 
         # Add to correct treatment set
+
+        if agent.awareness:
+            addToSubsets(self.aware_agentSet, agent)
+
+        if agent._PrEP_bool:
+            addToSubsets(self.Trt_PrEP_agentSet, agent)
         if agent._treatment_bool:
             addToSubsets(self.treatment_agentSet, agent)
             if agent._HAART_bool:
@@ -429,16 +468,39 @@ class PopulationClass:
     def update_agent_partners(self, graph, agent: Agent) -> bool:
         partner = get_partner(agent, self.All_agentSet)
         noMatch = False
+        rel_type = ""
+        bond_type = "sexOnly"
+
+        def bondtype(bond_dict):
+            pvalue = 0.0
+            bond_probability = self.popRandom.random()
+            bonded_type = "sexualOnly"
+            for reltype, p in bond_dict.items():
+                pvalue += p
+                if bond_probability < pvalue:
+                    bonded_type = reltype
+                    break
+            return bonded_type
 
         if partner:
             duration = get_partnership_duration(agent)
-            rel = Relationship(agent, partner, duration)
-            self.Relationships.append(rel)
-            graph.add_edge(rel._ID1, rel._ID2)
+            if params.bond_type:
+                if agent._DU == "IDU" and partner._DU == "IDU":
+                    bond_type = bondtype(params.bond_type_probs_IDU)
+                else:
+                    bond_type = bondtype(params.bond_type_probs)
+
+            tmp_relationship = Relationship(
+                agent, partner, duration, rel_type=bond_type
+            )
+
+            self.Relationships.append(tmp_relationship)
+            graph.add_edge(
+                tmp_relationship._ID1, tmp_relationship._ID2, relationship=rel_type
+            )
         else:
             graph.add_node(agent)
             noMatch = True
-
         return noMatch
 
     def update_partner_assignments(self, partnerTurnover: float, graph):

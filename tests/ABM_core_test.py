@@ -77,39 +77,41 @@ def test_agents_interact(make_model, make_agent):
     model = make_model()
     a = make_agent(race="WHITE", SO="HM")
     p = make_agent(race="WHITE", SO="HF")
-    rel = Relationship(a, p, 10)
+    rel = Relationship(a, p, 10, rel_type="sexOnly")
 
     a._incar_bool = True
-    assert model._agents_interact(rel) is False
+    assert model._agents_interact(time=0, rel=rel) is False
 
     a._incar_bool = False
-    assert model._agents_interact(rel) is False  # neither HIV
+    assert model._agents_interact(0, rel) is False  # neither HIV
 
     a._HIV_bool = True
     p._HIV_bool = True
-    assert model._agents_interact(rel) is False  # both HIV
+    assert model._agents_interact(0, rel) is False  # both HIV
 
     p._HIV_bool = False
 
-    assert model._agents_interact(rel)  # sex transmssion
+    assert model._agents_interact(0, rel)  # sex transmssion
     assert p._HIV_bool is False  # but nothing happened (see skipped test)
 
     a._DU = "IDU"
     p._DU = "IDU"
 
     a._incar_treatment_time = 1
-    assert model._agents_interact(rel) is False  # short circuit due to incar treatment
+    assert (
+        model._agents_interact(0, rel) is False
+    )  # short circuit due to incar treatment
 
     a._incar_treatment_time = 0
     model.runRandom = FakeRandom(-0.1)
 
-    assert model._agents_interact(rel)  # needle transmission
+    assert model._agents_interact(0, rel)  # needle transmission
     assert p._HIV_bool
 
     p._HIV_bool = False
     model.runRandom = FakeRandom(1.1)
 
-    assert model._agents_interact(rel)  # needle and sex
+    assert model._agents_interact(0, rel)  # needle and sex
     assert p._HIV_bool is False  # but nothing happened
 
 
@@ -119,14 +121,14 @@ def test_needle_transmission(make_model, make_agent):
     p = make_agent(race="WHITE", DU="IDU", SO="HF")
 
     with pytest.raises(AssertionError):
-        model._needle_transmission(a, p)
+        model._needle_transmission(a, p, time=0)
 
     a._HIV_bool = True
     a._HIV_time = 1  # acute
 
     model.runRandom = FakeRandom(-0.1)
 
-    model._needle_transmission(a, p)
+    model._needle_transmission(a, p, time=0)
 
     assert p._HIV_bool
 
@@ -138,7 +140,7 @@ def test_sex_transmission(make_model, make_agent):
     model = make_model()
     a = make_agent()
     p = make_agent()
-    rel = Relationship(a, p, 10)
+    rel = Relationship(a, p, 10, rel_type="sexOnly")
 
     a._HIV_bool = True
     a._HIV_time = 1  # acute
@@ -157,16 +159,36 @@ def test_sex_transmission_do_nothing(make_model, make_agent):
     model = make_model()
     a = make_agent()
     p = make_agent()
-    rel = Relationship(a, p, 10)
+    rel = Relationship(a, p, 10, rel_type="sexOnly")
 
     with pytest.raises(ValueError):
-        model._sex_transmission(rel)
+        model._sex_transmission(rel, 0)
 
     a._HIV_bool = True
     p._HIV_bool = True
 
     # test nothing happens
-    model._sex_transmission(rel)
+    model._sex_transmission(rel, 0)
+
+
+def test_pca_interaction(make_model, make_agent):
+    model = make_model()
+    a = make_agent()
+    p = make_agent()
+    a.opinion = 4
+    p.opinion = 2
+    a.awareness = True
+    model.G.add_edge(a, p)
+    model.G.add_edge(a, "edge")
+
+    rel = Relationship(a, p, 10, rel_type="multiplex")
+    model._pca_interaction(rel, 5, force=True)
+
+    assert p.awareness
+
+    model._pca_interaction(rel, 6, force=True)
+
+    assert p.opinion == 3
 
 
 def test_become_HIV(make_model, make_agent):
@@ -177,7 +199,7 @@ def test_become_HIV(make_model, make_agent):
 
     model.runRandom = FakeRandom(-0.1)
 
-    model._become_HIV(a)
+    model._become_HIV(a, 0)
 
     assert a._HIV_bool
     assert a._HIV_time == 1
@@ -209,7 +231,7 @@ def test_becomeHighRisk(make_model, make_agent):
     model = make_model()
     a = make_agent()
 
-    model._becomeHighRisk(a, 10)
+    model._become_high_risk(a, 10)
 
     assert a in model.highrisk_agentsSet._members
     assert a in model.NewHRrolls._members
@@ -243,7 +265,7 @@ def test_incarcerate_not_tested(make_model, make_agent):
     a._HIV_bool = True
 
     p = make_agent(SO="HF")
-    rel = Relationship(a, p, 10)
+    rel = Relationship(a, p, 10, rel_type="sexOnly")
 
     model.runRandom = FakeRandom(0.0000001)  # always less than params
 
@@ -465,7 +487,7 @@ def test_initiate_PrEP_force_non_adh(make_model, make_agent):
     a = make_agent()
     # forcing, non-adherant, inj
     model.runRandom = FakeRandom(1.0)
-    model._initiate_PrEP(a, 0, True)
+    model._initiate_PrEP(a, 0, force=True)
     assert a._PrEP_bool
     assert a._PrEP_time == 0
     assert a in model.Trt_PrEP_agentSet._members
@@ -478,13 +500,14 @@ def test_initiate_PrEP_force_non_adh(make_model, make_agent):
 def test_initiate_PrEP_eligible(make_model, make_agent):
     model = make_model()
     a = make_agent(SO="HF")  # model is "CDCwomen"
-    p = make_agent(DU="IDU")
+    p = make_agent(SO="HM", DU="IDU")
     p._tested = True
     p._MSMW = True
-    rel = Relationship(a, p, 10)
+    rel = Relationship(a, p, 10, rel_type="sexOnly")
     # non-forcing, adherant, inj
     model.runRandom = FakeRandom(0.00001)
     model._initiate_PrEP(a, 0)
+    assert a.PrEP_eligible()
     assert a._PrEP_bool
     assert a._PrEP_time == 0
     assert a in model.Trt_PrEP_agentSet._members
