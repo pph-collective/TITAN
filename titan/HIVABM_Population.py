@@ -475,7 +475,7 @@ class PopulationClass:
             pvalue = 0.0
             bond_probability = self.popRandom.random()
             bonded_type = "sexualOnly"
-            for reltype, p in params.bond_type_probs.items():
+            for reltype, p in bond_dict.items():
                 pvalue += p
                 if bond_probability < pvalue:
                     bonded_type = reltype
@@ -491,7 +491,7 @@ class PopulationClass:
                     bond_type = bondtype(params.bond_type_probs)
 
             tmp_relationship = Relationship(
-                agent, partner, duration, rel_type="sexOnly"
+                agent, partner, duration, rel_type=bond_type
             )
 
             self.Relationships.append(tmp_relationship)
