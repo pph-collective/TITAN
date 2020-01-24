@@ -498,8 +498,8 @@ clinicAgents["Mid"] = {
 """
 Bond Params
 """
-bond_type_probs = {"nonSex": 0.308, "multiplex": 0.105, "sexualOnly": 0.587}
-bond_type_probs_IDU = {"nonSex": 0.308, "multiplex": 0.105, "sexualOnly": 0.587}
+bond_type_probs = {"social": 0.308, "multiplex": 0.105, "sexualOnly": 0.587}
+bond_type_probs_IDU = {"social": 0.308, "multiplex": 0.105, "sexualOnly": 0.587}
 bond_type = ["social"]
 mean_partner_type = "bins"
 

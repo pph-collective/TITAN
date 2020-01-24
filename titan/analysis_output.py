@@ -55,9 +55,9 @@ def get_stats(
         "msmwPartPrep": 0,
         "testedPartPrep": 0,
         "Vaccinated": 0,
-        "LAIagents": 0,
-        "oralAgents": 0,
-        "awareAgents": 0,
+        "injectable_prep": 0,
+        "oral_prep": 0,
+        "prep_aware": 0,
     }
 
     stats = {}
@@ -94,12 +94,12 @@ def get_stats(
             if "HIV test" in tmpA._PrEP_reason:
                 stats[tmpA._race][tmpA._SO]["testedPartPrep"] += 1
             if tmpA.PrEP_type == "Inj":
-                stats[tmpA._race][tmpA._SO]["LAIagents"] += 1
+                stats[tmpA._race][tmpA._SO]["LA"] += 1
             elif tmpA.PrEP_type == "Oral":
                 stats[tmpA._race][tmpA._SO]["Oral"] += 1
 
         if tmpA.awareness:
-            stats[tmpA._race][tmpA._SO]["awareAgents"] += 1
+            stats[tmpA._race][tmpA._SO]["prep_aware"] += 1
 
     # Newly PrEP tracker statistics
     for tmpA in newPrEPAgents.iter_agents():
@@ -359,9 +359,9 @@ def basicReport(
                         stats[agentRace][agentTypes]["msmwPartPrep"],
                         stats[agentRace][agentTypes]["testedPartPrep"],
                         stats[agentRace][agentTypes]["Vaccinated"],
-                        stats[agentRace][agentTypes]["LAIagents"],
-                        stats[agentRace][agentTypes]["oralAgents"],
-                        stats[agentRace][agentTypes]["awareAgents"],
+                        stats[agentRace][agentTypes]["injectable_prep"],
+                        stats[agentRace][agentTypes]["oral_prep"],
+                        stats[agentRace][agentTypes]["prep_aware"],
                     )
                 )
             )
@@ -387,7 +387,11 @@ def print_components(
 
     compID = 0
     for comp in components:
-        totN = nhiv = ntrthiv = nprep = PrEP_ever_HIV = trtbool = LAI = oral = aware = 0
+        totN = (
+            nhiv
+        ) = (
+            ntrthiv
+        ) = nprep = PrEP_ever_HIV = trtbool = injectable_prep = oral = aware = 0
         for agent in comp.nodes():
             totN += 1
             if agent._HIV_bool:
@@ -397,7 +401,7 @@ def print_components(
             if agent._PrEP_bool:
                 nprep += 1
                 if agent.PrEP_type == "Inj":
-                    LAI += 1
+                    injectable_prep += 1
                 elif agent.PrEP_type == "Oral":
                     oral += 1
             trtbool += agent._PCA
@@ -420,7 +424,7 @@ def print_components(
                 NprepHIV=PrEP_ever_HIV,
                 trtbool=trtbool,
                 Oral=oral,
-                LAI=LAI,
+                LAI=injectable_prep,
                 aware=aware,
             )
         )
