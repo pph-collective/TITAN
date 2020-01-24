@@ -135,7 +135,7 @@ PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01  # Probability of PrEP resistance developing
 PrEP_disc = 0.15  # Per month probability of PrEP discontinuation
 PrEP_target_model = (
-    # Allcomers, Clinical, Allcomers
+    ""  # Allcomers, Clinical, Allcomers
 )
 PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it follow
 
