@@ -324,7 +324,7 @@ class PopulationClass:
         elif params.mean_partner_type == "bins":
             assert (
                 sum(params.partnerNumber.values()) >= 1
-            ), "Probability of partner number less than one"
+            ), "Bin probabilities must add up to 1!"
             pn_prob = self.popRandom.random()
             current_p_value = ptnBin = 0
 
@@ -342,14 +342,14 @@ class PopulationClass:
                 newAgent.awareness = True
             attprob = self.popRandom.random()
             pvalue = 0.0
-            for key in params.attitude:
-                pvalue += params.attitude[key]
+            for k, v in params.attitude.items():
+                pvalue += v
                 if attprob < pvalue:
-                    newAgent.opinion = key
+                    newAgent.opinion = v
                     break
             assert newAgent.opinion in range(
                 5
-            ), "No opinion of LAI-PrEP"  # TODO: move to testing
+            ), "Agents opinion of injectible PrEP is out of bounds"  # TODO: move to testing
 
         return newAgent
 
@@ -469,45 +469,30 @@ class PopulationClass:
         partner = get_partner(agent, self.All_agentSet)
         noMatch = False
         rel_type = ""
+        bond_type = "sexOnly"
 
-        if partner:  # TODO add these to params
+        def bondtype(bond_dict):
+            pvalue = 0.0
+            bond_probability = self.popRandom.random()
+            bonded_type = "sexualOnly"
+            for reltype, p in params.bond_type_probs.items():
+                pvalue += p
+                if bond_probability < pvalue:
+                    bonded_type = reltype
+                    break
+            return bonded_type
+
+        if partner:
             duration = get_partnership_duration(agent)
-            rTypeProb = self.popRandom.random()
-
             if params.bond_type:
-                if agent._DU == "IDU" and "injection" in params.bond_type:
-                    if rTypeProb < params.nonSex:
-                        tmp_relationship = Relationship(
-                            agent, partner, duration, rel_type="injection"
-                        )
-                    elif rTypeProb < params.multiplex + params.nonSex:
-                        tmp_relationship = Relationship(
-                            agent, partner, duration, rel_type="multiplex"
-                        )
-                    else:
-                        tmp_relationship = Relationship(
-                            agent, partner, duration, rel_type="sexOnly"
-                        )
-                elif "social" in params.bond_type:
-                    if rTypeProb < params.nonSex:
-                        rel_type = "social"
-                        tmp_relationship = Relationship(
-                            agent, partner, duration, rel_type="social"
-                        )
-                    elif rTypeProb < (params.multiplex + params.nonSex):
-                        rel_type = "multiplex"
-                        tmp_relationship = Relationship(
-                            agent, partner, duration, rel_type="multiplex"
-                        )
-                    else:
-                        rel_type = "sexOnly"
-                        tmp_relationship = Relationship(
-                            agent, partner, duration, rel_type="sexOnly"
-                        )
-            else:
-                tmp_relationship = Relationship(
-                    agent, partner, duration, rel_type="sexOnly"
-                )
+                if agent._DU == "IDU" and partner._DU == "IDU":
+                    bond_type = bondtype(params.bond_type_probs_IDU)
+                else:
+                    bond_type = bondtype(params.bond_type_probs)
+
+            tmp_relationship = Relationship(
+                agent, partner, duration, rel_type="sexOnly"
+            )
 
             self.Relationships.append(tmp_relationship)
             graph.add_edge(
@@ -516,7 +501,6 @@ class PopulationClass:
         else:
             graph.add_node(agent)
             noMatch = True
-
         return noMatch
 
     def update_partner_assignments(self, partnerTurnover: float, graph):
