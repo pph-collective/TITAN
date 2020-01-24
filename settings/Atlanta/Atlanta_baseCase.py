@@ -145,7 +145,7 @@ PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
 PrEP_target_model = (
-    "Racial"  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,CDC,Racial
+    "Racial"  # Clinical, Allcomers
 )
 PrEP_init_var1 = 0.05
 PrEP_init_var2 = 0.025

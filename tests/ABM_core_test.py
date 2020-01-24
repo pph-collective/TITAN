@@ -140,7 +140,7 @@ def test_sex_transmission(make_model, make_agent):
     model = make_model()
     a = make_agent()
     p = make_agent()
-    rel = Relationship(a, p, 10)
+    rel = Relationship(a, p, 10, rel_type="sexOnly")
 
     a._HIV_bool = True
     a._HIV_time = 1  # acute
@@ -169,6 +169,25 @@ def test_sex_transmission_do_nothing(make_model, make_agent):
 
     # test nothing happens
     model._sex_transmission(rel, 0)
+
+def test_pca_interaction(make_model, make_agent):
+    model = make_model()
+    a = make_agent()
+    p = make_agent()
+    a.opinion = 4
+    p.opinion = 2
+    a.awareness = True
+    model.G.add_edge(a, p)
+    model.G.add_edge(a, "edge")
+
+    rel = Relationship(a, p, 10, rel_type="multiplex")
+    model._pca_interaction(rel, 5, force=True)
+
+    assert p.awareness
+
+    model._pca_interaction(rel, 6, force=True)
+
+    assert p.opinion == 3
 
 
 def test_become_HIV(make_model, make_agent):

@@ -585,7 +585,7 @@ class HIVModel(NetworkClass):
             raise ValueError("Agents must be either IDU, NIDU, or ND")
         return True
 
-    def _pca_interaction(self, relationship: Relationship, time):
+    def _pca_interaction(self, relationship: Relationship, time, force=False):
         """
         :Purpose:
             Simulate peer change agent interactions
@@ -657,15 +657,15 @@ class HIVModel(NetworkClass):
             return
 
         if relationship._ID1.awareness and not relationship._ID2.awareness:
-            if self.runRandom.random() < transmission_probability():
+            if self.runRandom.random() < transmission_probability() or force:
                 partner = relationship._ID2
                 knowledge_dissemination(partner)
         elif not relationship._ID1.awareness and relationship._ID2.awareness:
-            if self.runRandom.random() < transmission_probability():
+            if self.runRandom.random() < transmission_probability() or force:
                 partner = relationship._ID2
                 knowledge_dissemination(partner)
-        elif relationship._ID1.awareness and relationship._ID2.awareness:
-            if self.runRandom.random() < transmission_probability():
+        elif relationship._ID1.awareness and relationship._ID2.awareness or force:
+            if self.runRandom.random() < transmission_probability() or force:
                 influence(relationship._ID1, relationship._ID2)
 
     def _needle_transmission(self, agent: Agent, partner: Agent, time: int):
@@ -882,7 +882,7 @@ class HIVModel(NetworkClass):
         incar_t = agent._incar_time
         incar_bool = agent._incar_bool
         haart_bool = agent._HAART_bool
-        recidivism = 1.0
+        recidivism = params.inc_Recidivism
 
         if agent._incar_bool:
             agent._incar_time -= 1
@@ -1134,14 +1134,6 @@ class HIVModel(NetworkClass):
                         if partner._tested or agent._mean_num_partners > 1:
                             eligible = True
                             break
-        elif params.PrEP_target_model == "HighPN5":
-            if agent._mean_num_partners >= 5:
-                eligible = True
-        elif (
-            params.PrEP_target_model == "HighPN10"
-        ):  # REVIEW is this used? if so, update to if x in y
-            if agent._mean_num_partners >= 10:
-                eligible = True
         elif params.PrEP_target_model == "MSM":
             if agent._SO == ("MSM" or "MTF"):
                 eligible = True

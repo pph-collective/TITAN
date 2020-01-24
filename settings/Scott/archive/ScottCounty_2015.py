@@ -112,7 +112,7 @@ PrEP_resist = 0.01
 PrEP_disc = 0.15
 PrEP_target_model = {
     "Allcomers"
-}  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec
+}  # Clinical, Allcomers
 PrEP_clinic_cat = "Mid"
 
 if PrEP_type == "Oral":

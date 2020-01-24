@@ -164,7 +164,7 @@ PrEP_resist = (
 )
 PrEP_disc = 0.15  # Probability of agent discontinuing PrEP in a given time step
 PrEP_target_model = (
-    "Allcomers"  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR, Rec
+    "Allcomers"  # Clinical, Allcomers
 )
 PrEP_clinic_cat = "Mid"
 # TODO the above get overwritten by the below?

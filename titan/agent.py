@@ -198,15 +198,6 @@ class Agent:
                     if rel._duration > 1:
                         if partner._tested or self._mean_num_partners > 1:
                             eligible = True
-        elif params.PrEP_target_model == "HighPN5":
-            if self._mean_num_partners >= 5:
-                eligible = True
-        elif params.PrEP_target_model == "HighPN10":
-            if self._mean_num_partners >= 10:
-                eligible = True
-        elif params.PrEP_target_model == "SRIns":
-            if self._sexualRole == "Insertive":
-                eligible = True
         elif params.PrEP_target_model == "MSM":
             if self._SO in ("MSM", "MTF"):
                 eligible = True
