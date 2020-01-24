@@ -94,9 +94,9 @@ def get_stats(
             if "HIV test" in tmpA._PrEP_reason:
                 stats[tmpA._race][tmpA._SO]["testedPartPrep"] += 1
             if tmpA.PrEP_type == "Inj":
-                stats[tmpA._race][tmpA._SO]["LA"] += 1
+                stats[tmpA._race][tmpA._SO]["injectable_prep"] += 1
             elif tmpA.PrEP_type == "Oral":
-                stats[tmpA._race][tmpA._SO]["Oral"] += 1
+                stats[tmpA._race][tmpA._SO]["oral_prep"] += 1
 
         if tmpA.awareness:
             stats[tmpA._race][tmpA._SO]["prep_aware"] += 1
