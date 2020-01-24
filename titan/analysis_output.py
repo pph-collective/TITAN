@@ -402,13 +402,12 @@ def print_components(
                 nhiv += 1
                 if agent._treatment_bool:
                     ntrthiv += 1
-            elif agent._treatment_bool:
-                if agent._PrEP_bool:
-                    nprep += 1
-                    if agent.PrEP_type == "LAI":
-                        LAI += 1
-                    elif agent.PrEP_type == "Oral":
-                        oral += 1
+            if agent._PrEP_bool:
+                nprep += 1
+                if agent.PrEP_type == "LAI":
+                    LAI += 1
+                elif agent.PrEP_type == "Oral":
+                    oral += 1
             trtbool += agent._PCA
             if agent.awareness:
                 aware += 1
