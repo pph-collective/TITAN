@@ -63,7 +63,7 @@ cal_ptnrSampleDepth = 100
 cal_Vaccine = 0  # determines vaccine initiation during run
 
 """
-Network Params
+Bond Params
 """
 bond_type = []
 mean_partner_type = "mean"

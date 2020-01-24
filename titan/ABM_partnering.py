@@ -33,7 +33,7 @@ def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
             RandomPartner = get_random_IDU_partner(agent, all_agent_set)
 
         # either didn't try to get IDU partner, or failed to get IDU partner
-        if RandomPartner is None:  # TODO: flag rship type
+        if RandomPartner is None:
             get_random_sex_partner(
                 agent, all_agent_set
             )  # REVIEW is there any reason for this to be 2 functions and not an if branch in a single function

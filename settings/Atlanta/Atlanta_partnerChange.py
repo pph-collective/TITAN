@@ -70,7 +70,7 @@ cal_ptnrSampleDepth = 100
 cal_Vaccine = 1.0
 
 """
-Network Params
+Bond Params
 """
 nonSex = 0.5
 multiplex = 0.2

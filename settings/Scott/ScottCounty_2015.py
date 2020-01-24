@@ -62,7 +62,7 @@ cal_raceXmission = 1.0
 cal_ptnrSampleDepth = 100
 
 """
-Network Params
+Bond Params
 """
 bond_type = []
 mean_partner_type = "mean"

@@ -73,7 +73,7 @@ cal_raceXmission = (
 cal_ptnrSampleDepth = 100  # Sampling depth for partnering algorithm.
 
 """
-Network Params
+Bond Params
 """
 bond_type_probs = {"nonSex": 0.308, "multiplex": 0.105, "sexualOnly": 0.587}
 bond_type_probs_IDU = {"nonSex": 0.308, "multiplex": 0.105, "sexualOnly": 0.587}

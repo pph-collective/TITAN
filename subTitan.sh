@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Read in source code path, then shift for optargs
-version="0.1.0"
+version="0.1.1"
 titanPath="/gpfs/data/bm8/TITAN/TITAN/"
 settingPath="$1"
 shift

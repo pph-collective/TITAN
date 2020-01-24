@@ -107,10 +107,8 @@ class HIVModel(NetworkClass):
         # Other lists / dictionaries
         self.NewInfections = Agent_set("NewInfections")
         self.NewDiagnosis = Agent_set("NewDiagnosis")
-        self.NewIncarRelease = Agent_set(
-            "NewIncarRelease"
-        )  # REVIEW: ask wgoedel if this is needed (doesn't print)
-        self.NewHRrolls = Agent_set("NewHRrolls")  # REVIEW: ditto above
+        self.NewIncarRelease = Agent_set("NewIncarRelease")
+        self.NewHRrolls = Agent_set("NewHRrolls")
 
         self.totalDiagnosis = 0
         self.treatmentEnrolled = False
@@ -398,8 +396,6 @@ class HIVModel(NetworkClass):
                     if time >= params.PrEP_startT:
                         if agent._PrEP_bool:
                             self._discont_PrEP(agent)
-                        elif params.PrEP_target_model == "Clinical":
-                            pass
                         elif params.PrEP_target_model == "RandomTrial":
                             pass
                         elif agent.PrEP_eligible() and not agent._PrEP_bool:
@@ -409,44 +405,7 @@ class HIVModel(NetworkClass):
                             agent, time, vaxType=params.vaccine_type, burn=burn
                         )
         if params.flag_PrEP and time >= params.PrEP_startT:
-            if params.PrEP_target_model == "Clinical":  # REVIEW is this used?
-                if time > params.PrEP_startT:
-                    numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
-                    target_PrEP = int(
-                        (
-                            self.All_agentSet.num_members()
-                            - self.All_agentSet._subset["HIV"].num_members()
-                        )
-                        * params.PrEP_Target
-                    )
-                    eligiblePool = [
-                        ag
-                        for ag in self.All_agentSet._subset["SO"]
-                        ._subset["MSM"]
-                        ._members
-                        if (ag._PrEP_bool is False and ag._HIV_bool is False)
-                    ]
-
-                    while numPrEP_agents < target_PrEP:
-                        numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
-                        target_PrEP = int(
-                            (
-                                self.All_agentSet.num_members()
-                                - self.All_agentSet._subset["HIV"].num_members()
-                            )
-                            * params.PrEP_Target
-                        )
-                        selectedAgent = self._get_clinic_agent(
-                            params.PrEP_clinic_cat, eligiblePool
-                        )
-                        if selectedAgent is not None:
-                            eligiblePool.remove(
-                                selectedAgent
-                            )  # shouldn't be selected again
-                            self._initiate_PrEP(selectedAgent, time)
-            elif (
-                "RandomTrial" in params.PrEP_target_model and time == params.PrEP_startT
-            ):
+            if "RandomTrial" in params.PrEP_target_model and time == params.PrEP_startT:
                 components = list(
                     self.G.subgraph(c).copy()
                     for c in nx.connected_components(self.G)
@@ -1374,13 +1333,7 @@ class HIVModel(NetworkClass):
             else:
                 numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
 
-            if params.PrEP_target_model == "Clinical":
-                target_PrEP_population = (
-                    self.All_agentSet.num_members() - self.HIV_agentSet.num_members()
-                )
-                target_PrEP = target_PrEP_population * params.PrEP_Target
-
-            elif (
+            if (
                 params.PrEP_target_model == "Incar"
                 or params.PrEP_target_model == "IncarHR"
             ):

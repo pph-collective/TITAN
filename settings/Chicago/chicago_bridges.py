@@ -72,7 +72,7 @@ cal_raceXmission = (
 cal_ptnrSampleDepth = 100  # Sampling depth for partnering algorithm.
 
 """
-Network Params
+Bond Params
 """
 nonSex = 0.308
 multiplex = 0.105

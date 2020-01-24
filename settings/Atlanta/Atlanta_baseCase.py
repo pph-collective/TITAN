@@ -72,7 +72,7 @@ cal_ptnrSampleDepth = 100
 cal_Vaccine = 0
 
 """
-Network Params
+Bond Params
 """
 bond_type = []
 mean_partner_type = "mean"

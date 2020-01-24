@@ -71,7 +71,7 @@ cal_raceXmission = (
 cal_ptnrSampleDepth = 100  # Sampling depth for partnering algorithm.
 
 """
-Network Params
+Bond Params
 """
 mean_partner_type = "mean"
 bond_type = []
