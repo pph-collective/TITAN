@@ -259,8 +259,6 @@ class HIVModel(NetworkClass):
                 self.NewHRrolls,
                 self.NewIncarRelease,
                 self.deathSet,
-                self.LAI_agentSet,
-                self.oralPrEP_agentSet,
             )
             print_stats(stats[t], run_id)
 
@@ -1250,6 +1248,7 @@ class HIVModel(NetworkClass):
 
                 if "Oral" in params.PrEP_type:
                     agent._PrEP_bool = False
+                    agent.PrEP_type = ""
                     agent._PrEP_reason = []
             else:  # if not discontinue, see if its time for a new shot. # REVIEWED what is this logic doing? This decrements, then update_PrEP_load increments - sarah to review with max
                 if agent._PrEP_lastDose > 2:
@@ -1353,10 +1352,8 @@ class HIVModel(NetworkClass):
                 agent._PrEP_lastDose = 0
                 # TODO: make this work for vaccines, all prep types
                 if self.runRandom.random() < params.LAI_chance:
-                    self.LAI_agentSet.add_agent(agent)
-                    agent.PrEP_type = "LAI"
+                    agent.PrEP_type = "Inj"
                 else:
-                    self.oralPrEP_agentSet.add_agent(agent)
                     agent.PrEP_type = "Oral"
 
         # agent must exist

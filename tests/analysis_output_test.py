@@ -58,8 +58,6 @@ def stats():
         agent_set,
         agent_set,
         agent_list,
-        agent_set,
-        agent_set,
     )
     return stats
 

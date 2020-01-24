@@ -25,8 +25,6 @@ def get_stats(
     newHR: Agent_set,
     newIncarRelease: Agent_set,
     deathSet: List[Agent],
-    LAIagents: Agent_set,
-    oralAgents: Agent_set,
 ):
 
     stats_template = {
@@ -95,6 +93,11 @@ def get_stats(
                 stats[tmpA._race][tmpA._SO]["msmwPartPrep"] += 1
             if "HIV test" in tmpA._PrEP_reason:
                 stats[tmpA._race][tmpA._SO]["testedPartPrep"] += 1
+            if tmpA.PrEP_type == "Inj":
+                stats[tmpA._race][tmpA._SO]["LAIagents"] += 1
+            elif tmpA.PrEP_type == "Oral":
+                stats[tmpA._race][tmpA._SO]["Oral"] += 1
+
         if tmpA.awareness:
             stats[tmpA._race][tmpA._SO]["awareAgents"] += 1
 
@@ -150,16 +153,6 @@ def get_stats(
         stats[tmpA._race][tmpA._SO]["deaths"] += 1
         if tmpA._HIV_bool:
             stats[tmpA._race][tmpA._SO]["deaths_HIV"] += 1
-
-    for (
-        tmpA
-    ) in (
-        LAIagents.iter_agents()
-    ):  # TODO this should have a way of doing a for loop of PrEP types
-        # TODO: use num_members and subsets? Or other non-loop method
-        stats[tmpA._race][tmpA._SO]["LAIagents"] += 1
-    for tmpA in oralAgents.iter_agents():
-        stats[tmpA._race][tmpA._SO]["oralAgents"] += 1
 
     # Sum 'ALL' categories for race/SO bins
     for race in stats:
@@ -404,7 +397,7 @@ def print_components(
                     ntrthiv += 1
             if agent._PrEP_bool:
                 nprep += 1
-                if agent.PrEP_type == "LAI":
+                if agent.PrEP_type == "Inj":
                     LAI += 1
                 elif agent.PrEP_type == "Oral":
                     oral += 1

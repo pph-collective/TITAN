@@ -143,8 +143,6 @@ class PopulationClass:
             "Testd", parent=self.treatment_agentSet, numerator=self.HIV_agentSet
         )
         self.Trt_PrEP_agentSet = Agent_set("PrEP", parent=self.treatment_agentSet)
-        self.LAI_agentSet = Agent_set("LAI", parent=self.Trt_PrEP_agentSet)
-        self.oralPrEP_agentSet = Agent_set("Oral", parent=self.Trt_PrEP_agentSet)
         self.Trt_PrEPelig_agentSet = Agent_set(
             "PrePelig", parent=self.treatment_agentSet
         )
@@ -302,6 +300,13 @@ class PopulationClass:
                 if self.popRandom.random() < prob_PrEP:
                     newAgent._PrEP_bool = True
                     newAgent._treatment_bool = True
+                    if (
+                        self.popRandom.random() > params.LAI_chance
+                        and "Inj" in params.PrEP_type
+                    ):
+                        newAgent.PrEP_type = "Inj"
+                    else:
+                        newAgent.PrEP_type = "Oral"
 
         # Check if agent is HR as baseline.
         if (
@@ -392,13 +397,6 @@ class PopulationClass:
 
         if agent._PrEP_bool:
             addToSubsets(self.Trt_PrEP_agentSet, agent)
-            if (
-                self.popRandom.random() > params.LAI_chance
-                and "Inj" in params.PrEP_type
-            ):
-                addToSubsets(self.LAI_agentSet, agent)
-            else:
-                addToSubsets(self.oralPrEP_agentSet, agent)
         if agent._treatment_bool:
             addToSubsets(self.treatment_agentSet, agent)
             if agent._HAART_bool:
