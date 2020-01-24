@@ -54,7 +54,7 @@ def get_stats(
         "iduPartPrep": 0,
         "msmwPartPrep": 0,
         "testedPartPrep": 0,
-        "numVaccinated": 0,
+        "Vaccinated": 0,
         "LAIagents": 0,
         "oralAgents": 0,
         "awareAgents": 0,
@@ -147,7 +147,7 @@ def get_stats(
     for tmpA in totalAgents.iter_agents():
         stats[tmpA._race][tmpA._SO]["numAgents"] += 1
         if tmpA.vaccine_bool:
-            stats[tmpA._race][tmpA._SO]["numVaccinated"] += 1
+            stats[tmpA._race][tmpA._SO]["Vaccinated"] += 1
 
     for tmpA in deathSet:
         stats[tmpA._race][tmpA._SO]["deaths"] += 1
@@ -358,11 +358,10 @@ def basicReport(
                         stats[agentRace][agentTypes]["iduPartPrep"],
                         stats[agentRace][agentTypes]["msmwPartPrep"],
                         stats[agentRace][agentTypes]["testedPartPrep"],
-                        stats[agentRace][agentTypes]["numVaccinated"],
+                        stats[agentRace][agentTypes]["Vaccinated"],
                         stats[agentRace][agentTypes]["LAIagents"],
                         stats[agentRace][agentTypes]["oralAgents"],
-                        stats[agentRace][agentTypes]["awareAgents"]
-                        # np.mean(stats[agentRace][agentTypes]["agentOpinions"])
+                        stats[agentRace][agentTypes]["awareAgents"],
                     )
                 )
             )
