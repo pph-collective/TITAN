@@ -51,7 +51,9 @@ class NetworkClass(PopulationClass):
         PopulationClass.__init__(self, n=N, rSeed=popSeed)  # Create population
 
         # self.NetworkSize = N
-        if network_type == "scale_free":
+        if (
+            network_type == "scale_free"
+        ):  # REVIEW: is this causing the capping of partner number too low?
             self.G = nx.Graph()
             for i in range(10):
                 self.update_partner_assignments(params.PARTNERTURNOVER, self.G)

@@ -88,7 +88,7 @@ RC_template = {
     "NUMSexActs": 0.0,  # Mean number of sex acts with each partner
     "SAFESEX": 0.0,  # Probability of engaging in safe sex (per act)
     "NEEDLESH": 0.0,  # Probability of sharing syringes during join drug use (per act)
-    "HIVTEST": 0.0,  # Probability of testing for HIV
+    "diagnosis_rate": 0.0,  # Probability of testing for HIV
     "INCAR": 0.0,  # Probability of becoming incarcerated (rate)
     "HAARTadh": 0.0,  # Adherence to ART therapy
     "HAARTdisc": 0.0,  # Probability of discontinuing ART therapy
@@ -118,7 +118,7 @@ RaceClass1["MSM"] = {
     "NUMSexActs": 5.0,
     "SAFESEX": 0.43,
     "NEEDLESH": 0.43,
-    "HIVTEST": 0.055,
+    "diagnosis_rate": 0.055,
     "INCAR": 0.00,  # 0.00014,
     "HAARTadh": 1.0,  # 0.57,
     "HAARTdisc": 0.008,
@@ -137,7 +137,7 @@ RaceClass1["PWID"] = {
     "NUMSexActs": 5.0,
     "SAFESEX": 0.72,
     "NEEDLESH": 0.43,
-    "HIVTEST": 0.037,
+    "diagnosis_rate": 0.037,
     "INCAR": 0.00,  # 0.0050,
     "HAARTadh": 0.43,
     "HAARTdisc": 0.018,
@@ -158,7 +158,7 @@ RaceClass2["MSM"] = {
     "NUMSexActs": 6.0,
     "SAFESEX": 0.43,
     "NEEDLESH": 0.27,
-    "HIVTEST": 0.06,
+    "diagnosis_rate": 0.06,
     "INCAR": 0.00,  # 0.0011,
     "HAARTadh": 1.0,  # 0.34,
     "HAARTdisc": 0.01,
@@ -177,7 +177,7 @@ RaceClass2["PWID"] = {
     "NUMSexActs": 5.0,
     "SAFESEX": 0.69,
     "NEEDLESH": 0.27,
-    "HIVTEST": 0.043,
+    "diagnosis_rate": 0.043,
     "INCAR": 0.00,  # 0.0060,
     "HAARTadh": 0.36,
     "HAARTdisc": 0.023,

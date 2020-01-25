@@ -317,7 +317,9 @@ class PopulationClass:
             newAgent._everhighrisk_bool = True
 
         # Partnership demographics
-        if params.setting == "Scott":
+        if (
+            params.setting == "Scott"
+        ):  # TODO: condense this with the below. no need to have Scott separate
             newAgent._mean_num_partners = prob.get_mean_num_partners(
                 DrugType, self.popRandom
             )
@@ -469,7 +471,7 @@ class PopulationClass:
         partner = get_partner(agent, self.All_agentSet)
         noMatch = False
         rel_type = ""
-        bond_type = "sexOnly"
+        bond_type = "multiplex"
 
         def bondtype(bond_dict):
             pvalue = 0.0

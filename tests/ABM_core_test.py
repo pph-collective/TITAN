@@ -65,7 +65,7 @@ def test_model_init():
     assert model.NewHRrolls.num_members() == 0
 
     assert model.totalDiagnosis == 0
-    assert model.treatmentEnrolled == False
+    assert model.needle_exchange == False
 
 
 @pytest.mark.skip("too parameter dependent to test at this point")
@@ -209,18 +209,18 @@ def test_become_HIV(make_model, make_agent):
     assert a._PrEP_bool is False
 
 
-def test_enroll_treatment(make_model):
+def test_enroll_needle_exchanget(make_model):
     model = make_model()
     model.runRandom = FakeRandom(-0.1)  # all "IDU" agents will be _SNE_bool
 
     # make at least one agent IDU
     model.All_agentSet._members[0]._DU = "IDU"
 
-    assert model.treatmentEnrolled is False
+    assert model.needle_exchange is False
 
-    model._enroll_treatment()
+    model._enroll_needle_exchange()
 
-    assert model.treatmentEnrolled is True
+    assert model.needle_exchange is True
 
     for a in model.All_agentSet._members:
         if a._DU == "IDU":
@@ -518,36 +518,6 @@ def test_initiate_PrEP_eligible(make_model, make_agent):
     assert "IDU" in a._PrEP_reason
     assert "HIV test" in a._PrEP_reason
     assert "MSMW" in a._PrEP_reason
-
-
-def test_get_clinic_agent_none(make_model, make_agent):
-    model = make_model()
-    clinic_cat = "Mid"
-
-    a = make_agent()
-    a._mean_num_partners = 2
-    pool = [a]
-
-    # probability of matching is on bin 1 0.054
-    # min is 0 max is 1
-    model.runRandom = FakeRandom(0.0001)
-
-    assert model._get_clinic_agent(clinic_cat, pool) is None
-
-
-def test_get_clinic_agent_match(make_model, make_agent):
-    model = make_model()
-    clinic_cat = "Mid"
-
-    a = make_agent()
-    a._mean_num_partners = 1
-    pool = [a]
-
-    # probability of matching is on bin 1 0.054
-    # min is 0 max is 1
-    model.runRandom = FakeRandom(0.0001)
-
-    assert model._get_clinic_agent(clinic_cat, pool) == a
 
 
 def test_progress_to_AIDS_error(make_agent, make_model):

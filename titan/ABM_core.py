@@ -111,7 +111,7 @@ class HIVModel(NetworkClass):
         self.NewHRrolls = Agent_set("NewHRrolls")
 
         self.totalDiagnosis = 0
-        self.treatmentEnrolled = False
+        self.needle_exchange = False
         self.newPrEPagents = Agent_set("NewPrEPagents")
         self.PrEPagents = {
             "BLACK": {"MSM": 0, "HF": 0, "HM": 0},
@@ -265,10 +265,10 @@ class HIVModel(NetworkClass):
 
             self.totalDiagnosis += len(self.NewDiagnosis._members)
             if (
-                self.totalDiagnosis > params.initTreatment
-                and not self.treatmentEnrolled
+                self.totalDiagnosis > params.init_needle_exchange
+                and not self.needle_exchange
             ):
-                self._enroll_treatment()
+                self._enroll_needle_exchange()
 
             # RESET counters for the next time step
             self.deathSet = []
@@ -838,13 +838,13 @@ class HIVModel(NetworkClass):
         if agent._PrEP_bool:
             self._discont_PrEP(agent, force=True)
 
-    def _enroll_treatment(self):
+    def _enroll_needle_exchange(self):
         """
         :Purpose:
             Enroll IDU agents in needle exchange
         """
         print(("\n\n!!!!Engaginge treatment process"))
-        self.treatmentEnrolled = True
+        self.needle_exchange = True
         for agent in self.All_agentSet.iter_agents():
             if self.runRandom.random() < params.treatmentCov and agent._DU == "IDU":
                 agent._SNE_bool = True
@@ -1027,7 +1027,7 @@ class HIVModel(NetworkClass):
                         ptnr.traceTime = time + 1
 
         if not tested:
-            test_prob = params.DemographicParams[race_type][sex_type]["HIVTEST"]
+            test_prob = params.DemographicParams[race_type][sex_type]["diagnosis_rate"]
 
             # Rescale based on calibration param
             test_prob *= params.cal_TestFreq
@@ -1377,45 +1377,6 @@ class HIVModel(NetworkClass):
                 and agent.PrEP_eligible()
             ):
                 _enrollPrEP(self, agent)
-
-    def _get_clinic_agent(
-        self, clinicBin: str, eligiblePool: Sequence[Agent]
-    ) -> Optional[Agent]:
-        pMatch = 0.0
-        RN = self.runRandom.random()
-        for i in range(6):  # 6 is exclusive
-            if RN < pMatch:
-                break
-            else:
-                pMatch += params.clinicAgents[clinicBin][i]["Prob"]
-                minNum = params.clinicAgents[clinicBin][i]["min"]
-                maxNum = params.clinicAgents[clinicBin][i]["max"]
-
-        # try twice to match
-        for i in range(1, 3):
-            randomK_sample = self.runRandom.sample(
-                eligiblePool, params.cal_ptnrSampleDepth
-            )
-            eligibleK_Pool = [
-                ag
-                for ag in randomK_sample
-                if (
-                    (ag._mean_num_partners >= minNum)
-                    and (ag._mean_num_partners <= maxNum)
-                )
-            ]
-            if eligibleK_Pool:
-                return self.runRandom.choice(eligibleK_Pool)
-            else:
-                print(
-                    (
-                        "Looking for agent with min:%d and max %d failed %d times"
-                        % (minNum, maxNum, i)
-                    )
-                )
-
-        print("No suitable PrEP agent")
-        return None
 
     def _progress_to_AIDS(self, agent: Agent):
         """
