@@ -77,7 +77,7 @@ def test_create_agent(make_population):
     assert a4._DU == "IDU"
     assert a4._HIV_bool
     assert a4._AIDS_bool
-    assert a4._tested
+    assert a4._diagnosed
     assert a4._HAART_bool
     assert a4._HAART_adh == 5
     assert a4._HAART_time == 0
@@ -131,7 +131,7 @@ def test_add_agent_to_pop(make_population):
     agent._treatment_bool = True
     agent._HAART_bool = True
     agent._PrEP_bool = True
-    agent._tested = True
+    agent._diagnosed = True
     agent._incar_bool = True
     agent._highrisk_bool = True
 

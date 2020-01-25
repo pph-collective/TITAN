@@ -202,7 +202,7 @@ class NetworkClass(PopulationClass):
             for v in G:
                 if v._HAART_bool:
                     node_color.append("g")
-                elif v._tested:  # tmp_hiv == 1:
+                elif v._diagnosed:  # tmp_hiv == 1:
                     node_color.append("y")
                 elif v._HIV_bool:  # tmp_aids == 1:
                     node_color.append("r")

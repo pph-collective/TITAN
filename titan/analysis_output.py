@@ -35,7 +35,7 @@ def get_stats(
         "newHR": 0,
         "newHR_HIV": 0,
         "newHR_AIDS": 0,
-        "newHR_tested": 0,
+        "newHR_diagnosed": 0,
         "newHR_ART": 0,
         "newRelease": 0,
         "newReleaseHIV": 0,
@@ -116,8 +116,8 @@ def get_stats(
             stats[tmpA._race][tmpA._SO]["newHR_HIV"] += 1
             if tmpA._AIDS_bool:
                 stats[tmpA._race][tmpA._SO]["newHR_AIDS"] += 1
-            if tmpA._tested:
-                stats[tmpA._race][tmpA._SO]["newHR_tested"] += 1
+            if tmpA._diagnosed:
+                stats[tmpA._race][tmpA._SO]["newHR_diagnosed"] += 1
                 if tmpA._HAART_bool:
                     stats[tmpA._race][tmpA._SO]["newHR_ART"] += 1
 
@@ -126,7 +126,7 @@ def get_stats(
         stats[tmpA._race][tmpA._SO]["numHIV"] += 1
         if tmpA._AIDS_bool:
             stats[tmpA._race][tmpA._SO]["numAIDS"] += 1
-        if tmpA._tested:
+        if tmpA._diagnosed:
             stats[tmpA._race][tmpA._SO]["numTested"] += 1
         if tmpA._HAART_bool:
             stats[tmpA._race][tmpA._SO]["numART"] += 1
@@ -138,7 +138,7 @@ def get_stats(
             stats[tmpA._race]["IDU"]["numHIV"] += 1
         if tmpA._AIDS_bool:
             stats[tmpA._race]["IDU"]["numAIDS"] += 1
-        if tmpA._tested:
+        if tmpA._diagnosed:
             stats[tmpA._race]["IDU"]["numTested"] += 1
         if tmpA._HAART_bool:
             stats[tmpA._race]["IDU"]["numART"] += 1
@@ -278,7 +278,7 @@ def newlyhighriskReport(
                 stats["ALL"][sex_type]["newHR"],
                 stats["ALL"][sex_type]["newHR_HIV"],
                 stats["ALL"][sex_type]["newHR_AIDS"],
-                stats["ALL"][sex_type]["newHR_tested"],
+                stats["ALL"][sex_type]["newHR_diagnosed"],
                 stats["ALL"][sex_type]["newHR_ART"],
             )
         )

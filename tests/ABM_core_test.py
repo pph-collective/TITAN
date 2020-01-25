@@ -240,11 +240,11 @@ def test_becomeHighRisk(make_model, make_agent):
     assert a._highrisk_time == 10
 
 
-def test_incarcerate_tested(make_model, make_agent):
+def test_incarcerate_diagnosed(make_model, make_agent):
     model = make_model()
     a = make_agent(SO="HM", race="WHITE")  # incarceration only for HM and HF?
     a._HIV_bool = True
-    a._tested = True
+    a._diagnosed = True
 
     model.runRandom = FakeRandom(0.0000001)  # always less than params
 
@@ -259,7 +259,7 @@ def test_incarcerate_tested(make_model, make_agent):
     assert a in model.Trt_ART_agentSet._members
 
 
-def test_incarcerate_not_tested(make_model, make_agent):
+def test_incarcerate_not_diagnosed(make_model, make_agent):
     model = make_model()
     a = make_agent(SO="HM", race="WHITE")  # incarceration only for HM and HF?
     a._HIV_bool = True
@@ -274,7 +274,7 @@ def test_incarcerate_not_tested(make_model, make_agent):
     assert a._incar_bool
     assert a._incar_time == 1
     assert a in model.incarcerated_agentSet._members
-    assert a._tested
+    assert a._diagnosed
 
     assert p in model.highrisk_agentsSet._members
     assert p in model.NewHRrolls._members
@@ -313,28 +313,28 @@ def test_HIVtest(make_model, make_agent):
     model.runRandom = FakeRandom(1.1)  # always greater than param
     model._HIVtest(a, 0)
 
-    assert a._tested is False
+    assert a._diagnosed is False
     assert a not in model.NewDiagnosis._members
     assert a not in model.Trt_Tstd_agentSet._members
 
     model.runRandom = FakeRandom(-0.1)  # always less than param
     model._HIVtest(a, 0)
 
-    assert a._tested
+    assert a._diagnosed
     assert a in model.NewDiagnosis._members
     assert a in model.Trt_Tstd_agentSet._members
 
 
-def test_HIVtest_already_tested(make_model, make_agent):
+def test_HIVtest_already_diagnosed(make_model, make_agent):
     model = make_model()
     a = make_agent()
 
-    a._tested = True
+    a._diagnosed = True
 
     model.runRandom = FakeRandom(-0.1)  # always less than param
     model._HIVtest(a, 0)
 
-    assert a._tested
+    assert a._diagnosed
     assert a not in model.NewDiagnosis._members
     assert a not in model.Trt_Tstd_agentSet._members
 
@@ -352,7 +352,7 @@ def test_update_HAART_t1(make_model, make_agent):
     assert a not in model.Trt_ART_agentSet._members
 
     # t0 agent initialized HAART
-    a._tested = True
+    a._diagnosed = True
 
     # go on haart
     model.runRandom = FakeRandom(
@@ -501,7 +501,7 @@ def test_initiate_PrEP_eligible(make_model, make_agent):
     model = make_model()
     a = make_agent(SO="HF")  # model is "CDCwomen"
     p = make_agent(SO="HM", DU="IDU")
-    p._tested = True
+    p._diagnosed = True
     p._MSMW = True
     rel = Relationship(a, p, 10, rel_type="sexOnly")
     # non-forcing, adherant, inj

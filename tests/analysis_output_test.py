@@ -26,7 +26,7 @@ def stats():
     a = agent.Agent("MSM", 20, "BLACK", "IDU")
     a._HIV_bool = True
     a._AIDS_bool = True
-    a._tested = True
+    a._diagnosed = True
     a._HAART_bool = True
     a._SNE_bool = True
     a._PrEP_bool = True
@@ -83,7 +83,7 @@ def test_get_stats(stats):
     assert stats["ALL"]["MSM"]["newHR"] == 1
     assert stats["BLACK"]["MSM"]["newHR_HIV"] == 1
     assert stats["BLACK"]["MSM"]["newHR_AIDS"] == 1
-    assert stats["BLACK"]["MSM"]["newHR_tested"] == 1
+    assert stats["BLACK"]["MSM"]["newHR_diagnosed"] == 1
     assert stats["BLACK"]["MSM"]["newHR_ART"] == 1
     assert stats["BLACK"]["MSM"]["numHIV"] == 1
     assert stats["BLACK"]["MSM"]["numAIDS"] == 1

@@ -878,7 +878,7 @@ class HIVModel(NetworkClass):
 
         """
         hiv_bool = agent._HIV_bool
-        tested = agent._tested
+        tested = agent._diagnosed
         incar_t = agent._incar_time
         incar_bool = agent._incar_bool
         haart_bool = agent._HAART_bool
@@ -960,9 +960,9 @@ class HIVModel(NetworkClass):
             )
 
             if hiv_bool:
-                if not agent._tested:
+                if not agent._diagnosed:
                     if self.runRandom.random() < params.inc_PrisTestProb:
-                        agent._tested = True
+                        agent._diagnosed = True
                 else:  # Then tested and HIV, check to enroll in ART
                     if self.runRandom.random() < params.inc_ARTenroll:
                         tmp_rnd = self.runRandom.random()
@@ -1011,10 +1011,10 @@ class HIVModel(NetworkClass):
         """
         sex_type = agent._SO
         race_type = agent._race
-        tested = agent._tested
+        tested = agent._diagnosed
 
         def diagnose(agent):
-            agent._tested = True
+            agent._diagnosed = True
             self.NewDiagnosis.add_agent(agent)
             self.Trt_Tstd_agentSet.add_agent(agent)
             if (
@@ -1022,7 +1022,7 @@ class HIVModel(NetworkClass):
             ):  # TODO fix this logic; should get partnerTraced and then lose it after
                 # For each partner, determine if found by partner testing
                 for ptnr in agent._partners:
-                    if ptnr._HIV_bool and not ptnr._tested:
+                    if ptnr._HIV_bool and not ptnr._diagnosed:
                         ptnr.partnerTraced = True
                         ptnr.traceTime = time + 1
 
@@ -1070,7 +1070,7 @@ class HIVModel(NetworkClass):
         agent_so = agent._SO
 
         # Determine probability of HIV treatment
-        if time >= 0 and agent._tested:
+        if time >= 0 and agent._diagnosed:
             # Go on HAART
             if not agent_haart and agent._HAART_time == 0:
                 if (
@@ -1122,7 +1122,7 @@ class HIVModel(NetworkClass):
                         if partner._DU == "IDU":
                             eligible = True
                             agent._PrEP_reason.append("IDU")
-                        if partner._tested:
+                        if partner._diagnosed:
                             eligible = True
                             agent._PrEP_reason.append("HIV test")
                         if partner._MSMW:
@@ -1136,7 +1136,7 @@ class HIVModel(NetworkClass):
                     else:
                         partner = ptn._ID1
                     if ptn._duration > 1:
-                        if partner._tested or agent._mean_num_partners > 1:
+                        if partner._diagnosed or agent._mean_num_partners > 1:
                             eligible = True
                             break
         elif params.PrEP_target_model == "MSM":

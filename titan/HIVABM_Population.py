@@ -265,7 +265,7 @@ class PopulationClass:
                 prob_Tested = params.DemographicParams[Race][SexType]["TestedPrev"]
 
             if self.popRandom.random() < prob_Tested:
-                newAgent._tested = True
+                newAgent._diagnosed = True
 
                 # if tested HAART possible
                 if DrugType == "IDU":
@@ -405,7 +405,7 @@ class PopulationClass:
         if agent._PrEP_bool:
             addToSubsets(self.Trt_PrEP_agentSet, agent)
 
-        if agent._tested:
+        if agent._diagnosed:
             addToSubsets(self.Trt_Tstd_agentSet, agent)
 
         if agent._incar_bool:
