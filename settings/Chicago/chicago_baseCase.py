@@ -38,7 +38,7 @@ MSMreport = True
 HMreport = False
 HFreport = False
 drawFigures = False
-drawEdgeList = True
+drawEdgeList = False
 calcComponentStats = True
 flag_agentZero = False
 
@@ -51,21 +51,19 @@ reports = [
 Calibration scaling parameters for fitting to empirical data
 """
 
-PARTNERTURNOVER = (
-    1.0 / 7.5
-)  # Partner acquisition parameters (higher number more partnering)
-cal_NeedlePartScaling = 1.00  # IDU partner number scaling
-cal_NeedleActScaling = 1.00  # IDU act frequency scaling factor
-cal_SexualPartScaling = 1.0  # Sexual partner number scaling factor
-cal_SexualActScaling = 0.45  # Sexual acts  scaling factor
-cal_pXmissionScaling = 0.0  # 0.92 # Global transmission probability scaling factor
-cal_AcuteScaling = 4.3  # Infectivity multiplier ratio for Acute status infections
-cal_RR_Dx = 0.0  # Risk reduction in transmission probability for agents diagnosed
+PARTNERTURNOVER = 1.0  # Partner acquisition parameters (higher number more partnering)
+cal_NeedlePartScaling = 7.0  # IDU partner number scaling
+cal_NeedleActScaling = 1.0  # IDU act frequency scaling factor
+cal_SexualPartScaling = 8.0  # Sexual partner number scaling factor
+cal_SexualActScaling = 1.0  # Sexual acts  scaling factor
+cal_pXmissionScaling = 1.0  # 0.92 # Global transmission probability scaling factor
+cal_AcuteScaling = 1.0  # Infectivity multiplier ratio for Acute status infections
+cal_RR_Dx = 1.0  # Risk reduction in transmission probability for agents diagnosed
 cal_RR_HAART = 1.0  # Scaling factor for effectiveness of ART therapy on xmission P
-cal_TestFreq = 0.3  # Scaling factor for testing frequency
-cal_Mortality = 0.5  # Scaling factor for all cause mortality rates
+cal_TestFreq = 1.0  # Scaling factor for testing frequency
+cal_Mortality = 1.0  # Scaling factor for all cause mortality rates
 cal_ProgAIDS = 1.0  # Scaling factor for all progression to AIDS from HIV rates
-cal_ART_cov = 0.70  # Scaling factor for enrollment on ART probability
+cal_ART_cov = 1.0  # Scaling factor for enrollment on ART probability
 cal_IncarP = 1.0  # Scaling factor for probability of becoming incarcerated
 cal_raceXmission = (
     1.0  # Scaling factor for increased STI transmission P comparing race1/race2
@@ -90,7 +88,7 @@ PCA_PrEP = 0.30 * (
 opinion_threshold = (
     3.0  # opinion needed to initiate PrEP on a 0-4 scale (translated from 1-5 scale)
 )
-pcaChoice = "bridge"  # eigenvector or bridge, how the PCA is selected
+pcaChoice = "random"  # eigenvector or bridge, how the PCA is selected
 awarenessProb = 0.055  # static probability of becoming spontaneously aware of PrEP
 starting_awareness = 0.00  # awareness of PrEP at t0
 knowledgeTransmission = (
@@ -147,7 +145,7 @@ minComponentSize = 1
 Vaccine params
 """
 vaccine_type = "RV144"
-booster = True
+booster = False
 vaccine_start = 1
 
 # Incarceration params
@@ -528,8 +526,8 @@ clinicAgents["Mid"] = {
 }
 
 partnerNumber: Dict[int, Any] = {
-    0: 0.083,
-    1: 0.181,
+    0: 0.000,
+    1: 0.264,
     2: 0.229,
     3: 0.172,
     4: 0.112,
