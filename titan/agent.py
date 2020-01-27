@@ -84,9 +84,9 @@ class Agent:
         self._PrEP_lastDose = 0
 
         # agent high risk params
-        self._highrisk_bool = False
-        self._highrisk_time = 0
-        self._everhighrisk_bool = False
+        self._high_risk_bool = False
+        self._high_risk_time = 0
+        self._ever_high_risk_bool = False
 
         # agent incarcartion params
         self._incar_bool = False

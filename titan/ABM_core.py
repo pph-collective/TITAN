@@ -65,7 +65,7 @@ class HIVModel(NetworkClass):
         # Ensure param variables are defined. For backwards compatibility with params.py files
         bc_attrs = [
             "drawEdgeList",
-            "inc_treat_HRsex_beh",
+            "inc_treat_high_risk_sex_beh",
             "inc_treat_IDU_beh",
             "calcNetworkStats",
         ]
@@ -108,7 +108,7 @@ class HIVModel(NetworkClass):
         self.NewInfections = Agent_set("NewInfections")
         self.NewDiagnosis = Agent_set("NewDiagnosis")
         self.NewIncarRelease = Agent_set("NewIncarRelease")
-        self.NewHRrolls = Agent_set("NewHRrolls")
+        self.New_high_risk_rolls = Agent_set("New_high_risk_rolls")
 
         self.totalDiagnosis = 0
         self.needle_exchange = False
@@ -172,7 +172,7 @@ class HIVModel(NetworkClass):
             print(("\tBurn Cuml Inc:\t{}".format(self.NewInfections.num_members())))
             self.NewInfections.clear_set()
             self.NewDiagnosis.clear_set()
-            self.NewHRrolls.clear_set()
+            self.New_high_risk_rolls.clear_set()
             self.NewIncarRelease.clear_set()
             self.newPrEPagents.clear_set()
 
@@ -232,10 +232,10 @@ class HIVModel(NetworkClass):
             # todo: GET THIS TO THE NEW HIV COUNT
 
             print(
-                "\tSTARTING HIV count:{}\tTotal Incarcerated:{}\tHR+:{}\tPrEP:{}".format(
+                "\tSTARTING HIV count:{}\tTotal Incarcerated:{}\tHigh Risk+:{}\tPrEP:{}".format(
                     self.HIV_agentSet.num_members(),
                     self.incarcerated_agentSet.num_members(),
-                    self.highrisk_agentsSet.num_members(),
+                    self.high_risk_agentsSet.num_members(),
                     self.Trt_PrEP_agentSet.num_members(),
                 )
             )
@@ -254,7 +254,7 @@ class HIVModel(NetworkClass):
                 self.NewInfections,
                 self.NewDiagnosis,
                 self.Relationships,
-                self.NewHRrolls,
+                self.New_high_risk_rolls,
                 self.NewIncarRelease,
                 self.deathSet,
             )
@@ -274,7 +274,7 @@ class HIVModel(NetworkClass):
             self.deathSet = []
             self.NewInfections.clear_set()
             self.NewDiagnosis.clear_set()
-            self.NewHRrolls.clear_set()
+            self.New_high_risk_rolls.clear_set()
             self.NewIncarRelease.clear_set()
             self.newPrEPagents.clear_set()
 
@@ -337,9 +337,9 @@ class HIVModel(NetworkClass):
                     del rel
 
         if params.flag_high_risk:  # TODO: abstract this
-            for tmpA in self.highrisk_agentsSet.iter_agents():
-                if tmpA._highrisk_time > 0:
-                    tmpA._highrisk_time -= 1
+            for tmpA in self.high_risk_agentsSet.iter_agents():
+                if tmpA._high_risk_time > 0:
+                    tmpA._high_risk_time -= 1
                     if (
                         tmpA._SO == "HM"
                         and params.flag_PrEP
@@ -352,8 +352,8 @@ class HIVModel(NetworkClass):
                             if not (part._HIV_bool or part.vaccine_bool):
                                 self._initiate_PrEP(part, time)
                 else:
-                    self.highrisk_agentsSet.remove_agent(tmpA)
-                    tmpA._highrisk_bool = False
+                    self.high_risk_agentsSet.remove_agent(tmpA)
+                    tmpA._high_risk_bool = False
 
                     if params.model == "Incar":  # TODO abstract this
                         if tmpA._SO == "HM":
@@ -849,19 +849,19 @@ class HIVModel(NetworkClass):
 
     def _become_high_risk(self, agent: Agent, duration: int = None):
 
-        if agent not in self.highrisk_agentsSet._members:
-            self.highrisk_agentsSet.add_agent(agent)
+        if agent not in self.high_risk_agentsSet._members:
+            self.high_risk_agentsSet.add_agent(agent)
 
-        if not agent._everhighrisk_bool:
-            self.NewHRrolls.add_agent(agent)
+        if not agent._ever_high_risk_bool:
+            self.New_high_risk_rolls.add_agent(agent)
 
-        agent._highrisk_bool = True
-        agent._everhighrisk_bool = True
+        agent._high_risk_bool = True
+        agent._ever_high_risk_bool = True
 
         if duration is not None:
-            agent._highrisk_time = duration
+            agent._high_risk_time = duration
         else:
-            agent._highrisk_time = params.DemographicParams[agent._race][agent._SO][
+            agent._high_risk_time = params.DemographicParams[agent._race][agent._SO][
                 "HighRiskDuration"
             ]
 
@@ -881,11 +881,13 @@ class HIVModel(NetworkClass):
         incar_bool = agent._incar_bool
         haart_bool = agent._HAART_bool
 
-        incarceration_probability = params.DemographicParams[agent._race][
-            agent._SO
-        ]["INCAR"]
+        incarceration_probability = params.DemographicParams[agent._race][agent._SO][
+            "INCAR"
+        ]
         if agent._ever_incar_bool:
-            incarceration_probability *= params.DemographicParams[agent._race][agent._SO]["Recidivism"]
+            incarceration_probability *= params.DemographicParams[agent._race][
+                agent._SO
+            ]["Recidivism"]
 
         if agent._incar_bool:
             agent._incar_time -= 1
@@ -897,7 +899,7 @@ class HIVModel(NetworkClass):
                 agent._ever_incar_bool = True
                 if params.model == "Incar":
                     if (
-                        not agent._highrisk_bool and params.flag_high_risk
+                        not agent._high_risk_bool and params.flag_high_risk
                     ):  # If behavioral treatment on and agent HIV, ignore HR period.
                         if (
                             params.inc_treat_HRsex_beh
@@ -980,7 +982,7 @@ class HIVModel(NetworkClass):
 
             # PUT PARTNERS IN HIGH RISK
             for tmpA in agent._partners:
-                if not tmpA._highrisk_bool:
+                if not tmpA._high_risk_bool:
                     if self.runRandom.random() < params.HR_proportion:
                         self._become_high_risk(tmpA)
 

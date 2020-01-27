@@ -92,9 +92,9 @@ def test_agent_init(make_agent):
     assert a._PrEP_lastDose == 0
 
     # high risk params
-    assert a._highrisk_bool is False
-    assert a._highrisk_time == 0
-    assert a._everhighrisk_bool is False
+    assert a._high_risk_bool is False
+    assert a._high_risk_time == 0
+    assert a._ever_high_risk_bool is False
 
     # incarceration
     assert a._incar_bool is False

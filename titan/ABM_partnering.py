@@ -130,7 +130,7 @@ def get_assort_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
                 for tmpA in eligible_partners
                 if (
                     tmpA._race == "WHITE"
-                    and tmpA._everhighrisk_bool
+                    and tmpA._ever_high_risk_bool
                     and tmpA not in agent._partners
                 )
             ]
@@ -139,7 +139,7 @@ def get_assort_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
         samplePop = [
             tmpA
             for tmpA in eligible_partners
-            if (tmpA._everhighrisk_bool and tmpA not in agent._partners)
+            if (tmpA._ever_high_risk_bool and tmpA not in agent._partners)
         ]
 
     RandomPartner = safe_random_choice(samplePop)

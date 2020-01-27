@@ -232,9 +232,9 @@ class NetworkClass(PopulationClass):
                     node_color.append("g")
         elif coloring == "HR":
             for v in G:
-                if v._highrisk_bool:  # tmp_hiv == 1:
+                if v._high_risk_bool:  # tmp_hiv == 1:
                     node_color.append("r")
-                elif v._everhighrisk_bool:  # tmp_aids == 1:
+                elif v._ever_high_risk_bool:  # tmp_aids == 1:
                     node_color.append("y")
                 else:
                     node_color.append("g")
@@ -250,7 +250,7 @@ class NetworkClass(PopulationClass):
             for v in G:
                 if v._race == "BLACK":
                     node_color.append("y")
-                elif v._everhighrisk_bool:
+                elif v._ever_high_risk_bool:
                     node_color.append("b")
                 elif v._race == "WHITE":
                     node_color.append("g")

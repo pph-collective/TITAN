@@ -62,7 +62,7 @@ def test_model_init():
     assert model.NewInfections.num_members() == 0
     assert model.NewDiagnosis.num_members() == 0
     assert model.NewIncarRelease.num_members() == 0
-    assert model.NewHRrolls.num_members() == 0
+    assert model.New_high_risk_rolls.num_members() == 0
 
     assert model.totalDiagnosis == 0
     assert model.needle_exchange == False
@@ -233,11 +233,11 @@ def test_becomeHighRisk(make_model, make_agent):
 
     model._become_high_risk(a, 10)
 
-    assert a in model.highrisk_agentsSet._members
-    assert a in model.NewHRrolls._members
-    assert a._highrisk_bool
-    assert a._everhighrisk_bool
-    assert a._highrisk_time == 10
+    assert a in model.high_risk_agentsSet._members
+    assert a in model.New_high_risk_rolls._members
+    assert a._high_risk_bool
+    assert a._ever_high_risk_bool
+    assert a._high_risk_time == 10
 
 
 def test_incarcerate_diagnosed(make_model, make_agent):
@@ -276,11 +276,11 @@ def test_incarcerate_not_diagnosed(make_model, make_agent):
     assert a in model.incarcerated_agentSet._members
     assert a._diagnosed
 
-    assert p in model.highrisk_agentsSet._members
-    assert p in model.NewHRrolls._members
-    assert p._highrisk_bool
-    assert p._everhighrisk_bool
-    assert p._highrisk_time > 0
+    assert p in model.high_risk_agentsSet._members
+    assert p in model.New_high_risk_rolls._members
+    assert p._high_risk_bool
+    assert p._ever_high_risk_bool
+    assert p._high_risk_time > 0
 
 
 def test_incarcerate_unincarcerate(make_model, make_agent):

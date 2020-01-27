@@ -31,8 +31,8 @@ def stats():
     a._SNE_bool = True
     a._PrEP_bool = True
     a._treatment_bool = True
-    a._highrisk_bool = True
-    a._everhighrisk_bool = True
+    a._high_risk_bool = True
+    a._ever_high_risk_bool = True
     a._incar_bool = True
     a._ever_incar_bool = True
     a._PrEP_reason = ["IDU", "MSMW", "HIV test"]
@@ -71,20 +71,20 @@ def test_get_stats(stats):
     assert stats["BLACK"]["MSM"]["newRelease"] == 1
     assert stats["BLACK"]["MSM"]["newReleaseHIV"] == 1
     assert stats["BLACK"]["MSM"]["inf_newInf"] == 1
-    assert stats["BLACK"]["MSM"]["inf_HRever"] == 1
-    assert stats["BLACK"]["MSM"]["inf_HR6m"] == 1
+    assert stats["BLACK"]["MSM"]["inf_high_risk_ever"] == 1
+    assert stats["BLACK"]["MSM"]["inf_high_risk_6m"] == 1
     assert stats["BLACK"]["MSM"]["numPrEP"] == 1
     assert stats["BLACK"]["MSM"]["iduPartPrep"] == 1
     assert stats["BLACK"]["MSM"]["msmwPartPrep"] == 1
     assert stats["BLACK"]["MSM"]["testedPartPrep"] == 1
     assert stats["BLACK"]["MSM"]["newNumPrEP"] == 1
     assert stats["BLACK"]["MSM"]["newlyTested"] == 1
-    assert stats["BLACK"]["MSM"]["newHR"] == 1
-    assert stats["ALL"]["MSM"]["newHR"] == 1
-    assert stats["BLACK"]["MSM"]["newHR_HIV"] == 1
-    assert stats["BLACK"]["MSM"]["newHR_AIDS"] == 1
-    assert stats["BLACK"]["MSM"]["newHR_diagnosed"] == 1
-    assert stats["BLACK"]["MSM"]["newHR_ART"] == 1
+    assert stats["BLACK"]["MSM"]["new_high_risk"] == 1
+    assert stats["ALL"]["MSM"]["new_high_risk"] == 1
+    assert stats["BLACK"]["MSM"]["new_high_risk_HIV"] == 1
+    assert stats["BLACK"]["MSM"]["new_high_risk_AIDS"] == 1
+    assert stats["BLACK"]["MSM"]["new_high_risk_diagnosed"] == 1
+    assert stats["BLACK"]["MSM"]["new_high_risk_ART"] == 1
     assert stats["BLACK"]["MSM"]["numHIV"] == 1
     assert stats["BLACK"]["MSM"]["numAIDS"] == 1
     assert stats["BLACK"]["MSM"]["numTested"] == 1
@@ -152,7 +152,7 @@ def test_newlyhighriskReport(stats, setup_results_dir):
 
     newlyhighriskReport(run_id, 0, 1, 2, 3, stats)
 
-    result_file = "results/newlyHR_Report.txt"
+    result_file = "results/newly_high_risk_Report.txt"
     assert os.path.isfile(result_file)
     with open(result_file, newline="") as f:
         reader = csv.DictReader(f, delimiter="\t")

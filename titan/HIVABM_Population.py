@@ -176,7 +176,7 @@ class PopulationClass:
         self.incarcerated_agentSet = Agent_set("Incar", parent=self.All_agentSet)
 
         # High risk agent sets
-        self.highrisk_agentsSet = Agent_set("HRisk", parent=self.All_agentSet)
+        self.high_risk_agentsSet = Agent_set("high_risk", parent=self.All_agentSet)
 
         self.Relationships: List[Relationship] = []
 
@@ -313,8 +313,8 @@ class PopulationClass:
             self.popRandom.random()
             < params.DemographicParams[Race][SexType]["HighRiskPrev"]
         ):
-            newAgent._highrisk_bool = True
-            newAgent._everhighrisk_bool = True
+            newAgent._high_risk_bool = True
+            newAgent._ever_high_risk_bool = True
 
         # Partnership demographics
         if (
@@ -413,8 +413,8 @@ class PopulationClass:
         if agent._incar_bool:
             addToSubsets(self.incarcerated_agentSet, agent)
 
-        if agent._highrisk_bool:
-            addToSubsets(self.highrisk_agentsSet, agent)
+        if agent._high_risk_bool:
+            addToSubsets(self.high_risk_agentsSet, agent)
 
     def get_age(self, race: str):
         rand = self.popRandom.random()

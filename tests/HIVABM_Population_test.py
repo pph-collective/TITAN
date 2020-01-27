@@ -82,8 +82,8 @@ def test_create_agent(make_population):
     assert a4._HAART_adh == 5
     assert a4._HAART_time == 0
     assert a4._treatment_bool
-    assert a4._highrisk_bool
-    assert a4._everhighrisk_bool
+    assert a4._high_risk_bool
+    assert a4._ever_high_risk_bool
 
     # check not IDU and HIV
     pop.popRandom = FakeRandom(0.999)
@@ -133,7 +133,7 @@ def test_add_agent_to_pop(make_population):
     agent._PrEP_bool = True
     agent._diagnosed = True
     agent._incar_bool = True
-    agent._highrisk_bool = True
+    agent._high_risk_bool = True
 
     pop.add_agent_to_pop(agent)
 
@@ -152,7 +152,7 @@ def test_add_agent_to_pop(make_population):
     assert agent in pop.Trt_PrEP_agentSet._members
     assert agent in pop.Trt_Tstd_agentSet._members
     assert agent in pop.incarcerated_agentSet._members
-    assert agent in pop.highrisk_agentsSet._members
+    assert agent in pop.high_risk_agentsSet._members
 
     # check not in all agent sets
     assert agent not in pop.Race_BLACK_agentSet._members
