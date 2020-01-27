@@ -880,14 +880,12 @@ class HIVModel(NetworkClass):
         incar_t = agent._incar_time
         incar_bool = agent._incar_bool
         haart_bool = agent._HAART_bool
+
+        incarceration_probability = params.DemographicParams[agent._race][
+            agent._SO
+        ]["INCAR"]
         if agent._ever_incar_bool:
-            incarceration_probability = params.DemographicParams[agent._race][
-                agent._SO
-            ]["Recidivism"]
-        else:
-            incarceration_probability = params.DemographicParams[agent._race][
-                agent._SO
-            ]["INCAR"]
+            incarceration_probability *= params.DemographicParams[agent._race][agent._SO]["Recidivism"]
 
         if agent._incar_bool:
             agent._incar_time -= 1
