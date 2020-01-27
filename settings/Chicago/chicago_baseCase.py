@@ -73,8 +73,8 @@ cal_ptnrSampleDepth = 100  # Sampling depth for partnering algorithm.
 """
 Bond Params
 """
-bond_type_probs = {"social": 0.308, "multiplex": 0.105, "sexualOnly": 0.587}
-bond_type_probs_IDU = {"social": 0.308, "multiplex": 0.105, "sexualOnly": 0.587}
+bond_type_probs = {"social": 0.308, "multiplex": 0.105, "sexOnly": 0.587}
+bond_type_probs_IDU = {"social": 0.308, "multiplex": 0.105, "sexOnly": 0.587}
 bond_type = ["social"]
 mean_partner_type = "bins"
 
@@ -281,7 +281,7 @@ RC_template: Dict[str, Any] = {
     "mNPart": 0.0,  # Mean number of sex partners
     "NUMPartn": 0.0,  # Number of partners (redundant)
     "NUMSexActs": 0.0,  # Mean number of sex acts with each partner
-    "UNSAFESEX": 0.0,  # Probability of engaging in unsafe sex (per act)
+    "SAFESEX": 0.0,  # Probability of engaging in unsafe sex (per act)
     "NEEDLESH": 0.0,  # Probability of sharing syringes during join drug use (per act)
     "HIVTEST": 0.0,  # Probability of testing for HIV
     "INCAR": 0.0,  # Probability of becoming incarcerated (rate)
@@ -321,7 +321,7 @@ RaceClass1["MSM"].update(
         "mNPart": 7.0,
         "NUMPartn": 7.0,
         "NUMSexActs": 5.0,
-        "UNSAFESEX": 0.432,
+        "SAFESEX": 0.432,
         "NEEDLESH": 0.43,
         "HIVTEST": 0.055,
         "INCAR": 0.00,  # 0.00014,
@@ -353,7 +353,7 @@ RaceClass2["MSM"].update(
         "mNPart": 5.0,
         "NUMPartn": 5.0,
         "NUMSexActs": 5.0,
-        "UNSAFESEX": 0.312,
+        "SAFESEX": 0.312,
         "NEEDLESH": 0.27,
         "HIVTEST": 0.06,
         "INCAR": 0.00,  # 0.0011,

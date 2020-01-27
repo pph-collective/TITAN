@@ -135,9 +135,11 @@ def save_results(
 
             outfile.write(",%4.5f" % np.mean(x_v))
             outfile.write(",%4.5f" % np.std(x_v))
-            outfile.write(",%4.5f" % np.percentile(x_v, 10))
-            outfile.write(",%4.5f" % np.percentile(x_v, 90))
-
+            try:
+                outfile.write(",%4.5f" % np.percentile(x_v, 10))
+                outfile.write(",%4.5f" % np.percentile(x_v, 90))
+            except:
+                outfile.write(",%4.5f" % 0)
         outfile.write("\n")
 
     outfile.close()
