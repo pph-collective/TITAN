@@ -332,6 +332,11 @@ class HIVModel(NetworkClass):
                     g = self.get_Graph()
                     if g.has_edge(rel._ID1, rel._ID2):
                         g.remove_edge(rel._ID1, rel._ID2)
+                    if params.flag_high_risk:
+                        if rel._ID1._incar_bool and rel._ID2._SO == "HF":
+                            self._become_high_risk(rel._ID2, duration=params.HR_F_dur)
+                        elif rel._ID2._incar_bool and rel._ID1._SO:
+                            self._become_high_risk(rel._ID1, duration=params.HR_F_dur)
 
                     self.Relationships.remove(rel)
                     del rel
@@ -865,6 +870,8 @@ class HIVModel(NetworkClass):
                 "HighRiskDuration"
             ]
 
+        agent._mean_num_partners += params.HR_partnerScale
+
     def _incarcerate(self, agent: Agent, time: int):
         """
         :Purpose:
@@ -909,10 +916,6 @@ class HIVModel(NetworkClass):
                             pass
                         else:  # Else, become high risk
                             self._become_high_risk(agent)
-
-                            agent._mean_num_partners = (
-                                agent._mean_num_partners + params.HR_partnerScale
-                            )
 
                     if (
                         params.inc_treat_RIC
@@ -984,17 +987,17 @@ class HIVModel(NetworkClass):
             for tmpA in agent._partners:
                 if not tmpA._high_risk_bool:
                     if self.runRandom.random() < params.HR_proportion:
-                        self._become_high_risk(tmpA)
+                        self._become_high_risk(tmpA, timestay)
 
                 if params.flag_PrEP and (
                     params.PrEP_target_model == "incarcerated"
                     or params.PrEP_target_model == "incarcerated_high_risk"
                 ):
-                    # Atempt to put partner on prep if less than probability
+                    # Attempt to put partner on prep if less than probability
                     if not tmpA._HIV_bool and not agent.vaccine_bool:
                         self._initiate_PrEP(tmpA, time)
 
-    # REVIEW - change verbage to diagnosed
+    # REVIEW - change verbiage to diagnosed
     def _HIVtest(self, agent: Agent, time: int):
         """
         :Purpose:
