@@ -327,9 +327,7 @@ class HIVModel(NetworkClass):
                 self._agents_interact(time, rel)
 
             # If static network, ignore relationship progression
-            if params.flag_staticN:
-                pass
-            else:
+            if not params.flag_staticN:
                 if rel.progress():
                     g = self.get_Graph()
                     if g.has_edge(rel._ID1, rel._ID2):

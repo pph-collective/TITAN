@@ -8,7 +8,7 @@ from scipy.stats import poisson  # type: ignore
 import numpy as np  # type: ignore
 
 from .agent import Agent_set, Agent, Relationship
-from .ABM_partnering import get_partner, get_partnership_duration
+from .ABM_partnering import select_partner, get_partnership_duration
 from . import params  # type: ignore
 from . import probabilities as prob
 
@@ -468,7 +468,7 @@ class PopulationClass:
 
     # REVIEWED should these be in the network class? - max to incorporate with network/pop/model disentangling?
     def update_agent_partners(self, graph, agent: Agent) -> bool:
-        partner = get_partner(agent, self.All_agentSet)
+        partner = select_partner(agent, self.All_agentSet)
         noMatch = False
         rel_type = ""
         bond_type = "multiplex"

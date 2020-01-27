@@ -10,7 +10,7 @@ from . import probabilities as prob
 from .agent import Agent, Agent_set
 
 
-def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
+def select_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
     """
     :Purpose:
         Get partner for agent.
@@ -50,7 +50,7 @@ def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
         else:
             RandomPartner = get_random_sex_partner(agent, all_agent_set)
     else:
-        raise ValueError("Check method _get_partners(). Agent not caught!")
+        raise ValueError("Check method _select_partners(). Agent not caught!")
 
     if RandomPartner == agent:
         return None
