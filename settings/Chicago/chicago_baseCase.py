@@ -260,7 +260,7 @@ elif model == "Custom":
     flag_staticN = True
     flag_PCA = True
 
-agentSexTypes = ["HM", "HF", "MSM", "WSW", "MTF"]
+agentSexTypes = ["MSM"]
 agentPopulations = deepcopy(agentSexTypes)
 agentPopulations.append("IDU")
 

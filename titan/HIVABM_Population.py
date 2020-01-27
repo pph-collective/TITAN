@@ -345,11 +345,11 @@ class PopulationClass:
             for k, v in params.attitude.items():
                 pvalue += v
                 if attprob < pvalue:
-                    newAgent.opinion = v
+                    newAgent.opinion = k
                     break
             assert newAgent.opinion in range(
                 5
-            ), "Agents opinion of injectible PrEP is out of bounds"  # TODO: move to testing
+            ), "Agents opinion of injectible PrEP is out of bounds {}".format(newAgent.opinion)  # TODO: move to testing
 
         return newAgent
 
