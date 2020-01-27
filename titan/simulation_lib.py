@@ -52,8 +52,10 @@ def stats_to_results(stats: Dict[str, Any], results: Dict[str, Any]):
         results["Prv_PrEP"][t].append(safe_divide(stat["numPrEP"], stat["numAgents"]))
 
         results["n_Relations"][t].append(stat["numRels"])
-        results["Inc_t_HM"][t].append(stats[t]["WHITE"]["HM"]["inf_newInf"])
-        results["Inc_t_HF"][t].append(stats[t]["WHITE"]["HF"]["inf_newInf"])
+        if "HM" in params.agentSexTypes:
+            results["Inc_t_HM"][t].append(stats[t]["WHITE"]["HM"]["inf_newInf"])
+        if "HF" in params.agentSexTypes:
+            results["Inc_t_HF"][t].append(stats[t]["WHITE"]["HF"]["inf_newInf"])
 
 
 def simulation(

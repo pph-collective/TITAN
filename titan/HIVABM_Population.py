@@ -349,7 +349,9 @@ class PopulationClass:
                     break
             assert newAgent.opinion in range(
                 5
-            ), "Agents opinion of injectible PrEP is out of bounds {}".format(newAgent.opinion)  # TODO: move to testing
+            ), "Agents opinion of injectible PrEP is out of bounds {}".format(
+                newAgent.opinion
+            )  # TODO: move to testing
 
         return newAgent
 

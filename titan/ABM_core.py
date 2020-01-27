@@ -316,7 +316,7 @@ class HIVModel(NetworkClass):
         :Output:
             none
         """
-        if time > 0 and params.flag_staticN is False:
+        if time > 0 and params.flag_staticN is False or burn:
             self.update_partner_assignments(params.PARTNERTURNOVER, self.get_Graph())
 
         for rel in self.Relationships:
@@ -404,7 +404,7 @@ class HIVModel(NetworkClass):
                         self.advance_vaccine(
                             agent, time, vaxType=params.vaccine_type, burn=burn
                         )
-        if params.flag_PrEP and time >= params.PrEP_startT:
+        if params.flag_PrEP and time >= params.PrEP_startT and not burn:
             if "RandomTrial" in params.PrEP_target_model and time == params.PrEP_startT:
                 components = list(
                     self.G.subgraph(c).copy()
