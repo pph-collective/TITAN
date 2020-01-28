@@ -19,7 +19,7 @@ N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_REPS = 1
 N_POP = 5578  # population size
 TIME_RANGE = 24  # total time steps to iterate
-burnDuration = 0
+burnDuration = 6
 model = "Custom"  # Model Type for fast flag toggling
 setting = "AtlantaMSM"
 network_type = "max_k_comp_size"
@@ -38,7 +38,7 @@ MSMreport = True
 HMreport = False
 HFreport = False
 drawFigures = False
-drawEdgeList = False
+drawEdgeList = True
 calcComponentStats = True
 flag_agentZero = False
 
@@ -51,10 +51,10 @@ reports = [
 Calibration scaling parameters for fitting to empirical data
 """
 
-PARTNERTURNOVER = 1.0  # Partner acquisition parameters (higher number more partnering)
-cal_NeedlePartScaling = 7.0  # IDU partner number scaling
+PARTNERTURNOVER = 0.9  # Partner acquisition parameters (higher number more partnering)
+cal_NeedlePartScaling = 1.0  # IDU partner number scaling
 cal_NeedleActScaling = 1.0  # IDU act frequency scaling factor
-cal_SexualPartScaling = 8.0  # Sexual partner number scaling factor
+cal_SexualPartScaling = 1.0  # Sexual partner number scaling factor
 cal_SexualActScaling = 1.0  # Sexual acts  scaling factor
 cal_pXmissionScaling = 1.0  # 0.92 # Global transmission probability scaling factor
 cal_AcuteScaling = 1.0  # Infectivity multiplier ratio for Acute status infections
@@ -88,7 +88,7 @@ PCA_PrEP = 0.30 * (
 opinion_threshold = (
     3.0  # opinion needed to initiate PrEP on a 0-4 scale (translated from 1-5 scale)
 )
-pcaChoice = "random"  # eigenvector or bridge, how the PCA is selected
+pcaChoice = "eigenvector"  # eigenvector or bridge, how the PCA is selected
 awarenessProb = 0.055  # static probability of becoming spontaneously aware of PrEP
 starting_awareness = 0.00  # awareness of PrEP at t0
 knowledgeTransmission = (
@@ -138,7 +138,7 @@ AssortMixCoeff = 0.75  # Proportion of race1 mixing with race2 when partnering.
 safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
 initTreatment = 0
 treatmentCov = 0.0
-maxComponentSize = 1000
+maxComponentSize = 100
 minComponentSize = 1
 
 """
@@ -526,8 +526,8 @@ clinicAgents["Mid"] = {
 }
 
 partnerNumber: Dict[int, Any] = {
-    0: 0.000,
-    1: 0.264,
+    0: 0.083,
+    1: 0.181,
     2: 0.229,
     3: 0.172,
     4: 0.112,
