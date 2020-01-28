@@ -34,7 +34,7 @@ class NetworkClass(PopulationClass):
             N : int
               Number of agents. Default: 10000
 
-            network_type: defaul is "scale_free", other options are "max_k_comp_size" and "binomial"
+            network_type: default is "scale_free", other options are "max_k_comp_size" and "binomial"
         """
         random.seed(netSeed)
         np.random.seed(netSeed)
@@ -85,7 +85,7 @@ class NetworkClass(PopulationClass):
                         totNods += cNodes
 
             self.G = nx.Graph()
-            for i in range(10):
+            for i in range(30):
                 self.update_partner_assignments(params.PARTNERTURNOVER, self.G)
             components = list(
                 self.G.subgraph(c).copy() for c in nx.connected_components(self.G)

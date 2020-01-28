@@ -316,7 +316,7 @@ class HIVModel(NetworkClass):
         :Output:
             none
         """
-        if time > 0 and params.flag_staticN is False or burn:
+        if time > 0 and params.flag_staticN:
             self.update_partner_assignments(params.PARTNERTURNOVER, self.get_Graph())
 
         for rel in self.Relationships:
