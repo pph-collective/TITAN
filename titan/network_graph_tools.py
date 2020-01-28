@@ -114,7 +114,7 @@ class NetworkClass(PopulationClass):
         return (self.G.subgraph(c).copy() for c in nx.connected_components(self.G))
 
     def write_G_edgelist(self, path: str):
-        G = self.G
+        G = self.get_Graph()
         nx.write_edgelist(G, path, data=["relationship"], delimiter="\t")
 
     def write_network_stats(

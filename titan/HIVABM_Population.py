@@ -471,7 +471,7 @@ class PopulationClass:
         partner = get_partner(agent, self.All_agentSet)
         noMatch = False
         rel_type = ""
-        bond_type = "sexOnly"
+        bond_type = "sexualOnly"
 
         def bondtype(bond_dict):
             pvalue = 0.0
@@ -498,8 +498,10 @@ class PopulationClass:
 
             self.Relationships.append(tmp_relationship)
             graph.add_edge(
-                tmp_relationship._ID1, tmp_relationship._ID2, relationship=rel_type
+                tmp_relationship._ID1, tmp_relationship._ID2, relationship=bond_type
             )
+            print(rel_type)
+            print(graph.edges(data=True))
         else:
             graph.add_node(agent)
             noMatch = True
