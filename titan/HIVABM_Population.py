@@ -500,8 +500,6 @@ class PopulationClass:
             graph.add_edge(
                 tmp_relationship._ID1, tmp_relationship._ID2, relationship=bond_type
             )
-            print(rel_type)
-            print(graph.edges(data=True))
         else:
             graph.add_node(agent)
             noMatch = True
