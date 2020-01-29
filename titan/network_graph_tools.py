@@ -61,7 +61,7 @@ class NetworkClass(PopulationClass):
             def trimComponent(component, maxComponentSize):
                 for ag in component.nodes:
                     if random.random() < 0.1:
-                        for rel in ag._relationships:
+                        for rel in ag._relationships[:-1]:
                             # print("Removed edge:",rel)
                             rel.progress(forceKill=True)
                             self.Relationships.remove(rel)
