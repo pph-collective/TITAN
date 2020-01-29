@@ -1,0 +1,29 @@
+features:
+  incar:
+    default: false
+    description: Whether incarceration will be used in the model
+    type: boolean
+  prep:
+    default: false
+    description: Whether PrEP will be used in the model
+    type: boolean
+  high_risk:
+    default: false
+    description: Whether high risk will be used in the model
+    type: boolean
+  haart:
+    default: false
+    description: Whether haart will be used in the model
+    type: boolean
+  die_and_replace:
+    default: false
+    description: Whether agents can die in the model, if so they will be replaced
+    type: boolean
+  static_n:
+    default: false
+    description: ????
+    type: boolean
+  booster:
+    default: false
+    description: If PrEP vaccine is used in the model, should there be booster shots
+    type: boolean
