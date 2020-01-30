@@ -404,7 +404,7 @@ class HIVModel(NetworkClass):
                         self.advance_vaccine(
                             agent, time, vaxType=params.vaccine_type, burn=burn
                         )
-        if params.flag_PrEP and time >= params.PrEP_startT and not burn:
+        if params.flag_PrEP and time >= params.PrEP_startT:
             if "RandomTrial" in params.PrEP_target_model and time == params.PrEP_startT:
                 components = list(
                     self.G.subgraph(c).copy()
@@ -441,23 +441,32 @@ class HIVModel(NetworkClass):
                                     ):
                                         self._initiate_PrEP(ag, time, force=True)
                         if params.pcaChoice == "eigenvector":
-                            centrality = nx.eigenvector_centrality_numpy(self.G)
+                            try:
+                                centrality = nx.eigenvector_centrality(comp)
+                                print("centrality")
+                            except:
+                                print("No centrality")
                             assert len(centrality) >= 1, "Empty centrality"
                             orderedCentrality = sorted(centrality, key=centrality.get)
-                            intervention_agent = False
+                            intervention_agent = 0
                             for ag in orderedCentrality:
                                 if not ag._HIV_bool:
                                     self.PCA_agentSet.add_agent(ag)
                                     ag.awareness = True
                                     ag._PCA = 1
                                     self.aware_agentSet.add_agent(ag)
-                                    intervention_agent = True
+                                    intervention_agent += 1
                                     break
                                 else:
                                     pass
+                            assert intervention_agent in [0, 1]
                             if not intervention_agent:
                                 ag = orderedCentrality[0]
                                 ag._PCA = -1
+                                intervention_agent += 1
+                            assert (
+                                intervention_agent == 1
+                            ), f"No intervention agent {intervention_agent}"
 
                         elif params.pcaChoice == "bridge":
                             all_bridges = list(
