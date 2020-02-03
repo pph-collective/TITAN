@@ -636,21 +636,18 @@ class HIVModel(NetworkClass):
 
             # Reduction of transmissibility for acts between partners for PrEP adherence
             if agent._PrEP_bool or partner._PrEP_bool:
-                if agent._PrEPresistance or partner._PrEPresistance:
-                    pass
-                else:
-                    if "Oral" in params.PrEP_type:  # params.PrEP_type == "Oral":
-                        if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
-                            ppAct = ppAct * (1.0 - params.PrEP_AdhEffic)  # 0.04
-                        else:
-                            ppAct = ppAct * (1.0 - params.PrEP_NonAdhEffic)  # 0.24
+                if "Oral" in params.PrEP_type:  # params.PrEP_type == "Oral":
+                    if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
+                        ppAct = ppAct * (1.0 - params.PrEP_AdhEffic)  # 0.04
+                    else:
+                        ppAct = ppAct * (1.0 - params.PrEP_NonAdhEffic)  # 0.24
 
-                    elif "Inj" in params.PrEP_type:
-                        ppActReduction = (
-                            -1.0 * np.exp(-5.528636721 * partner._PrEP_load) + 1
-                        )
-                        if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
-                            ppAct = ppAct * (1.0 - ppActReduction)  # 0.04
+                elif "Inj" in params.PrEP_type:
+                    ppActReduction = (
+                        -1.0 * np.exp(-5.528636721 * partner._PrEP_load) + 1
+                    )
+                    if agent._PrEP_adh == 1 or partner._PrEP_adh == 1:
+                        ppAct = ppAct * (1.0 - ppActReduction)  # 0.04
 
             if partner.vaccine_bool:
                 if params.vaccine_type == "HVTN702":
@@ -686,9 +683,6 @@ class HIVModel(NetworkClass):
             agent.vaccine_bool = False
             self.NewInfections.add_agent(agent)
             self.HIV_agentSet.add_agent(agent)
-            if agent._PrEP_time > 0:
-                if self.runRandom.random() < params.PrEP_resist:
-                    agent._PrEPresistance = 1
 
         if agent._PrEP_bool:
             self._discont_PrEP(agent, force=True)
@@ -970,18 +964,13 @@ class HIVModel(NetworkClass):
             self.PrEPagents[agent._race][agent._SO] -= 1
             agent._PrEP_bool = False
             agent._PrEP_reason = []
-            agent._PrEP_time = 0
-        # else if agent is no longer enrolled on PrEP, increase time since last dose
-        elif agent._PrEP_time > 0:
-            agent._PrEP_time -= 1
 
         # else if agent is on PrEP, see if they should discontinue
-        elif agent._PrEP_bool and agent._PrEP_time == 0:
+        else:
             if (
                 self.runRandom.random()
                 < params.DemographicParams[agent._race][agent._SO]["PrEPdisc"]
             ):
-                agent._PrEP_time = params.PrEP_falloutT
                 self.Trt_PrEP_agentSet.remove_agent(agent)
                 self.PrEPagents[agent._race][agent._SO] -= 1
 
@@ -1040,10 +1029,8 @@ class HIVModel(NetworkClass):
             none
         """
 
-        # REVIEWED _PrEP_time is initialized to zero, but then decremented to remove from PrEP - Sarah to review with Max
         def _enrollPrEP(self, agent: Agent):
             agent._PrEP_bool = True
-            agent._PrEP_time = 0
             self.Trt_PrEP_agentSet.add_agent(agent)
             self.newPrEPagents.add_agent(agent)
 

@@ -1,0 +1,68 @@
+prep:
+  type:
+    default:
+      - Oral
+    values:
+      - Oral
+      - Inj
+    description: Type of PrEP used in model
+    type: array
+  target:
+    default: 0.3
+    description: Target coverage for PrEP therapy at 10 years
+    type: float
+    min: 0
+    max: 1
+  start:
+    default: 0
+    description: Timestep at which prep should start in the model
+    type: int
+    min: 0 # TO_REVIEW creating the population checks for a -1 here, but it seems like 0 should be the same thing?
+  adherence:
+    default: 0.82
+    description: Probability that an agent adheres to PrEP regimen
+    type: float
+    min: 0
+    max: 1
+  efficacy:
+    adherent:
+      default: 0.96
+      description: Probability of PrEP efficacy if agent is adherent
+      type: float
+      min: 0
+      max: 1
+    non_adherant:
+      default: 0.76
+      description: Probabilty of PrEP efficacy if agent is non-adherent
+      type: float
+      min: 0
+      max: 1
+  discontinue:
+    default: 0.15
+    description: The probabability that an agent on PrEP discontinues PrEP at a given time step
+    type: float
+    min: 0
+    max: 1
+  target_model:
+    default: CDCwomen
+    values:
+      - CDCwomen
+      - Allcomers
+      - HighPN5
+      - HighPN10
+      - SRIns
+      - SR
+      - Rec
+      - MSM
+    description: which model to use to determine who is enrolled in PrEP
+    type: enum
+  half_life:
+    default: 40.0
+    description: Half life of injectable PrEP, used to calculate agent's prep load
+    type: float
+    min: 0
+  peak_load:
+    default: 4.91
+    description: Maximum prep load that an agent can have (load at injection time step)
+    type: float
+    min: 0

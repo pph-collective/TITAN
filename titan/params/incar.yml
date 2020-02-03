@@ -1,0 +1,49 @@
+incar:
+  hiv_tested:
+    default: 0.69
+    description: Probability an agent who is incarcerated gets tested (diagnosed) while in prison
+    type: float
+    min: 0
+    max: 1
+  haart:
+    prob:
+      default: 0.51
+      description: Probability an agent who is incarcerated is enrolled in haart
+      type: float
+      min: 0
+      max: 1
+    adherence:
+      default: 0.21
+      description: Probability an agent who is incarcerated is adherent
+      type: float
+      min: 0
+      max: 1
+    discontinue:
+      default: 0.12
+      description: Probability an agent who is incarcerated discontinues haart
+      type: float
+      min: 0
+      max: 1
+  treatment:
+    start:
+      default: 48
+      description: Time step at which treatments for released agents begins
+      type: int
+      min: 0
+    duration:
+      default: 12
+      description: Duration of agent's treatment post-release
+      type: int
+      min: 0
+    high_risk:
+      default: false
+      description: Remove sexual high risk behavior during treatment
+      type: boolean
+    idu:
+      default: false
+      description: Remove IDU behavior during treatment
+      type: boolean
+    ric:
+      default: false
+      description: Force retention in care of ART therapy
+      type: boolean

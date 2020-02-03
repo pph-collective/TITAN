@@ -1,0 +1,12 @@
+haart:
+  start:
+    default: 0
+    description: time step at which ART therapy begins in the model
+    type: int
+    min: 0
+  coverage:
+    default: 0
+    description: target coverage of ART for HIV+ population
+    type: flaot
+    min: 0
+    max: 1

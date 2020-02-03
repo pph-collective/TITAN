@@ -50,7 +50,7 @@ demographics:
         type: float
         min: 0.0
         max: 1.0
-    incarceration:
+    incar:
       init:
         default: 0.0
         description: "Probability that an agent in this class is initially incarcerated"
@@ -149,3 +149,45 @@ demographics:
           type: float
           min: 0.0
           max: 1.0
+    assortative_mixing:
+      coefficient:
+        default: 0
+        description: Probability that an agent partners with someone of their own race (if assortative_mixing.type == Race)
+        type: float
+        min: 0.0
+        max: 1.0
+    age:
+      type: bin
+      description: Binned probabilities of ages by race, last bin should be 1 to have default
+      fields:
+        prob:
+          type: float
+          min: 0
+          max: 1
+        min:
+          type: int
+          min: 0
+        max:
+          type: int
+          min: 0
+      default:
+        1:
+          prob: 0.085
+          min: 15
+          max: 24
+        2:
+          prob: 0.291
+          min: 25
+          max: 34
+        3:
+          prob: 0.511
+          min: 35
+          max: 44
+        4:
+          prob: 0.96
+          min: 45
+          max: 54
+        5:
+          prob: 1
+          min: 55
+          max: 80

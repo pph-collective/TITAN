@@ -1,6 +1,6 @@
 partnership:
   sex:
-    durations:
+    duration:
       type: bin
       description: "Binned probabilities of length of a partnership's sexual durations"
       fields:
@@ -96,3 +96,63 @@ partnership:
             prob: 0.0002
           5:
             prob: 0.0
+  needle:
+    duration:
+      type: bin
+      description: "Binned probabilities of length of a partnership's needle sharing durations"
+      fields:
+        prob:
+          type: float
+          min: 0.0
+          max: 1.0
+        min:
+          type: int
+          min: 0
+        max:
+          type: int
+          min: 0
+      default: # TO_REVIEW the first bin functionally makes it only one bin - correct?
+        1:
+          prob: 1.0
+          min: 1
+          max: 6
+    frequency:
+      type: bin
+      description: "Binned probabilities of frequency of a partnership's needle sharing"
+      fields:
+        prob:
+          type: float
+          min: 0.0
+          max: 1.0
+        min:
+          type: int
+          min: 0
+        max:
+          type: int
+          min: 0
+      default: # TO_REVIEW the first bin functionally makes it only one bin - correct?
+        1:
+          prob: 1.0
+          min: 1
+          max: 6
+    transmission:
+      type: bin
+      description: Binned probabilities of transmission from needle sharing
+      fields:
+        prob:
+          type: float
+          min: 0
+          max: 1
+      default:
+        0:
+          prob: 0.007
+        1:
+          prob: 0.007
+        2:
+          prob: 0.0056
+        3:
+          prob: 0.0028
+        4:
+          prob: 0.0014
+        5:
+          prob: 0.0002

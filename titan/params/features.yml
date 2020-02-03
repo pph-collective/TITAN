@@ -23,7 +23,15 @@ features:
     default: false
     description: ????
     type: boolean
-  booster:
+  agent_zero:
     default: false
-    description: If PrEP vaccine is used in the model, should there be booster shots
+    description: Whether to create 4 "agent_zeros" to initialize HIV in the population
+    type: boolean
+  assortative_mixing:
+    default: false
+    description: Whether to use assortative mixing when partnering
+    type: boolean
+  vaccing:
+    default: false
+    description: Whether to use a vaccine in the model
     type: boolean

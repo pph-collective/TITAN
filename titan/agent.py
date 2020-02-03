@@ -54,7 +54,6 @@ class Agent:
         self._HIV_time = 0
         self._AIDS_bool = False
         self._AIDS_time = 0
-        self._PrEPresistance = 0
 
         # agent treatment params
         self._tested = False
@@ -63,7 +62,6 @@ class Agent:
         self._HAART_adh = 0
         self._SNE_bool = False
         self._PrEP_bool = False
-        self._PrEP_time = 0
         self._PrEP_adh = 0
         self._treatment_bool = False
         self._treatment_time = 0

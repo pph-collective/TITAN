@@ -63,7 +63,6 @@ def test_agent_init(make_agent):
     assert a._HIV_time == 0
     assert a._AIDS_bool is False
     assert a._AIDS_time == 0
-    assert a._PrEPresistance == 0
 
     # treatment params
     assert a._HAART_bool is False
@@ -80,7 +79,6 @@ def test_agent_init(make_agent):
     # prevention parameters
     assert a._tested is False
     assert a._PrEP_bool is False
-    assert a._PrEP_time == 0
     assert a._PrEP_adh == 0
 
     # prep pharmacokinetics

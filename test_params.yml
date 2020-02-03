@@ -1,0 +1,239 @@
+prep:
+  type:
+  - Oral
+  vaccine:
+    type: RV144
+    booster: true
+    start: 1
+calibration:
+  partner_turnover: 0.1333
+  needle:
+    act: 1.0
+  sex:
+    act: 1.0
+    partner: 1.0
+  transmission: 1.0
+  acute: 4.3
+  risk_reduction:
+    transmission: 0.0
+    haart: 1.0
+  test_frequency: 0.3
+  mortality: 0.5
+  aids_progression: 1.0
+  haart_coverage: 0.7
+  incarceration: 1.0
+  race_transmission: 1.0
+  partner_sample_depth: 100
+outputs:
+  print_frequency: 10
+  draw_figures: false
+  calc_component_stats: false
+  reports:
+  - deathReport
+  - incarReport
+  - newlyhighriskReport
+  - prepReport
+  - basicReport
+classes:
+  races:
+  - BLACK
+  sex_types:
+  - MSM
+  populations:
+  - IDU
+  - MSM
+model:
+  setting: Phil2005
+  processes: 1
+  seeds:
+    run: 0
+    net: 0
+    pop: 0
+  num_mc: 1
+  num_reps: 1
+  num_pop: 100
+  time_range: 12
+  burn_duration: 6
+  network_type: scale_free
+high_risk:
+  partner_scale: 300
+  proportion: 0.3
+  sex_based:
+    MSM:
+      duration: 6
+assortative_mixing:
+  type: Race
+  coefficient: 0.75
+partnership:
+  sex:
+    durations:
+      1:
+        prob: 0.585
+        min: 1
+        max: 6
+      2:
+        prob: 0.701
+        min: 9
+        max: 12
+      3:
+        prob: 0.822
+        min: 13
+        max: 24
+      4:
+        prob: 0.882
+        min: 25
+        max: 36
+      5:
+        prob: 1.0
+        min: 37
+        max: 48
+    frequency:
+      1:
+        prob: 0.585
+        min: 1
+        max: 6
+      2:
+        prob: 0.701
+        min: 7
+        max: 12
+      3:
+        prob: 0.822
+        min: 13
+        max: 24
+      4:
+        prob: 0.882
+        min: 25
+        max: 36
+      5:
+        prob: 1.0
+        min: 37
+        max: 48
+    transmission:
+      MSM:
+        0:
+          prob: 0.08
+        1:
+          prob: 0.001
+        2:
+          prob: 0.0008
+        3:
+          prob: 0.0004
+        4:
+          prob: 0.0002
+        5:
+          prob: 0.0
+features:
+  incar: false
+  prep: false
+  high_risk: false
+  haart: false
+  die_and_replace: false
+  static_n: false
+  agent_zero: false
+  assortative_mixing: false
+demographics:
+  BLACK:
+    pop: 1.0
+    hiv:
+      init: 0.0
+    aids:
+      init: 0.0
+    haart:
+      init: 0.0
+      prob: 0.0
+      adherence: 0.0
+      discontinue: 0.0
+    incarceration:
+      init: 0.0
+      prob: 0.0
+    tested:
+      init: 0.0
+      prob: 0.0
+    num_partners: 0.0
+    num_needle_acts: 0.0
+    safe_sex: 0.0
+    needle_sharing: 0.0
+    prep:
+      discontinue: 0.0
+      adherence: 0.0
+      coverage: 0.0
+    high_risk:
+      init: 0.0
+    vaccine:
+      init: 0.0
+      prob: 0.0
+      booster:
+        interval: 0
+        prob: 0.0
+    assortative_mixing:
+      coefficient: 0
+    IDU:
+      pop: 0.0
+      hiv:
+        init: 0.0
+      aids:
+        init: 0.0
+      haart:
+        init: 0.0
+        prob: 0.0
+        adherence: 0.0
+        discontinue: 0.0
+      incarceration:
+        init: 0.0
+        prob: 0.0
+      tested:
+        init: 0.0
+        prob: 0.0
+      num_partners: 0.0
+      num_needle_acts: 0.0
+      safe_sex: 0.0
+      needle_sharing: 0.0
+      prep:
+        discontinue: 0.0
+        adherence: 0.0
+        coverage: 0.0
+      high_risk:
+        init: 0.0
+      vaccine:
+        init: 0.0
+        prob: 0.0
+        booster:
+          interval: 0
+          prob: 0.0
+      assortative_mixing:
+        coefficient: 0
+    MSM:
+      pop: 1.0
+      hiv:
+        init: 0.0
+      aids:
+        init: 0.0
+      haart:
+        init: 0.0
+        prob: 0.0
+        adherence: 0.0
+        discontinue: 0.0
+      incarceration:
+        init: 0.0
+        prob: 0.0
+      tested:
+        init: 0.0
+        prob: 0.0
+      num_partners: 0.0
+      num_needle_acts: 0.0
+      safe_sex: 0.0
+      needle_sharing: 0.0
+      prep:
+        discontinue: 0.0
+        adherence: 0.0
+        coverage: 0.0
+      high_risk:
+        init: 0.0
+      vaccine:
+        init: 0.0
+        prob: 0.0
+        booster:
+          interval: 0
+          prob: 0.0
+      assortative_mixing:
+        coefficient: 0

@@ -173,7 +173,6 @@ def test_become_HIV(make_model, make_agent):
     model = make_model()
     a = make_agent()
     a._PrEP_bool = True
-    a._PrEP_time = 10
 
     model.runRandom = FakeRandom(-0.1)
 
@@ -183,7 +182,6 @@ def test_become_HIV(make_model, make_agent):
     assert a._HIV_time == 1
     assert a in model.NewInfections._members
     assert a in model.HIV_agentSet._members
-    assert a._PrEPresistance == 1
     assert a._PrEP_bool is False
 
 
@@ -359,14 +357,12 @@ def test_discont_PrEP_force(make_model, make_agent):
     # set up so the agent appears to be on PrEP
     a._PrEP_bool = True
     a._PrEP_reason = ["blah"]
-    a._PrEP_time = 1000
     model.Trt_PrEP_agentSet.add_agent(a)
 
     model._discont_PrEP(a, True)
 
     assert a._PrEP_bool is False
     assert a._PrEP_reason == []
-    assert a._PrEP_time == 0
     assert a not in model.Trt_PrEP_agentSet._members
 
 
@@ -377,14 +373,12 @@ def test_discont_PrEP_decrement_time(make_model, make_agent):
     # set up so the agent appears to be on PrEP
     a._PrEP_bool = True
     a._PrEP_reason = ["blah"]
-    a._PrEP_time = 1000
     model.Trt_PrEP_agentSet.add_agent(a)
 
     model._discont_PrEP(a)
 
     assert a._PrEP_bool
     assert a._PrEP_reason == ["blah"]
-    assert a._PrEP_time == 999
 
 
 def test_discont_PrEP_decrement_end(make_model, make_agent):
@@ -396,14 +390,12 @@ def test_discont_PrEP_decrement_end(make_model, make_agent):
     # set up so the agent appears to be on PrEP
     a._PrEP_bool = True
     a._PrEP_reason = ["blah"]
-    a._PrEP_time = 0
     model.Trt_PrEP_agentSet.add_agent(a)
 
     model._discont_PrEP(a)
 
     assert a._PrEP_bool is False
     assert a._PrEP_reason == []
-    assert a._PrEP_time == params.PrEP_falloutT
     assert a not in model.Trt_PrEP_agentSet._members
 
 
@@ -416,7 +408,6 @@ def test_discont_PrEP_decrement_not_end(make_model, make_agent):
     # set up so the agent appears to be on PrEP
     a._PrEP_bool = True
     a._PrEP_reason = ["blah"]
-    a._PrEP_time = 0
     a._PrEP_lastDose = 3
     model.Trt_PrEP_agentSet.add_agent(a)
 
@@ -424,7 +415,6 @@ def test_discont_PrEP_decrement_not_end(make_model, make_agent):
 
     assert a._PrEP_bool
     assert a._PrEP_reason == ["blah"]
-    assert a._PrEP_time == 0
     assert a._PrEP_lastDose == -1  # 3 -> -1 -> +1 == 0 # Inj no longer in PrEP types
     assert a in model.Trt_PrEP_agentSet._members
     # assert a._PrEP_load > 0 # Inj no longer in PrEP types
@@ -452,7 +442,6 @@ def test_initiate_PrEP_force_adh(make_model, make_agent):
     model.runRandom = FakeRandom(0.00001)
     model._initiate_PrEP(a, 0, True)
     assert a._PrEP_bool
-    assert a._PrEP_time == 0
     assert a in model.Trt_PrEP_agentSet._members
     assert a in model.newPrEPagents._members
     assert a._PrEP_adh == 1
@@ -467,7 +456,6 @@ def test_initiate_PrEP_force_non_adh(make_model, make_agent):
     model.runRandom = FakeRandom(1.0)
     model._initiate_PrEP(a, 0, True)
     assert a._PrEP_bool
-    assert a._PrEP_time == 0
     assert a in model.Trt_PrEP_agentSet._members
     assert a in model.newPrEPagents._members
     assert a._PrEP_adh == 0
@@ -486,7 +474,6 @@ def test_initiate_PrEP_eligible(make_model, make_agent):
     model.runRandom = FakeRandom(0.00001)
     model._initiate_PrEP(a, 0)
     assert a._PrEP_bool
-    assert a._PrEP_time == 0
     assert a in model.Trt_PrEP_agentSet._members
     assert a in model.newPrEPagents._members
     assert a._PrEP_adh == 1

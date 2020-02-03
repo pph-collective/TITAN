@@ -12,7 +12,7 @@ model:
     description: "Number of processes in parallel to use for computation"
     type: int
     min: 1
-  seeds:
+  seed:
     run:
       default: 0
       description: "Seed for random number generator for running the model. 0 is pure random, -1 for stepwise through number of number of repetitions (num_reps), other numbers will be used to explicitly set the seed."
@@ -49,10 +49,22 @@ model:
     default: 6
     description: "Number of time steps of burn in period, if 0, there is no burn in period."
     type: int
-  network_type:
-    default: scale_free
-    description: "Algorithm used for network initialization"
-    type: enum
-    values:
-      - scale_free
-      - max_k_comp_size
+  network:
+    type:
+      default: scale_free
+      description: "Algorithm used for network initialization"
+      type: enum
+      values:
+        - scale_free
+        - max_k_comp_size
+    component_size:
+      min:
+        default: 1
+        description: Smallest allowable size of a sub-graph in the network at initialization
+        type: int
+        min: 0
+      max:
+        default: 100
+        description: Largest allowable size of a sub-graph in the network at initialization
+        type: int
+        min: 1

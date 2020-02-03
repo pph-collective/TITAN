@@ -1,0 +1,13 @@
+assortative_mixing:
+  type:
+    default: Race
+    description: Which type of assortative mixing to do (currently only Race)
+    type: enum
+    values:
+      - Race
+  coefficient:
+    default: 0.75
+    description: proportion of # TO_REVIEW this seems to overlap with demographis.race.assortative_mixing.coefficient?
+    type: float
+    min: 0
+    max: 1

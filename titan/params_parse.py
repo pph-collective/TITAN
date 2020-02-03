@@ -62,6 +62,10 @@ def get_bins(key, d, param):
 def parse_params(defs, params, pops):
     parsed = {}
 
+    # params is a scalar, return it
+    if not isinstance(params, dict):
+        return params
+
     # handles case of bin as direct default item
     if "default" in defs and defs["type"] == "bin":
         return get_bins("dummy", defs, {"dummy": params})
@@ -75,14 +79,16 @@ def parse_params(defs, params, pops):
                 field = v["keys"].pop(0)
                 for val in pops[field]:
                     parsed[k][val] = parse_params(
-                        v["default"], params[k].get(val, {}), pops
+                        v["default"], params.get(k, {}).get(val, {}), pops
                     )
 
                     if len(v["keys"]) > 0:
                         field2 = v["keys"][0]
                         for val2 in pops[field2]:
                             parsed[k][val][val2] = parse_params(
-                                v["default"], params[k].get(val, {}).get(val2, {}), pops
+                                v["default"],
+                                params.get(k, {}).get(val, {}).get(val2, {}),
+                                pops,
                             )
 
             elif v["type"] == "bin":
