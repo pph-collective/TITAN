@@ -482,7 +482,9 @@ class HIVModel(NetworkClass):
 
                         elif params.pcaChoice == "random":
                             chosen_agent = None
-                            for ag in comp:
+                            agents = list(comp)
+                            random.shuffle(agents)
+                            for ag in agents:
                                 if not ag._HIV_bool:
                                     chosen_agent = ag
                                     chosen_agent._PCA = pca.pca_agent
@@ -493,7 +495,6 @@ class HIVModel(NetworkClass):
                                 chosen_agent._PCA = pca.non_pca_agent
 
                 print(("Total agents in trial: ", totNods))
-                print("Number of Change Agents:", self.PCA_agentSet.num_members())
 
     def _agents_interact(self, time: int, rel: Relationship):
         """
