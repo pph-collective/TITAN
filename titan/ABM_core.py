@@ -371,7 +371,6 @@ class HIVModel(NetworkClass):
                 and not burn
             ):
                 agent.awareness = True
-                self.aware_agentSet.add_agent(agent)
                 if self.runRandom.random() < params.PCA_PrEP:
                     self._initiate_PrEP(agent, time, force=True)
             if params.flag_incar:  # and not burn:
@@ -444,21 +443,18 @@ class HIVModel(NetworkClass):
                             centrality = nx.eigenvector_centrality(comp)
                             assert len(centrality) >= 1, "Empty centrality"
                             orderedCentrality = sorted(centrality, key=centrality.get)
-                            intervention_agent = 0
+                            intervention_agent = False
                             for ag in orderedCentrality:
                                 if not ag._HIV_bool:
-                                    self.PCA_agentSet.add_agent(ag)
                                     ag.awareness = True
                                     ag._PCA = pca.pca_agent
-                                    self.aware_agentSet.add_agent(ag)
-                                    intervention_agent += 1
+                                    intervention_agent = True
                                     break
                                 else:
                                     pass
                             if not intervention_agent:
                                 ag = orderedCentrality[0]
                                 ag._PCA = pca.non_pca_agent
-                                intervention_agent += 1
                         elif params.pcaChoice == "bridge":
                             all_bridges = list(
                                 nx.bridges(comp)
@@ -470,13 +466,7 @@ class HIVModel(NetworkClass):
                                 chosen_agent = random.choice(
                                     comp_agents
                                 )  # select change agent
-                                self.aware_agentSet.add_agent(
-                                    chosen_agent
-                                )  # add to aware agents
                                 chosen_agent.awareness = True  # make aware
-                                self.PCA_agentSet.add_agent(
-                                    chosen_agent
-                                )  # add to PCA agents
                                 chosen_agent._PCA = pca.pca_agent
                             elif all_bridges:
                                 chosen_bridge = random.choice(
@@ -496,16 +486,8 @@ class HIVModel(NetworkClass):
                                 if not ag._HIV_bool:
                                     chosen_agent = ag
                                     chosen_agent._PCA = pca.pca_agent
-                                    self.aware_agentSet.add_agent(
-                                        chosen_agent
-                                    )  # add to aware agents
                                     chosen_agent.awareness = True  # make aware
-                                    self.PCA_agentSet.add_agent(
-                                        chosen_agent
-                                    )  # add to PCA agents
                                     break
-                                else:
-                                    pass
                             if not chosen_agent:
                                 chosen_agent = random.choice(list(comp.nodes))
                                 chosen_agent._PCA = pca.non_pca_agent
@@ -618,7 +600,6 @@ class HIVModel(NetworkClass):
 
         def knowledge_dissemination(partner):
             partner.awareness = True
-            self.aware_agentSet.add_agent(partner)
             if (
                 partner.opinion > params.opinion_threshold
                 and self.runRandom.random() < params.PCA_PrEP

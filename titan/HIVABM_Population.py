@@ -136,9 +136,7 @@ class PopulationClass:
         self.DU_NDU_agentSet = Agent_set("NDU", parent=self.drugUse_agentSet)
 
         # Treatment agent sets
-        self.aware_agentSet = Agent_set("LAI aware", parent=self.All_agentSet)
         self.treatment_agentSet = Agent_set("Trtmt", parent=self.All_agentSet)
-        self.PCA_agentSet = Agent_set("PCA", parent=self.All_agentSet)
         self.Trt_Tstd_agentSet = Agent_set(
             "Testd", parent=self.treatment_agentSet, numerator=self.HIV_agentSet
         )
@@ -388,9 +386,6 @@ class PopulationClass:
                 addToSubsets(self.HIV_AIDS_agentSet, agent)
 
         # Add to correct treatment set
-
-        if agent.awareness:
-            addToSubsets(self.aware_agentSet, agent)
 
         if agent._PrEP_bool:
             addToSubsets(self.Trt_PrEP_agentSet, agent)
