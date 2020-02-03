@@ -133,13 +133,14 @@ def save_results(
         for result_property in sorted(rslts):
             x_v = np.array(rslts[result_property][t])
 
-            outfile.write(",%4.5f" % np.mean(x_v))
-            outfile.write(",%4.5f" % np.std(x_v))
-            try:
+            if len(x_v) != 0:
+                outfile.write(",%4.5f" % np.mean(x_v))
+                outfile.write(",%4.5f" % np.std(x_v))
                 outfile.write(",%4.5f" % np.percentile(x_v, 10))
                 outfile.write(",%4.5f" % np.percentile(x_v, 90))
-            except:
-                outfile.write(",%4.5f" % 0)
+            else:
+                for i in range(4):
+                    outfile.write(",%4.5f" % 0)
         outfile.write("\n")
 
     outfile.close()

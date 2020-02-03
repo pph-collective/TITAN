@@ -342,16 +342,11 @@ class PopulationClass:
                 newAgent.awareness = True
             attprob = self.popRandom.random()
             pvalue = 0.0
-            for k, v in params.attitude.items():
-                pvalue += v
+            for bin, prob in params.attitude.items():
+                pvalue += prob
                 if attprob < pvalue:
-                    newAgent.opinion = k
+                    newAgent.opinion = bin
                     break
-            assert newAgent.opinion in range(
-                5
-            ), "Agents opinion of injectible PrEP is out of bounds {}".format(
-                newAgent.opinion
-            )  # TODO: move to testing
 
         return newAgent
 
@@ -471,12 +466,12 @@ class PopulationClass:
         partner = get_partner(agent, self.All_agentSet)
         noMatch = False
         rel_type = ""
-        bond_type = "sexualOnly"
+        bond_type = "sexOnly"
 
         def bondtype(bond_dict):
             pvalue = 0.0
             bond_probability = self.popRandom.random()
-            bonded_type = "sexualOnly"
+            bonded_type = "sexOnly"
             for reltype, p in bond_dict.items():
                 pvalue += p
                 if bond_probability < pvalue:
@@ -492,14 +487,10 @@ class PopulationClass:
                 else:
                     bond_type = bondtype(params.bond_type_probs)
 
-            tmp_relationship = Relationship(
-                agent, partner, duration, rel_type=bond_type
-            )
+            relationship = Relationship(agent, partner, duration, rel_type=bond_type)
 
-            self.Relationships.append(tmp_relationship)
-            graph.add_edge(
-                tmp_relationship._ID1, tmp_relationship._ID2, relationship=bond_type
-            )
+            self.Relationships.append(relationship)
+            graph.add_edge(relationship._ID1, relationship._ID2, relationship=bond_type)
         else:
             graph.add_node(agent)
             noMatch = True

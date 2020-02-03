@@ -63,6 +63,9 @@ def test_create_agent(make_population):
 
     a1 = pop.create_agent("WHITE")
     assert a1._race == "WHITE"
+    assert a1.opinion in range(
+        5
+    ), f"Agents opinion of injectible PrEP is out of bounds {a1.opinion}"
 
     a2 = pop.create_agent("BLACK")
     assert a2._race == "BLACK"

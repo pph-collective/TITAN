@@ -404,7 +404,7 @@ def print_components(
                     injectable_prep += 1
                 elif agent.PrEP_type == "Oral":
                     oral += 1
-            trtbool += agent._PCA
+            trtbool += agent._PCA.value
             if agent.awareness:
                 aware += 1
 

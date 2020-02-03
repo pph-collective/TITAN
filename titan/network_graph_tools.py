@@ -61,8 +61,9 @@ class NetworkClass(PopulationClass):
             def trimComponent(component, maxComponentSize):
                 for ag in component.nodes:
                     if random.random() < 0.1:
-                        for rel in ag._relationships[:-1]:
-                            # print("Removed edge:",rel)
+                        for rel in ag._relationships:
+                            if len(ag._relationships) == 1:
+                                break  # Make sure that agents stay part of the network by keeping one bond
                             rel.progress(forceKill=True)
                             self.Relationships.remove(rel)
                             component.remove_edge(rel._ID1, rel._ID2)

@@ -14,7 +14,7 @@ from scipy.stats import poisson  # type: ignore
 import networkx as nx  # type: ignore
 
 
-from .agent import Agent_set, Agent, Relationship
+from .agent import Agent_set, Agent, Relationship, pca
 from .network_graph_tools import NetworkClass
 from . import analysis_output as ao
 from . import probabilities as prob
@@ -441,11 +441,7 @@ class HIVModel(NetworkClass):
                                     ):
                                         self._initiate_PrEP(ag, time, force=True)
                         if params.pcaChoice == "eigenvector":
-                            try:
-                                centrality = nx.eigenvector_centrality(comp)
-                                print("centrality")
-                            except:
-                                print("No centrality")
+                            centrality = nx.eigenvector_centrality(comp)
                             assert len(centrality) >= 1, "Empty centrality"
                             orderedCentrality = sorted(centrality, key=centrality.get)
                             intervention_agent = 0
@@ -453,21 +449,16 @@ class HIVModel(NetworkClass):
                                 if not ag._HIV_bool:
                                     self.PCA_agentSet.add_agent(ag)
                                     ag.awareness = True
-                                    ag._PCA = 1
+                                    ag._PCA = pca.pca_agent
                                     self.aware_agentSet.add_agent(ag)
                                     intervention_agent += 1
                                     break
                                 else:
                                     pass
-                            assert intervention_agent in [0, 1]
                             if not intervention_agent:
                                 ag = orderedCentrality[0]
-                                ag._PCA = -1
+                                ag._PCA = pca.non_pca_agent
                                 intervention_agent += 1
-                            assert (
-                                intervention_agent == 1
-                            ), f"No intervention agent {intervention_agent}"
-
                         elif params.pcaChoice == "bridge":
                             all_bridges = list(
                                 nx.bridges(comp)
@@ -486,23 +477,25 @@ class HIVModel(NetworkClass):
                                 self.PCA_agentSet.add_agent(
                                     chosen_agent
                                 )  # add to PCA agents
-                                chosen_agent._PCA = 1
+                                chosen_agent._PCA = pca.pca_agent
                             elif all_bridges:
                                 chosen_bridge = random.choice(
                                     list(all_bridges)
                                 )  # not true change agent, just mark component
                                 chosen_agent = random.choice(list(chosen_bridge))
-                                chosen_agent._PCA = -1  # make change agent
+                                chosen_agent._PCA = (
+                                    pca.non_pca_agent
+                                )  # make change agent
                             else:
                                 chosen_agent = random.choice(list(comp.nodes))
-                                chosen_agent._PCA = -1
+                                chosen_agent._PCA = pca.non_pca_agent
 
                         elif params.pcaChoice == "random":
                             chosen_agent = None
                             for ag in comp:
                                 if not ag._HIV_bool:
                                     chosen_agent = ag
-                                    chosen_agent._PCA = 1
+                                    chosen_agent._PCA = pca.pca_agent
                                     self.aware_agentSet.add_agent(
                                         chosen_agent
                                     )  # add to aware agents
@@ -515,7 +508,7 @@ class HIVModel(NetworkClass):
                                     pass
                             if not chosen_agent:
                                 chosen_agent = random.choice(list(comp.nodes))
-                                chosen_agent._PCA = -1
+                                chosen_agent._PCA = pca.non_pca_agent
 
                 print(("Total agents in trial: ", totNods))
                 print("Number of Change Agents:", self.PCA_agentSet.num_members())

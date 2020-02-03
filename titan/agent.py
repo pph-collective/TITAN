@@ -2,7 +2,10 @@
 # encoding: utf-8
 
 from typing import Sequence, List, Dict, Optional
+from enum import Enum
 from . import params
+
+pca = Enum("pca", {"pca_agent": 1, "non_pca_agent": -1, "no_agent": 0})
 
 
 class Agent:
@@ -77,7 +80,7 @@ class Agent:
         self.awareness = False
         self.opinion = 0.0
         self.PrEP_type = ""
-        self._PCA = 0
+        self._PCA = pca.no_agent
 
         # PrEP pharmacokinetics
         self._PrEP_load = 0.0
