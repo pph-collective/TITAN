@@ -449,49 +449,46 @@ class HIVModel(NetworkClass):
                                 if not ag._HIV_bool:
                                     ag.awareness = True
                                     ag._pca = True
-                                    ag._suitable_agent = True
+                                    ag._pca_suitable = True
                                     intervention_agent = True
                                     break
-
                             if not intervention_agent:
                                 ag = orderedCentrality[0]
                                 ag._pca = True
                         elif params.pcaChoice == "bridge":
-                            all_bridges = list(
+                            all_bridges = list(  # list all edges that are bridges
                                 nx.bridges(comp)
                             )  # get a list of bridges
                             comp_agents = [
-                                ag for ag, j in all_bridges if not ag._HIV_bool
-                            ]  # all agents in bridge (first half)
+                                agent
+                                for agents in all_bridges
+                                for agent in agents
+                                if not agent._HIV_bool
+                            ]  # all suitable agents in bridges
                             if comp_agents:
                                 chosen_agent = random.choice(
                                     comp_agents
                                 )  # select change agent
                                 chosen_agent.awareness = True  # make aware
                                 chosen_agent._pca = True
-                                chosen_agent._suitable_agent = True
-                            elif all_bridges:
-                                chosen_bridge = random.choice(
-                                    list(all_bridges)
-                                )  # not true change agent, just mark component
-                                chosen_agent = random.choice(list(chosen_bridge))
-                                chosen_agent._pca = True
+                                chosen_agent._pca_suitable = True
                             else:
-                                chosen_agent = random.choice(list(comp.nodes))
+                                chosen_agent = list(comp.nodes)[0]
                                 chosen_agent._pca = True
 
                         elif params.pcaChoice == "random":
-                            chosen_agent = None
-                            agents = list(comp)
-                            random.shuffle(agents)
-                            for ag in agents:
-                                if not ag._HIV_bool:
-                                    chosen_agent = ag
-                                    chosen_agent._pca = True
-                                    chosen_agent._suitable_agent = True
-                                    chosen_agent.awareness = True  # make aware
-                                    break
-                            if not chosen_agent:
+                            suitable_agent_choices = [
+                                ag for ag in comp.nodes if not ag._HIV_bool
+                            ]
+                            if (
+                                suitable_agent_choices
+                            ):  # if there are agents who meet eligibility criteria,
+                                # select one randomly
+                                chosen_agent = random.choice(suitable_agent_choices)
+                                chosen_agent._pca = True
+                                chosen_agent._pca_suitable = True
+                                chosen_agent.awareness = True  # make aware
+                            else:  # if no suitable agents, mark a non-suitable agent
                                 chosen_agent = random.choice(list(comp.nodes))
                                 chosen_agent._pca = True
 

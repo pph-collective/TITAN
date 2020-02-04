@@ -78,7 +78,7 @@ class Agent:
         self.opinion = 0.0
         self.PrEP_type = ""
         self._pca = False
-        self._suitable_agent = True
+        self._pca_suitable = False
 
         # PrEP pharmacokinetics
         self._PrEP_load = 0.0

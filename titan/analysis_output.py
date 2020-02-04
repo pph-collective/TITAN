@@ -406,7 +406,7 @@ def print_components(
                     oral += 1
             if agent._pca:
                 trtbool += 1
-                if agent._suitable_agent:
+                if agent._pca_suitable:
                     pca += 1
             if agent.awareness:
                 aware += 1
