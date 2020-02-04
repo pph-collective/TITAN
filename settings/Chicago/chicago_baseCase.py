@@ -258,7 +258,7 @@ elif model == "Custom":
     flag_ART = False
     flag_DandR = False
     flag_staticN = True
-    flag_booster = True
+    flag_booster = False
     flag_PCA = True
 
 agentSexTypes = ["MSM"]
