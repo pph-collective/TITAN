@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 import os
-import numpy as np
+import numpy as np # type: ignore
 from typing import Sequence, Dict, Any
 
 from titan import params
