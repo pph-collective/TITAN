@@ -2,8 +2,8 @@
 # encoding: utf-8
 
 import os
-import numpy as np  # type: ignore
-from typing import Sequence, List, Dict, Optional, Any
+import numpy as np
+from typing import Sequence, Dict, Any
 
 from titan import params
 from .ABM_core import HIVModel
@@ -129,7 +129,8 @@ def save_results(
 
         outfile.write("%d,%s,%0.2f" % (t, prep_type, params.PrEP_Target))
 
-        # for each property in the result dict, write the mean, std dev, 10th % and 90th % over the mante carlo iterations (params.N_MC) in the simulation
+        # for each property in the result dict, write the mean, std dev, 10th % and 90th % over the mante carlo
+        # iterations (params.N_MC) in the simulation
         for result_property in sorted(rslts):
             x_v = np.array(rslts[result_property][t])
 

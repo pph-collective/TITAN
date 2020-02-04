@@ -1,16 +1,13 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import os
 import random
-import collections
 
 import numpy as np  # type: ignore
 import networkx as nx  # type: ignore
 from networkx.drawing.nx_agraph import graphviz_layout  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 import matplotlib.patches as patches  # type: ignore
-from typing import Sequence, List, Dict, Optional
 
 from .HIVABM_Population import PopulationClass
 from . import params  # type: ignore
@@ -102,7 +99,8 @@ class NetworkClass(PopulationClass):
                 elif (
                     params.calcComponentStats
                     and comp.number_of_nodes() < params.minComponentSize
-                ):  # REVIEWED what should happen if it's too small? - this should be addressed someday, but it's a larger question than is advisable at the moment
+                ):  # REVIEWED what should happen if it's too small? - this should be addressed someday, but it's a
+                    # larger question than is advisable at the moment
                     print("TOO SMALL", comp, comp.number_of_nodes())
                     for a in comp.nodes():
                         print(a)

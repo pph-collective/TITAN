@@ -79,7 +79,7 @@ def test_agent_init(make_agent):
     assert a.awareness is False
     assert a.opinion == 0.0
     assert a.PrEP_type == ""
-    assert a._PCA.value == 0
+    assert a._pca is False
 
     # prevention parameters
     assert a._tested is False

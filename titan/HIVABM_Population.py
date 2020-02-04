@@ -2,8 +2,8 @@
 # encoding: utf-8
 
 from random import Random
-from copy import deepcopy
-from typing import Sequence, List, Dict, Optional, Any
+
+from typing import List, Dict, Any
 from scipy.stats import poisson  # type: ignore
 import numpy as np  # type: ignore
 
@@ -340,8 +340,8 @@ class PopulationClass:
                 newAgent.awareness = True
             attprob = self.popRandom.random()
             pvalue = 0.0
-            for bin, prob in params.attitude.items():
-                pvalue += prob
+            for bin, probability in params.attitude.items():
+                pvalue += probability
                 if attprob < pvalue:
                     newAgent.opinion = bin
                     break
@@ -409,7 +409,8 @@ class PopulationClass:
     def get_age(self, race: str):
         rand = self.popRandom.random()
 
-        # REVIEWED why does AtlantaMSM use different age bins? should this all be paramable? - this will be revisited with future age things
+        # REVIEWED why does AtlantaMSM use different age bins? should this all be paramable? -
+        # this will be revisited with future age things
         if params.setting == "AtlantaMSM":
             if rand < params.ageMatrix[race]["Prop"][1]:
                 minAge = 18
@@ -460,7 +461,6 @@ class PopulationClass:
     def update_agent_partners(self, graph, agent: Agent) -> bool:
         partner = get_partner(agent, self.All_agentSet)
         noMatch = False
-        rel_type = ""
         bond_type = "sexOnly"
 
         def bondtype(bond_dict):

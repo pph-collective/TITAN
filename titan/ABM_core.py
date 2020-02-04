@@ -4,8 +4,7 @@
 # Imports
 import random
 from random import Random
-from typing import Dict, Any, List, Sequence, Optional
-import os
+from typing import Dict, List, Sequence, Optional
 import uuid
 
 import numpy as np  # type: ignore
@@ -14,7 +13,7 @@ from scipy.stats import poisson  # type: ignore
 import networkx as nx  # type: ignore
 
 
-from .agent import Agent_set, Agent, Relationship, pca
+from .agent import Agent_set, Agent, Relationship
 from .network_graph_tools import NetworkClass
 from . import analysis_output as ao
 from . import probabilities as prob
@@ -439,22 +438,24 @@ class HIVModel(NetworkClass):
                                         and not ag.vaccine_bool
                                     ):
                                         self._initiate_PrEP(ag, time, force=True)
-                        if params.pcaChoice == "eigenvector":
-                            centrality = nx.eigenvector_centrality(comp)
+                        elif params.pcaChoice == "eigenvector":
+                            centrality = nx.algorithms.centrality.eigenvector_centrality(
+                                comp
+                            )
                             assert len(centrality) >= 1, "Empty centrality"
                             orderedCentrality = sorted(centrality, key=centrality.get)
                             intervention_agent = False
                             for ag in orderedCentrality:
                                 if not ag._HIV_bool:
                                     ag.awareness = True
-                                    ag._PCA = pca.pca_agent
+                                    ag._pca = True
+                                    ag._suitable_agent = True
                                     intervention_agent = True
                                     break
-                                else:
-                                    pass
+
                             if not intervention_agent:
                                 ag = orderedCentrality[0]
-                                ag._PCA = pca.non_pca_agent
+                                ag._pca = True
                         elif params.pcaChoice == "bridge":
                             all_bridges = list(
                                 nx.bridges(comp)
@@ -467,18 +468,17 @@ class HIVModel(NetworkClass):
                                     comp_agents
                                 )  # select change agent
                                 chosen_agent.awareness = True  # make aware
-                                chosen_agent._PCA = pca.pca_agent
+                                chosen_agent._pca = True
+                                chosen_agent._suitable_agent = True
                             elif all_bridges:
                                 chosen_bridge = random.choice(
                                     list(all_bridges)
                                 )  # not true change agent, just mark component
                                 chosen_agent = random.choice(list(chosen_bridge))
-                                chosen_agent._PCA = (
-                                    pca.non_pca_agent
-                                )  # make change agent
+                                chosen_agent._pca = True
                             else:
                                 chosen_agent = random.choice(list(comp.nodes))
-                                chosen_agent._PCA = pca.non_pca_agent
+                                chosen_agent._pca = True
 
                         elif params.pcaChoice == "random":
                             chosen_agent = None
@@ -487,12 +487,13 @@ class HIVModel(NetworkClass):
                             for ag in agents:
                                 if not ag._HIV_bool:
                                     chosen_agent = ag
-                                    chosen_agent._PCA = pca.pca_agent
+                                    chosen_agent._pca = True
+                                    chosen_agent._suitable_agent = True
                                     chosen_agent.awareness = True  # make aware
                                     break
                             if not chosen_agent:
                                 chosen_agent = random.choice(list(comp.nodes))
-                                chosen_agent._PCA = pca.non_pca_agent
+                                chosen_agent._pca = True
 
                 print(("Total agents in trial: ", totNods))
 
@@ -1125,9 +1126,7 @@ class HIVModel(NetworkClass):
             # If using random trial
             if time == 0:
                 # if in init timestep 0, use agent set elligiblity
-                eligible = (
-                    agent.PrEP_eligible()
-                )  # REVIEWED agent doesn't have this attribute, should this refer to the method? - use method (method needs to be moved, do that first)
+                eligible = agent.PrEP_eligible()
             if time > 0:
                 # else, false to not continue enrollment past random trial start
                 eligible = False
@@ -1185,7 +1184,8 @@ class HIVModel(NetworkClass):
                     agent._PrEP_bool = False
                     agent.PrEP_type = ""
                     agent._PrEP_reason = []
-            else:  # if not discontinue, see if its time for a new shot. # REVIEWED what is this logic doing? This decrements, then update_PrEP_load increments - sarah to review with max
+            else:  # if not discontinue, see if its time for a new shot. # REVIEWED what is this logic doing? This
+                # decrements, then update_PrEP_load increments - sarah to review with max
                 if agent._PrEP_lastDose > 2:
                     agent._PrEP_lastDose = -1
 
@@ -1250,7 +1250,6 @@ class HIVModel(NetworkClass):
             none
         """
 
-        # REVIEWED _PrEP_time is initialized to zero, but then decremented to remove from PrEP - Sarah to review with Max
         def _enrollPrEP(self, agent: Agent):
             agent._PrEP_bool = True
             agent._PrEP_time = 0

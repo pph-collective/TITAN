@@ -382,7 +382,7 @@ def print_components(
     # if this is a new file, write the header info
     if f.tell() == 0:
         f.write(
-            "run_id\trunseed\tpopseed\tnetseed\tt\tcompID\ttotalN\tNhiv\tNprep\tNtrtHIV\tNprepHIV\tTrtComponent\tOral\tLAI\tAware\n"
+            "run_id\trunseed\tpopseed\tnetseed\tt\tcompID\ttotalN\tNhiv\tNprep\tNtrtHIV\tNprepHIV\tTrtComponent\tPCA\tOral\tLAI\tAware\n"
         )
 
     compID = 0
@@ -391,7 +391,7 @@ def print_components(
             nhiv
         ) = (
             ntrthiv
-        ) = nprep = PrEP_ever_HIV = trtbool = injectable_prep = oral = aware = 0
+        ) = nprep = PrEP_ever_HIV = trtbool = injectable_prep = oral = aware = pca = 0
         for agent in comp.nodes():
             totN += 1
             if agent._HIV_bool:
@@ -404,29 +404,16 @@ def print_components(
                     injectable_prep += 1
                 elif agent.PrEP_type == "Oral":
                     oral += 1
-            trtbool += agent._PCA.value
+            if agent._pca:
+                trtbool += 1
+                if agent._suitable_agent:
+                    pca += 1
             if agent.awareness:
                 aware += 1
 
         f.write(
-            "{run_id}\t{runseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Nprep}\t{NtrtHIV}"
-            "\t{NprepHIV}\t{trtbool}\t{Oral}\t{LAI}\t{aware}\n".format(
-                run_id=run_id,
-                runseed=runseed,
-                pseed=popseed,
-                nseed=netseed,
-                t=t,
-                compID=compID,
-                totalN=totN,
-                Nhiv=nhiv,
-                Nprep=nprep,
-                NtrtHIV=ntrthiv,
-                NprepHIV=PrEP_ever_HIV,
-                trtbool=trtbool,
-                Oral=oral,
-                LAI=injectable_prep,
-                aware=aware,
-            )
+            f"{run_id}\t{runseed}\t{popseed}\t{netseed}\t{t}\t{compID}\t{totN}\t{nhiv}\t{nprep}\t{ntrthiv}"
+            "\t{PrEP_ever_HIV}\t{trtbool}\t{pca}\t{oral}\t{injectable_prep}\t{aware}\n"
         )
 
         compID += 1

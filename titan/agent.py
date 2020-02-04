@@ -1,11 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from typing import Sequence, List, Dict, Optional
-from enum import Enum
+from typing import List, Dict
 from . import params
-
-pca = Enum("pca", {"pca_agent": 1, "non_pca_agent": -1, "no_agent": 0})
 
 
 class Agent:
@@ -80,7 +77,8 @@ class Agent:
         self.awareness = False
         self.opinion = 0.0
         self.PrEP_type = ""
-        self._PCA = pca.no_agent
+        self._pca = False
+        self._suitable_agent = True
 
         # PrEP pharmacokinetics
         self._PrEP_load = 0.0
@@ -520,7 +518,8 @@ class Agent_set:
 
     def iter_agents(
         self,
-    ):  # REVIEWED isn't this redundant with get_agents? why not have __iter__ return the agents? then we could use the syntax agent in agent_set - maybe consolidate later
+    ):  # REVIEWED isn't this redundant with get_agents? why not have __iter__ return the agents? then we could use
+        # the syntax agent in agent_set - maybe consolidate later
         for agent in self.get_agents():
             yield agent
 
