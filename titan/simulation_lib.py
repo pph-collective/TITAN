@@ -3,7 +3,7 @@
 
 import os
 import numpy as np  # type: ignore
-from typing import Sequence, List, Dict, Optional, Any
+from typing import Sequence, Dict, Any
 
 from titan import params
 from .ABM_core import HIVModel
@@ -52,8 +52,10 @@ def stats_to_results(stats: Dict[str, Any], results: Dict[str, Any]):
         results["Prv_PrEP"][t].append(safe_divide(stat["numPrEP"], stat["numAgents"]))
 
         results["n_Relations"][t].append(stat["numRels"])
-        results["Inc_t_HM"][t].append(stats[t]["WHITE"]["HM"]["inf_newInf"])
-        results["Inc_t_HF"][t].append(stats[t]["WHITE"]["HF"]["inf_newInf"])
+        if "HM" in params.agentSexTypes:
+            results["Inc_t_HM"][t].append(stats[t]["WHITE"]["HM"]["inf_newInf"])
+        if "HF" in params.agentSexTypes:
+            results["Inc_t_HF"][t].append(stats[t]["WHITE"]["HF"]["inf_newInf"])
 
 
 def simulation(
@@ -127,15 +129,19 @@ def save_results(
 
         outfile.write("%d,%s,%0.2f" % (t, prep_type, params.PrEP_Target))
 
-        # for each property in the result dict, write the mean, std dev, 10th % and 90th % over the mante carlo iterations (params.N_MC) in the simulation
+        # for each property in the result dict, write the mean, std dev, 10th % and 90th % over the mante carlo
+        # iterations (params.N_MC) in the simulation
         for result_property in sorted(rslts):
             x_v = np.array(rslts[result_property][t])
 
-            outfile.write(",%4.5f" % np.mean(x_v))
-            outfile.write(",%4.5f" % np.std(x_v))
-            outfile.write(",%4.5f" % np.percentile(x_v, 10))
-            outfile.write(",%4.5f" % np.percentile(x_v, 90))
-
+            if len(x_v) != 0:
+                outfile.write(",%4.5f" % np.mean(x_v))
+                outfile.write(",%4.5f" % np.std(x_v))
+                outfile.write(",%4.5f" % np.percentile(x_v, 10))
+                outfile.write(",%4.5f" % np.percentile(x_v, 90))
+            else:
+                for i in range(4):
+                    outfile.write(",%4.5f" % 0)
         outfile.write("\n")
 
     outfile.close()

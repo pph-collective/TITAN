@@ -19,7 +19,7 @@ N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_REPS = 1
 N_POP = 5578  # population size
 TIME_RANGE = 24  # total time steps to iterate
-burnDuration = 0
+burnDuration = 6
 model = "Custom"  # Model Type for fast flag toggling
 setting = "AtlantaMSM"
 network_type = "max_k_comp_size"
@@ -51,21 +51,19 @@ reports = [
 Calibration scaling parameters for fitting to empirical data
 """
 
-PARTNERTURNOVER = (
-    1.0 / 7.5
-)  # Partner acquisition parameters (higher number more partnering)
-cal_NeedlePartScaling = 1.00  # IDU partner number scaling
-cal_NeedleActScaling = 1.00  # IDU act frequency scaling factor
+PARTNERTURNOVER = 0.9  # Partner acquisition parameters (higher number more partnering)
+cal_NeedlePartScaling = 1.0  # IDU partner number scaling
+cal_NeedleActScaling = 1.0  # IDU act frequency scaling factor
 cal_SexualPartScaling = 1.0  # Sexual partner number scaling factor
-cal_SexualActScaling = 0.45  # Sexual acts  scaling factor
-cal_pXmissionScaling = 0.0  # 0.92 # Global transmission probability scaling factor
-cal_AcuteScaling = 4.3  # Infectivity multiplier ratio for Acute status infections
-cal_RR_Dx = 0.0  # Risk reduction in transmission probability for agents diagnosed
+cal_SexualActScaling = 1.0  # Sexual acts  scaling factor
+cal_pXmissionScaling = 1.0  # 0.92 # Global transmission probability scaling factor
+cal_AcuteScaling = 1.0  # Infectivity multiplier ratio for Acute status infections
+cal_RR_Dx = 1.0  # Risk reduction in transmission probability for agents diagnosed
 cal_RR_HAART = 1.0  # Scaling factor for effectiveness of ART therapy on xmission P
-cal_TestFreq = 0.3  # Scaling factor for testing frequency
-cal_Mortality = 0.5  # Scaling factor for all cause mortality rates
+cal_TestFreq = 1.0  # Scaling factor for testing frequency
+cal_Mortality = 1.0  # Scaling factor for all cause mortality rates
 cal_ProgAIDS = 1.0  # Scaling factor for all progression to AIDS from HIV rates
-cal_ART_cov = 0.70  # Scaling factor for enrollment on ART probability
+cal_ART_cov = 1.0  # Scaling factor for enrollment on ART probability
 cal_IncarP = 1.0  # Scaling factor for probability of becoming incarcerated
 cal_raceXmission = (
     1.0  # Scaling factor for increased STI transmission P comparing race1/race2
@@ -75,8 +73,8 @@ cal_ptnrSampleDepth = 100  # Sampling depth for partnering algorithm.
 """
 Bond Params
 """
-bond_type_probs = {"social": 0.308, "multiplex": 0.105, "sexualOnly": 0.587}
-bond_type_probs_IDU = {"social": 0.308, "multiplex": 0.105, "sexualOnly": 0.587}
+bond_type_probs = {"social": 0.308, "multiplex": 0.105, "sexOnly": 0.587}
+bond_type_probs_IDU = {"social": 0.308, "multiplex": 0.105, "sexOnly": 0.587}
 bond_type = ["social"]
 mean_partner_type = "bins"
 
@@ -90,7 +88,7 @@ PCA_PrEP = 0.30 * (
 opinion_threshold = (
     3.0  # opinion needed to initiate PrEP on a 0-4 scale (translated from 1-5 scale)
 )
-pcaChoice = "bridge"  # eigenvector or bridge, how the PCA is selected
+pcaChoice = "eigenvector"  # eigenvector or bridge, how the PCA is selected
 awarenessProb = 0.055  # static probability of becoming spontaneously aware of PrEP
 starting_awareness = 0.00  # awareness of PrEP at t0
 knowledgeTransmission = (
@@ -140,14 +138,14 @@ AssortMixCoeff = 0.75  # Proportion of race1 mixing with race2 when partnering.
 safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
 initTreatment = 0
 treatmentCov = 0.0
-maxComponentSize = 1000
+maxComponentSize = 100
 minComponentSize = 1
 
 """
 Vaccine params
 """
 vaccine_type = "RV144"
-booster = True
+booster = False
 vaccine_start = 1
 
 # Incarceration params
@@ -260,9 +258,10 @@ elif model == "Custom":
     flag_ART = False
     flag_DandR = False
     flag_staticN = True
+    flag_booster = False
     flag_PCA = True
 
-agentSexTypes = ["HM", "HF", "MSM", "WSW", "MTF"]
+agentSexTypes = ["MSM"]
 agentPopulations = deepcopy(agentSexTypes)
 agentPopulations.append("IDU")
 
@@ -283,7 +282,7 @@ RC_template: Dict[str, Any] = {
     "mNPart": 0.0,  # Mean number of sex partners
     "NUMPartn": 0.0,  # Number of partners (redundant)
     "NUMSexActs": 0.0,  # Mean number of sex acts with each partner
-    "UNSAFESEX": 0.0,  # Probability of engaging in unsafe sex (per act)
+    "SAFESEX": 0.0,  # Probability of engaging in unsafe sex (per act)
     "NEEDLESH": 0.0,  # Probability of sharing syringes during join drug use (per act)
     "HIVTEST": 0.0,  # Probability of testing for HIV
     "INCAR": 0.0,  # Probability of becoming incarcerated (rate)
@@ -323,7 +322,7 @@ RaceClass1["MSM"].update(
         "mNPart": 7.0,
         "NUMPartn": 7.0,
         "NUMSexActs": 5.0,
-        "UNSAFESEX": 0.432,
+        "SAFESEX": 0.432,
         "NEEDLESH": 0.43,
         "HIVTEST": 0.055,
         "INCAR": 0.00,  # 0.00014,
@@ -355,7 +354,7 @@ RaceClass2["MSM"].update(
         "mNPart": 5.0,
         "NUMPartn": 5.0,
         "NUMSexActs": 5.0,
-        "UNSAFESEX": 0.312,
+        "SAFESEX": 0.312,
         "NEEDLESH": 0.27,
         "HIVTEST": 0.06,
         "INCAR": 0.00,  # 0.0011,

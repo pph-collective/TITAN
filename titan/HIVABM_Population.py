@@ -2,8 +2,8 @@
 # encoding: utf-8
 
 from random import Random
-from copy import deepcopy
-from typing import Sequence, List, Dict, Optional, Any
+
+from typing import List, Dict, Any
 from scipy.stats import poisson  # type: ignore
 import numpy as np  # type: ignore
 
@@ -136,9 +136,7 @@ class PopulationClass:
         self.DU_NDU_agentSet = Agent_set("NDU", parent=self.drugUse_agentSet)
 
         # Treatment agent sets
-        self.aware_agentSet = Agent_set("LAI aware", parent=self.All_agentSet)
         self.treatment_agentSet = Agent_set("Trtmt", parent=self.All_agentSet)
-        self.PCA_agentSet = Agent_set("PCA", parent=self.All_agentSet)
         self.Trt_Tstd_agentSet = Agent_set(
             "Testd", parent=self.treatment_agentSet, numerator=self.HIV_agentSet
         )
@@ -342,14 +340,11 @@ class PopulationClass:
                 newAgent.awareness = True
             attprob = self.popRandom.random()
             pvalue = 0.0
-            for k, v in params.attitude.items():
-                pvalue += v
+            for bin, probability in params.attitude.items():
+                pvalue += probability
                 if attprob < pvalue:
-                    newAgent.opinion = v
+                    newAgent.opinion = bin
                     break
-            assert newAgent.opinion in range(
-                5
-            ), "Agents opinion of injectible PrEP is out of bounds"  # TODO: move to testing
 
         return newAgent
 
@@ -392,9 +387,6 @@ class PopulationClass:
 
         # Add to correct treatment set
 
-        if agent.awareness:
-            addToSubsets(self.aware_agentSet, agent)
-
         if agent._PrEP_bool:
             addToSubsets(self.Trt_PrEP_agentSet, agent)
         if agent._treatment_bool:
@@ -417,7 +409,8 @@ class PopulationClass:
     def get_age(self, race: str):
         rand = self.popRandom.random()
 
-        # REVIEWED why does AtlantaMSM use different age bins? should this all be paramable? - this will be revisited with future age things
+        # REVIEWED why does AtlantaMSM use different age bins? should this all be paramable? -
+        # this will be revisited with future age things
         if params.setting == "AtlantaMSM":
             if rand < params.ageMatrix[race]["Prop"][1]:
                 minAge = 18
@@ -468,13 +461,12 @@ class PopulationClass:
     def update_agent_partners(self, graph, agent: Agent) -> bool:
         partner = get_partner(agent, self.All_agentSet)
         noMatch = False
-        rel_type = ""
         bond_type = "sexOnly"
 
         def bondtype(bond_dict):
             pvalue = 0.0
             bond_probability = self.popRandom.random()
-            bonded_type = "sexualOnly"
+            bonded_type = "sexOnly"
             for reltype, p in bond_dict.items():
                 pvalue += p
                 if bond_probability < pvalue:
@@ -490,14 +482,10 @@ class PopulationClass:
                 else:
                     bond_type = bondtype(params.bond_type_probs)
 
-            tmp_relationship = Relationship(
-                agent, partner, duration, rel_type=bond_type
-            )
+            relationship = Relationship(agent, partner, duration, rel_type=bond_type)
 
-            self.Relationships.append(tmp_relationship)
-            graph.add_edge(
-                tmp_relationship._ID1, tmp_relationship._ID2, relationship=rel_type
-            )
+            self.Relationships.append(relationship)
+            graph.add_edge(relationship._ID1, relationship._ID2, relationship=bond_type)
         else:
             graph.add_node(agent)
             noMatch = True
