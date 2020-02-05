@@ -89,7 +89,7 @@ flag_AssortativeMix = True
 AssortMixType = "Race"
 flag_AgeAssortMix = False
 flag_RaceAssortMix = True
-AssortMixCoeff = 0.75  # Proportion of race1 mixing with race2 when partnering.
+assort_mix_race = 0.75  # Proportion of race1 mixing with race2 when partnering.
 safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
 initTreatment = 0
 treatmentCov = 0.0
@@ -178,6 +178,7 @@ if model == "PrEP":
     flag_DandR = True
     flag_staticN = False
     flag_booster = False
+    drug_use_risk = False
 elif model == "Incar":
     flag_incar = True
     flag_PrEP = False
@@ -186,6 +187,7 @@ elif model == "Incar":
     flag_DandR = True
     flag_staticN = False
     flag_booster = False
+    drug_use_risk = False
 elif model == "NoIncar":
     flag_incar = False
     flag_PrEP = False
@@ -194,6 +196,7 @@ elif model == "NoIncar":
     flag_DandR = True
     flag_staticN = False
     flag_booster = False
+    drug_use_risk = False
 elif model == "VaccinePrEP":
     flag_incar = False
     flag_PrEP = True
@@ -202,6 +205,7 @@ elif model == "VaccinePrEP":
     flag_DandR = True
     flag_staticN = False
     flag_booster = True
+    drug_use_risk = False
 elif model == "Custom":
     flag_incar = False
     flag_PrEP = True
@@ -212,6 +216,7 @@ elif model == "Custom":
     flag_booster = False
     flag_PCA = False
     init_with_vaccine = False
+    drug_use_risk = False
 
 agentSexTypes = ["HM", "HF", "MSM", "WSW", "MTF"]
 agentPopulations = deepcopy(agentSexTypes)
@@ -251,6 +256,8 @@ RC_template: Dict[str, Any] = {
     "vaccinePrev": 0,
     "vaccineInit": 0,
     "HighRiskDuration": 10,
+    "nidu": 0.0,
+    "nidu_relative_risk": 1.0,
 }
 
 RaceClass1: Dict[str, Any] = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
@@ -311,7 +318,7 @@ RaceClass1["MSM"].update(
 )
 
 RaceClass1["ALL"].update(
-    {"Proportion": 0.611, "HAARTdisc": 0.018, "PrEPdisc": 0.0, "AssortMixCoeff": 0.722}
+    {"Proportion": 0.611, "HAARTdisc": 0.018, "PrEPdisc": 0.0, "AssortMixCoeff": 1.722}
 )
 
 # RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
@@ -384,11 +391,7 @@ sexualFrequency[4] = {
     "min": 25,
     "max": 36,
 }
-sexualFrequency[5] = {
-    "p_value": 1.0,
-    "min": 37,
-    "max": 48,
-}
+sexualFrequency[5] = {"p_value": 1.0, "min": 37, "max": 48}
 
 needleFrequency: Dict[int, Any] = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
 needleFrequency[1] = {"p_value": 1.0, "min": 1, "max": 6}
@@ -502,6 +505,13 @@ bond_type_probs = {"social": 0.308, "multiplex": 0.105, "sexualOnly": 0.587}
 bond_type_probs_IDU = {"social": 0.308, "multiplex": 0.105, "sexualOnly": 0.587}
 bond_type = ["social"]
 mean_partner_type = "bins"
+
+assortative_mixing = {
+    1: {"type": "_race", "probability": 1.0, "agent_type": "WHITE", "partner_type": "WHITE"},
+    2: {"type": "_race", "probability": 1.0, "agent_type": "BLACK", "partner_type": "BLACK"},
+    3: {"type": "_DU", "probability": 1.0, "agent_type": "nidu", "partner_type": "nidu"},
+}
+
 
 """
 Peer change params

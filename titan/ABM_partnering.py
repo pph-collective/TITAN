@@ -45,7 +45,7 @@ def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
             RandomPartner = get_assort_sex_partner(agent, all_agent_set)
 
             # try again with random sex partner is assort mix percent not 100%
-            if RandomPartner is None and params.AssortMixCoeff <= 1.0:
+            if RandomPartner is None and params.assort_mix_race <= 1.0:
                 RandomPartner = get_random_sex_partner(agent, all_agent_set)
         else:
             RandomPartner = get_random_sex_partner(agent, all_agent_set)
@@ -110,39 +110,31 @@ def get_assort_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
     ]
 
     eligible_partners = all_agent_set._subset["SO"]._subset[eligPartnerType]._members
-    if params.AssortMixType == "Race":
-        samplePop = [
-            tmpA
-            for tmpA in eligible_partners
-            if (tmpA._race == agent._race and tmpA not in agent._partners)
-        ]
+    for assort_type, assort_values in params.assortative_mixing.items():
+        if (
+            assort_type == "race"
+            or getattr(agent, assort_values["type"]) == assort_values["agent_type"]
+        ):  # All assortative mixing
+            # besides race must be agents within that class (i.e., NIDU assortative mixing only happens to NIDU)
+            if assort_values["probability"] == 0.0:
+                pass
+            elif (
+                random.random() < assort_values["probability"]
+            ):  # if roll to assortatively mix, only that class is
+                # your eligible partners
+                eligible_partners = [
+                    tmpA
+                    for tmpA in eligible_partners
+                    if (getattr(tmpA, assort_values["type"]) == assort_values["type"])
+                ]
+            else:  # if you aren't chosen to assortative mix, you should be choosing people who don't meet that criteria
+                eligible_partners = [
+                    tmpA
+                    for tmpA in eligible_partners
+                    if (getattr(tmpA, assort_type) != assort_values["type"])
+                ]
 
-    elif params.AssortMixType == "Client":
-        if agent._race == "WHITE":
-            samplePop = [
-                tmpA
-                for tmpA in eligible_partners
-                if (tmpA._race == "WHITE" and tmpA not in agent._partners)
-            ]
-        else:
-            samplePop = [
-                tmpA
-                for tmpA in eligible_partners
-                if (
-                    tmpA._race == "WHITE"
-                    and tmpA._everhighrisk_bool
-                    and tmpA not in agent._partners
-                )
-            ]
-
-    elif params.AssortMixType == "high_risk":
-        samplePop = [
-            tmpA
-            for tmpA in eligible_partners
-            if (tmpA._everhighrisk_bool and tmpA not in agent._partners)
-        ]
-
-    RandomPartner = safe_random_choice(samplePop)
+    RandomPartner = safe_random_choice(eligible_partners)
 
     # partner can't be existing parter or agent themself
     if RandomPartner in agent._partners or RandomPartner == agent:

@@ -261,22 +261,25 @@ class Agent:
 
         # Scaling parameter for acute HIV infections
         if self.get_acute_status():
-            p = p * params.cal_AcuteScaling
+            p *= params.cal_AcuteScaling
 
         # Scaling parameter for positively identified HIV agents
         if self._tested:
-            p = p * (1 - params.cal_RR_Dx)
+            p *= (1 - params.cal_RR_Dx)
 
         # Tuning parameter for ART efficiency
         if self._HAART_bool:
-            p = p * params.cal_RR_HAART
+            p *= params.cal_RR_HAART
 
         # Racial calibration parameter to attain proper race incidence disparity
         if self._race == "BLACK":
-            p = p * params.cal_raceXmission
+            p *= params.cal_raceXmission
 
         # Scaling parameter for per act transmission.
-        p = p * params.cal_pXmissionScaling
+        p *= params.cal_pXmissionScaling
+
+        if self._DU == "NIDU":
+            p *= params.DemographicParams[self._race][self._SO]["nidu_relative_risk"]
 
         return p
 

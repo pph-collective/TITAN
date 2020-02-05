@@ -94,7 +94,9 @@ class PopulationClass:
         if type(n) is not int:
             raise ValueError("Population size must be integer")
         else:
-            self.PopulationSize = n  # REVIWED PopulationSize not really used and is calculable - needed? - nope
+            self.PopulationSize = (
+                n
+            )  # REVIWED PopulationSize not really used and is calculable - needed? - nope
 
         # Parameters
         self.numWhite = round(
@@ -228,6 +230,8 @@ class PopulationClass:
         # todo: FIX THIS TO GET BACK IDU
         if self.popRandom.random() < params.DemographicParams[Race]["IDU"]["POP"]:
             DrugType = "IDU"
+        elif self.popRandom.random() < params.DemographicParams[Race][SexType]["nidu"]:
+            DrugType = "NIDU"
         else:
             DrugType = "NDU"
 
@@ -236,7 +240,7 @@ class PopulationClass:
         newAgent = Agent(SexType, age, Race, DrugType)
         newAgent._ageBin = ageBin
 
-        if params.setting == "Phil2005" and SexType == "HM":
+        if params.setting == "Phil2005" and SexType == "HM":  # TODO: make this a flag
             if self.popRandom.random() < 0.06:
                 newAgent._MSMW = True
 
@@ -349,7 +353,9 @@ class PopulationClass:
                     break
             assert newAgent.opinion in range(
                 5
-            ), "Agents opinion of injectible PrEP is out of bounds"  # TODO: move to testing
+            ), (
+                "Agents opinion of injectible PrEP is out of bounds"
+            )  # TODO: move to testing
 
         return newAgent
 
