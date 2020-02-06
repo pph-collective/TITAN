@@ -265,7 +265,7 @@ class Agent:
 
         # Scaling parameter for positively identified HIV agents
         if self._tested:
-            p *= (1 - params.cal_RR_Dx)
+            p *= 1 - params.cal_RR_Dx
 
         # Tuning parameter for ART efficiency
         if self._HAART_bool:

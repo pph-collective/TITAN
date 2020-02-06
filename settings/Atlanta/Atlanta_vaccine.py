@@ -38,9 +38,7 @@ calcComponentStats = False
 flag_agentZero = False
 drawEdgeList = False
 
-reports = [
-    "basicReport",
-]
+reports = ["basicReport"]
 
 
 """

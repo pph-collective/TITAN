@@ -38,12 +38,7 @@ HFreport = False
 drawFigures = False
 calcComponentStats = False
 
-reports = [
-    "incarReport",
-    "newlyhighriskReport",
-    "prepReport",
-    "basicReport",
-]
+reports = ["incarReport", "newlyhighriskReport", "prepReport", "basicReport"]
 
 """
 Calibration scaling parameters for fitting to empirical data

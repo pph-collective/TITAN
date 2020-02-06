@@ -29,9 +29,13 @@ Output flags and settings
 outputDir = ""
 
 printIncidenceEvents = False  # this needs a description
-printStartAgentList = False  # prints the full agent list at the beginning of model run, after burn TODO check this
+printStartAgentList = (
+    False
+)  # prints the full agent list at the beginning of model run, after burn TODO check this
 printEndingAgentList = False  # prints the full agent list at the end of model run
-printIntermAgentList = False  # prints the full agent list at intervals during model run, determined by interimPrintFreq
+printIntermAgentList = (
+    False
+)  # prints the full agent list at intervals during model run, determined by interimPrintFreq
 intermPrintFreq = (
     60  # if printing agent lists during model run, determines frequency of printouts
 )
@@ -64,15 +68,21 @@ cal_SexualActScaling = 1.0  # Scaling factor for sexual acts
 cal_pXmissionScaling = (
     1.0  # Global transmission probability scaling factor. Do not change for calibration
 )
-cal_AcuteScaling = 4.3  # Infectivity multiplier ratio for Acute status infections. REVIEW: WILL, is this set in stone?
-cal_RR_Dx = 0.53  # Scaling factor for risk reduction in transmission probability for agents diagnosed
+cal_AcuteScaling = (
+    4.3
+)  # Infectivity multiplier ratio for Acute status infections. REVIEW: WILL, is this set in stone?
+cal_RR_Dx = (
+    0.53
+)  # Scaling factor for risk reduction in transmission probability for agents diagnosed
 cal_RR_HAART = 1.0  # Scaling factor for effectiveness of ART therapy on transmission
 cal_TestFreq = 1.0  # Scaling factor for testing/diagnosis frequency
 cal_Mortality = 0.5  # Scaling factor for all cause mortality rates
 cal_ProgAIDS = 1.0  # Scaling factor for all rates of progression to AIDS from HIV
 cal_ART_cov = 1.0  # Scaling factor for probability of enrollment on ART
 cal_IncarP = 1.0  # Scaling factor for incarceration probability
-cal_raceXmission = 1.0  # Scaling factor for racial disparities in transmission not accounted for in other factors
+cal_raceXmission = (
+    1.0
+)  # Scaling factor for racial disparities in transmission not accounted for in other factors
 cal_ptnrSampleDepth = 100
 
 """
@@ -109,7 +119,9 @@ treatmentCov = 0.60  # Prop that receive treatment
 limitComponentSize = False  # Maintains a maximum component size
 maxComponentSize = 100  # Component size maximum if limited
 minComponentSize = 2  # Doesn't work?
-condomUseType = "Acts"  # Racial or Acts. Acts is standard. Determines how likelihood of condom use is decided
+condomUseType = (
+    "Acts"
+)  # Racial or Acts. Acts is standard. Determines how likelihood of condom use is decided
 """
 Vaccine params
 """

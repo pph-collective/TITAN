@@ -136,7 +136,7 @@ def get_assort_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
 
     RandomPartner = safe_random_choice(eligible_partners)
 
-    # partner can't be existing parter or agent themself
+    # partner can't be existing partner or agent themself
     if RandomPartner in agent._partners or RandomPartner == agent:
         RandomPartner = None
 

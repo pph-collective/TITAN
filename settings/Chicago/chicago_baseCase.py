@@ -42,10 +42,7 @@ drawEdgeList = True
 calcComponentStats = True
 flag_agentZero = False
 
-reports = [
-    "prepReport",
-    "basicReport",
-]
+reports = ["prepReport", "basicReport"]
 
 """
 Calibration scaling parameters for fitting to empirical data
