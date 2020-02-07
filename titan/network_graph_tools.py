@@ -77,7 +77,6 @@ class NetworkClass(PopulationClass):
                     if cNodes > params.maxComponentSize:
                         trimComponent(component, params.maxComponentSize)
 
-
                     else:
                         totNods += cNodes
 

@@ -104,7 +104,6 @@ class PopulationClass:
             params.DemographicParams["BLACK"]["ALL"]["Proportion"] * self.PopulationSize
         )
 
-
         # build weights of population sex types by race - SARAH READ THIS
         self.pop_weights: Dict[str, Dict[str, List[Any]]] = {}
         for race in params.DemographicParams.keys():
@@ -474,9 +473,7 @@ class PopulationClass:
 
         if partner:
             duration = get_partnership_duration(agent)
-            tmp_relationship = Relationship(
-                agent, partner, duration, rel_type=rel_type
-            )
+            tmp_relationship = Relationship(agent, partner, duration, rel_type=rel_type)
 
             self.Relationships.append(tmp_relationship)
             graph.add_edge(

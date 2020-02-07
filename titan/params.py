@@ -467,13 +467,17 @@ clinicAgents["Mid"] = {
 """
 Bond Params
 """
-bond_type_probs = {1: {"type": ["social"], "probability": 0.308},
-                   2: {"type": ["social", "sexual"], "probability": 0.105},
-                   3: {"type": ["sexual"], "probability": 0.587}}
+bond_type_probs = {
+    1: {"type": ["social"], "probability": 0.308},
+    2: {"type": ["social", "sexual"], "probability": 0.105},
+    3: {"type": ["sexual"], "probability": 0.587},
+}
 
-bond_type_probs_IDU = {1: {"type": ["social"], "probability": 0.308},
-                   2: {"type": ["social", "sexual"], "probability": 0.105},
-                   3: {"type": ["sexual"], "probability": 0.587}}
+bond_type_probs_IDU = {
+    1: {"type": ["social"], "probability": 0.308},
+    2: {"type": ["social", "sexual"], "probability": 0.105},
+    3: {"type": ["sexual"], "probability": 0.587},
+}
 mean_partner_type = "bins"
 
 assortative_mixing: Dict[int, Any] = {

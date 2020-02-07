@@ -40,10 +40,10 @@ def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[tuple]:
 
     def assort(eligible_partners):
         for assort_key, assort_values in params.assortative_mixing.items():
-            if (
-                getattr(agent, assort_values["type"]) == assort_values["agent_type"]
-            ):
-                assert assort_values["probability"] != 0.0, "Cannot assort with probability of 0!"
+            if getattr(agent, assort_values["type"]) == assort_values["agent_type"]:
+                assert (
+                    assort_values["probability"] != 0.0
+                ), "Cannot assort with probability of 0!"
                 if (
                     random.random() < assort_values["probability"]
                 ):  # if roll to assortatively mix, only that class is
@@ -51,18 +51,26 @@ def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[tuple]:
                     eligible_partners = [
                         tmpA
                         for tmpA in eligible_partners
-                        if (getattr(tmpA, assort_values["type"]) == assort_values["type"])
+                        if (
+                            getattr(tmpA, assort_values["type"])
+                            == assort_values["type"]
+                        )
                     ]
                 else:  # if you aren't chosen to assortative mix,
                     # you should be choosing people who don't meet that criteria
                     eligible_partners = [
                         tmpA
                         for tmpA in eligible_partners
-                        if (getattr(tmpA, assort_values["type"]) != assort_values["type"])
+                        if (
+                            getattr(tmpA, assort_values["type"])
+                            != assort_values["type"]
+                        )
                     ]
-        return(eligible_partners)
+        return eligible_partners
 
-    if agent_drug_type == "IDU":  # agent bond types are drug-use specific. Get the correct dict.
+    if (
+        agent_drug_type == "IDU"
+    ):  # agent bond types are drug-use specific. Get the correct dict.
         agent_bond = bondtype(params.bond_type_probs_IDU)
     else:
         agent_bond = bondtype(params.bond_type_probs)
