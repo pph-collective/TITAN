@@ -27,11 +27,11 @@ features:
     default: false
     description: Whether to create 4 "agent_zeros" to initialize HIV in the population
     type: boolean
-  assortative_mixing:
+  assort_mix:
     default: false
     description: Whether to use assortative mixing when partnering
     type: boolean
-  vaccing:
+  vaccine:
     default: false
     description: Whether to use a vaccine in the model
     type: boolean

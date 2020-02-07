@@ -111,7 +111,7 @@ partnership:
         max:
           type: int
           min: 0
-      default: # TO_REVIEW the first bin functionally makes it only one bin - correct?
+      default:
         1:
           prob: 1.0
           min: 1
@@ -130,7 +130,7 @@ partnership:
         max:
           type: int
           min: 0
-      default: # TO_REVIEW the first bin functionally makes it only one bin - correct?
+      default:
         1:
           prob: 1.0
           min: 1

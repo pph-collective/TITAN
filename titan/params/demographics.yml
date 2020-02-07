@@ -5,7 +5,7 @@ demographics:
     - races
     - populations
   default:
-    pop:
+    prop:
       default: 0.0
       description: "Percentage of agent population with given parent key that is this class.  Across races this must add up to one, and at the sex type level within a race, this must also add up to one. Other demographic params can have proportions of any value."
       type: float
@@ -149,10 +149,10 @@ demographics:
           type: float
           min: 0.0
           max: 1.0
-    assortative_mixing:
+    assort_mix:
       coefficient:
         default: 0
-        description: Probability that an agent partners with someone of their own race (if assortative_mixing.type == Race)
+        description: Probability that an agent partners with someone of their own race (if assort_mix.type == Race)
         type: float
         min: 0.0
         max: 1.0

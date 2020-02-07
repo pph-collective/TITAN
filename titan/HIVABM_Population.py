@@ -293,7 +293,7 @@ class PopulationClass:
         else:
 
             if params.flag_PrEP:
-                if params.PrEP_startT == -1:
+                if params.PrEP_startT == 0:
                     prob_PrEP = params.PrEP_Target
                 else:
                     prob_PrEP = 0.0

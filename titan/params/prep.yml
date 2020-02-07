@@ -17,7 +17,7 @@ prep:
     default: 0
     description: Timestep at which prep should start in the model
     type: int
-    min: 0 # TO_REVIEW creating the population checks for a -1 here, but it seems like 0 should be the same thing?
+    min: 0
   adherence:
     default: 0.82
     description: Probability that an agent adheres to PrEP regimen

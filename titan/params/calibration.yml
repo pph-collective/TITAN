@@ -1,7 +1,6 @@
-# TO_REVIEW should all of these defaults (at least for scaling factors) be 1.0?
 calibration:
   partner_turnover:
-    default: 0.1333
+    default: 1.0
     description: Scales probability of acquiring a new partner
     type: float
     min: 0
@@ -34,7 +33,7 @@ calibration:
     min: 0.0
   acute:
     default: 4.3
-    description: Infectivity multiplier ratio for acute status infections
+    description: Infectivity multiplier ratio for acute status infections # REVIEWED - not really a calibration, should probably live somewhere else -it's a risk factor that affects all hiv people when they are in their acute phase
     type: float
     min: 0.0
   risk_reduction:
@@ -49,12 +48,12 @@ calibration:
       type: float
       min: 0
   test_frequency:
-    default: 0.3
+    default: 1.0
     description: Scaling factor for testing frequency
     type: float
     min: 0
   mortality:
-    default: 0.5
+    default: 1.0
     description: Scaling factor for all cause mortality rates
     type: float
     min: 0
@@ -64,7 +63,7 @@ calibration:
     type: float
     min: 0
   haart_coverage:
-    default: 0.7
+    default: 1.0
     description: Scaling factor for enrollment on ART probability
     type: float
     min: 0.0
@@ -73,7 +72,7 @@ calibration:
     description: Scaling factor for probability of becoming incarcerated
     type: float
     min: 0
-  race_transmission: # TO_REVIEW this assumes two races - will need to rethink
+  race_transmission: # REVIEWED this assumes two races - will need to rethink - move to demographics dict
     default: 1.0
     description: Scaling factor for STI transmission of BLACK race
     type: float

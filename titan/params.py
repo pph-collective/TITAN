@@ -48,8 +48,8 @@ Calibration scaling parameters for fitting to empirical data
 
 PARTNERTURNOVER = (
     1.0 / 7.5
-)  # Partner acquisition parameters (higher number more partnering) # TO_REVIEW this just gets multiplied with cal_SexualPartScaling, seems like they can be consolidated
-cal_NeedlePartScaling = 1.00  # IDU partner number scaling # TO_REVIEW not used anywhere
+)  # Partner acquisition parameters (higher number more partnering) # REVIEWED this just gets multiplied with cal_SexualPartScaling, seems like they can be consolidated - combine them
+cal_NeedlePartScaling = 1.00  # IDU partner number scaling # REVIEWED not used anywhere - get rid of it
 cal_NeedleActScaling = 1.00  # IDU act frequency scaling factor
 cal_SexualPartScaling = 1.0  # Sexual partner number scaling factor
 cal_SexualActScaling = 0.45  # Sexual acts  scaling factor
@@ -122,7 +122,7 @@ PrEP_AdhEffic = 0.96  # Efficacy of adherence PrEP
 PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = (
     0
-)  # During PrEP remains effective post discontinuation # TO_REVIEW prep time, which at one point is assigned this value seems to always be zero
+)  # During PrEP remains effective post discontinuation # REVIEWED prep time, which at one point is assigned this value seems to always be zero - we got rid of this!
 PrEP_resist = 0.01
 PrEP_disc = 0.15
 PrEP_target_model = (  # REVIEWED - extract "Clinical" and code
@@ -447,7 +447,7 @@ ageMatrix["WHITE"] = {
         3: 0.055,
         4: 0.069,
         5: 0.025,
-    },  # TO_REVIEW this part of the age matrix not used
+    },  # REVIEWED this part of the age matrix not used - get rid of it
 }
 ageMatrix["BLACK"] = {
     "Prop": {

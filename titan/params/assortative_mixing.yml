@@ -1,4 +1,4 @@
-assortative_mixing:
+assort_mix:
   type:
     default: Race
     description: Which type of assortative mixing to do (currently only Race)
@@ -7,7 +7,7 @@ assortative_mixing:
       - Race
   coefficient:
     default: 0.75
-    description: proportion of # TO_REVIEW this seems to overlap with demographis.race.assortative_mixing.coefficient?
+    description: proportion of # REVIEWED this seems to overlap with demographis.race.assort_mix.coefficient? this is being overhauled - ignore for now
     type: float
     min: 0
     max: 1

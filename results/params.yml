@@ -1,14 +1,24 @@
 prep:
   type:
   - Oral
-  vaccine:
-    type: RV144
-    booster: true
-    start: 1
+  target: 0.3
+  start: 0
+  adherence: 0.82
+  efficacy:
+    adherent: 0.96
+    non_adherant: 0.76
+  discontinue: 0.15
+  target_model: CDCwomen
+  half_life: 40.0
+  peak_load: 4.91
+haart:
+  start: 0
+  coverage: 0
 calibration:
   partner_turnover: 0.1333
   needle:
     act: 1.0
+    sharing: 1.0
   sex:
     act: 1.0
     partner: 1.0
@@ -45,16 +55,19 @@ classes:
 model:
   setting: Phil2005
   processes: 1
-  seeds:
+  seed:
     run: 0
     net: 0
-    pop: 0
-  num_mc: 1
+    ppl: 0
   num_reps: 1
   num_pop: 100
   time_range: 12
   burn_duration: 6
-  network_type: scale_free
+  network:
+    type: scale_free
+    component_size:
+      min: 1
+      max: 100
 high_risk:
   partner_scale: 300
   proportion: 0.3
@@ -64,16 +77,20 @@ high_risk:
 assort_mix:
   type: Race
   coefficient: 0.75
+vaccine:
+  type: RV144
+  booster: true
+  start: 1
 partnership:
   sex:
-    durations:
+    duration:
       1:
         prob: 0.585
         min: 1
         max: 6
       2:
         prob: 0.701
-        min: 9
+        min: 7
         max: 12
       3:
         prob: 0.822
@@ -122,6 +139,42 @@ partnership:
           prob: 0.0002
         5:
           prob: 0.0
+  needle:
+    duration:
+      1:
+        prob: 1.0
+        min: 1
+        max: 6
+    frequency:
+      1:
+        prob: 1.0
+        min: 1
+        max: 6
+    transmission:
+      0:
+        prob: 0.007
+      1:
+        prob: 0.007
+      2:
+        prob: 0.0056
+      3:
+        prob: 0.0028
+      4:
+        prob: 0.0014
+      5:
+        prob: 0.0002
+incar:
+  hiv_tested: 0.69
+  haart:
+    prob: 0.51
+    adherence: 0.21
+    discontinue: 0.12
+  treatment:
+    start: 48
+    duration: 12
+    high_risk: false
+    idu: false
+    ric: false
 features:
   incar: false
   prep: false
@@ -131,9 +184,10 @@ features:
   static_n: false
   agent_zero: false
   assort_mix: false
+  vaccing: false
 demographics:
   BLACK:
-    pop: 1.0
+    prop: 1.0
     hiv:
       init: 0.0
     aids:
@@ -143,7 +197,7 @@ demographics:
       prob: 0.0
       adherence: 0.0
       discontinue: 0.0
-    incarceration:
+    incar:
       init: 0.0
       prob: 0.0
     tested:
@@ -167,8 +221,29 @@ demographics:
         prob: 0.0
     assort_mix:
       coefficient: 0
+    age: &id001
+      1:
+        prob: 0.085
+        min: 15
+        max: 24
+      2:
+        prob: 0.291
+        min: 25
+        max: 34
+      3:
+        prob: 0.511
+        min: 35
+        max: 44
+      4:
+        prob: 0.96
+        min: 45
+        max: 54
+      5:
+        prob: 1
+        min: 55
+        max: 80
     IDU:
-      pop: 0.0
+      prop: 0.0
       hiv:
         init: 0.0
       aids:
@@ -178,7 +253,7 @@ demographics:
         prob: 0.0
         adherence: 0.0
         discontinue: 0.0
-      incarceration:
+      incar:
         init: 0.0
         prob: 0.0
       tested:
@@ -202,8 +277,9 @@ demographics:
           prob: 0.0
       assort_mix:
         coefficient: 0
+      age: *id001
     MSM:
-      pop: 1.0
+      prop: 1.0
       hiv:
         init: 0.0
       aids:
@@ -213,7 +289,7 @@ demographics:
         prob: 0.0
         adherence: 0.0
         discontinue: 0.0
-      incarceration:
+      incar:
         init: 0.0
         prob: 0.0
       tested:
@@ -237,3 +313,4 @@ demographics:
           prob: 0.0
       assort_mix:
         coefficient: 0
+      age: *id001

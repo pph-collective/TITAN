@@ -2,6 +2,10 @@ import oyaml as yaml  # type: ignore
 import os
 import sys
 import collections
+from inspect import currentframe, getframeinfo
+from pathlib import Path
+
+from dotmap import DotMap
 
 
 def get_item(key, d, param):
@@ -71,7 +75,6 @@ def parse_params(defs, params, pops):
         return get_bins("dummy", defs, {"dummy": params})
 
     for k, v in defs.items():
-        print(k)
         # assumes all v are dicts, as otherwise it would have returned
         if "default" in v:
             if v["type"] == "sub-dict":
@@ -116,10 +119,22 @@ def parse_classes(defs, params):
 
     return parse_params(defs["classes"], params.get("classes", {}), {})
 
+def print_dotmap(params, prefix, file_handle):
+    for k, v in params.items():
+        if prefix == "":
+            new_prefix = k
+        else:
+            new_prefix = f"{prefix}.{k}"
+        file_handle.write(f"{new_prefix},\n")
+        if isinstance(v, dict):
+            print_dotmap(v, new_prefix, file_handle)
 
-def create_params(param_path):
+
+def create_params(setting_dict, param_path):
     defs = {}
-    root = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), "params")
+    filename = getframeinfo(currentframe()).filename
+    parent = Path(filename).resolve().parent
+    root = os.path.join(parent, "params")
     for file in os.listdir(root):
         with open(os.path.join(root, file), "r") as f:
             this_defs = yaml.safe_load(f)
@@ -128,14 +143,21 @@ def create_params(param_path):
     with open(param_path, "r") as f:
         params = yaml.safe_load(f)
 
+    # merge setting and params
+    params = merge(setting_dict, params)
+
     pops = parse_classes(defs, params)
     parsed = parse_params(defs, params, pops)
 
-    print(parsed)
-
-    with open("test_params.yml", "w") as f:
+    with open("results/params.yml", "w") as f:
         yaml.dump(parsed, f)
+
+    with open("dotmap_params.txt", "w") as f:
+        f.write("dot,old\n")
+        print_dotmap(parsed, "", f)
+
+    return DotMap(parsed)
 
 
 if __name__ == "__main__":
-    create_params("tests/params/basic.yml")
+    create_params({}, "tests/params/basic.yml")

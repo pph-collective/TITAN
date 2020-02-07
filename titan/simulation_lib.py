@@ -5,7 +5,7 @@ import os
 import numpy as np  # type: ignore
 from typing import Sequence, List, Dict, Optional, Any
 
-from titan import params
+from dotmap import DotMap
 from .ABM_core import HIVModel
 
 
@@ -56,35 +56,39 @@ def stats_to_results(stats: Dict[str, Any], results: Dict[str, Any]):
         results["Inc_t_HF"][t].append(stats[t]["WHITE"]["HF"]["inf_newInf"])
 
 
-def simulation(
-    nreps: int, time_range: int, N_pop: int, runSeed: int, popSeed: int, netSeed: int
-):
+def simulation(params: DotMap):
+    nreps = params.model.num_reps
+    time_range = params.model.time_range
+    n_pop = params.model.num_pop
+    run_seed = params.model.seed.run
+    net_seed = params.model.seed.net
+    pop_seed = params.model.seed.ppl
 
     # Run nreps simulations using the given parameters.
     pid = os.getpid()
     result_dict: Dict[str, Any] = initiate_result_dict(time_range)
 
     for rep in range(nreps):
-        inputSeed = runSeed
-        if runSeed == -1:
-            inputSeed = rep + 1
-            print(inputSeed)
+        input_seed = run_seed
+        if run_seed == -1:
+            input_seed = rep + 1
 
         print(
-            "\tProcess %5s runs simulation %d/%d\t.:.\tInput rSeed: %d, pSeed: %d, nSeed: %d"
-            % (pid, rep + 1, nreps, inputSeed, popSeed, netSeed)
+            f"\tProcess %5s runs simulation %d/%d\t.:.\tInput rSeed: %d, pSeed: %d, nSeed: %d"
+            % (pid, rep + 1, nreps, input_seed, pop_seed, net_seed)
         )
 
-        MyModel = HIVModel(
-            N=N_pop,
+        # move this and model.run() to run_titan and get rid of the rest of this file
+        model = HIVModel(
+            N=n_pop,
             tmax=time_range,
-            runseed=inputSeed,
-            popseed=popSeed,
-            netseed=netSeed,
-            network_type=params.network_type,
+            runseed=input_seed,
+            popseed=pop_seed,
+            netseed=net_seed,
+            network_type=params.model.network.type,
         )
 
-        stats = MyModel.run()
+        stats = model.run()
         stats_to_results(stats, result_dict)
 
     return result_dict
@@ -92,7 +96,7 @@ def simulation(
 
 # REVIEWED if time_range is number of timesteps, why not get this from the rslts? - get it from the dict
 def save_results(
-    time_range: int,
+    params: DotMap,
     rslts: Dict[str, Dict[int, Sequence]],
     outfile_dir: str,
     num_sim: int,
@@ -100,7 +104,7 @@ def save_results(
     """
     Save the result dictionary.
     Input:
-             time_range : Number of time steps in each simulation.
+             params : params object.
              rslts : Result dictionary.
              outfile_dir : Directory for output file.
              num_sim : Number of simulation. IMPORTANT to identify
@@ -120,12 +124,12 @@ def save_results(
         )
     outfile.write("\n")
 
-    for t in range(1, time_range + 1):
+    for t in range(1, params.model.time_range + 1):
 
         # write timestep, model, coverage
-        prep_type = "+".join(params.PrEP_type)
+        prep_type = "+".join(params.prep.type)
 
-        outfile.write("%d,%s,%0.2f" % (t, prep_type, params.PrEP_Target))
+        outfile.write("%d,%s,%0.2f" % (t, prep_type, params.prep.target))
 
         # for each property in the result dict, write the mean, std dev, 10th % and 90th % over the mante carlo iterations (params.N_MC) in the simulation
         for result_property in sorted(rslts):

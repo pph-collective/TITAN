@@ -1,56 +1,54 @@
 #!/bin/bash
 
 #Read in source code path, then shift for optargs
-version="0.1.1"
-titanPath="/gpfs/data/bm8/TITAN/TITANv0.1.0/"
-settingPath="$1"
+titanPath="/gpfs/data/bm8/TITAN/TITAN/"
+paramPath="$1"
 shift
 
-if [ $settingPath ]; then
-    setting=$(basename ${settingPath%.py})
-fi
-
+setting="custom"
 date=`date +%Y-%m-%d-T%H-%M-%S`
+user=${USER}
+walltime=12:00:00
+memory=12g
+outfile="Jobname.o"
+repeats=1
+nMC=1
+model=${PWD##*/}
+basePath=$PWD
+
+while getopts m:S:T:j:r:n: option
+do
+    case "${option}"
+        in
+	m) memory=${OPTARG};;
+  j) jobname=${OPTARG};;
+	T) walltime=${OPTARG};;
+	S) setting=${OPTARG};;
+	r) repeats=${OPTARG};;
+	n) nMC=${OPTARG};;
+    esac
+done
+
 srcCode="${titanPath}titan/"
 parentPath="Module_$setting/"
 jobname=Analysis_$setting_$date
 outPath="$HOME/scratch/$parentPath"
-user=${USER}
-jobid="JA";
-cores=1
-walltime=12:00:00
-memory=12g
-outfile="Jobname.o"
-nJobs=1
-nMC=100
-nPop=100000
-seed=0
-simT=120
-burn=36
-repeats=1
-model=${PWD##*/}
-basePath=$PWD
+
 
 usage() {
 echo "
-usage: subtitan {Parameter file} [-r repeats] [-n iterations] [-T walltime] [-m memory] [-s seed]
-                [-o outfile] [-N population] [-t timerange] [-b burntime] [-j jobname]
+usage: subtitan {Parameter file or directory}[-T walltime] [-m memory] [-S setting] [-j jobname] [-r repeats] [-n iterations]
 
 Starts a TITAN simulation in ~/scratch/{SourceFolder}/{jobname}
 
 options:
   -j jobname	  name of analysis for organization (default: {SourceFolder}_date)
-  -r repeats      number of times to repeat the analysis (default: $repeats)
-  -n iterations   number of mode iterations per job (default: $nMC)
-  -N population	  number of agents in population (default: $nPop)
   -T walltime     as hh:mm:ss, max compute time (default: $walltime)
   -m memory       as #[k|m|g] (default: $memory)
-  -o outfile      save a copy of the session's output to outfile (default: off)
-  -s seed         random seed for model [0 random, -1 stepwise] (default: $seed)
-  -t timerange	  number of time steps per iteration in (default: $simT)
-  -b burntime	  number of time steps to burn for equilibration (default: $burn)
+	-S setting      name of setting for this model
+	-r repeats      number of times to repeat the analysis (default: $repeats)
+  -n iterations   number of mode iterations per job (default: $nMC)
 "
-echo "TITAN ver: "$version
 exit 0
 }
 
@@ -61,22 +59,9 @@ echo "
 	savePath	$PWD
 	sourceCode	$srcCode
 	jobname: 	$jobname
-	iterations: 	$nMC
-	population: 	$nPop
-	seed:		$seed
-	time:		$simT
-	burn:		$burn
-
 	walltime	$walltime
 	memory		$memory
 "
-
-#TITAN params
-sed -i "s/\(rSeed = \)\([0-9]*\)/\1${seed}/g" titan/params.py
-sed -i "s/\(N_MC = \)\([0-9]*\)/\1${nMC}/g" titan/params.py
-sed -i "s/\(N_POP = \)\([0-9]*\)/\1${nPop}/g" titan/params.py
-sed -i "s/\(TIME_RANGE = \)\([0-9]*\)/\1${simT}/g" titan/params.py
-sed -i "s/\(burnDuration = \)\([0-9]*\)/\1${burn}/g" titan/params.py
 
 #Submit script params
 sed -i "s/MODEL_NAME/$jobname/g" scripts/bs_Core.sh
@@ -96,7 +81,7 @@ prepSubmit() {
     cp -rT $titanPath/titan $finalPath/titan
     cp -rT $titanPath/scripts $finalPath/scripts
     mkdir -p $finalPath/results/network
-    cp $settingPath $finalPath/titan/params.py
+    # cp $settingPath $finalPath/titan/params.py
     #Move into new source code folder
     echo -e "\n\tMoving to model folder directory"
     cd $finalPath
@@ -104,32 +89,16 @@ prepSubmit() {
     updateParams;
 
     #Submit job to cluster
-    sbatch scripts/bs_Core.sh
+    sbatch scripts/bs_Core.sh $setting $paramPath $nMC
 
     #Move back to base directory
     cd $basePath
 }
 
-while getopts j:n:N:t:m:s:c:T:b:r: option
-do
-    case "${option}"
-        in
-	N) nPop=${OPTARG};;
-	m) memory=${OPTARG};;
-    n) nMC=${OPTARG};;
-    s) seed=${OPTARG};;
-    j) jobname=${OPTARG};;
-	t) simT=${OPTARG};;
-	b) burn=${OPTARG};;
-	T) walltime=${OPTARG};;
-	r) repeats=${OPTARG};;
-    esac
-done
-
 
 # User and Date will be ignored if job ID is specified
 
-if [ ! $settingPath ]; then
+if [ ! $paramPath ]; then
     usage;
 fi
 
@@ -155,12 +124,9 @@ if [ $srcCode ]; then
         outPath	    $outPath
         user	    $user
         date        $date
-        cores       $cores
         walltime    $walltime
         memory      $memory
         outfile     $outfile
-        nMc         $nMC
-        seed        $seed
         model       $model"
     echo -e "\n"
 

@@ -1,12 +1,4 @@
 model:
-  setting:
-    default: Phil2005
-    description: "Population the model is being run on"
-    type: enum
-    values:
-      - Phil2005
-      - AtlantaMSM
-      - Scott
   processes:
     default: 1
     description: "Number of processes in parallel to use for computation"
@@ -15,26 +7,20 @@ model:
   seed:
     run:
       default: 0
-      description: "Seed for random number generator for running the model. 0 is pure random, -1 for stepwise through number of number of repetitions (num_reps), other numbers will be used to explicitly set the seed."
+      description: "Seed for random number generator for running the model. 0 is pure random, -1 for stepwise through number of number of iterations (num_reps), other numbers will be used to explicitly set the seed."
       type: int
     net:
       default: 0
-      description: "Seed for random number generator for creating the network. 0 is pure random, other numbers will be used to explicitly set the seed"
+      description: "Seed for random number generator for creating the network. 0 is pure random, other numbers will be used to explicitly set the seed. -1 for stepwise through number of monte carlo iterations (-n flag on command line)."
       type: int
-    pop:
+    ppl:
       default: 0
-      description: "Seed for random number generator for creating the population. 0 is pure random, other numbers will be used to explicitly set the seed"
+      description: "Seed for random number generator for creating the population. 0 is pure random, other numbers will be used to explicitly set the seed. -1 for stepwise through number of monte carlo iterations (-n flag on command line)."
       type: int
-  num_mc:
-    default: 1
-    description: "Number of monte carlo iterations to run"
-    type: int
-    min: 1
   num_reps:
     default: 1
-    description: "Number of repetitions a simulation is done"
+    description: Number of times to repeat simulation, if run seed is set to -1, it will step through run seeds during simulation
     type: int
-    min: 1
   num_pop:
     default: 100
     description: "Size of population to model"

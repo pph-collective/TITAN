@@ -4,11 +4,11 @@ classes:
   sex_types:
     - MSM
 
-demographics:    
+demographics:
   BLACK:
-    pop: 1.0
+    prop: 1.0
     MSM:
-      pop: 1.0
+      prop: 1.0
 
 partnership:
   sex:
