@@ -10,7 +10,7 @@ from . import probabilities as prob
 from .agent import Agent, Agent_set
 
 
-def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
+def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[tuple]:
     """
     :Purpose:
         Get partner for agent.
@@ -23,157 +23,71 @@ def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
     :Output:
         partner: new partner
     """
-
     agent_drug_type = agent._DU
-    RandomPartner = None
+    eligible_partners = all_agent_set
+    eligible_partners.remove_agent(agent)
 
-    if agent_drug_type == "IDU":  # REVIEW: is this assort mixing IDU?
-        if random.random() < 0.8:  # TODO: bring this out to params/prob
-            # choose from IDU agents
-            RandomPartner = get_random_IDU_partner(agent, all_agent_set)
+    def bondtype(bond_dict):
+        pvalue = 0.0
+        bond_probability = random.random()
+        bonded_type = "sexualOnly"
+        for key, values in bond_dict.items():
+            pvalue += values["probability"]
+            if bond_probability < pvalue:
+                bonded_type = values["type"]
+                break
+        return bonded_type
 
-        # either didn't try to get IDU partner, or failed to get IDU partner
-        if RandomPartner is None:
-            get_random_sex_partner(
-                agent, all_agent_set
-            )  # REVIEW is there any reason for this to be 2 functions and not an if branch in a single function
-    elif agent_drug_type in ("NDU", "NIDU"):
-        if params.flag_AssortativeMix and (
-            random.random()
-            < params.DemographicParams[agent._race]["ALL"]["AssortMixCoeff"]
-        ):
-            RandomPartner = get_assort_sex_partner(agent, all_agent_set)
+    def assort(eligible_partners):
+        for assort_key, assort_values in params.assortative_mixing.items():
+            if (
+                getattr(agent, assort_values["type"]) == assort_values["agent_type"]
+            ):
+                assert assort_values["probability"] != 0.0, "Cannot assort with probability of 0!"
+                if (
+                    random.random() < assort_values["probability"]
+                ):  # if roll to assortatively mix, only that class is
+                    # your eligible partners
+                    eligible_partners = [
+                        tmpA
+                        for tmpA in eligible_partners
+                        if (getattr(tmpA, assort_values["type"]) == assort_values["type"])
+                    ]
+                else:  # if you aren't chosen to assortative mix,
+                    # you should be choosing people who don't meet that criteria
+                    eligible_partners = [
+                        tmpA
+                        for tmpA in eligible_partners
+                        if (getattr(tmpA, assort_values["type"]) != assort_values["type"])
+                    ]
+        return(eligible_partners)
 
-            # try again with random sex partner is assort mix percent not 100%
-            if RandomPartner is None and params.assort_mix_race <= 1.0:
-                RandomPartner = get_random_sex_partner(agent, all_agent_set)
-        else:
-            RandomPartner = get_random_sex_partner(agent, all_agent_set)
+    if agent_drug_type == "IDU":  # agent bond types are drug-use specific. Get the correct dict.
+        agent_bond = bondtype(params.bond_type_probs_IDU)
     else:
-        raise ValueError("Check method _get_partners(). Agent not caught!")
+        agent_bond = bondtype(params.bond_type_probs)
 
-    if RandomPartner == agent:
-        return None
-    else:
-        return RandomPartner
-
-
-def get_random_IDU_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
-    """
-    :Purpose:
-        Get a random partner which is sex compatible
-
-    :Input:
-        agent: Agent
-        all_agent_set: AgentSet of partners to pair with
-
-    :Output:
-        partner : Agent or None
-
-    """
-    agent_drug_type = agent._DU
-    assert agent_drug_type == "IDU", "Agent's drug type must be IDU"
-
-    RandomPartner = None
-
-    RandomPartner = safe_random_choice(
-        [
+    if "injection" in agent_bond:
+        eligible_partners = [
             ptn
             for ptn in all_agent_set._subset["DU"]._subset["IDU"]._members
             if ptn not in agent._partners and ptn != agent
         ]
-    )
+    if "sexual" in agent_bond:
+        eligible_partners = [
+            ptn
+            for ptn in all_agent_set.iter_agents()
+            if sex_possible(agent._SO, ptn._SO) and ptn not in agent._partners
+        ]
+    elif "social" in agent_bond:
+        eligible_partners = [
+            ptn for ptn in all_agent_set.iter_agents() if ptn not in agent._partners
+        ]
 
-    return RandomPartner
-
-
-def get_assort_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
-    """
-    :Purpose:
-        Get a random partner which is sex compatible and fits assortativity constraints
-
-    :Input:
-        agent: int
-        all_agent_set: AgentSet of partners to pair with
-
-    :Output:
-        partner : Agent or None
-
-    """
-
-    RandomPartner = None
-
-    assert agent._SO in params.agentSexTypes
-
-    eligPartnerType = params.DemographicParams[agent._race][agent._SO][
-        "EligSE_PartnerType"
-    ]
-
-    eligible_partners = all_agent_set._subset["SO"]._subset[eligPartnerType]._members
-    for assort_type, assort_values in params.assortative_mixing.items():
-        if (
-            assort_type == "race"
-            or getattr(agent, assort_values["type"]) == assort_values["agent_type"]
-        ):  # All assortative mixing
-            # besides race must be agents within that class (i.e., NIDU assortative mixing only happens to NIDU)
-            if assort_values["probability"] == 0.0:
-                pass
-            elif (
-                random.random() < assort_values["probability"]
-            ):  # if roll to assortatively mix, only that class is
-                # your eligible partners
-                eligible_partners = [
-                    tmpA
-                    for tmpA in eligible_partners
-                    if (getattr(tmpA, assort_values["type"]) == assort_values["type"])
-                ]
-            else:  # if you aren't chosen to assortative mix, you should be choosing people who don't meet that criteria
-                eligible_partners = [
-                    tmpA
-                    for tmpA in eligible_partners
-                    if (getattr(tmpA, assort_type) != assort_values["type"])
-                ]
-
+    assort(eligible_partners)
     RandomPartner = safe_random_choice(eligible_partners)
 
-    # partner can't be existing partner or agent themself
-    if RandomPartner in agent._partners or RandomPartner == agent:
-        RandomPartner = None
-
-    return RandomPartner
-
-
-def get_random_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
-    """
-    :Purpose:
-        Get a random partner which is sex compatible
-
-    :Input:
-        agent: Agent
-        all_agent_set: list of available partners (Agent_set)
-
-    :Output:
-        partner : Agent or None
-
-    """
-    RandomPartner = None
-
-    eligPtnType = params.DemographicParams[agent._race][agent._SO]["EligSE_PartnerType"]
-    elig_partner_pool = all_agent_set._subset["SO"]._subset[eligPtnType]._members
-
-    RandomPartner = safe_random_choice(elig_partner_pool)
-
-    if (RandomPartner in agent._partners) or (RandomPartner == agent):
-        RandomPartner = None
-
-    if RandomPartner is not None:
-        assert sex_possible(
-            agent._SO, RandomPartner._SO
-        ), "Sex no possible between agents! ERROR 441, {}, {}".format(
-            agent._SO, RandomPartner._SO
-        )
-
-    return RandomPartner
+    return RandomPartner, agent_bond
 
 
 def sex_possible(agent_sex_type: str, partner_sex_type: str) -> bool:

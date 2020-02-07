@@ -76,10 +76,7 @@ class NetworkClass(PopulationClass):
                     cNodes = len(component)
                     if cNodes > params.maxComponentSize:
                         trimComponent(component, params.maxComponentSize)
-                    elif cNodes < params.minComponentSize:
-                        for a in component.nodes():
-                            if a in self.G:
-                                self.G.remove_node(a)
+
 
                     else:
                         totNods += cNodes

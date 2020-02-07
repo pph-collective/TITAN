@@ -79,7 +79,6 @@ cal_ptnrSampleDepth = 100  # Sampling depth for partnering algorithm.
 """
 Bond Params
 """
-bond_type = []
 mean_partner_type = "mean"
 
 

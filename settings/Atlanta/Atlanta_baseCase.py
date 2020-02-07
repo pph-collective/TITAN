@@ -74,7 +74,6 @@ cal_Vaccine = 0
 """
 Bond Params
 """
-bond_type = []
 mean_partner_type = "mean"
 minComponentSize = 0
 maxComponentSize = N_POP

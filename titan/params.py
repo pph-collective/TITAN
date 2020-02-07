@@ -89,7 +89,7 @@ flag_AssortativeMix = True
 AssortMixType = "Race"
 flag_AgeAssortMix = False
 flag_RaceAssortMix = True
-assort_mix_race = 0.75  # Proportion of race1 mixing with race2 when partnering.
+AssortMixCoeff = 0.75  # Proportion of race1 mixing with race2 when partnering.
 safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
 initTreatment = 0
 treatmentCov = 0.0
@@ -100,7 +100,6 @@ minComponentSize = 1
 Vaccine params
 """
 vaccine_type = "RV144"
-booster = True
 vaccine_start = 1
 
 # Incarceration params
@@ -169,44 +168,7 @@ Model Type for fast flag toggling
 ####################
 
 ####################
-
-if model == "PrEP":
-    flag_incar = False
-    flag_PrEP = True
-    flag_high_risk = False
-    flag_ART = True
-    flag_DandR = True
-    flag_staticN = False
-    flag_booster = False
-    drug_use_risk = False
-elif model == "Incar":
-    flag_incar = True
-    flag_PrEP = False
-    flag_high_risk = True
-    flag_ART = True
-    flag_DandR = True
-    flag_staticN = False
-    flag_booster = False
-    drug_use_risk = False
-elif model == "NoIncar":
-    flag_incar = False
-    flag_PrEP = False
-    flag_high_risk = False
-    flag_ART = True
-    flag_DandR = True
-    flag_staticN = False
-    flag_booster = False
-    drug_use_risk = False
-elif model == "VaccinePrEP":
-    flag_incar = False
-    flag_PrEP = True
-    flag_high_risk = False
-    flag_ART = True
-    flag_DandR = True
-    flag_staticN = False
-    flag_booster = True
-    drug_use_risk = False
-elif model == "Custom":
+if model == "Custom":
     flag_incar = False
     flag_PrEP = True
     flag_high_risk = False
@@ -257,7 +219,7 @@ RC_template: Dict[str, Any] = {
     "vaccineInit": 0,
     "HighRiskDuration": 10,
     "nidu": 0.0,
-    "nidu_relative_risk": 1.0,
+    "nidu_relative_risk": 0.0,
 }
 
 RaceClass1: Dict[str, Any] = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
@@ -318,7 +280,7 @@ RaceClass1["MSM"].update(
 )
 
 RaceClass1["ALL"].update(
-    {"Proportion": 0.611, "HAARTdisc": 0.018, "PrEPdisc": 0.0, "AssortMixCoeff": 1.722}
+    {"Proportion": 0.611, "HAARTdisc": 0.018, "PrEPdisc": 0.0, "AssortMixCoeff": 0.722}
 )
 
 # RaceClass2 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
@@ -391,7 +353,11 @@ sexualFrequency[4] = {
     "min": 25,
     "max": 36,
 }
-sexualFrequency[5] = {"p_value": 1.0, "min": 37, "max": 48}
+sexualFrequency[5] = {
+    "p_value": 1.0,
+    "min": 37,
+    "max": 48,
+}
 
 needleFrequency: Dict[int, Any] = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
 needleFrequency[1] = {"p_value": 1.0, "min": 1, "max": 6}
@@ -501,15 +467,28 @@ clinicAgents["Mid"] = {
 """
 Bond Params
 """
-bond_type_probs = {"social": 0.308, "multiplex": 0.105, "sexualOnly": 0.587}
-bond_type_probs_IDU = {"social": 0.308, "multiplex": 0.105, "sexualOnly": 0.587}
-bond_type = ["social"]
+bond_type_probs = {1: {"type": ["social"], "probability": 0.308},
+                   2: {"type": ["social", "sexual"], "probability": 0.105},
+                   3: {"type": ["sexual"], "probability": 0.587}}
+
+bond_type_probs_IDU = {1: {"type": ["social"], "probability": 0.308},
+                   2: {"type": ["social", "sexual"], "probability": 0.105},
+                   3: {"type": ["sexual"], "probability": 0.587}}
 mean_partner_type = "bins"
 
-assortative_mixing = {
-    1: {"type": "_race", "probability": 1.0, "agent_type": "WHITE", "partner_type": "WHITE"},
-    2: {"type": "_race", "probability": 1.0, "agent_type": "BLACK", "partner_type": "BLACK"},
-    3: {"type": "_DU", "probability": 1.0, "agent_type": "nidu", "partner_type": "nidu"},
+assortative_mixing: Dict[int, Any] = {
+    1: {
+        "type": "_race",
+        "probability": 0.5,
+        "agent_type": "WHITE",
+        "partner_type": "WHITE",
+    },
+    2: {
+        "type": "_DU",
+        "probability": 0.5,
+        "agent_type": "nidu",
+        "partner_type": "nidu",
+    },
 }
 
 
@@ -538,6 +517,7 @@ interactionProb: Dict[str, Any] = {
     "sexOnly": {},
     "multiplex": {},
     "social": {},
+    "IDU": {},
 }  # prob of interaction per timestep (or at relationship formation for sexual)
 interactionProb["sexOnly"][1] = {"pvalue": 1.00, "min": 0, "max": 0}
 

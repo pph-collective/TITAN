@@ -65,7 +65,6 @@ cal_Vaccine = 0  # determines vaccine initiation during run
 """
 Bond Params
 """
-bond_type = []
 mean_partner_type = "mean"
 
 """

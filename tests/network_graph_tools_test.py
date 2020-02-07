@@ -30,7 +30,9 @@ def make_agent():
 
 def test_network_init_scale_free():
     """Test if all non-IDU,ND,NIDU agents are in the population"""
-    net = NetworkClass(N=n_pop)
+    net = NetworkClass(N=n_pop, network_type="scale_free")
+    assert n_pop == net.numWhite + net.numBlack
+    assert n_pop == net.G.number_of_nodes()
     assert n_pop == net.All_agentSet.num_members()
 
     for agent in net.All_agentSet.get_agents():

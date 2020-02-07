@@ -74,7 +74,6 @@ Bond Params
 """
 nonSex = 0.5
 multiplex = 0.2
-bond_type = ["social"]
 
 # High risk params
 HR_partnerScale = 300  # Linear increase to partner number during HR period

@@ -71,7 +71,6 @@ cal_ptnrSampleDepth = 100
 """
 Bond Params
 """
-bond_type = []
 mean_partner_type = "mean"
 
 """

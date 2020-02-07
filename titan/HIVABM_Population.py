@@ -94,9 +94,7 @@ class PopulationClass:
         if type(n) is not int:
             raise ValueError("Population size must be integer")
         else:
-            self.PopulationSize = (
-                n
-            )  # REVIWED PopulationSize not really used and is calculable - needed? - nope
+            self.PopulationSize = n  # REVIWED PopulationSize not really used and is calculable - needed? - nope
 
         # Parameters
         self.numWhite = round(
@@ -105,6 +103,7 @@ class PopulationClass:
         self.numBlack = round(
             params.DemographicParams["BLACK"]["ALL"]["Proportion"] * self.PopulationSize
         )
+
 
         # build weights of population sex types by race - SARAH READ THIS
         self.pop_weights: Dict[str, Dict[str, List[Any]]] = {}
@@ -353,9 +352,7 @@ class PopulationClass:
                     break
             assert newAgent.opinion in range(
                 5
-            ), (
-                "Agents opinion of injectible PrEP is out of bounds"
-            )  # TODO: move to testing
+            ), "Agents opinion of injectible PrEP is out of bounds"  # TODO: move to testing
 
         return newAgent
 
@@ -472,32 +469,13 @@ class PopulationClass:
 
     # REVIEWED should these be in the network class? - max to incorporate with network/pop/model disentangling?
     def update_agent_partners(self, graph, agent: Agent) -> bool:
-        partner = get_partner(agent, self.All_agentSet)
+        partner, rel_type = get_partner(agent, self.All_agentSet)
         noMatch = False
-        rel_type = ""
-        bond_type = "sexOnly"
-
-        def bondtype(bond_dict):
-            pvalue = 0.0
-            bond_probability = self.popRandom.random()
-            bonded_type = "sexualOnly"
-            for reltype, p in bond_dict.items():
-                pvalue += p
-                if bond_probability < pvalue:
-                    bonded_type = reltype
-                    break
-            return bonded_type
 
         if partner:
             duration = get_partnership_duration(agent)
-            if params.bond_type:
-                if agent._DU == "IDU" and partner._DU == "IDU":
-                    bond_type = bondtype(params.bond_type_probs_IDU)
-                else:
-                    bond_type = bondtype(params.bond_type_probs)
-
             tmp_relationship = Relationship(
-                agent, partner, duration, rel_type=bond_type
+                agent, partner, duration, rel_type=rel_type
             )
 
             self.Relationships.append(tmp_relationship)
