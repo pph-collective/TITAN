@@ -377,11 +377,11 @@ def print_components(
     """
     Write stats describing the components (sub-graphs) in a graph to file
     """
-    f = open("results/componentReport_ALL.txt", "a")
+    compFile = open("results/componentReport_ALL.txt", "a")
 
     # if this is a new file, write the header info
-    if f.tell() == 0:
-        f.write(
+    if compFile.tell() == 0:
+        compFile.write(
             "run_id\trunseed\tpopseed\tnetseed\tt\tcompID\ttotalN\tNhiv\tNprep\tNtrtHIV\tNprepHIV\tTrtComponent\tPCA\tOral\tLAI\tAware\n"
         )
 
@@ -411,10 +411,10 @@ def print_components(
             if agent.awareness:
                 aware += 1
 
-        f.write(
+        compFile.write(
             f"{run_id}\t{runseed}\t{popseed}\t{netseed}\t{t}\t{compID}\t{totN}\t{nhiv}\t{nprep}\t{ntrthiv}"
-            "\t{PrEP_ever_HIV}\t{trtbool}\t{pca}\t{oral}\t{injectable_prep}\t{aware}\n"
+            f"\t{PrEP_ever_HIV}\t{trtbool}\t{pca}\t{oral}\t{injectable_prep}\t{aware}\n"
         )
 
         compID += 1
-    f.close()
+    compFile.close()
