@@ -191,8 +191,6 @@ class PopulationClass:
             agent = self.create_agent("BLACK")
             self.add_agent_to_pop(agent)
 
-        assert self.numWhite + self.numBlack == self.All_agentSet.num_members() == n
-
         self.initialize_incarceration()
 
     def initialize_incarceration(self):

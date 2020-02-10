@@ -10,7 +10,7 @@ from . import probabilities as prob
 from .agent import Agent, Agent_set
 
 
-def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[tuple]:
+def get_partner(agent: Agent, all_agent_set: Agent_set) -> tuple:
     """
     :Purpose:
         Get partner for agent.
@@ -24,7 +24,7 @@ def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[tuple]:
         partner: new partner
     """
     agent_drug_type = agent._DU
-    eligible_partners = all_agent_set
+    eligible_partners = all_agent_set._members
     # eligible_partners.remove_agent(agent)
 
     def bondtype(bond_dict):
@@ -85,16 +85,19 @@ def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[tuple]:
         eligible_partners = [
             ptn
             for ptn in all_agent_set.iter_agents()
-            if sex_possible(agent._SO, ptn._SO) and ptn not in agent._partners and ptn != agent
+            if sex_possible(agent._SO, ptn._SO)
+            and ptn not in agent._partners
+            and ptn != agent
         ]
     elif "social" in agent_bond:
         eligible_partners = [
-            ptn for ptn in all_agent_set.iter_agents() if ptn not in agent._partners and ptn != agent
+            ptn
+            for ptn in all_agent_set.iter_agents()
+            if ptn not in agent._partners and ptn != agent
         ]
 
     assort(eligible_partners)
     RandomPartner = safe_random_choice(eligible_partners)
-
     return RandomPartner, agent_bond
 
 
