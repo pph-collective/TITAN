@@ -185,6 +185,7 @@ class PopulationClass:
         for i in range(self.numWhite):
             agent = self.create_agent("WHITE")
             self.add_agent_to_pop(agent)
+            assert self.All_agentSet.is_member(agent)
 
         for i in range(self.numBlack):
             agent = self.create_agent("BLACK")
@@ -379,6 +380,7 @@ class PopulationClass:
 
         # Add to all agent set
         self.All_agentSet.add_agent(agent)
+        assert self.All_agentSet.is_member(agent)
 
         # Add to correct SO set
         addToSubsets(self.SO_agentSet, agent, agent._SO)

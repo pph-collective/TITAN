@@ -25,7 +25,7 @@ def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[tuple]:
     """
     agent_drug_type = agent._DU
     eligible_partners = all_agent_set
-    eligible_partners.remove_agent(agent)
+    # eligible_partners.remove_agent(agent)
 
     def bondtype(bond_dict):
         pvalue = 0.0
@@ -85,11 +85,11 @@ def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[tuple]:
         eligible_partners = [
             ptn
             for ptn in all_agent_set.iter_agents()
-            if sex_possible(agent._SO, ptn._SO) and ptn not in agent._partners
+            if sex_possible(agent._SO, ptn._SO) and ptn not in agent._partners and ptn != agent
         ]
     elif "social" in agent_bond:
         eligible_partners = [
-            ptn for ptn in all_agent_set.iter_agents() if ptn not in agent._partners
+            ptn for ptn in all_agent_set.iter_agents() if ptn not in agent._partners and ptn != agent
         ]
 
     assort(eligible_partners)
