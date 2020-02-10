@@ -3,6 +3,7 @@
 
 from typing import Sequence, List, Dict, Optional
 from . import params
+import sys
 
 
 class Agent:
@@ -509,6 +510,7 @@ class Agent_set:
             if self._parent_set is not None:
                 self._parent_set.add_agent(agent)
 
+
     # removing trickles down
     def remove_agent(self, agent: Agent):
         "Removes agent from agent set."
@@ -517,6 +519,7 @@ class Agent_set:
 
         for tmpS in self.iter_subset():
             tmpS.remove_agent(agent)
+
 
     def iter_agents(
         self,

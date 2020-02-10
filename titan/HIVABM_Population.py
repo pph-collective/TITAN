@@ -190,6 +190,8 @@ class PopulationClass:
             agent = self.create_agent("BLACK")
             self.add_agent_to_pop(agent)
 
+        assert self.numWhite + self.numBlack == self.All_agentSet.num_members() == n
+
         self.initialize_incarceration()
 
     def initialize_incarceration(self):
@@ -228,8 +230,8 @@ class PopulationClass:
         # todo: FIX THIS TO GET BACK IDU
         if self.popRandom.random() < params.DemographicParams[Race]["IDU"]["POP"]:
             DrugType = "IDU"
-        elif self.popRandom.random() < params.DemographicParams[Race][SexType]["nidu"]:
-            DrugType = "NIDU"
+        # elif self.popRandom.random() < params.DemographicParams[Race][SexType]["nidu"]:
+        #     DrugType = "NIDU"
         else:
             DrugType = "NDU"
 
@@ -377,6 +379,7 @@ class PopulationClass:
 
         # Add to all agent set
         self.All_agentSet.add_agent(agent)
+
 
         # Add to correct SO set
         addToSubsets(self.SO_agentSet, agent, agent._SO)
