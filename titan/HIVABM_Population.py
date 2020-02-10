@@ -380,7 +380,6 @@ class PopulationClass:
         # Add to all agent set
         self.All_agentSet.add_agent(agent)
 
-
         # Add to correct SO set
         addToSubsets(self.SO_agentSet, agent, agent._SO)
 
