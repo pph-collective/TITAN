@@ -1,16 +1,13 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import os
 import random
-import collections
 
 import numpy as np  # type: ignore
 import networkx as nx  # type: ignore
 from networkx.drawing.nx_agraph import graphviz_layout  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 import matplotlib.patches as patches  # type: ignore
-from typing import Sequence, List, Dict, Optional
 
 from .HIVABM_Population import PopulationClass
 from . import params  # type: ignore
@@ -34,7 +31,7 @@ class NetworkClass(PopulationClass):
             N : int
               Number of agents. Default: 10000
 
-            network_type: defaul is "scale_free", other options are "max_k_comp_size" and "binomial"
+            network_type: default is "scale_free", other options are "max_k_comp_size" and "binomial"
         """
         random.seed(netSeed)
         np.random.seed(netSeed)
@@ -62,7 +59,8 @@ class NetworkClass(PopulationClass):
                 for ag in component.nodes:
                     if random.random() < 0.1:
                         for rel in ag._relationships:
-                            # print("Removed edge:",rel)
+                            if len(ag._relationships) == 1:
+                                break  # Make sure that agents stay part of the network by keeping one bond
                             rel.progress(forceKill=True)
                             self.Relationships.remove(rel)
                             component.remove_edge(rel._ID1, rel._ID2)
@@ -81,7 +79,7 @@ class NetworkClass(PopulationClass):
                         totNods += cNodes
 
             self.G = nx.Graph()
-            for i in range(10):
+            for i in range(30):
                 self.update_partner_assignments(params.PARTNERTURNOVER, self.G)
             components = list(
                 self.G.subgraph(c).copy() for c in nx.connected_components(self.G)
@@ -97,7 +95,8 @@ class NetworkClass(PopulationClass):
                 elif (
                     params.calcComponentStats
                     and comp.number_of_nodes() < params.minComponentSize
-                ):  # REVIEWED what should happen if it's too small? - this should be addressed someday, but it's a larger question than is advisable at the moment
+                ):  # REVIEWED what should happen if it's too small? - this should be addressed someday, but it's a
+                    # larger question than is advisable at the moment
                     print("TOO SMALL", comp, comp.number_of_nodes())
                     for a in comp.nodes():
                         print(a)
@@ -110,7 +109,7 @@ class NetworkClass(PopulationClass):
         return (self.G.subgraph(c).copy() for c in nx.connected_components(self.G))
 
     def write_G_edgelist(self, path: str):
-        G = self.G
+        G = self.get_Graph()
         nx.write_edgelist(G, path, data=["relationship"], delimiter="\t")
 
     def write_network_stats(
