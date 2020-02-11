@@ -3,7 +3,6 @@
 
 from typing import List, Dict
 from . import params
-import sys
 
 
 class Agent:
@@ -244,7 +243,8 @@ class Agent:
     def get_transmission_probability(self, interaction: str) -> float:
         """ Decriptor
         :Purpose:
-            Determines the probability of a transmission event based on interaction type.
+            Determines the probability of a transmission event based on
+            interaction type.
 
         :Input:
             interaction : str - "NEEDLE" or "SEX"
@@ -391,7 +391,8 @@ class Relationship:
 
     def unbond(self, agent: "Agent", partner: "Agent"):
         """
-        Unbond two agents. Removes relationship from relationship lists. Removes partners in each others' partner list.
+        Unbond two agents. Removes relationship from relationship lists.
+        Removes partners in each others' partner list.
 
         args:
             agent: Agent - former partner of partner
@@ -522,7 +523,8 @@ class Agent_set:
 
     def iter_agents(
         self,
-    ):  # REVIEWED isn't this redundant with get_agents? why not have __iter__ return the agents? then we could use
+    ):  # REVIEWED isn't this redundant with get_agents? why not have __iter__
+        # return the agents? then we could use
         # the syntax agent in agent_set - maybe consolidate later
         for agent in self.get_agents():
             yield agent

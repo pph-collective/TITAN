@@ -73,8 +73,8 @@ def simulation(
             print(inputSeed)
 
         print(
-            "\tProcess %5s runs simulation %d/%d\t.:.\tInput rSeed: %d, pSeed: %d, nSeed: %d"
-            % (pid, rep + 1, nreps, inputSeed, popSeed, netSeed)
+            "\tProcess %5s runs simulation %d/%d\t.:.\tInput rSeed: %d, pSeed: %d, "
+            "nSeed: %d" % (pid, rep + 1, nreps, inputSeed, popSeed, netSeed)
         )
 
         MyModel = HIVModel(
@@ -92,7 +92,8 @@ def simulation(
     return result_dict
 
 
-# REVIEWED if time_range is number of timesteps, why not get this from the rslts? - get it from the dict
+# REVIEWED if time_range is number of timesteps, why not get this from the rslts? -
+# get it from the dict
 def save_results(
     time_range: int,
     rslts: Dict[str, Dict[int, Sequence]],
@@ -129,7 +130,8 @@ def save_results(
 
         outfile.write("%d,%s,%0.2f" % (t, prep_type, params.PrEP_Target))
 
-        # for each property in the result dict, write the mean, std dev, 10th % and 90th % over the mante carlo
+        # for each property in the result dict, write the mean, std dev,
+        # 10th % and 90th % over the mante carlo
         # iterations (params.N_MC) in the simulation
         for result_property in sorted(rslts):
             x_v = np.array(rslts[result_property][t])

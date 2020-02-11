@@ -3,7 +3,7 @@
 
 # Imports
 import random
-from typing import Sequence, List, Dict, Optional, TypeVar
+from typing import Sequence, Optional, TypeVar
 
 from . import params  # type: ignore
 from . import probabilities as prob

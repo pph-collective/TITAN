@@ -31,7 +31,7 @@ class NetworkClass(PopulationClass):
             N : int
               Number of agents. Default: 10000
 
-            network_type: default is "scale_free", other options are "max_k_comp_size" and "binomial"
+            network_type: default is "scale_free", other options are "max_k_comp_size""
         """
         random.seed(netSeed)
         np.random.seed(netSeed)
@@ -60,7 +60,7 @@ class NetworkClass(PopulationClass):
                     if random.random() < 0.1:
                         for rel in ag._relationships:
                             if len(ag._relationships) == 1:
-                                break  # Make sure that agents stay part of the network by keeping one bond
+                                break  # Keep agent bound to network
                             rel.progress(forceKill=True)
                             self.Relationships.remove(rel)
                             component.remove_edge(rel._ID1, rel._ID2)
@@ -95,8 +95,7 @@ class NetworkClass(PopulationClass):
                 elif (
                     params.calcComponentStats
                     and comp.number_of_nodes() < params.minComponentSize
-                ):  # REVIEWED what should happen if it's too small? - this should be addressed someday, but it's a
-                    # larger question than is advisable at the moment
+                ):
                     print("TOO SMALL", comp, comp.number_of_nodes())
                     for a in comp.nodes():
                         print(a)

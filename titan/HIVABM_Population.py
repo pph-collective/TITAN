@@ -93,15 +93,13 @@ class PopulationClass:
 
         if type(n) is not int:
             raise ValueError("Population size must be integer")
-        else:
-            self.PopulationSize = n  # REVIWED PopulationSize not really used and is calculable - needed? - nope
 
         # Parameters
         self.numWhite = round(
-            params.DemographicParams["WHITE"]["ALL"]["Proportion"] * self.PopulationSize
+            params.DemographicParams["WHITE"]["ALL"]["Proportion"] * n
         )
         self.numBlack = round(
-            params.DemographicParams["BLACK"]["ALL"]["Proportion"] * self.PopulationSize
+            params.DemographicParams["BLACK"]["ALL"]["Proportion"] * n
         )
 
         # build weights of population sex types by race - SARAH READ THIS
@@ -355,8 +353,8 @@ class PopulationClass:
         """
         :Purpose:
             Creat a new agent in the population.
-                Each agent is a key to an associated dictionary which stores the internal
-                characteristics in form of an additinoal dictionary of the form
+                Each agent is a key to an associated dictionary which stores the
+                internal characteristics in an additional dictionary of the form
                 ``characteristic:value``.
 
         :Input:
@@ -413,8 +411,7 @@ class PopulationClass:
     def get_age(self, race: str):
         rand = self.popRandom.random()
 
-        # REVIEWED why does AtlantaMSM use different age bins? should this all be paramable? -
-        # this will be revisited with future age things
+        # REVIEWED age bins should be params
         if params.setting == "AtlantaMSM":
             if rand < params.ageMatrix[race]["Prop"][1]:
                 minAge = 18
@@ -461,7 +458,8 @@ class PopulationClass:
         age = self.popRandom.randrange(minAge, maxAge)
         return age, ageBin
 
-    # REVIEWED should these be in the network class? - max to incorporate with network/pop/model disentangling?
+    # REVIEWED should these be in the network class? - max to incorporate with
+    # network/pop/model disentangling?
     def update_agent_partners(self, graph, agent: Agent) -> bool:
         partner, rel_type = get_partner(agent, self.All_agentSet)
         noMatch = False

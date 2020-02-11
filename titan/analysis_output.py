@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 from . import params  # type: ignore
-from typing import Dict, Any, List, Sequence, Optional
+from typing import Dict, Any, List
 from .agent import Agent_set, Relationship, Agent
 from copy import deepcopy
 from uuid import UUID

@@ -61,7 +61,8 @@ class HIVModel(NetworkClass):
         netseed: int,
         network_type: str,
     ):
-        # Ensure param variables are defined. For backwards compatibility with params.py files
+        # Ensure param variables are defined.
+        # For backwards compatibility with params.py files
         bc_attrs = [
             "drawEdgeList",
             "inc_treat_HRsex_beh",
@@ -79,7 +80,8 @@ class HIVModel(NetworkClass):
 
         def get_check_rand_int(seed):
             """
-            Check the value passed of a seed, make sure it's an int, if 0, get a random seed
+            Check the value passed of a seed, make sure it's an int, if 0,
+            get a random seed
             """
             if type(seed) is not int:
                 raise ValueError("Random seed must be integer")
@@ -116,7 +118,8 @@ class HIVModel(NetworkClass):
             "BLACK": {"MSM": 0, "HF": 0, "HM": 0},
             "WHITE": {"MSM": 0, "HF": 0, "HM": 0},
         }
-        # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed value
+        # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns,
+        # else: fixed value
         print(("\tRun seed was set to:", runseed))
         self.runRandom = Random(runseed)
         random.seed(self.runseed)
@@ -129,7 +132,8 @@ class HIVModel(NetworkClass):
         print("\tCreating network graph")
         self.create_graph_from_agents(
             self.All_agentSet
-        )  # REVIEWED redundant with NetworkClass init? - review with max, logic feels scattered as NetworkClass also intializes a graph
+        )  # REVIEWED redundant with NetworkClass init? - review with max,
+        # logic feels scattered as NetworkClass also intializes a graph
 
         print("\n === Initialization Protocol Finished ===")
 
@@ -231,7 +235,8 @@ class HIVModel(NetworkClass):
             # todo: GET THIS TO THE NEW HIV COUNT
 
             print(
-                "\tSTARTING HIV count:{}\tTotal Incarcerated:{}\tHR+:{}\tPrEP:{}".format(
+                "\tSTARTING HIV count:{}\tTotal Incarcerated:{}\t"
+                "HR+:{}\tPrEP:{}".format(
                     self.HIV_agentSet.num_members(),
                     self.incarcerated_agentSet.num_members(),
                     self.highrisk_agentsSet.num_members(),
@@ -439,11 +444,11 @@ class HIVModel(NetworkClass):
                                     ):
                                         self._initiate_PrEP(ag, time, force=True)
                         elif params.pcaChoice == "eigenvector":
-                            centrality = nx.algorithms.centrality.eigenvector_centrality(
+                            central = nx.algorithms.centrality.eigenvector_centrality(
                                 comp
                             )
-                            assert len(centrality) >= 1, "Empty centrality"
-                            orderedCentrality = sorted(centrality, key=centrality.get)
+                            assert len(central) >= 1, "Empty centrality"
+                            orderedCentrality = sorted(central, key=central.get)
                             intervention_agent = False
                             for ag in orderedCentrality:
                                 if not ag._HIV_bool:
@@ -543,7 +548,8 @@ class HIVModel(NetworkClass):
 
         if partner_drug_type == "IDU" and agent_drug_type == "IDU":
             # Injection is possible
-            # If agent is on post incar HR treatment to prevent IDU behavior, pass IUD infections
+            # If agent is on post incar HR treatment to prevent
+            # IDU behavior, pass IUD infections
             if agent._incar_treatment_time > 0 and params.inc_treat_IDU_beh:
                 return False
 
@@ -564,15 +570,16 @@ class HIVModel(NetworkClass):
                 self._sex_transmission(rel, time)
             else:
                 return False
-        else:  # REVIEWED - sanity test, with params re-write this logic/check can move there
+        else:
             raise ValueError("Agents must be either IDU, NIDU, or ND")
         return True
 
     def _pca_interaction(self, relationship: Relationship, time, force=False):
         """
         :Purpose:
-            Simulate peer change agent interactions
-            Knowledge if one agent is aware and one unaware, opinion if one agent swayint the other
+            Simulate peer change agent interactions.
+            Knowledge if one agent is aware and one unaware, opinion if one agent
+            can sway the other.
         :Input:
             agent: Agent
             partner: Agent
@@ -860,11 +867,6 @@ class HIVModel(NetworkClass):
 
         """
         hiv_bool = agent._HIV_bool
-        tested = agent._tested
-        incar_t = agent._incar_time
-        incar_bool = agent._incar_bool
-        haart_bool = agent._HAART_bool
-        recidivism = params.inc_Recidivism
 
         if agent._incar_bool:
             agent._incar_time -= 1
@@ -918,7 +920,7 @@ class HIVModel(NetworkClass):
             * (1 + (hiv_bool * 4))
             * params.cal_IncarP
         ):
-            # REVIEWED what about other sex types? -needs to be generalized - Sarah meeting with someone
+            # REVIEWED what about other sex types? -needs to be generalized
             if agent._SO == "HF":
                 jailDuration = (
                     prob.HF_jail_duration
@@ -1027,9 +1029,9 @@ class HIVModel(NetworkClass):
     def _update_HAART(self, agent: Agent, time: int):
         """
         :Purpose:
-            Account for HIV treatment through highly active antiretroviral therapy (HAART).
-            HAART was implemented in 1996, hence, there is treatment only after 1996.
-            HIV treatment assumes that the agent knows their HIV+ status.
+            Account for HIV treatment through highly active antiretroviral therapy
+            (HAART). HAART was implemented in 1996, hence, there is treatment only after
+            1996. HIV treatment assumes that the agent knows their HIV+ status.
 
         :Input:
             agent : Agent
@@ -1181,8 +1183,7 @@ class HIVModel(NetworkClass):
                     agent._PrEP_bool = False
                     agent.PrEP_type = ""
                     agent._PrEP_reason = []
-            else:  # if not discontinue, see if its time for a new shot. # REVIEWED what is this logic doing? This
-                # decrements, then update_PrEP_load increments - sarah to review with max
+            else:  # REVIEWED: remove?
                 if agent._PrEP_lastDose > 2:
                     agent._PrEP_lastDose = -1
 
@@ -1197,7 +1198,8 @@ class HIVModel(NetworkClass):
     def advance_vaccine(self, agent: Agent, time: int, vaxType: str, burn: bool):
         """
         :Purpose:
-            Progress vaccine. Agents may receive injection or progress in time since injection.
+            Progress vaccine. Agents may receive injection or progress in time since
+            injection.
 
         :Input:
             agent: Agent
@@ -1401,7 +1403,8 @@ class HIVModel(NetworkClass):
         if not agent._HIV_bool:
             raise ValueError("AIDS only valid for HIV agents!agent:%s" % str(agent._ID))
 
-        # REVIEWED Why do we check for not HAART, but then get HAART adherance? - Sarah to ask Max
+        # REVIEWED Why do we check for not HAART, but then get HAART adherance? -
+        # Sarah to ask Max
         if not agent._HAART_bool:
             adherenceStat = agent._HAART_adh
             p = prob.adherence_prob(adherenceStat)
