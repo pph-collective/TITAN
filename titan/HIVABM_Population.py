@@ -227,8 +227,8 @@ class PopulationClass:
         # todo: FIX THIS TO GET BACK IDU
         if self.popRandom.random() < params.DemographicParams[Race]["IDU"]["POP"]:
             DrugType = "IDU"
-        # elif self.popRandom.random() < params.DemographicParams[Race][SexType]["nidu"]:
-        #     DrugType = "NIDU"
+        elif self.popRandom.random() < params.DemographicParams[Race][SexType]["nidu"]:
+            DrugType = "NIDU"
         else:
             DrugType = "NDU"
 
@@ -467,9 +467,9 @@ class PopulationClass:
         noMatch = False
         if partner:
             duration = get_partnership_duration(agent)
-            tmp_relationship = Relationship(agent, partner, duration, rel_type=rel_type)
+            relationship = Relationship(agent, partner, duration, rel_type=rel_type)
             self.Relationships.append(relationship)
-            graph.add_edge(relationship._ID1, relationship._ID2, relationship=bond_type)
+            graph.add_edge(relationship._ID1, relationship._ID2, relationship=rel_type)
         else:
             graph.add_node(agent)
             noMatch = True

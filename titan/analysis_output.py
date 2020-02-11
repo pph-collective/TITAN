@@ -6,6 +6,7 @@ from typing import Dict, Any, List, Sequence, Optional
 from .agent import Agent_set, Relationship, Agent
 from copy import deepcopy
 from uuid import UUID
+from networkx import density, betweenness_centrality  # type: ignore
 
 MAIN_CAT = list(params.DemographicParams.keys())
 MAIN_CAT.append("ALL")
@@ -263,7 +264,10 @@ def newlyhighriskReport(
     if f.tell() == 0:
         f.write("run_id\tseed\tt")  # start header
 
-        template = "\tnewHR_{st}\tnewHR_HIV_{st}\tnewHR_AIDS_{st}\tnewHR_Tested_{st}\tnewHR_ART_{st}"
+        template = (
+            "\tnewHR_{st}\tnewHR_HIV_{st}\tnewHR_AIDS_{st}\t"
+            "newHR_Tested_{st}\tnewHR_ART_{st}"
+        )
         for sex_type in params.agentSexTypes:
             f.write(template.format(st=sex_type))
 
@@ -332,12 +336,16 @@ def basicReport(
             # if this is a new file, write the header info
             if tmpReport.tell() == 0:
                 tmpReport.write(
-                    "run_id\trseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\tVaccinated\tLAI\tOral\tAware\n"
+                    "run_id\trseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\t"
+                    "Incid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\t"
+                    "MSMWpart_PrEP\ttestedPart_PrEP\tVaccinated\tLAI\tOral\tAware\n"
                 )
 
             tmpReport.write(
                 (
-                    "{:s}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
+                    "{:s}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t"
+                    "{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t"
+                    "{:d}\t{:d}\n".format(
                         str(run_id),
                         runseed,
                         popseed,
@@ -382,16 +390,22 @@ def print_components(
     # if this is a new file, write the header info
     if compFile.tell() == 0:
         compFile.write(
-            "run_id\trunseed\tpopseed\tnetseed\tt\tcompID\ttotalN\tNhiv\tNprep\tNtrtHIV\tNprepHIV\tTrtComponent\tPCA\tOral\tLAI\tAware\n"
+            "run_id\trunseed\tpopseed\tnetseed\tt\tcompID\ttotalN\tDensity\t"
+            "Centrality\tNhiv\tNprep\tNtrtHIV\tNprepHIV\tTrtComponent\tPCA\t"
+            "Oral\tLAI\tAware\tNIDU\n"
         )
 
     compID = 0
     for comp in components:
+        comp_centrality = betweenness_centrality(comp)
+        centrality = 0
         totN = (
             nhiv
         ) = (
             ntrthiv
-        ) = nprep = PrEP_ever_HIV = trtbool = injectable_prep = oral = aware = pca = 0
+        ) = (
+            nprep
+        ) = PrEP_ever_HIV = trtbool = injectable_prep = oral = aware = pca = nidu = 0
         for agent in comp.nodes():
             totN += 1
             if agent._HIV_bool:
@@ -410,11 +424,19 @@ def print_components(
                     pca += 1
             if agent.awareness:
                 aware += 1
+            if agent._DU == "NIDU":
+                nidu += 1
+            centrality += comp_centrality[agent]
+        comp_density = density(comp)
+        mean_centrality = centrality / comp.number_of_nodes()
 
         compFile.write(
-            f"{run_id}\t{runseed}\t{popseed}\t{netseed}\t{t}\t{compID}\t{totN}\t{nhiv}\t{nprep}\t{ntrthiv}"
-            f"\t{PrEP_ever_HIV}\t{trtbool}\t{pca}\t{oral}\t{injectable_prep}\t{aware}\n"
+            f"{run_id}\t{runseed}\t{popseed}\t{netseed}\t{t}\t{compID}\t{totN}\t"
+            f"{comp_density:.4f}\t{mean_centrality:.4f}\t{nhiv}\t{nprep}\t{ntrthiv}\t"
+            f"{PrEP_ever_HIV}\t{trtbool}\t{pca}\t{oral}\t{injectable_prep}\t{aware}"
+            f"\t{nidu}\n"
         )
 
         compID += 1
+        betweenness = set()
     compFile.close()
