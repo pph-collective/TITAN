@@ -438,5 +438,4 @@ def print_components(
         )
 
         compID += 1
-        betweenness = set()
     compFile.close()
