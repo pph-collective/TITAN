@@ -122,7 +122,6 @@ inc_treatment_dur = (
 inc_treat_set = ["HM"]  # Set of agent classifiers effected by HR treatment
 inc_treat_HRsex_beh = True  # Remove sexual higrisk behaviour during treatment duration
 inc_treat_IDU_beh = True  # Remove IDU behav:iour during treatment duration
-inc_treat_RIC = False  # Force retention in care of ART therapy
 
 # PrEP params
 PrEP_type = ["Oral", "Vaccine"]  # Oral/Inj PrEP and/or vaccine

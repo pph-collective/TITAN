@@ -383,11 +383,8 @@ class HIVModel(NetworkClass):
                 self._become_HIV(agent, 0)
             if agent._HIV_bool:
                 # If in burnin, ignore HIV
-                if burn:
-                    if agent._incar_treatment_time >= 1:
-                        agent._incar_treatment_time -= 1
 
-                else:
+                if not burn:
                     self._HIVtest(agent, time)
                     self._progress_to_AIDS(agent)
 
@@ -550,10 +547,8 @@ class HIVModel(NetworkClass):
             # Injection is possible
             # If agent is on post incar HR treatment to prevent
             # IDU behavior, pass IUD infections
-            if agent._incar_treatment_time > 0 and params.inc_treat_IDU_beh:
-                return False
 
-            elif rel_sex_possible:
+            if rel_sex_possible:
                 # Sex is possible
                 rv = self.runRandom.random()  # REVIEW after bond types established
                 if rv < 0.25:  # Needle only (60%)
@@ -893,13 +888,6 @@ class HIVModel(NetworkClass):
                                 agent._mean_num_partners + params.HR_partnerScale
                             )
 
-                    if (
-                        params.inc_treat_RIC
-                        or params.inc_treat_HRsex_beh
-                        or params.inc_treat_IDU_beh
-                    ) and (time >= params.inc_treatment_startdate):
-                        agent._incar_treatment_time = params.inc_treatment_dur
-
                     if hiv_bool:
                         if agent._HAART_bool:
                             if (
@@ -1078,11 +1066,10 @@ class HIVModel(NetworkClass):
                 and self.runRandom.random()
                 < params.DemographicParams[agent_race][agent_so]["HAARTdisc"]
             ):
-                if not (agent._incar_treatment_time > 0 and params.inc_treat_RIC):
-                    agent._HAART_bool = False
-                    agent._HAART_adh = 0
-                    agent._HAART_time = 0
-                    self.Trt_ART_agentSet.remove_agent(agent)
+                agent._HAART_bool = False
+                agent._HAART_adh = 0
+                agent._HAART_time = 0
+                self.Trt_ART_agentSet.remove_agent(agent)
 
     def _PrEP_eligible(
         self, agent: Agent, time: int

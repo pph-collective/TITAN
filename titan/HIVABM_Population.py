@@ -463,6 +463,7 @@ class PopulationClass:
     def update_agent_partners(self, graph, agent: Agent) -> bool:
         partner, rel_type = get_partner(agent, self.All_agentSet)
         noMatch = False
+        assert type(agent) is Agent
         if partner:
             duration = get_partnership_duration(agent)
             relationship = Relationship(agent, partner, duration, rel_type=rel_type)

@@ -68,7 +68,7 @@ def test_population_consistency_DU():
     )
 
     assert net.drugUse_agentSet.num_members() == check_sum_DU
-    assert net.PopulationSize == check_sum_DU
+    assert n_pop == check_sum_DU
 
 
 def test_population_consistency_HIV():

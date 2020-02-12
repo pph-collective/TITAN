@@ -70,8 +70,17 @@ cal_ptnrSampleDepth = 100  # Sampling depth for partnering algorithm.
 """
 Bond Params
 """
-bond_type_probs = {"social": 0.308, "multiplex": 0.105, "sexualOnly": 0.587}
-bond_type_probs_IDU = {"social": 0.308, "multiplex": 0.105, "sexualOnly": 0.587}
+bond_type_probs = {
+    1: {"type": ["social"], "probability": 0.308},
+    2: {"type": ["social", "sexual"], "probability": 0.105},
+    3: {"type": ["sexual"], "probability": 0.587},
+}
+
+bond_type_probs_IDU = {
+    1: {"type": ["social"], "probability": 0.308},
+    2: {"type": ["social", "sexual"], "probability": 0.105},
+    3: {"type": ["sexual"], "probability": 0.587},
+}
 mean_partner_type = "bins"
 
 """
