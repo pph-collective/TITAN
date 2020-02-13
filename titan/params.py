@@ -119,9 +119,7 @@ inc_treatment_startdate = 48  # Timestep where inc treatment can begin
 inc_treatment_dur = (
     12  # Duration for which agents are forced on respective treatment post release
 )
-inc_treat_set = ["HM"]  # Set of agent classifiers effected by HR treatment
-inc_treat_HRsex_beh = True  # Remove sexual higrisk behaviour during treatment duration
-inc_treat_IDU_beh = True  # Remove IDU behav:iour during treatment duration
+
 
 # PrEP params
 PrEP_type = ["Oral", "Vaccine"]  # Oral/Inj PrEP and/or vaccine

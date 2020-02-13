@@ -97,12 +97,6 @@ def test_agents_interact(make_model, make_agent):
     a._DU = "IDU"
     p._DU = "IDU"
 
-    a._incar_treatment_time = 1
-    assert (
-        model._agents_interact(0, rel) is False
-    )  # short circuit due to incar treatment
-
-    a._incar_treatment_time = 0
     model.runRandom = FakeRandom(-0.1)
 
     assert model._agents_interact(0, rel)  # needle transmission

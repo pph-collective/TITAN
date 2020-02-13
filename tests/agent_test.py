@@ -100,7 +100,6 @@ def test_agent_init(make_agent):
     assert a._incar_bool is False
     assert a._ever_incar_bool is False
     assert a._incar_time == 0
-    assert a._incar_treatment_time == 0
 
 
 def test_get_id(make_agent):
