@@ -28,6 +28,7 @@ def get_partner(agent: Agent, all_agent_set: Agent_set) -> Tuple[Optional[Agent]
     eligible_partner_set = set(all_agent_set._members)
     eligible_partner_set.remove(agent)
     eligible_partners: Set[Agent] = set()
+    RandomPartner: Optional[Agent]
 
     def bondtype(bond_dict):
         bonds = {"type": [], "prob": []}
@@ -37,7 +38,6 @@ def get_partner(agent: Agent, all_agent_set: Agent_set) -> Tuple[Optional[Agent]
         bonded_type = np.random.choice(bonds["type"], p=bonds["prob"])
         return bonded_type
 
-
     def assort(eligible_partner_list, assort_params):
         if (
             random.random() < assort_params["probability"]
@@ -46,7 +46,10 @@ def get_partner(agent: Agent, all_agent_set: Agent_set) -> Tuple[Optional[Agent]
             eligible_partners = {
                 tmpA
                 for tmpA in eligible_partner_list
-                if (getattr(tmpA, assort_params["type"]) == assort_params["partner_type"])
+                if (
+                    getattr(tmpA, assort_params["type"])
+                    == assort_params["partner_type"]
+                )
             }
         else:  # if you aren't chosen to assortative mix,
             # you should be choosing people who don't meet that criteria

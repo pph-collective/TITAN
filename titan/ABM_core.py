@@ -875,18 +875,11 @@ class HIVModel(NetworkClass):
                     if (
                         not agent._highrisk_bool and params.flag_high_risk
                     ):  # If behavioral treatment on and agent HIV, ignore HR period.
-                        if (
-                            params.inc_treat_HRsex_beh
-                            and hiv_bool
-                            and (time >= params.inc_treatment_startdate)
-                        ):
-                            pass
-                        else:  # Else, become high risk
-                            self._become_high_risk(agent)
+                        self._become_high_risk(agent)
 
-                            agent._mean_num_partners = (
-                                agent._mean_num_partners + params.HR_partnerScale
-                            )
+                        agent._mean_num_partners = (
+                            agent._mean_num_partners + params.HR_partnerScale
+                        )
 
                     if hiv_bool:
                         if agent._HAART_bool:
