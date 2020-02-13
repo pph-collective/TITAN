@@ -1,14 +1,39 @@
 classes:
   races:
     - BLACK
+    - WHITE
   sex_types:
     - MSM
+    - HM
+    - HF
+    - WSW
+    - MTF
 
 demographics:
   BLACK:
-    prop: 1.0
+    ppl: 0.6
     MSM:
-      prop: 1.0
+      ppl: 0.3
+    HM:
+      ppl: 0.3
+    HF:
+      ppl: 0.2
+    WSW:
+      ppl: 0.1
+    MTF:
+      ppl: 0.1
+  WHITE:
+    ppl: 0.4
+    MSM:
+      ppl: 0.3
+    HM:
+      ppl: 0.3
+    HF:
+      ppl: 0.2
+    WSW:
+      ppl: 0.1
+    MTF:
+      ppl: 0.1
 
 partnership:
   sex:
@@ -19,3 +44,15 @@ partnership:
       MSM:
         0:
           prob: 0.08
+
+features:
+  incar: true
+  prep: true
+  high_risk: true
+  haart: true
+  die_and_replace: true
+  static_n: true
+  agent_zero: true
+  assort_mix: true
+  vaccine: true
+  partner_tracing: true

@@ -35,3 +35,7 @@ features:
     default: false
     description: Whether to use a vaccine in the model
     type: boolean
+  partner_tracing:
+    default: false
+    description: Whether to trace a newly diagnosed agent's partners, so that they become diagnosed at the next time step
+    type: boolean

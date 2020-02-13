@@ -5,12 +5,15 @@
 import random
 from typing import Sequence, List, Dict, Optional, TypeVar
 
-from . import params  # type: ignore
+from dotmap import DotMap
+
 from . import probabilities as prob
 from .agent import Agent, Agent_set
 
 
-def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
+def get_partner(
+    agent: Agent, all_agent_set: Agent_set, params: DotMap
+) -> Optional[Agent]:
     """
     :Purpose:
         Get partner for agent.
@@ -33,19 +36,19 @@ def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
 
         # either didn't try to get IDU partner, or failed to get IDU partner
         if RandomPartner is None:
-            get_random_sex_partner(agent, all_agent_set)
+            get_random_sex_partner(agent, all_agent_set, params)
     elif agent_drug_type in ("NDU", "NIDU"):
-        if params.flag_AssortativeMix and (
+        if params.features.assort_mix and (
             random.random()
-            < params.DemographicParams[agent._race]["ALL"]["AssortMixCoeff"]
+            < params.demographics[agent._race].assort_mix.coefficient
         ):
-            RandomPartner = get_assort_sex_partner(agent, all_agent_set)
+            RandomPartner = get_assort_sex_partner(agent, all_agent_set, params)
 
             # try again with random sex partner is assort mix percent not 100%
-            if RandomPartner is None and params.AssortMixCoeff <= 1.0:
-                RandomPartner = get_random_sex_partner(agent, all_agent_set)
+            if RandomPartner is None and params.assort_mix.coefficient <= 1.0:
+                RandomPartner = get_random_sex_partner(agent, all_agent_set, params)
         else:
-            RandomPartner = get_random_sex_partner(agent, all_agent_set)
+            RandomPartner = get_random_sex_partner(agent, all_agent_set, params)
     else:
         raise ValueError("Check method _get_partners(). Agent not caught!")
 
@@ -84,7 +87,9 @@ def get_random_IDU_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
     return RandomPartner
 
 
-def get_assort_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
+def get_assort_sex_partner(
+    agent: Agent, all_agent_set: Agent_set, params: DotMap
+) -> Optional[Agent]:
     """
     :Purpose:
         Get a random partner which is sex compatible and fits assortativity constraints
@@ -99,21 +104,21 @@ def get_assort_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
     """
     RandomPartner = None
 
-    assert agent._SO in params.agentSexTypes
+    assert agent._SO in params.classes.sex_types
 
-    eligPartnerType = params.DemographicParams[agent._race][agent._SO][
-        "EligSE_PartnerType"
-    ]
+    eligPartnerType = params.demographics[agent._race][
+        agent._SO
+    ]  # TO_REVIEW elgsepartnertype gone self-partnering for now?
     eligible_partners = all_agent_set._subset["SO"]._subset[eligPartnerType]._members
 
-    if params.AssortMixType == "Race":
+    if params.assort_mix.type == "Race":
         samplePop = [
             tmpA
             for tmpA in eligible_partners
             if (tmpA._race == agent._race and tmpA not in agent._partners)
         ]
 
-    elif params.AssortMixType == "Client":
+    elif params.assort_mix.type == "Client":
         if agent._race == "WHITE":
             samplePop = [
                 tmpA
@@ -131,7 +136,7 @@ def get_assort_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
                 )
             ]
 
-    elif params.AssortMixType == "HR":
+    elif params.assort_mix.type == "HR":
         samplePop = [
             tmpA
             for tmpA in eligible_partners
@@ -147,7 +152,9 @@ def get_assort_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
     return RandomPartner
 
 
-def get_random_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
+def get_random_sex_partner(
+    agent: Agent, all_agent_set: Agent_set, params: DotMap
+) -> Optional[Agent]:
     """
     :Purpose:
         Get a random partner which is sex compatible
@@ -160,25 +167,22 @@ def get_random_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
         partner : Agent or None
 
     """
-    RandomPartner = None
+    random_partner = None
 
-    eligPtnType = params.DemographicParams[agent._race][agent._SO]["EligSE_PartnerType"]
-    elig_partner_pool = all_agent_set._subset["SO"]._subset[eligPtnType]._members
+    # eligPtnType = params.demographics[agent._race][
+    #     agent._SO
+    # ]  # TO_REVIEW what to do here
+    elig_partner_pool = [partner for partner in all_agent_set._members if sex_possible(agent._SO, partner._SO, params)]
 
-    RandomPartner = safe_random_choice(elig_partner_pool)
+    random_partner = safe_random_choice(elig_partner_pool)
 
-    if (RandomPartner in agent._partners) or (RandomPartner == agent):
-        RandomPartner = None
+    if (random_partner in agent._partners) or (random_partner == agent):
+        random_partner = None
 
-    if RandomPartner is not None:
-        assert sex_possible(
-            agent._SO, RandomPartner._SO
-        ), "Sex no possible between agents! ERROR 441"
-
-    return RandomPartner
+    return random_partner
 
 
-def sex_possible(agent_sex_type: str, partner_sex_type: str) -> bool:
+def sex_possible(agent_sex_type: str, partner_sex_type: str, params: DotMap) -> bool:
     """
     :Purpose:
     Determine if sex is possible.
@@ -193,6 +197,7 @@ def sex_possible(agent_sex_type: str, partner_sex_type: str) -> bool:
     """
 
     # dictionary defining which sex types each sex type is compatible with
+    # TO_REVIEW these definitions should probably be reviewed
     st = {
         "HM": ["HF", "WSW", "MTF"],
         "MSM": ["MSM", "WSW", "HF", "MTF"],
@@ -202,9 +207,9 @@ def sex_possible(agent_sex_type: str, partner_sex_type: str) -> bool:
     }
 
     # Check input
-    if agent_sex_type not in params.agentSexTypes:
+    if agent_sex_type not in params.classes.sex_types:
         raise ValueError("Invalid agent_sex_type! %s" % str(agent_sex_type))
-    if partner_sex_type not in params.agentSexTypes:
+    if partner_sex_type not in params.classes.sex_types:
         raise ValueError("Invalid partner_sex_type! %s" % str(partner_sex_type))
 
     return (agent_sex_type in st[partner_sex_type]) and (
@@ -212,7 +217,7 @@ def sex_possible(agent_sex_type: str, partner_sex_type: str) -> bool:
     )
 
 
-def get_partnership_duration(agent: Agent) -> int:
+def get_partnership_duration(agent: Agent, params: DotMap) -> int:
     """
     :Purpose:
         Get duration of a relationship
@@ -234,7 +239,7 @@ def get_partnership_duration(agent: Agent) -> int:
     if agent_drug_type not in ["IDU", "NIDU", "NDU"]:
         raise ValueError("Invalid drug type! %s" % str(agent_drug_type))
     # Sex type
-    if agent_sex_type not in params.agentSexTypes:
+    if agent_sex_type not in params.classes.sex_types:
         raise ValueError("Invalid sex type! %s" % str(agent_sex_type))
 
     diceroll = random.random()
@@ -247,17 +252,11 @@ def get_partnership_duration(agent: Agent) -> int:
     # 25–36 309 6.0% 264 8.3 45 2.3
     # >37 614 11.8% 501 15.7 113 5.7
     if agent_race_type == "BLACK" and params.model == "MSW":
-
-        if diceroll < prob.MSWsexualDurations[1]["p_value"]:
-            dur_bin = 1
-        elif diceroll < prob.MSWsexualDurations[2]["p_value"]:
-            dur_bin = 2
-        elif diceroll < prob.MSWsexualDurations[3]["p_value"]:
-            dur_bin = 3
-        elif diceroll < prob.MSWsexualDurations[4]["p_value"]:
-            dur_bin = 4
-        else:
-            dur_bin = 5
+        dur_bin = 5
+        for i in range(1, 5):
+            if diceroll < prob.MSWsexualDurations[i]["p_value"]:
+                dur_bin = i
+                break
 
         duration = random.randrange(
             prob.MSWsexualDurations[dur_bin]["min"],
@@ -266,20 +265,15 @@ def get_partnership_duration(agent: Agent) -> int:
         )
 
     else:
-        if diceroll < params.sexualDurations[1]["p_value"]:
-            dur_bin = 1
-        elif diceroll < params.sexualDurations[2]["p_value"]:
-            dur_bin = 2
-        elif diceroll < params.sexualDurations[3]["p_value"]:
-            dur_bin = 3
-        elif diceroll < params.sexualDurations[4]["p_value"]:
-            dur_bin = 4
-        else:
-            dur_bin = 5
+        dur_bin = 5
+        for i in range(1, 5):
+            if diceroll < params.partnership.sex.duration[i].prob:
+                dur_bin = i
+                break
 
         duration = random.randrange(
-            params.sexualDurations[dur_bin]["min"],
-            params.sexualDurations[dur_bin]["max"],
+            params.partnership.sex.duration[dur_bin].min,
+            params.partnership.sex.duration[dur_bin].max,
             1,
         )
 

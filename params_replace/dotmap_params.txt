@@ -40,7 +40,7 @@ outputs.draw_figures,drawFigures
 outputs.calc_component_stats,calcComponentStats
 outputs.reports,reports
 classes,
-classes.races,
+classes.races,DemographicParams.keys()
 classes.sex_types,agentSexTypes
 classes.populations,agentPopulations
 model,
@@ -176,7 +176,7 @@ features.static_n,flag_staticN
 features.agent_zero,flag_agentZero
 features.assort_mix,flag_AssortativeMix
 features.vaccine,
-demographics,
+demographics,DemographicParams
 demographics.BLACK,
 demographics.BLACK.prop,
 demographics.BLACK.hiv,

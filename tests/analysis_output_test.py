@@ -9,10 +9,12 @@ import networkx as nx
 from titan.analysis_output import *
 from titan import agent
 from titan.network_graph_tools import NetworkClass
+from titan.params_parse import create_params
+
 
 
 @pytest.fixture
-def setup_results_dir():
+def setup_results_dir(autouse=True):
     outfile_dir = os.path.join(os.getcwd(), "results")
     if os.path.isdir(outfile_dir):
         shutil.rmtree(outfile_dir)
@@ -20,9 +22,14 @@ def setup_results_dir():
     yield outfile_dir
     shutil.rmtree(outfile_dir)
 
+@pytest.fixture
+def params():
+    param_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml")
+    return create_params({}, param_file)
+
 
 @pytest.fixture
-def stats():
+def stats(params):
     a = agent.Agent("MSM", 20, "BLACK", "IDU")
     a._HIV_bool = True
     a._AIDS_bool = True
@@ -58,6 +65,7 @@ def stats():
         agent_set,
         agent_set,
         agent_list,
+        params
     )
     return stats
 
@@ -109,10 +117,10 @@ def test_get_stats(stats):
     assert stats["BLACK"]["ALL"]["numART"] == 1
 
 
-def test_deathReport(stats, setup_results_dir):
+def test_deathReport(stats, params):
     run_id = uuid.uuid4()
 
-    deathReport(run_id, 0, 1, 2, 3, stats)
+    deathReport(run_id, 0, 1, 2, 3, stats, params)
 
     result_file = "results/DeathReport.txt"
     assert os.path.isfile(result_file)
@@ -128,10 +136,10 @@ def test_deathReport(stats, setup_results_dir):
             assert row["HIV_HM"] == "0"
 
 
-def test_incarReport(stats, setup_results_dir):
+def test_incarReport(stats, params):
     run_id = uuid.uuid4()
 
-    incarReport(run_id, 0, 1, 2, 3, stats)
+    incarReport(run_id, 0, 1, 2, 3, stats, params)
 
     result_file = "results/IncarReport.txt"
     assert os.path.isfile(result_file)
@@ -147,10 +155,10 @@ def test_incarReport(stats, setup_results_dir):
             assert row["WHITE_MSM_rlsdHIV"] == "0"
 
 
-def test_newlyhighriskReport(stats, setup_results_dir):
+def test_newlyhighriskReport(stats, params):
     run_id = uuid.uuid4()
 
-    newlyhighriskReport(run_id, 0, 1, 2, 3, stats)
+    newlyhighriskReport(run_id, 0, 1, 2, 3, stats, params)
 
     result_file = "results/newlyHR_Report.txt"
     assert os.path.isfile(result_file)
@@ -166,10 +174,10 @@ def test_newlyhighriskReport(stats, setup_results_dir):
             assert row["newHR_ART_MSM"] == "1"
 
 
-def test_prepReport(stats, setup_results_dir):
+def test_prepReport(stats, params):
     run_id = uuid.uuid4()
 
-    prepReport(run_id, 0, 1, 2, 3, stats)
+    prepReport(run_id, 0, 1, 2, 3, stats, params)
 
     result_file = "results/PrEPReport.txt"
     assert os.path.isfile(result_file)
@@ -185,10 +193,10 @@ def test_prepReport(stats, setup_results_dir):
             assert row["MSMWpartner"] == "1"
 
 
-def test_basicReport(stats, setup_results_dir):
+def test_basicReport(stats, params):
     run_id = uuid.uuid4()
 
-    basicReport(run_id, 0, 1, 2, 3, stats)
+    basicReport(run_id, 0, 1, 2, 3, stats, params)
 
     result_file = "results/basicReport_MSM_BLACK.txt"
     assert os.path.isfile(result_file)
@@ -236,10 +244,11 @@ def test_basicReport(stats, setup_results_dir):
             assert row["Deaths"] == "1"
 
 
-def test_print_components(stats, setup_results_dir):
+def test_print_components(stats, params):
     run_id = uuid.uuid4()
 
-    net = NetworkClass(N=1)
+    params.model.num_pop = 1
+    net = NetworkClass(params)
     components = sorted(nx.connected_components(net.get_Graph()), key=len, reverse=True)
 
     print_components(run_id, 0, 1, 2, 3, components)

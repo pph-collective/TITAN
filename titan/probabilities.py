@@ -1,4 +1,3 @@
-from . import params
 from typing import Sequence, List, Dict, Optional, Any
 
 # ============== PARTNERING PROBABILITIES ======================
@@ -88,8 +87,6 @@ def get_death_rate(HIV_status, AIDS_status, agent_race, agent_HAART_adh):
                 p = 20.8
             else:
                 raise ValueError("Invalid RACE type! %s" % str(agent_Race))
-
-        p = p * params.cal_Mortality
 
     else:  # NON HIV DEATH RATE
         if agent_race == "WHITE":

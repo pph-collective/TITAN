@@ -1,13 +1,13 @@
 import pytest
 
 from titan.network_graph_tools import *
-from titan import params
+from titan.params_parse import create_params
 from titan import agent
 
 import os
 import shutil
 
-n_pop = 10
+n_pop = 100
 
 
 @pytest.fixture
@@ -27,10 +27,14 @@ def make_agent():
 
     return _make_agent
 
+@pytest.fixture
+def params():
+    param_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml")
+    return create_params({}, param_file)
 
-def test_network_init_scale_free():
+def test_network_init_scale_free(params):
     """Test if all non-IDU,ND,NIDU agents are in the population"""
-    net = NetworkClass(N=n_pop)
+    net = NetworkClass(params)
     assert n_pop == net.All_agentSet.num_members()
 
     for agent in net.All_agentSet.get_agents():
@@ -38,14 +42,15 @@ def test_network_init_scale_free():
 
     for agent in net.All_agentSet.get_agents():
         assert agent._DU in ["IDU", "NIDU", "NDU"]
-        assert agent._SO in params.agentSexTypes
+        assert agent._SO in params.classes.sex_types
 
     assert net.get_Graph() == net.G
 
 
-def test_network_init_max_k():
+def test_network_init_max_k(params):
     """Test if all non-IDU,ND,NIDU agents are in the population"""
-    net = NetworkClass(N=n_pop, network_type="max_k_comp_size")
+    params.model.network.type = "max_k_comp_size"
+    net = NetworkClass(params)
     assert n_pop == net.All_agentSet.num_members()
 
     for agent in net.All_agentSet.get_agents():
@@ -53,12 +58,12 @@ def test_network_init_max_k():
 
     for agent in net.All_agentSet.get_agents():
         assert agent._DU in ["IDU", "NIDU", "NDU"]
-        assert agent._SO in params.agentSexTypes
+        assert agent._SO in params.classes.sex_types
 
 
-def test_population_consistency_DU():
+def test_population_consistency_DU(params):
     """Test if Drug users add up"""
-    net = NetworkClass(N=n_pop)
+    net = NetworkClass(params)
     check_sum_DU = (
         net.DU_IDU_agentSet.num_members()
         + net.DU_NIDU_agentSet.num_members()
@@ -66,12 +71,12 @@ def test_population_consistency_DU():
     )
 
     assert net.drugUse_agentSet.num_members() == check_sum_DU
-    assert net.PopulationSize == check_sum_DU
+    assert params.model.num_pop == check_sum_DU
 
 
-def test_population_consistency_HIV():
+def test_population_consistency_HIV(params):
     """Test HIV consistency"""
-    net = NetworkClass(N=n_pop)
+    net = NetworkClass(params)
     for agent in net.All_agentSet.get_agents():
         if agent._HIV_bool:
             assert agent in net.HIV_agentSet.get_agents()
@@ -80,9 +85,9 @@ def test_population_consistency_HIV():
         assert agent._HIV_bool
 
 
-def test_write_G_edgelist(setup_results_dir):
+def test_write_G_edgelist(setup_results_dir, params):
     path = "results/network/Edgelist_t0.txt"
-    net = NetworkClass(N=n_pop)
+    net = NetworkClass(params)
 
     net.write_G_edgelist(path)
 
@@ -91,9 +96,9 @@ def test_write_G_edgelist(setup_results_dir):
     assert count == len(net.Relationships)
 
 
-def test_write_network_stats(setup_results_dir):
+def test_write_network_stats(setup_results_dir, params):
     path = "results/network/networkStats.txt"
-    net = NetworkClass(N=n_pop)
+    net = NetworkClass(params)
 
     net.write_network_stats(path)
 
@@ -108,7 +113,7 @@ def test_write_network_stats(setup_results_dir):
     assert asserted
 
 
-def test_create_graph_from_agents(make_agent):
+def test_create_graph_from_agents(make_agent, params):
     a = make_agent()
     b = make_agent()
 
@@ -117,7 +122,7 @@ def test_create_graph_from_agents(make_agent):
     s.add_agent(a)
     s.add_agent(b)
 
-    net = NetworkClass(N=n_pop)
+    net = NetworkClass(params)
 
     assert net.G.number_of_nodes() == n_pop
 
@@ -126,12 +131,12 @@ def test_create_graph_from_agents(make_agent):
     assert net.G.number_of_nodes() == n_pop + 2
 
 
-def test_get_network_color():
-    net = NetworkClass(N=n_pop)
+def test_get_network_color(params):
+    net = NetworkClass(params)
 
     colors = net.get_network_color("SO")
     assert len(colors) == n_pop
-    assert "b" in colors  # pop includes HM
+    assert "r" in colors  # pop includes MSM
 
     colors = net.get_network_color("DU")
     assert len(colors) == n_pop
@@ -155,8 +160,8 @@ def test_get_network_color():
 
     colors = net.get_network_color("Race")
     assert len(colors) == n_pop
-    assert "y" in colors  # pop includes WHITE
+    assert "g" in colors  # pop includes BLACK
 
     colors = net.get_network_color("MSW")
     assert len(colors) == n_pop
-    assert "g" in colors  # pop includes WHITE
+    assert "y" in colors  # pop includes BLACK

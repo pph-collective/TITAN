@@ -6,10 +6,10 @@ from copy import deepcopy
 from typing import Sequence, List, Dict, Optional, Any
 from scipy.stats import poisson  # type: ignore
 import numpy as np  # type: ignore
+from dotmap import DotMap  # type: ignore
 
 from .agent import Agent_set, Agent, Relationship
 from .ABM_partnering import get_partner, get_partnership_duration
-from . import params  # type: ignore
 from . import probabilities as prob
 
 
@@ -21,101 +21,36 @@ class PopulationClass:
     :Input:
 
         n : int
-            Number of agents. Default: 10000
+            Number of agents
 
         r_seed : randomization seed
 
-        model :str - one of "PrEP", "Incar", "NoIncar"
 
-    :Attributes:
+        params : Map containing parameters
 
-        :py:attr:`PopulationSize` : int
-            Size of the population.
-
-        :py:attr:`propIDU` : float
-            Prevalence of intravenous drug users.
-
-        :py:attr:`numIDU` : int
-            Number of intravenous drug users.
-
-        :py:attr:`propNIDU` : float
-            Prevalence of non-intravenous drug users.
-
-        :py:attr:`numNIDU` : int
-            Number of non-intravenous drug users.
-
-        :py:attr:`propND` : float
-            Prevalence of not drug users.
-
-        :py:attr:`numND` : int
-            Number of not drug users.
-
-        :py:attr:`Agents`: dict
-            Dictionary of agents and their characteristics. The agents are
-            the `keys' and a dicotionary of 'characteristic:value'
-            pair is the entry.
-
-        :py:attr:`IDU_agents`: list
-            IDU drug users
-
-        :py:attr:`NIDU_agents`: list
-            NIDU drug users
-
-        :py:attr:`ND_agents`: list
-            ND drug users
-
-        :py:attr:`MSM_agents`: list
-            MSM agents
-
-        :py:attr:`HIV_agents`: list
-            HIV+ users
-
-        :py:attr:`AIDS_agents`: list
-            Users with AIDS
-
-    :Methods:
-        :py:meth:`get_agent_characteristic` \n
-        :py:meth:`_set_population` \n
-        :py:meth:`get_agents` \n
-        :py:meth:`get_info_DrugUserType` \n
-        :py:meth:`get_info_HIV_IDU` \n
-        :py:meth:`get_info_DrugSexType`
     """
 
-    def __init__(self, n: int = 10000, rSeed: int = 0, model: str = None):
+    def __init__(self, pop_seed: int, params: DotMap):
         """
         :Purpose:
             Initialize PopulationClass object.
         """
-        # Init RNG for population creation to rSeed
-        self.popRandom = Random(rSeed)
-        np.random.seed(rSeed)
+        # Init RNG for population creation to pop_seed
+        self.pop_random = Random(pop_seed)
+        np.random.seed(pop_seed)
 
-        if type(n) is not int:
-            raise ValueError("Population size must be integer")
-        else:
-            self.PopulationSize = (
-                n
-            )  # REVIWED PopulationSize not really used and is calculable - needed? - nope
-
-        # Parameters
-        self.numWhite = round(
-            params.DemographicParams["WHITE"]["ALL"]["Proportion"] * self.PopulationSize
-        )
-        self.numBlack = round(
-            params.DemographicParams["BLACK"]["ALL"]["Proportion"] * self.PopulationSize
-        )
+        self.params = params
 
         # build weights of population sex types by race - SARAH READ THIS
         self.pop_weights: Dict[str, Dict[str, List[Any]]] = {}
-        for race in params.DemographicParams.keys():
+        for race in params.classes.races:
             self.pop_weights[race] = {}
             self.pop_weights[race]["values"] = []
             self.pop_weights[race]["weights"] = []
-            for st in params.agentSexTypes:
+            for st in params.classes.sex_types:
                 self.pop_weights[race]["values"].append(st)
                 self.pop_weights[race]["weights"].append(
-                    params.DemographicParams[race][st]["POP"]
+                    params.demographics[race][st].ppl
                 )
 
         print("\tBuilding class sets")
@@ -163,8 +98,12 @@ class PopulationClass:
         self.SO_MSM_agentSet = Agent_set(
             "MSM", parent=self.SO_agentSet, numerator=self.SO_agentSet
         )
-        self.SO_MSW_agentSet = Agent_set(
-            "MSW", parent=self.SO_agentSet, numerator=self.SO_agentSet
+        self.SO_MTF_agentSet = Agent_set(
+            "MTF", parent=self.SO_agentSet, numerator=self.SO_agentSet
+        )
+
+        self.SO_WSW_agentSet = Agent_set(
+            "WSW", parent=self.SO_agentSet, numerator=self.SO_agentSet
         )
 
         # Racial agent sets
@@ -182,145 +121,125 @@ class PopulationClass:
 
         print("\tCreating agents")
 
-        for i in range(self.numWhite):
-            agent = self.create_agent("WHITE")
-            self.add_agent_to_pop(agent)
-
-        for i in range(self.numBlack):
-            agent = self.create_agent("BLACK")
-            self.add_agent_to_pop(agent)
+        for race in params.classes.races:
+            for i in range(round(params.model.num_pop * params.demographics[race].ppl)):
+                agent = self.create_agent(race)
+                self.add_agent_to_pop(agent)
 
         self.initialize_incarceration()
 
     def initialize_incarceration(self):
-        jailDuration = prob.jail_duration()
+        jail_duration = prob.jail_duration()
 
-        for tmpA in self.All_agentSet._members:
+        for a in self.All_agentSet._members:
 
-            prob_Incarc = params.DemographicParams[tmpA._race][tmpA._SO]["INCARprev"]
-            if self.popRandom.random() < prob_Incarc:
-                tmpA._incar_bool = True
-                durationBin = current_p_value = 0
-                p = self.popRandom.random()
+            prob_incar = self.params.demographics[a._race][a._SO].incar.init
+            if self.pop_random.random() < prob_incar:
+                a._incar_bool = True
+                bin = current_p_value = 0
+                p = self.pop_random.random()
 
                 while p > current_p_value:
-                    durationBin += 1
-                    current_p_value += jailDuration[durationBin]["p_value"]
+                    bin += 1
+                    current_p_value += jail_duration[bin]["p_value"]
 
-                self.incarcerated_agentSet.add_agent(tmpA)
+                self.incarcerated_agentSet.add_agent(a)
 
-    def create_agent(self, Race: str, SexType: str = "NULL") -> Agent:
+    def create_agent(self, race: str, sex_type: str = "NULL") -> Agent:
         """
         :Purpose:
             Return a new agent according to population characteristics
         :Input:
-            Race : "BLACK" or "WHITE"
-            SexType : default "NULL"
+            race : "BLACK" or "WHITE"
+            sex_type : default "NULL"
         :Output:
-             newAgent : Agent
+             agent : Agent
         """
-        if SexType == "NULL":
-            SexType = np.random.choice(
-                self.pop_weights[Race]["values"], p=self.pop_weights[Race]["weights"]
+        if sex_type == "NULL":
+            sex_type = np.random.choice(
+                self.pop_weights[race]["values"], p=self.pop_weights[race]["weights"]
             )
 
         # Determine drugtype
         # todo: FIX THIS TO GET BACK IDU
-        if self.popRandom.random() < params.DemographicParams[Race]["IDU"]["POP"]:
-            DrugType = "IDU"
+        if self.pop_random.random() < self.params.demographics[race]["IDU"].ppl:
+            drug_type = "IDU"
         else:
-            DrugType = "NDU"
+            drug_type = "NDU"
 
-        age, ageBin = self.get_age(Race)
+        age, age_bin = self.get_age(race)
 
-        newAgent = Agent(SexType, age, Race, DrugType)
-        newAgent._ageBin = ageBin
+        agent = Agent(sex_type, age, race, drug_type)
+        agent._ageBin = age_bin
 
-        if params.setting == "Phil2005" and SexType == "HM":
-            if self.popRandom.random() < 0.06:
-                newAgent._MSMW = True
+        # TO_REVIEW setting based logic
+        # if params.setting == "Phil2005" and sex_type == "HM":
+        #     if self.pop_random.random() < 0.06:
+        #         agent._MSMW = True
+
+        if drug_type == "IDU":
+            agent_params = self.params.demographics[race]["IDU"]
+        else:
+            agent_params = self.params.demographics[race][sex_type]
 
         # HIV
-        if DrugType == "IDU":
-            prob_HIV = params.DemographicParams[Race]["IDU"]["HIV"]
-        else:
-            prob_HIV = params.DemographicParams[Race][SexType]["HIV"]
+        if self.pop_random.random() < agent_params.hiv.init:
+            agent._HIV_bool = True
 
-        if self.popRandom.random() < prob_HIV:
-            newAgent._HIV_bool = True
+            if self.pop_random.random() < agent_params.aids.init:
+                agent._AIDS_bool = True
 
-            # if HIV AIDS possible
-            if DrugType == "IDU":
-                prob_AIDS = params.DemographicParams[Race]["IDU"]["AIDS"]
-            else:
-                prob_AIDS = params.DemographicParams[Race][SexType]["AIDS"]
+            if self.pop_random.random() < agent_params.hiv.dx.init:
+                agent._tested = True
 
-            if self.popRandom.random() < prob_AIDS:
-                newAgent._AIDS_bool = True
+                if self.pop_random.random() < agent_params.haart.init:
+                    agent._HAART_bool = True
+                    agent._treatment_bool = True
 
-            # HIV testing params
-            if DrugType == "IDU":
-                prob_Tested = params.DemographicParams[Race]["IDU"]["TestedPrev"]
-            else:
-                prob_Tested = params.DemographicParams[Race][SexType]["TestedPrev"]
-
-            if self.popRandom.random() < prob_Tested:
-                newAgent._tested = True
-
-                # if tested HAART possible
-                if DrugType == "IDU":
-                    prob_HAART = params.DemographicParams[Race]["IDU"]["HAARTprev"]
-                else:
-                    prob_HAART = params.DemographicParams[Race][SexType]["HAARTprev"]
-
-                if self.popRandom.random() < prob_HAART:
-                    newAgent._HAART_bool = True
-                    newAgent._treatment_bool = True
-
-                    HAART_ADH = params.DemographicParams[Race][SexType]["HAARTadh"]
-                    if self.popRandom.random() < HAART_ADH:
+                    haart_adh = self.params.demographics[race][sex_type].haart.adherence
+                    if self.pop_random.random() < haart_adh:
                         adherence = 5
                     else:
-                        adherence = self.popRandom.randint(1, 4)
+                        adherence = self.pop_random.randint(1, 4)
 
                     # add to agent haart set
-                    newAgent._HAART_adh = adherence
-                    newAgent._HAART_time = 0
+                    agent._HAART_adh = adherence
+                    agent._HAART_time = 0
 
             # if HIV, how long has the agent had it? Random sample
-            newAgent._HIV_time = self.popRandom.randint(1, 42)
+            agent._HIV_time = self.pop_random.randint(1, 42)
 
         else:
 
-            if params.flag_PrEP:
-                if params.PrEP_startT == 0:
-                    prob_PrEP = params.PrEP_Target
+            if self.params.features.prep:
+                if self.params.prep.start == 0:
+                    prob_prep = self.params.prep.target
                 else:
-                    prob_PrEP = 0.0
+                    prob_prep = 0.0
 
-                if self.popRandom.random() < prob_PrEP:
-                    newAgent._PrEP_bool = True
-                    newAgent._treatment_bool = True
+                if self.pop_random.random() < prob_prep:
+                    agent._PrEP_bool = True
+                    agent._treatment_bool = True
 
         # Check if agent is HR as baseline.
         if (
-            self.popRandom.random()
-            < params.DemographicParams[Race][SexType]["HighRiskPrev"]
+            self.pop_random.random()
+            < self.params.demographics[race][sex_type].high_risk.init
         ):
-            newAgent._highrisk_bool = True
-            newAgent._everhighrisk_bool = True
+            agent._highrisk_bool = True
+            agent._everhighrisk_bool = True
 
-        # Partnership demographics
-        if params.setting == "Scott":
-            newAgent._mean_num_partners = prob.get_mean_num_partners(
-                DrugType, self.popRandom
-            )
-        else:
-            newAgent._mean_num_partners = poisson.rvs(
-                params.DemographicParams[Race][SexType]["NUMPartn"], size=1
-            )
+        # Partnership demographics # TO_REVIEW setting specific logic
+        # if params.setting == "Scott":
+        #     agent._mean_num_partners = prob.get_mean_num_partners(
+        #         drug_type, self.pop_random
+        #     )
+        # else:
+        agent._mean_num_partners = poisson.rvs(
+            self.params.demographics[race][sex_type].num_partners, size=1
+        )
 
-        return newAgent
+        return agent
 
     def add_agent_to_pop(self, agent: Agent):
         """
@@ -337,122 +256,84 @@ class PopulationClass:
 
         """
 
-        def addToSubsets(targetSet, agent, agentParam=None):
-            targetSet.add_agent(agent)
-            if agentParam:
-                targetSet._subset[agentParam].add_agent(agent)
+        def add_to_subsets(target, agent, agent_param=None):
+            target.add_agent(agent)
+            if agent_param:
+                target._subset[agent_param].add_agent(agent)
 
         # Add to all agent set
         self.All_agentSet.add_agent(agent)
 
         # Add to correct SO set
-        addToSubsets(self.SO_agentSet, agent, agent._SO)
+        add_to_subsets(self.SO_agentSet, agent, agent._SO)
 
         # Add to correct DU set
-        addToSubsets(self.drugUse_agentSet, agent, agent._DU)
+        add_to_subsets(self.drugUse_agentSet, agent, agent._DU)
 
         # Add to correct racial set
-        addToSubsets(self.racial_agentSet, agent, agent._race)
+        add_to_subsets(self.racial_agentSet, agent, agent._race)
 
         if agent._HIV_bool:
-            addToSubsets(self.HIV_agentSet, agent)
+            add_to_subsets(self.HIV_agentSet, agent)
             if agent._AIDS_bool:
-                addToSubsets(self.HIV_AIDS_agentSet, agent)
+                add_to_subsets(self.HIV_AIDS_agentSet, agent)
 
         # Add to correct treatment set
         if agent._treatment_bool:
-            addToSubsets(self.treatment_agentSet, agent)
+            add_to_subsets(self.treatment_agentSet, agent)
             if agent._HAART_bool:
-                addToSubsets(self.Trt_ART_agentSet, agent)
+                add_to_subsets(self.Trt_ART_agentSet, agent)
 
         if agent._PrEP_bool:
-            addToSubsets(self.Trt_PrEP_agentSet, agent)
+            add_to_subsets(self.Trt_PrEP_agentSet, agent)
 
         if agent._tested:
-            addToSubsets(self.Trt_Tstd_agentSet, agent)
+            add_to_subsets(self.Trt_Tstd_agentSet, agent)
 
         if agent._incar_bool:
-            addToSubsets(self.incarcerated_agentSet, agent)
+            add_to_subsets(self.incarcerated_agentSet, agent)
 
         if agent._highrisk_bool:
-            addToSubsets(self.highrisk_agentsSet, agent)
+            add_to_subsets(self.highrisk_agentsSet, agent)
 
     def get_age(self, race: str):
-        rand = self.popRandom.random()
+        rand = self.pop_random.random()
 
-        # REVIEWED why does AtlantaMSM use different age bins? should this all be paramable? - this will be revisited with future age things
-        if params.setting == "AtlantaMSM":
-            if rand < params.ageMatrix[race]["Prop"][1]:
-                minAge = 18
-                maxAge = 19
-                ageBin = 1
-            elif rand < params.ageMatrix[race]["Prop"][2]:
-                minAge = 20
-                maxAge = 24
-                ageBin = 2
-            elif rand < params.ageMatrix[race]["Prop"][3]:
-                minAge = 25
-                maxAge = 29
-                ageBin = 3
-            elif rand <= params.ageMatrix[race]["Prop"][4]:
-                minAge = 30
-                maxAge = 39
-                ageBin = 4
-            else:
-                minAge = 15
-                maxAge = 80
-                ageBin = 0
-        else:
-            if rand < params.ageMatrix[race]["Prop"][1]:
-                minAge = 15
-                maxAge = 24
-                ageBin = 1
-            elif rand < params.ageMatrix[race]["Prop"][2]:
-                minAge = 25
-                maxAge = 34
-                ageBin = 2
-            elif rand < params.ageMatrix[race]["Prop"][3]:
-                minAge = 35
-                maxAge = 44
-                ageBin = 3
-            elif rand < params.ageMatrix[race]["Prop"][4]:
-                minAge = 45
-                maxAge = 54
-                ageBin = 4
-            else:
-                minAge = 55
-                maxAge = 80
-                ageBin = 5
+        # REVIEWED why does AtlantaMSM use different age bins? should this all be paramable? - this will be revisited with future age things - got rid of it here, but Atlanta's setting's demograhpics.race.rage needs to be updated to match what was here
 
-        age = self.popRandom.randrange(minAge, maxAge)
-        return age, ageBin
+        bins = self.params.demographics[race].age
+
+        for i in range(1, 6):
+            if rand < bins[i].prob:
+                min_age = bins[i].min
+                max_age = bins[i].max
+                break
+
+        age = self.pop_random.randrange(min_age, max_age)
+        return age, i
 
     # REVIEWED should these be in the network class? - max to incorporate with network/pop/model disentangling?
-    def update_agent_partners(self, graph, agent: Agent) -> bool:
-        partner = get_partner(agent, self.All_agentSet)
-        noMatch = False
+    def update_agent_partners(self, graph, agent: Agent, params: DotMap):
+        partner = get_partner(agent, self.All_agentSet, params)
 
         if partner:
-            duration = get_partnership_duration(agent)
+            duration = get_partnership_duration(agent, params)
             rel = Relationship(agent, partner, duration)
             self.Relationships.append(rel)
             graph.add_edge(rel._ID1, rel._ID2)
         else:
             graph.add_node(agent)
-            noMatch = True
 
-        return noMatch
-
-    def update_partner_assignments(self, partnerTurnover: float, graph):
+    def update_partner_assignments(self, graph, params: DotMap):
         # Now create partnerships until available partnerships are out
-        EligibleAgents = self.All_agentSet
-        for agent in EligibleAgents.iter_agents():
-            acquirePartnerProb = (
-                params.cal_SexualPartScaling
-                * partnerTurnover
-                * (agent._mean_num_partners / (12.0))
+        eligible_agents = self.All_agentSet
+        for agent in eligible_agents.iter_agents():
+            acquirePartnerProb = params.calibration.sex.partner * (
+                agent._mean_num_partners / (12.0)
             )
-            if self.popRandom.random() < acquirePartnerProb:
-                self.update_agent_partners(graph, agent)
+            if self.pop_random.random() < acquirePartnerProb:
+                self.update_agent_partners(graph, agent, params)
             else:
-                graph.add_node(agent)
+                graph.add_node(
+                    agent
+                )  # TO_REVIEW shouldn't adding the agent as a node happen no matter what?

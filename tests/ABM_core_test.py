@@ -1,11 +1,16 @@
 import pytest
 
 from copy import deepcopy
+import os
 
 from titan.ABM_core import *
 from titan.agent import Agent, Relationship
-from titan import params
+from titan.params_parse import create_params
 
+@pytest.fixture
+def params():
+    param_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml")
+    return create_params({}, param_file)
 
 @pytest.fixture
 def make_agent():
@@ -16,9 +21,9 @@ def make_agent():
 
 
 @pytest.fixture
-def make_model():
+def make_model(params):
     def _make_model():
-        return HIVModel(100, 10, 0, 0, 0, "scale_free")
+        return HIVModel(params)
 
     return _make_model
 
@@ -47,13 +52,14 @@ class FakeRandom:
 # ================================ MODEL TESTS =================================
 
 
-def test_model_init_error():
+def test_model_init_error(params):
+    params.model.seed.run = 0.5
     with pytest.raises(ValueError):
-        HIVModel(100, 0.5, 0, 0, 0, "scale_free")
+        HIVModel(params)
 
 
-def test_model_init():
-    model = HIVModel(100, 10, 0, 0, 0, "scale_free")
+def test_model_init(params):
+    model = HIVModel(params)
 
     assert model.runseed > 0
     assert model.popseed > 0
@@ -96,9 +102,6 @@ def test_agents_interact(make_model, make_agent):
 
     a._DU = "IDU"
     p._DU = "IDU"
-
-    a._incar_treatment_time = 1
-    assert model._agents_interact(rel) is False  # short circuit due to incar treatment
 
     a._incar_treatment_time = 0
     model.runRandom = FakeRandom(-0.1)
@@ -222,7 +225,7 @@ def test_incarcerate_tested(make_model, make_agent):
     a._HIV_bool = True
     a._tested = True
 
-    model.runRandom = FakeRandom(0.0000001)  # always less than params
+    model.runRandom = FakeRandom(-0.1)  # always less than params
 
     model._incarcerate(a, 10)
 
@@ -243,7 +246,7 @@ def test_incarcerate_not_tested(make_model, make_agent):
     p = make_agent(SO="HF")
     rel = Relationship(a, p, 10)
 
-    model.runRandom = FakeRandom(0.0000001)  # always less than params
+    model.runRandom = FakeRandom(-.1)  # always less than params
 
     model._incarcerate(a, 0)
 
@@ -465,6 +468,7 @@ def test_initiate_PrEP_force_non_adh(make_model, make_agent):
 
 def test_initiate_PrEP_eligible(make_model, make_agent):
     model = make_model()
+    model.Trt_PrEP_agentSet._members = [] # make sure there's room to add more prep agents
     a = make_agent(SO="HF")  # model is "CDCwomen"
     p = make_agent(DU="IDU")
     p._tested = True
@@ -482,36 +486,6 @@ def test_initiate_PrEP_eligible(make_model, make_agent):
     assert "IDU" in a._PrEP_reason
     assert "HIV test" in a._PrEP_reason
     assert "MSMW" in a._PrEP_reason
-
-
-def test_get_clinic_agent_none(make_model, make_agent):
-    model = make_model()
-    clinic_cat = "Mid"
-
-    a = make_agent()
-    a._mean_num_partners = 2
-    pool = [a]
-
-    # probability of matching is on bin 1 0.054
-    # min is 0 max is 1
-    model.runRandom = FakeRandom(0.0001)
-
-    assert model._get_clinic_agent(clinic_cat, pool) is None
-
-
-def test_get_clinic_agent_match(make_model, make_agent):
-    model = make_model()
-    clinic_cat = "Mid"
-
-    a = make_agent()
-    a._mean_num_partners = 1
-    pool = [a]
-
-    # probability of matching is on bin 1 0.054
-    # min is 0 max is 1
-    model.runRandom = FakeRandom(0.0001)
-
-    assert model._get_clinic_agent(clinic_cat, pool) == a
 
 
 def test_progress_to_AIDS_error(make_agent, make_model):

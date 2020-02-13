@@ -11,20 +11,14 @@ from networkx.drawing.nx_agraph import graphviz_layout  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 import matplotlib.patches as patches  # type: ignore
 from typing import Sequence, List, Dict, Optional
+from dotmap import DotMap  # type: ignore
 
 from .HIVABM_Population import PopulationClass
-from . import params  # type: ignore
 from .agent import Agent_set
 
 
 class NetworkClass(PopulationClass):
-    def __init__(
-        self,
-        N: int,
-        popSeed: int = 0,
-        netSeed: int = 0,
-        network_type: str = "scale_free",
-    ):
+    def __init__(self, params: DotMap, popSeed: int = 0, netSeed: int = 0):
         """
         :Purpose:
             This is the base class used to generate the social network
@@ -36,26 +30,19 @@ class NetworkClass(PopulationClass):
 
             network_type: defaul is "scale_free", other options are "max_k_comp_size" and "binomial"
         """
+
         random.seed(netSeed)
         np.random.seed(netSeed)
 
-        if type(N) is not int:
-            raise ValueError(
-                "Population size must be integer,\
-                n = %s, not int"
-                % (type(N))
-            )
-        else:
-            pass
-
-        PopulationClass.__init__(self, n=N, rSeed=popSeed)  # Create population
+        PopulationClass.__init__(self, popSeed, params)  # Create population
 
         # self.NetworkSize = N
-        if network_type == "scale_free":
-            self.G = nx.Graph()
-            for i in range(10):
-                self.update_partner_assignments(params.PARTNERTURNOVER, self.G)
-        elif network_type == "max_k_comp_size":
+        # happens for both scale_free and max_k_comp_size
+        self.G = nx.Graph()
+        for i in range(10):
+            self.update_partner_assignments(self.G, params)
+
+        if params.model.network.type == "max_k_comp_size":
 
             def trimComponent(component, maxComponentSize):
                 for ag in component.nodes:
@@ -70,27 +57,21 @@ class NetworkClass(PopulationClass):
                 if component.number_of_nodes() > maxComponentSize:
                     trimComponent(componenent, maxComponentSize)
 
-            self.G = nx.Graph()
-            for i in range(10):
-                self.update_partner_assignments(
-                    params.PARTNERTURNOVER, self.get_Graph()
-                )
+
             components = sorted(self.connected_components(), key=len, reverse=True)
             for comp in components:
                 if (
-                    params.calcComponentStats
-                    and comp.number_of_nodes() > params.maxComponentSize
+                    params.outputs.calc_component_stats
+                    and comp.number_of_nodes() > params.model.network.component_size.max
                 ):
                     print("TOO BIG", comp, comp.number_of_nodes())
-                    trimComponent(comp, params.maxComponentSize)
+                    trimComponent(comp, params.model.network.component_size.max)
                 elif (
-                    params.calcComponentStats
-                    and comp.number_of_nodes() < params.minComponentSize
+                    params.outputs.calc_component_stats
+                    and comp.number_of_nodes() < params.model.network.component_size.min
                 ):  # REVIEWED what should happen if it's too small? - this should be addressed someday, but it's a larger question than is advisable at the moment
                     print("TOO SMALL", comp, comp.number_of_nodes())
             print("Total agents in graph: ", self.G.number_of_nodes())
-        else:
-            raise ValueError("Invalid network type! %s" % str(network_type))
 
     def connected_components(self):
         return (self.G.subgraph(c).copy() for c in nx.connected_components(self.G))
@@ -167,6 +148,8 @@ class NetworkClass(PopulationClass):
                     node_color.append("c")
                 elif tmp_sextype == "MSM":
                     node_color.append("r")
+                elif tmp_sextype == "MTF":
+                    node_color.append("y")
                 else:
                     raise ValueError("Check agents %s sextype %s" % (v, tmp_sextype))
         elif coloring == "DU":

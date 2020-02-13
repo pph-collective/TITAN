@@ -1,8 +1,15 @@
 import pytest
+import os
 
 from titan.ABM_partnering import *
 from titan.agent import Agent
 from titan.HIVABM_Population import PopulationClass
+from titan.params_parse import create_params
+
+@pytest.fixture
+def params():
+    param_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml")
+    return create_params({}, param_file)
 
 
 @pytest.fixture
@@ -14,9 +21,10 @@ def make_agent():
 
 
 @pytest.fixture
-def make_population():
+def make_population(params):
     def _make_population(n=0):
-        return PopulationClass(n, 0, "PrEP")
+        params.model.num_pop = n
+        return PopulationClass(0, params)
 
     return _make_population
 
@@ -39,56 +47,56 @@ def test_get_random_IDU_partner_w_IDU(make_population, make_agent):
     assert get_random_IDU_partner(idu_agent, empty_pop.All_agentSet) == idu_partner
 
 
-def test_get_random_sex_partner_valid(make_population, make_agent):
+def test_get_random_sex_partner_valid(make_population, make_agent, params):
     empty_pop = make_population()
     hm_agent = make_agent(SO="HM")
     hf_partner = make_agent(SO="HF")
     empty_pop.add_agent_to_pop(hm_agent)
     empty_pop.add_agent_to_pop(hf_partner)
-    assert get_random_sex_partner(hm_agent, empty_pop.All_agentSet) == hf_partner
+    assert get_random_sex_partner(hm_agent, empty_pop.All_agentSet, params) == hf_partner
 
 
-def test_get_random_sex_partner_bad(make_population, make_agent):
+def test_get_random_sex_partner_bad(make_population, make_agent, params):
     empty_pop = make_population()
     hm_agent = make_agent(SO="HM")
     hf_partner = make_agent(SO="MSM")
     empty_pop.add_agent_to_pop(hm_agent)
     empty_pop.add_agent_to_pop(hf_partner)
-    assert get_random_sex_partner(hm_agent, empty_pop.All_agentSet) is None
+    assert get_random_sex_partner(hm_agent, empty_pop.All_agentSet, params) is None
 
 
-def test_sex_possible():
+def test_sex_possible(params):
     # agent sex types are ["HM", "MSM", "WSW", "HF", "MTF"]
-    assert sex_possible("HM", "HM") == False
-    assert sex_possible("HM", "MSM") == False
-    assert sex_possible("HM", "HF") == True
-    assert sex_possible("HM", "WSW") == True
-    assert sex_possible("HM", "MTF") == True
+    assert sex_possible("HM", "HM", params) == False
+    assert sex_possible("HM", "MSM", params) == False
+    assert sex_possible("HM", "HF", params) == True
+    assert sex_possible("HM", "WSW", params) == True
+    assert sex_possible("HM", "MTF", params) == True
 
-    assert sex_possible("MSM", "HM") == False
-    assert sex_possible("MSM", "MSM") == True
-    assert sex_possible("MSM", "HF") == True
-    assert sex_possible("MSM", "WSW") == True
-    assert sex_possible("MSM", "MTF") == True
+    assert sex_possible("MSM", "HM", params) == False
+    assert sex_possible("MSM", "MSM", params) == True
+    assert sex_possible("MSM", "HF", params) == True
+    assert sex_possible("MSM", "WSW", params) == True
+    assert sex_possible("MSM", "MTF", params) == True
 
-    assert sex_possible("WSW", "HM") == True
-    assert sex_possible("WSW", "MSM") == True
-    assert sex_possible("WSW", "HF") == False
-    assert sex_possible("WSW", "WSW") == True
-    assert sex_possible("WSW", "MTF") == False
+    assert sex_possible("WSW", "HM", params) == True
+    assert sex_possible("WSW", "MSM", params) == True
+    assert sex_possible("WSW", "HF", params) == False
+    assert sex_possible("WSW", "WSW", params) == True
+    assert sex_possible("WSW", "MTF", params) == False
 
-    assert sex_possible("HF", "HM") == True
-    assert sex_possible("HF", "MSM") == True
-    assert sex_possible("HF", "HF") == False
-    assert sex_possible("HF", "WSW") == False
-    assert sex_possible("HF", "MTF") == False
+    assert sex_possible("HF", "HM", params) == True
+    assert sex_possible("HF", "MSM", params) == True
+    assert sex_possible("HF", "HF", params) == False
+    assert sex_possible("HF", "WSW", params) == False
+    assert sex_possible("HF", "MTF", params) == False
 
-    assert sex_possible("MTF", "HM") == True
-    assert sex_possible("MTF", "MSM") == True
-    assert sex_possible("MTF", "HF") == False
-    assert sex_possible("MTF", "WSW") == False
-    assert sex_possible("MTF", "MTF") == False
+    assert sex_possible("MTF", "HM", params) == True
+    assert sex_possible("MTF", "MSM", params) == True
+    assert sex_possible("MTF", "HF", params) == False
+    assert sex_possible("MTF", "WSW", params) == False
+    assert sex_possible("MTF", "MTF", params) == False
 
     with pytest.raises(ValueError, match=r"Invalid .*_sex_type.*"):
-        sex_possible("HM", "XYZ")
-        sex_possible("XYZ", "HM")
+        sex_possible("HM", "XYZ", params)
+        sex_possible("XYZ", "HM", params)

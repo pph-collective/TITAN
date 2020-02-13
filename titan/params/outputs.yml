@@ -7,6 +7,14 @@ outputs:
     default: false
     description: Whether to plot the network during the run of a model
     type: boolean
+  edge_list:
+    default: false
+    description: Whether to write the graph's edge list during the run of a model
+    type: boolean
+  calc_network_stats:
+    default: false
+    description: Whether to write the network statistics during the run of a model
+    type: boolean
   calc_component_stats:
     default: false
     descriptions: Whether to calculate and save statistics on network components during model run

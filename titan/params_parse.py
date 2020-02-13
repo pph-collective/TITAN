@@ -15,6 +15,14 @@ def get_item(key, d, param):
             assert val >= d["min"]
         if "max" in d:
             assert val <= d["max"]
+        if d["type"] == "int":
+            isinstance(val, int)
+        if d["type"] == "float":
+            if isinstance(val, int):
+                val = float(val)
+            assert isinstance(val, float)
+        if d["type"] == "boolean":
+            assert isinstance(val, bool)
         if d["type"] == "enum":
             assert val in d["values"]
         if d["type"] == "array":
@@ -45,6 +53,7 @@ def get_bins(key, d, param):
 
     bins = merge(d["default"], param[key])
 
+    parsed_bins = {}
     for bin, val in bins.items():
         try:
             int(bin)
@@ -54,13 +63,22 @@ def get_bins(key, d, param):
 
         for field, defn in d["fields"].items():
             assert field in val
+            if defn["type"] == "int":
+                assert isinstance(val[field], int)
+            elif defn["type"] == "float":
+                if isinstance(val[field], int):
+                    val[field] = float(val[field])
+                assert isinstance(val[field], float)
+
             if "min" in defn:
                 assert val[field] >= defn["min"]
 
             if "max" in defn:
                 assert val[field] <= defn["max"]
 
-    return bins
+        parsed_bins[int(bin)] = val
+
+    return parsed_bins
 
 
 def parse_params(defs, params, pops):
@@ -118,6 +136,7 @@ def parse_classes(defs, params):
     defs["classes"]["populations"]["values"] += defs["classes"]["sex_types"]["values"]
 
     return parse_params(defs["classes"], params.get("classes", {}), {})
+
 
 def print_dotmap(params, prefix, file_handle):
     for k, v in params.items():

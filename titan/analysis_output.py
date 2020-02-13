@@ -1,16 +1,12 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from . import params  # type: ignore
 from typing import Dict, Any, List, Sequence, Optional
 from .agent import Agent_set, Relationship, Agent
 from copy import deepcopy
 from uuid import UUID
 
-MAIN_CAT = list(params.DemographicParams.keys())
-MAIN_CAT.append("ALL")
-SUB_CAT = params.agentPopulations
-SUB_CAT.append("ALL")
+from dotmap import DotMap  # type: ignore
 
 
 def get_stats(
@@ -25,6 +21,7 @@ def get_stats(
     newHR: Agent_set,
     newIncarRelease: Agent_set,
     deathSet: List[Agent],
+    params: DotMap,
 ):
 
     stats_template = {
@@ -56,6 +53,11 @@ def get_stats(
         "testedPartPrep": 0,
         "vaccinated": 0,
     }
+
+    MAIN_CAT = deepcopy(params.classes.races)
+    MAIN_CAT.append("ALL")
+    SUB_CAT = deepcopy(params.classes.populations)
+    SUB_CAT.append("ALL")
 
     stats = {}
     for cat in MAIN_CAT:
@@ -147,7 +149,7 @@ def get_stats(
         if race != "ALL":
             for param in stats_template:
                 for sc in SUB_CAT:
-                    if sc in params.agentSexTypes:
+                    if sc in params.classes.sex_types:
                         stats[race]["ALL"][param] += stats[race][sc][param]
                 for sc in SUB_CAT:
                     stats["ALL"][sc][param] += stats[race][sc][param]
@@ -170,9 +172,10 @@ def deathReport(
     popseed: int,
     netseed: int,
     stats: Dict[str, Any],
+    params: DotMap,
 ):
     f = open("results/DeathReport.txt", "a")
-    sex_types = deepcopy(params.agentSexTypes)
+    sex_types = deepcopy(params.classes.sex_types)
     sex_types.append("ALL")
 
     # if this is a new file, write the header info
@@ -204,6 +207,7 @@ def incarReport(
     popseed: int,
     netseed: int,
     stats: Dict[str, Any],
+    params: DotMap,
 ):
     f = open("results/IncarReport.txt", "a")
 
@@ -214,13 +218,16 @@ def incarReport(
         "newReleaseHIV": "rlsdHIV",
     }
 
+    MAIN_CAT = deepcopy(params.classes.races)
+    MAIN_CAT.append("ALL")
+
     if f.tell() == 0:
         f.write("run_id\tseed\tt")  # start header
 
         template = "\t{mc}_{st}_{p}"
         for p in name_map.values():
             for mc in MAIN_CAT:
-                for sex_type in params.agentSexTypes:
+                for sex_type in params.classes.sex_types:
                     f.write(template.format(mc=mc, st=sex_type, p=p))
 
         f.write("\n")
@@ -229,7 +236,7 @@ def incarReport(
 
     for p in name_map:
         for mc in MAIN_CAT:
-            for st in params.agentSexTypes:
+            for st in params.classes.sex_types:
                 f.write("\t")
                 f.write(str(stats[mc][st][p]))
 
@@ -244,6 +251,7 @@ def newlyhighriskReport(
     popseed: int,
     netseed: int,
     stats: Dict[str, Any],
+    params: DotMap,
 ):
     f = open("results/newlyHR_Report.txt", "a")
 
@@ -252,14 +260,14 @@ def newlyhighriskReport(
         f.write("run_id\tseed\tt")  # start header
 
         template = "\tnewHR_{st}\tnewHR_HIV_{st}\tnewHR_AIDS_{st}\tnewHR_Tested_{st}\tnewHR_ART_{st}"
-        for sex_type in params.agentSexTypes:
+        for sex_type in params.classes.sex_types:
             f.write(template.format(st=sex_type))
 
         f.write("\n")
 
     f.write("%s\t%d\t%d" % (run_id, runseed, t))  # start row
 
-    for sex_type in params.agentSexTypes:
+    for sex_type in params.classes.sex_types:
         f.write(
             "\t%d\t%d\t%d\t%d\t%d"
             % (
@@ -282,6 +290,7 @@ def prepReport(
     popseed: int,
     netseed: int,
     stats: Dict[str, Any],
+    params: DotMap,
 ):
     f = open("results/PrEPReport.txt", "a")
 
@@ -311,7 +320,13 @@ def basicReport(
     popseed: int,
     netseed: int,
     stats: Dict[str, Any],
+    params: DotMap,
 ):
+    MAIN_CAT = deepcopy(params.classes.races)
+    MAIN_CAT.append("ALL")
+    SUB_CAT = deepcopy(params.classes.populations)
+    SUB_CAT.append("ALL")
+
     for agentRace in MAIN_CAT:
         for agentTypes in SUB_CAT:
             name = "basicReport_" + agentTypes + "_" + agentRace

@@ -7,7 +7,7 @@ import os
 import shutil
 import argparse
 
-from titan.simulation_lib import simulation, save_results
+from titan.ABM_core import HIVModel
 from titan.params_parse import create_params
 
 # set up args parsing
@@ -56,29 +56,13 @@ def main(setting, paramsPath, nMC):
     params = create_params(setting, paramsPath)
 
     for single_sim in range(nMC):
-        outfile_dir = os.path.join(
-            os.getcwd(), f"results/results_simulation_MP_{single_sim}"
-        )
-        if not os.path.isdir(outfile_dir):
-            os.mkdir(outfile_dir)
         tic = time_mod.time()
 
-        inputPopSeed = params.model.seed.ppl
-        inputNetSeed = params.model.seed.net
-        inputRunSeed = params.model.seed.run
-
-        # get rid of num_reps and -1 seed shenanigans
-        if inputPopSeed == -1:
-            inputPopSeed = single_sim + 1
-
-        if inputNetSeed == -1:
-            inputNetSeed = single_sim + 1
-
         # runs simulations
-        rslts = simulation(params)
+        model = HIVModel(params)
+        stats = model.run()
 
         wct.append(time_mod.time() - tic)
-        save_results(params, rslts, outfile_dir, single_sim)
 
     for task, time_t in enumerate(wct):
         print(("wall clock time on for simulation %d: %8.4f seconds" % (task, time_t)))

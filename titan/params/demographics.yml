@@ -5,7 +5,7 @@ demographics:
     - races
     - populations
   default:
-    prop:
+    ppl:
       default: 0.0
       description: "Percentage of agent population with given parent key that is this class.  Across races this must add up to one, and at the sex type level within a race, this must also add up to one. Other demographic params can have proportions of any value."
       type: float
@@ -18,6 +18,19 @@ demographics:
         type: float
         min: 0.0
         max: 1.0
+      dx:
+        init:
+          default: 0.0
+          description: "Probability that an agent with HIV is initially diagnosed and 'knows' their HIV status, therefore enabling enrollment in treatment"
+          type: float
+          min: 0.0
+          max: 1.0
+        prob:
+          default: 0.0
+          description: "Probability that an agent with HIV becomes diagnosed at a given time step and 'knows' their HIV status, therefore enabling enrollment in treatment"
+          type: float
+          min: 0.0
+          max: 1.0
     aids:
       init:
         default: 0.0
@@ -60,19 +73,6 @@ demographics:
       prob:
         default: 0.0
         description: "Probability that an agent in this class becomes incarcerated at a given time step"
-        type: float
-        min: 0.0
-        max: 1.0
-    tested:
-      init:
-        default: 0.0
-        description: "Probability that an agent with HIV is initially tested and 'knows' their HIV status, therefore enabling enrollment in treatment"
-        type: float
-        min: 0.0
-        max: 1.0
-      prob:
-        default: 0.0
-        description: "Probability that an agent with HIV becomes tested at a given time step and 'knows' their HIV status, therefore enabling enrollment in treatment"
         type: float
         min: 0.0
         max: 1.0

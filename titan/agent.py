@@ -2,7 +2,8 @@
 # encoding: utf-8
 
 from typing import Sequence, List, Dict, Optional
-from . import params
+
+from dotmap import DotMap
 
 
 class Agent:
@@ -112,14 +113,13 @@ class Agent:
         """
         return str(self._ID)
 
-    def get_ID(self):
-        """
-        Get the agent ID
+    def __eq__(self, other):
+        if not isinstance(other, Agent):
+            return NotImplemented
+        return self._ID == other._ID
 
-        returns:
-            ID (int) - agent ID
-        """
-        return self._ID
+    def __hash__(self):
+        return hash(self._ID)
 
     def partner_list(self):
         """
@@ -152,7 +152,7 @@ class Agent:
         else:
             return False
 
-    def PrEP_eligible(self) -> bool:
+    def PrEP_eligible(self, target_model: str) -> bool:
         """
         :Purpose:
             Determine if an agent is eligible for PrEP
@@ -163,10 +163,14 @@ class Agent:
         :Output:
             eligibility : bool
         """
+        # if agent is already on prep, not eligible to enroll
+        if self._PrEP_bool:
+            return False
+
         eligible = False
-        if params.PrEP_target_model == "Allcomers":
+        if target_model == "Allcomers":
             eligible = True
-        elif params.PrEP_target_model == "CDCwomen":
+        elif target_model == "CDCwomen":
             if self._SO == "HF":
                 for rel in set(self._relationships):
                     partner = rel.get_partner(self)
@@ -180,7 +184,7 @@ class Agent:
                         if partner._MSMW:
                             eligible = True
                             self._PrEP_reason.append("MSMW")
-        elif params.PrEP_target_model == "CDCmsm":
+        elif target_model == "CDCmsm":
             if self._SO == "MSM":
                 for rel in self._relationships:
                     partner = rel.get_partner(self)
@@ -188,22 +192,22 @@ class Agent:
                     if rel._duration > 1:
                         if partner._tested or self._mean_num_partners > 1:
                             eligible = True
-        elif params.PrEP_target_model == "HighPN5":
+        elif target_model == "HighPN5":
             if self._mean_num_partners >= 5:
                 eligible = True
-        elif params.PrEP_target_model == "HighPN10":
+        elif target_model == "HighPN10":
             if self._mean_num_partners >= 10:
                 eligible = True
-        elif params.PrEP_target_model == "SRIns":
+        elif target_model == "SRIns":
             if self._sexualRole == "Insertive":
                 eligible = True
-        elif params.PrEP_target_model == "MSM":
+        elif target_model == "MSM":
             if self._SO in ("MSM", "MTF"):
                 eligible = True
 
         return eligible
 
-    def update_PrEP_load(self):
+    def update_PrEP_load(self, params: DotMap):
         """
         :Purpose:
             Determine and update load of PrEP concentration in agent.
@@ -219,8 +223,8 @@ class Agent:
         if self._PrEP_lastDose > 12:
             self._PrEP_load = 0.0
         else:
-            self._PrEP_load = params.PrEP_peakLoad * (
-                (0.5) ** (self._PrEP_lastDose / (params.PrEP_halflife / 30))
+            self._PrEP_load = params.prep.peak_load * (
+                (0.5) ** (self._PrEP_lastDose / (params.prep.half_life / 30))
             )
 
     def vaccinate(self, vax: str):
@@ -238,7 +242,7 @@ class Agent:
         self.vaccine_type = vax
         self.vaccine_time = 1
 
-    def get_transmission_probability(self, interaction: str) -> float:
+    def get_transmission_probability(self, interaction: str, params: DotMap) -> float:
         """ Decriptor
         :Purpose:
             Determines the probability of a transmission event based on interaction type.
@@ -249,37 +253,35 @@ class Agent:
         :Output:
             probability : float
         """
-        agentAdherence = str(self._HAART_adh)
-
         # Logic for if needle or sex type interaction
         p: float
         if interaction == "NEEDLE":
-            p = params.TransmissionProbabilities["NEEDLE"][agentAdherence]
+            p = params.partnership.needle.transmission[self._HAART_adh].prob
         elif interaction == "SEX":
-            p = params.TransmissionProbabilities["SEX"][self._SO][agentAdherence]
+            p = params.partnership.sex.transmission[self._SO][self._HAART_adh].prob
 
         # Scaling parameter for acute HIV infections
         if self.get_acute_status():
-            p = p * params.cal_AcuteScaling
+            p *= params.calibration.acute
 
         # Scaling parameter for positively identified HIV agents
         if self._tested:
-            p = p * (1 - params.cal_RR_Dx)
+            p *= (1 - params.calibration.risk_reduction.transmission)
 
         # Tuning parameter for ART efficiency
         if self._HAART_bool:
-            p = p * params.cal_RR_HAART
+            p *= params.calibration.risk_reduction.haart
 
         # Racial calibration parameter to attain proper race incidence disparity
         if self._race == "BLACK":
-            p = p * params.cal_raceXmission
+            p *= params.calibration.race_transmission
 
         # Scaling parameter for per act transmission.
-        p = p * params.cal_pXmissionScaling
+        p *= params.calibration.transmission
 
         return p
 
-    def get_number_of_sexActs(self, rand_gen) -> int:
+    def get_number_of_sexActs(self, rand_gen, params: DotMap) -> int:
         """
         :Purpose:
             Number of sexActs an agent has done.
@@ -301,15 +303,15 @@ class Agent:
         rv = rand_gen.random()
 
         for i in range(1, 6):
-            pMatch = params.sexualFrequency[i]["p_value"]
+            pMatch = params.partnership.sex.frequency[i].prob
             if rv <= pMatch:
-                minSA = params.sexualFrequency[i]["min"]
-                maxSA = params.sexualFrequency[i]["max"]
+                minSA = params.partnership.sex.frequency[i].min
+                maxSA = params.partnership.sex.frequency[i].max
                 return rand_gen.randrange(minSA, maxSA, 1)
 
         # fallthrough is last i
-        minSA = params.sexualFrequency[i]["min"]
-        maxSA = params.sexualFrequency[i]["max"]
+        minSA = params.partnership.sex.frequency[i].min
+        maxSA = params.partnership.sex.frequency[i].max
         return rand_gen.randrange(minSA, maxSA, 1)
 
 
@@ -352,6 +354,14 @@ class Relationship:
         self._total_sex_acts = 0
 
         self.bond(ID1, ID2)
+
+    def __eq__(self, other):
+        if not isinstance(other, Relationship):
+            return NotImplemented
+        return self._ID == other._ID
+
+    def __hash__(self):
+        return hash(self._ID)
 
     def progress(self, forceKill: bool = False):
         if self._duration <= 0 or forceKill:
@@ -406,15 +416,10 @@ class Relationship:
         else:
             return self._ID1
 
-    def get_ID(self):
-        return self._ID
-
     def __repr__(self):
         return "\t%.6d\t%.6d\t%s\t%s\t%d\t%d" % (
             self._ID1.get_ID(),
             self._ID2.get_ID(),
-            self._SO,
-            self._rel_type,
             self._duration,
             self._total_sex_acts,
         )
@@ -423,12 +428,11 @@ class Relationship:
         return "\t%.6d\t%.6d\t%s\t%s\t%d\t%d" % (
             self._ID1.get_ID(),
             self._ID2.get_ID(),
-            self._SO,
-            self._rel_type,
             self._duration,
             self._total_sex_acts,
         )
 
+    # TO_REVIEW not used anywhere (if delete, also delete print_rel)
     def print_rels(self):
         print("\t_____________ %s _____________" % self.get_ID())
         print("\tID1\tID2\tSO\tRel\tDur\tSexA")
@@ -437,12 +441,11 @@ class Relationship:
             print(tmpA)
         print("\t______________ END ______________")
 
+    # TO_REVIEW not used anywhere
     def vars(self):
         return "%.6d,%.6d,%s,%s,%d,%d\n" % (
             self._ID1.get_ID(),
             self._ID2.get_ID(),
-            self._SO,
-            self._rel_type,
             self._duration,
             self._total_sex_acts,
         )

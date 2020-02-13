@@ -1,9 +1,15 @@
 import pytest
+import os
 
 from titan.agent import *
-from titan import params
+from titan.params_parse import create_params
 
 import random
+
+@pytest.fixture
+def params():
+    param_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml")
+    return create_params({}, param_file)
 
 
 @pytest.fixture
@@ -97,11 +103,6 @@ def test_agent_init(make_agent):
     assert a._incar_treatment_time == 0
 
 
-def test_get_id(make_agent):
-    a = make_agent()
-    assert a.get_ID() == a._ID
-
-
 def test_partner_list(make_agent, make_relationship):
     a = make_agent()
 
@@ -121,73 +122,72 @@ def test_get_acute_status(make_agent):
     assert a.get_acute_status() == True
 
 
-def test_update_PrEP_load(make_agent):
+def test_update_PrEP_load(make_agent, params):
     a = make_agent()
     assert a._PrEP_lastDose == 0
     assert a._PrEP_load == 0
-    a.update_PrEP_load()
+    a.update_PrEP_load(params)
     assert a._PrEP_lastDose == 1
     assert a._PrEP_load > 0
 
     # make time pass
     for i in range(12):
-        a.update_PrEP_load()
+        a.update_PrEP_load(params)
 
     assert a._PrEP_lastDose == 13
     assert a._PrEP_load == 0.0
 
 
-def test_get_transmission_probability(make_agent):
-    a = make_agent(race="WHITE", SO="HM")
+def test_get_transmission_probability(make_agent, params):
+    a = make_agent(race="WHITE", SO="MSM")
     a._HAART_adh = 1  # set this explicitly
 
-    p_needle = params.TransmissionProbabilities["NEEDLE"]["1"]
-    p_sex = params.TransmissionProbabilities["SEX"]["HM"]["1"]
-    scale = params.cal_pXmissionScaling
+    p_needle = params.partnership.needle.transmission[1].prob
+    p_sex = params.partnership.sex.transmission["MSM"][1].prob
+    scale = params.calibration.transmission
 
     # test base case (not tested, not HAART, "WHITE")
-    assert a.get_transmission_probability("NEEDLE") == p_needle * scale
-    assert a.get_transmission_probability("SEX") == p_sex * scale
+    assert a.get_transmission_probability("NEEDLE", params) == p_needle * scale
+    assert a.get_transmission_probability("SEX", params) == p_sex * scale
 
     # test acute
     a._HIV_time = 1
     assert (
-        a.get_transmission_probability("SEX") == p_sex * scale * params.cal_AcuteScaling
+        a.get_transmission_probability("SEX", params) == p_sex * scale * params.calibration.acute
     )
     a._HIV_time = 0
 
     # test tested status
     a._tested = True
-    assert a.get_transmission_probability("SEX") == p_sex * scale * (
-        1 - params.cal_RR_Dx
+    assert a.get_transmission_probability("SEX", params) == p_sex * scale * (
+        1 - params.calibration.risk_reduction.transmission
     )
     a._tested = False
 
     # test HAART
     a._HAART_bool = True
-    assert a.get_transmission_probability("SEX") == p_sex * scale * params.cal_RR_HAART
+    assert a.get_transmission_probability("SEX", params) == p_sex * scale * params.calibration.risk_reduction.haart
     a._HAART_bool = False
 
     # test Black
     a._race = "BLACK"
     assert (
-        a.get_transmission_probability("SEX") == p_sex * scale * params.cal_raceXmission
+        a.get_transmission_probability("SEX", params) == p_sex * scale * params.calibration.race_transmission
     )
-    a._race = "WHITE"
 
 
-def test_get_number_of_sex_acts(make_agent):
+def test_get_number_of_sex_acts(make_agent, params):
     a = make_agent()
 
     rand_gen_low = FakeRandom(0.0)
-    min_val_low = params.sexualFrequency[1]["min"]
+    min_val_low = params.partnership.sex.frequency[1].min
 
     rand_gen_high = FakeRandom(1.0)
 
-    assert a.get_number_of_sexActs(rand_gen_low) == min_val_low
+    assert a.get_number_of_sexActs(rand_gen_low, params) == min_val_low
 
     # test fallthrough
-    assert a.get_number_of_sexActs(rand_gen_high) == 37
+    assert a.get_number_of_sexActs(rand_gen_high, params) == 37
 
 
 # ============== RELATIONSHIP TESTS ===================
@@ -202,7 +202,6 @@ def test_relationship(make_agent, make_relationship):
 
     assert r1._ID1 == a
     assert r1._ID2 == p1
-    assert r2.get_ID() == r1.get_ID() + 1
 
     # properties
     assert r1._duration == 2
