@@ -27,10 +27,14 @@ def make_agent():
 
     return _make_agent
 
+
 @pytest.fixture
-def params():
-    param_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml")
-    return create_params({}, param_file)
+def params(tmpdir):
+    param_file = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
+    )
+    return create_params({}, param_file, tmpdir)
+
 
 def test_network_init_scale_free(params):
     """Test if all non-IDU,ND,NIDU agents are in the population"""

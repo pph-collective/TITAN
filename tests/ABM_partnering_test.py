@@ -6,10 +6,13 @@ from titan.agent import Agent
 from titan.HIVABM_Population import PopulationClass
 from titan.params_parse import create_params
 
+
 @pytest.fixture
-def params():
-    param_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml")
-    return create_params({}, param_file)
+def params(tmpdir):
+    param_file = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
+    )
+    return create_params({}, param_file, tmpdir)
 
 
 @pytest.fixture
@@ -53,7 +56,9 @@ def test_get_random_sex_partner_valid(make_population, make_agent, params):
     hf_partner = make_agent(SO="HF")
     empty_pop.add_agent_to_pop(hm_agent)
     empty_pop.add_agent_to_pop(hf_partner)
-    assert get_random_sex_partner(hm_agent, empty_pop.All_agentSet, params) == hf_partner
+    assert (
+        get_random_sex_partner(hm_agent, empty_pop.All_agentSet, params) == hf_partner
+    )
 
 
 def test_get_random_sex_partner_bad(make_population, make_agent, params):

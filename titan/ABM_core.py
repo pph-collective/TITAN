@@ -75,10 +75,12 @@ class HIVModel(NetworkClass):
         self.totalDiagnosis = 0
         self.treatmentEnrolled = False
 
-        self.PrEPagents = {
-            "BLACK": {"MSM": 0, "HF": 0, "HM": 0},
-            "WHITE": {"MSM": 0, "HF": 0, "HM": 0},
-        }
+        self.prep_agents = {}
+        for race in params.classes.races:
+            self.prep_agents[race] = {}
+            for st in params.classes.sex_types:
+                self.prep_agents[race][st] = 0
+
         # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed value
         print(("\tRun seed was set to:", self.runseed))
         self.runRandom = Random(self.runseed)
@@ -96,7 +98,7 @@ class HIVModel(NetworkClass):
 
         print("\n === Initialization Protocol Finished ===")
 
-    def run(self):
+    def run(self, outdir):
         """
         Core of the model:
             1. Prints networkReport for first agents.
@@ -112,7 +114,16 @@ class HIVModel(NetworkClass):
         def print_stats(stat: Dict[str, Dict[str, int]], run_id: uuid.UUID):
             for report in self.params.outputs.reports:
                 printer = getattr(ao, report)
-                printer(run_id, t, self.runseed, self.popseed, self.netseed, stat)
+                printer(
+                    run_id,
+                    t,
+                    self.runseed,
+                    self.popseed,
+                    self.netseed,
+                    stat,
+                    self.params,
+                    outdir,
+                )
 
         def get_components():
             return sorted(
@@ -141,29 +152,36 @@ class HIVModel(NetworkClass):
             print(" === Simulation Burn Complete ===")
 
         def makeAgentZero(numPartners: int):
-            firstHIV = self.runRandom.choice(self.DU_IDU_agentSet._members)
+            firstHIV = self.runRandom.choice(
+                self.DU_IDU_agentSet._members
+            )  # TO_REVIEW what if no IDU?
             for i in range(numPartners):
-                self.update_agent_partners(self.get_Graph(), firstHIV)
+                self.update_agent_partners(self.G, firstHIV, self.params)
             self._become_HIV(firstHIV)
 
         run_id = uuid.uuid4()
 
-        burnSimulation(params.model.burn_duration)
+        burnSimulation(self.params.model.burn_duration)
 
         print("\n === Begin Simulation Run ===")
-        if params.outputs.draw_figures:
+        if self.params.outputs.draw_figures:
             nNodes = self.G.number_of_nodes()
             self.visualize_network(
-                coloring=params.drawFigureColor,
                 node_size=5000.0 / nNodes,
                 curtime=0,
                 iterations=10,
                 label="Seed" + str(self.runseed),
             )
 
-        if params.outputs.calc_component_stats:
+        if self.params.outputs.calc_component_stats:
             ao.print_components(
-                run_id, 0, self.runseed, self.popseed, self.netseed, get_components()
+                run_id,
+                0,
+                self.runseed,
+                self.popseed,
+                self.netseed,
+                get_components(),
+                outdir,
             )
 
         print("\t===! Start Main Loop !===")
@@ -176,13 +194,13 @@ class HIVModel(NetworkClass):
             makeAgentZero(4)
 
         if self.params.outputs.edge_list:
-            path = "results/network/Edgelist_t0.txt"
+            path = os.path.join(outdir, "network", f"Edgelist_t0.txt")
             self.write_G_edgelist(path)
 
-        for t in range(1, self.tmax + 1):
+        for t in range(1, self.params.model.time_range + 1):
             print(f"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME {t}")
             if (
-                params.outputs.draw_figures
+                self.params.outputs.draw_figures
                 and t % self.params.outputs.print_frequency == 0
             ):
                 self.visualize_network(
@@ -219,7 +237,7 @@ class HIVModel(NetworkClass):
                 self.NewHRrolls,
                 self.NewIncarRelease,
                 self.deathSet,
-                self.params
+                self.params,
             )
             print_stats(stats[t], run_id)
 
@@ -247,9 +265,10 @@ class HIVModel(NetworkClass):
                         self.popseed,
                         self.netseed,
                         get_components(),
+                        outdir,
                     )
                 if self.params.outputs.edge_list:
-                    path = f"results/network/Edgelist_t{t}.txt"
+                    path = os.path.join(outdir, "network", f"Edgelist_t{t}.txt")
                     self.write_G_edgelist(path)
 
         return stats
@@ -278,7 +297,7 @@ class HIVModel(NetworkClass):
         for rel in self.Relationships:
             # If in burn, ignore interactions
             if not burn:
-                self.pop_randomract(rel)
+                self._agents_interact(rel)
 
             # If static network, ignore relationship progression
             if not self.params.features.static_n:
@@ -349,7 +368,7 @@ class HIVModel(NetworkClass):
                             self._discont_PrEP(agent)
                         elif self.params.prep.target_model == "RandomTrial":
                             pass
-                        elif agent.PrEP_eligible():
+                        elif agent.PrEP_eligible(self.params.prep.target_model):
                             self._initiate_PrEP(agent, time)
                     if (
                         self.params.features.vaccine
@@ -777,7 +796,9 @@ class HIVModel(NetworkClass):
                             )  # 32.5 #2 + 3.25 from incar HR
                             partner._highrisk_bool = True
                             partner._everhighrisk_bool = True
-                            partner._highrisk_time = self.params.high_risk.sex_based[partner._SO].duration
+                            partner._highrisk_time = self.params.high_risk.sex_based[
+                                partner._SO
+                            ].duration
                 if self.params.features.prep and (
                     self.params.prep.target_model in ("Incar", "IncarHR")
                 ):
@@ -902,7 +923,7 @@ class HIVModel(NetworkClass):
         # If force flag set, auto kick off prep.
         if force:
             self.Trt_PrEP_agentSet.remove_agent(agent)
-            self.PrEPagents[agent._race][agent._SO] -= 1
+            self.prep_agents[agent._race][agent._SO] -= 1
             agent._PrEP_bool = False
             agent._PrEP_reason = []
 
@@ -913,7 +934,7 @@ class HIVModel(NetworkClass):
                 < self.params.demographics[agent._race][agent._SO].prep.discontinue
             ):
                 self.Trt_PrEP_agentSet.remove_agent(agent)
-                self.PrEPagents[agent._race][agent._SO] -= 1
+                self.prep_agents[agent._race][agent._SO] -= 1
 
                 if "Oral" in self.params.prep.type:
                     agent._PrEP_bool = False
@@ -977,7 +998,7 @@ class HIVModel(NetworkClass):
             self.Trt_PrEP_agentSet.add_agent(agent)
             self.newPrEPagents.add_agent(agent)
 
-            self.PrEPagents[agent._race][agent._SO] += 1
+            self.prep_agents[agent._race][agent._SO] += 1
 
             tmp_rnd = self.runRandom.random()
             # if params.setting == "AtlantaMSM":  # TO_REVIEW setting based logic
@@ -1013,7 +1034,7 @@ class HIVModel(NetworkClass):
             _enrollPrEP(self, agent)
         else:
             if self.params.prep.target_model == "Racial":
-                numPrEP_agents = sum(self.PrEPagents[agent_race].values())
+                numPrEP_agents = sum(self.prep_agents[agent_race].values())
             else:
                 numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
 

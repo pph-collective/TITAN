@@ -57,7 +57,6 @@ class NetworkClass(PopulationClass):
                 if component.number_of_nodes() > maxComponentSize:
                     trimComponent(componenent, maxComponentSize)
 
-
             components = sorted(self.connected_components(), key=len, reverse=True)
             for comp in components:
                 if (

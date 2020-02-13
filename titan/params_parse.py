@@ -149,7 +149,7 @@ def print_dotmap(params, prefix, file_handle):
             print_dotmap(v, new_prefix, file_handle)
 
 
-def create_params(setting_dict, param_path):
+def create_params(setting_dict, param_path, outdir):
     defs = {}
     filename = getframeinfo(currentframe()).filename
     parent = Path(filename).resolve().parent
@@ -168,7 +168,7 @@ def create_params(setting_dict, param_path):
     pops = parse_classes(defs, params)
     parsed = parse_params(defs, params, pops)
 
-    with open("results/params.yml", "w") as f:
+    with open(os.path.join(outdir, "params.yml"), "w") as f:
         yaml.dump(parsed, f)
 
     with open("dotmap_params.txt", "w") as f:
@@ -179,4 +179,4 @@ def create_params(setting_dict, param_path):
 
 
 if __name__ == "__main__":
-    create_params({}, "tests/params/basic.yml")
+    create_params({}, "tests/params/basic.yml", "results")

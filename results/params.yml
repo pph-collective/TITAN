@@ -291,7 +291,7 @@ demographics:
         min: 55
         max: 80
     IDU:
-      ppl: 0.0
+      ppl: 0.2
       hiv:
         init: 0.0
         dx:
@@ -543,7 +543,7 @@ demographics:
       coefficient: 0
     age: *id007
     IDU:
-      ppl: 0.0
+      ppl: 0.3
       hiv:
         init: 0.0
         dx:

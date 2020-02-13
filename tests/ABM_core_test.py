@@ -7,10 +7,14 @@ from titan.ABM_core import *
 from titan.agent import Agent, Relationship
 from titan.params_parse import create_params
 
+
 @pytest.fixture
-def params():
-    param_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml")
-    return create_params({}, param_file)
+def params(tmpdir):
+    param_file = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
+    )
+    return create_params({}, param_file, tmpdir)
+
 
 @pytest.fixture
 def make_agent():
@@ -246,7 +250,7 @@ def test_incarcerate_not_tested(make_model, make_agent):
     p = make_agent(SO="HF")
     rel = Relationship(a, p, 10)
 
-    model.runRandom = FakeRandom(-.1)  # always less than params
+    model.runRandom = FakeRandom(-0.1)  # always less than params
 
     model._incarcerate(a, 0)
 
@@ -468,7 +472,9 @@ def test_initiate_PrEP_force_non_adh(make_model, make_agent):
 
 def test_initiate_PrEP_eligible(make_model, make_agent):
     model = make_model()
-    model.Trt_PrEP_agentSet._members = [] # make sure there's room to add more prep agents
+    model.Trt_PrEP_agentSet._members = (
+        []
+    )  # make sure there's room to add more prep agents
     a = make_agent(SO="HF")  # model is "CDCwomen"
     p = make_agent(DU="IDU")
     p._tested = True

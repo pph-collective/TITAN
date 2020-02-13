@@ -22,6 +22,8 @@ demographics:
       ppl: 0.1
     MTF:
       ppl: 0.1
+    IDU:
+      ppl: 0.2
   WHITE:
     ppl: 0.4
     MSM:
@@ -34,6 +36,8 @@ demographics:
       ppl: 0.1
     MTF:
       ppl: 0.1
+    IDU:
+      ppl: 0.3
 
 partnership:
   sex:

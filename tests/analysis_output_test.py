@@ -12,20 +12,12 @@ from titan.network_graph_tools import NetworkClass
 from titan.params_parse import create_params
 
 
-
 @pytest.fixture
-def setup_results_dir(autouse=True):
-    outfile_dir = os.path.join(os.getcwd(), "results")
-    if os.path.isdir(outfile_dir):
-        shutil.rmtree(outfile_dir)
-    os.mkdir(outfile_dir)
-    yield outfile_dir
-    shutil.rmtree(outfile_dir)
-
-@pytest.fixture
-def params():
-    param_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml")
-    return create_params({}, param_file)
+def params(tmpdir):
+    param_file = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
+    )
+    return create_params({}, param_file, tmpdir)
 
 
 @pytest.fixture
@@ -65,7 +57,7 @@ def stats(params):
         agent_set,
         agent_set,
         agent_list,
-        params
+        params,
     )
     return stats
 
@@ -117,12 +109,12 @@ def test_get_stats(stats):
     assert stats["BLACK"]["ALL"]["numART"] == 1
 
 
-def test_deathReport(stats, params):
+def test_deathReport(stats, params, tmpdir):
     run_id = uuid.uuid4()
 
-    deathReport(run_id, 0, 1, 2, 3, stats, params)
+    deathReport(run_id, 0, 1, 2, 3, stats, params, tmpdir)
 
-    result_file = "results/DeathReport.txt"
+    result_file = os.path.join(tmpdir, "DeathReport.txt")
     assert os.path.isfile(result_file)
     with open(result_file, newline="") as f:
         reader = csv.DictReader(f, delimiter="\t")
@@ -136,12 +128,12 @@ def test_deathReport(stats, params):
             assert row["HIV_HM"] == "0"
 
 
-def test_incarReport(stats, params):
+def test_incarReport(stats, params, tmpdir):
     run_id = uuid.uuid4()
 
-    incarReport(run_id, 0, 1, 2, 3, stats, params)
+    incarReport(run_id, 0, 1, 2, 3, stats, params, tmpdir)
 
-    result_file = "results/IncarReport.txt"
+    result_file = os.path.join(tmpdir, "IncarReport.txt")
     assert os.path.isfile(result_file)
     with open(result_file, newline="") as f:
         reader = csv.DictReader(f, delimiter="\t")
@@ -155,12 +147,12 @@ def test_incarReport(stats, params):
             assert row["WHITE_MSM_rlsdHIV"] == "0"
 
 
-def test_newlyhighriskReport(stats, params):
+def test_newlyhighriskReport(stats, params, tmpdir):
     run_id = uuid.uuid4()
 
-    newlyhighriskReport(run_id, 0, 1, 2, 3, stats, params)
+    newlyhighriskReport(run_id, 0, 1, 2, 3, stats, params, tmpdir)
 
-    result_file = "results/newlyHR_Report.txt"
+    result_file = os.path.join(tmpdir, "newlyHR_Report.txt")
     assert os.path.isfile(result_file)
     with open(result_file, newline="") as f:
         reader = csv.DictReader(f, delimiter="\t")
@@ -174,12 +166,12 @@ def test_newlyhighriskReport(stats, params):
             assert row["newHR_ART_MSM"] == "1"
 
 
-def test_prepReport(stats, params):
+def test_prepReport(stats, params, tmpdir):
     run_id = uuid.uuid4()
 
-    prepReport(run_id, 0, 1, 2, 3, stats, params)
+    prepReport(run_id, 0, 1, 2, 3, stats, params, tmpdir)
 
-    result_file = "results/PrEPReport.txt"
+    result_file = os.path.join(tmpdir, "PrEPReport.txt")
     assert os.path.isfile(result_file)
     with open(result_file, newline="") as f:
         reader = csv.DictReader(f, delimiter="\t")
@@ -193,12 +185,12 @@ def test_prepReport(stats, params):
             assert row["MSMWpartner"] == "1"
 
 
-def test_basicReport(stats, params):
+def test_basicReport(stats, params, tmpdir):
     run_id = uuid.uuid4()
 
-    basicReport(run_id, 0, 1, 2, 3, stats, params)
+    basicReport(run_id, 0, 1, 2, 3, stats, params, tmpdir)
 
-    result_file = "results/basicReport_MSM_BLACK.txt"
+    result_file = os.path.join(tmpdir, "basicReport_MSM_BLACK.txt")
     assert os.path.isfile(result_file)
     with open(result_file, newline="") as f:
         reader = csv.DictReader(f, delimiter="\t")
@@ -213,7 +205,7 @@ def test_basicReport(stats, params):
             assert row["PrEP"] == "1"
             assert row["Deaths"] == "1"
 
-    result_file = "results/basicReport_HM_WHITE.txt"
+    result_file = os.path.join(tmpdir, "basicReport_HM_WHITE.txt")
     assert os.path.isfile(result_file)
     with open(result_file, newline="") as f:
         reader = csv.DictReader(f, delimiter="\t")
@@ -228,7 +220,7 @@ def test_basicReport(stats, params):
             assert row["PrEP"] == "0"
             assert row["Deaths"] == "0"
 
-    result_file = "results/basicReport_ALL_ALL.txt"
+    result_file = os.path.join(tmpdir, "basicReport_ALL_ALL.txt")
     assert os.path.isfile(result_file)
     with open(result_file, newline="") as f:
         reader = csv.DictReader(f, delimiter="\t")
@@ -244,16 +236,16 @@ def test_basicReport(stats, params):
             assert row["Deaths"] == "1"
 
 
-def test_print_components(stats, params):
+def test_print_components(stats, params, tmpdir):
     run_id = uuid.uuid4()
 
     params.model.num_pop = 1
     net = NetworkClass(params)
     components = sorted(nx.connected_components(net.get_Graph()), key=len, reverse=True)
 
-    print_components(run_id, 0, 1, 2, 3, components)
+    print_components(run_id, 0, 1, 2, 3, components, tmpdir)
 
-    result_file = "results/componentReport_ALL.txt"
+    result_file = os.path.join(tmpdir, "componentReport_ALL.txt")
     assert os.path.isfile(result_file)
     with open(result_file, newline="") as f:
         reader = csv.DictReader(f, delimiter="\t")

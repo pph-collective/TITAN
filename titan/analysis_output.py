@@ -5,6 +5,7 @@ from typing import Dict, Any, List, Sequence, Optional
 from .agent import Agent_set, Relationship, Agent
 from copy import deepcopy
 from uuid import UUID
+import os
 
 from dotmap import DotMap  # type: ignore
 
@@ -173,8 +174,9 @@ def deathReport(
     netseed: int,
     stats: Dict[str, Any],
     params: DotMap,
+    outdir: str,
 ):
-    f = open("results/DeathReport.txt", "a")
+    f = open(os.path.join(outdir, "DeathReport.txt"), "a")
     sex_types = deepcopy(params.classes.sex_types)
     sex_types.append("ALL")
 
@@ -208,8 +210,9 @@ def incarReport(
     netseed: int,
     stats: Dict[str, Any],
     params: DotMap,
+    outdir: str,
 ):
-    f = open("results/IncarReport.txt", "a")
+    f = open(os.path.join(outdir, "IncarReport.txt"), "a")
 
     name_map = {
         "incar": "tot",
@@ -252,8 +255,9 @@ def newlyhighriskReport(
     netseed: int,
     stats: Dict[str, Any],
     params: DotMap,
+    outdir: str,
 ):
-    f = open("results/newlyHR_Report.txt", "a")
+    f = open(os.path.join(outdir, "newlyHR_Report.txt"), "a")
 
     # if this is a new file, write the header info
     if f.tell() == 0:
@@ -291,8 +295,9 @@ def prepReport(
     netseed: int,
     stats: Dict[str, Any],
     params: DotMap,
+    outdir: str,
 ):
-    f = open("results/PrEPReport.txt", "a")
+    f = open(os.path.join(outdir, "PrEPReport.txt"), "a")
 
     # if this is a new file, write the header info
     if f.tell() == 0:
@@ -321,6 +326,7 @@ def basicReport(
     netseed: int,
     stats: Dict[str, Any],
     params: DotMap,
+    outdir: str,
 ):
     MAIN_CAT = deepcopy(params.classes.races)
     MAIN_CAT.append("ALL")
@@ -329,8 +335,8 @@ def basicReport(
 
     for agentRace in MAIN_CAT:
         for agentTypes in SUB_CAT:
-            name = "basicReport_" + agentTypes + "_" + agentRace
-            tmpReport = open("results/" + name + ".txt", "a")
+            name = "basicReport_" + agentTypes + "_" + agentRace + ".txt"
+            tmpReport = open(os.path.join(outdir, name), "a")
 
             # if this is a new file, write the header info
             if tmpReport.tell() == 0:
@@ -371,12 +377,18 @@ def basicReport(
 
 
 def print_components(
-    run_id: UUID, t: int, runseed: int, popseed: int, netseed: int, components
+    run_id: UUID,
+    t: int,
+    runseed: int,
+    popseed: int,
+    netseed: int,
+    components,
+    outdir: str,
 ):
     """
     Write stats describing the components (sub-graphs) in a graph to file
     """
-    f = open("results/componentReport_ALL.txt", "a")
+    f = open(os.path.join(outdir, "componentReport_ALL.txt"), "a")
 
     # if this is a new file, write the header info
     if f.tell() == 0:

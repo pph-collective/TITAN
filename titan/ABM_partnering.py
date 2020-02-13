@@ -39,8 +39,7 @@ def get_partner(
             get_random_sex_partner(agent, all_agent_set, params)
     elif agent_drug_type in ("NDU", "NIDU"):
         if params.features.assort_mix and (
-            random.random()
-            < params.demographics[agent._race].assort_mix.coefficient
+            random.random() < params.demographics[agent._race].assort_mix.coefficient
         ):
             RandomPartner = get_assort_sex_partner(agent, all_agent_set, params)
 
@@ -172,7 +171,11 @@ def get_random_sex_partner(
     # eligPtnType = params.demographics[agent._race][
     #     agent._SO
     # ]  # TO_REVIEW what to do here
-    elig_partner_pool = [partner for partner in all_agent_set._members if sex_possible(agent._SO, partner._SO, params)]
+    elig_partner_pool = [
+        partner
+        for partner in all_agent_set._members
+        if sex_possible(agent._SO, partner._SO, params)
+    ]
 
     random_partner = safe_random_choice(elig_partner_pool)
 

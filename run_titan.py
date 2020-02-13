@@ -26,6 +26,13 @@ parser.add_argument(
 parser.add_argument(
     "-p", "--params", required=True, help="directory or file with params yaml(s)"
 )
+parser.add_argument(
+    "-o",
+    "--outdir",
+    nargs="?",
+    default="results",
+    help="directory name to save results to",
+)
 
 # Disable
 def blockPrint():
@@ -37,30 +44,29 @@ def enablePrint():
     sys.stdout = sys.__stdout__
 
 
-def main(setting, paramsPath, nMC):
+def main(setting, paramsPath, nMC, outdir):
     wct = []  # wall clock times
 
     # delete old results before overwriting with new results
-    outfile_dir = os.path.join(os.getcwd(), "results")
+    outfile_dir = os.path.join(os.getcwd(), outdir)
     if os.path.isdir(outfile_dir):
         shutil.rmtree(outfile_dir)
     os.mkdir(outfile_dir)
-    if not os.path.exists("results/network"):
-        os.makedirs("results/network")
+    os.mkdir(os.path.join(outfile_dir, "network"))
 
     # generate params - if no setting, set to null
     if setting == "custom":
         setting = {}
     # FIGURE OUT ELSE
 
-    params = create_params(setting, paramsPath)
+    params = create_params(setting, paramsPath, outfile_dir)
 
     for single_sim in range(nMC):
         tic = time_mod.time()
 
         # runs simulations
         model = HIVModel(params)
-        stats = model.run()
+        stats = model.run(outfile_dir)
 
         wct.append(time_mod.time() - tic)
 
@@ -78,4 +84,4 @@ def main(setting, paramsPath, nMC):
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    main(args.setting, args.params, args.nMC)
+    main(args.setting.strip(), args.params.strip(), args.nMC, args.outdir.strip())

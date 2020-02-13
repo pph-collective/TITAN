@@ -6,10 +6,13 @@ from titan.params_parse import create_params
 
 import random
 
+
 @pytest.fixture
-def params():
-    param_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml")
-    return create_params({}, param_file)
+def params(tmpdir):
+    param_file = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
+    )
+    return create_params({}, param_file, tmpdir)
 
 
 @pytest.fixture
@@ -153,7 +156,8 @@ def test_get_transmission_probability(make_agent, params):
     # test acute
     a._HIV_time = 1
     assert (
-        a.get_transmission_probability("SEX", params) == p_sex * scale * params.calibration.acute
+        a.get_transmission_probability("SEX", params)
+        == p_sex * scale * params.calibration.acute
     )
     a._HIV_time = 0
 
@@ -166,13 +170,17 @@ def test_get_transmission_probability(make_agent, params):
 
     # test HAART
     a._HAART_bool = True
-    assert a.get_transmission_probability("SEX", params) == p_sex * scale * params.calibration.risk_reduction.haart
+    assert (
+        a.get_transmission_probability("SEX", params)
+        == p_sex * scale * params.calibration.risk_reduction.haart
+    )
     a._HAART_bool = False
 
     # test Black
     a._race = "BLACK"
     assert (
-        a.get_transmission_probability("SEX", params) == p_sex * scale * params.calibration.race_transmission
+        a.get_transmission_probability("SEX", params)
+        == p_sex * scale * params.calibration.race_transmission
     )
 
 

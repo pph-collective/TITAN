@@ -6,10 +6,14 @@ from titan.agent import Agent
 from titan.params_parse import create_params
 from titan.network_graph_tools import NetworkClass
 
+
 @pytest.fixture
-def params():
-    param_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml")
-    return create_params({}, param_file)
+def params(tmpdir):
+    param_file = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
+    )
+    return create_params({}, param_file, tmpdir)
+
 
 @pytest.fixture
 def make_agent():
