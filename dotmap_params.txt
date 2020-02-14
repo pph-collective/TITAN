@@ -1,4 +1,7 @@
 dot,old
+msmw,
+msmw.hiv,
+msmw.hiv.prob,
 prep,
 prep.type,
 prep.target,

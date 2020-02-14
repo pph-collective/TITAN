@@ -5,7 +5,7 @@
 import random
 from typing import Sequence, List, Dict, Optional, TypeVar
 
-from dotmap import DotMap
+from dotmap import DotMap  # type: ignore
 
 from . import probabilities as prob
 from .agent import Agent, AgentSet
@@ -105,7 +105,11 @@ def get_assort_sex_partner(
 
     assert agent.so in params.classes.sex_types
 
-    eligible_partners = [partner for partners in all_agent_set if sex_possible(agent.so, partner.so, params)]
+    eligible_partners = [
+        partner
+        for partner in all_agent_set
+        if sex_possible(agent.so, partner.so, params)
+    ]
 
     if params.assort_mix.type == "Race":
         samplePop = [

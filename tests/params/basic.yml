@@ -60,3 +60,4 @@ features:
   assort_mix: true
   vaccine: true
   partner_tracing: true
+  msmw: true

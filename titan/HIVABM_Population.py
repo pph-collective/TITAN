@@ -322,7 +322,6 @@ class PopulationClass:
             self.Relationships.append(rel)
             graph.add_edge(rel.agent1, rel.agent2)
 
-
     def update_partner_assignments(self, graph, params: DotMap):
         # Now create partnerships until available partnerships are out
         eligible_agents = self.All_agentSet

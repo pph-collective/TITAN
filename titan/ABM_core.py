@@ -75,7 +75,7 @@ class HIVModel(NetworkClass):
         self.totalDiagnosis = 0
         self.needle_exchange = False
 
-        self.prep_agents = {}
+        self.prep_agents: Dict[str, Dict[str, int]] = {}
         for race in params.classes.races:
             self.prep_agents[race] = {}
             for st in params.classes.sex_types:
@@ -152,9 +152,7 @@ class HIVModel(NetworkClass):
             print(" === Simulation Burn Complete ===")
 
         def makeAgentZero(numPartners: int):
-            firstHIV = self.runRandom.choice(
-                self.DU_Inj_agentSet.members
-            )
+            firstHIV = self.runRandom.choice(self.DU_Inj_agentSet.members)
             for i in range(numPartners):
                 self.update_agent_partners(self.G, firstHIV, self.params)
             self._become_HIV(firstHIV)
@@ -292,7 +290,7 @@ class HIVModel(NetworkClass):
             none
         """
         if time > 0 and self.params.features.static_n is False:
-            self.update_partner_assignments(self.get_Graph())
+            self.update_partner_assignments(self.G, self.params)
 
         for rel in self.Relationships:
             # If in burn, ignore interactions
@@ -302,7 +300,7 @@ class HIVModel(NetworkClass):
             # If static network, ignore relationship progression
             if not self.params.features.static_n:
                 if rel.progress():
-                    g = self.get_Graph()
+                    g = self.G
                     if g.has_edge(rel.agent1, rel.agent2):
                         g.remove_edge(rel.agent1, rel.agent2)
 
@@ -328,15 +326,13 @@ class HIVModel(NetworkClass):
                     if (
                         self.params.features.incar
                     ):  # REVIEWED why does this check hm/hf and then subtract things - could this be more generic? Sarah to look into if this needs to be sex based
-                        agent.neam_num_partners -= (
-                                self.params.high_risk.partner_scale
-                            )
+                        agent.neam_num_partners -= self.params.high_risk.partner_scale
 
         for agent in self.All_agentSet:
             if self.params.features.incar:
                 self._incarcerate(agent, time)
 
-            if agent.msmw and self.runRandom.random() < params.HIV_MSMW:
+            if agent.msmw and self.runRandom.random() < self.params.msmw.hiv.prob:
                 self._become_HIV(agent)
 
             if agent.hiv:
@@ -357,11 +353,7 @@ class HIVModel(NetworkClass):
                             pass
                         elif agent.PrEP_eligible(self.params.prep.target_model):
                             self._initiate_PrEP(agent, time)
-                    if (
-                        self.params.features.vaccine
-                        and not agent.prep
-                        and not burn
-                    ):
+                    if self.params.features.vaccine and not agent.prep and not burn:
                         self.advance_vaccine(
                             agent, time, vaxType=self.params.vaccine.type
                         )
@@ -413,9 +405,7 @@ class HIVModel(NetworkClass):
         if rel.agent1.incar or rel.agent2.incar:
             return False
 
-        if (
-            rel.agent1.hiv and not rel.agent2.hiv
-        ):  # Agent 1 is HIV, partner is succept
+        if rel.agent1.hiv and not rel.agent2.hiv:  # Agent 1 is HIV, partner is succept
             agent = rel.agent1
             partner = rel.agent2
         elif (
@@ -444,7 +434,10 @@ class HIVModel(NetworkClass):
                 # Sex not possible, needle only
                 self._needle_transmission(agent, partner)
 
-        elif partner_drug_type in ["NonInj", "None"] or agent_drug_type in ["NonInj", "None"]:
+        elif partner_drug_type in ["NonInj", "None"] or agent_drug_type in [
+            "NonInj",
+            "None",
+        ]:
             if rel_sex_possible:
                 self._sex_transmission(rel)
             else:
@@ -576,9 +569,7 @@ class HIVModel(NetworkClass):
                         )  # 0.24
 
                 elif "Inj" in self.params.prep.type:
-                    ppActReduction = (
-                        -1.0 * np.exp(-5.528636721 * partner.prep_load) + 1
-                    )
+                    ppActReduction = -1.0 * np.exp(-5.528636721 * partner.prep_load) + 1
                     if agent.prep_adherence == 1 or partner.prep_adherence == 1:
                         ppAct = ppAct * (1.0 - ppActReduction)  # 0.04
 
@@ -620,9 +611,7 @@ class HIVModel(NetworkClass):
         if agent.prep:
             self._discont_PrEP(agent, force=True)
 
-    def enroll_needle_exchange(
-        self
-    ):
+    def enroll_needle_exchange(self):
         """
         :Purpose:
             Enroll PWID agents in needle exchange
@@ -652,7 +641,7 @@ class HIVModel(NetworkClass):
         if duration is not None:
             agent.high_risk_time = duration
         else:
-            agent.high_risk_time = params.HR_M_dur
+            agent.high_risk_time = self.params.high_risk.sex_based[agent.so].duration
 
     def _incarcerate(self, agent: Agent, time: int):
         """
@@ -698,7 +687,6 @@ class HIVModel(NetworkClass):
                         agent.high_risk = True
                         agent.high_risk_ever = True
                         agent.high_risk_time = self.params.HR_M_dur
-
 
                 if hiv_bool:
                     if agent.haart:
@@ -919,7 +907,7 @@ class HIVModel(NetworkClass):
                     agent.prep_last_dose = -1
 
         if self.params.prep.type == "Inj":
-            agent.update_prep_load()
+            agent.update_prep_load(self.params)
 
     def advance_vaccine(self, agent: Agent, time: int, vaxType: str):
         """

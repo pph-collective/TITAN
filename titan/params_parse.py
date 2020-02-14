@@ -5,7 +5,7 @@ import collections
 from inspect import currentframe, getframeinfo
 from pathlib import Path
 
-from dotmap import DotMap
+from dotmap import DotMap  # type: ignore
 
 
 def get_item(key, d, param):

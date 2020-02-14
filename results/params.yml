@@ -1,3 +1,6 @@
+msmw:
+  hiv:
+    prob: 0.01
 prep:
   type:
   - Oral
@@ -234,7 +237,7 @@ features:
   assort_mix: true
   vaccine: true
   partner_tracing: true
-  msmw: false
+  msmw: true
 needle_exchange:
   prevalence: 1.0
   coverage: 0.0

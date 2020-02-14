@@ -3,7 +3,7 @@
 
 from typing import Sequence, List, Dict, Optional
 
-from dotmap import DotMap
+from dotmap import DotMap  # type: ignore
 
 
 class Agent:
@@ -35,7 +35,7 @@ class Agent:
         self.update_id_counter()
 
         # agent properties
-        self.so = SO # REVIEWED split this out into gender and sleeps_with
+        self.so = SO  # REVIEWED split this out into gender and sleeps_with
         self.age = age
         self.age_bin = 0
         self.race = race
@@ -80,7 +80,7 @@ class Agent:
 
         # agent incarcartion params
         self.incar = False
-        self.incar_ever = False # TO_REVIEW not really used
+        self.incar_ever = False  # TO_REVIEW not really used
         self.incar_time = 0
 
     def __str__(self):
@@ -510,11 +510,7 @@ class AgentSet:
                         % (
                             tmpSS.id,
                             tmpSS.num_members(),
-                            (
-                                1.0
-                                * tmpSS.num_members()
-                                / tmpSS.numerator.num_members()
-                            ),
+                            (1.0 * tmpSS.num_members() / tmpSS.numerator.num_members()),
                         )
                     )
         print("\t______________ END ______________")
