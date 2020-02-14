@@ -30,18 +30,18 @@ def stats(params):
     a.sne = True
     a.prep = True
     a.intervention_ever = True
-    a._highrisk_bool = True
-    a._everhighrisk_bool = True
-    a._incar_bool = True
-    a._ever_incar_bool = True
-    a._PrEP_reason = ["PWID", "MSMW", "HIV test"]
+    a.high_risk = True
+    a.high_risk_ever = True
+    a.incar = True
+    a.incar_ever = True
+    a.prep_reason = ["PWID", "MSMW", "HIV test"]
 
     p = agent.Agent("MSM", 20, "BLACK", "Inj")
     rel = agent.Relationship(a, p, 12)
 
-    agent_set = agent.Agent_set("test")
-    DU_set = agent.Agent_set("DU", agent_set)
-    PWID_set = agent.Agent_set("Inj", DU_set)
+    agent_set = agent.AgentSet("test")
+    DU_set = agent.AgentSet("DU", agent_set)
+    PWID_set = agent.AgentSet("Inj", DU_set)
     PWID_set.add_agent(a)
     agent_list = [a]
     rel_list = [rel]

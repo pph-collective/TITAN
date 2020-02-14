@@ -61,29 +61,27 @@ class Agent:
         self.sne = False
         self.prep = False
         self.prep_adherence = 0
+        self.prep_reason: List[str] = []
         self.intervention_ever = False
-        self._treatment_time = 0
-        self._PrEP_reason: List[str] = []
+        self.vaccine = False
         self.vaccine_time = 0
         self.vaccine_type = ""
-        self.vaccine_bool = False
-        self.partnerTraced = False
-        self.traceTime = 0
+        self.partner_traced = False
+        self.trace_time = 0
 
         # PrEP pharmacokinetics
-        self._PrEP_load = 0.0
-        self._PrEP_lastDose = 0
+        self.prep_load = 0.0
+        self.prep_last_dose = 0
 
         # agent high risk params
-        self._highrisk_bool = False
-        self._highrisk_time = 0
-        self._everhighrisk_bool = False
+        self.high_risk = False
+        self.high_risk_time = 0
+        self.high_risk_ever = False
 
         # agent incarcartion params
-        self._incar_bool = False
-        self._ever_incar_bool = False
-        self._incar_time = 0
-        self._incar_treatment_time = 0
+        self.incar = False
+        self.incar_ever = False # TO_REVIEW not really used
+        self.incar_time = 0
 
     def __str__(self):
         """
@@ -127,8 +125,8 @@ class Agent:
         """
         ptnrs = list()
         if self.partners is not None:
-            for temp in self.partners:
-                ptnrs.append(temp.id)
+            for partner in self.partners:
+                ptnrs.append(partner.id)
 
         return ptnrs
 
@@ -141,10 +139,10 @@ class Agent:
         :Output:
             acute_status : bool
         """
-        acuteTimePeriod = 2
+        acute_time_period = 2
         hiv_t = self.hiv_time
 
-        if hiv_t <= acuteTimePeriod and hiv_t > 0:
+        if hiv_t <= acute_time_period and hiv_t > 0:
             return True
         else:
             return False
@@ -171,22 +169,22 @@ class Agent:
             if self.so == "HF":
                 for rel in set(self.relationships):
                     partner = rel.get_partner(self)
-                    if rel._duration > 1:
+                    if rel.duration > 1:
                         if partner.drug_use == "Inj":
                             eligible = True
-                            self._PrEP_reason.append("PWID")
+                            self.prep_reason.append("PWID")
                         if partner.hiv_dx:
                             eligible = True
-                            self._PrEP_reason.append("HIV test")
+                            self.prep_reason.append("HIV test")
                         if partner.msmw:
                             eligible = True
-                            self._PrEP_reason.append("MSMW")
+                            self.prep_reason.append("MSMW")
         elif target_model == "CDCmsm":
             if self.so == "MSM":
                 for rel in self.relationships:
                     partner = rel.get_partner(self)
 
-                    if rel._duration > 1:
+                    if rel.duration > 1:
                         if partner.hiv_dx or self.neam_num_partners > 1:
                             eligible = True
         elif target_model == "HighPN5":
@@ -201,7 +199,7 @@ class Agent:
 
         return eligible
 
-    def update_PrEP_load(self, params: DotMap):
+    def update_prep_load(self, params: DotMap):
         """
         :Purpose:
             Determine and update load of PrEP concentration in agent.
@@ -213,12 +211,12 @@ class Agent:
             none
         """
         # N(t) = N0 (0.5)^(t/t_half)
-        self._PrEP_lastDose += 1
-        if self._PrEP_lastDose > 12:
-            self._PrEP_load = 0.0
+        self.prep_last_dose += 1
+        if self.prep_last_dose > 12:
+            self.prep_load = 0.0
         else:
-            self._PrEP_load = params.prep.peak_load * (
-                (0.5) ** (self._PrEP_lastDose / (params.prep.half_life / 30))
+            self.prep_load = params.prep.peak_load * (
+                (0.5) ** (self.prep_last_dose / (params.prep.half_life / 30))
             )
 
     def vaccinate(self, vax: str):
@@ -232,7 +230,7 @@ class Agent:
         :Output:
             none
         """
-        self.vaccine_bool = True
+        self.vaccine = True
         self.vaccine_type = vax
         self.vaccine_time = 1
 
@@ -275,7 +273,7 @@ class Agent:
 
         return p
 
-    def get_number_of_sexActs(self, rand_gen, params: DotMap) -> int:
+    def get_number_of_sex_acts(self, rand_gen, params: DotMap) -> int:
         """
         :Purpose:
             Number of sexActs an agent has done.
@@ -297,16 +295,16 @@ class Agent:
         rv = rand_gen.random()
 
         for i in range(1, 6):
-            pMatch = params.partnership.sex.frequency[i].prob
-            if rv <= pMatch:
-                minSA = params.partnership.sex.frequency[i].min
-                maxSA = params.partnership.sex.frequency[i].max
-                return rand_gen.randrange(minSA, maxSA, 1)
+            p = params.partnership.sex.frequency[i].prob
+            if rv <= p:
+                min = params.partnership.sex.frequency[i].min
+                max = params.partnership.sex.frequency[i].max
+                return rand_gen.randrange(min, max, 1)
 
         # fallthrough is last i
-        minSA = params.partnership.sex.frequency[i].min
-        maxSA = params.partnership.sex.frequency[i].max
-        return rand_gen.randrange(minSA, maxSA, 1)
+        min = params.partnership.sex.frequency[i].min
+        max = params.partnership.sex.frequency[i].max
+        return rand_gen.randrange(min, max, 1)
 
 
 class Relationship:
@@ -319,7 +317,7 @@ class Relationship:
     def update_id_counter(cls):
         cls.next_rel_id += 1
 
-    def __init__(self, ID1: Agent, ID2: Agent, duration: int):
+    def __init__(self, agent1: Agent, agent2: Agent, duration: int):
         """
         :Purpose:
             Constructor for a Relationship
@@ -332,22 +330,22 @@ class Relationship:
             :duration: length of relationship
         """
         # make sure these agents can be in a relationship
-        assert ID1 != ID2, "Cannot create relationship with same agent"
+        assert agent1 != agent2, "Cannot create relationship with same agent"
         assert (
-            ID1 not in ID2.partners and ID2 not in ID1.partners
+            agent1 not in agent2.partners and agent2 not in agent1.partners
         ), "Agent's already partnered!"
 
         # self.id is unique ID number used to track each person agent.
-        self.id1 = ID1
-        self.id2 = ID2
+        self.agent1 = agent1
+        self.agent2 = agent2
         self.id = self.next_rel_id
         self.update_id_counter()
 
         # Relationship properties
-        self._duration = duration
-        self._total_sex_acts = 0
+        self.duration = duration
+        self.total_sex_acts = 0
 
-        self.bond(ID1, ID2)
+        self.bond(agent1, agent2)
 
     def __eq__(self, other):
         if not isinstance(other, Relationship):
@@ -357,12 +355,12 @@ class Relationship:
     def __hash__(self):
         return hash(self.id)
 
-    def progress(self, forceKill: bool = False):
-        if self._duration <= 0 or forceKill:
-            self.unbond(self.id1, self.id2)
+    def progress(self, force: bool = False):
+        if self.duration <= 0 or force:
+            self.unbond(self.agent1, self.agent2)
             return True
         else:
-            self._duration = self._duration - 1
+            self.duration = self.duration - 1
             return False
 
     def bond(self, agent: "Agent", partner: "Agent"):
@@ -405,45 +403,45 @@ class Relationship:
         partner.partners.remove(agent)
 
     def get_partner(self, agent: "Agent") -> "Agent":
-        if agent == self.id1:
-            return self.id2
+        if agent == self.agent1:
+            return self.agent2
         else:
-            return self.id1
+            return self.agent1
 
     def __repr__(self):
         return "\t%.6d\t%.6d\t%s\t%s\t%d\t%d" % (
-            self.id1.get_ID(),
-            self.id2.get_ID(),
-            self._duration,
-            self._total_sex_acts,
+            self.agent1.id,
+            self.agent2.id,
+            self.duration,
+            self.total_sex_acts,
         )
 
 
-class Agent_set:
+class AgentSet:
     """
     Class for agents that contain a "set" of agents from a lower
     hierarchical  level.
     """
 
     def __init__(
-        self, ID: str, parent: "Agent_set" = None, numerator: "Agent_set" = None
+        self, id: str, parent: "AgentSet" = None, numerator: "AgentSet" = None
     ):
         # _members stores agent set members in a dictionary keyed by ID
-        self.id = ID
-        self._members: List[Agent] = []
-        self._subset: Dict[str, Agent_set] = {}
+        self.id = id
+        self.members: List[Agent] = []
+        self.subset: Dict[str, AgentSet] = {}
 
         # _parent_set stores the parent set if this set is a member of an
-        # Agent_set class instance. For example, for a set that is a
+        # AgentSet class instance. For example, for a set that is a
         # member of a larger set, the _parent_set for that set  would
         # be that larger set.
-        self._parent_set = parent
+        self.parent_set = parent
         if parent:
             parent.add_subset(self)
         if numerator:
-            self._numerator = numerator
+            self.numerator = numerator
         else:
-            self._numerator = self
+            self.numerator = self
 
     def __repr__(self):
         return self.id
@@ -452,57 +450,48 @@ class Agent_set:
         return self.id
 
     def clear_set(self):
-        self._members: List[Agent] = []
-        self._subset: Dict[str, str] = {}
+        self.members: List[Agent] = []
+        self.subset: Dict[str, str] = {}
 
-    def get_ID(self):
-        return self.id
-
-    def get_agents(self):
-        return self._members.__iter__()
+    def __iter__(self):
+        return self.members.__iter__()
 
     def is_member(self, agent: Agent):
         "Returns true if agent is a member of this set"
-        return agent in self._members
+        return agent in self.members
 
     # adding trickles up
     def add_agent(self, agent: Agent):
         "Adds a new agent to the set."
         if not self.is_member(agent):
-            self._members.append(agent)
+            self.members.append(agent)
 
-            if self._parent_set is not None:
-                self._parent_set.add_agent(agent)
+            if self.parent_set is not None:
+                self.parent_set.add_agent(agent)
 
     # removing trickles down
     def remove_agent(self, agent: Agent):
         "Removes agent from agent set."
         if self.is_member(agent):
-            self._members.remove(agent)
+            self.members.remove(agent)
 
         for tmpS in self.iter_subset():
             tmpS.remove_agent(agent)
 
-    def iter_agents(
-        self,
-    ):  # REVIEWED isn't this redundant with get_agents? why not have __iter__ return the agents? then we could use the syntax agent in agent_set - maybe consolidate later
-        for agent in self.get_agents():
-            yield agent
-
     def num_members(self) -> int:
-        return len(self._members)
+        return len(self.members)
 
-    def add_subset(self, subset: "Agent_set"):
-        "Adds a new Agent_set to the current sets subset."
-        if subset.id not in self._subset:
-            self._subset[subset.id] = subset
+    def add_subset(self, subset: "AgentSet"):
+        "Adds a new AgentSet to the current sets subset."
+        if subset.id not in self.subset:
+            self.subset[subset.id] = subset
 
     def iter_subset(self):
-        for subset in list(self._subset.values()):
+        for subset in list(self.subset.values()):
             yield subset
 
     def print_subsets(self):
-        print("\t__________ %s __________" % self.get_ID())
+        print("\t__________ %s __________" % self.id)
         print("\tID\t\tN\t\t%")
         for tmpS in self.iter_subset():
             if tmpS.num_members() > 0:
@@ -511,7 +500,7 @@ class Agent_set:
                     % (
                         tmpS.id,
                         tmpS.num_members(),
-                        (1.0 * tmpS.num_members() / tmpS._numerator.num_members()),
+                        (1.0 * tmpS.num_members() / tmpS.numerator.num_members()),
                     )
                 )
             for tmpSS in tmpS.iter_subset():
@@ -524,7 +513,7 @@ class Agent_set:
                             (
                                 1.0
                                 * tmpSS.num_members()
-                                / tmpSS._numerator.num_members()
+                                / tmpSS.numerator.num_members()
                             ),
                         )
                     )

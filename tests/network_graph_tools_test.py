@@ -41,10 +41,10 @@ def test_network_init_scale_free(params):
     net = NetworkClass(params)
     assert n_pop == net.All_agentSet.num_members()
 
-    for agent in net.All_agentSet.get_agents():
+    for agent in net.All_agentSet:
         assert agent in net.G.nodes()
 
-    for agent in net.All_agentSet.get_agents():
+    for agent in net.All_agentSet:
         assert agent.drug_use in ["Inj", "NonInj", "None"]
         assert agent.so in params.classes.sex_types
 
@@ -57,10 +57,10 @@ def test_network_init_max_k(params):
     net = NetworkClass(params)
     assert n_pop == net.All_agentSet.num_members()
 
-    for agent in net.All_agentSet.get_agents():
+    for agent in net.All_agentSet:
         assert agent in net.G.nodes()
 
-    for agent in net.All_agentSet.get_agents():
+    for agent in net.All_agentSet:
         assert agent.drug_use in ["Inj", "NonInj", "None"]
         assert agent.so in params.classes.sex_types
 
@@ -81,11 +81,11 @@ def test_population_consistency_DU(params):
 def test_population_consistency_HIV(params):
     """Test HIV consistency"""
     net = NetworkClass(params)
-    for agent in net.All_agentSet.get_agents():
+    for agent in net.All_agentSet:
         if agent.hiv:
-            assert agent in net.HIV_agentSet.get_agents()
+            assert agent in net.HIV_agentSet
 
-    for agent in net.HIV_agentSet.get_agents():
+    for agent in net.HIV_agentSet:
         assert agent.hiv
 
 
@@ -121,7 +121,7 @@ def test_create_graph_from_agents(make_agent, params):
     a = make_agent()
     b = make_agent()
 
-    s = agent.Agent_set("test")
+    s = agent.AgentSet("test")
 
     s.add_agent(a)
     s.add_agent(b)

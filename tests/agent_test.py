@@ -76,11 +76,10 @@ def test_agent_init(make_agent):
     assert a.haart_adherence == 0
     assert a.sne is False
     assert a.intervention_ever is False
-    assert a._treatment_time == 0
-    assert a._PrEP_reason == []
+    assert a.prep_reason == []
     assert a.vaccine_time == 0
     assert a.vaccine_type == ""
-    assert a.partnerTraced is False
+    assert a.partner_traced is False
 
     # prevention parameters
     assert a.hiv_dx is False
@@ -88,19 +87,18 @@ def test_agent_init(make_agent):
     assert a.prep_adherence == 0
 
     # prep pharmacokinetics
-    assert a._PrEP_load == 0.0
-    assert a._PrEP_lastDose == 0
+    assert a.prep_load == 0.0
+    assert a.prep_last_dose == 0
 
     # high risk params
-    assert a._highrisk_bool is False
-    assert a._highrisk_time == 0
-    assert a._everhighrisk_bool is False
+    assert a.high_risk is False
+    assert a.high_risk_time == 0
+    assert a.high_risk_ever is False
 
     # incarceration
-    assert a._incar_bool is False
-    assert a._ever_incar_bool is False
-    assert a._incar_time == 0
-    assert a._incar_treatment_time == 0
+    assert a.incar is False
+    assert a.incar_ever is False
+    assert a.incar_time == 0
 
 
 def test_partner_list(make_agent, make_relationship):
@@ -122,20 +120,20 @@ def test_get_acute_status(make_agent):
     assert a.get_acute_status() == True
 
 
-def test_update_PrEP_load(make_agent, params):
+def test_update_prep_load(make_agent, params):
     a = make_agent()
-    assert a._PrEP_lastDose == 0
-    assert a._PrEP_load == 0
-    a.update_PrEP_load(params)
-    assert a._PrEP_lastDose == 1
-    assert a._PrEP_load > 0
+    assert a.prep_last_dose == 0
+    assert a.prep_load == 0
+    a.update_prep_load(params)
+    assert a.prep_last_dose == 1
+    assert a.prep_load > 0
 
     # make time pass
     for i in range(12):
-        a.update_PrEP_load(params)
+        a.update_prep_load(params)
 
-    assert a._PrEP_lastDose == 13
-    assert a._PrEP_load == 0.0
+    assert a.prep_last_dose == 13
+    assert a.prep_load == 0.0
 
 
 def test_get_transmission_probability(make_agent, params):
@@ -189,10 +187,10 @@ def test_get_number_of_sex_acts(make_agent, params):
 
     rand_gen_high = FakeRandom(1.0)
 
-    assert a.get_number_of_sexActs(rand_gen_low, params) == min_val_low
+    assert a.get_number_of_sex_acts(rand_gen_low, params) == min_val_low
 
     # test fallthrough
-    assert a.get_number_of_sexActs(rand_gen_high, params) == 37
+    assert a.get_number_of_sex_acts(rand_gen_high, params) == 37
 
 
 # ============== RELATIONSHIP TESTS ===================
@@ -205,15 +203,15 @@ def test_relationship(make_agent, make_relationship):
     r1 = make_relationship(a, p1)
     r2 = make_relationship(a, p2)
 
-    assert r1.id1 == a
-    assert r1.id2 == p1
+    assert r1.agent1 == a
+    assert r1.agent2 == p1
 
     # properties
-    assert r1._duration == 2
-    assert r1._total_sex_acts == 0
+    assert r1.duration == 2
+    assert r1.total_sex_acts == 0
 
-    assert r2._duration == 2
-    assert r2._total_sex_acts == 0
+    assert r2.duration == 2
+    assert r2.total_sex_acts == 0
 
     assert p1.id in a.partner_list()
     assert p2.id in a.partner_list()
@@ -228,7 +226,7 @@ def test_relationship(make_agent, make_relationship):
     # move forward one time step in the relationship, duration 2 -> 1
     ended = r1.progress()
     assert ended == False
-    assert r1._duration == 1
+    assert r1.duration == 1
     assert p1.id in a.partner_list()
     assert p2.id in a.partner_list()
     assert a.id in p1.partner_list()
@@ -241,10 +239,10 @@ def test_relationship(make_agent, make_relationship):
 
     # move forward one more timestep, duration 1 -> 0, rel over on next progress
     ended = r1.progress()
-    assert r1._duration == 0
+    assert r1.duration == 0
     ended = r1.progress()
     assert ended == True
-    assert r1._duration == 0
+    assert r1.duration == 0
     assert p1.id not in a.partner_list()
     assert p2.id in a.partner_list()
     assert a.id not in p1.partner_list()
@@ -268,65 +266,65 @@ def test_get_partner(make_agent, make_relationship):
 # ============================== AGENT SET TESTS ===============================
 
 
-def test_Agent_set_init(make_agent):
-    s = Agent_set("test")
+def test_AgentSet_init(make_agent):
+    s = AgentSet("test")
 
     assert s.id == "test"
-    assert s._members == []
-    assert s._subset == {}
+    assert s.members == []
+    assert s.subset == {}
 
-    assert s._parent_set is None
-    assert s._numerator == s
+    assert s.parent_set is None
+    assert s.numerator == s
 
     # add another agent set as the child of s
-    c = Agent_set("child", s, s)
+    c = AgentSet("child", s, s)
 
     assert c.id == "child"
-    assert c._parent_set == s
-    assert s._subset["child"] == c
-    assert c._numerator == s
+    assert c.parent_set == s
+    assert s.subset["child"] == c
+    assert c.numerator == s
 
 
 def test_add_remove_agent(make_agent):
     a = make_agent()
-    s = Agent_set("test")
-    c = Agent_set("child", s)
+    s = AgentSet("test")
+    c = AgentSet("child", s)
 
-    assert s.get_ID() == "test"
+    assert s.id == "test"
 
     c.add_agent(a)
     s.add_agent(a)
 
-    assert s._members == [a]
+    assert s.members == [a]
     assert s.is_member(a)
     assert s.num_members() == 1
 
-    assert c._members == [a]
+    assert c.members == [a]
     assert c.is_member(a)
     assert c.num_members() == 1
 
     s.remove_agent(a)
 
-    assert s._members == []
+    assert s.members == []
     assert s.is_member(a) is False
     assert s.num_members() == 0
 
-    assert c._members == []
+    assert c.members == []
     assert c.is_member(a) is False
     assert c.num_members() == 0
 
 
 def test_clear_set(make_agent):
     a = make_agent()
-    s = Agent_set("test")
+    s = AgentSet("test")
     s.add_agent(a)
 
-    assert s._members == [a]
+    assert s.members == [a]
     assert s.is_member(a)
     assert s.num_members() == 1
 
     s.clear_set()
 
-    assert s._members == []
+    assert s.members == []
     assert s.is_member(a) == False
     assert s.num_members() == 0

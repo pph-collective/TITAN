@@ -14,7 +14,7 @@ from typing import Sequence, List, Dict, Optional
 from dotmap import DotMap  # type: ignore
 
 from .HIVABM_Population import PopulationClass
-from .agent import Agent_set
+from .agent import AgentSet
 
 
 class NetworkClass(PopulationClass):
@@ -50,8 +50,8 @@ class NetworkClass(PopulationClass):
                         for rel in ag.relationships:
                             rel.progress(forceKill=True)
                             self.Relationships.remove(rel)
-                            component.remove_edge(rel.id1, rel.id2)
-                            self.G.remove_edge(rel.id1, rel.id2)
+                            component.remove_edge(rel.agent1, rel.agent2)
+                            self.G.remove_edge(rel.agent1, rel.agent2)
 
                 # still too big, recurse
                 if component.number_of_nodes() > maxComponentSize:
@@ -119,10 +119,10 @@ class NetworkClass(PopulationClass):
         outfile.write("Average node clustering: {}\n".format(nx.average_clustering(G)))
         outfile.close()
 
-    def create_graph_from_agents(self, agents: Agent_set):
+    def create_graph_from_agents(self, agents: AgentSet):
         G = self.get_Graph()
         numAdded = 0
-        for tmpA in agents.iter_agents():
+        for tmpA in agents:
             numAdded += 1
             G.add_node(tmpA)
         print("\tAdded %d/%d agents" % (numAdded, G.number_of_nodes()))
@@ -194,9 +194,9 @@ class NetworkClass(PopulationClass):
                     node_color.append("g")
         elif coloring == "HR":
             for v in G:
-                if v._highrisk_bool:  # tmp_hiv == 1:
+                if v.high_risk:  # tmp_hiv == 1:
                     node_color.append("r")
-                elif v._everhighrisk_bool:  # tmp_aids == 1:
+                elif v.high_risk_ever:  # tmp_aids == 1:
                     node_color.append("y")
                 else:
                     node_color.append("g")
@@ -212,7 +212,7 @@ class NetworkClass(PopulationClass):
             for v in G:
                 if v.race == "BLACK":
                     node_color.append("y")
-                elif v._everhighrisk_bool:
+                elif v.high_risk_ever:
                     node_color.append("b")
                 elif v.race == "WHITE":
                     node_color.append("g")

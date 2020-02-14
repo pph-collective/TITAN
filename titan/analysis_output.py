@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 from typing import Dict, Any, List, Sequence, Optional
-from .agent import Agent_set, Relationship, Agent
+from .agent import AgentSet, Relationship, Agent
 from copy import deepcopy
 from uuid import UUID
 import os
@@ -11,16 +11,16 @@ from dotmap import DotMap  # type: ignore
 
 
 def get_stats(
-    totalAgents: Agent_set,
-    HIVAgents: Agent_set,
-    IncarAgents: Agent_set,
-    PrEPAgents: Agent_set,
-    newPrEPAgents: Agent_set,
-    NewInfections: Agent_set,
-    NewDiagnosis: Agent_set,
+    totalAgents: AgentSet,
+    HIVAgents: AgentSet,
+    IncarAgents: AgentSet,
+    PrEPAgents: AgentSet,
+    newPrEPAgents: AgentSet,
+    NewInfections: AgentSet,
+    NewDiagnosis: AgentSet,
     Relationships: List[Relationship],
-    newHR: Agent_set,
-    newIncarRelease: Agent_set,
+    newHR: AgentSet,
+    newIncarRelease: AgentSet,
     deathSet: List[Agent],
     params: DotMap,
 ):
@@ -65,45 +65,45 @@ def get_stats(
         stats[cat] = {sc: dict(stats_template) for sc in SUB_CAT}
 
     # Incarceration metrics
-    for tmpA in IncarAgents.iter_agents():
+    for tmpA in IncarAgents:
         stats[tmpA.race][tmpA.so]["incar"] += 1
         if tmpA.hiv:
             stats[tmpA.race][tmpA.so]["incarHIV"] += 1
 
-    for tmpA in newIncarRelease.iter_agents():
+    for tmpA in newIncarRelease:
         stats[tmpA.race][tmpA.so]["newRelease"] += 1
         if tmpA.hiv:
             stats[tmpA.race][tmpA.so]["newReleaseHIV"] += 1
 
     # Newly infected tracker statistics (with HR within 6mo and HR ever bool check)
-    for tmpA in NewInfections.iter_agents():
+    for tmpA in NewInfections:
         stats[tmpA.race][tmpA.so]["inf_newInf"] += 1
-        if tmpA._everhighrisk_bool:
+        if tmpA.high_risk_ever:
             stats[tmpA.race][tmpA.so]["inf_HRever"] += 1
-        if tmpA._highrisk_bool:
+        if tmpA.high_risk:
             stats[tmpA.race][tmpA.so]["inf_HR6m"] += 1
 
     # PrEP reason tracker
-    for tmpA in totalAgents.iter_agents():
+    for tmpA in totalAgents:
         if tmpA.prep:
             stats[tmpA.race][tmpA.so]["numPrEP"] += 1
-            if "PWID" in tmpA._PrEP_reason:
+            if "PWID" in tmpA.prep_reason:
                 stats[tmpA.race][tmpA.so]["iduPartPrep"] += 1
-            if "MSMW" in tmpA._PrEP_reason:
+            if "MSMW" in tmpA.prep_reason:
                 stats[tmpA.race][tmpA.so]["msmwPartPrep"] += 1
-            if "HIV test" in tmpA._PrEP_reason:
+            if "HIV test" in tmpA.prep_reason:
                 stats[tmpA.race][tmpA.so]["testedPartPrep"] += 1
 
     # Newly PrEP tracker statistics
-    for tmpA in newPrEPAgents.iter_agents():
+    for tmpA in newPrEPAgents:
         stats[tmpA.race][tmpA.so]["newNumPrEP"] += 1
 
     # Newly diagnosed tracker statistics
-    for tmpA in NewDiagnosis.iter_agents():
+    for tmpA in NewDiagnosis:
         stats[tmpA.race][tmpA.so]["newlyTested"] += 1
 
     # Newly HR agents
-    for tmpA in newHR.iter_agents():
+    for tmpA in newHR:
         stats[tmpA.race][tmpA.so]["newHR"] += 1
         if tmpA.hiv:
             stats[tmpA.race][tmpA.so]["newHR_HIV"] += 1
@@ -115,7 +115,7 @@ def get_stats(
                     stats[tmpA.race][tmpA.so]["newHR_ART"] += 1
 
     # Total HIV summary snapshot for timestep
-    for tmpA in HIVAgents.iter_agents():
+    for tmpA in HIVAgents:
         stats[tmpA.race][tmpA.so]["numHIV"] += 1
         if tmpA.aids:
             stats[tmpA.race][tmpA.so]["numAIDS"] += 1
@@ -125,7 +125,7 @@ def get_stats(
             stats[tmpA.race][tmpA.so]["numART"] += 1
 
     # PWID agent summary
-    for tmpA in totalAgents._subset["DU"]._subset["Inj"].iter_agents():
+    for tmpA in totalAgents.subset["DU"].subset["Inj"]:
         stats[tmpA.race]["PWID"]["numAgents"] += 1
         if tmpA.hiv:
             stats[tmpA.race]["PWID"]["numHIV"] += 1
@@ -137,7 +137,7 @@ def get_stats(
             stats[tmpA.race]["PWID"]["numART"] += 1
 
     # total number of agents
-    for tmpA in totalAgents.iter_agents():
+    for tmpA in totalAgents:
         stats[tmpA.race][tmpA.so]["numAgents"] += 1
 
     for tmpA in deathSet:

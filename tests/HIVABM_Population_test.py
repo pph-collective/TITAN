@@ -91,8 +91,8 @@ def test_create_agent(make_population):
     assert a4.haart_adherence == 5
     assert a4.haart_time == 0
     assert a4.intervention_ever
-    assert a4._highrisk_bool
-    assert a4._everhighrisk_bool
+    assert a4.high_risk
+    assert a4.high_risk_ever
 
     # check not PWID and HIV
     pop.pop_random = FakeRandom(0.999)
@@ -141,30 +141,30 @@ def test_add_agent_to_pop(make_population):
     agent.haart = True
     agent.prep = True
     agent.hiv_dx = True
-    agent._incar_bool = True
-    agent._highrisk_bool = True
+    agent.incar = True
+    agent.high_risk = True
 
     pop.add_agent_to_pop(agent)
 
-    assert agent in pop.All_agentSet._members
-    assert agent in pop.racial_agentSet._members
-    assert agent in pop.Race_WHITE_agentSet._members
-    assert agent in pop.SO_agentSet._members
-    assert agent in pop.SO_HM_agentSet._members
-    assert agent in pop.drugUse_agentSet._members
-    assert agent in pop.DU_Inj_agentSet._members
-    assert agent in pop.HIV_agentSet._members
-    assert agent in pop.HIV_AIDS_agentSet._members
-    assert agent in pop.treatment_agentSet._members
-    assert agent in pop.Trt_ART_agentSet._members
-    assert agent in pop.Trt_ART_agentSet._members
-    assert agent in pop.Trt_PrEP_agentSet._members
-    assert agent in pop.Trt_Tstd_agentSet._members
-    assert agent in pop.incarcerated_agentSet._members
-    assert agent in pop.highrisk_agentsSet._members
+    assert agent in pop.All_agentSet.members
+    assert agent in pop.racial_agentSet.members
+    assert agent in pop.Race_WHITE_agentSet.members
+    assert agent in pop.SO_agentSet.members
+    assert agent in pop.SO_HM_agentSet.members
+    assert agent in pop.drugUse_agentSet.members
+    assert agent in pop.DU_Inj_agentSet.members
+    assert agent in pop.HIV_agentSet.members
+    assert agent in pop.HIV_AIDS_agentSet.members
+    assert agent in pop.treatment_agentSet.members
+    assert agent in pop.Trt_ART_agentSet.members
+    assert agent in pop.Trt_ART_agentSet.members
+    assert agent in pop.Trt_PrEP_agentSet.members
+    assert agent in pop.Trt_Tstd_agentSet.members
+    assert agent in pop.incarcerated_agentSet.members
+    assert agent in pop.highrisk_agentsSet.members
 
     # check not in all agent sets
-    assert agent not in pop.Race_BLACK_agentSet._members
+    assert agent not in pop.Race_BLACK_agentSet.members
 
 
 def test_get_age(make_population, params):
@@ -186,7 +186,7 @@ def test_update_agent_partners_no_match(make_population, params):
     params.model.num_pop = 0
     net = NetworkClass(params)
 
-    agent = pop.All_agentSet._members[0]  # the only agent in the pop
+    agent = pop.All_agentSet.members[0]  # the only agent in the pop
 
     pop.update_agent_partners(net.G, agent, params)  # noMatch == True
     assert agent in net.G.nodes()

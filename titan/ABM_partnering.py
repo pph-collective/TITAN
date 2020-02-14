@@ -8,11 +8,11 @@ from typing import Sequence, List, Dict, Optional, TypeVar
 from dotmap import DotMap
 
 from . import probabilities as prob
-from .agent import Agent, Agent_set
+from .agent import Agent, AgentSet
 
 
 def get_partner(
-    agent: Agent, all_agent_set: Agent_set, params: DotMap
+    agent: Agent, all_agent_set: AgentSet, params: DotMap
 ) -> Optional[Agent]:
     """
     :Purpose:
@@ -57,7 +57,7 @@ def get_partner(
         return RandomPartner
 
 
-def get_random_PWID_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
+def get_random_PWID_partner(agent: Agent, all_agent_set: AgentSet) -> Optional[Agent]:
     """
     :Purpose:
         Get a random partner which is sex compatible
@@ -78,7 +78,7 @@ def get_random_PWID_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[
     RandomPartner = safe_random_choice(
         [
             ptn
-            for ptn in all_agent_set._subset["DU"]._subset["Inj"]._members
+            for ptn in all_agent_set.subset["DU"].subset["Inj"].members
             if ptn not in agent.partners and ptn != agent
         ]
     )
@@ -87,7 +87,7 @@ def get_random_PWID_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[
 
 
 def get_assort_sex_partner(
-    agent: Agent, all_agent_set: Agent_set, params: DotMap
+    agent: Agent, all_agent_set: AgentSet, params: DotMap
 ) -> Optional[Agent]:
     """
     :Purpose:
@@ -127,7 +127,7 @@ def get_assort_sex_partner(
                 for tmpA in eligible_partners
                 if (
                     tmpA.race == "WHITE"
-                    and tmpA._everhighrisk_bool
+                    and tmpA.high_risk_ever
                     and tmpA not in agent.partners
                 )
             ]
@@ -136,7 +136,7 @@ def get_assort_sex_partner(
         samplePop = [
             tmpA
             for tmpA in eligible_partners
-            if (tmpA._everhighrisk_bool and tmpA not in agent.partners)
+            if (tmpA.high_risk_ever and tmpA not in agent.partners)
         ]
 
     RandomPartner = safe_random_choice(samplePop)
@@ -149,7 +149,7 @@ def get_assort_sex_partner(
 
 
 def get_random_sex_partner(
-    agent: Agent, all_agent_set: Agent_set, params: DotMap
+    agent: Agent, all_agent_set: AgentSet, params: DotMap
 ) -> Optional[Agent]:
     """
     :Purpose:
@@ -157,7 +157,7 @@ def get_random_sex_partner(
 
     :Input:
         agent: Agent
-        all_agent_set: list of available partners (Agent_set)
+        all_agent_set: list of available partners (AgentSet)
 
     :Output:
         partner : Agent or None
@@ -167,7 +167,7 @@ def get_random_sex_partner(
 
     elig_partner_pool = [
         partner
-        for partner in all_agent_set._members
+        for partner in all_agent_set.members
         if sex_possible(agent.so, partner.so, params)
     ]
 
