@@ -1078,7 +1078,7 @@ class HIVModel(NetworkClass):
 
                 # End all existing relationships
                 for rel in agent.relationships:
-                    rel.progress(forceKill=True)
+                    rel.progress(force=True)
 
                     self.Relationships.remove(rel)
 
