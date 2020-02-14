@@ -4,6 +4,8 @@ __author__ = "MaximilianKing"
 Main model parameters.
 """
 
+from typing import Sequence, List, Dict, Optional, Any
+
 ####################
 PROCESSES = 1  # number of processes in parallel (quadcore)
 rSeed_pop = (
@@ -69,22 +71,41 @@ cal_raceXmission = 4.0
 cal_ptnrSampleDepth = 100
 cal_Vaccine = 0
 
+"""
+Bond Params
+"""
+bond_type = []
+mean_partner_type = "mean"
+minComponentSize = 0
+maxComponentSize = N_POP
+
+"""
+Peer Change Params
+"""
+flag_PCA = False
+awarenessProb = 0.0
+PCA_PrEP = 0.0
+
+
 # High risk params
 HR_partnerScale = 300  # Linear increase to partner number during HR period
 HR_proportion = 0.3  # Proportion of people who enter HR group when partner incarcerated
 HR_M_dur = 6  # Duration of high risk for males
 HR_F_dur = 6  # Duration of high risk for females
 condomUseType = "Race"  # Race or Acts
+HIV_MSMW = 0.0
+cdc_msmw = 0.0
+pcaChoice = ""
 
 # Misc. params
 flag_AssortativeMix = True
 AssortMixType = "Race"
-flag_AgeAssortMix = False
 flag_RaceAssortMix = True
 AssortMixCoeff = 0.75  # Proportion of race1 mixing with race2 when partnering.
 safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
 initTreatment = 999999
 treatmentCov = 0.0
+interactionProb = {"sexOnly": {1: {"pvalue": 1.0, "min": 0, "max": 0}}}
 
 """
 Vaccine params
@@ -105,9 +126,14 @@ inc_ARTenroll = 0.51
 inc_ARTadh = 0.21
 inc_ARTdisc = 0.12
 inc_Recidivism = 0.267
+inc_treat_IDU_beh = 0.0
+inc_treat_HRsex_beh = 0.0
+inc_treatment_startdate = 99999
+inc_treatment_dur = 0
+inc_treat_RIC = 0.0
 
 # PrEP params
-PrEP_type = ["Oral", "Vaccine"]  # Oral/Inj PrEP modes
+PrEP_type = ["Oral"]  # Oral/Inj PrEP modes
 PrEP_Target = (
     0.00  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 )
@@ -118,11 +144,10 @@ PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
-PrEP_target_model = (
-    "Allcomers"  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,CDC,Racial
-)
+PrEP_target_model = "Racial"  # Clinical, Allcomers
 PrEP_init_var1 = 0.05
 PrEP_init_var2 = 0.025
+LAI_chance = 0.0
 PrEP_clinic_cat = "Racial"
 
 if "Oral" in PrEP_type:
@@ -144,7 +169,7 @@ elif PrEP_type == "Inj":
 Model Type for fast flag toggling
     flag_incar      Incarceration effects
     flag_PrEP       PrEP enrollment
-    flag_HR         High risk behavior for incar or genPop
+    flag_high_risk         High risk behavior for incar or genPop
     flag_ART        ART therapy enrollment
     flag_DandR      Die and replace functionality
 
@@ -178,14 +203,15 @@ elif model == "NoIncar":
 elif model == "Custom":
     flag_incar = False
     flag_PrEP = True
-    flag_HR = False
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
     flag_booster = False
+    flag_high_risk = False
+    init_with_vaccine = False
 
-agentPopulations = ["MSM"]
-agentSexTypes = ["MSM"]
+agentPopulations = ["MSM", "HF", "HM", "IDU"]
+agentSexTypes = ["MSM", "HF", "HM", "IDU"]
 
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
@@ -217,11 +243,12 @@ RC_template = {
     "PrEPadh": 1.0,
     "boosterInterval": 0,
     "vaccinePrev": 0,
+    "PrEP_coverage": 0,
 }
 
 # RaceClass1 = {'MSM':{}, 'HM':{}, 'HF':{}, 'PWID':{}, 'ALL':{}}
-RaceClass1 = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
-RaceClass2 = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
+RaceClass1: Dict[str, Any] = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
+RaceClass2: Dict[str, Any] = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
 for a in ["MSM", "HM", "HF", "IDU"]:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
@@ -251,6 +278,7 @@ RaceClass1["MSM"].update(
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.911,
         "vaccinePrev": 0.5,
+        "PrEP_coverage": 0.415,
     }
 )
 
@@ -279,6 +307,7 @@ RaceClass2["MSM"].update(
         "PrEPdisc": 0.15,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.568,
+        "PrEP_coverage": 0.258,
     }
 )
 

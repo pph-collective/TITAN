@@ -43,3 +43,7 @@ features:
     default: false
     description: Whether to have agents that are men who sleep with men and women - it is not quite a sex type, but adjusts their risks and probabilities accordingly
     type: boolean
+  pca:
+    default: false
+    description: Whether to have peer change agents spreading awareness of PrEP
+    type: boolean

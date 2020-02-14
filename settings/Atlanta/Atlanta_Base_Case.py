@@ -62,6 +62,17 @@ cal_raceXmission = 3.75
 cal_ptnrSampleDepth = 100
 cal_Vaccine = 0  # determines vaccine initiation during run
 
+"""
+Bond Params
+"""
+bond_type = []
+mean_partner_type = "mean"
+
+"""
+Peer Change Params
+"""
+flag_PCA = False
+
 # High risk params
 HR_partnerScale = 300  # Linear increase to partner number during HR period
 HR_proportion = 0.3  # Proportion of people who enter HR group when partner incarcerated
@@ -72,7 +83,6 @@ condomUseType = "Race"  # Race or Acts
 # Misc. params
 flag_AssortativeMix = True
 AssortMixType = "Race"
-flag_AgeAssortMix = False
 flag_RaceAssortMix = True
 AssortMixCoeff = 0.75  # Proportion of race1 mixing with race2 when partnering.
 safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
@@ -111,9 +121,7 @@ PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
-PrEP_target_model = (
-    "Racial"  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,CDC,Racial
-)
+PrEP_target_model = "Racial"  # Clinical, Allcomers
 PrEP_init_var1 = 0.5
 PrEP_init_var2 = 0.05
 PrEP_clinic_cat = ""
@@ -137,7 +145,7 @@ elif "Inj" in PrEP_type:
 Model Type for fast flag toggling
     flag_incar      Incarceration effects
     flag_PrEP       PrEP enrollment
-    flag_HR         High risk behavior for incar or genPop
+    flag_high_risk         High risk behavior for incar or genPop
     flag_ART        ART therapy enrollment
     flag_DandR      Die and replace functionality
 

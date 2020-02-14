@@ -2,8 +2,8 @@
 # encoding: utf-8
 
 from random import Random
-from copy import deepcopy
-from typing import Sequence, List, Dict, Optional, Any
+
+from typing import List, Dict, Any
 from scipy.stats import poisson  # type: ignore
 import numpy as np  # type: ignore
 from dotmap import DotMap  # type: ignore
@@ -219,6 +219,13 @@ class PopulationClass:
                 if self.pop_random.random() < prob_prep:
                     agent.prep = True
                     agent.intervention_ever = True
+                    if (
+                        self.pop_random.random() > self.params.prep.lai.prob
+                        and "Inj" in self.params.prep.type
+                    ):
+                        agent.prep_type = "Inj"
+                    else:
+                        agent.prep_type = "Oral"
 
         # Check if agent is HR as baseline.
         if (
@@ -230,13 +237,34 @@ class PopulationClass:
 
         # Partnership demographics
         if self.params.model.population.num_partners.type == "bins":
-            agent.neam_num_partners = prob.get_mean_num_partners(
+            agent.mean_num_partners = prob.get_mean_num_partners(
                 drug_type, self.pop_random
             )
+        elif self.params.model.population.num_partners.type == "bins":
+            pn_prob = self.pop_random.random()
+            current_p_value = bin = 0
+
+            while pn_prob > current_p_value:
+                current_p_value += self.params.model.population.num_partners.bins[
+                    bin
+                ].prob
+                bin += 1
+            agent.mean_num_partners = bin
         else:
-            agent.neam_num_partners = poisson.rvs(
+            agent.mean_num_partners = poisson.rvs(
                 self.params.demographics[race][sex_type].num_partners, size=1
             )
+
+        if self.params.features.pca:
+            if self.pop_random.random() < self.params.prep.pca.awareness.starting:
+                agent.awareness = True
+            attprob = self.pop_random.random()
+            pvalue = 0.0
+            for bin, fields in self.params.pca.attitude.items():
+                pvalue += fields.prob
+                if attprob < pvalue:
+                    agent.opinion = bin
+                    break
 
         return agent
 
@@ -312,24 +340,50 @@ class PopulationClass:
         return age, i
 
     # REVIEWED should these be in the network class? - max to incorporate with network/pop/model disentangling?
-    def update_agent_partners(self, graph, agent: Agent, params: DotMap):
-        partner = get_partner(agent, self.All_agentSet, params)
 
-        graph.add_node(agent)
+    def update_agent_partners(self, graph, agent: Agent) -> bool:
+        partner = get_partner(agent, self.All_agentSet, self.params)
+        noMatch = False
+
+        def bondtype(bond_dict):
+            pvalue = 0.0
+            bond_probability = self.pop_random.random()
+            bonded_type = "sexOnly"
+            for reltype, p in bond_dict.items():
+                pvalue += p
+                if bond_probability < pvalue:
+                    bonded_type = reltype
+                    break
+            return bonded_type
+
         if partner:
-            duration = get_partnership_duration(agent, params)
-            rel = Relationship(agent, partner, duration)
-            self.Relationships.append(rel)
-            graph.add_edge(rel.agent1, rel.agent2)
+            duration = get_partnership_duration(agent, self.params)
 
-    def update_partner_assignments(self, graph, params: DotMap):
+            if agent.drug_use == "Inj" and partner.drug_use == "Inj":
+                bond_type = bondtype(self.params.partnership.bond.type.PWID)
+            else:
+                bond_type = bondtype(self.params.partnership.bond.type.general)
+
+            relationship = Relationship(agent, partner, duration, rel_type=bond_type)
+
+            self.Relationships.append(relationship)
+            graph.add_edge(
+                relationship.agent1, relationship.agent2, relationship=bond_type
+            )
+        else:
+            graph.add_node(agent)
+            noMatch = True
+
+        return noMatch
+
+    def update_partner_assignments(self, graph):
         # Now create partnerships until available partnerships are out
         eligible_agents = self.All_agentSet
         for agent in eligible_agents:
             # add agent to network
             graph.add_node(agent)
-            acquirePartnerProb = params.calibration.sex.partner * (
-                agent.neam_num_partners / (12.0)
+            acquirePartnerProb = self.params.calibration.sex.partner * (
+                agent.mean_num_partners / (12.0)
             )
             if self.pop_random.random() < acquirePartnerProb:
-                self.update_agent_partners(graph, agent, params)
+                self.update_agent_partners(graph, agent)

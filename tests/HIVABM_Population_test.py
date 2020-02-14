@@ -72,6 +72,9 @@ def test_create_agent(make_population):
 
     a1 = pop.create_agent("WHITE")
     assert a1.race == "WHITE"
+    assert a1.opinion in range(
+        5
+    ), f"Agents opinion of injectible PrEP is out of bounds {a1.opinion}"
 
     a2 = pop.create_agent("BLACK")
     assert a2.race == "BLACK"
@@ -188,7 +191,7 @@ def test_update_agent_partners_no_match(make_population, params):
 
     agent = pop.All_agentSet.members[0]  # the only agent in the pop
 
-    pop.update_agent_partners(net.G, agent, params)  # noMatch == True
+    pop.update_agent_partners(net.G, agent)  # noMatch == True
     assert agent in net.G.nodes()
     assert len(net.G.edges()) == 0
 
@@ -203,7 +206,7 @@ def test_update_agent_partners_match(make_population, params):
     params.model.num_pop = 0
     net = NetworkClass(params)
 
-    pop.update_agent_partners(net.G, a, params)
+    pop.update_agent_partners(net.G, a)
     assert a in net.G.nodes()
     assert p in net.G.nodes()
     assert len(net.G.edges()) == 1
@@ -215,13 +218,13 @@ def test_update_partner_assignments_match(make_population, params):
     p = pop.create_agent("WHITE", "MSM")
     pop.add_agent_to_pop(a)
     pop.add_agent_to_pop(p)
-    a.neam_num_partners = 100
-    p.neam_num_partners = 100
+    a.mean_num_partners = 100
+    p.mean_num_partners = 100
 
     params.model.num_pop = 0
     net = NetworkClass(params)
 
-    pop.update_partner_assignments(net.G, params)
+    pop.update_partner_assignments(net.G)
     assert a in net.G.nodes()
     assert p in net.G.nodes()
     assert len(net.G.edges()) == 1
@@ -237,7 +240,7 @@ def test_update_partner_assignments_no_match(make_population, params):
     params.model.num_pop = 0
     net = NetworkClass(params)
 
-    pop.update_partner_assignments(net.G, params)
+    pop.update_partner_assignments(net.G)
     assert a in net.G.nodes()
     assert p in net.G.nodes()
     assert len(net.G.edges()) == 0

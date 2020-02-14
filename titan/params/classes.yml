@@ -20,6 +20,17 @@ classes:
       - MSM
       - WSW
       - MTF
+  rel_types:
+    default:
+      - sexualOnly
+      - multiplex
+      - social
+    description: Types of bonds a relationship can have
+    type: enum
+    values:
+      - sexualOnly
+      - multiplex
+      - social
   drug_types:
     default:
       - Inj

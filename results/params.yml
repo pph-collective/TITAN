@@ -13,6 +13,31 @@ prep:
   target_model: CDCwomen
   half_life: 40.0
   peak_load: 4.91
+  lai:
+    prob: 0
+  pca:
+    awareness:
+      starting: 0
+      prob: 0.055
+    prep:
+      prob: 0.1275
+    choice: bridge
+    opinion:
+      threshold: 3
+      transmission: 0.005
+    knowledge:
+      transmission: 0.01
+    attitude:
+      0:
+        prob: 0.167
+      1:
+        prob: 0.082
+      2:
+        prob: 0.184
+      3:
+        prob: 0.139
+      4:
+        prob: 0.429
 haart:
   start: 0
   coverage: 0
@@ -57,6 +82,10 @@ classes:
   - HF
   - WSW
   - MTF
+  rel_types:
+  - sexualOnly
+  - multiplex
+  - social
   drug_types:
   - Inj
   - NonInj
@@ -86,6 +115,27 @@ model:
   population:
     num_partners:
       type: poisson
+      bins:
+        0:
+          prob: 0.083,
+        1:
+          prob: 0.181,
+        2:
+          prob: 0.229,
+        3:
+          prob: 0.172,
+        4:
+          prob: 0.112,
+        5:
+          prob: 0.102,
+        6:
+          prob: 0.071,
+        7:
+          prob: 0.028,
+        8:
+          prob: 0.019,
+        9:
+          prob: 0.005,
 high_risk:
   partner_scale: 300
   proportion: 0.3
@@ -105,6 +155,7 @@ vaccine:
   type: RV144
   booster: true
   start: 1
+  init: true
 partnership:
   sex:
     duration:
@@ -216,6 +267,56 @@ partnership:
         prob: 0.0014
       5:
         prob: 0.0002
+  interaction:
+    sexualOnly:
+      1: &id007
+        prob: 0.306
+        min: 0
+        max: 0
+      2: &id008
+        prob: 0.144
+        min: 1
+        max: 1
+      3: &id009
+        prob: 0.067
+        min: 2
+        max: 2
+      4: &id010
+        prob: 0.106
+        min: 4
+        max: 4
+      5: &id011
+        prob: 0.15
+        min: 5
+        max: 29
+      6: &id012
+        prob: 0.228
+        min: 30
+        max: 30
+    multiplex:
+      1: *id007
+      2: *id008
+      3: *id009
+      4: *id010
+      5: *id011
+      6: *id012
+    social:
+      1: *id007
+      2: *id008
+      3: *id009
+      4: *id010
+      5: *id011
+      6: *id012
+  bond:
+    type:
+      PWID:
+        social: 0.308
+        multiplex: 0.105
+        sexualOnly: 0.587
+      general:
+        social: 0.308
+        multiplex: 0.105
+        sexualOnly: 0.587
 incar:
   hiv:
     dx: 0.69
@@ -238,6 +339,7 @@ features:
   vaccine: true
   partner_tracing: true
   msmw: true
+  pca: false
 needle_exchange:
   prevalence: 1.0
   coverage: 0.0
@@ -278,7 +380,7 @@ demographics:
         prob: 0.0
     assort_mix:
       coefficient: 0
-    age: &id007
+    age: &id013
       1:
         prob: 0.085
         min: 15
@@ -334,7 +436,7 @@ demographics:
           prob: 0.0
       assort_mix:
         coefficient: 0
-      age: *id007
+      age: *id013
     MSM:
       ppl: 0.3
       hiv:
@@ -370,7 +472,7 @@ demographics:
           prob: 0.0
       assort_mix:
         coefficient: 0
-      age: *id007
+      age: *id013
     HM:
       ppl: 0.3
       hiv:
@@ -406,7 +508,7 @@ demographics:
           prob: 0.0
       assort_mix:
         coefficient: 0
-      age: *id007
+      age: *id013
     HF:
       ppl: 0.2
       hiv:
@@ -442,7 +544,7 @@ demographics:
           prob: 0.0
       assort_mix:
         coefficient: 0
-      age: *id007
+      age: *id013
     WSW:
       ppl: 0.1
       hiv:
@@ -478,7 +580,7 @@ demographics:
           prob: 0.0
       assort_mix:
         coefficient: 0
-      age: *id007
+      age: *id013
     MTF:
       ppl: 0.1
       hiv:
@@ -514,7 +616,7 @@ demographics:
           prob: 0.0
       assort_mix:
         coefficient: 0
-      age: *id007
+      age: *id013
   WHITE:
     ppl: 0.4
     hiv:
@@ -550,7 +652,7 @@ demographics:
         prob: 0.0
     assort_mix:
       coefficient: 0
-    age: *id007
+    age: *id013
     PWID:
       ppl: 0.3
       hiv:
@@ -586,7 +688,7 @@ demographics:
           prob: 0.0
       assort_mix:
         coefficient: 0
-      age: *id007
+      age: *id013
     MSM:
       ppl: 0.3
       hiv:
@@ -622,7 +724,7 @@ demographics:
           prob: 0.0
       assort_mix:
         coefficient: 0
-      age: *id007
+      age: *id013
     HM:
       ppl: 0.3
       hiv:
@@ -658,7 +760,7 @@ demographics:
           prob: 0.0
       assort_mix:
         coefficient: 0
-      age: *id007
+      age: *id013
     HF:
       ppl: 0.2
       hiv:
@@ -694,7 +796,7 @@ demographics:
           prob: 0.0
       assort_mix:
         coefficient: 0
-      age: *id007
+      age: *id013
     WSW:
       ppl: 0.1
       hiv:
@@ -730,7 +832,7 @@ demographics:
           prob: 0.0
       assort_mix:
         coefficient: 0
-      age: *id007
+      age: *id013
     MTF:
       ppl: 0.1
       hiv:
@@ -766,4 +868,4 @@ demographics:
           prob: 0.0
       assort_mix:
         coefficient: 0
-      age: *id007
+      age: *id013

@@ -25,8 +25,8 @@ def make_agent():
 
 @pytest.fixture
 def make_relationship():
-    def _make_relationship(id1, id2, duration=2):
-        return Relationship(id1, id2, duration)
+    def _make_relationship(id1, id2, rel_type="#REVIEW", duration=2):
+        return Relationship(id1, id2, duration, rel_type)
 
     return _make_relationship
 
@@ -63,7 +63,7 @@ def test_agent_init(make_agent):
     # partner params
     assert a.relationships == []
     assert a.partners == []
-    assert a.neam_num_partners == 0
+    assert a.mean_num_partners == 0
 
     # STI params
     assert a.hiv is False
@@ -80,6 +80,11 @@ def test_agent_init(make_agent):
     assert a.vaccine_time == 0
     assert a.vaccine_type == ""
     assert a.partner_traced is False
+    assert a.awareness is False
+    assert a.opinion == 0.0
+    assert a.prep_type == ""
+    assert a.pca is False
+    assert a.pca_suitable is False
 
     # prevention parameters
     assert a.hiv_dx is False

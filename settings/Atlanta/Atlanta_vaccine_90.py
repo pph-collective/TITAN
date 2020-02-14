@@ -78,19 +78,14 @@ Peer Change Params
 """
 flag_PCA = False
 
-
-"""
-High risk params
-"""
+# High risk params
 HR_partnerScale = 300  # Linear increase to partner number during HR period
 HR_proportion = 0.3  # Proportion of people who enter HR group when partner incarcerated
 HR_M_dur = 6  # Duration of high risk for males
 HR_F_dur = 6  # Duration of high risk for females
 condomUseType = "Race"  # Race or Acts
 
-"""
-Misc. params
-"""
+# Misc. params
 flag_AssortativeMix = True
 AssortMixType = "Race"
 flag_RaceAssortMix = True
@@ -223,7 +218,7 @@ RC_template = {
     "mNPart": 0.0,  # Mean number of sex partners
     "NUMPartn": 0.0,  # Number of partners (redundant)
     "NUMSexActs": 0.0,  # Mean number of sex acts with each partner
-    "SAFESEX": 0.0,  # Probability of engaging in safe sex (per act)
+    "UNSAFESEX": 0.0,  # Probability of engaging in unsafe sex (per act)
     "NEEDLESH": 0.0,  # Probability of sharing syringes during join drug use (per act)
     "HIVTEST": 0.0,  # Probability of testing for HIV
     "INCAR": 0.0,  # Probability of becoming incarcerated (rate)
@@ -256,17 +251,17 @@ RaceClass1["MSM"].update(
         "POP": 1.00,
         "HIV": 0.132,
         "AIDS": 0.07,
-        "HAARTprev": 0.583,
+        "HAARTprev": 0.90,
         "INCARprev": 0.000,
-        "TestedPrev": 0.826,
+        "TestedPrev": 0.90,
         "mNPart": 7.0,
         "NUMPartn": 7.0,
         "NUMSexActs": 5.0,
-        "SAFESEX": 0.6608,
+        "UNSAFESEX": 0.6608,
         "NEEDLESH": 0.43,
         "HIVTEST": 0.055,
         "INCAR": 0.00,  # 0.00014,
-        "HAARTadh": 0.885,  # 0.693,#0.57,
+        "HAARTadh": 0.90,  # 0.693,#0.57,
         "HAARTdisc": 0.10,
         "PrEPdisc": 0.13,
         "EligSE_PartnerType": "MSM",
@@ -274,7 +269,7 @@ RaceClass1["MSM"].update(
         "PrEP_coverage": 0.415,
         "boosterInterval": 0,
         "boosterProb": 0.0,
-        "vaccinePrev": 0.0,
+        "vaccinePrev": 0.8,
     }
 )
 
@@ -288,25 +283,25 @@ RaceClass2["MSM"].update(
         "POP": 1.00,  # 0.028,
         "HIV": 0.434,
         "AIDS": 0.232,
-        "HAARTprev": 0.627,
+        "HAARTprev": 0.90,
         "INCARprev": 0.00,
-        "TestedPrev": 0.655,
+        "TestedPrev": 0.90,
         "mNPart": 5.0,
         "NUMPartn": 5.0,
         "NUMSexActs": 5.0,
-        "SAFESEX": 0.312,
+        "UNSAFESEX": 0.312,
         "NEEDLESH": 0.27,
         "HIVTEST": 0.06,
         "INCAR": 0.00,  # 0.0011,
-        "HAARTadh": 0.817,  # 0.598,#0.34,
+        "HAARTadh": 0.90,  # 0.598,#0.34,
         "HAARTdisc": 0.07,
         "PrEPdisc": 0.10,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.568,
         "PrEP_coverage": 0.258,
-        "boosterInterval": 0,
-        "boosterProb": 0.0,
-        "vaccinePrev": 0.0,
+        "boosterInterval": 6,
+        "boosterProb": 1.0,
+        "vaccinePrev": 0.8,
     }
 )
 

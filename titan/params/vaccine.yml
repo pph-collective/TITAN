@@ -15,3 +15,7 @@ vaccine:
     description: Time step at which to start vaccination
     type: int
     min: 0
+  init:
+    default: true
+    description: Whether to initialize the population with vaccination
+    type: boolean

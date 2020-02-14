@@ -87,21 +87,23 @@ def test_agents_interact(make_model, make_agent):
     model = make_model()
     a = make_agent(race="WHITE", SO="HM")
     p = make_agent(race="WHITE", SO="HF")
-    rel = Relationship(a, p, 10)
+    rel = Relationship(a, p, 10, rel_type="sexOnly")
+
+    model.runRandom = FakeRandom(0.6)
 
     a.incar = True
-    assert model._agents_interact(rel) is False
+    assert model._agents_interact(0, rel) is False
 
     a.incar = False
-    assert model._agents_interact(rel) is False  # neither HIV
+    assert model._agents_interact(0, rel) is False  # neither HIV
 
     a.hiv = True
     p.hiv = True
-    assert model._agents_interact(rel) is False  # both HIV
+    assert model._agents_interact(0, rel) is False  # both HIV
 
     p.hiv = False
 
-    assert model._agents_interact(rel)  # sex transmssion
+    assert model._agents_interact(0, rel)  # sex transmssion
     assert p.hiv is False  # but nothing happened (see skipped test)
 
     a.drug_use = "Inj"
@@ -109,13 +111,13 @@ def test_agents_interact(make_model, make_agent):
 
     model.runRandom = FakeRandom(-0.1)
 
-    assert model._agents_interact(rel)  # needle transmission
+    assert model._agents_interact(0, rel)  # needle transmission
     assert p.hiv
 
     p.hiv = False
     model.runRandom = FakeRandom(1.1)
 
-    assert model._agents_interact(rel)  # needle and sex
+    assert model._agents_interact(0, rel)  # needle and sex
     assert p.hiv is False  # but nothing happened
 
 
@@ -125,26 +127,26 @@ def test_needle_transmission(make_model, make_agent):
     p = make_agent(race="WHITE", DU="Inj", SO="HF")
 
     with pytest.raises(AssertionError):
-        model._needle_transmission(a, p)
+        model._needle_transmission(a, p, time=0)
 
     a.hiv = True
     a.hiv_time = 1  # acute
 
     model.runRandom = FakeRandom(-0.1)
 
-    model._needle_transmission(a, p)
+    model._needle_transmission(a, p, time=0)
 
     assert p.hiv
 
 
-@pytest.mark.skip(
-    "# REVIEWED can't get this to pass see to reviews in code - stuck until unsafe sex probability </> issue resolved"
-)
+# @pytest.mark.skip(
+#     "# REVIEWED can't get this to pass see to reviews in code - stuck until unsafe sex probability </> issue resolved"
+# )
 def test_sex_transmission(make_model, make_agent):
     model = make_model()
     a = make_agent()
     p = make_agent()
-    rel = Relationship(a, p, 10)
+    rel = Relationship(a, p, 10, rel_type="sexOnly")
 
     a.hiv = True
     a.hiv_time = 1  # acute
@@ -154,7 +156,7 @@ def test_sex_transmission(make_model, make_agent):
     model.runRandom = FakeRandom(0.6)
 
     # test partner becomes
-    model._sex_transmission(rel)
+    model._sex_transmission(rel, 0)
 
     assert p.hiv
 
@@ -163,16 +165,39 @@ def test_sex_transmission_do_nothing(make_model, make_agent):
     model = make_model()
     a = make_agent()
     p = make_agent()
-    rel = Relationship(a, p, 10)
+    rel = Relationship(a, p, 10, rel_type="sexOnly")
 
     with pytest.raises(ValueError):
-        model._sex_transmission(rel)
+        model._sex_transmission(rel, 0)
 
     a.hiv = True
     p.hiv = True
 
     # test nothing happens
-    model._sex_transmission(rel)
+    model._sex_transmission(rel, 0)
+
+
+def test_pca_interaction(make_model, make_agent):
+    model = make_model()
+    a = make_agent()
+    p = make_agent()
+    a.opinion = 4  # TO_REVIEW opinino and awareness are both prep things right? should the be prepended with prep_?
+    p.opinion = 2
+    a.awareness = True
+
+    model.runRandom = FakeRandom(1.0)
+
+    model.G.add_edge(a, p)
+    model.G.add_edge(a, "edge")
+
+    rel = Relationship(a, p, 10, rel_type="multiplex")
+    model._pca_interaction(rel, 5, force=True)
+
+    assert p.awareness
+
+    model._pca_interaction(rel, 6, force=True)
+
+    assert p.opinion == 3
 
 
 def test_become_HIV(make_model, make_agent):
@@ -213,7 +238,7 @@ def test_becomeHighRisk(make_model, make_agent):
     model = make_model()
     a = make_agent()
 
-    model._becomeHighRisk(a, 10)
+    model._become_high_risk(a, 10)
 
     assert a in model.highrisk_agentsSet.members
     assert a in model.NewHRrolls.members
@@ -247,7 +272,7 @@ def test_incarcerate_not_tested(make_model, make_agent):
     a.hiv = True
 
     p = make_agent(SO="HF")
-    rel = Relationship(a, p, 10)
+    rel = Relationship(a, p, 10, rel_type="sexOnly")
 
     model.runRandom = FakeRandom(-0.1)  # always less than params
 
@@ -478,7 +503,7 @@ def test_initiate_PrEP_eligible(make_model, make_agent):
     p = make_agent(DU="Inj")
     p.hiv_dx = True
     p.msmw = True
-    rel = Relationship(a, p, 10)
+    rel = Relationship(a, p, 10, rel_type="sexOnly")
     # non-forcing, adherant, inj
     model.runRandom = FakeRandom(-0.1)
     model._initiate_PrEP(a, 0)

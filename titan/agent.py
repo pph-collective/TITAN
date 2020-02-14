@@ -46,7 +46,7 @@ class Agent:
         # agent-partner params
         self.relationships: List[Relationship] = []
         self.partners: List[Agent] = []
-        self.neam_num_partners = 0
+        self.mean_num_partners = 0
 
         # agent STI params
         self.hiv = False
@@ -68,6 +68,11 @@ class Agent:
         self.vaccine_type = ""
         self.partner_traced = False
         self.trace_time = 0
+        self.awareness = False
+        self.opinion = 0.0
+        self.prep_type = ""
+        self.pca = False
+        self.pca_suitable = False
 
         # PrEP pharmacokinetics
         self.prep_load = 0.0
@@ -163,7 +168,7 @@ class Agent:
             return False
 
         eligible = False
-        if target_model == "Allcomers":
+        if target_model in ("Allcomers", "Racial"):
             eligible = True
         elif target_model == "CDCwomen":
             if self.so == "HF":
@@ -185,14 +190,8 @@ class Agent:
                     partner = rel.get_partner(self)
 
                     if rel.duration > 1:
-                        if partner.hiv_dx or self.neam_num_partners > 1:
+                        if partner.hiv_dx or self.mean_num_partners > 1:
                             eligible = True
-        elif target_model == "HighPN5":
-            if self.neam_num_partners >= 5:
-                eligible = True
-        elif target_model == "HighPN10":
-            if self.neam_num_partners >= 10:
-                eligible = True
         elif target_model == "MSM":
             if self.so in ("MSM", "MTF"):
                 eligible = True
@@ -317,7 +316,7 @@ class Relationship:
     def update_id_counter(cls):
         cls.next_rel_id += 1
 
-    def __init__(self, agent1: Agent, agent2: Agent, duration: int):
+    def __init__(self, agent1: Agent, agent2: Agent, duration: int, rel_type: str):
         """
         :Purpose:
             Constructor for a Relationship
@@ -343,7 +342,9 @@ class Relationship:
 
         # Relationship properties
         self.duration = duration
+        self.total_duration = duration
         self.total_sex_acts = 0
+        self.rel_type = rel_type
 
         self.bond(agent1, agent2)
 

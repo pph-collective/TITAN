@@ -33,7 +33,7 @@ def get_stats(
         "newHR": 0,
         "newHR_HIV": 0,
         "newHR_AIDS": 0,
-        "newHR_Tested": 0,
+        "newHR_tested": 0,
         "newHR_ART": 0,
         "newRelease": 0,
         "newReleaseHIV": 0,
@@ -52,7 +52,10 @@ def get_stats(
         "iduPartPrep": 0,
         "msmwPartPrep": 0,
         "testedPartPrep": 0,
-        "vaccinated": 0,
+        "Vaccinated": 0,
+        "injectable_prep": 0,
+        "oral_prep": 0,
+        "prep_aware": 0,
     }
 
     MAIN_CAT = deepcopy(params.classes.races)
@@ -93,6 +96,10 @@ def get_stats(
                 stats[tmpA.race][tmpA.so]["msmwPartPrep"] += 1
             if "HIV test" in tmpA.prep_reason:
                 stats[tmpA.race][tmpA.so]["testedPartPrep"] += 1
+            if tmpA.prep_type == "Inj":
+                stats[tmpA.race][tmpA.so]["injectable_prep"] += 1
+            elif tmpA.prep_type == "Oral":
+                stats[tmpA.race][tmpA.so]["oral_prep"] += 1
 
     # Newly PrEP tracker statistics
     for tmpA in newPrEPAgents:
@@ -110,7 +117,7 @@ def get_stats(
             if tmpA.aids:
                 stats[tmpA.race][tmpA.so]["newHR_AIDS"] += 1
             if tmpA.hiv_dx:
-                stats[tmpA.race][tmpA.so]["newHR_Tested"] += 1
+                stats[tmpA.race][tmpA.so]["newHR_tested"] += 1
                 if tmpA.haart:
                     stats[tmpA.race][tmpA.so]["newHR_ART"] += 1
 
@@ -139,6 +146,8 @@ def get_stats(
     # total number of agents
     for tmpA in totalAgents:
         stats[tmpA.race][tmpA.so]["numAgents"] += 1
+        if tmpA.vaccine:
+            stats[tmpA.race][tmpA.so]["Vaccinated"] += 1
 
     for tmpA in deathSet:
         stats[tmpA.race][tmpA.so]["deaths"] += 1
@@ -278,7 +287,7 @@ def newlyhighriskReport(
                 stats["ALL"][sex_type]["newHR"],
                 stats["ALL"][sex_type]["newHR_HIV"],
                 stats["ALL"][sex_type]["newHR_AIDS"],
-                stats["ALL"][sex_type]["newHR_Tested"],
+                stats["ALL"][sex_type]["newHR_tested"],
                 stats["ALL"][sex_type]["newHR_ART"],
             )
         )
@@ -341,12 +350,12 @@ def basicReport(
             # if this is a new file, write the header info
             if tmpReport.tell() == 0:
                 tmpReport.write(
-                    "run_id\trseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tPWIDpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\n"
+                    "run_id\trseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\tVaccinated\tLAI\tOral\tAware\n"
                 )
 
             tmpReport.write(
                 (
-                    "{:s}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
+                    "{:s}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
                         str(run_id),
                         runseed,
                         popseed,
@@ -367,6 +376,10 @@ def basicReport(
                         stats[agentRace][agentTypes]["iduPartPrep"],
                         stats[agentRace][agentTypes]["msmwPartPrep"],
                         stats[agentRace][agentTypes]["testedPartPrep"],
+                        stats[agentRace][agentTypes]["Vaccinated"],
+                        stats[agentRace][agentTypes]["injectable_prep"],
+                        stats[agentRace][agentTypes]["oral_prep"],
+                        stats[agentRace][agentTypes]["prep_aware"],
                     )
                 )
             )
@@ -393,37 +406,38 @@ def print_components(
     # if this is a new file, write the header info
     if f.tell() == 0:
         f.write(
-            "run_id\trunseed\tpopseed\tnetseed\tt\tcompID\ttotalN\tTestedPartner\tMSMWpartner\n"
+            "run_id\trunseed\tpopseed\tnetseed\tt\tcompID\ttotalN\tNhiv\tNprep\tNtrtHIV\tTrtComponent\tPCA\tOral\tLAI\tAware\n"
         )
 
-    compID = 0
+    comp_id = 0
     for comp in components:
-        totN = nhiv = ntrtmt = ntrthiv = nprep = 0
-        for agent in comp:
-            totN += 1
+        tot_agents = (
+            nhiv
+        ) = ntrthiv = nprep = trtbool = injectable_prep = oral = aware = pca = 0
+        for agent in comp.nodes():
+            tot_agents += 1
             if agent.hiv:
                 nhiv += 1
                 if agent.intervention_ever:
                     ntrthiv += 1
-            elif agent.intervention_ever:
-                ntrtmt += 1
-                if agent.prep:
-                    nprep += 1
+            if agent.prep:
+                nprep += 1
+                if agent.prep_type == "Inj":
+                    injectable_prep += 1
+                elif agent.prep_type == "Oral":
+                    oral += 1
+            if agent.pca:
+                trtbool += 1
+                if agent.pca_suitable:
+                    pca += 1
+            if agent.awareness:
+                aware += 1
+
         f.write(
-            "{run_id}\t{runseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Ntrtmt}\t{Nprep}\t{NtrtHIV}\n".format(
-                run_id=run_id,
-                runseed=runseed,
-                pseed=popseed,
-                nseed=netseed,
-                t=t,
-                compID=compID,
-                totalN=totN,
-                Nhiv=nhiv,
-                Ntrtmt=ntrtmt,
-                Nprep=nprep,
-                NtrtHIV=ntrthiv,
-            )
+            f"{run_id}\t{runseed}\t{popseed}\t{netseed}\t{t}\t{comp_id}\t{tot_agents}\t{nhiv}\t{nprep}\t{ntrthiv}"
+            f"\t{trtbool}\t{pca}\t{oral}\t{injectable_prep}\t{aware}\n"
         )
 
-        compID += 1
+        comp_id += 1
+
     f.close()

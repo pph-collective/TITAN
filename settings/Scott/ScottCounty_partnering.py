@@ -69,6 +69,18 @@ cal_raceXmission = 1.0
 cal_ptnrSampleDepth = 100
 
 """
+Bond Params
+"""
+bond_type = []
+mean_partner_type = "mean"
+
+"""
+Peer Change Params
+"""
+flag_PCA = False
+
+
+"""
 High risk params
 """
 HR_partnerScale = 300  # Linear increase to partner number during HR period
@@ -83,7 +95,6 @@ Misc. params
 
 flag_AssortativeMix = False  # Boolean for if assortative mixing occurs at all
 AssortMixType = None  # Other assortative mixing types
-flag_AgeAssortMix = False  # Assortative mix by age
 flag_RaceAssortMix = False  # Assortative mix by race
 AssortMixCoeff = 0.8  # Proportion of following given assort mix rules
 safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
@@ -129,7 +140,7 @@ PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
-PrEP_target_model = "Allcomers"  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec
+PrEP_target_model = "Allcomers"  # Clinical, Allcomers
 PrEP_clinic_cat = "Mid"
 
 if PrEP_type == "Oral":
@@ -152,7 +163,7 @@ elif PrEP_type == "Inj":
 Model Type for fast flag toggling
     flag_incar      Incarceration effects
     flag_PrEP       PrEP enrollment
-    flag_HR         High risk behavior for incar or genPop
+    flag_high_risk         High risk behavior for incar or genPop
     flag_ART        ART therapy enrollment
     flag_DandR      Die and replace functionality
 
@@ -160,7 +171,7 @@ Model Type for fast flag toggling
 if model == "PrEP":
     flag_incar = False
     flag_PrEP = True
-    flag_HR = False
+    flag_high_risk = False
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
@@ -169,7 +180,7 @@ if model == "PrEP":
 elif model == "Incar":
     flag_incar = True
     flag_PrEP = False
-    flag_HR = True
+    flag_high_risk = True
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
@@ -178,7 +189,7 @@ elif model == "Incar":
 elif model == "NoIncar":
     flag_incar = False
     flag_PrEP = False
-    flag_HR = True
+    flag_high_risk = True
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
@@ -187,7 +198,7 @@ elif model == "NoIncar":
 elif model == "StaticZero":
     flag_incar = False
     flag_PrEP = False
-    flag_HR = False
+    flag_high_risk = False
     flag_ART = False
     flag_DandR = False
     flag_staticN = True
@@ -196,7 +207,7 @@ elif model == "StaticZero":
 elif model == "Custom":
     flag_incar = False
     flag_PrEP = False
-    flag_HR = False
+    flag_high_risk = False
     flag_ART = False
     flag_DandR = False
     flag_staticN = True
