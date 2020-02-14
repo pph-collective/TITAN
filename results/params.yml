@@ -3,7 +3,6 @@ prep:
   - Oral
   target: 0.3
   start: 0
-  adherence: 0.82
   efficacy:
     adherent: 0.96
     non_adherant: 0.76
@@ -15,7 +14,6 @@ haart:
   start: 0
   coverage: 0
 calibration:
-  partner_turnover: 1.0
   needle:
     act: 1.0
     sharing: 1.0
@@ -56,8 +54,12 @@ classes:
   - HF
   - WSW
   - MTF
+  drug_types:
+  - Inj
+  - NonInj
+  - None
   populations:
-  - IDU
+  - PWID
   - MSM
   - HM
   - HF
@@ -78,6 +80,9 @@ model:
     component_size:
       min: 1
       max: 100
+  population:
+    num_partners:
+      type: poisson
 high_risk:
   partner_scale: 300
   proportion: 0.3
@@ -229,6 +234,7 @@ features:
   assort_mix: true
   vaccine: true
   partner_tracing: true
+  msmw: false
 needle_exchange:
   prevalence: 1.0
   coverage: 0.0
@@ -290,7 +296,7 @@ demographics:
         prob: 1
         min: 55
         max: 80
-    IDU:
+    PWID:
       ppl: 0.2
       hiv:
         init: 0.0
@@ -542,7 +548,7 @@ demographics:
     assort_mix:
       coefficient: 0
     age: *id007
-    IDU:
+    PWID:
       ppl: 0.3
       hiv:
         init: 0.0

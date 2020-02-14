@@ -47,11 +47,11 @@ class NetworkClass(PopulationClass):
             def trimComponent(component, maxComponentSize):
                 for ag in component.nodes:
                     if random.random() < 0.1:
-                        for rel in ag._relationships:
+                        for rel in ag.relationships:
                             rel.progress(forceKill=True)
                             self.Relationships.remove(rel)
-                            component.remove_edge(rel._ID1, rel._ID2)
-                            self.G.remove_edge(rel._ID1, rel._ID2)
+                            component.remove_edge(rel.id1, rel.id2)
+                            self.G.remove_edge(rel.id1, rel.id2)
 
                 # still too big, recurse
                 if component.number_of_nodes() > maxComponentSize:
@@ -138,7 +138,7 @@ class NetworkClass(PopulationClass):
         node_color = []
         if coloring == "SO":
             for v in G:
-                tmp_sextype = v._SO
+                tmp_sextype = v.so
                 if tmp_sextype == "HM":
                     node_color.append("b")
                 elif tmp_sextype == "HF":
@@ -153,42 +153,42 @@ class NetworkClass(PopulationClass):
                     raise ValueError("Check agents %s sextype %s" % (v, tmp_sextype))
         elif coloring == "DU":
             for v in G:
-                tmp_drugtype = v._DU
-                if tmp_drugtype == "NDU":
+                tmp_drugtype = v.drug_use
+                if tmp_drugtype == "None":
                     node_color.append("g")
-                elif tmp_drugtype == "NIDU":
+                elif tmp_drugtype == "NonInj":
                     node_color.append("b")
-                elif tmp_drugtype == "IDU":
+                elif tmp_drugtype == "Inj":
                     node_color.append("r")
                 else:
                     raise ValueError("Check agents %s drug type %s" % (v, tmp_drugtype))
         elif coloring == "Tested":
             for v in G:
-                if v._HAART_bool:
+                if v.haart:
                     node_color.append("g")
-                elif v._tested:  # tmp_hiv == 1:
+                elif v.hiv_dx:  # tmp_hiv == 1:
                     node_color.append("y")
-                elif v._HIV_bool:  # tmp_aids == 1:
+                elif v.hiv:  # tmp_aids == 1:
                     node_color.append("r")
-                elif v._PrEP_bool:
+                elif v.prep:
                     node_color.append("b")
                 else:
                     node_color.append("purple")
         elif coloring == "Trtmt":
             for v in G:
-                if v._HIV_bool:  # tmp_aids == 1:
+                if v.hiv:  # tmp_aids == 1:
                     node_color.append("r")
-                elif v._PrEP_bool:
+                elif v.prep:
                     node_color.append("g")
-                elif v._treatment_bool:
+                elif v.intervention_ever:
                     node_color.append("y")
                 else:
                     node_color.append("gray")
         elif coloring == "HIV":
             for v in G:
-                if v._AIDS_bool:  # tmp_hiv == 1:
+                if v.aids:  # tmp_hiv == 1:
                     node_color.append("purple")
-                elif v._HIV_bool:  # tmpaids == 1:
+                elif v.hiv:  # tmpaids == 1:
                     node_color.append("r")
                 else:
                     node_color.append("g")
@@ -202,19 +202,19 @@ class NetworkClass(PopulationClass):
                     node_color.append("g")
         elif coloring == "Race":
             for v in G:
-                if v._race == "WHITE":
+                if v.race == "WHITE":
                     node_color.append("y")
-                elif v._race == "BLACK":  # tmp_aids == 1:
+                elif v.race == "BLACK":  # tmp_aids == 1:
                     node_color.append("g")
                 else:
                     node_color.append("b")
         elif coloring == "MSW":
             for v in G:
-                if v._race == "BLACK":
+                if v.race == "BLACK":
                     node_color.append("y")
                 elif v._everhighrisk_bool:
                     node_color.append("b")
-                elif v._race == "WHITE":
+                elif v.race == "WHITE":
                     node_color.append("g")
                 else:
                     raise ValueError("Check agents %s drug type %s" % (v, tmp_drugtype))

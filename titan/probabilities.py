@@ -103,33 +103,33 @@ def get_death_rate(HIV_status, AIDS_status, agent_race, agent_HAART_adh):
 # ======================== HIVABM_Population =========================
 
 
-def get_IDU():
+def get_Inj():
     """
-    Nested dictionary for probability lookup for IDU population
+    Nested dictionary for probability lookup for Inj drug type population
     """
-    IDU = {"MSM": {}, "HM": {}, "WSW": {}, "HF": {}}
-    IDU["MSM"] = {"HIV": 0.55, "AIDS": 0.058, "HAARTa": 0}
-    IDU["HM"] = {"HIV": 0.42, "AIDS": 0.058, "HAARTa": 0}
-    IDU["WSW"] = {"HIV": 0.53, "AIDS": 0.058, "HAARTa": 0}
-    IDU["HF"] = {"HIV": 0.39, "AIDS": 0.058, "HAARTa": 0}
-    return IDU
+    Inj = {"MSM": {}, "HM": {}, "WSW": {}, "HF": {}}
+    Inj["MSM"] = {"HIV": 0.55, "AIDS": 0.058, "HAARTa": 0}
+    Inj["HM"] = {"HIV": 0.42, "AIDS": 0.058, "HAARTa": 0}
+    Inj["WSW"] = {"HIV": 0.53, "AIDS": 0.058, "HAARTa": 0}
+    Inj["HF"] = {"HIV": 0.39, "AIDS": 0.058, "HAARTa": 0}
+    return Inj
 
 
-def get_NIDU():
+def get_NonInj():
     """
-    Nested dictionary for probability lookup for NIDU population
+    Nested dictionary for probability lookup for NonInj drug type population
     """
-    NIDU = {"MSM": {}, "HM": {}, "WSW": {}, "HF": {}}
-    NIDU["MSM"] = {"HIV": 0.18, "AIDS": 0.02, "HAARTa": 0}
-    NIDU["HM"] = {"HIV": 0.048, "AIDS": 0.002, "HAARTa": 0}
-    NIDU["WSW"] = {"HIV": 0.048, "AIDS": 0.002, "HAARTa": 0}
-    NIDU["HF"] = {"HIV": 0.048, "AIDS": 0.002, "HAARTa": 0}
-    return NIDU
+    NonInj = {"MSM": {}, "HM": {}, "WSW": {}, "HF": {}}
+    NonInj["MSM"] = {"HIV": 0.18, "AIDS": 0.02, "HAARTa": 0}
+    NonInj["HM"] = {"HIV": 0.048, "AIDS": 0.002, "HAARTa": 0}
+    NonInj["WSW"] = {"HIV": 0.048, "AIDS": 0.002, "HAARTa": 0}
+    NonInj["HF"] = {"HIV": 0.048, "AIDS": 0.002, "HAARTa": 0}
+    return NonInj
 
 
-def get_ND():
+def get_None():
     """
-    Nested dictionary for probability lookup for ND population
+    Nested dictionary for probability lookup for None drug type population
     """
     ND = {"MSM": {}, "HM": {}, "WSW": {}, "HF": {}}
     ND["Type"] = ([0, 1, 2, 3], [0.469, 0.493, 0.022, 0.016])
@@ -157,7 +157,7 @@ def jail_duration():
 def get_mean_num_partners(drug_type, rand_generator):
     diceroll = rand_generator.random()
 
-    if drug_type == "IDU":
+    if drug_type == "Inj":
         if diceroll < 0.389:
             return 1
         elif diceroll < 0.389 + 0.150:

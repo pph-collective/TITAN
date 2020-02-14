@@ -22,7 +22,7 @@ def setup_results_dir():
 
 @pytest.fixture
 def make_agent():
-    def _make_agent(SO="MSM", age=30, race="BLACK", DU="NDU"):
+    def _make_agent(SO="MSM", age=30, race="BLACK", DU="None"):
         return agent.Agent(SO, age, race, DU)
 
     return _make_agent
@@ -37,7 +37,7 @@ def params(tmpdir):
 
 
 def test_network_init_scale_free(params):
-    """Test if all non-IDU,ND,NIDU agents are in the population"""
+    """Test if all Inj,NonInj,None drug use agents are in the population"""
     net = NetworkClass(params)
     assert n_pop == net.All_agentSet.num_members()
 
@@ -45,14 +45,14 @@ def test_network_init_scale_free(params):
         assert agent in net.G.nodes()
 
     for agent in net.All_agentSet.get_agents():
-        assert agent._DU in ["IDU", "NIDU", "NDU"]
-        assert agent._SO in params.classes.sex_types
+        assert agent.drug_use in ["Inj", "NonInj", "None"]
+        assert agent.so in params.classes.sex_types
 
     assert net.get_Graph() == net.G
 
 
 def test_network_init_max_k(params):
-    """Test if all non-IDU,ND,NIDU agents are in the population"""
+    """Test if all Inj,NonInj,None drug use agents are in the population"""
     params.model.network.type = "max_k_comp_size"
     net = NetworkClass(params)
     assert n_pop == net.All_agentSet.num_members()
@@ -61,17 +61,17 @@ def test_network_init_max_k(params):
         assert agent in net.G.nodes()
 
     for agent in net.All_agentSet.get_agents():
-        assert agent._DU in ["IDU", "NIDU", "NDU"]
-        assert agent._SO in params.classes.sex_types
+        assert agent.drug_use in ["Inj", "NonInj", "None"]
+        assert agent.so in params.classes.sex_types
 
 
 def test_population_consistency_DU(params):
     """Test if Drug users add up"""
     net = NetworkClass(params)
     check_sum_DU = (
-        net.DU_IDU_agentSet.num_members()
-        + net.DU_NIDU_agentSet.num_members()
-        + net.DU_NDU_agentSet.num_members()
+        net.DU_Inj_agentSet.num_members()
+        + net.DU_NonInj_agentSet.num_members()
+        + net.DU_None_agentSet.num_members()
     )
 
     assert net.drugUse_agentSet.num_members() == check_sum_DU
@@ -82,11 +82,11 @@ def test_population_consistency_HIV(params):
     """Test HIV consistency"""
     net = NetworkClass(params)
     for agent in net.All_agentSet.get_agents():
-        if agent._HIV_bool:
+        if agent.hiv:
             assert agent in net.HIV_agentSet.get_agents()
 
     for agent in net.HIV_agentSet.get_agents():
-        assert agent._HIV_bool
+        assert agent.hiv
 
 
 def test_write_G_edgelist(setup_results_dir, params):

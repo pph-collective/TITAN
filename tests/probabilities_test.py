@@ -45,6 +45,6 @@ def test_get_death_rate():
 
 
 def test_get_mean_num_partners():
-    for du in ["IDU", "NIDU"]:
+    for du in ["Inj", "NonInj"]:
         for i in np.arange(0, 1, 0.01):
             assert probs.get_mean_num_partners(du, FakeRandom(i)) > 0

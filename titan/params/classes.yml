@@ -20,10 +20,21 @@ classes:
       - MSM
       - WSW
       - MTF
+  drug_types:
+    default:
+      - Inj
+      - NonInj
+      - None
+    description: Types of drugs that an agent can use in the model
+    type: array
+    values:
+      - Inj
+      - NonInj
+      - None
   populations:
     default:
-      - IDU
+      - PWID
     description: "Which demographic populations to track in addition to sex_types"
     type: array
     values:
-      - IDU
+      - PWID

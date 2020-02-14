@@ -68,9 +68,9 @@ class PopulationClass:
 
         # Drug use agent sets
         self.drugUse_agentSet = Agent_set("DU", parent=self.All_agentSet)
-        self.DU_NIDU_agentSet = Agent_set("NIDU", parent=self.drugUse_agentSet)
-        self.DU_IDU_agentSet = Agent_set("IDU", parent=self.drugUse_agentSet)
-        self.DU_NDU_agentSet = Agent_set("NDU", parent=self.drugUse_agentSet)
+        self.DU_NonInj_agentSet = Agent_set("NonInj", parent=self.drugUse_agentSet)
+        self.DU_Inj_agentSet = Agent_set("Inj", parent=self.drugUse_agentSet)
+        self.DU_None_agentSet = Agent_set("None", parent=self.drugUse_agentSet)
 
         # Treatment agent sets
         self.treatment_agentSet = Agent_set("Trtmt", parent=self.All_agentSet)
@@ -133,7 +133,7 @@ class PopulationClass:
 
         for a in self.All_agentSet._members:
 
-            prob_incar = self.params.demographics[a._race][a._SO].incar.init
+            prob_incar = self.params.demographics[a.race][a.so].incar.init
             if self.pop_random.random() < prob_incar:
                 a._incar_bool = True
                 bin = current_p_value = 0
@@ -161,40 +161,39 @@ class PopulationClass:
             )
 
         # Determine drugtype
-        # todo: FIX THIS TO GET BACK IDU
-        if self.pop_random.random() < self.params.demographics[race]["IDU"].ppl:
-            drug_type = "IDU"
+        # todo: FIX THIS TO GET BACK PWID
+        if self.pop_random.random() < self.params.demographics[race]["PWID"].ppl:
+            drug_type = "Inj"
         else:
-            drug_type = "NDU"
+            drug_type = "None"
 
         age, age_bin = self.get_age(race)
 
         agent = Agent(sex_type, age, race, drug_type)
-        agent._ageBin = age_bin
+        agent.age_bin = age_bin
 
-        # TO_REVIEW setting based logic
-        # if params.setting == "Phil2005" and sex_type == "HM":
-        #     if self.pop_random.random() < 0.06:
-        #         agent._MSMW = True
+        if self.params.features.msmw and sex_type == "HM":
+            if self.pop_random.random() < 0.06:
+                agent.msmw = True
 
-        if drug_type == "IDU":
-            agent_params = self.params.demographics[race]["IDU"]
+        if drug_type == "Inj":
+            agent_params = self.params.demographics[race]["PWID"]
         else:
             agent_params = self.params.demographics[race][sex_type]
 
         # HIV
         if self.pop_random.random() < agent_params.hiv.init:
-            agent._HIV_bool = True
+            agent.hiv = True
 
             if self.pop_random.random() < agent_params.aids.init:
-                agent._AIDS_bool = True
+                agent.aids = True
 
             if self.pop_random.random() < agent_params.hiv.dx.init:
-                agent._tested = True
+                agent.hiv_dx = True
 
                 if self.pop_random.random() < agent_params.haart.init:
-                    agent._HAART_bool = True
-                    agent._treatment_bool = True
+                    agent.haart = True
+                    agent.intervention_ever = True
 
                     haart_adh = self.params.demographics[race][sex_type].haart.adherence
                     if self.pop_random.random() < haart_adh:
@@ -203,11 +202,11 @@ class PopulationClass:
                         adherence = self.pop_random.randint(1, 4)
 
                     # add to agent haart set
-                    agent._HAART_adh = adherence
-                    agent._HAART_time = 0
+                    agent.haart_adherence = adherence
+                    agent.haart_time = 0
 
             # if HIV, how long has the agent had it? Random sample
-            agent._HIV_time = self.pop_random.randint(1, 42)
+            agent.hiv_time = self.pop_random.randint(1, 42)
 
         else:
 
@@ -218,8 +217,8 @@ class PopulationClass:
                     prob_prep = 0.0
 
                 if self.pop_random.random() < prob_prep:
-                    agent._PrEP_bool = True
-                    agent._treatment_bool = True
+                    agent.prep = True
+                    agent.intervention_ever = True
 
         # Check if agent is HR as baseline.
         if (
@@ -229,15 +228,15 @@ class PopulationClass:
             agent._highrisk_bool = True
             agent._everhighrisk_bool = True
 
-        # Partnership demographics # TO_REVIEW setting specific logic
-        # if params.setting == "Scott":
-        #     agent._mean_num_partners = prob.get_mean_num_partners(
-        #         drug_type, self.pop_random
-        #     )
-        # else:
-        agent._mean_num_partners = poisson.rvs(
-            self.params.demographics[race][sex_type].num_partners, size=1
-        )
+        # Partnership demographics
+        if self.params.model.population.num_partners.type == "bins":
+            agent.neam_num_partners = prob.get_mean_num_partners(
+                drug_type, self.pop_random
+            )
+        else:
+            agent.neam_num_partners = poisson.rvs(
+                self.params.demographics[race][sex_type].num_partners, size=1
+            )
 
         return agent
 
@@ -265,29 +264,29 @@ class PopulationClass:
         self.All_agentSet.add_agent(agent)
 
         # Add to correct SO set
-        add_to_subsets(self.SO_agentSet, agent, agent._SO)
+        add_to_subsets(self.SO_agentSet, agent, agent.so)
 
         # Add to correct DU set
-        add_to_subsets(self.drugUse_agentSet, agent, agent._DU)
+        add_to_subsets(self.drugUse_agentSet, agent, agent.drug_use)
 
         # Add to correct racial set
-        add_to_subsets(self.racial_agentSet, agent, agent._race)
+        add_to_subsets(self.racial_agentSet, agent, agent.race)
 
-        if agent._HIV_bool:
+        if agent.hiv:
             add_to_subsets(self.HIV_agentSet, agent)
-            if agent._AIDS_bool:
+            if agent.aids:
                 add_to_subsets(self.HIV_AIDS_agentSet, agent)
 
         # Add to correct treatment set
-        if agent._treatment_bool:
+        if agent.intervention_ever:
             add_to_subsets(self.treatment_agentSet, agent)
-            if agent._HAART_bool:
+            if agent.haart:
                 add_to_subsets(self.Trt_ART_agentSet, agent)
 
-        if agent._PrEP_bool:
+        if agent.prep:
             add_to_subsets(self.Trt_PrEP_agentSet, agent)
 
-        if agent._tested:
+        if agent.hiv_dx:
             add_to_subsets(self.Trt_Tstd_agentSet, agent)
 
         if agent._incar_bool:
@@ -316,24 +315,22 @@ class PopulationClass:
     def update_agent_partners(self, graph, agent: Agent, params: DotMap):
         partner = get_partner(agent, self.All_agentSet, params)
 
+        graph.add_node(agent)
         if partner:
             duration = get_partnership_duration(agent, params)
             rel = Relationship(agent, partner, duration)
             self.Relationships.append(rel)
-            graph.add_edge(rel._ID1, rel._ID2)
-        else:
-            graph.add_node(agent)
+            graph.add_edge(rel.id1, rel.id2)
+
 
     def update_partner_assignments(self, graph, params: DotMap):
         # Now create partnerships until available partnerships are out
         eligible_agents = self.All_agentSet
         for agent in eligible_agents.iter_agents():
+            # add agent to network
+            graph.add_node(agent)
             acquirePartnerProb = params.calibration.sex.partner * (
-                agent._mean_num_partners / (12.0)
+                agent.neam_num_partners / (12.0)
             )
             if self.pop_random.random() < acquirePartnerProb:
                 self.update_agent_partners(graph, agent, params)
-            else:
-                graph.add_node(
-                    agent
-                )  # TO_REVIEW shouldn't adding the agent as a node happen no matter what?

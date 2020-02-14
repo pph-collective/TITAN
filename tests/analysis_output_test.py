@@ -22,27 +22,27 @@ def params(tmpdir):
 
 @pytest.fixture
 def stats(params):
-    a = agent.Agent("MSM", 20, "BLACK", "IDU")
-    a._HIV_bool = True
-    a._AIDS_bool = True
-    a._tested = True
-    a._HAART_bool = True
-    a._SNE_bool = True
-    a._PrEP_bool = True
-    a._treatment_bool = True
+    a = agent.Agent("MSM", 20, "BLACK", "Inj")
+    a.hiv = True
+    a.aids = True
+    a.hiv_dx = True
+    a.haart = True
+    a.sne = True
+    a.prep = True
+    a.intervention_ever = True
     a._highrisk_bool = True
     a._everhighrisk_bool = True
     a._incar_bool = True
     a._ever_incar_bool = True
-    a._PrEP_reason = ["IDU", "MSMW", "HIV test"]
+    a._PrEP_reason = ["PWID", "MSMW", "HIV test"]
 
-    p = agent.Agent("MSM", 20, "BLACK", "IDU")
+    p = agent.Agent("MSM", 20, "BLACK", "Inj")
     rel = agent.Relationship(a, p, 12)
 
     agent_set = agent.Agent_set("test")
     DU_set = agent.Agent_set("DU", agent_set)
-    IDU_set = agent.Agent_set("IDU", DU_set)
-    IDU_set.add_agent(a)
+    PWID_set = agent.Agent_set("Inj", DU_set)
+    PWID_set.add_agent(a)
     agent_list = [a]
     rel_list = [rel]
     stats = get_stats(
@@ -89,11 +89,11 @@ def test_get_stats(stats):
     assert stats["BLACK"]["MSM"]["numAIDS"] == 1
     assert stats["BLACK"]["MSM"]["numTested"] == 1
     assert stats["BLACK"]["MSM"]["numART"] == 1
-    assert stats["BLACK"]["IDU"]["numAgents"] == 1
-    assert stats["BLACK"]["IDU"]["numHIV"] == 1
-    assert stats["BLACK"]["IDU"]["numAIDS"] == 1
-    assert stats["BLACK"]["IDU"]["numTested"] == 1
-    assert stats["BLACK"]["IDU"]["numART"] == 1
+    assert stats["BLACK"]["PWID"]["numAgents"] == 1
+    assert stats["BLACK"]["PWID"]["numHIV"] == 1
+    assert stats["BLACK"]["PWID"]["numAIDS"] == 1
+    assert stats["BLACK"]["PWID"]["numTested"] == 1
+    assert stats["BLACK"]["PWID"]["numART"] == 1
     assert stats["BLACK"]["MSM"]["deaths"] == 1
     assert stats["BLACK"]["MSM"]["deaths_HIV"] == 1
     assert stats["ALL"]["ALL"]["numRels"] == 1
@@ -101,11 +101,11 @@ def test_get_stats(stats):
     assert stats["BLACK"]["ALL"]["numAgents"] == 1
     assert stats["ALL"]["MSM"]["numAgents"] == 1
     assert stats["ALL"]["HM"]["numAgents"] == 0
-    assert stats["ALL"]["IDU"]["numAgents"] == 1
-    assert stats["BLACK"]["IDU"]["numAgents"] == 1
-    assert stats["BLACK"]["IDU"]["numART"] == 1
+    assert stats["ALL"]["PWID"]["numAgents"] == 1
+    assert stats["BLACK"]["PWID"]["numAgents"] == 1
+    assert stats["BLACK"]["PWID"]["numART"] == 1
     assert stats["ALL"]["ALL"]["numART"] == 1
-    assert stats["ALL"]["IDU"]["numART"] == 1
+    assert stats["ALL"]["PWID"]["numART"] == 1
     assert stats["BLACK"]["ALL"]["numART"] == 1
 
 
@@ -180,7 +180,7 @@ def test_prepReport(stats, params, tmpdir):
             assert row["run_id"] == str(run_id)
             assert row["seed"] == "1"
             assert row["NewEnroll"] == "1"
-            assert row["IDUpartner"] == "1"
+            assert row["PWIDpartner"] == "1"
             assert row["TestedPartner"] == "1"
             assert row["MSMWpartner"] == "1"
 

@@ -22,7 +22,7 @@ demographics:
       ppl: 0.1
     MTF:
       ppl: 0.1
-    IDU:
+    PWID:
       ppl: 0.2
   WHITE:
     ppl: 0.4
@@ -36,7 +36,7 @@ demographics:
       ppl: 0.1
     MTF:
       ppl: 0.1
-    IDU:
+    PWID:
       ppl: 0.3
 
 partnership:

@@ -26,20 +26,20 @@ def get_partner(
     :Output:
         partner: new partner
     """
-    agent_drug_type = agent._DU
+    agent_drug_type = agent.drug_use
     RandomPartner = None
 
-    if agent_drug_type == "IDU":
+    if agent_drug_type == "Inj":
         if random.random() < 0.8:
-            # choose from IDU agents
-            RandomPartner = get_random_IDU_partner(agent, all_agent_set)
+            # choose from PWID agents
+            RandomPartner = get_random_PWID_partner(agent, all_agent_set)
 
-        # either didn't try to get IDU partner, or failed to get IDU partner
+        # either didn't try to get PWID partner, or failed to get PWID partner
         if RandomPartner is None:
             get_random_sex_partner(agent, all_agent_set, params)
-    elif agent_drug_type in ("NDU", "NIDU"):
+    elif agent_drug_type in ("None", "NonInj"):
         if params.features.assort_mix and (
-            random.random() < params.demographics[agent._race].assort_mix.coefficient
+            random.random() < params.demographics[agent.race].assort_mix.coefficient
         ):
             RandomPartner = get_assort_sex_partner(agent, all_agent_set, params)
 
@@ -57,7 +57,7 @@ def get_partner(
         return RandomPartner
 
 
-def get_random_IDU_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
+def get_random_PWID_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
     """
     :Purpose:
         Get a random partner which is sex compatible
@@ -70,16 +70,16 @@ def get_random_IDU_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
         partner : Agent or None
 
     """
-    agent_drug_type = agent._DU
-    assert agent_drug_type == "IDU", "Agent's drug type must be IDU"
+    agent_drug_type = agent.drug_use
+    assert agent_drug_type == "Inj", "Agent's drug type must be Inj"
 
     RandomPartner = None
 
     RandomPartner = safe_random_choice(
         [
             ptn
-            for ptn in all_agent_set._subset["DU"]._subset["IDU"]._members
-            if ptn not in agent._partners and ptn != agent
+            for ptn in all_agent_set._subset["DU"]._subset["Inj"]._members
+            if ptn not in agent.partners and ptn != agent
         ]
     )
 
@@ -103,35 +103,32 @@ def get_assort_sex_partner(
     """
     RandomPartner = None
 
-    assert agent._SO in params.classes.sex_types
+    assert agent.so in params.classes.sex_types
 
-    eligPartnerType = params.demographics[agent._race][
-        agent._SO
-    ]  # TO_REVIEW elgsepartnertype gone self-partnering for now?
-    eligible_partners = all_agent_set._subset["SO"]._subset[eligPartnerType]._members
+    eligible_partners = [partner for partners in all_agent_set if sex_possible(agent.so, partner.so, params)]
 
     if params.assort_mix.type == "Race":
         samplePop = [
             tmpA
             for tmpA in eligible_partners
-            if (tmpA._race == agent._race and tmpA not in agent._partners)
+            if (tmpA.race == agent.race and tmpA not in agent.partners)
         ]
 
     elif params.assort_mix.type == "Client":
-        if agent._race == "WHITE":
+        if agent.race == "WHITE":
             samplePop = [
                 tmpA
                 for tmpA in eligible_partners
-                if (tmpA._race == "WHITE" and tmpA not in agent._partners)
+                if (tmpA.race == "WHITE" and tmpA not in agent.partners)
             ]
         else:
             samplePop = [
                 tmpA
                 for tmpA in eligible_partners
                 if (
-                    tmpA._race == "WHITE"
+                    tmpA.race == "WHITE"
                     and tmpA._everhighrisk_bool
-                    and tmpA not in agent._partners
+                    and tmpA not in agent.partners
                 )
             ]
 
@@ -139,13 +136,13 @@ def get_assort_sex_partner(
         samplePop = [
             tmpA
             for tmpA in eligible_partners
-            if (tmpA._everhighrisk_bool and tmpA not in agent._partners)
+            if (tmpA._everhighrisk_bool and tmpA not in agent.partners)
         ]
 
     RandomPartner = safe_random_choice(samplePop)
 
     # partner can't be existing parter or agent themself
-    if RandomPartner in agent._partners or RandomPartner == agent:
+    if RandomPartner in agent.partners or RandomPartner == agent:
         RandomPartner = None
 
     return RandomPartner
@@ -168,18 +165,15 @@ def get_random_sex_partner(
     """
     random_partner = None
 
-    # eligPtnType = params.demographics[agent._race][
-    #     agent._SO
-    # ]  # TO_REVIEW what to do here
     elig_partner_pool = [
         partner
         for partner in all_agent_set._members
-        if sex_possible(agent._SO, partner._SO, params)
+        if sex_possible(agent.so, partner.so, params)
     ]
 
     random_partner = safe_random_choice(elig_partner_pool)
 
-    if (random_partner in agent._partners) or (random_partner == agent):
+    if (random_partner in agent.partners) or (random_partner == agent):
         random_partner = None
 
     return random_partner
@@ -200,13 +194,12 @@ def sex_possible(agent_sex_type: str, partner_sex_type: str, params: DotMap) -> 
     """
 
     # dictionary defining which sex types each sex type is compatible with
-    # TO_REVIEW these definitions should probably be reviewed
     st = {
-        "HM": ["HF", "WSW", "MTF"],
-        "MSM": ["MSM", "WSW", "HF", "MTF"],
-        "WSW": ["MSM", "WSW", "HM"],
-        "HF": ["HM", "MSM"],
-        "MTF": ["HM", "MSM"],
+        "HM": ["HF", "MTF"],
+        "MSM": ["MSM", "MTF"],
+        "WSW": ["WSW", "MTF"],
+        "HF": ["HM"],
+        "MTF": ["WSW", "HM", "MSM"],
     }
 
     # Check input
@@ -234,12 +227,12 @@ def get_partnership_duration(agent: Agent, params: DotMap) -> int:
         Zero partners possible.
     """
     # Check input
-    agent_drug_type = agent._DU
-    agent_sex_type = agent._SO
-    agent_race_type = agent._race
+    agent_drug_type = agent.drug_use
+    agent_sex_type = agent.so
+    agent_race_type = agent.race
 
     # Drug type
-    if agent_drug_type not in ["IDU", "NIDU", "NDU"]:
+    if agent_drug_type not in ["Inj", "NonInj", "None"]:
         raise ValueError("Invalid drug type! %s" % str(agent_drug_type))
     # Sex type
     if agent_sex_type not in params.classes.sex_types:

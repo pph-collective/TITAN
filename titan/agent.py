@@ -25,46 +25,43 @@ class Agent:
             SO (str) - Sexual orientation flag (HM, HF, MSM)
             age (int) - Agents initialization age
             race (str) - Race of agent
-            DU (str) - Drug use flag (IDU, NIDU, NDU)
+            DU (str) - Drug use flag (Inj, NonInj, None)
 
         returns:
             None
         """
-        # self._ID is unique ID number used to track each person agent.
-        self._ID = self.next_agent_id
+        # self.id is unique ID number used to track each person agent.
+        self.id = self.next_agent_id
         self.update_id_counter()
-        self._timeAlive = 0
 
         # agent properties
-        self._SO = SO
-        self._age = age
-        self._race = race
-        self._DU = DU
+        self.so = SO # REVIEWED split this out into gender and sleeps_with
+        self.age = age
+        self.age_bin = 0
+        self.race = race
+        self.drug_use = DU
 
-        self._ageBin = 0
-        self._MSMW = False
+        self.msmw = False
 
         # agent-partner params
-        self._relationships: List[Relationship] = []
-        self._partners: List[Agent] = []
-        self._mean_num_partners = 0
-        self._sexualRole = "Vers"
+        self.relationships: List[Relationship] = []
+        self.partners: List[Agent] = []
+        self.neam_num_partners = 0
 
         # agent STI params
-        self._HIV_bool = False
-        self._HIV_time = 0
-        self._AIDS_bool = False
-        self._AIDS_time = 0
+        self.hiv = False
+        self.hiv_time = 0
+        self.hiv_dx = False
+        self.aids = False
 
         # agent treatment params
-        self._tested = False
-        self._HAART_bool = False
-        self._HAART_time = 0
-        self._HAART_adh = 0
-        self._SNE_bool = False
-        self._PrEP_bool = False
-        self._PrEP_adh = 0
-        self._treatment_bool = False
+        self.haart = False
+        self.haart_time = 0
+        self.haart_adherence = 0
+        self.sne = False
+        self.prep = False
+        self.prep_adherence = 0
+        self.intervention_ever = False
         self._treatment_time = 0
         self._PrEP_reason: List[str] = []
         self.vaccine_time = 0
@@ -96,12 +93,12 @@ class Agent:
             String formatted tab-deliminated agent properties
         """
         return "\t%.6d\t%d\t%s\t%s\t%s\t%s" % (
-            self._ID,
-            self._age,
-            self._SO,
-            self._DU,
-            self._race,
-            self._HIV_bool,
+            self.id,
+            self.age,
+            self.so,
+            self.drug_use,
+            self.race,
+            self.hiv,
         )
 
     def __repr__(self):
@@ -111,15 +108,15 @@ class Agent:
         returns:
             ID (str) - agent ID as str
         """
-        return str(self._ID)
+        return str(self.id)
 
     def __eq__(self, other):
         if not isinstance(other, Agent):
             return NotImplemented
-        return self._ID == other._ID
+        return self.id == other.id
 
     def __hash__(self):
-        return hash(self._ID)
+        return hash(self.id)
 
     def partner_list(self):
         """
@@ -129,9 +126,9 @@ class Agent:
             _partners (list) - list of partners
         """
         ptnrs = list()
-        if self._partners is not None:
-            for temp in self._partners:
-                ptnrs.append(temp._ID)
+        if self.partners is not None:
+            for temp in self.partners:
+                ptnrs.append(temp.id)
 
         return ptnrs
 
@@ -145,7 +142,7 @@ class Agent:
             acute_status : bool
         """
         acuteTimePeriod = 2
-        hiv_t = self._HIV_time
+        hiv_t = self.hiv_time
 
         if hiv_t <= acuteTimePeriod and hiv_t > 0:
             return True
@@ -164,45 +161,42 @@ class Agent:
             eligibility : bool
         """
         # if agent is already on prep, not eligible to enroll
-        if self._PrEP_bool:
+        if self.prep:
             return False
 
         eligible = False
         if target_model == "Allcomers":
             eligible = True
         elif target_model == "CDCwomen":
-            if self._SO == "HF":
-                for rel in set(self._relationships):
+            if self.so == "HF":
+                for rel in set(self.relationships):
                     partner = rel.get_partner(self)
                     if rel._duration > 1:
-                        if partner._DU == "IDU":
+                        if partner.drug_use == "Inj":
                             eligible = True
-                            self._PrEP_reason.append("IDU")
-                        if partner._tested:
+                            self._PrEP_reason.append("PWID")
+                        if partner.hiv_dx:
                             eligible = True
                             self._PrEP_reason.append("HIV test")
-                        if partner._MSMW:
+                        if partner.msmw:
                             eligible = True
                             self._PrEP_reason.append("MSMW")
         elif target_model == "CDCmsm":
-            if self._SO == "MSM":
-                for rel in self._relationships:
+            if self.so == "MSM":
+                for rel in self.relationships:
                     partner = rel.get_partner(self)
 
                     if rel._duration > 1:
-                        if partner._tested or self._mean_num_partners > 1:
+                        if partner.hiv_dx or self.neam_num_partners > 1:
                             eligible = True
         elif target_model == "HighPN5":
-            if self._mean_num_partners >= 5:
+            if self.neam_num_partners >= 5:
                 eligible = True
         elif target_model == "HighPN10":
-            if self._mean_num_partners >= 10:
-                eligible = True
-        elif target_model == "SRIns":
-            if self._sexualRole == "Insertive":
+            if self.neam_num_partners >= 10:
                 eligible = True
         elif target_model == "MSM":
-            if self._SO in ("MSM", "MTF"):
+            if self.so in ("MSM", "MTF"):
                 eligible = True
 
         return eligible
@@ -256,24 +250,24 @@ class Agent:
         # Logic for if needle or sex type interaction
         p: float
         if interaction == "NEEDLE":
-            p = params.partnership.needle.transmission[self._HAART_adh].prob
+            p = params.partnership.needle.transmission[self.haart_adherence].prob
         elif interaction == "SEX":
-            p = params.partnership.sex.transmission[self._SO][self._HAART_adh].prob
+            p = params.partnership.sex.transmission[self.so][self.haart_adherence].prob
 
         # Scaling parameter for acute HIV infections
         if self.get_acute_status():
             p *= params.calibration.acute
 
         # Scaling parameter for positively identified HIV agents
-        if self._tested:
+        if self.hiv_dx:
             p *= 1 - params.calibration.risk_reduction.transmission
 
         # Tuning parameter for ART efficiency
-        if self._HAART_bool:
+        if self.haart:
             p *= params.calibration.risk_reduction.haart
 
         # Racial calibration parameter to attain proper race incidence disparity
-        if self._race == "BLACK":
+        if self.race == "BLACK":
             p *= params.calibration.race_transmission
 
         # Scaling parameter for per act transmission.
@@ -340,13 +334,13 @@ class Relationship:
         # make sure these agents can be in a relationship
         assert ID1 != ID2, "Cannot create relationship with same agent"
         assert (
-            ID1 not in ID2._partners and ID2 not in ID1._partners
+            ID1 not in ID2.partners and ID2 not in ID1.partners
         ), "Agent's already partnered!"
 
-        # self._ID is unique ID number used to track each person agent.
-        self._ID1 = ID1
-        self._ID2 = ID2
-        self._ID = self.next_rel_id
+        # self.id is unique ID number used to track each person agent.
+        self.id1 = ID1
+        self.id2 = ID2
+        self.id = self.next_rel_id
         self.update_id_counter()
 
         # Relationship properties
@@ -358,14 +352,14 @@ class Relationship:
     def __eq__(self, other):
         if not isinstance(other, Relationship):
             return NotImplemented
-        return self._ID == other._ID
+        return self.id == other.id
 
     def __hash__(self):
-        return hash(self._ID)
+        return hash(self.id)
 
     def progress(self, forceKill: bool = False):
         if self._duration <= 0 or forceKill:
-            self.unbond(self._ID1, self._ID2)
+            self.unbond(self.id1, self.id2)
             return True
         else:
             self._duration = self._duration - 1
@@ -384,12 +378,12 @@ class Relationship:
         """
 
         # Append relationship to relationships list for each agent
-        agent._relationships.append(self)
-        partner._relationships.append(self)
+        agent.relationships.append(self)
+        partner.relationships.append(self)
 
         # Pair agent with partner and partner with agent
-        agent._partners.append(partner)
-        partner._partners.append(agent)
+        agent.partners.append(partner)
+        partner.partners.append(agent)
 
     def unbond(self, agent: "Agent", partner: "Agent"):
         """
@@ -403,49 +397,23 @@ class Relationship:
         """
 
         # Remove relationship to relationships list for each agent
-        agent._relationships.remove(self)
-        partner._relationships.remove(self)
+        agent.relationships.remove(self)
+        partner.relationships.remove(self)
 
         # Unpair agent with partner and partner with agent
-        agent._partners.remove(partner)
-        partner._partners.remove(agent)
+        agent.partners.remove(partner)
+        partner.partners.remove(agent)
 
     def get_partner(self, agent: "Agent") -> "Agent":
-        if agent == self._ID1:
-            return self._ID2
+        if agent == self.id1:
+            return self.id2
         else:
-            return self._ID1
+            return self.id1
 
     def __repr__(self):
         return "\t%.6d\t%.6d\t%s\t%s\t%d\t%d" % (
-            self._ID1.get_ID(),
-            self._ID2.get_ID(),
-            self._duration,
-            self._total_sex_acts,
-        )
-
-    def print_rel(self):
-        return "\t%.6d\t%.6d\t%s\t%s\t%d\t%d" % (
-            self._ID1.get_ID(),
-            self._ID2.get_ID(),
-            self._duration,
-            self._total_sex_acts,
-        )
-
-    # TO_REVIEW not used anywhere (if delete, also delete print_rel)
-    def print_rels(self):
-        print("\t_____________ %s _____________" % self.get_ID())
-        print("\tID1\tID2\tSO\tRel\tDur\tSexA")
-
-        for tmpA in self.iter_agents():
-            print(tmpA)
-        print("\t______________ END ______________")
-
-    # TO_REVIEW not used anywhere
-    def vars(self):
-        return "%.6d,%.6d,%s,%s,%d,%d\n" % (
-            self._ID1.get_ID(),
-            self._ID2.get_ID(),
+            self.id1.get_ID(),
+            self.id2.get_ID(),
             self._duration,
             self._total_sex_acts,
         )
@@ -461,7 +429,7 @@ class Agent_set:
         self, ID: str, parent: "Agent_set" = None, numerator: "Agent_set" = None
     ):
         # _members stores agent set members in a dictionary keyed by ID
-        self._ID = ID
+        self.id = ID
         self._members: List[Agent] = []
         self._subset: Dict[str, Agent_set] = {}
 
@@ -478,17 +446,17 @@ class Agent_set:
             self._numerator = self
 
     def __repr__(self):
-        return self._ID
+        return self.id
 
     def __str__(self):
-        return self._ID
+        return self.id
 
     def clear_set(self):
         self._members: List[Agent] = []
         self._subset: Dict[str, str] = {}
 
     def get_ID(self):
-        return self._ID
+        return self.id
 
     def get_agents(self):
         return self._members.__iter__()
@@ -526,8 +494,8 @@ class Agent_set:
 
     def add_subset(self, subset: "Agent_set"):
         "Adds a new Agent_set to the current sets subset."
-        if subset._ID not in self._subset:
-            self._subset[subset._ID] = subset
+        if subset.id not in self._subset:
+            self._subset[subset.id] = subset
 
     def iter_subset(self):
         for subset in list(self._subset.values()):
@@ -541,7 +509,7 @@ class Agent_set:
                 print(
                     "\t%-6s\t%-5d\t%.2f"
                     % (
-                        tmpS._ID,
+                        tmpS.id,
                         tmpS.num_members(),
                         (1.0 * tmpS.num_members() / tmpS._numerator.num_members()),
                     )
@@ -551,7 +519,7 @@ class Agent_set:
                     print(
                         "\t-%-4s\t%-5d\t%.2f"
                         % (
-                            tmpSS._ID,
+                            tmpSS.id,
                             tmpSS.num_members(),
                             (
                                 1.0

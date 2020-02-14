@@ -38,7 +38,7 @@ demographics:
         type: float
         min: 0.0
         max: 1.0
-    haart: # REVIEWED, the naming of this param implied duality, so I split it, but it isn't actually currently dual - keep dual, implement change when get to code updates
+    haart:
       init:
         default: 0.0
         description: "Probability that an agent in this class with HIV is initially enrolled in HAART"
@@ -78,7 +78,7 @@ demographics:
         max: 1.0
     num_partners:
       default: 0.0
-      description: "Mean number of partners for an agent in this class"
+      description: "Mean number of partners for an agent in this class if using model.population.num_partners.type = poisson"
       type: float
       min: 0.0
     num_needle_acts: # REVIEWED this is used with needle, and agent.py has a function for getting number of sex acts - this corresponds to NUMSexActs
@@ -105,7 +105,7 @@ demographics:
         type: float
         min: 0.0
         max: 1.0
-      adherence: # REVIEWED on the code side should probably be a bool instead of a 0/1
+      adherence:
         default: 0.0
         description: "Probability that an agent on PrEP is assigned an adherence of 1, otherwise assigned 0"
         type: float

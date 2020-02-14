@@ -17,7 +17,7 @@ def params(tmpdir):
 
 @pytest.fixture
 def make_agent():
-    def _make_agent(SO="MSM", age=30, race="WHITE", DU="NDU"):
+    def _make_agent(SO="MSM", age=30, race="WHITE", DU="None"):
         return Agent(SO, age, race, DU)
 
     return _make_agent
@@ -71,36 +71,36 @@ def test_create_agent(make_population):
     pop = make_population()
 
     a1 = pop.create_agent("WHITE")
-    assert a1._race == "WHITE"
+    assert a1.race == "WHITE"
 
     a2 = pop.create_agent("BLACK")
-    assert a2._race == "BLACK"
+    assert a2.race == "BLACK"
 
     a3 = pop.create_agent("WHITE", "HM")
-    assert a3._SO == "HM"
-    assert a3._race == "WHITE"
+    assert a3.so == "HM"
+    assert a3.race == "WHITE"
 
-    # check IDU and HIV and high risk
+    # check PWID and HIV and high risk
     pop.pop_random = FakeRandom(-0.1)
     a4 = pop.create_agent("WHITE")
-    assert a4._DU == "IDU"
-    assert a4._HIV_bool
-    assert a4._AIDS_bool
-    assert a4._tested
-    assert a4._HAART_bool
-    assert a4._HAART_adh == 5
-    assert a4._HAART_time == 0
-    assert a4._treatment_bool
+    assert a4.drug_use == "Inj"
+    assert a4.hiv
+    assert a4.aids
+    assert a4.hiv_dx
+    assert a4.haart
+    assert a4.haart_adherence == 5
+    assert a4.haart_time == 0
+    assert a4.intervention_ever
     assert a4._highrisk_bool
     assert a4._everhighrisk_bool
 
-    # check not IDU and HIV
+    # check not PWID and HIV
     pop.pop_random = FakeRandom(0.999)
     a4 = pop.create_agent("WHITE")
-    assert a4._DU == "NDU"
-    assert a4._HIV_bool is False
-    assert a4._PrEP_bool is False
-    assert a4._treatment_bool is False
+    assert a4.drug_use == "None"
+    assert a4.hiv is False
+    assert a4.prep is False
+    assert a4.intervention_ever is False
 
 
 def test_create_agent_proportions(make_population, params):
@@ -110,37 +110,37 @@ def test_create_agent_proportions(make_population, params):
     race = "WHITE"
     # check proportions
     pop.pop_weights[race] = {"values": ["HM", "HF"], "weights": [0.1, 0.9]}
-    prop_idu = round(params.demographics[race]["IDU"].ppl * n)
+    prop_idu = round(params.demographics[race]["PWID"].ppl * n)
     num_HM = 0
     num_HF = 0
-    num_IDU = 0
+    num_PWID = 0
     for i in range(n):
         a = pop.create_agent(race)
-        if a._DU == "IDU":
-            num_IDU += 1
+        if a.drug_use == "Inj":
+            num_PWID += 1
 
-        if a._SO == "HF":
+        if a.so == "HF":
             num_HF += 1
-        elif a._SO == "HM":
+        elif a.so == "HM":
             num_HM += 1
         else:
             assert False
 
     assert num_HM > 80 and num_HM < 120
     assert num_HF > 880 and num_HF < 920
-    assert num_IDU > prop_idu - 20 and num_IDU < prop_idu + 20
+    assert num_PWID > prop_idu - 20 and num_PWID < prop_idu + 20
 
 
 def test_add_agent_to_pop(make_population):
     pop = make_population()
     agent = pop.create_agent("WHITE", "HM")
-    agent._DU = "IDU"
-    agent._HIV_bool = True
-    agent._AIDS_bool = True
-    agent._treatment_bool = True
-    agent._HAART_bool = True
-    agent._PrEP_bool = True
-    agent._tested = True
+    agent.drug_use = "Inj"
+    agent.hiv = True
+    agent.aids = True
+    agent.intervention_ever = True
+    agent.haart = True
+    agent.prep = True
+    agent.hiv_dx = True
     agent._incar_bool = True
     agent._highrisk_bool = True
 
@@ -152,7 +152,7 @@ def test_add_agent_to_pop(make_population):
     assert agent in pop.SO_agentSet._members
     assert agent in pop.SO_HM_agentSet._members
     assert agent in pop.drugUse_agentSet._members
-    assert agent in pop.DU_IDU_agentSet._members
+    assert agent in pop.DU_Inj_agentSet._members
     assert agent in pop.HIV_agentSet._members
     assert agent in pop.HIV_AIDS_agentSet._members
     assert agent in pop.treatment_agentSet._members
@@ -215,8 +215,8 @@ def test_update_partner_assignments_match(make_population, params):
     p = pop.create_agent("WHITE", "MSM")
     pop.add_agent_to_pop(a)
     pop.add_agent_to_pop(p)
-    a._mean_num_partners = 100
-    p._mean_num_partners = 100
+    a.neam_num_partners = 100
+    p.neam_num_partners = 100
 
     params.model.num_pop = 0
     net = NetworkClass(params)

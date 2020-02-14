@@ -66,84 +66,84 @@ def get_stats(
 
     # Incarceration metrics
     for tmpA in IncarAgents.iter_agents():
-        stats[tmpA._race][tmpA._SO]["incar"] += 1
-        if tmpA._HIV_bool:
-            stats[tmpA._race][tmpA._SO]["incarHIV"] += 1
+        stats[tmpA.race][tmpA.so]["incar"] += 1
+        if tmpA.hiv:
+            stats[tmpA.race][tmpA.so]["incarHIV"] += 1
 
     for tmpA in newIncarRelease.iter_agents():
-        stats[tmpA._race][tmpA._SO]["newRelease"] += 1
-        if tmpA._HIV_bool:
-            stats[tmpA._race][tmpA._SO]["newReleaseHIV"] += 1
+        stats[tmpA.race][tmpA.so]["newRelease"] += 1
+        if tmpA.hiv:
+            stats[tmpA.race][tmpA.so]["newReleaseHIV"] += 1
 
     # Newly infected tracker statistics (with HR within 6mo and HR ever bool check)
     for tmpA in NewInfections.iter_agents():
-        stats[tmpA._race][tmpA._SO]["inf_newInf"] += 1
+        stats[tmpA.race][tmpA.so]["inf_newInf"] += 1
         if tmpA._everhighrisk_bool:
-            stats[tmpA._race][tmpA._SO]["inf_HRever"] += 1
+            stats[tmpA.race][tmpA.so]["inf_HRever"] += 1
         if tmpA._highrisk_bool:
-            stats[tmpA._race][tmpA._SO]["inf_HR6m"] += 1
+            stats[tmpA.race][tmpA.so]["inf_HR6m"] += 1
 
     # PrEP reason tracker
     for tmpA in totalAgents.iter_agents():
-        if tmpA._PrEP_bool:
-            stats[tmpA._race][tmpA._SO]["numPrEP"] += 1
-            if "IDU" in tmpA._PrEP_reason:
-                stats[tmpA._race][tmpA._SO]["iduPartPrep"] += 1
+        if tmpA.prep:
+            stats[tmpA.race][tmpA.so]["numPrEP"] += 1
+            if "PWID" in tmpA._PrEP_reason:
+                stats[tmpA.race][tmpA.so]["iduPartPrep"] += 1
             if "MSMW" in tmpA._PrEP_reason:
-                stats[tmpA._race][tmpA._SO]["msmwPartPrep"] += 1
+                stats[tmpA.race][tmpA.so]["msmwPartPrep"] += 1
             if "HIV test" in tmpA._PrEP_reason:
-                stats[tmpA._race][tmpA._SO]["testedPartPrep"] += 1
+                stats[tmpA.race][tmpA.so]["testedPartPrep"] += 1
 
     # Newly PrEP tracker statistics
     for tmpA in newPrEPAgents.iter_agents():
-        stats[tmpA._race][tmpA._SO]["newNumPrEP"] += 1
+        stats[tmpA.race][tmpA.so]["newNumPrEP"] += 1
 
     # Newly diagnosed tracker statistics
     for tmpA in NewDiagnosis.iter_agents():
-        stats[tmpA._race][tmpA._SO]["newlyTested"] += 1
+        stats[tmpA.race][tmpA.so]["newlyTested"] += 1
 
     # Newly HR agents
     for tmpA in newHR.iter_agents():
-        stats[tmpA._race][tmpA._SO]["newHR"] += 1
-        if tmpA._HIV_bool:
-            stats[tmpA._race][tmpA._SO]["newHR_HIV"] += 1
-            if tmpA._AIDS_bool:
-                stats[tmpA._race][tmpA._SO]["newHR_AIDS"] += 1
-            if tmpA._tested:
-                stats[tmpA._race][tmpA._SO]["newHR_Tested"] += 1
-                if tmpA._HAART_bool:
-                    stats[tmpA._race][tmpA._SO]["newHR_ART"] += 1
+        stats[tmpA.race][tmpA.so]["newHR"] += 1
+        if tmpA.hiv:
+            stats[tmpA.race][tmpA.so]["newHR_HIV"] += 1
+            if tmpA.aids:
+                stats[tmpA.race][tmpA.so]["newHR_AIDS"] += 1
+            if tmpA.hiv_dx:
+                stats[tmpA.race][tmpA.so]["newHR_Tested"] += 1
+                if tmpA.haart:
+                    stats[tmpA.race][tmpA.so]["newHR_ART"] += 1
 
     # Total HIV summary snapshot for timestep
     for tmpA in HIVAgents.iter_agents():
-        stats[tmpA._race][tmpA._SO]["numHIV"] += 1
-        if tmpA._AIDS_bool:
-            stats[tmpA._race][tmpA._SO]["numAIDS"] += 1
-        if tmpA._tested:
-            stats[tmpA._race][tmpA._SO]["numTested"] += 1
-        if tmpA._HAART_bool:
-            stats[tmpA._race][tmpA._SO]["numART"] += 1
+        stats[tmpA.race][tmpA.so]["numHIV"] += 1
+        if tmpA.aids:
+            stats[tmpA.race][tmpA.so]["numAIDS"] += 1
+        if tmpA.hiv_dx:
+            stats[tmpA.race][tmpA.so]["numTested"] += 1
+        if tmpA.haart:
+            stats[tmpA.race][tmpA.so]["numART"] += 1
 
-    # IDU agent summary
-    for tmpA in totalAgents._subset["DU"]._subset["IDU"].iter_agents():
-        stats[tmpA._race]["IDU"]["numAgents"] += 1
-        if tmpA._HIV_bool:
-            stats[tmpA._race]["IDU"]["numHIV"] += 1
-        if tmpA._AIDS_bool:
-            stats[tmpA._race]["IDU"]["numAIDS"] += 1
-        if tmpA._tested:
-            stats[tmpA._race]["IDU"]["numTested"] += 1
-        if tmpA._HAART_bool:
-            stats[tmpA._race]["IDU"]["numART"] += 1
+    # PWID agent summary
+    for tmpA in totalAgents._subset["DU"]._subset["Inj"].iter_agents():
+        stats[tmpA.race]["PWID"]["numAgents"] += 1
+        if tmpA.hiv:
+            stats[tmpA.race]["PWID"]["numHIV"] += 1
+        if tmpA.aids:
+            stats[tmpA.race]["PWID"]["numAIDS"] += 1
+        if tmpA.hiv_dx:
+            stats[tmpA.race]["PWID"]["numTested"] += 1
+        if tmpA.haart:
+            stats[tmpA.race]["PWID"]["numART"] += 1
 
     # total number of agents
     for tmpA in totalAgents.iter_agents():
-        stats[tmpA._race][tmpA._SO]["numAgents"] += 1
+        stats[tmpA.race][tmpA.so]["numAgents"] += 1
 
     for tmpA in deathSet:
-        stats[tmpA._race][tmpA._SO]["deaths"] += 1
-        if tmpA._HIV_bool:
-            stats[tmpA._race][tmpA._SO]["deaths_HIV"] += 1
+        stats[tmpA.race][tmpA.so]["deaths"] += 1
+        if tmpA.hiv:
+            stats[tmpA.race][tmpA.so]["deaths_HIV"] += 1
 
     # Sum 'ALL' categories for race/SO bins
     for race in stats:
@@ -301,7 +301,7 @@ def prepReport(
 
     # if this is a new file, write the header info
     if f.tell() == 0:
-        f.write("run_id\tseed\tt\tNewEnroll\tIDUpartner\tTestedPartner\tMSMWpartner\n")
+        f.write("run_id\tseed\tt\tNewEnroll\tPWIDpartner\tTestedPartner\tMSMWpartner\n")
 
     f.write(
         "%s\t%d\t%d\t%d\t%d\t%d\t%d\n"
@@ -341,7 +341,7 @@ def basicReport(
             # if this is a new file, write the header info
             if tmpReport.tell() == 0:
                 tmpReport.write(
-                    "run_id\trseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\n"
+                    "run_id\trseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tPWIDpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\n"
                 )
 
             tmpReport.write(
@@ -401,13 +401,13 @@ def print_components(
         totN = nhiv = ntrtmt = ntrthiv = nprep = 0
         for agent in comp:
             totN += 1
-            if agent._HIV_bool:
+            if agent.hiv:
                 nhiv += 1
-                if agent._treatment_bool:
+                if agent.intervention_ever:
                     ntrthiv += 1
-            elif agent._treatment_bool:
+            elif agent.intervention_ever:
                 ntrtmt += 1
-                if agent._PrEP_bool:
+                if agent.prep:
                     nprep += 1
         f.write(
             "{run_id}\t{runseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Ntrtmt}\t{Nprep}\t{NtrtHIV}\n".format(

@@ -18,7 +18,7 @@ def params(tmpdir):
 
 @pytest.fixture
 def make_agent():
-    def _make_agent(SO="MSM", age=30, race="BLACK", DU="NDU"):
+    def _make_agent(SO="MSM", age=30, race="BLACK", DU="None"):
         return Agent(SO, age, race, DU)
 
     return _make_agent
@@ -75,7 +75,7 @@ def test_model_init(params):
     assert model.NewHRrolls.num_members() == 0
 
     assert model.totalDiagnosis == 0
-    assert model.treatmentEnrolled == False
+    assert model.needle_exchange == False
 
 
 @pytest.mark.skip("too parameter dependent to test at this point")
@@ -95,47 +95,47 @@ def test_agents_interact(make_model, make_agent):
     a._incar_bool = False
     assert model._agents_interact(rel) is False  # neither HIV
 
-    a._HIV_bool = True
-    p._HIV_bool = True
+    a.hiv = True
+    p.hiv = True
     assert model._agents_interact(rel) is False  # both HIV
 
-    p._HIV_bool = False
+    p.hiv = False
 
     assert model._agents_interact(rel)  # sex transmssion
-    assert p._HIV_bool is False  # but nothing happened (see skipped test)
+    assert p.hiv is False  # but nothing happened (see skipped test)
 
-    a._DU = "IDU"
-    p._DU = "IDU"
+    a.drug_use = "Inj"
+    p.drug_use = "Inj"
 
     a._incar_treatment_time = 0
     model.runRandom = FakeRandom(-0.1)
 
     assert model._agents_interact(rel)  # needle transmission
-    assert p._HIV_bool
+    assert p.hiv
 
-    p._HIV_bool = False
+    p.hiv = False
     model.runRandom = FakeRandom(1.1)
 
     assert model._agents_interact(rel)  # needle and sex
-    assert p._HIV_bool is False  # but nothing happened
+    assert p.hiv is False  # but nothing happened
 
 
 def test_needle_transmission(make_model, make_agent):
     model = make_model()
-    a = make_agent(race="WHITE", DU="IDU", SO="HM")
-    p = make_agent(race="WHITE", DU="IDU", SO="HF")
+    a = make_agent(race="WHITE", DU="Inj", SO="HM")
+    p = make_agent(race="WHITE", DU="Inj", SO="HF")
 
     with pytest.raises(AssertionError):
         model._needle_transmission(a, p)
 
-    a._HIV_bool = True
-    a._HIV_time = 1  # acute
+    a.hiv = True
+    a.hiv_time = 1  # acute
 
     model.runRandom = FakeRandom(-0.1)
 
     model._needle_transmission(a, p)
 
-    assert p._HIV_bool
+    assert p.hiv
 
 
 @pytest.mark.skip(
@@ -147,8 +147,8 @@ def test_sex_transmission(make_model, make_agent):
     p = make_agent()
     rel = Relationship(a, p, 10)
 
-    a._HIV_bool = True
-    a._HIV_time = 1  # acute
+    a.hiv = True
+    a.hiv_time = 1  # acute
 
     rel._total_sex_acts = 0
 
@@ -157,7 +157,7 @@ def test_sex_transmission(make_model, make_agent):
     # test partner becomes
     model._sex_transmission(rel)
 
-    assert p._HIV_bool
+    assert p.hiv
 
 
 def test_sex_transmission_do_nothing(make_model, make_agent):
@@ -169,8 +169,8 @@ def test_sex_transmission_do_nothing(make_model, make_agent):
     with pytest.raises(ValueError):
         model._sex_transmission(rel)
 
-    a._HIV_bool = True
-    p._HIV_bool = True
+    a.hiv = True
+    p.hiv = True
 
     # test nothing happens
     model._sex_transmission(rel)
@@ -179,35 +179,35 @@ def test_sex_transmission_do_nothing(make_model, make_agent):
 def test_become_HIV(make_model, make_agent):
     model = make_model()
     a = make_agent()
-    a._PrEP_bool = True
+    a.prep = True
 
     model.runRandom = FakeRandom(-0.1)
 
     model._become_HIV(a)
 
-    assert a._HIV_bool
-    assert a._HIV_time == 1
+    assert a.hiv
+    assert a.hiv_time == 1
     assert a in model.NewInfections._members
     assert a in model.HIV_agentSet._members
-    assert a._PrEP_bool is False
+    assert a.prep is False
 
 
-def test_enroll_treatment(make_model):
+def testenroll_needle_exchange(make_model):
     model = make_model()
-    model.runRandom = FakeRandom(-0.1)  # all "IDU" agents will be _SNE_bool
+    model.runRandom = FakeRandom(-0.1)  # all "Inj" agents will be _SNE_bool
 
-    # make at least one agent IDU
-    model.All_agentSet._members[0]._DU = "IDU"
+    # make at least one agent PWID
+    model.All_agentSet._members[0].drug_use = "Inj"
 
-    assert model.treatmentEnrolled is False
+    assert model.needle_exchange is False
 
-    model._enroll_treatment()
+    model.enroll_needle_exchange()
 
-    assert model.treatmentEnrolled is True
+    assert model.needle_exchange is True
 
     for a in model.All_agentSet._members:
-        if a._DU == "IDU":
-            assert a._SNE_bool
+        if a.drug_use == "Inj":
+            assert a.sne
 
 
 def test_becomeHighRisk(make_model, make_agent):
@@ -226,8 +226,8 @@ def test_becomeHighRisk(make_model, make_agent):
 def test_incarcerate_tested(make_model, make_agent):
     model = make_model()
     a = make_agent(SO="HM", race="WHITE")  # incarceration only for HM and HF?
-    a._HIV_bool = True
-    a._tested = True
+    a.hiv = True
+    a.hiv_dx = True
 
     model.runRandom = FakeRandom(-0.1)  # always less than params
 
@@ -236,16 +236,16 @@ def test_incarcerate_tested(make_model, make_agent):
     assert a._incar_bool
     assert a._incar_time == 1
     assert a in model.incarcerated_agentSet._members
-    assert a._HAART_bool
-    assert a._HAART_adh == 5
-    assert a._HAART_time == 10
+    assert a.haart
+    assert a.haart_adherence == 5
+    assert a.haart_time == 10
     assert a in model.Trt_ART_agentSet._members
 
 
 def test_incarcerate_not_tested(make_model, make_agent):
     model = make_model()
     a = make_agent(SO="HM", race="WHITE")  # incarceration only for HM and HF?
-    a._HIV_bool = True
+    a.hiv = True
 
     p = make_agent(SO="HF")
     rel = Relationship(a, p, 10)
@@ -257,7 +257,7 @@ def test_incarcerate_not_tested(make_model, make_agent):
     assert a._incar_bool
     assert a._incar_time == 1
     assert a in model.incarcerated_agentSet._members
-    assert a._tested
+    assert a.hiv_dx
 
     assert p in model.highrisk_agentsSet._members
     assert p in model.NewHRrolls._members
@@ -296,14 +296,14 @@ def test_HIVtest(make_model, make_agent):
     model.runRandom = FakeRandom(1.1)  # always greater than param
     model._HIVtest(a, 0)
 
-    assert a._tested is False
+    assert a.hiv_dx is False
     assert a not in model.NewDiagnosis._members
     assert a not in model.Trt_Tstd_agentSet._members
 
     model.runRandom = FakeRandom(-0.1)  # always less than param
     model._HIVtest(a, 0)
 
-    assert a._tested
+    assert a.hiv_dx
     assert a in model.NewDiagnosis._members
     assert a in model.Trt_Tstd_agentSet._members
 
@@ -312,12 +312,12 @@ def test_HIVtest_already_tested(make_model, make_agent):
     model = make_model()
     a = make_agent()
 
-    a._tested = True
+    a.hiv_dx = True
 
     model.runRandom = FakeRandom(-0.1)  # always less than param
     model._HIVtest(a, 0)
 
-    assert a._tested
+    assert a.hiv_dx
     assert a not in model.NewDiagnosis._members
     assert a not in model.Trt_Tstd_agentSet._members
 
@@ -326,16 +326,16 @@ def test_update_HAART_t1(make_model, make_agent):
     model = make_model()
     a = make_agent(race="WHITE")
 
-    a._HIV_bool = True
+    a.hiv = True
 
     # nothing happens, not tested
     model._update_HAART(a, 1)
-    assert a._HAART_adh == 0
-    assert a._HAART_bool is False
+    assert a.haart_adherence == 0
+    assert a.haart is False
     assert a not in model.Trt_ART_agentSet._members
 
     # t0 agent initialized HAART
-    a._tested = True
+    a.hiv_dx = True
 
     # go on haart
     model.runRandom = FakeRandom(
@@ -343,17 +343,17 @@ def test_update_HAART_t1(make_model, make_agent):
     )  # means this will always be less than params even though not physically possible in reality
     model._update_HAART(a, 1)
 
-    assert a._HAART_adh == 5
-    assert a._HAART_time == 1
-    assert a._HAART_bool
+    assert a.haart_adherence == 5
+    assert a.haart_time == 1
+    assert a.haart
     assert a in model.Trt_ART_agentSet._members
 
     # go off haart
     model._update_HAART(a, 1)
 
-    assert a._HAART_adh == 0
-    assert a._HAART_time == 0
-    assert a._HAART_bool is False
+    assert a.haart_adherence == 0
+    assert a.haart_time == 0
+    assert a.haart is False
     assert a not in model.Trt_ART_agentSet._members
 
 
@@ -362,13 +362,13 @@ def test_discont_PrEP_force(make_model, make_agent):
     a = make_agent()
 
     # set up so the agent appears to be on PrEP
-    a._PrEP_bool = True
+    a.prep = True
     a._PrEP_reason = ["blah"]
     model.Trt_PrEP_agentSet.add_agent(a)
 
     model._discont_PrEP(a, True)
 
-    assert a._PrEP_bool is False
+    assert a.prep is False
     assert a._PrEP_reason == []
     assert a not in model.Trt_PrEP_agentSet._members
 
@@ -378,13 +378,13 @@ def test_discont_PrEP_decrement_time(make_model, make_agent):
     a = make_agent()
 
     # set up so the agent appears to be on PrEP
-    a._PrEP_bool = True
+    a.prep = True
     a._PrEP_reason = ["blah"]
     model.Trt_PrEP_agentSet.add_agent(a)
 
     model._discont_PrEP(a)
 
-    assert a._PrEP_bool
+    assert a.prep
     assert a._PrEP_reason == ["blah"]
 
 
@@ -395,13 +395,13 @@ def test_discont_PrEP_decrement_end(make_model, make_agent):
     model.runRandom = FakeRandom(-0.1)
 
     # set up so the agent appears to be on PrEP
-    a._PrEP_bool = True
+    a.prep = True
     a._PrEP_reason = ["blah"]
     model.Trt_PrEP_agentSet.add_agent(a)
 
     model._discont_PrEP(a)
 
-    assert a._PrEP_bool is False
+    assert a.prep is False
     assert a._PrEP_reason == []
     assert a not in model.Trt_PrEP_agentSet._members
 
@@ -413,14 +413,14 @@ def test_discont_PrEP_decrement_not_end(make_model, make_agent):
     model.runRandom = FakeRandom(1.1)
 
     # set up so the agent appears to be on PrEP
-    a._PrEP_bool = True
+    a.prep = True
     a._PrEP_reason = ["blah"]
     a._PrEP_lastDose = 3
     model.Trt_PrEP_agentSet.add_agent(a)
 
     model._discont_PrEP(a)
 
-    assert a._PrEP_bool
+    assert a.prep
     assert a._PrEP_reason == ["blah"]
     assert a._PrEP_lastDose == -1  # 3 -> -1 -> +1 == 0 # Inj no longer in PrEP types
     assert a in model.Trt_PrEP_agentSet._members
@@ -432,12 +432,12 @@ def test_initiate_PrEP_assertions(make_model, make_agent):
     a = make_agent()
 
     # no PreP if already PreP
-    a._PrEP_bool = True
+    a.prep = True
     assert model._initiate_PrEP(a, 0) is None
 
     # no PrEP if already HIV
-    a._PrEP_bool = False
-    a._HIV_bool = True
+    a.prep = False
+    a.hiv = True
     assert model._initiate_PrEP(a, 0) is None
 
 
@@ -446,12 +446,12 @@ def test_initiate_PrEP_force_adh(make_model, make_agent):
     a = make_agent()
 
     # forcing, adherant, inj
-    model.runRandom = FakeRandom(0.00001)
+    model.runRandom = FakeRandom(-0.1)
     model._initiate_PrEP(a, 0, True)
-    assert a._PrEP_bool
+    assert a.prep
     assert a in model.Trt_PrEP_agentSet._members
     assert a in model.newPrEPagents._members
-    assert a._PrEP_adh == 1
+    assert a.prep_adherence == 1
     # assert a._PrEP_load > 0.0 # Inj no longer in PrEP types
     assert a._PrEP_lastDose == 0
 
@@ -462,34 +462,34 @@ def test_initiate_PrEP_force_non_adh(make_model, make_agent):
     # forcing, non-adherant, inj
     model.runRandom = FakeRandom(1.0)
     model._initiate_PrEP(a, 0, True)
-    assert a._PrEP_bool
+    assert a.prep
     assert a in model.Trt_PrEP_agentSet._members
     assert a in model.newPrEPagents._members
-    assert a._PrEP_adh == 0
+    assert a.prep_adherence == 0
     # assert a._PrEP_load > 0.0 # Inj no longer in PrEP types
     assert a._PrEP_lastDose == 0
 
 
 def test_initiate_PrEP_eligible(make_model, make_agent):
     model = make_model()
-    model.Trt_PrEP_agentSet._members = (
-        []
-    )  # make sure there's room to add more prep agents
+
+    # make sure there's room to add more prep agents
+    model.Trt_PrEP_agentSet._members = []
     a = make_agent(SO="HF")  # model is "CDCwomen"
-    p = make_agent(DU="IDU")
-    p._tested = True
-    p._MSMW = True
+    p = make_agent(DU="Inj")
+    p.hiv_dx = True
+    p.msmw = True
     rel = Relationship(a, p, 10)
     # non-forcing, adherant, inj
-    model.runRandom = FakeRandom(0.00001)
+    model.runRandom = FakeRandom(-0.1)
     model._initiate_PrEP(a, 0)
-    assert a._PrEP_bool
+    assert a.prep
     assert a in model.Trt_PrEP_agentSet._members
     assert a in model.newPrEPagents._members
-    assert a._PrEP_adh == 1
+    assert a.prep_adherence == 1
     # assert a._PrEP_load > 0.0 # Inj not in params prep_type anymore
     assert a._PrEP_lastDose == 0
-    assert "IDU" in a._PrEP_reason
+    assert "PWID" in a._PrEP_reason
     assert "HIV test" in a._PrEP_reason
     assert "MSMW" in a._PrEP_reason
 
@@ -512,14 +512,14 @@ def test_progress_to_AIDS_nothing(make_agent, make_model):
     num_aids = model.HIV_AIDS_agentSet.num_members()  # get baseline
 
     # test nothing case
-    a._HIV_bool = True
-    a._HAART_adh = 1  # .0051 prob
+    a.hiv = True
+    a.haart_adherence = 1  # .0051 prob
 
     model.runRandom = FakeRandom(0.9)  # no AIDS
 
     assert model._progress_to_AIDS(a) is None
     assert model.HIV_AIDS_agentSet.num_members() == num_aids
-    assert a._AIDS_bool is False
+    assert a.aids is False
 
 
 def test_progress_to_AIDS_progress(make_agent, make_model):
@@ -527,8 +527,8 @@ def test_progress_to_AIDS_progress(make_agent, make_model):
     model = make_model()
     num_aids = model.HIV_AIDS_agentSet.num_members()  # get baseline
 
-    a._HIV_bool = True
-    a._HAART_adh = 1  # .0051 prob
+    a.hiv = True
+    a.haart_adherence = 1  # .0051 prob
 
     # test progress case
     model.runRandom = FakeRandom(0.001)  # AIDS
@@ -536,7 +536,7 @@ def test_progress_to_AIDS_progress(make_agent, make_model):
     assert model._progress_to_AIDS(a) is None
     assert model.HIV_AIDS_agentSet.num_members() == num_aids + 1
     assert a in model.HIV_AIDS_agentSet._members
-    assert a._AIDS_bool is True
+    assert a.aids is True
 
 
 def test_die_and_replace_none(make_model):
@@ -546,9 +546,9 @@ def test_die_and_replace_none(make_model):
 
     model._die_and_replace()
 
-    ids = [a._ID for a in baseline_pop]
+    ids = [a.id for a in baseline_pop]
     for agent in model.All_agentSet._members:
-        assert agent._ID in ids
+        assert agent.id in ids
 
 
 def test_die_and_replace_all(make_model):
@@ -560,44 +560,44 @@ def test_die_and_replace_all(make_model):
         agent._incar_bool = False
 
     baseline_pop = deepcopy(model.All_agentSet._members)
-    old_ids = [a._ID for a in baseline_pop]
+    old_ids = [a.id for a in baseline_pop]
 
-    num_HM = len([x for x in baseline_pop if x._SO == "HM"])
-    num_WHITE = len([x for x in baseline_pop if x._race == "WHITE"])
+    num_HM = len([x for x in baseline_pop if x.so == "HM"])
+    num_WHITE = len([x for x in baseline_pop if x.race == "WHITE"])
 
     model._die_and_replace()
 
-    assert num_HM == len([x for x in model.All_agentSet._members if x._SO == "HM"])
+    assert num_HM == len([x for x in model.All_agentSet._members if x.so == "HM"])
     assert num_WHITE == len(
-        [x for x in model.All_agentSet._members if x._race == "WHITE"]
+        [x for x in model.All_agentSet._members if x.race == "WHITE"]
     )
 
-    new_ids = [a._ID for a in model.All_agentSet._members]
-    death_ids = [a._ID for a in model.deathSet]
+    new_ids = [a.id for a in model.All_agentSet._members]
+    death_ids = [a.id for a in model.deathSet]
 
     for agent in model.All_agentSet._members:
-        assert agent._ID not in old_ids
+        assert agent.id not in old_ids
         assert agent in model.get_Graph().nodes()
 
     for agent in baseline_pop:
-        assert agent._ID not in new_ids
+        assert agent.id not in new_ids
         assert agent not in model.get_Graph().nodes()
-        assert agent._ID in death_ids
+        assert agent.id in death_ids
 
 
 def test_die_and_replace_incar(make_model):
     model = make_model()
     model.runRandom = FakeRandom(0.0000001)  # always lower than death rate
     baseline_pop = deepcopy(model.All_agentSet._members)
-    old_ids = [a._ID for a in baseline_pop]
+    old_ids = [a.id for a in baseline_pop]
 
     model.All_agentSet._members[0]._incar_bool = True
-    agent_id = model.All_agentSet._members[0]._ID
+    agent_id = model.All_agentSet._members[0].id
 
     model._die_and_replace()
 
-    new_ids = [a._ID for a in model.All_agentSet._members]
-    death_ids = [a._ID for a in model.deathSet]
+    new_ids = [a.id for a in model.All_agentSet._members]
+    death_ids = [a.id for a in model.deathSet]
 
     assert agent_id in old_ids
     assert agent_id not in death_ids

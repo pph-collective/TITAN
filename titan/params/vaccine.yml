@@ -1,4 +1,3 @@
-# REVIEWED currently vaccine is flagged based on PrEP type, but should be it's own flag/thing
 vaccine:
   type:
     default: RV144

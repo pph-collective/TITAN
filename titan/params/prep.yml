@@ -18,12 +18,6 @@ prep:
     description: Timestep at which prep should start in the model
     type: int
     min: 0
-  adherence:
-    default: 0.82
-    description: Probability that an agent adheres to PrEP regimen
-    type: float
-    min: 0
-    max: 1
   efficacy:
     adherent:
       default: 0.96
@@ -50,7 +44,6 @@ prep:
       - Allcomers
       - HighPN5
       - HighPN10
-      - SRIns
       - SR
       - Rec
       - MSM

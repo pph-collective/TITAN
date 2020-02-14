@@ -54,3 +54,12 @@ model:
         description: Largest allowable size of a sub-graph in the network at initialization
         type: int
         min: 1
+  population:
+    num_partners:
+      type:
+        default: poisson
+        description: How to determine the mean number of partners for an agent
+        type: enum
+        values:
+          - poisson
+          - bins

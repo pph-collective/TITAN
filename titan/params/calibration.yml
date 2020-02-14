@@ -1,9 +1,4 @@
 calibration:
-  partner_turnover:
-    default: 1.0
-    description: Scales probability of acquiring a new partner
-    type: float
-    min: 0
   needle:
     act:
       default: 1.0
@@ -33,7 +28,7 @@ calibration:
     min: 0.0
   acute:
     default: 4.3
-    description: Infectivity multiplier ratio for acute status infections # REVIEWED - not really a calibration, should probably live somewhere else -it's a risk factor that affects all hiv people when they are in their acute phase
+    description: Infectivity multiplier ratio for acute status infections
     type: float
     min: 0.0
   risk_reduction:
