@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from typing import Sequence, List, Dict, Optional
+from typing import List, Dict
 from . import params
 
 
@@ -15,9 +15,7 @@ class Agent:
     def update_id_counter(cls):
         cls.next_agent_id += 1
 
-    def __init__(
-        self, SO: str, age: int, race: str, DU: str, initial_agent: bool = False
-    ):
+    def __init__(self, SO: str, age: int, race: str, DU: str):
         """
         Initialize an agent based on given properties
 
@@ -27,7 +25,6 @@ class Agent:
             age (int) - Agents initialization age
             race (str) - Race of agent
             DU (str) - Drug use flag (IDU, NIDU, NDU)
-            initial_agent (bool) - If the agent was created during model init
 
         returns:
             None
@@ -49,8 +46,6 @@ class Agent:
         # agent-partner params
         self._relationships: List[Relationship] = []
         self._partners: List[Agent] = []
-        self._num_sex_partners = 0
-        self._num_NE_partners = 0
         self._mean_num_partners = 0
         self._sexualRole = "Vers"
 
@@ -68,6 +63,7 @@ class Agent:
         self._HAART_adh = 0
         self._SNE_bool = False
         self._PrEP_bool = False
+        self._PrEP_ever_bool = False
         self._PrEP_time = 0
         self._PrEP_adh = 0
         self._treatment_bool = False
@@ -78,6 +74,11 @@ class Agent:
         self.vaccine_bool = False
         self.partnerTraced = False
         self.traceTime = 0
+        self.awareness = False
+        self.opinion = 0.0
+        self.PrEP_type = ""
+        self._pca = False
+        self._pca_suitable = False
 
         # PrEP pharmacokinetics
         self._PrEP_load = 0.0
@@ -128,84 +129,6 @@ class Agent:
         """
         return self._ID
 
-    def bond(self, partner: "Agent", relationship: "Relationship"):
-        """
-        Bond two agents. Adds each to a relationship object, then partners in each
-        others' partner list.
-
-        todo: Disentangle this from partner. These can be condensed.
-
-        args:
-            partner (Agent(object)) - new partner of agent
-            relationship (Relationship(object)) - relationship for partnership
-        returns:
-            None
-        """
-
-        if relationship is None:
-            raise ValueError("relationship can't be None")
-
-        # Append relationship to relationships list for each agent
-        self._relationships.append(relationship)
-        partner._relationships.append(relationship)
-
-        # Pair agent with partner and partner with agent
-        self.pair(partner)
-        partner.pair(self)
-
-        # Increment number of sex partners for both
-        self._num_sex_partners += 1
-        partner._num_sex_partners += 1
-
-    def unbond(self, partner: "Agent", relationship: "Relationship"):
-        """
-        Unbond two agents. Adds each to a relationship object, then partners in each
-        others' partner list.
-
-        todo: Disentangle this from partner. These can be condensed.
-
-        args:
-            partner (Agent(object)) - new partner of agent
-            relationship (Relationship(object)) - relationship for partnership
-        returns:
-            None
-        """
-        if relationship is None:
-            raise ValueError("relationship can't be None")
-
-        # Remove relationship to relationships list for each agent
-        self._relationships.remove(relationship)
-        partner._relationships.remove(relationship)
-
-        # Unpair agent with partner and partner with agent
-        self.unpair(partner)
-        partner.unpair(self)
-
-    def pair(self, partner: "Agent"):
-        """
-        Pair two agents by adding each to the respective _partners list
-
-        args:
-            partner (Agent(object)) - new partner of agent
-        returns:
-            None
-        """
-
-        if partner.get_ID() != self.get_ID() and partner not in self._partners:
-            self._partners.append(partner)
-
-    def unpair(self, partner: "Agent"):
-        """
-        Unpair two agents by removing each to the respective _partners list
-
-        args:
-            agent (Agent(object)) - new partner of agent
-        returns:
-            None
-        """
-        if partner in self._partners:
-            self._partners.remove(partner)
-
     def partner_list(self):
         """
         Return the list of partners for this agent
@@ -220,12 +143,12 @@ class Agent:
 
         return ptnrs
 
-    def get_acute_status(self, time: int) -> bool:
+    def get_acute_status(self) -> bool:
         """
         :Purpose:
             Get acute status of agent at time period
         :Input:
-            time : int
+            None
         :Output:
             acute_status : bool
         """
@@ -237,7 +160,7 @@ class Agent:
         else:
             return False
 
-    def PrEP_eligible(self, time: int) -> bool:
+    def PrEP_eligible(self) -> bool:
         """
         :Purpose:
             Determine if an agent is eligible for PrEP
@@ -249,16 +172,15 @@ class Agent:
             eligibility : bool
         """
         eligible = False
-        if params.PrEP_target_model == "Allcomers":
+        if (
+            "Allcomers" in params.PrEP_target_model
+            or "Racial" in params.PrEP_target_model
+        ):
             eligible = True
         elif params.PrEP_target_model == "CDCwomen":
             if self._SO == "HF":
                 for rel in set(self._relationships):
-                    if rel._ID1 == self:
-                        partner = rel._ID2
-                    else:
-                        partner = rel._ID1
-
+                    partner = rel.get_partner(self)
                     if rel._duration > 1:
                         if partner._DU == "IDU":
                             eligible = True
@@ -272,23 +194,11 @@ class Agent:
         elif params.PrEP_target_model == "CDCmsm":
             if self._SO == "MSM":
                 for rel in self._relationships:
-                    if rel._ID1 == self:
-                        partner = rel._ID2
-                    else:
-                        partner = rel._ID1
+                    partner = rel.get_partner(self)
 
                     if rel._duration > 1:
                         if partner._tested or self._mean_num_partners > 1:
                             eligible = True
-        elif params.PrEP_target_model == "HighPN5":
-            if self._mean_num_partners >= 5:
-                eligible = True
-        elif params.PrEP_target_model == "HighPN10":
-            if self._mean_num_partners >= 10:
-                eligible = True
-        elif params.PrEP_target_model == "SRIns":
-            if self._sexualRole == "Insertive":
-                eligible = True
         elif params.PrEP_target_model == "MSM":
             if self._SO in ("MSM", "MTF"):
                 eligible = True
@@ -315,6 +225,21 @@ class Agent:
                 (0.5) ** (self._PrEP_lastDose / (params.PrEP_halflife / 30))
             )
 
+    def vaccinate(self, vax: str):
+        """
+        :Purpose:
+            Vaccinate an agent and update relevant fields.
+
+        :Input:
+            vax - str : Vaccine type
+
+        :Output:
+            none
+        """
+        self.vaccine_bool = True
+        self.vaccine_type = vax
+        self.vaccine_time = 1
+
     def get_transmission_probability(self, interaction: str) -> float:
         """ Decriptor
         :Purpose:
@@ -326,19 +251,17 @@ class Agent:
         :Output:
             probability : float
         """
-
-        sex_type = self._SO
-        agentAdherence = self._HAART_adh
+        agentAdherence = str(self._HAART_adh)
 
         # Logic for if needle or sex type interaction
         p: float
         if interaction == "NEEDLE":
-            p = params.TransmissionProbabilities["NEEDLE"][str(agentAdherence)]
+            p = params.TransmissionProbabilities["NEEDLE"][agentAdherence]
         elif interaction == "SEX":
-            p = params.TransmissionProbabilities["SEX"][sex_type][str(agentAdherence)]
+            p = params.TransmissionProbabilities["SEX"][self._SO][agentAdherence]
 
         # Scaling parameter for acute HIV infections
-        if self.get_acute_status(0):
+        if self.get_acute_status():
             p = p * params.cal_AcuteScaling
 
         # Scaling parameter for positively identified HIV agents
@@ -346,7 +269,7 @@ class Agent:
             p = p * (1 - params.cal_RR_Dx)
 
         # Tuning parameter for ART efficiency
-        if self._HAART_bool:  # self.AdherenceAgents[agent] > 0:
+        if self._HAART_bool:
             p = p * params.cal_RR_HAART
 
         # Racial calibration parameter to attain proper race incidence disparity
@@ -358,7 +281,6 @@ class Agent:
 
         return p
 
-    # REVIEWED as written, it's not guaranteed to return an int, but seems likely given params, can't this be more clearly written as a for loop? it also looks like the params adds the p values, while this loop also adds p-values, is that correct? - Sarah to review with Max
     def get_number_of_sexActs(self, rand_gen) -> int:
         """
         :Purpose:
@@ -379,7 +301,6 @@ class Agent:
         # 52–155 times per year 644 12.4 605 18.9 39 2.0
         # >156 times per year 733 14.1 631 19.7 102 5.1
         rv = rand_gen.random()
-        pMatch = 0.0
 
         for i in range(1, 6):
             pMatch = params.sexualFrequency[i]["p_value"]
@@ -388,8 +309,10 @@ class Agent:
                 maxSA = params.sexualFrequency[i]["max"]
                 return rand_gen.randrange(minSA, maxSA, 1)
 
-        # REVIEWED - fallthrough return? 0? - Sarah to review with Max
-        return 0
+        # fallthrough is last i
+        minSA = params.sexualFrequency[i]["min"]
+        maxSA = params.sexualFrequency[i]["max"]
+        return rand_gen.randrange(minSA, maxSA, 1)
 
 
 class Relationship:
@@ -402,7 +325,7 @@ class Relationship:
     def update_id_counter(cls):
         cls.next_rel_id += 1
 
-    def __init__(self, ID1: Agent, ID2: Agent, SO: str, rel_type: str, duration: int):
+    def __init__(self, ID1: Agent, ID2: Agent, duration: int, rel_type: str):
         """
         :Purpose:
             Constructor for a Relationship
@@ -414,6 +337,11 @@ class Relationship:
             :rel_type: (future feature) - sex bond or idu bond or both
             :duration: length of relationship
         """
+        # make sure these agents can be in a relationship
+        assert ID1 != ID2, "Cannot create relationship with same agent"
+        assert (
+            ID1 not in ID2._partners and ID2 not in ID1._partners
+        ), "Agent's already partnered!"
 
         # self._ID is unique ID number used to track each person agent.
         self._ID1 = ID1
@@ -423,19 +351,64 @@ class Relationship:
 
         # Relationship properties
         self._duration = duration
+        self._total_duration = duration
         self._total_sex_acts = 0
+        self._rel_type = rel_type
+
+        self.bond(ID1, ID2)
 
     def progress(self, forceKill: bool = False):
         if self._duration <= 0 or forceKill:
-            agent = self._ID1
-            partner = self._ID2
-
-            agent.unbond(partner, self)
-
+            self.unbond(self._ID1, self._ID2)
             return True
         else:
             self._duration = self._duration - 1
             return False
+
+    def bond(self, agent: "Agent", partner: "Agent"):
+        """
+        Bond two agents. Adds each to a relationship object, then partners in each
+        others' partner list.
+
+        args:
+            agent: Agent - new partner of partner
+            partner: Agent - new partner of agent
+        returns:
+            None
+        """
+
+        # Append relationship to relationships list for each agent
+        agent._relationships.append(self)
+        partner._relationships.append(self)
+
+        # Pair agent with partner and partner with agent
+        agent._partners.append(partner)
+        partner._partners.append(agent)
+
+    def unbond(self, agent: "Agent", partner: "Agent"):
+        """
+        Unbond two agents. Removes relationship from relationship lists. Removes partners in each others' partner list.
+
+        args:
+            agent: Agent - former partner of partner
+            partner: Agent - former partner of agent
+        returns:
+            None
+        """
+
+        # Remove relationship to relationships list for each agent
+        agent._relationships.remove(self)
+        partner._relationships.remove(self)
+
+        # Unpair agent with partner and partner with agent
+        agent._partners.remove(partner)
+        partner._partners.remove(agent)
+
+    def get_partner(self, agent: "Agent") -> "Agent":
+        if agent == self._ID1:
+            return self._ID2
+        else:
+            return self._ID1
 
     def get_ID(self):
         return self._ID
@@ -525,10 +498,16 @@ class Agent_set:
         "Returns true if agent is a member of this set"
         return agent in self._members
 
+    # adding trickles up
     def add_agent(self, agent: Agent):
         "Adds a new agent to the set."
-        self._members.append(agent)
+        if not self.is_member(agent):
+            self._members.append(agent)
 
+            if self._parent_set is not None:
+                self._parent_set.add_agent(agent)
+
+    # removing trickles down
     def remove_agent(self, agent: Agent):
         "Removes agent from agent set."
         if self.is_member(agent):
@@ -539,7 +518,8 @@ class Agent_set:
 
     def iter_agents(
         self,
-    ):  # REVIEWED isn't this redundant with get_agents? why not have __iter__ return the agents? then we could use the syntax agent in agent_set - maybe consolidate later
+    ):  # REVIEWED isn't this redundant with get_agents? why not have __iter__ return the agents? then we could use
+        # the syntax agent in agent_set - maybe consolidate later
         for agent in self.get_agents():
             yield agent
 
@@ -548,31 +528,12 @@ class Agent_set:
 
     def add_subset(self, subset: "Agent_set"):
         "Adds a new Agent_set to the current sets subset."
-        if subset._ID in self._subset:
-            raise KeyError(
-                "Subset %s is already a member of Agent_set set %s"
-                % (subset.get_ID(), self._ID)
-            )
-        self._subset[subset._ID] = subset
-
-    def remove_subset(self, subset: "Agent_set"):
-        "Removes Agent_set to the current sets subset."
-        try:
-            self._subset.pop(subset._ID)
-        except KeyError:
-            raise KeyError(
-                "subset %s is not a member of set %s" % (subset.get_ID(), self.get_ID())
-            )
+        if subset._ID not in self._subset:
+            self._subset[subset._ID] = subset
 
     def iter_subset(self):
         for subset in list(self._subset.values()):
             yield subset
-
-    def set_parent_set(self, master_set: "Agent_set"):
-        self._parent_set = master_set
-
-    def get_parent_set(self) -> Optional["Agent_set"]:
-        return self._parent_set
 
     def print_subsets(self):
         print("\t__________ %s __________" % self.get_ID())

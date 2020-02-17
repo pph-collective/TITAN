@@ -119,7 +119,7 @@ PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 PrEP_disc = 0.15
-PrEP_target_model = "Allcomers"  # Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec
+PrEP_target_model = "Allcomers"  # Clinical, Allcomers,
 PrEP_clinic_cat = "Mid"
 
 if PrEP_type == "Oral":
@@ -210,7 +210,7 @@ RC_template = {
     "mNPart": 0.0,  # Mean number of sex partners
     "NUMPartn": 0.0,  # Number of partners (redundant)
     "NUMSexActs": 0.0,  # Mean number of sex acts with each partner
-    "UNSAFESEX": 0.0,  # Probability of engaging in unsafe sex (per act)
+    "SAFESEX": 0.0,  # Probability of engaging in safe sex (per act)
     "NEEDLESH": 0.0,  # Probability of sharing syringes during join drug use (per act)
     "HIVTEST": 0.0,  # Probability of testing for HIV
     "INCAR": 0.0,  # Probability of becoming incarcerated (rate)
@@ -243,7 +243,7 @@ RaceClass1["HM"] = {
     "TestedPrev": 0.90,
     "NUMPartn": 1.5,
     "NUMSexActs": 13.4,
-    "UNSAFESEX": 0.89,
+    "SAFESEX": 0.89,
     "NEEDLESH": 0.43,
     "HIVTEST": 0.034,
     "INCAR": 0.001,
@@ -262,7 +262,7 @@ RaceClass1["HF"] = {
     "TestedPrev": 0.90,
     "NUMPartn": 0.5,
     "NUMSexActs": 12.74,
-    "UNSAFESEX": 0.43,
+    "SAFESEX": 0.43,
     "NEEDLESH": 0.43,
     "HIVTEST": 0.034,
     "INCAR": 0.00,
@@ -281,7 +281,7 @@ RaceClass1["PWID"] = {
     "TestedPrev": 0.90,
     "NUMPartn": 0.5,
     "NUMSexActs": 5.0,
-    "UNSAFESEX": 0.89,
+    "SAFESEX": 0.89,
     "NEEDLESH": 0.63,
     "HIVTEST": 0.055,
     "INCAR": 0.001,

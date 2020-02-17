@@ -13,9 +13,10 @@ rSeed = (
 rSeed_pop = 0
 rSeed_net = 0
 rSeed_run = 0
-N_MC = 100  # total number of iterations (Monte Carlo runs)
-N_POP = 110000  # population size
-TIME_RANGE = 168  # total time steps to iterate
+N_MC = 1  # total number of iterations (Monte Carlo runs)
+N_REPS = 1
+N_POP = 1100  # population size
+TIME_RANGE = 12  # total time steps to iterate
 burnDuration = 30  # total time for burning in period (equillibration)
 model = "Incar"  # Model Type for fast flag toggling
 setting = "Phil2005"
@@ -35,9 +36,9 @@ MSMreport = True
 HMreport = False
 HFreport = False
 drawFigures = False
+calcComponentStats = False
 
 reports = [
-    "deathReport",
     "incarReport",
     "newlyhighriskReport",
     "prepReport",
@@ -70,12 +71,16 @@ cal_raceXmission = (
 cal_ptnrSampleDepth = 100  # Sampling depth for partnering algorithm.
 
 """
+Bond Params
+"""
+mean_partner_type = "mean"
+bond_type = []
+
+"""
 High risk params
 """
 HR_partnerScale = 300  # Linear increase to partner number during HR period
 HR_proportion = 0.3  # Proportion of people who enter HR group when partner incarcerated
-HR_M_dur = 6  # Duration of high risk for males
-HR_F_dur = 6  # Duration of high risk for females
 HIV_MSMW = 0.01
 
 
@@ -83,8 +88,7 @@ HIV_MSMW = 0.01
 Misc. params
 """
 flag_AssortativeMix = True  # Boolean for if assortative mixing occurs at all
-AssortMixType = "HR"  # Other assortative mixing types
-flag_AgeAssortMix = False  # Assortative mix by age
+AssortMixType = "high_risk"  # Other assortative mixing types
 flag_RaceAssortMix = False  # Assortative mix by race
 AssortMixCoeff = 0.3  # Proportion of following given assort mix rules
 safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
@@ -130,9 +134,7 @@ PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01  # Probability of PrEP resistance developing
 PrEP_disc = 0.15  # Per month probability of PrEP discontinuation
-PrEP_target_model = (
-    "MSM"  # Allcomers, Clinical, Allcomers, HighPN5, HighPN10, SRIns, SR,Rec, MSM
-)
+PrEP_target_model = ""  # Allcomers, Clinical, Allcomers
 PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it follow
 
 if PrEP_type == "Oral":
@@ -155,7 +157,7 @@ elif PrEP_type == "Inj":
 Model Type for fast flag toggling
     flag_incar      Incarceration effects
     flag_PrEP       PrEP enrollment
-    flag_HR         High risk behavior for incar or genPop
+    flag_high_risk         High risk behavior for incar or genPop
     flag_ART        ART therapy enrollment
     flag_DandR      Die and replace functionality
 
@@ -163,7 +165,7 @@ Model Type for fast flag toggling
 if model == "PrEP":
     flag_incar = False
     flag_PrEP = True
-    flag_HR = False
+    flag_high_risk = False
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
@@ -172,16 +174,17 @@ if model == "PrEP":
 elif model == "Incar":
     flag_incar = True
     flag_PrEP = False
-    flag_HR = True
+    flag_high_risk = True
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
     flag_agentZero = False
+    flag_PCA = False
 
 elif model == "NoIncar":
     flag_incar = False
     flag_PrEP = False
-    flag_HR = True
+    flag_high_risk = True
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
@@ -190,7 +193,7 @@ elif model == "NoIncar":
 elif model == "StaticZero":
     flag_incar = False
     flag_PrEP = False
-    flag_HR = False
+    flag_high_risk = False
     flag_ART = False
     flag_DandR = False
     flag_staticN = True
@@ -199,13 +202,16 @@ elif model == "StaticZero":
 elif model == "Custom":
     flag_incar = False
     flag_PrEP = True
-    flag_HR = False
+    flag_high_risk = False
     flag_ART = True
     flag_DandR = True
     flag_staticN = False
     flag_agentZero = False
 
-agentSexTypes = ["HM", "HF", "MSM", "MTF"]
+agentSexTypes = ["HM", "HF"]
+agentPopulations = ["HM", "HF", "IDU"]
+
+
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
 ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, PWID)
@@ -223,7 +229,7 @@ RC_template = {
     "mNPart": 0.0,  # Mean number of sex partners
     "NUMPartn": 0.0,  # Number of partners (redundant)
     "NUMSexActs": 0.0,  # Mean number of sex acts with each partner
-    "UNSAFESEX": 0.0,  # Probability of engaging in unsafe sex (per act)
+    "SAFESEX": 0.0,  # Probability of engaging in safe sex (per act)
     "NEEDLESH": 0.0,  # Probability of sharing syringes during join drug use (per act)
     "HIVTEST": 0.0,  # Probability of testing for HIV
     "INCAR": 0.0,  # Probability of becoming incarcerated (rate)
@@ -232,6 +238,8 @@ RC_template = {
     "PrEPdisc": 0.0,  # Probability of discontinuing PrEP treatment
     "EligSE_PartnerType": None,  # List of agent SO types the agent cant partner with
     "AssortMixMatrix": [],  # List of assortMix Matrix to be zipped with EligPart
+    "HighRiskPrev": 0,
+    "HighRiskDuration": 0,
 }
 
 RC_allTemplate = {
@@ -257,7 +265,7 @@ RaceClass1["HM"].update(
         "TestedPrev": 0.90,
         "NUMPartn": 1.5,
         "NUMSexActs": 5.0,
-        "UNSAFESEX": 0.89,
+        "SAFESEX": 0.89,
         "NEEDLESH": 0.43,
         "HIVTEST": 0.034,
         "INCAR": 0.001,
@@ -265,6 +273,7 @@ RaceClass1["HM"].update(
         "HAARTdisc": 0.000,
         "PrEPdisc": 0.0000,
         "EligSE_PartnerType": "HF",
+        "HighRiskDuration": 6,
     }
 )
 
@@ -278,7 +287,7 @@ RaceClass1["HF"].update(
         "TestedPrev": 0.90,
         "NUMPartn": 1.5,
         "NUMSexActs": 5.0,
-        "UNSAFESEX": 0.43,
+        "SAFESEX": 0.43,
         "NEEDLESH": 0.43,
         "HIVTEST": 0.034,
         "INCAR": 0.00,
@@ -286,6 +295,7 @@ RaceClass1["HF"].update(
         "HAARTdisc": 0.000,
         "PrEPdisc": PrEP_disc,
         "EligSE_PartnerType": "HM",
+        "HighRiskDuration": 6,
     }
 )
 
@@ -299,7 +309,7 @@ RaceClass1["MSM"].update(
         "TestedPrev": 0.956,
         "NUMPartn": 4.0,
         "NUMSexActs": 2.8,
-        "UNSAFESEX": 0.49,
+        "SAFESEX": 0.49,
         "NEEDLESH": 0.00,
         "HIVTEST": 0.13,
         "INCAR": 0.00,
@@ -320,7 +330,7 @@ RaceClass1["MTF"] = {
     "TestedPrev": 0.95,
     "NUMPartn": 4.7,
     "NUMSexActs": 4.6,
-    "UNSAFESEX": 0.644,
+    "SAFESEX": 0.644,
     "NEEDLESH": 0.00,
     "HIVTEST": 0.155,
     "INCAR": 0.00,
@@ -341,7 +351,7 @@ RaceClass1["IDU"].update(
         "TestedPrev": 0.90,
         "NUMPartn": 1.5,
         "NUMSexActs": 5.0,
-        "UNSAFESEX": 0.89,
+        "SAFESEX": 0.89,
         "NEEDLESH": 0.63,
         "HIVTEST": 0.055,
         "INCAR": 0.001,

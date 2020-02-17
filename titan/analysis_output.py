@@ -35,7 +35,7 @@ def get_stats(
         "newHR": 0,
         "newHR_HIV": 0,
         "newHR_AIDS": 0,
-        "newHR_Tested": 0,
+        "newHR_tested": 0,
         "newHR_ART": 0,
         "newRelease": 0,
         "newReleaseHIV": 0,
@@ -54,7 +54,10 @@ def get_stats(
         "iduPartPrep": 0,
         "msmwPartPrep": 0,
         "testedPartPrep": 0,
-        "vaccinated": 0,
+        "Vaccinated": 0,
+        "injectable_prep": 0,
+        "oral_prep": 0,
+        "prep_aware": 0,
     }
 
     stats = {}
@@ -90,6 +93,13 @@ def get_stats(
                 stats[tmpA._race][tmpA._SO]["msmwPartPrep"] += 1
             if "HIV test" in tmpA._PrEP_reason:
                 stats[tmpA._race][tmpA._SO]["testedPartPrep"] += 1
+            if tmpA.PrEP_type == "Inj":
+                stats[tmpA._race][tmpA._SO]["injectable_prep"] += 1
+            elif tmpA.PrEP_type == "Oral":
+                stats[tmpA._race][tmpA._SO]["oral_prep"] += 1
+
+        if tmpA.awareness:
+            stats[tmpA._race][tmpA._SO]["prep_aware"] += 1
 
     # Newly PrEP tracker statistics
     for tmpA in newPrEPAgents.iter_agents():
@@ -121,6 +131,7 @@ def get_stats(
         if tmpA._HAART_bool:
             stats[tmpA._race][tmpA._SO]["numART"] += 1
 
+    # IDU agent summary
     for tmpA in totalAgents._subset["DU"]._subset["IDU"].iter_agents():
         stats[tmpA._race]["IDU"]["numAgents"] += 1
         if tmpA._HIV_bool:
@@ -132,8 +143,11 @@ def get_stats(
         if tmpA._HAART_bool:
             stats[tmpA._race]["IDU"]["numART"] += 1
 
+    # total number of agents
     for tmpA in totalAgents.iter_agents():
         stats[tmpA._race][tmpA._SO]["numAgents"] += 1
+        if tmpA.vaccine_bool:
+            stats[tmpA._race][tmpA._SO]["Vaccinated"] += 1
 
     for tmpA in deathSet:
         stats[tmpA._race][tmpA._SO]["deaths"] += 1
@@ -141,14 +155,15 @@ def get_stats(
             stats[tmpA._race][tmpA._SO]["deaths_HIV"] += 1
 
     # Sum 'ALL' categories for race/SO bins
-
     for race in stats:
-        for param in stats_template:
-            for sc in SUB_CAT:
-                if sc in params.agentSexTypes:
-                    stats[race]["ALL"][param] += stats[race][sc][param]
-            for sc in SUB_CAT:
-                stats["ALL"][sc][param] += stats[race][sc][param]
+        if race != "ALL":
+            for param in stats_template:
+                for sc in SUB_CAT:
+                    if sc in params.agentSexTypes:
+                        stats[race]["ALL"][param] += stats[race][sc][param]
+                for sc in SUB_CAT:
+                    stats["ALL"][sc][param] += stats[race][sc][param]
+
     # add relationship count (only makes sense at the all level)
     stats["ALL"]["ALL"]["numRels"] = len(Relationships)
 
@@ -182,7 +197,7 @@ def deathReport(
 
         f.write("\n")
 
-    f.write("%d\t%d\t%d" % (run_id, runseed, t))  # start row
+    f.write("%s\t%d\t%d" % (run_id, runseed, t))  # start row
 
     for sex_type in sex_types:
         f.write(
@@ -222,7 +237,7 @@ def incarReport(
 
         f.write("\n")
 
-    f.write("%d\t%d\t%d" % (run_id, runseed, t))
+    f.write("%s\t%d\t%d" % (run_id, runseed, t))
 
     for p in name_map:
         for mc in MAIN_CAT:
@@ -254,7 +269,7 @@ def newlyhighriskReport(
 
         f.write("\n")
 
-    f.write("%d\t%d\t%d" % (run_id, runseed, t))  # start row
+    f.write("%s\t%d\t%d" % (run_id, runseed, t))  # start row
 
     for sex_type in params.agentSexTypes:
         f.write(
@@ -263,11 +278,12 @@ def newlyhighriskReport(
                 stats["ALL"][sex_type]["newHR"],
                 stats["ALL"][sex_type]["newHR_HIV"],
                 stats["ALL"][sex_type]["newHR_AIDS"],
-                stats["ALL"][sex_type]["newHR_Tested"],
+                stats["ALL"][sex_type]["newHR_tested"],
                 stats["ALL"][sex_type]["newHR_ART"],
             )
         )
-        f.write("\n")
+
+    f.write("\n")
     f.close()
 
 
@@ -286,7 +302,7 @@ def prepReport(
         f.write("run_id\tseed\tt\tNewEnroll\tIDUpartner\tTestedPartner\tMSMWpartner\n")
 
     f.write(
-        "%d\t%d\t%d\t%d\t%d\t%d\t%d\n"
+        "%s\t%d\t%d\t%d\t%d\t%d\t%d\n"
         % (
             run_id,
             runseed,
@@ -316,12 +332,12 @@ def basicReport(
             # if this is a new file, write the header info
             if tmpReport.tell() == 0:
                 tmpReport.write(
-                    "run_id\trseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\n"
+                    "run_id\trseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\tVaccinated\tLAI\tOral\tAware\n"
                 )
 
             tmpReport.write(
                 (
-                    "{:s}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
+                    "{:s}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
                         str(run_id),
                         runseed,
                         popseed,
@@ -342,6 +358,10 @@ def basicReport(
                         stats[agentRace][agentTypes]["iduPartPrep"],
                         stats[agentRace][agentTypes]["msmwPartPrep"],
                         stats[agentRace][agentTypes]["testedPartPrep"],
+                        stats[agentRace][agentTypes]["Vaccinated"],
+                        stats[agentRace][agentTypes]["injectable_prep"],
+                        stats[agentRace][agentTypes]["oral_prep"],
+                        stats[agentRace][agentTypes]["prep_aware"],
                     )
                 )
             )
@@ -357,45 +377,44 @@ def print_components(
     """
     Write stats describing the components (sub-graphs) in a graph to file
     """
-    f = open("results/componentReport_ALL.txt", "a")
+    compFile = open("results/componentReport_ALL.txt", "a")
 
     # if this is a new file, write the header info
-    if f.tell() == 0:
-        f.write(
-            "run_id\trunseed\tpopseed\tnetseed\tt\tcompID\ttotalN\tTestedPartner\tMSMWpartner\n"
+    if compFile.tell() == 0:
+        compFile.write(
+            "run_id\trunseed\tpopseed\tnetseed\tt\tcompID\ttotalN\tNhiv\tNprep\tNtrtHIV\tNprepHIV\tTrtComponent\tPCA\tOral\tLAI\tAware\n"
         )
 
     compID = 0
     for comp in components:
-        totN = nhiv = ntrtmt = ntrthiv = nprep = PrEP_ever_HIV = 0
+        totN = (
+            nhiv
+        ) = (
+            ntrthiv
+        ) = nprep = PrEP_ever_HIV = trtbool = injectable_prep = oral = aware = pca = 0
         for agent in comp.nodes():
             totN += 1
             if agent._HIV_bool:
                 nhiv += 1
                 if agent._treatment_bool:
                     ntrthiv += 1
-                if agent._PrEP_ever_bool:
-                    PrEP_ever_HIV += 1
-            elif agent._treatment_bool:
-                ntrtmt += 1
-                if agent._PrEP_bool:
-                    nprep += 1
-        f.write(
-            "{run_id}\t{runseed}\t{pseed}\t{nseed}\t{t}\t{compID}\t{totalN}\t{Nhiv}\t{Ntrtmt}\t{Nprep}\t{NtrtHIV}\t{NprepHIV}\n".format(
-                run_id=run_id,
-                runseed=runseed,
-                pseed=popseed,
-                nseed=netseed,
-                t=t,
-                compID=compID,
-                totalN=totN,
-                Nhiv=nhiv,
-                Ntrtmt=ntrtmt,
-                Nprep=nprep,
-                NtrtHIV=ntrthiv,
-                NprepHIV=PrEP_ever_HIV,
-            )
+            if agent._PrEP_bool:
+                nprep += 1
+                if agent.PrEP_type == "Inj":
+                    injectable_prep += 1
+                elif agent.PrEP_type == "Oral":
+                    oral += 1
+            if agent._pca:
+                trtbool += 1
+                if agent._pca_suitable:
+                    pca += 1
+            if agent.awareness:
+                aware += 1
+
+        compFile.write(
+            f"{run_id}\t{runseed}\t{popseed}\t{netseed}\t{t}\t{compID}\t{totN}\t{nhiv}\t{nprep}\t{ntrthiv}"
+            f"\t{PrEP_ever_HIV}\t{trtbool}\t{pca}\t{oral}\t{injectable_prep}\t{aware}\n"
         )
 
         compID += 1
-    f.close()
+    compFile.close()
