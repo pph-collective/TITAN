@@ -11,7 +11,7 @@ from . import probabilities as prob
 from .agent import Agent, Agent_set
 
 
-def get_partner(agent: Agent, all_agent_set: Agent_set) -> Tuple[Optional[Agent], str]:
+def get_partner(agent: Agent, all_agent_set: Agent_set, random_method) -> Tuple[Optional[Agent], str]:
     """
     :Purpose:
         Get partner for agent.
@@ -25,9 +25,9 @@ def get_partner(agent: Agent, all_agent_set: Agent_set) -> Tuple[Optional[Agent]
         partner: new partner
     """
     agent_drug_type = agent._DU
-    eligible_partner_set = set(all_agent_set._members)
+    eligible_partner_set: Set[Agent] = set(all_agent_set._members)
     eligible_partner_set.remove(agent)
-    eligible_partners: Set[Agent] = set()
+    eligible_partners: Set[Agent] = set(all_agent_set._members)
     RandomPartner: Optional[Agent]
 
     def bondtype(bond_dict):
@@ -35,33 +35,34 @@ def get_partner(agent: Agent, all_agent_set: Agent_set) -> Tuple[Optional[Agent]
         for value in bond_dict.values():
             bonds["type"].append(value["type"])
             bonds["prob"].append(value["probability"])
-        bonded_type = np.random.choice(bonds["type"], p=bonds["prob"])
+        bonded_type = random_method.choices(bonds["type"], weights=bonds["prob"], k=1)
         return bonded_type
 
     def assort(eligible_partner_list, assort_params):
         if (
-            random.random() < assort_params["probability"]
+            random_method.random() < assort_params["probability"]
         ):  # if roll to assortatively mix, only that class is
             # your eligible partners
             eligible_partners = {
-                tmpA
-                for tmpA in eligible_partner_list
+                partner
+                for partner in eligible_partner_list
                 if (
-                    getattr(tmpA, assort_params["type"])
+                    getattr(partner, assort_params["type"])
                     == assort_params["partner_type"]
                 )
             }
         else:  # if you aren't chosen to assortative mix,
             # you should be choosing people who don't meet that criteria
             eligible_partners = {
-                tmpA
-                for tmpA in eligible_partner_list
-                if (getattr(tmpA, assort_params["type"]) != assort_params["type"])
+                partner
+                for partner in eligible_partner_list
+                if (getattr(partner, assort_params["type"]) != assort_params["type"])
             }
         return eligible_partners
 
     for assort_types in params.assortative_mixing.values():
-        eligible_partner_set = assort(eligible_partner_set, assort_types)
+        if getattr(agent, assort_types["type"]) == assort_types["agent_type"]:
+            eligible_partner_set = assort(eligible_partner_set, assort_types)
 
     if (
         agent_drug_type == "IDU"
@@ -71,15 +72,19 @@ def get_partner(agent: Agent, all_agent_set: Agent_set) -> Tuple[Optional[Agent]
         agent_bond = bondtype(params.bond_type_probs)
 
     if "injection" in agent_bond:
-        subset = set(all_agent_set._subset["DU"]._subset["IDU"]._members)
-        eligible_partners = eligible_partners | subset
+        subset = {
+            partner
+            for partner in all_agent_set.iter_agents()
+            if partner._DU == "IDU"
+        }
+        eligible_partners = eligible_partners & subset
     if "sexual" in agent_bond:
         subset = {
             ptn
             for ptn in all_agent_set.iter_agents()
             if sex_possible(agent._SO, ptn._SO)
         }
-        eligible_partners = eligible_partners | subset
+        eligible_partners = eligible_partners & subset
     if "social" in agent_bond:
         eligible_partners = {
             ptn for ptn in all_agent_set.iter_agents() if ptn not in agent._partners
@@ -89,7 +94,11 @@ def get_partner(agent: Agent, all_agent_set: Agent_set) -> Tuple[Optional[Agent]
     eligible_agents -= set(agent._partners)
 
     if eligible_agents:
-        RandomPartner = eligible_agents.pop()
+        eligible_agents = list(eligible_agents)
+        RandomPartner = random_method.choices(eligible_agents)
+        if type(RandomPartner) is list:
+            RandomPartner = RandomPartner[0]
+        assert type(RandomPartner) is Agent
     else:
         RandomPartner = None
     return RandomPartner, agent_bond

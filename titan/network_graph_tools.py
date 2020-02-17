@@ -33,6 +33,7 @@ class NetworkClass(PopulationClass):
 
             network_type: default is "scale_free", other options are "max_k_comp_size""
         """
+        self.net_random = random.Random(netSeed)
         random.seed(netSeed)
         np.random.seed(netSeed)
 
@@ -51,13 +52,13 @@ class NetworkClass(PopulationClass):
         if network_type == "scale_free":
             self.G = nx.Graph()
             for i in range(10):
-                self.update_partner_assignments(params.PARTNERTURNOVER, self.G)
+                self.update_partner_assignments(params.PARTNERTURNOVER, self.G, self.net_random)
 
         elif network_type == "max_k_comp_size":
 
             def trimComponent(component, maxComponentSize):
                 for ag in component.nodes:
-                    if random.random() < 0.1:
+                    if self.net_random.random() < 0.1:
                         for rel in ag._relationships:
                             if len(ag._relationships) == 1:
                                 break  # Keep agent bound to network
@@ -80,7 +81,7 @@ class NetworkClass(PopulationClass):
 
             self.G = nx.Graph()
             for i in range(30):
-                self.update_partner_assignments(params.PARTNERTURNOVER, self.G)
+                self.update_partner_assignments(params.PARTNERTURNOVER, self.G, self.net_random)
             components = list(
                 self.G.subgraph(c).copy() for c in nx.connected_components(self.G)
             )

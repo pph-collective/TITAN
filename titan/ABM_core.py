@@ -185,7 +185,7 @@ class HIVModel(NetworkClass):
         def makeAgentZero(numPartners: int):
             firstHIV = self.runRandom.choice(self.DU_IDU_agentSet._members)
             for i in range(numPartners):
-                self.update_agent_partners(self.get_Graph(), firstHIV)
+                self.update_agent_partners(self.get_Graph(), firstHIV, self.net_random)
             self._become_HIV(firstHIV, 0)
 
         run_id = uuid.uuid4()
@@ -321,7 +321,7 @@ class HIVModel(NetworkClass):
             none
         """
         if time > 0 and not params.flag_staticN:
-            self.update_partner_assignments(params.PARTNERTURNOVER, self.get_Graph())
+            self.update_partner_assignments(params.PARTNERTURNOVER, self.get_Graph(), self.runRandom)
 
         for rel in self.Relationships:
             # If in burn, ignore interactions

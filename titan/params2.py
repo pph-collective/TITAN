@@ -119,7 +119,10 @@ inc_treatment_startdate = 48  # Timestep where inc treatment can begin
 inc_treatment_dur = (
     12  # Duration for which agents are forced on respective treatment post release
 )
-
+inc_treat_set = ["HM"]  # Set of agent classifiers effected by HR treatment
+inc_treat_HRsex_beh = True  # Remove sexual higrisk behaviour during treatment duration
+inc_treat_IDU_beh = True  # Remove IDU behav:iour during treatment duration
+inc_treat_RIC = False  # Force retention in care of ART therapy
 
 # PrEP params
 PrEP_type = ["Oral", "Vaccine"]  # Oral/Inj PrEP and/or vaccine
@@ -165,7 +168,40 @@ Model Type for fast flag toggling
 ####################
 
 ####################
-if model == "Custom":
+
+if model == "PrEP":
+    flag_incar = False
+    flag_PrEP = True
+    flag_high_risk = False
+    flag_ART = True
+    flag_DandR = True
+    flag_staticN = False
+    flag_booster = False
+elif model == "Incar":
+    flag_incar = True
+    flag_PrEP = False
+    flag_high_risk = True
+    flag_ART = True
+    flag_DandR = True
+    flag_staticN = False
+    flag_booster = False
+elif model == "NoIncar":
+    flag_incar = False
+    flag_PrEP = False
+    flag_high_risk = False
+    flag_ART = True
+    flag_DandR = True
+    flag_staticN = False
+    flag_booster = False
+elif model == "VaccinePrEP":
+    flag_incar = False
+    flag_PrEP = True
+    flag_high_risk = False
+    flag_ART = True
+    flag_DandR = True
+    flag_staticN = False
+    flag_booster = True
+elif model == "Custom":
     flag_incar = False
     flag_PrEP = True
     flag_high_risk = False
@@ -175,7 +211,6 @@ if model == "Custom":
     flag_booster = False
     flag_PCA = False
     init_with_vaccine = False
-    drug_use_risk = False
 
 agentSexTypes = ["HM", "HF", "MSM", "WSW", "MTF"]
 agentPopulations = deepcopy(agentSexTypes)
@@ -215,8 +250,6 @@ RC_template: Dict[str, Any] = {
     "vaccinePrev": 0,
     "vaccineInit": 0,
     "HighRiskDuration": 10,
-    "nidu": 0.0,
-    "nidu_relative_risk": 0.0,
 }
 
 RaceClass1: Dict[str, Any] = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
@@ -464,34 +497,9 @@ clinicAgents["Mid"] = {
 """
 Bond Params
 """
-bond_type_probs = {
-    1: {"type": ["social"], "probability": 0.308},
-    2: {"type": ["social", "sexual"], "probability": 0.105},
-    3: {"type": ["sexual"], "probability": 0.587},
-}
-
-bond_type_probs_IDU = {
-    1: {"type": ["injection"], "probability": 0.308},
-    2: {"type": ["injection", "sexual"], "probability": 0.105},
-    3: {"type": ["sexual"], "probability": 0.587},
-}
+bond_type_probs = {"social": 0.308, "multiplex": 0.105, "sexOnly": 0.587}
+bond_type_probs_IDU = {"social": 0.308, "multiplex": 0.105, "sexOnly": 0.587}
 mean_partner_type = "bins"
-
-assortative_mixing: Dict[int, Any] = {
-    1: {
-        "type": "_race",
-        "probability": 0.5,
-        "agent_type": "WHITE",
-        "partner_type": "WHITE",
-    },
-    2: {
-        "type": "_DU",
-        "probability": 0.5,
-        "agent_type": "nidu",
-        "partner_type": "nidu",
-    },
-}
-
 
 """
 Peer change params
@@ -518,7 +526,6 @@ interactionProb: Dict[str, Any] = {
     "sexOnly": {},
     "multiplex": {},
     "social": {},
-    "IDU": {},
 }  # prob of interaction per timestep (or at relationship formation for sexual)
 interactionProb["sexOnly"][1] = {"pvalue": 1.00, "min": 0, "max": 0}
 

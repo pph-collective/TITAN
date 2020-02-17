@@ -460,8 +460,10 @@ class PopulationClass:
 
     # REVIEWED should these be in the network class? - max to incorporate with
     # network/pop/model disentangling?
-    def update_agent_partners(self, graph, agent: Agent) -> bool:
-        partner, rel_type = get_partner(agent, self.All_agentSet)
+    def update_agent_partners(self, graph, agent: Agent, random_method) -> bool:
+        partner, rel_type = get_partner(agent, self.All_agentSet, random_method)
+        assert type(partner) is not list
+        assert type(partner) is Agent or partner is None
         noMatch = False
         assert type(agent) is Agent
         if partner:
@@ -474,7 +476,7 @@ class PopulationClass:
             noMatch = True
         return noMatch
 
-    def update_partner_assignments(self, partnerTurnover: float, graph):
+    def update_partner_assignments(self, partnerTurnover: float, graph, random_method):
         # Now create partnerships until available partnerships are out
         EligibleAgents = self.All_agentSet
         for agent in EligibleAgents.iter_agents():
@@ -483,7 +485,7 @@ class PopulationClass:
                 * partnerTurnover
                 * (agent._mean_num_partners / (12.0))
             )
-            if self.popRandom.random() < acquirePartnerProb:
-                self.update_agent_partners(graph, agent)
+            if random_method.random() < acquirePartnerProb:
+                self.update_agent_partners(graph, agent, random_method)
             else:
                 graph.add_node(agent)
