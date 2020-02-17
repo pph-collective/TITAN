@@ -55,6 +55,7 @@ def test_get_IDU_partner_no_IDU(make_population, make_agent):
     assert bond == ["injection", "sexual"]
     assert partner is None
 
+
 @pytest.mark.skip("rethink with new functions")
 def test_get_IDU_partner_w_IDU(make_population, make_agent):
     empty_pop = make_population()

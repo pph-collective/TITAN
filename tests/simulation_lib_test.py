@@ -71,4 +71,3 @@ def test_save_results(tmpdir, setup_results_dir):
             print(row["n_Relations_mean"])
             num_rels_mean = np.mean(result_dict["n_Relations"][t])
             assert round(num_rels_mean, 5) == float(row["n_Relations_mean"])
-

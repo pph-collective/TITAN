@@ -321,7 +321,9 @@ class HIVModel(NetworkClass):
             none
         """
         if time > 0 and not params.flag_staticN:
-            self.update_partner_assignments(params.PARTNERTURNOVER, self.get_Graph(), self.runRandom)
+            self.update_partner_assignments(
+                params.PARTNERTURNOVER, self.get_Graph(), self.runRandom
+            )
 
         for rel in self.Relationships:
             # If in burn, ignore interactions

@@ -52,7 +52,9 @@ class NetworkClass(PopulationClass):
         if network_type == "scale_free":
             self.G = nx.Graph()
             for i in range(10):
-                self.update_partner_assignments(params.PARTNERTURNOVER, self.G, self.net_random)
+                self.update_partner_assignments(
+                    params.PARTNERTURNOVER, self.G, self.net_random
+                )
 
         elif network_type == "max_k_comp_size":
 
@@ -81,7 +83,9 @@ class NetworkClass(PopulationClass):
 
             self.G = nx.Graph()
             for i in range(30):
-                self.update_partner_assignments(params.PARTNERTURNOVER, self.G, self.net_random)
+                self.update_partner_assignments(
+                    params.PARTNERTURNOVER, self.G, self.net_random
+                )
             components = list(
                 self.G.subgraph(c).copy() for c in nx.connected_components(self.G)
             )

@@ -11,7 +11,9 @@ from . import probabilities as prob
 from .agent import Agent, Agent_set
 
 
-def get_partner(agent: Agent, all_agent_set: Agent_set, random_method) -> Tuple[Optional[Agent], str]:
+def get_partner(
+    agent: Agent, all_agent_set: Agent_set, random_method
+) -> Tuple[Optional[Agent], str]:
     """
     :Purpose:
         Get partner for agent.
@@ -73,9 +75,7 @@ def get_partner(agent: Agent, all_agent_set: Agent_set, random_method) -> Tuple[
 
     if "injection" in agent_bond:
         subset = {
-            partner
-            for partner in all_agent_set.iter_agents()
-            if partner._DU == "IDU"
+            partner for partner in all_agent_set.iter_agents() if partner._DU == "IDU"
         }
         eligible_partners = eligible_partners & subset
     if "sexual" in agent_bond:

@@ -204,7 +204,9 @@ def test_update_agent_partners_match(make_population):
 
     net = NetworkClass(N=0)
 
-    assert pop.update_agent_partners(net.G, a, FakeRandom(1.0)) is False  # noMatch == False
+    assert (
+        pop.update_agent_partners(net.G, a, FakeRandom(1.0)) is False
+    )  # noMatch == False
     assert a in net.G.nodes()
     assert p in net.G.nodes()
     assert len(net.G.edges()) == 1
@@ -219,7 +221,9 @@ def test_update_partner_assignments_match(make_population):
 
     net = NetworkClass(N=0)
 
-    pop.update_partner_assignments(100.0, net.G, FakeRandom(1.0, 0)) is False  # noMatch == False
+    pop.update_partner_assignments(
+        100.0, net.G, FakeRandom(1.0, 0)
+    ) is False  # noMatch == False
     assert a in net.G.nodes()
     assert p in net.G.nodes()
     assert len(net.G.edges()) == 1
@@ -234,7 +238,9 @@ def test_update_partner_assignments_no_match(make_population):
 
     net = NetworkClass(N=0)
 
-    pop.update_partner_assignments(0.0, net.G, FakeRandom(1.0)) is False  # noMatch == False
+    pop.update_partner_assignments(
+        0.0, net.G, FakeRandom(1.0)
+    ) is False  # noMatch == False
     assert a in net.G.nodes()
     assert p in net.G.nodes()
     assert len(net.G.edges()) == 0
