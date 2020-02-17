@@ -82,7 +82,7 @@ def test_agent_init(make_agent):
     assert a._pca is False
 
     # prevention parameters
-    assert a._tested is False
+    assert a._diagnosed is False
     assert a._PrEP_bool is False
     assert a._PrEP_time == 0
     assert a._PrEP_adh == 0
@@ -92,9 +92,9 @@ def test_agent_init(make_agent):
     assert a._PrEP_lastDose == 0
 
     # high risk params
-    assert a._highrisk_bool is False
-    assert a._highrisk_time == 0
-    assert a._everhighrisk_bool is False
+    assert a._high_risk_bool is False
+    assert a._high_risk_time == 0
+    assert a._ever_high_risk_bool is False
 
     # incarceration
     assert a._incar_bool is False
@@ -162,11 +162,11 @@ def test_get_transmission_probability(make_agent):
     a._HIV_time = 0
 
     # test tested status
-    a._tested = True
+    a._diagnosed = True
     assert a.get_transmission_probability("SEX") == p_sex * scale * (
         1 - params.cal_RR_Dx
     )
-    a._tested = False
+    a._diagnosed = False
 
     # test HAART
     a._HAART_bool = True

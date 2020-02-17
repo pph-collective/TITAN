@@ -8,7 +8,7 @@ from scipy.stats import poisson  # type: ignore
 import numpy as np  # type: ignore
 
 from .agent import Agent_set, Agent, Relationship
-from .ABM_partnering import get_partner, get_partnership_duration
+from .ABM_partnering import select_partner, get_partnership_duration
 from . import params  # type: ignore
 from . import probabilities as prob
 
@@ -172,7 +172,7 @@ class PopulationClass:
         self.incarcerated_agentSet = Agent_set("Incar", parent=self.All_agentSet)
 
         # High risk agent sets
-        self.highrisk_agentsSet = Agent_set("HRisk", parent=self.All_agentSet)
+        self.high_risk_agentsSet = Agent_set("high_risk", parent=self.All_agentSet)
 
         self.Relationships: List[Relationship] = []
 
@@ -264,7 +264,7 @@ class PopulationClass:
                 prob_Tested = params.DemographicParams[Race][SexType]["TestedPrev"]
 
             if self.popRandom.random() < prob_Tested:
-                newAgent._tested = True
+                newAgent._diagnosed = True
 
                 # if tested HAART possible
                 if DrugType == "IDU":
@@ -312,11 +312,13 @@ class PopulationClass:
             self.popRandom.random()
             < params.DemographicParams[Race][SexType]["HighRiskPrev"]
         ):
-            newAgent._highrisk_bool = True
-            newAgent._everhighrisk_bool = True
+            newAgent._high_risk_bool = True
+            newAgent._ever_high_risk_bool = True
 
         # Partnership demographics
-        if params.setting == "Scott":
+        if (
+            params.setting == "Scott"
+        ):  # TODO: condense this with the below. no need to have Scott separate
             newAgent._mean_num_partners = prob.get_mean_num_partners(
                 DrugType, self.popRandom
             )
@@ -399,14 +401,14 @@ class PopulationClass:
         if agent._PrEP_bool:
             addToSubsets(self.Trt_PrEP_agentSet, agent)
 
-        if agent._tested:
+        if agent._diagnosed:
             addToSubsets(self.Trt_Tstd_agentSet, agent)
 
         if agent._incar_bool:
             addToSubsets(self.incarcerated_agentSet, agent)
 
-        if agent._highrisk_bool:
-            addToSubsets(self.highrisk_agentsSet, agent)
+        if agent._high_risk_bool:
+            addToSubsets(self.high_risk_agentsSet, agent)
 
     def get_age(self, race: str):
         rand = self.popRandom.random()
@@ -461,7 +463,7 @@ class PopulationClass:
     # REVIEWED should these be in the network class? - max to incorporate with
     # network/pop/model disentangling?
     def update_agent_partners(self, graph, agent: Agent, random_method) -> bool:
-        partner, rel_type = get_partner(agent, self.All_agentSet, random_method)
+        partner, rel_type = select_partner(agent, self.All_agentSet, random_method)
         assert type(partner) is not list
         assert type(partner) is Agent or partner is None
         noMatch = False

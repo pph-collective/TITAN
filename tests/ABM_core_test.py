@@ -62,10 +62,10 @@ def test_model_init():
     assert model.NewInfections.num_members() == 0
     assert model.NewDiagnosis.num_members() == 0
     assert model.NewIncarRelease.num_members() == 0
-    assert model.NewHRrolls.num_members() == 0
+    assert model.New_high_risk_rolls.num_members() == 0
 
     assert model.totalDiagnosis == 0
-    assert model.treatmentEnrolled == False
+    assert model.needle_exchange == False
 
 
 @pytest.mark.skip("too parameter dependent to test at this point")
@@ -203,18 +203,18 @@ def test_become_HIV(make_model, make_agent):
     assert a._PrEP_bool is False
 
 
-def test_enroll_treatment(make_model):
+def test_enroll_needle_exchanget(make_model):
     model = make_model()
     model.runRandom = FakeRandom(-0.1)  # all "IDU" agents will be _SNE_bool
 
     # make at least one agent IDU
     model.All_agentSet._members[0]._DU = "IDU"
 
-    assert model.treatmentEnrolled is False
+    assert model.needle_exchange is False
 
-    model._enroll_treatment()
+    model._enroll_needle_exchange()
 
-    assert model.treatmentEnrolled is True
+    assert model.needle_exchange is True
 
     for a in model.All_agentSet._members:
         if a._DU == "IDU":
@@ -227,18 +227,18 @@ def test_becomeHighRisk(make_model, make_agent):
 
     model._become_high_risk(a, 10)
 
-    assert a in model.highrisk_agentsSet._members
-    assert a in model.NewHRrolls._members
-    assert a._highrisk_bool
-    assert a._everhighrisk_bool
-    assert a._highrisk_time == 10
+    assert a in model.high_risk_agentsSet._members
+    assert a in model.New_high_risk_rolls._members
+    assert a._high_risk_bool
+    assert a._ever_high_risk_bool
+    assert a._high_risk_time == 10
 
 
-def test_incarcerate_tested(make_model, make_agent):
+def test_incarcerate_diagnosed(make_model, make_agent):
     model = make_model()
     a = make_agent(SO="HM", race="WHITE")  # incarceration only for HM and HF?
     a._HIV_bool = True
-    a._tested = True
+    a._diagnosed = True
 
     model.runRandom = FakeRandom(0.0000001)  # always less than params
 
@@ -253,7 +253,7 @@ def test_incarcerate_tested(make_model, make_agent):
     assert a in model.Trt_ART_agentSet._members
 
 
-def test_incarcerate_not_tested(make_model, make_agent):
+def test_incarcerate_not_diagnosed(make_model, make_agent):
     model = make_model()
     a = make_agent(SO="HM", race="WHITE")  # incarceration only for HM and HF?
     a._HIV_bool = True
@@ -268,13 +268,13 @@ def test_incarcerate_not_tested(make_model, make_agent):
     assert a._incar_bool
     assert a._incar_time == 1
     assert a in model.incarcerated_agentSet._members
-    assert a._tested
+    assert a._diagnosed
 
-    assert p in model.highrisk_agentsSet._members
-    assert p in model.NewHRrolls._members
-    assert p._highrisk_bool
-    assert p._everhighrisk_bool
-    assert p._highrisk_time > 0
+    assert p in model.high_risk_agentsSet._members
+    assert p in model.New_high_risk_rolls._members
+    assert p._high_risk_bool
+    assert p._ever_high_risk_bool
+    assert p._high_risk_time > 0
 
 
 def test_incarcerate_unincarcerate(make_model, make_agent):
@@ -307,28 +307,28 @@ def test_HIVtest(make_model, make_agent):
     model.runRandom = FakeRandom(1.1)  # always greater than param
     model._HIVtest(a, 0)
 
-    assert a._tested is False
+    assert a._diagnosed is False
     assert a not in model.NewDiagnosis._members
     assert a not in model.Trt_Tstd_agentSet._members
 
     model.runRandom = FakeRandom(-0.1)  # always less than param
     model._HIVtest(a, 0)
 
-    assert a._tested
+    assert a._diagnosed
     assert a in model.NewDiagnosis._members
     assert a in model.Trt_Tstd_agentSet._members
 
 
-def test_HIVtest_already_tested(make_model, make_agent):
+def test_HIVtest_already_diagnosed(make_model, make_agent):
     model = make_model()
     a = make_agent()
 
-    a._tested = True
+    a._diagnosed = True
 
     model.runRandom = FakeRandom(-0.1)  # always less than param
     model._HIVtest(a, 0)
 
-    assert a._tested
+    assert a._diagnosed
     assert a not in model.NewDiagnosis._members
     assert a not in model.Trt_Tstd_agentSet._members
 
@@ -346,7 +346,7 @@ def test_update_HAART_t1(make_model, make_agent):
     assert a not in model.Trt_ART_agentSet._members
 
     # t0 agent initialized HAART
-    a._tested = True
+    a._diagnosed = True
 
     # go on haart
     model.runRandom = FakeRandom(
@@ -495,7 +495,7 @@ def test_initiate_PrEP_eligible(make_model, make_agent):
     model = make_model()
     a = make_agent(SO="HF")  # model is "CDCwomen"
     p = make_agent(SO="HM", DU="IDU")
-    p._tested = True
+    p._diagnosed = True
     p._MSMW = True
     rel = Relationship(a, p, 10, rel_type="sexOnly")
     # non-forcing, adherant, inj
@@ -512,36 +512,6 @@ def test_initiate_PrEP_eligible(make_model, make_agent):
     assert "IDU" in a._PrEP_reason
     assert "HIV test" in a._PrEP_reason
     assert "MSMW" in a._PrEP_reason
-
-
-def test_get_clinic_agent_none(make_model, make_agent):
-    model = make_model()
-    clinic_cat = "Mid"
-
-    a = make_agent()
-    a._mean_num_partners = 2
-    pool = [a]
-
-    # probability of matching is on bin 1 0.054
-    # min is 0 max is 1
-    model.runRandom = FakeRandom(0.0001)
-
-    assert model._get_clinic_agent(clinic_cat, pool) is None
-
-
-def test_get_clinic_agent_match(make_model, make_agent):
-    model = make_model()
-    clinic_cat = "Mid"
-
-    a = make_agent()
-    a._mean_num_partners = 1
-    pool = [a]
-
-    # probability of matching is on bin 1 0.054
-    # min is 0 max is 1
-    model.runRandom = FakeRandom(0.0001)
-
-    assert model._get_clinic_agent(clinic_cat, pool) == a
 
 
 def test_progress_to_AIDS_error(make_agent, make_model):

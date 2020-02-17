@@ -11,7 +11,7 @@ from . import probabilities as prob
 from .agent import Agent, Agent_set
 
 
-def get_partner(
+def select_partner(
     agent: Agent, all_agent_set: Agent_set, random_method
 ) -> Tuple[Optional[Agent], str]:
     """
@@ -94,10 +94,9 @@ def get_partner(
     eligible_agents -= set(agent._partners)
 
     if eligible_agents:
-        eligible_agents = list(eligible_agents)
-        RandomPartner = random_method.choices(eligible_agents)
-        if type(RandomPartner) is list:
-            RandomPartner = RandomPartner[0]
+        eligible_list = list(eligible_agents)
+        random_list = random_method.choices(eligible_list)
+        RandomPartner = random_list[0]
         assert type(RandomPartner) is Agent
     else:
         RandomPartner = None

@@ -57,7 +57,7 @@ class Agent:
         self._PrEPresistance = 0
 
         # agent treatment params
-        self._tested = False
+        self._diagnosed = False
         self._HAART_bool = False
         self._HAART_time = 0
         self._HAART_adh = 0
@@ -85,9 +85,9 @@ class Agent:
         self._PrEP_lastDose = 0
 
         # agent high risk params
-        self._highrisk_bool = False
-        self._highrisk_time = 0
-        self._everhighrisk_bool = False
+        self._high_risk_bool = False
+        self._high_risk_time = 0
+        self._ever_high_risk_bool = False
 
         # agent incarcartion params
         self._incar_bool = False
@@ -184,7 +184,7 @@ class Agent:
                         if partner._DU == "IDU":
                             eligible = True
                             self._PrEP_reason.append("IDU")
-                        if partner._tested:
+                        if partner._diagnosed:
                             eligible = True
                             self._PrEP_reason.append("HIV test")
                         if partner._MSMW:
@@ -196,7 +196,7 @@ class Agent:
                     partner = rel.get_partner(self)
 
                     if rel._duration > 1:
-                        if partner._tested or self._mean_num_partners > 1:
+                        if partner._diagnosed or self._mean_num_partners > 1:
                             eligible = True
         elif params.PrEP_target_model == "MSM":
             if self._SO in ("MSM", "MTF"):
@@ -265,7 +265,7 @@ class Agent:
             p *= params.cal_AcuteScaling
 
         # Scaling parameter for positively identified HIV agents
-        if self._tested:
+        if self._diagnosed:
             p *= 1 - params.cal_RR_Dx
 
         # Tuning parameter for ART efficiency

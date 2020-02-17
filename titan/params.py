@@ -18,7 +18,7 @@ rSeed_run = 0
 N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_REPS = 1
 N_POP = 100  # population size
-TIME_RANGE = 12  # total time steps to iterate
+TIME_RANGE = 1  # total time steps to iterate
 burnDuration = 6  # total time for burning in period (equillibration)
 model = "Custom"  # Model Type for fast flag toggling
 setting = "Phil2005"
@@ -72,7 +72,6 @@ cal_IncarP = 1.0  # Scaling factor for probability of becoming incarcerated
 cal_raceXmission = (
     1.0  # Scaling factor for increased STI transmission P comparing race1/race2
 )
-cal_ptnrSampleDepth = 100  # Sampling depth for partnering algorithm.
 
 """
 High risk params
@@ -87,12 +86,11 @@ HIV_MSMW = 0.0
 # Misc. params
 flag_AssortativeMix = True
 AssortMixType = "Race"
-flag_AgeAssortMix = False
 flag_RaceAssortMix = True
 AssortMixCoeff = 0.75  # Proportion of race1 mixing with race2 when partnering.
 safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
-initTreatment = 0
-treatmentCov = 0.0
+init_needle_exchange = 0  # total diagnoses needed before starting needle exchange
+treatmentCov = 0.0  # coverage of needle exchange
 maxComponentSize = 1000
 minComponentSize = 1
 
@@ -106,10 +104,7 @@ vaccine_start = 1
 inc_JailMax = 9
 inc_JailMin = 1
 inc_JailTestProb = 0.69
-inc_PrisMax = 60
-inc_PrisMin = 6
 inc_PrisTestProb = 0.69
-inc_PropPrison = 0.5
 inc_ARTenroll = 0.51
 inc_ARTadh = 0.21
 inc_ARTdisc = 0.12
@@ -200,9 +195,9 @@ RC_template: Dict[str, Any] = {
     "NUMSexActs": 0.0,  # Mean number of sex acts with each partner
     "SAFESEX": 0.0,  # Probability of engaging in safe sex (per act)
     "NEEDLESH": 0.0,  # Probability of sharing syringes during join drug use (per act)
-    "HIVTEST": 0.0,  # Probability of testing for HIV
+    "diagnosis_rate": 0.0,  # Probability of testing for HIV
     "INCAR": 0.0,  # Probability of becoming incarcerated (rate)
-    "HAARTprev": 0.0,
+    "Recidivism": 0.0,
     "HAARTadh": 0.0,  # Adherence to ART therapy
     "HAARTdisc": 0.0,  # Probability of discontinuing ART therapy
     "EligSE_PartnerType": "MSM",  # List of agent SO types the agent cant partner with
@@ -240,8 +235,9 @@ RaceClass1["HM"].update(
         "NUMSexActs": 5.0,
         "SAFESEX": 0.89,
         "NEEDLESH": 0.43,
-        "HIVTEST": 0.034,
+        "diagnosis_rate": 0.034,
         "INCAR": 0.001,
+        "Recidivism": 0.267,
         "HAARTadh": 0.405,
         "HAARTdisc": 0.000,
         "PrEPdisc": 0.0000,
@@ -262,7 +258,7 @@ RaceClass1["MSM"].update(
         "NUMSexActs": 5.0,
         "SAFESEX": 0.432,
         "NEEDLESH": 0.43,
-        "HIVTEST": 0.055,
+        "diagnosis_rate": 0.055,
         "INCAR": 0.00,  # 0.00014,
         "HAARTadh": 0.885,  # 0.693,#0.57,
         "HAARTdisc": 0.10,
@@ -294,7 +290,7 @@ RaceClass2["MSM"].update(
         "NUMSexActs": 5.0,
         "SAFESEX": 0.312,
         "NEEDLESH": 0.27,
-        "HIVTEST": 0.06,
+        "diagnosis_rate": 0.06,
         "INCAR": 0.00,  # 0.0011,
         "HAARTadh": 0.817,  # 0.598,#0.34,
         "HAARTdisc": 0.07,

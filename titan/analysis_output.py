@@ -23,28 +23,28 @@ def get_stats(
     NewInfections: Agent_set,
     NewDiagnosis: Agent_set,
     Relationships: List[Relationship],
-    newHR: Agent_set,
+    new_high_risk: Agent_set,
     newIncarRelease: Agent_set,
     deathSet: List[Agent],
 ):
 
     stats_template = {
         "numAgents": 0,
-        "inf_HR6m": 0,
-        "inf_HRever": 0,
+        "inf_high_risk_6m": 0,
+        "inf_high_risk_ever": 0,
         "inf_newInf": 0,
-        "newHR": 0,
-        "newHR_HIV": 0,
-        "newHR_AIDS": 0,
-        "newHR_tested": 0,
-        "newHR_ART": 0,
+        "new_high_risk": 0,
+        "new_high_risk_HIV": 0,
+        "new_high_risk_AIDS": 0,
+        "new_high_risk_diagnosed": 0,
+        "new_high_risk_ART": 0,
         "newRelease": 0,
         "newReleaseHIV": 0,
         "numHIV": 0,
         "numTested": 0,
         "numAIDS": 0,
         "numART": 0,
-        "numHR": 0,
+        "high_risk": 0,
         "newlyTested": 0,
         "deaths": 0,
         "deaths_HIV": 0,
@@ -79,10 +79,10 @@ def get_stats(
     # Newly infected tracker statistics (with HR within 6mo and HR ever bool check)
     for tmpA in NewInfections.iter_agents():
         stats[tmpA._race][tmpA._SO]["inf_newInf"] += 1
-        if tmpA._everhighrisk_bool:
-            stats[tmpA._race][tmpA._SO]["inf_HRever"] += 1
-        if tmpA._highrisk_bool:
-            stats[tmpA._race][tmpA._SO]["inf_HR6m"] += 1
+        if tmpA._ever_high_risk_bool:
+            stats[tmpA._race][tmpA._SO]["inf_high_risk_ever"] += 1
+        if tmpA._high_risk_bool:
+            stats[tmpA._race][tmpA._SO]["inf_high_risk_6m"] += 1
 
     # PrEP reason tracker
     for tmpA in totalAgents.iter_agents():
@@ -111,23 +111,23 @@ def get_stats(
         stats[tmpA._race][tmpA._SO]["newlyTested"] += 1
 
     # Newly HR agents
-    for tmpA in newHR.iter_agents():
-        stats[tmpA._race][tmpA._SO]["newHR"] += 1
+    for tmpA in new_high_risk.iter_agents():
+        stats[tmpA._race][tmpA._SO]["new_high_risk"] += 1
         if tmpA._HIV_bool:
-            stats[tmpA._race][tmpA._SO]["newHR_HIV"] += 1
+            stats[tmpA._race][tmpA._SO]["new_high_risk_HIV"] += 1
             if tmpA._AIDS_bool:
-                stats[tmpA._race][tmpA._SO]["newHR_AIDS"] += 1
-            if tmpA._tested:
-                stats[tmpA._race][tmpA._SO]["newHR_tested"] += 1
+                stats[tmpA._race][tmpA._SO]["new_high_risk_AIDS"] += 1
+            if tmpA._diagnosed:
+                stats[tmpA._race][tmpA._SO]["new_high_risk_diagnosed"] += 1
                 if tmpA._HAART_bool:
-                    stats[tmpA._race][tmpA._SO]["newHR_ART"] += 1
+                    stats[tmpA._race][tmpA._SO]["new_high_risk_ART"] += 1
 
     # Total HIV summary snapshot for timestep
     for tmpA in HIVAgents.iter_agents():
         stats[tmpA._race][tmpA._SO]["numHIV"] += 1
         if tmpA._AIDS_bool:
             stats[tmpA._race][tmpA._SO]["numAIDS"] += 1
-        if tmpA._tested:
+        if tmpA._diagnosed:
             stats[tmpA._race][tmpA._SO]["numTested"] += 1
         if tmpA._HAART_bool:
             stats[tmpA._race][tmpA._SO]["numART"] += 1
@@ -139,7 +139,7 @@ def get_stats(
             stats[tmpA._race]["IDU"]["numHIV"] += 1
         if tmpA._AIDS_bool:
             stats[tmpA._race]["IDU"]["numAIDS"] += 1
-        if tmpA._tested:
+        if tmpA._diagnosed:
             stats[tmpA._race]["IDU"]["numTested"] += 1
         if tmpA._HAART_bool:
             stats[tmpA._race]["IDU"]["numART"] += 1
@@ -258,7 +258,7 @@ def newlyhighriskReport(
     netseed: int,
     stats: Dict[str, Any],
 ):
-    f = open("results/newlyHR_Report.txt", "a")
+    f = open("results/newly_high_risk_Report.txt", "a")
 
     # if this is a new file, write the header info
     if f.tell() == 0:
@@ -279,11 +279,11 @@ def newlyhighriskReport(
         f.write(
             "\t%d\t%d\t%d\t%d\t%d"
             % (
-                stats["ALL"][sex_type]["newHR"],
-                stats["ALL"][sex_type]["newHR_HIV"],
-                stats["ALL"][sex_type]["newHR_AIDS"],
-                stats["ALL"][sex_type]["newHR_tested"],
-                stats["ALL"][sex_type]["newHR_ART"],
+                stats["ALL"][sex_type]["new_high_risk"],
+                stats["ALL"][sex_type]["new_high_risk_HIV"],
+                stats["ALL"][sex_type]["new_high_risk_AIDS"],
+                stats["ALL"][sex_type]["new_high_risk_diagnosed"],
+                stats["ALL"][sex_type]["new_high_risk_ART"],
             )
         )
 
@@ -356,10 +356,10 @@ def basicReport(
                         stats[agentRace][agentTypes]["numAIDS"],
                         stats[agentRace][agentTypes]["numTested"],
                         stats[agentRace][agentTypes]["numART"],
-                        stats[agentRace][agentTypes]["numHR"],
+                        stats[agentRace][agentTypes]["high_risk"],
                         stats[agentRace][agentTypes]["inf_newInf"],
-                        stats[agentRace][agentTypes]["inf_HR6m"],
-                        stats[agentRace][agentTypes]["inf_HRever"],
+                        stats[agentRace][agentTypes]["inf_high_risk_6m"],
+                        stats[agentRace][agentTypes]["inf_high_risk_ever"],
                         stats[agentRace][agentTypes]["newlyTested"],
                         stats[agentRace][agentTypes]["deaths"],
                         stats[agentRace][agentTypes]["numPrEP"],

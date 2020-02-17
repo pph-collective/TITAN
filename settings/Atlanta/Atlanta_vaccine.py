@@ -222,8 +222,9 @@ RC_template = {
     "NUMSexActs": 0.0,  # Mean number of sex acts with each partner
     "SAFESEX": 0.0,  # Probability of engaging in safe sex (per act)
     "NEEDLESH": 0.0,  # Probability of sharing syringes during join drug use (per act)
-    "HIVTEST": 0.0,  # Probability of testing for HIV
+    "diagnosis_rate": 0.0,  # Probability of testing for HIV
     "INCAR": 0.0,  # Probability of becoming incarcerated (rate)
+    "Recidivism": 0.0,
     "HAARTprev": 0.0,
     "HAARTadh": 0.0,  # Adherence to ART therapy
     "HAARTdisc": 0.0,  # Probability of discontinuing ART therapy
@@ -261,7 +262,7 @@ RaceClass1["MSM"].update(
         "NUMSexActs": 5.0,
         "SAFESEX": 0.6608,
         "NEEDLESH": 0.43,
-        "HIVTEST": 0.055,
+        "diagnosis_rate": 0.055,
         "INCAR": 0.00,  # 0.00014,
         "HAARTadh": 0.885,  # 0.693,#0.57,
         "HAARTdisc": 0.10,
@@ -293,7 +294,7 @@ RaceClass2["MSM"].update(
         "NUMSexActs": 5.0,
         "SAFESEX": 0.312,
         "NEEDLESH": 0.27,
-        "HIVTEST": 0.06,
+        "diagnosis_rate": 0.06,
         "INCAR": 0.00,  # 0.0011,
         "HAARTadh": 0.817,  # 0.598,#0.34,
         "HAARTdisc": 0.07,

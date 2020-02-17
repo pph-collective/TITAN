@@ -48,10 +48,14 @@ def test_get_IDU_partner_no_IDU(make_population, make_agent):
     empty_pop.add_agent_to_pop(idu_agent)
     empty_pop.add_agent_to_pop(nidu_agent)
     empty_pop.add_agent_to_pop(nidu_agent_sex)
-    partner, bond = get_partner(idu_agent, empty_pop.All_agentSet, FakeRandom(0.0, 0))
+    partner, bond = select_partner(
+        idu_agent, empty_pop.All_agentSet, FakeRandom(0.0, 0)
+    )
     assert partner is None
     assert bond == ["injection"]
-    partner, bond = get_partner(idu_agent, empty_pop.All_agentSet, FakeRandom(0.0, 1))
+    partner, bond = select_partner(
+        idu_agent, empty_pop.All_agentSet, FakeRandom(0.0, 1)
+    )
     assert bond == ["injection", "sexual"]
     assert partner is None
 
@@ -63,7 +67,9 @@ def test_get_IDU_partner_w_IDU(make_population, make_agent):
     idu_partner = make_agent(DU="IDU")
     empty_pop.add_agent_to_pop(idu_agent)
     empty_pop.add_agent_to_pop(idu_partner)
-    partner, bond = get_partner(idu_agent, empty_pop.All_agentSet, FakeRandom(0.0, 0))
+    partner, bond = select_partner(
+        idu_agent, empty_pop.All_agentSet, FakeRandom(0.0, 0)
+    )
     assert partner is idu_partner
     assert bond == ["injection"]
 
