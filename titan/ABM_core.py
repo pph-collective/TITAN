@@ -4,7 +4,7 @@
 # Imports
 import random
 from random import Random
-from typing import Dict, List, Sequence, Optional
+from typing import Dict, List
 import uuid
 
 import numpy as np  # type: ignore
@@ -231,7 +231,8 @@ class HIVModel(NetworkClass):
             # todo: GET THIS TO THE NEW HIV COUNT
 
             print(
-                "\tSTARTING HIV count:{}\tTotal Incarcerated:{}\tHigh Risk+:{}\tPrEP:{}".format(
+                "\tSTARTING HIV count:{}\tTotal Incarcerated:{}\tHigh Risk+:{}\t"
+                "PrEP:{}".format(
                     self.HIV_agentSet.num_members(),
                     self.incarcerated_agentSet.num_members(),
                     self.high_risk_agentsSet.num_members(),
@@ -862,10 +863,6 @@ class HIVModel(NetworkClass):
 
         """
         hiv_bool = agent._HIV_bool
-        tested = agent._diagnosed
-        incar_t = agent._incar_time
-        incar_bool = agent._incar_bool
-        haart_bool = agent._HAART_bool
 
         incarceration_probability = params.DemographicParams[agent._race][agent._SO][
             "INCAR"

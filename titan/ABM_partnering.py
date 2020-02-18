@@ -96,7 +96,10 @@ def select_partner(
     if eligible_agents:
         eligible_list = list(eligible_agents)
         random_list = random_method.choices(eligible_list)
-        RandomPartner = random_list[0]
+        if type(random_list) == list:
+            RandomPartner = random_list[0]
+        else:
+            RandomPartner = random_list
         assert type(RandomPartner) is Agent
     else:
         RandomPartner = None
@@ -120,10 +123,10 @@ def sex_possible(agent_sex_type: str, partner_sex_type: str) -> bool:
     # dictionary defining which sex types each sex type is compatible with
     st = {
         "HM": ["HF", "WSW", "MTF"],
-        "MSM": ["MSM", "WSW", "HF", "MTF"],
-        "WSW": ["MSM", "WSW", "HM"],
-        "HF": ["HM", "MSM"],
-        "MTF": ["HM", "MSM"],
+        "MSM": ["MSM", "MTF"],
+        "WSW": ["WSW", "MTF"],
+        "HF": ["HM"],
+        "MTF": ["HM", "MSM", "WSW"],
     }
 
     # Check input

@@ -1,6 +1,6 @@
 __author__ = "MaximilianKing"
 
-from typing import Sequence, List, Dict, Optional, Any
+from typing import Dict, Any
 from copy import deepcopy
 
 """
@@ -177,7 +177,8 @@ agentPopulations = deepcopy(agentSexTypes)
 agentPopulations.append("IDU")
 
 """
-RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
+RaceClass is a distinct racial/ethnic/social classification for
+demographics of the population.
 ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, PWID)
 RaceClass agent classifier template
 """
@@ -444,7 +445,8 @@ mixingMatrix[5] = {1: 0.062, 2: 0.086, 3: 0.128, 4: 0.224, 5: 0.500}
 
 """
 Clinic bins for targetting strategies
-Bins represent partner numbers of the following category 0:0, 1:1, 2:2,  3:3-4, 4:5-9, 5:10+
+Bins represent partner numbers of the
+following category 0:0, 1:1, 2:2,  3:3-4, 4:5-9, 5:10+
 """
 clinicAgents: Dict[str, Any] = {"Low": {}, "Mid": {}, "High": {}}
 clinicAgents["Mid"] = {
@@ -461,9 +463,9 @@ clinicAgents["Mid"] = {
 Bond Params
 """
 bond_type_probs = {
-    1: {"type": ["social"], "probability": 0.308},
+    1: {"type": ["sexual"], "probability": 0.308},
     2: {"type": ["social", "sexual"], "probability": 0.105},
-    3: {"type": ["sexual"], "probability": 0.587},
+    3: {"type": ["social"], "probability": 0.587},
 }
 
 bond_type_probs_IDU = {
