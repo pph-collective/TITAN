@@ -139,9 +139,6 @@ def test_needle_transmission(make_model, make_agent):
     assert p.hiv
 
 
-# @pytest.mark.skip(
-#     "# REVIEWED can't get this to pass see to reviews in code - stuck until unsafe sex probability </> issue resolved"
-# )
 def test_sex_transmission(make_model, make_agent):
     model = make_model()
     a = make_agent()

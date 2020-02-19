@@ -260,7 +260,7 @@ RaceClass1["MSM"].update(
         "PrEPdisc": 0.13,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.911,
-        "PrEP_coverage": WHITE_PREP,
+        "PrEP_coverage": "WHITE_PREP",
         "vaccinePrev": 0,
     }
 )
@@ -290,7 +290,7 @@ RaceClass2["MSM"].update(
         "PrEPdisc": 0.10,
         "EligSE_PartnerType": "MSM",
         "PrEPadh": 0.568,
-        "PrEP_coverage": BLACK_PREP,
+        "PrEP_coverage": "BLACK_PREP",
         "vaccinePrev": 0,
     }
 )

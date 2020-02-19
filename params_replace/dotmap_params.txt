@@ -15,7 +15,7 @@ haart,
 haart.start,
 haart.coverage,
 calibration,
-calibration.partner_turnover,PARTNERTURNOVER
+DELETE,PARTNERTURNOVER
 calibration.needle,
 calibration.needle.act,cal_NeedleActScaling
 calibration.needle.sharing,cal_NeedlePartScaling
@@ -38,7 +38,13 @@ outputs,
 outputs.print_frequency,intermPrintFreq
 outputs.draw_figures,drawFigures
 outputs.calc_component_stats,calcComponentStats
+outputs.calc_network_stats,calcNetworkStats
 outputs.reports,reports
+DELETE,printIncidenceEvents
+DELETE,printStartAgentList
+DELETE,printEndingAgentList
+DELETE,printIntermAgentList
+DELETE,drawFigureColor
 classes,
 classes.races,DemographicParams.keys()
 classes.sex_types,agentSexTypes
@@ -49,7 +55,10 @@ model.seed,
 model.seed.run,rSeed_run
 model.seed.net,rSeed_net
 model.seed.ppl,rSeed_pop
-model.num_reps,N_REPS
+DELETE,N_REPS
+DELETE,N_MC
+DELETE,model
+DELETE,label
 model.num_pop,N_POP
 model.time_range,TIME_RANGE
 model.burn_duration,burnDuration

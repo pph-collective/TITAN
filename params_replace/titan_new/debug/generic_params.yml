@@ -1,0 +1,223 @@
+calibration:
+  transmission: 1.0
+  acute: 4.3
+  risk_reduction:
+    transmission: 0.25
+    haart: 3.0
+  test_frequency: 0.5
+  mortality: 0.05
+  aids_progression: 0.05
+  haart_coverage: 1.45
+  incarceration: 1.0
+  race_transmission: 2.9
+high_risk:
+  partner_scale: 300
+  proportion: 0.3
+  sex_based:
+    HM:
+      duration: 6
+    HF:
+      duration: 6
+assort_mix:
+  coefficient: 0.05
+needle_exchange:
+  prevalence: 1.0
+incar:
+  haart:
+    prob: 0.51
+    adherence: 0.21
+    discontinue: 0.12
+prep:
+  type: Inj
+  target: 0.05
+  start: 0
+  efficacy:
+    adherent: 0.9
+    non_adherant: 1.0
+  discontinue: 0.04
+PWID:
+  prep:
+    adherence: 1.0
+demographics:
+  WHITE:
+    MSM:
+      POP: 1.0
+      HIV: 0.132
+      AIDS: 0.048
+      HAARTprev: 0.57
+      INCARprev: 0.005
+      TestedPrev: 0.84
+      mNPart: 3
+      NUMPartn: 1.5
+      NUMSexActs: 5.0
+      SAFESEX: 0.43
+      NEEDLESH: 0.43
+      HIVTEST: 0.055
+      INCAR: 0.0
+      HAARTadh: 1.0
+      HAARTdisc: 0.008
+      PrEPdisc: 0.04
+    HM:
+      Race: null
+      Class: null
+      POP: 0.0
+      HIV: 0.0
+      AIDS: 0.0
+      HAARTprev: 0.0
+      INCARprev: 0.0
+      TestedPrev: 0.0
+      mNPart: 0.0
+      NUMPartn: 0.0
+      NUMSexActs: 0.0
+      SAFESEX: 0.0
+      NEEDLESH: 0.0
+      HIVTEST: 0.0
+      INCAR: 0.0
+      HAARTadh: 0.0
+      HAARTdisc: 0.0
+      PrEPdisc: 0.0
+    HF:
+      Race: null
+      Class: null
+      POP: 0.0
+      HIV: 0.0
+      AIDS: 0.0
+      HAARTprev: 0.0
+      INCARprev: 0.0
+      TestedPrev: 0.0
+      mNPart: 0.0
+      NUMPartn: 0.0
+      NUMSexActs: 0.0
+      SAFESEX: 0.0
+      NEEDLESH: 0.0
+      HIVTEST: 0.0
+      INCAR: 0.0
+      HAARTadh: 0.0
+      HAARTdisc: 0.0
+      PrEPdisc: 0.0
+    PWID:
+      NUMPartn: 1.2
+      ppl: 0.2
+      hiv:
+        init: 0.19
+        dx:
+          init: 0.93
+          prob: 0.037
+      aids:
+        init: 0.075
+      haart:
+        init: 0.0
+        adherence: 0.43
+        discontinue: 0.018
+      incar:
+        init: 0.0
+        prob: 0.0
+      num_partners: 3
+      num_needle_acts: 5.0
+      safe_sex: 0.72
+      needle_sharing: 0.43
+      prep:
+        discontinue: 0.0
+    ALL:
+      Proportion: 0.571
+      HAARTdisc: 0.018
+      PrEPdisc: 0.0
+  BLACK:
+    MSM:
+      POP: 1.0
+      HIV: 0.432
+      AIDS: 0.048
+      HAARTprev: 0.47
+      INCARprev: 0.018
+      TestedPrev: 0.84
+      mNPart: 3
+      NUMPartn: 4.9
+      NUMSexActs: 6.0
+      SAFESEX: 0.43
+      NEEDLESH: 0.27
+      HIVTEST: 0.06
+      INCAR: 0.0
+      HAARTadh: 1.0
+      HAARTdisc: 0.01
+      PrEPdisc: 0.04
+    HM: {}
+    HF: {}
+    PWID:
+      NUMPartn: 3.5
+      ppl: 0.2
+      hiv:
+        init: 0.19
+        dx:
+          init: 0.93
+          prob: 0.043
+      aids:
+        init: 0.075
+      haart:
+        init: 0.0
+        adherence: 0.36
+        discontinue: 0.023
+      incar:
+        init: 0.0
+        prob: 0.0
+      num_partners: 3
+      num_needle_acts: 5.0
+      safe_sex: 0.69
+      needle_sharing: 0.27
+      prep:
+        discontinue: 0.0
+    ALL:
+      Proportion: 0.429
+      HAARTdisc: 0.018
+      PrEPdisc: 0.0
+partnership:
+  sex:
+    duration:
+      1:
+        prob: 0.585
+        min: 1
+        max: 6
+      2:
+        prob: 0.701
+        min: 7
+        max: 12
+      3:
+        prob: 0.822
+        min: 13
+        max: 24
+      4:
+        prob: 0.8819999999999999
+        min: 25
+        max: 36
+      5:
+        min: 37
+        max: 48
+  needle:
+    duration:
+      1:
+        prob: 1.0
+        min: 1
+        max: 6
+      2:
+        prob: 0.585
+        min: 1
+        max: 6
+      3:
+        prob: 0.585
+        min: 1
+        max: 6
+      4:
+        prob: 0.585
+        min: 1
+        max: 6
+      5:
+        min: 1
+        max: 6
+    transmission:
+      '0': 0.007
+      '1': 0.007
+      '2': 0.0056
+      '3': 0.0028
+      '4': 0.0014
+      '5': 0.0002
+classes:
+  sex_types: {}
