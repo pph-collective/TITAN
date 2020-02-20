@@ -55,9 +55,12 @@ def main(setting, paramsPath, nMC, outdir):
     os.mkdir(os.path.join(outfile_dir, "network"))
 
     # generate params - if no setting, set to null
+    setting = setting.lower()
     if setting == "custom":
-        setting = {}
-    # FIGURE OUT ELSE
+        setting = None
+    else:
+        setting = os.path.join("settings", setting)
+        assert os.path.isdir(setting)
 
     params = create_params(setting, paramsPath, outfile_dir)
 

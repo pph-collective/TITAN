@@ -1,6 +1,3 @@
-from dotmap import DotMap
-
-params = DotMap()
 __author__ = "MaximilianKing"
 
 
@@ -9,23 +6,23 @@ Main model parameters.
 """
 
 ####################
-params.model.processes = 1  # number of processes in parallel (quadcore)
-params.model.seed.ppl = (
+PROCESSES = 1  # number of processes in parallel (quadcore)
+rSeed_pop = (
     0  # seed for RNG for poulation building (0: pure random, -1: stepwise to N_REPS)
 )
-params.model.seed.net = (
+rSeed_net = (
     0  # seed for RNG for network formation (0: pure random, -1: stepwise to N_REPS)
 )
-params.model.seed.run = (
+rSeed_run = (
     0  # seed for RNG for ABMcore runtime (0: pure random, -1: stepwise to N_REPS)
 )
 N_MC = 1000  # total number of iterations (Monte Carlo runs)
 N_REPS = 1
-params.model.num_pop = 11000  # population size
-params.model.time_range = 60  # total time steps to iterate
-params.model.burn_duration = 0  # total time for burning in period (equillibration)
+N_POP = 11000  # population size
+TIME_RANGE = 60  # total time steps to iterate
+burnDuration = 0  # total time for burning in period (equillibration)
 model = "Custom"  # Model Type for fast flag toggling
-params.model.network.type = "max_k_comp_size"
+network_type = "max_k_comp_size"
 setting = "Atlanta_2015"
 label = "0.75_Mix"
 ####################
@@ -39,14 +36,14 @@ printIncidenceEvents = False
 printStartAgentList = False
 printEndingAgentList = False
 printIntermAgentList = False
-params.outputs.print_frequency = 60
-params.outputs.calc_network_stats = False
-params.outputs.calc_component_stats = True
-params.outputs.draw_figures = False
+intermPrintFreq = 60
+calcNetworkStats = False
+calcComponentStats = True
+drawFigures = False
 drawEdgeList = False
 drawFigureColor = "Race"
 
-params.outputs.reports = [
+reports = [
     "deathReport",
     "incarReport",
     "newlyhighriskReport",
@@ -61,77 +58,59 @@ Calibration scaling parameters for fitting to empirical data
 PARTNERTURNOVER = (
     1.0 / 7.5
 )  # Partner acquisition parameters (higher number more partnering)
-params.calibration.needle.sharing = 1.00  # PWID partner number scaling
-params.calibration.needle.act = 1.00  # PWID act frequency scaling factor
-params.calibration.sex.partner = 1.0  # Sexual partner number scaling factor
-params.calibration.sex.act = 2.0  # Sexual acts  scaling factor
-params.calibration.transmission = 1.0  # Global transmission probability scaling factor
-params.calibration.acute = (
-    4.3  # Infectivity multiplier ratio for Acute status infections
-)
-params.calibration.risk_reduction.transmission = (
-    0.00  # Risk reduction in transmission probability for agents diagnosed
-)
-params.calibration.risk_reduction.haart = (
-    1.0  # Scaling factor for effectiveness of ART therapy on xmission P
-)
-params.calibration.test_frequency = 0.30  # Scaling factor for testing frequency
-params.calibration.mortality = 0.5  # Scaling factor for all cause mortality rates
-params.calibration.aids_progression = (
-    0.05  # Scaling factor for all progression to AIDS from HIV rates
-)
-params.calibration.haart_coverage = (
-    0.40  # Scaling factor for enrollment on ART probability
-)
-params.calibration.incarceration = (
-    1.0  # Scaling factor for probability of becoming incarcerated
-)
-params.calibration.race_transmission = (
+cal_NeedlePartScaling = 1.00  # IDU partner number scaling
+cal_NeedleActScaling = 1.00  # IDU act frequency scaling factor
+cal_SexualPartScaling = 1.0  # Sexual partner number scaling factor
+cal_SexualActScaling = 2.0  # Sexual acts  scaling factor
+cal_pXmissionScaling = 1.0  # Global transmission probability scaling factor
+cal_AcuteScaling = 4.3  # Infectivity multiplier ratio for Acute status infections
+cal_RR_Dx = 0.00  # Risk reduction in transmission probability for agents diagnosed
+cal_RR_HAART = 1.0  # Scaling factor for effectiveness of ART therapy on xmission P
+cal_TestFreq = 0.30  # Scaling factor for testing frequency
+cal_Mortality = 0.5  # Scaling factor for all cause mortality rates
+cal_ProgAIDS = 0.05  # Scaling factor for all progression to AIDS from HIV rates
+cal_ART_cov = 0.40  # Scaling factor for enrollment on ART probability
+cal_IncarP = 1.0  # Scaling factor for probability of becoming incarcerated
+cal_raceXmission = (
     4.0  # Scaling factor for increased STI transmission P comparing race1/race2
 )
-params.calibration.partner_sample_depth = (
-    100  # Sampling depth for partnering algorithm.
-)
+cal_ptnrSampleDepth = 100  # Sampling depth for partnering algorithm.
 
 """
 Bond Params
 """
-params.classes.rel_types = []
-params.model.population.num_partners.type = "mean"
+bond_type = []
+mean_partner_type = "mean"
 
 
 """
 Peer Change Params
 """
-params.features.pca = False
+flag_PCA = False
 
 
 """
 High risk params
 """
-params.high_risk.partner_scale = (
-    300  # Linear increase to partner number during HR period
-)
-params.high_risk.proportion = (
-    0.3  # Proportion of people who enter HR group when partner incarcerated
-)
-params.high_risk.sex_based.HM.duration = 6  # Duration of high risk for males
-params.high_risk.sex_based.HF.duration = 6  # Duration of high risk for females
+HR_partnerScale = 300  # Linear increase to partner number during HR period
+HR_proportion = 0.3  # Proportion of people who enter HR group when partner incarcerated
+HR_M_dur = 6  # Duration of high risk for males
+HR_F_dur = 6  # Duration of high risk for females
 
 
 """
 Misc. params
 """
-params.features.assort_mix = True  # Boolean for if assortative mixing occurs at all
-params.assort_mix.type = "Race"  # Other assortative mixing types
+flag_AssortativeMix = True  # Boolean for if assortative mixing occurs at all
+AssortMixType = "Race"  # Other assortative mixing types
 flag_RaceAssortMix = True  # Assortative mix by race
-params.assort_mix.coefficient = 0.750  # Proportion of following given assort mix rules
-params.needle_exchange.prevalence = 1.0  # Prevalence scalar on SNE
-params.needle_exchange.init_at_pop = 999999
-params.needle_exchange.coverage = 0.0
+AssortMixCoeff = 0.750  # Proportion of following given assort mix rules
+safeNeedleExchangePrev = 1.0  # Prevalence scalar on SNE
+initTreatment = 999999
+treatmentCov = 0.0
 limitComponentSize = True
-params.model.network.component_size.max = 100
-params.model.network.component_size.min = 2
+maxComponentSize = 100
+minComponentSize = 2
 
 """
 Incarceration params
@@ -143,9 +122,9 @@ inc_PrisMax = 96
 inc_PrisMin = 45
 inc_PrisTestProb = 0.69
 inc_PropPrison = 0.5
-params.incar.haart.prob = 0.51
-params.incar.haart.adherence = 0.21
-params.incar.haart.discontinue = 0.12
+inc_ARTenroll = 0.51
+inc_ARTadh = 0.21
+inc_ARTdisc = 0.12
 inc_Recidivism = 0.267
 inc_PtnrDissolution = 0.55
 inc_treatment_startdate = 48  # Timestep where inc treatment can begin
@@ -154,99 +133,99 @@ inc_treatment_dur = (
 )
 inc_treat_set = ["HM"]  # Set of agent classifiers effected by HR treatment
 inc_treat_HRsex_beh = True  # Remove sexual higrisk behaviour during treatment duration
-inc_treat_PWID_beh = True  # Remove PWID behav:iour during treatment duration
+inc_treat_IDU_beh = True  # Remove IDU behav:iour during treatment duration
 inc_treat_RIC = False  # Force retention in care of ART therapy
 
 """
 PrEP params
 """
-params.prep.type = "Oral"  # Oral/Inj PrEP modes
-params.prep.target = 0.50  # Target coverage for PrEP therapy
-params.prep.start = 0  # Start date for PrEP program (-1 for init, 0 for start of model)
-params.PWID.prep.adherence = 0.82  # Probability of being adherent
-params.prep.efficacy.adherent = 0.96  # Efficacy of adherence PrEP
-params.prep.efficacy.non_adherant = 0.76  # Efficacy of non-adherence PrEP
+PrEP_type = "Oral"  # Oral/Inj PrEP modes
+PrEP_Target = 0.50  # Target coverage for PrEP therapy
+PrEP_startT = 0  # Start date for PrEP program (-1 for init, 0 for start of model)
+PrEP_Adherence = 0.82  # Probability of being adherent
+PrEP_AdhEffic = 0.96  # Efficacy of adherence PrEP
+PrEP_NonAdhEffic = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.00  # Probability of PrEP resistance developing
-params.prep.discontinue = 0.00  # Per month probability of PrEP discontinuation
-params.prep.target_model = "RandomTrial"  # Allcomers, Clinical
+PrEP_disc = 0.00  # Per month probability of PrEP discontinuation
+PrEP_target_model = "RandomTrial"  # Allcomers, Clinical
 PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it follow
 
-if params.prep.type == "Oral":
-    params.PWID.prep.adherence = 0.923
-    params.prep.efficacy.adherent = 0.96
-    params.prep.efficacy.non_adherant = 0.76
+if PrEP_type == "Oral":
+    PrEP_Adherence = 0.923
+    PrEP_AdhEffic = 0.96
+    PrEP_NonAdhEffic = 0.76
     PrEP_falloutT = 1
-    params.prep.discontinue = 0.00
-elif params.prep.type == "Inj":
-    params.PWID.prep.adherence = 1.0
-    params.prep.efficacy.adherent = 1.0
-    params.prep.efficacy.non_adherant = 1.00
+    PrEP_disc = 0.00
+elif PrEP_type == "Inj":
+    PrEP_Adherence = 1.0
+    PrEP_AdhEffic = 1.0
+    PrEP_NonAdhEffic = 1.00
     PrEP_falloutT = 12
-    params.prep.discontinue = 0.04
-    params.prep.peak_load = 4.91
-    params.prep.half_life = 40.0
+    PrEP_disc = 0.04
+    PrEP_peakLoad = 4.91
+    PrEP_halflife = 40.0
 
 
 """
 Model Type for fast flag toggling
-    params.features.incar      Incarceration effects
-    params.features.prep       PrEP enrollment
+    flag_incar      Incarceration effects
+    flag_PrEP       PrEP enrollment
     flag_high_risk         High risk behavior for incar or genPop
-    params.features.haart        ART therapy enrollment
-    params.features.die_and_replace      Die and replace functionality
+    flag_ART        ART therapy enrollment
+    flag_DandR      Die and replace functionality
 
 """
 if model == "PrEP":
-    params.features.incar = False
-    params.features.prep = True
+    flag_incar = False
+    flag_PrEP = True
     flag_high_risk = False
-    params.features.haart = True
-    params.features.die_and_replace = True
-    params.features.static_n = False
-    params.features.agent_zero = False
+    flag_ART = True
+    flag_DandR = True
+    flag_staticN = False
+    flag_agentZero = False
 
 elif model == "Incar":
-    params.features.incar = True
-    params.features.prep = False
+    flag_incar = True
+    flag_PrEP = False
     flag_high_risk = True
-    params.features.haart = True
-    params.features.die_and_replace = True
-    params.features.static_n = False
-    params.features.agent_zero = False
+    flag_ART = True
+    flag_DandR = True
+    flag_staticN = False
+    flag_agentZero = False
 
 elif model == "NoIncar":
-    params.features.incar = False
-    params.features.prep = False
+    flag_incar = False
+    flag_PrEP = False
     flag_high_risk = True
-    params.features.haart = True
-    params.features.die_and_replace = True
-    params.features.static_n = False
-    params.features.agent_zero = False
+    flag_ART = True
+    flag_DandR = True
+    flag_staticN = False
+    flag_agentZero = False
 
 elif model == "StaticZero":
-    params.features.incar = False
-    params.features.prep = False
+    flag_incar = False
+    flag_PrEP = False
     flag_high_risk = False
-    params.features.haart = False
-    params.features.die_and_replace = False
-    params.features.static_n = True
-    params.features.agent_zero = False
+    flag_ART = False
+    flag_DandR = False
+    flag_staticN = True
+    flag_agentZero = False
 
 elif model == "Custom":
-    params.features.incar = False
-    params.features.prep = True
+    flag_incar = False
+    flag_PrEP = True
     flag_high_risk = False
-    params.features.haart = False
-    params.features.die_and_replace = False
-    params.features.static_n = True
-    params.features.agent_zero = False
+    flag_ART = False
+    flag_DandR = False
+    flag_staticN = True
+    flag_agentZero = False
 
 agentPopulations = ["MSM", "HM", "HF"]
-params.classes.sex_types = ["HM", "HF", "MSM", "MTF"]
+agentSexTypes = ["HM", "HF", "MSM", "MTF"]
 """
 RaceClass is a distinct racial/ethnic/social classification for demographics of the population.
-ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, PWID)
+ID is the specific mode of partnership the agent engages in (ie MSM, HM, HF, IDU)
 RaceClass agent classifier template
 """
 RC_template = {
@@ -277,12 +256,12 @@ RC_allTemplate = {
     "Proportion": 1.00,  # Proportion of total population that is raceclass
     "HAARTdisc": 0.018,  # Overall HAART discontinuation probability
     "PrEPdisc": 0.0,  # Overall PrEP discontinuation probability
-    "params.assort_mix.coefficient": 1.0,  # Proportion RC mixes with other raceclass
+    "AssortMixCoeff": 1.0,  # Proportion RC mixes with other raceclass
 }
 
-RaceClass1 = {"MSM": {}, "HM": {}, "HF": {}, "PWID": {}, "ALL": {}}
-RaceClass2 = {"MSM": {}, "HM": {}, "HF": {}, "PWID": {}, "ALL": {}}
-for a in ["MSM", "HM", "HF", "PWID"]:
+RaceClass1 = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
+RaceClass2 = {"MSM": {}, "HM": {}, "HF": {}, "IDU": {}, "ALL": {}}
+for a in ["MSM", "HM", "HF", "IDU"]:
     RaceClass1[a] = dict(RC_template)
     RaceClass2[a] = dict(RC_template)
 
@@ -320,7 +299,7 @@ RaceClass1["HF"] = {
     "INCAR": 0.00,
     "HAARTadh": 0.405,
     "HAARTdisc": 0.000,
-    "PrEPdisc": params.prep.discontinue,
+    "PrEPdisc": PrEP_disc,
     "EligSE_PartnerType": "HM",
 }
 
@@ -340,7 +319,7 @@ RaceClass1["MSM"] = {
     "HAARTadh": 0.0,
     "HAARTdisc": 0.000,
     "PrEPadh": 0.55,
-    "PrEPdisc": params.prep.discontinue,
+    "PrEPdisc": PrEP_disc,
     "EligSE_PartnerType": "MSM",
 }
 
@@ -360,11 +339,11 @@ RaceClass1["MTF"] = {
     "HAARTadh": 0.67,
     "HAARTdisc": 0.000,
     "PrEPadh": 0.55,
-    "PrEPdisc": params.prep.discontinue,
+    "PrEPdisc": PrEP_disc,
     "EligSE_PartnerType": "MSM",
 }
 
-RaceClass1["PWID"] = {
+RaceClass1["IDU"] = {
     "POP": 0.0,
     "HIV": 0.1500,
     "AIDS": 0.6780,
@@ -380,7 +359,7 @@ RaceClass1["PWID"] = {
     "HAARTadh": 0.405,
     "HAARTdisc": 0.000,
     "PrEPdisc": 0.0000,
-    "EligSE_PartnerType": "PWID",
+    "EligSE_PartnerType": "IDU",
 }
 
 
@@ -388,7 +367,7 @@ RaceClass1["ALL"] = {
     "Proportion": 0.488,
     "HAARTdisc": 0.00,
     "PrEPdisc": 0.0,
-    "params.assort_mix.coefficient": 1.0,
+    "AssortMixCoeff": 1.0,
 }
 
 RaceClass2["MSM"] = {
@@ -407,7 +386,7 @@ RaceClass2["MSM"] = {
     "HAARTadh": 0.0,
     "HAARTdisc": 0.000,
     "PrEPadh": 0.55,
-    "PrEPdisc": params.prep.discontinue,
+    "PrEPdisc": PrEP_disc,
     "EligSE_PartnerType": "MSM",
 }
 
@@ -415,99 +394,77 @@ RaceClass2["ALL"] = {
     "Proportion": 0.512,
     "HAARTdisc": 0.00,
     "PrEPdisc": 0.0,
-    "params.assort_mix.coefficient": 1.0,
+    "AssortMixCoeff": 1.0,
 }
 
-params.demographics = {"WHITE": RaceClass1, "BLACK": RaceClass2}
+DemographicParams = {"WHITE": RaceClass1, "BLACK": RaceClass2}
 
 
 """
 Partnership duration distribution bins
 """
-params.partnership.sex.duration = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
-params.partnership.sex.duration[1] = {"prob": (0.323 + 0.262), "min": 1, "max": 6}
-params.partnership.sex.duration[2] = {
-    "prob": (0.323 + 0.262 + 0.116),
-    "min": 7,
-    "max": 12,
-}
-params.partnership.sex.duration[3] = {
-    "prob": (0.323 + 0.262 + 0.116 + 0.121),
-    "min": 13,
-    "max": 24,
-}
-params.partnership.sex.duration[4] = {
-    "prob": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
+sexualDurations = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
+sexualDurations[1] = {"p_value": (0.323 + 0.262), "min": 1, "max": 6}
+sexualDurations[2] = {"p_value": (0.323 + 0.262 + 0.116), "min": 7, "max": 12}
+sexualDurations[3] = {"p_value": (0.323 + 0.262 + 0.116 + 0.121), "min": 13, "max": 24}
+sexualDurations[4] = {
+    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
     "min": 25,
     "max": 36,
 }
-params.partnership.sex.duration[5] = {"min": 37, "max": 48}
+sexualDurations[5] = {"min": 37, "max": 48}
 
-params.partnership.needle.duration = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
-params.partnership.needle.duration[1] = {"prob": 1.0, "min": 1, "max": 6}
-params.partnership.needle.duration[2] = {"prob": (0.323 + 0.262), "min": 1, "max": 6}
-params.partnership.needle.duration[3] = {"prob": (0.323 + 0.262), "min": 1, "max": 6}
-params.partnership.needle.duration[4] = {"prob": (0.323 + 0.262), "min": 1, "max": 6}
-params.partnership.needle.duration[5] = {"min": 1, "max": 6}
+needleDurations = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
+needleDurations[1] = {"p_value": 1.0, "min": 1, "max": 6}
+needleDurations[2] = {"p_value": (0.323 + 0.262), "min": 1, "max": 6}
+needleDurations[3] = {"p_value": (0.323 + 0.262), "min": 1, "max": 6}
+needleDurations[4] = {"p_value": (0.323 + 0.262), "min": 1, "max": 6}
+needleDurations[5] = {"min": 1, "max": 6}
 
-PartnershipDurations = {
-    "SEX": params.partnership.sex.duration,
-    "NEEDLE": params.partnership.needle.duration,
-}
+PartnershipDurations = {"SEX": sexualDurations, "NEEDLE": needleDurations}
 
 """
 Partnership acts distribution bins
 """
-params.partnership.sex.frequency = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
-params.partnership.sex.frequency[1] = {"prob": (0.323 + 0.262), "min": 1, "max": 6}
-params.partnership.sex.frequency[2] = {
-    "prob": (0.323 + 0.262 + 0.116),
-    "min": 7,
-    "max": 12,
-}
-params.partnership.sex.frequency[3] = {
-    "prob": (0.323 + 0.262 + 0.116 + 0.121),
-    "min": 13,
-    "max": 24,
-}
-params.partnership.sex.frequency[4] = {
-    "prob": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
+sexualFrequency = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
+sexualFrequency[1] = {"p_value": (0.323 + 0.262), "min": 1, "max": 6}
+sexualFrequency[2] = {"p_value": (0.323 + 0.262 + 0.116), "min": 7, "max": 12}
+sexualFrequency[3] = {"p_value": (0.323 + 0.262 + 0.116 + 0.121), "min": 13, "max": 24}
+sexualFrequency[4] = {
+    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
     "min": 25,
     "max": 36,
 }
-params.partnership.sex.frequency[5] = {
-    "prob": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
+sexualFrequency[5] = {
+    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
     "min": 25,
     "max": 36,
 }
-params.partnership.sex.frequency[6] = {
-    "prob": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
+sexualFrequency[6] = {
+    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
     "min": 25,
     "max": 36,
 }
-params.partnership.sex.frequency[7] = {
-    "prob": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
+sexualFrequency[7] = {
+    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
     "min": 25,
     "max": 36,
 }
-params.partnership.sex.frequency[8] = {
-    "prob": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
+sexualFrequency[8] = {
+    "p_value": (0.323 + 0.262 + 0.116 + 0.121 + 0.06),
     "min": 25,
     "max": 36,
 }
-params.partnership.sex.frequency[9] = {"min": 37, "max": 48}
+sexualFrequency[9] = {"min": 37, "max": 48}
 
-params.partnership.needle.frequency = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
-params.partnership.needle.frequency[1] = {"prob": 1.0, "min": 1, "max": 6}
-params.partnership.needle.frequency[2] = {"prob": (0.323 + 0.262), "min": 3, "max": 12}
-params.partnership.needle.frequency[3] = {"prob": (0.323 + 0.262), "min": 6, "max": 24}
-params.partnership.needle.frequency[4] = {"prob": (0.323 + 0.262), "min": 9, "max": 36}
-params.partnership.needle.frequency[5] = {"min": 12, "max": 60}
+needleFrequency = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
+needleFrequency[1] = {"p_value": 1.0, "min": 1, "max": 6}
+needleFrequency[2] = {"p_value": (0.323 + 0.262), "min": 3, "max": 12}
+needleFrequency[3] = {"p_value": (0.323 + 0.262), "min": 6, "max": 24}
+needleFrequency[4] = {"p_value": (0.323 + 0.262), "min": 9, "max": 36}
+needleFrequency[5] = {"min": 12, "max": 60}
 
-PartnershipFrequency = {
-    "SEX": params.partnership.sex.frequency,
-    "NEEDLE": params.partnership.needle.frequency,
-}
+PartnershipFrequency = {"SEX": sexualFrequency, "NEEDLE": needleFrequency}
 
 
 """
@@ -547,7 +504,7 @@ SexTrans["HF"] = {
     "5": 0.0001,
 }
 
-params.partnership.needle.transmission = {
+NeedleTrans = {
     "0": 0.007,
     "1": 0.007,
     "2": 0.0056,
@@ -555,10 +512,7 @@ params.partnership.needle.transmission = {
     "4": 0.0014,
     "5": 0.0002,
 }
-TransmissionProbabilities = {
-    "SEX": SexTrans,
-    "NEEDLE": params.partnership.needle.transmission,
-}
+TransmissionProbabilities = {"SEX": SexTrans, "NEEDLE": NeedleTrans}
 
 
 """

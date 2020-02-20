@@ -149,21 +149,33 @@ def print_dotmap(params, prefix, file_handle):
             print_dotmap(v, new_prefix, file_handle)
 
 
-def create_params(setting_dict, param_path, outdir):
-    defs = {}
+def build_yaml(path):
+    yml = {}
+    if os.path.isdir(path):
+        for file in os.listdir(path):
+            with open(os.path.join(path, file)) as f:
+                this_yml = yaml.safe_load(f)
+                yml.update(this_yml)
+    else:
+        with open(path) as f:
+            this_yml = yaml.safe_load(f)
+            yml.update(this_yml)
+
+    return yml
+
+
+def create_params(setting_path, param_path, outdir):
     filename = getframeinfo(currentframe()).filename
     parent = Path(filename).resolve().parent
     root = os.path.join(parent, "params")
-    for file in os.listdir(root):
-        with open(os.path.join(root, file), "r") as f:
-            this_defs = yaml.safe_load(f)
-            defs.update(this_defs)
 
-    with open(param_path, "r") as f:
-        params = yaml.safe_load(f)
+    defs = build_yaml(root)
+    params = build_yaml(param_path)
 
     # merge setting and params
-    params = merge(setting_dict, params)
+    if setting_path is not None:
+        setting = build_yaml(setting_path)
+        params = merge(setting, params)
 
     pops = parse_classes(defs, params)
     parsed = parse_params(defs, params, pops)
@@ -171,6 +183,7 @@ def create_params(setting_dict, param_path, outdir):
     with open(os.path.join(outdir, "params.yml"), "w") as f:
         yaml.dump(parsed, f)
 
+    # this is just for dev why params change - TODO: DELETE
     with open("dotmap_params.txt", "w") as f:
         f.write("dot,old\n")
         print_dotmap(parsed, "", f)

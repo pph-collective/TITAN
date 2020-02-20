@@ -17,7 +17,7 @@ def params(tmpdir):
     param_file = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
     )
-    return create_params({}, param_file, tmpdir)
+    return create_params(None, param_file, tmpdir)
 
 
 @pytest.fixture
