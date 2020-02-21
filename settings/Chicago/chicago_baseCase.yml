@@ -51,15 +51,15 @@ calibration:
   race_transmission: 1.0
   partner_sample_depth: 100
 classes:
-  rel_types_probs:
+  bond_types_probs:
     social: 0.308
     multiplex: 0.105
     sexOnly: 0.587
-  rel_types_probs_PWID:
+  bond_types_probs_PWID:
     social: 0.308
     multiplex: 0.105
     sexOnly: 0.587
-  rel_types:
+  bond_types:
   - social
   sex_types:
   - MSM

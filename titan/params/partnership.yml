@@ -96,6 +96,27 @@ partnership:
             prob: 0.0002
           5:
             prob: 0.0
+    role_scaling:
+      type: sub-dict
+      description: Scaling factor for hiv transmission for a given sex type for each sex role
+      keys:
+        - sex_types
+      default:
+        vers:
+          type: float
+          description: Scaling factor for hiv transmission for a given sex type for vers role
+          min: 0
+          default: 1
+        top:
+          type: float
+          description: Scaling factor for hiv transmission for a given sex type for top role
+          min: 0
+          default: 1
+        bottom:
+          type: float
+          description: Scaling factor for hiv transmission for a given sex type for bottom role
+          min: 0
+          default: 1
   needle:
     duration:
       type: bin
@@ -159,7 +180,7 @@ partnership:
   interaction:
     type: sub-dict
     keys:
-      - rel_types
+      - bond_types
     description: Binned probabilities by relationship type of interaction at a given time step
     default:
       type: bin

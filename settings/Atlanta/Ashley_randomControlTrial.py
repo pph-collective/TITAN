@@ -96,7 +96,7 @@ params.calibration.partner_sample_depth = (
 """
 Bond Params
 """
-params.classes.rel_types = []
+params.classes.bond_types = []
 params.model.population.num_partners.type = "mean"
 
 

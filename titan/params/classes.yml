@@ -56,7 +56,7 @@ classes:
           - WSW
           - HM
           - MSM
-  rel_types:
+  bond_types:
     default:
       - sexualOnly
       - multiplex

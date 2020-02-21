@@ -107,7 +107,7 @@ classes:
       - WSW
       - HM
       - MSM
-  rel_types:
+  bond_types:
   - sexualOnly
   - multiplex
   - social
@@ -268,6 +268,27 @@ partnership:
         3: *id004
         4: *id005
         5: *id006
+    role_scaling:
+      HM:
+        vers: 1
+        top: 1
+        bottom: 1
+      HF:
+        vers: 1
+        top: 1
+        bottom: 1
+      MSM:
+        vers: 1
+        top: 1
+        bottom: 1
+      WSW:
+        vers: 1
+        top: 1
+        bottom: 1
+      MTF:
+        vers: 1
+        top: 1
+        bottom: 1
   needle:
     duration:
       1:

@@ -46,7 +46,7 @@ calibration:
   race_transmission: 3.75
   partner_sample_depth: 100
 classes:
-  rel_types: []
+  bond_types: []
   sex_types:
   - MSM
 high_risk:

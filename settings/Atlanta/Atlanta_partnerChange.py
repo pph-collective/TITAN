@@ -89,7 +89,7 @@ Bond Params
 """
 nonSex = 0.5
 multiplex = 0.2
-params.classes.rel_types = ["social"]
+params.classes.bond_types = ["social"]
 
 # High risk params
 params.high_risk.partner_scale = (

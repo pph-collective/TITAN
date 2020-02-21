@@ -89,7 +89,7 @@ cal_Vaccine = 0
 """
 Bond Params
 """
-params.classes.rel_types = []
+params.classes.bond_types = []
 params.model.population.num_partners.type = "mean"
 params.model.network.component_size.min = 0
 params.model.network.component_size.max = params.model.num_pop

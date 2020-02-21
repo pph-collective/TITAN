@@ -316,7 +316,7 @@ class Relationship:
     def update_id_counter(cls):
         cls.next_rel_id += 1
 
-    def __init__(self, agent1: Agent, agent2: Agent, duration: int, rel_type: str):
+    def __init__(self, agent1: Agent, agent2: Agent, duration: int, bond_type: str):
         """
         :Purpose:
             Constructor for a Relationship
@@ -325,7 +325,7 @@ class Relationship:
             :ID1: first agent
             :ID2: second agent
             :SO: Orientation of relationship
-            :rel_type: (future feature) - sex bond or idu bond or both
+            :bond_type: (future feature) - sex bond or idu bond or both
             :duration: length of relationship
         """
         # make sure these agents can be in a relationship
@@ -344,7 +344,7 @@ class Relationship:
         self.duration = duration
         self.total_duration = duration
         self.total_sex_acts = 0
-        self.rel_type = rel_type
+        self.bond_type = bond_type
 
         self.bond(agent1, agent2)
 
