@@ -24,8 +24,7 @@ classes:
           - cis
           - trans
       sleeps_with:
-        type: array
-        values: keys
+        type: keys
     default:
       HM:
         gender: M

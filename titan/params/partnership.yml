@@ -201,8 +201,12 @@ partnership:
           min: 30
           max: 30
   bond:
-    type: # REVIEWED: switch this to sex-type subdict
-      PWID:
+    type:
+      type: sub-dict
+      keys:
+        - populations
+      description: Probabilities of bond types by popultation
+      default:
         social:
           default: 0.308
           description: Probability of a social bond type for PWID
@@ -218,25 +222,6 @@ partnership:
         sexualOnly:
           default: 0.587
           description: Probability of a sexualOnly bond type for PWID
-          type: float
-          min: 0
-          max: 1
-      general:
-        social:
-          default: 0.308
-          description: Probability of a social bond type for non-PWID
-          type: float
-          min: 0
-          max: 1
-        multiplex:
-          default: 0.105
-          description: Probability of a multiplex bond type for non-PWID
-          type: float
-          min: 0
-          max: 1
-        sexualOnly:
-          default: 0.587
-          description: Probability of a sexualOnly bond type for non-PWID
           type: float
           min: 0
           max: 1

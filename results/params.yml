@@ -337,7 +337,23 @@ partnership:
         social: 0.308
         multiplex: 0.105
         sexualOnly: 0.587
-      general:
+      HM:
+        social: 0.308
+        multiplex: 0.105
+        sexualOnly: 0.587
+      HF:
+        social: 0.308
+        multiplex: 0.105
+        sexualOnly: 0.587
+      MSM:
+        social: 0.308
+        multiplex: 0.105
+        sexualOnly: 0.587
+      WSW:
+        social: 0.308
+        multiplex: 0.105
+        sexualOnly: 0.587
+      MTF:
         social: 0.308
         multiplex: 0.105
         sexualOnly: 0.587
