@@ -201,7 +201,7 @@ partnership:
           min: 30
           max: 30
   bond:
-    type:
+    type: # REVIEWED: switch this to sex-type subdict
       PWID:
         social:
           default: 0.308

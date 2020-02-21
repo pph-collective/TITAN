@@ -74,14 +74,38 @@ outputs:
   - basicReport
 classes:
   races:
-  - BLACK
   - WHITE
+  - BLACK
   sex_types:
-  - MSM
-  - HM
-  - HF
-  - WSW
-  - MTF
+    HM:
+      gender: M
+      cis_trans: cis
+      sleeps_with:
+      - HF
+      - MTF
+    HF:
+      gender: F
+      cis_trans: cis
+      sleeps_with:
+      - HM
+    MSM:
+      gender: M
+      cis_trans: cis
+      sleeps_with:
+      - MSM
+      - MTF
+    WSW:
+      gender: F
+      sleeps_with:
+      - WSW
+      - MTF
+    MTF:
+      gender: F
+      cis_trans: trans
+      sleeps_with:
+      - WSW
+      - HM
+      - MSM
   rel_types:
   - sexualOnly
   - multiplex
@@ -92,9 +116,9 @@ classes:
   - None
   populations:
   - PWID
-  - MSM
   - HM
   - HF
+  - MSM
   - WSW
   - MTF
 model:
@@ -141,11 +165,11 @@ high_risk:
   proportion: 0.3
   condom_use_type: Race
   sex_based:
-    MSM:
-      duration: 6
     HM:
       duration: 6
     HF:
+      duration: 6
+    MSM:
       duration: 6
     WSW:
       duration: 6
@@ -201,48 +225,48 @@ partnership:
         min: 37
         max: 48
     transmission:
+      HM:
+        0: &id001
+          prob: 0.001
+        1: &id002
+          prob: 0.001
+        2: &id003
+          prob: 0.0008
+        3: &id004
+          prob: 0.0004
+        4: &id005
+          prob: 0.0002
+        5: &id006
+          prob: 0.0
+      HF:
+        0: *id001
+        1: *id002
+        2: *id003
+        3: *id004
+        4: *id005
+        5: *id006
       MSM:
         0:
           prob: 0.08
-        1: &id001
-          prob: 0.001
-        2: &id002
-          prob: 0.0008
-        3: &id003
-          prob: 0.0004
-        4: &id004
-          prob: 0.0002
-        5: &id005
-          prob: 0.0
-      HM:
-        0: &id006
-          prob: 0.001
-        1: *id001
-        2: *id002
-        3: *id003
-        4: *id004
-        5: *id005
-      HF:
-        0: *id006
-        1: *id001
-        2: *id002
-        3: *id003
-        4: *id004
-        5: *id005
+        1: *id002
+        2: *id003
+        3: *id004
+        4: *id005
+        5: *id006
       WSW:
-        0: *id006
-        1: *id001
-        2: *id002
-        3: *id003
-        4: *id004
-        5: *id005
+        0: *id001
+        1: *id002
+        2: *id003
+        3: *id004
+        4: *id005
+        5: *id006
       MTF:
-        0: *id006
-        1: *id001
-        2: *id002
-        3: *id003
-        4: *id004
-        5: *id005
+        0: *id001
+        1: *id002
+        2: *id003
+        3: *id004
+        4: *id005
+        5: *id006
   needle:
     duration:
       1:
@@ -345,8 +369,8 @@ needle_exchange:
   coverage: 0.0
   init_at_pop: 0
 demographics:
-  BLACK:
-    ppl: 0.6
+  WHITE:
+    ppl: 0.4
     hiv:
       init: 0.0
       dx:
@@ -402,42 +426,6 @@ demographics:
         min: 55
         max: 80
     PWID:
-      ppl: 0.2
-      hiv:
-        init: 0.0
-        dx:
-          init: 0.0
-          prob: 0.0
-      aids:
-        init: 0.0
-      haart:
-        init: 0.0
-        prob: 0.0
-        adherence: 0.0
-        discontinue: 0.0
-      incar:
-        init: 0.0
-        prob: 0.0
-      num_partners: 0.0
-      num_needle_acts: 0.0
-      safe_sex: 0.0
-      needle_sharing: 0.0
-      prep:
-        discontinue: 0.0
-        adherence: 0.0
-        coverage: 0.0
-      high_risk:
-        init: 0.0
-      vaccine:
-        init: 0.0
-        prob: 0.0
-        booster:
-          interval: 0
-          prob: 0.0
-      assort_mix:
-        coefficient: 0
-      age: *id013
-    MSM:
       ppl: 0.3
       hiv:
         init: 0.0
@@ -511,6 +499,42 @@ demographics:
       age: *id013
     HF:
       ppl: 0.2
+      hiv:
+        init: 0.0
+        dx:
+          init: 0.0
+          prob: 0.0
+      aids:
+        init: 0.0
+      haart:
+        init: 0.0
+        prob: 0.0
+        adherence: 0.0
+        discontinue: 0.0
+      incar:
+        init: 0.0
+        prob: 0.0
+      num_partners: 0.0
+      num_needle_acts: 0.0
+      safe_sex: 0.0
+      needle_sharing: 0.0
+      prep:
+        discontinue: 0.0
+        adherence: 0.0
+        coverage: 0.0
+      high_risk:
+        init: 0.0
+      vaccine:
+        init: 0.0
+        prob: 0.0
+        booster:
+          interval: 0
+          prob: 0.0
+      assort_mix:
+        coefficient: 0
+      age: *id013
+    MSM:
+      ppl: 0.3
       hiv:
         init: 0.0
         dx:
@@ -617,8 +641,8 @@ demographics:
       assort_mix:
         coefficient: 0
       age: *id013
-  WHITE:
-    ppl: 0.4
+  BLACK:
+    ppl: 0.6
     hiv:
       init: 0.0
       dx:
@@ -654,43 +678,7 @@ demographics:
       coefficient: 0
     age: *id013
     PWID:
-      ppl: 0.3
-      hiv:
-        init: 0.0
-        dx:
-          init: 0.0
-          prob: 0.0
-      aids:
-        init: 0.0
-      haart:
-        init: 0.0
-        prob: 0.0
-        adherence: 0.0
-        discontinue: 0.0
-      incar:
-        init: 0.0
-        prob: 0.0
-      num_partners: 0.0
-      num_needle_acts: 0.0
-      safe_sex: 0.0
-      needle_sharing: 0.0
-      prep:
-        discontinue: 0.0
-        adherence: 0.0
-        coverage: 0.0
-      high_risk:
-        init: 0.0
-      vaccine:
-        init: 0.0
-        prob: 0.0
-        booster:
-          interval: 0
-          prob: 0.0
-      assort_mix:
-        coefficient: 0
-      age: *id013
-    MSM:
-      ppl: 0.3
+      ppl: 0.2
       hiv:
         init: 0.0
         dx:
@@ -763,6 +751,42 @@ demographics:
       age: *id013
     HF:
       ppl: 0.2
+      hiv:
+        init: 0.0
+        dx:
+          init: 0.0
+          prob: 0.0
+      aids:
+        init: 0.0
+      haart:
+        init: 0.0
+        prob: 0.0
+        adherence: 0.0
+        discontinue: 0.0
+      incar:
+        init: 0.0
+        prob: 0.0
+      num_partners: 0.0
+      num_needle_acts: 0.0
+      safe_sex: 0.0
+      needle_sharing: 0.0
+      prep:
+        discontinue: 0.0
+        adherence: 0.0
+        coverage: 0.0
+      high_risk:
+        init: 0.0
+      vaccine:
+        init: 0.0
+        prob: 0.0
+        booster:
+          interval: 0
+          prob: 0.0
+      assort_mix:
+        coefficient: 0
+      age: *id013
+    MSM:
+      ppl: 0.3
       hiv:
         init: 0.0
         dx:

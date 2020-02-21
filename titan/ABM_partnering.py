@@ -198,24 +198,20 @@ def sex_possible(agent_sex_type: str, partner_sex_type: str, params: DotMap) -> 
     SexPossible : bool
     """
 
-    # dictionary defining which sex types each sex type is compatible with
-    st = {
-        "HM": ["HF", "MTF"],
-        "MSM": ["MSM", "MTF"],
-        "WSW": ["WSW", "MTF"],
-        "HF": ["HM"],
-        "MTF": ["WSW", "HM", "MSM"],
-    }
-
     # Check input
     if agent_sex_type not in params.classes.sex_types:
         raise ValueError("Invalid agent_sex_type! %s" % str(agent_sex_type))
     if partner_sex_type not in params.classes.sex_types:
         raise ValueError("Invalid partner_sex_type! %s" % str(partner_sex_type))
 
-    return (agent_sex_type in st[partner_sex_type]) and (
-        partner_sex_type in st[agent_sex_type]
+    agent_match = (
+        agent_sex_type in params.classes.sex_types[partner_sex_type].sleeps_with
     )
+    partner_match = (
+        partner_sex_type in params.classes.sex_types[agent_sex_type].sleeps_with
+    )
+
+    return agent_match and partner_match
 
 
 def get_partnership_duration(agent: Agent, params: DotMap) -> int:
