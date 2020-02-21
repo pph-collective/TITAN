@@ -84,7 +84,6 @@ params.calibration.haart_coverage = (
 )
 params.calibration.incarceration = 1.0  # Scaling factor for incarceration probability
 params.calibration.race_transmission = 1.0  # Scaling factor for racial disparities in transmission not accounted for in other factors
-params.calibration.partner_sample_depth = 100
 
 """
 Bond Params

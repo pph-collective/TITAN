@@ -44,7 +44,6 @@ calibration:
   haart_coverage: 0.4
   incarceration: 1.0
   race_transmission: 4.0
-  partner_sample_depth: 100
 classes:
   rel_types: []
   sex_types:

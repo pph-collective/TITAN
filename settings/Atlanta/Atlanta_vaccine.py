@@ -79,7 +79,6 @@ params.calibration.haart_coverage = (
 )
 params.calibration.incarceration = 1.0
 params.calibration.race_transmission = 1.95
-params.calibration.partner_sample_depth = 100
 cal_Vaccine = 0  # determines vaccine initiation during run
 
 """

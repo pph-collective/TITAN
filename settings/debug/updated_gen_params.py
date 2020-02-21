@@ -75,9 +75,6 @@ params.calibration.incarceration = (
 params.calibration.race_transmission = (
     1.0  # Scaling factor for increased STI transmission P comparing race1/race2
 )
-params.calibration.partner_sample_depth = (
-    100  # Sampling depth for partnering algorithm.
-)
 
 """
 High risk params

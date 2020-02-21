@@ -72,7 +72,6 @@ params.calibration.haart_coverage = (
 )
 params.calibration.incarceration = 1.0
 params.calibration.race_transmission = 1.0
-params.calibration.partner_sample_depth = 100
 
 """
 Bond Params

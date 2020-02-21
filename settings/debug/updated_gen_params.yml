@@ -30,7 +30,6 @@ calibration:
   haart_coverage: 1.0
   incarceration: 1.0
   race_transmission: 1.0
-  partner_sample_depth: 100
 high_risk:
   partner_scale: 300
   proportion: 0.3
