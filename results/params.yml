@@ -96,6 +96,7 @@ classes:
       - MTF
     WSW:
       gender: F
+      cis_trans: cis
       sleeps_with:
       - WSW
       - MTF

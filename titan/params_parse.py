@@ -78,15 +78,17 @@ def get_bins(key, d, param):
 
 def get_defn(key, d, param):
     if key not in param:
-        return d["default"]
+        parsed = d["default"]
+    else:
+        parsed = param[key]
 
     # check definitions
-    for k, val in param[key].items():
-        for field, defn in d["fields"]:
+    for k, val in parsed.items():
+        for field, defn in d["fields"].items():
             assert field in val
-            val[field] = check_item(val[field], defn)
+            val[field] = check_item(val[field], defn, parsed.keys())
 
-    return param[key]
+    return parsed
 
 
 def parse_params(defs, params, pops):
