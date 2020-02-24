@@ -186,7 +186,7 @@ def deathReport(
     outdir: str,
 ):
     f = open(os.path.join(outdir, "DeathReport.txt"), "a")
-    sex_types = deepcopy(params.classes.sex_types)
+    sex_types = deepcopy(list(params.classes.sex_types.keys()))
     sex_types.append("ALL")
 
     # if this is a new file, write the header info

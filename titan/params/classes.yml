@@ -9,18 +9,54 @@ classes:
       - WHITE
       - BLACK
   sex_types:
-    default:
-      - HM
-      - HF
     description: "Which sex types to use in model"
-    type: array
-    values:
-      - HM
-      - HF
-      - MSM
-      - WSW
-      - MTF
-  rel_types:
+    type: definition
+    fields:
+      gender:
+        type: enum
+        values:
+          - M
+          - F
+          - O
+      cis_trans:
+        type: enum
+        values:
+          - cis
+          - trans
+      sleeps_with:
+        type: keys
+    default:
+      HM:
+        gender: M
+        cis_trans: cis
+        sleeps_with:
+          - HF
+          - MTF
+      HF:
+        gender: F
+        cis_trans: cis
+        sleeps_with:
+          - HM
+      MSM:
+        gender: M
+        cis_trans: cis
+        sleeps_with:
+          - MSM
+          - MTF
+      WSW:
+        gender: F
+        cis_trans: cis
+        sleeps_with:
+          - WSW
+          - MTF
+      MTF:
+        gender: F
+        cis_trans: trans
+        sleeps_with:
+          - WSW
+          - HM
+          - MSM
+  bond_types:
     default:
       - sexualOnly
       - multiplex

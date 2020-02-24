@@ -46,7 +46,7 @@ calibration:
   incarceration: 1.0
   race_transmission: 1.95
 classes:
-  rel_types: []
+  bond_types: []
   sex_types:
   - MSM
 high_risk:

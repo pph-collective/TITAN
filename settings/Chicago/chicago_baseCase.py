@@ -89,13 +89,17 @@ params.calibration.race_transmission = (
 """
 Bond Params
 """
-params.classes.rel_types_probs = {"social": 0.308, "multiplex": 0.105, "sexOnly": 0.587}
-params.classes.rel_types_probs_PWID = {
+params.classes.bond_types_probs = {
     "social": 0.308,
     "multiplex": 0.105,
     "sexOnly": 0.587,
 }
-params.classes.rel_types = ["social"]
+params.classes.bond_types_probs_PWID = {
+    "social": 0.308,
+    "multiplex": 0.105,
+    "sexOnly": 0.587,
+}
+params.classes.bond_types = ["social"]
 params.model.population.num_partners.type = "bins"
 
 """

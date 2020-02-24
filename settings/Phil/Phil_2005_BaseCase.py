@@ -88,7 +88,7 @@ params.calibration.race_transmission = (
 Bond Params
 """
 params.model.population.num_partners.type = "mean"
-params.classes.rel_types = []
+params.classes.bond_types = []
 
 """
 High risk params

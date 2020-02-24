@@ -88,7 +88,7 @@ params.calibration.race_transmission = 1.0  # Scaling factor for racial disparit
 """
 Bond Params
 """
-params.classes.rel_types = []
+params.classes.bond_types = []
 params.model.population.num_partners.type = "mean"
 
 """

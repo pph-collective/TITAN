@@ -8,26 +8,32 @@ from pathlib import Path
 from dotmap import DotMap  # type: ignore
 
 
+def check_item(val, d, keys=None):
+    if "min" in d:
+        assert val >= d["min"]
+    if "max" in d:
+        assert val <= d["max"]
+    if d["type"] == "int":
+        isinstance(val, int)
+    if d["type"] == "float":
+        if isinstance(val, int):
+            val = float(val)
+        assert isinstance(val, float)
+    if d["type"] == "boolean":
+        assert isinstance(val, bool)
+    if d["type"] == "enum":
+        assert val in d["values"]
+    if d["type"] == "array":
+        assert all(x in d["values"] for x in val)
+    if d["type"] == "keys":
+        assert all(x in keys for x in val)
+    return val
+
+
 def get_item(key, d, param):
     if key in param:
         val = param[key]
-        if "min" in d:
-            assert val >= d["min"]
-        if "max" in d:
-            assert val <= d["max"]
-        if d["type"] == "int":
-            isinstance(val, int)
-        if d["type"] == "float":
-            if isinstance(val, int):
-                val = float(val)
-            assert isinstance(val, float)
-        if d["type"] == "boolean":
-            assert isinstance(val, bool)
-        if d["type"] == "enum":
-            assert val in d["values"]
-        if d["type"] == "array":
-            assert all(x in d["values"] for x in val)
-        return val
+        return check_item(val, d)
     else:
         return d["default"]
 
@@ -63,22 +69,26 @@ def get_bins(key, d, param):
 
         for field, defn in d["fields"].items():
             assert field in val
-            if defn["type"] == "int":
-                assert isinstance(val[field], int)
-            elif defn["type"] == "float":
-                if isinstance(val[field], int):
-                    val[field] = float(val[field])
-                assert isinstance(val[field], float)
-
-            if "min" in defn:
-                assert val[field] >= defn["min"]
-
-            if "max" in defn:
-                assert val[field] <= defn["max"]
+            val[field] = check_item(val[field], defn)
 
         parsed_bins[int(bin)] = val
 
     return parsed_bins
+
+
+def get_defn(key, d, param):
+    if key not in param:
+        parsed = d["default"]
+    else:
+        parsed = param[key]
+
+    # check definitions
+    for k, val in parsed.items():
+        for field, defn in d["fields"].items():
+            assert field in val
+            val[field] = check_item(val[field], defn, parsed.keys())
+
+    return parsed
 
 
 def parse_params(defs, params, pops):
@@ -114,6 +124,8 @@ def parse_params(defs, params, pops):
 
             elif v["type"] == "bin":
                 parsed[k] = get_bins(k, v, params)
+            elif v["type"] == "definition":
+                parsed[k] = get_defn(k, v, params)
             else:
                 parsed[k] = get_item(k, v, params)
         else:
@@ -123,17 +135,19 @@ def parse_params(defs, params, pops):
 
 
 def parse_classes(defs, params):
-    # add sex types to popultaions
-    if "sex_types" in params["classes"]:
+    # add sex types to populations
+    if "sex_types" in params.get("classes", []):
         params["classes"]["populations"] = (
             params["classes"].get(
                 "populations", defs["classes"]["populations"]["default"]
             )
-            + params["classes"]["sex_types"]
+            + params["classes"]["sex_types"].keys()
         )
 
-    defs["classes"]["populations"]["default"] += defs["classes"]["sex_types"]["default"]
-    defs["classes"]["populations"]["values"] += defs["classes"]["sex_types"]["values"]
+    sex_type_keys = defs["classes"]["sex_types"]["default"].keys()
+
+    defs["classes"]["populations"]["default"] += sex_type_keys
+    defs["classes"]["populations"]["values"] += sex_type_keys
 
     return parse_params(defs["classes"], params.get("classes", {}), {})
 
@@ -192,4 +206,4 @@ def create_params(setting_path, param_path, outdir):
 
 
 if __name__ == "__main__":
-    create_params({}, "tests/params/basic.yml", "results")
+    create_params(None, "tests/params/basic.yml", "results")

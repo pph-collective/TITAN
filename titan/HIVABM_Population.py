@@ -362,9 +362,9 @@ class PopulationClass:
             if agent.drug_use == "Inj" and partner.drug_use == "Inj":
                 bond_type = bondtype(self.params.partnership.bond.type.PWID)
             else:
-                bond_type = bondtype(self.params.partnership.bond.type.general)
+                bond_type = bondtype(self.params.partnership.bond.type[agent.so])
 
-            relationship = Relationship(agent, partner, duration, rel_type=bond_type)
+            relationship = Relationship(agent, partner, duration, bond_type=bond_type)
 
             self.Relationships.append(relationship)
             graph.add_edge(

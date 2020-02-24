@@ -45,7 +45,7 @@ calibration:
   incarceration: 1.0
   race_transmission: 1.0
 classes:
-  rel_types: []
+  bond_types: []
   sex_types:
   - HM
   - HF

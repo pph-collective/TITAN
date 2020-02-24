@@ -493,7 +493,7 @@ class HIVModel(NetworkClass):
             return False
 
         if self.params.features.pca:
-            if rel.rel_type == "sexOnly" and rel.duration != rel.total_duration:
+            if rel.bond_type == "sexOnly" and rel.duration != rel.total_duration:
                 pass
             else:
                 self._pca_interaction(rel, time)
@@ -604,11 +604,11 @@ class HIVModel(NetworkClass):
         while acts_prob > current_p_value:
             actsBin += 1
             current_p_value += self.params.partnership.interaction[
-                relationship.rel_type
+                relationship.bond_type
             ][actsBin].prob
 
-        min = self.params.partnership.interaction[relationship.rel_type][actsBin].min
-        max = self.params.partnership.interaction[relationship.rel_type][actsBin].max
+        min = self.params.partnership.interaction[relationship.bond_type][actsBin].min
+        max = self.params.partnership.interaction[relationship.bond_type][actsBin].max
         if min == max:
             num_acts = min
         else:

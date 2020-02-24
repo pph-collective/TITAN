@@ -87,7 +87,7 @@ def test_agents_interact(make_model, make_agent):
     model = make_model()
     a = make_agent(race="WHITE", SO="HM")
     p = make_agent(race="WHITE", SO="HF")
-    rel = Relationship(a, p, 10, rel_type="sexOnly")
+    rel = Relationship(a, p, 10, bond_type="sexOnly")
 
     model.runRandom = FakeRandom(0.6)
 
@@ -143,7 +143,7 @@ def test_sex_transmission(make_model, make_agent):
     model = make_model()
     a = make_agent()
     p = make_agent()
-    rel = Relationship(a, p, 10, rel_type="sexOnly")
+    rel = Relationship(a, p, 10, bond_type="sexOnly")
 
     a.hiv = True
     a.hiv_time = 1  # acute
@@ -162,7 +162,7 @@ def test_sex_transmission_do_nothing(make_model, make_agent):
     model = make_model()
     a = make_agent()
     p = make_agent()
-    rel = Relationship(a, p, 10, rel_type="sexOnly")
+    rel = Relationship(a, p, 10, bond_type="sexOnly")
 
     with pytest.raises(ValueError):
         model._sex_transmission(rel, 0)
@@ -187,7 +187,7 @@ def test_pca_interaction(make_model, make_agent):
     model.G.add_edge(a, p)
     model.G.add_edge(a, "edge")
 
-    rel = Relationship(a, p, 10, rel_type="multiplex")
+    rel = Relationship(a, p, 10, bond_type="multiplex")
     model._pca_interaction(rel, 5, force=True)
 
     assert p.awareness
@@ -269,7 +269,7 @@ def test_incarcerate_not_tested(make_model, make_agent):
     a.hiv = True
 
     p = make_agent(SO="HF")
-    rel = Relationship(a, p, 10, rel_type="sexOnly")
+    rel = Relationship(a, p, 10, bond_type="sexOnly")
 
     model.runRandom = FakeRandom(-0.1)  # always less than params
 
@@ -500,7 +500,7 @@ def test_initiate_PrEP_eligible(make_model, make_agent):
     p = make_agent(DU="Inj")
     p.hiv_dx = True
     p.msmw = True
-    rel = Relationship(a, p, 10, rel_type="sexOnly")
+    rel = Relationship(a, p, 10, bond_type="sexOnly")
     # non-forcing, adherant, inj
     model.runRandom = FakeRandom(-0.1)
     model._initiate_PrEP(a, 0)

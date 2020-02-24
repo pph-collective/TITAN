@@ -70,7 +70,7 @@ outputs.reports,reports
 classes,
 classes.races,DemographicParams.keys()
 classes.sex_types,agentSexTypes
-classes.rel_types,bond_type
+classes.bond_types,bond_type
 classes.drug_types,
 classes.populations,
 model,
