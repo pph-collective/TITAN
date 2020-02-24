@@ -49,46 +49,21 @@ classes:
   rel_types: []
   sex_types:
   - MSM
-  - HF
-  - HM
-  - PWID
 high_risk:
-  partner_scale: 300
-  proportion: 0.3
-  sex_based:
-    HM:
-      duration: 6
-    HF:
-      duration: 6
   condom_use_type: Race
 assort_mix:
   type: Race
   coefficient: 0.75
-needle_exchange:
-  prevalence: 1.0
-  init_at_pop: 0
-  coverage: 0.0
-vaccine:
-  type: HVTN702
-  start: 1
-  booster: true
-incar:
-  haart:
-    prob: 0.51
-    adherence: 0.21
-    discontinue: 0.12
 PWID:
   prep:
     adherence: AtlantaMSM
 demographics:
   WHITE:
     MSM:
-      Race: null
-      Class: null
+      ppl: 1.1
       NUMPartn: 7.0
       EligSE_PartnerType: MSM
       boosterProb: 0.0
-      ppl: 1.0
       hiv:
         init: 0.132
         dx:
@@ -107,84 +82,6 @@ demographics:
       num_needle_acts: 5.0
       safe_sex: 0.6608
       needle_sharing: 0.43
-      prep:
-        discontinue: 0.13
-        adherence: 0.911
-        coverage: 0.415
-      high_risk:
-        init: 0.0
-      vaccine:
-        init: 0.0
-        booster:
-          interval: 0
-    HM:
-      Race: null
-      Class: null
-      NUMPartn: 0.0
-      EligSE_PartnerType: []
-      ppl: 0.0
-      hiv:
-        init: 0.0
-        dx:
-          init: 0.0
-          prob: 0.0
-      aids:
-        init: 0.0
-      haart:
-        init: 0.0
-        adherence: 0.0
-        discontinue: 0.0
-      incar:
-        init: 0.0
-        prob: 0.0
-      num_partners: 0.0
-      num_needle_acts: 0.0
-      safe_sex: 0.0
-      needle_sharing: 0.0
-      prep:
-        discontinue: 0.0
-        adherence: 1.0
-        coverage: 0
-      high_risk:
-        init: 0.0
-      vaccine:
-        init: 0
-        booster:
-          interval: 0
-    HF:
-      Race: null
-      Class: null
-      NUMPartn: 0.0
-      EligSE_PartnerType: []
-      ppl: 0.0
-      hiv:
-        init: 0.0
-        dx:
-          init: 0.0
-          prob: 0.0
-      aids:
-        init: 0.0
-      haart:
-        init: 0.0
-        adherence: 0.0
-        discontinue: 0.0
-      incar:
-        init: 0.0
-        prob: 0.0
-      num_partners: 0.0
-      num_needle_acts: 0.0
-      safe_sex: 0.0
-      needle_sharing: 0.0
-      prep:
-        discontinue: 0.0
-        adherence: 1.0
-        coverage: 0
-      high_risk:
-        init: 0.0
-      vaccine:
-        init: 0
-        booster:
-          interval: 0
     PWID:
       Race: null
       Class: null
@@ -226,12 +123,9 @@ demographics:
       params.assort_mix.coefficient: 0.722
   BLACK:
     MSM:
-      Race: null
-      Class: null
+      ppl: 1.0
       NUMPartn: 5.0
       EligSE_PartnerType: MSM
-      boosterProb: 0.0
-      ppl: 1.0
       hiv:
         init: 0.434
         dx:
@@ -243,9 +137,6 @@ demographics:
         init: 0.627
         adherence: 0.817
         discontinue: 0.07
-      incar:
-        init: 0.0
-        prob: 0.0
       num_partners: 5.0
       num_needle_acts: 5.0
       safe_sex: 0.312
@@ -254,114 +145,6 @@ demographics:
         discontinue: 0.1
         adherence: 0.568
         coverage: 0.258
-      high_risk:
-        init: 0.0
-      vaccine:
-        init: 0.0
-        booster:
-          interval: 0
-    HM:
-      Race: null
-      Class: null
-      NUMPartn: 0.0
-      EligSE_PartnerType: []
-      ppl: 0.0
-      hiv:
-        init: 0.0
-        dx:
-          init: 0.0
-          prob: 0.0
-      aids:
-        init: 0.0
-      haart:
-        init: 0.0
-        adherence: 0.0
-        discontinue: 0.0
-      incar:
-        init: 0.0
-        prob: 0.0
-      num_partners: 0.0
-      num_needle_acts: 0.0
-      safe_sex: 0.0
-      needle_sharing: 0.0
-      prep:
-        discontinue: 0.0
-        adherence: 1.0
-        coverage: 0
-      high_risk:
-        init: 0.0
-      vaccine:
-        init: 0
-        booster:
-          interval: 0
-    HF:
-      Race: null
-      Class: null
-      NUMPartn: 0.0
-      EligSE_PartnerType: []
-      ppl: 0.0
-      hiv:
-        init: 0.0
-        dx:
-          init: 0.0
-          prob: 0.0
-      aids:
-        init: 0.0
-      haart:
-        init: 0.0
-        adherence: 0.0
-        discontinue: 0.0
-      incar:
-        init: 0.0
-        prob: 0.0
-      num_partners: 0.0
-      num_needle_acts: 0.0
-      safe_sex: 0.0
-      needle_sharing: 0.0
-      prep:
-        discontinue: 0.0
-        adherence: 1.0
-        coverage: 0
-      high_risk:
-        init: 0.0
-      vaccine:
-        init: 0
-        booster:
-          interval: 0
-    PWID:
-      Race: null
-      Class: null
-      NUMPartn: 0.0
-      EligSE_PartnerType: []
-      ppl: 0.0
-      hiv:
-        init: 0.0
-        dx:
-          init: 0.0
-          prob: 0.0
-      aids:
-        init: 0.0
-      haart:
-        init: 0.0
-        adherence: 0.0
-        discontinue: 0.0
-      incar:
-        init: 0.0
-        prob: 0.0
-      num_partners: 0.0
-      num_needle_acts: 0.0
-      safe_sex: 0.0
-      needle_sharing: 0.0
-      prep:
-        discontinue: 0.0
-        adherence: 1.0
-        coverage: 0
-      high_risk:
-        init: 0.0
-      vaccine:
-        init: 0
-        booster:
-          interval: 0
     ALL:
       Proportion: 0.389
       HAARTdisc: 0.018
