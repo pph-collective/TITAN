@@ -141,10 +141,10 @@ def parse_classes(defs, params):
             params["classes"].get(
                 "populations", defs["classes"]["populations"]["default"]
             )
-            + params["classes"]["sex_types"].keys()
+            + list(params["classes"]["sex_types"].keys())
         )
 
-    sex_type_keys = defs["classes"]["sex_types"]["default"].keys()
+    sex_type_keys = list(defs["classes"]["sex_types"]["default"].keys())
 
     defs["classes"]["populations"]["default"] += sex_type_keys
     defs["classes"]["populations"]["values"] += sex_type_keys
