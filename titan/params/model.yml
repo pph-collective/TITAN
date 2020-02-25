@@ -44,11 +44,6 @@ model:
         - scale_free
         - max_k_comp_size
     component_size:
-      min:
-        default: 1
-        description: Smallest allowable size of a sub-graph in the network at initialization
-        type: int
-        min: 0
       max:
         default: 100
         description: Largest allowable size of a sub-graph in the network at initialization

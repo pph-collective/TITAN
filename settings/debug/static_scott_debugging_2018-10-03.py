@@ -54,25 +54,23 @@ params.calibration.needle.act = 2.0  # PWID act frequency scaling factor
 params.calibration.sex.partner = 1.0  # Sexual partner number scaling factor
 params.calibration.sex.act = 1.0  # Sexual acts  scaling factor
 params.calibration.transmission = 1.0  # Global transmission probability scaling factor
-params.calibration.acute = (
+params.hiv.acute.infectivity = (
     4.3  # Infectivity multiplier ratio for Acute status infections
 )
-params.calibration.risk_reduction.transmission = (
+params.hiv.dx.risk_reduction = (
     0.53  # Risk reduction in transmission probability for agents diagnosed
 )
-params.calibration.risk_reduction.haart = (
+params.haart.transmission.prob = (
     1.0  # Scaling factor for effectiveness of ART therapy on xmission P
 )
 params.calibration.test_frequency = 1.0  # Scaling factor for testing frequency
 params.calibration.mortality = 0.5  # Scaling factor for all cause mortality rates
-params.calibration.aids_progression = (
-    1.0  # Scaling factor for all progression to AIDS from HIV rates
-)
+params.hiv.aids.prob = 1.0  # Scaling factor for all progression to AIDS from HIV rates
 params.calibration.haart_coverage = (
     1.0  # Scaling factor for enrollment on ART probability
 )
 params.calibration.incarceration = 1.0
-params.calibration.race_transmission = 1.0
+params.demographics["BLACK"].hiv.transmission = 1.0
 params.calibration.partner_sample_depth = 100
 
 """

@@ -137,12 +137,9 @@ def parse_params(defs, params, pops):
 def parse_classes(defs, params):
     # add sex types to populations
     if "sex_types" in params.get("classes", []):
-        params["classes"]["populations"] = (
-            params["classes"].get(
-                "populations", defs["classes"]["populations"]["default"]
-            )
-            + list(params["classes"]["sex_types"].keys())
-        )
+        params["classes"]["populations"] = params["classes"].get(
+            "populations", defs["classes"]["populations"]["default"]
+        ) + list(params["classes"]["sex_types"].keys())
 
     sex_type_keys = list(defs["classes"]["sex_types"]["default"].keys())
 

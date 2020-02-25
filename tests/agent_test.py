@@ -157,14 +157,14 @@ def test_get_transmission_probability(make_agent, params):
     a.hiv_time = 1
     assert (
         a.get_transmission_probability("SEX", params)
-        == p_sex * scale * params.calibration.acute
+        == p_sex * scale * params.hiv.acute.infectivity
     )
     a.hiv_time = 0
 
     # test tested status
     a.hiv_dx = True
     assert a.get_transmission_probability("SEX", params) == p_sex * scale * (
-        1 - params.calibration.risk_reduction.transmission
+        1 - params.hiv.dx.risk_reduction
     )
     a.hiv_dx = False
 
@@ -172,7 +172,7 @@ def test_get_transmission_probability(make_agent, params):
     a.haart = True
     assert (
         a.get_transmission_probability("SEX", params)
-        == p_sex * scale * params.calibration.risk_reduction.haart
+        == p_sex * scale * params.haart.transmission.prob
     )
     a.haart = False
 
@@ -180,7 +180,7 @@ def test_get_transmission_probability(make_agent, params):
     a.race = "BLACK"
     assert (
         a.get_transmission_probability("SEX", params)
-        == p_sex * scale * params.calibration.race_transmission
+        == p_sex * scale * params.demographics[a.race].hiv.transmission
     )
 
 

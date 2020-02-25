@@ -62,27 +62,27 @@ params.calibration.sex.act = 1.0  # Sexual acts  scaling factor
 params.calibration.transmission = (
     1.0  # 0.92 # Global transmission probability scaling factor
 )
-params.calibration.acute = (
+params.hiv.acute.infectivity = (
     1.0  # Infectivity multiplier ratio for Acute status infections
 )
-params.calibration.risk_reduction.transmission = (
+params.hiv.dx.risk_reduction = (
     1.0  # Risk reduction in transmission probability for agents diagnosed
 )
-params.calibration.risk_reduction.haart = (
+params.haart.transmission.prob = (
     1.0  # Scaling factor for effectiveness of ART therapy on xmission P
 )
 params.calibration.test_frequency = 1.0  # Scaling factor for testing frequency
 params.calibration.mortality = 1.0  # Scaling factor for all cause mortality rates
-params.calibration.aids_progression = (
-    1.0  # Scaling factor for all progression to AIDS from HIV rates
-)
+params.hiv.aids.prob = 1.0  # Scaling factor for all progression to AIDS from HIV rates
 params.calibration.haart_coverage = (
     1.0  # Scaling factor for enrollment on ART probability
 )
 params.calibration.incarceration = (
     1.0  # Scaling factor for probability of becoming incarcerated
 )
-params.calibration.race_transmission = (
+params.demographics[
+    "BLACK"
+].transmission = (
     1.0  # Scaling factor for increased STI transmission P comparing race1/race2
 )
 params.calibration.partner_sample_depth = (
@@ -172,7 +172,6 @@ params.needle_exchange.prevalence = 1.0  # Prevalence scalar on SNE
 params.needle_exchange.init_at_pop = 0
 params.needle_exchange.coverage = 0.0
 params.model.network.component_size.max = 100
-params.model.network.component_size.min = 1
 
 """
 Vaccine params

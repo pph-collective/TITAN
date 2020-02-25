@@ -67,23 +67,25 @@ params.calibration.sex.act = 1.0  # Scaling factor for sexual acts
 params.calibration.transmission = (
     1.0  # Global transmission probability scaling factor. Do not change for calibration
 )
-params.calibration.acute = 4.3  # Infectivity multiplier ratio for Acute status infections. REVIEW: WILL, is this set in stone?
-params.calibration.risk_reduction.transmission = 0.53  # Scaling factor for risk reduction in transmission probability for agents diagnosed
-params.calibration.risk_reduction.haart = (
+params.hiv.acute.infectivity = 4.3  # Infectivity multiplier ratio for Acute status infections. REVIEW: WILL, is this set in stone?
+params.hiv.dx.risk_reduction = 0.53  # Scaling factor for risk reduction in transmission probability for agents diagnosed
+params.haart.transmission.prob = (
     1.0  # Scaling factor for effectiveness of ART therapy on transmission
 )
 params.calibration.test_frequency = (
     1.0  # Scaling factor for testing/diagnosis frequency
 )
 params.calibration.mortality = 0.5  # Scaling factor for all cause mortality rates
-params.calibration.aids_progression = (
+params.hiv.aids.prob = (
     1.0  # Scaling factor for all rates of progression to AIDS from HIV
 )
 params.calibration.haart_coverage = (
     1.0  # Scaling factor for probability of enrollment on ART
 )
 params.calibration.incarceration = 1.0  # Scaling factor for incarceration probability
-params.calibration.race_transmission = 1.0  # Scaling factor for racial disparities in transmission not accounted for in other factors
+params.demographics[
+    "BLACK"
+].transmission = 1.0  # Scaling factor for racial disparities in transmission not accounted for in other factors
 params.calibration.partner_sample_depth = 100
 
 """
@@ -123,7 +125,6 @@ params.needle_exchange.init_at_pop = 10  # Requirement to start treatment
 params.needle_exchange.coverage = 0.60  # Prop that receive treatment
 limitComponentSize = False  # Maintains a maximum component size
 params.model.network.component_size.max = 100  # Component size maximum if limited
-params.model.network.component_size.min = 2  # Doesn't work?
 params.high_risk.condom_use_type = "Acts"  # Racial or Acts. Acts is standard. Determines how likelihood of condom use is decided
 """
 Vaccine params

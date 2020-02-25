@@ -13,25 +13,23 @@ cal_SexualScaling = 1.0  # Sexual transmission probability scaling factor
 params.calibration.transmission = (
     1.0  # 0.92 # Global transmission probability scaling factor
 )
-params.calibration.acute = (
+params.hiv.acute.infectivity = (
     4.3  # Infectivity multiplier ratio for Acute status infections
 )
-params.calibration.risk_reduction.transmission = (
+params.hiv.dx.risk_reduction = (
     0.25  # Risk reduction in transmission probability for agents diagnosed
 )
-params.calibration.risk_reduction.haart = (
+params.haart.transmission.prob = (
     3.0  # Scaling factor for effectiveness of ART therapy on xmission P
 )
 params.calibration.test_frequency = 0.5  # Scaling factor for testing frequency
 params.calibration.mortality = 0.05  # Scaling factor for all cause mortality rates
-params.calibration.aids_progression = (
-    0.05  # Scaling factor for all progression to AIDS from HIV rates
-)
+params.hiv.aids.prob = 0.05  # Scaling factor for all progression to AIDS from HIV rates
 params.calibration.haart_coverage = (
     1.45  # Scaling factor for enrollment on ART probability
 )
 params.calibration.incarceration = 1.0
-params.calibration.race_transmission = 2.9
+params.demographics["BLACK"].hiv.transmission = 2.9
 
 # High risk params
 params.high_risk.partner_scale = (

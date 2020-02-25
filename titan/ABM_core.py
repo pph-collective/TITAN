@@ -126,9 +126,7 @@ class HIVModel(NetworkClass):
 
         def get_components():
             return list(
-                self.G.subgraph(c).copy()
-                for c in nx.connected_components(self.G)
-                if len(c) >= self.params.model.network.component_size.min
+                self.G.subgraph(c).copy() for c in nx.connected_components(self.G)
             )
 
         def reset_trackers():
@@ -380,22 +378,13 @@ class HIVModel(NetworkClass):
             ):
                 print("Starting random trial")
                 components = list(
-                    self.G.subgraph(c).copy()
-                    for c in nx.connected_components(self.G)
-                    if len(c) >= self.params.model.network.component_size.min
+                    self.G.subgraph(c).copy() for c in nx.connected_components(self.G)
                 )
 
                 totNods = 0
                 print(
                     "Number of components",
-                    len(
-                        [
-                            1
-                            for comp in components
-                            if comp.number_of_nodes()
-                            >= self.params.model.network.component_size.min
-                        ]
-                    ),
+                    len([1 for comp in components if comp.number_of_nodes()]),
                 )
                 for comp in components:
                     totNods += comp.number_of_nodes()
@@ -1218,7 +1207,7 @@ class HIVModel(NetworkClass):
             adherenceStat = agent.haart_adherence
             p = prob.adherence_prob(adherenceStat)
 
-            if self.runRandom.random() < p * self.params.calibration.aids_progression:
+            if self.runRandom.random() < p * self.params.hiv.aids.prob:
                 agent.aids = True
                 self.HIV_AIDS_agentSet.add_agent(agent)
 

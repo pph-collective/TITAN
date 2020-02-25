@@ -10,3 +10,9 @@ haart:
     type: flaot
     min: 0
     max: 1
+  transmission:
+    prob:
+      default: 1
+      description: scaling factor for effictiveness of ART therapy on transmission probability
+      type: float
+      min: 0

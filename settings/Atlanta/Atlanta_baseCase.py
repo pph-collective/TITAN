@@ -64,25 +64,23 @@ params.calibration.sex.act = 2.0  # Sexual acts  scaling factor
 params.calibration.transmission = (
     1.0  # 0.92 # Global transmission probability scaling factor
 )
-params.calibration.acute = (
+params.hiv.acute.infectivity = (
     4.3  # Infectivity multiplier ratio for Acute status infections
 )
-params.calibration.risk_reduction.transmission = (
+params.hiv.dx.risk_reduction = (
     0.0  # Risk reduction in transmission probability for agents diagnosed
 )
-params.calibration.risk_reduction.haart = (
+params.haart.transmission.prob = (
     1.0  # Scaling factor for effectiveness of ART therapy on xmission P
 )
 params.calibration.test_frequency = 0.3  # Scaling factor for testing frequency
 params.calibration.mortality = 0.5  # Scaling factor for all cause mortality rates
-params.calibration.aids_progression = (
-    0.05  # Scaling factor for all progression to AIDS from HIV rates
-)
+params.hiv.aids.prob = 0.05  # Scaling factor for all progression to AIDS from HIV rates
 params.calibration.haart_coverage = (
     0.4  # Scaling factor for enrollment on ART probability
 )
 params.calibration.incarceration = 1.0
-params.calibration.race_transmission = 4.0
+params.demographics["BLACK"].hiv.transmission = 4.0
 params.calibration.partner_sample_depth = 100
 cal_Vaccine = 0
 
@@ -91,7 +89,6 @@ Bond Params
 """
 params.classes.bond_types = []
 params.model.population.num_partners.type = "mean"
-params.model.network.component_size.min = 0
 params.model.network.component_size.max = params.model.num_pop
 
 """

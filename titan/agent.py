@@ -253,19 +253,19 @@ class Agent:
 
         # Scaling parameter for acute HIV infections
         if self.get_acute_status():
-            p *= params.calibration.acute
+            p *= params.hiv.acute.infectivity
 
         # Scaling parameter for positively identified HIV agents
         if self.hiv_dx:
-            p *= 1 - params.calibration.risk_reduction.transmission
+            p *= 1 - params.hiv.dx.risk_reduction
 
         # Tuning parameter for ART efficiency
         if self.haart:
-            p *= params.calibration.risk_reduction.haart
+            p *= params.haart.transmission.prob
 
         # Racial calibration parameter to attain proper race incidence disparity
-        if self.race == "BLACK":
-            p *= params.calibration.race_transmission
+        # TO_REVIEW - how to get rid of this or did we already... but not implement it?
+        p *= params.demographics[self.race].hiv.transmission
 
         # Scaling parameter for per act transmission.
         p *= params.calibration.transmission
