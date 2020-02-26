@@ -21,7 +21,7 @@ parser.add_argument(
     help="number of monte carlo runs to complete",
 )
 parser.add_argument(
-    "-s", "--setting", nargs="?", default="custom", help="setting directory to use"
+    "-S", "--setting", nargs="?", default="custom", help="setting directory to use"
 )
 parser.add_argument(
     "-p", "--params", required=True, help="directory or file with params yaml(s)"

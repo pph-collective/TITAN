@@ -21,3 +21,4 @@ partnership:
     role_scaling:
       MSM:
         vers: 0.5
+        top: 0.7

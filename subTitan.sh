@@ -15,6 +15,7 @@ repeats=1
 nMC=1
 model=${PWD##*/}
 basePath=$PWD
+useBase="True"
 
 while getopts m:S:T:j:r:n: option
 do
@@ -26,6 +27,7 @@ do
 	S) setting=${OPTARG};;
 	r) repeats=${OPTARG};;
 	n) nMC=${OPTARG};;
+	b) useBase=${OPTARG};;
     esac
 done
 
@@ -48,6 +50,7 @@ options:
 	-S setting      name of setting for this model
 	-r repeats      number of times to repeat the analysis (default: $repeats)
   -n iterations   number of mode iterations per job (default: $nMC)
+	-b use_base     whether to use the base setting as True or False (default: $useBase)
 "
 exit 0
 }
@@ -73,15 +76,13 @@ sed -i "s/MEMORY/$memory/g" scripts/bs_Core.sh
 prepSubmit() {
 
     #Copy source code into parent path
-    #echo -e "\n\tMoving setting $setting into $srcCode"
-    #cp $settingPath $srcCode/params.py
     echo -e "\n\tCopying $srcCode to $finalPath"
     mkdir -p $finalPath
     cp $titanPath/run_titan.py $finalPath
     cp -rT $titanPath/titan $finalPath/titan
     cp -rT $titanPath/scripts $finalPath/scripts
+	  cp -rT $titanPath/settings $finalPath/settings
     mkdir -p $finalPath/results/network
-    # cp $settingPath $finalPath/titan/params.py
     #Move into new source code folder
     echo -e "\n\tMoving to model folder directory"
     cd $finalPath
@@ -89,7 +90,7 @@ prepSubmit() {
     updateParams;
 
     #Submit job to cluster
-    sbatch scripts/bs_Core.sh $setting $paramPath $nMC
+    sbatch scripts/bs_Core.sh $setting $paramPath $nMC $useBase
 
     #Move back to base directory
     cd $basePath
