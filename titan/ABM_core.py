@@ -146,10 +146,12 @@ class HIVModel(NetworkClass):
 
                 if self.params.features.die_and_replace:
                     self._die_and_replace()
+
+                reset_trackers()
             self.All_agentSet.print_subsets()
 
             print(("\tBurn Cuml Inc:\t{}".format(self.NewInfections.num_members())))
-            reset_trackers()
+
             print(" === Simulation Burn Complete ===")
 
         def makeAgentZero(numPartners: int):
