@@ -14,7 +14,7 @@ def check_item(val, d, keys=None):
     if "max" in d:
         assert val <= d["max"]
     if d["type"] == "int":
-        isinstance(val, int)
+        assert isinstance(val, int)
     if d["type"] == "float":
         if isinstance(val, int):
             val = float(val)
@@ -183,7 +183,8 @@ def check_params(params):
     """
     race_pop = 0
 
-    for race, r_dems in params.demographics.items():
+    for race in params.classes.races:
+        r_dems = params.demographics[race]
         race_pop += r_dems.ppl
         sex_type_pop = 0
         for st, st_dems in r_dems.items():
