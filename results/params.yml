@@ -278,9 +278,9 @@ partnership:
         top: 1
         bottom: 1
       MSM:
-        vers: 1
-        top: 1
-        bottom: 1
+        vers: 1.1
+        top: 1.2
+        bottom: 1.3
       WSW:
         vers: 1
         top: 1

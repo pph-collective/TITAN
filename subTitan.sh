@@ -102,6 +102,10 @@ if [ ! $paramPath ]; then
     usage;
 fi
 
+if [[ ${paramPath:0:1} != "/" ]] || [[ ${paramPath:0:1} == "~" ]]; then
+	paramPath="${pwd}/$paramPath"
+fi
+
 if [ ! -d $srcCode ]; then
     echo -e "\n\n$srcCode is not a directory! Source code must be provided as a directory\n"
     exit 0
@@ -122,6 +126,7 @@ if [ $srcCode ]; then
     echo "
         jobname     $jobname
         outPath	    $outPath
+				paramPath   $paramPath
         user	    $user
         date        $date
         walltime    $walltime

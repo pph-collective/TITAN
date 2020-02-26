@@ -164,18 +164,38 @@ def build_yaml(path):
     yml = {}
     if os.path.isdir(path):
         for file in os.listdir(path):
-            with open(os.path.join(path, file)) as f:
-                this_yml = yaml.safe_load(f)
-                yml.update(this_yml)
+            if ".yml" in file or ".yaml" in file:
+                with open(os.path.join(path, file)) as f:
+                    this_yml = yaml.safe_load(f)
+                    yml.update(this_yml)
     else:
         with open(path) as f:
+            assert ".yml" in path or ".yaml" in path
             this_yml = yaml.safe_load(f)
             yml.update(this_yml)
 
     return yml
 
 
-def create_params(setting_path, param_path, outdir):
+def check_params(params):
+    """
+    Consistency checks for param populations
+    """
+    race_pop = 0
+
+    for race, r_dems in params.demographics.items():
+        race_pop += r_dems.ppl
+        sex_type_pop = 0
+        for st, st_dems in r_dems.items():
+            if st in list(params.classes.sex_types.keys()):
+                sex_type_pop += st_dems.ppl
+
+        assert sex_type_pop == 1
+
+    assert race_pop == 1
+
+
+def create_params(setting_path, param_path, outdir, use_base=True):
     filename = getframeinfo(currentframe()).filename
     parent = Path(filename).resolve().parent
     root = os.path.join(parent, "params")
@@ -188,6 +208,11 @@ def create_params(setting_path, param_path, outdir):
         setting = build_yaml(setting_path)
         params = merge(setting, params)
 
+    if use_base:
+        base_dir = os.path.join(parent, "..", "settings", "base")
+        base = build_yaml(base_dir)
+        params = merge(base, params)
+
     pops = parse_classes(defs, params)
     parsed = parse_params(defs, params, pops)
 
@@ -199,7 +224,10 @@ def create_params(setting_path, param_path, outdir):
         f.write("dot,old\n")
         print_dotmap(parsed, "", f)
 
-    return DotMap(parsed)
+    parsed = DotMap(parsed)
+    check_params(parsed)
+
+    return parsed
 
 
 if __name__ == "__main__":
