@@ -197,14 +197,14 @@ def test_pca_interaction(make_model, make_agent):
     assert p.opinion == 3
 
 
-def test_become_HIV(make_model, make_agent):
+def testhiv_convert(make_model, make_agent):
     model = make_model()
     a = make_agent()
     a.prep = True
 
     model.runRandom = FakeRandom(-0.1)
 
-    model._become_HIV(a)
+    model.hiv_convert(a)
 
     assert a.hiv
     assert a.hiv_time == 1
