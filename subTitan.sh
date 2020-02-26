@@ -16,6 +16,7 @@ nMC=1
 model=${PWD##*/}
 basePath=$PWD
 useBase="True"
+jobname=""
 
 while getopts m:S:T:j:r:n: option
 do
@@ -33,8 +34,11 @@ done
 
 srcCode="${titanPath}titan/"
 parentPath="Module_$setting/"
-jobname=Analysis_$setting_$date
 outPath="$HOME/scratch/$parentPath"
+
+if [ jobname == ""]; then
+	jobname="Analysis_$setting_$date"
+fi
 
 
 usage() {
