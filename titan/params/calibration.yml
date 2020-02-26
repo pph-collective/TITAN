@@ -5,11 +5,6 @@ calibration:
       description: Scales number of needle acts during needle transmission
       type: float
       min: 0
-    sharing:
-      default: 1.0
-      description: Scales probability of unsafe needle sharing
-      type: float
-      min: 0
   sex:
     act:
       default: 1.0
@@ -26,22 +21,6 @@ calibration:
     description: Scales probability of transmission
     type: float
     min: 0.0
-  acute:
-    default: 4.3
-    description: Infectivity multiplier ratio for acute status infections
-    type: float
-    min: 0.0
-  risk_reduction:
-    transmission:
-      default: 0.0
-      description: risk reduction in transmission probability for agents diagnosed
-      type: float
-      min: 0
-    haart:
-      default: 1.0
-      description: Scaling factor for effectiveness of ART therapy on transmission probability
-      type: float
-      min: 0
   test_frequency:
     default: 1.0
     description: Scaling factor for testing frequency
@@ -50,11 +29,6 @@ calibration:
   mortality:
     default: 1.0
     description: Scaling factor for all cause mortality rates
-    type: float
-    min: 0
-  aids_progression:
-    default: 1.0
-    description: Scaling factor for all progresstion to AIDS from HIV rates
     type: float
     min: 0
   haart_coverage:
@@ -66,14 +40,4 @@ calibration:
     default: 1.0
     description: Scaling factor for probability of becoming incarcerated
     type: float
-    min: 0
-  race_transmission: # REVIEWED this assumes two races - will need to rethink - move to demographics dict
-    default: 1.0
-    description: Scaling factor for STI transmission of BLACK race
-    type: float
-    min: 0
-  partner_sample_depth:
-    default: 100
-    description: Sampling depth for partnering algorithm
-    type: int
     min: 0

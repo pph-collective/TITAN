@@ -77,14 +77,7 @@ class NetworkClass(PopulationClass):
                 ):
                     print("TOO BIG", comp, comp.number_of_nodes())
                     trimComponent(comp, params.model.network.component_size.max)
-                elif (
-                    params.outputs.calc_component_stats
-                    and comp.number_of_nodes() < params.model.network.component_size.min
-                ):  # REVIEWED what should happen if it's too small? - this should be addressed someday, but it's a larger question than is advisable at the moment
-                    print("TOO SMALL", comp, comp.number_of_nodes())
-                    for a in comp.nodes():
-                        print(a)
-                        self.G.remove_node(a)
+
             print("Total agents in graph: ", self.G.number_of_nodes())
 
     def connected_components(self):

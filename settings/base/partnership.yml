@@ -1,0 +1,7 @@
+partnership:
+  sex:
+    role_scaling:
+      MSM:
+        vers: 1.1
+        top: 1.2
+        bottom: 1.3

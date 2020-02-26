@@ -33,6 +33,14 @@ parser.add_argument(
     default="results",
     help="directory name to save results to",
 )
+parser.add_argument(
+    "-b",
+    "--base",
+    nargs="?",
+    type=bool,
+    default=True,
+    help="whether to use base setting",
+)
 
 # Disable
 def blockPrint():
@@ -44,7 +52,7 @@ def enablePrint():
     sys.stdout = sys.__stdout__
 
 
-def main(setting, paramsPath, nMC, outdir):
+def main(setting, paramsPath, nMC, outdir, use_base):
     wct = []  # wall clock times
 
     # delete old results before overwriting with new results
@@ -62,7 +70,7 @@ def main(setting, paramsPath, nMC, outdir):
         setting = os.path.join("settings", setting)
         assert os.path.isdir(setting)
 
-    params = create_params(setting, paramsPath, outfile_dir)
+    params = create_params(setting, paramsPath, outfile_dir, use_base=use_base)
 
     for single_sim in range(nMC):
         tic = time_mod.time()
@@ -87,4 +95,10 @@ def main(setting, paramsPath, nMC, outdir):
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    main(args.setting.strip(), args.params.strip(), args.nMC, args.outdir.strip())
+    main(
+        args.setting.strip(),
+        args.params.strip(),
+        args.nMC,
+        args.outdir.strip(),
+        args.base,
+    )
