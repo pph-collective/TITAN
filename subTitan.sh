@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Read in source code path, then shift for optargs
-titanPath="/gpfs/data/bm8/TITAN/TITAN/"
+titanPath="/gpfs/data/bm8/sbessey/TITAN/"
 paramPath="$1"
 shift
 
