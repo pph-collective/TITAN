@@ -866,20 +866,18 @@ class HIVModel(NetworkClass):
             * (1 + (hiv_bool * 4))
             * self.params.calibration.incarceration
         ):
-            # REVIEWED what about other sex types? -needs to be generalized - Sarah meeting with someone
-            if agent.so == "HF":
-                jailDuration = prob.HF_jail_duration
-            elif agent.so == "HM":
-                jailDuration = prob.HM_jail_duration
+            jail_duration = self.params.demographics[agent.race][
+                agent.so
+            ].incar.duration.prob
 
-            durationBin = current_p_value = 1
+            bin = current_p_value = 1
             p = self.runRandom.random()
             while p >= current_p_value:
-                current_p_value += jailDuration[durationBin]["p_value"]
-                durationBin += 1
+                current_p_value += jail_duration[bin].prob
+                bin += 1
 
             timestay = self.runRandom.randint(
-                jailDuration[durationBin]["min"], jailDuration[durationBin]["max"]
+                jail_duration[bin].min, jail_duration[bin].max
             )
 
             if hiv_bool:
@@ -1230,7 +1228,11 @@ class HIVModel(NetworkClass):
             # death rate per 1 person-month
             p = (
                 prob.get_death_rate(
-                    agent.hiv, agent.aids, agent.race, agent.haart_adherence
+                    agent.hiv,
+                    agent.aids,
+                    agent.race,
+                    agent.haart_adherence,
+                    self.params,
                 )
                 * self.params.calibration.mortality
             )

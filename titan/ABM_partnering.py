@@ -7,7 +7,6 @@ from typing import Sequence, List, Dict, Optional, TypeVar
 
 from dotmap import DotMap  # type: ignore
 
-from . import probabilities as prob
 from .agent import Agent, AgentSet
 
 
@@ -227,19 +226,6 @@ def get_partnership_duration(agent: Agent, params: DotMap) -> int:
         NumPartners : int
         Zero partners possible.
     """
-    # Check input
-    agent_drug_type = agent.drug_use
-    agent_sex_type = agent.so
-    agent_race_type = agent.race
-
-    # Drug type
-    if agent_drug_type not in ["Inj", "NonInj", "None"]:
-        raise ValueError("Invalid drug type! %s" % str(agent_drug_type))
-    # Sex type
-    if agent_sex_type not in params.classes.sex_types:
-        raise ValueError("Invalid sex type! %s" % str(agent_sex_type))
-
-    diceroll = random.random()
 
     # Length of relationship (months)a
     # <1 1,679 32.3% 566 17.7 1,113 55.8
@@ -248,33 +234,18 @@ def get_partnership_duration(agent: Agent, params: DotMap) -> int:
     # 13–24 628 12.1% 480 15.0 148 7.4
     # 25–36 309 6.0% 264 8.3 45 2.3
     # >37 614 11.8% 501 15.7 113 5.7
-    if (
-        agent_race_type == "BLACK" and params.model.features.msmw
-    ):  # TO_REVIEW is this right?
-        dur_bin = 5
-        for i in range(1, 5):
-            if diceroll < prob.MSWsexualDurations[i]["p_value"]:
-                dur_bin = i
-                break
+    diceroll = random.random()
+    dur_bin = 5
+    for i in range(1, 5):
+        if diceroll < params.partnership.sex.duration[i].prob:
+            dur_bin = i
+            break
 
-        duration = random.randrange(
-            prob.MSWsexualDurations[dur_bin]["min"],
-            prob.MSWsexualDurations[dur_bin]["max"],
-            1,
-        )
-
-    else:
-        dur_bin = 5
-        for i in range(1, 5):
-            if diceroll < params.partnership.sex.duration[i].prob:
-                dur_bin = i
-                break
-
-        duration = random.randrange(
-            params.partnership.sex.duration[dur_bin].min,
-            params.partnership.sex.duration[dur_bin].max,
-            1,
-        )
+    duration = random.randrange(
+        params.partnership.sex.duration[dur_bin].min,
+        params.partnership.sex.duration[dur_bin].max,
+        1,
+    )
 
     return duration
 

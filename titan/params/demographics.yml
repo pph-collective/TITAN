@@ -81,6 +81,85 @@ demographics:
         type: float
         min: 0.0
         max: 1.0
+      duration:
+        prob:
+          type: bin
+          description: Binned probabilities of incarceration duration during model run
+          fields:
+            prob:
+              type: float
+              min: 0.0
+              max: 1.0
+            min:
+              type: int
+              min: 0
+            max:
+              type: int
+              min: 0
+          default:
+            1:
+              prob: 0.4
+              min: 1
+              max: 2
+            2:
+              prob: 0.475
+              min: 1
+              max: 13
+            3:
+              prob: 0.065
+              min: 13
+              max: 26
+            4:
+              prob: 0.045
+              min: 26
+              max: 78
+            5:
+              prob: 0.01
+              min: 78
+              max: 130
+            6:
+              prob: 0.01
+              min: 130
+              max: 260
+        init:
+          type: bin
+          description: Binned probabilities of incarceration duration when initializing population
+          fields:
+            prob:
+              type: float
+              min: 0.0
+              max: 1.0
+            min:
+              type: int
+              min: 0
+            max:
+              type: int
+              min: 0
+          default:
+            1:
+              prob: 0.14
+              min: 1
+              max: 13
+            2:
+              prob: 0.09
+              min: 13
+              max: 26
+            3:
+              prob: 0.20
+              min: 26
+              max: 78
+            4:
+              prob: 0.11
+              min: 78
+              max: 130
+            5:
+              prob: 0.16
+              min: 130
+              max: 260
+            6:
+              prob: 0.30
+              min: 260
+              max: 520
     num_partners:
       default: 0.0
       description: "Mean number of partners for an agent in this class if using model.population.num_partners.type = poisson"
@@ -196,3 +275,16 @@ demographics:
           prob: 1
           min: 55
           max: 80
+    death_rate:
+      base:
+        default: 10.4
+        type: float
+        description: Death rate by race per 1000 person years in base case
+      hiv:
+        default: 20.8
+        type: float
+        description: Death rate by race per 1000 person years if hiv+ (but no aids)
+      aids:
+        default: 41.6
+        type: float
+        description: Death rate by race per 1000 person years if aids

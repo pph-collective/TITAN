@@ -1,0 +1,6 @@
+demographics:
+  WHITE:
+    death_rate:
+      base: 8.6
+      hiv: 17.2
+      aids: 34.4

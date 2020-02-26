@@ -10,7 +10,6 @@ from dotmap import DotMap  # type: ignore
 
 from .agent import AgentSet, Agent, Relationship
 from .ABM_partnering import get_partner, get_partnership_duration
-from . import probabilities as prob
 
 
 class PopulationClass:
@@ -129,9 +128,9 @@ class PopulationClass:
         self.initialize_incarceration()
 
     def initialize_incarceration(self):
-        jail_duration = prob.jail_duration()
 
         for a in self.All_agentSet.members:
+            jail_duration = self.params.demographics[a.race][a.so].incar.duration.init
 
             prob_incar = self.params.demographics[a.race][a.so].incar.init
             if self.pop_random.random() < prob_incar:
@@ -141,8 +140,11 @@ class PopulationClass:
 
                 while p > current_p_value:
                     bin += 1
-                    current_p_value += jail_duration[bin]["p_value"]
+                    current_p_value += jail_duration[bin].prob
 
+                a.incar_time = self.pop_random.randrange(
+                    jail_duration[bin].min, jail_duration[bin].max
+                )
                 self.incarcerated_agentSet.add_agent(a)
 
     def create_agent(self, race: str, sex_type: str = "NULL") -> Agent:
@@ -237,10 +239,6 @@ class PopulationClass:
 
         # Partnership demographics
         if self.params.model.population.num_partners.type == "bins":
-            agent.mean_num_partners = prob.get_mean_num_partners(
-                drug_type, self.pop_random
-            )
-        elif self.params.model.population.num_partners.type == "bins":
             pn_prob = self.pop_random.random()
             current_p_value = bin = 0
 
