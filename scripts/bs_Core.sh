@@ -22,6 +22,7 @@ module load graphviz
 setting=$1
 paramPath=$2
 nMC=$3
+useBase=$4
 
 cd $PWD
 
@@ -37,4 +38,4 @@ echo This job has allocated $NCPU CPUs
 # $SLURM_NPROCS = nodes x ppn
 # Change global N_MC in MPI_simulation.py to $SLURM_NPROCS
 # and PROCESSES to a multiple of $SLURM_NPROCS for optimal distribution
-python3 run_titan.py -s $setting -n $nMC -p $paramPath
+python3 run_titan.py -s $setting -n $nMC -p $paramPath -b $useBase

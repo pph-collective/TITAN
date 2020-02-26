@@ -148,6 +148,7 @@ class HIVModel(NetworkClass):
                     self._die_and_replace()
 
                 reset_trackers()
+
             self.All_agentSet.print_subsets()
 
             print(("\tBurn Cuml Inc:\t{}".format(self.NewInfections.num_members())))
@@ -158,7 +159,7 @@ class HIVModel(NetworkClass):
             firstHIV = self.runRandom.choice(self.DU_Inj_agentSet.members)
             for i in range(numPartners):
                 self.update_agent_partners(self.G, firstHIV)
-            self._become_HIV(firstHIV)
+            self.hiv_convert(firstHIV)
 
         run_id = uuid.uuid4()
 
@@ -348,7 +349,7 @@ class HIVModel(NetworkClass):
                 self._incarcerate(agent, time)
 
             if agent.msmw and self.runRandom.random() < self.params.msmw.hiv.prob:
-                self._become_HIV(agent)
+                self.hiv_convert(agent)
 
             if agent.hiv:
                 # If in burnin, ignore HIV
@@ -674,7 +675,7 @@ class HIVModel(NetworkClass):
 
             if self.runRandom.random() < p_total_transmission:
                 # if agent HIV+ partner becomes HIV+
-                self._become_HIV(partner)
+                self.hiv_convert(partner)
 
     def _sex_transmission(self, rel: Relationship, time):
         """
@@ -761,9 +762,9 @@ class HIVModel(NetworkClass):
 
             if self.runRandom.random() < p_total_transmission:
                 # if agent HIV+ partner becomes HIV+
-                self._become_HIV(partner)
+                self.hiv_convert(partner)
 
-    def _become_HIV(self, agent: Agent):  # TODO rename
+    def hiv_convert(self, agent: Agent):  # TODO rename
         """
         :Purpose:
             agent becomes HIV agent. Update all appropriate list and

@@ -1,0 +1,24 @@
+classes:
+  races:
+    - BLACK
+  sex_types:
+    MSM:
+      gender: M
+      cis_trans: cis
+      sleeps_with:
+        - MSM
+
+demographics:
+  BLACK:
+    ppl: 1
+    MSM:
+      ppl: 1
+    PWID:
+      ppl: 0.1
+
+partnership:
+  sex:
+    role_scaling:
+      MSM:
+        vers: 0.5
+        top: 0.7
