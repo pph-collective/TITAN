@@ -19,14 +19,9 @@ outputs:
   reports:
   - basicReport
 features:
-  agent_zero: false
-  pca: false
   assort_mix: true
-  incar: false
-  prep: false
   haart: true
   die_and_replace: true
-  static_n: false
 calibration:
   needle:
     sharing: 1.0
@@ -65,8 +60,6 @@ demographics:
     ppl: 0.611
     MSM:
       ppl: 1.0
-      NUMPartn: 7.0
-      EligSE_PartnerType: MSM
       boosterProb: 0.0
       hiv:
         init: 0.132
@@ -90,8 +83,6 @@ demographics:
     ppl: 0.389
     MSM:
       ppl: 1.0
-      NUMPartn: 5.0
-      EligSE_PartnerType: MSM
       hiv:
         init: 0.434
         dx:
@@ -104,18 +95,12 @@ demographics:
         adherence: 0.817
         discontinue: 0.07
       num_partners: 5.0
-      num_needle_acts: 5.0
       safe_sex: 0.312
       needle_sharing: 0.27
       prep:
         discontinue: 0.1
         adherence: 0.568
         coverage: 0.258
-    ALL:
-      Proportion: 0.389
-      HAARTdisc: 0.018
-      PrEPdisc: 0.0
-      params.assort_mix.coefficient: 0.765
 partnership:
   sex:
     duration:
