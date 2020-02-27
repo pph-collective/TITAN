@@ -6,7 +6,7 @@ model:
     run: 0
   num_pop: 17440
   time_range: 24
-  burn_duration: 36
+  burn_duration: 12
   network:
     type: scale_free
   population:

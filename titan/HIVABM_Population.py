@@ -228,7 +228,7 @@ class PopulationClass:
                         agent.prep_type = "Oral"
 
         # Check if agent is HR as baseline.
-        if (
+        if self.params.features.high_risk and (
             self.pop_random.random()
             < self.params.demographics[race][sex_type].high_risk.init
         ):

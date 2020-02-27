@@ -908,7 +908,7 @@ class HIVModel(NetworkClass):
 
             # PUT PARTNERS IN HIGH RISK
             for partner in agent.partners:
-                if not partner.high_risk:
+                if not partner.high_risk and self.params.features.high_risk:
                     if self.runRandom.random() < self.params.high_risk.proportion:
                         self._become_high_risk(partner)
 

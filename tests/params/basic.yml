@@ -1,32 +1,35 @@
 demographics:
+  num_pop: 17440
   BLACK:
     ppl: 0.6
     MSM:
-      ppl: 0.3
+      ppl: 1.0
+      num_partners: 5.0
     HM:
-      ppl: 0.3
+      ppl: 0.0
     HF:
-      ppl: 0.2
+      ppl: 0.0
     WSW:
-      ppl: 0.1
+      ppl: 0.0
     MTF:
-      ppl: 0.1
+      ppl: 0.0
     PWID:
-      ppl: 0.2
+      ppl: 0.0
   WHITE:
     ppl: 0.4
     MSM:
-      ppl: 0.3
+      num_partners: 7.0
+      ppl: 1.0
     HM:
-      ppl: 0.3
+      ppl: 0.0
     HF:
-      ppl: 0.2
+      ppl: 0.0
     WSW:
-      ppl: 0.1
+      ppl: 0.0
     MTF:
-      ppl: 0.1
+      ppl: 0.0
     PWID:
-      ppl: 0.3
+      ppl: 0.0
 
 partnership:
   sex:
@@ -41,7 +44,7 @@ partnership:
 features:
   incar: true
   prep: true
-  high_risk: true
+  high_risk: false
   haart: true
   die_and_replace: true
   static_n: true
