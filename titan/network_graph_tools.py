@@ -14,10 +14,10 @@ from . import params  # type: ignore
 from .agent import Agent_set
 
 
-class NetworkClass(PopulationClass):
+class NetworkClass():
     def __init__(
         self,
-        N: int,
+        population: PopulationClass,
         popSeed: int = 0,
         netSeed: int = 0,
         network_type: str = "scale_free",
@@ -36,22 +36,12 @@ class NetworkClass(PopulationClass):
         random.seed(netSeed)
         np.random.seed(netSeed)
 
-        if type(N) is not int:
-            raise ValueError(
-                "Population size must be integer,\
-                n = %s, not int"
-                % (type(N))
-            )
-        else:
-            pass
+        # Build networkX graph object
+        self.G = nx.Graph()
 
-        PopulationClass.__init__(self, n=N, rSeed=popSeed)  # Create population
-
-        # self.NetworkSize = N
         if network_type == "scale_free":
-            self.G = nx.Graph()
             for i in range(10):
-                self.update_partner_assignments(params.PARTNERTURNOVER, self.G)
+                population.update_partner_assignments(params.PARTNERTURNOVER, self.G)
 
         elif network_type == "max_k_comp_size":
 
@@ -82,7 +72,6 @@ class NetworkClass(PopulationClass):
                     else:
                         totNods += cNodes
 
-            self.G = nx.Graph()
             for i in range(30):
                 self.update_partner_assignments(params.PARTNERTURNOVER, self.G)
             components = list(
@@ -166,7 +155,7 @@ class NetworkClass(PopulationClass):
 
     def get_Graph(self):
         """
-        Return random assortative graph produced by ``set_assortative_graph``.
+        Return graph.
         """
         return self.G
 

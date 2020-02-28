@@ -14,14 +14,15 @@ import networkx as nx  # type: ignore
 
 
 from .agent import Agent_set, Agent, Relationship
-from .network_graph_tools import NetworkClass
+from .HIVABM_Population import PopulationClass
+# from .network_graph_tools import NetworkClass
 from . import analysis_output as ao
 from . import probabilities as prob
 from . import params  # type: ignore
 from .ABM_partnering import sex_possible
 
 
-class HIVModel(NetworkClass):
+class HIVModel():
     """
     :Purpose:
         This is the core class used to simulate
@@ -54,6 +55,7 @@ class HIVModel(NetworkClass):
 
     def __init__(
         self,
+        population: PopulationClass,
         N: int,
         tmax: int,
         runseed: int,
@@ -94,14 +96,6 @@ class HIVModel(NetworkClass):
 
         print("=== Begin Initialization Protocol ===\n")
 
-        NetworkClass.__init__(
-            self,
-            N=N,
-            network_type=network_type,
-            popSeed=self.popseed,
-            netSeed=self.netseed,
-        )
-
         print("\n\tCreating lists")
         # Other lists / dictionaries
         self.NewInfections = Agent_set("NewInfections")
@@ -127,9 +121,10 @@ class HIVModel(NetworkClass):
         self.deathSet: List[Agent] = []  # Number of death
 
         print("\tCreating network graph")
-        self.create_graph_from_agents(
-            self.All_agentSet
-        )  # REVIEWED redundant with NetworkClass init? - review with max, logic feels scattered as NetworkClass also intializes a graph
+        self.population = population
+        # self.create_graph_from_agents(
+        #     self.population.All_agentSet
+        # )  # REVIEWED redundant with NetworkClass init? - review with max, logic feels scattered as NetworkClass also intializes a graph
 
         print("\n === Initialization Protocol Finished ===")
 
@@ -166,7 +161,7 @@ class HIVModel(NetworkClass):
                 self._update_AllAgents(t, burn=True)
                 if params.flag_DandR:
                     self._die_and_replace()
-            self.All_agentSet.print_subsets()
+            self.population.All_agentSet.print_subsets()
 
             print(("\tBurn Cuml Inc:\t{}".format(self.NewInfections.num_members())))
             self.NewInfections.clear_set()
@@ -245,7 +240,7 @@ class HIVModel(NetworkClass):
                 self._die_and_replace()
 
             stats[t] = ao.get_stats(
-                self.All_agentSet,
+                self.population.All_agentSet,
                 self.HIV_agentSet,
                 self.incarcerated_agentSet,
                 self.Trt_PrEP_agentSet,
@@ -260,7 +255,7 @@ class HIVModel(NetworkClass):
             print_stats(stats[t], run_id)
 
             print(("Number of relationships: %d" % len(self.Relationships)))
-            self.All_agentSet.print_subsets()
+            self.population.All_agentSet.print_subsets()
 
             self.totalDiagnosis += len(self.NewDiagnosis._members)
             if (
@@ -316,9 +311,9 @@ class HIVModel(NetworkClass):
             none
         """
         if time > 0 and not params.flag_staticN:
-            self.update_partner_assignments(params.PARTNERTURNOVER, self.get_Graph())
+            self.population.update_partner_assignments(params.PARTNERTURNOVER, self.population.get_Graph())
 
-        for rel in self.Relationships:
+        for rel in self.population.Relationships:
             # If in burn, ignore interactions
             if burn:
                 pass
@@ -330,9 +325,10 @@ class HIVModel(NetworkClass):
                 pass
             else:
                 if rel.progress():
-                    g = self.get_Graph()
-                    if g.has_edge(rel._ID1, rel._ID2):
-                        g.remove_edge(rel._ID1, rel._ID2)
+                    # TODO: depricate g functions
+                    # g = self.get_Graph()
+                    # if g.has_edge(rel._ID1, rel._ID2):
+                    #     g.remove_edge(rel._ID1, rel._ID2)
 
                     self.Relationships.remove(rel)
                     del rel
@@ -362,7 +358,7 @@ class HIVModel(NetworkClass):
                         elif tmpA._SO == "HF":
                             tmpA._mean_num_partners -= params.HR_partnerScale
 
-        for agent in self.All_agentSet.iter_agents():
+        for agent in self.population.All_agentSet.iter_agents():
             agent._timeAlive += 1
             if (
                 params.flag_PCA
@@ -827,7 +823,7 @@ class HIVModel(NetworkClass):
         """
         print(("\n\n!!!!Engaginge treatment process"))
         self.treatmentEnrolled = True
-        for agent in self.All_agentSet.iter_agents():
+        for agent in self.population.All_agentSet.iter_agents():
             if self.runRandom.random() < params.treatmentCov and agent._DU == "IDU":
                 agent._SNE_bool = True
 
@@ -1313,15 +1309,15 @@ class HIVModel(NetworkClass):
                     _enrollPrEP(self, agent)
                 return None
             elif "Racial" in params.PrEP_target_model:
-                all_HIV_agents = set(self.All_agentSet._subset["HIV"]._members)
+                all_HIV_agents = set(self.population.All_agentSet._subset["HIV"]._members)
 
                 all_race = set(
-                    self.All_agentSet._subset["Race"]._subset[agent._race]._members
+                    self.population.All_agentSet._subset["Race"]._subset[agent._race]._members
                 )
                 HIV_agents = len(all_HIV_agents & all_race)
                 target_PrEP = (
                     int(
-                        self.All_agentSet._subset["Race"]
+                        self.population.All_agentSet._subset["Race"]
                         ._subset[agent._race]
                         .num_members()
                     )
@@ -1331,8 +1327,8 @@ class HIVModel(NetworkClass):
             else:
                 target_PrEP = int(
                     (
-                        self.All_agentSet.num_members()
-                        - self.All_agentSet._subset["HIV"].num_members()
+                        self.population.All_agentSet.num_members()
+                        - self.population.All_agentSet._subset["HIV"].num_members()
                     )
                     * params.PrEP_Target
                 )
@@ -1417,7 +1413,7 @@ class HIVModel(NetworkClass):
             Let agents die and replace the dead agent with a new agent randomly.
         """
         # die stage
-        for agent in self.All_agentSet._members:
+        for agent in self.population.All_agentSet._members:
 
             # agent incarcerated, don't evaluate for death
             if agent._incar_bool:
@@ -1443,7 +1439,7 @@ class HIVModel(NetworkClass):
         # replace stage
         for agent in self.deathSet:
             # Remove agent from agent class and sub-sets
-            self.All_agentSet.remove_agent(agent)
+            self.population.All_agentSet.remove_agent(agent)
 
             new_agent = self.create_agent(agent._race, agent._SO)
             self.add_agent_to_pop(new_agent)

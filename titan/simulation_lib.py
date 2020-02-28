@@ -7,6 +7,7 @@ from typing import Sequence, Dict, Any
 
 from titan import params
 from .ABM_core import HIVModel
+from .HIVABM_Population import PopulationClass
 
 
 def initiate_result_dict(tmax: int) -> Dict[str, Dict[int, Sequence]]:
@@ -77,7 +78,12 @@ def simulation(
             % (pid, rep + 1, nreps, inputSeed, popSeed, netSeed)
         )
 
-        MyModel = HIVModel(
+        # Build population (later can allow importing pops)
+        abm_population = PopulationClass(n=N_pop, rSeed=popSeed, model=params.network_type)
+
+        # Build model and run
+        abm_model = HIVModel(
+            population=abm_population,
             N=N_pop,
             tmax=time_range,
             runseed=inputSeed,
@@ -86,7 +92,7 @@ def simulation(
             network_type=params.network_type,
         )
 
-        stats = MyModel.run()
+        stats = abm_model.run()
         stats_to_results(stats, result_dict)
 
     return result_dict
