@@ -149,17 +149,6 @@ def parse_classes(defs, params):
     return parse_params(defs["classes"], params.get("classes", {}), {})
 
 
-def print_dotmap(params, prefix, file_handle):
-    for k, v in params.items():
-        if prefix == "":
-            new_prefix = k
-        else:
-            new_prefix = f"{prefix}.{k}"
-        file_handle.write(f"{new_prefix},\n")
-        if isinstance(v, dict):
-            print_dotmap(v, new_prefix, file_handle)
-
-
 def build_yaml(path):
     yml = {}
     if os.path.isdir(path):
@@ -220,16 +209,7 @@ def create_params(setting_path, param_path, outdir, use_base=True):
     with open(os.path.join(outdir, "params.yml"), "w") as f:
         yaml.dump(parsed, f)
 
-    # this is just for dev why params change - TODO: DELETE
-    with open("dotmap_params.txt", "w") as f:
-        f.write("dot,old\n")
-        print_dotmap(parsed, "", f)
-
     parsed = DotMap(parsed)
     check_params(parsed)
 
     return parsed
-
-
-if __name__ == "__main__":
-    create_params(None, "tests/params/basic.yml", "results")

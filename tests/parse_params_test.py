@@ -1,7 +1,7 @@
 import pytest
 import os
 
-import titan.params_parse as pp
+import titan.parse_params as pp
 
 
 setting = "tests/params/setting.yml"

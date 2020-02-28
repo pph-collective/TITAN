@@ -15,13 +15,13 @@ from dotmap import DotMap  # type: ignore
 
 
 from .agent import AgentSet, Agent, Relationship
-from .network_graph_tools import NetworkClass
-from . import analysis_output as ao
+from .network import Network
+from . import output as ao
 from . import probabilities as prob
-from .ABM_partnering import sex_possible
+from .partnering import sex_possible
 
 
-class HIVModel(NetworkClass):
+class HIVModel(Network):
     """
     :Purpose:
         This is the core class used to simulate
@@ -33,12 +33,12 @@ class HIVModel(NetworkClass):
     """
 
     def __repr__(self):
-        returnStr = "\n"
-        returnStr += "Seed: %d\n" % (self.runseed)
-        returnStr += "Npop: %d\n" % (self.params.model.num_pop)
-        returnStr += "Time: %d\n" % (self.params.model.time_range)
+        res = "\n"
+        res += "Seed: %d\n" % (self.runseed)
+        res += "Npop: %d\n" % (self.params.model.num_pop)
+        res += "Time: %d\n" % (self.params.model.time_range)
 
-        return returnStr
+        return res
 
     def __init__(self, params: DotMap):
 
@@ -61,17 +61,17 @@ class HIVModel(NetworkClass):
 
         print("=== Begin Initialization Protocol ===\n")
 
-        NetworkClass.__init__(self, params, popSeed=self.popseed, netSeed=self.netseed)
+        Network.__init__(self, params, pop_seed=self.popseed, net_seed=self.netseed)
 
         print("\n\tCreating lists")
         # Other lists / dictionaries
-        self.NewInfections = AgentSet("NewInfections")
-        self.NewDiagnosis = AgentSet("NewDiagnosis")
-        self.NewIncarRelease = AgentSet("NewIncarRelease")
-        self.NewHRrolls = AgentSet("NewHRrolls")
-        self.newPrEPagents = AgentSet("NewPrEPagents")
+        self.new_infections = AgentSet("new_infections")
+        self.new_dx = AgentSet("new_dx")
+        self.new_incar_release = AgentSet("new_incar_release")
+        self.new_high_risk = AgentSet("new_high_risk")
+        self.new_prep = AgentSet("new_prep")
 
-        self.totalDiagnosis = 0
+        self.total_dx = 0
         self.needle_exchange = False
 
         self.prep_agents: Dict[str, Dict[str, int]] = {}
@@ -82,18 +82,17 @@ class HIVModel(NetworkClass):
 
         # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed value
         print(("\tRun seed was set to:", self.runseed))
-        self.runRandom = Random(self.runseed)
+        self.run_random = Random(self.runseed)
         random.seed(self.runseed)
-        np.random.seed(self.runseed)
         print(("\tFIRST RANDOM CALL %d" % random.randint(0, 100)))
 
         print("\tResetting death count")
-        self.deathSet: List[Agent] = []  # Number of death
+        self.deaths: List[Agent] = []  # Number of death
 
         print("\tCreating network graph")
         self.create_graph_from_agents(
-            self.All_agentSet
-        )  # REVIEWED redundant with NetworkClass init? - review with max, logic feels scattered as NetworkClass also intializes a graph
+            self.all_agents
+        )  # REVIEWED redundant with Network init? - review with max, logic feels scattered as Network also intializes a graph
 
         print("\n === Initialization Protocol Finished ===")
 
@@ -105,7 +104,7 @@ class HIVModel(NetworkClass):
             3. Loops over all time steps
                 a. _update AllAgents()
                 b. reset death count
-                c. _ self._die_and_replace()
+                c. _ self.die_and_replace()
                 d. self._update_population()
                 e. self._reset_partner_count()
         """
@@ -124,46 +123,39 @@ class HIVModel(NetworkClass):
                     outdir,
                 )
 
-        def get_components():
-            return list(
-                self.G.subgraph(c).copy() for c in nx.connected_components(self.G)
-            )
-
         def reset_trackers():
-            self.NewInfections.clear_set()
-            self.NewDiagnosis.clear_set()
-            self.NewHRrolls.clear_set()
-            self.NewIncarRelease.clear_set()
-            self.newPrEPagents.clear_set()
-            self.deathSet = []
+            self.new_infections.clear_set()
+            self.new_dx.clear_set()
+            self.new_high_risk.clear_set()
+            self.new_incar_release.clear_set()
+            self.new_prep.clear_set()
+            self.deaths = []
 
-        def burnSimulation(burnDuration: int):
-            print(
-                ("\n === Burn Initiated for {} timesteps ===".format(burnDuration + 1))
-            )
-            for t in range(0, burnDuration + 1):
-                self._update_AllAgents(t, burn=True)
+        def burn_simulation(duration: int):
+            print(("\n === Burn Initiated for {} timesteps ===".format(duration + 1)))
+            for t in range(0, duration + 1):
+                self.update_all_agents(t, burn=True)
 
                 if self.params.features.die_and_replace:
-                    self._die_and_replace()
+                    self.die_and_replace()
 
                 reset_trackers()
 
-            self.All_agentSet.print_subsets()
+            self.all_agents.print_subsets()
 
-            print(("\tBurn Cuml Inc:\t{}".format(self.NewInfections.num_members())))
+            print(("\tBurn Cuml Inc:\t{}".format(self.new_infections.num_members())))
 
             print(" === Simulation Burn Complete ===")
 
-        def makeAgentZero(numPartners: int):
-            firstHIV = self.runRandom.choice(self.DU_Inj_agentSet.members)
+        def make_agent_zero(numPartners: int):
+            firstHIV = self.run_random.choice(self.drug_use_inj_agents.members)
             for i in range(numPartners):
                 self.update_agent_partners(self.G, firstHIV)
             self.hiv_convert(firstHIV)
 
         run_id = uuid.uuid4()
 
-        burnSimulation(self.params.model.burn_duration)
+        burn_simulation(self.params.model.burn_duration)
 
         print("\n === Begin Simulation Run ===")
         if self.params.outputs.draw_figures:
@@ -182,7 +174,7 @@ class HIVModel(NetworkClass):
                 self.runseed,
                 self.popseed,
                 self.netseed,
-                get_components(),
+                self.connected_components(),
                 outdir,
             )
 
@@ -193,11 +185,11 @@ class HIVModel(NetworkClass):
 
         # If we are using an agent zero method, create agent zero.
         if self.params.features.agent_zero:
-            makeAgentZero(4)
+            make_agent_zero(4)
 
         if self.params.outputs.edge_list:
             path = os.path.join(outdir, "network", f"Edgelist_t0.txt")
-            self.write_G_edgelist(path)
+            self.write_graph_edgelist(path)
 
         for t in range(1, self.params.model.time_range + 1):
             print(f"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME {t}")
@@ -215,40 +207,37 @@ class HIVModel(NetworkClass):
 
             print(
                 "\tSTARTING HIV count:{}\tTotal Incarcerated:{}\tHR+:{}\tPrEP:{}".format(
-                    self.HIV_agentSet.num_members(),
-                    self.incarcerated_agentSet.num_members(),
-                    self.highrisk_agentsSet.num_members(),
-                    self.Trt_PrEP_agentSet.num_members(),
+                    self.hiv_agents.num_members(),
+                    self.incarcerated_agents.num_members(),
+                    self.high_risk_agents.num_members(),
+                    self.intervention_prep_agents.num_members(),
                 )
             )
 
-            self._update_AllAgents(t)
+            self.update_all_agents(t)
 
             if self.params.features.die_and_replace:
-                self._die_and_replace()
+                self.die_and_replace()
 
             stats[t] = ao.get_stats(
-                self.All_agentSet,
-                self.HIV_agentSet,
-                self.incarcerated_agentSet,
-                self.Trt_PrEP_agentSet,
-                self.newPrEPagents,
-                self.NewInfections,
-                self.NewDiagnosis,
-                self.Relationships,
-                self.NewHRrolls,
-                self.NewIncarRelease,
-                self.deathSet,
+                self.all_agents,
+                self.new_prep,
+                self.new_infections,
+                self.new_dx,
+                self.relationships,
+                self.new_high_risk,
+                self.new_incar_release,
+                self.deaths,
                 self.params,
             )
             print_stats(stats[t], run_id)
 
-            print(("Number of relationships: %d" % len(self.Relationships)))
-            self.All_agentSet.print_subsets()
+            print(("Number of relationships: %d" % len(self.relationships)))
+            self.all_agents.print_subsets()
 
-            self.totalDiagnosis += len(self.NewDiagnosis.members)
+            self.total_dx += len(self.new_dx.members)
             if (
-                self.totalDiagnosis > self.params.needle_exchange.init_at_pop
+                self.total_dx > self.params.needle_exchange.init_at_pop
                 and not self.needle_exchange
             ):
                 self.enroll_needle_exchange()
@@ -266,16 +255,16 @@ class HIVModel(NetworkClass):
                         self.runseed,
                         self.popseed,
                         self.netseed,
-                        get_components(),
+                        self.connected_components(),
                         outdir,
                     )
                 if self.params.outputs.edge_list:
                     path = os.path.join(outdir, "network", f"Edgelist_t{t}.txt")
-                    self.write_G_edgelist(path)
+                    self.write_graph_edgelist(path)
 
         return stats
 
-    def _update_AllAgents(self, time: int, burn: bool = False):
+    def update_all_agents(self, time: int, burn: bool = False):
         """
         :Purpose:
             Update PWID agents:
@@ -296,10 +285,10 @@ class HIVModel(NetworkClass):
         if time > 0 and self.params.features.static_n is False:
             self.update_partner_assignments(self.G)
 
-        for rel in self.Relationships:
+        for rel in self.relationships:
             # If in burn, ignore interactions
             if not burn:
-                self._agents_interact(time, rel)
+                self.agents_interact(time, rel)
 
             # If static network, ignore relationship progression
             if not self.params.features.static_n:
@@ -308,11 +297,11 @@ class HIVModel(NetworkClass):
                     if g.has_edge(rel.agent1, rel.agent2):
                         g.remove_edge(rel.agent1, rel.agent2)
 
-                    self.Relationships.remove(rel)
+                    self.relationships.remove(rel)
                     del rel
 
         if self.params.features.high_risk:
-            for agent in self.highrisk_agentsSet:
+            for agent in self.high_risk_agents:
                 if agent.high_risk_time > 0:
                     agent.high_risk_time -= 1
                     if (
@@ -325,9 +314,9 @@ class HIVModel(NetworkClass):
                     ):
                         for part in agent.partners:
                             if not (part.hiv or part.vaccine):
-                                self._initiate_PrEP(part, time)
+                                self.initiate_prep(part, time)
                 else:
-                    self.highrisk_agentsSet.remove_agent(agent)
+                    self.high_risk_agents.remove_agent(agent)
                     agent.high_risk = False
 
                     if (
@@ -335,40 +324,40 @@ class HIVModel(NetworkClass):
                     ):  # REVIEWED why does this check hm/hf and then subtract things - could this be more generic? Sarah to look into if this needs to be sex based
                         agent.mean_num_partners -= self.params.high_risk.partner_scale
 
-        for agent in self.All_agentSet:
+        for agent in self.all_agents:
             if (
                 self.params.features.pca
-                and self.runRandom.random() < self.params.prep.awareness.prob
+                and self.run_random.random() < self.params.prep.awareness.prob
                 and not burn
             ):
                 agent.awareness = True
-                if self.runRandom.random() < self.params.prep.pca.prep.prob:
-                    self._initiate_PrEP(agent, time, force=True)
+                if self.run_random.random() < self.params.prep.pca.prep.prob:
+                    self.initiate_prep(agent, time, force=True)
 
             if self.params.features.incar:
-                self._incarcerate(agent, time)
+                self.incarcerate(agent, time)
 
-            if agent.msmw and self.runRandom.random() < self.params.msmw.hiv.prob:
+            if agent.msmw and self.run_random.random() < self.params.msmw.hiv.prob:
                 self.hiv_convert(agent)
 
             if agent.hiv:
                 # If in burnin, ignore HIV
                 if not burn:
-                    self._HIVtest(agent, time)
-                    self._progress_to_AIDS(agent)
+                    self.diagnose_hiv(agent, time)
+                    self.progress_to_aids(agent)
 
                     if self.params.features.haart:
-                        self._update_HAART(agent, time)
+                        self.update_haart(agent, time)
                         agent.hiv_time += 1
             else:
                 if self.params.features.prep:
                     if time >= self.params.prep.start:
                         if agent.prep:
-                            self._discont_PrEP(agent)
+                            self.discontinue_prep(agent)
                         elif self.params.prep.target_model == "RandomTrial":
                             pass
-                        elif agent.PrEP_eligible(self.params.prep.target_model):
-                            self._initiate_PrEP(agent, time)
+                        elif agent.prep_eligible(self.params.prep.target_model):
+                            self.initiate_prep(agent, time)
                     if self.params.features.vaccine and not agent.prep:
                         self.advance_vaccine(
                             agent, time, vaxType=self.params.vaccine.type, burn=burn
@@ -380,38 +369,36 @@ class HIVModel(NetworkClass):
                 and time == self.params.prep.start
             ):
                 print("Starting random trial")
-                components = list(
-                    self.G.subgraph(c).copy() for c in nx.connected_components(self.G)
-                )
+                components = self.connected_components()
 
-                totNods = 0
+                total_nodes = 0
                 print(
                     "Number of components",
                     len([1 for comp in components if comp.number_of_nodes()]),
                 )
                 for comp in components:
-                    totNods += comp.number_of_nodes()
+                    total_nodes += comp.number_of_nodes()
 
-                    if self.runRandom.random() < 0.5:
+                    if self.run_random.random() < 0.5:
                         # Component selected as treatment pod!
                         if not self.params.features.pca:
                             for ag in comp.nodes():
                                 if not ag.hiv and not ag.prep:
                                     ag.intervention_ever = True
                                     if (
-                                        self.runRandom.random()
+                                        self.run_random.random()
                                         < self.params.prep.target
                                         and not ag.vaccine
                                     ):
-                                        self._initiate_PrEP(ag, time, force=True)
+                                        self.initiate_prep(ag, time, force=True)
                         elif self.params.prep.pca.choice == "eigenvector":
                             centrality = nx.algorithms.centrality.eigenvector_centrality(
                                 comp
                             )
                             assert len(centrality) >= 1, "Empty centrality"
-                            orderedCentrality = sorted(centrality, key=centrality.get)
+                            ordered_centrality = sorted(centrality, key=centrality.get)
                             intervention_agent = False
-                            for ag in orderedCentrality:
+                            for ag in ordered_centrality:
                                 if not ag.hiv:
                                     ag.awareness = True
                                     ag.pca = True
@@ -419,7 +406,7 @@ class HIVModel(NetworkClass):
                                     intervention_agent = True
                                     break
                             if not intervention_agent:
-                                ag = orderedCentrality[0]
+                                ag = ordered_centrality[0]
                                 ag._pca = True
                         elif self.params.prep.pca.choice == "bridge":
                             all_bridges = list(  # list all edges that are bridges
@@ -432,7 +419,7 @@ class HIVModel(NetworkClass):
                                 if not agent.hiv
                             ]  # all suitable agents in bridges
                             if comp_agents:
-                                chosen_agent = random.choice(
+                                chosen_agent = self.run_random.choice(
                                     comp_agents
                                 )  # select change agent
                                 chosen_agent.awareness = True  # make aware
@@ -450,17 +437,19 @@ class HIVModel(NetworkClass):
                                 suitable_agent_choices
                             ):  # if there are agents who meet eligibility criteria,
                                 # select one randomly
-                                chosen_agent = random.choice(suitable_agent_choices)
+                                chosen_agent = self.run_random.choice(
+                                    suitable_agent_choices
+                                )
                                 chosen_agent.pca = True
                                 chosen_agent.pca_suitable = True
                                 chosen_agent.awareness = True  # make aware
                             else:  # if no suitable agents, mark a non-suitable agent
-                                chosen_agent = random.choice(list(comp.nodes))
+                                chosen_agent = self.run_random.choice(list(comp.nodes))
                                 chosen_agent.pca = True
 
-                print(("Total agents in trial: ", totNods))
+                print(("Total agents in trial: ", total_nodes))
 
-    def _agents_interact(self, time: int, rel: Relationship):
+    def agents_interact(self, time: int, rel: Relationship):
         """
         :Purpose:
             Let PWID agent interact with a partner.
@@ -488,7 +477,7 @@ class HIVModel(NetworkClass):
             if rel.bond_type == "sexOnly" and rel.duration != rel.total_duration:
                 pass
             else:
-                self._pca_interaction(rel, time)
+                self.pca_interaction(rel, time)
 
         # Agent 1 is HIV, partner is succept
         if rel.agent1.hiv and not rel.agent2.hiv:
@@ -509,28 +498,28 @@ class HIVModel(NetworkClass):
             # Injection is possible
             if rel_sex_possible:
                 # Sex is possible
-                rv = self.runRandom.random()  # REVIEW after bond types established
+                rv = self.run_random.random()  # REVIEW after bond types established
                 if rv < 0.25:  # Needle only (60%)
-                    self._needle_transmission(agent, partner, time)
+                    self.needle_transmission(agent, partner, time)
                 else:  # Both sex and needle (20%)
-                    self._needle_transmission(agent, partner, time)
-                    self._sex_transmission(rel, time)
+                    self.needle_transmission(agent, partner, time)
+                    self.sex_transmission(rel, time)
             else:
                 # Sex not possible, needle only
-                self._needle_transmission(agent, partner, time)
+                self.needle_transmission(agent, partner, time)
 
         elif partner_drug_type in ["NonInj", "None"] or agent_drug_type in [
             "NonInj",
             "None",
         ]:
             if rel_sex_possible:
-                self._sex_transmission(rel, time)
+                self.sex_transmission(rel, time)
             else:
                 return False
 
         return True
 
-    def _pca_interaction(self, relationship: Relationship, time, force=False):
+    def pca_interaction(self, relationship: Relationship, time, force=False):
         """
         :Purpose:
             Simulate peer change agent interactions
@@ -545,35 +534,35 @@ class HIVModel(NetworkClass):
         def influence(agent, partner):
             agent_opinion = agent.opinion
             partner_opinion = partner.opinion
-            agent_influence = nx.closeness_centrality(self.get_Graph(), agent)
-            partner_influence = nx.closeness_centrality(self.get_Graph(), partner)
+            agent_influence = nx.closeness_centrality(self.G, agent)
+            partner_influence = nx.closeness_centrality(self.G, partner)
+
             if agent_influence > partner_influence:
                 partner.opinion = np.mean([agent.opinion, partner.opinion])
-            elif agent_influence == partner_influence:
-                pass
-            else:
+            elif agent_influence < partner_influence:
                 agent.opinion = np.mean([agent.opinion, partner.opinion])
-            if self.runRandom.random() < self.params.prep.pca.prep.prob:
+
+            if self.run_random.random() < self.params.prep.pca.prep.prob:
                 if (
                     agent_opinion
                     < self.params.prep.pca.opinion.threshold
                     < agent.opinion
                 ):
-                    self._initiate_PrEP(agent, time, force=True)
+                    self.initiate_prep(agent, time, force=True)
                 elif (
                     partner_opinion
                     < self.params.prep.pca.opinion.threshold
                     < partner.opinion
                 ):
-                    self._initiate_PrEP(partner, time, force=True)
+                    self.initiate_prep(partner, time, force=True)
 
         def knowledge_dissemination(partner):
             partner.awareness = True
             if (
                 partner.opinion > self.params.prep.pca.opinion.threshold
-                and self.runRandom.random() < self.params.prep.pca.prep.prob
+                and self.run_random.random() < self.params.prep.pca.prep.prob
             ):
-                self._initiate_PrEP(partner, time, force=True)
+                self.initiate_prep(partner, time, force=True)
 
         def transmission_probability():
             if relationship.agent1.awareness and relationship.agent2.awareness:
@@ -587,38 +576,40 @@ class HIVModel(NetworkClass):
                 p_total_transmission = 1.0 - binom.pmf(0, num_acts, p)
             else:
                 p_total_transmission = 0
+
             return p_total_transmission
 
-        acts_prob = self.runRandom.random()
-        actsBin = 0
+        acts_prob = self.run_random.random()
+        acts_bin = 0
         current_p_value = 0.0
 
         while acts_prob > current_p_value:
-            actsBin += 1
+            acts_bin += 1
             current_p_value += self.params.partnership.interaction[
                 relationship.bond_type
-            ][actsBin].prob
+            ][acts_bin].prob
 
-        min = self.params.partnership.interaction[relationship.bond_type][actsBin].min
-        max = self.params.partnership.interaction[relationship.bond_type][actsBin].max
+        min = self.params.partnership.interaction[relationship.bond_type][acts_bin].min
+        max = self.params.partnership.interaction[relationship.bond_type][acts_bin].max
         if min == max:
             num_acts = min
         else:
-            num_acts = self.runRandom.randrange(min, max)
+            num_acts = self.run_random.randrange(min, max)
+
         if num_acts < 1:
             return
 
         if relationship.agent1.awareness and not relationship.agent2.awareness:
-            if self.runRandom.random() < transmission_probability() or force:
+            if self.run_random.random() < transmission_probability() or force:
                 knowledge_dissemination(relationship.agent2)
         elif not relationship.agent1.awareness and relationship.agent2.awareness:
-            if self.runRandom.random() < transmission_probability() or force:
+            if self.run_random.random() < transmission_probability() or force:
                 knowledge_dissemination(relationship.agent1)
         elif relationship.agent1.awareness and relationship.agent2.awareness or force:
-            if self.runRandom.random() < transmission_probability() or force:
+            if self.run_random.random() < transmission_probability() or force:
                 influence(relationship.agent1, relationship.agent2)
 
-    def _needle_transmission(self, agent: Agent, partner: Agent, time: int):
+    def needle_transmission(self, agent: Agent, partner: Agent, time: int):
         """
         :Purpose:
             Simulate random transmission of HIV between two PWID agents
@@ -641,27 +632,27 @@ class HIVModel(NetworkClass):
         agent_sex_type = agent.so
 
         # REVIEWED why is the mean number of sex acts for a class multiplied by needle calibration? - change to num_needle_acts
-        MEAN_N_ACTS = (
+        mean_num_acts = (
             self.params.demographics[agent_race][agent_sex_type].num_needle_acts
             * self.params.calibration.needle.act
         )
-        share_acts = round(poisson.rvs(MEAN_N_ACTS, size=1)[0])
+        share_acts = round(poisson.rvs(mean_num_acts, size=1)[0])
 
         if agent.sne:  # safe needle exchange - minimal sharing
-            p_UnsafeNeedleShare = 0.02  # minimal needle sharing
+            p_unsafe_needle_share = 0.02  # minimal needle sharing
         else:  # they do share a needle
 
             # If sharing, minimum of 1 share act
             if share_acts < 1:
                 share_acts = 1
 
-            p_UnsafeNeedleShare = (
+            p_unsafe_needle_share = (
                 self.params.demographics[agent_race][agent_sex_type].needle_sharing
                 * self.params.needle_exchange.prevalence
             )
 
         for n in range(share_acts):
-            if self.runRandom.random() > p_UnsafeNeedleShare:
+            if self.run_random.random() > p_unsafe_needle_share:
                 share_acts -= 1
 
         if share_acts >= 1.0:
@@ -673,11 +664,11 @@ class HIVModel(NetworkClass):
             else:
                 p_total_transmission = 1.0 - binom.pmf(0, share_acts, p)
 
-            if self.runRandom.random() < p_total_transmission:
+            if self.run_random.random() < p_total_transmission:
                 # if agent HIV+ partner becomes HIV+
                 self.hiv_convert(partner)
 
-    def _sex_transmission(self, rel: Relationship, time):
+    def sex_transmission(self, rel: Relationship, time):
         """
         :Purpose:
             Simulate random transmission of HIV between two agents through Sex.
@@ -707,60 +698,66 @@ class HIVModel(NetworkClass):
             return
 
         # unprotected sex probabilities for primary partnerships
-        MSexActs = (
-            agent.get_number_of_sex_acts(self.runRandom, self.params)
+        mean_sex_acts = (
+            agent.get_number_of_sex_acts(self.run_random, self.params)
             * self.params.calibration.sex.act
         )
-        T_sex_acts = round(poisson.rvs(MSexActs, size=1)[0])
+        total_sex_acts = round(poisson.rvs(mean_sex_acts, size=1)[0])
 
         # Get condom usage
         if self.params.high_risk.condom_use_type == "Race":
-            p_SafeSex = self.params.demographics[agent.race][agent.so].safe_sex
+            p_safe_sex = self.params.demographics[agent.race][agent.so].safe_sex
         else:
-            p_SafeSex = prob.safe_sex(rel.total_sex_acts)
+            p_safe_sex = prob.safe_sex(rel.total_sex_acts)
 
         # Reduction of risk acts between partners for condom usage
-        U_sex_acts = T_sex_acts
-        for n in range(U_sex_acts):
-            if self.runRandom.random() < p_SafeSex:
-                U_sex_acts -= 1
+        unsafe_sex_acts = total_sex_acts
+        for n in range(unsafe_sex_acts):
+            if self.run_random.random() < p_safe_sex:
+                unsafe_sex_acts -= 1
 
-        if U_sex_acts >= 1:
+        if unsafe_sex_acts >= 1:
             # agent is HIV+
-            rel.total_sex_acts += U_sex_acts
-            ppAct = agent.get_transmission_probability("SEX", self.params)
+            rel.total_sex_acts += unsafe_sex_acts
+            p_per_act = agent.get_transmission_probability("SEX", self.params)
 
             # Reduction of transmissibility for acts between partners for PrEP adherence
             if agent.prep or partner.prep:
                 if "Oral" in self.params.prep.type:  # params.prep.type == "Oral":
                     if agent.prep_adherence == 1 or partner.prep_adherence == 1:
-                        ppAct *= 1.0 - self.params.prep.efficacy.adherent  # 0.04
+                        p_per_act *= 1.0 - self.params.prep.efficacy.adherent  # 0.04
                     else:
-                        ppAct *= 1.0 - self.params.prep.efficacy.non_adherant  # 0.24
+                        p_per_act *= (
+                            1.0 - self.params.prep.efficacy.non_adherant
+                        )  # 0.24
 
                 elif "Inj" in self.params.prep.type:
-                    ppActReduction = -1.0 * np.exp(-5.528636721 * partner.prep_load) + 1
+                    p_per_act_reduction = (
+                        -1.0 * np.exp(-5.528636721 * partner.prep_load) + 1
+                    )
                     if agent.prep_adherence == 1 or partner.prep_adherence == 1:
-                        ppAct *= 1.0 - ppActReduction  # 0.04
+                        p_per_act *= 1.0 - p_per_act_reduction  # 0.04
 
             if partner.vaccine:
-                ppActPerc: float
+                p_per_act_perc: float
                 if self.params.vaccine.type == "HVTN702":
-                    ppActPerc *= np.exp(
+                    p_per_act_perc *= np.exp(
                         -2.88 + 0.76 * (np.log((partner.vaccine_time + 0.001) * 30))
                     )
                 elif self.params.vaccine.type == "RV144":
-                    ppActPerc *= np.exp(-2.40 + 0.76 * (np.log(partner.vaccine_time)))
+                    p_per_act_perc *= np.exp(
+                        -2.40 + 0.76 * (np.log(partner.vaccine_time))
+                    )
 
-                ppAct *= 1 - ppActPerc
+                p_per_act *= 1 - p_per_act_perc
 
             p_total_transmission: float
-            if U_sex_acts == 1:
-                p_total_transmission = ppAct
+            if unsafe_sex_acts == 1:
+                p_total_transmission = p_per_act
             else:
-                p_total_transmission = 1.0 - binom.pmf(0, U_sex_acts, ppAct)
+                p_total_transmission = 1.0 - binom.pmf(0, unsafe_sex_acts, p_per_act)
 
-            if self.runRandom.random() < p_total_transmission:
+            if self.run_random.random() < p_total_transmission:
                 # if agent HIV+ partner becomes HIV+
                 self.hiv_convert(partner)
 
@@ -777,11 +774,11 @@ class HIVModel(NetworkClass):
             agent.hiv = True
             agent.hiv_time = 1
             agent.vaccine = False
-            self.NewInfections.add_agent(agent)
-            self.HIV_agentSet.add_agent(agent)
+            self.new_infections.add_agent(agent)
+            self.hiv_agents.add_agent(agent)
 
         if agent.prep:
-            self._discont_PrEP(agent, force=True)
+            self.discontinue_prep(agent, force=True)
 
     def enroll_needle_exchange(self):
         """
@@ -790,21 +787,21 @@ class HIVModel(NetworkClass):
         """
         print(("\n\n!!!!Engaginge treatment process"))
         self.needle_exchange = True
-        for agent in self.All_agentSet:
+        for agent in self.all_agents:
             if (
-                self.runRandom.random() < self.params.needle_exchange.coverage
+                self.run_random.random() < self.params.needle_exchange.coverage
                 and agent.drug_use == "Inj"
             ):
                 agent.sne = True
                 agent.intervention_ever = True
 
-    def _become_high_risk(self, agent: Agent, duration: int = None):
+    def become_high_risk(self, agent: Agent, duration: int = None):
 
-        if agent not in self.highrisk_agentsSet.members:
-            self.highrisk_agentsSet.add_agent(agent)
+        if agent not in self.high_risk_agents.members:
+            self.high_risk_agents.add_agent(agent)
 
         if not agent.high_risk_ever:
-            self.NewHRrolls.add_agent(agent)
+            self.new_high_risk.add_agent(agent)
 
         agent.high_risk = True
         agent.high_risk_ever = True
@@ -814,7 +811,7 @@ class HIVModel(NetworkClass):
         else:
             agent.high_risk_time = self.params.high_risk.sex_based[agent.so].duration
 
-    def _incarcerate(self, agent: Agent, time: int):
+    def incarcerate(self, agent: Agent, time: int):
         """
         :Purpose:
             To incarcerate an agent or update their incarceration variables
@@ -833,14 +830,14 @@ class HIVModel(NetworkClass):
             agent.incar_time -= 1
 
             if agent.incar_time == 0:  # FREE AGENT
-                self.incarcerated_agentSet.remove_agent(agent)
-                self.NewIncarRelease.add_agent(agent)
+                self.incarcerated_agents.remove_agent(agent)
+                self.new_incar_release.add_agent(agent)
                 agent.incar = False
                 agent.incar_ever = True
                 if (
                     not agent.high_risk and self.params.features.high_risk
                 ):  # If behavioral treatment on and agent HIV, ignore HR period.
-                    self._become_high_risk(agent)
+                    self.become_high_risk(agent)
 
                     agent.mean_num_partners = (
                         agent.mean_num_partners + self.params.high_risk.partner_scale
@@ -849,19 +846,16 @@ class HIVModel(NetworkClass):
                 if hiv_bool:
                     if agent.haart:
                         if (
-                            self.runRandom.random()
-                            > self.params.incar.haart.discontinue
+                            self.run_random.random()
+                            <= self.params.incar.haart.discontinue
                         ):  # 12% remain surpressed
-                            pass
-
-                        else:
                             agent.haart = False
                             agent.haart_adherence = 0
-                            self.Trt_ART_agentSet.remove_agent(agent)
+                            self.intervention_haart_agents.remove_agent(agent)
 
                         # END FORCE
 
-        elif self.runRandom.random() < (
+        elif self.run_random.random() < (
             self.params.demographics[agent.race][agent.so].incar.prob
             * (1 + (hiv_bool * 4))
             * self.params.calibration.incarceration
@@ -871,54 +865,54 @@ class HIVModel(NetworkClass):
             ].incar.duration.prob
 
             bin = current_p_value = 1
-            p = self.runRandom.random()
+            p = self.run_random.random()
             while p >= current_p_value:
                 current_p_value += jail_duration[bin].prob
                 bin += 1
 
-            timestay = self.runRandom.randint(
+            timestay = self.run_random.randint(
                 jail_duration[bin].min, jail_duration[bin].max
             )
 
             if hiv_bool:
                 if not agent.hiv_dx:
-                    if self.runRandom.random() < self.params.incar.hiv.dx:
+                    if self.run_random.random() < self.params.incar.hiv.dx:
                         agent.hiv_dx = True
                 else:  # Then tested and HIV, check to enroll in ART
-                    if self.runRandom.random() < self.params.incar.haart.prob:
-                        tmp_rnd = self.runRandom.random()
+                    if self.run_random.random() < self.params.incar.haart.prob:
+                        tmp_rnd = self.run_random.random()
                         haart_adh = self.params.incar.haart.adherence
                         if tmp_rnd < haart_adh:
                             adherence = 5
                         else:
-                            adherence = self.runRandom.randint(1, 4)
+                            adherence = self.run_random.randint(1, 4)
 
                         # Add agent to HAART class set, update agent params
                         agent.haart = True
                         agent.intervention_ever = True
                         agent.haart_adherence = adherence
                         agent.haart_time = time
-                        self.Trt_ART_agentSet.add_agent(agent)
+                        self.intervention_haart_agents.add_agent(agent)
 
             agent.incar = True
             agent.incar_time = timestay
-            self.incarcerated_agentSet.add_agent(agent)
+            self.incarcerated_agents.add_agent(agent)
 
             # PUT PARTNERS IN HIGH RISK
             for partner in agent.partners:
-                if not partner.high_risk:
-                    if self.runRandom.random() < self.params.high_risk.proportion:
-                        self._become_high_risk(partner)
+                if not partner.high_risk and self.params.features.high_risk:
+                    if self.run_random.random() < self.params.high_risk.proportion:
+                        self.become_high_risk(partner)
 
                 if self.params.features.prep and (
                     self.params.prep.target_model in ("Incar", "IncarHR")
                 ):
                     # Atempt to put partner on prep if less than probability
                     if not partner.hiv and not agent.vaccine:
-                        self._initiate_PrEP(partner, time)
+                        self.initiate_prep(partner, time)
 
     # REVIEW - change verbage to diagnosed
-    def _HIVtest(self, agent: Agent, time: int):
+    def diagnose_hiv(self, agent: Agent, time: int):
         """
         :Purpose:
             Test the agent for HIV. If detected, add to identified list.
@@ -936,8 +930,8 @@ class HIVModel(NetworkClass):
 
         def diagnose(agent):
             agent.hiv_dx = True
-            self.NewDiagnosis.add_agent(agent)
-            self.Trt_Tstd_agentSet.add_agent(agent)
+            self.new_dx.add_agent(agent)
+            self.intervention_dx_agents.add_agent(agent)
             if (
                 self.params.features.partner_tracing
             ):  # TODO fix this logic; should get partnerTraced and then lose it after
@@ -954,21 +948,21 @@ class HIVModel(NetworkClass):
             test_prob *= self.params.calibration.test_frequency
 
             # If roll less than test probablity
-            if self.runRandom.random() < test_prob:
+            if self.run_random.random() < test_prob:
                 # Become tested, add to tested agent set
                 diagnose(agent)
                 # If treatment co-enrollment enabled and coverage greater than 0
 
             elif (
                 agent.partner_traced
-                and self.runRandom.random() < 0.87
+                and self.run_random.random() < 0.87
                 and agent.trace_time == time
             ):
                 diagnose(agent)
 
         agent.partner_traced = False
 
-    def _update_HAART(self, agent: Agent, time: int):
+    def update_haart(self, agent: Agent, time: int):
         """
         :Purpose:
             Account for HIV treatment through highly active antiretroviral therapy (HAART).
@@ -994,7 +988,7 @@ class HIVModel(NetworkClass):
         if time >= 0 and agent.hiv_dx:
             # Go on HAART
             if not agent_haart and agent.haart_time == 0:
-                if self.runRandom.random() < (
+                if self.run_random.random() < (
                     self.params.demographics[agent_race][agent_so].haart.prob
                     * self.params.calibration.haart_coverage
                 ):
@@ -1002,36 +996,36 @@ class HIVModel(NetworkClass):
                     haart_adh = self.params.demographics[agent_race][
                         agent_so
                     ].haart.adherence
-                    if self.runRandom.random() < haart_adh:
+                    if self.run_random.random() < haart_adh:
                         adherence = 5
                     else:
-                        adherence = self.runRandom.randint(1, 4)
+                        adherence = self.run_random.randint(1, 4)
 
                     # Add agent to HAART class set, update agent params
                     agent.haart = True
                     agent.intervention_ever = True
                     agent.haart_adherence = adherence
                     agent.haart_time = time
-                    self.Trt_ART_agentSet.add_agent(agent)
+                    self.intervention_haart_agents.add_agent(agent)
 
             # Go off HAART
             elif (
                 agent_haart
-                and self.runRandom.random()
+                and self.run_random.random()
                 < self.params.demographics[agent_race][agent_so].haart.discontinue
             ):
                 agent.haart = False
                 agent.haart_adherence = 0
                 agent.haart_time = 0
-                self.Trt_ART_agentSet.remove_agent(agent)
+                self.intervention_haart_agents.remove_agent(agent)
 
-    def _discont_PrEP(self, agent: Agent, force: bool = False):
+    def discontinue_prep(self, agent: Agent, force: bool = False):
         # Agent must be on PrEP to discontinue PrEP
         assert agent.prep
 
         # If force flag set, auto kick off prep.
         if force:
-            self.Trt_PrEP_agentSet.remove_agent(agent)
+            self.intervention_prep_agents.remove_agent(agent)
             self.prep_agents[agent.race][agent.so] -= 1
             agent.prep = False
             agent.prep_reason = []
@@ -1039,10 +1033,10 @@ class HIVModel(NetworkClass):
         # else if agent is on PrEP, see if they should discontinue
         else:
             if (
-                self.runRandom.random()
+                self.run_random.random()
                 < self.params.demographics[agent.race][agent.so].prep.discontinue
             ):
-                self.Trt_PrEP_agentSet.remove_agent(agent)
+                self.intervention_prep_agents.remove_agent(agent)
                 self.prep_agents[agent.race][agent.so] -= 1
 
                 if "Oral" in self.params.prep.type:
@@ -1073,7 +1067,6 @@ class HIVModel(NetworkClass):
         :Output:
             none
         """
-        initVaccine = self.params.vaccine.init
         if agent.vaccine and not burn:
             agent.vaccine_time += 1
             if (
@@ -1082,20 +1075,20 @@ class HIVModel(NetworkClass):
                 == self.params.demographics[agent.race][
                     agent.so
                 ].vaccine.booser.interval
-                and self.runRandom.random()
+                and self.run_random.random()
                 < self.params.demographics[agent.race][agent.so].vaccine.booster.prob
             ):
                 agent.vaccinate(vaxType)
 
         elif time == self.params.vaccine.start:
-            if initVaccine == burn:  # both true or both false
+            if self.params.vaccine.init == burn:  # both true or both false
                 if (
-                    self.runRandom.random()
+                    self.run_random.random()
                     < self.params.demographics[agent.race][agent.so].vaccine.prob
                 ):
                     self.vaccinate(agent, vaxType)
 
-    def _initiate_PrEP(self, agent: Agent, time: int, force: bool = False):
+    def initiate_prep(self, agent: Agent, time: int, force: bool = False):
         """
         :Purpose:
             Place agents onto PrEP treatment.
@@ -1110,16 +1103,16 @@ class HIVModel(NetworkClass):
             none
         """
 
-        def _enrollPrEP(self, agent: Agent):
+        def enroll_prep(self, agent: Agent):
             agent.prep = True
             agent.intervention_ever = True
-            self.Trt_PrEP_agentSet.add_agent(agent)
-            self.newPrEPagents.add_agent(agent)
+            self.intervention_prep_agents.add_agent(agent)
+            self.new_prep.add_agent(agent)
 
             self.prep_agents[agent.race][agent.so] += 1
 
             if (
-                self.runRandom.random()
+                self.run_random.random()
                 < self.params.demographics[agent.race][agent.so].prep.adherence
             ):
                 agent.prep_adherence = 1
@@ -1127,16 +1120,14 @@ class HIVModel(NetworkClass):
                 agent.prep_adherence = 0
 
             # set PrEP load and dosestep for PCK
-            if "Inj" in self.params.prep.type:
+            if "Inj" in self.params.prep.type and "Oral" in self.params.prep.type:
                 agent.prep_load = self.params.prep.peak_load
                 agent.prep_last_dose = 0
 
-                if self.runRandom.random() < self.params.prep.lai.prob:
+                if self.run_random.random() < self.params.prep.lai.prob:
                     agent.prep_type = "Inj"
                 else:
-                    agent.prep_type = (
-                        "Oral"  # TO_REVIEW why does this revert to oral if not LAI?
-                    )
+                    agent.prep_type = "Oral"
 
         # agent must exist
         assert agent is not None
@@ -1146,55 +1137,49 @@ class HIVModel(NetworkClass):
             return
 
         # Determine probability of HIV treatment
-        agent_race = agent.race
-
         if force:
-            _enrollPrEP(self, agent)
+            enroll_prep(self, agent)
         else:
             if self.params.prep.target_model == "Racial":
-                numPrEP_agents = sum(self.prep_agents[agent_race].values())
+                num_prep_agents = sum(self.prep_agents[agent.race].values())
             else:
-                numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
+                num_prep_agents = self.intervention_prep_agents.num_members()
 
             if self.params.prep.target_model in ("Incar", "IncarHR"):
-                if self.runRandom.random() < self.params.prep.target:
-                    _enrollPrEP(self, agent)
+                if self.run_random.random() < self.params.prep.target:
+                    enroll_prep(self, agent)
                 return None
             elif self.params.prep.target_model == "Racial":
-                all_HIV_agents = set(self.All_agentSet.subset["HIV"].members)
+                all_hiv_agents = set(self.all_agents.subset["HIV"].members)
                 all_race = set(
-                    self.All_agentSet.subset["Race"].subset[agent.race].members
+                    self.all_agents.subset["Race"].subset[agent.race].members
                 )
-                HIV_agents = len(all_HIV_agents & all_race)
-                target_PrEP = (
-                    int(
-                        self.All_agentSet.subset["Race"]
-                        .subset[agent.race]
-                        .num_members()
-                    )
-                    - HIV_agents
+                hiv_agents = len(all_hiv_agents & all_race)
+                target_prep = (
+                    int(self.all_agents.subset["Race"].subset[agent.race].num_members())
+                    - hiv_agents
                 ) * self.params.demographics[agent.race][agent.so].prep.coverage
 
             else:
-                target_PrEP = int(
+                target_prep = int(
                     (
-                        self.All_agentSet.num_members()
-                        - self.All_agentSet.subset["HIV"].num_members()
+                        self.all_agents.num_members()
+                        - self.all_agents.subset["HIV"].num_members()
                     )
                     * self.params.prep.target
                 )
 
             if self.params.prep.target_model in ("Incar", "IncarHR"):
-                if self.runRandom.random() < self.params.prep.target:
-                    _enrollPrEP(self, agent)
+                if self.run_random.random() < self.params.prep.target:
+                    enroll_prep(self, agent)
             elif (
-                numPrEP_agents < target_PrEP
+                num_prep_agents < target_prep
                 and time >= self.params.prep.start
-                and agent.PrEP_eligible(self.params.prep.target_model)
+                and agent.prep_eligible(self.params.prep.target_model)
             ):
-                _enrollPrEP(self, agent)
+                enroll_prep(self, agent)
 
-    def _progress_to_AIDS(self, agent: Agent):
+    def progress_to_aids(self, agent: Agent):
         """
         :Purpose:
             Model the progression of HIV agents to AIDS agents
@@ -1205,21 +1190,20 @@ class HIVModel(NetworkClass):
 
         # REVIEWED Why do we check for not HAART, but then get HAART adherance? - Sarah to ask Max
         if not agent.haart:
-            adherenceStat = agent.haart_adherence
-            p = prob.adherence_prob(adherenceStat)
+            p = prob.adherence_prob(agent.haart_adherence)
 
-            if self.runRandom.random() < p * self.params.hiv.aids.prob:
+            if self.run_random.random() < p * self.params.hiv.aids.prob:
                 agent.aids = True
-                self.HIV_AIDS_agentSet.add_agent(agent)
+                self.hiv_aids_agents.add_agent(agent)
 
-    def _die_and_replace(self):
+    def die_and_replace(self):
 
         """
         :Purpose:
             Let agents die and replace the dead agent with a new agent randomly.
         """
         # die stage
-        for agent in self.All_agentSet.members:
+        for agent in self.all_agents.members:
 
             # agent incarcerated, don't evaluate for death
             if agent.incar:
@@ -1237,23 +1221,23 @@ class HIVModel(NetworkClass):
                 * self.params.calibration.mortality
             )
 
-            if self.runRandom.random() < p:
-                self.deathSet.append(agent)
+            if self.run_random.random() < p:
+                self.deaths.append(agent)
 
                 # End all existing relationships
                 for rel in agent.relationships:
                     rel.progress(force=True)
 
-                    self.Relationships.remove(rel)
+                    self.relationships.remove(rel)
 
                 # Remove agent node and edges from network graph
-                self.get_Graph().remove_node(agent)
+                self.G.remove_node(agent)
 
         # replace stage
-        for agent in self.deathSet:
+        for agent in self.deaths:
             # Remove agent from agent class and sub-sets
-            self.All_agentSet.remove_agent(agent)
+            self.all_agents.remove_agent(agent)
 
             new_agent = self.create_agent(agent.race, agent.so)
             self.add_agent_to_pop(new_agent)
-            self.get_Graph().add_node(new_agent)
+            self.G.add_node(new_agent)

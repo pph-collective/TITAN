@@ -6,10 +6,10 @@ import os
 import shutil
 import networkx as nx
 
-from titan.analysis_output import *
+from titan.output import *
 from titan import agent
-from titan.network_graph_tools import NetworkClass
-from titan.params_parse import create_params
+from titan.network import Network
+from titan.parse_params import create_params
 
 
 @pytest.fixture
@@ -46,9 +46,6 @@ def stats(params):
     agent_list = [a]
     rel_list = [rel]
     stats = get_stats(
-        agent_set,
-        agent_set,
-        agent_set,
         agent_set,
         agent_set,
         agent_set,
@@ -240,7 +237,7 @@ def test_print_components(stats, params, tmpdir):
     run_id = uuid.uuid4()
 
     params.model.num_pop = 1
-    net = NetworkClass(params)
+    net = Network(params)
     components = list(net.G.subgraph(c).copy() for c in nx.connected_components(net.G))
 
     print_components(run_id, 0, 1, 2, 3, components, tmpdir)

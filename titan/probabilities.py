@@ -20,16 +20,16 @@ def safe_sex(num_acts):
         return 0.759
 
 
-def adherence_prob(adherenceStat):
-    if adherenceStat == 1:
+def adherence_prob(adherence):
+    if adherence == 1:
         return 0.0051
-    elif adherenceStat == 2:
+    elif adherence == 2:
         return 0.0039
-    elif adherenceStat == 3:
+    elif adherence == 3:
         return 0.0032
-    elif adherenceStat == 4:
+    elif adherence == 4:
         return 0.0025
-    elif adherenceStat == 5:
+    elif adherence == 5:
         return 0.0008
     else:
         return 0.0051

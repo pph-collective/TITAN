@@ -38,4 +38,4 @@ echo This job has allocated $NCPU CPUs
 # $SLURM_NPROCS = nodes x ppn
 # Change global N_MC in MPI_simulation.py to $SLURM_NPROCS
 # and PROCESSES to a multiple of $SLURM_NPROCS for optimal distribution
-python3 run_titan.py -s $setting -n $nMC -p $paramPath -b $useBase
+python3 run_titan.py -S $setting -n $nMC -p $paramPath -b $useBase

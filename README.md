@@ -24,9 +24,9 @@ Currently, TITAN does not require any further installation as the source code ex
 
 ## Running the Model
 
-To run the model, execute the `run_titan.py` program within the `/titan/` directory. It will natively read in the `params.py` configuration file as the input parameters for the model. These can be configured as desired for the target model setting and configuration. Other examples of calibrated settings exist within the `/settings/` directory.
+To run the model, execute the `run_titan.py` program within the `/titan/` directory. See [TITAN params](https://marshall-lab.github.io/titan-params-app) for documentation on how to set and use parameters.
 
-Results of the model are generated and aggregated into the `/results/` directory. If the model is re-run, the existing results will be overwriten. A helper script has been written to prepare simulations for use with OSCAR, and is labelled `subTitan.sh` in the root directory.
+Results of the model are generated and aggregated into the `/results/` directory by default. If the model is re-run, the existing results will be overwritten. A helper script has been written to prepare simulations for use with OSCAR, and is labelled `subTitan.sh` in the root directory.
 
 
 ### Running the tests

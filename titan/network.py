@@ -3,7 +3,6 @@
 
 import random
 
-import numpy as np  # type: ignore
 import networkx as nx  # type: ignore
 from networkx.drawing.nx_agraph import graphviz_layout  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
@@ -11,16 +10,16 @@ import matplotlib.patches as patches  # type: ignore
 from typing import Sequence, List, Dict, Optional
 from dotmap import DotMap  # type: ignore
 
-from .HIVABM_Population import PopulationClass
+from .population import Population
 from .agent import AgentSet
 
 
-class NetworkClass(PopulationClass):
-    def __init__(self, params: DotMap, popSeed: int = 0, netSeed: int = 0):
+class Network(Population):
+    def __init__(self, params: DotMap, pop_seed: int = 0, net_seed: int = 0):
         """
         :Purpose:
             This is the base class used to generate the social network
-            for the other agents, i.e. . The class inherits from the PopulationClass.
+            for the other agents, i.e. . The class inherits from the Population.
 
         :Input:
             N : int
@@ -29,12 +28,10 @@ class NetworkClass(PopulationClass):
             network_type: default is "scale_free", other options are "max_k_comp_size" and "binomial"
         """
 
-        random.seed(netSeed)
-        np.random.seed(netSeed)
+        Population.__init__(self, pop_seed, params)  # Create population
 
-        PopulationClass.__init__(self, popSeed, params)  # Create population
+        random.seed(net_seed)
 
-        # self.NetworkSize = N
         # happens for both scale_free and max_k_comp_size
         self.G = nx.Graph()
         for i in range(10):
@@ -42,83 +39,73 @@ class NetworkClass(PopulationClass):
 
         if params.model.network.type == "max_k_comp_size":
 
-            def trimComponent(component, maxComponentSize):
+            def trim_component(component, max_size):
                 for ag in component.nodes:
                     if random.random() < 0.1:
-                        for rel in ag._relationships:
-                            if len(ag._relationships) == 1:
+                        for rel in ag.relationships:
+                            if len(ag.relationships) == 1:
                                 break  # Make sure that agents stay part of the network by keeping one bond
                             rel.progress(forceKill=True)
-                            self.Relationships.remove(rel)
+                            self.relationships.remove(rel)
                             component.remove_edge(rel.agent1, rel.agent2)
                             self.G.remove_edge(rel.agent1, rel.agent2)
 
-                comps = list(
-                    self.G.subgraph(c).copy() for c in nx.connected_components(self.G)
+                # recurse on new sub-components
+                sub_comps = list(
+                    component.subgraph(c).copy()
+                    for c in nx.connected_components(component)
                 )
-                totNods = 0
-                for component in comps:
-                    cNodes = len(component)
-                    if cNodes > params.maxComponentSize:
-                        trimComponent(component, params.maxComponentSize)
-                    elif cNodes < params.minComponentSize:
-                        for a in component.nodes():
-                            if a in self.G:
-                                self.G.remove_node(a)
-
-                    else:
-                        totNods += cNodes
+                for sub_comp in sub_comps:
+                    if sub_comp.number_of_nodes > max_size:
+                        trim_component(component, max_size)
 
             components = sorted(self.connected_components(), key=len, reverse=True)
             for comp in components:
-                if (
-                    params.outputs.calc_component_stats
-                    and comp.number_of_nodes() > params.model.network.component_size.max
-                ):
+                if comp.number_of_nodes() > params.model.network.component_size.max:
                     print("TOO BIG", comp, comp.number_of_nodes())
-                    trimComponent(comp, params.model.network.component_size.max)
+                    trim_component(comp, params.model.network.component_size.max)
 
             print("Total agents in graph: ", self.G.number_of_nodes())
 
     def connected_components(self):
-        return (self.G.subgraph(c).copy() for c in nx.connected_components(self.G))
+        return list(self.G.subgraph(c).copy() for c in nx.connected_components(self.G))
 
-    def write_G_edgelist(self, path: str):
-        G = self.get_Graph()
-        nx.write_edgelist(G, path, data=["relationship"], delimiter="\t")
+    def write_graph_edgelist(self, path: str):
+        nx.write_edgelist(self.G, path, data=["relationship"], delimiter="\t")
 
     def write_network_stats(
         self, t: int = 0, path: str = "results/network/networkStats.txt"
     ):
-        subgraphs = (self.G.subgraph(c).copy() for c in nx.connected_components(self.G))
-        components = sorted(subgraphs, key=len, reverse=True)
-        bigG = components[0]
+        components = sorted(self.connected_components(), key=len, reverse=True)
+
         outfile = open(path, "w")
         outfile.write(nx.info(self.G))
 
-        centDict = nx.degree_centrality(self.G)
+        cent_dict = nx.degree_centrality(self.G)
 
         outfile.write(
             "\nNumber of connected components: {}\n".format(
                 nx.number_connected_components(self.G)
             )
         )
-        conG = nx.connected_components(self.G)
+
         tot_nodes = 0
-        for c in conG:
-            thisComp = len(c)
-            tot_nodes += thisComp
+        for c in components:
+            tot_nodes += c.number_of_nodes()
+
         outfile.write(
             "Average component size: {}\n".format(
                 tot_nodes * 1.0 / nx.number_connected_components(self.G)
             )
         )
-        outfile.write("Maximum component size: {}\n".format(nx.number_of_nodes(bigG)))
+        outfile.write(
+            "Maximum component size: {}\n".format(nx.number_of_nodes(components[0]))
+        )
         outfile.write("Degree Histogram: {}\n".format(nx.degree_histogram(self.G)))
         outfile.write("Graph density: {}\n".format(nx.density(self.G)))
         outfile.write(
             "Average node degree centrality: {}\n".format(
-                sum(centDict.values()) / len(list(centDict.values()))
+                sum(cent_dict.values()) / len(list(cent_dict.values()))
             )
         )
 
@@ -128,18 +115,11 @@ class NetworkClass(PopulationClass):
         outfile.close()
 
     def create_graph_from_agents(self, agents: AgentSet):
-        G = self.get_Graph()
-        numAdded = 0
-        for tmpA in agents:
-            numAdded += 1
-            G.add_node(tmpA)
-        print("\tAdded %d/%d agents" % (numAdded, G.number_of_nodes()))
-
-    def get_Graph(self):
-        """
-        Return random assortative graph produced by ``set_assortative_graph``.
-        """
-        return self.G
+        num_added = 0
+        for a in agents:
+            num_added += 1
+            self.G.add_node(a)
+        print("\tAdded %d/%d agents" % (num_added, self.G.number_of_nodes()))
 
     def get_network_color(self, coloring):
         G = self.G

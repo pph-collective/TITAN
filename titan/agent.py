@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from typing import Sequence, List, Dict, Optional
+from typing import Sequence, List, Dict, Optional, Set
 
 from dotmap import DotMap  # type: ignore
 
@@ -85,7 +85,7 @@ class Agent:
 
         # agent incarcartion params
         self.incar = False
-        self.incar_ever = False  # TO_REVIEW not really used
+        self.incar_ever = False
         self.incar_time = 0
 
     def __str__(self):
@@ -152,7 +152,7 @@ class Agent:
         else:
             return False
 
-    def PrEP_eligible(self, target_model: str) -> bool:
+    def prep_eligible(self, target_model: str) -> bool:
         """
         :Purpose:
             Determine if an agent is eligible for PrEP
@@ -264,7 +264,6 @@ class Agent:
             p *= params.haart.transmission.prob
 
         # Racial calibration parameter to attain proper race incidence disparity
-        # TO_REVIEW - how to get rid of this or did we already... but not implement it?
         p *= params.demographics[self.race].hiv.transmission
 
         # Scaling parameter for per act transmission.
@@ -278,7 +277,7 @@ class Agent:
             Number of sexActs an agent has done.
 
         :Input:
-            rand_gen : random number generator (e.g. self.runRandom in ABM_core)
+            rand_gen : random number generator (e.g. self.runRandom in model)
 
         :Output:
             number_sex_act : int
@@ -432,6 +431,8 @@ class AgentSet:
         self.members: List[Agent] = []
         self.subset: Dict[str, AgentSet] = {}
 
+        self.tracker: Set[int] = set()
+
         # _parent_set stores the parent set if this set is a member of an
         # AgentSet class instance. For example, for a set that is a
         # member of a larger set, the _parent_set for that set  would
@@ -453,19 +454,21 @@ class AgentSet:
     def clear_set(self):
         self.members: List[Agent] = []
         self.subset: Dict[str, str] = {}
+        self.tracker: Set[int] = set()
 
     def __iter__(self):
         return self.members.__iter__()
 
     def is_member(self, agent: Agent):
         "Returns true if agent is a member of this set"
-        return agent in self.members
+        return agent.id in self.tracker
 
     # adding trickles up
     def add_agent(self, agent: Agent):
         "Adds a new agent to the set."
         if not self.is_member(agent):
             self.members.append(agent)
+            self.tracker.add(agent.id)
 
             if self.parent_set is not None:
                 self.parent_set.add_agent(agent)
@@ -475,9 +478,10 @@ class AgentSet:
         "Removes agent from agent set."
         if self.is_member(agent):
             self.members.remove(agent)
+            self.tracker.remove(agent.id)
 
-        for tmpS in self.iter_subset():
-            tmpS.remove_agent(agent)
+        for subset in self.iter_subset():
+            subset.remove_agent(agent)
 
     def num_members(self) -> int:
         return len(self.members)
@@ -494,24 +498,28 @@ class AgentSet:
     def print_subsets(self):
         print("\t__________ %s __________" % self.id)
         print("\tID\t\tN\t\t%")
-        for tmpS in self.iter_subset():
-            if tmpS.num_members() > 0:
+        for set in self.iter_subset():
+            if set.num_members() > 0:
                 print(
                     "\t%-6s\t%-5d\t%.2f"
                     % (
-                        tmpS.id,
-                        tmpS.num_members(),
-                        (1.0 * tmpS.num_members() / tmpS.numerator.num_members()),
+                        set.id,
+                        set.num_members(),
+                        (1.0 * set.num_members() / set.numerator.num_members()),
                     )
                 )
-            for tmpSS in tmpS.iter_subset():
-                if tmpSS.num_members() > 0:
+            for subset in set.iter_subset():
+                if subset.num_members() > 0:
                     print(
                         "\t-%-4s\t%-5d\t%.2f"
                         % (
-                            tmpSS.id,
-                            tmpSS.num_members(),
-                            (1.0 * tmpSS.num_members() / tmpSS.numerator.num_members()),
+                            subset.id,
+                            subset.num_members(),
+                            (
+                                1.0
+                                * subset.num_members()
+                                / subset.numerator.num_members()
+                            ),
                         )
                     )
         print("\t______________ END ______________")

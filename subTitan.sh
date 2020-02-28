@@ -17,6 +17,7 @@ model=${PWD##*/}
 basePath=$PWD
 useBase="True"
 jobname=""
+folderName=""
 
 while getopts m:S:T:j:r:n: option
 do
@@ -29,16 +30,21 @@ do
 	r) repeats=${OPTARG};;
 	n) nMC=${OPTARG};;
 	b) useBase=${OPTARG};;
+	f) folderName=${OPTARG};;
     esac
 done
 
-srcCode="${titanPath}titan/"
-parentPath="Module_$setting/"
-outPath="$HOME/scratch/$parentPath"
 
 if [ jobname == ""]; then
 	jobname="Analysis_$setting_$date"
 fi
+
+if [ folderName == ""]; then
+	folderName="$setting/"
+fi
+
+srcCode="${titanPath}titan/"
+outPath="$HOME/scratch/$folderName"
 
 
 usage() {
@@ -55,6 +61,7 @@ options:
 	-r repeats      number of times to repeat the analysis (default: $repeats)
   -n iterations   number of mode iterations per job (default: $nMC)
 	-b use_base     whether to use the base setting as True or False (default: $useBase)
+	-f folder_name	What the parent folder for the model run outputs should be called (default: <setting>)
 "
 exit 0
 }
@@ -86,7 +93,6 @@ prepSubmit() {
     cp -rT $titanPath/titan $finalPath/titan
     cp -rT $titanPath/scripts $finalPath/scripts
 	  cp -rT $titanPath/settings $finalPath/settings
-    mkdir -p $finalPath/results/network
     #Move into new source code folder
     echo -e "\n\tMoving to model folder directory"
     cd $finalPath

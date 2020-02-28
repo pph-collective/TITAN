@@ -2,7 +2,7 @@ import pytest
 import os
 
 import titan.probabilities as probs
-from titan.params_parse import create_params
+from titan.parse_params import create_params
 
 
 @pytest.fixture

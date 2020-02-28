@@ -68,11 +68,12 @@ prep:
       max: 1
   pca:
     awareness:
-      starting:
+      init:
         default: 0
-        description: Agent awareness of PrEP at time zero # TO_REVIEW is this really an init prob?
+        description: Probability of Agent awareness of PrEP at time zero
         type: float
         min: 0
+        max: 1
       prob:
         default: 0.055
         description: Probability an agent becomes aware of PrEP

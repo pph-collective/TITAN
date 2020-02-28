@@ -17,7 +17,7 @@ prep:
     prob: 0
   pca:
     awareness:
-      starting: 0
+      init: 0
       prob: 0.055
     prep:
       prob: 0.1275

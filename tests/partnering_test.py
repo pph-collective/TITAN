@@ -1,10 +1,10 @@
 import pytest
 import os
 
-from titan.ABM_partnering import *
+from titan.partnering import *
 from titan.agent import Agent
-from titan.HIVABM_Population import PopulationClass
-from titan.params_parse import create_params
+from titan.population import Population
+from titan.parse_params import create_params
 
 
 @pytest.fixture
@@ -27,27 +27,27 @@ def make_agent():
 def make_population(params):
     def _make_population(n=0):
         params.model.num_pop = n
-        return PopulationClass(0, params)
+        return Population(0, params)
 
     return _make_population
 
 
-def test_get_random_PWID_partner_no_PWID(make_population, make_agent):
+def test_get_random_pwid_partner_no_PWID(make_population, make_agent):
     empty_pop = make_population()
     idu_agent = make_agent(DU="Inj")
     nidu_agent = make_agent()
     empty_pop.add_agent_to_pop(idu_agent)
     empty_pop.add_agent_to_pop(nidu_agent)
-    assert get_random_PWID_partner(idu_agent, empty_pop.All_agentSet) is None
+    assert get_random_pwid_partner(idu_agent, empty_pop.all_agents) is None
 
 
-def test_get_random_PWID_partner_w_PWID(make_population, make_agent):
+def test_get_random_pwid_partner_w_PWID(make_population, make_agent):
     empty_pop = make_population()
     idu_agent = make_agent(DU="Inj")
     idu_partner = make_agent(DU="Inj")
     empty_pop.add_agent_to_pop(idu_agent)
     empty_pop.add_agent_to_pop(idu_partner)
-    assert get_random_PWID_partner(idu_agent, empty_pop.All_agentSet) == idu_partner
+    assert get_random_pwid_partner(idu_agent, empty_pop.all_agents) == idu_partner
 
 
 def test_get_random_sex_partner_valid(make_population, make_agent, params):
@@ -56,9 +56,7 @@ def test_get_random_sex_partner_valid(make_population, make_agent, params):
     hf_partner = make_agent(SO="HF")
     empty_pop.add_agent_to_pop(hm_agent)
     empty_pop.add_agent_to_pop(hf_partner)
-    assert (
-        get_random_sex_partner(hm_agent, empty_pop.All_agentSet, params) == hf_partner
-    )
+    assert get_random_sex_partner(hm_agent, empty_pop.all_agents, params) == hf_partner
 
 
 def test_get_random_sex_partner_bad(make_population, make_agent, params):
@@ -67,7 +65,7 @@ def test_get_random_sex_partner_bad(make_population, make_agent, params):
     hf_partner = make_agent(SO="MSM")
     empty_pop.add_agent_to_pop(hm_agent)
     empty_pop.add_agent_to_pop(hf_partner)
-    assert get_random_sex_partner(hm_agent, empty_pop.All_agentSet, params) is None
+    assert get_random_sex_partner(hm_agent, empty_pop.all_agents, params) is None
 
 
 def test_sex_possible(params):

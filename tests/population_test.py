@@ -1,10 +1,10 @@
 import pytest
 import os
 
-from titan.HIVABM_Population import *
+from titan.population import *
 from titan.agent import Agent
-from titan.params_parse import create_params
-from titan.network_graph_tools import NetworkClass
+from titan.parse_params import create_params
+from titan.network import Network
 
 
 @pytest.fixture
@@ -27,7 +27,7 @@ def make_agent():
 def make_population(params):
     def _make_population(n=100):
         params.model.num_pop = n
-        return PopulationClass(0, params)
+        return Population(0, params)
 
     return _make_population
 
@@ -51,10 +51,10 @@ def test_pop_init(make_population):
     n_pop = 100
     pop = make_population(n=n_pop)
 
-    assert pop.All_agentSet.num_members() == n_pop
+    assert pop.all_agents.num_members() == n_pop
 
     # test umbrella sets are all consistent
-    parent_sets = ["drugUse_agentSet", "SO_agentSet", "racial_agentSet"]
+    parent_sets = ["drug_use_agents", "sex_type_agents", "race_agents"]
     for set_name in parent_sets:
         set = getattr(pop, set_name)
 
@@ -149,25 +149,25 @@ def test_add_agent_to_pop(make_population):
 
     pop.add_agent_to_pop(agent)
 
-    assert agent in pop.All_agentSet.members
-    assert agent in pop.racial_agentSet.members
-    assert agent in pop.Race_WHITE_agentSet.members
-    assert agent in pop.SO_agentSet.members
-    assert agent in pop.SO_HM_agentSet.members
-    assert agent in pop.drugUse_agentSet.members
-    assert agent in pop.DU_Inj_agentSet.members
-    assert agent in pop.HIV_agentSet.members
-    assert agent in pop.HIV_AIDS_agentSet.members
-    assert agent in pop.treatment_agentSet.members
-    assert agent in pop.Trt_ART_agentSet.members
-    assert agent in pop.Trt_ART_agentSet.members
-    assert agent in pop.Trt_PrEP_agentSet.members
-    assert agent in pop.Trt_Tstd_agentSet.members
-    assert agent in pop.incarcerated_agentSet.members
-    assert agent in pop.highrisk_agentsSet.members
+    assert agent in pop.all_agents.members
+    assert agent in pop.race_agents.members
+    assert agent in pop.race_white_agents.members
+    assert agent in pop.sex_type_agents.members
+    assert agent in pop.sex_type_HM_agents.members
+    assert agent in pop.drug_use_agents.members
+    assert agent in pop.drug_use_inj_agents.members
+    assert agent in pop.hiv_agents.members
+    assert agent in pop.hiv_aids_agents.members
+    assert agent in pop.intervention_agents.members
+    assert agent in pop.intervention_haart_agents.members
+    assert agent in pop.intervention_haart_agents.members
+    assert agent in pop.intervention_prep_agents.members
+    assert agent in pop.intervention_dx_agents.members
+    assert agent in pop.incarcerated_agents.members
+    assert agent in pop.high_risk_agents.members
 
     # check not in all agent sets
-    assert agent not in pop.Race_BLACK_agentSet.members
+    assert agent not in pop.race_black_agents.members
 
 
 def test_get_age(make_population, params):
@@ -187,9 +187,9 @@ def test_get_age(make_population, params):
 def test_update_agent_partners_no_match(make_population, params):
     pop = make_population(n=1)
     params.model.num_pop = 0
-    net = NetworkClass(params)
+    net = Network(params)
 
-    agent = pop.All_agentSet.members[0]  # the only agent in the pop
+    agent = pop.all_agents.members[0]  # the only agent in the pop
 
     pop.update_agent_partners(net.G, agent)  # noMatch == True
     assert agent in net.G.nodes()
@@ -204,7 +204,7 @@ def test_update_agent_partners_match(make_population, params):
     pop.add_agent_to_pop(p)
 
     params.model.num_pop = 0
-    net = NetworkClass(params)
+    net = Network(params)
 
     pop.update_agent_partners(net.G, a)
     assert a in net.G.nodes()
@@ -222,7 +222,7 @@ def test_update_partner_assignments_match(make_population, params):
     p.mean_num_partners = 100
 
     params.model.num_pop = 0
-    net = NetworkClass(params)
+    net = Network(params)
 
     pop.update_partner_assignments(net.G)
     assert a in net.G.nodes()
@@ -238,7 +238,7 @@ def test_update_partner_assignments_no_match(make_population, params):
     pop.add_agent_to_pop(p)
 
     params.model.num_pop = 0
-    net = NetworkClass(params)
+    net = Network(params)
 
     pop.update_partner_assignments(net.G)
     assert a in net.G.nodes()

@@ -12,6 +12,7 @@ pyproject.toml
 .pytest_cache/
 .pytest_cache/*
 .mypy_cache
+.coverage
 
 .vscode/
 

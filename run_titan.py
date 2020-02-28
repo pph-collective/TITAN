@@ -7,8 +7,8 @@ import os
 import shutil
 import argparse
 
-from titan.ABM_core import HIVModel
-from titan.params_parse import create_params
+from titan.model import HIVModel
+from titan.parse_params import create_params
 
 # set up args parsing
 parser = argparse.ArgumentParser(description="Run TITAN model")
@@ -42,17 +42,8 @@ parser.add_argument(
     help="whether to use base setting",
 )
 
-# Disable
-def blockPrint():
-    sys.stdout = open(os.devnull, "w")
 
-
-# Restore
-def enablePrint():
-    sys.stdout = sys.__stdout__
-
-
-def main(setting, paramsPath, nMC, outdir, use_base):
+def main(setting, params_path, num_reps, outdir, use_base):
     wct = []  # wall clock times
 
     # delete old results before overwriting with new results
@@ -70,9 +61,9 @@ def main(setting, paramsPath, nMC, outdir, use_base):
         setting = os.path.join("settings", setting)
         assert os.path.isdir(setting)
 
-    params = create_params(setting, paramsPath, outfile_dir, use_base=use_base)
+    params = create_params(setting, params_path, outfile_dir, use_base=use_base)
 
-    for single_sim in range(nMC):
+    for single_sim in range(num_reps):
         tic = time_mod.time()
 
         # runs simulations

@@ -11,17 +11,14 @@ from dotmap import DotMap  # type: ignore
 
 
 def get_stats(
-    totalAgents: AgentSet,
-    HIVAgents: AgentSet,
-    IncarAgents: AgentSet,
-    PrEPAgents: AgentSet,
-    newPrEPAgents: AgentSet,
-    NewInfections: AgentSet,
-    NewDiagnosis: AgentSet,
-    Relationships: List[Relationship],
-    newHR: AgentSet,
-    newIncarRelease: AgentSet,
-    deathSet: List[Agent],
+    all_agents: AgentSet,
+    new_prep_agents: AgentSet,
+    new_hiv: AgentSet,
+    new_hiv_dx: AgentSet,
+    relationships: List[Relationship],
+    new_high_risk: AgentSet,
+    new_incar_release: AgentSet,
+    deaths: List[Agent],
     params: DotMap,
 ):
 
@@ -68,91 +65,87 @@ def get_stats(
         stats[cat] = {sc: dict(stats_template) for sc in SUB_CAT}
 
     # Incarceration metrics
-    for tmpA in IncarAgents:
-        stats[tmpA.race][tmpA.so]["incar"] += 1
-        if tmpA.hiv:
-            stats[tmpA.race][tmpA.so]["incarHIV"] += 1
-
-    for tmpA in newIncarRelease:
-        stats[tmpA.race][tmpA.so]["newRelease"] += 1
-        if tmpA.hiv:
-            stats[tmpA.race][tmpA.so]["newReleaseHIV"] += 1
+    for a in new_incar_release:
+        stats[a.race][a.so]["newRelease"] += 1
+        if a.hiv:
+            stats[a.race][a.so]["newReleaseHIV"] += 1
 
     # Newly infected tracker statistics (with HR within 6mo and HR ever bool check)
-    for tmpA in NewInfections:
-        stats[tmpA.race][tmpA.so]["inf_newInf"] += 1
-        if tmpA.high_risk_ever:
-            stats[tmpA.race][tmpA.so]["inf_HRever"] += 1
-        if tmpA.high_risk:
-            stats[tmpA.race][tmpA.so]["inf_HR6m"] += 1
+    for a in new_hiv:
+        stats[a.race][a.so]["inf_newInf"] += 1
+        if a.high_risk_ever:
+            stats[a.race][a.so]["inf_HRever"] += 1
+        if a.high_risk:
+            stats[a.race][a.so]["inf_HR6m"] += 1
 
-    # PrEP reason tracker
-    for tmpA in totalAgents:
-        if tmpA.prep:
-            stats[tmpA.race][tmpA.so]["numPrEP"] += 1
-            if "PWID" in tmpA.prep_reason:
-                stats[tmpA.race][tmpA.so]["iduPartPrep"] += 1
-            if "MSMW" in tmpA.prep_reason:
-                stats[tmpA.race][tmpA.so]["msmwPartPrep"] += 1
-            if "HIV test" in tmpA.prep_reason:
-                stats[tmpA.race][tmpA.so]["testedPartPrep"] += 1
-            if tmpA.prep_type == "Inj":
-                stats[tmpA.race][tmpA.so]["injectable_prep"] += 1
-            elif tmpA.prep_type == "Oral":
-                stats[tmpA.race][tmpA.so]["oral_prep"] += 1
+    for a in all_agents:
+        stats[a.race][a.so]["numAgents"] += 1
+
+        if a.prep:
+            stats[a.race][a.so]["numPrEP"] += 1
+            if "PWID" in a.prep_reason:
+                stats[a.race][a.so]["iduPartPrep"] += 1
+            if "MSMW" in a.prep_reason:
+                stats[a.race][a.so]["msmwPartPrep"] += 1
+            if "HIV test" in a.prep_reason:
+                stats[a.race][a.so]["testedPartPrep"] += 1
+            if a.prep_type == "Inj":
+                stats[a.race][a.so]["injectable_prep"] += 1
+            elif a.prep_type == "Oral":
+                stats[a.race][a.so]["oral_prep"] += 1
+
+        if a.incar:
+            stats[a.race][a.so]["incar"] += 1
+            if a.hiv:
+                stats[a.race][a.so]["incarHIV"] += 1
+
+        if a.hiv:
+            stats[a.race][a.so]["numHIV"] += 1
+            if a.aids:
+                stats[a.race][a.so]["numAIDS"] += 1
+            if a.hiv_dx:
+                stats[a.race][a.so]["numTested"] += 1
+            if a.haart:
+                stats[a.race][a.so]["numART"] += 1
+
+        if a.drug_use == "Inj":
+            stats[a.race]["PWID"]["numAgents"] += 1
+            if a.hiv:
+                stats[a.race]["PWID"]["numHIV"] += 1
+            if a.aids:
+                stats[a.race]["PWID"]["numAIDS"] += 1
+            if a.hiv_dx:
+                stats[a.race]["PWID"]["numTested"] += 1
+            if a.haart:
+                stats[a.race]["PWID"]["numART"] += 1
+
+        if a.vaccine:
+            stats[a.race][a.so]["Vaccinated"] += 1
 
     # Newly PrEP tracker statistics
-    for tmpA in newPrEPAgents:
-        stats[tmpA.race][tmpA.so]["newNumPrEP"] += 1
+    for a in new_prep_agents:
+        stats[a.race][a.so]["newNumPrEP"] += 1
 
     # Newly diagnosed tracker statistics
-    for tmpA in NewDiagnosis:
-        stats[tmpA.race][tmpA.so]["newlyTested"] += 1
+    for a in new_hiv_dx:
+        stats[a.race][a.so]["newlyTested"] += 1
 
     # Newly HR agents
-    for tmpA in newHR:
-        stats[tmpA.race][tmpA.so]["newHR"] += 1
-        if tmpA.hiv:
-            stats[tmpA.race][tmpA.so]["newHR_HIV"] += 1
-            if tmpA.aids:
-                stats[tmpA.race][tmpA.so]["newHR_AIDS"] += 1
-            if tmpA.hiv_dx:
-                stats[tmpA.race][tmpA.so]["newHR_tested"] += 1
-                if tmpA.haart:
-                    stats[tmpA.race][tmpA.so]["newHR_ART"] += 1
+    for a in new_high_risk:
+        stats[a.race][a.so]["newHR"] += 1
+        if a.hiv:
+            stats[a.race][a.so]["newHR_HIV"] += 1
+            if a.aids:
+                stats[a.race][a.so]["newHR_AIDS"] += 1
+            if a.hiv_dx:
+                stats[a.race][a.so]["newHR_tested"] += 1
+                if a.haart:
+                    stats[a.race][a.so]["newHR_ART"] += 1
 
-    # Total HIV summary snapshot for timestep
-    for tmpA in HIVAgents:
-        stats[tmpA.race][tmpA.so]["numHIV"] += 1
-        if tmpA.aids:
-            stats[tmpA.race][tmpA.so]["numAIDS"] += 1
-        if tmpA.hiv_dx:
-            stats[tmpA.race][tmpA.so]["numTested"] += 1
-        if tmpA.haart:
-            stats[tmpA.race][tmpA.so]["numART"] += 1
-
-    # PWID agent summary
-    for tmpA in totalAgents.subset["DU"].subset["Inj"]:
-        stats[tmpA.race]["PWID"]["numAgents"] += 1
-        if tmpA.hiv:
-            stats[tmpA.race]["PWID"]["numHIV"] += 1
-        if tmpA.aids:
-            stats[tmpA.race]["PWID"]["numAIDS"] += 1
-        if tmpA.hiv_dx:
-            stats[tmpA.race]["PWID"]["numTested"] += 1
-        if tmpA.haart:
-            stats[tmpA.race]["PWID"]["numART"] += 1
-
-    # total number of agents
-    for tmpA in totalAgents:
-        stats[tmpA.race][tmpA.so]["numAgents"] += 1
-        if tmpA.vaccine:
-            stats[tmpA.race][tmpA.so]["Vaccinated"] += 1
-
-    for tmpA in deathSet:
-        stats[tmpA.race][tmpA.so]["deaths"] += 1
-        if tmpA.hiv:
-            stats[tmpA.race][tmpA.so]["deaths_HIV"] += 1
+    for a in deaths:
+        stats[a.race][a.so]["deaths"] += 1
+        if a.hiv:
+            stats[a.race][a.so]["deaths_HIV"] += 1
 
     # Sum 'ALL' categories for race/SO bins
     for race in stats:
@@ -165,7 +158,7 @@ def get_stats(
                     stats["ALL"][sc][param] += stats[race][sc][param]
 
     # add relationship count (only makes sense at the all level)
-    stats["ALL"]["ALL"]["numRels"] = len(Relationships)
+    stats["ALL"]["ALL"]["numRels"] = len(relationships)
 
     return stats
 
@@ -342,18 +335,18 @@ def basicReport(
     SUB_CAT = deepcopy(params.classes.populations)
     SUB_CAT.append("ALL")
 
-    for agentRace in MAIN_CAT:
-        for agentTypes in SUB_CAT:
-            name = "basicReport_" + agentTypes + "_" + agentRace + ".txt"
-            tmpReport = open(os.path.join(outdir, name), "a")
+    for race in MAIN_CAT:
+        for population in SUB_CAT:
+            name = "basicReport_" + population + "_" + race + ".txt"
+            f = open(os.path.join(outdir, name), "a")
 
             # if this is a new file, write the header info
-            if tmpReport.tell() == 0:
-                tmpReport.write(
+            if f.tell() == 0:
+                f.write(
                     "run_id\trseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\tVaccinated\tLAI\tOral\tAware\n"
                 )
 
-            tmpReport.write(
+            f.write(
                 (
                     "{:s}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
                         str(run_id),
@@ -361,29 +354,29 @@ def basicReport(
                         popseed,
                         netseed,
                         t,
-                        stats[agentRace][agentTypes]["numAgents"],
-                        stats[agentRace][agentTypes]["numHIV"],
-                        stats[agentRace][agentTypes]["numAIDS"],
-                        stats[agentRace][agentTypes]["numTested"],
-                        stats[agentRace][agentTypes]["numART"],
-                        stats[agentRace][agentTypes]["numHR"],
-                        stats[agentRace][agentTypes]["inf_newInf"],
-                        stats[agentRace][agentTypes]["inf_HR6m"],
-                        stats[agentRace][agentTypes]["inf_HRever"],
-                        stats[agentRace][agentTypes]["newlyTested"],
-                        stats[agentRace][agentTypes]["deaths"],
-                        stats[agentRace][agentTypes]["numPrEP"],
-                        stats[agentRace][agentTypes]["iduPartPrep"],
-                        stats[agentRace][agentTypes]["msmwPartPrep"],
-                        stats[agentRace][agentTypes]["testedPartPrep"],
-                        stats[agentRace][agentTypes]["Vaccinated"],
-                        stats[agentRace][agentTypes]["injectable_prep"],
-                        stats[agentRace][agentTypes]["oral_prep"],
-                        stats[agentRace][agentTypes]["prep_aware"],
+                        stats[race][population]["numAgents"],
+                        stats[race][population]["numHIV"],
+                        stats[race][population]["numAIDS"],
+                        stats[race][population]["numTested"],
+                        stats[race][population]["numART"],
+                        stats[race][population]["numHR"],
+                        stats[race][population]["inf_newInf"],
+                        stats[race][population]["inf_HR6m"],
+                        stats[race][population]["inf_HRever"],
+                        stats[race][population]["newlyTested"],
+                        stats[race][population]["deaths"],
+                        stats[race][population]["numPrEP"],
+                        stats[race][population]["iduPartPrep"],
+                        stats[race][population]["msmwPartPrep"],
+                        stats[race][population]["testedPartPrep"],
+                        stats[race][population]["Vaccinated"],
+                        stats[race][population]["injectable_prep"],
+                        stats[race][population]["oral_prep"],
+                        stats[race][population]["prep_aware"],
                     )
                 )
             )
-            tmpReport.close()
+            f.close()
 
 
 # ========================== Other Print Functions =============================

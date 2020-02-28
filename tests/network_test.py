@@ -1,7 +1,7 @@
 import pytest
 
-from titan.network_graph_tools import *
-from titan.params_parse import create_params
+from titan.network import *
+from titan.parse_params import create_params
 from titan import agent
 
 import os
@@ -38,71 +38,71 @@ def params(tmpdir):
 
 def test_network_init_scale_free(params):
     """Test if all Inj,NonInj,None drug use agents are in the population"""
-    net = NetworkClass(params)
-    assert n_pop == net.All_agentSet.num_members()
+    net = Network(params)
+    assert n_pop == net.all_agents.num_members()
 
-    for agent in net.All_agentSet:
+    for agent in net.all_agents:
         assert agent in net.G.nodes()
 
-    for agent in net.All_agentSet:
+    for agent in net.all_agents:
         assert agent.drug_use in ["Inj", "NonInj", "None"]
         assert agent.so in params.classes.sex_types
 
-    assert net.get_Graph() == net.G
+    assert net.G == net.G
 
 
 def test_network_init_max_k(params):
     """Test if all Inj,NonInj,None drug use agents are in the population"""
     params.model.network.type = "max_k_comp_size"
-    net = NetworkClass(params)
-    assert n_pop == net.All_agentSet.num_members()
+    net = Network(params)
+    assert n_pop == net.all_agents.num_members()
 
-    for agent in net.All_agentSet:
+    for agent in net.all_agents:
         assert agent in net.G.nodes()
 
-    for agent in net.All_agentSet:
+    for agent in net.all_agents:
         assert agent.drug_use in ["Inj", "NonInj", "None"]
         assert agent.so in params.classes.sex_types
 
 
 def test_population_consistency_DU(params):
     """Test if Drug users add up"""
-    net = NetworkClass(params)
+    net = Network(params)
     check_sum_DU = (
-        net.DU_Inj_agentSet.num_members()
-        + net.DU_NonInj_agentSet.num_members()
-        + net.DU_None_agentSet.num_members()
+        net.drug_use_inj_agents.num_members()
+        + net.drug_use_noninj_agents.num_members()
+        + net.drug_use_none_agents.num_members()
     )
 
-    assert net.drugUse_agentSet.num_members() == check_sum_DU
+    assert net.drug_use_agents.num_members() == check_sum_DU
     assert params.model.num_pop == check_sum_DU
 
 
 def test_population_consistency_HIV(params):
     """Test HIV consistency"""
-    net = NetworkClass(params)
-    for agent in net.All_agentSet:
+    net = Network(params)
+    for agent in net.all_agents:
         if agent.hiv:
-            assert agent in net.HIV_agentSet
+            assert agent in net.hiv_agents
 
-    for agent in net.HIV_agentSet:
+    for agent in net.hiv_agents:
         assert agent.hiv
 
 
-def test_write_G_edgelist(setup_results_dir, params):
+def test_write_graph_edgelist(setup_results_dir, params):
     path = "results/network/Edgelist_t0.txt"
-    net = NetworkClass(params)
+    net = Network(params)
 
-    net.write_G_edgelist(path)
+    net.write_graph_edgelist(path)
 
     count = len(open(path).readlines())
 
-    assert count == len(net.Relationships)
+    assert count == len(net.relationships)
 
 
 def test_write_network_stats(setup_results_dir, params):
     path = "results/network/networkStats.txt"
-    net = NetworkClass(params)
+    net = Network(params)
 
     net.write_network_stats(path)
 
@@ -126,7 +126,7 @@ def test_create_graph_from_agents(make_agent, params):
     s.add_agent(a)
     s.add_agent(b)
 
-    net = NetworkClass(params)
+    net = Network(params)
 
     assert net.G.number_of_nodes() == n_pop
 
@@ -136,7 +136,7 @@ def test_create_graph_from_agents(make_agent, params):
 
 
 def test_get_network_color(params):
-    net = NetworkClass(params)
+    net = Network(params)
 
     colors = net.get_network_color("SO")
     assert len(colors) == n_pop

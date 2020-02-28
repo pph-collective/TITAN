@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from random import Random
+import random
 
 from typing import List, Dict, Any
 from scipy.stats import poisson  # type: ignore
@@ -9,10 +9,10 @@ import numpy as np  # type: ignore
 from dotmap import DotMap  # type: ignore
 
 from .agent import AgentSet, Agent, Relationship
-from .ABM_partnering import get_partner, get_partnership_duration
+from .partnering import get_partner, get_partnership_duration
 
 
-class PopulationClass:
+class Population:
     """
     :Purpose:
         This class constructs and represents the model population
@@ -32,10 +32,13 @@ class PopulationClass:
     def __init__(self, pop_seed: int, params: DotMap):
         """
         :Purpose:
-            Initialize PopulationClass object.
+            Initialize Population object.
         """
         # Init RNG for population creation to pop_seed
-        self.pop_random = Random(pop_seed)
+        self.pop_random = random.Random(pop_seed)
+        random.seed(
+            pop_seed
+        )  # this sets the global random seed for the population generation phase, during model init it gets reset at the very end
         np.random.seed(pop_seed)
 
         self.params = params
@@ -55,68 +58,73 @@ class PopulationClass:
         print("\tBuilding class sets")
 
         # All agent set list
-        self.All_agentSet = AgentSet("AllAgents")
+        self.all_agents = AgentSet("AllAgents")
 
         # HIV status agent sets
-        self.HIV_agentSet = AgentSet(
-            "HIV", parent=self.All_agentSet, numerator=self.All_agentSet
+        self.hiv_agents = AgentSet(
+            "HIV", parent=self.all_agents, numerator=self.all_agents
         )
-        self.HIV_AIDS_agentSet = AgentSet(
-            "AIDS", parent=self.HIV_agentSet, numerator=self.HIV_agentSet
+        self.hiv_aids_agents = AgentSet(
+            "AIDS", parent=self.hiv_agents, numerator=self.hiv_agents
         )
 
         # Drug use agent sets
-        self.drugUse_agentSet = AgentSet("DU", parent=self.All_agentSet)
-        self.DU_NonInj_agentSet = AgentSet("NonInj", parent=self.drugUse_agentSet)
-        self.DU_Inj_agentSet = AgentSet("Inj", parent=self.drugUse_agentSet)
-        self.DU_None_agentSet = AgentSet("None", parent=self.drugUse_agentSet)
+        self.drug_use_agents = AgentSet("DU", parent=self.all_agents)
+        self.drug_use_noninj_agents = AgentSet(
+            "NonInj", parent=self.drug_use_agents
+        )  # TO_REVIEW not really used
+        self.drug_use_inj_agents = AgentSet("Inj", parent=self.drug_use_agents)
+        self.drug_use_none_agents = AgentSet(
+            "None", parent=self.drug_use_agents
+        )  # TO_REVIEW not really used
 
         # Treatment agent sets
-        self.treatment_agentSet = AgentSet("Trtmt", parent=self.All_agentSet)
-        self.Trt_Tstd_agentSet = AgentSet(
-            "Testd", parent=self.treatment_agentSet, numerator=self.HIV_agentSet
+        self.intervention_agents = AgentSet("Trtmt", parent=self.all_agents)
+        self.intervention_dx_agents = AgentSet(
+            "Testd", parent=self.intervention_agents, numerator=self.hiv_agents
         )
-        self.Trt_PrEP_agentSet = AgentSet("PrEP", parent=self.treatment_agentSet)
-        self.Trt_PrEPelig_agentSet = AgentSet(
-            "PrePelig", parent=self.treatment_agentSet
+        self.intervention_prep_agents = AgentSet(
+            "PrEP", parent=self.intervention_agents
         )
-        self.Trt_ART_agentSet = AgentSet(
-            "ART", parent=self.treatment_agentSet, numerator=self.HIV_agentSet
+        self.intervention_prep_eligible_agents = AgentSet(
+            "PrePelig", parent=self.intervention_agents
+        )  # TO_REVIEW not used anywhere
+        self.intervention_haart_agents = AgentSet(
+            "ART", parent=self.intervention_agents, numerator=self.hiv_agents
         )
 
         # Sexual orientation agent sets
-        self.SO_agentSet = AgentSet(
-            "SO", parent=self.All_agentSet, numerator=self.All_agentSet
+        self.sex_type_agents = AgentSet(
+            "SO", parent=self.all_agents, numerator=self.all_agents
         )
-        self.SO_HF_agentSet = AgentSet(
-            "HF", parent=self.SO_agentSet, numerator=self.SO_agentSet
+        self.sex_type_HF_agents = AgentSet(
+            "HF", parent=self.sex_type_agents, numerator=self.sex_type_agents
         )
-        self.SO_HM_agentSet = AgentSet(
-            "HM", parent=self.SO_agentSet, numerator=self.SO_agentSet
+        self.sex_type_HM_agents = AgentSet(
+            "HM", parent=self.sex_type_agents, numerator=self.sex_type_agents
         )
-        self.SO_MSM_agentSet = AgentSet(
-            "MSM", parent=self.SO_agentSet, numerator=self.SO_agentSet
+        self.sex_type_MSM_agents = AgentSet(
+            "MSM", parent=self.sex_type_agents, numerator=self.sex_type_agents
         )
-        self.SO_MTF_agentSet = AgentSet(
-            "MTF", parent=self.SO_agentSet, numerator=self.SO_agentSet
+        self.sex_type_MTF_agents = AgentSet(
+            "MTF", parent=self.sex_type_agents, numerator=self.sex_type_agents
         )
-
-        self.SO_WSW_agentSet = AgentSet(
-            "WSW", parent=self.SO_agentSet, numerator=self.SO_agentSet
+        self.sex_type_WSW_agents = AgentSet(
+            "WSW", parent=self.sex_type_agents, numerator=self.sex_type_agents
         )
 
         # Racial agent sets
-        self.racial_agentSet = AgentSet("Race", parent=self.All_agentSet)
-        self.Race_WHITE_agentSet = AgentSet("WHITE", parent=self.racial_agentSet)
-        self.Race_BLACK_agentSet = AgentSet("BLACK", parent=self.racial_agentSet)
+        self.race_agents = AgentSet("Race", parent=self.all_agents)
+        self.race_white_agents = AgentSet("WHITE", parent=self.race_agents)
+        self.race_black_agents = AgentSet("BLACK", parent=self.race_agents)
 
         # Incarcerated agent sets
-        self.incarcerated_agentSet = AgentSet("Incar", parent=self.All_agentSet)
+        self.incarcerated_agents = AgentSet("Incar", parent=self.all_agents)
 
         # High risk agent sets
-        self.highrisk_agentsSet = AgentSet("HRisk", parent=self.All_agentSet)
+        self.high_risk_agents = AgentSet("HRisk", parent=self.all_agents)
 
-        self.Relationships: List[Relationship] = []
+        self.relationships: List[Relationship] = []
 
         print("\tCreating agents")
 
@@ -129,7 +137,7 @@ class PopulationClass:
 
     def initialize_incarceration(self):
 
-        for a in self.All_agentSet.members:
+        for a in self.all_agents.members:
             jail_duration = self.params.demographics[a.race][a.so].incar.duration.init
 
             prob_incar = self.params.demographics[a.race][a.so].incar.init
@@ -145,7 +153,7 @@ class PopulationClass:
                 a.incar_time = self.pop_random.randrange(
                     jail_duration[bin].min, jail_duration[bin].max
                 )
-                self.incarcerated_agentSet.add_agent(a)
+                self.incarcerated_agents.add_agent(a)
 
     def create_agent(self, race: str, sex_type: str = "NULL") -> Agent:
         """
@@ -231,7 +239,8 @@ class PopulationClass:
 
         # Check if agent is HR as baseline.
         if (
-            self.pop_random.random()
+            self.params.features.high_risk
+            and self.pop_random.random()
             < self.params.demographics[race][sex_type].high_risk.init
         ):
             agent.high_risk = True
@@ -254,7 +263,7 @@ class PopulationClass:
             )
 
         if self.params.features.pca:
-            if self.pop_random.random() < self.params.prep.pca.awareness.starting:
+            if self.pop_random.random() < self.params.prep.pca.awareness.init:
                 agent.awareness = True
             attprob = self.pop_random.random()
             pvalue = 0.0
@@ -287,39 +296,39 @@ class PopulationClass:
                 target.subset[agent_param].add_agent(agent)
 
         # Add to all agent set
-        self.All_agentSet.add_agent(agent)
+        self.all_agents.add_agent(agent)
 
         # Add to correct SO set
-        add_to_subsets(self.SO_agentSet, agent, agent.so)
+        add_to_subsets(self.sex_type_agents, agent, agent.so)
 
         # Add to correct DU set
-        add_to_subsets(self.drugUse_agentSet, agent, agent.drug_use)
+        add_to_subsets(self.drug_use_agents, agent, agent.drug_use)
 
         # Add to correct racial set
-        add_to_subsets(self.racial_agentSet, agent, agent.race)
+        add_to_subsets(self.race_agents, agent, agent.race)
 
         if agent.hiv:
-            add_to_subsets(self.HIV_agentSet, agent)
+            add_to_subsets(self.hiv_agents, agent)
             if agent.aids:
-                add_to_subsets(self.HIV_AIDS_agentSet, agent)
+                add_to_subsets(self.hiv_aids_agents, agent)
 
         # Add to correct treatment set
         if agent.intervention_ever:
-            add_to_subsets(self.treatment_agentSet, agent)
+            add_to_subsets(self.intervention_agents, agent)
             if agent.haart:
-                add_to_subsets(self.Trt_ART_agentSet, agent)
+                add_to_subsets(self.intervention_haart_agents, agent)
 
         if agent.prep:
-            add_to_subsets(self.Trt_PrEP_agentSet, agent)
+            add_to_subsets(self.intervention_prep_agents, agent)
 
         if agent.hiv_dx:
-            add_to_subsets(self.Trt_Tstd_agentSet, agent)
+            add_to_subsets(self.intervention_dx_agents, agent)
 
         if agent.incar:
-            add_to_subsets(self.incarcerated_agentSet, agent)
+            add_to_subsets(self.incarcerated_agents, agent)
 
         if agent.high_risk:
-            add_to_subsets(self.highrisk_agentsSet, agent)
+            add_to_subsets(self.high_risk_agents, agent)
 
     def get_age(self, race: str):
         rand = self.pop_random.random()
@@ -340,8 +349,8 @@ class PopulationClass:
     # REVIEWED should these be in the network class? - max to incorporate with network/pop/model disentangling?
 
     def update_agent_partners(self, graph, agent: Agent) -> bool:
-        partner = get_partner(agent, self.All_agentSet, self.params)
-        noMatch = False
+        partner = get_partner(agent, self.all_agents, self.params)
+        no_match = False
 
         def bondtype(bond_dict):
             pvalue = 0.0
@@ -364,24 +373,24 @@ class PopulationClass:
 
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
 
-            self.Relationships.append(relationship)
+            self.relationships.append(relationship)
             graph.add_edge(
                 relationship.agent1, relationship.agent2, relationship=bond_type
             )
         else:
             graph.add_node(agent)
-            noMatch = True
+            no_match = True
 
-        return noMatch
+        return no_match
 
     def update_partner_assignments(self, graph):
         # Now create partnerships until available partnerships are out
-        eligible_agents = self.All_agentSet
+        eligible_agents = self.all_agents
         for agent in eligible_agents:
             # add agent to network
             graph.add_node(agent)
-            acquirePartnerProb = self.params.calibration.sex.partner * (
+            acquire_prob = self.params.calibration.sex.partner * (
                 agent.mean_num_partners / (12.0)
             )
-            if self.pop_random.random() < acquirePartnerProb:
+            if self.pop_random.random() < acquire_prob:
                 self.update_agent_partners(graph, agent)
