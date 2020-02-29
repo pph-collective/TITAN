@@ -14,8 +14,8 @@ import networkx as nx  # type: ignore
 
 
 from .agent import Agent_set, Agent, Relationship
-from .HIVABM_Population import PopulationClass
-# from .network_graph_tools import NetworkClass
+from .population_network import PopulationClass
+from .network_graph_tools import NetworkGraphUtils
 from . import analysis_output as ao
 from . import probabilities as prob
 from . import params  # type: ignore
@@ -122,6 +122,8 @@ class HIVModel():
 
         print("\tCreating network graph")
         self.population = population
+        self.network_tools = NetworkGraphUtils(population.nx_graph)
+        # self.population.create_graph_from_agents()
         # self.create_graph_from_agents(
         #     self.population.All_agentSet
         # )  # REVIEWED redundant with NetworkClass init? - review with max, logic feels scattered as NetworkClass also intializes a graph
@@ -148,8 +150,8 @@ class HIVModel():
 
         def get_components():
             return list(
-                self.G.subgraph(c).copy()
-                for c in nx.connected_components(self.G)
+                self.population.nx_graph.subgraph(c).copy()
+                for c in nx.connected_components(self.population.nx_graph)
                 if len(c) >= params.minComponentSize
             )
 
@@ -176,7 +178,7 @@ class HIVModel():
         def makeAgentZero(numPartners: int):
             firstHIV = self.runRandom.choice(self.DU_IDU_agentSet._members)
             for i in range(numPartners):
-                self.update_agent_partners(self.get_Graph(), firstHIV)
+                self.update_agent_partners(self.population.get_Graph(), firstHIV)
             self._become_HIV(firstHIV, 0)
 
         run_id = uuid.uuid4()
@@ -185,11 +187,12 @@ class HIVModel():
 
         print("\n === Begin Simulation Run ===")
         if params.drawFigures:  # REVIEW: is this ever used? seems deprecated
-            nNodes = self.G.number_of_nodes()
-            self.visualize_network(
+            nNodes = self.population.nx_graph.number_of_nodes()
+            self.network_tools.visualize_network(
                 coloring=params.drawFigureColor,
                 node_size=5000.0 / nNodes,
                 curtime=0,
+                txtboxLabel=self.population.HIV_agentSet.num_members(),
                 iterations=10,
                 label="Seed" + str(self.runseed),
             )
@@ -216,10 +219,11 @@ class HIVModel():
         for t in range(1, self.tmax + 1):
             print(f"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME {t}")
             if params.drawFigures and t % params.intermPrintFreq == 0:
-                self.visualize_network(
+                self.network_tools.visualize_network(
                     coloring=params.drawFigureColor,
                     node_size=5000.0 / nNodes,
                     curtime=t,
+                    txtboxLabel=self.population.HIV_agentSet.num_members(),
                     iterations=10,
                     label="Seed" + str(self.runseed),
                 )
@@ -227,10 +231,10 @@ class HIVModel():
 
             print(
                 "\tSTARTING HIV count:{}\tTotal Incarcerated:{}\tHR+:{}\tPrEP:{}".format(
-                    self.HIV_agentSet.num_members(),
-                    self.incarcerated_agentSet.num_members(),
-                    self.highrisk_agentsSet.num_members(),
-                    self.Trt_PrEP_agentSet.num_members(),
+                    self.population.HIV_agentSet.num_members(),
+                    self.population.incarcerated_agentSet.num_members(),
+                    self.population.highrisk_agentsSet.num_members(),
+                    self.population.Trt_PrEP_agentSet.num_members(),
                 )
             )
 
@@ -241,20 +245,20 @@ class HIVModel():
 
             stats[t] = ao.get_stats(
                 self.population.All_agentSet,
-                self.HIV_agentSet,
-                self.incarcerated_agentSet,
-                self.Trt_PrEP_agentSet,
+                self.population.HIV_agentSet,
+                self.population.incarcerated_agentSet,
+                self.population.Trt_PrEP_agentSet,
                 self.newPrEPagents,
                 self.NewInfections,
                 self.NewDiagnosis,
-                self.Relationships,
+                self.population.Relationships,
                 self.NewHRrolls,
                 self.NewIncarRelease,
                 self.deathSet,
             )
             print_stats(stats[t], run_id)
 
-            print(("Number of relationships: %d" % len(self.Relationships)))
+            print(("Number of relationships: %d" % len(self.population.Relationships)))
             self.population.All_agentSet.print_subsets()
 
             self.totalDiagnosis += len(self.NewDiagnosis._members)
@@ -326,15 +330,15 @@ class HIVModel():
             else:
                 if rel.progress():
                     # TODO: depricate g functions
-                    # g = self.get_Graph()
+                    # g = self.population.get_Graph()
                     # if g.has_edge(rel._ID1, rel._ID2):
                     #     g.remove_edge(rel._ID1, rel._ID2)
 
-                    self.Relationships.remove(rel)
+                    self.population.Relationships.remove(rel)
                     del rel
 
         if params.flag_high_risk:  # TODO: abstract this
-            for tmpA in self.highrisk_agentsSet.iter_agents():
+            for tmpA in self.population.highrisk_agentsSet.iter_agents():
                 if tmpA._highrisk_time > 0:
                     tmpA._highrisk_time -= 1
                     if (
@@ -349,7 +353,7 @@ class HIVModel():
                             if not (part._HIV_bool or part.vaccine_bool):
                                 self._initiate_PrEP(part, time)
                 else:
-                    self.highrisk_agentsSet.remove_agent(tmpA)
+                    self.population.highrisk_agentsSet.remove_agent(tmpA)
                     tmpA._highrisk_bool = False
 
                     if params.model == "Incar":  # TODO abstract this
@@ -401,8 +405,8 @@ class HIVModel():
         if params.flag_PrEP and time >= params.PrEP_startT:
             if "RandomTrial" in params.PrEP_target_model and time == params.PrEP_startT:
                 components = list(
-                    self.G.subgraph(c).copy()
-                    for c in nx.connected_components(self.G)
+                    self.population.nx_graph.subgraph(c).copy()
+                    for c in nx.connected_components(self.population.nx_graph)
                     if len(c) >= params.minComponentSize
                 )
                 totNods = 0
@@ -579,8 +583,8 @@ class HIVModel():
         def influence(agent, partner):
             agent_opinion = agent.opinion
             partner_opinion = partner.opinion
-            agent_influence = nx.closeness_centrality(self.get_Graph(), agent)
-            partner_influence = nx.closeness_centrality(self.get_Graph(), partner)
+            agent_influence = nx.closeness_centrality(self.population.get_Graph(), agent)
+            partner_influence = nx.closeness_centrality(self.population.get_Graph(), partner)
             if agent_influence > partner_influence:
                 partner.opinion = np.mean([agent.opinion, partner.opinion])
             elif agent_influence == partner_influence:
@@ -808,7 +812,7 @@ class HIVModel():
             agent._HIV_time = 1
             agent.vaccine_bool = False
             self.NewInfections.add_agent(agent)
-            self.HIV_agentSet.add_agent(agent)
+            self.population.HIV_agentSet.add_agent(agent)
             if agent._PrEP_time > 0:
                 if self.runRandom.random() < params.PrEP_resist:
                     agent._PrEPresistance = 1
@@ -829,8 +833,8 @@ class HIVModel():
 
     def _become_high_risk(self, agent: Agent, duration: int = None):
 
-        if agent not in self.highrisk_agentsSet._members:
-            self.highrisk_agentsSet.add_agent(agent)
+        if agent not in self.population.highrisk_agentsSet._members:
+            self.population.highrisk_agentsSet.add_agent(agent)
 
         if not agent._everhighrisk_bool:
             self.NewHRrolls.add_agent(agent)
@@ -866,7 +870,7 @@ class HIVModel():
             agent._incar_time -= 1
 
             if agent._incar_time == 0:  # FREE AGENT
-                self.incarcerated_agentSet.remove_agent(agent)
+                self.population.incarcerated_agentSet.remove_agent(agent)
                 self.NewIncarRelease.add_agent(agent)
                 agent._incar_bool = False
                 agent._ever_incar_bool = True
@@ -904,7 +908,7 @@ class HIVModel():
                             else:
                                 agent._HAART_bool = False
                                 agent._HAART_adh = 0
-                                self.Trt_ART_agentSet.remove_agent(agent)
+                                self.population.Trt_ART_agentSet.remove_agent(agent)
 
                             # END FORCE
 
@@ -949,11 +953,11 @@ class HIVModel():
                         agent._HAART_bool = True
                         agent._HAART_adh = adherence
                         agent._HAART_time = time
-                        self.Trt_ART_agentSet.add_agent(agent)
+                        self.population.Trt_ART_agentSet.add_agent(agent)
 
             agent._incar_bool = True
             agent._incar_time = timestay
-            self.incarcerated_agentSet.add_agent(agent)
+            self.population.incarcerated_agentSet.add_agent(agent)
 
             # PUT PARTNERS IN HIGH RISK
             for tmpA in agent._partners:
@@ -989,7 +993,7 @@ class HIVModel():
         def diagnose(agent):
             agent._tested = True
             self.NewDiagnosis.add_agent(agent)
-            self.Trt_Tstd_agentSet.add_agent(agent)
+            self.population.Trt_Tstd_agentSet.add_agent(agent)
             if (
                 params.setting == "Scott"
             ):  # TODO fix this logic; should get partnerTraced and then lose it after
@@ -1064,7 +1068,7 @@ class HIVModel():
                     agent._HAART_bool = True
                     agent._HAART_adh = adherence
                     agent._HAART_time = time
-                    self.Trt_ART_agentSet.add_agent(agent)
+                    self.population.Trt_ART_agentSet.add_agent(agent)
 
             # Go off HAART
             elif (
@@ -1076,7 +1080,7 @@ class HIVModel():
                     agent._HAART_bool = False
                     agent._HAART_adh = 0
                     agent._HAART_time = 0
-                    self.Trt_ART_agentSet.remove_agent(agent)
+                    self.population.Trt_ART_agentSet.remove_agent(agent)
 
     def _PrEP_eligible(
         self, agent: Agent, time: int
@@ -1154,7 +1158,7 @@ class HIVModel():
 
         # If force flag set, auto kick off prep.
         if force:
-            self.Trt_PrEP_agentSet.remove_agent(agent)
+            self.population.Trt_PrEP_agentSet.remove_agent(agent)
             self.PrEPagents[agent._race][agent._SO] -= 1
             agent._PrEP_bool = False
             agent._PrEP_reason = []
@@ -1170,7 +1174,7 @@ class HIVModel():
                 < params.DemographicParams[agent._race][agent._SO]["PrEPdisc"]
             ):
                 agent._PrEP_time = params.PrEP_falloutT
-                self.Trt_PrEP_agentSet.remove_agent(agent)
+                self.population.Trt_PrEP_agentSet.remove_agent(agent)
                 self.PrEPagents[agent._race][agent._SO] -= 1
 
                 if "Oral" in params.PrEP_type:
@@ -1246,7 +1250,7 @@ class HIVModel():
         def _enrollPrEP(self, agent: Agent):
             agent._PrEP_bool = True
             agent._PrEP_time = 0
-            self.Trt_PrEP_agentSet.add_agent(agent)
+            self.population.Trt_PrEP_agentSet.add_agent(agent)
             self.newPrEPagents.add_agent(agent)
 
             self.PrEPagents[agent._race][agent._SO] += 1
@@ -1299,7 +1303,7 @@ class HIVModel():
             if "Racial" in params.PrEP_target_model:
                 numPrEP_agents = sum(self.PrEPagents[agent_race].values())
             else:
-                numPrEP_agents = self.Trt_PrEP_agentSet.num_members()
+                numPrEP_agents = self.population.Trt_PrEP_agentSet.num_members()
 
             if (
                 params.PrEP_target_model == "Incar"
@@ -1404,7 +1408,7 @@ class HIVModel():
 
             if self.runRandom.random() < p * params.cal_ProgAIDS:
                 agent._AIDS_bool = True
-                self.HIV_AIDS_agentSet.add_agent(agent)
+                self.population.HIV_AIDS_agentSet.add_agent(agent)
 
     def _die_and_replace(self):
 
@@ -1431,16 +1435,25 @@ class HIVModel():
                 for rel in agent._relationships:
                     rel.progress(forceKill=True)
 
-                    self.Relationships.remove(rel)
-
+                    self.population.Relationships.remove(rel)
+                # TODO: make a population delete agent function that will check the graph if exists
                 # Remove agent node and edges from network graph
-                self.get_Graph().remove_node(agent)
+                try:
+                    self.population.get_Graph().remove_node(agent)
+                except AttributeError:
+                    pass
 
         # replace stage
         for agent in self.deathSet:
             # Remove agent from agent class and sub-sets
             self.population.All_agentSet.remove_agent(agent)
 
-            new_agent = self.create_agent(agent._race, agent._SO)
-            self.add_agent_to_pop(new_agent)
-            self.get_Graph().add_node(new_agent)
+            new_agent = self.population.create_agent(agent._race, agent._SO)
+            # TODO: Migrate this under a single function, shouldnt have to make and add
+            self.population.add_agent_to_pop(new_agent)
+
+            # TODO: Add this under the above function to check
+            try:
+                self.population.get_Graph().add_node(new_agent)
+            except AttributeError:
+                pass

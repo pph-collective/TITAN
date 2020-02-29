@@ -1,6 +1,6 @@
 import pytest
 
-from titan.HIVABM_Population import *
+from titan.population_network import *
 from titan.agent import Agent
 from titan import params
 from titan.network_graph_tools import NetworkClass

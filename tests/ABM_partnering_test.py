@@ -2,7 +2,7 @@ import pytest
 
 from titan.ABM_partnering import *
 from titan.agent import Agent
-from titan.HIVABM_Population import PopulationClass
+from titan.population_network import PopulationClass
 
 
 @pytest.fixture
