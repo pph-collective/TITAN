@@ -98,7 +98,9 @@ class PopulationClass:
             raise ValueError("Population size must be integer")
         else:
             self.PopulationSize = n  # REVIWED PopulationSize not really used and is calculable - needed? - nope
-        self.nx_graph = None
+
+        # Create a generic networkx graph
+        self.nx_graph = nx.Graph()
         # Parameters
         self.numWhite = round(
             params.DemographicParams["WHITE"]["ALL"]["Proportion"] * self.PopulationSize
@@ -571,7 +573,7 @@ class PopulationClass:
 
             # Trimming components currently uses nx subgraphs, and thus requres nx graph object.
             # If the nx_graph has not been built, build it now
-            if self.nx_graph is None:
+            if nx.is_empty(self.nx_graph):
                 self.create_graph_from_agents()
 
             for i in range(30):
@@ -603,7 +605,6 @@ class PopulationClass:
 
     def create_graph_from_agents(self):
         # Create a networkx graph object from current agents
-        self.nx_graph = nx.Graph()
         numAdded = 0
         for tmpA in self.All_agentSet.iter_agents():
             numAdded += 1

@@ -120,14 +120,10 @@ class HIVModel:
         print("\tResetting death count")
         self.deathSet: List[Agent] = []  # Number of death
 
-        print("\tCreating network graph")
+        print("\tCreating population and network")
         self.population = population
         self.network_tools = NetworkGraphUtils(population.nx_graph)
-        # self.population.create_graph_from_agents()
-        # self.create_graph_from_agents(
-        #     self.population.All_agentSet
-        # )  # REVIEWED redundant with NetworkClass init? - review with max, logic feels scattered as NetworkClass also intializes a graph
-
+        
         print("\n === Initialization Protocol Finished ===")
 
     def run(self):
@@ -176,9 +172,9 @@ class HIVModel:
             print(" === Simulation Burn Complete ===")
 
         def makeAgentZero(numPartners: int):
-            firstHIV = self.runRandom.choice(self.DU_IDU_agentSet._members)
+            firstHIV = self.runRandom.choice(self.population.DU_IDU_agentSet._members)
             for i in range(numPartners):
-                self.update_agent_partners(self.population.get_Graph(), firstHIV)
+                self.population.update_agent_partners(self.population.get_Graph(), firstHIV)
             self._become_HIV(firstHIV, 0)
 
         run_id = uuid.uuid4()
