@@ -83,7 +83,9 @@ class PopulationClass:
         :py:meth:`get_info_DrugSexType`
     """
 
-    def __init__(self, n: int = 10000, pop_seed: int = 0, net_seed: int = 0, model: str = None):
+    def __init__(
+        self, n: int = 10000, pop_seed: int = 0, net_seed: int = 0, model: str = None
+    ):
         """
         :Purpose:
             Initialize PopulationClass object.
@@ -492,7 +494,9 @@ class PopulationClass:
 
             self.Relationships.append(relationship)
             if graph:
-                graph.add_edge(relationship._ID1, relationship._ID2, relationship=bond_type)
+                graph.add_edge(
+                    relationship._ID1, relationship._ID2, relationship=bond_type
+                )
         else:
             if graph:
                 graph.add_node(agent)
@@ -536,6 +540,7 @@ class PopulationClass:
                 self.update_partner_assignments(params.PARTNERTURNOVER, self.nx_graph)
 
         elif network_type == "max_k_comp_size":
+
             def trimComponent(component, maxComponentSize):
                 for ag in component.nodes:
                     if self.net_random.random() < 0.1:
@@ -548,7 +553,8 @@ class PopulationClass:
                             self.nx_graph.remove_edge(rel._ID1, rel._ID2)
 
                 comps = list(
-                    self.nx_graph.subgraph(c).copy() for c in nx.connected_components(self.nx_graph)
+                    self.nx_graph.subgraph(c).copy()
+                    for c in nx.connected_components(self.nx_graph)
                 )
                 totNods = 0
                 for component in comps:
@@ -571,7 +577,8 @@ class PopulationClass:
             for i in range(30):
                 self.update_partner_assignments(params.PARTNERTURNOVER, self.nx_graph)
             components = list(
-                self.nx_graph.subgraph(c).copy() for c in nx.connected_components(self.nx_graph)
+                self.nx_graph.subgraph(c).copy()
+                for c in nx.connected_components(self.nx_graph)
             )
 
             for comp in components:

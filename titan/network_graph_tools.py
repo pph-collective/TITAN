@@ -9,11 +9,8 @@ import matplotlib.patches as patches  # type: ignore
 from . import params  # type: ignore
 
 
-class NetworkGraphUtils():
-    def __init__(
-        self,
-        graph: nx.Graph
-    ):
+class NetworkGraphUtils:
+    def __init__(self, graph: nx.Graph):
         """
         :Purpose:
             This is the base class used to gather statistics from an exsting networkx graph object.

@@ -22,7 +22,7 @@ from . import params  # type: ignore
 from .ABM_partnering import sex_possible
 
 
-class HIVModel():
+class HIVModel:
     """
     :Purpose:
         This is the core class used to simulate
@@ -315,7 +315,9 @@ class HIVModel():
             none
         """
         if time > 0 and not params.flag_staticN:
-            self.population.update_partner_assignments(params.PARTNERTURNOVER, self.population.get_Graph())
+            self.population.update_partner_assignments(
+                params.PARTNERTURNOVER, self.population.get_Graph()
+            )
 
         for rel in self.population.Relationships:
             # If in burn, ignore interactions
@@ -583,8 +585,12 @@ class HIVModel():
         def influence(agent, partner):
             agent_opinion = agent.opinion
             partner_opinion = partner.opinion
-            agent_influence = nx.closeness_centrality(self.population.get_Graph(), agent)
-            partner_influence = nx.closeness_centrality(self.population.get_Graph(), partner)
+            agent_influence = nx.closeness_centrality(
+                self.population.get_Graph(), agent
+            )
+            partner_influence = nx.closeness_centrality(
+                self.population.get_Graph(), partner
+            )
             if agent_influence > partner_influence:
                 partner.opinion = np.mean([agent.opinion, partner.opinion])
             elif agent_influence == partner_influence:
@@ -1313,10 +1319,14 @@ class HIVModel():
                     _enrollPrEP(self, agent)
                 return None
             elif "Racial" in params.PrEP_target_model:
-                all_HIV_agents = set(self.population.All_agentSet._subset["HIV"]._members)
+                all_HIV_agents = set(
+                    self.population.All_agentSet._subset["HIV"]._members
+                )
 
                 all_race = set(
-                    self.population.All_agentSet._subset["Race"]._subset[agent._race]._members
+                    self.population.All_agentSet._subset["Race"]
+                    ._subset[agent._race]
+                    ._members
                 )
                 HIV_agents = len(all_HIV_agents & all_race)
                 target_PrEP = (
