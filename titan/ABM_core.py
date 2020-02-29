@@ -123,7 +123,7 @@ class HIVModel:
         print("\tCreating population and network")
         self.population = population
         self.network_tools = NetworkGraphUtils(population.nx_graph)
-        
+
         print("\n === Initialization Protocol Finished ===")
 
     def run(self):
@@ -174,7 +174,9 @@ class HIVModel:
         def makeAgentZero(numPartners: int):
             firstHIV = self.runRandom.choice(self.population.DU_IDU_agentSet._members)
             for i in range(numPartners):
-                self.population.update_agent_partners(self.population.get_Graph(), firstHIV)
+                self.population.update_agent_partners(
+                    self.population.get_Graph(), firstHIV
+                )
             self._become_HIV(firstHIV, 0)
 
         run_id = uuid.uuid4()
