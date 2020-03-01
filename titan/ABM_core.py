@@ -165,7 +165,7 @@ class HIVModel:
             firstHIV = self.runRandom.choice(self.population.DU_IDU_agentSet._members)
             for i in range(numPartners):
                 self.population.update_agent_partners(
-                    self.population.get_Graph(), firstHIV
+                    firstHIV, self.population.enable_nx_graph
                 )
             self._become_HIV(firstHIV, 0)
 
