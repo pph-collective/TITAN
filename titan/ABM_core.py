@@ -304,7 +304,7 @@ class HIVModel:
         """
         if time > 0 and not params.flag_staticN:
             self.population.update_partner_assignments(
-                params.PARTNERTURNOVER, self.population.get_Graph()
+                params.PARTNERTURNOVER, self.population.enable_nx_graph
             )
 
         for rel in self.population.Relationships:
@@ -1442,11 +1442,5 @@ class HIVModel:
             self.population.All_agentSet.remove_agent(agent)
 
             new_agent = self.population.create_agent(agent._race, agent._SO)
-            # TODO: Migrate this under a single function, shouldnt have to make and add
+            # Add agent to population sets and to nx_graph if population has enable_nx_graph set
             self.population.add_agent_to_pop(new_agent, update_nx=True)
-
-            # TODO: Add this under the above function to check
-            try:
-                self.population.get_Graph().add_node(new_agent)
-            except AttributeError:
-                pass

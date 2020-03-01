@@ -373,10 +373,8 @@ class PopulationClass:
     def add_agent_to_pop(self, agent: Agent, update_nx: bool = False):
         """
         :Purpose:
-            Create a new agent in the population.
-                Each agent is a key to an associated dictionary which stores the internal
-                characteristics in form of an additinoal dictionary of the form
-                ``characteristic:value``.
+            Adds the agent to the appropriate agent sets for the population. Also adds the 
+            agent to  the networkX graph if enable_nx_graph PopulationClass bool is set.
 
         :Input:
             agent : Agent
@@ -650,7 +648,11 @@ class PopulationClass:
             raise ValueError("Invalid network type! %s" % str(network_type))
 
     def create_graph_from_agents(self):
-        # Fill networkx graph object with current agents
+        """
+        :Purpose:
+            Adds all current population agents to networkX graph
+        """
+
         numAdded = 0
         for tmpA in self.All_agentSet.iter_agents():
             numAdded += 1
@@ -672,7 +674,7 @@ class PopulationClass:
 
         # If we plan to maintain the nx graph, return the nx_graph
         # TODO: Perhaps a param that is use NX or not?
-        if self.enable_nx_graph or force is True:
+        if (self.enable_nx_graph or force) is True:
             return self.nx_graph
         else:
             return None

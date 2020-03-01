@@ -6,8 +6,16 @@ from . import params
 
 
 class Agent:
-    "Class for agent objects."
+    """
+    :Purpose:
+        This class constructs and represents an agent within the population
 
+    :Input:
+        SO : str - Sexual orientation flag (HM, HF, MSM)
+        age : int - Agents initialization age
+        race : str - Race of agent
+        DU : str - Drug use flag (IDU, NIDU, NDU)
+    """
     # class variable for agent creation
     next_agent_id = 0
 
