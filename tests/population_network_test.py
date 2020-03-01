@@ -3,6 +3,8 @@ from titan.population_network import PopulationClass
 from titan.agent import Agent
 from titan import params
 
+n_pop = 100
+
 
 @pytest.fixture
 def make_agent():
@@ -14,8 +16,8 @@ def make_agent():
 
 @pytest.fixture
 def make_population():
-    def _make_population(n=100):
-        return PopulationClass(n, 0, "PrEP", enable_nx_graph=True)
+    def _make_population(n=n_pop):
+        return PopulationClass(n, 0, None, enable_nx_graph=True)
 
     return _make_population
 
@@ -190,26 +192,26 @@ def test_update_agent_partners_no_match(make_population):
 
 
 def test_update_agent_partners_match(make_population):
-    pop = make_population(n=0, enable_nx_graph=True)
+    # pop = make_population(n=0)
+    pop = PopulationClass(n=0, enable_nx_graph=True)
     a = pop.create_agent("WHITE", "MSM")
     p = pop.create_agent("WHITE", "MSM")
-    pop.add_agent_to_pop(a)
-    pop.add_agent_to_pop(p)
+    pop.add_agent_to_pop(a, update_nx=True)
+    pop.add_agent_to_pop(p, update_nx=True)
 
-    assert pop.update_agent_partners(pop.nx_graph, a) is False  # noMatch == False
+    assert pop.update_agent_partners(a, update_nx=True) is False  # noMatch == False
     assert a in pop.nx_graph.nodes()
     assert p in pop.nx_graph.nodes()
     assert len(pop.nx_graph.edges()) == 1
 
 
 def test_update_partner_assignments_match(make_population):
-    pop = PopulationClass(n=0, enable_nx_graph=True)
+    pop = make_population(n=0)
     a = pop.create_agent("WHITE", "MSM")
     p = pop.create_agent("WHITE", "MSM")
-    pop.add_agent_to_pop(a)
-    pop.add_agent_to_pop(p)
-
-    pop.update_partner_assignments(100.0, pop.nx_graph) is False  # noMatch == False
+    pop.add_agent_to_pop(a, update_nx=True)
+    pop.add_agent_to_pop(p, update_nx=True)
+    pop.update_partner_assignments(100.0, update_nx=True) is True  # noMatch == False
     assert a in pop.nx_graph.nodes()
     assert p in pop.nx_graph.nodes()
     assert len(pop.nx_graph.edges()) == 1
@@ -219,10 +221,73 @@ def test_update_partner_assignments_no_match(make_population):
     pop = PopulationClass(n=0, enable_nx_graph=True)
     a = pop.create_agent("WHITE", "MSM")
     p = pop.create_agent("WHITE", "MSM")
-    pop.add_agent_to_pop(a)
-    pop.add_agent_to_pop(p)
+    pop.add_agent_to_pop(a, update_nx=True)
+    pop.add_agent_to_pop(p, update_nx=True)
 
     pop.update_partner_assignments(0.0, pop.nx_graph) is False  # noMatch == False
     assert a in pop.nx_graph.nodes()
     assert p in pop.nx_graph.nodes()
     assert len(pop.nx_graph.edges()) == 0
+
+
+def test_network_init_scale_free(make_population):
+    """Test if all non-IDU,ND,NIDU agents are in the population"""
+    net = make_population()
+    assert n_pop == net.All_agentSet.num_members()
+
+    for agent in net.All_agentSet.get_agents():
+        assert agent in net.nx_graph.nodes()
+
+    for agent in net.All_agentSet.get_agents():
+        assert agent._DU in ["IDU", "NIDU", "NDU"]
+        assert agent._SO in params.agentSexTypes
+
+    assert net.get_Graph() == net.nx_graph
+
+
+def test_network_init_max_k(make_population):
+    """Test if all non-IDU,ND,NIDU agents are in the population"""
+    net = make_population()
+    net.create_network(network_type="max_k_comp_size")
+    assert n_pop == net.All_agentSet.num_members()
+
+    for agent in net.All_agentSet.get_agents():
+        assert agent in net.nx_graph.nodes()
+
+    for agent in net.All_agentSet.get_agents():
+        assert agent._DU in ["IDU", "NIDU", "NDU"]
+        assert agent._SO in params.agentSexTypes
+
+
+def test_population_consistency_DU(make_population):
+    """Test if Drug users add up"""
+    net = make_population()
+    check_sum_DU = (
+        net.DU_IDU_agentSet.num_members()
+        + net.DU_NIDU_agentSet.num_members()
+        + net.DU_NDU_agentSet.num_members()
+    )
+
+    assert net.drugUse_agentSet.num_members() == check_sum_DU
+    assert net.PopulationSize == check_sum_DU
+
+
+def test_population_consistency_HIV(make_population):
+    """Test HIV consistency"""
+    net = make_population()
+    for agent in net.All_agentSet.get_agents():
+        if agent._HIV_bool:
+            assert agent in net.HIV_agentSet.get_agents()
+
+    for agent in net.HIV_agentSet.get_agents():
+        assert agent._HIV_bool
+
+
+def test_create_graph_from_agents(make_agent):
+    net = PopulationClass(n=n_pop)
+
+    assert net.nx_graph.number_of_nodes() == 0
+
+    net.create_graph_from_agents()
+
+    assert net.nx_graph.number_of_nodes() == n_pop

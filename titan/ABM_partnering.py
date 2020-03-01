@@ -170,6 +170,12 @@ def get_random_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
     eligPtnType = params.DemographicParams[agent._race][agent._SO]["EligSE_PartnerType"]
     elig_partner_pool = all_agent_set._subset["SO"]._subset[eligPtnType]._members
 
+    # TODO: This was added to prevent the test_update_agent_partners_match test in
+    # population_network_test.py as it was trying to partner with itself sometimes!
+    try:
+        elig_partner_pool.remove(agent)
+    except:
+        pass
     RandomPartner = safe_random_choice(elig_partner_pool)
 
     if (RandomPartner in agent._partners) or (RandomPartner == agent):

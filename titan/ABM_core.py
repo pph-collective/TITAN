@@ -112,7 +112,7 @@ class HIVModel:
 
         print("\tCreating population and network")
         self.population = population
-        self.network_tools = NetworkGraphUtils(population.nx_graph)
+        self.network_tools = NetworkGraphUtils(self.population.nx_graph)
 
         print("\n === Initialization Protocol Finished ===")
 
@@ -1443,7 +1443,7 @@ class HIVModel:
 
             new_agent = self.population.create_agent(agent._race, agent._SO)
             # TODO: Migrate this under a single function, shouldnt have to make and add
-            self.population.add_agent_to_pop(new_agent)
+            self.population.add_agent_to_pop(new_agent, update_nx=True)
 
             # TODO: Add this under the above function to check
             try:

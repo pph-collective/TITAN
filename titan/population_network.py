@@ -370,7 +370,7 @@ class PopulationClass:
 
         return newAgent
 
-    def add_agent_to_pop(self, agent: Agent):
+    def add_agent_to_pop(self, agent: Agent, update_nx: bool = False):
         """
         :Purpose:
             Create a new agent in the population.
@@ -379,10 +379,10 @@ class PopulationClass:
                 ``characteristic:value``.
 
         :Input:
-            agent : int
-
-            Deliminator : str currently race
-
+            agent : Agent
+                Agent object to be created.
+            update_nx : bool
+                Boolean to determne if agent should be added to networkX graph. Default : False
         """
 
         def addToSubsets(targetSet, agent, agentParam=None):
@@ -427,6 +427,10 @@ class PopulationClass:
 
         if agent._highrisk_bool:
             addToSubsets(self.highrisk_agentsSet, agent)
+
+        # If update_nx bool is set, add this agent to the networkX graph
+        if (update_nx is True) and (self.enable_nx_graph is True):
+            self.nx_graph.add_node(agent)
 
     def get_age(self, race: str):
         rand = self.popRandom.random()
@@ -524,6 +528,7 @@ class PopulationClass:
 
             self.Relationships.append(relationship)
             if update_nx is True:
+                print("Adding rel to graph")
                 self.nx_graph.add_edge(
                     relationship._ID1, relationship._ID2, relationship=bond_type
                 )
