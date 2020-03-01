@@ -19,6 +19,7 @@ from .network_graph_tools import NetworkGraphUtils
 from . import analysis_output as ao
 from . import probabilities as prob
 from . import params  # type: ignore
+from .utils import get_check_rand_int, safe_divide
 from .ABM_partnering import sex_possible
 
 
@@ -78,17 +79,6 @@ class HIVModel:
             raise ValueError("Number of time steps must be integer")
         else:
             self.tmax = tmax
-
-        def get_check_rand_int(seed):
-            """
-            Check the value passed of a seed, make sure it's an int, if 0, get a random seed
-            """
-            if type(seed) is not int:
-                raise ValueError("Random seed must be integer")
-            elif seed == 0:
-                return random.randint(1, 1000000)
-            else:
-                return seed
 
         self.runseed = get_check_rand_int(runseed)
         self.popseed = get_check_rand_int(popseed)
@@ -188,7 +178,7 @@ class HIVModel:
             nNodes = self.population.nx_graph.number_of_nodes()
             self.network_tools.visualize_network(
                 coloring=params.drawFigureColor,
-                node_size=5000.0 / nNodes,
+                node_size=safe_divide(5000, nNodes),
                 curtime=0,
                 txtboxLabel=self.population.HIV_agentSet.num_members(),
                 iterations=10,
@@ -219,7 +209,7 @@ class HIVModel:
             if params.drawFigures and t % params.intermPrintFreq == 0:
                 self.network_tools.visualize_network(
                     coloring=params.drawFigureColor,
-                    node_size=5000.0 / nNodes,
+                    node_size=safe_divide(5000, nNodes),
                     curtime=t,
                     txtboxLabel=self.population.HIV_agentSet.num_members(),
                     iterations=10,
@@ -864,11 +854,6 @@ class HIVModel:
 
         """
         hiv_bool = agent._HIV_bool
-        tested = agent._tested
-        incar_t = agent._incar_time
-        incar_bool = agent._incar_bool
-        haart_bool = agent._HAART_bool
-        recidivism = params.inc_Recidivism
 
         if agent._incar_bool:
             agent._incar_time -= 1

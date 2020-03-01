@@ -6,8 +6,6 @@ from networkx.drawing.nx_agraph import graphviz_layout  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 import matplotlib.patches as patches  # type: ignore
 
-from . import params  # type: ignore
-
 
 class NetworkGraphUtils:
     def __init__(self, graph: nx.Graph):

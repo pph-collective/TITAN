@@ -1,9 +1,7 @@
 import pytest
-
-from titan.population_network import *
+from titan.population_network import PopulationClass
 from titan.agent import Agent
 from titan import params
-from titan.network_graph_tools import NetworkClass
 
 
 @pytest.fixture
@@ -17,7 +15,7 @@ def make_agent():
 @pytest.fixture
 def make_population():
     def _make_population(n=100):
-        return PopulationClass(n, 0, "PrEP")
+        return PopulationClass(n, 0, "PrEP", enable_nx_graph=True)
 
     return _make_population
 
@@ -182,55 +180,49 @@ def test_get_age(make_population):
 
 
 def test_update_agent_partners_no_match(make_population):
-    pop = make_population(n=1)
-    net = NetworkClass(N=0)
+    pop = PopulationClass(n=1, enable_nx_graph=True)
+    G = pop.get_Graph()
 
     agent = pop.All_agentSet._members[0]  # the only agent in the pop
 
-    assert pop.update_agent_partners(net.G, agent)  # noMatch == True
-    assert agent in net.G.nodes()
+    assert pop.update_agent_partners(agent)  # noMatch == True
+    assert agent in G.nodes()
 
 
 def test_update_agent_partners_match(make_population):
-    pop = make_population(n=0)
+    pop = make_population(n=0, enable_nx_graph=True)
     a = pop.create_agent("WHITE", "MSM")
     p = pop.create_agent("WHITE", "MSM")
     pop.add_agent_to_pop(a)
     pop.add_agent_to_pop(p)
 
-    net = NetworkClass(N=0)
-
-    assert pop.update_agent_partners(net.G, a) is False  # noMatch == False
-    assert a in net.G.nodes()
-    assert p in net.G.nodes()
-    assert len(net.G.edges()) == 1
+    assert pop.update_agent_partners(pop.nx_graph, a) is False  # noMatch == False
+    assert a in pop.nx_graph.nodes()
+    assert p in pop.nx_graph.nodes()
+    assert len(pop.nx_graph.edges()) == 1
 
 
 def test_update_partner_assignments_match(make_population):
-    pop = make_population(n=0)
+    pop = PopulationClass(n=0, enable_nx_graph=True)
     a = pop.create_agent("WHITE", "MSM")
     p = pop.create_agent("WHITE", "MSM")
     pop.add_agent_to_pop(a)
     pop.add_agent_to_pop(p)
 
-    net = NetworkClass(N=0)
-
-    pop.update_partner_assignments(100.0, net.G) is False  # noMatch == False
-    assert a in net.G.nodes()
-    assert p in net.G.nodes()
-    assert len(net.G.edges()) == 1
+    pop.update_partner_assignments(100.0, pop.nx_graph) is False  # noMatch == False
+    assert a in pop.nx_graph.nodes()
+    assert p in pop.nx_graph.nodes()
+    assert len(pop.nx_graph.edges()) == 1
 
 
 def test_update_partner_assignments_no_match(make_population):
-    pop = make_population(n=0)
+    pop = PopulationClass(n=0, enable_nx_graph=True)
     a = pop.create_agent("WHITE", "MSM")
     p = pop.create_agent("WHITE", "MSM")
     pop.add_agent_to_pop(a)
     pop.add_agent_to_pop(p)
 
-    net = NetworkClass(N=0)
-
-    pop.update_partner_assignments(0.0, net.G) is False  # noMatch == False
-    assert a in net.G.nodes()
-    assert p in net.G.nodes()
-    assert len(net.G.edges()) == 0
+    pop.update_partner_assignments(0.0, pop.nx_graph) is False  # noMatch == False
+    assert a in pop.nx_graph.nodes()
+    assert p in pop.nx_graph.nodes()
+    assert len(pop.nx_graph.edges()) == 0

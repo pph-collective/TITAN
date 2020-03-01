@@ -3,11 +3,12 @@
 
 # Imports
 import random
-from typing import Sequence, List, Dict, Optional, TypeVar
+from typing import Optional
 
 from . import params  # type: ignore
 from . import probabilities as prob
 from .agent import Agent, Agent_set
+from .utils import safe_random_choice
 
 
 def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
@@ -290,16 +291,3 @@ def get_partnership_duration(agent: Agent) -> int:
         )
 
     return duration
-
-
-T = TypeVar("T")
-
-
-def safe_random_choice(seq: Sequence[T]) -> Optional[T]:
-    """
-    Return None or a random choice
-    """
-    if seq:
-        return random.choice(seq)
-    else:
-        return None

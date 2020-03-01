@@ -1,6 +1,6 @@
 __author__ = "MaximilianKing"
 
-from typing import Sequence, List, Dict, Optional, Any
+from typing import Dict, Any
 from copy import deepcopy
 
 """
@@ -18,7 +18,7 @@ rSeed_run = 0
 N_MC = 1  # total number of iterations (Monte Carlo runs)
 N_REPS = 1
 N_POP = 100  # population size
-TIME_RANGE = 120  # total time steps to iterate
+TIME_RANGE = 12  # total time steps to iterate
 burnDuration = 6  # total time for burning in period (equillibration)
 model = "Custom"  # Model Type for fast flag toggling
 setting = "Phil2005"
