@@ -87,7 +87,11 @@ class PopulationClass:
     """
 
     def __init__(
-        self, n: int = 10000, pop_seed: int = 0, model: str = None, enable_nx_graph: bool = False
+        self,
+        n: int = 10000,
+        pop_seed: int = 0,
+        model: str = None,
+        enable_nx_graph: bool = False,
     ):
         """
         :Purpose:
@@ -528,7 +532,9 @@ class PopulationClass:
 
         return noMatch
 
-    def update_partner_assignments(self, partnerTurnover: float, update_nx: bool = False):
+    def update_partner_assignments(
+        self, partnerTurnover: float, update_nx: bool = False
+    ):
         """
         :Purpose:
             Determines which agents will seek new partners from All_agentSet.
@@ -572,7 +578,9 @@ class PopulationClass:
 
         if network_type == "scale_free":
             for i in range(10):
-                self.update_partner_assignments(params.PARTNERTURNOVER, self.enable_nx_graph)
+                self.update_partner_assignments(
+                    params.PARTNERTURNOVER, self.enable_nx_graph
+                )
 
         elif network_type == "max_k_comp_size":
 

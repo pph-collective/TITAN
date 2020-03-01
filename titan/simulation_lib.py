@@ -70,10 +70,14 @@ def simulation(
         )
 
         # Build population (later can allow importing pops)
-        abm_population = PopulationClass(n=N_pop, pop_seed=popSeed, enable_nx_graph=params.drawFigures)
+        abm_population = PopulationClass(
+            n=N_pop, pop_seed=popSeed, enable_nx_graph=params.drawFigures
+        )
 
         # Build the network from the abm_population (following network type and ABM partnering)
-        abm_population.create_network(net_seed=netSeed, network_type=params.network_type)
+        abm_population.create_network(
+            net_seed=netSeed, network_type=params.network_type
+        )
 
         # Build model and run
         abm_model = HIVModel(
