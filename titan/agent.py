@@ -16,6 +16,7 @@ class Agent:
         race : str - Race of agent
         DU : str - Drug use flag (IDU, NIDU, NDU)
     """
+
     # class variable for agent creation
     next_agent_id = 0
 
