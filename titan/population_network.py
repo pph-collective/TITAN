@@ -6,6 +6,7 @@ from random import Random
 from typing import List, Dict, Any
 from scipy.stats import poisson  # type: ignore
 import numpy as np  # type: ignore
+import networkx as nx  # type: ignore
 
 from .agent import Agent_set, Agent, Relationship
 from .ABM_partnering import get_partner, get_partnership_duration
@@ -19,13 +20,16 @@ class PopulationClass:
         This class constructs and represents the model population
 
     :Input:
-
         n : int
             Number of agents. Default: 10000
 
-        r_seed : randomization seed
+        pop_seed : randomization seed
 
         model :str - one of "PrEP", "Incar", "NoIncar"
+
+        enable_nx_graph : bool
+            If networkX graph should enabled. If so, adds agents and relationship
+            edges to self.nx_graph object. Retrievable using getGraph(). Default: False
 
     :Attributes:
 
@@ -82,19 +86,33 @@ class PopulationClass:
         :py:meth:`get_info_DrugSexType`
     """
 
-    def __init__(self, n: int = 10000, rSeed: int = 0, model: str = None):
+    def __init__(
+        self,
+        n: int = 10000,
+        pop_seed: int = 0,
+        model: str = None,
+        enable_nx_graph: bool = False,
+    ):
         """
         :Purpose:
             Initialize PopulationClass object.
         """
-        # Init RNG for population creation to rSeed
-        self.popRandom = Random(rSeed)
-        np.random.seed(rSeed)
+        # Init RNG for population creation to pop_seed
+        self.popRandom = Random(pop_seed)
+        np.random.seed(pop_seed)
 
         if type(n) is not int:
             raise ValueError("Population size must be integer")
         else:
             self.PopulationSize = n  # REVIWED PopulationSize not really used and is calculable - needed? - nope
+
+        if type(enable_nx_graph) is not bool:
+            raise ValueError("NetworkX enabling must be a bool")
+        else:
+            self.enable_nx_graph = enable_nx_graph
+
+        # Create a generic networkx graph
+        self.nx_graph = nx.Graph()
 
         # Parameters
         self.numWhite = round(
@@ -189,6 +207,10 @@ class PopulationClass:
             self.add_agent_to_pop(agent)
 
         self.initialize_incarceration()
+        # If we are expecting to use networkx to draw figures, we need to maintain the
+        # networkX graph, and thus build self.nx_graph usng our agent list.
+        if self.enable_nx_graph is True:
+            self.create_graph_from_agents()
 
     def initialize_incarceration(self):
         jailDuration = prob.jail_duration()
@@ -348,19 +370,17 @@ class PopulationClass:
 
         return newAgent
 
-    def add_agent_to_pop(self, agent: Agent):
+    def add_agent_to_pop(self, agent: Agent, update_nx: bool = False):
         """
         :Purpose:
-            Creat a new agent in the population.
-                Each agent is a key to an associated dictionary which stores the internal
-                characteristics in form of an additinoal dictionary of the form
-                ``characteristic:value``.
+            Adds the agent to the appropriate agent sets for the population. Also adds the 
+            agent to  the networkX graph if enable_nx_graph PopulationClass bool is set.
 
         :Input:
-            agent : int
-
-            Deliminator : str currently race
-
+            agent : Agent
+                Agent object to be created.
+            update_nx : bool
+                Boolean to determne if agent should be added to networkX graph. Default : False
         """
 
         def addToSubsets(targetSet, agent, agentParam=None):
@@ -405,6 +425,10 @@ class PopulationClass:
 
         if agent._highrisk_bool:
             addToSubsets(self.highrisk_agentsSet, agent)
+
+        # If update_nx bool is set, add this agent to the networkX graph
+        if (update_nx is True) and (self.enable_nx_graph is True):
+            self.nx_graph.add_node(agent)
 
     def get_age(self, race: str):
         rand = self.popRandom.random()
@@ -457,8 +481,24 @@ class PopulationClass:
         age = self.popRandom.randrange(minAge, maxAge)
         return age, ageBin
 
-    # REVIEWED should these be in the network class? - max to incorporate with network/pop/model disentangling?
-    def update_agent_partners(self, graph, agent: Agent) -> bool:
+    def update_agent_partners(self, agent: Agent, update_nx: bool = False) -> bool:
+        """
+        :Purpose:
+            Finds and bonds new partner. Creates relationship object for partnership, calcs
+            partnership duration, and adds to networkX graph if update_nx is set True.
+
+        :Input:
+            agent : Agent
+            Agent that is seeking a new partner
+
+            update_nx : bool
+            Bool to determine if the networkX graph should be updated for new partnerships
+
+        :Returns:
+            noMatch : bool
+            Bool if no match was found for agent (used for retries)
+        """
+
         partner = get_partner(agent, self.All_agentSet)
         noMatch = False
         bond_type = "sexOnly"
@@ -485,13 +525,32 @@ class PopulationClass:
             relationship = Relationship(agent, partner, duration, rel_type=bond_type)
 
             self.Relationships.append(relationship)
-            graph.add_edge(relationship._ID1, relationship._ID2, relationship=bond_type)
+            if update_nx is True:
+                print("Adding rel to graph")
+                self.nx_graph.add_edge(
+                    relationship._ID1, relationship._ID2, relationship=bond_type
+                )
         else:
-            graph.add_node(agent)
             noMatch = True
+
         return noMatch
 
-    def update_partner_assignments(self, partnerTurnover: float, graph):
+    def update_partner_assignments(
+        self, partnerTurnover: float, update_nx: bool = False
+    ):
+        """
+        :Purpose:
+            Determines which agents will seek new partners from All_agentSet.
+            Calls update_agent_partners for any agents that desire partners.
+
+        :Input:
+            partnerTurnover : float
+            Value for determining if new partnership is needed
+            Scaled by cal_SexualPartScaling and agents mean_num_partners
+
+            update_nx : bool
+            Bool to determine if the networkX graph should be updated for new partnerships
+        """
         # Now create partnerships until available partnerships are out
         EligibleAgents = self.All_agentSet
         for agent in EligibleAgents.iter_agents():
@@ -501,6 +560,121 @@ class PopulationClass:
                 * (agent._mean_num_partners / (12.0))
             )
             if self.popRandom.random() < acquirePartnerProb:
-                self.update_agent_partners(graph, agent)
-            else:
-                graph.add_node(agent)
+                self.update_agent_partners(agent, update_nx)
+
+    def create_network(self, net_seed: int = 0, network_type: str = "scale_free"):
+        """
+        :Purpose:
+            This is the base class used to generate the social network
+            for the PopulationClass agent sets.
+
+        :Input:
+            net_seed : int
+            Random seed for network generation. Default: 0
+
+            network_type : str
+            String flag for type of network to build using different operatoins.
+            Default is "scale_free", other options are "max_k_comp_size" and "binomial"
+
+        """
+        self.net_random = Random(net_seed)
+
+        if network_type == "scale_free":
+            for i in range(10):
+                self.update_partner_assignments(
+                    params.PARTNERTURNOVER, self.enable_nx_graph
+                )
+
+        elif network_type == "max_k_comp_size":
+
+            def trimComponent(component, maxComponentSize):
+                for ag in component.nodes:
+                    if self.net_random.random() < 0.1:
+                        for rel in ag._relationships:
+                            if len(ag._relationships) == 1:
+                                break  # Make sure that agents stay part of the network by keeping one bond
+                            rel.progress(forceKill=True)
+                            self.Relationships.remove(rel)
+                            component.remove_edge(rel._ID1, rel._ID2)
+                            self.nx_graph.remove_edge(rel._ID1, rel._ID2)
+
+                comps = list(
+                    self.nx_graph.subgraph(c).copy()
+                    for c in nx.connected_components(self.nx_graph)
+                )
+                totNods = 0
+                for component in comps:
+                    cNodes = len(component)
+                    if cNodes > params.maxComponentSize:
+                        trimComponent(component, params.maxComponentSize)
+                    elif cNodes < params.minComponentSize:
+                        for a in component.nodes():
+                            if a in self.nx_graph:
+                                self.nx_graph.remove_node(a)
+
+                    else:
+                        totNods += cNodes
+
+            # Trimming components currently uses nx subgraphs, and thus requres nx graph object.
+            # If the nx_graph has not been built, build it now
+            if nx.is_empty(self.nx_graph):
+                self.create_graph_from_agents()
+
+            for i in range(30):
+                self.update_partner_assignments(params.PARTNERTURNOVER, update_nx=True)
+            components = list(
+                self.nx_graph.subgraph(c).copy()
+                for c in nx.connected_components(self.nx_graph)
+            )
+
+            for comp in components:
+                if (
+                    params.calcComponentStats
+                    and comp.number_of_nodes() > params.maxComponentSize
+                ):
+                    print("TOO BIG", comp, comp.number_of_nodes())
+                    trimComponent(comp, params.maxComponentSize)
+                elif (
+                    params.calcComponentStats
+                    and comp.number_of_nodes() < params.minComponentSize
+                ):  # REVIEWED what should happen if it's too small? - this should be addressed someday, but it's a
+                    # larger question than is advisable at the moment
+                    print("TOO SMALL", comp, comp.number_of_nodes())
+                    for a in comp.nodes():
+                        print(a)
+                        self.nx_graph.remove_node(a)
+
+        else:
+            raise ValueError("Invalid network type! %s" % str(network_type))
+
+    def create_graph_from_agents(self):
+        """
+        :Purpose:
+            Adds all current population agents to networkX graph
+        """
+
+        numAdded = 0
+        for tmpA in self.All_agentSet.iter_agents():
+            numAdded += 1
+            self.nx_graph.add_node(tmpA)
+        print("\tAdded %d/%d agents" % (numAdded, self.nx_graph.number_of_nodes()))
+
+    def get_Graph(self, force=False):
+        """
+        :Purpose:
+            Return networkx graph if enable_nx_graph or force bool is set.
+
+        :Input:
+            force : bool
+            Forces the return of the self.nx_graph object. Default: False
+
+        :Returns:
+            nx_graph : nx.Graph or None
+        """
+
+        # If we plan to maintain the nx graph, return the nx_graph
+        # TODO: Perhaps a param that is use NX or not?
+        if (self.enable_nx_graph or force) is True:
+            return self.nx_graph
+        else:
+            return None

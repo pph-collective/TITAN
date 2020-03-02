@@ -1,120 +1,29 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import random
-
-import numpy as np  # type: ignore
 import networkx as nx  # type: ignore
 from networkx.drawing.nx_agraph import graphviz_layout  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 import matplotlib.patches as patches  # type: ignore
 
-from .HIVABM_Population import PopulationClass
-from . import params  # type: ignore
-from .agent import Agent_set
 
-
-class NetworkClass(PopulationClass):
-    def __init__(
-        self,
-        N: int,
-        popSeed: int = 0,
-        netSeed: int = 0,
-        network_type: str = "scale_free",
-    ):
+class NetworkGraphUtils:
+    def __init__(self, graph: nx.Graph):
         """
         :Purpose:
-            This is the base class used to generate the social network
-            for the other agents, i.e. . The class inherits from the PopulationClass.
+            This is the base class used to gather statistics from an exsting networkx graph object.
 
         :Input:
-            N : int
-              Number of agents. Default: 10000
-
-            network_type: default is "scale_free", other options are "max_k_comp_size" and "binomial"
+            graph : nx.Graph
+              NetworkX graph object (typically attached to a Population self.nx_graph)
         """
-        random.seed(netSeed)
-        np.random.seed(netSeed)
-
-        if type(N) is not int:
-            raise ValueError(
-                "Population size must be integer,\
-                n = %s, not int"
-                % (type(N))
-            )
-        else:
-            pass
-
-        PopulationClass.__init__(self, n=N, rSeed=popSeed)  # Create population
-
-        # self.NetworkSize = N
-        if network_type == "scale_free":
-            self.G = nx.Graph()
-            for i in range(10):
-                self.update_partner_assignments(params.PARTNERTURNOVER, self.G)
-
-        elif network_type == "max_k_comp_size":
-
-            def trimComponent(component, maxComponentSize):
-                for ag in component.nodes:
-                    if random.random() < 0.1:
-                        for rel in ag._relationships:
-                            if len(ag._relationships) == 1:
-                                break  # Make sure that agents stay part of the network by keeping one bond
-                            rel.progress(forceKill=True)
-                            self.Relationships.remove(rel)
-                            component.remove_edge(rel._ID1, rel._ID2)
-                            self.G.remove_edge(rel._ID1, rel._ID2)
-
-                comps = list(
-                    self.G.subgraph(c).copy() for c in nx.connected_components(self.G)
-                )
-                totNods = 0
-                for component in comps:
-                    cNodes = len(component)
-                    if cNodes > params.maxComponentSize:
-                        trimComponent(component, params.maxComponentSize)
-                    elif cNodes < params.minComponentSize:
-                        for a in component.nodes():
-                            if a in self.G:
-                                self.G.remove_node(a)
-
-                    else:
-                        totNods += cNodes
-
-            self.G = nx.Graph()
-            for i in range(30):
-                self.update_partner_assignments(params.PARTNERTURNOVER, self.G)
-            components = list(
-                self.G.subgraph(c).copy() for c in nx.connected_components(self.G)
-            )
-
-            for comp in components:
-                if (
-                    params.calcComponentStats
-                    and comp.number_of_nodes() > params.maxComponentSize
-                ):
-                    print("TOO BIG", comp, comp.number_of_nodes())
-                    trimComponent(comp, params.maxComponentSize)
-                elif (
-                    params.calcComponentStats
-                    and comp.number_of_nodes() < params.minComponentSize
-                ):  # REVIEWED what should happen if it's too small? - this should be addressed someday, but it's a
-                    # larger question than is advisable at the moment
-                    print("TOO SMALL", comp, comp.number_of_nodes())
-                    for a in comp.nodes():
-                        print(a)
-                        self.G.remove_node(a)
-
-        else:
-            raise ValueError("Invalid network type! %s" % str(network_type))
+        self.G = graph
 
     def connected_components(self):
         return (self.G.subgraph(c).copy() for c in nx.connected_components(self.G))
 
     def write_G_edgelist(self, path: str):
-        G = self.get_Graph()
-        nx.write_edgelist(G, path, data=["relationship"], delimiter="\t")
+        nx.write_edgelist(self.G, path, data=["relationship"], delimiter="\t")
 
     def write_network_stats(
         self, t: int = 0, path: str = "results/network/networkStats.txt"
@@ -155,20 +64,6 @@ class NetworkClass(PopulationClass):
             "Average node clustering: {}\n".format(nx.average_clustering(self.G))
         )
         outfile.close()
-
-    def create_graph_from_agents(self, agents: Agent_set):
-        G = self.get_Graph()
-        numAdded = 0
-        for tmpA in agents.iter_agents():
-            numAdded += 1
-            G.add_node(tmpA)
-        print("\tAdded %d/%d agents" % (numAdded, G.number_of_nodes()))
-
-    def get_Graph(self):
-        """
-        Return random assortative graph produced by ``set_assortative_graph``.
-        """
-        return self.G
 
     def get_network_color(self, coloring):
         G = self.G
@@ -356,7 +251,7 @@ class NetworkClass(PopulationClass):
             bbox=props,
         )
 
-        filename = "images/%s_%d_%s_%d.png" % (
+        filename = "results/network/%s_%d_%s_%d.png" % (
             label,
             G.number_of_nodes(),
             coloring,

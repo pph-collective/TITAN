@@ -3,11 +3,12 @@
 
 # Imports
 import random
-from typing import Sequence, List, Dict, Optional, TypeVar
+from typing import Optional
 
 from . import params  # type: ignore
 from . import probabilities as prob
 from .agent import Agent, Agent_set
+from .utils import safe_random_choice
 
 
 def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
@@ -169,6 +170,12 @@ def get_random_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
     eligPtnType = params.DemographicParams[agent._race][agent._SO]["EligSE_PartnerType"]
     elig_partner_pool = all_agent_set._subset["SO"]._subset[eligPtnType]._members
 
+    # TODO: This was added to prevent the test_update_agent_partners_match test in
+    # population_network_test.py as it was trying to partner with itself sometimes!
+    try:
+        elig_partner_pool.remove(agent)
+    except:
+        pass
     RandomPartner = safe_random_choice(elig_partner_pool)
 
     if (RandomPartner in agent._partners) or (RandomPartner == agent):
@@ -290,16 +297,3 @@ def get_partnership_duration(agent: Agent) -> int:
         )
 
     return duration
-
-
-T = TypeVar("T")
-
-
-def safe_random_choice(seq: Sequence[T]) -> Optional[T]:
-    """
-    Return None or a random choice
-    """
-    if seq:
-        return random.choice(seq)
-    else:
-        return None

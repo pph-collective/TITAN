@@ -6,9 +6,9 @@ import os
 import shutil
 import networkx as nx
 
-from titan.analysis_output import *
+import titan.analysis_output as ao
 from titan import agent
-from titan.network_graph_tools import NetworkClass
+from titan.population_network import PopulationClass
 
 
 @pytest.fixture
@@ -46,7 +46,7 @@ def stats():
     IDU_set.add_agent(a)
     agent_list = [a]
     rel_list = [rel]
-    stats = get_stats(
+    stats = ao.get_stats(
         agent_set,
         agent_set,
         agent_set,
@@ -112,7 +112,7 @@ def test_get_stats(stats):
 def test_deathReport(stats, setup_results_dir):
     run_id = uuid.uuid4()
 
-    deathReport(run_id, 0, 1, 2, 3, stats)
+    ao.deathReport(run_id, 0, 1, 2, 3, stats)
 
     result_file = "results/DeathReport.txt"
     assert os.path.isfile(result_file)
@@ -131,7 +131,7 @@ def test_deathReport(stats, setup_results_dir):
 def test_incarReport(stats, setup_results_dir):
     run_id = uuid.uuid4()
 
-    incarReport(run_id, 0, 1, 2, 3, stats)
+    ao.incarReport(run_id, 0, 1, 2, 3, stats)
 
     result_file = "results/IncarReport.txt"
     assert os.path.isfile(result_file)
@@ -150,7 +150,7 @@ def test_incarReport(stats, setup_results_dir):
 def test_newlyhighriskReport(stats, setup_results_dir):
     run_id = uuid.uuid4()
 
-    newlyhighriskReport(run_id, 0, 1, 2, 3, stats)
+    ao.newlyhighriskReport(run_id, 0, 1, 2, 3, stats)
 
     result_file = "results/newlyHR_Report.txt"
     assert os.path.isfile(result_file)
@@ -169,7 +169,7 @@ def test_newlyhighriskReport(stats, setup_results_dir):
 def test_prepReport(stats, setup_results_dir):
     run_id = uuid.uuid4()
 
-    prepReport(run_id, 0, 1, 2, 3, stats)
+    ao.prepReport(run_id, 0, 1, 2, 3, stats)
 
     result_file = "results/PrEPReport.txt"
     assert os.path.isfile(result_file)
@@ -188,7 +188,7 @@ def test_prepReport(stats, setup_results_dir):
 def test_basicReport(stats, setup_results_dir):
     run_id = uuid.uuid4()
 
-    basicReport(run_id, 0, 1, 2, 3, stats)
+    ao.basicReport(run_id, 0, 1, 2, 3, stats)
 
     result_file = "results/basicReport_MSM_BLACK.txt"
     assert os.path.isfile(result_file)
@@ -239,11 +239,11 @@ def test_basicReport(stats, setup_results_dir):
 def test_print_components(stats, setup_results_dir):
     run_id = uuid.uuid4()
 
-    net = NetworkClass(N=1)
-    G = net.get_Graph()
+    pop = PopulationClass(n=1, enable_nx_graph=True)
+    G = pop.get_Graph()
     components = list(G.subgraph(c).copy() for c in nx.connected_components(G))
 
-    print_components(run_id, 0, 1, 2, 3, components)
+    ao.print_components(run_id, 0, 1, 2, 3, components)
 
     result_file = "results/componentReport_ALL.txt"
     assert os.path.isfile(result_file)

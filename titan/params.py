@@ -1,6 +1,6 @@
 __author__ = "MaximilianKing"
 
-from typing import Sequence, List, Dict, Optional, Any
+from typing import Dict, Any
 from copy import deepcopy
 
 """
@@ -38,6 +38,7 @@ MSMreport = True
 HMreport = False
 HFreport = False
 drawFigures = False
+drawFigureColor = "HIV"
 calcComponentStats = False
 flag_agentZero = False
 

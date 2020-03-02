@@ -7,6 +7,8 @@ from typing import Sequence, Dict, Any
 
 from titan import params
 from .ABM_core import HIVModel
+from .population_network import PopulationClass
+from .utils import safe_divide
 
 
 def initiate_result_dict(tmax: int) -> Dict[str, Dict[int, Sequence]]:
@@ -27,16 +29,6 @@ def initiate_result_dict(tmax: int) -> Dict[str, Dict[int, Sequence]]:
             d[key].update({t: []})
 
     return d
-
-
-def safe_divide(numerator: int, denominator: int):
-    """
-    Default 0 if denominator is 0, otherwise divide as normal
-    """
-    if denominator == 0:
-        return 0.0
-    else:
-        return 1.0 * numerator / denominator
 
 
 def stats_to_results(stats: Dict[str, Any], results: Dict[str, Any]):
@@ -77,7 +69,19 @@ def simulation(
             % (pid, rep + 1, nreps, inputSeed, popSeed, netSeed)
         )
 
-        MyModel = HIVModel(
+        # Build population (later can allow importing pops)
+        abm_population = PopulationClass(
+            n=N_pop, pop_seed=popSeed, enable_nx_graph=params.drawFigures
+        )
+
+        # Build the network from the abm_population (following network type and ABM partnering)
+        abm_population.create_network(
+            net_seed=netSeed, network_type=params.network_type
+        )
+
+        # Build model and run
+        abm_model = HIVModel(
+            population=abm_population,
             N=N_pop,
             tmax=time_range,
             runseed=inputSeed,
@@ -86,7 +90,7 @@ def simulation(
             network_type=params.network_type,
         )
 
-        stats = MyModel.run()
+        stats = abm_model.run()
         stats_to_results(stats, result_dict)
 
     return result_dict
