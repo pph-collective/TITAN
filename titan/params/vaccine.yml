@@ -1,0 +1,21 @@
+vaccine:
+  type:
+    default: RV144
+    description: type of vaccine to use, affects transmission probability
+    type: enum
+    values:
+      - RV144
+      - HVTN702
+  booster:
+    default: true
+    description: Whether to use booster vaccines
+    type: boolean
+  start:
+    default: 1
+    description: Time step at which to start vaccination
+    type: int
+    min: 0
+  init:
+    default: true
+    description: Whether to initialize the population with vaccination
+    type: boolean

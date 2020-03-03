@@ -1,21 +1,16 @@
 import pytest
-import numpy as np
+import os
 
 import titan.probabilities as probs
+from titan.parse_params import create_params
 
 
-class FakeRandom:
-    def __init__(self, num: float):
-        self.num = num
-
-    def random(self):
-        return self.num
-
-    def randrange(self, start, stop, step=1):
-        return start
-
-    def randint(self, start, stop):
-        return start
+@pytest.fixture
+def params(tmpdir):
+    param_file = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
+    )
+    return create_params(None, param_file, tmpdir)
 
 
 def test_safe_sex():
@@ -36,15 +31,9 @@ def test_adherence_prob():
     assert probs.adherence_prob(6) == 0.0051
 
 
-def test_get_death_rate():
+def test_get_death_rate(params):
     for hiv in [True, False]:
         for aids in [True, False]:
             for race in ["WHITE", "BLACK"]:
                 for adh in [0, 1]:
-                    assert probs.get_death_rate(hiv, aids, race, adh) > 0
-
-
-def test_get_mean_num_partners():
-    for du in ["IDU", "NIDU"]:
-        for i in np.arange(0, 1, 0.01):
-            assert probs.get_mean_num_partners(du, FakeRandom(i)) > 0
+                    assert probs.get_death_rate(hiv, aids, race, adh, params) > 0

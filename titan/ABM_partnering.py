@@ -7,11 +7,11 @@ from typing import Optional
 
 from . import params  # type: ignore
 from . import probabilities as prob
-from .agent import Agent, Agent_set
+from .agent import Agent, AgentSet
 from .utils import safe_random_choice
 
 
-def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
+def get_partner(agent: Agent, all_agent_set: AgentSet) -> Optional[Agent]:
     """
     :Purpose:
         Get partner for agent.
@@ -59,7 +59,7 @@ def get_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
         return RandomPartner
 
 
-def get_random_IDU_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
+def get_random_IDU_partner(agent: Agent, all_agent_set: AgentSet) -> Optional[Agent]:
     """
     :Purpose:
         Get a random partner which is sex compatible
@@ -88,7 +88,7 @@ def get_random_IDU_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
     return RandomPartner
 
 
-def get_assort_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
+def get_assort_sex_partner(agent: Agent, all_agent_set: AgentSet) -> Optional[Agent]:
     """
     :Purpose:
         Get a random partner which is sex compatible and fits assortativity constraints
@@ -104,9 +104,9 @@ def get_assort_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
 
     RandomPartner = None
 
-    assert agent._SO in params.agentSexTypes
+    assert agent.so in params.agentSexTypes
 
-    eligPartnerType = params.DemographicParams[agent._race][agent._SO][
+    eligPartnerType = params.DemographicParams[agent._race][agent.so][
         "EligSE_PartnerType"
     ]
 
@@ -152,7 +152,7 @@ def get_assort_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
     return RandomPartner
 
 
-def get_random_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[Agent]:
+def get_random_sex_partner(agent: Agent, all_agent_set: AgentSet) -> Optional[Agent]:
     """
     :Purpose:
         Get a random partner which is sex compatible
@@ -167,7 +167,7 @@ def get_random_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
     """
     RandomPartner = None
 
-    eligPtnType = params.DemographicParams[agent._race][agent._SO]["EligSE_PartnerType"]
+    eligPtnType = params.DemographicParams[agent._race][agent.so]["EligSE_PartnerType"]
     elig_partner_pool = all_agent_set._subset["SO"]._subset[eligPtnType]._members
 
     # TODO: This was added to prevent the test_update_agent_partners_match test in
@@ -183,9 +183,9 @@ def get_random_sex_partner(agent: Agent, all_agent_set: Agent_set) -> Optional[A
 
     if RandomPartner is not None:
         assert sex_possible(
-            agent._SO, RandomPartner._SO
+            agent.so, RandomPartner.so
         ), "Sex no possible between agents! ERROR 441, {}, {}".format(
-            agent._SO, RandomPartner._SO
+            agent.so, RandomPartner.so
         )
 
     return RandomPartner
@@ -240,7 +240,7 @@ def get_partnership_duration(agent: Agent) -> int:
     """
     # Check input
     agent_drug_type = agent._DU
-    agent_sex_type = agent._SO
+    agent_sex_type = agent.so
     agent_race_type = agent._race
 
     # Drug type

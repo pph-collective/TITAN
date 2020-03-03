@@ -1,0 +1,21 @@
+hiv:
+  dx:
+    risk_reduction:
+      default: 0
+      description: risk redection in transmission probability for diagnosed agents
+      type: float
+      min: 0
+      max: 1
+  acute:
+    infectivity:
+      default: 4.3
+      description: Infectivity multiplier ratio for acute status infections
+      type: float
+      min: 0
+  aids:
+    prob:
+      default: 1.0
+      description: Probability of an agent with hiv progressing to aids at a given time step (scaled by haart adherence)
+      type: float
+      min: 0
+      max: 1

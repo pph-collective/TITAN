@@ -1,0 +1,89 @@
+model:
+  processes:
+    default: 1
+    description: "Number of processes in parallel to use for computation"
+    type: int
+    min: 1
+  seed:
+    run:
+      default: 0
+      description: "Seed for random number generator for running the model. 0 is pure random, -1 for stepwise through number of number of iterations (num_reps), other numbers will be used to explicitly set the seed."
+      type: int
+    net:
+      default: 0
+      description: "Seed for random number generator for creating the network. 0 is pure random, other numbers will be used to explicitly set the seed. -1 for stepwise through number of monte carlo iterations (-n flag on command line)."
+      type: int
+    ppl:
+      default: 0
+      description: "Seed for random number generator for creating the population. 0 is pure random, other numbers will be used to explicitly set the seed. -1 for stepwise through number of monte carlo iterations (-n flag on command line)."
+      type: int
+  num_reps:
+    default: 1
+    description: Number of times to repeat simulation, if run seed is set to -1, it will step through run seeds during simulation
+    type: int
+  num_pop:
+    default: 100
+    description: "Size of population to model"
+    type: int
+    min: 1
+  time_range:
+    default: 12
+    description: "Number of time steps to run the model"
+    type: int
+    min: 1
+  burn_duration:
+    default: 6
+    description: "Number of time steps of burn in period, if 0, there is no burn in period."
+    type: int
+  network:
+    type:
+      default: scale_free
+      description: "Algorithm used for network initialization"
+      type: enum
+      values:
+        - scale_free
+        - max_k_comp_size
+    component_size:
+      max:
+        default: 100
+        description: Largest allowable size of a sub-graph in the network at initialization
+        type: int
+        min: 1
+  population:
+    num_partners:
+      type:
+        default: poisson
+        description: How to determine the mean number of partners for an agent
+        type: enum
+        values:
+          - poisson
+          - bins
+      bins:
+        type: bin
+        description: Binned probabilities of number of partners
+        fields:
+          prob:
+            type: float
+            min: 0
+            max: 1
+        default:
+          0:
+            prob: 0.083,
+          1:
+            prob: 0.181,
+          2:
+            prob: 0.229,
+          3:
+            prob: 0.172,
+          4:
+            prob: 0.112,
+          5:
+            prob: 0.102,
+          6:
+            prob: 0.071,
+          7:
+            prob: 0.028,
+          8:
+            prob: 0.019,
+          9:
+            prob: 0.005,

@@ -1,0 +1,43 @@
+calibration:
+  needle:
+    act:
+      default: 1.0
+      description: Scales number of needle acts during needle transmission
+      type: float
+      min: 0
+  sex:
+    act:
+      default: 1.0
+      description: Scales number of sex acts during sex trasmission
+      type: float
+      min: 0
+    partner:
+      default: 1.0
+      description: Scales probability of partner acquisition
+      type: float
+      min: 0
+  transmission:
+    default: 1.0
+    description: Scales probability of transmission
+    type: float
+    min: 0.0
+  test_frequency:
+    default: 1.0
+    description: Scaling factor for testing frequency
+    type: float
+    min: 0
+  mortality:
+    default: 1.0
+    description: Scaling factor for all cause mortality rates
+    type: float
+    min: 0
+  haart_coverage:
+    default: 1.0
+    description: Scaling factor for enrollment on ART probability
+    type: float
+    min: 0.0
+  incarceration:
+    default: 1.0
+    description: Scaling factor for probability of becoming incarcerated
+    type: float
+    min: 0

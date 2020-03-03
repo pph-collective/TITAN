@@ -1,13 +1,15 @@
 import pytest
 
 import os
+import subprocess
 
 
 @pytest.mark.integration
 def test_model_runs():
-    g = globals().copy()
-    g["__name__"] = "__main__"
-
     f = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "run_titan.py")
-    exec(open(f).read(), g)
+    param_file = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
+    )
+
+    subprocess.check_call([f, f"-p {param_file}"])
     assert True

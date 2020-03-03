@@ -13,10 +13,10 @@ from scipy.stats import poisson  # type: ignore
 import networkx as nx  # type: ignore
 
 
-from .agent import Agent_set, Agent, Relationship
-from .population_network import PopulationClass
-from .network_graph_tools import NetworkGraphUtils
-from . import analysis_output as ao
+from .agent import AgentSet, Agent, Relationship
+from .population import Population
+from .network import Network
+from . import output as ao
 from . import probabilities as prob
 from . import params  # type: ignore
 from .utils import get_check_rand_int, safe_divide
@@ -56,7 +56,7 @@ class HIVModel:
 
     def __init__(
         self,
-        population: PopulationClass,
+        population: Population,
         N: int,
         tmax: int,
         runseed: int,
@@ -88,14 +88,14 @@ class HIVModel:
 
         print("\n\tCreating lists")
         # Other lists / dictionaries
-        self.NewInfections = Agent_set("NewInfections")
-        self.NewDiagnosis = Agent_set("NewDiagnosis")
-        self.NewIncarRelease = Agent_set("NewIncarRelease")
-        self.NewHRrolls = Agent_set("NewHRrolls")
+        self.NewInfections = AgentSet("NewInfections")
+        self.NewDiagnosis = AgentSet("NewDiagnosis")
+        self.NewIncarRelease = AgentSet("NewIncarRelease")
+        self.NewHRrolls = AgentSet("NewHRrolls")
 
         self.totalDiagnosis = 0
         self.treatmentEnrolled = False
-        self.newPrEPagents = Agent_set("NewPrEPagents")
+        self.newPrEPagents = AgentSet("NewPrEPagents")
         self.PrEPagents = {
             "BLACK": {"MSM": 0, "HF": 0, "HM": 0},
             "WHITE": {"MSM": 0, "HF": 0, "HM": 0},
@@ -112,7 +112,7 @@ class HIVModel:
 
         print("\tCreating population and network")
         self.population = population
-        self.network_tools = NetworkGraphUtils(self.population.nx_graph)
+        self.network_tools = Network(self.population.nx_graph)
 
         print("\n === Initialization Protocol Finished ===")
 
@@ -332,7 +332,7 @@ class HIVModel:
                 if tmpA._highrisk_time > 0:
                     tmpA._highrisk_time -= 1
                     if (
-                        tmpA._SO == "HM"
+                        tmpA.so == "HM"
                         and params.flag_PrEP
                         and (
                             params.PrEP_target_model == "high_risk"
@@ -347,9 +347,9 @@ class HIVModel:
                     tmpA._highrisk_bool = False
 
                     if params.model == "Incar":  # TODO abstract this
-                        if tmpA._SO == "HM":
+                        if tmpA.so == "HM":
                             tmpA._mean_num_partners -= params.HR_partnerScale
-                        elif tmpA._SO == "HF":
+                        elif tmpA.so == "HF":
                             tmpA._mean_num_partners -= params.HR_partnerScale
 
         for agent in self.population.All_agentSet.iter_agents():
@@ -527,7 +527,7 @@ class HIVModel:
         else:  # neither agent is HIV or both are
             return False
 
-        rel_sex_possible = sex_possible(agent._SO, partner._SO)
+        rel_sex_possible = sex_possible(agent.so, partner.so)
         partner_drug_type = partner._DU
         agent_drug_type = agent._DU
 
@@ -664,7 +664,7 @@ class HIVModel:
         assert partner._DU == "IDU"
 
         agent_race = agent._race
-        agent_sex_type = agent._SO
+        agent_sex_type = agent.so
 
         MEAN_N_ACTS = (
             params.DemographicParams[agent_race][agent_sex_type]["NUMSexActs"]
@@ -739,7 +739,7 @@ class HIVModel:
 
         # Get condom usage
         if params.condomUseType == "Race":
-            p_SafeSex = params.DemographicParams[agent._race][agent._SO]["SAFESEX"]
+            p_SafeSex = params.DemographicParams[agent._race][agent.so]["SAFESEX"]
         else:
             p_SafeSex = prob.safe_sex(rel._total_sex_acts)
 
@@ -839,7 +839,7 @@ class HIVModel:
         if duration is not None:
             agent._highrisk_time = duration
         else:
-            agent._highrisk_time = params.DemographicParams[agent._race][agent._SO][
+            agent._highrisk_time = params.DemographicParams[agent._race][agent.so][
                 "HighRiskDuration"
             ]
 
@@ -903,16 +903,16 @@ class HIVModel:
 
         elif (  # TODO: add recidivism
             self.runRandom.random()
-            < params.DemographicParams[agent._race][agent._SO]["INCAR"]
+            < params.DemographicParams[agent._race][agent.so]["INCAR"]
             * (1 + (hiv_bool * 4))
             * params.cal_IncarP
         ):
             # REVIEWED what about other sex types? -needs to be generalized - Sarah meeting with someone
-            if agent._SO == "HF":
+            if agent.so == "HF":
                 jailDuration = (
                     prob.HF_jail_duration
                 )  # TODO: make this into one dict for all SOs
-            elif agent._SO == "HM":
+            elif agent.so == "HM":
                 jailDuration = prob.HM_jail_duration
 
             durationBin = current_p_value = 0
@@ -975,7 +975,7 @@ class HIVModel:
         :Output:
             none
         """
-        sex_type = agent._SO
+        sex_type = agent.so
         race_type = agent._race
         tested = agent._tested
 
@@ -1033,7 +1033,7 @@ class HIVModel:
 
         agent_haart = agent._HAART_bool
         agent_race = agent._race
-        agent_so = agent._SO
+        agent_so = agent.so
 
         # Determine probability of HIV treatment
         if time >= 0 and agent._tested:
@@ -1078,7 +1078,7 @@ class HIVModel:
         if "Allcomers" or "Racial" in params.PrEP_target_model:
             eligible = True
         elif "CDCwomen" in params.PrEP_target_model:
-            if agent._SO == "HF":
+            if agent.so == "HF":
                 for ptn in set(agent._relationships):
                     if ptn._ID1 == agent:
                         partner = ptn._ID2
@@ -1095,7 +1095,7 @@ class HIVModel:
                             eligible = True
                             agent._PrEP_reason.append("MSMW")
         elif "cdc_msm" in params.PrEP_target_model:  # TODO make this clearer
-            if agent._SO == "MSM":
+            if agent.so == "MSM":
                 for ptn in agent._relationships:
                     if ptn._ID1 == agent:
                         partner = ptn._ID2
@@ -1106,7 +1106,7 @@ class HIVModel:
                             eligible = True
                             break
         elif params.PrEP_target_model == "MSM":
-            if agent._SO == ("MSM" or "MTF"):
+            if agent.so == ("MSM" or "MTF"):
                 eligible = True
         elif "RandomTrial" in params.PrEP_target_model and not params.flag_PCA:
             # If using random trial
@@ -1148,7 +1148,7 @@ class HIVModel:
         # If force flag set, auto kick off prep.
         if force:
             self.population.Trt_PrEP_agentSet.remove_agent(agent)
-            self.PrEPagents[agent._race][agent._SO] -= 1
+            self.PrEPagents[agent._race][agent.so] -= 1
             agent._PrEP_bool = False
             agent._PrEP_reason = []
             agent._PrEP_time = 0
@@ -1160,11 +1160,11 @@ class HIVModel:
         elif agent._PrEP_bool and agent._PrEP_time == 0:
             if (
                 self.runRandom.random()
-                < params.DemographicParams[agent._race][agent._SO]["PrEPdisc"]
+                < params.DemographicParams[agent._race][agent.so]["PrEPdisc"]
             ):
                 agent._PrEP_time = params.PrEP_falloutT
                 self.population.Trt_PrEP_agentSet.remove_agent(agent)
-                self.PrEPagents[agent._race][agent._SO] -= 1
+                self.PrEPagents[agent._race][agent.so] -= 1
 
                 if "Oral" in params.PrEP_type:
                     agent._PrEP_bool = False
@@ -1201,9 +1201,9 @@ class HIVModel:
             if (
                 params.flag_booster
                 and agent.vaccine_time
-                == params.DemographicParams[agent._race][agent._SO]["boosterInterval"]
+                == params.DemographicParams[agent._race][agent.so]["boosterInterval"]
                 and self.runRandom.random()
-                < params.DemographicParams[agent._race][agent._SO]["boosterProb"]
+                < params.DemographicParams[agent._race][agent.so]["boosterProb"]
             ):
                 agent.vaccinate(vaxType)
 
@@ -1211,13 +1211,13 @@ class HIVModel:
             if initVaccine and burn:
                 if (
                     self.runRandom.random()
-                    < params.DemographicParams[agent._race][agent._SO]["vaccinePrev"]
+                    < params.DemographicParams[agent._race][agent.so]["vaccinePrev"]
                 ):
                     self.vaccinate(agent, vaxType)
             elif not initVaccine and not burn:
                 if (
                     self.runRandom.random()
-                    < params.DemographicParams[agent._race][agent._SO]["vaccinePrev"]
+                    < params.DemographicParams[agent._race][agent.so]["vaccinePrev"]
                 ):
                     self.vaccinate(agent, vaxType)
 
@@ -1242,7 +1242,7 @@ class HIVModel:
             self.population.Trt_PrEP_agentSet.add_agent(agent)
             self.newPrEPagents.add_agent(agent)
 
-            self.PrEPagents[agent._race][agent._SO] += 1
+            self.PrEPagents[agent._race][agent.so] += 1
             # if "CDCwomen" in params.PrEP_target_model:
             #     if "IDU" in agent._PrEP_reason:
             #         self.IDUprep += 1
@@ -1253,10 +1253,7 @@ class HIVModel:
 
             tmp_rnd = self.runRandom.random()
             if params.setting == "AtlantaMSM":
-                if (
-                    tmp_rnd
-                    < params.DemographicParams[agent._race][agent._SO]["PrEPadh"]
-                ):
+                if tmp_rnd < params.DemographicParams[agent._race][agent.so]["PrEPadh"]:
                     agent._PrEP_adh = 1
                 else:
                     agent._PrEP_adh = 0
@@ -1319,7 +1316,7 @@ class HIVModel:
                         .num_members()
                     )
                     - HIV_agents
-                ) * params.DemographicParams[agent._race][agent._SO]["PrEP_coverage"]
+                ) * params.DemographicParams[agent._race][agent.so]["PrEP_coverage"]
 
             else:
                 target_PrEP = int(
@@ -1441,6 +1438,6 @@ class HIVModel:
             # Remove agent from agent class and sub-sets
             self.population.All_agentSet.remove_agent(agent)
 
-            new_agent = self.population.create_agent(agent._race, agent._SO)
+            new_agent = self.population.create_agent(agent._race, agent.so)
             # Add agent to population sets and to nx_graph if population has enable_nx_graph set
             self.population.add_agent_to_pop(new_agent, update_nx=True)

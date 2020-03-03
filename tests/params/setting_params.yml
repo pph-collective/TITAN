@@ -1,0 +1,8 @@
+features:
+  incar: true
+
+partnership:
+  sex:
+    role_scaling:
+      MSM:
+        top: 0.9

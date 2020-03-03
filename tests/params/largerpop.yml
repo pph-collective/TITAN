@@ -1,0 +1,60 @@
+model:
+  num_pop: 500
+  network:
+    type: scale_free
+  burn_duration: 12
+  time_range: 1
+demographics:
+  BLACK:
+    ppl: 0.389
+    MSM:
+      ppl: 1.0
+      num_partners: 5.0
+    HM:
+      ppl: 0.0
+    HF:
+      ppl: 0.0
+    WSW:
+      ppl: 0.0
+    MTF:
+      ppl: 0.0
+    PWID:
+      ppl: 0.0
+  WHITE:
+    ppl: 0.611
+    MSM:
+      ppl: 1.0
+      num_partners: 7.0
+    HM:
+      ppl: 0.0
+    HF:
+      ppl: 0.0
+    WSW:
+      ppl: 0.0
+    MTF:
+      ppl: 0.0
+    PWID:
+      ppl: 0.0
+
+partnership:
+  sex:
+    durations:
+      2:
+        min: 9
+    transmission:
+      MSM:
+        0:
+          prob: 0.08
+
+features:
+  incar: false
+  prep: false
+  high_risk: true
+  haart: true
+  die_and_replace: true
+  static_n: false
+  agent_zero: false
+  assort_mix: true
+  vaccine: false
+  partner_tracing: false
+  msmw: false

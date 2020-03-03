@@ -5,60 +5,72 @@ import time as time_mod
 import sys
 import os
 import shutil
+import argparse
 
-from titan.simulation_lib import simulation, save_results
-from titan import params
+from titan.model import HIVModel
+from titan.parse_params import create_params
+
+# set up args parsing
+parser = argparse.ArgumentParser(description="Run TITAN model")
+parser.add_argument(
+    "-n",
+    "--nMC",
+    type=int,
+    nargs="?",
+    default=1,
+    help="number of monte carlo runs to complete",
+)
+parser.add_argument(
+    "-S", "--setting", nargs="?", default="custom", help="setting directory to use"
+)
+parser.add_argument(
+    "-p", "--params", required=True, help="directory or file with params yaml(s)"
+)
+parser.add_argument(
+    "-o",
+    "--outdir",
+    nargs="?",
+    default="results",
+    help="directory name to save results to",
+)
+parser.add_argument(
+    "-b",
+    "--base",
+    nargs="?",
+    type=bool,
+    default=True,
+    help="whether to use base setting",
+)
 
 
-# Disable
-def blockPrint():
-    sys.stdout = open(os.devnull, "w")
-
-
-# Restore
-def enablePrint():
-    sys.stdout = sys.__stdout__
-
-
-def main():
+def main(setting, params_path, num_reps, outdir, use_base):
     wct = []  # wall clock times
 
     # delete old results before overwriting with new results
-    outfile_dir = os.path.join(os.getcwd(), "results")
+    outfile_dir = os.path.join(os.getcwd(), outdir)
     if os.path.isdir(outfile_dir):
         shutil.rmtree(outfile_dir)
     os.mkdir(outfile_dir)
-    if not os.path.exists("results/network"):
-        os.makedirs("results/network")
-    for single_sim in range(params.N_MC):
-        outfile_dir = os.path.join(
-            os.getcwd(), "results/results_simulation_MP_%d" % single_sim
-        )
-        if not os.path.isdir(outfile_dir):
-            os.mkdir(outfile_dir)
+    os.mkdir(os.path.join(outfile_dir, "network"))
+
+    # generate params - if no setting, set to null
+    setting = setting.lower()
+    if setting == "custom":
+        setting = None
+    else:
+        setting = os.path.join("settings", setting)
+        assert os.path.isdir(setting)
+
+    params = create_params(setting, params_path, outfile_dir, use_base=use_base)
+
+    for single_sim in range(num_reps):
         tic = time_mod.time()
 
-        inputPopSeed = params.rSeed_pop
-        inputNetSeed = params.rSeed_net
-        inputRunSeed = params.rSeed_run
-
-        if inputPopSeed == -1:
-            inputPopSeed = single_sim + 1
-
-        if inputNetSeed == -1:
-            inputNetSeed = single_sim + 1
-
         # runs simulations
-        rslts = simulation(
-            params.N_REPS,
-            params.TIME_RANGE,
-            params.N_POP,
-            runSeed=inputRunSeed,
-            popSeed=inputPopSeed,
-            netSeed=inputNetSeed,
-        )
+        model = HIVModel(params)
+        stats = model.run(outfile_dir)
+
         wct.append(time_mod.time() - tic)
-        save_results(params.TIME_RANGE, rslts, outfile_dir, single_sim)
 
     for task, time_t in enumerate(wct):
         print(("wall clock time on for simulation %d: %8.4f seconds" % (task, time_t)))
@@ -73,4 +85,11 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    args = parser.parse_args()
+    main(
+        args.setting.strip(),
+        args.params.strip(),
+        args.nMC,
+        args.outdir.strip(),
+        args.base,
+    )

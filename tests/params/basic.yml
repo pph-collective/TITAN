@@ -1,0 +1,55 @@
+demographics:
+  BLACK:
+    ppl: 0.6
+    MSM:
+      ppl: 0.3
+    HM:
+      ppl: 0.3
+    HF:
+      ppl: 0.2
+    WSW:
+      ppl: 0.1
+    MTF:
+      ppl: 0.1
+    PWID:
+      ppl: 0.2
+  WHITE:
+    ppl: 0.4
+    MSM:
+      ppl: 0.3
+    HM:
+      ppl: 0.3
+    HF:
+      ppl: 0.2
+    WSW:
+      ppl: 0.1
+    MTF:
+      ppl: 0.1
+    PWID:
+      ppl: 0.3
+
+partnership:
+  sex:
+    durations:
+      2:
+        min: 9
+    transmission:
+      MSM:
+        0:
+          prob: 0.08
+
+features:
+  incar: true
+  prep: true
+  high_risk: true
+  haart: true
+  die_and_replace: true
+  static_n: true
+  agent_zero: true
+  assort_mix: true
+  vaccine: true
+  partner_tracing: true
+  msmw: true
+
+model:
+  num_pop: 100
