@@ -19,9 +19,9 @@ features:
     default: false
     description: Whether agents can die in the model, if so they will be replaced
     type: boolean
-  static_n:
+  static_network:
     default: false
-    description: ????
+    description: Whether the network is static across time.
     type: boolean
   agent_zero:
     default: false
@@ -46,4 +46,8 @@ features:
   pca:
     default: false
     description: Whether to have peer change agents spreading awareness of PrEP
+    type: boolean
+  assort:
+    default: false
+    description: Whether mixing is assortative
     type: boolean

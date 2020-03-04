@@ -229,20 +229,20 @@ partnership:
       description: Probabilities of bond types by popultation
       default:
         social:
-          default: 0.308
+          default: 0.00
           description: Probability of a social bond type for PWID
           type: float
           min: 0
           max: 1
-        multiplex:
-          default: 0.105
-          description: Probability of a multiplex bond type for PWID
+        injection:
+          default: 0.000
+          description: Probability of injection bond type for PWID
           type: float
           min: 0
           max: 1
         sexualOnly:
-          default: 0.587
-          description: Probability of a sexualOnly bond type for PWID
+          default: 1.00
+          description: Probability of a sexual bond type for PWID
           type: float
           min: 0
           max: 1

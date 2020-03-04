@@ -146,7 +146,7 @@ class HIVModel:
         def make_agent_zero(num_partners: int):
             agent_zero = self.run_random.choice(self.pop.drug_use_inj_agents.members)
             for i in range(num_partners):
-                self.pop.update_agent_partners(agent_zero)
+                self.pop.update_agent_partners(agent_zero, self.pop.all_agents)
             self.hiv_convert(agent_zero)
 
         run_id = uuid.uuid4()
@@ -378,7 +378,7 @@ class HIVModel:
         :Output:
             none
         """
-        if time > 0 and self.params.features.static_n is False:
+        if time > 0 and self.params.features.static_network is False:
             self.pop.update_partner_assignments()
 
         for rel in self.pop.relationships:
@@ -387,7 +387,7 @@ class HIVModel:
                 self.agents_interact(time, rel)
 
             # If static network, ignore relationship progression
-            if not self.params.features.static_n:
+            if not self.params.features.static_network:
                 if rel.progress():
                     self.pop.remove_relationship(rel)
 

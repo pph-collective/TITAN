@@ -12,7 +12,7 @@ from . import utils
 
 
 def select_partner(
-    agent: Agent, all_agent_set: AgentSet, params: DotMap, rand_gen
+    agent: Agent, need_partners: Set, params: DotMap, rand_gen
 ) -> Tuple[Optional[Agent], str]:
     """
     :Purpose:
@@ -28,16 +28,17 @@ def select_partner(
     """
     agent_drug_type = agent.drug_use
     partner = None
-    partner_set: Set[Agent] = set(all_agent_set.members)
+    partner_set: Set[Agent] = set(need_partners)
     eligible_partner_set = partner_set - set(agent.partners) - {agent}
     RandomPartner: Optional[Agent]
 
     def bondtype(bond_dict):
-        bonds = {"type": (), "prob": []}
-        for value in bond_dict.values():
+        bonds = {"type": [], "prob": []}
+        for value in bond_dict:
+            print(value)
             bonds["type"].append(value["type"])
             bonds["prob"].append(value["probability"])
-        bonded_type = rand_gen.choices(bonds["type"], weight=bonds["prob"], k=1)
+        bonded_type = rand_gen.choices(bonds["type"], weights=bonds["prob"], k=1)
         return bonded_type
 
     def assort(eligible_partner_list, assort_params):
@@ -64,14 +65,14 @@ def select_partner(
         return eligible_partners
 
     if params.features.assort:
-        for assort_types in params.assortative_mixing.values():
+        for assort_types in params.assort_mixing.values():
             if getattr(agent, assort_types["type"]) == assort_types["agent_type"]:
                 eligible_partner_set = assort(eligible_partner_set, assort_types)
 
     if agent_drug_type == "Inj":
-        agent_bond = bondtype(params.partnership.bond_type_PWID)
+        agent_bond = bondtype(params.partnership.bond.type)
     else:
-        agent_bond = bondtype(params.partnership.bond_type)
+        agent_bond = bondtype(params.partnership.bond.type)
 
     if "injection" in agent_bond:
         eligible_partner_set = {partner for partner in eligible_partner_set
