@@ -7,9 +7,11 @@ from typing import List, Dict, Any
 from scipy.stats import poisson  # type: ignore
 import numpy as np  # type: ignore
 from dotmap import DotMap  # type: ignore
+import networkx as nx  # type: ignore
 
 from .agent import AgentSet, Agent, Relationship
 from .partnering import get_partner, get_partnership_duration
+from . import utils
 
 
 class Population:
@@ -19,27 +21,31 @@ class Population:
 
     :Input:
 
-        n : int
-            Number of agents
-
-        r_seed : randomization seed
-
-
-        params : Map containing parameters
+        params : DotMap
+            Model parameters
 
     """
 
-    def __init__(self, pop_seed: int, params: DotMap):
+    def __init__(self, params: DotMap):
         """
         :Purpose:
             Initialize Population object.
         """
+        self.pop_seed = utils.get_check_rand_int(params.model.seed.ppl)
+
         # Init RNG for population creation to pop_seed
-        self.pop_random = random.Random(pop_seed)
-        random.seed(
-            pop_seed
-        )  # this sets the global random seed for the population generation phase, during model init it gets reset at the very end
-        np.random.seed(pop_seed)
+        self.pop_random = random.Random(self.pop_seed)
+        self.np_random = np.random.RandomState(self.pop_seed)
+
+        # this sets the global random seed for the population generation phase, during model init it gets reset at the very end
+        random.seed(self.pop_seed)
+
+        self.enable_graph = params.model.network.enable
+
+        if self.enable_graph:
+            self.graph = nx.Graph()
+        else:
+            self.graph = None
 
         self.params = params
 
@@ -131,9 +137,17 @@ class Population:
         for race in params.classes.races:
             for i in range(round(params.model.num_pop * params.demographics[race].ppl)):
                 agent = self.create_agent(race)
-                self.add_agent_to_pop(agent)
+                self.add_agent(agent)
 
-        self.initialize_incarceration()
+        if params.features.incar:
+            self.initialize_incarceration()
+
+        # initialize relationships
+        for i in range(10):
+            self.update_partner_assignments()
+
+        if self.enable_graph:
+            self.initialize_graph()
 
     def initialize_incarceration(self):
 
@@ -166,7 +180,7 @@ class Population:
              agent : Agent
         """
         if sex_type == "NULL":
-            sex_type = np.random.choice(
+            sex_type = self.np_random.choice(
                 self.pop_weights[race]["values"], p=self.pop_weights[race]["weights"]
             )
 
@@ -263,30 +277,25 @@ class Population:
             )
 
         if self.params.features.pca:
-            if self.pop_random.random() < self.params.prep.pca.awareness.init:
-                agent.awareness = True
+            if self.pop_random.random() < self.params.prep.pca.prep_awareness.init:
+                agent.prep_awareness = True
             attprob = self.pop_random.random()
             pvalue = 0.0
             for bin, fields in self.params.pca.attitude.items():
                 pvalue += fields.prob
                 if attprob < pvalue:
-                    agent.opinion = bin
+                    agent.prep_opinion = bin
                     break
 
         return agent
 
-    def add_agent_to_pop(self, agent: Agent):
+    def add_agent(self, agent: Agent):
         """
         :Purpose:
-            Creat a new agent in the population.
-                Each agent is a key to an associated dictionary which stores the internal
-                characteristics in form of an additinoal dictionary of the form
-                ``characteristic:value``.
+            Create a new agent in the population.
 
         :Input:
             agent : int
-
-            Deliminator : str currently race
 
         """
 
@@ -330,10 +339,50 @@ class Population:
         if agent.high_risk:
             add_to_subsets(self.high_risk_agents, agent)
 
+        if self.enable_graph:
+            self.graph.add_node(agent)
+
+    def add_relationship(self, rel: Relationship):
+        """
+        :Purpose:
+            Create a new relationship in the population.
+
+        :Input:
+            agent : int
+        """
+        self.relationships.append(rel)
+
+        if self.enable_graph:
+            self.graph.add_edge(rel.agent1, rel.agent2)
+
+    def remove_agent(self, agent: Agent):
+        """
+        :Purpose:
+            Remove an agent from the population.
+
+        :Input:
+            agent : int
+        """
+        self.all_agents.remove_agent(agent)
+
+        if self.enable_graph:
+            self.graph.remove_node(agent)
+
+    def remove_relationship(self, rel: Relationship):
+        """
+        :Purpose:
+            Remove a relationship from the population.
+
+        :Input:
+            agent : int
+        """
+        self.relationships.remove(rel)
+
+        if self.enable_graph:
+            self.graph.remove_edge(rel.agent1, rel.agent2)
+
     def get_age(self, race: str):
         rand = self.pop_random.random()
-
-        # REVIEWED why does AtlantaMSM use different age bins? should this all be paramable? - this will be revisited with future age things - got rid of it here, but Atlanta's setting's demograhpics.race.rage needs to be updated to match what was here
 
         bins = self.params.demographics[race].age
 
@@ -348,8 +397,21 @@ class Population:
 
     # REVIEWED should these be in the network class? - max to incorporate with network/pop/model disentangling?
 
-    def update_agent_partners(self, graph, agent: Agent) -> bool:
-        partner = get_partner(agent, self.all_agents, self.params)
+    def update_agent_partners(self, agent: Agent) -> bool:
+        """
+        :Purpose:
+            Finds and bonds new partner. Creates relationship object for partnership, calcs
+            partnership duration, and adds to networkX graph if self.enable_graph is set True.
+
+        :Input:
+            agent : Agent
+            Agent that is seeking a new partner
+
+        :Returns:
+            noMatch : bool
+            Bool if no match was found for agent (used for retries)
+        """
+        partner = get_partner(agent, self.all_agents, self.params, self.pop_random)
         no_match = False
 
         def bondtype(bond_dict):
@@ -364,7 +426,7 @@ class Population:
             return bonded_type
 
         if partner:
-            duration = get_partnership_duration(agent, self.params)
+            duration = get_partnership_duration(agent, self.params, self.pop_random)
 
             if agent.drug_use == "Inj" and partner.drug_use == "Inj":
                 bond_type = bondtype(self.params.partnership.bond.type.PWID)
@@ -373,24 +435,86 @@ class Population:
 
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
 
-            self.relationships.append(relationship)
-            graph.add_edge(
-                relationship.agent1, relationship.agent2, relationship=bond_type
-            )
+            self.add_relationship(relationship)
+
         else:
-            graph.add_node(agent)
             no_match = True
 
         return no_match
 
-    def update_partner_assignments(self, graph):
+    def update_partner_assignments(self):
+        """
+        :Purpose:
+            Determines which agents will seek new partners from All_agentSet.
+            Calls update_agent_partners for any agents that desire partners.
+
+        :Input:
+            None
+        """
         # Now create partnerships until available partnerships are out
         eligible_agents = self.all_agents
         for agent in eligible_agents:
             # add agent to network
-            graph.add_node(agent)
             acquire_prob = self.params.calibration.sex.partner * (
                 agent.mean_num_partners / (12.0)
             )
             if self.pop_random.random() < acquire_prob:
-                self.update_agent_partners(graph, agent)
+                self.update_agent_partners(agent)
+
+    def initialize_graph(self):
+        """
+        :Purpose:
+            Initialize network with graph-based algorithm for relationship adding/pruning
+
+        :Input:
+            None
+        """
+
+        if self.params.model.network.type == "max_k_comp_size":
+
+            def trim_component(component, max_size):
+                for ag in component.nodes:
+                    if random.random() < 0.1:
+                        for rel in ag.relationships:
+                            if len(ag.relationships) == 1:
+                                break  # Make sure that agents stay part of the network by keeping one bond
+                            rel.progress(forceKill=True)
+                            self.relationships.remove(rel)
+                            component.remove_edge(rel.agent1, rel.agent2)
+                            self.graph.remove_edge(rel.agent1, rel.agent2)
+
+                # recurse on new sub-components
+                sub_comps = list(
+                    component.subgraph(c).copy()
+                    for c in nx.connected_components(component)
+                )
+                for sub_comp in sub_comps:
+                    if sub_comp.number_of_nodes > max_size:
+                        trim_component(component, max_size)
+
+            components = sorted(self.connected_components(), key=len, reverse=True)
+            for comp in components:
+                if (
+                    comp.number_of_nodes()
+                    > self.params.model.network.component_size.max
+                ):
+                    print("TOO BIG", comp, comp.number_of_nodes())
+                    trim_component(comp, self.params.model.network.component_size.max)
+
+        print("Total agents in graph: ", self.graph.number_of_nodes())
+
+    def connected_components(self):
+        """
+        :Purpose:
+            Return connected components in graph (if enabled)
+
+        :Input:
+            agent : int
+        """
+        if self.enable_graph:
+            return list(
+                self.graph.subgraph(c).copy()
+                for c in nx.connected_components(self.graph)
+            )
+        else:
+            return []

@@ -80,8 +80,8 @@ def test_agent_init(make_agent):
     assert a.vaccine_time == 0
     assert a.vaccine_type == ""
     assert a.partner_traced is False
-    assert a.awareness is False
-    assert a.opinion == 0.0
+    assert a.prep_awareness is False
+    assert a.prep_opinion == 0.0
     assert a.prep_type == ""
     assert a.pca is False
     assert a.pca_suitable is False

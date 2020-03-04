@@ -63,10 +63,11 @@ hiv:
     prob: 1.0
 outputs:
   print_frequency: 10
-  draw_figures: false
-  edge_list: false
-  calc_network_stats: false
-  calc_component_stats: false
+  network:
+    draw_figures: false
+    edge_list: false
+    calc_network_stats: false
+    calc_component_stats: false
   reports:
   - deathReport
   - incarReport
@@ -134,6 +135,7 @@ model:
   time_range: 12
   burn_duration: 6
   network:
+    enable: true
     type: scale_free
     component_size:
       max: 100

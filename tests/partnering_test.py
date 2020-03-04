@@ -27,45 +27,79 @@ def make_agent():
 def make_population(params):
     def _make_population(n=0):
         params.model.num_pop = n
-        return Population(0, params)
+        return Population(params)
 
     return _make_population
+
+
+# helper method to generate a fake number deterministically
+class FakeRandom:
+    def __init__(self, num: float):
+        self.num = num
+
+    def random(self):
+        return self.num
+
+    def randrange(self, start, stop, step=1):
+        return start
+
+    def randint(self, start, stop):
+        return start
+
+    def choice(self, seq):
+        return seq[-1]
 
 
 def test_get_random_pwid_partner_no_PWID(make_population, make_agent):
     empty_pop = make_population()
     idu_agent = make_agent(DU="Inj")
     nidu_agent = make_agent()
-    empty_pop.add_agent_to_pop(idu_agent)
-    empty_pop.add_agent_to_pop(nidu_agent)
-    assert get_random_pwid_partner(idu_agent, empty_pop.all_agents) is None
+    empty_pop.add_agent(idu_agent)
+    empty_pop.add_agent(nidu_agent)
+    assert (
+        get_random_pwid_partner(idu_agent, empty_pop.all_agents, empty_pop.pop_random)
+        is None
+    )
 
 
 def test_get_random_pwid_partner_w_PWID(make_population, make_agent):
     empty_pop = make_population()
     idu_agent = make_agent(DU="Inj")
     idu_partner = make_agent(DU="Inj")
-    empty_pop.add_agent_to_pop(idu_agent)
-    empty_pop.add_agent_to_pop(idu_partner)
-    assert get_random_pwid_partner(idu_agent, empty_pop.all_agents) == idu_partner
+    empty_pop.add_agent(idu_agent)
+    empty_pop.add_agent(idu_partner)
+    assert (
+        get_random_pwid_partner(idu_agent, empty_pop.all_agents, empty_pop.pop_random)
+        == idu_partner
+    )
 
 
 def test_get_random_sex_partner_valid(make_population, make_agent, params):
     empty_pop = make_population()
     hm_agent = make_agent(SO="HM")
     hf_partner = make_agent(SO="HF")
-    empty_pop.add_agent_to_pop(hm_agent)
-    empty_pop.add_agent_to_pop(hf_partner)
-    assert get_random_sex_partner(hm_agent, empty_pop.all_agents, params) == hf_partner
+    empty_pop.add_agent(hm_agent)
+    empty_pop.add_agent(hf_partner)
+    assert (
+        get_random_sex_partner(
+            hm_agent, empty_pop.all_agents, params, empty_pop.pop_random
+        )
+        == hf_partner
+    )
 
 
 def test_get_random_sex_partner_bad(make_population, make_agent, params):
     empty_pop = make_population()
     hm_agent = make_agent(SO="HM")
     hf_partner = make_agent(SO="MSM")
-    empty_pop.add_agent_to_pop(hm_agent)
-    empty_pop.add_agent_to_pop(hf_partner)
-    assert get_random_sex_partner(hm_agent, empty_pop.all_agents, params) is None
+    empty_pop.add_agent(hm_agent)
+    empty_pop.add_agent(hf_partner)
+    assert (
+        get_random_sex_partner(
+            hm_agent, empty_pop.all_agents, params, empty_pop.pop_random
+        )
+        is None
+    )
 
 
 def test_sex_possible(params):

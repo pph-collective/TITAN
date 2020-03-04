@@ -53,3 +53,5 @@ features:
 
 model:
   num_pop: 100
+  network:
+    enable: true

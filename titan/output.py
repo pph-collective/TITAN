@@ -173,7 +173,6 @@ def deathReport(
     t: int,
     runseed: int,
     popseed: int,
-    netseed: int,
     stats: Dict[str, Any],
     params: DotMap,
     outdir: str,
@@ -209,7 +208,6 @@ def incarReport(
     t: int,
     runseed: int,
     popseed: int,
-    netseed: int,
     stats: Dict[str, Any],
     params: DotMap,
     outdir: str,
@@ -254,7 +252,6 @@ def newlyhighriskReport(
     t: int,
     runseed: int,
     popseed: int,
-    netseed: int,
     stats: Dict[str, Any],
     params: DotMap,
     outdir: str,
@@ -294,7 +291,6 @@ def prepReport(
     t: int,
     runseed: int,
     popseed: int,
-    netseed: int,
     stats: Dict[str, Any],
     params: DotMap,
     outdir: str,
@@ -325,7 +321,6 @@ def basicReport(
     t: int,
     runseed: int,
     popseed: int,
-    netseed: int,
     stats: Dict[str, Any],
     params: DotMap,
     outdir: str,
@@ -343,16 +338,15 @@ def basicReport(
             # if this is a new file, write the header info
             if f.tell() == 0:
                 f.write(
-                    "run_id\trseed\tpseed\tnseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\tVaccinated\tLAI\tOral\tAware\n"
+                    "run_id\trseed\tpseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\tVaccinated\tLAI\tOral\tAware\n"
                 )
 
             f.write(
                 (
-                    "{:s}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
+                    "{:s}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
                         str(run_id),
                         runseed,
                         popseed,
-                        netseed,
                         t,
                         stats[race][population]["numAgents"],
                         stats[race][population]["numHIV"],
@@ -383,13 +377,7 @@ def basicReport(
 
 
 def print_components(
-    run_id: UUID,
-    t: int,
-    runseed: int,
-    popseed: int,
-    netseed: int,
-    components,
-    outdir: str,
+    run_id: UUID, t: int, runseed: int, popseed: int, components, outdir: str,
 ):
     """
     Write stats describing the components (sub-graphs) in a graph to file
@@ -399,7 +387,7 @@ def print_components(
     # if this is a new file, write the header info
     if f.tell() == 0:
         f.write(
-            "run_id\trunseed\tpopseed\tnetseed\tt\tcompID\ttotalN\tNhiv\tNprep\tNtrtHIV\tTrtComponent\tPCA\tOral\tLAI\tAware\n"
+            "run_id\trunseed\tpopseed\tt\tcompID\ttotalN\tNhiv\tNprep\tNtrtHIV\tTrtComponent\tPCA\tOral\tLAI\tAware\n"
         )
 
     comp_id = 0
@@ -423,11 +411,11 @@ def print_components(
                 trtbool += 1
                 if agent.pca_suitable:
                     pca += 1
-            if agent.awareness:
+            if agent.prep_awareness:
                 aware += 1
 
         f.write(
-            f"{run_id}\t{runseed}\t{popseed}\t{netseed}\t{t}\t{comp_id}\t{tot_agents}\t{nhiv}\t{nprep}\t{ntrthiv}"
+            f"{run_id}\t{runseed}\t{popseed}\t{t}\t{comp_id}\t{tot_agents}\t{nhiv}\t{nprep}\t{ntrthiv}"
             f"\t{trtbool}\t{pca}\t{oral}\t{injectable_prep}\t{aware}\n"
         )
 

@@ -8,7 +8,7 @@ import networkx as nx
 
 from titan.output import *
 from titan import agent
-from titan.network import Network
+from titan.population import Population
 from titan.parse_params import create_params
 
 
@@ -109,7 +109,7 @@ def test_get_stats(stats):
 def test_deathReport(stats, params, tmpdir):
     run_id = uuid.uuid4()
 
-    deathReport(run_id, 0, 1, 2, 3, stats, params, tmpdir)
+    deathReport(run_id, 0, 1, 2, stats, params, tmpdir)
 
     result_file = os.path.join(tmpdir, "DeathReport.txt")
     assert os.path.isfile(result_file)
@@ -128,7 +128,7 @@ def test_deathReport(stats, params, tmpdir):
 def test_incarReport(stats, params, tmpdir):
     run_id = uuid.uuid4()
 
-    incarReport(run_id, 0, 1, 2, 3, stats, params, tmpdir)
+    incarReport(run_id, 0, 1, 2, stats, params, tmpdir)
 
     result_file = os.path.join(tmpdir, "IncarReport.txt")
     assert os.path.isfile(result_file)
@@ -147,7 +147,7 @@ def test_incarReport(stats, params, tmpdir):
 def test_newlyhighriskReport(stats, params, tmpdir):
     run_id = uuid.uuid4()
 
-    newlyhighriskReport(run_id, 0, 1, 2, 3, stats, params, tmpdir)
+    newlyhighriskReport(run_id, 0, 1, 2, stats, params, tmpdir)
 
     result_file = os.path.join(tmpdir, "newlyHR_Report.txt")
     assert os.path.isfile(result_file)
@@ -166,7 +166,7 @@ def test_newlyhighriskReport(stats, params, tmpdir):
 def test_prepReport(stats, params, tmpdir):
     run_id = uuid.uuid4()
 
-    prepReport(run_id, 0, 1, 2, 3, stats, params, tmpdir)
+    prepReport(run_id, 0, 1, 2, stats, params, tmpdir)
 
     result_file = os.path.join(tmpdir, "PrEPReport.txt")
     assert os.path.isfile(result_file)
@@ -185,7 +185,7 @@ def test_prepReport(stats, params, tmpdir):
 def test_basicReport(stats, params, tmpdir):
     run_id = uuid.uuid4()
 
-    basicReport(run_id, 0, 1, 2, 3, stats, params, tmpdir)
+    basicReport(run_id, 0, 1, 2, stats, params, tmpdir)
 
     result_file = os.path.join(tmpdir, "basicReport_MSM_BLACK.txt")
     assert os.path.isfile(result_file)
@@ -196,7 +196,6 @@ def test_basicReport(stats, params, tmpdir):
             assert row["run_id"] == str(run_id)
             assert row["rseed"] == "1"
             assert row["pseed"] == "2"
-            assert row["nseed"] == "3"
             assert row["Total"] == "1"
             assert row["HIV"] == "1"
             assert row["PrEP"] == "1"
@@ -211,7 +210,6 @@ def test_basicReport(stats, params, tmpdir):
             assert row["run_id"] == str(run_id)
             assert row["rseed"] == "1"
             assert row["pseed"] == "2"
-            assert row["nseed"] == "3"
             assert row["Total"] == "0"
             assert row["HIV"] == "0"
             assert row["PrEP"] == "0"
@@ -226,7 +224,6 @@ def test_basicReport(stats, params, tmpdir):
             assert row["run_id"] == str(run_id)
             assert row["rseed"] == "1"
             assert row["pseed"] == "2"
-            assert row["nseed"] == "3"
             assert row["Total"] == "1"
             assert row["HIV"] == "1"
             assert row["PrEP"] == "1"
@@ -237,10 +234,10 @@ def test_print_components(stats, params, tmpdir):
     run_id = uuid.uuid4()
 
     params.model.num_pop = 1
-    net = Network(params)
-    components = list(net.G.subgraph(c).copy() for c in nx.connected_components(net.G))
+    net = Population(params)
+    components = net.connected_components()
 
-    print_components(run_id, 0, 1, 2, 3, components, tmpdir)
+    print_components(run_id, 0, 1, 2, components, tmpdir)
 
     result_file = os.path.join(tmpdir, "componentReport_ALL.txt")
     assert os.path.isfile(result_file)

@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import random
-
 import networkx as nx  # type: ignore
 from networkx.drawing.nx_agraph import graphviz_layout  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
@@ -10,68 +8,24 @@ import matplotlib.patches as patches  # type: ignore
 from typing import Sequence, List, Dict, Optional
 from dotmap import DotMap  # type: ignore
 
-from .population import Population
-from .agent import AgentSet
 
-
-class Network(Population):
-    def __init__(self, params: DotMap, pop_seed: int = 0, net_seed: int = 0):
+class NetworkGraphUtils:
+    def __init__(self, graph: nx.Graph):
         """
         :Purpose:
-            This is the base class used to generate the social network
-            for the other agents, i.e. . The class inherits from the Population.
+            This is the base class used to gather statistics from an exsting networkx graph object.
 
         :Input:
-            N : int
-              Number of agents. Default: 10000
-
-            network_type: default is "scale_free", other options are "max_k_comp_size" and "binomial"
+            graph : nx.Graph
+              NetworkX graph object (typically attached to a Population self.nx_graph)
         """
-
-        Population.__init__(self, pop_seed, params)  # Create population
-
-        random.seed(net_seed)
-
-        # happens for both scale_free and max_k_comp_size
-        self.G = nx.Graph()
-        for i in range(10):
-            self.update_partner_assignments(self.G)
-
-        if params.model.network.type == "max_k_comp_size":
-
-            def trim_component(component, max_size):
-                for ag in component.nodes:
-                    if random.random() < 0.1:
-                        for rel in ag.relationships:
-                            if len(ag.relationships) == 1:
-                                break  # Make sure that agents stay part of the network by keeping one bond
-                            rel.progress(forceKill=True)
-                            self.relationships.remove(rel)
-                            component.remove_edge(rel.agent1, rel.agent2)
-                            self.G.remove_edge(rel.agent1, rel.agent2)
-
-                # recurse on new sub-components
-                sub_comps = list(
-                    component.subgraph(c).copy()
-                    for c in nx.connected_components(component)
-                )
-                for sub_comp in sub_comps:
-                    if sub_comp.number_of_nodes > max_size:
-                        trim_component(component, max_size)
-
-            components = sorted(self.connected_components(), key=len, reverse=True)
-            for comp in components:
-                if comp.number_of_nodes() > params.model.network.component_size.max:
-                    print("TOO BIG", comp, comp.number_of_nodes())
-                    trim_component(comp, params.model.network.component_size.max)
-
-            print("Total agents in graph: ", self.G.number_of_nodes())
+        self.G = graph
 
     def connected_components(self):
         return list(self.G.subgraph(c).copy() for c in nx.connected_components(self.G))
 
     def write_graph_edgelist(self, path: str):
-        nx.write_edgelist(self.G, path, data=["relationship"], delimiter="\t")
+        nx.write_edgelist(self.G, path, delimiter="\t")
 
     def write_network_stats(
         self, t: int = 0, path: str = "results/network/networkStats.txt"
@@ -113,13 +67,6 @@ class Network(Population):
             "Average node clustering: {}\n".format(nx.average_clustering(self.G))
         )
         outfile.close()
-
-    def create_graph_from_agents(self, agents: AgentSet):
-        num_added = 0
-        for a in agents:
-            num_added += 1
-            self.G.add_node(a)
-        print("\tAdded %d/%d agents" % (num_added, self.G.number_of_nodes()))
 
     def get_network_color(self, coloring):
         G = self.G
@@ -221,7 +168,7 @@ class Network(Population):
         pos=None,
         return_layout=0,
         node_size=None,
-        iterations=1,
+        iterations=10,
         curtime=0,
         txtboxLabel=0,
         label="Network",
@@ -234,6 +181,10 @@ class Network(Population):
             graph : networkX graph
         """
         G = self.G
+
+        if node_size is None:
+            node_size = 5000.0 / self.G.number_of_nodes()
+
         print(("\tPlotting {} colored by {}...").format(label, coloring))
         fig = plt.figure()
         ax = fig.add_axes([0, 0, 1, 1])
@@ -309,7 +260,7 @@ class Network(Population):
             bbox=props,
         )
 
-        filename = "images/%s_%d_%s_%d.png" % (
+        filename = "results/network/%s_%d_%s_%d.png" % (
             label,
             G.number_of_nodes(),
             coloring,
