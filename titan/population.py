@@ -10,7 +10,7 @@ from dotmap import DotMap  # type: ignore
 import networkx as nx  # type: ignore
 
 from .agent import AgentSet, Agent, Relationship
-from .partnering import get_partner, get_partnership_duration
+from .partnering import select_partner, get_partnership_duration
 from . import utils
 
 
@@ -411,7 +411,7 @@ class Population:
             noMatch : bool
             Bool if no match was found for agent (used for retries)
         """
-        partner = get_partner(agent, self.all_agents, self.params, self.pop_random)
+        partner = select_partner(agent, self.all_agents, self.params, self.pop_random)
         no_match = False
 
         def bondtype(bond_dict):
