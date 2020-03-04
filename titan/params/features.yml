@@ -1,0 +1,49 @@
+features:
+  incar:
+    default: false
+    description: Whether incarceration will be used in the model
+    type: boolean
+  prep:
+    default: false
+    description: Whether PrEP will be used in the model
+    type: boolean
+  high_risk:
+    default: false
+    description: Whether high risk will be used in the model
+    type: boolean
+  haart:
+    default: false
+    description: Whether haart will be used in the model
+    type: boolean
+  die_and_replace:
+    default: false
+    description: Whether agents can die in the model, if so they will be replaced
+    type: boolean
+  static_n:
+    default: false
+    description: ????
+    type: boolean
+  agent_zero:
+    default: false
+    description: Whether to create 4 "agent_zeros" to initialize HIV in the population
+    type: boolean
+  assort_mix:
+    default: false
+    description: Whether to use assortative mixing when partnering
+    type: boolean
+  vaccine:
+    default: false
+    description: Whether to use a vaccine in the model
+    type: boolean
+  partner_tracing:
+    default: false
+    description: Whether to trace a newly diagnosed agent's partners, so that they become diagnosed at the next time step
+    type: boolean
+  msmw:
+    default: false
+    description: Whether to have agents that are men who sleep with men and women - it is not quite a sex type, but adjusts their risks and probabilities accordingly
+    type: boolean
+  pca:
+    default: false
+    description: Whether to have peer change agents spreading awareness of PrEP
+    type: boolean

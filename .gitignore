@@ -12,10 +12,12 @@ pyproject.toml
 .pytest_cache/
 .pytest_cache/*
 .mypy_cache
+.coverage
 
 .vscode/
 
 ipynb/.ipynb_checkpoints/
 
+results/
 results/*.txt
 results/*/*.txt

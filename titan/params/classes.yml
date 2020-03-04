@@ -1,0 +1,87 @@
+classes:
+  races:
+    default:
+      - WHITE
+      - BLACK
+    description: "Which races to use in model (currently only 'WHITE' and 'BLACK' supported)"
+    type: array
+    values:
+      - WHITE
+      - BLACK
+  sex_types:
+    description: "Which sex types to use in model"
+    type: definition
+    fields:
+      gender:
+        type: enum
+        values:
+          - M
+          - F
+          - O
+      cis_trans:
+        type: enum
+        values:
+          - cis
+          - trans
+      sleeps_with:
+        type: keys
+    default:
+      HM:
+        gender: M
+        cis_trans: cis
+        sleeps_with:
+          - HF
+          - MTF
+      HF:
+        gender: F
+        cis_trans: cis
+        sleeps_with:
+          - HM
+      MSM:
+        gender: M
+        cis_trans: cis
+        sleeps_with:
+          - MSM
+          - MTF
+      WSW:
+        gender: F
+        cis_trans: cis
+        sleeps_with:
+          - WSW
+          - MTF
+      MTF:
+        gender: F
+        cis_trans: trans
+        sleeps_with:
+          - WSW
+          - HM
+          - MSM
+  bond_types:
+    default:
+      - sexualOnly
+      - multiplex
+      - social
+    description: Types of bonds a relationship can have
+    type: enum
+    values:
+      - sexualOnly
+      - multiplex
+      - social
+  drug_types:
+    default:
+      - Inj
+      - NonInj
+      - None
+    description: Types of drugs that an agent can use in the model
+    type: array
+    values:
+      - Inj
+      - NonInj
+      - None
+  populations:
+    default:
+      - PWID
+    description: "Which demographic populations to track in addition to sex_types"
+    type: array
+    values:
+      - PWID

@@ -1,0 +1,248 @@
+partnership:
+  sex:
+    duration:
+      type: bin
+      description: "Binned probabilities of length of a partnership's sexual durations"
+      fields:
+        prob:
+          type: float
+          min: 0.0
+          max: 1.0
+        min:
+          type: int
+          min: 0
+        max:
+          type: int
+          min: 0
+      default:
+        1:
+          prob: 0.585
+          min: 1
+          max: 6
+        2:
+          prob: 0.701
+          min: 7
+          max: 12
+        3:
+          prob: 0.822
+          min: 13
+          max: 24
+        4:
+          prob: 0.882
+          min: 25
+          max: 36
+        5:
+          prob: 1.0
+          min: 37
+          max: 48
+    frequency: # REVIEWED this is the same default as sex.duration - seems odd? - Sarah to fix
+      type: bin
+      description: "Binned probabilities of number of sex acts of a partnership at a given time step"
+      fields:
+        prob:
+          type: float
+          min: 0.0
+          max: 1.0
+        min:
+          type: int
+          min: 0
+        max:
+          type: int
+          min: 0
+      default:
+        1:
+          prob: 0.585
+          min: 1
+          max: 6
+        2:
+          prob: 0.701
+          min: 7
+          max: 12
+        3:
+          prob: 0.822
+          min: 13
+          max: 24
+        4:
+          prob: 0.882
+          min: 25
+          max: 36
+        5:
+          prob: 1.0
+          min: 37
+          max: 48
+    transmission:
+      type: sub-dict
+      description: "probability of transmitting HIV for a given sex type"
+      keys:
+        - sex_types
+      default:
+        type: bin
+        description: "Binned probabilities of transmitting HIV"
+        fields:
+          prob:
+            type: float
+            min: 0.0
+            max: 1.0
+        default:
+          0:
+            prob: 0.001
+          1:
+            prob: 0.001
+          2:
+            prob: 0.0008
+          3:
+            prob: 0.0004
+          4:
+            prob: 0.0002
+          5:
+            prob: 0.0
+    role_scaling:
+      type: sub-dict
+      description: Scaling factor for hiv transmission for a given sex type for each sex role
+      keys:
+        - sex_types
+      default:
+        vers:
+          type: float
+          description: Scaling factor for hiv transmission for a given sex type for vers role
+          min: 0
+          default: 1
+        top:
+          type: float
+          description: Scaling factor for hiv transmission for a given sex type for top role
+          min: 0
+          default: 1
+        bottom:
+          type: float
+          description: Scaling factor for hiv transmission for a given sex type for bottom role
+          min: 0
+          default: 1
+  needle:
+    duration:
+      type: bin
+      description: "Binned probabilities of length of a partnership's needle sharing durations"
+      fields:
+        prob:
+          type: float
+          min: 0.0
+          max: 1.0
+        min:
+          type: int
+          min: 0
+        max:
+          type: int
+          min: 0
+      default:
+        1:
+          prob: 1.0
+          min: 1
+          max: 6
+    frequency:
+      type: bin
+      description: "Binned probabilities of frequency of a partnership's needle sharing"
+      fields:
+        prob:
+          type: float
+          min: 0.0
+          max: 1.0
+        min:
+          type: int
+          min: 0
+        max:
+          type: int
+          min: 0
+      default:
+        1:
+          prob: 1.0
+          min: 1
+          max: 6
+    transmission:
+      type: bin
+      description: Binned probabilities of transmission from needle sharing
+      fields:
+        prob:
+          type: float
+          min: 0
+          max: 1
+      default:
+        0:
+          prob: 0.007
+        1:
+          prob: 0.007
+        2:
+          prob: 0.0056
+        3:
+          prob: 0.0028
+        4:
+          prob: 0.0014
+        5:
+          prob: 0.0002
+  interaction:
+    type: sub-dict
+    keys:
+      - bond_types
+    description: Binned probabilities by relationship type of interaction at a given time step
+    default:
+      type: bin
+      description: Binned probabilities of interaction at a given time step
+      fields:
+        prob:
+          type: float
+          min: 0
+          max: 1
+        min:
+          type: int
+          min: 0
+        max:
+          type: int
+          min: 0
+      default:
+        1:
+          prob: 0.306
+          min: 0
+          max: 0
+        2:
+          prob: 0.144
+          min: 1
+          max: 1
+        3:
+          prob: 0.067
+          min: 2
+          max: 2
+        4:
+          prob: 0.106
+          min: 4
+          max: 4
+        5:
+          prob: 0.150
+          min: 5
+          max: 29
+        6:
+          prob: 0.228
+          min: 30
+          max: 30
+  bond:
+    type:
+      type: sub-dict
+      keys:
+        - populations
+      description: Probabilities of bond types by popultation
+      default:
+        social:
+          default: 0.308
+          description: Probability of a social bond type for PWID
+          type: float
+          min: 0
+          max: 1
+        multiplex:
+          default: 0.105
+          description: Probability of a multiplex bond type for PWID
+          type: float
+          min: 0
+          max: 1
+        sexualOnly:
+          default: 0.587
+          description: Probability of a sexualOnly bond type for PWID
+          type: float
+          min: 0
+          max: 1

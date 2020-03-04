@@ -28,11 +28,11 @@ def safe_divide(numerator: int, denominator: int):
 T = TypeVar("T")
 
 
-def safe_random_choice(seq: Sequence[T]) -> Optional[T]:
+def safe_random_choice(seq: Sequence[T], rand_gen) -> Optional[T]:
     """
     Return None or a random choice
     """
     if seq:
-        return random.choice(seq)
+        return rand_gen.choice(seq)
     else:
         return None
