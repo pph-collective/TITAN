@@ -46,7 +46,7 @@ features:
   die_and_replace: true
   static_network: true
   agent_zero: true
-  assort_mix: true
+  assort_mix: false
   vaccine: true
   partner_tracing: true
   msmw: true

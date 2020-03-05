@@ -93,7 +93,6 @@ def get_defn(key, d, param):
 
 def parse_params(defs, params, pops):
     parsed = {}
-
     # params is a scalar, return it
     if not isinstance(params, dict):
         return params

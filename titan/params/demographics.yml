@@ -233,13 +233,6 @@ demographics:
           type: float
           min: 0.0
           max: 1.0
-    assort_mix:
-      coefficient:
-        default: 0
-        description: Probability that an agent partners with someone of their own race (if assort_mix.type == Race)
-        type: float
-        min: 0.0
-        max: 1.0
     age:
       type: bin
       description: Binned probabilities of ages by race, last bin should be 1 to have default

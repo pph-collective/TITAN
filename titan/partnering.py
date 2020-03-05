@@ -34,22 +34,20 @@ def select_partner(
 
     def bondtype(bond_dict):
         bonds = {"type": [], "prob": []}
-        for value in bond_dict:
-            print(value)
+        for value in bond_dict[agent.race]:
             bonds["type"].append(value["type"])
             bonds["prob"].append(value["probability"])
+        print(bonds)
         bonded_type = rand_gen.choices(bonds["type"], weights=bonds["prob"], k=1)
         return bonded_type
 
     def assort(eligible_partner_list, assort_params):
-        if (
-            rand_gen.random() < assort_params["probability"]
-        ):
+        if rand_gen.random() < assort_params["probability"]:
             eligible_partners = {
                 partner
                 for partner in eligible_partner_list
                 if (
-                    getattr(partner, assort_params["type"])
+                    getattr(partner, assort_params["assort_type"])
                     == assort_params["partner_type"]
                 )
             }
@@ -58,29 +56,32 @@ def select_partner(
                 partner
                 for partner in eligible_partner_list
                 if (
-                    getattr(partner, assort_params["type"])
+                    getattr(partner, assort_params["assort_type"])
                     != assort_params["partner_type"]
                 )
             }
         return eligible_partners
 
     if params.features.assort:
-        for assort_types in params.assort_mixing.values():
-            if getattr(agent, assort_types["type"]) == assort_types["agent_type"]:
+        for assort_types in params.assort_mix.assortativity.assort_type:
+            if getattr(agent, assort_types.assort_type) == assort_types["agent_type"]:
                 eligible_partner_set = assort(eligible_partner_set, assort_types)
 
     if agent_drug_type == "Inj":
-        agent_bond = bondtype(params.partnership.bond.type)
+        agent_bond = bondtype(params.partnering.bond)
     else:
-        agent_bond = bondtype(params.partnership.bond.type)
+        agent_bond = bondtype(params.partnering.bond)
 
     if "injection" in agent_bond:
-        eligible_partner_set = {partner for partner in eligible_partner_set
-                                if partner.drug_use == "Inj"}
+        eligible_partner_set = {
+            partner for partner in eligible_partner_set if partner.drug_use == "Inj"
+        }
     if "sexual" in agent_bond:
-        eligible_partner_set = {partner
-                                for partner in eligible_partner_set
-                                if sex_possible(agent.so, partner.so, params)}
+        eligible_partner_set = {
+            partner
+            for partner in eligible_partner_set
+            if sex_possible(agent.so, partner.so, params)
+        }
     if "social" in agent_bond:
         eligible_partner_set = eligible_partner_set
 
@@ -147,41 +148,6 @@ def get_assort_sex_partner(
     eligible_partners = [
         p for p in all_agent_set if sex_possible(agent.so, p.so, params)
     ]
-
-    if params.assort_mix.type == "Race":
-        sample_pop = [
-            p
-            for p in eligible_partners
-            if (p.race == agent.race and p not in agent.partners)
-        ]
-
-    elif params.assort_mix.type == "Client":
-        if agent.race == "WHITE":
-            sample_pop = [
-                p
-                for p in eligible_partners
-                if (p.race == "WHITE" and p not in agent.partners)
-            ]
-        else:
-            sample_pop = [
-                p
-                for p in eligible_partners
-                if (p.race == "WHITE" and p.high_risk_ever and p not in agent.partners)
-            ]
-
-    elif params.assort_mix.type == "high_risk":
-        sample_pop = [
-            p
-            for p in eligible_partners
-            if (p.high_risk_ever and p not in agent.partners)
-        ]
-
-    partner = utils.safe_random_choice(sample_pop, rand_gen)
-
-    # partner can't be existing parter or agent themself
-    if partner in agent.partners or partner == agent:
-        partner = None
-
     return partner
 
 

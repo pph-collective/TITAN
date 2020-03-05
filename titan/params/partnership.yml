@@ -98,7 +98,7 @@ partnership:
             prob: 0.0
     role_scaling:
       type: sub-dict
-      description: Scaling factor for hiv transmission for a given sex type for each sex role
+      description: "Scaling factor for hiv transmission for a given sex type for each sex role"
       keys:
         - sex_types
       default:
@@ -221,28 +221,19 @@ partnership:
           prob: 0.228
           min: 30
           max: 30
-  bond:
-    type:
-      type: sub-dict
-      keys:
-        - populations
-      description: Probabilities of bond types by popultation
-      default:
-        social:
-          default: 0.00
-          description: Probability of a social bond type for PWID
-          type: float
-          min: 0
-          max: 1
-        injection:
-          default: 0.000
-          description: Probability of injection bond type for PWID
-          type: float
-          min: 0
-          max: 1
-        sexualOnly:
-          default: 1.00
-          description: Probability of a sexual bond type for PWID
-          type: float
-          min: 0
-          max: 1
+
+  bond_types:
+    type: bin
+    description: "Binned probabilities of bond types"
+    fields:
+      prob:
+        type: float
+        min: 0.0
+        max: 1.0
+      bonds:
+        type: array
+    default:
+      prob: 1.0
+      bonds:
+        - sex
+        - injection

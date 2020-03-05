@@ -33,7 +33,7 @@ def make_population(params):
 
 # helper method to generate a fake number deterministically
 class FakeRandom:
-    def __init__(self, num: float, fake_choice: int=0):
+    def __init__(self, num: float, fake_choice: int = 0):
         self.num = num
         self.fake_choice = fake_choice
 

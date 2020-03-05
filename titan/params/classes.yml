@@ -58,11 +58,11 @@ classes:
           - MSM
   bond_types:
     default:
-      - sexualOnly
-      - multiplex
+      - sex
+      - injection
       - social
     description: Types of bonds a relationship can have
-    type: enum
+    type: array
     values:
       - sexualOnly
       - multiplex

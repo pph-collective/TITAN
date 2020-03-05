@@ -411,7 +411,9 @@ class Population:
             noMatch : bool
             Bool if no match was found for agent (used for retries)
         """
-        partner, bond_type = select_partner(agent, need_partners, self.params, self.pop_random)
+        partner, bond_type = select_partner(
+            agent, need_partners, self.params, self.pop_random
+        )
         no_match = False
 
         if partner:
@@ -436,8 +438,11 @@ class Population:
             None
         """
         # Now create partnerships until available partnerships are out
-        eligible_agents = {agent for agent in self.all_agents
-                           if len(agent.partners) < agent.mean_num_partners}
+        eligible_agents = {
+            agent
+            for agent in self.all_agents
+            if len(agent.partners) < agent.mean_num_partners
+        }
 
         for agent in eligible_agents:
             # add agent to network

@@ -1,6 +1,8 @@
 assort_mix:
+  description: "Assortative mixing definitions"
+  type: definition
   fields:
-    type:
+    assort_type:
       description: "Which type of assortative mixing to use"
       type: array
       values:
@@ -26,13 +28,14 @@ assort_mix:
         - None
     probability:
       description: "Chance that agent will assortatively mix with partner of stated type"
-      type: int
+      type: float
       min: 0.0
       max: 1.0
-    default:
-      assort_black:
-        type: race
-        agent_type: BLACK
-        partner_type: BLACK
-        probability: 1.0
+  default:
+    assort_black:
+      assort_type:
+        - race
+      agent_type: BLACK
+      partner_type: BLACK
+      probability: 1.0
 
