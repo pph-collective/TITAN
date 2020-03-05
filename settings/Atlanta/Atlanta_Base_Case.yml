@@ -25,7 +25,7 @@ features:
   high_risk: false
   haart: true
   die_and_replace: true
-  static_network: false
+  static_n: false
 calibration:
   needle:
     sharing: 1.0

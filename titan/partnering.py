@@ -3,7 +3,7 @@
 
 # Imports
 import random
-from typing import Optional, Tuple, Set
+from typing import Sequence, List, Dict, Optional, TypeVar
 
 from dotmap import DotMap  # type: ignore
 
@@ -11,9 +11,9 @@ from .agent import Agent, AgentSet
 from . import utils
 
 
-def select_partner(
-    agent: Agent, need_partners: Set, params: DotMap, rand_gen
-) -> Tuple[Optional[Agent], str]:
+def get_partner(
+    agent: Agent, all_agent_set: AgentSet, params: DotMap, rand_gen
+) -> Optional[Agent]:
     """
     :Purpose:
         Get partner for agent.
@@ -28,68 +28,33 @@ def select_partner(
     """
     agent_drug_type = agent.drug_use
     partner = None
-    partner_set: Set[Agent] = set(need_partners)
-    eligible_partner_set = partner_set - set(agent.partners) - {agent}
-    RandomPartner: Optional[Agent]
-
-    def bondtype(bond_dict):
-        bonds = {"type": [], "prob": []}
-        for value in bond_dict:
-            print(value)
-            bonds["type"].append(value["type"])
-            bonds["prob"].append(value["probability"])
-        bonded_type = rand_gen.choices(bonds["type"], weights=bonds["prob"], k=1)
-        return bonded_type
-
-    def assort(eligible_partner_list, assort_params):
-        if (
-            rand_gen.random() < assort_params["probability"]
-        ):
-            eligible_partners = {
-                partner
-                for partner in eligible_partner_list
-                if (
-                    getattr(partner, assort_params["type"])
-                    == assort_params["partner_type"]
-                )
-            }
-        else:
-            eligible_partners = {
-                partner
-                for partner in eligible_partner_list
-                if (
-                    getattr(partner, assort_params["type"])
-                    != assort_params["partner_type"]
-                )
-            }
-        return eligible_partners
-
-    if params.features.assort:
-        for assort_types in params.assort_mixing.values():
-            if getattr(agent, assort_types["type"]) == assort_types["agent_type"]:
-                eligible_partner_set = assort(eligible_partner_set, assort_types)
 
     if agent_drug_type == "Inj":
-        agent_bond = bondtype(params.partnership.bond.type)
+        if rand_gen.random() < 0.8:
+            # choose from PWID agents
+            partner = get_random_pwid_partner(agent, all_agent_set, rand_gen)
+
+        # either didn't try to get PWID partner, or failed to get PWID partner
+        if partner is None:
+            get_random_sex_partner(agent, all_agent_set, params, rand_gen)
+    elif agent_drug_type in ("None", "NonInj"):
+        if params.features.assort_mix and (
+            rand_gen.random() < params.demographics[agent.race].assort_mix.coefficient
+        ):
+            partner = get_assort_sex_partner(agent, all_agent_set, params, rand_gen)
+
+            # try again with random sex partner is assort mix percent not 100%
+            if partner is None and params.assort_mix.coefficient <= 1.0:
+                partner = get_random_sex_partner(agent, all_agent_set, params, rand_gen)
+        else:
+            partner = get_random_sex_partner(agent, all_agent_set, params, rand_gen)
     else:
-        agent_bond = bondtype(params.partnership.bond.type)
+        raise ValueError("Check method _get_partners(). Agent not caught!")
 
-    if "injection" in agent_bond:
-        eligible_partner_set = {partner for partner in eligible_partner_set
-                                if partner.drug_use == "Inj"}
-    if "sexual" in agent_bond:
-        eligible_partner_set = {partner
-                                for partner in eligible_partner_set
-                                if sex_possible(agent.so, partner.so, params)}
-    if "social" in agent_bond:
-        eligible_partner_set = eligible_partner_set
-
-    if eligible_partner_set:
-        random_partner = rand_gen.choices(eligible_partner_set, k=1)[0]
+    if partner == agent:
+        return None
     else:
-        random_partner = None
-
-    return random_partner, agent_bond
+        return partner
 
 
 def get_random_pwid_partner(

@@ -33,9 +33,8 @@ def make_population(params):
 
 # helper method to generate a fake number deterministically
 class FakeRandom:
-    def __init__(self, num: float, fake_choice: int=0):
+    def __init__(self, num: float):
         self.num = num
-        self.fake_choice = fake_choice
 
     def random(self):
         return self.num
@@ -48,9 +47,6 @@ class FakeRandom:
 
     def choice(self, seq):
         return seq[-1]
-
-    def choices(self, seq, weights=None, k=1):
-        return list(seq)[self.fake_choice]
 
 
 def test_pop_init(make_population):
@@ -219,7 +215,7 @@ def test_update_agent_partners_no_match(make_population, params):
 
     agent = pop.all_agents.members[0]  # the only agent in the pop
 
-    pop.update_agent_partners(agent, pop.all_agents)  # noMatch == True
+    pop.update_agent_partners(agent)  # noMatch == True
     assert agent in pop.graph.nodes()
     assert len(pop.graph.edges()) == 0
 
@@ -235,7 +231,7 @@ def test_update_agent_partners_match(make_population, params):
     pop.add_agent(a)
     pop.add_agent(p)
 
-    pop.update_agent_partners(a, pop.all_agents)
+    pop.update_agent_partners(a)
     assert a in pop.graph.nodes()
     assert p in pop.graph.nodes()
     assert len(pop.graph.edges()) == 1

@@ -29,7 +29,7 @@ features:
   prep: true
   haart: false
   die_and_replace: false
-  static_network: true
+  static_n: true
   pca: true
 calibration:
   needle:

@@ -180,28 +180,28 @@ if model == "PrEP":
     params.features.high_risk = False
     params.features.haart = True
     params.features.die_and_replace = True
-    params.features.static_network = False
+    params.features.static_n = False
 elif model == "Incar":
     params.features.incar = True
     params.features.prep = False
     params.features.high_risk = True
     params.features.haart = True
     params.features.die_and_replace = True
-    params.features.static_network = False
+    params.features.static_n = False
 elif model == "NoIncar":
     params.features.incar = False
     params.features.prep = False
     params.features.high_risk = False
     params.features.haart = True
     params.features.die_and_replace = True
-    params.features.static_network = False
+    params.features.static_n = False
 elif model == "VaccinePrEP":
     params.features.incar = False
     params.features.prep = True
     params.features.high_risk = False
     params.features.haart = True
     params.features.die_and_replace = True
-    params.features.static_network = False
+    params.features.static_n = False
     params.vaccine.booster = False
 elif model == "Custom":
     params.features.incar = False
@@ -209,7 +209,7 @@ elif model == "Custom":
     params.features.high_risk = False
     params.features.haart = True
     params.features.die_and_replace = True
-    params.features.static_network = False
+    params.features.static_n = False
 
 agentPopulations = ["MSM"]
 params.classes.sex_types = ["MSM"]

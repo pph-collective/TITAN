@@ -52,7 +52,7 @@ features:
   prep: false
   haart: true
   die_and_replace: true
-  static_network: false
+  static_n: false
   agent_zero: false
 assort_mix:
   type: high_risk
