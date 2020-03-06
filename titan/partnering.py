@@ -34,10 +34,11 @@ def select_partner(
 
     def bondtype(bond_dict):
         bonds = {"type": [], "prob": []}
-        for value in bond_dict[agent.race]:
-            bonds["type"].append(value["type"])
-            bonds["prob"].append(value["probability"])
-        print(bonds)
+
+        for bond, val in bond_dict.items():
+            if bond != "prob":
+                bonds["type"].append(bond_dict[bond])
+                bonds["prob"].append(bond_dict[bond].prob)
         bonded_type = rand_gen.choices(bonds["type"], weights=bonds["prob"], k=1)
         return bonded_type
 
@@ -66,11 +67,10 @@ def select_partner(
         for assort_types in params.assort_mix.assortativity.assort_type:
             if getattr(agent, assort_types.assort_type) == assort_types["agent_type"]:
                 eligible_partner_set = assort(eligible_partner_set, assort_types)
-
-    if agent_drug_type == "Inj":
-        agent_bond = bondtype(params.partnering.bond)
+    if agent.drug_use == "Inj":
+        agent_bond = bondtype(params.partnership.bonds["PWID"])
     else:
-        agent_bond = bondtype(params.partnering.bond)
+        agent_bond = bondtype(params.partnership.bonds[agent.so])
 
     if "injection" in agent_bond:
         eligible_partner_set = {
@@ -86,7 +86,7 @@ def select_partner(
         eligible_partner_set = eligible_partner_set
 
     if eligible_partner_set:
-        random_partner = rand_gen.choices(eligible_partner_set, k=1)[0]
+        random_partner = rand_gen.choice(list(eligible_partner_set))
     else:
         random_partner = None
 

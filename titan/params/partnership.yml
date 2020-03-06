@@ -221,19 +221,16 @@ partnership:
           prob: 0.228
           min: 30
           max: 30
-
-  bond_types:
-    type: bin
-    description: "Binned probabilities of bond types"
-    fields:
+  bonds:
+    type: sub-dict
+    keys:
+      - populations
+      - bond_types
+    description: Probabilities by population for bond type
+    default:
       prob:
+        default: 0.0
         type: float
         min: 0.0
         max: 1.0
-      bonds:
-        type: array
-    default:
-      prob: 1.0
-      bonds:
-        - sex
-        - injection
+

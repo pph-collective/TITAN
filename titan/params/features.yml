@@ -51,3 +51,7 @@ features:
     default: false
     description: Whether mixing is assortative
     type: boolean
+  bond_type:
+    default: false
+    description: whether predefined bond types are used
+    type: boolean
