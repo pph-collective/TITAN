@@ -2,32 +2,14 @@ demographics:
   BLACK:
     ppl: 0.6
     MSM:
-      ppl: 0.3
+      ppl: 1.0
       num_partners: 10.0
-    HM:
-      ppl: 0.3
-    HF:
-      ppl: 0.2
-    WSW:
-      ppl: 0.1
-    MTF:
-      ppl: 0.1
-    PWID:
-      ppl: 0.2
+
   WHITE:
     ppl: 0.4
     MSM:
-      ppl: 0.3
-    HM:
-      ppl: 0.3
-    HF:
-      ppl: 0.2
-    WSW:
-      ppl: 0.1
-    MTF:
-      ppl: 0.1
-    PWID:
-      ppl: 0.3
+      ppl: 1.0
+      num_partners: 25.0
 
 partnership:
   sex:
@@ -65,7 +47,7 @@ features:
   haart: true
   die_and_replace: true
   static_network: false
-  agent_zero: true
+  agent_zero: false
   assort_mix: false
   vaccine: true
   partner_tracing: true

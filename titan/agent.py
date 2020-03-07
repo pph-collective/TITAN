@@ -56,6 +56,7 @@ class Agent:
         self.relationships: List[Relationship] = []
         self.partners: List[Agent] = []
         self.mean_num_partners = 0
+        self.target_partners = 0
 
         # agent STI params
         self.hiv = False

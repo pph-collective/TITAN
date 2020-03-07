@@ -143,8 +143,7 @@ class Population:
             self.initialize_incarceration()
 
         # initialize relationships
-        for i in range(10):
-            self.update_partner_assignments()
+        self.update_partner_assignments()
 
         if self.enable_graph:
             self.initialize_graph()
@@ -428,7 +427,7 @@ class Population:
 
         return no_match
 
-    def update_partner_assignments(self):
+    def update_partner_assignments(self, t=0):
         """
         :Purpose:
             Determines which agents will seek new partners from All_agentSet.
@@ -438,18 +437,27 @@ class Population:
             None
         """
         # Now create partnerships until available partnerships are out
-        eligible_agents = {
-            agent
-            for agent in self.all_agents
-            if len(agent.partners) < agent.mean_num_partners
-        }
-
+        eligible_partners = set()
+        eligible_agents = set()
+        for agent in self.all_agents:
+            if t % 12 == 0 or t == 0:
+                agent.target_partners = round(poisson.rvs(agent.mean_num_partners, size=1)[0])
+            if len(agent.partners) < agent.target_partners:
+                eligible_agents.add(agent)
+            if len(agent.partners) < (agent.target_partners * 1.1):
+                eligible_partners.add(agent)
         for agent in eligible_agents:
-            # add agent to network
-            needed_bonds = agent.mean_num_partners - len(agent.partners)
-            for i in range(needed_bonds):
-                self.update_agent_partners(agent, eligible_agents)
-            eligible_agents.remove(agent)
+            found_no_partners = 0
+            while agent.target_partners > len(agent.partners):
+                no_match = self.update_agent_partners(agent, eligible_partners)
+                if no_match:
+                    found_no_partners += 1
+                else:
+                    eligible_partners.remove(agent.partners[-1])
+                if found_no_partners >= 5:
+                    print("no partner caught")
+                    break
+
 
     def initialize_graph(self):
         """

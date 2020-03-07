@@ -8,9 +8,9 @@ from titan.parse_params import create_params
 
 
 @pytest.fixture
-def params(tmpdir):
+def params(tmpdir, paramname="basic.yml"):
     param_file = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
+        os.path.dirname(os.path.abspath(__file__)), "params", paramname
     )
     return create_params(None, param_file, tmpdir)
 

@@ -378,8 +378,10 @@ class HIVModel:
         :Output:
             none
         """
+        print("Updating agents")
         if time > 0 and self.params.features.static_network is False:
-            self.pop.update_partner_assignments()
+            print("Updating partnerships")
+            self.pop.update_partner_assignments(t=time)
 
         for rel in self.pop.relationships:
             # If in burn, ignore interactions
@@ -1245,7 +1247,7 @@ class HIVModel:
                 # End all existing relationships
                 for rel in agent.relationships:
                     rel.progress(force=True)
-                    self.pop.remove_relationship()
+                    self.pop.remove_relationship(rel)
 
         # replace stage
         for agent in self.deaths:
