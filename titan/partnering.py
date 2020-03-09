@@ -74,7 +74,6 @@ def select_partner(
         agent_bond = bondtype(params.partnership.bonds["PWID"])
     else:
         agent_bond = bondtype(params.partnership.bonds[agent.so])
-    print(agent.drug_use, agent.so, agent_bond)
 
     if "needle" in params.classes.bond_types[agent_bond].acts_allowed:
         eligible_partner_set = {

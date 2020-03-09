@@ -276,7 +276,7 @@ class Population:
             )
 
         if self.params.features.pca:
-            if self.pop_random.random() < self.params.prep.pca.prep_awareness.init:
+            if self.pop_random.random() < self.params.prep.pca.awareness.init:
                 agent.prep_awareness = True
             attprob = self.pop_random.random()
             pvalue = 0.0
@@ -378,7 +378,8 @@ class Population:
         self.relationships.remove(rel)
 
         if self.enable_graph:
-            self.graph.remove_edge(rel.agent1, rel.agent2)
+            if (rel.agent1, rel.agent2) in self.graph.edges():
+                self.graph.remove_edge(rel.agent1, rel.agent2)
 
     def get_age(self, race: str):
         rand = self.pop_random.random()
@@ -457,7 +458,6 @@ class Population:
                 else:
                     eligible_partners.remove(agent.partners[-1])
                 if found_no_partners >= 5:
-                    print("no partner caught")
                     break
 
     def initialize_graph(self):
@@ -480,7 +480,6 @@ class Population:
                             rel.progress(forceKill=True)
                             self.relationships.remove(rel)
                             component.remove_edge(rel.agent1, rel.agent2)
-                            self.graph.remove_edge(rel.agent1, rel.agent2)
 
                 # recurse on new sub-components
                 sub_comps = list(

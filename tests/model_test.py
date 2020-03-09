@@ -173,7 +173,7 @@ def test_sex_transmission_do_nothing(make_model, make_agent):
     model.sex_transmission(rel, 0)
 
 
-def test_pca_interaction(make_model, make_agent):
+def test_pca_interaction(make_model, make_agent, params):
     model = make_model()
     a = make_agent()
     p = make_agent()
@@ -186,7 +186,7 @@ def test_pca_interaction(make_model, make_agent):
     model.pop.graph.add_edge(a, p)
     model.pop.graph.add_edge(a, "edge")
 
-    rel = Relationship(a, p, 10, bond_type="multiplex")
+    rel = Relationship(a, p, 10, bond_type="SexInj")
     model.pca_interaction(rel, 5, force=True)
 
     assert p.prep_awareness

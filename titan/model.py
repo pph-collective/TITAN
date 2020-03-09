@@ -378,9 +378,7 @@ class HIVModel:
         :Output:
             none
         """
-        print("Updating agents")
         if time > 0 and self.params.features.static_network is False:
-            print("Updating partnerships")
             self.pop.update_partner_assignments(t=time)
 
         for rel in self.pop.relationships:
@@ -401,7 +399,7 @@ class HIVModel:
         for agent in self.pop.all_agents:
             if (
                 self.params.features.pca
-                and self.run_random.random() < self.params.prep.prep_awareness.prob
+                and self.run_random.random() < self.params.prep.pca.awareness.prob
                 and not burn
             ):
                 agent.prep_awareness = True
@@ -546,13 +544,13 @@ class HIVModel:
             if self.run_random.random() < self.params.prep.pca.prep.prob:
                 if (
                     agent_opinion
-                    < self.params.prep.pca.prep_opinion.threshold
+                    < self.params.prep.pca.opinion.threshold
                     < agent.prep_opinion
                 ):
                     self.initiate_prep(agent, time, force=True)
                 elif (
                     partner_opinion
-                    < self.params.prep.pca.prep_opinion.threshold
+                    < self.params.prep.pca.opinion.threshold
                     < partner.prep_opinion
                 ):
                     self.initiate_prep(partner, time, force=True)

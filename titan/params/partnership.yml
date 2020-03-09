@@ -221,6 +221,10 @@ partnership:
           prob: 0.228
           min: 30
           max: 30
+        7:
+          prob: 1.0
+          min: 30
+          max: 30
   bonds:
     type: sub-dict
     keys:

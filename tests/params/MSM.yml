@@ -53,6 +53,7 @@ features:
   partner_tracing: true
   msmw: true
   bond_type: true
+  pca: true
 
 model:
   num_pop: 100
