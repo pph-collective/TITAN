@@ -34,12 +34,15 @@ def select_partner(
 
     def bondtype(bond_dict):
         bonds = {"type": [], "prob": []}
-
         for bond, val in bond_dict.items():
             if bond != "prob":
-                bonds["type"].append(bond_dict[bond])
-                bonds["prob"].append(bond_dict[bond].prob)
-        bonded_type = rand_gen.choices(bonds["type"], weights=bonds["prob"], k=1)
+                bonds["type"].append(bond)
+                bonds["prob"].append(val.prob)
+        bonded_type_hold = rand_gen.choices(bonds["type"], weights=bonds["prob"], k=1)
+        if type(bonded_type_hold) == str:
+            bonded_type = bonded_type_hold
+        else:
+            bonded_type = bonded_type_hold[0]
         return bonded_type
 
     def assort(eligible_partner_list, assort_params):
@@ -71,18 +74,19 @@ def select_partner(
         agent_bond = bondtype(params.partnership.bonds["PWID"])
     else:
         agent_bond = bondtype(params.partnership.bonds[agent.so])
+    print(agent.drug_use, agent.so, agent_bond)
 
-    if "injection" in agent_bond:
+    if "needle" in params.classes.bond_types[agent_bond].acts_allowed:
         eligible_partner_set = {
             partner for partner in eligible_partner_set if partner.drug_use == "Inj"
         }
-    if "sexual" in agent_bond:
+    if "sex" in params.classes.bond_types[agent_bond].acts_allowed:
         eligible_partner_set = {
             partner
             for partner in eligible_partner_set
             if sex_possible(agent.so, partner.so, params)
         }
-    if "social" in agent_bond:
+    if "social" in params.classes.bond_types[agent_bond].acts_allowed:
         eligible_partner_set = eligible_partner_set
 
     if eligible_partner_set:

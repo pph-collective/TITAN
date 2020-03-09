@@ -441,7 +441,9 @@ class Population:
         eligible_agents = set()
         for agent in self.all_agents:
             if t % 12 == 0 or t == 0:
-                agent.target_partners = round(poisson.rvs(agent.mean_num_partners, size=1)[0])
+                agent.target_partners = round(
+                    poisson.rvs(agent.mean_num_partners, size=1)[0]
+                )
             if len(agent.partners) < agent.target_partners:
                 eligible_agents.add(agent)
             if len(agent.partners) < (agent.target_partners * 1.1):
@@ -457,7 +459,6 @@ class Population:
                 if found_no_partners >= 5:
                     print("no partner caught")
                     break
-
 
     def initialize_graph(self):
         """
