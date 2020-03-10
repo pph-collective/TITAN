@@ -181,7 +181,7 @@ if model == "PrEP":
     flag_high_risk = False
     params.features.haart = True
     params.features.die_and_replace = True
-    params.features.static_n = False
+    params.features.static_network = False
     params.features.agent_zero = False
 
 elif model == "Incar":
@@ -190,7 +190,7 @@ elif model == "Incar":
     flag_high_risk = True
     params.features.haart = True
     params.features.die_and_replace = True
-    params.features.static_n = False
+    params.features.static_network = False
     params.features.agent_zero = False
 
 elif model == "NoIncar":
@@ -199,7 +199,7 @@ elif model == "NoIncar":
     flag_high_risk = True
     params.features.haart = True
     params.features.die_and_replace = True
-    params.features.static_n = False
+    params.features.static_network = False
     params.features.agent_zero = False
 
 elif model == "StaticZero":
@@ -208,7 +208,7 @@ elif model == "StaticZero":
     flag_high_risk = False
     params.features.haart = False
     params.features.die_and_replace = False
-    params.features.static_n = True
+    params.features.static_network = True
     params.features.agent_zero = False
 
 elif model == "Custom":
@@ -217,7 +217,7 @@ elif model == "Custom":
     flag_high_risk = False
     params.features.haart = True
     params.features.die_and_replace = True
-    params.features.static_n = False
+    params.features.static_network = False
     params.features.agent_zero = False
 
 params.classes.sex_types = ["HM", "HF", "MSM"]

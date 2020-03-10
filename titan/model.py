@@ -390,7 +390,7 @@ class HIVModel:
                 self.agents_interact(time, rel)
 
             # If static network, ignore relationship progression
-            if not self.params.features.static_n:
+            if not self.params.features.static_network:
                 if rel.progress():
                     self.pop.remove_relationship(rel)
 
