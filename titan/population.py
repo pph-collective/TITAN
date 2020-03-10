@@ -37,7 +37,8 @@ class Population:
         self.pop_random = random.Random(self.pop_seed)
         self.np_random = np.random.RandomState(self.pop_seed)
 
-        # this sets the global random seed for the population generation phase, during model init it gets reset at the very end
+        # this sets the global random seed for the population generation phase, during
+        # model init it gets reset at the very end
         random.seed(self.pop_seed)
 
         self.enable_graph = params.model.network.enable
@@ -395,13 +396,12 @@ class Population:
         age = self.pop_random.randrange(min_age, max_age)
         return age, i
 
-    # REVIEWED should these be in the network class? - max to incorporate with network/pop/model disentangling?
-
     def update_agent_partners(self, agent: Agent, need_partners: Set) -> bool:
         """
         :Purpose:
-            Finds and bonds new partner. Creates relationship object for partnership, calcs
-            partnership duration, and adds to networkX graph if self.enable_graph is set True.
+            Finds and bonds new partner. Creates relationship object for partnership,
+            calcspartnership duration, and adds to networkX graph if self.enable_graph
+            is set True.
 
         :Input:
             agent : Agent
@@ -463,7 +463,8 @@ class Population:
     def initialize_graph(self):
         """
         :Purpose:
-            Initialize network with graph-based algorithm for relationship adding/pruning
+            Initialize network with graph-based algorithm for relationship
+            adding/pruning
 
         :Input:
             None
@@ -476,7 +477,7 @@ class Population:
                     if random.random() < 0.1:
                         for rel in ag.relationships:
                             if len(ag.relationships) == 1:
-                                break  # Make sure that agents stay part of the network by keeping one bond
+                                break  # Make sure that agents stay part of the network
                             rel.progress(forceKill=True)
                             self.relationships.remove(rel)
                             component.remove_edge(rel.agent1, rel.agent2)

@@ -1,6 +1,5 @@
 import oyaml as yaml  # type: ignore
 import os
-import sys
 import collections
 from inspect import currentframe, getframeinfo
 from pathlib import Path

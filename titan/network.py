@@ -5,15 +5,14 @@ import networkx as nx  # type: ignore
 from networkx.drawing.nx_agraph import graphviz_layout  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 import matplotlib.patches as patches  # type: ignore
-from typing import Sequence, List, Dict, Optional
-from dotmap import DotMap  # type: ignore
 
 
 class NetworkGraphUtils:
     def __init__(self, graph: nx.Graph):
         """
         :Purpose:
-            This is the base class used to gather statistics from an exsting networkx graph object.
+            This is the base class used to gather statistics from an
+            exsting networkx graph object.
 
         :Input:
             graph : nx.Graph
@@ -85,7 +84,7 @@ class NetworkGraphUtils:
                 elif tmp_sextype == "MTF":
                     node_color.append("y")
                 else:
-                    raise ValueError("Check agents %s sextype %s" % (v, tmp_sextype))
+                    raise ValueError(f"Check agents {v} sextype {tmp_sextype}")
         elif coloring == "DU":
             for v in G:
                 tmp_drugtype = v.drug_use
@@ -96,7 +95,7 @@ class NetworkGraphUtils:
                 elif tmp_drugtype == "Inj":
                     node_color.append("r")
                 else:
-                    raise ValueError("Check agents %s drug type %s" % (v, tmp_drugtype))
+                    raise ValueError("Check agents {v}'s drug type {tmp_drugtype}")
         elif coloring == "Tested":
             for v in G:
                 if v.haart:
@@ -155,9 +154,8 @@ class NetworkGraphUtils:
                     raise ValueError("Check agents %s drug type %s" % (v, tmp_drugtype))
         else:
             raise ValueError(
-                "coloring value invalid!\n%s\n \
+                "coloring value invalid!\n{coloring}\n \
             Only 'SO','DU','Tested', 'Trtmt', and 'HIV' allowed!"
-                % str(coloring)
             )
 
         return node_color
@@ -243,7 +241,10 @@ class NetworkGraphUtils:
         )
 
         textstr = "\n".join(
-            (r"N infection=%.2f" % (txtboxLabel,), r"Time=%.2f" % (curtime,))
+            (
+                r"N infection={:.2f}".format(txtboxLabel,),
+                r"Time={:.2f}".format(curtime,),
+            )
         )
 
         # these are matplotlib.patch.Patch properties
@@ -260,11 +261,9 @@ class NetworkGraphUtils:
             bbox=props,
         )
 
-        filename = "results/network/%s_%d_%s_%d.png" % (
-            label,
-            G.number_of_nodes(),
-            coloring,
-            curtime,
+        filename = (
+            f"results/network/{label}_{G.number_of_nodes()}_"
+            f"{coloring}_{curtime}.png"
         )
 
         fig.savefig(filename)

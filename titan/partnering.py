@@ -2,13 +2,11 @@
 # encoding: utf-8
 
 # Imports
-import random
 from typing import Set, Optional, Tuple
 
 from dotmap import DotMap  # type: ignore
 
-from .agent import Agent, AgentSet
-from . import utils
+from .agent import Agent
 
 
 def select_partner(
@@ -111,9 +109,9 @@ def sex_possible(agent_sex_type: str, partner_sex_type: str, params: DotMap) -> 
 
     # Check input
     if agent_sex_type not in params.classes.sex_types:
-        raise ValueError("Invalid agent_sex_type! %s" % str(agent_sex_type))
+        raise ValueError("Invalid agent_sex_type! {}".format(str(agent_sex_type)))
     if partner_sex_type not in params.classes.sex_types:
-        raise ValueError("Invalid partner_sex_type! %s" % str(partner_sex_type))
+        raise ValueError("Invalid partner_sex_type! {}".format(str(partner_sex_type)))
 
     agent_match = (
         agent_sex_type in params.classes.sex_types[partner_sex_type].sleeps_with
