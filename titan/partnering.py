@@ -3,7 +3,7 @@
 
 # Imports
 import random
-from typing import Optional, Tuple, Set
+from typing import Sequence, List, Dict, Optional, TypeVar
 
 from dotmap import DotMap  # type: ignore
 
@@ -12,8 +12,8 @@ from . import utils
 
 
 def select_partner(
-    agent: Agent, need_partners: Set, params: DotMap, rand_gen
-) -> Tuple[Optional[Agent], str]:
+    agent: Agent, all_agent_set: AgentSet, params: DotMap, rand_gen
+) -> Optional[Agent]:
     """
     :Purpose:
         Get partner for agent.
@@ -90,9 +90,12 @@ def select_partner(
     if eligible_partner_set:
         random_partner = rand_gen.choice(list(eligible_partner_set))
     else:
-        random_partner = None
+        raise ValueError("Check method _get_partners(). Agent not caught!")
 
-    return random_partner, agent_bond
+    if partner == agent:
+        return None
+    else:
+        return partner
 
 
 def sex_possible(agent_sex_type: str, partner_sex_type: str, params: DotMap) -> bool:

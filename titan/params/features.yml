@@ -19,9 +19,9 @@ features:
     default: false
     description: Whether agents can die in the model, if so they will be replaced
     type: boolean
-  static_network:
+  static_n:
     default: false
-    description: Whether the network is static across time.
+    description: ????
     type: boolean
   agent_zero:
     default: false

@@ -3,14 +3,14 @@
 
 import random
 
-from typing import List, Dict, Set, Any
+from typing import List, Dict, Any
 from scipy.stats import poisson  # type: ignore
 import numpy as np  # type: ignore
 from dotmap import DotMap  # type: ignore
 import networkx as nx  # type: ignore
 
 from .agent import AgentSet, Agent, Relationship
-from .partnering import select_partner, get_partnership_duration
+from .partnering import get_partner, get_partnership_duration
 from . import utils
 
 
@@ -259,7 +259,7 @@ class Population:
             agent.high_risk = True
             agent.high_risk_ever = True
 
-        # Partnership demographics # TODO: fix bin!!
+        # Partnership demographics
         if self.params.model.population.num_partners.type == "bins":
             pn_prob = self.pop_random.random()
             current_p_value = bin = 0
@@ -397,7 +397,7 @@ class Population:
 
     # REVIEWED should these be in the network class? - max to incorporate with network/pop/model disentangling?
 
-    def update_agent_partners(self, agent: Agent, need_partners: Set) -> bool:
+    def update_agent_partners(self, agent: Agent) -> bool:
         """
         :Purpose:
             Finds and bonds new partner. Creates relationship object for partnership, calcs
@@ -416,8 +416,24 @@ class Population:
         )
         no_match = False
 
+        def bondtype(bond_dict):
+            pvalue = 0.0
+            bond_probability = self.pop_random.random()
+            bonded_type = "sexOnly"
+            for reltype, p in bond_dict.items():
+                pvalue += p
+                if bond_probability < pvalue:
+                    bonded_type = reltype
+                    break
+            return bonded_type
+
         if partner:
             duration = get_partnership_duration(agent, self.params, self.pop_random)
+
+            if agent.drug_use == "Inj" and partner.drug_use == "Inj":
+                bond_type = bondtype(self.params.partnership.bond.type.PWID)
+            else:
+                bond_type = bondtype(self.params.partnership.bond.type[agent.so])
 
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
 

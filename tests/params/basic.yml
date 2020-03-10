@@ -84,7 +84,7 @@ features:
   high_risk: true
   haart: true
   die_and_replace: true
-  static_network: false
+  static_n: true
   agent_zero: true
   assort_mix: false
   vaccine: true

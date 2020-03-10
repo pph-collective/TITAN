@@ -380,6 +380,7 @@ class HIVModel:
         :Output:
             none
         """
+
         if time > 0 and self.params.features.static_network is False:
             self.pop.update_partner_assignments(t=time)
 
@@ -389,7 +390,7 @@ class HIVModel:
                 self.agents_interact(time, rel)
 
             # If static network, ignore relationship progression
-            if not self.params.features.static_network:
+            if not self.params.features.static_n:
                 if rel.progress():
                     self.pop.remove_relationship(rel)
 

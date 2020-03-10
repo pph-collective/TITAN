@@ -1,0 +1,1095 @@
+msmw:
+  hiv:
+    prob: 0.01
+prep:
+  type:
+  - Oral
+  target: 0.3
+  start: 0
+  efficacy:
+    adherent: 0.96
+    non_adherant: 0.76
+  discontinue: 0.15
+  target_model: CDCwomen
+  half_life: 40.0
+  peak_load: 4.91
+  lai:
+    prob: 0
+  pca:
+    awareness:
+      init: 0
+      prob: 0.055
+    prep:
+      prob: 0.1275
+    choice: bridge
+    opinion:
+      threshold: 3
+      transmission: 0.005
+    knowledge:
+      transmission: 0.01
+    attitude:
+      0:
+        prob: 0.167
+      1:
+        prob: 0.082
+      2:
+        prob: 0.184
+      3:
+        prob: 0.139
+      4:
+        prob: 0.429
+haart:
+  start: 0
+  coverage: 0
+  transmission:
+    prob: 1
+calibration:
+  needle:
+    act: 1.0
+  sex:
+    act: 1.0
+    partner: 1.0
+  transmission: 1.0
+  test_frequency: 1.0
+  mortality: 1.0
+  haart_coverage: 1.0
+  incarceration: 1.0
+hiv:
+  dx:
+    risk_reduction: 0
+  acute:
+    infectivity: 4.3
+  aids:
+    prob: 1.0
+outputs:
+  print_frequency: 10
+  network:
+    draw_figures: false
+    edge_list: false
+    calc_network_stats: false
+    calc_component_stats: false
+  reports:
+  - deathReport
+  - incarReport
+  - newlyhighriskReport
+  - prepReport
+  - basicReport
+classes:
+  races:
+  - WHITE
+  - BLACK
+  sex_types:
+    HM:
+      gender: M
+      cis_trans: cis
+      sleeps_with:
+      - HF
+      - MTF
+    HF:
+      gender: F
+      cis_trans: cis
+      sleeps_with:
+      - HM
+    MSM:
+      gender: M
+      cis_trans: cis
+      sleeps_with:
+      - MSM
+      - MTF
+    WSW:
+      gender: F
+      cis_trans: cis
+      sleeps_with:
+      - WSW
+      - MTF
+    MTF:
+      gender: F
+      cis_trans: trans
+      sleeps_with:
+      - WSW
+      - HM
+      - MSM
+  bond_types:
+  - sexualOnly
+  - multiplex
+  - social
+  drug_types:
+  - Inj
+  - NonInj
+  - None
+  populations:
+  - PWID
+  - HM
+  - HF
+  - MSM
+  - WSW
+  - MTF
+model:
+  processes: 1
+  seed:
+    run: 0
+    net: 0
+    ppl: 0
+  num_reps: 1
+  num_pop: 100
+  time_range: 12
+  burn_duration: 6
+  network:
+    enable: true
+    type: scale_free
+    component_size:
+      max: 100
+  population:
+    num_partners:
+      type: poisson
+      bins:
+        0:
+          prob: 0.083,
+        1:
+          prob: 0.181,
+        2:
+          prob: 0.229,
+        3:
+          prob: 0.172,
+        4:
+          prob: 0.112,
+        5:
+          prob: 0.102,
+        6:
+          prob: 0.071,
+        7:
+          prob: 0.028,
+        8:
+          prob: 0.019,
+        9:
+          prob: 0.005,
+high_risk:
+  partner_scale: 300
+  proportion: 0.3
+  condom_use_type: Race
+  sex_based:
+    HM:
+      duration: 6
+    HF:
+      duration: 6
+    MSM:
+      duration: 6
+    WSW:
+      duration: 6
+    MTF:
+      duration: 6
+vaccine:
+  type: RV144
+  booster: true
+  start: 1
+  init: true
+partnership:
+  sex:
+    duration:
+      1:
+        prob: 0.585
+        min: 1
+        max: 6
+      2:
+        prob: 0.701
+        min: 7
+        max: 12
+      3:
+        prob: 0.822
+        min: 13
+        max: 24
+      4:
+        prob: 0.882
+        min: 25
+        max: 36
+      5:
+        prob: 1.0
+        min: 37
+        max: 48
+    frequency:
+      1:
+        prob: 0.585
+        min: 1
+        max: 6
+      2:
+        prob: 0.701
+        min: 7
+        max: 12
+      3:
+        prob: 0.822
+        min: 13
+        max: 24
+      4:
+        prob: 0.882
+        min: 25
+        max: 36
+      5:
+        prob: 1.0
+        min: 37
+        max: 48
+    transmission:
+      HM:
+        0: &id001
+          prob: 0.001
+        1: &id002
+          prob: 0.001
+        2: &id003
+          prob: 0.0008
+        3: &id004
+          prob: 0.0004
+        4: &id005
+          prob: 0.0002
+        5: &id006
+          prob: 0.0
+      HF:
+        0: *id001
+        1: *id002
+        2: *id003
+        3: *id004
+        4: *id005
+        5: *id006
+      MSM:
+        0:
+          prob: 0.08
+        1: *id002
+        2: *id003
+        3: *id004
+        4: *id005
+        5: *id006
+      WSW:
+        0: *id001
+        1: *id002
+        2: *id003
+        3: *id004
+        4: *id005
+        5: *id006
+      MTF:
+        0: *id001
+        1: *id002
+        2: *id003
+        3: *id004
+        4: *id005
+        5: *id006
+    role_scaling:
+      HM:
+        vers: 1
+        top: 1
+        bottom: 1
+      HF:
+        vers: 1
+        top: 1
+        bottom: 1
+      MSM:
+        vers: 1.1
+        top: 1.2
+        bottom: 1.3
+      WSW:
+        vers: 1
+        top: 1
+        bottom: 1
+      MTF:
+        vers: 1
+        top: 1
+        bottom: 1
+  needle:
+    duration:
+      1:
+        prob: 1.0
+        min: 1
+        max: 6
+    frequency:
+      1:
+        prob: 1.0
+        min: 1
+        max: 6
+    transmission:
+      0:
+        prob: 0.007
+      1:
+        prob: 0.007
+      2:
+        prob: 0.0056
+      3:
+        prob: 0.0028
+      4:
+        prob: 0.0014
+      5:
+        prob: 0.0002
+  interaction:
+    sexualOnly:
+      1: &id007
+        prob: 0.306
+        min: 0
+        max: 0
+      2: &id008
+        prob: 0.144
+        min: 1
+        max: 1
+      3: &id009
+        prob: 0.067
+        min: 2
+        max: 2
+      4: &id010
+        prob: 0.106
+        min: 4
+        max: 4
+      5: &id011
+        prob: 0.15
+        min: 5
+        max: 29
+      6: &id012
+        prob: 0.228
+        min: 30
+        max: 30
+    multiplex:
+      1: *id007
+      2: *id008
+      3: *id009
+      4: *id010
+      5: *id011
+      6: *id012
+    social:
+      1: *id007
+      2: *id008
+      3: *id009
+      4: *id010
+      5: *id011
+      6: *id012
+  bond:
+    type:
+      PWID:
+        social: 0.308
+        multiplex: 0.105
+        sexualOnly: 0.587
+      HM:
+        social: 0.308
+        multiplex: 0.105
+        sexualOnly: 0.587
+      HF:
+        social: 0.308
+        multiplex: 0.105
+        sexualOnly: 0.587
+      MSM:
+        social: 0.308
+        multiplex: 0.105
+        sexualOnly: 0.587
+      WSW:
+        social: 0.308
+        multiplex: 0.105
+        sexualOnly: 0.587
+      MTF:
+        social: 0.308
+        multiplex: 0.105
+        sexualOnly: 0.587
+incar:
+  hiv:
+    dx: 0.69
+  haart:
+    prob: 0.51
+    adherence: 0.21
+    discontinue: 0.12
+assort_mix:
+  type: Race
+  coefficient: 0.75
+features:
+  incar: true
+  prep: true
+  high_risk: true
+  haart: true
+  die_and_replace: true
+  static_n: true
+  agent_zero: true
+  assort_mix: true
+  vaccine: true
+  partner_tracing: true
+  msmw: true
+  pca: false
+needle_exchange:
+  prevalence: 1.0
+  coverage: 0.0
+  init_at_pop: 0
+demographics:
+  WHITE:
+    ppl: 0.4
+    hiv:
+      init: 0.0
+      dx:
+        init: 0.0
+        prob: 0.0
+      transmission: 1.0
+    aids:
+      init: 0.0
+    haart:
+      init: 0.0
+      prob: 0.0
+      adherence: 0.0
+      discontinue: 0.0
+    incar:
+      init: 0.0
+      prob: 0.0
+      duration:
+        prob: &id013
+          1:
+            prob: 0.4
+            min: 1
+            max: 2
+          2:
+            prob: 0.475
+            min: 1
+            max: 13
+          3:
+            prob: 0.065
+            min: 13
+            max: 26
+          4:
+            prob: 0.045
+            min: 26
+            max: 78
+          5:
+            prob: 0.01
+            min: 78
+            max: 130
+          6:
+            prob: 0.01
+            min: 130
+            max: 260
+        init: &id014
+          1:
+            prob: 0.14
+            min: 1
+            max: 13
+          2:
+            prob: 0.09
+            min: 13
+            max: 26
+          3:
+            prob: 0.2
+            min: 26
+            max: 78
+          4:
+            prob: 0.11
+            min: 78
+            max: 130
+          5:
+            prob: 0.16
+            min: 130
+            max: 260
+          6:
+            prob: 0.3
+            min: 260
+            max: 520
+    num_partners: 0.0
+    num_needle_acts: 0.0
+    safe_sex: 0.0
+    needle_sharing: 0.0
+    prep:
+      discontinue: 0.0
+      adherence: 0.0
+      coverage: 0.0
+    high_risk:
+      init: 0.0
+    vaccine:
+      init: 0.0
+      prob: 0.0
+      booster:
+        interval: 0
+        prob: 0.0
+    assort_mix:
+      coefficient: 0
+    age: &id015
+      1:
+        prob: 0.085
+        min: 15
+        max: 24
+      2:
+        prob: 0.291
+        min: 25
+        max: 34
+      3:
+        prob: 0.511
+        min: 35
+        max: 44
+      4:
+        prob: 0.96
+        min: 45
+        max: 54
+      5:
+        prob: 1
+        min: 55
+        max: 80
+    death_rate:
+      base: 8.6
+      hiv: 17.2
+      aids: 34.4
+    PWID:
+      ppl: 0.3
+      hiv:
+        init: 0.0
+        dx:
+          init: 0.0
+          prob: 0.0
+        transmission: 1.0
+      aids:
+        init: 0.0
+      haart:
+        init: 0.0
+        prob: 0.0
+        adherence: 0.0
+        discontinue: 0.0
+      incar:
+        init: 0.0
+        prob: 0.0
+        duration:
+          prob: *id013
+          init: *id014
+      num_partners: 0.0
+      num_needle_acts: 0.0
+      safe_sex: 0.0
+      needle_sharing: 0.0
+      prep:
+        discontinue: 0.0
+        adherence: 0.0
+        coverage: 0.0
+      high_risk:
+        init: 0.0
+      vaccine:
+        init: 0.0
+        prob: 0.0
+        booster:
+          interval: 0
+          prob: 0.0
+      assort_mix:
+        coefficient: 0
+      age: *id015
+      death_rate:
+        base: 10.4
+        hiv: 20.8
+        aids: 41.6
+    HM:
+      ppl: 0.3
+      hiv:
+        init: 0.0
+        dx:
+          init: 0.0
+          prob: 0.0
+        transmission: 1.0
+      aids:
+        init: 0.0
+      haart:
+        init: 0.0
+        prob: 0.0
+        adherence: 0.0
+        discontinue: 0.0
+      incar:
+        init: 0.0
+        prob: 0.0
+        duration:
+          prob: *id013
+          init: *id014
+      num_partners: 0.0
+      num_needle_acts: 0.0
+      safe_sex: 0.0
+      needle_sharing: 0.0
+      prep:
+        discontinue: 0.0
+        adherence: 0.0
+        coverage: 0.0
+      high_risk:
+        init: 0.0
+      vaccine:
+        init: 0.0
+        prob: 0.0
+        booster:
+          interval: 0
+          prob: 0.0
+      assort_mix:
+        coefficient: 0
+      age: *id015
+      death_rate:
+        base: 10.4
+        hiv: 20.8
+        aids: 41.6
+    HF:
+      ppl: 0.2
+      hiv:
+        init: 0.0
+        dx:
+          init: 0.0
+          prob: 0.0
+        transmission: 1.0
+      aids:
+        init: 0.0
+      haart:
+        init: 0.0
+        prob: 0.0
+        adherence: 0.0
+        discontinue: 0.0
+      incar:
+        init: 0.0
+        prob: 0.0
+        duration:
+          prob: *id013
+          init: *id014
+      num_partners: 0.0
+      num_needle_acts: 0.0
+      safe_sex: 0.0
+      needle_sharing: 0.0
+      prep:
+        discontinue: 0.0
+        adherence: 0.0
+        coverage: 0.0
+      high_risk:
+        init: 0.0
+      vaccine:
+        init: 0.0
+        prob: 0.0
+        booster:
+          interval: 0
+          prob: 0.0
+      assort_mix:
+        coefficient: 0
+      age: *id015
+      death_rate:
+        base: 10.4
+        hiv: 20.8
+        aids: 41.6
+    MSM:
+      ppl: 0.3
+      hiv:
+        init: 0.0
+        dx:
+          init: 0.0
+          prob: 0.0
+        transmission: 1.0
+      aids:
+        init: 0.0
+      haart:
+        init: 0.0
+        prob: 0.0
+        adherence: 0.0
+        discontinue: 0.0
+      incar:
+        init: 0.0
+        prob: 0.0
+        duration:
+          prob: *id013
+          init: *id014
+      num_partners: 0.0
+      num_needle_acts: 0.0
+      safe_sex: 0.0
+      needle_sharing: 0.0
+      prep:
+        discontinue: 0.0
+        adherence: 0.0
+        coverage: 0.0
+      high_risk:
+        init: 0.0
+      vaccine:
+        init: 0.0
+        prob: 0.0
+        booster:
+          interval: 0
+          prob: 0.0
+      assort_mix:
+        coefficient: 0
+      age: *id015
+      death_rate:
+        base: 10.4
+        hiv: 20.8
+        aids: 41.6
+    WSW:
+      ppl: 0.1
+      hiv:
+        init: 0.0
+        dx:
+          init: 0.0
+          prob: 0.0
+        transmission: 1.0
+      aids:
+        init: 0.0
+      haart:
+        init: 0.0
+        prob: 0.0
+        adherence: 0.0
+        discontinue: 0.0
+      incar:
+        init: 0.0
+        prob: 0.0
+        duration:
+          prob: *id013
+          init: *id014
+      num_partners: 0.0
+      num_needle_acts: 0.0
+      safe_sex: 0.0
+      needle_sharing: 0.0
+      prep:
+        discontinue: 0.0
+        adherence: 0.0
+        coverage: 0.0
+      high_risk:
+        init: 0.0
+      vaccine:
+        init: 0.0
+        prob: 0.0
+        booster:
+          interval: 0
+          prob: 0.0
+      assort_mix:
+        coefficient: 0
+      age: *id015
+      death_rate:
+        base: 10.4
+        hiv: 20.8
+        aids: 41.6
+    MTF:
+      ppl: 0.1
+      hiv:
+        init: 0.0
+        dx:
+          init: 0.0
+          prob: 0.0
+        transmission: 1.0
+      aids:
+        init: 0.0
+      haart:
+        init: 0.0
+        prob: 0.0
+        adherence: 0.0
+        discontinue: 0.0
+      incar:
+        init: 0.0
+        prob: 0.0
+        duration:
+          prob: *id013
+          init: *id014
+      num_partners: 0.0
+      num_needle_acts: 0.0
+      safe_sex: 0.0
+      needle_sharing: 0.0
+      prep:
+        discontinue: 0.0
+        adherence: 0.0
+        coverage: 0.0
+      high_risk:
+        init: 0.0
+      vaccine:
+        init: 0.0
+        prob: 0.0
+        booster:
+          interval: 0
+          prob: 0.0
+      assort_mix:
+        coefficient: 0
+      age: *id015
+      death_rate:
+        base: 10.4
+        hiv: 20.8
+        aids: 41.6
+  BLACK:
+    ppl: 0.6
+    hiv:
+      init: 0.0
+      dx:
+        init: 0.0
+        prob: 0.0
+      transmission: 1.0
+    aids:
+      init: 0.0
+    haart:
+      init: 0.0
+      prob: 0.0
+      adherence: 0.0
+      discontinue: 0.0
+    incar:
+      init: 0.0
+      prob: 0.0
+      duration:
+        prob: *id013
+        init: *id014
+    num_partners: 0.0
+    num_needle_acts: 0.0
+    safe_sex: 0.0
+    needle_sharing: 0.0
+    prep:
+      discontinue: 0.0
+      adherence: 0.0
+      coverage: 0.0
+    high_risk:
+      init: 0.0
+    vaccine:
+      init: 0.0
+      prob: 0.0
+      booster:
+        interval: 0
+        prob: 0.0
+    assort_mix:
+      coefficient: 0
+    age: *id015
+    death_rate:
+      base: 10.4
+      hiv: 20.8
+      aids: 41.6
+    PWID:
+      ppl: 0.2
+      hiv:
+        init: 0.0
+        dx:
+          init: 0.0
+          prob: 0.0
+        transmission: 1.0
+      aids:
+        init: 0.0
+      haart:
+        init: 0.0
+        prob: 0.0
+        adherence: 0.0
+        discontinue: 0.0
+      incar:
+        init: 0.0
+        prob: 0.0
+        duration:
+          prob: *id013
+          init: *id014
+      num_partners: 0.0
+      num_needle_acts: 0.0
+      safe_sex: 0.0
+      needle_sharing: 0.0
+      prep:
+        discontinue: 0.0
+        adherence: 0.0
+        coverage: 0.0
+      high_risk:
+        init: 0.0
+      vaccine:
+        init: 0.0
+        prob: 0.0
+        booster:
+          interval: 0
+          prob: 0.0
+      assort_mix:
+        coefficient: 0
+      age: *id015
+      death_rate:
+        base: 10.4
+        hiv: 20.8
+        aids: 41.6
+    HM:
+      ppl: 0.3
+      hiv:
+        init: 0.0
+        dx:
+          init: 0.0
+          prob: 0.0
+        transmission: 1.0
+      aids:
+        init: 0.0
+      haart:
+        init: 0.0
+        prob: 0.0
+        adherence: 0.0
+        discontinue: 0.0
+      incar:
+        init: 0.0
+        prob: 0.0
+        duration:
+          prob: *id013
+          init: *id014
+      num_partners: 0.0
+      num_needle_acts: 0.0
+      safe_sex: 0.0
+      needle_sharing: 0.0
+      prep:
+        discontinue: 0.0
+        adherence: 0.0
+        coverage: 0.0
+      high_risk:
+        init: 0.0
+      vaccine:
+        init: 0.0
+        prob: 0.0
+        booster:
+          interval: 0
+          prob: 0.0
+      assort_mix:
+        coefficient: 0
+      age: *id015
+      death_rate:
+        base: 10.4
+        hiv: 20.8
+        aids: 41.6
+    HF:
+      ppl: 0.2
+      hiv:
+        init: 0.0
+        dx:
+          init: 0.0
+          prob: 0.0
+        transmission: 1.0
+      aids:
+        init: 0.0
+      haart:
+        init: 0.0
+        prob: 0.0
+        adherence: 0.0
+        discontinue: 0.0
+      incar:
+        init: 0.0
+        prob: 0.0
+        duration:
+          prob: *id013
+          init: *id014
+      num_partners: 0.0
+      num_needle_acts: 0.0
+      safe_sex: 0.0
+      needle_sharing: 0.0
+      prep:
+        discontinue: 0.0
+        adherence: 0.0
+        coverage: 0.0
+      high_risk:
+        init: 0.0
+      vaccine:
+        init: 0.0
+        prob: 0.0
+        booster:
+          interval: 0
+          prob: 0.0
+      assort_mix:
+        coefficient: 0
+      age: *id015
+      death_rate:
+        base: 10.4
+        hiv: 20.8
+        aids: 41.6
+    MSM:
+      ppl: 0.3
+      hiv:
+        init: 0.0
+        dx:
+          init: 0.0
+          prob: 0.0
+        transmission: 1.0
+      aids:
+        init: 0.0
+      haart:
+        init: 0.0
+        prob: 0.0
+        adherence: 0.0
+        discontinue: 0.0
+      incar:
+        init: 0.0
+        prob: 0.0
+        duration:
+          prob: *id013
+          init: *id014
+      num_partners: 0.0
+      num_needle_acts: 0.0
+      safe_sex: 0.0
+      needle_sharing: 0.0
+      prep:
+        discontinue: 0.0
+        adherence: 0.0
+        coverage: 0.0
+      high_risk:
+        init: 0.0
+      vaccine:
+        init: 0.0
+        prob: 0.0
+        booster:
+          interval: 0
+          prob: 0.0
+      assort_mix:
+        coefficient: 0
+      age: *id015
+      death_rate:
+        base: 10.4
+        hiv: 20.8
+        aids: 41.6
+    WSW:
+      ppl: 0.1
+      hiv:
+        init: 0.0
+        dx:
+          init: 0.0
+          prob: 0.0
+        transmission: 1.0
+      aids:
+        init: 0.0
+      haart:
+        init: 0.0
+        prob: 0.0
+        adherence: 0.0
+        discontinue: 0.0
+      incar:
+        init: 0.0
+        prob: 0.0
+        duration:
+          prob: *id013
+          init: *id014
+      num_partners: 0.0
+      num_needle_acts: 0.0
+      safe_sex: 0.0
+      needle_sharing: 0.0
+      prep:
+        discontinue: 0.0
+        adherence: 0.0
+        coverage: 0.0
+      high_risk:
+        init: 0.0
+      vaccine:
+        init: 0.0
+        prob: 0.0
+        booster:
+          interval: 0
+          prob: 0.0
+      assort_mix:
+        coefficient: 0
+      age: *id015
+      death_rate:
+        base: 10.4
+        hiv: 20.8
+        aids: 41.6
+    MTF:
+      ppl: 0.1
+      hiv:
+        init: 0.0
+        dx:
+          init: 0.0
+          prob: 0.0
+        transmission: 1.0
+      aids:
+        init: 0.0
+      haart:
+        init: 0.0
+        prob: 0.0
+        adherence: 0.0
+        discontinue: 0.0
+      incar:
+        init: 0.0
+        prob: 0.0
+        duration:
+          prob: *id013
+          init: *id014
+      num_partners: 0.0
+      num_needle_acts: 0.0
+      safe_sex: 0.0
+      needle_sharing: 0.0
+      prep:
+        discontinue: 0.0
+        adherence: 0.0
+        coverage: 0.0
+      high_risk:
+        init: 0.0
+      vaccine:
+        init: 0.0
+        prob: 0.0
+        booster:
+          interval: 0
+          prob: 0.0
+      assort_mix:
+        coefficient: 0
+      age: *id015
+      death_rate:
+        base: 10.4
+        hiv: 20.8
+        aids: 41.6
