@@ -3,7 +3,7 @@
 
 # Imports
 import random
-from typing import Sequence, List, Dict, Optional, TypeVar, Tuple
+from typing import Set, Optional, Tuple
 
 from dotmap import DotMap  # type: ignore
 
@@ -12,7 +12,7 @@ from . import utils
 
 
 def select_partner(
-    agent: Agent, need_partners: AgentSet, params: DotMap, rand_gen
+    agent: Agent, need_partners: Set, params: DotMap, rand_gen
 ) -> Tuple[Optional[Agent], str]:
     """
     :Purpose:
