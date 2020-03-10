@@ -106,7 +106,7 @@ class Agent:
             String formatted tab-deliminated agent properties
         """
         return (
-            f"\t{self.id:.6}\t{self.age}\t{self.so}\t{self.drug_use}\t"
+            f"\t{self.id}\t{self.age}\t{self.so}\t{self.drug_use}\t"
             f"{self.race}\t{self.hiv}"
         )
 
