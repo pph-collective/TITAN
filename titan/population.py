@@ -417,6 +417,8 @@ class Population:
         no_match = False
 
         if partner:
+
+            duration = get_partnership_duration(agent, self.params, self.pop_random)
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
 
             self.add_relationship(relationship)
