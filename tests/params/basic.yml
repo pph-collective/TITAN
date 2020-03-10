@@ -47,6 +47,10 @@ partnership:
     MSM:
       Sex:
         prob: 1.0
+      SexInj:
+        prob: 0.0
+      Inj:
+        prob: 0.0
     HF:
       Sex:
         prob: 1.0

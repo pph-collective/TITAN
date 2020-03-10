@@ -26,8 +26,6 @@ def select_partner(
     :Output:
         partner: new partner
     """
-    agent_drug_type = agent.drug_use
-    partner = None
     partner_set: Set[Agent] = set(need_partners)
     eligible_partner_set = partner_set - set(agent.partners) - {agent}
     RandomPartner: Optional[Agent]
@@ -43,6 +41,7 @@ def select_partner(
             bonded_type = bonded_type_hold
         else:
             bonded_type = bonded_type_hold[0]
+
         return bonded_type
 
     def assort(eligible_partner_list, assort_params):

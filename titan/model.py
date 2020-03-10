@@ -146,7 +146,9 @@ class HIVModel:
         def make_agent_zero(num_partners: int):
             agent_zero = self.run_random.choice(self.pop.drug_use_inj_agents.members)
             for i in range(num_partners):
-                self.pop.update_agent_partners(agent_zero, self.pop.all_agents)
+                self.pop.update_agent_partners(
+                    agent_zero, set(self.pop.all_agents.members)
+                )
             self.hiv_convert(agent_zero)
 
         run_id = uuid.uuid4()
