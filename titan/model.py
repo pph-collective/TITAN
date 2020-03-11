@@ -1165,10 +1165,9 @@ class HIVModel:
                     enroll_prep(self, agent)
                 return None
             elif self.params.prep.target_model == "Racial":
-                all_hiv_agents = set(self.pop.all_agents.subset["HIV"].members)
-                all_race = set(
-                    self.pop.all_agents.subset["Race"].subset[agent.race].members
-                )
+                all_hiv_agents = self.pop.all_agents.subset["HIV"].members
+                all_race = self.pop.all_agents.subset["Race"].subset[agent.race].members
+                
                 hiv_agents = len(all_hiv_agents & all_race)
                 target_prep = (
                     int(

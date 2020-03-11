@@ -55,6 +55,7 @@ model:
   seed:
     run: 1
     ppl: 2
-  num_pop: 100
+  num_pop: 1000
+  time_range: 100
   network:
     enable: true

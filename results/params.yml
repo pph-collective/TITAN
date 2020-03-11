@@ -127,11 +127,11 @@ classes:
 model:
   processes: 1
   seed:
-    run: 0
-    ppl: 0
+    run: 1
+    ppl: 2
   num_reps: 1
-  num_pop: 100
-  time_range: 12
+  num_pop: 1000
+  time_range: 100
   burn_duration: 6
   network:
     enable: true
