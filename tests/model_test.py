@@ -217,7 +217,8 @@ def test_enroll_needle_exchange(make_model):
     model.run_random = FakeRandom(-0.1)  # all "Inj" agents will be _SNE_bool
 
     # make at least one agent PWID
-    model.pop.all_agents.members[0].drug_use = "Inj"
+    agent = next(iter(model.pop.all_agents))
+    agent.drug_use = "Inj"
 
     assert model.needle_exchange is False
 
@@ -494,7 +495,7 @@ def test_initiate_prep_eligible(make_model, make_agent):
     model = make_model()
 
     # make sure there's room to add more prep agents
-    model.pop.intervention_prep_agents.members = []
+    model.pop.intervention_prep_agents.members = set()
     a = make_agent(SO="HF")  # model is "CDCwomen"
     p = make_agent(DU="Inj")
     p.hiv_dx = True
@@ -611,8 +612,9 @@ def test_die_and_replace_incar(make_model):
     baseline_pop = deepcopy(model.pop.all_agents.members)
     old_ids = [a.id for a in baseline_pop]
 
-    model.pop.all_agents.members[0].incar = True
-    agent_id = model.pop.all_agents.members[0].id
+    agent = next(iter(model.pop.all_agents))
+    agent.incar = True
+    agent_id = agent.id
 
     model.die_and_replace()
 

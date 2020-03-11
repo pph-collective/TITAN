@@ -275,7 +275,7 @@ def test_AgentSet_init(make_agent):
     s = AgentSet("test")
 
     assert s.id == "test"
-    assert s.members == []
+    assert s.members == set()
     assert s.subset == {}
 
     assert s.parent_set is None
@@ -300,21 +300,21 @@ def test_add_remove_agent(make_agent):
     c.add_agent(a)
     s.add_agent(a)
 
-    assert s.members == [a]
+    assert s.members == {a}
     assert s.is_member(a)
     assert s.num_members() == 1
 
-    assert c.members == [a]
+    assert c.members == {a}
     assert c.is_member(a)
     assert c.num_members() == 1
 
     s.remove_agent(a)
 
-    assert s.members == []
+    assert s.members == set()
     assert s.is_member(a) is False
     assert s.num_members() == 0
 
-    assert c.members == []
+    assert c.members == set()
     assert c.is_member(a) is False
     assert c.num_members() == 0
 
@@ -324,12 +324,12 @@ def test_clear_set(make_agent):
     s = AgentSet("test")
     s.add_agent(a)
 
-    assert s.members == [a]
+    assert s.members == {a}
     assert s.is_member(a)
     assert s.num_members() == 1
 
     s.clear_set()
 
-    assert s.members == []
+    assert s.members == set()
     assert s.is_member(a) == False
     assert s.num_members() == 0

@@ -144,7 +144,7 @@ class HIVModel:
             print(" === Simulation Burn Complete ===")
 
         def make_agent_zero(num_partners: int):
-            agent_zero = self.run_random.choice(self.pop.drug_use_inj_agents.members)
+            agent_zero = self.run_random.choice(tuple(self.pop.drug_use_inj_agents.members))
             for i in range(num_partners):
                 self.pop.update_agent_partners(agent_zero)
             self.hiv_convert(agent_zero)
@@ -1221,7 +1221,7 @@ class HIVModel:
             Let agents die and replace the dead agent with a new agent randomly.
         """
         # die stage
-        for agent in self.pop.all_agents.members:
+        for agent in self.pop.all_agents:
 
             # agent incarcerated, don't evaluate for death
             if agent.incar:
@@ -1245,7 +1245,7 @@ class HIVModel:
                 # End all existing relationships
                 for rel in agent.relationships:
                     rel.progress(force=True)
-                    self.pop.remove_relationship()
+                    self.pop.remove_relationship(rel)
 
         # replace stage
         for agent in self.deaths:

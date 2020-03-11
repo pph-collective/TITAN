@@ -354,7 +354,7 @@ class Relationship:
         self.total_sex_acts = 0
         self.bond_type = bond_type
 
-        self.bond(agent1, agent2)
+        self.bond()
 
     def __eq__(self, other):
         if not isinstance(other, Relationship):
@@ -366,13 +366,13 @@ class Relationship:
 
     def progress(self, force: bool = False):
         if self.duration <= 0 or force:
-            self.unbond(self.agent1, self.agent2)
+            self.unbond()
             return True
         else:
             self.duration = self.duration - 1
             return False
 
-    def bond(self, agent: "Agent", partner: "Agent"):
+    def bond(self):
         """
         Bond two agents. Adds each to a relationship object, then partners in each
         others' partner list.
@@ -385,14 +385,14 @@ class Relationship:
         """
 
         # Append relationship to relationships list for each agent
-        agent.relationships.append(self)
-        partner.relationships.append(self)
+        self.agent1.relationships.append(self)
+        self.agent2.relationships.append(self)
 
         # Pair agent with partner and partner with agent
-        agent.partners.append(partner)
-        partner.partners.append(agent)
+        self.agent1.partners.append(self.agent2)
+        self.agent2.partners.append(self.agent1)
 
-    def unbond(self, agent: "Agent", partner: "Agent"):
+    def unbond(self):
         """
         Unbond two agents. Removes relationship from relationship lists. Removes partners in each others' partner list.
 
@@ -404,12 +404,12 @@ class Relationship:
         """
 
         # Remove relationship to relationships list for each agent
-        agent.relationships.remove(self)
-        partner.relationships.remove(self)
+        self.agent1.relationships.remove(self)
+        self.agent2.relationships.remove(self)
 
         # Unpair agent with partner and partner with agent
-        agent.partners.remove(partner)
-        partner.partners.remove(agent)
+        self.agent1.partners.remove(self.agent2)
+        self.agent2.partners.remove(self.agent1)
 
     def get_partner(self, agent: "Agent") -> "Agent":
         if agent == self.agent1:
@@ -418,12 +418,7 @@ class Relationship:
             return self.agent1
 
     def __repr__(self):
-        return "\t%.6d\t%.6d\t%s\t%s\t%d\t%d" % (
-            self.agent1.id,
-            self.agent2.id,
-            self.duration,
-            self.total_sex_acts,
-        )
+        return f"\t{self.id}\t{self.agent1.id}\t{self.agent2.id}\t{self.duration}\t{self.bond_type}"
 
 
 class AgentSet:
@@ -437,7 +432,7 @@ class AgentSet:
     ):
         # _members stores agent set members in a dictionary keyed by ID
         self.id = id
-        self.members: List[Agent] = []
+        self.members: Set[Agent] = set()
         self.subset: Dict[str, AgentSet] = {}
 
         self.tracker: Set[int] = set()
@@ -461,7 +456,7 @@ class AgentSet:
         return self.id
 
     def clear_set(self):
-        self.members: List[Agent] = []
+        self.members: Set[Agent] = set()
         self.subset: Dict[str, str] = {}
         self.tracker: Set[int] = set()
 
@@ -476,7 +471,7 @@ class AgentSet:
     def add_agent(self, agent: Agent):
         "Adds a new agent to the set."
         if not self.is_member(agent):
-            self.members.append(agent)
+            self.members.add(agent)
             self.tracker.add(agent.id)
 
             if self.parent_set is not None:

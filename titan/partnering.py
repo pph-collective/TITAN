@@ -3,6 +3,7 @@
 
 # Imports
 import random
+from copy import copy
 from typing import Sequence, List, Dict, Optional, TypeVar
 
 from dotmap import DotMap  # type: ignore
@@ -12,7 +13,7 @@ from . import utils
 
 
 def get_partner(
-    agent: Agent, all_agent_set: AgentSet, params: DotMap, rand_gen
+    agent: Agent, all_agents: AgentSet, params: DotMap, rand_gen
 ) -> Optional[Agent]:
     """
     :Purpose:
@@ -28,6 +29,10 @@ def get_partner(
     """
     agent_drug_type = agent.drug_use
     partner = None
+
+    all_agent_set = copy(all_agents.members)
+    all_agent_set.remove(agent)
+    all_agent_set -= set(agent.partners)
 
     if agent_drug_type == "Inj":
         if rand_gen.random() < 0.8:
@@ -51,10 +56,7 @@ def get_partner(
     else:
         raise ValueError("Check method _get_partners(). Agent not caught!")
 
-    if partner == agent:
-        return None
-    else:
-        return partner
+    return partner
 
 
 def get_random_pwid_partner(
@@ -80,8 +82,8 @@ def get_random_pwid_partner(
     partner = utils.safe_random_choice(
         [
             p
-            for p in all_agent_set.subset["DU"].subset["Inj"].members
-            if p not in agent.partners and p != agent
+            for p in all_agent_set
+            if p not in agent.partners and p != agent and p.drug_use == "Inj"
         ],
         rand_gen,
     )
@@ -169,7 +171,7 @@ def get_random_sex_partner(
     partner = None
 
     eligible_partners = [
-        p for p in all_agent_set.members if sex_possible(agent.so, p.so, params)
+        p for p in all_agent_set if sex_possible(agent.so, p.so, params)
     ]
 
     partner = utils.safe_random_choice(eligible_partners, rand_gen)

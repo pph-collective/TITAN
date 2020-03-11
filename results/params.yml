@@ -128,7 +128,6 @@ model:
   processes: 1
   seed:
     run: 0
-    net: 0
     ppl: 0
   num_reps: 1
   num_pop: 100

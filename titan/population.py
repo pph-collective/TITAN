@@ -434,9 +434,7 @@ class Population:
                 bond_type = bondtype(self.params.partnership.bond.type[agent.so])
 
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
-
             self.add_relationship(relationship)
-
         else:
             no_match = True
 
@@ -452,9 +450,7 @@ class Population:
             None
         """
         # Now create partnerships until available partnerships are out
-        eligible_agents = self.all_agents
-        for agent in eligible_agents:
-            # add agent to network
+        for agent in self.all_agents:
             acquire_prob = self.params.calibration.sex.partner * (
                 agent.mean_num_partners / (12.0)
             )
@@ -474,14 +470,13 @@ class Population:
 
             def trim_component(component, max_size):
                 for ag in component.nodes:
-                    if random.random() < 0.1:
+                    if self.pop_random.random() < 0.1:
                         for rel in ag.relationships:
                             if len(ag.relationships) == 1:
                                 break  # Make sure that agents stay part of the network by keeping one bond
-                            rel.progress(forceKill=True)
-                            self.relationships.remove(rel)
+                            rel.progress(force=True)
+                            self.remove_relationship(rel)
                             component.remove_edge(rel.agent1, rel.agent2)
-                            self.graph.remove_edge(rel.agent1, rel.agent2)
 
                 # recurse on new sub-components
                 sub_comps = list(
@@ -517,4 +512,4 @@ class Population:
                 for c in nx.connected_components(self.graph)
             )
         else:
-            return []
+            raise ValueError("Can't get connected_components, population doesn't have graph enabled.")

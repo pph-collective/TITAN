@@ -9,10 +9,6 @@ model:
       default: 0
       description: "Seed for random number generator for running the model. 0 is pure random, -1 for stepwise through number of number of iterations (num_reps), other numbers will be used to explicitly set the seed."
       type: int
-    net:
-      default: 0
-      description: "Seed for random number generator for creating the network. 0 is pure random, other numbers will be used to explicitly set the seed. -1 for stepwise through number of monte carlo iterations (-n flag on command line)."
-      type: int
     ppl:
       default: 0
       description: "Seed for random number generator for creating the population. 0 is pure random, other numbers will be used to explicitly set the seed. -1 for stepwise through number of monte carlo iterations (-n flag on command line)."

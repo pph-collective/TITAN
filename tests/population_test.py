@@ -213,7 +213,7 @@ def test_update_agent_partners_no_match(make_population, params):
     pop = make_population(n=1)
     params.model.num_pop = 0
 
-    agent = pop.all_agents.members[0]  # the only agent in the pop
+    agent = next(iter(pop.all_agents))  # the only agent in the pop
 
     pop.update_agent_partners(agent)  # noMatch == True
     assert agent in pop.graph.nodes()
