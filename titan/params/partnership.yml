@@ -218,10 +218,6 @@ partnership:
           min: 5
           max: 29
         6:
-          prob: 0.228
-          min: 30
-          max: 30
-        7:
           prob: 1.0
           min: 30
           max: 30

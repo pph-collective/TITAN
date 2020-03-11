@@ -7,6 +7,7 @@ from typing import Set, Optional, Tuple
 from dotmap import DotMap  # type: ignore
 
 from .agent import Agent
+from .utils import safe_random_choice
 
 
 def select_partner(
@@ -24,26 +25,25 @@ def select_partner(
     :Output:
         partner: new partner
     """
-    partner_set: Set[Agent] = set(need_partners)
+    partner_set = set(need_partners)
     eligible_partner_set = partner_set - set(agent.partners) - {agent}
     RandomPartner: Optional[Agent]
 
+
     def bondtype(bond_dict):
-        bonds = {"type": [], "prob": []}
+        bonds = []
+        probs = []
         for bond, val in bond_dict.items():
             if bond != "prob":
-                bonds["type"].append(bond)
-                bonds["prob"].append(val.prob)
-        bonded_type_hold = rand_gen.choices(bonds["type"], weights=bonds["prob"], k=1)
-        if type(bonded_type_hold) == str:
-            bonded_type = bonded_type_hold
-        else:
-            bonded_type = bonded_type_hold[0]
+                bonds.append(bond)
+                probs.append(val.prob)
+        bonded_type_hold = rand_gen.choices(bonds, weights=probs, k=1)
+        bonded_type = "".join(bonded_type_hold)
 
         return bonded_type
 
     def assort(eligible_partner_list, assort_params):
-        if rand_gen.random() < assort_params["probability"]:
+        if rand_gen.random() < assort_params["prob"]:
             eligible_partners = {
                 partner
                 for partner in eligible_partner_list
@@ -63,10 +63,11 @@ def select_partner(
             }
         return eligible_partners
 
-    if params.features.assort:
+    if params.features.assort_mix:
         for assort_types in params.assort_mix.assortativity.assort_type:
             if getattr(agent, assort_types.assort_type) == assort_types["agent_type"]:
                 eligible_partner_set = assort(eligible_partner_set, assort_types)
+
     if agent.drug_use == "Inj":
         agent_bond = bondtype(params.partnership.bonds["PWID"])
     else:
@@ -76,17 +77,19 @@ def select_partner(
         eligible_partner_set = {
             partner for partner in eligible_partner_set if partner.drug_use == "Inj"
         }
+
     if "sex" in params.classes.bond_types[agent_bond].acts_allowed:
         eligible_partner_set = {
             partner
             for partner in eligible_partner_set
             if sex_possible(agent.so, partner.so, params)
         }
+
     if "social" in params.classes.bond_types[agent_bond].acts_allowed:
         eligible_partner_set = eligible_partner_set
 
     if eligible_partner_set:
-        random_partner = rand_gen.choice(list(eligible_partner_set))
+        random_partner = safe_random_choice(list(eligible_partner_set), rand_gen)
     else:
         random_partner = None
 

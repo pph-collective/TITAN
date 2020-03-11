@@ -21,30 +21,15 @@ partnership:
         0:
           prob: 0.08
   bonds:
-    PWID:
-      SexInj:
-        prob: 1.0
-      Sex:
-        prob: 0.0
     MSM:
       Sex:
         prob: 1.0
-    HF:
-      Sex:
-        prob: 1.0
-    WSW:
-      Sex:
-        prob: 1.0
-    MTF:
-      Sex:
-        prob: 1.0
-
 
 features:
   incar: true
   prep: true
   high_risk: true
-  haart: true
+  hart: true
   die_and_replace: true
   static_network: false
   agent_zero: false
@@ -59,3 +44,4 @@ model:
   num_pop: 100
   network:
     enable: true
+  type: scale_free

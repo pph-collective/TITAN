@@ -26,7 +26,7 @@ assort_mix:
         - NonInj
         - Inj
         - None
-    probability:
+    prob:
       description: "Chance that agent will assortatively mix with partner of stated type"
       type: float
       min: 0.0
@@ -37,5 +37,5 @@ assort_mix:
         - race
       agent_type: None
       partner_type: None
-      probability: 1.0
+      prob: 1.0
 

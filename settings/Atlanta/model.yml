@@ -1,0 +1,14 @@
+model:
+  processes: 1
+  seed:
+    ppl: 0
+    net: 0
+    run: 0
+  num_pop: 17440
+  time_range: 120
+  burn_duration: 36
+  network:
+    type: scale_free
+  population:
+    num_partners:
+      type: mean

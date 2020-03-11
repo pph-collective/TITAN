@@ -42,8 +42,6 @@ partnership:
     PWID:
       SexInj:
         prob: 1.0
-      Sex:
-        prob: 0.0
     MSM:
       Sex:
         prob: 1.0

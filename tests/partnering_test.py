@@ -8,9 +8,9 @@ from titan.parse_params import create_params
 
 
 @pytest.fixture
-def params(tmpdir, paramname="basic.yml"):
+def params(tmpdir):
     param_file = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "params", paramname
+        os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
     )
     return create_params(None, param_file, tmpdir)
 
@@ -51,7 +51,14 @@ class FakeRandom:
         return seq[-1]
 
     def choices(self, seq, weights=None, k=1):
-        return list(seq)[self.fake_choice]
+        to_list = list(seq)
+        weight_list = list(weights)
+        assert type(weight_list) is list
+        if weights is None:
+            return list(to_list[self.fake_choice])
+        else:
+            selection = weight_list.index(max(weight_list))
+            return list(to_list[selection])
 
 
 def test_get_random_pwid_partner_no_PWID(make_population, make_agent, params):

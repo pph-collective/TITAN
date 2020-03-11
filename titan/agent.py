@@ -338,7 +338,7 @@ class Relationship:
         assert agent1 != agent2, "Cannot create relationship with same agent"
         assert (
             agent1 not in agent2.partners and agent2 not in agent1.partners
-        ), "Agent's already partnered!"
+        ), "Agents already partnered!"
 
         # self.id is unique ID number used to track each person agent.
         self.agent1 = agent1
@@ -389,6 +389,7 @@ class Relationship:
         # Pair agent with partner and partner with agent
         agent.partners.append(partner)
         partner.partners.append(agent)
+
 
     def unbond(self, agent: "Agent", partner: "Agent"):
         """
@@ -478,6 +479,7 @@ class AgentSet:
             if self.parent_set is not None:
                 self.parent_set.add_agent(agent)
 
+
     # removing trickles down
     def remove_agent(self, agent: Agent):
         """Removes agent from agent set."""
@@ -501,7 +503,7 @@ class AgentSet:
             yield subset
 
     def print_subsets(self):
-        print("\t__________ {self.id} __________")
+        print(f"\t__________ {self.id} __________")
         print("\tID\t\tN\t\t%")
         for set in self.iter_subset():
             if set.num_members() > 0:

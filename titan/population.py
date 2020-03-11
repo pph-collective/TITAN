@@ -149,6 +149,7 @@ class Population:
         if self.enable_graph:
             self.initialize_graph()
 
+
     def initialize_incarceration(self):
 
         for a in self.all_agents.members:
@@ -350,6 +351,7 @@ class Population:
         :Input:
             agent : int
         """
+        assert (rel.agent1, rel.agent2) not in self.graph.edges
         self.relationships.append(rel)
 
         if self.enable_graph:
@@ -364,6 +366,12 @@ class Population:
             agent : int
         """
         self.all_agents.remove_agent(agent)
+        for rel in agent.relationships:
+            ag1 = rel.agent1
+            ag2 = rel.agent2
+            self.relationships.remove(rel)
+            ag1.partners.remove(ag2)
+            ag2.partners.remove(ag1)
 
         if self.enable_graph:
             self.graph.remove_node(agent)
@@ -379,8 +387,8 @@ class Population:
         self.relationships.remove(rel)
 
         if self.enable_graph:
-            if (rel.agent1, rel.agent2) in self.graph.edges():
-                self.graph.remove_edge(rel.agent1, rel.agent2)
+            self.graph.remove_edge(rel.agent1, rel.agent2)
+
 
     def get_age(self, race: str):
         rand = self.pop_random.random()
@@ -423,6 +431,10 @@ class Population:
 
             self.add_relationship(relationship)
 
+            if self.enable_graph:
+                self.graph.add_edge(agent, partner)
+            assert (agent, partner) in self.graph.edges
+
         else:
             no_match = True
 
@@ -449,16 +461,18 @@ class Population:
                 eligible_agents.add(agent)
             if len(agent.partners) < (agent.target_partners / 1.1):
                 eligible_partners.add(agent)
+
         for agent in eligible_agents:
             found_no_partners = 0
             while agent.target_partners > len(agent.partners):
                 no_match = self.update_agent_partners(agent, eligible_partners)
                 if no_match:
                     found_no_partners += 1
-                else:
-                    eligible_partners.remove(agent.partners[-1])
                 if found_no_partners >= 5:
                     break
+            for partner in agent.partners:
+                assert partner in self.graph.nodes
+                assert (agent, partner) in self.graph.edges
 
     def initialize_graph(self):
         """
@@ -481,6 +495,7 @@ class Population:
                             rel.progress(forceKill=True)
                             self.relationships.remove(rel)
                             component.remove_edge(rel.agent1, rel.agent2)
+                            self.graph.remove_edge(rel.agent1, rel.agent2)
 
                 # recurse on new sub-components
                 sub_comps = list(

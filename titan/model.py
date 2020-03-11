@@ -5,13 +5,13 @@
 import random
 from typing import Dict, List, Optional
 import uuid
+import os  # type: ignore
 
 import numpy as np  # type: ignore
 from scipy.stats import binom  # type: ignore
 from scipy.stats import poisson  # type: ignore
 import networkx as nx  # type: ignore
 from dotmap import DotMap  # type: ignore
-import os  # type: ignore
 
 
 from .agent import AgentSet, Agent, Relationship
@@ -37,8 +37,8 @@ class HIVModel:
     def __repr__(self):
         res = "\n"
         res += f"Seed: {self.run_seed}\n"
-        res += "Npop: {self.params.model.num_pop}\n"
-        res += "Time: {self.params.model.time_range}\n"
+        res += f"Npop: {self.params.model.num_pop}\n"
+        res += f"Time: {self.params.model.time_range}\n"
 
         return res
 
@@ -289,7 +289,7 @@ class HIVModel:
             Initialize random trial in population
         """
         assert self.params.model.network.enable, (
-            "Network must " "be enabled for random trial"
+            "Network must be enabled for random trial"
         )
 
         print("Starting random trial")
@@ -383,11 +383,17 @@ class HIVModel:
         :Output:
             none
         """
+        for rel in self.pop.relationships:
+            assert rel.agent2 in self.pop.all_agents
+            assert rel.agent1 in self.pop.graph.nodes
+            assert rel.agent2 in self.pop.graph.nodes
+            assert (rel.agent1, rel.agent2) in self.pop.graph.edges
 
         if time > 0 and self.params.features.static_network is False:
             self.pop.update_partner_assignments(t=time)
 
         for rel in self.pop.relationships:
+            assert (rel.agent1, rel.agent2) in self.pop.graph.edges
             # If in burn, ignore interactions
             if not burn:
                 self.agents_interact(time, rel)
@@ -396,6 +402,7 @@ class HIVModel:
             if not self.params.features.static_network:
                 if rel.progress():
                     self.pop.remove_relationship(rel)
+
 
         if (
             self.params.features.high_risk
@@ -524,7 +531,7 @@ class HIVModel:
         :Purpose:
             Simulate peer change agent interactions
             Knowledge if one agent is aware and one unaware,
-            opinion if one agent swayint the other
+            opinion if one agent swaying the other
         :Input:
             agent: Agent
             partner: Agent
@@ -760,7 +767,7 @@ class HIVModel:
                         p_per_act *= 1.0 - p_per_act_reduction  # 0.04
 
             if partner.vaccine:
-                p_per_act_perc: float = 1.0
+                p_per_act_perc = 1.0
                 if self.params.vaccine.type == "HVTN702":
                     p_per_act_perc *= np.exp(
                         -2.88 + 0.76 * (np.log((partner.vaccine_time + 0.001) * 30))
@@ -1264,3 +1271,4 @@ class HIVModel:
 
             new_agent = self.pop.create_agent(agent.race, agent.so)
             self.pop.add_agent(new_agent)
+            assert new_agent in self.pop.graph.nodes

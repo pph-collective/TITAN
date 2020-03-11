@@ -21,7 +21,7 @@ features:
     type: boolean
   static_network:
     default: false
-    description: Whether the network is static across time.
+    description: Whether the network is static across time, i.e., no bonds formed or broken after initialization.
     type: boolean
   agent_zero:
     default: false
@@ -29,7 +29,7 @@ features:
     type: boolean
   assort_mix:
     default: false
-    description: Whether to use assortative mixing when partnering
+    description: Whether to use assortative mixing by classes other bond type compatibility when partnering
     type: boolean
   vaccine:
     default: false
@@ -46,10 +46,6 @@ features:
   pca:
     default: false
     description: Whether to have peer change agents spreading awareness of PrEP
-    type: boolean
-  assort:
-    default: false
-    description: Whether mixing is assortative
     type: boolean
   bond_type:
     default: false
