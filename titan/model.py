@@ -288,9 +288,9 @@ class HIVModel:
         :Purpose:
             Initialize random trial in population
         """
-        assert self.params.model.network.enable, (
-            "Network must be enabled for random trial"
-        )
+        assert (
+            self.params.model.network.enable
+        ), "Network must be enabled for random trial"
 
         print("Starting random trial")
         components = self.pop.connected_components()
@@ -402,7 +402,6 @@ class HIVModel:
             if not self.params.features.static_network:
                 if rel.progress():
                     self.pop.remove_relationship(rel)
-
 
         if (
             self.params.features.high_risk

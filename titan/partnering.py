@@ -29,7 +29,6 @@ def select_partner(
     eligible_partner_set = partner_set - set(agent.partners) - {agent}
     RandomPartner: Optional[Agent]
 
-
     def bondtype(bond_dict):
         bonds = []
         probs = []

@@ -149,7 +149,6 @@ class Population:
         if self.enable_graph:
             self.initialize_graph()
 
-
     def initialize_incarceration(self):
 
         for a in self.all_agents.members:
@@ -388,7 +387,6 @@ class Population:
 
         if self.enable_graph:
             self.graph.remove_edge(rel.agent1, rel.agent2)
-
 
     def get_age(self, race: str):
         rand = self.pop_random.random()

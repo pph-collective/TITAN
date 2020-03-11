@@ -390,7 +390,6 @@ class Relationship:
         agent.partners.append(partner)
         partner.partners.append(agent)
 
-
     def unbond(self, agent: "Agent", partner: "Agent"):
         """
         Unbond two agents. Removes relationship from relationship lists.
@@ -478,7 +477,6 @@ class AgentSet:
 
             if self.parent_set is not None:
                 self.parent_set.add_agent(agent)
-
 
     # removing trickles down
     def remove_agent(self, agent: Agent):
