@@ -3,8 +3,7 @@
 
 from typing import Sequence, List, Dict, Optional, Set
 
-from dotmap import DotMap  # type: ignore
-
+from .parse_params import ObjMap
 
 class Agent:
     """
@@ -207,7 +206,7 @@ class Agent:
 
         return eligible
 
-    def update_prep_load(self, params: DotMap):
+    def update_prep_load(self, params: ObjMap):
         """
         :Purpose:
             Determine and update load of PrEP concentration in agent.
@@ -242,7 +241,7 @@ class Agent:
         self.vaccine_type = vax
         self.vaccine_time = 1
 
-    def get_transmission_probability(self, interaction: str, params: DotMap) -> float:
+    def get_transmission_probability(self, interaction: str, params: ObjMap) -> float:
         """ Decriptor
         :Purpose:
             Determines the probability of a transmission event based on interaction type.
@@ -280,7 +279,7 @@ class Agent:
 
         return p
 
-    def get_number_of_sex_acts(self, rand_gen, params: DotMap) -> int:
+    def get_number_of_sex_acts(self, rand_gen, params: ObjMap) -> int:
         """
         :Purpose:
             Number of sexActs an agent has done.

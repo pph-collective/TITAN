@@ -4,11 +4,10 @@
 import random
 
 from typing import List, Dict, Any
-from scipy.stats import poisson  # type: ignore
 import numpy as np  # type: ignore
-from dotmap import DotMap  # type: ignore
 import networkx as nx  # type: ignore
 
+from .parse_params import ObjMap
 from .agent import AgentSet, Agent, Relationship
 from .partnering import get_partner, get_partnership_duration
 from . import utils
@@ -21,12 +20,12 @@ class Population:
 
     :Input:
 
-        params : DotMap
+        params : ObjMap
             Model parameters
 
     """
 
-    def __init__(self, params: DotMap):
+    def __init__(self, params: ObjMap):
         """
         :Purpose:
             Initialize Population object.
@@ -272,8 +271,8 @@ class Population:
                 bin += 1
             agent.mean_num_partners = bin
         else:
-            agent.mean_num_partners = poisson.rvs(
-                self.params.demographics[race][sex_type].num_partners, size=1
+            agent.mean_num_partners = utils.poisson(
+                self.params.demographics[race][sex_type].num_partners, self.np_random, size=1
             )
 
         if self.params.features.pca:

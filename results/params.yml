@@ -130,7 +130,7 @@ model:
     run: 1
     ppl: 2
   num_reps: 1
-  num_pop: 1000
+  num_pop: 100000
   time_range: 100
   burn_duration: 6
   network:

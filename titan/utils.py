@@ -1,6 +1,8 @@
 import random
 from typing import Sequence, TypeVar, Optional
 
+import numpy as np #type: ignore
+
 
 def get_check_rand_int(seed):
     """
@@ -36,3 +38,16 @@ def safe_random_choice(seq: Sequence[T], rand_gen) -> Optional[T]:
         return rand_gen.choice(seq)
     else:
         return None
+
+def binom(k, n, p, np_rand):
+    """
+        mirrors scipy binom.pmf function but from random distribution from numpy
+    """
+    samples = 10000
+    return sum(np_rand.binomial(n, p, samples) == k)/samples
+
+def poisson(mu, np_rand, size=1):
+    """
+        mirrors scipy poisson.rvs function as used in code
+    """
+    return round(np_rand.poisson(mu, size)[0])

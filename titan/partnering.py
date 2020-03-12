@@ -6,14 +6,13 @@ import random
 from copy import copy
 from typing import Sequence, List, Dict, Optional, TypeVar
 
-from dotmap import DotMap  # type: ignore
-
+from .parse_params import ObjMap
 from .agent import Agent, AgentSet
 from . import utils
 
 
 def get_partner(
-    agent: Agent, all_agents: AgentSet, params: DotMap, rand_gen
+    agent: Agent, all_agents: AgentSet, params: ObjMap, rand_gen
 ) -> Optional[Agent]:
     """
     :Purpose:
@@ -92,7 +91,7 @@ def get_random_pwid_partner(
 
 
 def get_assort_sex_partner(
-    agent: Agent, all_agent_set: AgentSet, params: DotMap, rand_gen
+    agent: Agent, all_agent_set: AgentSet, params: ObjMap, rand_gen
 ) -> Optional[Agent]:
     """
     :Purpose:
@@ -153,7 +152,7 @@ def get_assort_sex_partner(
 
 
 def get_random_sex_partner(
-    agent: Agent, all_agent_set: AgentSet, params: DotMap, rand_gen
+    agent: Agent, all_agent_set: AgentSet, params: ObjMap, rand_gen
 ) -> Optional[Agent]:
     """
     :Purpose:
@@ -182,7 +181,7 @@ def get_random_sex_partner(
     return partner
 
 
-def sex_possible(agent_sex_type: str, partner_sex_type: str, params: DotMap) -> bool:
+def sex_possible(agent_sex_type: str, partner_sex_type: str, params: ObjMap) -> bool:
     """
     :Purpose:
     Determine if sex is possible.
@@ -212,7 +211,7 @@ def sex_possible(agent_sex_type: str, partner_sex_type: str, params: DotMap) -> 
     return agent_match and partner_match
 
 
-def get_partnership_duration(agent: Agent, params: DotMap, rand_gen) -> int:
+def get_partnership_duration(agent: Agent, params: ObjMap, rand_gen) -> int:
     """
     :Purpose:
         Get duration of a relationship

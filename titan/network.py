@@ -6,7 +6,6 @@ from networkx.drawing.nx_agraph import graphviz_layout  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 import matplotlib.patches as patches  # type: ignore
 from typing import Sequence, List, Dict, Optional
-from dotmap import DotMap  # type: ignore
 
 
 class NetworkGraphUtils:

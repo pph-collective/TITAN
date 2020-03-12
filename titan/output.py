@@ -7,8 +7,7 @@ from copy import deepcopy
 from uuid import UUID
 import os
 
-from dotmap import DotMap  # type: ignore
-
+from .parse_params import ObjMap
 
 def get_stats(
     all_agents: AgentSet,
@@ -19,7 +18,7 @@ def get_stats(
     new_high_risk: AgentSet,
     new_incar_release: AgentSet,
     deaths: List[Agent],
-    params: DotMap,
+    params: ObjMap,
 ):
 
     stats_template = {
@@ -174,7 +173,7 @@ def deathReport(
     runseed: int,
     popseed: int,
     stats: Dict[str, Any],
-    params: DotMap,
+    params: ObjMap,
     outdir: str,
 ):
     f = open(os.path.join(outdir, "DeathReport.txt"), "a")
@@ -209,7 +208,7 @@ def incarReport(
     runseed: int,
     popseed: int,
     stats: Dict[str, Any],
-    params: DotMap,
+    params: ObjMap,
     outdir: str,
 ):
     f = open(os.path.join(outdir, "IncarReport.txt"), "a")
@@ -253,7 +252,7 @@ def newlyhighriskReport(
     runseed: int,
     popseed: int,
     stats: Dict[str, Any],
-    params: DotMap,
+    params: ObjMap,
     outdir: str,
 ):
     f = open(os.path.join(outdir, "newlyHR_Report.txt"), "a")
@@ -292,7 +291,7 @@ def prepReport(
     runseed: int,
     popseed: int,
     stats: Dict[str, Any],
-    params: DotMap,
+    params: ObjMap,
     outdir: str,
 ):
     f = open(os.path.join(outdir, "PrEPReport.txt"), "a")
@@ -322,7 +321,7 @@ def basicReport(
     runseed: int,
     popseed: int,
     stats: Dict[str, Any],
-    params: DotMap,
+    params: ObjMap,
     outdir: str,
 ):
     MAIN_CAT = deepcopy(params.classes.races)

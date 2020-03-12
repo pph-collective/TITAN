@@ -5,8 +5,18 @@ import collections
 from inspect import currentframe, getframeinfo
 from pathlib import Path
 
-from dotmap import DotMap  # type: ignore
 
+class ObjMap(dict):
+    def __init__(self, d):
+        for k, v in d.items():
+            if isinstance(v, dict):
+                v = self.__class__(v)
+            self[k] = v
+
+    def __getattr__(self, k):
+        return self[k]
+
+# ============== PARSING FUNCTIONS ======================
 
 def check_item(val, d, keys=None):
     if "min" in d:
@@ -209,7 +219,7 @@ def create_params(setting_path, param_path, outdir, use_base=True):
     with open(os.path.join(outdir, "params.yml"), "w") as f:
         yaml.dump(parsed, f)
 
-    parsed = DotMap(parsed)
+    parsed = ObjMap(parsed)
     check_params(parsed)
 
     return parsed

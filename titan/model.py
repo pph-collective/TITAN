@@ -7,10 +7,7 @@ from typing import Dict, List, Sequence, Optional
 import uuid
 
 import numpy as np  # type: ignore
-from scipy.stats import binom  # type: ignore
-from scipy.stats import poisson  # type: ignore
 import networkx as nx  # type: ignore
-from dotmap import DotMap  # type: ignore
 
 
 from .agent import AgentSet, Agent, Relationship
@@ -20,6 +17,7 @@ from . import output as ao
 from . import probabilities as prob
 from .partnering import sex_possible
 from . import utils
+from .parse_params import ObjMap
 
 
 class HIVModel:
@@ -30,7 +28,7 @@ class HIVModel:
         (Metropolitan Statistical Area).
 
     :Input:
-        params: DotMap - the parameter object for this model
+        params: ObjMap - the parameter object for this model
     """
 
     def __repr__(self):
@@ -41,7 +39,7 @@ class HIVModel:
 
         return res
 
-    def __init__(self, params: DotMap, population: Optional[Population] = None):
+    def __init__(self, params: ObjMap, population: Optional[Population] = None):
 
         self.params = params
 
@@ -82,6 +80,7 @@ class HIVModel:
         # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed value
         print(("\tRun seed was set to:", self.run_seed))
         self.run_random = random.Random(self.run_seed)
+        self.np_random = np.random.RandomState(self.run_seed)
         random.seed(self.run_seed)
         print(("\tFIRST RANDOM CALL %d" % random.randint(0, 100)))
 
@@ -575,7 +574,7 @@ class HIVModel:
             if num_acts == 1:
                 p_total_transmission = p
             elif num_acts >= 1:
-                p_total_transmission = 1.0 - binom.pmf(0, num_acts, p)
+                p_total_transmission = 1.0 - utils.binom(0, num_acts, p, self.np_random)
             else:
                 p_total_transmission = 0
 
@@ -648,7 +647,7 @@ class HIVModel:
             self.params.demographics[agent_race][agent_sex_type].num_needle_acts
             * self.params.calibration.needle.act
         )
-        share_acts = round(poisson.rvs(mean_num_acts, size=1)[0])
+        share_acts = utils.poisson(mean_num_acts, self.np_random, size=1)
 
         if agent.sne:  # safe needle exchange - minimal sharing
             p_unsafe_needle_share = 0.02  # minimal needle sharing
@@ -674,7 +673,7 @@ class HIVModel:
             if share_acts == 1:
                 p_total_transmission = p
             else:
-                p_total_transmission = 1.0 - binom.pmf(0, share_acts, p)
+                p_total_transmission = 1.0 - utils.binom(0, share_acts, p, self.np_random)
 
             if self.run_random.random() < p_total_transmission:
                 # if agent HIV+ partner becomes HIV+
@@ -714,7 +713,7 @@ class HIVModel:
             agent.get_number_of_sex_acts(self.run_random, self.params)
             * self.params.calibration.sex.act
         )
-        total_sex_acts = round(poisson.rvs(mean_sex_acts, size=1)[0])
+        total_sex_acts = utils.poisson(mean_sex_acts, self.np_random, size=1)
 
         # Get condom usage
         if self.params.high_risk.condom_use_type == "Race":
@@ -767,7 +766,7 @@ class HIVModel:
             if unsafe_sex_acts == 1:
                 p_total_transmission = p_per_act
             else:
-                p_total_transmission = 1.0 - binom.pmf(0, unsafe_sex_acts, p_per_act)
+                p_total_transmission = 1.0 - utils.binom(0, unsafe_sex_acts, p_per_act, self.np_random)
 
             if self.run_random.random() < p_total_transmission:
                 # if agent HIV+ partner becomes HIV+
@@ -1167,7 +1166,7 @@ class HIVModel:
             elif self.params.prep.target_model == "Racial":
                 all_hiv_agents = self.pop.all_agents.subset["HIV"].members
                 all_race = self.pop.all_agents.subset["Race"].subset[agent.race].members
-                
+
                 hiv_agents = len(all_hiv_agents & all_race)
                 target_prep = (
                     int(
