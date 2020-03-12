@@ -47,6 +47,10 @@ class Population:
             self.graph = None
 
         self.params = params
+        # pre-fetch param sub-sets for performance
+        self.demographics = params.demographics
+        self.features = params.features
+        self.prep = params.prep
 
         # build weights of population sex types by race - SARAH READ THIS
         self.pop_weights: Dict[str, Dict[str, List[Any]]] = {}
@@ -151,9 +155,10 @@ class Population:
     def initialize_incarceration(self):
 
         for a in self.all_agents.members:
-            jail_duration = self.params.demographics[a.race][a.so].incar.duration.init
+            incar_params = self.demographics[a.race][a.so].incar
+            jail_duration = incar_params.duration.init
 
-            prob_incar = self.params.demographics[a.race][a.so].incar.init
+            prob_incar = incar_params.init
             if self.pop_random.random() < prob_incar:
                 a.incar = True
                 bin = current_p_value = 0
@@ -185,7 +190,7 @@ class Population:
 
         # Determine drugtype
         # todo: FIX THIS TO GET BACK PWID
-        if self.pop_random.random() < self.params.demographics[race]["PWID"].ppl:
+        if self.pop_random.random() < self.demographics[race]["PWID"].ppl:
             drug_type = "Inj"
         else:
             drug_type = "None"
@@ -195,14 +200,14 @@ class Population:
         agent = Agent(sex_type, age, race, drug_type)
         agent.age_bin = age_bin
 
-        if self.params.features.msmw and sex_type == "HM":
+        if self.features.msmw and sex_type == "HM":
             if self.pop_random.random() < 0.06:
                 agent.msmw = True
 
         if drug_type == "Inj":
-            agent_params = self.params.demographics[race]["PWID"]
+            agent_params = self.demographics[race]["PWID"]
         else:
-            agent_params = self.params.demographics[race][sex_type]
+            agent_params = self.demographics[race][sex_type]
 
         # HIV
         if self.pop_random.random() < agent_params.hiv.init:
@@ -218,7 +223,7 @@ class Population:
                     agent.haart = True
                     agent.intervention_ever = True
 
-                    haart_adh = self.params.demographics[race][sex_type].haart.adherence
+                    haart_adh = self.demographics[race][sex_type].haart.adherence
                     if self.pop_random.random() < haart_adh:
                         adherence = 5
                     else:
@@ -233,9 +238,9 @@ class Population:
 
         else:
 
-            if self.params.features.prep:
-                if self.params.prep.start == 0:
-                    prob_prep = self.params.prep.target
+            if self.features.prep:
+                if self.prep.start == 0:
+                    prob_prep = self.prep.target
                 else:
                     prob_prep = 0.0
 
@@ -243,8 +248,8 @@ class Population:
                     agent.prep = True
                     agent.intervention_ever = True
                     if (
-                        self.pop_random.random() > self.params.prep.lai.prob
-                        and "Inj" in self.params.prep.type
+                        self.pop_random.random() > self.prep.lai.prob
+                        and "Inj" in self.prep.type
                     ):
                         agent.prep_type = "Inj"
                     else:
@@ -252,9 +257,9 @@ class Population:
 
         # Check if agent is HR as baseline.
         if (
-            self.params.features.high_risk
+            self.features.high_risk
             and self.pop_random.random()
-            < self.params.demographics[race][sex_type].high_risk.init
+            < self.demographics[race][sex_type].high_risk.init
         ):
             agent.high_risk = True
             agent.high_risk_ever = True
@@ -272,15 +277,15 @@ class Population:
             agent.mean_num_partners = bin
         else:
             agent.mean_num_partners = utils.poisson(
-                self.params.demographics[race][sex_type].num_partners, self.np_random, size=1
+                self.demographics[race][sex_type].num_partners, self.np_random, size=1
             )
 
-        if self.params.features.pca:
-            if self.pop_random.random() < self.params.prep.pca.prep_awareness.init:
+        if self.features.pca:
+            if self.pop_random.random() < self.prep.pca.awareness.init:
                 agent.prep_awareness = True
             attprob = self.pop_random.random()
             pvalue = 0.0
-            for bin, fields in self.params.pca.attitude.items():
+            for bin, fields in self.prep.pca.attitude.items():
                 pvalue += fields.prob
                 if attprob < pvalue:
                     agent.prep_opinion = bin
@@ -383,7 +388,7 @@ class Population:
     def get_age(self, race: str):
         rand = self.pop_random.random()
 
-        bins = self.params.demographics[race].age
+        bins = self.demographics[race].age
 
         for i in range(1, 6):
             if rand < bins[i].prob:
