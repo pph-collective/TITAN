@@ -12,6 +12,7 @@ from scipy.stats import binom  # type: ignore
 from scipy.stats import poisson  # type: ignore
 import networkx as nx  # type: ignore
 from dotmap import DotMap  # type: ignore
+from copy import copy  # type: ignore
 
 
 from .agent import AgentSet, Agent, Relationship
@@ -1259,7 +1260,7 @@ class HIVModel:
                 self.deaths.append(agent)
 
                 # End all existing relationships
-                for rel in agent.relationships:
+                for rel in copy(agent.relationships):
                     rel.progress(force=True)
                     self.pop.remove_relationship(rel)
 

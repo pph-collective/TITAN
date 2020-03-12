@@ -12,3 +12,21 @@ model:
   population:
     num_partners:
       type: mean
+
+features:
+  incar: false
+  prep: true
+  high_risk: false
+  hart: true
+  die_and_replace: true
+  static_network: false
+  agent_zero: false
+  assort_mix: false
+  vaccine: false
+  partner_tracing: false
+  msmw: false
+  bond_type: false
+  pca: false
+
+prep:
+  target_model: Racial

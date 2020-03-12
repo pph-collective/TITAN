@@ -365,12 +365,6 @@ class Population:
             agent : int
         """
         self.all_agents.remove_agent(agent)
-        for rel in agent.relationships:
-            ag1 = rel.agent1
-            ag2 = rel.agent2
-            self.relationships.remove(rel)
-            ag1.partners.remove(ag2)
-            ag2.partners.remove(ag1)
 
         if self.enable_graph:
             self.graph.remove_node(agent)
