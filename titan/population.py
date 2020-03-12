@@ -350,7 +350,6 @@ class Population:
         :Input:
             agent : int
         """
-        assert (rel.agent1, rel.agent2) not in self.graph.edges
         self.relationships.append(rel)
 
         if self.enable_graph:
@@ -425,7 +424,6 @@ class Population:
 
             if self.enable_graph:
                 self.graph.add_edge(agent, partner)
-            assert (agent, partner) in self.graph.edges
 
         else:
             no_match = True
@@ -462,9 +460,6 @@ class Population:
                     found_no_partners += 1
                 if found_no_partners >= 5:
                     break
-            for partner in agent.partners:
-                assert partner in self.graph.nodes
-                assert (agent, partner) in self.graph.edges
 
     def initialize_graph(self):
         """

@@ -1,8 +1,8 @@
-Demographics:
-  Black:
+demographics:
+  BLACK:
     ppl: 0.389
     MSM:
-      ppl:1.0
+      ppl: 1.0
       num_partners: 5.0
       HIV:
         init: 0.434
