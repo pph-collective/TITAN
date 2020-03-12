@@ -499,6 +499,8 @@ def test_initiate_prep_eligible(make_model, make_agent):
     p = make_agent(DU="Inj")
     p.hiv_dx = True
     p.msmw = True
+    model.params.prep.target = 1.0
+    model.params.prep.target_model = "CDCwomen"
     rel = Relationship(a, p, 10, bond_type="sexOnly")
     # non-forcing, adherant, inj
     model.run_random = FakeRandom(-0.1)
@@ -546,6 +548,7 @@ def test_progress_to_aids_progress(make_agent, make_model):
     a = make_agent()
     model = make_model()
     num_aids = model.pop.hiv_aids_agents.num_members()  # get baseline
+    model.params.hiv.aids.prob = 1.0
 
     a.hiv = True
     a.haart_adherence = 1  # .0051 prob
