@@ -384,17 +384,11 @@ class HIVModel:
         :Output:
             none
         """
-        for rel in self.pop.relationships:
-            assert rel.agent2 in self.pop.all_agents
-            assert rel.agent1 in self.pop.graph.nodes
-            assert rel.agent2 in self.pop.graph.nodes
-            assert (rel.agent1, rel.agent2) in self.pop.graph.edges
 
         if time > 0 and self.params.features.static_network is False:
             self.pop.update_partner_assignments(t=time)
 
         for rel in self.pop.relationships:
-            assert (rel.agent1, rel.agent2) in self.pop.graph.edges
             # If in burn, ignore interactions
             if not burn:
                 self.agents_interact(time, rel)
@@ -1271,4 +1265,3 @@ class HIVModel:
 
             new_agent = self.pop.create_agent(agent.race, agent.so)
             self.pop.add_agent(new_agent)
-            assert new_agent in self.pop.graph.nodes

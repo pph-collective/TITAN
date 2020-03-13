@@ -482,7 +482,6 @@ class Population:
                             rel.progress(forceKill=True)
                             self.relationships.remove(rel)
                             component.remove_edge(rel.agent1, rel.agent2)
-                            self.graph.remove_edge(rel.agent1, rel.agent2)
 
                 # recurse on new sub-components
                 sub_comps = list(

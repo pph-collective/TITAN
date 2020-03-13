@@ -29,7 +29,7 @@ features:
   incar: true
   prep: true
   high_risk: true
-  hart: true
+  haart: true
   die_and_replace: true
   static_network: false
   agent_zero: false
