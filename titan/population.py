@@ -3,7 +3,7 @@
 
 import random
 
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 import numpy as np  # type: ignore
 import networkx as nx  # type: ignore
 
@@ -70,65 +70,7 @@ class Population:
         self.all_agents = AgentSet("AllAgents")
 
         # HIV status agent sets
-        self.hiv_agents = AgentSet(
-            "HIV", parent=self.all_agents, numerator=self.all_agents
-        )
-        self.hiv_aids_agents = AgentSet(
-            "AIDS", parent=self.hiv_agents, numerator=self.hiv_agents
-        )
-
-        # Drug use agent sets
-        self.drug_use_agents = AgentSet("DU", parent=self.all_agents)
-        self.drug_use_noninj_agents = AgentSet(
-            "NonInj", parent=self.drug_use_agents
-        )  # TO_REVIEW not really used
-        self.drug_use_inj_agents = AgentSet("Inj", parent=self.drug_use_agents)
-        self.drug_use_none_agents = AgentSet(
-            "None", parent=self.drug_use_agents
-        )  # TO_REVIEW not really used
-
-        # Treatment agent sets
-        self.intervention_agents = AgentSet("Trtmt", parent=self.all_agents)
-        self.intervention_dx_agents = AgentSet(
-            "Testd", parent=self.intervention_agents, numerator=self.hiv_agents
-        )
-        self.intervention_prep_agents = AgentSet(
-            "PrEP", parent=self.intervention_agents
-        )
-        self.intervention_prep_eligible_agents = AgentSet(
-            "PrePelig", parent=self.intervention_agents
-        )  # TO_REVIEW not used anywhere
-        self.intervention_haart_agents = AgentSet(
-            "ART", parent=self.intervention_agents, numerator=self.hiv_agents
-        )
-
-        # Sexual orientation agent sets
-        self.sex_type_agents = AgentSet(
-            "SO", parent=self.all_agents, numerator=self.all_agents
-        )
-        self.sex_type_HF_agents = AgentSet(
-            "HF", parent=self.sex_type_agents, numerator=self.sex_type_agents
-        )
-        self.sex_type_HM_agents = AgentSet(
-            "HM", parent=self.sex_type_agents, numerator=self.sex_type_agents
-        )
-        self.sex_type_MSM_agents = AgentSet(
-            "MSM", parent=self.sex_type_agents, numerator=self.sex_type_agents
-        )
-        self.sex_type_MTF_agents = AgentSet(
-            "MTF", parent=self.sex_type_agents, numerator=self.sex_type_agents
-        )
-        self.sex_type_WSW_agents = AgentSet(
-            "WSW", parent=self.sex_type_agents, numerator=self.sex_type_agents
-        )
-
-        # Racial agent sets
-        self.race_agents = AgentSet("Race", parent=self.all_agents)
-        self.race_white_agents = AgentSet("WHITE", parent=self.race_agents)
-        self.race_black_agents = AgentSet("BLACK", parent=self.race_agents)
-
-        # Incarcerated agent sets
-        self.incarcerated_agents = AgentSet("Incar", parent=self.all_agents)
+        self.hiv_agents = AgentSet("HIV", parent=self.all_agents)
 
         # High risk agent sets
         self.high_risk_agents = AgentSet("HRisk", parent=self.all_agents)
@@ -143,9 +85,11 @@ class Population:
                 self.add_agent(agent)
 
         if params.features.incar:
+            print("\tInitializing Incarceration")
             self.initialize_incarceration()
 
         # initialize relationships
+        print("\tCreating relationships")
         for i in range(10):
             self.update_partner_assignments()
 
@@ -171,7 +115,7 @@ class Population:
                 a.incar_time = self.pop_random.randrange(
                     jail_duration[bin].min, jail_duration[bin].max
                 )
-                self.incarcerated_agents.add_agent(a)
+                # self.incarcerated_agents.add_agent(a)
 
     def create_agent(self, race: str, sex_type: str = "NULL") -> Agent:
         """
@@ -268,12 +212,12 @@ class Population:
         if self.params.model.population.num_partners.type == "bins":
             pn_prob = self.pop_random.random()
             current_p_value = bin = 0
+            bins = self.params.model.population.num_partners.bins
 
             while pn_prob > current_p_value:
-                current_p_value += self.params.model.population.num_partners.bins[
-                    bin
-                ].prob
+                current_p_value += bins[bin].prob
                 bin += 1
+
             agent.mean_num_partners = bin
         else:
             agent.mean_num_partners = utils.poisson(
@@ -303,45 +247,14 @@ class Population:
 
         """
 
-        def add_to_subsets(target, agent, agent_param=None):
-            target.add_agent(agent)
-            if agent_param:
-                target.subset[agent_param].add_agent(agent)
-
         # Add to all agent set
         self.all_agents.add_agent(agent)
 
-        # Add to correct SO set
-        add_to_subsets(self.sex_type_agents, agent, agent.so)
-
-        # Add to correct DU set
-        add_to_subsets(self.drug_use_agents, agent, agent.drug_use)
-
-        # Add to correct racial set
-        add_to_subsets(self.race_agents, agent, agent.race)
-
         if agent.hiv:
-            add_to_subsets(self.hiv_agents, agent)
-            if agent.aids:
-                add_to_subsets(self.hiv_aids_agents, agent)
-
-        # Add to correct treatment set
-        if agent.intervention_ever:
-            add_to_subsets(self.intervention_agents, agent)
-            if agent.haart:
-                add_to_subsets(self.intervention_haart_agents, agent)
-
-        if agent.prep:
-            add_to_subsets(self.intervention_prep_agents, agent)
-
-        if agent.hiv_dx:
-            add_to_subsets(self.intervention_dx_agents, agent)
-
-        if agent.incar:
-            add_to_subsets(self.incarcerated_agents, agent)
+            self.hiv_agents.add_agent(agent)
 
         if agent.high_risk:
-            add_to_subsets(self.high_risk_agents, agent)
+            self.high_risk_agents.add_agent(agent)
 
         if self.enable_graph:
             self.graph.add_node(agent)
@@ -401,7 +314,7 @@ class Population:
 
     # REVIEWED should these be in the network class? - max to incorporate with network/pop/model disentangling?
 
-    def update_agent_partners(self, agent: Agent) -> bool:
+    def update_agent_partners(self, agent: Agent, sex_partners: Optional[Dict] = None) -> bool:
         """
         :Purpose:
             Finds and bonds new partner. Creates relationship object for partnership, calcs
@@ -415,7 +328,10 @@ class Population:
             noMatch : bool
             Bool if no match was found for agent (used for retries)
         """
-        partner = get_partner(agent, self.all_agents, self.params, self.pop_random)
+        if sex_partners is None:
+            sex_partners = self.get_sex_partners()
+
+        partner = get_partner(agent, self.all_agents, self.params, self.pop_random, sex_partners)
         no_match = False
 
         def bondtype(bond_dict):
@@ -453,13 +369,24 @@ class Population:
         :Input:
             None
         """
+        # calculate sex-matched lists for pairs for this epoch
+        sex_partners = self.get_sex_partners()
+
         # Now create partnerships until available partnerships are out
         for agent in self.all_agents:
             acquire_prob = self.params.calibration.sex.partner * (
                 agent.mean_num_partners / (12.0)
             )
             if self.pop_random.random() < acquire_prob:
-                self.update_agent_partners(agent)
+                self.update_agent_partners(agent, sex_partners = sex_partners)
+
+    def get_sex_partners(self):
+        sex_types = self.params.classes.sex_types
+        sex_partners = {}
+        for k in sex_types.keys():
+            sex_partners[k] = {p for p in self.all_agents if p.so in sex_types[k].sleeps_with}
+
+        return sex_partners
 
     def initialize_graph(self):
         """

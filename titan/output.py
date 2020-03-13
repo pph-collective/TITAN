@@ -156,9 +156,6 @@ def get_stats(
                 for sc in SUB_CAT:
                     stats["ALL"][sc][param] += stats[race][sc][param]
 
-    # add relationship count (only makes sense at the all level) # TO_REVIEW - not used anywhere
-    stats["ALL"]["ALL"]["numRels"] = len(relationships)
-
     return stats
 
 

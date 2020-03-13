@@ -1,5 +1,4 @@
 import cProfile, pstats, io
-from pstats import SortKey
 import run_titan
 pr = cProfile.Profile()
 pr.enable()
@@ -9,4 +8,6 @@ s = io.StringIO()
 sortby = 'tottime'
 ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
 ps.print_stats()
+pr.dump_stats('profile.prof')
+
 print(s.getvalue())

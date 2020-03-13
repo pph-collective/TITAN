@@ -256,11 +256,9 @@ def test_incarcerate_diagnosed(make_model, make_agent):
 
     assert a.incar
     assert a.incar_time == 1
-    assert a in model.pop.incarcerated_agents.members
     assert a.haart
     assert a.haart_adherence == 5
     assert a.haart_time == 10
-    assert a in model.pop.intervention_haart_agents.members
 
 
 def test_incarcerate_not_diagnosed(make_model, make_agent):
@@ -277,7 +275,6 @@ def test_incarcerate_not_diagnosed(make_model, make_agent):
 
     assert a.incar
     assert a.incar_time == 1
-    assert a in model.pop.incarcerated_agents.members
     assert a.hiv_dx
 
     assert p in model.pop.high_risk_agents.members
@@ -293,19 +290,16 @@ def test_incarcerate_unincarcerate(make_model, make_agent):
 
     a.incar = True
     a.incar_time = 2
-    model.pop.incarcerated_agents.add_agent(a)
 
     model.incarcerate(a, 0)
 
     assert a.incar
     assert a.incar_time == 1
-    assert a in model.pop.incarcerated_agents.members
 
     model.incarcerate(a, 0)
 
     assert a.incar is False
     assert a.incar_time == 0
-    assert a not in model.pop.incarcerated_agents.members
     assert a in model.new_incar_release.members
     assert a.incar_ever
 
@@ -319,14 +313,12 @@ def test_diagnose_hiv(make_model, make_agent):
 
     assert a.hiv_dx is False
     assert a not in model.new_dx.members
-    assert a not in model.pop.intervention_dx_agents.members
 
     model.run_random = FakeRandom(-0.1)  # always less than param
     model.diagnose_hiv(a, 0)
 
     assert a.hiv_dx
     assert a in model.new_dx.members
-    assert a in model.pop.intervention_dx_agents.members
 
 
 def test_diagnose_hiv_already_tested(make_model, make_agent):
@@ -340,7 +332,6 @@ def test_diagnose_hiv_already_tested(make_model, make_agent):
 
     assert a.hiv_dx
     assert a not in model.new_dx.members
-    assert a not in model.pop.intervention_dx_agents.members
 
 
 def test_update_haart_t1(make_model, make_agent):
@@ -353,7 +344,6 @@ def test_update_haart_t1(make_model, make_agent):
     model.update_haart(a, 1)
     assert a.haart_adherence == 0
     assert a.haart is False
-    assert a not in model.pop.intervention_haart_agents.members
 
     # t0 agent initialized HAART
     a.hiv_dx = True
@@ -367,7 +357,6 @@ def test_update_haart_t1(make_model, make_agent):
     assert a.haart_adherence == 5
     assert a.haart_time == 1
     assert a.haart
-    assert a in model.pop.intervention_haart_agents.members
 
     # go off haart
     model.update_haart(a, 1)
@@ -375,7 +364,6 @@ def test_update_haart_t1(make_model, make_agent):
     assert a.haart_adherence == 0
     assert a.haart_time == 0
     assert a.haart is False
-    assert a not in model.pop.intervention_haart_agents.members
 
 
 def test_discontinue_prep_force(make_model, make_agent):
@@ -385,13 +373,14 @@ def test_discontinue_prep_force(make_model, make_agent):
     # set up so the agent appears to be on PrEP
     a.prep = True
     a.prep_reason = ["blah"]
-    model.pop.intervention_prep_agents.add_agent(a)
+    num_prep = model.prep_agents[a.race][a.so]
+    model.prep_agents[a.race][a.so] += 1
 
     model.discontinue_prep(a, True)
 
     assert a.prep is False
     assert a.prep_reason == []
-    assert a not in model.pop.intervention_prep_agents.members
+    assert num_prep == model.prep_agents[a.race][a.so]
 
 
 def test_discontinue_prep_decrement_time(make_model, make_agent):
@@ -401,12 +390,14 @@ def test_discontinue_prep_decrement_time(make_model, make_agent):
     # set up so the agent appears to be on PrEP
     a.prep = True
     a.prep_reason = ["blah"]
-    model.pop.intervention_prep_agents.add_agent(a)
+    num_prep = model.prep_agents[a.race][a.so]
+    model.prep_agents[a.race][a.so] += 1
 
     model.discontinue_prep(a)
 
     assert a.prep
     assert a.prep_reason == ["blah"]
+    assert num_prep + 1 == model.prep_agents[a.race][a.so]
 
 
 def test_discontinue_prep_decrement_end(make_model, make_agent):
@@ -418,13 +409,14 @@ def test_discontinue_prep_decrement_end(make_model, make_agent):
     # set up so the agent appears to be on PrEP
     a.prep = True
     a.prep_reason = ["blah"]
-    model.pop.intervention_prep_agents.add_agent(a)
+    num_prep = model.prep_agents[a.race][a.so]
+    model.prep_agents[a.race][a.so] += 1
 
     model.discontinue_prep(a)
 
     assert a.prep is False
     assert a.prep_reason == []
-    assert a not in model.pop.intervention_prep_agents.members
+    assert num_prep == model.prep_agents[a.race][a.so]
 
 
 def test_discontinue_prep_decrement_not_end(make_model, make_agent):
@@ -437,14 +429,15 @@ def test_discontinue_prep_decrement_not_end(make_model, make_agent):
     a.prep = True
     a.prep_reason = ["blah"]
     a.prep_last_dose = 3
-    model.pop.intervention_prep_agents.add_agent(a)
+    num_prep = model.prep_agents[a.race][a.so]
+    model.prep_agents[a.race][a.so] += 1
 
     model.discontinue_prep(a)
 
     assert a.prep
     assert a.prep_reason == ["blah"]
     assert a.prep_last_dose == -1  # 3 -> -1 -> +1 == 0 # Inj no longer in PrEP types
-    assert a in model.pop.intervention_prep_agents.members
+    assert num_prep + 1 == model.prep_agents[a.race][a.so]
     # assert a.prep_load > 0 # Inj no longer in PrEP types
 
 
@@ -470,7 +463,6 @@ def test_initiate_prep_force_adh(make_model, make_agent):
     model.run_random = FakeRandom(-0.1)
     model.initiate_prep(a, 0, True)
     assert a.prep
-    assert a in model.pop.intervention_prep_agents.members
     assert a in model.new_prep.members
     assert a.prep_adherence == 1
     # assert a.prep_load > 0.0 # Inj no longer in PrEP types
@@ -484,7 +476,6 @@ def test_initiate_prep_force_non_adh(make_model, make_agent):
     model.run_random = FakeRandom(1.0)
     model.initiate_prep(a, 0, True)
     assert a.prep
-    assert a in model.pop.intervention_prep_agents.members
     assert a in model.new_prep.members
     assert a.prep_adherence == 0
     # assert a.prep_load > 0.0 # Inj no longer in PrEP types
@@ -495,7 +486,6 @@ def test_initiate_prep_eligible(make_model, make_agent):
     model = make_model()
 
     # make sure there's room to add more prep agents
-    model.pop.intervention_prep_agents.members = set()
     a = make_agent(SO="HF")  # model is "CDCwomen"
     p = make_agent(DU="Inj")
     p.hiv_dx = True
@@ -505,7 +495,6 @@ def test_initiate_prep_eligible(make_model, make_agent):
     model.run_random = FakeRandom(-0.1)
     model.initiate_prep(a, 0)
     assert a.prep
-    assert a in model.pop.intervention_prep_agents.members
     assert a in model.new_prep.members
     assert a.prep_adherence == 1
     # assert a.prep_load > 0.0 # Inj not in params prep_type anymore
@@ -517,20 +506,24 @@ def test_initiate_prep_eligible(make_model, make_agent):
 
 def test_progress_to_aids_error(make_agent, make_model):
     a = make_agent()
+    a.hiv = False
     model = make_model()
-    num_aids = model.pop.hiv_aids_agents.num_members()  # get baseline
+    model.pop.add_agent(a)
+    num_aids = sum([1 for agent in model.pop.hiv_agents if agent.aids]) # get baselien
 
     # test error case, agent must be HIV+
     with pytest.raises(AssertionError):
         model.progress_to_aids(a)
 
-    assert model.pop.hiv_aids_agents.num_members() == num_aids
+    assert sum([1 for agent in model.pop.hiv_agents if agent.aids]) == num_aids
 
 
 def test_progress_to_aids_nothing(make_agent, make_model):
     a = make_agent()
+    a.hiv = True
     model = make_model()
-    num_aids = model.pop.hiv_aids_agents.num_members()  # get baseline
+    model.pop.add_agent(a)
+    num_aids = sum([1 for agent in model.pop.hiv_agents if agent.aids])  # get baseline
 
     # test nothing case
     a.hiv = True
@@ -539,14 +532,16 @@ def test_progress_to_aids_nothing(make_agent, make_model):
     model.run_random = FakeRandom(0.9)  # no AIDS
 
     assert model.progress_to_aids(a) is None
-    assert model.pop.hiv_aids_agents.num_members() == num_aids
+    assert sum([1 for agent in model.pop.hiv_agents if agent.aids]) == num_aids
     assert a.aids is False
 
 
 def test_progress_to_aids_progress(make_agent, make_model):
     a = make_agent()
+    a.hiv = True
     model = make_model()
-    num_aids = model.pop.hiv_aids_agents.num_members()  # get baseline
+    model.pop.add_agent(a)
+    num_aids = sum([1 for agent in model.pop.hiv_agents if agent.aids])  # get baseline
 
     a.hiv = True
     a.haart_adherence = 1  # .0051 prob
@@ -555,8 +550,7 @@ def test_progress_to_aids_progress(make_agent, make_model):
     model.run_random = FakeRandom(0.001)  # AIDS
 
     assert model.progress_to_aids(a) is None
-    assert model.pop.hiv_aids_agents.num_members() == num_aids + 1
-    assert a in model.pop.hiv_aids_agents.members
+    assert sum([1 for agent in model.pop.hiv_agents if agent.aids]) == num_aids + 1
     assert a.aids is True
 
 

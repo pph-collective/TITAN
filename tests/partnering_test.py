@@ -56,8 +56,9 @@ def test_get_random_pwid_partner_no_PWID(make_population, make_agent):
     nidu_agent = make_agent()
     empty_pop.add_agent(idu_agent)
     empty_pop.add_agent(nidu_agent)
+    eligible_agents = copy(empty_pop.all_agents.members) - {idu_agent}
     assert (
-        get_random_pwid_partner(idu_agent, empty_pop.all_agents, empty_pop.pop_random)
+        get_random_pwid_partner(idu_agent, eligible_agents, empty_pop.pop_random)
         is None
     )
 
@@ -68,8 +69,9 @@ def test_get_random_pwid_partner_w_PWID(make_population, make_agent):
     idu_partner = make_agent(DU="Inj")
     empty_pop.add_agent(idu_agent)
     empty_pop.add_agent(idu_partner)
+    eligible_agents = copy(empty_pop.all_agents.members) - {idu_agent}
     assert (
-        get_random_pwid_partner(idu_agent, empty_pop.all_agents, empty_pop.pop_random)
+        get_random_pwid_partner(idu_agent, eligible_agents, empty_pop.pop_random)
         == idu_partner
     )
 
@@ -80,9 +82,10 @@ def test_get_random_sex_partner_valid(make_population, make_agent, params):
     hf_partner = make_agent(SO="HF")
     empty_pop.add_agent(hm_agent)
     empty_pop.add_agent(hf_partner)
+    eligible_agents = copy(empty_pop.all_agents.members) - {hm_agent}
     assert (
         get_random_sex_partner(
-            hm_agent, empty_pop.all_agents, params, empty_pop.pop_random
+            hm_agent, eligible_agents, params, empty_pop.pop_random
         )
         == hf_partner
     )
@@ -91,49 +94,51 @@ def test_get_random_sex_partner_valid(make_population, make_agent, params):
 def test_get_random_sex_partner_bad(make_population, make_agent, params):
     empty_pop = make_population()
     hm_agent = make_agent(SO="HM")
-    hf_partner = make_agent(SO="MSM")
+    msm_partner = make_agent(SO="MSM")
     empty_pop.add_agent(hm_agent)
-    empty_pop.add_agent(hf_partner)
+    empty_pop.add_agent(msm_partner)
+    eligible_agents = {}
     assert (
         get_random_sex_partner(
-            hm_agent, empty_pop.all_agents, params, empty_pop.pop_random
+            hm_agent, eligible_agents, params, empty_pop.pop_random
         )
         is None
     )
 
 
 def test_sex_possible(params):
+    sex_types = params.classes.sex_types
     # agent sex types are ["HM", "MSM", "WSW", "HF", "MTF"]
-    assert sex_possible("HM", "HM", params) == False
-    assert sex_possible("HM", "MSM", params) == False
-    assert sex_possible("HM", "HF", params) == True
-    assert sex_possible("HM", "WSW", params) == False
-    assert sex_possible("HM", "MTF", params) == True
+    assert sex_possible("HM", "HM", sex_types) == False
+    assert sex_possible("HM", "MSM", sex_types) == False
+    assert sex_possible("HM", "HF", sex_types) == True
+    assert sex_possible("HM", "WSW", sex_types) == False
+    assert sex_possible("HM", "MTF", sex_types) == True
 
-    assert sex_possible("MSM", "HM", params) == False
-    assert sex_possible("MSM", "MSM", params) == True
-    assert sex_possible("MSM", "HF", params) == False
-    assert sex_possible("MSM", "WSW", params) == False
-    assert sex_possible("MSM", "MTF", params) == True
+    assert sex_possible("MSM", "HM", sex_types) == False
+    assert sex_possible("MSM", "MSM", sex_types) == True
+    assert sex_possible("MSM", "HF", sex_types) == False
+    assert sex_possible("MSM", "WSW", sex_types) == False
+    assert sex_possible("MSM", "MTF", sex_types) == True
 
-    assert sex_possible("WSW", "HM", params) == False
-    assert sex_possible("WSW", "MSM", params) == False
-    assert sex_possible("WSW", "HF", params) == False
-    assert sex_possible("WSW", "WSW", params) == True
-    assert sex_possible("WSW", "MTF", params) == True
+    assert sex_possible("WSW", "HM", sex_types) == False
+    assert sex_possible("WSW", "MSM", sex_types) == False
+    assert sex_possible("WSW", "HF", sex_types) == False
+    assert sex_possible("WSW", "WSW", sex_types) == True
+    assert sex_possible("WSW", "MTF", sex_types) == True
 
-    assert sex_possible("HF", "HM", params) == True
-    assert sex_possible("HF", "MSM", params) == False
-    assert sex_possible("HF", "HF", params) == False
-    assert sex_possible("HF", "WSW", params) == False
-    assert sex_possible("HF", "MTF", params) == False
+    assert sex_possible("HF", "HM", sex_types) == True
+    assert sex_possible("HF", "MSM", sex_types) == False
+    assert sex_possible("HF", "HF", sex_types) == False
+    assert sex_possible("HF", "WSW", sex_types) == False
+    assert sex_possible("HF", "MTF", sex_types) == False
 
-    assert sex_possible("MTF", "HM", params) == True
-    assert sex_possible("MTF", "MSM", params) == True
-    assert sex_possible("MTF", "HF", params) == False
-    assert sex_possible("MTF", "WSW", params) == True
-    assert sex_possible("MTF", "MTF", params) == False
+    assert sex_possible("MTF", "HM", sex_types) == True
+    assert sex_possible("MTF", "MSM", sex_types) == True
+    assert sex_possible("MTF", "HF", sex_types) == False
+    assert sex_possible("MTF", "WSW", sex_types) == True
+    assert sex_possible("MTF", "MTF", sex_types) == False
 
     with pytest.raises(ValueError, match=r"Invalid .*_sex_type.*"):
-        sex_possible("HM", "XYZ", params)
-        sex_possible("XYZ", "HM", params)
+        sex_possible("HM", "XYZ", sex_types)
+        sex_possible("XYZ", "HM", sex_types)

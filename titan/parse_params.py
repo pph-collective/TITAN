@@ -14,7 +14,10 @@ class ObjMap(dict):
             self[k] = v
 
     def __getattr__(self, k):
-        return self[k]
+        return self.__getitem__(k)
+
+    def __hash__(self):
+        return 1234567890
 
 # ============== PARSING FUNCTIONS ======================
 

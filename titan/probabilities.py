@@ -1,8 +1,10 @@
 from typing import Sequence, List, Dict, Optional, Any
 
+from . import utils
+
 # ================ CORE PROBABILITIES ========================
 
-
+@utils.memo
 def safe_sex(num_acts):
     """
     :Purpose:
@@ -19,7 +21,7 @@ def safe_sex(num_acts):
     else:
         return 0.759
 
-
+@utils.memo
 def adherence_prob(adherence):
     if adherence == 1:
         return 0.0051
@@ -34,20 +36,20 @@ def adherence_prob(adherence):
     else:
         return 0.0051
 
-
-def get_death_rate(hiv, aids, race, haart_adh, params):
+@utils.memo
+def get_death_rate(hiv, aids, race, haart_adh, death_rate):
     if hiv:
         if aids:  # AIDS DEATH RATE
-            p = params.demographics[race].death_rate.aids
+            p = death_rate.aids
 
         elif haart_adh > 1:  # HAART DEATH RATE
-            p = params.demographics[race].death_rate.base
+            p = death_rate.base
 
         else:  # HIV+ DEATH RATE
-            p = params.demographics[race].death_rate.hiv
+            p = death_rate.hiv
 
     else:  # NON HIV DEATH RATE
-        p = params.demographics[race].death_rate.base
+        p = death_rate.base
 
     # putting it into per 1 person-month from per 1000 person years
     return p / 12000.0

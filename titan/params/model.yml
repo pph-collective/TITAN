@@ -68,22 +68,22 @@ model:
             max: 1
         default:
           0:
-            prob: 0.083,
+            prob: 0.083
           1:
-            prob: 0.181,
+            prob: 0.181
           2:
-            prob: 0.229,
+            prob: 0.229
           3:
-            prob: 0.172,
+            prob: 0.172
           4:
-            prob: 0.112,
+            prob: 0.112
           5:
-            prob: 0.102,
+            prob: 0.102
           6:
-            prob: 0.071,
+            prob: 0.071
           7:
-            prob: 0.028,
+            prob: 0.028
           8:
-            prob: 0.019,
+            prob: 0.019
           9:
-            prob: 0.005,
+            prob: 0.005

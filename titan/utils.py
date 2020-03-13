@@ -1,5 +1,7 @@
 import random
 from typing import Sequence, TypeVar, Optional
+from functools import wraps
+from math import factorial
 
 import numpy as np #type: ignore
 
@@ -35,19 +37,35 @@ def safe_random_choice(seq: Sequence[T], rand_gen) -> Optional[T]:
     Return None or a random choice
     """
     if seq:
-        return rand_gen.choice(seq)
+        if isinstance(seq, set):
+            return rand_gen.choice(tuple(seq))
+        else:
+            return rand_gen.choice(seq)
     else:
         return None
 
-def binom(k, n, p, np_rand):
+
+def binom_0(n, p):
     """
-        mirrors scipy binom.pmf function but from random distribution from numpy
+        mirrors scipy binom.pmf as used in code
     """
-    samples = 10000
-    return sum(np_rand.binomial(n, p, samples) == k)/samples
+    return (1-p)**n
 
 def poisson(mu, np_rand, size=1):
     """
         mirrors scipy poisson.rvs function as used in code
     """
-    return round(np_rand.poisson(mu, size)[0])
+    return np_rand.poisson(mu, size)[0]
+
+def memo(f):
+    """
+    decorator to memoize a function (caches results given args, only use if deterministic)
+    """
+    cache = {}
+    @wraps(f)
+    def wrap(*arg):
+        if arg not in cache:
+            print(f"memoizing {arg}")
+            cache[arg] = f(*arg)
+        return cache[arg]
+    return wrap

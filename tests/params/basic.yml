@@ -55,3 +55,6 @@ model:
   num_pop: 100
   network:
     enable: true
+  population:
+    num_partners:
+      type: bins

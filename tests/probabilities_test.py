@@ -36,4 +36,4 @@ def test_get_death_rate(params):
         for aids in [True, False]:
             for race in ["WHITE", "BLACK"]:
                 for adh in [0, 1]:
-                    assert probs.get_death_rate(hiv, aids, race, adh, params) > 0
+                    assert probs.get_death_rate(hiv, aids, race, adh, params.demographics[race].death_rate) > 0

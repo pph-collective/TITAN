@@ -49,26 +49,6 @@ class FakeRandom:
         return seq[-1]
 
 
-def test_pop_init(make_population):
-    n_pop = 100
-    pop = make_population(n=n_pop)
-
-    assert pop.all_agents.num_members() == n_pop
-
-    # test umbrella sets are all consistent
-    parent_sets = ["drug_use_agents", "sex_type_agents", "race_agents"]
-    for set_name in parent_sets:
-        set = getattr(pop, set_name)
-
-        assert set.num_members() == n_pop
-
-        child_pops = 0
-        for child_set in set.iter_subset():
-            child_pops += child_set.num_members()
-
-        assert child_pops == n_pop
-
-
 def test_create_agent(make_population):
     pop = make_population()
 
@@ -152,44 +132,15 @@ def test_add_remove_agent_to_pop(make_population):
     pop.add_agent(agent)
 
     assert agent in pop.all_agents.members
-    assert agent in pop.race_agents.members
-    assert agent in pop.race_white_agents.members
-    assert agent in pop.sex_type_agents.members
-    assert agent in pop.sex_type_HM_agents.members
-    assert agent in pop.drug_use_agents.members
-    assert agent in pop.drug_use_inj_agents.members
     assert agent in pop.hiv_agents.members
-    assert agent in pop.hiv_aids_agents.members
-    assert agent in pop.intervention_agents.members
-    assert agent in pop.intervention_haart_agents.members
-    assert agent in pop.intervention_haart_agents.members
-    assert agent in pop.intervention_prep_agents.members
-    assert agent in pop.intervention_dx_agents.members
-    assert agent in pop.incarcerated_agents.members
     assert agent in pop.high_risk_agents.members
 
     assert pop.graph.has_node(agent)
 
-    # check not in all agent sets
-    assert agent not in pop.race_black_agents.members
-
     pop.remove_agent(agent)
 
     assert agent not in pop.all_agents.members
-    assert agent not in pop.race_agents.members
-    assert agent not in pop.race_white_agents.members
-    assert agent not in pop.sex_type_agents.members
-    assert agent not in pop.sex_type_HM_agents.members
-    assert agent not in pop.drug_use_agents.members
-    assert agent not in pop.drug_use_inj_agents.members
     assert agent not in pop.hiv_agents.members
-    assert agent not in pop.hiv_aids_agents.members
-    assert agent not in pop.intervention_agents.members
-    assert agent not in pop.intervention_haart_agents.members
-    assert agent not in pop.intervention_haart_agents.members
-    assert agent not in pop.intervention_prep_agents.members
-    assert agent not in pop.intervention_dx_agents.members
-    assert agent not in pop.incarcerated_agents.members
     assert agent not in pop.high_risk_agents.members
 
     assert not pop.graph.has_node(agent)
@@ -302,17 +253,12 @@ def test_network_init_max_k(params):
         assert agent.so in params.classes.sex_types
 
 
-def test_population_consistency_DU(params):
+def test_population_consistency(params):
     """Test if Drug users add up"""
     net = Population(params)
-    check_sum_DU = (
-        net.drug_use_inj_agents.num_members()
-        + net.drug_use_noninj_agents.num_members()
-        + net.drug_use_none_agents.num_members()
-    )
-
-    assert net.drug_use_agents.num_members() == check_sum_DU
-    assert params.model.num_pop == check_sum_DU
+    assert net.graph.number_of_edges() == len(net.relationships)
+    assert net.graph.number_of_nodes() == net.all_agents.num_members()
+    assert params.model.num_pop == net.all_agents.num_members()
 
 
 def test_population_consistency_HIV(params):
