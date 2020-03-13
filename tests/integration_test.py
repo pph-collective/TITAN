@@ -15,6 +15,7 @@ def test_model_runs():
     subprocess.check_call([f, f"-p {param_file}"])
     assert True
 
+
 @pytest.mark.integration
 def test_model_reproducible(tmpdir):
     path_a = tmpdir.mkdir("result_a")
@@ -40,7 +41,6 @@ def test_model_reproducible(tmpdir):
         res_b = []
         for row in reader_b:
             res_b.append(row)
-
 
     for i in range(len(res_a)):
         assert res_a[i]["t"] == res_b[i]["t"]

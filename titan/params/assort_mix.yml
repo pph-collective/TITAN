@@ -4,7 +4,7 @@ assort_mix:
   fields:
     assort_type:
       description: "Which type of assortative mixing to use"
-      type: array
+      type: enum
       values:
         - drug_use
         - race
@@ -33,9 +33,7 @@ assort_mix:
       max: 1.0
   default:
     assort_null:
-      assort_type:
-        - race
+      assort_type: race
       agent_type: None
       partner_type: None
       prob: 1.0
-

@@ -76,6 +76,11 @@ class Population:
         # High risk agent sets
         self.high_risk_agents = AgentSet("HRisk", parent=self.all_agents)
 
+        # whoc an sleep with whom
+        self.sex_partners = {}
+        for sex_type in self.params.classes.sex_types.keys():
+            self.sex_partners[sex_type] = set()
+
         self.relationships: List[Relationship] = []
 
         print("\tCreating agents")
@@ -256,6 +261,10 @@ class Population:
         if agent.high_risk:
             self.high_risk_agents.add_agent(agent)
 
+        # who can sleep with this agent
+        for sex_type in self.params.classes.sex_types[agent.so].sleeps_with:
+            self.sex_partners[sex_type].add(agent)
+
         if self.enable_graph:
             self.graph.add_node(agent)
 
@@ -281,6 +290,10 @@ class Population:
             agent : int
         """
         self.all_agents.remove_agent(agent)
+
+        for partner_type in self.sex_partners:
+            if agent in self.sex_partners[partner_type]:
+                self.sex_partners[partner_type].remove(agent)
 
         if self.enable_graph:
             self.graph.remove_node(agent)
@@ -312,7 +325,7 @@ class Population:
         age = self.pop_random.randrange(min_age, max_age)
         return age, i
 
-    def update_agent_partners(self, agent: Agent, need_partners: Set) -> bool:
+    def update_agent_partners(self, agent: Agent) -> bool:
         """
         :Purpose:
             Finds and bonds new partner. Creates relationship object for partnership,
@@ -328,17 +341,17 @@ class Population:
             Bool if no match was found for agent (used for retries)
         """
         partner, bond_type = select_partner(
-            agent, need_partners, self.params, self.pop_random
+            agent, self.all_agents, self.sex_partners, self.params, self.pop_random
         )
-        no_match = False
+        no_match = True
+
+        print(partner)
 
         if partner:
-
             duration = get_partnership_duration(agent, self.params, self.pop_random)
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
             self.add_relationship(relationship)
-        else:
-            no_match = True
+            no_match = False
 
         return no_match
 
@@ -351,26 +364,22 @@ class Population:
         :Input:
             None
         """
-        # calculate sex-matched lists for pairs for this epoch
-        sex_partners = self.get_sex_partners()
+        # update agent targets annually
+        if t % 12 == 0:
+            for a in self.all_agents:
+                a.target_partners = utils.poisson(
+                    a.mean_num_partners, self.np_random, size=1
+                )
 
         # Now create partnerships until available partnerships are out
-        eligible_partners = set()
-        eligible_agents = set()
-        for agent in self.all_agents.members:
-            if t % 12 == 0 or t == 0:
-                agent.target_partners = round(
-                    poisson.rvs(agent.mean_num_partners, size=1)[0]
-                )
-            if len(agent.partners) < agent.target_partners:
-                eligible_agents.add(agent)
-            if len(agent.partners) < (agent.target_partners / 1.1):
-                eligible_partners.add(agent)
+        eligible_agents = {
+            a for a in self.all_agents if len(a.partners) < a.target_partners
+        }
 
         for agent in eligible_agents:
             found_no_partners = 0
             while agent.target_partners > len(agent.partners):
-                no_match = self.update_agent_partners(agent, eligible_partners)
+                no_match = self.update_agent_partners(agent)
                 if no_match:
                     found_no_partners += 1
                 if found_no_partners >= 5:
@@ -416,7 +425,7 @@ class Population:
                     print("TOO BIG", comp, comp.number_of_nodes())
                     trim_component(comp, self.params.model.network.component_size.max)
 
-        print("Total agents in graph: ", self.graph.number_of_nodes())
+        print("\tTotal agents in graph: ", self.graph.number_of_nodes())
 
     def connected_components(self):
         """
@@ -432,4 +441,6 @@ class Population:
                 for c in nx.connected_components(self.graph)
             )
         else:
-            raise ValueError("Can't get connected_components, population doesn't have graph enabled.")
+            raise ValueError(
+                "Can't get connected_components, population doesn't have graph enabled."
+            )

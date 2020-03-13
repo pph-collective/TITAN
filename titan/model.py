@@ -153,11 +153,11 @@ class HIVModel:
             print(" === Simulation Burn Complete ===")
 
         def make_agent_zero(num_partners: int):
-            agent_zero = self.run_random.choice([a for a in self.pop.all_agents if a.drug_use == "Inj"])
+            agent_zero = self.run_random.choice(
+                [a for a in self.pop.all_agents if a.drug_use == "Inj"]
+            )
             for i in range(num_partners):
-                self.pop.update_agent_partners(
-                    agent_zero, set(self.pop.all_agents.members)
-                )
+                self.pop.update_agent_partners(agent_zero)
             self.hiv_convert(agent_zero)
 
         run_id = uuid.uuid4()
@@ -475,11 +475,12 @@ class HIVModel:
         if rel.agent1.incar or rel.agent2.incar:
             return False
 
-        if self.features.pca:
-            if rel.bond_type == "sexOnly" and rel.duration != rel.total_duration:
-                pass
-            else:
-                self.pca_interaction(rel, time)
+        if (
+            self.features.pca
+            and "pca" in self.params.classes.bond_types[rel.bond_type].acts_allowed
+            and rel.duration < rel.total_duration
+        ):
+            self.pca_interaction(rel, time)
 
         # Agent 1 is HIV, partner is succept
         if rel.agent1.hiv and not rel.agent2.hiv:
@@ -492,7 +493,9 @@ class HIVModel:
         else:  # neither agent is HIV or both are
             return False
 
-        rel_sex_possible = sex_possible(agent.so, partner.so, self.params.classes.sex_types)
+        rel_sex_possible = sex_possible(
+            agent.so, partner.so, self.params.classes.sex_types
+        )
         partner_drug_type = partner.drug_use
         agent_drug_type = agent.drug_use
 
@@ -552,11 +555,7 @@ class HIVModel:
                 agent.prep_opinion = np.mean([agent.prep_opinion, partner.prep_opinion])
 
             if self.run_random.random() < self.prep.pca.prep.prob:
-                if (
-                    agent_opinion
-                    < self.prep.pca.opinion.threshold
-                    < agent.prep_opinion
-                ):
+                if agent_opinion < self.prep.pca.opinion.threshold < agent.prep_opinion:
                     self.initiate_prep(agent, time, force=True)
                 elif (
                     partner_opinion
@@ -750,9 +749,7 @@ class HIVModel:
                     if agent.prep_adherence == 1 or partner.prep_adherence == 1:
                         p_per_act *= 1.0 - self.prep.efficacy.adherent  # 0.04
                     else:
-                        p_per_act *= (
-                            1.0 - self.prep.efficacy.non_adherant
-                        )  # 0.24
+                        p_per_act *= 1.0 - self.prep.efficacy.non_adherant  # 0.24
 
                 elif "Inj" in self.prep.type:
                     p_per_act_reduction = (
@@ -872,8 +869,7 @@ class HIVModel:
                 if hiv_bool:
                     if agent.haart:
                         if (
-                            self.run_random.random()
-                            <= self.incar.haart.discontinue
+                            self.run_random.random() <= self.incar.haart.discontinue
                         ):  # 12% remain surpressed
                             agent.haart = False
                             agent.haart_adherence = 0
@@ -886,9 +882,7 @@ class HIVModel:
             * (1 + (hiv_bool * 4))
             * self.calibration.incarceration
         ):
-            jail_duration = self.demographics[agent.race][
-                agent.so
-            ].incar.duration.prob
+            jail_duration = self.demographics[agent.race][agent.so].incar.duration.prob
 
             bin = current_p_value = 1
             p = self.run_random.random()
@@ -1022,9 +1016,7 @@ class HIVModel:
                     * self.calibration.haart_coverage
                 ):
 
-                    haart_adh = self.demographics[agent_race][
-                        agent_so
-                    ].haart.adherence
+                    haart_adh = self.demographics[agent_race][agent_so].haart.adherence
                     if self.run_random.random() < haart_adh:
                         adherence = 5
                     else:
@@ -1100,9 +1092,7 @@ class HIVModel:
             if (
                 self.vaccine.booster
                 and agent.vaccine_time
-                == self.demographics[agent.race][
-                    agent.so
-                ].vaccine.booser.interval
+                == self.demographics[agent.race][agent.so].vaccine.booser.interval
                 and self.run_random.random()
                 < self.demographics[agent.race][agent.so].vaccine.booster.prob
             ):
@@ -1171,7 +1161,12 @@ class HIVModel:
             if self.prep.target_model == "Racial":
                 num_prep_agents = sum(self.prep_agents[agent.race].values())
             else:
-                num_prep_agents = sum([sum(self.prep_agents[race].values()) for race in self.params.classes.races])
+                num_prep_agents = sum(
+                    [
+                        sum(self.prep_agents[race].values())
+                        for race in self.params.classes.races
+                    ]
+                )
             #     num_prep_agents = self.pop.intervention_prep_agents.num_members()
 
             if self.prep.target_model in ("Incar", "IncarHR"):
@@ -1181,13 +1176,12 @@ class HIVModel:
             elif self.prep.target_model == "Racial":
                 all_hiv_agents = self.pop.all_agents.subset["HIV"].members
                 all_race = {a for a in self.pop.all_agents if a.race == agent.race}
-                #self.pop.all_agents.subset["Race"].subset[agent.race].members
+                # self.pop.all_agents.subset["Race"].subset[agent.race].members
 
                 hiv_agents = len(all_hiv_agents & all_race)
-                target_prep = (
-                    len(all_race)
-                    - hiv_agents
-                ) * self.demographics[agent.race][agent.so].prep.coverage
+                target_prep = (len(all_race) - hiv_agents) * self.demographics[
+                    agent.race
+                ][agent.so].prep.coverage
 
             else:
                 target_prep = int(

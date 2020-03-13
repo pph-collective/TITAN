@@ -5,6 +5,7 @@ from typing import List, Dict, Set
 
 from .parse_params import ObjMap
 
+
 class Agent:
     """
     :Purpose:

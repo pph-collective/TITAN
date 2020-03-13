@@ -49,13 +49,11 @@ class FakeRandom:
         return seq[-1]
 
     def choices(self, seq, weights=None, k=1):
-        to_list = list(seq)
-        weight_list = list(weights)
-        if weights == None:
-            return to_list[self.fake_choice]
+        if weights is None:
+            return [seq[self.fake_choice]]
         else:
-            selection = weight_list.index(max(weight_list))
-            return to_list[selection]
+            selection = weights.index(max(weights))
+            return [seq[selection]]
 
 
 def test_create_agent(make_population):
@@ -175,7 +173,7 @@ def test_update_agent_partners_one_agent(make_population, params):
 
     agent = next(iter(pop.all_agents))  # the only agent in the pop
 
-    pop.update_agent_partners(agent, pop.all_agents.members)  # noMatch == True
+    pop.update_agent_partners(agent)  # noMatch == True
     assert agent in pop.graph.nodes()
     assert len(pop.graph.edges()) == 0
 
@@ -191,7 +189,7 @@ def test_update_agent_partners_PWID_no_match(make_population, params):
     pop.add_agent(p)
 
     p.so = "HF"
-    assert pop.update_agent_partners(a, pop.all_agents.members)
+    assert pop.update_agent_partners(a)
     assert a in pop.graph.nodes()
     assert p in pop.graph.nodes()
     assert not a.partners
@@ -199,7 +197,7 @@ def test_update_agent_partners_PWID_no_match(make_population, params):
 
     p.so = "MSM"
     p.drug_use = "None"
-    assert pop.update_agent_partners(a, pop.all_agents.members)
+    assert pop.update_agent_partners(a)
     assert a in pop.graph.nodes()
     assert p in pop.graph.nodes()
     assert not a.partners
@@ -216,7 +214,7 @@ def test_update_agent_partners_MSM_no_match(make_population, params):
     pop.add_agent(a)
     pop.add_agent(p)
 
-    assert pop.update_agent_partners(a, pop.all_agents.members)
+    assert pop.update_agent_partners(a)
     assert a in pop.graph.nodes()
     assert p in pop.graph.nodes()
     assert not a.partners
@@ -234,7 +232,10 @@ def test_update_agent_partners_PWID_match(make_population, params):
     pop.add_agent(a)
     pop.add_agent(p)
 
-    assert not pop.update_agent_partners(a, pop.all_agents.members)
+    p.target_partners = 10
+
+    no_match = pop.update_agent_partners(a)
+    assert no_match is False
     assert a in pop.graph.nodes()
     assert p in pop.graph.nodes()
     assert a.partners
@@ -252,7 +253,10 @@ def test_update_agent_partners_MSM_match(make_population, params):
     pop.add_agent(a)
     pop.add_agent(p)
 
-    assert not pop.update_agent_partners(a, pop.all_agents.members)
+    p.target_partners = 10
+
+    no_match = pop.update_agent_partners(a)
+    assert no_match is False
     assert a in pop.graph.nodes()
     assert p in pop.graph.nodes()
     assert a.partners
@@ -270,7 +274,10 @@ def test_update_agent_partners_NDU_PWID_match(make_population, params):
     pop.add_agent(a)
     pop.add_agent(p)
 
-    assert not pop.update_agent_partners(a, pop.all_agents.members)
+    p.target_partners = 10
+
+    no_match = pop.update_agent_partners(a)
+    assert no_match is False
     assert a in pop.graph.nodes()
     assert p in pop.graph.nodes()
     assert a.partners
@@ -292,7 +299,7 @@ def test_update_partner_assignments_MSM_match(make_population, params):
     assert params.model.network.enable == True
     assert pop.enable_graph
 
-    assert not pop.update_partner_assignments()
+    pop.update_partner_assignments()
     assert a in pop.graph.nodes()
     assert p in pop.graph.nodes()
     assert a.partners
@@ -337,7 +344,7 @@ def test_update_partner_assignments_NDU_PWID_match(make_population, params):
     assert params.model.network.enable == True
     assert pop.enable_graph
 
-    assert not pop.update_partner_assignments()
+    pop.update_partner_assignments()
     assert a in pop.graph.nodes()
     assert p in pop.graph.nodes()
     assert a.partners

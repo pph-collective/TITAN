@@ -9,6 +9,7 @@ import os
 
 from .parse_params import ObjMap
 
+
 def get_stats(
     all_agents: AgentSet,
     new_prep_agents: AgentSet,

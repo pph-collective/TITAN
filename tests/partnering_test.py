@@ -2,7 +2,7 @@ import pytest
 import os
 
 from titan.partnering import *
-from titan.agent import Agent
+from titan.agent import Agent, Relationship
 from titan.population import Population
 from titan.parse_params import create_params
 
@@ -51,14 +51,11 @@ class FakeRandom:
         return seq[-1]
 
     def choices(self, seq, weights=None, k=1):
-        to_list = list(seq)
-        weight_list = list(weights)
-        assert type(weight_list) is list
         if weights is None:
-            return list(to_list[self.fake_choice])
+            return [seq[self.fake_choice]]
         else:
-            selection = weight_list.index(max(weight_list))
-            return list(to_list[selection])
+            selection = weights.index(max(weights))
+            return [seq[selection]]
 
 
 def test_get_random_pwid_partner_no_PWID(make_population, make_agent, params):
@@ -69,10 +66,15 @@ def test_get_random_pwid_partner_no_PWID(make_population, make_agent, params):
     empty_pop.add_agent(idu_agent)
     empty_pop.add_agent(nidu_agent)
     eligible_agents = copy(empty_pop.all_agents.members) - {idu_agent}
-    assert (
-        select_partner(idu_agent, empty_pop.all_agents, params, FakeRandom(1.0))[0]
-        is None
+
+    partner, bond_type = select_partner(
+        idu_agent,
+        empty_pop.all_agents,
+        empty_pop.sex_partners,
+        params,
+        FakeRandom(1.0),
     )
+    assert partner is None
 
 
 def test_get_random_pwid_partner_w_PWID(make_population, make_agent, params):
@@ -81,11 +83,20 @@ def test_get_random_pwid_partner_w_PWID(make_population, make_agent, params):
     idu_partner = make_agent(DU="Inj")
     empty_pop.add_agent(idu_agent)
     empty_pop.add_agent(idu_partner)
-    eligible_agents = copy(empty_pop.all_agents.members) - {idu_agent}
-    assert (
-        select_partner(idu_agent, empty_pop.all_agents, params, FakeRandom(1.0))[0]
-        is not None
+
+    idu_agent.target_partners = 10
+    idu_partner.target_partners = 10
+
+    empty_pop.params.partnership.bonds.PWID.Inj.prob = 10 # make this weight really high so it will get chosen
+
+    partner, bond_type = select_partner(
+        idu_agent,
+        empty_pop.all_agents,
+        empty_pop.sex_partners,
+        params,
+        FakeRandom(1.0),
     )
+    assert partner == idu_partner
 
 
 def test_get_random_sex_partner_valid(make_population, make_agent, params):
@@ -94,11 +105,31 @@ def test_get_random_sex_partner_valid(make_population, make_agent, params):
     hf_partner = make_agent(SO="HF")
     empty_pop.add_agent(hm_agent)
     empty_pop.add_agent(hf_partner)
-    eligible_agents = copy(empty_pop.all_agents.members) - {hm_agent}
-    assert (
-        select_partner(hm_agent, empty_pop.all_agents, params, empty_pop.pop_random)[0]
-        == hf_partner
+
+    hm_agent.target_partners = 10
+    hf_partner.target_partners = 10
+
+    partner, bond_type = select_partner(
+        hm_agent,
+        empty_pop.all_agents,
+        empty_pop.sex_partners,
+        params,
+        FakeRandom(1.0),
     )
+    assert partner == hf_partner
+
+    rel = Relationship(partner, hm_agent, 10, "Sex")
+    empty_pop.add_relationship(rel)
+
+    # no match after bonded
+    partner, bond_type = select_partner(
+        hm_agent,
+        empty_pop.all_agents,
+        empty_pop.sex_partners,
+        params,
+        FakeRandom(1.0),
+    )
+    assert partner is None
 
 
 def test_get_random_sex_partner_bad(make_population, make_agent, params):
@@ -107,11 +138,15 @@ def test_get_random_sex_partner_bad(make_population, make_agent, params):
     msm_partner = make_agent(SO="MSM")
     empty_pop.add_agent(hm_agent)
     empty_pop.add_agent(msm_partner)
-    eligible_agents = {}
-    assert (
-        select_partner(hm_agent, empty_pop.all_agents, params, empty_pop.pop_random)[0]
-        is None
+
+    partner, bond_type = select_partner(
+        hm_agent,
+        empty_pop.all_agents,
+        empty_pop.sex_partners,
+        params,
+        FakeRandom(1.0),
     )
+    assert partner is None
 
 
 def test_sex_possible(params):

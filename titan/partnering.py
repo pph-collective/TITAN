@@ -2,16 +2,16 @@
 # encoding: utf-8
 
 # Imports
-from typing import Set, Optional, Tuple
+from typing import Set, Optional, Tuple, Dict
+from copy import copy
 
-from dotmap import DotMap  # type: ignore
-
-from .agent import Agent
-from .utils import safe_random_choice
+from .agent import Agent, AgentSet
+from . import utils
+from .parse_params import ObjMap
 
 
 def select_partner(
-    agent: Agent, need_partners: Set, params: DotMap, rand_gen
+    agent: Agent, all_agents: AgentSet, sex_partners: Dict, params: ObjMap, rand_gen
 ) -> Tuple[Optional[Agent], str]:
     """
     :Purpose:
@@ -25,30 +25,32 @@ def select_partner(
     :Output:
         partner: new partner
     """
-    partner_set = set(need_partners)
+    partner_set = copy(all_agents.members)
+
+    print(agent.partners)
     eligible_partner_set = partner_set - set(agent.partners) - {agent}
-    RandomPartner: Optional[Agent]
+
+    print(eligible_partner_set)
+
+    eligible_partner_set = {
+        p for p in eligible_partner_set if len(p.partners) < (p.target_partners * 1.1)
+    }
+
+    print(eligible_partner_set)
 
     def bondtype(bond_dict):
-        bonds = []
-        probs = []
-        for bond, val in bond_dict.items():
-            if bond != "prob":
-                bonds.append(bond)
-                probs.append(val.prob)
-        bonded_type_hold = rand_gen.choices(bonds, weights=probs, k=1)
-        bonded_type = "".join(bonded_type_hold)
-
-        return bonded_type
+        bonds = list(params.classes.bond_types.keys())
+        probs = [bond_dict[bond].prob for bond in bonds]
+        return rand_gen.choices(bonds, weights=probs, k=1).pop()
 
     def assort(eligible_partner_list, assort_params):
-        if rand_gen.random() < assort_params["prob"]:
+        if rand_gen.random() < assort_params.prob:
             eligible_partners = {
                 partner
                 for partner in eligible_partner_list
                 if (
-                    getattr(partner, assort_params["assort_type"])
-                    == assort_params["partner_type"]
+                    getattr(partner, assort_params.assort_type)
+                    == assort_params.partner_type
                 )
             }
         else:
@@ -63,36 +65,34 @@ def select_partner(
         return eligible_partners
 
     if params.features.assort_mix:
-        for assort_types in params.assort_mix.assortativity.assort_type:
-            if getattr(agent, assort_types.assort_type) == assort_types["agent_type"]:
-                eligible_partner_set = assort(eligible_partner_set, assort_types)
+        for assort_def in params.assort_mix.values():
+            if getattr(agent, assort_def.assort_type) == assort_def.agent_type:
+                eligible_partner_set = assort(eligible_partner_set, assort_def)
+
+    print(eligible_partner_set)
 
     if agent.drug_use == "Inj":
         agent_bond = bondtype(params.partnership.bonds["PWID"])
     else:
         agent_bond = bondtype(params.partnership.bonds[agent.so])
 
-    if "needle" in params.classes.bond_types[agent_bond].acts_allowed:
+    acts_allowed = params.classes.bond_types[agent_bond].acts_allowed
+
+    if "needle" in acts_allowed:
         eligible_partner_set = {
             partner for partner in eligible_partner_set if partner.drug_use == "Inj"
         }
+    print(eligible_partner_set)
 
-    if "sex" in params.classes.bond_types[agent_bond].acts_allowed:
-        eligible_partner_set = {
-            partner
-            for partner in eligible_partner_set
-            if sex_possible(agent.so, partner.so, params)
-        }
+    if "sex" in acts_allowed:
+        eligible_partner_set = eligible_partner_set & sex_partners[agent.so]
 
-    if "social" in params.classes.bond_types[agent_bond].acts_allowed:
-        eligible_partner_set = eligible_partner_set
+    print(eligible_partner_set)
 
-    if eligible_partner_set:
-        random_partner = safe_random_choice(list(eligible_partner_set), rand_gen)
-    else:
-        random_partner = None
+    random_partner = utils.safe_random_choice(eligible_partner_set, rand_gen)
 
     return random_partner, agent_bond
+
 
 @utils.memo
 def sex_possible(agent_sex_type: str, partner_sex_type: str, sex_types: ObjMap) -> bool:
@@ -115,13 +115,8 @@ def sex_possible(agent_sex_type: str, partner_sex_type: str, sex_types: ObjMap) 
     if partner_sex_type not in sex_types:
         raise ValueError("Invalid partner_sex_type! %s" % str(partner_sex_type))
 
-
-    agent_match = (
-        agent_sex_type in sex_types[partner_sex_type].sleeps_with
-    )
-    partner_match = (
-        partner_sex_type in sex_types[agent_sex_type].sleeps_with
-    )
+    agent_match = agent_sex_type in sex_types[partner_sex_type].sleeps_with
+    partner_match = partner_sex_type in sex_types[agent_sex_type].sleeps_with
 
     return agent_match and partner_match
 

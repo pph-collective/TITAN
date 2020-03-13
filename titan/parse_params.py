@@ -18,7 +18,9 @@ class ObjMap(dict):
     def __hash__(self):
         return 1234567890
 
+
 # ============== PARSING FUNCTIONS ======================
+
 
 def check_item(val, d, keys=None):
     if "min" in d:

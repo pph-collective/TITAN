@@ -40,15 +40,20 @@ partnership:
           prob: 0.08
   bonds:
     PWID:
+      Sex:
+        prob: 0.3
       SexInj:
+        prob: 0.3
+      Inj:
+        prob: 0.2
+      Social:
+        prob: 0.2
+    HM:
+      Sex:
         prob: 1.0
     MSM:
       Sex:
         prob: 1.0
-      SexInj:
-        prob: 0.0
-      Inj:
-        prob: 0.0
     HF:
       Sex:
         prob: 1.0

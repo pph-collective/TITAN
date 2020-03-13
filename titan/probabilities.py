@@ -4,6 +4,7 @@ from . import utils
 
 # ================ CORE PROBABILITIES ========================
 
+
 @utils.memo
 def safe_sex(num_acts):
     """
@@ -21,6 +22,7 @@ def safe_sex(num_acts):
     else:
         return 0.759
 
+
 @utils.memo
 def adherence_prob(adherence):
     if adherence == 1:
@@ -35,6 +37,7 @@ def adherence_prob(adherence):
         return 0.0008
     else:
         return 0.0051
+
 
 @utils.memo
 def get_death_rate(hiv, aids, race, haart_adh, death_rate):
