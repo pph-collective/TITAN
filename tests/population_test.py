@@ -33,7 +33,7 @@ def make_population(params):
 
 # helper method to generate a fake number deterministically
 class FakeRandom:
-    def __init__(self, num: float):
+    def __init__(self, num: float, fake_choice: int = 0):
         self.num = num
 
     def random(self):
@@ -47,6 +47,15 @@ class FakeRandom:
 
     def choice(self, seq):
         return seq[-1]
+
+    def choices(self, seq, weights=None, k=1):
+        to_list = list(seq)
+        weight_list = list(weights)
+        if weights == None:
+            return to_list[self.fake_choice]
+        else:
+            selection = weight_list.index(max(weight_list))
+            return to_list[selection]
 
 
 def test_create_agent(make_population):
@@ -160,18 +169,79 @@ def test_get_age(make_population, params):
         assert ageBin == i
 
 
-def test_update_agent_partners_no_match(make_population, params):
+def test_update_agent_partners_one_agent(make_population, params):
     pop = make_population(n=1)
     params.model.num_pop = 0
 
     agent = next(iter(pop.all_agents))  # the only agent in the pop
 
-    pop.update_agent_partners(agent)  # noMatch == True
+    pop.update_agent_partners(agent, pop.all_agents.members)  # noMatch == True
     assert agent in pop.graph.nodes()
     assert len(pop.graph.edges()) == 0
 
 
-def test_update_agent_partners_match(make_population, params):
+def test_update_agent_partners_PWID_no_match(make_population, params):
+    pop = make_population(n=0)
+    a = pop.create_agent("WHITE", "MSM")
+    p = pop.create_agent("WHITE", "HF")
+    pop.pop_random = FakeRandom(1.1)
+    a.drug_use = "Inj"
+    p.drug_use = "Inj"
+    pop.add_agent(a)
+    pop.add_agent(p)
+
+    p.so = "HF"
+    assert pop.update_agent_partners(a, pop.all_agents.members)
+    assert a in pop.graph.nodes()
+    assert p in pop.graph.nodes()
+    assert not a.partners
+    assert len(pop.graph.edges()) == 0
+
+    p.so = "MSM"
+    p.drug_use = "None"
+    assert pop.update_agent_partners(a, pop.all_agents.members)
+    assert a in pop.graph.nodes()
+    assert p in pop.graph.nodes()
+    assert not a.partners
+    assert len(pop.graph.edges()) == 0
+
+
+def test_update_agent_partners_MSM_no_match(make_population, params):
+    pop = make_population(n=0)
+    a = pop.create_agent("WHITE", "MSM")
+    p = pop.create_agent("WHITE", "HF")
+    pop.pop_random = FakeRandom(1.1)
+    a.drug_use = "None"
+    p.drug_use = "None"
+    pop.add_agent(a)
+    pop.add_agent(p)
+
+    assert pop.update_agent_partners(a, pop.all_agents.members)
+    assert a in pop.graph.nodes()
+    assert p in pop.graph.nodes()
+    assert not a.partners
+    assert len(pop.graph.edges()) == 0
+
+
+def test_update_agent_partners_PWID_match(make_population, params):
+    pop = make_population(n=0)
+    a = pop.create_agent("WHITE", "MSM")
+    p = pop.create_agent("WHITE", "MSM")
+    # ensure random sex partner no assorting
+    pop.pop_random = FakeRandom(1.1)
+    a.drug_use = "Inj"
+    p.drug_use = "Inj"
+    pop.add_agent(a)
+    pop.add_agent(p)
+
+    assert not pop.update_agent_partners(a, pop.all_agents.members)
+    assert a in pop.graph.nodes()
+    assert p in pop.graph.nodes()
+    assert a.partners
+    assert len(pop.graph.edges()) == 1
+
+
+def test_update_agent_partners_MSM_match(make_population, params):
     pop = make_population(n=0)
     a = pop.create_agent("WHITE", "MSM")
     p = pop.create_agent("WHITE", "MSM")
@@ -182,13 +252,32 @@ def test_update_agent_partners_match(make_population, params):
     pop.add_agent(a)
     pop.add_agent(p)
 
-    pop.update_agent_partners(a)
+    assert not pop.update_agent_partners(a, pop.all_agents.members)
     assert a in pop.graph.nodes()
     assert p in pop.graph.nodes()
+    assert a.partners
     assert len(pop.graph.edges()) == 1
 
 
-def test_update_partner_assignments_match(make_population, params):
+def test_update_agent_partners_NDU_PWID_match(make_population, params):
+    pop = make_population(n=0)
+    a = pop.create_agent("WHITE", "MSM")
+    p = pop.create_agent("WHITE", "MSM")
+    # ensure random sex partner no assorting
+    pop.pop_random = FakeRandom(1.1)
+    a.drug_use = "None"
+    p.drug_use = "Inj"
+    pop.add_agent(a)
+    pop.add_agent(p)
+
+    assert not pop.update_agent_partners(a, pop.all_agents.members)
+    assert a in pop.graph.nodes()
+    assert p in pop.graph.nodes()
+    assert a.partners
+    assert len(pop.graph.edges()) == 1
+
+
+def test_update_partner_assignments_MSM_match(make_population, params):
     pop = make_population(n=0)
     a = pop.create_agent("WHITE", "MSM")
     p = pop.create_agent("WHITE", "MSM")
@@ -200,10 +289,59 @@ def test_update_partner_assignments_match(make_population, params):
     pop.add_agent(p)
     a.mean_num_partners = 100
     p.mean_num_partners = 100
+    assert params.model.network.enable == True
+    assert pop.enable_graph
+
+    assert not pop.update_partner_assignments()
+    assert a in pop.graph.nodes()
+    assert p in pop.graph.nodes()
+    assert a.partners
+    assert len(pop.graph.edges()) == 1
+
+
+def test_update_partner_assignments_PWID_match(make_population, params):
+    pop = make_population(n=0)
+    a = pop.create_agent("WHITE", "MSM")
+    p = pop.create_agent("WHITE", "MSM")
+    # ensure random sex partner no assorting
+    pop.pop_random = FakeRandom(1.1)
+    a.drug_use = "Inj"
+    p.drug_use = "Inj"
+    pop.add_agent(a)
+    pop.add_agent(p)
+    a.mean_num_partners = 100
+    p.mean_num_partners = 100
+    assert params.model.network.enable == True
+    assert pop.enable_graph
 
     pop.update_partner_assignments()
     assert a in pop.graph.nodes()
     assert p in pop.graph.nodes()
+    assert a.partners
+    assert pop.relationships
+    assert len(pop.graph.edges()) == 1
+
+
+def test_update_partner_assignments_NDU_PWID_match(make_population, params):
+    pop = make_population(n=0)
+    a = pop.create_agent("WHITE", "MSM")
+    p = pop.create_agent("WHITE", "MSM")
+    # ensure random sex partner no assorting
+    pop.pop_random = FakeRandom(1.1)
+    a.drug_use = "None"
+    p.drug_use = "Inj"
+    pop.add_agent(a)
+    pop.add_agent(p)
+    a.mean_num_partners = 100
+    p.mean_num_partners = 100
+    assert params.model.network.enable == True
+    assert pop.enable_graph
+
+    assert not pop.update_partner_assignments()
+    assert a in pop.graph.nodes()
+    assert p in pop.graph.nodes()
+    assert a.partners
+    assert pop.relationships
     assert len(pop.graph.edges()) == 1
 
 
@@ -217,6 +355,8 @@ def test_update_partner_assignments_no_match(make_population, params):
     p.drug_use = "None"
     pop.add_agent(a)
     pop.add_agent(p)
+    a.mean_num_partners = 50
+    p.mean_num_partners = 50
 
     params.model.num_pop = 0
 

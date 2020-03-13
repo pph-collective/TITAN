@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from typing import Sequence, List, Dict, Optional, Set
+from typing import List, Dict, Set
 
 from .parse_params import ObjMap
 
@@ -24,7 +24,7 @@ class Agent:
     def update_id_counter(cls):
         cls.next_agent_id += 1
 
-    def __init__(self, SO: str, age: int, race: str, DU: str):
+    def __init__(self, so: str, age: int, race: str, du: str):
         """
         Initialize an agent based on given properties
 
@@ -43,11 +43,11 @@ class Agent:
         self.update_id_counter()
 
         # agent properties
-        self.so = SO  # REVIEWED split this out into gender and sleeps_with
+        self.so = so  # REVIEWED split this out into gender and sleeps_with
         self.age = age
         self.age_bin = 0
         self.race = race
-        self.drug_use = DU
+        self.drug_use = du
 
         self.msmw = False
 
@@ -55,6 +55,7 @@ class Agent:
         self.relationships: List[Relationship] = []
         self.partners: List[Agent] = []
         self.mean_num_partners = 0
+        self.target_partners = 0
 
         # agent STI params
         self.hiv = False
@@ -103,13 +104,9 @@ class Agent:
         returns:
             String formatted tab-deliminated agent properties
         """
-        return "\t%.6d\t%d\t%s\t%s\t%s\t%s" % (
-            self.id,
-            self.age,
-            self.so,
-            self.drug_use,
-            self.race,
-            self.hiv,
+        return (
+            f"\t{self.id}\t{self.age}\t{self.so}\t{self.drug_use}\t"
+            f"{self.race}\t{self.hiv}"
         )
 
     def __repr__(self):
@@ -155,7 +152,7 @@ class Agent:
         acute_time_period = 2
         hiv_t = self.hiv_time
 
-        if hiv_t <= acute_time_period and hiv_t > 0:
+        if acute_time_period >= hiv_t > 0:
             return True
         else:
             return False
@@ -244,7 +241,8 @@ class Agent:
     def get_transmission_probability(self, interaction: str, params: ObjMap) -> float:
         """ Decriptor
         :Purpose:
-            Determines the probability of a transmission event based on interaction type.
+            Determines the probability of a transmission event based on
+            interaction type.
 
         :Input:
             interaction : str - "NEEDLE" or "SEX"
@@ -303,18 +301,18 @@ class Agent:
         for i in range(1, 6):
             p = params.partnership.sex.frequency[i].prob
             if rv <= p:
-                min = params.partnership.sex.frequency[i].min
-                max = params.partnership.sex.frequency[i].max
-                return rand_gen.randrange(min, max, 1)
+                min_frequency = params.partnership.sex.frequency[i].min
+                max_frequency = params.partnership.sex.frequency[i].max
+                return rand_gen.randrange(min_frequency, max_frequency, 1)
 
         # fallthrough is last i
-        min = params.partnership.sex.frequency[i].min
-        max = params.partnership.sex.frequency[i].max
-        return rand_gen.randrange(min, max, 1)
+        min_frequency = params.partnership.sex.frequency[i].min
+        max_frequency = params.partnership.sex.frequency[i].max
+        return rand_gen.randrange(min_frequency, max_frequency, 1)
 
 
 class Relationship:
-    "Class for agent relationships."
+    """Class for agent relationships."""
 
     # class variable for relationship creation
     next_rel_id = 0
@@ -339,7 +337,7 @@ class Relationship:
         assert agent1 != agent2, "Cannot create relationship with same agent"
         assert (
             agent1 not in agent2.partners and agent2 not in agent1.partners
-        ), "Agent's already partnered!"
+        ), "Agents already partnered!"
 
         # self.id is unique ID number used to track each person agent.
         self.agent1 = agent1
@@ -393,7 +391,8 @@ class Relationship:
 
     def unbond(self):
         """
-        Unbond two agents. Removes relationship from relationship lists. Removes partners in each others' partner list.
+        Unbond two agents. Removes relationship from relationship lists.
+        Removes partners in each others' partner list.
 
         args:
             agent: Agent - former partner of partner
@@ -463,12 +462,12 @@ class AgentSet:
         return self.members.__iter__()
 
     def is_member(self, agent: Agent):
-        "Returns true if agent is a member of this set"
+        """Returns true if agent is a member of this set"""
         return agent.id in self.tracker
 
     # adding trickles up
     def add_agent(self, agent: Agent):
-        "Adds a new agent to the set."
+        """Adds a new agent to the set."""
         if not self.is_member(agent):
             self.members.add(agent)
             self.tracker.add(agent.id)
@@ -478,7 +477,7 @@ class AgentSet:
 
     # removing trickles down
     def remove_agent(self, agent: Agent):
-        "Removes agent from agent set."
+        """Removes agent from agent set."""
         if self.is_member(agent):
             self.members.remove(agent)
             self.tracker.remove(agent.id)
@@ -490,7 +489,7 @@ class AgentSet:
         return len(self.members)
 
     def add_subset(self, subset: "AgentSet"):
-        "Adds a new AgentSet to the current sets subset."
+        """Adds a new AgentSet to the current sets subset."""
         if subset.id not in self.subset:
             self.subset[subset.id] = subset
 
@@ -499,13 +498,12 @@ class AgentSet:
             yield subset
 
     def print_subsets(self):
-        print("\t__________ %s __________" % self.id)
+        print(f"\t__________ {self.id} __________")
         print("\tID\t\tN\t\t%")
         for set in self.iter_subset():
             if set.num_members() > 0:
                 print(
-                    "\t%-6s\t%-5d\t%.2f"
-                    % (
+                    "\t{:6}\t{:5}\t{:.2}".format(
                         set.id,
                         set.num_members(),
                         (1.0 * set.num_members() / set.numerator.num_members()),
@@ -514,8 +512,7 @@ class AgentSet:
             for subset in set.iter_subset():
                 if subset.num_members() > 0:
                     print(
-                        "\t-%-4s\t%-5d\t%.2f"
-                        % (
+                        "\t{:4}\t{:5}\t{:.2}".format(
                             subset.id,
                             subset.num_members(),
                             (

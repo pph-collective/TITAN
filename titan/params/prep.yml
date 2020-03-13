@@ -8,7 +8,7 @@ prep:
     description: Type of PrEP used in model
     type: array
   target:
-    default: 0.3
+    default: 0.0
     description: Target coverage for PrEP therapy at 10 years
     type: float
     min: 0
@@ -38,14 +38,14 @@ prep:
     min: 0
     max: 1
   target_model:
-    default: CDCwomen
+    default: Allcomers
     values:
       - CDCwomen
       - Allcomers
       - HighPN5
       - HighPN10
       - SR
-      - Rec
+      - Racial
       - MSM
     description: which model to use to determine who is enrolled in PrEP
     type: enum

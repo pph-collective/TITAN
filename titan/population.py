@@ -9,7 +9,7 @@ import networkx as nx  # type: ignore
 
 from .parse_params import ObjMap
 from .agent import AgentSet, Agent, Relationship
-from .partnering import get_partner, get_partnership_duration
+from .partnering import select_partner, get_partnership_duration
 from . import utils
 
 
@@ -36,7 +36,8 @@ class Population:
         self.pop_random = random.Random(self.pop_seed)
         self.np_random = np.random.RandomState(self.pop_seed)
 
-        # this sets the global random seed for the population generation phase, during model init it gets reset at the very end
+        # this sets the global random seed for the population generation phase, during
+        # model init it gets reset at the very end
         random.seed(self.pop_seed)
 
         self.enable_graph = params.model.network.enable
@@ -89,9 +90,8 @@ class Population:
             self.initialize_incarceration()
 
         # initialize relationships
-        print("\tCreating relationships")
-        for i in range(10):
-            self.update_partner_assignments()
+        print("\tCreating Relationships")
+        self.update_partner_assignments()
 
         if self.enable_graph:
             self.initialize_graph()
@@ -312,13 +312,12 @@ class Population:
         age = self.pop_random.randrange(min_age, max_age)
         return age, i
 
-    # REVIEWED should these be in the network class? - max to incorporate with network/pop/model disentangling?
-
-    def update_agent_partners(self, agent: Agent, sex_partners: Optional[Dict] = None) -> bool:
+    def update_agent_partners(self, agent: Agent, need_partners: Set) -> bool:
         """
         :Purpose:
-            Finds and bonds new partner. Creates relationship object for partnership, calcs
-            partnership duration, and adds to networkX graph if self.enable_graph is set True.
+            Finds and bonds new partner. Creates relationship object for partnership,
+            calcspartnership duration, and adds to networkX graph if self.enable_graph
+            is set True.
 
         :Input:
             agent : Agent
@@ -328,31 +327,14 @@ class Population:
             noMatch : bool
             Bool if no match was found for agent (used for retries)
         """
-        if sex_partners is None:
-            sex_partners = self.get_sex_partners()
-
-        partner = get_partner(agent, self.all_agents, self.params, self.pop_random, sex_partners)
+        partner, bond_type = select_partner(
+            agent, need_partners, self.params, self.pop_random
+        )
         no_match = False
 
-        def bondtype(bond_dict):
-            pvalue = 0.0
-            bond_probability = self.pop_random.random()
-            bonded_type = "sexOnly"
-            for reltype, p in bond_dict.items():
-                pvalue += p
-                if bond_probability < pvalue:
-                    bonded_type = reltype
-                    break
-            return bonded_type
-
         if partner:
+
             duration = get_partnership_duration(agent, self.params, self.pop_random)
-
-            if agent.drug_use == "Inj" and partner.drug_use == "Inj":
-                bond_type = bondtype(self.params.partnership.bond.type.PWID)
-            else:
-                bond_type = bondtype(self.params.partnership.bond.type[agent.so])
-
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
             self.add_relationship(relationship)
         else:
@@ -360,7 +342,7 @@ class Population:
 
         return no_match
 
-    def update_partner_assignments(self):
+    def update_partner_assignments(self, t=0):
         """
         :Purpose:
             Determines which agents will seek new partners from All_agentSet.
@@ -373,25 +355,32 @@ class Population:
         sex_partners = self.get_sex_partners()
 
         # Now create partnerships until available partnerships are out
-        for agent in self.all_agents:
-            acquire_prob = self.params.calibration.sex.partner * (
-                agent.mean_num_partners / (12.0)
-            )
-            if self.pop_random.random() < acquire_prob:
-                self.update_agent_partners(agent, sex_partners = sex_partners)
+        eligible_partners = set()
+        eligible_agents = set()
+        for agent in self.all_agents.members:
+            if t % 12 == 0 or t == 0:
+                agent.target_partners = round(
+                    poisson.rvs(agent.mean_num_partners, size=1)[0]
+                )
+            if len(agent.partners) < agent.target_partners:
+                eligible_agents.add(agent)
+            if len(agent.partners) < (agent.target_partners / 1.1):
+                eligible_partners.add(agent)
 
-    def get_sex_partners(self):
-        sex_types = self.params.classes.sex_types
-        sex_partners = {}
-        for k in sex_types.keys():
-            sex_partners[k] = {p for p in self.all_agents if p.so in sex_types[k].sleeps_with}
-
-        return sex_partners
+        for agent in eligible_agents:
+            found_no_partners = 0
+            while agent.target_partners > len(agent.partners):
+                no_match = self.update_agent_partners(agent, eligible_partners)
+                if no_match:
+                    found_no_partners += 1
+                if found_no_partners >= 5:
+                    break
 
     def initialize_graph(self):
         """
         :Purpose:
-            Initialize network with graph-based algorithm for relationship adding/pruning
+            Initialize network with graph-based algorithm for relationship
+            adding/pruning
 
         :Input:
             None

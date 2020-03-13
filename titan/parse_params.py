@@ -1,6 +1,5 @@
 import oyaml as yaml  # type: ignore
 import os
-import sys
 import collections
 from inspect import currentframe, getframeinfo
 from pathlib import Path
@@ -35,7 +34,7 @@ def check_item(val, d, keys=None):
     if d["type"] == "boolean":
         assert isinstance(val, bool)
     if d["type"] == "enum":
-        assert val in d["values"]
+        assert val in d["values"], f"{val} not in {d}"
     if d["type"] == "array":
         assert all(x in d["values"] for x in val)
     if d["type"] == "keys":
@@ -106,7 +105,6 @@ def get_defn(key, d, param):
 
 def parse_params(defs, params, pops):
     parsed = {}
-
     # params is a scalar, return it
     if not isinstance(params, dict):
         return params

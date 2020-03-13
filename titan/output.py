@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from typing import Dict, Any, List, Sequence, Optional
+from typing import Dict, Any, List
 from .agent import AgentSet, Relationship, Agent
 from copy import deepcopy
 from uuid import UUID
@@ -187,12 +187,13 @@ def deathReport(
 
         f.write("\n")
 
-    f.write("%s\t%d\t%d" % (run_id, runseed, t))  # start row
+    f.write(f"{run_id}\t{runseed}\t{t}")  # start row
 
     for sex_type in sex_types:
         f.write(
-            "\t%d\t%d"
-            % (stats["ALL"][sex_type]["deaths"], stats["ALL"][sex_type]["deaths_HIV"])
+            "\t{}\t{}".format(
+                stats["ALL"][sex_type]["deaths"], stats["ALL"][sex_type]["deaths_HIV"]
+            )
         )
 
     f.write("\n")
@@ -231,7 +232,7 @@ def incarReport(
 
         f.write("\n")
 
-    f.write("%s\t%d\t%d" % (run_id, runseed, t))
+    f.write(f"{run_id}\t{runseed}\t{t}")
 
     for p in name_map:
         for mc in MAIN_CAT:
@@ -258,18 +259,20 @@ def newlyhighriskReport(
     if f.tell() == 0:
         f.write("run_id\tseed\tt")  # start header
 
-        template = "\tnewHR_{st}\tnewHR_HIV_{st}\tnewHR_AIDS_{st}\tnewHR_Tested_{st}\tnewHR_ART_{st}"
+        template = (
+            "\tnewHR_{st}\tnewHR_HIV_{st}\tnewHR_AIDS_{st}\t"
+            "newHR_Tested_{st}\tnewHR_ART_{st}"
+        )
         for sex_type in params.classes.sex_types:
             f.write(template.format(st=sex_type))
 
         f.write("\n")
 
-    f.write("%s\t%d\t%d" % (run_id, runseed, t))  # start row
+    f.write(f"{run_id}\t{runseed}\t{t}")  # start row
 
     for sex_type in params.classes.sex_types:
         f.write(
-            "\t%d\t%d\t%d\t%d\t%d"
-            % (
+            "\t{}\t{}\t{}\t{}\t{}".format(
                 stats["ALL"][sex_type]["newHR"],
                 stats["ALL"][sex_type]["newHR_HIV"],
                 stats["ALL"][sex_type]["newHR_AIDS"],
@@ -298,8 +301,7 @@ def prepReport(
         f.write("run_id\tseed\tt\tNewEnroll\tPWIDpartner\tTestedPartner\tMSMWpartner\n")
 
     f.write(
-        "%s\t%d\t%d\t%d\t%d\t%d\t%d\n"
-        % (
+        "{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(
             run_id,
             runseed,
             t,
@@ -334,12 +336,16 @@ def basicReport(
             # if this is a new file, write the header info
             if f.tell() == 0:
                 f.write(
-                    "run_id\trseed\tpseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\tHR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\tMSMWpart_PrEP\ttestedPart_PrEP\tVaccinated\tLAI\tOral\tAware\n"
+                    "run_id\trseed\tpseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\t"
+                    "HR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\t"
+                    "MSMWpart_PrEP\ttestedPart_PrEP\tVaccinated\tLAI\tOral\tAware\n"
                 )
 
             f.write(
                 (
-                    "{:s}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\n".format(
+                    "{:s}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t"
+                    "{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t"
+                    "{:d}\n".format(
                         str(run_id),
                         runseed,
                         popseed,
@@ -383,7 +389,8 @@ def print_components(
     # if this is a new file, write the header info
     if f.tell() == 0:
         f.write(
-            "run_id\trunseed\tpopseed\tt\tcompID\ttotalN\tNhiv\tNprep\tNtrtHIV\tTrtComponent\tPCA\tOral\tLAI\tAware\n"
+            "run_id\trunseed\tpopseed\tt\tcompID\ttotalN\tNhiv\tNprep\tNtrtHIV\t"
+            "TrtComponent\tPCA\tOral\tLAI\tAware\n"
         )
 
     comp_id = 0
@@ -411,8 +418,9 @@ def print_components(
                 aware += 1
 
         f.write(
-            f"{run_id}\t{runseed}\t{popseed}\t{t}\t{comp_id}\t{tot_agents}\t{nhiv}\t{nprep}\t{ntrthiv}"
-            f"\t{trtbool}\t{pca}\t{oral}\t{injectable_prep}\t{aware}\n"
+            f"{run_id}\t{runseed}\t{popseed}\t{t}\t{comp_id}\t{tot_agents}\t{nhiv}\t"
+            f"{nprep}\t{ntrthiv}\t{trtbool}\t{pca}\t{oral}\t{injectable_prep}"
+            f"\t{aware}\n"
         )
 
         comp_id += 1

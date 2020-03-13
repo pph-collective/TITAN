@@ -1,0 +1,47 @@
+demographics:
+  BLACK:
+    ppl: 0.6
+    MSM:
+      ppl: 1.0
+      num_partners: 10.0
+
+  WHITE:
+    ppl: 0.4
+    MSM:
+      ppl: 1.0
+      num_partners: 25.0
+
+partnership:
+  sex:
+    durations:
+      2:
+        min: 9
+    transmission:
+      MSM:
+        0:
+          prob: 0.08
+  bonds:
+    MSM:
+      Sex:
+        prob: 1.0
+
+features:
+  incar: true
+  prep: true
+  high_risk: true
+  haart: true
+  die_and_replace: true
+  static_network: false
+  agent_zero: false
+  assort_mix: false
+  vaccine: true
+  partner_tracing: true
+  msmw: true
+  bond_type: true
+  pca: true
+
+model:
+  num_pop: 100
+  network:
+    enable: true
+  type: scale_free

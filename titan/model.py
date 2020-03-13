@@ -3,9 +3,10 @@
 
 # Imports
 import random
-from typing import Dict, List, Sequence, Optional
+from typing import Dict, List, Optional
 import uuid
 from copy import copy
+import os
 
 import numpy as np  # type: ignore
 import networkx as nx  # type: ignore
@@ -34,9 +35,9 @@ class HIVModel:
 
     def __repr__(self):
         res = "\n"
-        res += "Seed: %d\n" % (self.run_seed)
-        res += "Npop: %d\n" % (self.params.model.num_pop)
-        res += "Time: %d\n" % (self.params.model.time_range)
+        res += f"Seed: {self.run_seed}\n"
+        res += f"Npop: {self.params.model.num_pop}\n"
+        res += f"Time: {self.params.model.time_range}\n"
 
         return res
 
@@ -91,7 +92,7 @@ class HIVModel:
         self.run_random = random.Random(self.run_seed)
         self.np_random = np.random.RandomState(self.run_seed)
         random.seed(self.run_seed)
-        print(("\tFIRST RANDOM CALL %d" % random.randint(0, 100)))
+        print(("\tFIRST RANDOM CALL {}".format(random.randint(0, 100))))
 
         print("\tResetting death count")
         self.deaths: List[Agent] = []  # Number of death
@@ -154,7 +155,9 @@ class HIVModel:
         def make_agent_zero(num_partners: int):
             agent_zero = self.run_random.choice([a for a in self.pop.all_agents if a.drug_use == "Inj"])
             for i in range(num_partners):
-                self.pop.update_agent_partners(agent_zero)
+                self.pop.update_agent_partners(
+                    agent_zero, set(self.pop.all_agents.members)
+                )
             self.hiv_convert(agent_zero)
 
         run_id = uuid.uuid4()
@@ -198,15 +201,15 @@ class HIVModel:
                 )
             # todo: GET THIS TO THE NEW HIV COUNT
 
-            # TODO: replace this with right counts
-            # print(
-            #     "\tSTARTING HIV count:{}\tTotal Incarcerated:{}\tHR+:{}\tPrEP:{}".format(
-            #         self.pop.hiv_agents.num_members(),
-            #         self.pop.incarcerated_agents.num_members(),
-            #         self.pop.high_risk_agents.num_members(),
-            #         self.pop.intervention_prep_agents.num_members(),
-            #     )
-            # )
+            print(
+                "\tSTARTING HIV count:{}\tTotal Incarcerated:{}\tHR+:{}\t"
+                "PrEP:{}".format(
+                    self.pop.hiv_agents.num_members(),
+                    sum([1 for a in self.pop.all_agents if a.incar]),
+                    self.pop.high_risk_agents.num_members(),
+                    sum([1 for a in self.pop.all_agents if a.prep]),
+                )
+            )
 
             self.update_all_agents(t)
 
@@ -226,7 +229,7 @@ class HIVModel:
             )
             print_stats(stats, run_id)
 
-            print(("Number of relationships: %d" % len(self.pop.relationships)))
+            print(("Number of relationships: {}".format(len(self.pop.relationships))))
             self.pop.all_agents.print_subsets()
 
             self.total_dx += len(self.new_dx.members)
@@ -258,7 +261,7 @@ class HIVModel:
 
         return stats
 
-    def update_high_risk(self):
+    def update_high_risk(self, time):
         """
         :Purpose:
             Update high risk agents or remove them from high risk pool
@@ -281,17 +284,17 @@ class HIVModel:
                 self.pop.high_risk_agents.remove_agent(agent)
                 agent.high_risk = False
 
-                if (
-                    self.features.incar
-                ):  # REVIEWED why does this check hm/hf and then subtract things - could this be more generic? Sarah to look into if this needs to be sex based
+                if self.features.incar:
                     agent.mean_num_partners -= self.high_risk.partner_scale
 
-    def initialize_random_trial(self):
+    def initialize_random_trial(self, time):
         """
         :Purpose:
             Initialize random trial in population
         """
-        assert params.model.network.enable, "Network must be enabled for random trial"
+        assert (
+            self.params.model.network.enable
+        ), "Network must be enabled for random trial"
 
         print("Starting random trial")
         components = self.pop.connected_components()
@@ -384,8 +387,8 @@ class HIVModel:
         :Output:
             none
         """
-        if time > 0 and self.features.static_n is False:
-            self.pop.update_partner_assignments()
+        if time > 0 and not self.features.static_network:
+            self.pop.update_partner_assignments(t=time)
 
         for rel in self.pop.relationships:
             # If in burn, ignore interactions
@@ -393,19 +396,19 @@ class HIVModel:
                 self.agents_interact(time, rel)
 
             # If static network, ignore relationship progression
-            if not self.features.static_n:
+            if not self.features.static_network:
                 if rel.progress():
                     self.pop.remove_relationship(rel)
 
         if (
             self.features.high_risk
         ):  # REVIEWED can this move into the general loop with a check for agent.high_risk? (agents should never become high risk if the feature isn't enabled) - yes
-            self.update_high_risk()
+            self.update_high_risk(time)
 
         for agent in self.pop.all_agents:
             if (
                 self.features.pca
-                and self.run_random.random() < self.prep.prep_awareness.prob
+                and self.run_random.random() < self.prep.pca.awareness.prob
                 and not burn
             ):
                 agent.prep_awareness = True
@@ -446,7 +449,7 @@ class HIVModel:
             and time == self.prep.start
             and self.prep.target_model == "RandomTrial"
         ):
-            self.initialize_random_trial()
+            self.initialize_random_trial(time)
 
     def agents_interact(self, time: int, rel: Relationship):
         """
@@ -522,7 +525,8 @@ class HIVModel:
         """
         :Purpose:
             Simulate peer change agent interactions
-            Knowledge if one agent is aware and one unaware, opinion if one agent swayint the other
+            Knowledge if one agent is aware and one unaware,
+            opinion if one agent swaying the other
         :Input:
             agent: Agent
             partner: Agent
@@ -550,13 +554,13 @@ class HIVModel:
             if self.run_random.random() < self.prep.pca.prep.prob:
                 if (
                     agent_opinion
-                    < self.prep.pca.prep_opinion.threshold
+                    < self.prep.pca.opinion.threshold
                     < agent.prep_opinion
                 ):
                     self.initiate_prep(agent, time, force=True)
                 elif (
                     partner_opinion
-                    < self.prep.pca.prep_opinion.threshold
+                    < self.prep.pca.opinion.threshold
                     < partner.prep_opinion
                 ):
                     self.initiate_prep(partner, time, force=True)
@@ -649,7 +653,8 @@ class HIVModel:
         agent_race = agent.race
         agent_sex_type = agent.so
 
-        # REVIEWED why is the mean number of sex acts for a class multiplied by needle calibration? - change to num_needle_acts
+        # REVIEWED why is the mean number of sex acts for a class multiplied by
+        # needle calibration? - change to num_needle_acts
         mean_num_acts = (
             self.demographics[agent_race][agent_sex_type].num_needle_acts
             * self.calibration.needle.act
@@ -757,7 +762,7 @@ class HIVModel:
                         p_per_act *= 1.0 - p_per_act_reduction  # 0.04
 
             if partner.vaccine:
-                p_per_act_perc: float
+                p_per_act_perc = 1.0
                 if self.vaccine.type == "HVTN702":
                     p_per_act_perc *= np.exp(
                         -2.88 + 0.76 * (np.log((partner.vaccine_time + 0.001) * 30))
@@ -986,7 +991,8 @@ class HIVModel:
     def update_haart(self, agent: Agent, time: int):
         """
         :Purpose:
-            Account for HIV treatment through highly active antiretroviral therapy (HAART).
+            Account for HIV treatment through highly active antiretroviral therapy
+            (HAART).
             HAART was implemented in 1996, hence, there is treatment only after 1996.
             HIV treatment assumes that the agent knows their HIV+ status.
 
@@ -1066,7 +1072,7 @@ class HIVModel:
                     agent.prep = False
                     agent.prep_type = ""
                     agent.prep_reason = []
-            else:  # if not discontinue, see if its time for a new shot. # REVIEWED what is this logic doing? This decrements, then update_prep_load increments - sarah to review with max
+            else:
                 if agent.prep_last_dose > 2:
                     agent.prep_last_dose = -1
 
@@ -1076,7 +1082,8 @@ class HIVModel:
     def advance_vaccine(self, agent: Agent, time: int, vaxType: str, burn: bool):
         """
         :Purpose:
-            Progress vaccine. Agents may receive injection or progress in time since injection.
+            Progress vaccine. Agents may receive injection or progress in time
+            since injection.
 
         :Input:
             agent: Agent
@@ -1209,7 +1216,6 @@ class HIVModel:
         # only valid for HIV agents
         assert agent.hiv
 
-        # REVIEWED Why do we check for not HAART, but then get HAART adherance? - Sarah to ask Max
         if not agent.haart:
             p = prob.adherence_prob(agent.haart_adherence)
 

@@ -186,7 +186,7 @@ def test_pca_interaction(make_model, make_agent):
     model.pop.graph.add_edge(a, p)
     model.pop.graph.add_edge(a, "edge")
 
-    rel = Relationship(a, p, 10, bond_type="multiplex")
+    rel = Relationship(a, p, 10, bond_type="SexInj")
     model.pca_interaction(rel, 5, force=True)
 
     assert p.prep_awareness
@@ -490,6 +490,8 @@ def test_initiate_prep_eligible(make_model, make_agent):
     p = make_agent(DU="Inj")
     p.hiv_dx = True
     p.msmw = True
+    model.params.prep.target = 1.0
+    model.params.prep.target_model = "CDCwomen"
     rel = Relationship(a, p, 10, bond_type="sexOnly")
     # non-forcing, adherant, inj
     model.run_random = FakeRandom(-0.1)
@@ -542,6 +544,7 @@ def test_progress_to_aids_progress(make_agent, make_model):
     model = make_model()
     model.pop.add_agent(a)
     num_aids = sum([1 for agent in model.pop.hiv_agents if agent.aids])  # get baseline
+    model.params.hiv.aids.prob = 1.0
 
     a.hiv = True
     a.haart_adherence = 1  # .0051 prob

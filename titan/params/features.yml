@@ -19,9 +19,9 @@ features:
     default: false
     description: Whether agents can die in the model, if so they will be replaced
     type: boolean
-  static_n:
+  static_network:
     default: false
-    description: ????
+    description: Whether the network is static across time, i.e., no bonds formed or broken after initialization.
     type: boolean
   agent_zero:
     default: false
@@ -29,7 +29,7 @@ features:
     type: boolean
   assort_mix:
     default: false
-    description: Whether to use assortative mixing when partnering
+    description: Whether to use assortative mixing by classes other bond type compatibility when partnering
     type: boolean
   vaccine:
     default: false
@@ -46,4 +46,8 @@ features:
   pca:
     default: false
     description: Whether to have peer change agents spreading awareness of PrEP
+    type: boolean
+  bond_type:
+    default: false
+    description: whether predefined bond types are used
     type: boolean
