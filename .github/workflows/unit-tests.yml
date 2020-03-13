@@ -9,16 +9,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Set up Python
+    - name: Set up Python for linting, formatting, type checking
       uses: actions/setup-python@v1
       with:
-        python-version: pypy3
-
-    - name: Install dependencies
-      run: |
-        pip install --upgrade pip
-        pip install cython
-        pip install -r requirements.txt
+        python-version: 3.7
     - name: Lint with flake8
       run: |
         pip install flake8
@@ -39,6 +33,17 @@ jobs:
         pip install pytest
         pip install pytest-cov
         python -m pytest -m "not integration" --cov=titan --cov-report=xml
+    - name: Set up Python for running TITAN
+      uses: actions/setup-python@v1
+      with:
+        python-version: pypy3
+
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install cython
+        pip install -r requirements.txt
+
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
       with:
