@@ -11,7 +11,7 @@ from .parse_params import ObjMap
 
 
 def select_partner(
-    agent: Agent, all_agents: AgentSet, sex_partners: Dict, params: ObjMap, rand_gen
+    agent: Agent, partnerable_agents: AgentSet, sex_partners: Dict, params: ObjMap, rand_gen
 ) -> Tuple[Optional[Agent], str]:
     """
     :Purpose:
@@ -25,18 +25,9 @@ def select_partner(
     :Output:
         partner: new partner
     """
-    partner_set = copy(all_agents.members)
+    partner_set = copy(partnerable_agents.members)
 
-    print(agent.partners)
     eligible_partner_set = partner_set - set(agent.partners) - {agent}
-
-    print(eligible_partner_set)
-
-    eligible_partner_set = {
-        p for p in eligible_partner_set if len(p.partners) < (p.target_partners * 1.1)
-    }
-
-    print(eligible_partner_set)
 
     def bondtype(bond_dict):
         bonds = list(params.classes.bond_types.keys())
@@ -69,8 +60,6 @@ def select_partner(
             if getattr(agent, assort_def.assort_type) == assort_def.agent_type:
                 eligible_partner_set = assort(eligible_partner_set, assort_def)
 
-    print(eligible_partner_set)
-
     if agent.drug_use == "Inj":
         agent_bond = bondtype(params.partnership.bonds["PWID"])
     else:
@@ -82,12 +71,9 @@ def select_partner(
         eligible_partner_set = {
             partner for partner in eligible_partner_set if partner.drug_use == "Inj"
         }
-    print(eligible_partner_set)
 
     if "sex" in acts_allowed:
         eligible_partner_set = eligible_partner_set & sex_partners[agent.so]
-
-    print(eligible_partner_set)
 
     random_partner = utils.safe_random_choice(eligible_partner_set, rand_gen)
 

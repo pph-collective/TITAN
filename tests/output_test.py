@@ -50,7 +50,6 @@ def stats(params):
         agent_set,
         agent_set,
         agent_set,
-        rel_list,
         agent_set,
         agent_set,
         agent_list,

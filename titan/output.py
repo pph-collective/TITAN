@@ -15,7 +15,6 @@ def get_stats(
     new_prep_agents: AgentSet,
     new_hiv: AgentSet,
     new_hiv_dx: AgentSet,
-    relationships: List[Relationship],
     new_high_risk: AgentSet,
     new_incar_release: AgentSet,
     deaths: List[Agent],

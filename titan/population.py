@@ -76,12 +76,17 @@ class Population:
         # High risk agent sets
         self.high_risk_agents = AgentSet("HRisk", parent=self.all_agents)
 
+        # agents who can take on a partner
+        self.partnerable_agents = AgentSet("Partnerable", parent=self.all_agents)
+
         # whoc an sleep with whom
         self.sex_partners = {}
         for sex_type in self.params.classes.sex_types.keys():
             self.sex_partners[sex_type] = set()
 
-        self.relationships: List[Relationship] = []
+
+
+        self.relationships: Set[Relationship] = set()
 
         print("\tCreating agents")
 
@@ -229,6 +234,8 @@ class Population:
                 self.demographics[race][sex_type].num_partners, self.np_random, size=1
             )
 
+        agent.target_partners = agent.mean_num_partners # so not zero if added mid-year
+
         if self.features.pca:
             if self.pop_random.random() < self.prep.pca.awareness.init:
                 agent.prep_awareness = True
@@ -265,6 +272,9 @@ class Population:
         for sex_type in self.params.classes.sex_types[agent.so].sleeps_with:
             self.sex_partners[sex_type].add(agent)
 
+        if agent.target_partners > 0:
+            self.partnerable_agents.add_agent(agent)
+
         if self.enable_graph:
             self.graph.add_node(agent)
 
@@ -276,7 +286,7 @@ class Population:
         :Input:
             agent : int
         """
-        self.relationships.append(rel)
+        self.relationships.add(rel)
 
         if self.enable_graph:
             self.graph.add_edge(rel.agent1, rel.agent2)
@@ -341,16 +351,15 @@ class Population:
             Bool if no match was found for agent (used for retries)
         """
         partner, bond_type = select_partner(
-            agent, self.all_agents, self.sex_partners, self.params, self.pop_random
+            agent, self.partnerable_agents, self.sex_partners, self.params, self.pop_random
         )
         no_match = True
-
-        print(partner)
 
         if partner:
             duration = get_partnership_duration(agent, self.params, self.pop_random)
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
             self.add_relationship(relationship)
+            self.update_partnerable_agents(partner)
             no_match = False
 
         return no_match
@@ -370,6 +379,7 @@ class Population:
                 a.target_partners = utils.poisson(
                     a.mean_num_partners, self.np_random, size=1
                 )
+                self.update_partnerable_agents(a)
 
         # Now create partnerships until available partnerships are out
         eligible_agents = {
@@ -384,6 +394,15 @@ class Population:
                     found_no_partners += 1
                 if found_no_partners >= 5:
                     break
+
+            self.update_partnerable_agents(agent)
+
+    def update_partnerable_agents(self, agent: Agent):
+        if agent in self.partnerable_agents:
+            if len(agent.partners) >= agent.target_partners:
+                self.partnerable_agents.remove_agent(agent)
+        elif len(agent.partners) < agent.target_partners:
+            self.partnerable_agents.add_agent(agent)
 
     def initialize_graph(self):
         """

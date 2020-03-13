@@ -221,7 +221,6 @@ class HIVModel:
                 self.new_prep,
                 self.new_infections,
                 self.new_dx,
-                self.pop.relationships,
                 self.new_high_risk,
                 self.new_incar_release,
                 self.deaths,
@@ -390,7 +389,7 @@ class HIVModel:
         if time > 0 and not self.features.static_network:
             self.pop.update_partner_assignments(t=time)
 
-        for rel in self.pop.relationships:
+        for rel in copy(self.pop.relationships):
             # If in burn, ignore interactions
             if not burn:
                 self.agents_interact(time, rel)
