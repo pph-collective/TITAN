@@ -12,7 +12,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v1
       with:
-        python-version: python
+        python-version: pypy3
 
     - name: Install dependencies
       run: |
