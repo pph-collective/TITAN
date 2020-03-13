@@ -1,5 +1,5 @@
 import random
-from typing import Sequence, TypeVar, Optional
+from typing import TypeVar, Optional, Collection
 from functools import wraps
 from math import factorial
 
@@ -32,7 +32,7 @@ def safe_divide(numerator: int, denominator: int):
 T = TypeVar("T")
 
 
-def safe_random_choice(seq: Sequence[T], rand_gen) -> Optional[T]:
+def safe_random_choice(seq: Collection[T], rand_gen) -> Optional[T]:
     """
     Return None or a random choice
     """
@@ -45,14 +45,14 @@ def safe_random_choice(seq: Sequence[T], rand_gen) -> Optional[T]:
         return None
 
 
-def binom_0(n, p):
+def binom_0(n: int, p: float):
     """
         mirrors scipy binom.pmf as used in code
     """
     return (1 - p) ** n
 
 
-def poisson(mu, np_rand, size=1):
+def poisson(mu: float, np_rand, size=1):
     """
         mirrors scipy poisson.rvs function as used in code
     """

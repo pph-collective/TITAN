@@ -3,7 +3,7 @@
 
 import random
 
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Set
 import numpy as np  # type: ignore
 import networkx as nx  # type: ignore
 
@@ -80,11 +80,9 @@ class Population:
         self.partnerable_agents = AgentSet("Partnerable", parent=self.all_agents)
 
         # whoc an sleep with whom
-        self.sex_partners = {}
+        self.sex_partners: Dict[str, Set[Agent]] = {}
         for sex_type in self.params.classes.sex_types.keys():
             self.sex_partners[sex_type] = set()
-
-
 
         self.relationships: Set[Relationship] = set()
 
@@ -234,7 +232,7 @@ class Population:
                 self.demographics[race][sex_type].num_partners, self.np_random, size=1
             )
 
-        agent.target_partners = agent.mean_num_partners # so not zero if added mid-year
+        agent.target_partners = agent.mean_num_partners  # so not zero if added mid-year
 
         if self.features.pca:
             if self.pop_random.random() < self.prep.pca.awareness.init:
@@ -351,7 +349,11 @@ class Population:
             Bool if no match was found for agent (used for retries)
         """
         partner, bond_type = select_partner(
-            agent, self.partnerable_agents, self.sex_partners, self.params, self.pop_random
+            agent,
+            self.partnerable_agents,
+            self.sex_partners,
+            self.params,
+            self.pop_random,
         )
         no_match = True
 

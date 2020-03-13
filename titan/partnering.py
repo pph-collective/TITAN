@@ -11,7 +11,11 @@ from .parse_params import ObjMap
 
 
 def select_partner(
-    agent: Agent, partnerable_agents: AgentSet, sex_partners: Dict, params: ObjMap, rand_gen
+    agent: Agent,
+    partnerable_agents: AgentSet,
+    sex_partners: Dict,
+    params: ObjMap,
+    rand_gen,
 ) -> Tuple[Optional[Agent], str]:
     """
     :Purpose:
