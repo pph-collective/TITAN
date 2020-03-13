@@ -394,14 +394,14 @@ def print_components(
     if f.tell() == 0:
         f.write(
             "run_id\trunseed\tpopseed\tt\tcompID\ttotalN\tNhiv\tNprep\tNtrtHIV\t"
-            "TrtComponent\tPCA\tOral\tLAI\tAware\n"
+            "TrtComponent\tPCA\tOral\tLAI\tAware\tNIDU\n"
         )
 
     comp_id = 0
     for comp in components:
         tot_agents = (
             nhiv
-        ) = ntrthiv = nprep = trtbool = injectable_prep = oral = aware = pca = 0
+        ) = ntrthiv = nprep = trtbool = injectable_prep = oral = aware = pca = nidu = 0
         for agent in comp.nodes():
             tot_agents += 1
             if agent.hiv:
@@ -420,11 +420,13 @@ def print_components(
                     pca += 1
             if agent.prep_awareness:
                 aware += 1
+            if agent.drug_use == "NonInj":
+                nidu += 1
 
         f.write(
             f"{run_id}\t{runseed}\t{popseed}\t{t}\t{comp_id}\t{tot_agents}\t{nhiv}\t"
             f"{nprep}\t{ntrthiv}\t{trtbool}\t{pca}\t{oral}\t{injectable_prep}"
-            f"\t{aware}\n"
+            f"\t{aware}\t{nidu}\n"
         )
 
         comp_id += 1
