@@ -1,6 +1,6 @@
 import pytest
 
-from copy import deepcopy
+from copy import copy
 import os
 
 from titan.model import *
@@ -560,7 +560,7 @@ def test_progress_to_aids_progress(make_agent, make_model):
 def test_die_and_replace_none(make_model):
     model = make_model()
     model.run_random = FakeRandom(0.999)  # always greater than death rate
-    baseline_pop = deepcopy(model.pop.all_agents.members)
+    baseline_pop = copy(model.pop.all_agents.members)
 
     model.die_and_replace()
 
@@ -577,7 +577,7 @@ def test_die_and_replace_all(make_model):
     for agent in model.pop.all_agents.members:
         agent.incar = False
 
-    baseline_pop = deepcopy(model.pop.all_agents.members)
+    baseline_pop = copy(model.pop.all_agents.members)
     old_ids = [a.id for a in baseline_pop]
 
     num_hm = len([x for x in baseline_pop if x.so == "HM"])
@@ -606,7 +606,7 @@ def test_die_and_replace_all(make_model):
 def test_die_and_replace_incar(make_model):
     model = make_model()
     model.run_random = FakeRandom(0.0000001)  # always lower than death rate
-    baseline_pop = deepcopy(model.pop.all_agents.members)
+    baseline_pop = copy(model.pop.all_agents.members)
     old_ids = [a.id for a in baseline_pop]
 
     agent = next(iter(model.pop.all_agents))
