@@ -361,7 +361,9 @@ class Population:
             duration = get_partnership_duration(agent, self.params, self.pop_random)
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
             self.add_relationship(relationship)
-            self.update_partnerable_agents(partner)
+            # can partner still partner?
+            if len(partner.partners) >= (partner.target_partners * 1.1):
+                self.partnerable_agents.remove_agent(partner)
             no_match = False
 
         return no_match
@@ -381,7 +383,12 @@ class Population:
                 a.target_partners = utils.poisson(
                     a.mean_num_partners, self.np_random, size=1
                 )
-                self.update_partnerable_agents(a)
+                # update partnerability
+                if a in self.partnerable_agents:
+                    if len(a.partners) >= (a.target_partners * 1.1):
+                        self.partnerable_agents.remove_agent(a)
+                elif len(a.partners) < (a.target_partners * 1.1):
+                    self.partnerable_agents.add_agent(a)
 
         # Now create partnerships until available partnerships are out
         eligible_agents = {
@@ -397,14 +404,6 @@ class Population:
                 if found_no_partners >= 5:
                     break
 
-            self.update_partnerable_agents(agent)
-
-    def update_partnerable_agents(self, agent: Agent):
-        if agent in self.partnerable_agents:
-            if len(agent.partners) >= agent.target_partners:
-                self.partnerable_agents.remove_agent(agent)
-        elif len(agent.partners) < agent.target_partners:
-            self.partnerable_agents.add_agent(agent)
 
     def initialize_graph(self):
         """

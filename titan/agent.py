@@ -4,6 +4,7 @@
 from typing import List, Dict, Set
 
 from .parse_params import ObjMap
+from .utils import safe_divide
 
 
 class Agent:
@@ -120,8 +121,6 @@ class Agent:
         return str(self.id)
 
     def __eq__(self, other):
-        if not isinstance(other, Agent):
-            return NotImplemented
         return self.id == other.id
 
     def __hash__(self):
@@ -341,8 +340,6 @@ class Relationship:
         self.bond()
 
     def __eq__(self, other):
-        if not isinstance(other, Relationship):
-            return NotImplemented
         return self.id == other.id
 
     def __hash__(self):
@@ -488,25 +485,22 @@ class AgentSet:
         print(f"\t__________ {self.id} __________")
         print("\tID\t\tN\t\t%")
         for set in self.iter_subset():
-            if set.num_members() > 0:
+            print(
+                "\t{:6}\t{:5}\t{:.2}".format(
+                    set.id,
+                    set.num_members(),
+                    safe_divide(set.num_members(), set.numerator.num_members()),
+                )
+            )
+            for subset in set.iter_subset():
                 print(
-                    "\t{:6}\t{:5}\t{:.2}".format(
-                        set.id,
-                        set.num_members(),
-                        (1.0 * set.num_members() / set.numerator.num_members()),
+                    "\t{:4}\t{:5}\t{:.2}".format(
+                        subset.id,
+                        subset.num_members(),
+                        safe_divide(
+                            subset.num_members(),
+                            subset.numerator.num_members()
+                        ),
                     )
                 )
-            for subset in set.iter_subset():
-                if subset.num_members() > 0:
-                    print(
-                        "\t{:4}\t{:5}\t{:.2}".format(
-                            subset.id,
-                            subset.num_members(),
-                            (
-                                1.0
-                                * subset.num_members()
-                                / subset.numerator.num_members()
-                            ),
-                        )
-                    )
         print("\t______________ END ______________")

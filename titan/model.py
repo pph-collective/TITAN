@@ -265,7 +265,7 @@ class HIVModel:
         :Purpose:
             Update high risk agents or remove them from high risk pool
         """
-        for agent in self.pop.high_risk_agents:
+        for agent in copy(self.pop.high_risk_agents.members):
             if agent.high_risk_time > 0:
                 agent.high_risk_time -= 1
                 if (
@@ -285,6 +285,7 @@ class HIVModel:
 
                 if self.features.incar:
                     agent.mean_num_partners -= self.high_risk.partner_scale
+                    agent.mean_num_partners = max(0, agent.mean_num_partners) # make sure not negative
 
     def initialize_random_trial(self, time):
         """
@@ -1091,7 +1092,7 @@ class HIVModel:
             if (
                 self.vaccine.booster
                 and agent.vaccine_time
-                == self.demographics[agent.race][agent.so].vaccine.booser.interval
+                == self.demographics[agent.race][agent.so].vaccine.booster.interval
                 and self.run_random.random()
                 < self.demographics[agent.race][agent.so].vaccine.booster.prob
             ):

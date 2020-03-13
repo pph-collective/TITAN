@@ -4,30 +4,389 @@ demographics:
     MSM:
       ppl: 0.3
       num_partners: 10.0
+      hiv:
+        init: 0.1
+        dx:
+          init: 0.1
+          prob: 0.1
+      aids:
+        init: 0.1
+      haart:
+        init: 0.1
+        prob: 0.1
+        adherence: 0.1
+        discontinue: 0.1
+      incar:
+        init: 0.1
+        prob: 0.1
+      safe_sex: 0.1
+      needle_sharing: 0.1
+      prep:
+        adherence: 0.1
+        discontinue: 0.1
+        coverage: 0.3
+      high_risk:
+        init: 0.1
+      vaccine:
+        init: 0.1
+        prob: 0.1
+        booser:
+          internval: 12
+          prob: 0.1
     HM:
       ppl: 0.3
+      num_partners: 10.0
+      hiv:
+        init: 0.1
+        dx:
+          init: 0.1
+          prob: 0.1
+      aids:
+        init: 0.1
+      haart:
+        init: 0.1
+        prob: 0.1
+        adherence: 0.1
+        discontinue: 0.1
+      incar:
+        init: 0.1
+        prob: 0.1
+      safe_sex: 0.1
+      needle_sharing: 0.1
+      prep:
+        adherence: 0.1
+        discontinue: 0.1
+        coverage: 0.3
+      high_risk:
+        init: 0.1
+      vaccine:
+        init: 0.1
+        prob: 0.1
+        booser:
+          internval: 12
+          prob: 0.1
     HF:
       ppl: 0.2
+      num_partners: 10.0
+      hiv:
+        init: 0.1
+        dx:
+          init: 0.1
+          prob: 0.1
+      aids:
+        init: 0.1
+      haart:
+        init: 0.1
+        prob: 0.1
+        adherence: 0.1
+        discontinue: 0.1
+      incar:
+        init: 0.1
+        prob: 0.1
+      safe_sex: 0.1
+      needle_sharing: 0.1
+      prep:
+        adherence: 0.1
+        discontinue: 0.1
+        coverage: 0.3
+      high_risk:
+        init: 0.1
+      vaccine:
+        init: 0.1
+        prob: 0.1
+        booser:
+          internval: 12
+          prob: 0.1
     WSW:
       ppl: 0.1
+      num_partners: 10.0
+      hiv:
+        init: 0.1
+        dx:
+          init: 0.1
+          prob: 0.1
+      aids:
+        init: 0.1
+      haart:
+        init: 0.1
+        prob: 0.1
+        adherence: 0.1
+        discontinue: 0.1
+      incar:
+        init: 0.1
+        prob: 0.1
+      safe_sex: 0.1
+      needle_sharing: 0.1
+      prep:
+        adherence: 0.1
+        discontinue: 0.1
+        coverage: 0.3
+      high_risk:
+        init: 0.1
+      vaccine:
+        init: 0.1
+        prob: 0.1
+        booser:
+          internval: 12
+          prob: 0.1
     MTF:
       ppl: 0.1
+      num_partners: 10.0
+      hiv:
+        init: 0.1
+        dx:
+          init: 0.1
+          prob: 0.1
+      aids:
+        init: 0.1
+      haart:
+        init: 0.1
+        prob: 0.1
+        adherence: 0.1
+        discontinue: 0.1
+      incar:
+        init: 0.1
+        prob: 0.1
+      safe_sex: 0.1
+      needle_sharing: 0.1
+      prep:
+        adherence: 0.1
+        discontinue: 0.1
+        coverage: 0.3
+      high_risk:
+        init: 0.1
+      vaccine:
+        init: 0.1
+        prob: 0.1
+        booser:
+          internval: 12
+          prob: 0.1
     PWID:
       ppl: 0.2
+      num_partners: 10.0
+      hiv:
+        init: 0.1
+        dx:
+          init: 0.1
+          prob: 0.1
+      aids:
+        init: 0.1
+      haart:
+        init: 0.1
+        prob: 0.1
+        adherence: 0.1
+        discontinue: 0.1
+      incar:
+        init: 0.1
+        prob: 0.1
+      safe_sex: 0.1
+      needle_sharing: 0.1
+      prep:
+        adherence: 0.1
+        discontinue: 0.1
+        coverage: 0.3
+      high_risk:
+        init: 0.1
+      vaccine:
+        init: 0.1
+        prob: 0.1
+        booser:
+          internval: 12
+          prob: 0.1
   WHITE:
     ppl: 0.4
     MSM:
       ppl: 0.3
+      num_partners: 10.0
+      hiv:
+        init: 0.1
+        dx:
+          init: 0.1
+          prob: 0.1
+      aids:
+        init: 0.1
+      haart:
+        init: 0.1
+        prob: 0.1
+        adherence: 0.1
+        discontinue: 0.1
+      incar:
+        init: 0.1
+        prob: 0.1
+      safe_sex: 0.1
+      needle_sharing: 0.1
+      prep:
+        adherence: 0.1
+        discontinue: 0.1
+        coverage: 0.3
+      high_risk:
+        init: 0.1
+      vaccine:
+        init: 0.1
+        prob: 0.1
+        booser:
+          internval: 12
+          prob: 0.1
     HM:
       ppl: 0.3
+      num_partners: 10.0
+      hiv:
+        init: 0.1
+        dx:
+          init: 0.1
+          prob: 0.1
+      aids:
+        init: 0.1
+      haart:
+        init: 0.1
+        prob: 0.1
+        adherence: 0.1
+        discontinue: 0.1
+      incar:
+        init: 0.1
+        prob: 0.1
+      safe_sex: 0.1
+      needle_sharing: 0.1
+      prep:
+        adherence: 0.1
+        discontinue: 0.1
+        coverage: 0.3
+      high_risk:
+        init: 0.1
+      vaccine:
+        init: 0.1
+        prob: 0.1
+        booser:
+          internval: 12
+          prob: 0.1
     HF:
       ppl: 0.2
+      num_partners: 10.0
+      hiv:
+        init: 0.1
+        dx:
+          init: 0.1
+          prob: 0.1
+      aids:
+        init: 0.1
+      haart:
+        init: 0.1
+        prob: 0.1
+        adherence: 0.1
+        discontinue: 0.1
+      incar:
+        init: 0.1
+        prob: 0.1
+      safe_sex: 0.1
+      needle_sharing: 0.1
+      prep:
+        adherence: 0.1
+        discontinue: 0.1
+        coverage: 0.3
+      high_risk:
+        init: 0.1
+      vaccine:
+        init: 0.1
+        prob: 0.1
+        booser:
+          internval: 12
+          prob: 0.1
     WSW:
       ppl: 0.1
+      num_partners: 10.0
+      hiv:
+        init: 0.1
+        dx:
+          init: 0.1
+          prob: 0.1
+      aids:
+        init: 0.1
+      haart:
+        init: 0.1
+        prob: 0.1
+        adherence: 0.1
+        discontinue: 0.1
+      incar:
+        init: 0.1
+        prob: 0.1
+      safe_sex: 0.1
+      needle_sharing: 0.1
+      prep:
+        adherence: 0.1
+        discontinue: 0.1
+        coverage: 0.3
+      high_risk:
+        init: 0.1
+      vaccine:
+        init: 0.1
+        prob: 0.1
+        booser:
+          internval: 12
+          prob: 0.1
     MTF:
       ppl: 0.1
+      num_partners: 10.0
+      hiv:
+        init: 0.1
+        dx:
+          init: 0.1
+          prob: 0.1
+      aids:
+        init: 0.1
+      haart:
+        init: 0.1
+        prob: 0.1
+        adherence: 0.1
+        discontinue: 0.1
+      incar:
+        init: 0.1
+        prob: 0.1
+      safe_sex: 0.1
+      needle_sharing: 0.1
+      prep:
+        adherence: 0.1
+        discontinue: 0.1
+        coverage: 0.3
+      high_risk:
+        init: 0.1
+      vaccine:
+        init: 0.1
+        prob: 0.1
+        booser:
+          internval: 12
+          prob: 0.1
     PWID:
       ppl: 0.3
+      num_partners: 10.0
+      hiv:
+        init: 0.1
+        dx:
+          init: 0.1
+          prob: 0.1
+      aids:
+        init: 0.1
+      haart:
+        init: 0.1
+        prob: 0.1
+        adherence: 0.1
+        discontinue: 0.1
+      incar:
+        init: 0.1
+        prob: 0.1
+      safe_sex: 0.1
+      needle_sharing: 0.1
+      prep:
+        adherence: 0.1
+        discontinue: 0.1
+        coverage: 0.3
+      high_risk:
+        init: 0.1
+      vaccine:
+        init: 0.1
+        prob: 0.1
+        booser:
+          internval: 12
+          prob: 0.1
 
 partnership:
   sex:
