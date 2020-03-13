@@ -27,7 +27,7 @@ def select_partner(
     """
     partner_set = copy(partnerable_agents.members)
 
-    eligible_partner_set = partner_set - set(agent.partners) - {agent}
+    eligible_partner_set = partner_set - agent.partners - {agent}
 
     def bondtype(bond_dict):
         bonds = list(params.classes.bond_types.keys())

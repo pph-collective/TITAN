@@ -53,8 +53,8 @@ class Agent:
         self.msmw = False
 
         # agent-partner params
-        self.relationships: List[Relationship] = []
-        self.partners: List[Agent] = []
+        self.relationships: Set[Relationship] = set()
+        self.partners: Set[Agent] = set()
         self.mean_num_partners = 0
         self.target_partners = 0
 
@@ -127,20 +127,6 @@ class Agent:
     def __hash__(self):
         return hash(self.id)
 
-    def partner_list(self):
-        """
-        Return the list of partners for this agent
-
-        returns:
-            _partners (list) - list of partners
-        """
-        ptnrs = list()
-        if self.partners is not None:
-            for partner in self.partners:
-                ptnrs.append(partner.id)
-
-        return ptnrs
-
     def get_acute_status(self) -> bool:
         """
         :Purpose:
@@ -178,7 +164,7 @@ class Agent:
             eligible = True
         elif target_model == "CDCwomen":
             if self.so == "HF":
-                for rel in set(self.relationships):
+                for rel in self.relationships:
                     partner = rel.get_partner(self)
                     if rel.duration > 1:
                         if partner.drug_use == "Inj":
@@ -383,12 +369,12 @@ class Relationship:
         """
 
         # Append relationship to relationships list for each agent
-        self.agent1.relationships.append(self)
-        self.agent2.relationships.append(self)
+        self.agent1.relationships.add(self)
+        self.agent2.relationships.add(self)
 
         # Pair agent with partner and partner with agent
-        self.agent1.partners.append(self.agent2)
-        self.agent2.partners.append(self.agent1)
+        self.agent1.partners.add(self.agent2)
+        self.agent2.partners.add(self.agent1)
 
     def unbond(self):
         """
