@@ -258,7 +258,7 @@ if model == "PrEP":
     flag_high_risk = False
     params.features.haart = True
     params.features.die_and_replace = True
-    params.features.static_n = False
+    params.features.static_network = False
     params.features.pca = True
 elif model == "Incar":
     params.features.incar = True
@@ -266,7 +266,7 @@ elif model == "Incar":
     flag_high_risk = True
     params.features.haart = True
     params.features.die_and_replace = True
-    params.features.static_n = False
+    params.features.static_network = False
     params.features.pca = True
 elif model == "NoIncar":
     params.features.incar = False
@@ -274,7 +274,7 @@ elif model == "NoIncar":
     flag_high_risk = False
     params.features.haart = True
     params.features.die_and_replace = True
-    params.features.static_n = False
+    params.features.static_network = False
     params.features.pca = True
 elif model == "VaccinePrEP":
     params.features.incar = False
@@ -282,7 +282,7 @@ elif model == "VaccinePrEP":
     flag_high_risk = False
     params.features.haart = True
     params.features.die_and_replace = True
-    params.features.static_n = False
+    params.features.static_network = False
     params.vaccine.booster = True
     params.features.pca = True
 elif model == "Custom":
@@ -291,7 +291,7 @@ elif model == "Custom":
     flag_high_risk = False
     params.features.haart = False
     params.features.die_and_replace = False
-    params.features.static_n = True
+    params.features.static_network = True
     params.vaccine.booster = False
     params.features.pca = True
 

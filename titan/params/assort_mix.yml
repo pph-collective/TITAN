@@ -1,13 +1,41 @@
 assort_mix:
-  type:
-    default: Race
-    description: Which type of assortative mixing to do (currently only Race)
-    type: enum
-    values:
-      - Race
-  coefficient:
-    default: 0.75
-    description: proportion of # REVIEWED this seems to overlap with demographis.race.assort_mix.coefficient? this is being overhauled - ignore for now
-    type: float
-    min: 0
-    max: 1
+  description: "Assortative mixing definitions"
+  type: definition
+  fields:
+    assort_type:
+      description: "Which type of assortative mixing to use"
+      type: array
+      values:
+        - drug_use
+        - race
+    agent_type:
+      description: "Which agent type to assortatively mix"
+      type: enum
+      values:
+        - WHITE
+        - BLACK
+        - NonInj
+        - Inj
+        - None
+    partner_type:
+      description: "Which partners to select if assortative mixing happens"
+      type: enum
+      values:
+        - WHITE
+        - BLACK
+        - NonInj
+        - Inj
+        - None
+    prob:
+      description: "Chance that agent will assortatively mix with partner of stated type"
+      type: float
+      min: 0.0
+      max: 1.0
+  default:
+    assort_null:
+      assort_type:
+        - race
+      agent_type: None
+      partner_type: None
+      prob: 1.0
+

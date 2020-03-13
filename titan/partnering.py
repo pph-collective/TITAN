@@ -2,18 +2,17 @@
 # encoding: utf-8
 
 # Imports
-import random
-from typing import Sequence, List, Dict, Optional, TypeVar
+from typing import Set, Optional, Tuple
 
 from dotmap import DotMap  # type: ignore
 
-from .agent import Agent, AgentSet
-from . import utils
+from .agent import Agent
+from .utils import safe_random_choice
 
 
-def get_partner(
-    agent: Agent, all_agent_set: AgentSet, params: DotMap, rand_gen
-) -> Optional[Agent]:
+def select_partner(
+    agent: Agent, need_partners: Set, params: DotMap, rand_gen
+) -> Tuple[Optional[Agent], str]:
     """
     :Purpose:
         Get partner for agent.
@@ -26,158 +25,74 @@ def get_partner(
     :Output:
         partner: new partner
     """
-    agent_drug_type = agent.drug_use
-    partner = None
+    partner_set = set(need_partners)
+    eligible_partner_set = partner_set - set(agent.partners) - {agent}
+    RandomPartner: Optional[Agent]
 
-    if agent_drug_type == "Inj":
-        if rand_gen.random() < 0.8:
-            # choose from PWID agents
-            partner = get_random_pwid_partner(agent, all_agent_set, rand_gen)
+    def bondtype(bond_dict):
+        bonds = []
+        probs = []
+        for bond, val in bond_dict.items():
+            if bond != "prob":
+                bonds.append(bond)
+                probs.append(val.prob)
+        bonded_type_hold = rand_gen.choices(bonds, weights=probs, k=1)
+        bonded_type = "".join(bonded_type_hold)
 
-        # either didn't try to get PWID partner, or failed to get PWID partner
-        if partner is None:
-            get_random_sex_partner(agent, all_agent_set, params, rand_gen)
-    elif agent_drug_type in ("None", "NonInj"):
-        if params.features.assort_mix and (
-            rand_gen.random() < params.demographics[agent.race].assort_mix.coefficient
-        ):
-            partner = get_assort_sex_partner(agent, all_agent_set, params, rand_gen)
+        return bonded_type
 
-            # try again with random sex partner is assort mix percent not 100%
-            if partner is None and params.assort_mix.coefficient <= 1.0:
-                partner = get_random_sex_partner(agent, all_agent_set, params, rand_gen)
+    def assort(eligible_partner_list, assort_params):
+        if rand_gen.random() < assort_params["prob"]:
+            eligible_partners = {
+                partner
+                for partner in eligible_partner_list
+                if (
+                    getattr(partner, assort_params["assort_type"])
+                    == assort_params["partner_type"]
+                )
+            }
         else:
-            partner = get_random_sex_partner(agent, all_agent_set, params, rand_gen)
+            eligible_partners = {
+                partner
+                for partner in eligible_partner_list
+                if (
+                    getattr(partner, assort_params["assort_type"])
+                    != assort_params["partner_type"]
+                )
+            }
+        return eligible_partners
+
+    if params.features.assort_mix:
+        for assort_types in params.assort_mix.assortativity.assort_type:
+            if getattr(agent, assort_types.assort_type) == assort_types["agent_type"]:
+                eligible_partner_set = assort(eligible_partner_set, assort_types)
+
+    if agent.drug_use == "Inj":
+        agent_bond = bondtype(params.partnership.bonds["PWID"])
     else:
-        raise ValueError("Check method _get_partners(). Agent not caught!")
+        agent_bond = bondtype(params.partnership.bonds[agent.so])
 
-    if partner == agent:
-        return None
+    if "needle" in params.classes.bond_types[agent_bond].acts_allowed:
+        eligible_partner_set = {
+            partner for partner in eligible_partner_set if partner.drug_use == "Inj"
+        }
+
+    if "sex" in params.classes.bond_types[agent_bond].acts_allowed:
+        eligible_partner_set = {
+            partner
+            for partner in eligible_partner_set
+            if sex_possible(agent.so, partner.so, params)
+        }
+
+    if "social" in params.classes.bond_types[agent_bond].acts_allowed:
+        eligible_partner_set = eligible_partner_set
+
+    if eligible_partner_set:
+        random_partner = safe_random_choice(list(eligible_partner_set), rand_gen)
     else:
-        return partner
+        random_partner = None
 
-
-def get_random_pwid_partner(
-    agent: Agent, all_agent_set: AgentSet, rand_gen
-) -> Optional[Agent]:
-    """
-    :Purpose:
-        Get a random partner which is sex compatible
-
-    :Input:
-        agent: Agent
-        all_agent_set: AgentSet of partners to pair with
-
-    :Output:
-        partner : Agent or None
-
-    """
-    agent_drug_type = agent.drug_use
-    assert agent_drug_type == "Inj", "Agent's drug type must be Inj"
-
-    partner = None
-
-    partner = utils.safe_random_choice(
-        [
-            p
-            for p in all_agent_set.subset["DU"].subset["Inj"].members
-            if p not in agent.partners and p != agent
-        ],
-        rand_gen,
-    )
-
-    return partner
-
-
-def get_assort_sex_partner(
-    agent: Agent, all_agent_set: AgentSet, params: DotMap, rand_gen
-) -> Optional[Agent]:
-    """
-    :Purpose:
-        Get a random partner which is sex compatible and fits assortativity constraints
-
-    :Input:
-        agent: int
-        all_agent_set: AgentSet of partners to pair with
-
-    :Output:
-        partner : Agent or None
-
-    """
-
-    partner = None
-
-    assert agent.so in params.classes.sex_types
-
-    eligible_partners = [
-        p for p in all_agent_set if sex_possible(agent.so, p.so, params)
-    ]
-
-    if params.assort_mix.type == "Race":
-        sample_pop = [
-            p
-            for p in eligible_partners
-            if (p.race == agent.race and p not in agent.partners)
-        ]
-
-    elif params.assort_mix.type == "Client":
-        if agent.race == "WHITE":
-            sample_pop = [
-                p
-                for p in eligible_partners
-                if (p.race == "WHITE" and p not in agent.partners)
-            ]
-        else:
-            sample_pop = [
-                p
-                for p in eligible_partners
-                if (p.race == "WHITE" and p.high_risk_ever and p not in agent.partners)
-            ]
-
-    elif params.assort_mix.type == "high_risk":
-        sample_pop = [
-            p
-            for p in eligible_partners
-            if (p.high_risk_ever and p not in agent.partners)
-        ]
-
-    partner = utils.safe_random_choice(sample_pop, rand_gen)
-
-    # partner can't be existing parter or agent themself
-    if partner in agent.partners or partner == agent:
-        partner = None
-
-    return partner
-
-
-def get_random_sex_partner(
-    agent: Agent, all_agent_set: AgentSet, params: DotMap, rand_gen
-) -> Optional[Agent]:
-    """
-    :Purpose:
-        Get a random partner which is sex compatible
-
-    :Input:
-        agent: Agent
-        all_agent_set: list of available partners (AgentSet)
-        params: model parameters
-
-    :Output:
-        partner : Agent or None
-
-    """
-    partner = None
-
-    eligible_partners = [
-        p for p in all_agent_set.members if sex_possible(agent.so, p.so, params)
-    ]
-
-    partner = utils.safe_random_choice(eligible_partners, rand_gen)
-
-    if (partner in agent.partners) or (partner == agent):
-        partner = None
-
-    return partner
+    return random_partner, agent_bond
 
 
 def sex_possible(agent_sex_type: str, partner_sex_type: str, params: DotMap) -> bool:
@@ -196,9 +111,9 @@ def sex_possible(agent_sex_type: str, partner_sex_type: str, params: DotMap) -> 
 
     # Check input
     if agent_sex_type not in params.classes.sex_types:
-        raise ValueError("Invalid agent_sex_type! %s" % str(agent_sex_type))
+        raise ValueError("Invalid agent_sex_type! {}".format(str(agent_sex_type)))
     if partner_sex_type not in params.classes.sex_types:
-        raise ValueError("Invalid partner_sex_type! %s" % str(partner_sex_type))
+        raise ValueError("Invalid partner_sex_type! {}".format(str(partner_sex_type)))
 
     agent_match = (
         agent_sex_type in params.classes.sex_types[partner_sex_type].sleeps_with

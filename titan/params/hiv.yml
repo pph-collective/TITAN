@@ -14,7 +14,7 @@ hiv:
       min: 0
   aids:
     prob:
-      default: 1.0
+      default: 0.0
       description: Probability of an agent with hiv progressing to aids at a given time step (scaled by haart adherence)
       type: float
       min: 0

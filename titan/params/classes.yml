@@ -57,16 +57,26 @@ classes:
           - HM
           - MSM
   bond_types:
+    type: definition
+    description: Types of bonds relationships can have
+    fields:
+      acts_allowed:
+        type: array
+        values:
+          - sex
+          - needle
+          - pca
     default:
-      - sexualOnly
-      - multiplex
-      - social
-    description: Types of bonds a relationship can have
-    type: enum
-    values:
-      - sexualOnly
-      - multiplex
-      - social
+      Inj:
+        acts_allowed:
+          - needle
+      SexInj:
+        acts_allowed:
+          - needle
+          - sex
+      Sex:
+        acts_allowed:
+          - sex
   drug_types:
     default:
       - Inj
