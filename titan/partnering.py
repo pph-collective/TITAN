@@ -3,7 +3,6 @@
 
 # Imports
 from typing import Set, Optional, Tuple, Dict
-from copy import copy
 
 from .agent import Agent, AgentSet
 from . import utils
@@ -14,6 +13,7 @@ def select_partner(
     agent: Agent,
     partnerable_agents: AgentSet,
     sex_partners: Dict,
+    pwid_agents: AgentSet,
     params: ObjMap,
     rand_gen,
 ) -> Tuple[Optional[Agent], str]:
@@ -29,9 +29,7 @@ def select_partner(
     :Output:
         partner: new partner
     """
-    partner_set = copy(partnerable_agents.members)
-
-    eligible_partner_set = partner_set - agent.partners - {agent}
+    eligible_partner_set = partnerable_agents.members - agent.partners - {agent}
 
     def bondtype(bond_dict):
         bonds = list(params.classes.bond_types.keys())
@@ -53,16 +51,11 @@ def select_partner(
                 partner
                 for partner in eligible_partner_list
                 if (
-                    getattr(partner, assort_params["assort_type"])
-                    != assort_params["partner_type"]
+                    getattr(partner, assort_params.assort_type)
+                    != assort_params.partner_type
                 )
             }
         return eligible_partners
-
-    if params.features.assort_mix:
-        for assort_def in params.assort_mix.values():
-            if getattr(agent, assort_def.assort_type) == assort_def.agent_type:
-                eligible_partner_set = assort(eligible_partner_set, assort_def)
 
     if agent.drug_use == "Inj":
         agent_bond = bondtype(params.partnership.bonds["PWID"])
@@ -72,12 +65,15 @@ def select_partner(
     acts_allowed = params.classes.bond_types[agent_bond].acts_allowed
 
     if "needle" in acts_allowed:
-        eligible_partner_set = {
-            partner for partner in eligible_partner_set if partner.drug_use == "Inj"
-        }
+        eligible_partner_set &= pwid_agents.members
 
     if "sex" in acts_allowed:
-        eligible_partner_set = eligible_partner_set & sex_partners[agent.so]
+        eligible_partner_set &= sex_partners[agent.so]
+
+    if params.features.assort_mix:
+        for assort_def in params.assort_mix.values():
+            if getattr(agent, assort_def.assort_type) == assort_def.agent_type:
+                eligible_partner_set = assort(eligible_partner_set, assort_def)
 
     random_partner = utils.safe_random_choice(eligible_partner_set, rand_gen)
 
@@ -124,25 +120,15 @@ def get_partnership_duration(agent: Agent, params: ObjMap, rand_gen) -> int:
         NumPartners : int
         Zero partners possible.
     """
+    dur_info = params.partnership.sex.duration
 
-    # Length of relationship (months)a
-    # <1 1,679 32.3% 566 17.7 1,113 55.8
-    # 1–6 1,359 26.2% 929 29.0 430 21.6
-    # 7–12 604 11.6% 459 14.4 145 7.3
-    # 13–24 628 12.1% 480 15.0 148 7.4
-    # 25–36 309 6.0% 264 8.3 45 2.3
-    # >37 614 11.8% 501 15.7 113 5.7
     diceroll = rand_gen.random()
-    dur_bin = 5
+    dur_bin = dur_info[5]
     for i in range(1, 5):
-        if diceroll < params.partnership.sex.duration[i].prob:
-            dur_bin = i
+        if diceroll < dur_info[i].prob:
+            dur_bin = dur_info[i]
             break
 
-    duration = rand_gen.randrange(
-        params.partnership.sex.duration[dur_bin].min,
-        params.partnership.sex.duration[dur_bin].max,
-        1,
-    )
+    duration = rand_gen.randrange(dur_bin.min, dur_bin.max, 1,)
 
     return duration

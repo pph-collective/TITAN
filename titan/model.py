@@ -153,12 +153,15 @@ class HIVModel:
             print(" === Simulation Burn Complete ===")
 
         def make_agent_zero(num_partners: int):
-            agent_zero = self.run_random.choice(
-                [a for a in self.pop.all_agents if a.drug_use == "Inj"]
+            agent_zero = utils.safe_random_choice(
+                self.pop.pwid_agents.members, self.run_random
             )
-            for i in range(num_partners):
-                self.pop.update_agent_partners(agent_zero)
-            self.hiv_convert(agent_zero)
+            if agent_zero:
+                for i in range(num_partners):
+                    self.pop.update_agent_partners(agent_zero)
+                self.hiv_convert(agent_zero)
+            else:
+                raise ValueError("Must have PWID agents to make an agent zero")
 
         run_id = uuid.uuid4()
 
@@ -285,7 +288,13 @@ class HIVModel:
 
                 if self.features.incar:
                     agent.mean_num_partners -= self.high_risk.partner_scale
-                    agent.mean_num_partners = max(0, agent.mean_num_partners) # make sure not negative
+                    agent.mean_num_partners = max(
+                        0, agent.mean_num_partners
+                    )  # make sure not negative
+                    agent.target_partners = utils.poisson(
+                        agent.mean_num_partners, self.np_random
+                    )
+                    self.pop.update_partnerability(agent)
 
     def initialize_random_trial(self, time):
         """
@@ -658,7 +667,7 @@ class HIVModel:
             self.demographics[agent_race][agent_sex_type].num_needle_acts
             * self.calibration.needle.act
         )
-        share_acts = utils.poisson(mean_num_acts, self.np_random, size=1)
+        share_acts = utils.poisson(mean_num_acts, self.np_random)
 
         if agent.sne:  # safe needle exchange - minimal sharing
             p_unsafe_needle_share = 0.02  # minimal needle sharing
@@ -724,7 +733,7 @@ class HIVModel:
             agent.get_number_of_sex_acts(self.run_random, self.params)
             * self.calibration.sex.act
         )
-        total_sex_acts = utils.poisson(mean_sex_acts, self.np_random, size=1)
+        total_sex_acts = utils.poisson(mean_sex_acts, self.np_random)
 
         # Get condom usage
         if self.high_risk.condom_use_type == "Race":
@@ -861,10 +870,11 @@ class HIVModel:
                     not agent.high_risk and self.features.high_risk
                 ):  # If behavioral treatment on and agent HIV, ignore HR period.
                     self.become_high_risk(agent)
-
-                    agent.mean_num_partners = (
-                        agent.mean_num_partners + self.high_risk.partner_scale
+                    agent.mean_num_partners += self.high_risk.partner_scale
+                    agent.target_partners = utils.poisson(
+                        agent.mean_num_partners, self.np_random
                     )
+                    self.pop.update_partnerability(agent)
 
                 if hiv_bool:
                     if agent.haart:
@@ -921,7 +931,7 @@ class HIVModel:
             # PUT PARTNERS IN HIGH RISK
             for partner in agent.partners:
                 if not partner.high_risk and self.features.high_risk:
-                    if self.run_random.random() < self.high_risk.proportion:
+                    if self.run_random.random() < self.high_risk.prob:
                         self.become_high_risk(partner)
 
                 if self.features.prep and (

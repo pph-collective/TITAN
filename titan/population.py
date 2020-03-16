@@ -76,6 +76,9 @@ class Population:
         # High risk agent sets
         self.high_risk_agents = AgentSet("HRisk", parent=self.all_agents)
 
+        # pwid agents (performance for partnering)
+        self.pwid_agents = AgentSet("PWID", parent=self.all_agents)
+
         # agents who can take on a partner
         self.partnerable_agents = AgentSet("Partnerable", parent=self.all_agents)
 
@@ -158,6 +161,7 @@ class Population:
 
         if drug_type == "Inj":
             agent_params = self.demographics[race]["PWID"]
+            self.pwid_agents.add_agent(agent)
         else:
             agent_params = self.demographics[race][sex_type]
 
@@ -229,7 +233,7 @@ class Population:
             agent.mean_num_partners = bin
         else:
             agent.mean_num_partners = utils.poisson(
-                self.demographics[race][sex_type].num_partners, self.np_random, size=1
+                self.demographics[race][sex_type].num_partners, self.np_random
             )
 
         agent.target_partners = agent.mean_num_partners  # so not zero if added mid-year
@@ -352,6 +356,7 @@ class Population:
             agent,
             self.partnerable_agents,
             self.sex_partners,
+            self.pwid_agents,
             self.params,
             self.pop_random,
         )
@@ -362,7 +367,7 @@ class Population:
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
             self.add_relationship(relationship)
             # can partner still partner?
-            if len(partner.partners) >= (partner.target_partners * 1.1):
+            if len(partner.partners) >= (partner.target_partners * 1.2):
                 self.partnerable_agents.remove_agent(partner)
             no_match = False
 
@@ -377,33 +382,48 @@ class Population:
         :Input:
             None
         """
+
         # update agent targets annually
         if t % 12 == 0:
-            for a in self.all_agents:
-                a.target_partners = utils.poisson(
-                    a.mean_num_partners, self.np_random, size=1
-                )
-                # update partnerability
-                if a in self.partnerable_agents:
-                    if len(a.partners) >= (a.target_partners * 1.1):
-                        self.partnerable_agents.remove_agent(a)
-                elif len(a.partners) < (a.target_partners * 1.1):
-                    self.partnerable_agents.add_agent(a)
+            self.update_partner_targets()
+            print(
+                f"\tUpdated partner targets, {self.partnerable_agents.num_members()} now partnerable"
+            )
 
         # Now create partnerships until available partnerships are out
         eligible_agents = {
             a for a in self.all_agents if len(a.partners) < a.target_partners
         }
 
+        count = 0
+        total_failed = 0
+        attempted = 0
         for agent in eligible_agents:
             found_no_partners = 0
+            attempted += agent.target_partners - len(agent.partners)
             while agent.target_partners > len(agent.partners):
+                if found_no_partners >= 3:
+                    total_failed += agent.target_partners - len(agent.partners)
+                    break
+
                 no_match = self.update_agent_partners(agent)
                 if no_match:
                     found_no_partners += 1
-                if found_no_partners >= 5:
-                    break
+                else:
+                    count += 1
 
+    def update_partner_targets(self):
+        for a in self.all_agents:
+            a.target_partners = utils.poisson(a.mean_num_partners, self.np_random)
+            self.update_partnerability(a)
+
+    def update_partnerability(self, a):
+        # update partnerability
+        if a in self.partnerable_agents:
+            if len(a.partners) > (a.target_partners * 1.2):
+                self.partnerable_agents.remove_agent(a)
+        elif len(a.partners) < (a.target_partners * 1.2):
+            self.partnerable_agents.add_agent(a)
 
     def initialize_graph(self):
         """

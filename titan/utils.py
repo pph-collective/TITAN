@@ -52,11 +52,11 @@ def binom_0(n: int, p: float):
     return (1 - p) ** n
 
 
-def poisson(mu: float, np_rand, size=1):
+def poisson(mu: float, np_rand):
     """
         mirrors scipy poisson.rvs function as used in code
     """
-    return np_rand.poisson(mu, size)[0]
+    return np_rand.poisson(mu)
 
 
 def memo(f):
@@ -68,7 +68,6 @@ def memo(f):
     @wraps(f)
     def wrap(*arg):
         if arg not in cache:
-            print(f"memoizing {arg}")
             cache[arg] = f(*arg)
         return cache[arg]
 

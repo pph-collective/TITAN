@@ -350,7 +350,7 @@ class Relationship:
             self.unbond()
             return True
         else:
-            self.duration = self.duration - 1
+            self.duration -= 1
             return False
 
     def bond(self):
@@ -410,14 +410,12 @@ class AgentSet:
     """
 
     def __init__(
-        self, id: str, parent: "AgentSet" = None, numerator: "AgentSet" = None
+        self, id: str, parent: "AgentSet" = None,
     ):
         # _members stores agent set members in a dictionary keyed by ID
         self.id = id
         self.members: Set[Agent] = set()
         self.subset: Dict[str, AgentSet] = {}
-
-        self.tracker: Set[int] = set()
 
         # _parent_set stores the parent set if this set is a member of an
         # AgentSet class instance. For example, for a set that is a
@@ -426,10 +424,6 @@ class AgentSet:
         self.parent_set = parent
         if parent:
             parent.add_subset(self)
-        if numerator:
-            self.numerator = numerator
-        else:
-            self.numerator = self
 
     def __repr__(self):
         return self.id
@@ -440,31 +434,30 @@ class AgentSet:
     def clear_set(self):
         self.members: Set[Agent] = set()
         self.subset: Dict[str, str] = {}
-        self.tracker: Set[int] = set()
 
     def __iter__(self):
         return self.members.__iter__()
 
+    def __contains__(self, item):
+        return self.members.__contains__(item)
+
     def is_member(self, agent: Agent):
         """Returns true if agent is a member of this set"""
-        return agent.id in self.tracker
+        return agent in self.members
 
     # adding trickles up
     def add_agent(self, agent: Agent):
         """Adds a new agent to the set."""
-        if not self.is_member(agent):
-            self.members.add(agent)
-            self.tracker.add(agent.id)
+        self.members.add(agent)
 
-            if self.parent_set is not None:
-                self.parent_set.add_agent(agent)
+        if self.parent_set is not None:
+            self.parent_set.add_agent(agent)
 
     # removing trickles down
     def remove_agent(self, agent: Agent):
         """Removes agent from agent set."""
-        if self.is_member(agent):
+        if agent in self.members:
             self.members.remove(agent)
-            self.tracker.remove(agent.id)
 
         for subset in self.iter_subset():
             subset.remove_agent(agent)
@@ -486,20 +479,19 @@ class AgentSet:
         print("\tID\t\tN\t\t%")
         for set in self.iter_subset():
             print(
-                "\t{:6}\t{:5}\t{:.2}".format(
+                "\t{:6}\t\t{:5}\t\t{:.2}".format(
                     set.id,
                     set.num_members(),
-                    safe_divide(set.num_members(), set.numerator.num_members()),
+                    safe_divide(set.num_members(), set.parent_set.num_members()),
                 )
             )
             for subset in set.iter_subset():
                 print(
-                    "\t{:4}\t{:5}\t{:.2}".format(
+                    "\t{:4}\t\t{:5}\t\t{:.2}".format(
                         subset.id,
                         subset.num_members(),
                         safe_divide(
-                            subset.num_members(),
-                            subset.numerator.num_members()
+                            subset.num_members(), subset.parent_set.num_members()
                         ),
                     )
                 )
