@@ -267,15 +267,13 @@ def test_AgentSet_init(make_agent):
     assert s.subset == {}
 
     assert s.parent_set is None
-    assert s.numerator == s
 
     # add another agent set as the child of s
-    c = AgentSet("child", s, s)
+    c = AgentSet("child", s)
 
     assert c.id == "child"
     assert c.parent_set == s
     assert s.subset["child"] == c
-    assert c.numerator == s
 
 
 def test_add_remove_agent(make_agent):

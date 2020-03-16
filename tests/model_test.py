@@ -387,6 +387,8 @@ def test_discontinue_prep_decrement_time(make_model, make_agent):
     model = make_model()
     a = make_agent()
 
+    model.run_random = FakeRandom(1.1)
+
     # set up so the agent appears to be on PrEP
     a.prep = True
     a.prep_reason = ["blah"]

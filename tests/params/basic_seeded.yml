@@ -456,7 +456,7 @@ model:
   seed:
     run: 1
     ppl: 2
-  num_pop: 10000
+  num_pop: 100
   time_range: 100
   network:
     enable: true

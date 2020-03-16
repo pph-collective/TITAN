@@ -65,12 +65,12 @@ def test_get_random_pwid_partner_no_PWID(make_population, make_agent, params):
     nidu_agent = make_agent()
     empty_pop.add_agent(idu_agent)
     empty_pop.add_agent(nidu_agent)
-    eligible_agents = copy(empty_pop.all_agents.members) - {idu_agent}
 
     partner, bond_type = select_partner(
         idu_agent,
         empty_pop.all_agents,
         empty_pop.sex_partners,
+        empty_pop.pwid_agents,
         params,
         FakeRandom(1.0),
     )
@@ -81,11 +81,10 @@ def test_get_random_pwid_partner_w_PWID(make_population, make_agent, params):
     empty_pop = make_population()
     idu_agent = make_agent(DU="Inj")
     idu_partner = make_agent(DU="Inj")
-    empty_pop.add_agent(idu_agent)
-    empty_pop.add_agent(idu_partner)
-
     idu_agent.target_partners = 10
     idu_partner.target_partners = 10
+    empty_pop.add_agent(idu_agent)
+    empty_pop.add_agent(idu_partner)
 
     empty_pop.params.partnership.bonds.PWID.Inj.prob = (
         10  # make this weight really high so it will get chosen
@@ -95,6 +94,7 @@ def test_get_random_pwid_partner_w_PWID(make_population, make_agent, params):
         idu_agent,
         empty_pop.all_agents,
         empty_pop.sex_partners,
+        empty_pop.pwid_agents,
         params,
         FakeRandom(1.0),
     )
@@ -112,7 +112,12 @@ def test_get_random_sex_partner_valid(make_population, make_agent, params):
     hf_partner.target_partners = 10
 
     partner, bond_type = select_partner(
-        hm_agent, empty_pop.all_agents, empty_pop.sex_partners, params, FakeRandom(1.0),
+        hm_agent,
+        empty_pop.all_agents,
+        empty_pop.sex_partners,
+        empty_pop.pwid_agents,
+        params,
+        FakeRandom(1.0),
     )
     assert partner == hf_partner
 
@@ -121,7 +126,12 @@ def test_get_random_sex_partner_valid(make_population, make_agent, params):
 
     # no match after bonded
     partner, bond_type = select_partner(
-        hm_agent, empty_pop.all_agents, empty_pop.sex_partners, params, FakeRandom(1.0),
+        hm_agent,
+        empty_pop.all_agents,
+        empty_pop.sex_partners,
+        empty_pop.pwid_agents,
+        params,
+        FakeRandom(1.0),
     )
     assert partner is None
 
@@ -134,7 +144,12 @@ def test_get_random_sex_partner_bad(make_population, make_agent, params):
     empty_pop.add_agent(msm_partner)
 
     partner, bond_type = select_partner(
-        hm_agent, empty_pop.all_agents, empty_pop.sex_partners, params, FakeRandom(1.0),
+        hm_agent,
+        empty_pop.all_agents,
+        empty_pop.sex_partners,
+        empty_pop.pwid_agents,
+        params,
+        FakeRandom(1.0),
     )
     assert partner is None
 

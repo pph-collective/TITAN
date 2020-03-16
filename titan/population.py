@@ -161,7 +161,6 @@ class Population:
 
         if drug_type == "Inj":
             agent_params = self.demographics[race]["PWID"]
-            self.pwid_agents.add_agent(agent)
         else:
             agent_params = self.demographics[race][sex_type]
 
@@ -269,6 +268,9 @@ class Population:
 
         if agent.high_risk:
             self.high_risk_agents.add_agent(agent)
+
+        if agent.drug_use == "Inj":
+            self.pwid_agents.add_agent(agent)
 
         # who can sleep with this agent
         for sex_type in self.params.classes.sex_types[agent.so].sleeps_with:
