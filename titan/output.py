@@ -8,6 +8,7 @@ from uuid import UUID
 import os
 
 from dotmap import DotMap  # type: ignore
+from networkx import betweenness_centrality, effective_size, density
 
 
 def get_stats(
@@ -393,40 +394,64 @@ def print_components(
     # if this is a new file, write the header info
     if f.tell() == 0:
         f.write(
-            "run_id\trunseed\tpopseed\tt\tcompID\ttotalN\tNhiv\tNprep\tNtrtHIV\t"
-            "TrtComponent\tPCA\tOral\tLAI\tAware\tNIDU\n"
+            "run_id\trunseed\tpopseed\tt\tcompID\ttotalN\twhite\tblack\tNhiv\tNprep\tNtrtHIV\t"
+            "TrtComponent\tPCA\tOral\tLAI\tAware\tNIDU\tCentrality\tDensity"
+            "\tEffectiveSize\n"
         )
 
     comp_id = 0
     for comp in components:
+        comp_centrality = betweenness_centrality(comp)
+        centrality = 0
+        size = effective_size(comp)
+        total_size = 0
         tot_agents = (
+            white_agents
+        ) = (
+            black_agents
+        ) = (
             nhiv
         ) = ntrthiv = nprep = trtbool = injectable_prep = oral = aware = pca = nidu = 0
         for agent in comp.nodes():
             tot_agents += 1
+            if agent.race == "BLACK":
+                black_agents += 1
+            elif agent.race == "WHITE":
+                white_agents += 1
             if agent.hiv:
                 nhiv += 1
                 if agent.intervention_ever:
                     ntrthiv += 1
+
             if agent.prep:
                 nprep += 1
                 if agent.prep_type == "Inj":
                     injectable_prep += 1
                 elif agent.prep_type == "Oral":
                     oral += 1
+
             if agent.pca:
                 trtbool += 1
                 if agent.pca_suitable:
                     pca += 1
+
             if agent.prep_awareness:
                 aware += 1
+
             if agent.drug_use == "NonInj":
                 nidu += 1
+            centrality += comp_centrality[agent]
+            total_size += size[agent]
+        comp_centrality = centrality / comp.number_of_nodes()
+        average_size = total_size / comp.number_of_nodes()
+        comp_density = density(comp)
 
         f.write(
-            f"{run_id}\t{runseed}\t{popseed}\t{t}\t{comp_id}\t{tot_agents}\t{nhiv}\t"
+            f"{run_id}\t{runseed}\t{popseed}\t{t}\t{comp_id}\t{tot_agents}\t"
+            f"{white_agents}\t{black_agents}\t{nhiv}\t"
             f"{nprep}\t{ntrthiv}\t{trtbool}\t{pca}\t{oral}\t{injectable_prep}"
-            f"\t{aware}\t{nidu}\n"
+            f"\t{aware}\t{nidu}\t{comp_centrality:.4f}\t{comp_density:.4f}"
+            f"\t{average_size:.4f}\n"
         )
 
         comp_id += 1
