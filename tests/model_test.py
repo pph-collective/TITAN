@@ -513,7 +513,7 @@ def test_progress_to_aids_error(make_agent, make_model):
     a.hiv = False
     model = make_model()
     model.pop.add_agent(a)
-    num_aids = sum([1 for agent in model.pop.hiv_agents if agent.aids])  # get baselien
+    num_aids = sum([1 for agent in model.pop.hiv_agents if agent.aids])  # get baseline
 
     # test error case, agent must be HIV+
     with pytest.raises(AssertionError):

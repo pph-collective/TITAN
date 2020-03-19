@@ -97,9 +97,9 @@ def sex_possible(agent_sex_type: str, partner_sex_type: str, sex_types: ObjMap) 
 
     # Check input
     if agent_sex_type not in sex_types:
-        raise ValueError("Invalid agent_sex_type! %s" % str(agent_sex_type))
+        raise ValueError(f"Invalid agent_sex_type! {agent_sex_type}")
     if partner_sex_type not in sex_types:
-        raise ValueError("Invalid partner_sex_type! %s" % str(partner_sex_type))
+        raise ValueError(f"Invalid partner_sex_type! {partner_sex_type}")
 
     agent_match = agent_sex_type in sex_types[partner_sex_type].sleeps_with
     partner_match = partner_sex_type in sex_types[agent_sex_type].sleeps_with

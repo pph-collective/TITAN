@@ -263,40 +263,39 @@ class HIVModel:
 
         return stats
 
-    def update_high_risk(self, time):
+    def update_high_risk(self, agent: Agent, time: int):
         """
         :Purpose:
             Update high risk agents or remove them from high risk pool
         """
-        for agent in copy(self.pop.high_risk_agents.members):
-            if agent.high_risk_time > 0:
-                agent.high_risk_time -= 1
-                if (
-                    agent.so == "HM"
-                    and self.features.prep
-                    and (
-                        self.prep.target_model
-                        in ("high_risk", "incarcerated_high_risk")
-                    )
-                ):
-                    for part in agent.partners:
-                        if not (part.hiv or part.vaccine):
-                            self.initiate_prep(part, time)
-            else:
-                self.pop.high_risk_agents.remove_agent(agent)
-                agent.high_risk = False
+        if agent not in self.pop.high_risk_agents:
+            return None
 
-                if self.features.incar:
-                    agent.mean_num_partners -= self.high_risk.partner_scale
-                    agent.mean_num_partners = max(
-                        0, agent.mean_num_partners
-                    )  # make sure not negative
-                    agent.target_partners = utils.poisson(
-                        agent.mean_num_partners, self.np_random
-                    )
-                    self.pop.update_partnerability(agent)
+        if agent.high_risk_time > 0:
+            agent.high_risk_time -= 1
+            if (
+                agent.so == "HM"
+                and self.features.prep
+                and (self.prep.target_model in ("high_risk", "incarcerated_high_risk"))
+            ):
+                for part in agent.partners:
+                    if not (part.hiv or part.vaccine):
+                        self.initiate_prep(part, time)
+        else:
+            self.pop.high_risk_agents.remove_agent(agent)
+            agent.high_risk = False
 
-    def initialize_random_trial(self, time):
+            if self.features.incar:
+                agent.mean_num_partners -= self.high_risk.partner_scale
+                agent.mean_num_partners = max(
+                    0, agent.mean_num_partners
+                )  # make sure not negative
+                agent.target_partners = utils.poisson(
+                    agent.mean_num_partners, self.np_random
+                )
+                self.pop.update_partnerability(agent)
+
+    def initialize_random_trial(self, time: int):
         """
         :Purpose:
             Initialize random trial in population
@@ -409,12 +408,10 @@ class HIVModel:
                 if rel.progress():
                     self.pop.remove_relationship(rel)
 
-        if (
-            self.features.high_risk
-        ):  # REVIEWED can this move into the general loop with a check for agent.high_risk? (agents should never become high risk if the feature isn't enabled) - yes
-            self.update_high_risk(time)
-
         for agent in self.pop.all_agents:
+            if self.features.high_risk:
+                self.update_high_risk(agent, time)
+
             if (
                 self.features.pca
                 and self.run_random.random() < self.prep.pca.awareness.prob
@@ -533,7 +530,7 @@ class HIVModel:
 
         return True
 
-    def pca_interaction(self, relationship: Relationship, time, force=False):
+    def pca_interaction(self, relationship: Relationship, time: int, force=False):
         """
         :Purpose:
             Simulate peer change agent interactions
@@ -699,7 +696,7 @@ class HIVModel:
                 # if agent HIV+ partner becomes HIV+
                 self.hiv_convert(partner)
 
-    def sex_transmission(self, rel: Relationship, time):
+    def sex_transmission(self, rel: Relationship, time: int):
         """
         :Purpose:
             Simulate random transmission of HIV between two agents through Sex.
@@ -754,7 +751,7 @@ class HIVModel:
 
             # Reduction of transmissibility for acts between partners for PrEP adherence
             if agent.prep or partner.prep:
-                if "Oral" in self.prep.type:  # params.prep.type == "Oral":
+                if "Oral" in self.prep.type:
                     if agent.prep_adherence == 1 or partner.prep_adherence == 1:
                         p_per_act *= 1.0 - self.prep.efficacy.adherent  # 0.04
                     else:
@@ -862,7 +859,6 @@ class HIVModel:
             agent.incar_time -= 1
 
             if agent.incar_time == 0:  # FREE AGENT
-                # self.pop.incarcerated_agents.remove_agent(agent)
                 self.new_incar_release.add_agent(agent)
                 agent.incar = False
                 agent.incar_ever = True
@@ -883,7 +879,6 @@ class HIVModel:
                         ):  # 12% remain surpressed
                             agent.haart = False
                             agent.haart_adherence = 0
-                            # self.pop.intervention_haart_agents.remove_agent(agent)
 
                         # END FORCE
 
@@ -892,16 +887,16 @@ class HIVModel:
             * (1 + (hiv_bool * 4))
             * self.calibration.incarceration
         ):
-            jail_duration = self.demographics[agent.race][agent.so].incar.duration.prob
+            incar_duration = self.demographics[agent.race][agent.so].incar.duration.prob
 
             bin = current_p_value = 1
             p = self.run_random.random()
             while p >= current_p_value:
-                current_p_value += jail_duration[bin].prob
+                current_p_value += incar_duration[bin].prob
                 bin += 1
 
             timestay = self.run_random.randint(
-                jail_duration[bin].min, jail_duration[bin].max
+                incar_duration[bin].min, incar_duration[bin].max
             )
 
             if hiv_bool:
@@ -922,11 +917,9 @@ class HIVModel:
                         agent.intervention_ever = True
                         agent.haart_adherence = adherence
                         agent.haart_time = time
-                        # self.pop.intervention_haart_agents.add_agent(agent)
 
             agent.incar = True
             agent.incar_time = timestay
-            # self.pop.incarcerated_agents.add_agent(agent)
 
             # PUT PARTNERS IN HIGH RISK
             for partner in agent.partners:
@@ -961,7 +954,6 @@ class HIVModel:
         def diagnose(agent):
             agent.hiv_dx = True
             self.new_dx.add_agent(agent)
-            # self.pop.intervention_dx_agents.add_agent(agent)
             if (
                 self.features.partner_tracing
             ):  # TODO fix this logic; should get partnerTraced and then lose it after
@@ -1037,7 +1029,6 @@ class HIVModel:
                     agent.intervention_ever = True
                     agent.haart_adherence = adherence
                     agent.haart_time = time
-                    # self.pop.intervention_haart_agents.add_agent(agent)
 
             # Go off HAART
             elif (
@@ -1048,7 +1039,6 @@ class HIVModel:
                 agent.haart = False
                 agent.haart_adherence = 0
                 agent.haart_time = 0
-                # self.pop.intervention_haart_agents.remove_agent(agent)
 
     def discontinue_prep(self, agent: Agent, force: bool = False):
         # Agent must be on PrEP to discontinue PrEP
@@ -1056,7 +1046,6 @@ class HIVModel:
 
         # If force flag set, auto kick off prep.
         if force:
-            # self.pop.intervention_prep_agents.remove_agent(agent)
             self.prep_agents[agent.race][agent.so] -= 1
             agent.prep = False
             agent.prep_reason = []
@@ -1067,7 +1056,6 @@ class HIVModel:
                 self.run_random.random()
                 < self.demographics[agent.race][agent.so].prep.discontinue
             ):
-                # self.pop.intervention_prep_agents.remove_agent(agent)
                 self.prep_agents[agent.race][agent.so] -= 1
 
                 if "Oral" in self.prep.type:
@@ -1078,7 +1066,7 @@ class HIVModel:
                 if agent.prep_last_dose > 2:
                     agent.prep_last_dose = -1
 
-        if self.prep.type == "Inj":
+        if "Inj" in self.prep.type:
             agent.update_prep_load(self.params)
 
     def advance_vaccine(self, agent: Agent, time: int, vaxType: str, burn: bool):
@@ -1134,7 +1122,6 @@ class HIVModel:
         def enroll_prep(self, agent: Agent):
             agent.prep = True
             agent.intervention_ever = True
-            # self.pop.intervention_prep_agents.add_agent(agent)
             self.new_prep.add_agent(agent)
 
             self.prep_agents[agent.race][agent.so] += 1
@@ -1186,7 +1173,6 @@ class HIVModel:
             elif self.prep.target_model == "Racial":
                 all_hiv_agents = self.pop.all_agents.subset["HIV"].members
                 all_race = {a for a in self.pop.all_agents if a.race == agent.race}
-                # self.pop.all_agents.subset["Race"].subset[agent.race].members
 
                 hiv_agents = len(all_hiv_agents & all_race)
                 target_prep = (len(all_race) - hiv_agents) * self.demographics[
@@ -1225,7 +1211,6 @@ class HIVModel:
 
             if self.run_random.random() < p * self.params.hiv.aids.prob:
                 agent.aids = True
-                # self.pop.hiv_aids_agents.add_agent(agent)
 
     def die_and_replace(self):
 
