@@ -7,7 +7,7 @@ from copy import deepcopy
 from uuid import UUID
 import os
 
-from networkx import betweenness_centrality, effective_size, density
+from networkx import betweenness_centrality, effective_size, density  # type: ignore
 from .parse_params import ObjMap
 
 
