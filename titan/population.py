@@ -83,12 +83,24 @@ class Population:
         # agents who can take on a partner
         self.partnerable_agents = AgentSet("Partnerable", parent=self.all_agents)
 
-        # whoc an sleep with whom
+        # who can sleep with whom
         self.sex_partners: Dict[str, Set[Agent]] = {}
         for sex_type in self.params.classes.sex_types.keys():
             self.sex_partners[sex_type] = set()
 
         self.relationships: Set[Relationship] = set()
+
+        # find average partnership durations
+        weights = []
+        vals = []
+        dur_bins = params.partnership.sex.duration
+        for bins in params.partnership.sex.duration:
+            if bins > 1:
+                weights.append(dur_bins[bins].prob - dur_bins[bins - 1].prob)
+            else:
+                weights.append(dur_bins[bins].prob)
+            vals.append(np.average([dur_bins[bins].min, dur_bins[bins].max]))
+        self.mean_rel_duration = np.average(vals, weights=weights)
 
         print("\tCreating agents")
 
@@ -235,6 +247,11 @@ class Population:
             agent.mean_num_partners = utils.poisson(
                 self.demographics[race][sex_type].num_partners, self.np_random
             )
+
+        agent.mean_num_partners = (
+            np.ceil(agent.mean_num_partners / self.mean_rel_duration)
+            * self.params.calibration.sex.partner
+        )
 
         agent.target_partners = agent.mean_num_partners  # so not zero if added mid-year
 

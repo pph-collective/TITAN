@@ -4,7 +4,7 @@ model:
     ppl: 0
     net: 0
     run: 0
-  num_pop: 1744
+  num_pop: 11000
   time_range: 120
   burn_duration: 36
   network:
