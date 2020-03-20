@@ -4,7 +4,7 @@ high_risk:
     description: Linear increase to partner number during high risk period
     type: int
     min: 0
-  proportion:
+  prob:
     default: 0.3
     description: Probability an agent whose partner is incarcerated enters high risk group
     type: float

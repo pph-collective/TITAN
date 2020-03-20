@@ -3,7 +3,8 @@
 
 from typing import List, Dict, Set
 
-from dotmap import DotMap  # type: ignore
+from .parse_params import ObjMap
+from .utils import safe_divide
 
 
 class Agent:
@@ -53,8 +54,8 @@ class Agent:
         self.msmw = False
 
         # agent-partner params
-        self.relationships: List[Relationship] = []
-        self.partners: List[Agent] = []
+        self.relationships: Set[Relationship] = set()
+        self.partners: Set[Agent] = set()
         self.mean_num_partners = 0
         self.target_partners = 0
 
@@ -120,26 +121,10 @@ class Agent:
         return str(self.id)
 
     def __eq__(self, other):
-        if not isinstance(other, Agent):
-            return NotImplemented
         return self.id == other.id
 
     def __hash__(self):
-        return hash(self.id)
-
-    def partner_list(self):
-        """
-        Return the list of partners for this agent
-
-        returns:
-            _partners (list) - list of partners
-        """
-        ptnrs = list()
-        if self.partners is not None:
-            for partner in self.partners:
-                ptnrs.append(partner.id)
-
-        return ptnrs
+        return self.id
 
     def get_acute_status(self) -> bool:
         """
@@ -178,7 +163,7 @@ class Agent:
             eligible = True
         elif target_model == "CDCwomen":
             if self.so == "HF":
-                for rel in set(self.relationships):
+                for rel in self.relationships:
                     partner = rel.get_partner(self)
                     if rel.duration > 1:
                         if partner.drug_use == "Inj":
@@ -204,7 +189,7 @@ class Agent:
 
         return eligible
 
-    def update_prep_load(self, params: DotMap):
+    def update_prep_load(self, params: ObjMap):
         """
         :Purpose:
             Determine and update load of PrEP concentration in agent.
@@ -239,7 +224,7 @@ class Agent:
         self.vaccine_type = vax
         self.vaccine_time = 1
 
-    def get_transmission_probability(self, interaction: str, params: DotMap) -> float:
+    def get_transmission_probability(self, interaction: str, params: ObjMap) -> float:
         """ Decriptor
         :Purpose:
             Determines the probability of a transmission event based on
@@ -278,7 +263,7 @@ class Agent:
 
         return p
 
-    def get_number_of_sex_acts(self, rand_gen, params: DotMap) -> int:
+    def get_number_of_sex_acts(self, rand_gen, params: ObjMap) -> int:
         """
         :Purpose:
             Number of sexActs an agent has done.
@@ -352,25 +337,23 @@ class Relationship:
         self.total_sex_acts = 0
         self.bond_type = bond_type
 
-        self.bond(agent1, agent2)
+        self.bond()
 
     def __eq__(self, other):
-        if not isinstance(other, Relationship):
-            return NotImplemented
         return self.id == other.id
 
     def __hash__(self):
-        return hash(self.id)
+        return self.id
 
     def progress(self, force: bool = False):
         if self.duration <= 0 or force:
-            self.unbond(self.agent1, self.agent2)
+            self.unbond()
             return True
         else:
-            self.duration = self.duration - 1
+            self.duration -= 1
             return False
 
-    def bond(self, agent: "Agent", partner: "Agent"):
+    def bond(self):
         """
         Bond two agents. Adds each to a relationship object, then partners in each
         others' partner list.
@@ -383,14 +366,14 @@ class Relationship:
         """
 
         # Append relationship to relationships list for each agent
-        agent.relationships.append(self)
-        partner.relationships.append(self)
+        self.agent1.relationships.add(self)
+        self.agent2.relationships.add(self)
 
         # Pair agent with partner and partner with agent
-        agent.partners.append(partner)
-        partner.partners.append(agent)
+        self.agent1.partners.add(self.agent2)
+        self.agent2.partners.add(self.agent1)
 
-    def unbond(self, agent: "Agent", partner: "Agent"):
+    def unbond(self):
         """
         Unbond two agents. Removes relationship from relationship lists.
         Removes partners in each others' partner list.
@@ -403,12 +386,12 @@ class Relationship:
         """
 
         # Remove relationship to relationships list for each agent
-        agent.relationships.remove(self)
-        partner.relationships.remove(self)
+        self.agent1.relationships.remove(self)
+        self.agent2.relationships.remove(self)
 
         # Unpair agent with partner and partner with agent
-        agent.partners.remove(partner)
-        partner.partners.remove(agent)
+        self.agent1.partners.remove(self.agent2)
+        self.agent2.partners.remove(self.agent1)
 
     def get_partner(self, agent: "Agent") -> "Agent":
         if agent == self.agent1:
@@ -417,9 +400,7 @@ class Relationship:
             return self.agent1
 
     def __repr__(self):
-        return "\t{:.6}\t{:.6}\t{}\t{}".format(
-            self.agent1.id, self.agent2.id, self.duration, self.total_sex_acts,
-        )
+        return f"\t{self.id}\t{self.agent1.id}\t{self.agent2.id}\t{self.duration}\t{self.bond_type}"
 
 
 class AgentSet:
@@ -429,14 +410,12 @@ class AgentSet:
     """
 
     def __init__(
-        self, identifier: str, parent: "AgentSet" = None, numerator: "AgentSet" = None
+        self, id: str, parent: "AgentSet" = None,
     ):
         # _members stores agent set members in a dictionary keyed by ID
-        self.id = identifier
-        self.members: List[Agent] = []
+        self.id = id
+        self.members: Set[Agent] = set()
         self.subset: Dict[str, AgentSet] = {}
-
-        self.tracker: Set[int] = set()
 
         # _parent_set stores the parent set if this set is a member of an
         # AgentSet class instance. For example, for a set that is a
@@ -445,10 +424,6 @@ class AgentSet:
         self.parent_set = parent
         if parent:
             parent.add_subset(self)
-        if numerator:
-            self.numerator = numerator
-        else:
-            self.numerator = self
 
     def __repr__(self):
         return self.id
@@ -457,33 +432,32 @@ class AgentSet:
         return self.id
 
     def clear_set(self):
-        self.members: List[Agent] = []
+        self.members: Set[Agent] = set()
         self.subset: Dict[str, str] = {}
-        self.tracker: Set[int] = set()
 
     def __iter__(self):
         return self.members.__iter__()
 
+    def __contains__(self, item):
+        return self.members.__contains__(item)
+
     def is_member(self, agent: Agent):
         """Returns true if agent is a member of this set"""
-        return agent.id in self.tracker
+        return agent in self.members
 
     # adding trickles up
     def add_agent(self, agent: Agent):
         """Adds a new agent to the set."""
-        if not self.is_member(agent):
-            self.members.append(agent)
-            self.tracker.add(agent.id)
+        self.members.add(agent)
 
-            if self.parent_set is not None:
-                self.parent_set.add_agent(agent)
+        if self.parent_set is not None:
+            self.parent_set.add_agent(agent)
 
     # removing trickles down
     def remove_agent(self, agent: Agent):
         """Removes agent from agent set."""
-        if self.is_member(agent):
+        if agent in self.members:
             self.members.remove(agent)
-            self.tracker.remove(agent.id)
 
         for subset in self.iter_subset():
             subset.remove_agent(agent)
@@ -504,25 +478,21 @@ class AgentSet:
         print(f"\t__________ {self.id} __________")
         print("\tID\t\tN\t\t%")
         for set in self.iter_subset():
-            if set.num_members() > 0:
+            print(
+                "\t{:6}\t\t{:5}\t\t{:.2}".format(
+                    set.id,
+                    set.num_members(),
+                    safe_divide(set.num_members(), set.parent_set.num_members()),
+                )
+            )
+            for subset in set.iter_subset():
                 print(
-                    "\t{:6}\t{:5}\t{:.2}".format(
-                        set.id,
-                        set.num_members(),
-                        (1.0 * set.num_members() / set.numerator.num_members()),
+                    "\t{:4}\t\t{:5}\t\t{:.2}".format(
+                        subset.id,
+                        subset.num_members(),
+                        safe_divide(
+                            subset.num_members(), subset.parent_set.num_members()
+                        ),
                     )
                 )
-            for subset in set.iter_subset():
-                if subset.num_members() > 0:
-                    print(
-                        "\t{:4}\t{:5}\t{:.2}".format(
-                            subset.id,
-                            subset.num_members(),
-                            (
-                                1.0
-                                * subset.num_members()
-                                / subset.numerator.num_members()
-                            ),
-                        )
-                    )
         print("\t______________ END ______________")

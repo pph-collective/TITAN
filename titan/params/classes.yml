@@ -77,6 +77,9 @@ classes:
       Sex:
         acts_allowed:
           - sex
+      Social:
+        acts_allowed:
+          - pca
   drug_types:
     default:
       - Inj
