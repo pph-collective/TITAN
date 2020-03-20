@@ -61,8 +61,8 @@ def test_agent_init(make_agent):
     assert a.msmw is False
 
     # partner params
-    assert a.relationships == []
-    assert a.partners == []
+    assert a.relationships == set()
+    assert a.partners == set()
     assert a.mean_num_partners == 0
 
     # STI params
@@ -104,18 +104,6 @@ def test_agent_init(make_agent):
     assert a.incar is False
     assert a.incar_ever is False
     assert a.incar_time == 0
-
-
-def test_partner_list(make_agent, make_relationship):
-    a = make_agent()
-
-    assert a.partner_list() == []
-
-    p = make_agent()
-    r = make_relationship(a, p)
-
-    assert a.partner_list() == [p.id]
-    assert p.partner_list() == [a.id]
 
 
 def test_get_acute_status(make_agent):
@@ -218,10 +206,10 @@ def test_relationship(make_agent, make_relationship):
     assert r2.duration == 2
     assert r2.total_sex_acts == 0
 
-    assert p1.id in a.partner_list()
-    assert p2.id in a.partner_list()
-    assert a.id in p1.partner_list()
-    assert a.id in p2.partner_list()
+    assert p1 in a.partners
+    assert p2 in a.partners
+    assert a in p1.partners
+    assert a in p2.partners
 
     assert r1 in a.relationships
     assert r1 in p1.relationships
@@ -232,10 +220,10 @@ def test_relationship(make_agent, make_relationship):
     ended = r1.progress()
     assert ended == False
     assert r1.duration == 1
-    assert p1.id in a.partner_list()
-    assert p2.id in a.partner_list()
-    assert a.id in p1.partner_list()
-    assert a.id in p2.partner_list()
+    assert p1 in a.partners
+    assert p2 in a.partners
+    assert a in p1.partners
+    assert a in p2.partners
 
     assert r1 in a.relationships
     assert r1 in p1.relationships
@@ -248,10 +236,10 @@ def test_relationship(make_agent, make_relationship):
     ended = r1.progress()
     assert ended == True
     assert r1.duration == 0
-    assert p1.id not in a.partner_list()
-    assert p2.id in a.partner_list()
-    assert a.id not in p1.partner_list()
-    assert a.id in p2.partner_list()
+    assert p1 not in a.partners
+    assert p2 in a.partners
+    assert a not in p1.partners
+    assert a in p2.partners
 
     assert r1 not in a.relationships
     assert r1 not in p1.relationships
@@ -275,19 +263,17 @@ def test_AgentSet_init(make_agent):
     s = AgentSet("test")
 
     assert s.id == "test"
-    assert s.members == []
+    assert s.members == set()
     assert s.subset == {}
 
     assert s.parent_set is None
-    assert s.numerator == s
 
     # add another agent set as the child of s
-    c = AgentSet("child", s, s)
+    c = AgentSet("child", s)
 
     assert c.id == "child"
     assert c.parent_set == s
     assert s.subset["child"] == c
-    assert c.numerator == s
 
 
 def test_add_remove_agent(make_agent):
@@ -300,21 +286,21 @@ def test_add_remove_agent(make_agent):
     c.add_agent(a)
     s.add_agent(a)
 
-    assert s.members == [a]
+    assert s.members == {a}
     assert s.is_member(a)
     assert s.num_members() == 1
 
-    assert c.members == [a]
+    assert c.members == {a}
     assert c.is_member(a)
     assert c.num_members() == 1
 
     s.remove_agent(a)
 
-    assert s.members == []
+    assert s.members == set()
     assert s.is_member(a) is False
     assert s.num_members() == 0
 
-    assert c.members == []
+    assert c.members == set()
     assert c.is_member(a) is False
     assert c.num_members() == 0
 
@@ -324,12 +310,12 @@ def test_clear_set(make_agent):
     s = AgentSet("test")
     s.add_agent(a)
 
-    assert s.members == [a]
+    assert s.members == {a}
     assert s.is_member(a)
     assert s.num_members() == 1
 
     s.clear_set()
 
-    assert s.members == []
+    assert s.members == set()
     assert s.is_member(a) == False
     assert s.num_members() == 0

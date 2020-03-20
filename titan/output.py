@@ -7,8 +7,8 @@ from copy import deepcopy
 from uuid import UUID
 import os
 
-from dotmap import DotMap  # type: ignore
 from networkx import betweenness_centrality, effective_size, density
+from .parse_params import ObjMap
 
 
 def get_stats(
@@ -16,11 +16,10 @@ def get_stats(
     new_prep_agents: AgentSet,
     new_hiv: AgentSet,
     new_hiv_dx: AgentSet,
-    relationships: List[Relationship],
     new_high_risk: AgentSet,
     new_incar_release: AgentSet,
     deaths: List[Agent],
-    params: DotMap,
+    params: ObjMap,
 ):
 
     stats_template = {
@@ -158,9 +157,6 @@ def get_stats(
                 for sc in SUB_CAT:
                     stats["ALL"][sc][param] += stats[race][sc][param]
 
-    # add relationship count (only makes sense at the all level)
-    stats["ALL"]["ALL"]["numRels"] = len(relationships)
-
     return stats
 
 
@@ -175,7 +171,7 @@ def deathReport(
     runseed: int,
     popseed: int,
     stats: Dict[str, Any],
-    params: DotMap,
+    params: ObjMap,
     outdir: str,
 ):
     f = open(os.path.join(outdir, "DeathReport.txt"), "a")
@@ -211,7 +207,7 @@ def incarReport(
     runseed: int,
     popseed: int,
     stats: Dict[str, Any],
-    params: DotMap,
+    params: ObjMap,
     outdir: str,
 ):
     f = open(os.path.join(outdir, "IncarReport.txt"), "a")
@@ -255,7 +251,7 @@ def newlyhighriskReport(
     runseed: int,
     popseed: int,
     stats: Dict[str, Any],
-    params: DotMap,
+    params: ObjMap,
     outdir: str,
 ):
     f = open(os.path.join(outdir, "newlyHR_Report.txt"), "a")
@@ -296,7 +292,7 @@ def prepReport(
     runseed: int,
     popseed: int,
     stats: Dict[str, Any],
-    params: DotMap,
+    params: ObjMap,
     outdir: str,
 ):
     f = open(os.path.join(outdir, "PrEPReport.txt"), "a")
@@ -325,7 +321,7 @@ def basicReport(
     runseed: int,
     popseed: int,
     stats: Dict[str, Any],
-    params: DotMap,
+    params: ObjMap,
     outdir: str,
 ):
     MAIN_CAT = deepcopy(params.classes.races)

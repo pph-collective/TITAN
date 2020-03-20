@@ -50,7 +50,6 @@ def stats(params):
         agent_set,
         agent_set,
         agent_set,
-        rel_list,
         agent_set,
         agent_set,
         agent_list,
@@ -93,7 +92,6 @@ def test_get_stats(stats):
     assert stats["BLACK"]["PWID"]["numART"] == 1
     assert stats["BLACK"]["MSM"]["deaths"] == 1
     assert stats["BLACK"]["MSM"]["deaths_HIV"] == 1
-    assert stats["ALL"]["ALL"]["numRels"] == 1
     assert stats["ALL"]["ALL"]["numAgents"] == 1
     assert stats["BLACK"]["ALL"]["numAgents"] == 1
     assert stats["ALL"]["MSM"]["numAgents"] == 1
