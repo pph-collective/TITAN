@@ -43,7 +43,7 @@ calibration:
     min: 0
   partnership:
     buffer:
-      default: 1.1
+      default: 1.0
       description: Scaling factor for number of partners able to take on when other agents are looking to partner
       type: float
       min: 1.0

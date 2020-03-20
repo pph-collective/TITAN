@@ -86,7 +86,7 @@ def test_agents_interact(make_model, make_agent):
     model = make_model()
     a = make_agent(race="WHITE", SO="HM")
     p = make_agent(race="WHITE", SO="HF")
-    rel = Relationship(a, p, 10, bond_type="sexOnly")
+    rel = Relationship(a, p, 10, bond_type="Sex")
 
     model.run_random = FakeRandom(0.6)
 
@@ -142,7 +142,7 @@ def test_sex_transmission(make_model, make_agent):
     model = make_model()
     a = make_agent()
     p = make_agent()
-    rel = Relationship(a, p, 10, bond_type="sexOnly")
+    rel = Relationship(a, p, 10, bond_type="Sex")
 
     a.hiv = True
     a.hiv_time = 1  # acute
@@ -161,7 +161,7 @@ def test_sex_transmission_do_nothing(make_model, make_agent):
     model = make_model()
     a = make_agent()
     p = make_agent()
-    rel = Relationship(a, p, 10, bond_type="sexOnly")
+    rel = Relationship(a, p, 10, bond_type="Sex")
 
     with pytest.raises(ValueError):
         model.sex_transmission(rel, 0)
@@ -267,7 +267,7 @@ def test_incarcerate_not_diagnosed(make_model, make_agent):
     a.hiv = True
 
     p = make_agent(SO="HF")
-    rel = Relationship(a, p, 10, bond_type="sexOnly")
+    rel = Relationship(a, p, 10, bond_type="Sex")
 
     model.run_random = FakeRandom(-0.1)  # always less than params
 
@@ -494,7 +494,7 @@ def test_initiate_prep_eligible(make_model, make_agent):
     p.msmw = True
     model.params.prep.target = 1.0
     model.params.prep.target_model = "CDCwomen"
-    rel = Relationship(a, p, 10, bond_type="sexOnly")
+    rel = Relationship(a, p, 10, bond_type="Sex")
     # non-forcing, adherant, inj
     model.run_random = FakeRandom(-0.1)
     model.initiate_prep(a, 0)

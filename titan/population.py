@@ -391,8 +391,12 @@ class Population:
         :Input:
             None
         """
-        print(f"target partnerships: {sum([a.target_partners for a in self.all_agents])}")
-        print(f"actual partnerships (pre): {sum([len(a.partners) for a in self.all_agents])}")
+        print(
+            f"target partnerships: {sum([a.target_partners for a in self.all_agents])}"
+        )
+        print(
+            f"actual partnerships (pre): {sum([len(a.partners) for a in self.all_agents])}"
+        )
 
         # update agent targets annually
         if t % 12 == 0:
@@ -421,8 +425,9 @@ class Population:
             ):
                 eligible_agents.append(agent)
 
-
-        print(f"actual partnerships (post): {sum([len(a.partners) for a in self.all_agents])}")
+        print(
+            f"actual partnerships (post): {sum([len(a.partners) for a in self.all_agents])}"
+        )
 
     def update_partner_targets(self):
         for a in self.all_agents:
