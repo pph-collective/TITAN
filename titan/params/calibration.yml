@@ -41,3 +41,14 @@ calibration:
     description: Scaling factor for probability of becoming incarcerated
     type: float
     min: 0
+  partnership:
+    buffer:
+      default: 1.1
+      description: Scaling factor for number of partners able to take on when other agents are looking to partner
+      type: float
+      min: 1.0
+    break_point:
+      default: 3
+      type: int
+      description: How many failed attempts an agent can have at partnering in a given round before removing them from the eligible pool
+      min: 0

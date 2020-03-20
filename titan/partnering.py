@@ -3,6 +3,7 @@
 
 # Imports
 from typing import Set, Optional, Tuple, Dict
+from copy import copy
 
 from .agent import Agent, AgentSet
 from . import utils
@@ -29,7 +30,6 @@ def select_partner(
     :Output:
         partner: new partner
     """
-    eligible_partner_set = partnerable_agents.members - agent.partners - {agent}
 
     def bondtype(bond_dict):
         bonds = list(params.classes.bond_types.keys())
@@ -57,6 +57,10 @@ def select_partner(
             }
         return eligible_partners
 
+    eligible = copy(partnerable_agents.members)
+    eligible -= agent.partners
+    eligible -= {agent}
+
     if agent.drug_use == "Inj":
         agent_bond = bondtype(params.partnership.bonds["PWID"])
     else:
@@ -65,17 +69,17 @@ def select_partner(
     acts_allowed = params.classes.bond_types[agent_bond].acts_allowed
 
     if "needle" in acts_allowed:
-        eligible_partner_set &= pwid_agents.members
+        eligible &= pwid_agents.members
 
     if "sex" in acts_allowed:
-        eligible_partner_set &= sex_partners[agent.so]
+        eligible &= sex_partners[agent.so]
 
     if params.features.assort_mix:
         for assort_def in params.assort_mix.values():
             if getattr(agent, assort_def.assort_type) == assort_def.agent_type:
-                eligible_partner_set = assort(eligible_partner_set, assort_def)
+                eligible = assort(eligible, assort_def)
 
-    random_partner = utils.safe_random_choice(eligible_partner_set, rand_gen)
+    random_partner = utils.safe_random_choice(eligible, rand_gen)
 
     return random_partner, agent_bond
 

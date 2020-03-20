@@ -452,11 +452,14 @@ features:
   partner_tracing: true
   msmw: true
 
+prep:
+  target: 0.3
+
 model:
   seed:
     run: 1
     ppl: 2
-  num_pop: 100
+  num_pop: 10000
   time_range: 100
   network:
     enable: true

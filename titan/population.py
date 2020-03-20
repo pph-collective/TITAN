@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 import random
+from collections import deque
 
 from typing import List, Dict, Any, Optional, Set
 import numpy as np  # type: ignore
@@ -322,6 +323,10 @@ class Population:
         """
         self.relationships.remove(rel)
 
+        # without this relationship, are agents partnerable again?
+        self.update_partnerability(rel.agent1)
+        self.update_partnerability(rel.agent2)
+
         if self.enable_graph:
             self.graph.remove_edge(rel.agent1, rel.agent2)
 
@@ -369,7 +374,9 @@ class Population:
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
             self.add_relationship(relationship)
             # can partner still partner?
-            if len(partner.partners) >= (partner.target_partners * 1.2):
+            if len(partner.partners) >= (
+                partner.target_partners * self.params.calibration.partnership.buffer
+            ):
                 self.partnerable_agents.remove_agent(partner)
             no_match = False
 
@@ -384,6 +391,8 @@ class Population:
         :Input:
             None
         """
+        print(f"target partnerships: {sum([a.target_partners for a in self.all_agents])}")
+        print(f"actual partnerships (pre): {sum([len(a.partners) for a in self.all_agents])}")
 
         # update agent targets annually
         if t % 12 == 0:
@@ -393,26 +402,27 @@ class Population:
             )
 
         # Now create partnerships until available partnerships are out
-        eligible_agents = {
-            a for a in self.all_agents if len(a.partners) < a.target_partners
-        }
+        eligible_agents = deque(
+            [a for a in self.all_agents if len(a.partners) < a.target_partners]
+        )
+        attempts = {a: 0 for a in eligible_agents}
 
-        count = 0
-        total_failed = 0
-        attempted = 0
-        for agent in eligible_agents:
-            found_no_partners = 0
-            attempted += agent.target_partners - len(agent.partners)
-            while agent.target_partners > len(agent.partners):
-                if found_no_partners >= 3:
-                    total_failed += agent.target_partners - len(agent.partners)
-                    break
+        while eligible_agents:
+            agent = eligible_agents.popleft()
 
-                no_match = self.update_agent_partners(agent)
-                if no_match:
-                    found_no_partners += 1
-                else:
-                    count += 1
+            # no match
+            if self.update_agent_partners(agent):
+                attempts[agent] += 1
+
+            # add agent back to eligible pool
+            if (
+                len(agent.partners) < agent.target_partners
+                and attempts[agent] < self.params.calibration.partnership.break_point
+            ):
+                eligible_agents.append(agent)
+
+
+        print(f"actual partnerships (post): {sum([len(a.partners) for a in self.all_agents])}")
 
     def update_partner_targets(self):
         for a in self.all_agents:
@@ -422,9 +432,13 @@ class Population:
     def update_partnerability(self, a):
         # update partnerability
         if a in self.partnerable_agents:
-            if len(a.partners) > (a.target_partners * 1.2):
+            if len(a.partners) > (
+                a.target_partners * self.params.calibration.partnership.buffer
+            ):
                 self.partnerable_agents.remove_agent(a)
-        elif len(a.partners) < (a.target_partners * 1.2):
+        elif len(a.partners) < (
+            a.target_partners * self.params.calibration.partnership.buffer
+        ):
             self.partnerable_agents.add_agent(a)
 
     def initialize_graph(self):

@@ -293,7 +293,11 @@ class HIVModel:
                 agent.target_partners = utils.poisson(
                     agent.mean_num_partners, self.np_random
                 )
-                self.pop.update_partnerability(agent)
+                while len(agent.partners) > agent.target_partners:
+                    rel = utils.safe_random_choice(agent.relationships, self.run_random)
+                    if rel is not None:
+                        rel.progress(force=True)
+                        self.pop.remove_relationship(rel)
 
     def initialize_random_trial(self, time: int):
         """
@@ -811,7 +815,7 @@ class HIVModel:
         :Purpose:
             Enroll PWID agents in needle exchange
         """
-        print(("\n\n!!!!Engaginge treatment process"))
+        print(("\n\n!!!!Engaging safe needle exchange process"))
         self.needle_exchange = True
         for agent in self.pop.all_agents:
             if (

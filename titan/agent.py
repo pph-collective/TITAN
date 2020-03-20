@@ -124,7 +124,7 @@ class Agent:
         return self.id == other.id
 
     def __hash__(self):
-        return hash(self.id)
+        return self.id
 
     def get_acute_status(self) -> bool:
         """
@@ -343,7 +343,7 @@ class Relationship:
         return self.id == other.id
 
     def __hash__(self):
-        return hash(self.id)
+        return self.id
 
     def progress(self, force: bool = False):
         if self.duration <= 0 or force:
