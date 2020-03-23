@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Read in source code path, then shift for optargs
-titanPath="/gpfs/data/bm8/TITAN/TITAN/"
+titanPath="/gpfs/data/bm8/sbessey/TITAN/"
 paramPath="$1"
 shift
 
@@ -12,7 +12,7 @@ walltime=12:00:00
 memory=12g
 outfile="Jobname.o"
 repeats=1
-nMC=1
+nMC=20
 model=${PWD##*/}
 basePath=$PWD
 useBase="True"
