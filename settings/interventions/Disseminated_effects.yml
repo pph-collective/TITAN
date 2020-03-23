@@ -1,0 +1,32 @@
+assort_mix:
+  assort_nidu:
+    assort_type: du
+    agent_type: "nonInj"
+    partner_type: "nonInj"
+    prob: 0.20
+
+demographics:
+  WHITE:
+    MSM:
+      prep:
+        discontinue: 0.0
+        coverage: 0.0
+  BLACK:
+    MSM:
+      prep:
+        discontinue: 0.0
+        coverage: 0.0
+
+model:
+  time_range: 24
+  network:
+    type: max_k_comp_size
+    component_size: 100
+
+features:
+  static_netowrk: true
+  assort_mix: true
+
+outputs:
+  network:
+    calc_component_stats: true
