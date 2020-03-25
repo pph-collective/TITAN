@@ -40,11 +40,11 @@ if [ jobname == ""]; then
 fi
 
 if [ folderName == ""]; then
-	folderName="$setting/"
+	folderName="$setting"
 fi
 
 srcCode="${titanPath}titan/"
-outPath="$HOME/scratch/$folderName"
+outPath="$HOME/scratch/$folderName/"
 
 
 usage() {
