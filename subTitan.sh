@@ -12,19 +12,19 @@ walltime=12:00:00
 memory=12g
 outfile="Jobname.o"
 repeats=1
-nMC=20
+nMC=10
 model=${PWD##*/}
 basePath=$PWD
 useBase="True"
 jobname=""
 folderName=""
 
-while getopts m:S:T:j:r:n: option
+while getopts m:S:T:j:r:n:f: option
 do
     case "${option}"
         in
 	m) memory=${OPTARG};;
-  j) jobname=${OPTARG};;
+        j) jobname=${OPTARG};;
 	T) walltime=${OPTARG};;
 	S) setting=${OPTARG};;
 	r) repeats=${OPTARG};;
