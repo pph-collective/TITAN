@@ -99,6 +99,8 @@ class Agent:
         self.incar_ever = False
         self.incar_time = 0
 
+        self.sex_role = "vers"
+
     def __str__(self):
         """
         String formatting of agent object

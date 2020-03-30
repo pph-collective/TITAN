@@ -8,4 +8,14 @@ assort_mix:
     assort_type: race
     agent_type: BLACK
     partner_type: BLACK
-    prob: .765
+    prob: 0.765
+  assort_top:
+    assort_type: sex_role
+    agent_type: top
+    partner_type: top
+    prob: 0.0
+  assort_bottom:
+    assort_type: sex_role
+    agent_type: bottom
+    partner_type: bottom
+    prob: 0.0

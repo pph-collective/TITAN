@@ -54,8 +54,9 @@ class Population:
         self.features = params.features
         self.prep = params.prep
 
-        # build weights of population sex types by race - SARAH READ THIS
+        # build weights of population sex types by race
         self.pop_weights: Dict[str, Dict[str, List[Any]]] = {}
+        self.role_weights: Dict[str, Dict[Any]] = {}
         for race in params.classes.races:
             self.pop_weights[race] = {}
             self.pop_weights[race]["values"] = []
@@ -63,8 +64,17 @@ class Population:
             for st in params.classes.sex_types:
                 self.pop_weights[race]["values"].append(st)
                 self.pop_weights[race]["weights"].append(
-                    params.demographics[race][st].ppl
+                    self.demographics[race][st].ppl
                 )
+
+            self.role_weights[race] = {}
+            for st in self.params.classes.sex_types:
+                self.role_weights[race][st] = {}
+                self.role_weights[race][st]["values"] = []
+                self.role_weights[race][st]["weights"] = []
+                for role, prob in self.demographics[race][st].sex_role.init.items():
+                    self.role_weights[race][st]["values"].append(role)
+                    self.role_weights[race][st]["weights"].append(prob)
 
         print("\tBuilding class sets")
 
@@ -157,7 +167,6 @@ class Population:
             )
 
         # Determine drugtype
-        # todo: FIX THIS TO GET BACK PWID
         if self.pop_random.random() < self.demographics[race]["PWID"].ppl:
             drug_type = "Inj"
         else:
@@ -167,10 +176,14 @@ class Population:
 
         agent = Agent(sex_type, age, race, drug_type)
         agent.age_bin = age_bin
-
+        agent.sex_role = self.np_random.choice(
+            self.role_weights[race][sex_type]["values"],
+            p=self.role_weights[race][sex_type]["weights"]
+        )
         if self.features.msmw and sex_type == "HM":
             if self.pop_random.random() < 0.06:
                 agent.msmw = True
+
 
         if drug_type == "Inj":
             agent_params = self.demographics[race]["PWID"]

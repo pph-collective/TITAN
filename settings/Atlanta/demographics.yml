@@ -3,6 +3,11 @@ demographics:
     ppl: 0.389
     MSM:
       ppl: 1.0
+      sex_role:
+        init:
+          vers: 0.437
+          top: 0.242
+          bottom: 0.321
       num_partners: 5.0
       HIV:
         init: 0.434
@@ -28,6 +33,11 @@ demographics:
     MSM:
       ppl: 1.0
       num_partners: 7.0
+      sex_role:
+        init:
+          vers: 0.544
+          top: 0.228
+          bottom: 0.228
       HIV:
         init: 0.132
         dx:

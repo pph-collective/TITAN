@@ -8,6 +8,7 @@ assort_mix:
       values:
         - drug_use
         - race
+        - sex_role
     agent_type:
       description: "Which agent type to assortatively mix"
       type: enum
@@ -16,6 +17,8 @@ assort_mix:
         - BLACK
         - NonInj
         - Inj
+        - top
+        - bottom
         - None
     partner_type:
       description: "Which partners to select if assortative mixing happens"
@@ -25,6 +28,8 @@ assort_mix:
         - BLACK
         - NonInj
         - Inj
+        - top
+        - bottom
         - None
     prob:
       description: "Chance that agent will assortatively mix with partner of stated type"

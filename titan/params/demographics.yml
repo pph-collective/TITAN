@@ -1,6 +1,6 @@
 demographics:
   type: sub-dict
-  description: "Paramters controlling population class level probabilities and behaviors"
+  description: "Parameters controlling population class level probabilities and behaviors"
   keys:
     - races
     - populations
@@ -11,6 +11,26 @@ demographics:
       type: float
       min: 0.0
       max: 1.0
+    sex_role:
+      init:
+        vers:
+          default: 1.0
+          description: "Percentage of agents in this class with 'versatile' sex role"
+          type: float
+          min: 0.0
+          max: 1.0
+        top:
+          default: 0.0
+          description: "Percentage of agents in this class with 'top' sex role"
+          type: float
+          min: 0.0
+          max: 1.0
+        bottom:
+          default: 0.0
+          description: "Percentage of agents in this class with 'bottom' sex role"
+          type: float
+          min: 0.0
+          max: 1.0
     hiv:
       init:
         default: 0.0
@@ -58,7 +78,7 @@ demographics:
         max: 1.0
       adherence:
         default: 0.0
-        description: "Probability that an agent is assigne adherence of 5, otherwise randomly assigned 1-4"
+        description: "Probability that an agent is assigned adherence of 5, otherwise randomly assigned 1-4"
         type: float
         min: 0.0
         max: 1.0
