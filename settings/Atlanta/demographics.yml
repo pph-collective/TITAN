@@ -4,7 +4,7 @@ demographics:
     MSM:
       ppl: 1.0
       num_partners: 5.0
-      HIV:
+      hiv:
         init: 0.434
         dx:
           init: 0.655
@@ -27,11 +27,9 @@ demographics:
     ppl: 0.611
     MSM:
       ppl: 1.0
+      hiv:
+        ppl: 1.0
       num_partners: 7.0
-      HIV:
-        init: 0.132
-        dx:
-          init: 0.826
       aids:
         init: 0.07
         prob: 0.05
@@ -41,10 +39,10 @@ demographics:
         adherence: 0.817
         discontinue: 0.07
       safe_sex: 0.528
-    prep:
-      discontinue: 0.13
-      adherence: 0.911
-      coverage: 0.415
+      prep:
+        discontinue: 0.13
+        adherence: 0.911
+        coverage: 0.415
 
 hiv:
   aids:
