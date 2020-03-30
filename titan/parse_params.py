@@ -26,7 +26,7 @@ def check_item(val, d, keys=None):
     if "min" in d:
         assert val >= d["min"]
     if "max" in d:
-        assert val <= d["max"]
+        assert val <= d["max"], f"value greater than max {d}"
     if d["type"] == "int":
         assert isinstance(val, int)
     if d["type"] == "float":
