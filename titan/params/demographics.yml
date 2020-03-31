@@ -19,15 +19,15 @@ demographics:
           type: float
           min: 0.0
           max: 1.0
-        top:
+        insertive:
           default: 0.0
-          description: "Percentage of agents in this class with 'top' sex role"
+          description: "Percentage of agents in this class with 'insertive' sex role"
           type: float
           min: 0.0
           max: 1.0
-        bottom:
+        receptive:
           default: 0.0
-          description: "Percentage of agents in this class with 'bottom' sex role"
+          description: "Percentage of agents in this class with 'receptive' sex role"
           type: float
           min: 0.0
           max: 1.0

@@ -6,8 +6,8 @@ demographics:
       sex_role:
         init:
           vers: 0.437
-          top: 0.242
-          bottom: 0.321
+          insertive: 0.242
+          receptive: 0.321
       num_partners: 5.0
       hiv:
         init: 0.434
@@ -36,8 +36,8 @@ demographics:
       sex_role:
         init:
           vers: 0.544
-          top: 0.228
-          bottom: 0.228
+          insertive: 0.228
+          receptive: 0.228
       hiv:
         init: 0.132
         dx:

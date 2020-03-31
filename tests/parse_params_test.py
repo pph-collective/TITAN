@@ -17,8 +17,8 @@ def test_create_params_base(tmpdir):
     assert "HM" not in list(params.classes.sex_types.keys())
     assert "WHITE" not in params.classes.races
     assert params.partnership.sex.role_scaling.MSM.vers == 0.5  # from setting
-    assert params.partnership.sex.role_scaling.MSM.bottom == 1.3  # from base
-    assert params.partnership.sex.role_scaling.MSM.top == 0.9  # from param
+    assert params.partnership.sex.role_scaling.MSM.receptive == 1.3  # from base
+    assert params.partnership.sex.role_scaling.MSM.insertive == 0.9  # from param
 
 
 def test_create_params_error(tmpdir):

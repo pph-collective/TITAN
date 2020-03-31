@@ -105,18 +105,18 @@ partnership:
         vers:
           type: float
           description: Scaling factor for hiv transmission for a given sex type for vers role
-          min: 0
-          default: 1
-        top:
+          min: 0.0
+          default: 1.0
+        insertive:
           type: float
-          description: Scaling factor for hiv transmission for a given sex type for top role
-          min: 0
-          default: 1
-        bottom:
+          description: Scaling factor for hiv transmission for a given sex type for insertive role
+          min: 0.0
+          default: 1.0
+        receptive:
           type: float
-          description: Scaling factor for hiv transmission for a given sex type for bottom role
-          min: 0
-          default: 1
+          description: Scaling factor for hiv transmission for a given sex type for receptive role
+          min: 0.0
+          default: 1.0
   needle:
     duration:
       type: bin
@@ -233,28 +233,3 @@ partnership:
         type: float
         min: 0.0
         max: 1.0
-  sex_role:
-    type: sub-dict
-    description: "Sex type for MSM"
-    keys:
-      - races
-      - populations
-    default:
-      vers:
-        prob:
-          default: 1.0
-          type: float
-          min: 0.0
-          max: 1.0
-      top:
-        prob:
-          default: 0.0
-          type: float
-          min: 0.0
-          max: 1.0
-      bottom:
-        prob:
-          default: 0.0
-          type: float
-          min: 0.0
-          max: 1.0

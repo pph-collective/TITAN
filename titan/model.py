@@ -729,6 +729,16 @@ class HIVModel:
         if partner.hiv:
             return
 
+        agent_sex_role = agent.sex_role
+        partner_sex_role = partner.sex_role
+
+        # get partner's sex role during acts
+        if partner_sex_role == "vers":
+            if agent_sex_role == "insertive":
+                partner_sex_role = "receptive"
+            elif rel.agent2.sex_role == "receptive":
+                partner_sex_role = "insertive"
+
         # unprotected sex probabilities for primary partnerships
         mean_sex_acts = (
             agent.get_number_of_sex_acts(self.run_random, self.params)
@@ -752,6 +762,10 @@ class HIVModel:
             # agent is HIV+
             rel.total_sex_acts += unsafe_sex_acts
             p_per_act = agent.get_transmission_probability("SEX", self.params)
+
+            p_per_act *= self.params.demographics[partner.race][
+                partner.so
+            ].sex_role.init[partner_sex_role]
 
             # Reduction of transmissibility for acts between partners for PrEP adherence
             if agent.prep or partner.prep:

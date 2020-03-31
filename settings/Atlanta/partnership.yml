@@ -31,3 +31,7 @@ partnership:
         prob: 1.0
         min: 13
         max: 20
+  role_scaling:
+    MSM:
+      insertive: 1.0
+      receptive: 12.55

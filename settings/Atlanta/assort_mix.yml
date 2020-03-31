@@ -9,13 +9,13 @@ assort_mix:
     agent_type: BLACK
     partner_type: BLACK
     prob: 0.765
-  assort_top:
+  assort_insertive:
     assort_type: sex_role
-    agent_type: top
-    partner_type: top
+    agent_type: insertive
+    partner_type: insertive
     prob: 0.0
-  assort_bottom:
+  assort_receptive:
     assort_type: sex_role
-    agent_type: bottom
-    partner_type: bottom
+    agent_type: receptive
+    partner_type: receptive
     prob: 0.0

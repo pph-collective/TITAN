@@ -178,12 +178,11 @@ class Population:
         agent.age_bin = age_bin
         agent.sex_role = self.np_random.choice(
             self.role_weights[race][sex_type]["values"],
-            p=self.role_weights[race][sex_type]["weights"]
+            p=self.role_weights[race][sex_type]["weights"],
         )
         if self.features.msmw and sex_type == "HM":
             if self.pop_random.random() < 0.06:
                 agent.msmw = True
-
 
         if drug_type == "Inj":
             agent_params = self.demographics[race]["PWID"]

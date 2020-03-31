@@ -17,8 +17,8 @@ assort_mix:
         - BLACK
         - NonInj
         - Inj
-        - top
-        - bottom
+        - insertive
+        - receptive
         - None
     partner_type:
       description: "Which partners to select if assortative mixing happens"
@@ -28,8 +28,8 @@ assort_mix:
         - BLACK
         - NonInj
         - Inj
-        - top
-        - bottom
+        - insertive
+        - receptive
         - None
     prob:
       description: "Chance that agent will assortatively mix with partner of stated type"
