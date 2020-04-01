@@ -688,9 +688,7 @@ class HIVModel:
                 share_acts -= 1
 
         if share_acts >= 1.0:
-            p = self.get_transmission_probability(
-                "NEEDLE", self.params, agent, partner
-            )
+            p = self.get_transmission_probability("NEEDLE", self.params, agent, partner)
 
             p_total_transmission: float
             if share_acts == 1:
