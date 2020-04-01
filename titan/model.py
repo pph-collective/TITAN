@@ -582,7 +582,7 @@ class HIVModel:
             ):
                 self.initiate_prep(partner, time, force=True)
 
-        def transmission_probability():
+        def knowledge_transmission_probability():
             if (
                 relationship.agent1.prep_awareness
                 and relationship.agent2.prep_awareness
@@ -624,20 +624,20 @@ class HIVModel:
             relationship.agent1.prep_awareness
             and not relationship.agent2.prep_awareness
         ):
-            if self.run_random.random() < transmission_probability() or force:
+            if self.run_random.random() < knowledge_transmission_probability() or force:
                 knowledge_dissemination(relationship.agent2)
         elif (
             not relationship.agent1.prep_awareness
             and relationship.agent2.prep_awareness
         ):
-            if self.run_random.random() < transmission_probability() or force:
+            if self.run_random.random() < knowledge_transmission_probability() or force:
                 knowledge_dissemination(relationship.agent1)
         elif (
             relationship.agent1.prep_awareness
             and relationship.agent2.prep_awareness
             or force
         ):
-            if self.run_random.random() < transmission_probability() or force:
+            if self.run_random.random() < knowledge_transmission_probability() or force:
                 influence(relationship.agent1, relationship.agent2)
 
     def needle_transmission(self, agent: Agent, partner: Agent, time: int):
@@ -688,7 +688,9 @@ class HIVModel:
                 share_acts -= 1
 
         if share_acts >= 1.0:
-            p = agent.get_transmission_probability("NEEDLE", self.params)
+            p = self.get_transmission_probability(
+                "NEEDLE", self.params, agent, partner
+            )
 
             p_total_transmission: float
             if share_acts == 1:
@@ -761,13 +763,9 @@ class HIVModel:
         if unsafe_sex_acts >= 1:
             # agent is HIV+
             rel.total_sex_acts += unsafe_sex_acts
-            p_per_act = agent.get_transmission_probability(
-                "SEX", self.params, partner_sex_role
+            p_per_act = self.get_transmission_probability(
+                "SEX", self.params, agent, partner
             )
-
-            p_per_act *= self.params.partnership.sex.role_scaling[partner.so][
-                partner_sex_role
-            ]
 
             # Reduction of transmissibility for acts between partners for PrEP adherence
             if agent.prep or partner.prep:
@@ -807,7 +805,55 @@ class HIVModel:
                 # if agent HIV+ partner becomes HIV+
                 self.hiv_convert(partner)
 
-    def hiv_convert(self, agent: Agent):  # TODO rename
+    def get_transmission_probability(
+        self, interaction: str, params: ObjMap, agent, partner
+    ) -> float:
+        """ Decriptor
+        :Purpose:
+            Determines the probability of a transmission event based on
+            interaction type.
+
+        :Input:
+            interaction : str - "NEEDLE" or "SEX"
+
+        :Output:
+            probability : float
+        """
+        # Logic for if needle or sex type interaction
+        p: float
+        assert interaction in (
+            "NEEDLE",
+            "SEX",
+        ), f"Invalid interaction type {interaction}"
+        if interaction == "NEEDLE":
+            p = params.partnership.needle.transmission[agent.haart_adherence].prob
+        elif interaction == "SEX":
+            p = params.partnership.sex.transmission[agent.so][
+                agent.haart_adherence
+            ].prob
+            p *= params.partnership.sex.role_scaling[partner.so][partner.sex_role]
+
+        # Scaling parameter for acute HIV infections
+        if agent.get_acute_status():
+            p *= params.hiv.acute.infectivity
+
+        # Scaling parameter for positively identified HIV agents
+        if agent.hiv_dx:
+            p *= 1 - params.hiv.dx.risk_reduction
+
+        # Tuning parameter for ART efficiency
+        if agent.haart:
+            p *= params.haart.transmission.prob
+
+        # Racial calibration parameter to attain proper race incidence disparity
+        p *= params.demographics[partner.race].hiv.transmission
+
+        # Scaling parameter for per act transmission.
+        p *= params.calibration.transmission
+
+        return p
+
+    def hiv_convert(self, agent: Agent):
         """
         :Purpose:
             agent becomes HIV agent. Update all appropriate list and

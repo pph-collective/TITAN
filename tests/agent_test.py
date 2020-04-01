@@ -130,6 +130,7 @@ def test_update_prep_load(make_agent, params):
     assert a.prep_load == 0.0
 
 
+@pytest.mark.skip(reason="move to model")
 def test_get_transmission_probability(make_agent, params):
     a = make_agent(race="WHITE", SO="MSM")
     a.haart_adherence = 1  # set this explicitly
@@ -168,7 +169,7 @@ def test_get_transmission_probability(make_agent, params):
     # test Black
     a.race = "BLACK"
     assert (
-        a.get_transmission_probability("SEX", params)
+        a.get_transmission_probability("SEX", params, a, partner)
         == p_sex * scale * params.demographics[a.race].hiv.transmission
     )
 
