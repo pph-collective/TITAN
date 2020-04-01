@@ -3,7 +3,7 @@ import run_titan
 
 pr = cProfile.Profile()
 pr.enable()
-run_titan.main("custom", "tests/params/basic_seeded.yml", 1, "results", True)
+run_titan.main("custom", "tests/params/basic_seeded.yml", 1, "results", True, [], False)
 
 pr.disable()
 s = io.StringIO()
