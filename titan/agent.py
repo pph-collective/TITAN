@@ -226,7 +226,9 @@ class Agent:
         self.vaccine_type = vax
         self.vaccine_time = 1
 
-    def get_transmission_probability(self, interaction: str, params: ObjMap) -> float:
+    def get_transmission_probability(
+        self, interaction: str, params: ObjMap, partner_role, partner_so
+    ) -> float:
         """ Decriptor
         :Purpose:
             Determines the probability of a transmission event based on
@@ -242,8 +244,12 @@ class Agent:
         p: float
         if interaction == "NEEDLE":
             p = params.partnership.needle.transmission[self.haart_adherence].prob
-        elif interaction == "SEX":
+        elif interaction == "SEX":  # mcmgrath: I put the role scaling here,
+            # but should it go in model? It needs to be done by the partner roles to
+            # keep it with the logic of how the data are presented; it'd be confusing
+            # to students otherwise
             p = params.partnership.sex.transmission[self.so][self.haart_adherence].prob
+            p *= params.partnership.sex.role_scaling[partner_so][partner_role]
 
         # Scaling parameter for acute HIV infections
         if self.get_acute_status():

@@ -397,6 +397,11 @@ partnership:
       MSM:
         0:
           prob: 0.08
+    role_scaling:
+      HM:
+        vers: 0.0004
+      HF:
+        vers: 0.0008
   bonds:
     PWID:
       Sex:

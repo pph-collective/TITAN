@@ -85,20 +85,20 @@ partnership:
             max: 1.0
         default:
           0:
-            prob: 0.001
+            prob: 1.0
           1:
-            prob: 0.001
+            prob: 1.0
           2:
-            prob: 0.0008
+            prob: 0.8
           3:
-            prob: 0.0004
+            prob: 0.4
           4:
-            prob: 0.0002
+            prob: 0.2
           5:
             prob: 0.0
     role_scaling:
       type: sub-dict
-      description: "Scaling factor for hiv transmission for a given sex type for each sex role"
+      description: "Scaling factor for hiv transmission for a given sex type for each sex role. Defaults are MSM values"
       keys:
         - sex_types
       default:
@@ -106,17 +106,17 @@ partnership:
           type: float
           description: Scaling factor for hiv transmission for a given sex type for vers role
           min: 0.0
-          default: 1.0
+          default: 0.00745
         insertive:
           type: float
           description: Scaling factor for hiv transmission for a given sex type for insertive role
           min: 0.0
-          default: 1.0
+          default: 0.0011
         receptive:
           type: float
           description: Scaling factor for hiv transmission for a given sex type for receptive role
           min: 0.0
-          default: 1.0
+          default: 0.0138
   needle:
     duration:
       type: bin

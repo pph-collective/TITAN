@@ -59,6 +59,7 @@ def test_agent_init(make_agent):
     assert a.drug_use == "None"
     assert a.age_bin == 0
     assert a.msmw is False
+    assert a.sex_role is "vers"
 
     # partner params
     assert a.relationships == set()
@@ -108,9 +109,9 @@ def test_agent_init(make_agent):
 
 def test_get_acute_status(make_agent):
     a = make_agent()  # no HIV on init
-    assert a.get_acute_status() == False
+    assert a.get_acute_status() is False
     a.hiv_time = 1  # manually force this to test logic
-    assert a.get_acute_status() == True
+    assert a.get_acute_status() is True
 
 
 def test_update_prep_load(make_agent, params):
@@ -137,7 +138,7 @@ def test_get_transmission_probability(make_agent, params):
     p_sex = params.partnership.sex.transmission["MSM"][1].prob
     scale = params.calibration.transmission
 
-    # test base case (not tested, not HAART, "WHITE")
+    # test base case (not tested, not HAART, "WHITE", vers)
     assert a.get_transmission_probability("NEEDLE", params) == p_needle * scale
     assert a.get_transmission_probability("SEX", params) == p_sex * scale
 

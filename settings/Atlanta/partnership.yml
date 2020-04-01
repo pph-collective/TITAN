@@ -33,5 +33,6 @@ partnership:
         max: 20
   role_scaling:
     MSM:
-      insertive: 1.0
-      receptive: 12.55
+      insertive: 0.011
+      receptive: 0.0138
+      vers: 0.00745

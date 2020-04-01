@@ -761,11 +761,13 @@ class HIVModel:
         if unsafe_sex_acts >= 1:
             # agent is HIV+
             rel.total_sex_acts += unsafe_sex_acts
-            p_per_act = agent.get_transmission_probability("SEX", self.params)
+            p_per_act = agent.get_transmission_probability(
+                "SEX", self.params, partner_sex_role
+            )
 
-            p_per_act *= self.params.demographics[partner.race][
-                partner.so
-            ].sex_role.init[partner_sex_role]
+            p_per_act *= self.params.partnership.sex.role_scaling[partner.so][
+                partner_sex_role
+            ]
 
             # Reduction of transmissibility for acts between partners for PrEP adherence
             if agent.prep or partner.prep:

@@ -56,7 +56,7 @@ class Population:
 
         # build weights of population sex types by race
         self.pop_weights: Dict[str, Dict[str, List[Any]]] = {}
-        self.role_weights: Dict[str, Dict[Any]] = {}
+        self.role_weights: Dict[str, Dict] = {}
         for race in params.classes.races:
             self.pop_weights[race] = {}
             self.pop_weights[race]["values"] = []
