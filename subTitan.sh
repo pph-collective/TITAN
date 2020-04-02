@@ -168,12 +168,12 @@ if [ $srcCode ]; then
     echo -e "\t $outPath"
 
     if [ $repeats -gt 1 ]; then
-        mkdir -p $outPath$jobname
+        # mkdir -p $outPath$jobname
         basejobname=$jobname
         for ((i=1; i<=repeats; i++)); do
             echo -e "\n\nWorking on repeat $i"
             jobname=$basejobname"_"$i
-            finalPath=$outPath$basejobname"/"$jobname
+            finalPath=$outPath"/"$basejobname"/"$jobname
             prepSubmit;
         done
     else
