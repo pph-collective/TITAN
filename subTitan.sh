@@ -177,7 +177,7 @@ if [ $srcCode ]; then
             prepSubmit;
         done
     else
-        finalPath=$outPath$jobname
+        finalPath=$outPath"/"$jobname
         prepSubmit;
     fi
 
