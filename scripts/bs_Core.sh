@@ -41,12 +41,12 @@ done
 
 # set up sweeping flags
 forceFlag=""
-if [ "$force" = true]; then
+if [ $force = true ]; then
 	forceFlag=" -F"
 fi
 
 sweepFlag=""
-if [ "$sweepDefs" != "null"]; then
+if [ $sweepDefs != "null" ]; then
 	sweepFlag=" -w $sweepDefs"
 fi
 

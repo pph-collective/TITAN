@@ -117,7 +117,6 @@ prepSubmit() {
 		fi
 
     #Submit job to cluster
-		echo -e "\n -S $setting -p $paramPath -n $nMC -b $useBase $forceFlag $sweepFlag"
     sbatch scripts/bs_Core.sh -S $setting -p $paramPath -n $nMC -b $useBase $forceFlag $sweepFlag
 
     #Move back to base directory
