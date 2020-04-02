@@ -39,11 +39,11 @@ do
 done
 
 
-if [ jobname == ""]; then
+if [ $jobname == ""]; then
 	jobname="Analysis_$setting_$date"
 fi
 
-if [ folderName == ""]; then
+if [ $folderName == ""]; then
 	folderName="$setting/"
 fi
 
@@ -108,7 +108,7 @@ prepSubmit() {
 		# set up sweeping flags
 		forceFlag=""
 		if [ "$force" = true]; then
-			forceFlag=" -f"
+			forceFlag=" -F"
 		fi
 
 		sweepFlag=""

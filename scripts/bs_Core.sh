@@ -34,7 +34,7 @@ do
 	n) nMC=${OPTARG};;
 	b) useBase=${OPTARG};;
 	w) sweepDefs=${OPTARG};;
-	f) force=true;;
+	F) force=true;;
 	p) paramPath=${OPTARG};;
     esac
 done
@@ -42,7 +42,7 @@ done
 # set up sweeping flags
 forceFlag=""
 if [ "$force" = true]; then
-	forceFlag=" -f"
+	forceFlag=" -F"
 fi
 
 sweepFlag=""
