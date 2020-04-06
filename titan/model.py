@@ -261,7 +261,7 @@ class HIVModel:
                     path = os.path.join(outdir, "network", f"Edgelist_t{t}.txt")
                     self.network_utils.write_graph_edgelist(path)
 
-        return stats
+        return run_id
 
     def update_high_risk(self, agent: Agent, time: int):
         """

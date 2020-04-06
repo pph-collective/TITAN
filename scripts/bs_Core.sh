@@ -19,10 +19,36 @@ fi
 #!/bin/bash
 module load graphviz
 
-setting=$1
-paramPath=$2
-nMC=$3
-useBase=$4
+setting=""
+paramPath=""
+nMC=""
+useBase=""
+force=false
+sweepDefs="null"
+
+while getopts S:n:b:w:f:p: option
+do
+    case "${option}"
+        in
+	S) setting=${OPTARG};;
+	n) nMC=${OPTARG};;
+	b) useBase=${OPTARG};;
+	w) sweepDefs=${OPTARG};;
+	F) force=true;;
+	p) paramPath=${OPTARG};;
+    esac
+done
+
+# set up sweeping flags
+forceFlag=""
+if [ $force = true ]; then
+	forceFlag=" -F"
+fi
+
+sweepFlag=""
+if [ $sweepDefs != "null" ]; then
+	sweepFlag=" -w $sweepDefs"
+fi
 
 cd $PWD
 
@@ -34,8 +60,4 @@ echo Starting execution at `date`
 NCPU=`wc -l < $PBS_NODEFILE`
 echo This job has allocated $NCPU CPUs
 
-# execute an MPI program
-# $SLURM_NPROCS = nodes x ppn
-# Change global N_MC in MPI_simulation.py to $SLURM_NPROCS
-# and PROCESSES to a multiple of $SLURM_NPROCS for optimal distribution
-./run_titan.py -S $setting -n $nMC -p $paramPath -b $useBase
+./run_titan.py -S $setting -n $nMC -p $paramPath -b $useBase $forceFlag $sweepFlag
