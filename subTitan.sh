@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Read in source code path, then shift for optargs
-titanPath="/gpfs/data/bm8/sbessey/TITAN/"
+titanPath="/gpfs/data/s/TITAN/TITAN/"
 paramPath="$1"
 shift
 
@@ -18,8 +18,10 @@ basePath=$PWD
 useBase="True"
 jobname=""
 folderName=""
+sweepDefs="null"
+force=false
 
-while getopts m:S:T:j:r:n:f: option
+while getopts m:S:T:j:r:n:f:w:F: option
 do
     case "${option}"
         in
@@ -31,16 +33,18 @@ do
 	n) nMC=${OPTARG};;
 	b) useBase=${OPTARG};;
 	f) folderName=${OPTARG};;
+	w) sweepDefs=${OPTARG};;
+	F) force=true;;
     esac
 done
 
 
-if [ jobname == ""]; then
+if [ $jobname == ""]; then
 	jobname="Analysis_$setting_$date"
 fi
 
-if [ folderName == ""]; then
-	folderName="$setting"
+if [ $folderName == ""]; then
+	folderName="$setting/"
 fi
 
 srcCode="${titanPath}titan/"
@@ -49,7 +53,7 @@ outPath="$HOME/scratch/$folderName/"
 
 usage() {
 echo "
-usage: subtitan {Parameter file or directory}[-T walltime] [-m memory] [-S setting] [-j jobname] [-r repeats] [-n iterations]
+usage: subtitan {Parameter file or directory}[-T walltime] [-m memory] [-S setting] [-j jobname] [-r repeats] [-n iterations] [-b use_base] [-f folder_name] [-w sweep_defs] [-F force]
 
 Starts a TITAN simulation in ~/scratch/{SourceFolder}/{jobname}
 
@@ -62,6 +66,8 @@ options:
   -n iterations   number of mode iterations per job (default: $nMC)
 	-b use_base     whether to use the base setting as True or False (default: $useBase)
 	-f folder_name	What the parent folder for the model run outputs should be called (default: <setting>)
+	-w sweep_defs   Optionally, definitions of sweep parameters in the format param:start:stop[:step]
+	-F force				If the number of sweep combinations exceeds 100, run anyway
 "
 exit 0
 }
@@ -99,8 +105,19 @@ prepSubmit() {
     echo -e "\t$PWD"
     updateParams;
 
+		# set up sweeping flags
+		forceFlag=""
+		if [ $force = true ]; then
+			forceFlag=" -F"
+		fi
+
+		sweepFlag=""
+		if [ $sweepDefs != "null" ]; then
+			sweepFlag=" -w $sweepDefs"
+		fi
+
     #Submit job to cluster
-    sbatch scripts/bs_Core.sh $setting $paramPath $nMC $useBase
+    sbatch scripts/bs_Core.sh -S $setting -p $paramPath -n $nMC -b $useBase $forceFlag $sweepFlag
 
     #Move back to base directory
     cd $basePath
@@ -151,16 +168,16 @@ if [ $srcCode ]; then
     echo -e "\t $outPath"
 
     if [ $repeats -gt 1 ]; then
-        mkdir -p $outPath$jobname
+        # mkdir -p $outPath$jobname
         basejobname=$jobname
         for ((i=1; i<=repeats; i++)); do
             echo -e "\n\nWorking on repeat $i"
             jobname=$basejobname"_"$i
-            finalPath=$outPath$basejobname"/"$jobname
+            finalPath=$outPath"/"$basejobname"/"$jobname
             prepSubmit;
         done
     else
-        finalPath=$outPath$jobname
+        finalPath=$outPath"/"$jobname
         prepSubmit;
     fi
 
