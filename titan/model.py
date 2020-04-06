@@ -700,6 +700,7 @@ class HIVModel:
                 # if agent HIV+ partner becomes HIV+
                 self.hiv_convert(partner)
 
+
     def sex_transmission(self, rel: Relationship, time: int):
         """
         :Purpose:
@@ -792,10 +793,9 @@ class HIVModel:
             if self.run_random.random() < p_total_transmission:
                 # if agent HIV+ partner becomes HIV+
                 self.hiv_convert(partner)
+                assert partner.hiv
+                assert rel.agent2.hiv
 
-            assert p_total_transmission < 0.4
-        myTup = (partner, p_total_transmission, unsafe_sex_acts)
-        return myTup
 
     def get_transmission_probability(
         self, interaction: str, params: ObjMap, agent, partner

@@ -197,17 +197,12 @@ def test_sex_transmission(make_model, make_agent):
     a.hiv_time = 1  # acute
 
     rel.total_sex_acts = 0
+    model.params.calibration.transmission = 10
 
     model.run_random = FakeRandom(0.4)
 
     # test partner becomes
-    partner, transmission, unsafe_sex = model.sex_transmission(rel, 0)
-    assert transmission < 0.4
-    assert unsafe_sex >= 1
-    assert partner.hiv
-    assert rel.agent1.hiv
-    assert rel.agent2.hiv
-
+    model.sex_transmission(rel, 0)
     assert p.hiv
 
 
