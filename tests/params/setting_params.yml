@@ -5,4 +5,5 @@ partnership:
   sex:
     role_scaling:
       MSM:
-        insertive: 0.9
+        insertive: 0.0011
+
