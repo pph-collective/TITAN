@@ -138,8 +138,13 @@ def test_get_transmission_probability(make_model, make_agent):
     )
     scale = model.params.calibration.transmission
 
-    assert model.get_transmission_probability("NEEDLE", model.params, a, p) == p_needle * scale
-    assert model.get_transmission_probability("SEX", model.params, a, p) == p_sex * scale
+    assert (
+        model.get_transmission_probability("NEEDLE", model.params, a, p)
+        == p_needle * scale
+    )
+    assert (
+        model.get_transmission_probability("SEX", model.params, a, p) == p_sex * scale
+    )
 
     # test one vers agent, one receptive agent
     a.sex_role = "receptive"
@@ -148,12 +153,19 @@ def test_get_transmission_probability(make_model, make_agent):
         * model.params.partnership.sex.role_scaling.MSM.insertive
     )
     p_sex_rec = (
-            model.params.partnership.sex.transmission.MSM[1].prob
-            * model.params.partnership.sex.role_scaling.MSM.receptive
+        model.params.partnership.sex.transmission.MSM[1].prob
+        * model.params.partnership.sex.role_scaling.MSM.receptive
     )
 
-    assert model.get_transmission_probability("SEX", model.params, a, p) == p_sex_ins * scale
-    assert model.get_transmission_probability("SEX", model.params, p, a) == p_sex_rec * scale
+    assert (
+        model.get_transmission_probability("SEX", model.params, a, p)
+        == p_sex_ins * scale
+    )
+    assert (
+        model.get_transmission_probability("SEX", model.params, p, a)
+        == p_sex_rec * scale
+    )
+
 
 def test_needle_transmission(make_model, make_agent):
     model = make_model()
@@ -176,7 +188,9 @@ def test_needle_transmission(make_model, make_agent):
 def test_sex_transmission(make_model, make_agent):
     model = make_model()
     a = make_agent()
+    a.sex_role = "insertive"
     p = make_agent()
+    p.sex_role = "receptive"
     rel = Relationship(a, p, 10, bond_type="Sex")
 
     a.hiv = True
@@ -184,10 +198,15 @@ def test_sex_transmission(make_model, make_agent):
 
     rel.total_sex_acts = 0
 
-    model.run_random = FakeRandom(0.6)
+    model.run_random = FakeRandom(0.4)
 
     # test partner becomes
-    model.sex_transmission(rel, 0)
+    partner, transmission, unsafe_sex = model.sex_transmission(rel, 0)
+    assert transmission < 0.4
+    assert unsafe_sex >= 1
+    assert partner.hiv
+    assert rel.agent1.hiv
+    assert rel.agent2.hiv
 
     assert p.hiv
 

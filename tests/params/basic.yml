@@ -393,15 +393,15 @@ partnership:
     durations:
       2:
         min: 9
-    transmission:
-      MSM:
-        0:
-          prob: 0.08
     role_scaling:
       HM:
         vers: 0.0004
       HF:
         vers: 0.0008
+      MSM:
+        insertive: 0.0011
+        receptive: 0.0138
+        vers: 0.00745
   bonds:
     PWID:
       Sex:

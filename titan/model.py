@@ -729,7 +729,6 @@ class HIVModel:
         if partner.hiv:
             return
 
-
         # unprotected sex probabilities for primary partnerships
         mean_sex_acts = (
             agent.get_number_of_sex_acts(self.run_random, self.params)
@@ -793,6 +792,10 @@ class HIVModel:
             if self.run_random.random() < p_total_transmission:
                 # if agent HIV+ partner becomes HIV+
                 self.hiv_convert(partner)
+
+            assert p_total_transmission < 0.4
+        myTup = (partner, p_total_transmission, unsafe_sex_acts)
+        return myTup
 
     def get_transmission_probability(
         self, interaction: str, params: ObjMap, agent, partner
