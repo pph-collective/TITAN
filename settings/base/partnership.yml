@@ -2,6 +2,6 @@ partnership:
   sex:
     role_scaling:
       MSM:
-        vers: 1.1
-        insertive: 1.2
-        receptive: 1.3
+        vers: 0.00745
+        insertive: 0.0011
+        receptive: 0.0138

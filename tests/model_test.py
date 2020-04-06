@@ -120,6 +120,41 @@ def test_agents_interact(make_model, make_agent):
     assert p.hiv is False  # but nothing happened
 
 
+def test_get_transmission_probability(make_model, make_agent):
+    model = make_model()
+    a = make_agent(race="WHITE", SO="MSM")
+    a.haart_adherence = 1
+    a.sex_role = "vers"
+
+    p = make_agent(race="WHITE", SO="MSM")
+    p.sex_role = "vers"
+    p.haart_adherence = 1
+
+    # test vers-vers relationship
+    p_needle = model.params.partnership.needle.transmission[1].prob
+    p_sex = (
+        model.params.partnership.sex.transmission["MSM"][1].prob
+        * model.params.partnership.sex.role_scaling.MSM.vers
+    )
+    scale = model.params.calibration.transmission
+
+    assert model.get_transmission_probability("NEEDLE", model.params, a, p) == p_needle * scale
+    assert model.get_transmission_probability("SEX", model.params, a, p) == p_sex * scale
+
+    # test one vers agent, one receptive agent
+    a.sex_role = "receptive"
+    p_sex_ins = (
+        model.params.partnership.sex.transmission.MSM[1].prob
+        * model.params.partnership.sex.role_scaling.MSM.insertive
+    )
+    p_sex_rec = (
+            model.params.partnership.sex.transmission.MSM[1].prob
+            * model.params.partnership.sex.role_scaling.MSM.receptive
+    )
+
+    assert model.get_transmission_probability("SEX", model.params, a, p) == p_sex_ins * scale
+    assert model.get_transmission_probability("SEX", model.params, p, a) == p_sex_rec * scale
+
 def test_needle_transmission(make_model, make_agent):
     model = make_model()
     a = make_agent(race="WHITE", DU="Inj", SO="HM")

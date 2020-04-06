@@ -729,15 +729,6 @@ class HIVModel:
         if partner.hiv:
             return
 
-        agent_sex_role = agent.sex_role
-        partner_sex_role = partner.sex_role
-
-        # get partner's sex role during acts
-        if partner_sex_role == "vers":
-            if agent_sex_role == "insertive":
-                partner_sex_role = "receptive"
-            elif rel.agent2.sex_role == "receptive":
-                partner_sex_role = "insertive"
 
         # unprotected sex probabilities for primary partnerships
         mean_sex_acts = (
@@ -823,13 +814,24 @@ class HIVModel:
             "NEEDLE",
             "SEX",
         ), f"Invalid interaction type {interaction}"
+
+        agent_sex_role = agent.sex_role
+        partner_sex_role = partner.sex_role
+
+        # get partner's sex role during acts
+        partner_sex_role = partner.sex_role
+        if partner_sex_role == "vers":
+            if agent_sex_role == "insertive":
+                partner_sex_role = "receptive"
+            elif agent_sex_role == "receptive":
+                partner_sex_role = "insertive"
         if interaction == "NEEDLE":
             p = params.partnership.needle.transmission[agent.haart_adherence].prob
         elif interaction == "SEX":
             p = params.partnership.sex.transmission[agent.so][
                 agent.haart_adherence
             ].prob
-            p *= params.partnership.sex.role_scaling[partner.so][partner.sex_role]
+            p *= params.partnership.sex.role_scaling[partner.so][partner_sex_role]
 
         # Scaling parameter for acute HIV infections
         if agent.get_acute_status():
