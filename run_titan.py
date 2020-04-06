@@ -87,11 +87,18 @@ parser.add_argument(
 )
 
 
+def drange(start, stop, step):
+    r = start
+    while r < stop:
+        yield r
+        r += step
+
+
 def setup_sweeps(sweeps):
     sweep_params = [s["param"] for s in sweeps]
     sweep_vals = list(
         itertools.product(
-            *[list(range(s["start"], s["stop"], s["step"])) for s in sweeps]
+            *[list(drange(s["start"], s["stop"], s["step"])) for s in sweeps]
         )
     )
 
