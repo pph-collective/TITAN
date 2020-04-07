@@ -265,7 +265,7 @@ class Population:
             * self.params.calibration.sex.partner
         )
 
-        agent.target_partners = agent.mean_num_partners  # so not zero if added mid-year
+        agent.target_partners = agent.mean_num_partners / 12  # so not zero if added mid-year
 
         if self.features.pca:
             if self.pop_random.random() < self.prep.pca.awareness.init:
@@ -460,7 +460,7 @@ class Population:
 
     def update_partner_targets(self):
         for a in self.all_agents:
-            a.target_partners = utils.poisson(a.mean_num_partners, self.np_random)
+            a.target_partners = utils.poisson(a.mean_num_partners, self.np_random) / 12
             self.update_partnerability(a)
 
     def update_partnerability(self, a):

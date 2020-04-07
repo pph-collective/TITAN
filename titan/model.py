@@ -292,7 +292,7 @@ class HIVModel:
                 )  # make sure not negative
                 agent.target_partners = utils.poisson(
                     agent.mean_num_partners, self.np_random
-                )
+                ) / 12
                 while len(agent.partners) > agent.target_partners:
                     rel = utils.safe_random_choice(agent.relationships, self.run_random)
                     if rel is not None:
@@ -700,7 +700,6 @@ class HIVModel:
                 # if agent HIV+ partner becomes HIV+
                 self.hiv_convert(partner)
 
-
     def sex_transmission(self, rel: Relationship, time: int):
         """
         :Purpose:
@@ -795,7 +794,6 @@ class HIVModel:
                 self.hiv_convert(partner)
                 assert partner.hiv
                 assert rel.agent2.hiv
-
 
     def get_transmission_probability(
         self, interaction: str, params: ObjMap, agent, partner
@@ -938,7 +936,7 @@ class HIVModel:
                     agent.mean_num_partners += self.high_risk.partner_scale
                     agent.target_partners = utils.poisson(
                         agent.mean_num_partners, self.np_random
-                    )
+                    ) / 12
                     self.pop.update_partnerability(agent)
 
                 if hiv_bool:
