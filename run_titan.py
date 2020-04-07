@@ -92,6 +92,7 @@ def drange(start, stop, step):
     while r < stop:
         yield r
         r += step
+        r = round(r, 3)
 
 
 def setup_sweeps(sweeps):
