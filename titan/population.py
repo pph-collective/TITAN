@@ -265,7 +265,9 @@ class Population:
             * self.params.calibration.sex.partner
         )
 
-        agent.target_partners = agent.mean_num_partners / 12  # so not zero if added mid-year
+        agent.target_partners = (
+            agent.mean_num_partners / 12
+        )  # so not zero if added mid-year
 
         if self.features.pca:
             if self.pop_random.random() < self.prep.pca.awareness.init:
