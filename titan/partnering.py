@@ -39,18 +39,22 @@ def select_partner(
     def assort(eligible_partners, assort_params):
         partner_types = list(assort_params.partner_values.keys())
         partner_weights = [assort_params.partner_values[p] for p in partner_types]
-        partner_type = rand_gen.choices(partner_types, weights=partner_weights, k=1).pop()
+        partner_type = rand_gen.choices(
+            partner_types, weights=partner_weights, k=1
+        ).pop()
 
         if partner_type == "__other__":
             for p in partner_types:
                 if p != "__other__":
                     eligible_partners = {
-                        partner for partner in eligible_partners
+                        partner
+                        for partner in eligible_partners
                         if str(getattr(partner, assort_params.attribute)) != p
                     }
         else:
             eligible_partners = {
-                partner for partner in eligible_partners
+                partner
+                for partner in eligible_partners
                 if str(getattr(partner, assort_params.attribute)) == partner_type
             }
 
