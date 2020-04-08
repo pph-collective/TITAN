@@ -1,39 +1,19 @@
 assort_mix:
-  description: "Assortative mixing definitions"
+  description: "Assortative mixing definitions, the key must be an attribute of the Agent class."
   type: definition
   fields:
-    assort_type:
-      description: "Which type of assortative mixing to use"
-      type: enum
-      values:
-        - drug_use
-        - race
-    agent_type:
-      description: "Which agent type to assortatively mix"
-      type: enum
-      values:
-        - WHITE
-        - BLACK
-        - NonInj
-        - Inj
-        - None
-    partner_type:
-      description: "Which partners to select if assortative mixing happens"
-      type: enum
-      values:
-        - WHITE
-        - BLACK
-        - NonInj
-        - Inj
-        - None
-    prob:
-      description: "Chance that agent will assortatively mix with partner of stated type"
-      type: float
-      min: 0.0
-      max: 1.0
+    attribute:
+      description: "Which Agent attribute to assort on"
+      type: none
+    agent_value:
+      description: "Value of agent's attribute which triggers using this rule"
+      type: none
+    partner_values:
+      description: "Which partners to select if assortative mixing happens. Expects a sub-key of an attribute value with a value of the probability. `__other__` can be used as an attribute value as a fallthrough option.  Allo of the probabilities should add to one."
+      type: none
   default:
     assort_null:
-      assort_type: race
-      agent_type: None
-      partner_type: None
-      prob: 1.0
+      attribute: race
+      agent_value: None
+      partner_values:
+        None: 1.0

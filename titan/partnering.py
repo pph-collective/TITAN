@@ -36,25 +36,24 @@ def select_partner(
         probs = [bond_dict[bond].prob for bond in bonds]
         return rand_gen.choices(bonds, weights=probs, k=1).pop()
 
-    def assort(eligible_partner_list, assort_params):
-        if rand_gen.random() < assort_params.prob:
-            eligible_partners = {
-                partner
-                for partner in eligible_partner_list
-                if (
-                    getattr(partner, assort_params.assort_type)
-                    == assort_params.partner_type
-                )
-            }
+    def assort(eligible_partners, assort_params):
+        partner_types = list(assort_params.partner_values.keys())
+        partner_weights = [assort_params.partner_values[p] for p in partner_types]
+        partner_type = rand_gen.choices(partner_types, weights=partner_weights, k=1).pop()
+
+        if partner_type == "__other__":
+            for p in partner_types:
+                if p != "__other__":
+                    eligible_partners = {
+                        partner for partner in eligible_partners
+                        if str(getattr(partner, assort_params.attribute)) != p
+                    }
         else:
             eligible_partners = {
-                partner
-                for partner in eligible_partner_list
-                if (
-                    getattr(partner, assort_params.assort_type)
-                    != assort_params.partner_type
-                )
+                partner for partner in eligible_partners
+                if str(getattr(partner, assort_params.attribute)) == partner_type
             }
+
         return eligible_partners
 
     eligible = copy(partnerable_agents.members)
@@ -76,7 +75,7 @@ def select_partner(
 
     if params.features.assort_mix:
         for assort_def in params.assort_mix.values():
-            if getattr(agent, assort_def.assort_type) == assort_def.agent_type:
+            if getattr(agent, assort_def.attribute) == assort_def.agent_value:
                 eligible = assort(eligible, assort_def)
 
     random_partner = utils.safe_random_choice(eligible, rand_gen)
