@@ -9,7 +9,7 @@ assort_mix:
       description: "Value of agent's attribute which triggers using this rule"
       type: none
     partner_values:
-      description: "Which partners to select if assortative mixing happens. Expects a sub-key of an attribute value with a value of the probability. `__other__` can be used as an attribute value as a fallthrough option.  Allo of the probabilities should add to one."
+      description: "Which partners to select if assortative mixing happens. Expects a sub-key of an attribute value with a value of the probability. `__other__` can be used as an attribute value as a fallthrough option.  All of the probabilities should add to one."
       type: none
   default:
     assort_null:
