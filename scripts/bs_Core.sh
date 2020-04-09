@@ -33,7 +33,7 @@ do
 	S) setting=${OPTARG};;
 	n) nMC=${OPTARG};;
 	b) useBase=${OPTARG};;
-	w) sweepDefs+="-w ${OPTARG} ";;
+	w) sweepDefs+="${OPTARG} ";;
 	F) force=true;;
 	p) paramPath=${OPTARG};;
     esac
@@ -43,6 +43,10 @@ done
 forceFlag=""
 if [ $force = true ]; then
 	forceFlag=" -F"
+fi
+
+if [[ $sweepDefs != "" ]]; then
+	sweepDefs="-w $sweepDefs"
 fi
 
 cd $PWD
