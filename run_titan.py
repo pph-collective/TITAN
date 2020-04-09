@@ -9,6 +9,7 @@ import shutil
 import argparse
 import itertools
 import json
+from multiprocessing import Pool
 
 from titan.model import HIVModel
 from titan.parse_params import create_params
@@ -45,6 +46,8 @@ parser.add_argument(
     help="whether to use base setting",
 )
 
+# how many cores can we use
+NCORES = os.environ.get("SLURM_CPUS_PER_TASK", len(os.sched_getaffinity(0)))
 
 def sweep_range(string):
     error_msg = "Sweep range must have format param:start:stop[:step]"
@@ -125,6 +128,25 @@ def update_sweep_file(run_id, defn, outdir):
 def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
     wct = []  # wall clock times
 
+    def single_run(sweep):
+        for param, val in sweep.items():
+            print(f"\t{param}: {val}")
+            path = param.split(".")
+            sweep_item = params
+            for p in path[:-1]:
+                sweep_item = sweep_item[p]
+            sweep_item[path[-1]] = val
+
+        tic = time_mod.time()
+
+        # runs simulations
+        model = HIVModel(params)
+        run_id = model.run(outfile_dir)
+
+        update_sweep_file(run_id, sweep, outfile_dir)
+
+        wct.append(time_mod.time() - tic)
+
     # delete old results before overwriting with new results
     outfile_dir = os.path.join(os.getcwd(), outdir)
     if os.path.isdir(outfile_dir):
@@ -153,7 +175,10 @@ def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
             "Sweeping more than 100 models. Set `force` flag if you really want to do this."
         )
 
+    sweep_defs *= num_reps
+
     for sweep in sweep_defs:
+        # set up params for this run
         print("\n====SWEEPING====")
         for param, val in sweep.items():
             print(f"\t{param}: {val}")
@@ -163,6 +188,7 @@ def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
                 sweep_item = sweep_item[p]
             sweep_item[path[-1]] = val
 
+        # run the muodel for num_reps
         for single_sim in range(num_reps):
             tic = time_mod.time()
 
@@ -188,12 +214,17 @@ def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
 
 if __name__ == "__main__":
     args = parser.parse_args()
+
+    sweep = args.sweep
+    if len(args.sweep) == 1:
+        sweep = args.sweep[0].split(" ")
+
     main(
         args.setting.strip(),
         args.params.strip(),
         args.nMC,
         args.outdir.strip(),
         args.base,
-        args.sweep,
+        sweep,
         args.force,
     )

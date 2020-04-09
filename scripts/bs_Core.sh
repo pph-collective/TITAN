@@ -1,7 +1,6 @@
 #!/bin/bash
 #SBATCH -J MODEL_NAME
-#SBATCH --ntasks=1
-#SBATCH --ntasks-per-node=1
+#SBATCH -c NCORES
 #SBATCH --time=WALL_TIME
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-type=END
@@ -14,7 +13,6 @@ if [ -z "$SLURM_NPROCS" ] ; then
   fi
   SLURM_NPROCS=$(( $SLURM_JOB_NUM_NODES * $SLURM_NTASKS_PER_NODE ))
 fi
-#Conduct Dual analysis for 100 runs
 
 #!/bin/bash
 module load graphviz
