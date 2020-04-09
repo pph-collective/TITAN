@@ -188,12 +188,17 @@ def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
 
 if __name__ == "__main__":
     args = parser.parse_args()
+
+    sweep = args.sweep
+    if len(args.sweep) == 1:
+        sweep = args.sweep[0].split(" ")
+
     main(
         args.setting.strip(),
         args.params.strip(),
         args.nMC,
         args.outdir.strip(),
         args.base,
-        args.sweep,
+        sweep,
         args.force,
     )
