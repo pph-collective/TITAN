@@ -18,7 +18,7 @@ basePath=$PWD
 useBase="True"
 jobname=""
 folderName=""
-sweepDefs="null"
+sweepDefs=""
 force=false
 
 while getopts m:S:T:j:r:n:f:w:F: option
@@ -33,23 +33,21 @@ do
 	n) nMC=${OPTARG};;
 	b) useBase=${OPTARG};;
 	f) folderName=${OPTARG};;
-	w) sweepDefs=${OPTARG};;
+	w) sweepDefs+="-w ${OPTARG} ";;
 	F) force=true;;
     esac
 done
 
-
-if [ $jobname == ""]; then
+if [[ $jobname == "" ]]; then
 	jobname="Analysis_$setting_$date"
 fi
 
-if [ $folderName == ""]; then
+if [[ $folderName == "" ]]; then
 	folderName="$setting/"
 fi
 
 srcCode="${titanPath}titan/"
 outPath="$HOME/scratch/$folderName"
-
 
 usage() {
 echo "
@@ -111,13 +109,9 @@ prepSubmit() {
 			forceFlag=" -F"
 		fi
 
-		sweepFlag=""
-		if [ $sweepDefs != "null" ]; then
-			sweepFlag=" -w $sweepDefs"
-		fi
 
     #Submit job to cluster
-    sbatch scripts/bs_Core.sh -S $setting -p $paramPath -n $nMC -b $useBase $forceFlag $sweepFlag
+    sbatch scripts/bs_Core.sh -S $setting -p $paramPath -n $nMC -b $useBase $forceFlag $sweepDefs
 
     #Move back to base directory
     cd $basePath
