@@ -24,7 +24,7 @@ paramPath=""
 nMC=""
 useBase=""
 force=false
-sweepDefs="null"
+sweepDefs=""
 
 while getopts S:n:b:w:f:p: option
 do
