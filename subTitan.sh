@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Read in source code path, then shift for optargs
-titanPath="/gpfs/data/s/TITAN/TITAN/"
+titanPath=$PWD
 paramPath="$1"
 shift
 
@@ -21,7 +21,7 @@ folderName=""
 sweepDefs=""
 force=false
 
-while getopts m:S:T:j:r:n:f:w:F: option
+while getopts m:S:T:j:r:n:f:w:F:t: option
 do
     case "${option}"
         in
@@ -35,6 +35,7 @@ do
 	f) folderName=${OPTARG};;
 	w) sweepDefs+="-w ${OPTARG} ";;
 	F) force=true;;
+	f) titanPath=${OPTARG};;
     esac
 done
 
@@ -51,7 +52,7 @@ outPath="$HOME/scratch/$folderName"
 
 usage() {
 echo "
-usage: subtitan {Parameter file or directory}[-T walltime] [-m memory] [-S setting] [-j jobname] [-r repeats] [-n iterations] [-b use_base] [-f folder_name] [-w sweep_defs] [-F force]
+usage: subtitan {Parameter file or directory}[-T walltime] [-m memory] [-S setting] [-j jobname] [-r repeats] [-n iterations] [-b use_base] [-f folder_name] [-w sweep_defs] [-F force] [-t titanPath ]
 
 Starts a TITAN simulation in ~/scratch/{SourceFolder}/{jobname}
 
@@ -66,6 +67,7 @@ options:
 	-f folder_name	What the parent folder for the model run outputs should be called (default: <setting>)
 	-w sweep_defs   Optionally, definitions of sweep parameters in the format param:start:stop[:step]
 	-F force				If the number of sweep combinations exceeds 100, run anyway
+	-t titanPath		where the code is
 "
 exit 0
 }
