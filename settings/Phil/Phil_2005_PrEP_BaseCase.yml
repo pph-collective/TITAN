@@ -55,8 +55,12 @@ features:
   static_network: false
   agent_zero: false
 assort_mix:
-  type: high_risk
-  coefficient: 0.3
+  assort_hr:
+    attribute: high_risk
+    agent_value: true
+    partner_values:
+      True: 0.3
+      __other__: 0.7
 needle_exchange:
   prevalence: 1.0
   init_at_pop: 999999

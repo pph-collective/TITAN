@@ -58,9 +58,6 @@ high_risk:
     HF:
       duration: 6
   condom_use_type: Race
-assort_mix:
-  type: Race
-  coefficient: 0.75
 needle_exchange:
   prevalence: 1.0
   init_at_pop: 0
