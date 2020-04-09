@@ -47,7 +47,7 @@ if [[ $folderName == "" ]]; then
 	folderName="$setting/"
 fi
 
-srcCode="${titanPath}titan/"
+srcCode="${titanPath}/titan/"
 outPath="$HOME/scratch/$folderName"
 
 usage() {
