@@ -266,7 +266,7 @@ class Population:
         )
 
         agent.target_partners = (
-            agent.mean_num_partners / 12
+            agent.mean_num_partners
         )  # so not zero if added mid-year
 
         if self.features.pca:
