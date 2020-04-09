@@ -22,7 +22,7 @@ paramPath=""
 nMC=""
 useBase=""
 force=false
-sweepDefs="null"
+sweepDefs=""
 
 while getopts S:n:b:w:f:p: option
 do
@@ -31,7 +31,7 @@ do
 	S) setting=${OPTARG};;
 	n) nMC=${OPTARG};;
 	b) useBase=${OPTARG};;
-	w) sweepDefs=${OPTARG};;
+	w) sweepDefs+="-w ${OPTARG} ";;
 	F) force=true;;
 	p) paramPath=${OPTARG};;
     esac
@@ -41,11 +41,6 @@ done
 forceFlag=""
 if [ $force = true ]; then
 	forceFlag=" -F"
-fi
-
-sweepFlag=""
-if [ $sweepDefs != "null" ]; then
-	sweepFlag=" -w $sweepDefs"
 fi
 
 cd $PWD
@@ -58,4 +53,4 @@ echo Starting execution at `date`
 NCPU=`wc -l < $PBS_NODEFILE`
 echo This job has allocated $NCPU CPUs
 
-./run_titan.py -S $setting -n $nMC -p $paramPath -b $useBase $forceFlag $sweepFlag
+./run_titan.py -S $setting -n $nMC -p $paramPath -b $useBase $forceFlag $sweepDefs

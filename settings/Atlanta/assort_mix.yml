@@ -1,13 +1,13 @@
 assort_mix:
   assort_white:
-    assort_type:
-      - race
-    agent_type: WHITE
-    partner_type: WHITE
-    prob: .722
+    attribute: race
+    agent_value: WHITE
+    partner_values:
+      WHITE: 0.722
+      __other__: 0.278
   assort_black:
-    assort_type:
-      - race
-    agent_type: BLACK
-    partner_type: BLACK
-    prob: .765
+    attribute: race
+    agent_value: BLACK
+    partner_values:
+      BLACK: 0.765
+      __other__: 0.235
