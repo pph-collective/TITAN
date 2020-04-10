@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Read in source code path, then shift for optargs
-titanPath="/gpfs/data/s/TITAN/TITAN/"
+titanPath=$PWD
 paramPath="$1"
 shift
 
@@ -18,10 +18,10 @@ basePath=$PWD
 useBase="True"
 jobname=""
 folderName=""
-sweepDefs="null"
+sweepDefs=""
 force=false
 
-while getopts m:S:T:j:r:n:f:w:F: option
+while getopts m:S:T:j:r:n:f:w:F:t: option
 do
     case "${option}"
         in
@@ -33,27 +33,26 @@ do
 	n) nMC=${OPTARG};;
 	b) useBase=${OPTARG};;
 	f) folderName=${OPTARG};;
-	w) sweepDefs=${OPTARG};;
+	w) sweepDefs+="-w ${OPTARG} ";;
 	F) force=true;;
+	t) titanPath=${OPTARG};;
     esac
 done
 
-
-if [ $jobname == ""]; then
+if [[ $jobname == "" ]]; then
 	jobname="Analysis_$setting_$date"
 fi
 
-if [ $folderName == ""]; then
+if [[ $folderName == "" ]]; then
 	folderName="$setting/"
 fi
 
-srcCode="${titanPath}titan/"
-outPath="$HOME/scratch/$folderName/"
-
+srcCode="${titanPath}/titan/"
+outPath="$HOME/scratch/$folderName"
 
 usage() {
 echo "
-usage: subtitan {Parameter file or directory}[-T walltime] [-m memory] [-S setting] [-j jobname] [-r repeats] [-n iterations] [-b use_base] [-f folder_name] [-w sweep_defs] [-F force]
+usage: subtitan {Parameter file or directory}[-T walltime] [-m memory] [-S setting] [-j jobname] [-r repeats] [-n iterations] [-b use_base] [-f folder_name] [-w sweep_defs] [-F force] [-t titanPath ]
 
 Starts a TITAN simulation in ~/scratch/{SourceFolder}/{jobname}
 
@@ -68,6 +67,7 @@ options:
 	-f folder_name	What the parent folder for the model run outputs should be called (default: <setting>)
 	-w sweep_defs   Optionally, definitions of sweep parameters in the format param:start:stop[:step]
 	-F force				If the number of sweep combinations exceeds 100, run anyway
+	-t titanPath		where the code is
 "
 exit 0
 }
@@ -111,13 +111,9 @@ prepSubmit() {
 			forceFlag=" -F"
 		fi
 
-		sweepFlag=""
-		if [ $sweepDefs != "null" ]; then
-			sweepFlag=" -w $sweepDefs"
-		fi
 
     #Submit job to cluster
-    sbatch scripts/bs_Core.sh -S $setting -p $paramPath -n $nMC -b $useBase $forceFlag $sweepFlag
+    sbatch scripts/bs_Core.sh -S $setting -p $paramPath -n $nMC -b $useBase $forceFlag $sweepDefs
 
     #Move back to base directory
     cd $basePath

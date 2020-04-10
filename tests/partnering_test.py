@@ -4,7 +4,7 @@ import os
 from titan.partnering import *
 from titan.agent import Agent, Relationship
 from titan.population import Population
-from titan.parse_params import create_params
+from titan.parse_params import create_params, ObjMap
 
 
 @pytest.fixture
@@ -152,6 +152,149 @@ def test_get_random_sex_partner_bad(make_population, make_agent, params):
         FakeRandom(1.0),
     )
     assert partner is None
+
+
+def test_get_assort_partner_race(make_population, make_agent, params):
+    pop = make_population()
+    a = make_agent(SO="MSM", race="WHITE")
+    p1 = make_agent(SO="MSM", race="WHITE")
+    p2 = make_agent(SO="MSM", race="BLACK")
+    pop.add_agent(a)
+    pop.add_agent(p1)
+    pop.add_agent(p2)
+
+    params.features.assort_mix = True
+
+    # assrot with WHITE
+    test_rule = ObjMap(
+        {
+            "attribute": "race",
+            "agent_value": "WHITE",
+            "partner_values": {"WHITE": 0.9, "__other__": 0.1},
+        }
+    )
+    params.assort_mix["test_rule"] = test_rule
+
+    partner, bond_type = select_partner(
+        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5)
+    )
+
+    assert partner == p1
+
+    # get __other__
+    test_rule = ObjMap(
+        {
+            "attribute": "race",
+            "agent_value": "WHITE",
+            "partner_values": {"WHITE": 0.9, "__other__": 10},
+        }
+    )
+    params.assort_mix["test_rule"] = test_rule
+
+    partner, bond_type = select_partner(
+        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5)
+    )
+
+    assert partner == p2
+
+
+def test_get_assort_partner_high_risk(make_population, make_agent, params):
+    pop = make_population()
+    a = make_agent(SO="MSM", race="WHITE")
+    p1 = make_agent(SO="MSM", race="WHITE")
+    p2 = make_agent(SO="MSM", race="BLACK")
+
+    a.high_risk = True
+    p1.high_risk = True
+    p2.high_risk = False
+
+    pop.add_agent(a)
+    pop.add_agent(p1)
+    pop.add_agent(p2)
+
+    params.features.assort_mix = True
+
+    # assrot with high_risk
+    test_rule = ObjMap(
+        {
+            "attribute": "high_risk",
+            "agent_value": True,
+            "partner_values": {"True": 0.9, "__other__": 0.1},
+        }
+    )
+    params.assort_mix["test_rule"] = test_rule
+
+    partner, bond_type = select_partner(
+        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5)
+    )
+
+    assert partner == p1
+
+    # get __other__
+    test_rule = ObjMap(
+        {
+            "attribute": "high_risk",
+            "agent_value": True,
+            "partner_values": {"True": 0.9, "__other__": 10},
+        }
+    )
+    params.assort_mix["test_rule"] = test_rule
+
+    partner, bond_type = select_partner(
+        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5)
+    )
+
+    assert partner == p2
+
+
+def test_get_assort_partner_drug_use(make_population, make_agent, params):
+    pop = make_population()
+    a = make_agent(SO="MSM", race="WHITE", DU="Inj")
+    p1 = make_agent(SO="MSM", race="WHITE", DU="Inj")
+    p2 = make_agent(SO="MSM", race="BLACK", DU="None")
+    p3 = make_agent(SO="MSM", race="BLACK", DU="NonInj")
+
+    pop.add_agent(a)
+    pop.add_agent(p1)
+    pop.add_agent(p2)
+
+    params.features.assort_mix = True
+
+    # make sure partnering on sex_type
+    params.partnership.bonds["PWID"]["Sex"]["prob"] = 10
+
+    # assrot with Inj
+    test_rule = ObjMap(
+        {
+            "attribute": "drug_use",
+            "agent_value": "Inj",
+            "partner_values": {"Inj": 0.8, "NonInj": 0.1, "__other__": 0.1},
+        }
+    )
+    params.assort_mix["test_rule"] = test_rule
+
+    partner, bond_type = select_partner(
+        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5)
+    )
+
+    assert partner == p1
+
+    # get __other__
+    test_rule = ObjMap(
+        {
+            "attribute": "drug_use",
+            "agent_value": "Inj",
+            "partner_values": {"Inj": 0.8, "NonInj": 0.1, "__other__": 10},
+        }
+    )
+    params.assort_mix["test_rule"] = test_rule
+
+    partner, bond_type = select_partner(
+        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5)
+    )
+
+    assert bond_type == "Sex"
+    assert partner == p2
 
 
 def test_sex_possible(params):

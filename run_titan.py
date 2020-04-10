@@ -153,6 +153,8 @@ def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
             "Sweeping more than 100 models. Set `force` flag if you really want to do this."
         )
 
+    print(sweep_defs)
+
     for sweep in sweep_defs:
         print("\n====SWEEPING====")
         for param, val in sweep.items():
@@ -188,6 +190,9 @@ def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
 
 if __name__ == "__main__":
     args = parser.parse_args()
+
+    print(args.sweep)
+
     main(
         args.setting.strip(),
         args.params.strip(),
