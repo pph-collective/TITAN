@@ -462,7 +462,7 @@ class Population:
 
     def update_partner_targets(self):
         for a in self.all_agents:
-            a.target_partners = utils.poisson(a.mean_num_partners, self.np_random) / 12
+            a.target_partners = utils.poisson(a.mean_num_partners, self.np_random)
             self.update_partnerability(a)
 
     def update_partnerability(self, a):
