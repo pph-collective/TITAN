@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Read in source code path, then shift for optargs
-titanPath="/gpfs/data/s/TITAN/TITAN/"
+titanPath=$PWD
 paramPath="$1"
 shift
 
@@ -48,7 +48,7 @@ if [[ $folderName == "" ]]; then
 	folderName="$setting/"
 fi
 
-srcCode="${titanPath}titan/"
+srcCode="${titanPath}/titan/"
 outPath="$HOME/scratch/$folderName"
 
 usage() {

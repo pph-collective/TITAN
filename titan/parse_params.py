@@ -18,6 +18,12 @@ class ObjMap(dict):
     def __hash__(self):
         return 1234567890
 
+    def __getstate__(self):
+        return self.__dict__
+
+    def __setstate__(self, state):
+        self.__dict__.update(state)
+
 
 # ============== PARSING FUNCTIONS ======================
 
