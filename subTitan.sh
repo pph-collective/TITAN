@@ -153,7 +153,7 @@ if [ $srcCode ]; then
     echo "
         jobname     $jobname
         outPath	    $outPath
-				paramPath   $paramPath
+        paramPath   $paramPath
         user	    $user
         date        $date
         walltime    $walltime

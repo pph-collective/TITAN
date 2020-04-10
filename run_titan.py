@@ -48,6 +48,7 @@ parser.add_argument(
 
 # how many cores can we use
 NCORES = os.environ.get("SLURM_CPUS_PER_TASK", cpu_count())
+NCORES = int(NCORES) # environment variable returns string
 
 
 def sweep_range(string):
