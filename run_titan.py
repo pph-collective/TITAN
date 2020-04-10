@@ -48,7 +48,7 @@ parser.add_argument(
 
 # how many cores can we use
 NCORES = os.environ.get("SLURM_CPUS_PER_TASK", cpu_count())
-NCORES = int(NCORES) # environment variable returns string
+NCORES = int(NCORES)  # environment variable returns string
 
 
 def sweep_range(string):
@@ -117,6 +117,7 @@ def setup_sweeps(sweeps):
 
     return defs
 
+
 def consolidate_files(outdir):
     for item in os.listdir(outdir):
         subdir = os.path.join(outdir, item)
@@ -125,15 +126,20 @@ def consolidate_files(outdir):
                 # network folder
                 if report == "network":
                     for file in os.listdir(os.path.join(subdir, report)):
-                        shutil.move(os.path.join(subdir, report, file), os.path.join(outdir, network))
+                        shutil.move(
+                            os.path.join(subdir, report, file),
+                            os.path.join(outdir, network),
+                        )
                 else:
                     # copy data to existing file
-                    if os.path.isfile(os.path.join(outdir,report)):
+                    if os.path.isfile(os.path.join(outdir, report)):
                         if report == "SweepVals.json":
                             header_skipped = True
                         else:
                             header_skipped = False
-                        with open(os.path.join(outdir, report), "a") as tgt, open(os.path.join(subdir,report), "r") as src:
+                        with open(os.path.join(outdir, report), "a") as tgt, open(
+                            os.path.join(subdir, report), "r"
+                        ) as src:
                             for line in src:
                                 if not header_skipped:
                                     header_skipped = True
@@ -154,6 +160,7 @@ def update_sweep_file(run_id, defn, outdir):
     f.write(json.dumps(res))
     f.write("\n")
     f.close()
+
 
 def single_run(sweep, outfile_dir, params):
     pid = str(os.getpid())
@@ -179,6 +186,7 @@ def single_run(sweep, outfile_dir, params):
     update_sweep_file(run_id, sweep, pid_outfile_dir)
 
     return time_mod.time() - tic
+
 
 def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
     # delete old results before overwriting with new results
@@ -215,8 +223,11 @@ def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
     wct = []  # wall clock times
 
     with Pool(processes=NCORES) as pool:
-        results = [pool.apply_async(single_run, (sweep_def, outfile_dir, params)) for sweep_def in sweep_defs]
-        while(True):
+        results = [
+            pool.apply_async(single_run, (sweep_def, outfile_dir, params))
+            for sweep_def in sweep_defs
+        ]
+        while True:
             if all([r.ready() for r in results]):
                 break
 

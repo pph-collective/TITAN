@@ -258,7 +258,9 @@ class HIVModel:
                         outdir,
                     )
                 if self.params.outputs.network.edge_list:
-                    path = os.path.join(outdir, "network", f"{run_id}_Edgelist_t{t}.txt")
+                    path = os.path.join(
+                        outdir, "network", f"{run_id}_Edgelist_t{t}.txt"
+                    )
                     self.network_utils.write_graph_edgelist(path)
 
         return run_id
