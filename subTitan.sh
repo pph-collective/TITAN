@@ -35,7 +35,7 @@ do
 	f) folderName=${OPTARG};;
 	w) sweepDefs+="-w ${OPTARG} ";;
 	F) force=true;;
-	f) titanPath=${OPTARG};;
+	t) titanPath=${OPTARG};;
     esac
 done
 
