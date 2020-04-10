@@ -213,18 +213,14 @@ def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
     tic = time_mod.time()
     wct = []  # wall clock times
 
-    print(sweep_defs)
-
     with Pool(processes=NCORES) as pool:
         results = [pool.apply_async(single_run, (sweep_def, outfile_dir, params)) for sweep_def in sweep_defs]
         while(True):
             if all([r.ready() for r in results]):
-                print("ready")
                 break
 
         for r in results:
             t = r.get()
-            print(t)
             wct.append(t)
 
     toc = time_mod.time() - tic
