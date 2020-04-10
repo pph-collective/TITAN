@@ -49,6 +49,7 @@ parser.add_argument(
 # how many cores can we use
 NCORES = os.environ.get("SLURM_CPUS_PER_TASK", len(os.sched_getaffinity(0)))
 
+
 def sweep_range(string):
     error_msg = "Sweep range must have format param:start:stop[:step]"
     parts = string.split(":")
@@ -177,28 +178,8 @@ def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
 
     sweep_defs *= num_reps
 
-    for sweep in sweep_defs:
-        # set up params for this run
-        print("\n====SWEEPING====")
-        for param, val in sweep.items():
-            print(f"\t{param}: {val}")
-            path = param.split(".")
-            sweep_item = params
-            for p in path[:-1]:
-                sweep_item = sweep_item[p]
-            sweep_item[path[-1]] = val
-
-        # run the muodel for num_reps
-        for single_sim in range(num_reps):
-            tic = time_mod.time()
-
-            # runs simulations
-            model = HIVModel(params)
-            run_id = model.run(outfile_dir)
-
-            update_sweep_file(run_id, sweep, outfile_dir)
-
-            wct.append(time_mod.time() - tic)
+    with Pool(processes=NPROCS) as p:
+        Poo.map(single_run, sweep_defs, 1)
 
     for task, time_t in enumerate(wct):
         print(("wall clock time on for simulation %d: %8.4f seconds" % (task, time_t)))
