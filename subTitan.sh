@@ -22,7 +22,7 @@ sweepDefs=""
 force=false
 num_cores=1
 
-while getopts m:S:T:j:r:n:f:w:F:c: option
+while getopts m:S:T:j:r:n:f:w:F:c:t: option
 do
     case "${option}"
         in
@@ -37,6 +37,7 @@ do
 	w) sweepDefs+="-w ${OPTARG} ";;
 	F) force=true;;
 	c) num_cores=${OPTARG};;
+	t) titanPath=${OPTARG};;
     esac
 done
 
@@ -53,7 +54,7 @@ outPath="$HOME/scratch/$folderName"
 
 usage() {
 echo "
-usage: subtitan {Parameter file or directory}[-T walltime] [-m memory] [-S setting] [-j jobname] [-r repeats] [-n iterations] [-b use_base] [-f folder_name] [-w sweep_defs] [-F force] [-c num_cores ]
+usage: subtitan {Parameter file or directory}[-T walltime] [-m memory] [-S setting] [-j jobname] [-r repeats] [-n iterations] [-b use_base] [-f folder_name] [-w sweep_defs] [-F force] [-c num_cores ] [-t titanPath ]
 
 Starts a TITAN simulation in ~/scratch/{SourceFolder}/{jobname}
 
@@ -69,6 +70,7 @@ options:
 	-w sweep_defs   Optionally, definitions of sweep parameters in the format param:start:stop[:step]
 	-F force				If the number of sweep combinations exceeds 100, run anyway
 	-c num_cores		How many cores to request and run the job on (default: $num_cores)
+	-t titanPath		where the code is
 "
 exit 0
 }
