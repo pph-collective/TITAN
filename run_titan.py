@@ -50,6 +50,7 @@ parser.add_argument(
 NCORES = os.environ.get("SLURM_CPUS_PER_TASK", cpu_count())
 NCORES = int(NCORES)  # environment variable returns string
 
+
 def sweep_range(string):
     error_msg = "Sweep range must have format param:start:stop[:step]"
     parts = string.split(":")
