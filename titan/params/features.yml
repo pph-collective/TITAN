@@ -51,3 +51,6 @@ features:
     default: false
     description: whether predefined bond types are used
     type: boolean
+  needle_exchange:
+    default: false
+    description: Whether to have safe needle exchange in the model

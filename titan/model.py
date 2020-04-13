@@ -79,7 +79,8 @@ class HIVModel:
         self.new_prep = AgentSet("new_prep")
 
         self.total_dx = 0
-        self.needle_exchange = False
+        self.exchange_prevalence = 0.0
+        self.exchange_members = 0
 
         self.prep_agents: Dict[str, Dict[str, int]] = {}
         for race in params.classes.races:
@@ -235,11 +236,14 @@ class HIVModel:
             self.pop.all_agents.print_subsets()
 
             self.total_dx += len(self.new_dx.members)
-            if (
-                self.total_dx > self.params.needle_exchange.init_at_pop
-                and not self.needle_exchange
-            ):
-                self.enroll_needle_exchange()
+
+            if self.features.needle_exchange:
+                for item in self.params.needle_exchange.values:
+                    if item.start < self.t < item.stop:
+                        self.exchange_prevalence = item.prevalence
+                        break
+
+                self.update_needle_exchange()
 
             # RESET counters for the next time step
             reset_trackers()
@@ -681,7 +685,7 @@ class HIVModel:
             p_unsafe_needle_share = (
                 self.demographics[agent_race][agent_sex_type].needle_sharing
                 * self.params.needle_exchange.prevalence
-            )
+            )  # TODO: prevalence shouldn't be here? Should be used to enroll in SNE
 
         for n in range(share_acts):
             if self.run_random.random() > p_unsafe_needle_share:
@@ -873,20 +877,28 @@ class HIVModel:
         if agent.prep:
             self.discontinue_prep(agent, force=True)
 
-    def enroll_needle_exchange(self):
+    def update_needle_exchange(self):
         """
         :Purpose:
             Enroll PWID agents in needle exchange
         """
         print(("\n\n!!!!Engaging safe needle exchange process"))
-        self.needle_exchange = True
-        for agent in self.pop.all_agents:
-            if (
-                self.run_random.random() < self.params.needle_exchange.coverage
-                and agent.drug_use == "Inj"
-            ):
+        target_set = utils.safe_shuffle(self.pop.pwid_agents.members, self.run_random)
+        target_sne = max(
+            0, round(self.exchange_prevalence * self.pop.pwid_agents.num_members())
+        )
+        current_sne = self.exchange_members / self.pop.pwid_agents.num_members()
+
+        for agent in target_set:
+            if current_sne < target_sne:
                 agent.sne = True
                 agent.intervention_ever = True
+                current_sne += 1
+            elif current_sne > target_sne:
+                agent.sne = False
+                current_sne -= 1
+            if current_sne == target_sne:
+                break
 
     def become_high_risk(self, agent: Agent, duration: int = None):
 

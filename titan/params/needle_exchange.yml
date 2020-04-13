@@ -1,17 +1,19 @@
 needle_exchange:
-  prevalence:
-    default: 1.0
-    description: Scales needle sharing prevalence when determining probability of unsafe needle sharing
-    type: float
-    min: 0.0
-  coverage:
-    default: 0.0
-    description: Target coverage when enrolling IDU agents in needle exchange
-    type: float
-    min: 0.0
-    max: 1.0
-  init_at_pop:
-    default: 0
-    description: When the total number of HIV diagnoses surpasses this number, enrollment in needle exchange is triggered
-    type: int
-    min: 0
+  type: definition
+  fields:
+    start:
+      type: int
+      description: "What time to start this coverage of needle exchange"
+    stop:
+      description: "What time to stop this coverage of needle exchange"
+    prevalence:
+      type: float
+      description: "Percentage of injecting agents using needle exchange"
+      min: 0.0
+      max: 1.0
+  default:
+    start: 0
+    stop: 0
+    prevalence: 0.0
+
+

@@ -44,6 +44,18 @@ def safe_random_choice(seq: Collection[T], rand_gen) -> Optional[T]:
     else:
         return None
 
+def safe_shuffle(seq: Collection[T], rand_gen) -> Optional[T]:
+    """
+    Return None or a shuffled sequence
+    """
+    if seq:
+        if isinstance(seq, set):
+            return rand_gen.shuffle(tuple(seq))
+        else:
+            return rand_gen.shuffle(seq)
+    else:
+        return None
+
 
 def binom_0(n: int, p: float):
     """

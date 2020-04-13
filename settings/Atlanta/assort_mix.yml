@@ -1,6 +1,5 @@
 assort_mix:
   assort_white:
-
     attribute: race
     agent_value: WHITE
     partner_values:

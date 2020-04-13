@@ -1,21 +1,20 @@
 assort_mix:
   assort_nidu:
-    assort_type: du
-    agent_type: "nonInj"
-    partner_type: "nonInj"
-    prob: 0.20
+    attribute: du
+    agent_value: nonInj
+    partner_values:
+      nonInj: 0.2
+      __other__: 0.8
 
 demographics:
   WHITE:
     MSM:
       prep:
         discontinue: 0.0
-        coverage: 0.0
   BLACK:
     MSM:
       prep:
         discontinue: 0.0
-        coverage: 0.0
 
 model:
   time_range: 24
@@ -24,9 +23,20 @@ model:
     component_size: 100
 
 features:
-  static_netowrk: true
+  static_network: true
   assort_mix: true
 
 outputs:
   network:
     calc_component_stats: true
+
+prep:
+  type:
+  - Oral
+  target: 0.00
+  start: 0
+  efficacy:
+    adherent: 0.96
+    non_adherant: 0.76
+  discontinue: 0.0
+  target_model: RandomTrial
