@@ -1,0 +1,63 @@
+demographics:
+  WHITE:
+    ppl: 1.0
+    HM:
+      ppl: 0.495
+      hiv:
+        init: 0.0
+        dx:
+          init: 0.0
+          prob: 0.2  #TODO: correct number
+        haart:
+          prob: 0.2  # TODO: correct number
+          adherence: 0.695
+          discontinue: 0.073
+      needle_sharing: 0.43
+
+      age:
+        1:
+          prob: .221
+          min: 18
+          max: 29
+        2:
+          prob: .213
+          min: 30
+          max: 39
+        3:
+          prob: 0.234
+          min: 40
+          max: 49
+        4:
+          prob: .332
+          min: 50
+          max: 64
+    HF:
+      ppl: 0.505
+      hiv:
+        init: 0.0
+        dx:
+          init: 0.0
+          prob: 0.2  #TODO: correct number
+        haart:
+          prob: 0.2  # TODO: correct number
+          adherence: 0.695
+          discontinue: 0.073
+      needle_sharing: 0.43
+
+      age:
+        1:
+          prob: .221
+          min: 18
+          max: 29
+        2:
+          prob: .213
+          min: 30
+          max: 39
+        3:
+          prob: 0.234
+          min: 40
+          max: 49
+        4:
+          prob: .332
+          min: 50
+          max: 64
