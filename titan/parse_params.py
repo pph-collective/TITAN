@@ -9,6 +9,7 @@ class ObjMap(dict):
     """
     A dictionary-like class which allows accessing members either using standard dictionary notation or dots.  Note the hash function is hard-coded - beware.
     """
+
     def __init__(self, d):
         for k, v in d.items():
             if isinstance(v, dict):

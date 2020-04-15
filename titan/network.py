@@ -26,9 +26,7 @@ class NetworkGraphUtils:
     def write_graph_edgelist(self, path: str):
         nx.write_edgelist(self.G, path, delimiter="\t")
 
-    def write_network_stats(
-        path: str
-    ):
+    def write_network_stats(self, path: str):
         components = sorted(self.connected_components(), key=len, reverse=True)
 
         outfile = open(path, "w")
@@ -67,7 +65,7 @@ class NetworkGraphUtils:
         )
         outfile.close()
 
-    def get_network_color(self, coloring): # TO_REVIEW how to make this not-hard coded?
+    def get_network_color(self, coloring):  # TO_REVIEW how to make this not-hard coded?
         G = self.G
         node_color = []
         if coloring == "SO":
@@ -260,7 +258,9 @@ class NetworkGraphUtils:
             bbox=props,
         )
 
-        filename = os.path.join(outdir, "network", f"{label}_{G.number_of_nodes()}_{coloring}_{curtime}.png")
+        filename = os.path.join(
+            outdir, "network", f"{label}_{G.number_of_nodes()}_{coloring}_{curtime}.png"
+        )
 
         fig.savefig(filename)
 

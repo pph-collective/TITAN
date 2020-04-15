@@ -38,7 +38,12 @@ def test_get_death_rate(params):
                 for adh in [0, 1]:
                     assert (
                         probs.get_death_rate(
-                            hiv, aids, race, adh, params.demographics[race].death_rate
+                            hiv,
+                            aids,
+                            race,
+                            adh,
+                            params.demographics[race].death_rate,
+                            params.model.time.steps_per_year,
                         )
                         > 0
                     )

@@ -135,7 +135,7 @@ class Agent:
         :Output:
             acute_status : bool
         """
-        acute_time_period = 2 # TO_REVIEW hard coded numbers
+        acute_time_period = 2  # TO_REVIEW hard coded numbers
         hiv_t = self.hiv_time
 
         if acute_time_period >= hiv_t > 0:
@@ -165,7 +165,7 @@ class Agent:
             if self.so == "HF":
                 for rel in self.relationships:
                     partner = rel.get_partner(self)
-                    if rel.duration > 1: # TO_REVIEW hard coded numbers
+                    if rel.duration > 1:  # TO_REVIEW hard coded numbers
                         if partner.drug_use == "Inj":
                             eligible = True
                             self.prep_reason.append("PWID")
@@ -180,7 +180,7 @@ class Agent:
                 for rel in self.relationships:
                     partner = rel.get_partner(self)
 
-                    if rel.duration > 1: # TO_REVIEW hard coded numbers
+                    if rel.duration > 1:  # TO_REVIEW hard coded numbers
                         if partner.hiv_dx or self.mean_num_partners > 1:
                             eligible = True
         elif target_model == "MSM":
@@ -202,12 +202,12 @@ class Agent:
         """
         # N(t) = N0 (0.5)^(t/t_half)
         self.prep_last_dose += 1
-        if self.prep_last_dose > 12: # TO_REVIEW hard coded numbers
+        if self.prep_last_dose > 12:  # TO_REVIEW hard coded numbers
             self.prep_load = 0.0
         else:
             self.prep_load = params.prep.peak_load * (
                 (0.5) ** (self.prep_last_dose / (params.prep.half_life / 30))
-            ) # TO_REVIEW hard coded numbers
+            )  # TO_REVIEW hard coded numbers
 
     def vaccinate(self, vax: str):
         """
