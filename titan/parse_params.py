@@ -99,7 +99,7 @@ def get_defn(key, d, param):
     # check definitions
     for k, val in parsed.items():
         for field, defn in d["fields"].items():
-            assert field in val
+            assert field in val, f"{field} not in {val}"
             val[field] = check_item(val[field], defn, parsed.keys())
 
     return parsed

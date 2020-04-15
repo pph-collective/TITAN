@@ -54,3 +54,4 @@ features:
   needle_exchange:
     default: false
     description: Whether to have safe needle exchange in the model
+    type: boolean

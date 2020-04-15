@@ -3,17 +3,19 @@ needle_exchange:
   fields:
     start:
       type: int
-      description: "What time to start this coverage of needle exchange"
+      description: "What time to start this prevalence of needle exchange"
     stop:
-      description: "What time to stop this coverage of needle exchange"
+      type: int
+      description: "What time to stop this prevalence of needle exchange"
     prevalence:
       type: float
       description: "Percentage of injecting agents using needle exchange"
       min: 0.0
       max: 1.0
   default:
-    start: 0
-    stop: 0
-    prevalence: 0.0
+    exchange_open:
+      start: 0
+      stop: 0
+      prevalence: 0.0
 
 

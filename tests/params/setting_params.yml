@@ -3,7 +3,7 @@ features:
 
 partnership:
   sex:
-    role_scaling:
+    transmission:
       MSM:
         insertive: 0.0011
 

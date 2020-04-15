@@ -70,7 +70,7 @@ partnership:
           prob: 1.0
           min: 37
           max: 48
-    transmission:
+    haart_scaling:
       type: sub-dict
       description: "probability of transmitting HIV for a given sex type"
       keys:
@@ -96,25 +96,25 @@ partnership:
             prob: 0.2
           5:
             prob: 0.0
-    role_scaling:
+    transmission:
       type: sub-dict
       description: "Scaling factor for hiv transmission for a given sex type for each sex role. Defaults are MSM values"
       keys:
         - sex_types
       default:
-        vers:
+        versatile:
           type: float
-          description: Scaling factor for hiv transmission for a given sex type for vers role
+          description: Probability for hiv transmission for a given sex type for versatile role
           min: 0.0
           default: 0.00745
         insertive:
           type: float
-          description: Scaling factor for hiv transmission for a given sex type for insertive role
+          description: Probability hiv transmission for a given sex type for insertive role
           min: 0.0
           default: 0.0011
         receptive:
           type: float
-          description: Scaling factor for hiv transmission for a given sex type for receptive role
+          description: Probability for hiv transmission for a given sex type for receptive role
           min: 0.0
           default: 0.0138
   needle:

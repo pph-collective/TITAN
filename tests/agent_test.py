@@ -59,7 +59,7 @@ def test_agent_init(make_agent):
     assert a.drug_use == "None"
     assert a.age_bin == 0
     assert a.msmw is False
-    assert a.sex_role is "vers"
+    assert a.sex_role is "versatile"
 
     # partner params
     assert a.relationships == set()
@@ -131,29 +131,29 @@ def test_update_prep_load(make_agent, params):
 
 
 @pytest.mark.skip(reason="move to model")
-def test_get_transmission_probability(make_agent, params):
+def test_get_transmission_probability(make_agent):
     a = make_agent(race="WHITE", SO="MSM")
     a.haart_adherence = 1  # set this explicitly
 
     p_needle = params.partnership.needle.transmission[1].prob
-    p_sex = params.partnership.sex.transmission["MSM"][1].prob
+    p_sex = params.partnership.sex.haart_scaling["MSM"][1].prob
     scale = params.calibration.transmission
 
-    # test base case (not tested, not HAART, "WHITE", vers)
-    assert a.get_transmission_probability("NEEDLE", params) == p_needle * scale
-    assert a.get_transmission_probability("SEX", params) == p_sex * scale
+    # test base case (not tested, not HAART, "WHITE", versatile)
+    assert a.get_transmission_probability("NEEDLE") == p_needle * scale
+    assert a.get_transmission_probability("SEX") == p_sex * scale
 
     # test acute
     a.hiv_time = 1
     assert (
-        a.get_transmission_probability("SEX", params)
+        a.get_transmission_probability("SEX")
         == p_sex * scale * params.hiv.acute.infectivity
     )
     a.hiv_time = 0
 
     # test tested status
     a.hiv_dx = True
-    assert a.get_transmission_probability("SEX", params) == p_sex * scale * (
+    assert a.get_transmission_probability("SEX") == p_sex * scale * (
         1 - params.hiv.dx.risk_reduction
     )
     a.hiv_dx = False
@@ -161,7 +161,7 @@ def test_get_transmission_probability(make_agent, params):
     # test HAART
     a.haart = True
     assert (
-        a.get_transmission_probability("SEX", params)
+        a.get_transmission_probability("SEX")
         == p_sex * scale * params.haart.transmission.prob
     )
     a.haart = False
@@ -169,7 +169,7 @@ def test_get_transmission_probability(make_agent, params):
     # test Black
     a.race = "BLACK"
     assert (
-        a.get_transmission_probability("SEX", params, a, partner)
+        a.get_transmission_probability("SEX", a, partner)
         == p_sex * scale * params.demographics[a.race].hiv.transmission
     )
 

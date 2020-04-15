@@ -380,19 +380,26 @@ def basicReport(
 
 
 def print_components(
-    run_id: UUID, t: int, runseed: int, popseed: int, components, outdir: str,
+    run_id: UUID, t: int, runseed: int, popseed: int, components, outdir: str, params
 ):
     """
     Write stats describing the components (sub-graphs) in a graph to file
     """
     f = open(os.path.join(outdir, "componentReport_ALL.txt"), "a")
 
+    race_count: Dict[str, int] = {}
+    race_list = []
+    header = ""
+    for race in params.classes.races:
+        race_count[race] = 0
+        race_list.append(race)
+        header += "\t" + race
+
     # if this is a new file, write the header info
     if f.tell() == 0:
         f.write(
-            "run_id\trunseed\tpopseed\tt\tcompID\ttotalN\twhite\tblack\tNhiv\tNprep\tNtrtHIV\t"
-            "TrtComponent\tPCA\tOral\tLAI\tAware\tNIDU\tCentrality\tDensity"
-            "\tEffectiveSize\n"
+            "run_id\trunseed\tpopseed\tt\tcompID\ttotalN\tNhiv\tNprep\tNtrtHIV"
+            '\tTrtComponent\tPCA\tOral"\tDensity\tEffectiveSize' + header + "\n"
         )
 
     comp_id = 0
@@ -402,18 +409,12 @@ def print_components(
         size = effective_size(comp)
         total_size = 0
         tot_agents = (
-            white_agents
-        ) = (
-            black_agents
-        ) = (
             nhiv
         ) = ntrthiv = nprep = trtbool = injectable_prep = oral = aware = pca = nidu = 0
+
         for agent in comp.nodes():
             tot_agents += 1
-            if agent.race == "BLACK":
-                black_agents += 1
-            elif agent.race == "WHITE":
-                white_agents += 1
+            race_count[agent.race] += 1
             if agent.hiv:
                 nhiv += 1
                 if agent.intervention_ever:
@@ -444,7 +445,7 @@ def print_components(
 
         f.write(
             f"{run_id}\t{runseed}\t{popseed}\t{t}\t{comp_id}\t{tot_agents}\t"
-            f"{white_agents}\t{black_agents}\t{nhiv}\t"
+            f"{nhiv}\t"
             f"{nprep}\t{ntrthiv}\t{trtbool}\t{pca}\t{oral}\t{injectable_prep}"
             f"\t{aware}\t{nidu}\t{comp_centrality:.4f}\t{comp_density:.4f}"
             f"\t{average_size:.4f}\n"

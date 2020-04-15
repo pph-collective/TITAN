@@ -13,7 +13,7 @@ demographics:
       max: 1.0
     sex_role:
       init:
-        vers:
+        versatile:
           default: 1.0
           description: "Percentage of agents in this class with 'versatile' sex role"
           type: float

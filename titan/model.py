@@ -80,7 +80,7 @@ class HIVModel:
 
         self.total_dx = 0
         self.exchange_prevalence = 0.0
-        self.exchange_members = 0
+        self.num_exchange_enrolled = 0
 
         self.prep_agents: Dict[str, Dict[str, int]] = {}
         for race in params.classes.races:
@@ -182,6 +182,7 @@ class HIVModel:
                 self.pop.pop_seed,
                 self.pop.connected_components(),
                 outdir,
+                self.params,
             )
 
         print("\t===! Start Main Loop !===")
@@ -237,14 +238,6 @@ class HIVModel:
 
             self.total_dx += len(self.new_dx.members)
 
-            if self.features.needle_exchange:
-                for item in self.params.needle_exchange.values:
-                    if item.start < self.t < item.stop:
-                        self.exchange_prevalence = item.prevalence
-                        break
-
-                self.update_needle_exchange()
-
             # RESET counters for the next time step
             reset_trackers()
 
@@ -260,6 +253,7 @@ class HIVModel:
                         self.pop.pop_seed,
                         self.pop.connected_components(),
                         outdir,
+                        self.params,
                     )
                 if self.params.outputs.network.edge_list:
                     path = os.path.join(outdir, "network", f"Edgelist_t{t}.txt")
@@ -417,6 +411,8 @@ class HIVModel:
                     self.pop.remove_relationship(rel)
 
         for agent in self.pop.all_agents:
+            if self.features.needle_exchange:
+                self.update_needle_exchange()
             if self.features.high_risk:
                 self.update_high_risk(agent, time)
 
@@ -682,17 +678,16 @@ class HIVModel:
             if share_acts < 1:
                 share_acts = 1
 
-            p_unsafe_needle_share = (
-                self.demographics[agent_race][agent_sex_type].needle_sharing
-                * self.params.needle_exchange.prevalence
-            )  # TODO: prevalence shouldn't be here? Should be used to enroll in SNE
+            p_unsafe_needle_share = self.demographics[agent_race][
+                agent_sex_type
+            ].needle_sharing
 
         for n in range(share_acts):
             if self.run_random.random() > p_unsafe_needle_share:
                 share_acts -= 1
 
         if share_acts >= 1.0:
-            p = self.get_transmission_probability("NEEDLE", self.params, agent, partner)
+            p = self.get_transmission_probability("NEEDLE", agent, partner)
 
             p_total_transmission: float
             if share_acts == 1:
@@ -755,9 +750,7 @@ class HIVModel:
         if unsafe_sex_acts >= 1:
             # agent is HIV+
             rel.total_sex_acts += unsafe_sex_acts
-            p_per_act = self.get_transmission_probability(
-                "SEX", self.params, agent, partner
-            )
+            p_per_act = self.get_transmission_probability("SEX", agent, partner)
 
             # Reduction of transmissibility for acts between partners for PrEP adherence
             if agent.prep or partner.prep:
@@ -799,9 +792,7 @@ class HIVModel:
                 assert partner.hiv
                 assert rel.agent2.hiv
 
-    def get_transmission_probability(
-        self, interaction: str, params: ObjMap, agent, partner
-    ) -> float:
+    def get_transmission_probability(self, interaction: str, agent, partner) -> float:
         """ Decriptor
         :Purpose:
             Determines the probability of a transmission event based on
@@ -823,38 +814,38 @@ class HIVModel:
         agent_sex_role = agent.sex_role
         partner_sex_role = partner.sex_role
 
-        # get partner's sex role during acts
-        partner_sex_role = partner.sex_role
-        if partner_sex_role == "vers":
-            if agent_sex_role == "insertive":
-                partner_sex_role = "receptive"
-            elif agent_sex_role == "receptive":
-                partner_sex_role = "insertive"
         if interaction == "NEEDLE":
-            p = params.partnership.needle.transmission[agent.haart_adherence].prob
+            p = self.params.partnership.needle.transmission[agent.haart_adherence].prob
         elif interaction == "SEX":
-            p = params.partnership.sex.transmission[agent.so][
+            # get partner's sex role during acts
+            if partner_sex_role == "versatile":
+                if agent_sex_role == "insertive":
+                    partner_sex_role = "receptive"
+                elif agent_sex_role == "receptive":
+                    partner_sex_role = "insertive"
+            # get probability of sex transmission
+            p = self.params.partnership.sex.haart_scaling[agent.so][
                 agent.haart_adherence
             ].prob
-            p *= params.partnership.sex.role_scaling[partner.so][partner_sex_role]
+            p *= self.params.partnership.sex.transmission[partner.so][partner_sex_role]
 
         # Scaling parameter for acute HIV infections
         if agent.get_acute_status():
-            p *= params.hiv.acute.infectivity
+            p *= self.params.hiv.acute.infectivity
 
         # Scaling parameter for positively identified HIV agents
         if agent.hiv_dx:
-            p *= 1 - params.hiv.dx.risk_reduction
+            p *= 1 - self.params.hiv.dx.risk_reduction
 
         # Tuning parameter for ART efficiency
         if agent.haart:
-            p *= params.haart.transmission.prob
+            p *= self.params.haart.transmission.prob
 
         # Racial calibration parameter to attain proper race incidence disparity
-        p *= params.demographics[partner.race].hiv.transmission
+        p *= self.params.demographics[partner.race].hiv.transmission
 
         # Scaling parameter for per act transmission.
-        p *= params.calibration.transmission
+        p *= self.params.calibration.transmission
 
         return p
 
@@ -883,21 +874,26 @@ class HIVModel:
             Enroll PWID agents in needle exchange
         """
         print(("\n\n!!!!Engaging safe needle exchange process"))
+        if self.features.needle_exchange:
+            for item in self.params.needle_exchange.values:
+                if item.start <= self.t < item.stop:
+                    self.exchange_prevalence = item.prevalence
+                    break
+
         target_set = utils.safe_shuffle(self.pop.pwid_agents.members, self.run_random)
         target_sne = max(
             0, round(self.exchange_prevalence * self.pop.pwid_agents.num_members())
         )
-        current_sne = self.exchange_members / self.pop.pwid_agents.num_members()
 
         for agent in target_set:
-            if current_sne < target_sne:
+            if self.num_exchange_enrolled < target_sne:
                 agent.sne = True
                 agent.intervention_ever = True
-                current_sne += 1
-            elif current_sne > target_sne:
+                self.num_exchange_enrolled += 1
+            elif self.num_exchange_enrolled > target_sne:
                 agent.sne = False
-                current_sne -= 1
-            if current_sne == target_sne:
+                self.num_exchange_enrolled -= 1
+            if self.num_exchange_enrolled == target_sne:
                 break
 
     def become_high_risk(self, agent: Agent, duration: int = None):
