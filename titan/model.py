@@ -412,7 +412,7 @@ class HIVModel:
 
         for agent in self.pop.all_agents:
             if self.features.needle_exchange:
-                self.update_needle_exchange()
+                self.update_needle_exchange(time)
             if self.features.high_risk:
                 self.update_high_risk(agent, time)
 
@@ -868,15 +868,15 @@ class HIVModel:
         if agent.prep:
             self.discontinue_prep(agent, force=True)
 
-    def update_needle_exchange(self):
+    def update_needle_exchange(self, time):
         """
         :Purpose:
             Enroll PWID agents in needle exchange
         """
         print(("\n\n!!!!Engaging safe needle exchange process"))
         if self.features.needle_exchange:
-            for item in self.params.needle_exchange.values:
-                if item.start <= self.t < item.stop:
+            for item in self.params.needle_exchange.values():
+                if item.start <= time < item.stop:
                     self.exchange_prevalence = item.prevalence
                     break
 

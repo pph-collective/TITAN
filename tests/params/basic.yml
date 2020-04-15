@@ -447,6 +447,12 @@ partnership:
 prep:
   target: 0.3
 
+needle_exchange:
+  exchange_1:
+    start: 0
+    stop: 12
+    prevalence: 1.0
+
 features:
   incar: true
   prep: true
@@ -460,6 +466,7 @@ features:
   partner_tracing: true
   msmw: true
   bond_type: true
+  needle_exchange: true
 
 model:
   num_pop: 100

@@ -51,9 +51,11 @@ def safe_shuffle(seq: Collection[T], rand_gen) -> Optional[T]:
     """
     if seq:
         if isinstance(seq, set):
-            return rand_gen.shuffle(tuple(seq))
+            rand_gen.shuffle(list(seq))
+            return seq
         else:
-            return rand_gen.shuffle(seq)
+            rand_gen.shuffle(seq)
+            return seq
     else:
         return None
 

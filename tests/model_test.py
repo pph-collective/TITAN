@@ -52,6 +52,9 @@ class FakeRandom:
     def randint(self, start, stop):
         return start
 
+    def shuffle(self, seq):
+        return seq
+
 
 # ================================ MODEL TESTS =================================
 
@@ -249,20 +252,15 @@ def test_hiv_convert(make_model, make_agent):
     assert a.prep is False
 
 
-@pytest.mark.skip(reason="needs rewriting")
-def test_enroll_needle_exchange(make_model):
+def test_update_needle_exchange(make_model):
     model = make_model()
-    model.run_random = FakeRandom(-0.1)  # all "Inj" agents will be _SNE_bool
-
     # make at least one agent PWID
     agent = next(iter(model.pop.all_agents))
     agent.drug_use = "Inj"
+    assert model.num_exchange_enrolled == 0
 
-    assert model.features.needle_exchange is False
-
-    model.update_needle_exchange()
-
-    assert model.needle_exchange is True
+    model.update_needle_exchange(time=3)
+    assert model.num_exchange_enrolled == model.pop.pwid_agents.num_members()
 
     for a in model.pop.all_agents:
         if a.drug_use == "Inj":
