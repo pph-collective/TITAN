@@ -6,6 +6,9 @@ from pathlib import Path
 
 
 class ObjMap(dict):
+    """
+    A dictionary-like class which allows accessing members either using standard dictionary notation or dots.  Note the hash function is hard-coded - beware.
+    """
     def __init__(self, d):
         for k, v in d.items():
             if isinstance(v, dict):
@@ -23,6 +26,9 @@ class ObjMap(dict):
 
 
 def check_item(val, d, keys=None):
+    """
+    Checks if an item meets the requirements of the field's definition.
+    """
     if "min" in d:
         assert val >= d["min"]
     if "max" in d:
@@ -45,6 +51,9 @@ def check_item(val, d, keys=None):
 
 
 def get_item(key, d, param):
+    """
+    Get and check item from the params, falling back on the definitions default.
+    """
     if key in param:
         val = param[key]
         return check_item(val, d)
@@ -68,6 +77,9 @@ def merge(d1, d2):
 
 
 def get_bins(key, d, param):
+    """
+    Get and validate a type == bin definition
+    """
     if key not in param:
         return d["default"]
 
@@ -91,6 +103,9 @@ def get_bins(key, d, param):
 
 
 def get_defn(key, d, param):
+    """
+    Get and validate a type == definition definition
+    """
     if key not in param:
         parsed = d["default"]
     else:
@@ -106,6 +121,9 @@ def get_defn(key, d, param):
 
 
 def parse_params(defs, params, pops):
+    """
+    Recursively parse the passed params, using the definitions to validate and provide defaults.
+    """
     parsed = {}
     # params is a scalar, return it
     if not isinstance(params, dict):
@@ -148,6 +166,9 @@ def parse_params(defs, params, pops):
 
 
 def parse_classes(defs, params):
+    """
+    Parse the classes definition first as it is needed in parsing the full params.
+    """
     # add sex types to populations
     if "sex_types" in params.get("classes", []):
         params["classes"]["populations"] = params["classes"].get(
@@ -163,6 +184,9 @@ def parse_classes(defs, params):
 
 
 def build_yaml(path):
+    """
+    Read in a yaml or folder of yamls into a dictionary.
+    """
     yml = {}
     if os.path.isdir(path):
         for file in os.listdir(path):
@@ -199,6 +223,9 @@ def check_params(params):
 
 
 def create_params(setting_path, param_path, outdir, use_base=True):
+    """
+    Entry funtion - given the path to the setting, params, output directory and whether or not to use the base setting. Parse and create a params (ObjMap) object.
+    """
     filename = getframeinfo(currentframe()).filename
     parent = Path(filename).resolve().parent
     root = os.path.join(parent, "params")

@@ -27,7 +27,7 @@ class NetworkGraphUtils:
         nx.write_edgelist(self.G, path, delimiter="\t")
 
     def write_network_stats(
-        self, t: int = 0, path: str = "results/network/networkStats.txt"
+        path: str
     ):
         components = sorted(self.connected_components(), key=len, reverse=True)
 
@@ -67,7 +67,7 @@ class NetworkGraphUtils:
         )
         outfile.close()
 
-    def get_network_color(self, coloring):
+    def get_network_color(self, coloring): # TO_REVIEW how to make this not-hard coded?
         G = self.G
         node_color = []
         if coloring == "SO":
@@ -162,6 +162,7 @@ class NetworkGraphUtils:
 
     def visualize_network(
         self,
+        outdir,
         coloring="SO",
         pos=None,
         return_layout=0,
@@ -178,8 +179,6 @@ class NetworkGraphUtils:
         :Input:
             graph : networkX graph
         """
-        G = self.G
-
         if node_size is None:
             node_size = 5000.0 / self.G.number_of_nodes()
 
@@ -221,15 +220,15 @@ class NetworkGraphUtils:
         # node size indicating node degree
         NodeSize = []
         if node_size:
-            for v in G:
+            for v in self.G:
                 NodeSize.append(node_size)
         else:
-            for v in G:
+            for v in self.G:
                 NodeSize.append((10 * G.degree(v)) ** (1.0))
 
         # draw:
         nx.draw(
-            G,
+            self.G,
             pos,
             node_size=NodeSize,
             node_color=node_color,
@@ -261,10 +260,7 @@ class NetworkGraphUtils:
             bbox=props,
         )
 
-        filename = (
-            f"results/network/{label}_{G.number_of_nodes()}_"
-            f"{coloring}_{curtime}.png"
-        )
+        filename = os.path.join(outdir, "network", f"{label}_{G.number_of_nodes()}_{coloring}_{curtime}.png")
 
         fig.savefig(filename)
 

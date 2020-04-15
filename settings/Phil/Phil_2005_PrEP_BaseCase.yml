@@ -5,8 +5,9 @@ model:
     net: 0
     run: 0
   num_pop: 110000
-  time_range: 168
-  burn_duration: 30
+  time:
+    num_steps: 168
+    burn_steps: 30
   network:
     type: scale_free
 outputs:

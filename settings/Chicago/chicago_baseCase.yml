@@ -5,8 +5,9 @@ model:
     net: 0
     run: 0
   num_pop: 5578
-  time_range: 24
-  burn_duration: 6
+  time:
+    num_steps: 24
+    burn_steps: 6
   network:
     type: max_k_comp_size
     component_size:
