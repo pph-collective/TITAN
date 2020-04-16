@@ -45,7 +45,7 @@ def safe_random_choice(seq: Collection[T], rand_gen) -> Optional[T]:
         return None
 
 
-def safe_shuffle(seq: Collection[T], rand_gen) -> Optional[T]:
+def safe_shuffle(seq: Collection[T], rand_gen):
     """
     Return None or a shuffled sequence
     """
