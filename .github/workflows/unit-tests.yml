@@ -3,7 +3,7 @@ name: Unit Tests
 on: [push]
 
 jobs:
-  
+
   standards:
     runs-on: ubuntu-latest
 
@@ -22,7 +22,6 @@ jobs:
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('dev_requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-
     - name: Install dependencies
       run: |
         pip install --upgrade pip
@@ -57,7 +56,6 @@ jobs:
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-
     - name: Install dependencies
       run: |
         pip install --upgrade pip
