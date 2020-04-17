@@ -1,7 +1,9 @@
-classes:
-  sex_types: {}
 demographics:
   WHITE:
-    PWID: {}
+    ppl: 0.5
+    MSM:
+      ppl: 1.0
   BLACK:
-    PWID: {}
+    ppl: 0.5
+    MSM:
+      ppl: 1.0

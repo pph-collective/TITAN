@@ -125,7 +125,7 @@ def test_update_prep_load(make_agent, params):
     for i in range(12):
         a.update_prep_load(params)
 
-    assert a.prep_last_dose == 13
+    assert a.prep_last_dose == 0
     assert a.prep_load == 0.0
 
 

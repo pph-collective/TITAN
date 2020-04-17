@@ -136,7 +136,7 @@ class HIVModel:
         def burn_simulation(duration: int):
             print(("\n === Burn Initiated for {} timesteps ===".format(duration + 1)))
             burn_conversions = 0
-            for t in range(0, duration + 1):
+            for t in range(1, duration + 1):
                 self.update_all_agents(t, burn=True)
 
                 if self.features.die_and_replace:
@@ -322,7 +322,9 @@ class HIVModel:
         for comp in components:
             total_nodes += comp.number_of_nodes()
 
-            if self.run_random.random() < 0.5:  # TO_REVIEW hard coded number
+            if (
+                self.run_random.random() < 0.5
+            ):  # REVIEWED hard coded number - move to params near random trial (intervention group % of components)
                 # Component selected as treatment pod!
                 if not self.features.pca:
                     for ag in comp.nodes():
@@ -402,9 +404,7 @@ class HIVModel:
         :Output:
             none
         """
-        if (
-            time > 0 and not self.features.static_network
-        ):  # TO_REVIEW - doesn't time start at 1?
+        if not self.features.static_network:
             self.pop.update_partner_assignments(t=time)
 
         for rel in copy(self.pop.relationships):
@@ -418,6 +418,11 @@ class HIVModel:
                     self.pop.remove_relationship(rel)
 
         for agent in self.pop.all_agents:
+
+            # happy birthday agents!
+            if (time % self.params.model.time.steps_per_year) == 0:
+                agent.age += 1
+
             if self.features.high_risk:
                 self.update_high_risk(agent, time)
 
@@ -450,10 +455,6 @@ class HIVModel:
                     if time >= self.prep.start:
                         if agent.prep:
                             self.discontinue_prep(agent)
-                        elif (
-                            self.prep.target_model == "RandomTrial"
-                        ):  # TO_REVIEW needed agent.prep_eligible should return false?
-                            pass
                         elif agent.prep_eligible(self.prep.target_model):
                             self.initiate_prep(agent, time)
 
@@ -489,7 +490,7 @@ class HIVModel:
             boolean : whether interaction happened
 
         """
-        # TO_REVIEW should this now all be based on the interaction types assosciated with the relationship?
+        # REVIEWED should this now all be based on the interaction types assosciated with the relationship? - SARAH TO DO
 
         # If either agent is incarcerated, skip their interaction
         if rel.agent1.incar or rel.agent2.incar:
@@ -523,10 +524,10 @@ class HIVModel:
             # Injection is possible
             if rel_sex_possible:
                 # Sex is possible
-                rv = (
-                    self.run_random.random()
-                )  # TO_REVIEW - REVIEW after bond types established
-                if rv < 0.25:  # Needle only (60%) # TO_REVIEW hard coded number
+                rv = self.run_random.random()
+                if (
+                    rv < 0.25
+                ):  # Needle only (60%) # REVIEWED hard coded number - will go away when Sarah fixes interaction types
                     self.needle_transmission(agent, partner, time)
                 else:  # Both sex and needle (20%)
                     self.needle_transmission(agent, partner, time)
@@ -561,8 +562,8 @@ class HIVModel:
         ), "Network must be enabled for pca interactions"
 
         def influence(agent, partner):
-            agent_opinion = agent.prep_opinion
-            partner_opinion = partner.prep_opinion
+            agent_init_opinion = agent.prep_opinion
+            partner_init_opinion = partner.prep_opinion
             agent_influence = nx.closeness_centrality(self.pop.graph, agent)
             partner_influence = nx.closeness_centrality(self.pop.graph, partner)
 
@@ -575,11 +576,13 @@ class HIVModel:
 
             if self.run_random.random() < self.prep.pca.prep.prob:
                 if (
-                    agent_opinion < self.prep.pca.opinion.threshold < agent.prep_opinion
-                ):  # TO_REVIEW isn't this circular?
+                    agent_init_opinion
+                    < self.prep.pca.opinion.threshold
+                    < agent.prep_opinion
+                ):
                     self.initiate_prep(agent, time, force=True)
                 elif (
-                    partner_opinion
+                    partner_init_opinion
                     < self.prep.pca.opinion.threshold
                     < partner.prep_opinion
                 ):
@@ -669,9 +672,7 @@ class HIVModel:
         share_acts = utils.poisson(mean_num_acts, self.np_random)
 
         if agent.sne:  # safe needle exchange - minimal sharing
-            p_unsafe_needle_share = (
-                0.02  # minimal needle sharing # TO_REVIEW hard coded number
-            )
+            p_unsafe_needle_share = 0.02  # minimal needle sharing # REVIEWED hard coded number - move to params - prob unsafe share
         else:  # they do share a needle
 
             # If sharing, minimum of 1 share act
@@ -764,7 +765,7 @@ class HIVModel:
                 elif "Inj" in self.prep.type:
                     p_per_act_reduction = (
                         -1.0 * np.exp(-5.528636721 * partner.prep_load) + 1
-                    )  # TO_REVIEW hard coded numbers
+                    )
                     if agent.prep_adherence == 1 or partner.prep_adherence == 1:
                         p_per_act *= 1.0 - p_per_act_reduction  # 0.04
 
@@ -773,11 +774,11 @@ class HIVModel:
                 if self.vaccine.type == "HVTN702":
                     p_per_act_perc *= np.exp(
                         -2.88 + 0.76 * (np.log((partner.vaccine_time + 0.001) * 30))
-                    )  # TO_REVIEW hard coded numbers
+                    )  # REVIEWED hard coded numbers - make into days - SARAH to check
                 elif self.vaccine.type == "RV144":
                     p_per_act_perc *= np.exp(
                         -2.40 + 0.76 * (np.log(partner.vaccine_time))
-                    )  # TO_REVIEW hard coded numbers
+                    )  # REVIEWED hard coded numbers - make into consistent time period - SARAH to check
 
                 p_per_act *= 1 - p_per_act_perc
 
@@ -888,7 +889,7 @@ class HIVModel:
 
         elif self.run_random.random() < (
             self.demographics[agent.race][agent.so].incar.prob
-            * (1 + (hiv_bool * 4))  # TO_REVIEW hard coded numbers
+            * (1 + (hiv_bool * 4))  # REVIEWED hard coded numbers - move to params
             * self.calibration.incarceration
         ):
             incar_duration = self.demographics[agent.race][agent.so].incar.duration.prob
@@ -981,7 +982,8 @@ class HIVModel:
 
             elif (
                 agent.partner_traced
-                and self.run_random.random() < 0.87  # TO_REVIEW hard coded numbers
+                and self.run_random.random()
+                < 0.87  # REVIEWED hard coded numbers - make two params - probability of diagnosing a traced agent - probability of tracing (in deciding if agent.traced elsewhere), probability of diagnosing if traced
                 and agent.trace_time == time
             ):
                 diagnose(agent)
@@ -1053,25 +1055,26 @@ class HIVModel:
             self.prep_agents[agent.race][agent.so] -= 1
             agent.prep = False
             agent.prep_reason = []
+            agent.prep_load = 0.0
+            agent.prep_last_dose = 0
+            return None
 
         # else if agent is on PrEP, see if they should discontinue
-        else:
-            if (
-                self.run_random.random()
-                < self.demographics[agent.race][agent.so].prep.discontinue
-            ):
-                self.prep_agents[agent.race][agent.so] -= 1
+        if (
+            self.run_random.random()
+            < self.demographics[agent.race][agent.so].prep.discontinue
+            and agent.prep_type == "Oral"
+        ):
+            self.prep_agents[agent.race][agent.so] -= 1
+            agent.prep = False
+            agent.prep_type = ""
+            agent.prep_reason = []
 
-                if "Oral" in self.prep.type:
-                    agent.prep = False
-                    agent.prep_type = ""
-                    agent.prep_reason = []
-            else:
-                if agent.prep_last_dose > 2:  # TO_REVIEW hard coded numbers
-                    agent.prep_last_dose = -1
-
-        if "Inj" in self.prep.type:
+        if agent.prep_type == "Inj":
             agent.update_prep_load(self.params)
+            # agent timed out of prep
+            if not agent.prep:
+                self.prep_agents[agent.race][agent.so] -= 1
 
     def advance_vaccine(self, agent: Agent, time: int, vaxType: str, burn: bool):
         """

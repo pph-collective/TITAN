@@ -52,3 +52,19 @@ def test_model_reproducible(tmpdir):
         assert res_a[i]["PrEP"] == res_b[i]["PrEP"]
         assert res_a[i]["Deaths"] == res_b[i]["Deaths"]
         assert res_a[i]["HIV"] == res_b[i]["HIV"]
+
+
+@pytest.mark.integration
+def test_model_settings_run(tmpdir):
+    f = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "run_titan.py")
+    param_file = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "params", "integration_base.yml"
+    )
+
+    for item in os.listdir(
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "settings")
+    ):
+        if "__" not in item and item != "base":
+            path = tmpdir.mkdir(item)
+            subprocess.check_call([f, f"-p {param_file}", f"-o {path}", f"-S {item}"])
+            assert True

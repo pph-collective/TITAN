@@ -65,7 +65,9 @@ class NetworkGraphUtils:
         )
         outfile.close()
 
-    def get_network_color(self, coloring):  # TO_REVIEW how to make this not-hard coded?
+    def get_network_color(
+        self, coloring
+    ):  # REVIEWED how to make this not-hard coded? - pick an order of colors and assign away
         G = self.G
         node_color = []
         if coloring == "SO":

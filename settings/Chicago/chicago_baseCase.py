@@ -210,7 +210,7 @@ params.prep.target = (
     0.088  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 )
 params.prep.start = 0  # Start date for PrEP program (0 for start of model)
-params.PWID.prep.adherence = 0.82  # Probability of being adherent
+params.demographics.PWID.prep.adherence = 0.82  # Probability of being adherent
 params.prep.efficacy.adherent = 0.96  # Efficacy of adherence PrEP
 params.prep.efficacy.non_adherant = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
@@ -220,7 +220,7 @@ params.prep.target_model = "RandomTrial"  # Allcomers, Clinical
 PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it follow
 
 if "Oral" in params.prep.type:
-    params.PWID.prep.adherence = 1.0
+    params.demographics.PWID.prep.adherence = 1.0
     params.prep.efficacy.adherent = 0.96
     params.prep.efficacy.non_adherant = 0.76
     PrEP_falloutT = 1
@@ -230,7 +230,7 @@ if "Oral" in params.prep.type:
 elif (
     "Inj" in params.prep.type
 ):  # TODO make both of these compatible; can use both at once??
-    params.PWID.prep.adherence = 1.0
+    params.demographics.PWID.prep.adherence = 1.0
     params.prep.efficacy.adherent = 1.0
     params.prep.efficacy.non_adherant = 1.00
     PrEP_falloutT = 12
