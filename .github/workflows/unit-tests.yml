@@ -3,8 +3,8 @@ name: Unit Tests
 on: [push]
 
 jobs:
-  build:
-
+  
+  standards:
     runs-on: ubuntu-latest
 
     steps:
@@ -13,22 +13,37 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.7
+    - name: Cache python modules
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-python-modules
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('dev_requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install cython
+        pip install -r dev_requirements.txt
     - name: Lint with flake8
       run: |
-        pip install flake8
         # stop the build if there are Python syntax errors or undefined names
         flake8 src --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 src --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Check code formatting with black
-      run: |
-        pip install black
-        black . --check
+      run: black . --check
     - name: Static Type Checking with mypy
-      run: |
-        pip install mypy
-        mypy titan
+      run: mypy titan
 
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
     - name: Set up Python for running TITAN
       uses: actions/setup-python@v1
       with:
