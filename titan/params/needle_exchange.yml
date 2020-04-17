@@ -15,3 +15,10 @@ needle_exchange:
     description: When the total number of HIV diagnoses surpasses this number, enrollment in needle exchange is triggered
     type: int
     min: 0
+  unsafe_share:
+    prob:
+      default: 0.02
+      description: Probability than an agent enrolled in needle exchange shares a needle unsafely
+      type: float
+      min: 0
+      max: 1

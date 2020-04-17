@@ -1,0 +1,14 @@
+partner_tracing:
+  hiv:
+    dx:
+      default: 0.87
+      description: Probability that an agent who is traced and has hiv gets diagnosed with hiv
+      type: float
+      min: 0
+      max: 1
+  prob:
+    default: 1.0
+    description: Probability that an agent whose partner is diagnosed with hiv will become traced
+    type: float
+    min: 0
+    max: 1.0

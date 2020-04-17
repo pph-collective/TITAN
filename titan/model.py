@@ -322,9 +322,7 @@ class HIVModel:
         for comp in components:
             total_nodes += comp.number_of_nodes()
 
-            if (
-                self.run_random.random() < 0.5
-            ):  # REVIEWED hard coded number - move to params near random trial (intervention group % of components)
+            if self.run_random.random() < self.prep.random_trial.intervention.prob:
                 # Component selected as treatment pod!
                 if not self.features.pca:
                     for ag in comp.nodes():
@@ -455,7 +453,10 @@ class HIVModel:
                     if time >= self.prep.start:
                         if agent.prep:
                             self.discontinue_prep(agent)
-                        elif agent.prep_eligible(self.prep.target_model):
+                        elif agent.prep_eligible(
+                            self.prep.target_model,
+                            self.params.partnership.ongoing_duration,
+                        ):
                             self.initiate_prep(agent, time)
 
                     if self.features.vaccine and not agent.prep:
@@ -663,8 +664,6 @@ class HIVModel:
         agent_race = agent.race
         agent_sex_type = agent.so
 
-        # REVIEWED why is the mean number of sex acts for a class multiplied by
-        # needle calibration? - change to num_needle_acts
         mean_num_acts = (
             self.demographics[agent_race][agent_sex_type].num_needle_acts
             * self.calibration.needle.act
@@ -672,7 +671,7 @@ class HIVModel:
         share_acts = utils.poisson(mean_num_acts, self.np_random)
 
         if agent.sne:  # safe needle exchange - minimal sharing
-            p_unsafe_needle_share = 0.02  # minimal needle sharing # REVIEWED hard coded number - move to params - prob unsafe share
+            p_unsafe_needle_share = self.params.needle_exchange.unsafe_share.prob
         else:  # they do share a needle
 
             # If sharing, minimum of 1 share act
@@ -860,6 +859,11 @@ class HIVModel:
 
         hiv_bool = agent.hiv
 
+        if hiv_bool:
+            hiv_multiplier = self.incar.hiv.multiplier
+        else:
+            hiv_multiplier = 1
+
         if agent.incar:
             agent.incar_time -= 1
 
@@ -889,7 +893,7 @@ class HIVModel:
 
         elif self.run_random.random() < (
             self.demographics[agent.race][agent.so].incar.prob
-            * (1 + (hiv_bool * 4))  # REVIEWED hard coded numbers - move to params
+            * hiv_multiplier
             * self.calibration.incarceration
         ):
             incar_duration = self.demographics[agent.race][agent.so].incar.duration.prob
@@ -964,7 +968,11 @@ class HIVModel:
             ):  # TODO fix this logic; should get partnerTraced and then lose it after
                 # For each partner, determine if found by partner testing
                 for ptnr in agent.partners:
-                    if ptnr.hiv and not ptnr.hiv_dx:
+                    if (
+                        ptnr.hiv
+                        and not ptnr.hiv_dx
+                        and self.run_random.random() < self.params.partner_tracing.prob
+                    ):
                         ptnr.partner_traced = True
                         ptnr.trace_time = time + 1
 
@@ -982,8 +990,7 @@ class HIVModel:
 
             elif (
                 agent.partner_traced
-                and self.run_random.random()
-                < 0.87  # REVIEWED hard coded numbers - make two params - probability of diagnosing a traced agent - probability of tracing (in deciding if agent.traced elsewhere), probability of diagnosing if traced
+                and self.run_random.random() < self.params.partner_tracing.hiv.dx
                 and agent.trace_time == time
             ):
                 diagnose(agent)
@@ -1201,7 +1208,9 @@ class HIVModel:
             elif (
                 num_prep_agents < target_prep
                 and time >= self.prep.start
-                and agent.prep_eligible(self.prep.target_model)
+                and agent.prep_eligible(
+                    self.prep.target_model, self.params.partnership.ongoing_duration
+                )
             ):
                 enroll_prep(self, agent)
 

@@ -142,7 +142,7 @@ class Agent:
         else:
             return False
 
-    def prep_eligible(self, target_model: str) -> bool:
+    def prep_eligible(self, target_model: str, ongoing_duration: int) -> bool:
         """
         :Purpose:
             Determine if an agent is eligible for PrEP
@@ -164,9 +164,7 @@ class Agent:
             if self.so == "HF":
                 for rel in self.relationships:
                     partner = rel.get_partner(self)
-                    if (
-                        rel.duration > 1
-                    ):  # REVIEWED hard coded numbers - make param, default of 1 time step in month land
+                    if rel.duration > ongoing_duration:
                         if partner.drug_use == "Inj":
                             eligible = True
                             self.prep_reason.append("PWID")
@@ -181,9 +179,7 @@ class Agent:
                 for rel in self.relationships:
                     partner = rel.get_partner(self)
 
-                    if (
-                        rel.duration > 1
-                    ):  # REVIEWED hard coded numbers - make param, default of 1 time step in month land
+                    if rel.duration > ongoing_duration:
                         if partner.hiv_dx or self.mean_num_partners > 1:
                             eligible = True
         elif target_model == "MSM":

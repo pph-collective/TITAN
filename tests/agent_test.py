@@ -106,11 +106,11 @@ def test_agent_init(make_agent):
     assert a.incar_time == 0
 
 
-def test_get_acute_status(make_agent):
+def test_get_acute_status(make_agent, params):
     a = make_agent()  # no HIV on init
-    assert a.get_acute_status() == False
+    assert a.get_acute_status(params.partnership.ongoing_duration) == False
     a.hiv_time = 1  # manually force this to test logic
-    assert a.get_acute_status() == True
+    assert a.get_acute_status(params.partnership.ongoing_duration) == True
 
 
 def test_update_prep_load(make_agent, params):
