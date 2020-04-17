@@ -8,14 +8,23 @@ needle_exchange:
       type: int
       description: "What time to stop this prevalence of needle exchange"
     prevalence:
+      type: int
+      description: "Cap for number of available slots in SNE"
+    discontinue:
       type: float
-      description: "Percentage of injecting agents using needle exchange"
+      description: "Probability of agent discontinuing SNE per time step"
       min: 0.0
       max: 1.0
+    enroll:
+      type: float
+      description: "Probability of agent starting SNE per time step if there are available slots"
+      min: 0.0
+      max: 1.0
+
   default:
     exchange_open:
       start: 0
       stop: 0
-      prevalence: 0.0
+      prevalence: 0
 
 

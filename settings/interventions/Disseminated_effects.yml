@@ -29,6 +29,7 @@ features:
 outputs:
   network:
     calc_component_stats: true
+  print_frequency: 24
 
 prep:
   type:
@@ -40,3 +41,8 @@ prep:
     non_adherant: 0.76
   discontinue: 0.0
   target_model: RandomTrial
+
+network:
+  enable: true
+
+

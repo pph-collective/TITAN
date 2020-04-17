@@ -88,6 +88,19 @@ demographics:
         type: float
         min: 0.0
         max: 1.0
+    needle_exchange:
+      prob:
+        default: 0.0
+        description: "Probability that an agent in this class with HIV becomes enrolled in HAART at a given time step"
+        type: float
+        min: 0.0
+        max: 1.0
+      discontinue:
+        default: 0.0
+        description: "Probability that an agent on HAART discontinues HAART in a given time step"
+        type: float
+        min: 0.0
+        max: 1.0
     incar:
       init:
         default: 0.0
