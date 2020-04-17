@@ -179,7 +179,7 @@ def test_pca_interaction(make_model, make_agent):
     model = make_model()
     a = make_agent()
     p = make_agent()
-    a.prep_opinion = 4  # REVIEWED opinino and awareness are both prep things right? should the be prepended with prep_? YES
+    a.prep_opinion = 4
     p.prep_opinion = 2
     a.prep_awareness = True
 

@@ -137,7 +137,9 @@ def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
     if setting == "custom":
         setting = None
     else:
-        setting = os.path.join("settings", setting)
+        setting = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "settings", setting
+        )
         assert os.path.isdir(setting), f"{setting} is not a directory"
 
     params = create_params(setting, params_path, outfile_dir, use_base=use_base)
