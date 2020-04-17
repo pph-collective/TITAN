@@ -12,6 +12,11 @@ hiv:
       description: Infectivity multiplier ratio for acute status infections
       type: float
       min: 0
+    duration:
+      default: 2
+      description: Number of time steps an agent is in acute status
+      type: int
+      min: 0
   aids:
     prob:
       default: 0.0

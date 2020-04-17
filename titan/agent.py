@@ -45,7 +45,7 @@ class Agent:
         self.update_id_counter()
 
         # agent properties
-        self.so = so  # REVIEWED split this out into gender and sleeps_with
+        self.so = so
         self.age = age
         self.age_bin = 0
         self.race = race
@@ -126,7 +126,7 @@ class Agent:
     def __hash__(self):
         return self.id
 
-    def get_acute_status(self) -> bool:
+    def get_acute_status(self, acute_time_period) -> bool:
         """
         :Purpose:
             Get acute status of agent at time period
@@ -135,9 +135,6 @@ class Agent:
         :Output:
             acute_status : bool
         """
-        acute_time_period = (
-            2  # REVIEWED hard coded numbers - default to 2 months in params
-        )
         hiv_t = self.hiv_time
 
         if acute_time_period >= hiv_t > 0:
@@ -258,7 +255,7 @@ class Agent:
             p = params.partnership.sex.transmission[self.so][self.haart_adherence].prob
 
         # Scaling parameter for acute HIV infections
-        if self.get_acute_status():
+        if self.get_acute_status(params.hiv.acute.duration):
             p *= params.hiv.acute.infectivity
 
         # Scaling parameter for positively identified HIV agents

@@ -138,7 +138,7 @@ def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
         setting = None
     else:
         setting = os.path.join("settings", setting)
-        assert os.path.isdir(setting)
+        assert os.path.isdir(setting), f"{setting} is not a directory"
 
     params = create_params(setting, params_path, outfile_dir, use_base=use_base)
 
