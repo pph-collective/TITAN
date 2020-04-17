@@ -152,7 +152,7 @@ def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
 
     if len(sweep_defs) > 100 and not force:
         raise ValueError(
-            "Sweeping more than 100 models. Set `force` flag if you really want to do this."
+            "Sweeping more than 100 models. Set `-F` (force) flag if you really want to do this."
         )
 
     print(sweep_defs)
