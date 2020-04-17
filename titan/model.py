@@ -496,18 +496,13 @@ class HIVModel:
         else:  # neither agent is HIV or both are
             return False
 
-        partner_drug_type = partner.drug_use
-        agent_drug_type = agent.drug_use
-        # Mary -- is there any meaningful difference between this and if pca in [param]
-        for interaction_type in self.params.classes.bond_types[
-            rel.bond_type
-        ].acts_allowed:
-            if interaction_type == "pca" and rel.duration < rel.total_duration:
-                self.pca_interaction(rel, time)
-            if interaction_type == "needle":
-                self.needle_transmission(agent, partner, time)
-            if interaction_type == "sex":
-                self.sex_transmission(rel, time)
+        interaction_types = self.params.classes.bond_types[rel.bond_type].acts_allowed
+        if "pca" in interaction_types and rel.duration < rel.total_duration:
+            self.pca_interaction(rel, time)
+        if "needle" in interaction_types:
+            self.needle_transmission(agent, partner, time)
+        if "sex" in interaction_types:
+            self.sex_transmission(rel, time)
 
         return True
 
@@ -858,20 +853,34 @@ class HIVModel:
                     break
 
         target_set = utils.safe_shuffle(self.pop.pwid_agents.members, self.run_random)
-        target_sne = max(
+        max_sne = max(
             0, round(self.exchange_prevalence * self.pop.pwid_agents.num_members())
         )
 
         for agent in target_set:
-            if self.num_exchange_enrolled < target_sne:
-                agent.sne = True
-                agent.intervention_ever = True
-                self.num_exchange_enrolled += 1
-            elif self.num_exchange_enrolled > target_sne:
-                agent.sne = False
-                self.num_exchange_enrolled -= 1
-            if self.num_exchange_enrolled == target_sne:
-                break
+            if agent.sne:
+                if (
+                    self.run_random.random()
+                    < self.demographics[agent.race][
+                        agent.so
+                    ].needle_exchange.discontinue
+                ):
+                    agent.sne = False
+                    self.num_exchange_enrolled -= 1
+
+            else:
+                if (
+                    self.run_random.random()
+                    < self.demographics[agent.race][agent.so].needle_exchange.prob
+                ):
+                    agent.sne = True
+                    self.num_exchange_enrolled += 1
+
+        while self.num_exchange_enrolled > max_sne:
+            for agent in target_set:
+                if agent.sne:
+                    agent.sne = False
+                    self.num_exchange_enrolled -= 1
 
     def become_high_risk(self, agent: Agent, duration: int = None):
 
