@@ -485,13 +485,6 @@ class HIVModel:
         if rel.agent1.incar or rel.agent2.incar:
             return False
 
-        if (
-            self.features.pca
-            and "pca" in self.params.classes.bond_types[rel.bond_type].acts_allowed
-            and rel.duration < rel.total_duration
-        ):
-            self.pca_interaction(rel, time)
-
         # Agent 1 is HIV, partner is succept
         if rel.agent1.hiv and not rel.agent2.hiv:
             agent = rel.agent1
@@ -503,36 +496,18 @@ class HIVModel:
         else:  # neither agent is HIV or both are
             return False
 
-        rel_sex_possible = sex_possible(
-            agent.so, partner.so, self.params.classes.sex_types
-        )
         partner_drug_type = partner.drug_use
         agent_drug_type = agent.drug_use
-
-        if partner_drug_type == "Inj" and agent_drug_type == "Inj":
-            # Injection is possible
-            if rel_sex_possible:
-                # Sex is possible
-                rv = self.run_random.random()  # REVIEW after bond types established
-                if rv < 0.25:  # Needle only (60%)
-                    self.needle_transmission(agent, partner, time)
-                else:  # Both sex and needle (20%)
-                    self.needle_transmission(agent, partner, time)
-                    self.sex_transmission(rel, time)
-            else:
-                # Sex not possible, needle only
+        # Mary -- is there any meaningful difference between this and if pca in [param]
+        for interaction_type in self.params.classes.bond_types[
+            rel.bond_type
+        ].acts_allowed:
+            if interaction_type == "pca" and rel.duration < rel.total_duration:
+                self.pca_interaction(rel, time)
+            if interaction_type == "needle":
                 self.needle_transmission(agent, partner, time)
-
-        elif partner_drug_type in ["NonInj", "None"] or agent_drug_type in [
-            "NonInj",
-            "None",
-        ]:
-            if rel_sex_possible:
+            if interaction_type == "sex":
                 self.sex_transmission(rel, time)
-            else:
-                return False
-
-        return True
 
     def pca_interaction(self, relationship: Relationship, time: int, force=False):
         """
