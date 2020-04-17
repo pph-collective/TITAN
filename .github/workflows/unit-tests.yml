@@ -40,27 +40,28 @@ jobs:
 
   tests:
     runs-on: ubuntu-latest
-
+    container:
+      image: brownccv/titanenv
     steps:
     - uses: actions/checkout@v1
-    - name: Set up Python for running TITAN
-      uses: actions/setup-python@v1
-      with:
-        python-version: pypy3
-    - name: Cache pypy modules
-      uses: actions/cache@v1
-      env:
-        cache-name: cache-pypy3-modules
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-    - name: Install dependencies
-      run: |
-        pip install --upgrade pip
-        pip install cython
-        pip install -r requirements.txt
+    # - name: Set up Python for running TITAN
+    #   uses: actions/setup-python@v1
+    #   with:
+    #     python-version: pypy3
+    # - name: Cache pypy modules
+    #   uses: actions/cache@v1
+    #   env:
+    #     cache-name: cache-pypy3-modules
+    #   with:
+    #     path: ~/.cache/pip
+    #     key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('requirements.txt') }}
+    #     restore-keys: |
+    #       ${{ runner.os }}-build-${{ env.cache-name }}-
+    # - name: Install dependencies
+    #   run: |
+    #     pip install --upgrade pip
+    #     pip install cython
+    #     pip install -r requirements.txt
     - name: Unit Test with pytest
       run: |
         pip install pytest-cov
