@@ -509,6 +509,8 @@ class HIVModel:
             if interaction_type == "sex":
                 self.sex_transmission(rel, time)
 
+        return True
+
     def pca_interaction(self, relationship: Relationship, time: int, force=False):
         """
         :Purpose:

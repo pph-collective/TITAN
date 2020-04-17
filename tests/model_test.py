@@ -109,6 +109,7 @@ def test_agents_interact(make_model, make_agent):
 
     a.drug_use = "Inj"
     p.drug_use = "Inj"
+    rel.bond_type = "Inj"
 
     model.run_random = FakeRandom(-0.1)
 
