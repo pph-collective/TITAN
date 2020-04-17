@@ -33,6 +33,13 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: pypy3
+    - name: Cache pypy modules
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-pypy3-modules
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/requirements.txt') }}
     - name: Install dependencies
       run: |
         pip install --upgrade pip
