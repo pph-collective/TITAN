@@ -14,7 +14,6 @@ jobs:
       with:
         python-version: 3.7
     - name: Cache python modules
-      id: cache
       uses: actions/cache@v1
       env:
         cache-name: cache-python-modules
@@ -24,7 +23,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
     - name: Install dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
       run: |
         pip install --upgrade pip
         pip install cython
@@ -50,7 +48,6 @@ jobs:
       with:
         python-version: pypy3
     - name: Cache pypy modules
-      id: cache
       uses: actions/cache@v1
       env:
         cache-name: cache-pypy3-modules
@@ -60,7 +57,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
     - name: Install dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
       run: |
         pip install --upgrade pip
         pip install cython
