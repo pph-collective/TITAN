@@ -157,9 +157,7 @@ class Population:
         agent.age_bin = age_bin
 
         if self.features.msmw and sex_type == "HM":
-            if (
-                self.pop_random.random() < 0.06
-            ):  # REVIEWED hard coded number - move to params
+            if self.pop_random.random() < self.params.msmw.prob:
                 agent.msmw = True
 
         if drug_type == "Inj":
@@ -192,9 +190,7 @@ class Population:
                     agent.haart_time = 0
 
             # if HIV, how long has the agent had it? Random sample
-            agent.hiv_time = self.pop_random.randint(
-                1, 42
-            )  # REVIEWED hard coded number - move to hiv params
+            agent.hiv_time = self.pop_random.randint(1, self.params.hiv.max_init_time)
 
         else:
 
@@ -476,8 +472,9 @@ class Population:
             def trim_component(component, max_size):
                 for ag in component.nodes:
                     if (
-                        self.pop_random.random() < 0.1
-                    ):  # REVIEWED hard coded number - make calibration param (prob agent's rel trimmed)
+                        self.pop_random.random()
+                        < self.params.calibration.network.trim.prob
+                    ):
                         for rel in ag.relationships:
                             if len(ag.relationships) == 1:
                                 break  # Make sure that agents stay part of the network by keeping one bond

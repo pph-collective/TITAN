@@ -6,6 +6,8 @@ from networkx.drawing.nx_agraph import graphviz_layout  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 import matplotlib.patches as patches  # type: ignore
 
+from .agent import Agent
+
 
 class NetworkGraphUtils:
     def __init__(self, graph: nx.Graph):
@@ -65,38 +67,24 @@ class NetworkGraphUtils:
         )
         outfile.close()
 
-    def get_network_color(
-        self, coloring
-    ):  # REVIEWED how to make this not-hard coded? - pick an order of colors and assign away
+    def get_network_color(self, coloring):
         G = self.G
         node_color = []
-        if coloring == "SO":
+
+        # attribute based coloring
+        color_order = ["b", "g", "c", "r", "y", "purple", "gray"]
+        if hasattr(list(G.nodes)[0], coloring):
+            attrs = []
             for v in G:
-                tmp_sextype = v.so
-                if tmp_sextype == "HM":
-                    node_color.append("b")
-                elif tmp_sextype == "HF":
-                    node_color.append("g")
-                elif tmp_sextype == "WSW":
-                    node_color.append("c")
-                elif tmp_sextype == "MSM":
-                    node_color.append("r")
-                elif tmp_sextype == "MTF":
-                    node_color.append("y")
-                else:
-                    raise ValueError(f"Check agents {v} sextype {tmp_sextype}")
-        elif coloring == "DU":
-            for v in G:
-                tmp_drugtype = v.drug_use
-                if tmp_drugtype == "None":
-                    node_color.append("g")
-                elif tmp_drugtype == "NonInj":
-                    node_color.append("b")
-                elif tmp_drugtype == "Inj":
-                    node_color.append("r")
-                else:
-                    raise ValueError("Check agents {v}'s drug type {tmp_drugtype}")
-        elif coloring == "Tested":
+                val = getattr(v, coloring)
+                if val not in attrs:
+                    attrs.append(val)
+                node_color.append(color_order[attrs.index(val)])
+
+            return node_color
+
+        # hard coded coloring schemes
+        if coloring == "Tested":
             for v in G:
                 if v.haart:
                     node_color.append("g")
@@ -134,28 +122,10 @@ class NetworkGraphUtils:
                     node_color.append("y")
                 else:
                     node_color.append("g")
-        elif coloring == "Race":
-            for v in G:
-                if v.race == "WHITE":
-                    node_color.append("y")
-                elif v.race == "BLACK":  # tmp_aids == 1:
-                    node_color.append("g")
-                else:
-                    node_color.append("b")
-        elif coloring == "MSW":
-            for v in G:
-                if v.race == "BLACK":
-                    node_color.append("y")
-                elif v.high_risk_ever:
-                    node_color.append("b")
-                elif v.race == "WHITE":
-                    node_color.append("g")
-                else:
-                    raise ValueError("Check agents %s drug type %s" % (v, tmp_drugtype))
         else:
             raise ValueError(
                 "coloring value invalid!\n{coloring}\n \
-            Only 'SO','DU','Tested', 'Trtmt', and 'HIV' allowed!"
+            Only 'Tested', 'Trtmt', 'HR', 'HIV', or an Agent attribute allowed!"
             )
 
         return node_color
@@ -163,7 +133,7 @@ class NetworkGraphUtils:
     def visualize_network(
         self,
         outdir,
-        coloring="SO",
+        coloring="so",
         pos=None,
         return_layout=0,
         node_size=None,
