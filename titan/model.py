@@ -190,7 +190,7 @@ class HIVModel:
             make_agent_zero(4)
 
         if self.params.outputs.network.edge_list:
-            path = os.path.join(outdir, "network", "Edgelist_t0.txt")
+            path = os.path.join(outdir, "network", f"{run_id}_Edgelist_t0.txt")
             self.network_utils.write_graph_edgelist(path)
 
         for t in range(1, self.params.model.time_range + 1):
@@ -258,7 +258,9 @@ class HIVModel:
                         outdir,
                     )
                 if self.params.outputs.network.edge_list:
-                    path = os.path.join(outdir, "network", f"Edgelist_t{t}.txt")
+                    path = os.path.join(
+                        outdir, "network", f"{run_id}_Edgelist_t{t}.txt"
+                    )
                     self.network_utils.write_graph_edgelist(path)
 
         return run_id
