@@ -849,9 +849,16 @@ class HIVModel:
         if self.features.needle_exchange:
             for item in self.params.needle_exchange.values():
                 if item.start <= time < item.stop:
-                    self.exchange_prevalence = self.poisson(
-                        item.prevalence, self.np_random
-                    )
+                    if item.prevalence >= self.pop.pwid_agents.num_members():
+                        self.exchange_prevalence = item.prevalence
+                    else:
+                        self.exchange_prevalence = round(
+                            self.run_random.betavariate(
+                                item.prevalence,
+                                self.pop.pwid_agents.num_members() - item.prevalence,
+                            )
+                            * self.pop.pwid_agents.num_members()
+                        )
                     break
 
         target_set = utils.safe_shuffle(self.pop.pwid_agents.members, self.run_random)

@@ -258,13 +258,17 @@ def test_update_needle_exchange(make_model):
     # make at least one agent PWID
     agent = next(iter(model.pop.all_agents))
     agent.drug_use = "Inj"
+    if agent not in model.pop.pwid_agents.members:
+        model.pop.pwid_agents.add_agent(agent)
     assert model.num_exchange_enrolled == 0
 
     model.update_needle_exchange(time=3)
     assert model.num_exchange_enrolled == model.pop.pwid_agents.num_members()
+    assert model.pop.pwid_agents
 
     for a in model.pop.all_agents:
         if a.drug_use == "Inj":
+            assert a in model.pop.pwid_agents.members
             assert a.ssp
 
 
