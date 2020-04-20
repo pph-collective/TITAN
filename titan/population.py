@@ -4,7 +4,7 @@
 import random
 from collections import deque
 
-from typing import List, Dict, Any, Optional, Set
+from typing import List, Dict, Any, Set
 import numpy as np  # type: ignore
 import networkx as nx  # type: ignore
 
@@ -424,14 +424,16 @@ class Population:
             f"target partnerships: {sum([a.target_partners for a in self.all_agents])}"
         )
         print(
-            f"actual partnerships (pre): {sum([len(a.partners) for a in self.all_agents])}"
+            f"actual partnerships (pre): "
+            f"{sum([len(a.partners) for a in self.all_agents])}"
         )
 
         # update agent targets annually
         if t % 12 == 0:
             self.update_partner_targets()
             print(
-                f"\tUpdated partner targets, {self.partnerable_agents.num_members()} now partnerable"
+                f"\tUpdated partner targets, {self.partnerable_agents.num_members()} "
+                f"now partnerable"
             )
 
         # Now create partnerships until available partnerships are out
@@ -455,7 +457,8 @@ class Population:
                 eligible_agents.append(agent)
 
         print(
-            f"actual partnerships (post): {sum([len(a.partners) for a in self.all_agents])}"
+            f"actual partnerships (post): "
+            f"{sum([len(a.partners) for a in self.all_agents])}"
         )
 
     def update_partner_targets(self):
@@ -492,7 +495,8 @@ class Population:
                     if self.pop_random.random() < 0.1:
                         for rel in ag.relationships:
                             if len(ag.relationships) == 1:
-                                break  # Make sure that agents stay part of the network by keeping one bond
+                                break  # Make sure that agents stay part of the
+                                # network by keeping one bond
                             rel.progress(force=True)
                             self.remove_relationship(rel)
                             component.remove_edge(rel.agent1, rel.agent2)

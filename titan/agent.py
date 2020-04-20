@@ -363,7 +363,10 @@ class Relationship:
             return self.agent1
 
     def __repr__(self):
-        return f"\t{self.id}\t{self.agent1.id}\t{self.agent2.id}\t{self.duration}\t{self.bond_type}"
+        return (
+            f"\t{self.id}\t{self.agent1.id}\t{self.agent2.id}\t{self.duration}\t"
+            f"{self.bond_type} "
+        )
 
 
 class AgentSet:

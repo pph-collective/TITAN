@@ -35,7 +35,7 @@ partnership:
           prob: 1.0
           min: 37
           max: 48
-    frequency: # REVIEWED this is the same default as sex.duration - seems odd? - Sarah to fix
+    frequency:
       type: bin
       description: "Binned probabilities of number of sex acts of a partnership at a given time step"
       fields:

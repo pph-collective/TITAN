@@ -1,9 +1,6 @@
 import random
-from typing import TypeVar, Optional, Collection
 from functools import wraps
-from math import factorial
-
-import numpy as np  # type: ignore
+from typing import TypeVar, Optional, Collection
 
 
 def get_check_rand_int(seed):
@@ -76,7 +73,8 @@ def poisson(mu: float, np_rand):
 
 def memo(f):
     """
-    decorator to memoize a function (caches results given args, only use if deterministic)
+    decorator to memoize a function
+    caches results given args, only use if deterministic)
     """
     cache = {}
 

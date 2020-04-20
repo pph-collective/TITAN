@@ -17,7 +17,6 @@ from .population import Population
 from .network import NetworkGraphUtils
 from . import output as ao
 from . import probabilities as prob
-from .partnering import sex_possible
 from . import utils
 from .parse_params import ObjMap
 
@@ -88,7 +87,8 @@ class HIVModel:
             for st in params.classes.sex_types:
                 self.prep_agents[race][st] = 0
 
-        # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed value
+        # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed
+        # value
         print(f"\tRun seed was set to: {self.run_seed}")
         self.run_random = random.Random(self.run_seed)
         self.np_random = np.random.RandomState(self.run_seed)
@@ -634,8 +634,6 @@ class HIVModel:
         agent_race = agent.race
         agent_sex_type = agent.so
 
-        # REVIEWED why is the mean number of sex acts for a class multiplied by
-        # needle calibration? - change to num_needle_acts
         mean_num_acts = (
             self.demographics[agent_race][agent_sex_type].num_needle_acts
             * self.calibration.needle.act
@@ -991,7 +989,6 @@ class HIVModel:
                     if not partner.hiv and not agent.vaccine:
                         self.initiate_prep(partner, time)
 
-    # REVIEW - change verbage to diagnosed
     def diagnose_hiv(self, agent: Agent, time: int):
         """
         :Purpose:

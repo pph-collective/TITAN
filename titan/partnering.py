@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 # Imports
-from typing import Set, Optional, Tuple, Dict
+from typing import Optional, Tuple, Dict
 from copy import copy
 
 from .agent import Agent, AgentSet
@@ -44,7 +44,8 @@ def select_partner(
         ).pop()
 
         if partner_type == "__other__":
-            # remove all the specified (not selected) values and remove those partners from the eligible set
+            # remove all the specified (not selected) values and remove those
+            # partners from the eligible set
             for p in partner_types:
                 if p != "__other__":
                     eligible_partners = {

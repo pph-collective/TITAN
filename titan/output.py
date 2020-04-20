@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 from typing import Dict, Any, List
-from .agent import AgentSet, Relationship, Agent
+from .agent import AgentSet, Agent
 from copy import deepcopy
 from uuid import UUID
 import os
