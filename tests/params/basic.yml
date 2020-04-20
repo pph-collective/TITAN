@@ -1,6 +1,9 @@
 demographics:
   BLACK:
     ppl: 0.6
+    needle_exchange:
+      prob: 1.0
+      discontinue: 0.0
     MSM:
       ppl: 0.3
       num_partners: 10.0
@@ -21,6 +24,9 @@ demographics:
         prob: 0.1
       safe_sex: 0.1
       needle_sharing: 0.1
+      needle_exchange:
+        prob: 1.0
+        discontinue: 0.0
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -195,6 +201,9 @@ demographics:
           prob: 0.1
   WHITE:
     ppl: 0.4
+    needle_exchange:
+      prob: 1.0
+      discontinue: 0.0
     MSM:
       ppl: 0.3
       num_partners: 10.0
@@ -448,10 +457,10 @@ prep:
   target: 0.3
 
 needle_exchange:
-  exchange_1:
+  exchange_open:
     start: 0
     stop: 12
-    prevalence: 1.0
+    prevalence: 100
 
 features:
   incar: true

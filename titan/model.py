@@ -642,7 +642,7 @@ class HIVModel:
         )
         share_acts = utils.poisson(mean_num_acts, self.np_random)
 
-        if agent.sne:  # safe needle exchange - minimal sharing
+        if agent.ssp:  # safe needle exchange - minimal sharing
             p_unsafe_needle_share = 0.02  # minimal needle sharing
         else:  # they do share a needle
 
@@ -849,38 +849,27 @@ class HIVModel:
         if self.features.needle_exchange:
             for item in self.params.needle_exchange.values():
                 if item.start <= time < item.stop:
-                    self.exchange_prevalence = item.prevalence
+                    self.exchange_prevalence = self.poisson(
+                        item.prevalence, self.np_random
+                    )
                     break
 
         target_set = utils.safe_shuffle(self.pop.pwid_agents.members, self.run_random)
-        max_sne = max(
-            0, round(self.exchange_prevalence * self.pop.pwid_agents.num_members())
-        )
 
         for agent in target_set:
-            if agent.sne:
-                if (
-                    self.run_random.random()
-                    < self.demographics[agent.race][
-                        agent.so
-                    ].needle_exchange.discontinue
-                ):
-                    agent.sne = False
+            if agent.ssp:
+                if self.num_exchange_enrolled > self.exchange_prevalence:
+                    agent.ssp = False
                     self.num_exchange_enrolled -= 1
-
-            else:
-                if (
+                elif (
                     self.run_random.random()
-                    < self.demographics[agent.race][agent.so].needle_exchange.prob
+                    < self.demographics[agent.race].PWID.needle_exchange.discontinue
                 ):
-                    agent.sne = True
-                    self.num_exchange_enrolled += 1
-
-        while self.num_exchange_enrolled > max_sne:
-            for agent in target_set:
-                if agent.sne:
-                    agent.sne = False
+                    agent.ssp = False
                     self.num_exchange_enrolled -= 1
+            elif self.num_exchange_enrolled < self.exchange_prevalence:
+                agent.ssp = True
+                self.num_exchange_enrolled += 1
 
     def become_high_risk(self, agent: Agent, duration: int = None):
 

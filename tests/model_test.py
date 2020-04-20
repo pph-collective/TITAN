@@ -265,7 +265,7 @@ def test_update_needle_exchange(make_model):
 
     for a in model.pop.all_agents:
         if a.drug_use == "Inj":
-            assert a.sne
+            assert a.ssp
 
 
 def test_become_high_risk(make_model, make_agent):

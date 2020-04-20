@@ -69,7 +69,7 @@ class Agent:
         self.haart = False
         self.haart_time = 0
         self.haart_adherence = 0
-        self.sne = False
+        self.ssp = False
         self.prep = False
         self.prep_adherence = 0
         self.prep_reason: List[str] = []

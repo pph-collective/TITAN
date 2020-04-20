@@ -27,7 +27,7 @@ def stats(params):
     a.aids = True
     a.hiv_dx = True
     a.haart = True
-    a.sne = True
+    a.ssp = True
     a.prep = True
     a.intervention_ever = True
     a.high_risk = True

@@ -168,7 +168,7 @@ flag_RaceAssortMix = True
 params.assort_mix.coefficient = (
     0.75  # Proportion of race1 mixing with race2 when partnering.
 )
-params.needle_exchange.prevalence = 1.0  # Prevalence scalar on SNE
+params.needle_exchange.prevalence = 1.0  # Prevalence scalar on SSP
 params.needle_exchange.init_at_pop = 0
 params.needle_exchange.coverage = 0.0
 params.model.network.component_size.max = 100

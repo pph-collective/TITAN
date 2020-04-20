@@ -75,7 +75,7 @@ def test_agent_init(make_agent):
     assert a.haart is False
     assert a.haart_time == 0
     assert a.haart_adherence == 0
-    assert a.sne is False
+    assert a.ssp is False
     assert a.intervention_ever is False
     assert a.prep_reason == []
     assert a.vaccine_time == 0
