@@ -46,7 +46,7 @@ high_risk:
       duration: 6
     HF:
       duration: 6
-  # condom_use_type: Partners # TO_REVIEW what is Partners condom_use_type, right now only race is set up
+  condom_use_type: Acts
 features:
   assort_mix: true
   incar: true

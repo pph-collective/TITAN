@@ -770,14 +770,17 @@ class HIVModel:
 
             if partner.vaccine:
                 p_per_act_perc = 1.0
+                vaccine_time_months = (
+                    partner.vaccine_time / self.params.model.time.steps_per_year
+                ) * 12
                 if self.vaccine.type == "HVTN702":
                     p_per_act_perc *= np.exp(
-                        -2.88 + 0.76 * (np.log((partner.vaccine_time + 0.001) * 30))
-                    )  # REVIEWED hard coded numbers - make into days - SARAH to check
+                        -2.88 + 0.76 * (np.log((vaccine_time_months + 0.001) * 30))
+                    )
                 elif self.vaccine.type == "RV144":
                     p_per_act_perc *= np.exp(
-                        -2.40 + 0.76 * (np.log(partner.vaccine_time))
-                    )  # REVIEWED hard coded numbers - make into consistent time period - SARAH to check
+                        -2.40 + 0.76 * (np.log(vaccine_time_months))
+                    )
 
                 p_per_act *= 1 - p_per_act_perc
 

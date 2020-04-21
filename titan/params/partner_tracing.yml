@@ -1,7 +1,7 @@
 partner_tracing:
   hiv:
     dx:
-      default: 0.87
+      default: 1.0
       description: Probability that an agent who is traced and has hiv gets diagnosed with hiv - SARAH REVIEW THIS should be TP / (TP + FN)
       type: float
       min: 0
