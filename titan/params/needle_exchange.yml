@@ -10,12 +10,15 @@ needle_exchange:
     prevalence:
       type: int
       description: "Cap for number of available slots in SSP"
-
+    risk:
+      type: float
+      description: "Risk of unsafe sharing for agents enrolled in the SSP"
 
   default:
     exchange_open:
       start: 0
       stop: 0
       prevalence: 0
+      risk: 0.02
 
 

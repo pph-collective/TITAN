@@ -52,3 +52,9 @@ calibration:
       type: int
       description: How many failed attempts an agent can have at partnering in a given round before removing them from the eligible pool
       min: 0
+  haart:
+    transmission:
+      default: 1.0
+      description: Scaling factor for effictiveness of ART therapy on transmission probability
+      type: float
+      min: 0.0

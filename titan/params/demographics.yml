@@ -205,7 +205,7 @@ demographics:
       min: 0.0
     safe_sex:
       default: 0.0
-      description: "Pobability of safe sex (condom use) per sex act"
+      description: "Probability of safe sex (condom use) per sex act"
       type: float
       min: 0.0
       max: 1.0

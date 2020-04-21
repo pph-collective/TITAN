@@ -141,8 +141,8 @@ def test_get_transmission_probability(make_model, make_agent):
     )
     scale = model.params.calibration.transmission
 
-    assert model.get_transmission_probability("NEEDLE", a, p) == p_needle * scale
-    assert model.get_transmission_probability("SEX", a, p) == p_sex * scale
+    assert model.get_transmission_probability("injection", a, p) == p_needle * scale
+    assert model.get_transmission_probability("sex", a, p) == p_sex * scale
 
     # test one vers agent, one receptive agent
     a.sex_role = "receptive"
@@ -155,8 +155,8 @@ def test_get_transmission_probability(make_model, make_agent):
         * model.params.partnership.sex.transmission.MSM.receptive
     )
 
-    assert model.get_transmission_probability("SEX", a, p) == p_sex_ins * scale
-    assert model.get_transmission_probability("SEX", p, a) == p_sex_rec * scale
+    assert model.get_transmission_probability("sex", a, p) == p_sex_ins * scale
+    assert model.get_transmission_probability("sex", p, a) == p_sex_rec * scale
 
 
 def test_needle_transmission(make_model, make_agent):

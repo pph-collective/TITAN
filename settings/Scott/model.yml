@@ -1,2 +1,22 @@
 model:
   num_pop: 24110
+  time_range: 60
+  network:
+    enable: true
+    type: scale_free
+  population:
+    num_partners: bin
+
+features:
+  haart: true
+  die_and_replace: true
+  bond_type: true
+  needle_exchange: true
+
+needle_exchange:
+  exchange_off:
+    start: 0
+    stop: 60
+    prevalence: 0
+    risk: 0.02
+

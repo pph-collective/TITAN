@@ -1,11 +1,18 @@
 hiv:
   dx:
     risk_reduction:
-      default: 0
-      description: risk redection in transmission probability for diagnosed agents
-      type: float
-      min: 0
-      max: 1
+      sex:
+        default: 0
+        description: risk redection in sex transmission probability for diagnosed agents
+        type: float
+        min: 0
+        max: 1
+      injection:
+        default: 0
+        description: risk redection in sex transmission probability for diagnosed agents
+        type: float
+        min: 0
+        max: 1
   acute:
     infectivity:
       default: 4.3

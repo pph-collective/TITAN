@@ -78,7 +78,8 @@ class HIVModel:
         self.new_prep = AgentSet("new_prep")
 
         self.total_dx = 0
-        self.exchange_prevalence = 0.0
+        self.exchange_prevalence = 0
+        self.exchange_enrolled_risk = 0.0
         self.num_exchange_enrolled = 0
 
         self.prep_agents: Dict[str, Dict[str, int]] = {}
@@ -641,7 +642,7 @@ class HIVModel:
         share_acts = utils.poisson(mean_num_acts, self.np_random)
 
         if agent.ssp:  # safe needle exchange - minimal sharing
-            p_unsafe_needle_share = 0.02  # minimal needle sharing
+            p_unsafe_needle_share = self.exchange_enrolled_risk
         else:  # they do share a needle
 
             # If sharing, minimum of 1 share act
@@ -657,7 +658,7 @@ class HIVModel:
                 share_acts -= 1
 
         if share_acts >= 1.0:
-            p = self.get_transmission_probability("NEEDLE", agent, partner)
+            p = self.get_transmission_probability("injection", agent, partner)
 
             p_total_transmission: float
             if share_acts == 1:
@@ -720,7 +721,7 @@ class HIVModel:
         if unsafe_sex_acts >= 1:
             # agent is HIV+
             rel.total_sex_acts += unsafe_sex_acts
-            p_per_act = self.get_transmission_probability("SEX", agent, partner)
+            p_per_act = self.get_transmission_probability("sex", agent, partner)
 
             # Reduction of transmissibility for acts between partners for PrEP adherence
             if agent.prep or partner.prep:
@@ -777,16 +778,16 @@ class HIVModel:
         # Logic for if needle or sex type interaction
         p: float
         assert interaction in (
-            "NEEDLE",
-            "SEX",
+            "injection",
+            "sex",
         ), f"Invalid interaction type {interaction}"
 
         agent_sex_role = agent.sex_role
         partner_sex_role = partner.sex_role
 
-        if interaction == "NEEDLE":
+        if interaction == "injection":
             p = self.params.partnership.needle.transmission[agent.haart_adherence].prob
-        elif interaction == "SEX":
+        elif interaction == "sex":
             # get partner's sex role during acts
             if partner_sex_role == "versatile":
                 if agent_sex_role == "insertive":
@@ -805,11 +806,11 @@ class HIVModel:
 
         # Scaling parameter for positively identified HIV agents
         if agent.hiv_dx:
-            p *= 1 - self.params.hiv.dx.risk_reduction
+            p *= 1 - self.params.hiv.dx.risk_reduction[interaction]
 
         # Tuning parameter for ART efficiency
         if agent.haart:
-            p *= self.params.haart.transmission.prob
+            p *= self.params.calibration.haart.transmission
 
         # Racial calibration parameter to attain proper race incidence disparity
         p *= self.params.demographics[partner.race].hiv.transmission
@@ -847,6 +848,7 @@ class HIVModel:
         if self.features.needle_exchange:
             for item in self.params.needle_exchange.values():
                 if item.start <= time < item.stop:
+                    self.exchange_enrolled_risk = item.risk
                     if item.prevalence >= self.pop.pwid_agents.num_members():
                         self.exchange_prevalence = item.prevalence
                     else:
