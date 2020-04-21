@@ -47,10 +47,6 @@ features:
     default: false
     description: Whether to have peer change agents spreading awareness of PrEP
     type: boolean
-  bond_type:
-    default: false
-    description: whether predefined bond types are used
-    type: boolean
   needle_exchange:
     default: false
     description: Whether to have safe needle exchange in the model
