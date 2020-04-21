@@ -7,7 +7,7 @@ demographics:
       ppl: 1.0
       sex_role:
         init:
-          vers: 0.437
+          versatile: 0.437
           insertive: 0.242
           receptive: 0.321
       num_partners: 5.0
@@ -33,7 +33,7 @@ demographics:
     MSM:
       sex_role:
         init:
-          vers: 0.544
+          versatile: 0.544
           insertive: 0.228
           receptive: 0.228
       ppl: 1.0

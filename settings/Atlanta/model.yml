@@ -4,9 +4,9 @@ model:
     ppl: 0
     net: 0
     run: 0
-  num_pop: 174
-  time_range: 120
-  burn_duration: 36
+  num_pop: 17440
+  time_range: 24
+  burn_duration: 24
   network:
     type: scale_free
   population:
