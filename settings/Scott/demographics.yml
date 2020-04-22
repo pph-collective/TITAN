@@ -13,7 +13,7 @@ demographics:
           prob: 0.41  # TODO: correct number
           adherence: 0.405
           discontinue: 0.000
-      syringe_sharing: 0.43
+      unsafe_injection: 0.43
       age:
         1:
           prob: .221
@@ -44,7 +44,7 @@ demographics:
           prob: 0.2  # TODO: correct number
           adherence: 0.405
           discontinue: 0.000
-      syringe_sharing: 0.43
+      unsafe_injection: 0.43
       age:
         1:
           prob: .221
@@ -72,7 +72,7 @@ demographics:
         prob: 0.0
         adherence: 0.405
         discontinue: 0.000
-      syringe_sharing: 0.34
+      unsafe_injection: 0.34
       num_syringe_acts: 5.0
       age:
         1:

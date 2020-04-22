@@ -20,7 +20,7 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      syringe_sharing: 0.1
+      unsafe_injection: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -52,7 +52,7 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      syringe_sharing: 0.1
+      unsafe_injection: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -84,7 +84,7 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      syringe_sharing: 0.1
+      unsafe_injection: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -116,7 +116,7 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      syringe_sharing: 0.1
+      unsafe_injection: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -148,7 +148,7 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      syringe_sharing: 0.1
+      unsafe_injection: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -182,7 +182,7 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      syringe_sharing: 0.1
+      unsafe_injection: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -198,7 +198,6 @@ demographics:
   WHITE:
     ppl: 0.4
     syringe_services:
-      prob: 1.0
       discontinue: 0.0
     MSM:
       ppl: 0.3
@@ -219,7 +218,7 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      syringe_sharing: 0.1
+      unsafe_injection: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -251,7 +250,7 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      syringe_sharing: 0.1
+      unsafe_injection: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -283,7 +282,7 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      syringe_sharing: 0.1
+      unsafe_injection: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -315,7 +314,7 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      syringe_sharing: 0.1
+      unsafe_injection: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -347,7 +346,7 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      syringe_sharing: 0.1
+      unsafe_injection: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -379,7 +378,7 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      syringe_sharing: 0.1
+      unsafe_injection: 0.1
       syringe_services:
         discontinue: 0.0
       prep:
@@ -454,8 +453,8 @@ partnership:
 prep:
   target: 0.3
 
-timeline:
-  syringe_services:
+syringe_services:
+  timeline:
     ssp_open:
       start: 1
       stop: 12

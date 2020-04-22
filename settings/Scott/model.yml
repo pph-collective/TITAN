@@ -13,8 +13,8 @@ features:
   bond_type: true
   syringe_services: true
 
-timeline:
-  syringe_services:
+syringe_services:
+  timeline:
     ssp_off:
       start: 0
       stop: 60

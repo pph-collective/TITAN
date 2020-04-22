@@ -655,7 +655,7 @@ class HIVModel:
 
             p_unsafe_injection = self.demographics[agent_race][
                 agent_sex_type
-            ].syringe_sharing
+            ].unsafe_injection
 
         for n in range(share_acts):
             if self.run_random.random() > p_unsafe_injection:
@@ -854,7 +854,7 @@ class HIVModel:
         """
         print(("\n\n!!!!Engaging syringe services program"))
         if self.features.syringe_services:
-            for item in self.params.timeline.syringe_services.values():
+            for item in self.params.syringe_services.timeline.values():
                 if item.start <= time < item.stop:
                     self.ssp_enrolled_risk = item.risk
                     if item.prevalence >= self.pop.pwid_agents.num_members():

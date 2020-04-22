@@ -1,5 +1,5 @@
-timeline:
-  syringe_services:
+syringe_services:
+  timeline:
     type: definition
     fields:
       start:
