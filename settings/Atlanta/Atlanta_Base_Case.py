@@ -104,9 +104,9 @@ flag_RaceAssortMix = True
 params.assort_mix.coefficient = (
     0.75  # Proportion of race1 mixing with race2 when partnering.
 )
-params.syringe_services.prevalence = 1.0  # Prevalence scalar on SSP
-params.syringe_services.init_at_pop = 0
-params.syringe_services.coverage = 0.0
+params.timeline.syringe_services.prevalence = 1.0  # Prevalence scalar on SSP
+params.timeline.syringe_services.init_at_pop = 0
+params.timeline.syringe_services.coverage = 0.0
 
 """
 Vaccine params

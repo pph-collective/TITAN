@@ -13,12 +13,13 @@ features:
   bond_type: true
   syringe_services: true
 
-syringe_services:
-  ssp_off:
-    start: 0
-    stop: 60
-    prevalence: 0
-    risk: 0.02
+timeline:
+  syringe_services:
+    ssp_off:
+      start: 0
+      stop: 60
+      prevalence: 0
+      risk: 0.02
 
 hiv:
   dx:

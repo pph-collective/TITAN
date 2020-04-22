@@ -104,9 +104,9 @@ params.features.assort_mix = True  # Boolean for if assortative mixing occurs at
 params.assort_mix.type = "high_risk"  # Other assortative mixing types
 flag_RaceAssortMix = False  # Assortative mix by race
 params.assort_mix.coefficient = 0.3  # Proportion of following given assort mix rules
-params.syringe_services.prevalence = 1.0  # Prevalence scalar on SSP
-params.syringe_services.init_at_pop = 999999
-params.syringe_services.coverage = 0.0
+params.timelinesyringe_services.prevalence = 1.0  # Prevalence scalar on SSP
+params.timeline.syringe_services.init_at_pop = 999999
+params.timeline.syringe_services.coverage = 0.0
 params.high_risk.condom_use_type = "Partners"
 
 """
