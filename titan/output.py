@@ -380,7 +380,7 @@ def basicReport(
 
 
 def print_components(
-    run_id: UUID, t: int, runseed: int, popseed: int, components, outdir: str, params
+    run_id: UUID, t: int, runseed: int, popseed: int, components, outdir: str, races
 ):
     """
     Write stats describing the components (sub-graphs) in a graph to file
@@ -390,7 +390,7 @@ def print_components(
     race_count: Dict[str, int] = {}
     race_list = []
     header = ""
-    for race in params.classes.races:
+    for race in races:
         race_count[race] = 0
         race_list.append(race)
         header += "\t" + race
@@ -399,7 +399,7 @@ def print_components(
     if f.tell() == 0:
         f.write(
             "run_id\trunseed\tpopseed\tt\tcompID\ttotalN\tNhiv\tNprep\tNtrtHIV"
-            '\tTrtComponent\tPCA\tOral"\tDensity\tEffectiveSize' + header + "\n"
+            "\tTrtComponent\tPCA\tOral\tDensity\tEffectiveSize" + header + "\n"
         )
 
     comp_id = 0
@@ -411,6 +411,7 @@ def print_components(
         tot_agents = (
             nhiv
         ) = ntrthiv = nprep = trtbool = injectable_prep = oral = aware = pca = nidu = 0
+        race_str = ""
 
         for agent in comp.nodes():
             tot_agents += 1
@@ -443,12 +444,15 @@ def print_components(
         average_size = total_size / comp.number_of_nodes()
         comp_density = density(comp)
 
+        for race in race_list:
+            race_str += "\t" + str(race_count[race])
+
         f.write(
             f"{run_id}\t{runseed}\t{popseed}\t{t}\t{comp_id}\t{tot_agents}\t"
             f"{nhiv}\t"
             f"{nprep}\t{ntrthiv}\t{trtbool}\t{pca}\t{oral}\t{injectable_prep}"
             f"\t{aware}\t{nidu}\t{comp_centrality:.4f}\t{comp_density:.4f}"
-            f"\t{average_size:.4f}\n"
+            f"\t{average_size:.4f}\t{race_str}\n"
         )
 
         comp_id += 1

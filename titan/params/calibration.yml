@@ -31,11 +31,6 @@ calibration:
     description: Scaling factor for all cause mortality rates
     type: float
     min: 0
-  haart_coverage:
-    default: 1.0
-    description: Scaling factor for enrollment on ART probability
-    type: float
-    min: 0.0
   incarceration:
     default: 1.0
     description: Scaling factor for probability of becoming incarcerated
@@ -56,5 +51,10 @@ calibration:
     transmission:
       default: 1.0
       description: Scaling factor for effictiveness of ART therapy on transmission probability
+      type: float
+      min: 0.0
+    coverage:
+      default: 1.0
+      description: Scaling factor for enrollment on ART probability
       type: float
       min: 0.0

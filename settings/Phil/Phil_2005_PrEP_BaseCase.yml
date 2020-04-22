@@ -33,7 +33,8 @@ calibration:
   test_frequency: 0.7
   mortality: 0.5
   aids_progression: 1.0
-  haart_coverage: 0.7
+  haart:
+    coverage: 0.7
   incarceration: 1.0
   race_transmission: 1.0
   partner_sample_depth: 100

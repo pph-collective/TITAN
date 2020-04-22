@@ -183,7 +183,7 @@ class HIVModel:
                 self.pop.pop_seed,
                 self.pop.connected_components(),
                 outdir,
-                self.params,
+                self.params.classes.races,
             )
 
         print("\t===! Start Main Loop !===")
@@ -254,7 +254,7 @@ class HIVModel:
                         self.pop.pop_seed,
                         self.pop.connected_components(),
                         outdir,
-                        self.params,
+                        self.params.classes.races,
                     )
                 if self.params.outputs.network.edge_list:
                     path = os.path.join(outdir, "network", f"Edgelist_t{t}.txt")
@@ -411,9 +411,10 @@ class HIVModel:
                 if rel.progress():
                     self.pop.remove_relationship(rel)
 
+        if self.features.syringe_services:
+            self.update_syringe_services(time)
+
         for agent in self.pop.all_agents:
-            if self.features.syringe_services:
-                self.update_syringe_services(time)
             if self.features.high_risk:
                 self.update_high_risk(agent, time)
 
@@ -498,10 +499,13 @@ class HIVModel:
             return False
 
         interaction_types = self.params.classes.bond_types[rel.bond_type].acts_allowed
+
         if "pca" in interaction_types and rel.duration < rel.total_duration:
             self.pca_interaction(rel, time)
+
         if "injection" in interaction_types:
             self.injection_transmission(agent, partner, time)
+
         if "sex" in interaction_types:
             self.sex_transmission(rel, time)
 
@@ -760,8 +764,6 @@ class HIVModel:
             if self.run_random.random() < p_total_transmission:
                 # if agent HIV+ partner becomes HIV+
                 self.hiv_convert(partner)
-                assert partner.hiv
-                assert rel.agent2.hiv
 
     def get_transmission_probability(self, interaction: str, agent, partner) -> float:
         """ Decriptor
@@ -789,13 +791,17 @@ class HIVModel:
             p = self.params.partnership.injection.transmission[
                 agent.haart_adherence
             ].prob
-        elif interaction == "sex":
+        else:
             # get partner's sex role during acts
-            if partner_sex_role == "versatile":
+            if partner_sex_role == "versatile":  # versatile partner takes
+                # "oppsosite" position of agent
                 if agent_sex_role == "insertive":
                     partner_sex_role = "receptive"
                 elif agent_sex_role == "receptive":
                     partner_sex_role = "insertive"
+                else:
+                    partner_sex_role = "versatile"  # if both versatile, can switch
+                    # between receptive and insertive by act
             # get probability of sex transmission
             p = self.params.partnership.sex.haart_scaling[agent.so][
                 agent.haart_adherence
@@ -1073,7 +1079,7 @@ class HIVModel:
             if not agent_haart and agent.haart_time == 0:
                 if self.run_random.random() < (
                     self.demographics[agent_race][agent_so].haart.prob
-                    * self.calibration.haart_coverage
+                    * self.calibration.haart.coverage
                 ):
 
                     haart_adh = self.demographics[agent_race][agent_so].haart.adherence

@@ -3,5 +3,6 @@ calibration:
     act: 1.0
     partner: 1.0
   test_frequency: 1.00
-  haart_coverage: 0.50
+  haart:
+    coverage: 0.50
   transmission: 0.50

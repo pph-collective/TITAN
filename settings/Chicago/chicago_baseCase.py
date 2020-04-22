@@ -74,7 +74,7 @@ params.calibration.haart.transmission = (
 params.calibration.test_frequency = 1.0  # Scaling factor for testing frequency
 params.calibration.mortality = 1.0  # Scaling factor for all cause mortality rates
 params.hiv.aids.prob = 1.0  # Scaling factor for all progression to AIDS from HIV rates
-params.calibration.haart_coverage = (
+params.calibration.haart.coverage = (
     1.0  # Scaling factor for enrollment on ART probability
 )
 params.calibration.incarceration = (

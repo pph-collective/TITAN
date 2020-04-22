@@ -58,6 +58,7 @@ class Population:
         self.pop_weights: Dict[str, Dict[str, List[Any]]] = {}
         self.role_weights: Dict[str, Dict] = {}
         for race in params.classes.races:
+            self.role_weights[race] = {}
             self.pop_weights[race] = {}
             self.pop_weights[race]["values"] = []
             self.pop_weights[race]["weights"] = []
@@ -67,8 +68,6 @@ class Population:
                     self.demographics[race][st].ppl
                 )
 
-            self.role_weights[race] = {}
-            for st in self.params.classes.sex_types:
                 self.role_weights[race][st] = {}
                 self.role_weights[race][st]["values"] = []
                 self.role_weights[race][st]["weights"] = []
@@ -260,9 +259,10 @@ class Population:
                 self.demographics[race][sex_type].num_partners, self.np_random
             )
 
-        agent.mean_num_partners = (
-            np.ceil(agent.mean_num_partners / self.mean_rel_duration)
+        agent.mean_num_partners = np.ceil(
+            agent.mean_num_partners
             * self.params.calibration.sex.partner
+            / self.mean_rel_duration
         )
 
         agent.target_partners = agent.mean_num_partners  # so not zero if added mid-year

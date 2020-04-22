@@ -456,7 +456,7 @@ prep:
 
 syringe_services:
   ssp_open:
-    start: 0
+    start: 1
     stop: 12
     prevalence: 100
     risk: 0.02
