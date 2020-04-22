@@ -88,16 +88,10 @@ demographics:
         type: float
         min: 0.0
         max: 1.0
-    needle_exchange:
-      prob:
-        default: 0.0
-        description: "Probability that an agent in this class with HIV becomes enrolled in HAART at a given time step"
-        type: float
-        min: 0.0
-        max: 1.0
+    syringe_services:
       discontinue:
         default: 0.0
-        description: "Probability that an agent on HAART discontinues HAART in a given time step"
+        description: "Probability that an agent enrolled in ssp drops out in a given time step"
         type: float
         min: 0.0
         max: 1.0
@@ -198,7 +192,7 @@ demographics:
       description: "Mean number of partners for an agent in this class if using model.population.num_partners.type = poisson"
       type: float
       min: 0.0
-    num_needle_acts: # REVIEWED this is used with needle, and agent.py has a function for getting number of sex acts - this corresponds to NUMSexActs
+    num_injection_acts: # REVIEWED this is used with needle, and agent.py has a function for getting number of sex acts - this corresponds to NUMSexActs
       default: 0.0
       description: "???"
       type: float
@@ -209,9 +203,9 @@ demographics:
       type: float
       min: 0.0
       max: 1.0
-    needle_sharing:
+    syringe_sharing:
       default: 0.0
-      description: "Probability of sharing a needle per act"
+      description: "Probability of sharing a syringe per act"
       type: float
       min: 0.0
       max: 1.0

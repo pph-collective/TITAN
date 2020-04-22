@@ -134,7 +134,7 @@ def test_get_transmission_probability(make_model, make_agent):
     p.haart_adherence = 1
 
     # test versatile-versatile relationship
-    p_needle = model.params.partnership.needle.transmission[1].prob
+    p_needle = model.params.partnership.injection.transmission[1].prob
     p_sex = (
         model.params.partnership.sex.haart_scaling["MSM"][1].prob
         * model.params.partnership.sex.transmission.MSM.versatile
@@ -165,14 +165,14 @@ def test_needle_transmission(make_model, make_agent):
     p = make_agent(race="WHITE", DU="Inj", SO="HF")
 
     with pytest.raises(AssertionError):
-        model.needle_transmission(a, p, time=0)
+        model.injection_transmission(a, p, time=0)
 
     a.hiv = True
     a.hiv_time = 1  # acute
 
     model.run_random = FakeRandom(-0.1)
 
-    model.needle_transmission(a, p, time=0)
+    model.injection_transmission(a, p, time=0)
 
     assert p.hiv
 
@@ -253,17 +253,17 @@ def test_hiv_convert(make_model, make_agent):
     assert a.prep is False
 
 
-def test_update_needle_exchange(make_model):
+def test_update_syringe_services(make_model):
     model = make_model()
     # make at least one agent PWID
     agent = next(iter(model.pop.all_agents))
     agent.drug_use = "Inj"
     if agent not in model.pop.pwid_agents.members:
         model.pop.pwid_agents.add_agent(agent)
-    assert model.num_exchange_enrolled == 0
+    assert model.num_ssp_enrolled == 0
 
-    model.update_needle_exchange(time=3)
-    assert model.num_exchange_enrolled == model.pop.pwid_agents.num_members()
+    model.update_syringe_services(time=3)
+    assert model.num_ssp_enrolled == model.pop.pwid_agents.num_members()
     assert model.pop.pwid_agents
 
     for a in model.pop.all_agents:

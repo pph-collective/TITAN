@@ -63,7 +63,7 @@ params.hiv.acute.infectivity = (
 params.hiv.dx.risk_reduction = (
     0.53  # Risk reduction in transmission probability for agents diagnosed
 )
-params.haart.transmission.prob = (
+params.calibration.haart.transmission = (
     1.0  # Scaling factor for effectiveness of ART therapy on xmission P
 )
 params.calibration.test_frequency = 0.70  # Scaling factor for testing frequency
@@ -104,9 +104,9 @@ params.features.assort_mix = True  # Boolean for if assortative mixing occurs at
 params.assort_mix.type = "high_risk"  # Other assortative mixing types
 flag_RaceAssortMix = False  # Assortative mix by race
 params.assort_mix.coefficient = 0.3  # Proportion of following given assort mix rules
-params.needle_exchange.prevalence = 1.0  # Prevalence scalar on SSP
-params.needle_exchange.init_at_pop = 999999
-params.needle_exchange.coverage = 0.0
+params.syringe_services.prevalence = 1.0  # Prevalence scalar on SSP
+params.syringe_services.init_at_pop = 999999
+params.syringe_services.coverage = 0.0
 params.high_risk.condom_use_type = "Partners"
 
 """

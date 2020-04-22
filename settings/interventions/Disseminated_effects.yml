@@ -1,6 +1,6 @@
 assort_mix:
   assort_nidu:
-    attribute: du
+    attribute: drug_use
     agent_value: nonInj
     partner_values:
       nonInj: 0.2
@@ -20,7 +20,8 @@ model:
   time_range: 24
   network:
     type: max_k_comp_size
-    component_size: 100
+    component_size:
+      max: 100
 
 features:
   static_network: true

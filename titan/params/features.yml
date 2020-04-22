@@ -47,7 +47,7 @@ features:
     default: false
     description: Whether to have peer change agents spreading awareness of PrEP
     type: boolean
-  needle_exchange:
+  syringe_services:
     default: false
-    description: Whether to have safe needle exchange in the model
+    description: Whether to have a syringe services program in the model
     type: boolean

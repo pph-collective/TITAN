@@ -11,12 +11,16 @@ features:
   haart: true
   die_and_replace: true
   bond_type: true
-  needle_exchange: true
+  syringe_services: true
 
-needle_exchange:
-  exchange_off:
+syringe_services:
+  ssp_off:
     start: 0
     stop: 60
     prevalence: 0
     risk: 0.02
 
+hiv:
+  dx:
+    risk_reduction:
+      sex: 0.27

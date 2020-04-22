@@ -61,7 +61,7 @@ assort_mix:
     partner_values:
       True: 0.3
       __other__: 0.7
-needle_exchange:
+syringe_services:
   prevalence: 1.0
   init_at_pop: 999999
   coverage: 0.0

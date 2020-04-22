@@ -72,12 +72,12 @@ partnership:
           max: 48
     haart_scaling:
       type: sub-dict
-      description: "probability of transmitting HIV for a given sex type"
+      description: "Scaling factor on HIV transmission for a given haart adherence"
       keys:
         - sex_types
       default:
         type: bin
-        description: "Binned probabilities of transmitting HIV"
+        description: "Binned scalar for HIV transmission"
         fields:
           prob:
             type: float
@@ -98,7 +98,7 @@ partnership:
             prob: 0.0
     transmission:
       type: sub-dict
-      description: "Scaling factor for hiv transmission for a given sex type for each sex role. Defaults are MSM values"
+      description: "Probability of contracting HIV given preferred sex position"
       keys:
         - sex_types
       default:
@@ -117,10 +117,10 @@ partnership:
           description: Probability for hiv transmission for a given sex type for receptive role
           min: 0.0
           default: 0.0138
-  needle:
+  injection:
     duration:
       type: bin
-      description: "Binned probabilities of length of a partnership's needle sharing durations"
+      description: "Binned probabilities of length of a partnership's injection partnership duration"
       fields:
         prob:
           type: float
@@ -139,7 +139,7 @@ partnership:
           max: 6
     frequency:
       type: bin
-      description: "Binned probabilities of frequency of a partnership's needle sharing"
+      description: "Binned probabilities of frequency of a partnership's syringe sharing"
       fields:
         prob:
           type: float
@@ -158,7 +158,7 @@ partnership:
           max: 6
     transmission:
       type: bin
-      description: Binned probabilities of transmission from needle sharing
+      description: Binned probabilities of transmission from syringe sharing given haart adherence
       fields:
         prob:
           type: float

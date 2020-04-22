@@ -73,11 +73,15 @@ def select_partner(
 
     acts_allowed = params.classes.bond_types[agent_bond].acts_allowed
 
-    if "needle" in acts_allowed:
+    if "injection" in acts_allowed:
         eligible &= pwid_agents.members
+        if not eligible:
+            return None, agent_bond
 
     if "sex" in acts_allowed:
         eligible &= sex_partners[agent.so]
+        if not eligible:
+            return None, agent_bond
 
     if params.features.assort_mix:
         for assort_def in params.assort_mix.values():
@@ -85,6 +89,8 @@ def select_partner(
                 eligible = assort(eligible, assort_def)
 
     random_partner = utils.safe_random_choice(eligible, rand_gen)
+    if "needle" in acts_allowed:
+        assert agent.drug_use == "Inj"
 
     return random_partner, agent_bond
 

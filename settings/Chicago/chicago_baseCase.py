@@ -68,7 +68,7 @@ params.hiv.acute.infectivity = (
 params.hiv.dx.risk_reduction = (
     1.0  # Risk reduction in transmission probability for agents diagnosed
 )
-params.haart.transmission.prob = (
+params.calibration.haart.transmission = (
     1.0  # Scaling factor for effectiveness of ART therapy on xmission P
 )
 params.calibration.test_frequency = 1.0  # Scaling factor for testing frequency
@@ -168,9 +168,9 @@ flag_RaceAssortMix = True
 params.assort_mix.coefficient = (
     0.75  # Proportion of race1 mixing with race2 when partnering.
 )
-params.needle_exchange.prevalence = 1.0  # Prevalence scalar on SSP
-params.needle_exchange.init_at_pop = 0
-params.needle_exchange.coverage = 0.0
+params.syringe_services.prevalence = 1.0  # Prevalence scalar on SSP
+params.syringe_services.init_at_pop = 0
+params.syringe_services.coverage = 0.0
 params.model.network.component_size.max = 100
 
 """

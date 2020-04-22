@@ -1,8 +1,8 @@
 calibration:
-  needle:
+  injection:
     act:
       default: 1.0
-      description: Scales number of needle acts during needle transmission
+      description: Scales number of injection acts during syringe-based transmission
       type: float
       min: 0
   sex:

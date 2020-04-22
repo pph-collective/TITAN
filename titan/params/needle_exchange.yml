@@ -1,12 +1,12 @@
-needle_exchange:
+syringe_services:
   type: definition
   fields:
     start:
       type: int
-      description: "What time to start this prevalence of needle exchange"
+      description: "What time to start this prevalence of syringe services program"
     stop:
       type: int
-      description: "What time to stop this prevalence of needle exchange"
+      description: "What time to stop this prevalence of syringe services program"
     prevalence:
       type: int
       description: "Cap for number of available slots in SSP"
@@ -15,7 +15,7 @@ needle_exchange:
       description: "Risk of unsafe sharing for agents enrolled in the SSP"
 
   default:
-    exchange_open:
+    ssp_open:
       start: 0
       stop: 0
       prevalence: 0

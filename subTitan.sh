@@ -26,7 +26,7 @@ do
     case "${option}"
         in
 	m) memory=${OPTARG};;
-        j) jobname=${OPTARG};;
+	j) jobname=${OPTARG};;
 	T) walltime=${OPTARG};;
 	S) setting=${OPTARG};;
 	r) repeats=${OPTARG};;

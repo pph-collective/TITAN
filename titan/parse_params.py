@@ -38,7 +38,7 @@ def check_item(val, d, keys=None):
     if d["type"] == "enum":
         assert val in d["values"], f"{val} not in {d}"
     if d["type"] == "array":
-        assert all(x in d["values"] for x in val)
+        assert all(x in d["values"] for x in val), f"{val} not in {d}"
     if d["type"] == "keys":
         assert all(x in keys for x in val)
     return val

@@ -78,9 +78,9 @@ class HIVModel:
         self.new_prep = AgentSet("new_prep")
 
         self.total_dx = 0
-        self.exchange_prevalence = 0
-        self.exchange_enrolled_risk = 0.0
-        self.num_exchange_enrolled = 0
+        self.ssp_prevalence = 0
+        self.ssp_enrolled_risk = 0.0
+        self.num_ssp_enrolled = 0
 
         self.prep_agents: Dict[str, Dict[str, int]] = {}
         for race in params.classes.races:
@@ -389,7 +389,7 @@ class HIVModel:
                 2 - get partners
                 3 - agent interacts with partners
                 5 - VCT (Voluntsry Counseling and Testing)
-                6 - if PWID: needle exchange
+                6 - if PWID: syringe services
                 7 - if HIV: HAART, AIDS
 
         :Input:
@@ -412,8 +412,8 @@ class HIVModel:
                     self.pop.remove_relationship(rel)
 
         for agent in self.pop.all_agents:
-            if self.features.needle_exchange:
-                self.update_needle_exchange(time)
+            if self.features.syringe_services:
+                self.update_syringe_services(time)
             if self.features.high_risk:
                 self.update_high_risk(agent, time)
 
@@ -500,8 +500,8 @@ class HIVModel:
         interaction_types = self.params.classes.bond_types[rel.bond_type].acts_allowed
         if "pca" in interaction_types and rel.duration < rel.total_duration:
             self.pca_interaction(rel, time)
-        if "needle" in interaction_types:
-            self.needle_transmission(agent, partner, time)
+        if "injection" in interaction_types:
+            self.injection_transmission(agent, partner, time)
         if "sex" in interaction_types:
             self.sex_transmission(rel, time)
 
@@ -613,11 +613,11 @@ class HIVModel:
             if self.run_random.random() < knowledge_transmission_probability() or force:
                 influence(relationship.agent1, relationship.agent2)
 
-    def needle_transmission(self, agent: Agent, partner: Agent, time: int):
+    def injection_transmission(self, agent: Agent, partner: Agent, time: int):
         """
         :Purpose:
             Simulate random transmission of HIV between two PWID agents
-            through needle.\n
+            through injection.
             Agent must by HIV+ and partner not.
 
         :Input:
@@ -636,25 +636,25 @@ class HIVModel:
         agent_sex_type = agent.so
 
         mean_num_acts = (
-            self.demographics[agent_race][agent_sex_type].num_needle_acts
-            * self.calibration.needle.act
+            self.demographics[agent_race][agent_sex_type].num_injection_acts
+            * self.calibration.injection.act
         )
         share_acts = utils.poisson(mean_num_acts, self.np_random)
 
-        if agent.ssp:  # safe needle exchange - minimal sharing
-            p_unsafe_needle_share = self.exchange_enrolled_risk
-        else:  # they do share a needle
+        if agent.ssp:  # syringe services program risk
+            p_unsafe_injection = self.ssp_enrolled_risk
+        else:  # they do share a syringe
 
             # If sharing, minimum of 1 share act
             if share_acts < 1:
                 share_acts = 1
 
-            p_unsafe_needle_share = self.demographics[agent_race][
+            p_unsafe_injection = self.demographics[agent_race][
                 agent_sex_type
-            ].needle_sharing
+            ].syringe_sharing
 
         for n in range(share_acts):
-            if self.run_random.random() > p_unsafe_needle_share:
+            if self.run_random.random() > p_unsafe_injection:
                 share_acts -= 1
 
         if share_acts >= 1.0:
@@ -770,7 +770,7 @@ class HIVModel:
             interaction type.
 
         :Input:
-            interaction : str - "NEEDLE" or "SEX"
+            interaction : str - "injection" or "sex"
 
         :Output:
             probability : float
@@ -786,7 +786,9 @@ class HIVModel:
         partner_sex_role = partner.sex_role
 
         if interaction == "injection":
-            p = self.params.partnership.needle.transmission[agent.haart_adherence].prob
+            p = self.params.partnership.injection.transmission[
+                agent.haart_adherence
+            ].prob
         elif interaction == "sex":
             # get partner's sex role during acts
             if partner_sex_role == "versatile":
@@ -839,20 +841,20 @@ class HIVModel:
         if agent.prep:
             self.discontinue_prep(agent, force=True)
 
-    def update_needle_exchange(self, time):
+    def update_syringe_services(self, time):
         """
         :Purpose:
-            Enroll PWID agents in needle exchange
+            Enroll PWID agents in syringe services
         """
-        print(("\n\n!!!!Engaging safe needle exchange process"))
-        if self.features.needle_exchange:
-            for item in self.params.needle_exchange.values():
+        print(("\n\n!!!!Engaging syringe services program"))
+        if self.features.syringe_services:
+            for item in self.params.syringe_services.values():
                 if item.start <= time < item.stop:
-                    self.exchange_enrolled_risk = item.risk
+                    self.ssp_enrolled_risk = item.risk
                     if item.prevalence >= self.pop.pwid_agents.num_members():
-                        self.exchange_prevalence = item.prevalence
+                        self.ssp_prevalence = item.prevalence
                     else:
-                        self.exchange_prevalence = round(
+                        self.ssp_prevalence = round(
                             self.run_random.betavariate(
                                 item.prevalence,
                                 self.pop.pwid_agents.num_members() - item.prevalence,
@@ -865,18 +867,18 @@ class HIVModel:
 
         for agent in target_set:
             if agent.ssp:
-                if self.num_exchange_enrolled > self.exchange_prevalence:
+                if self.num_ssp_enrolled > self.ssp_prevalence:
                     agent.ssp = False
-                    self.num_exchange_enrolled -= 1
+                    self.num_ssp_enrolled -= 1
                 elif (
                     self.run_random.random()
-                    < self.demographics[agent.race].PWID.needle_exchange.discontinue
+                    < self.demographics[agent.race].PWID.syringe_services.discontinue
                 ):
                     agent.ssp = False
-                    self.num_exchange_enrolled -= 1
-            elif self.num_exchange_enrolled < self.exchange_prevalence:
+                    self.num_ssp_enrolled -= 1
+            elif self.num_ssp_enrolled < self.ssp_prevalence:
                 agent.ssp = True
-                self.num_exchange_enrolled += 1
+                self.num_ssp_enrolled += 1
 
     def become_high_risk(self, agent: Agent, duration: int = None):
 
