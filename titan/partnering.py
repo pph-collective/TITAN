@@ -89,8 +89,6 @@ def select_partner(
                 eligible = assort(eligible, assort_def)
 
     random_partner = utils.safe_random_choice(eligible, rand_gen)
-    if "needle" in acts_allowed:
-        assert agent.drug_use == "Inj"
 
     return random_partner, agent_bond
 

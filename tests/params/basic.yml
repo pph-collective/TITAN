@@ -458,9 +458,12 @@ syringe_services:
     ssp_open:
       start: 1
       stop: 12
-      prevalence: 100
+      num_slots: 100
       risk: 0.02
 
+outputs:
+  network:
+    calc_component_stats: true
 features:
   incar: true
   prep: true

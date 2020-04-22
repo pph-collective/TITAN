@@ -260,10 +260,8 @@ def test_update_syringe_services(make_model):
     agent.drug_use = "Inj"
     if agent not in model.pop.pwid_agents.members:
         model.pop.pwid_agents.add_agent(agent)
-    assert model.num_ssp_enrolled == 0
 
     model.update_syringe_services(time=3)
-    assert model.num_ssp_enrolled == model.pop.pwid_agents.num_members()
     assert model.pop.pwid_agents
 
     for a in model.pop.all_agents:

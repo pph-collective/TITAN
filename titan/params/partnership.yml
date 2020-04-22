@@ -98,7 +98,7 @@ partnership:
             prob: 0.0
     transmission:
       type: sub-dict
-      description: "Probability of contracting HIV given preferred sex position"
+      description: "Probability of HIV negative partner contracting HIV given their preferred sex position"
       keys:
         - sex_types
       default:
@@ -121,25 +121,6 @@ partnership:
           max: 1.0
           default: 0.0138
   injection:
-    duration:
-      type: bin
-      description: "Binned probabilities of length of a partnership's injection partnership duration"
-      fields:
-        prob:
-          type: float
-          min: 0.0
-          max: 1.0
-        min:
-          type: int
-          min: 0
-        max:
-          type: int
-          min: 0
-      default:
-        1:
-          prob: 1.0
-          min: 1
-          max: 6
     frequency:
       type: bin
       description: "Binned probabilities of frequency of a partnership's syringe sharing"

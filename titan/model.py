@@ -78,9 +78,7 @@ class HIVModel:
         self.new_prep = AgentSet("new_prep")
 
         self.total_dx = 0
-        self.ssp_prevalence = 0
         self.ssp_enrolled_risk = 0.0
-        self.num_ssp_enrolled = 0
 
         self.prep_agents: Dict[str, Dict[str, int]] = {}
         for race in params.classes.races:
@@ -803,10 +801,10 @@ class HIVModel:
                     partner_sex_role = "versatile"  # if both versatile, can switch
                     # between receptive and insertive by act
             # get probability of sex transmission
-            p = self.params.partnership.sex.haart_scaling[agent.so][
+            p = self.params.partnership.sex.transmission[partner.so][partner_sex_role]
+            p *= self.params.partnership.sex.haart_scaling[agent.so][
                 agent.haart_adherence
             ].prob
-            p *= self.params.partnership.sex.transmission[partner.so][partner_sex_role]
 
         # Scaling parameter for acute HIV infections
         if agent.get_acute_status():
@@ -853,14 +851,16 @@ class HIVModel:
             Enroll PWID agents in syringe services
         """
         print(("\n\n!!!!Engaging syringe services program"))
+        ssp_num_slots = 0
+        ssp_agents = {agent for agent in self.pop.pwid_agents.members if agent.ssp}
         if self.features.syringe_services:
             for item in self.params.syringe_services.timeline.values():
                 if item.start <= time < item.stop:
                     self.ssp_enrolled_risk = item.risk
-                    if item.prevalence >= self.pop.pwid_agents.num_members():
-                        self.ssp_prevalence = item.prevalence
+                    if item.num_slots >= self.pop.pwid_agents.num_members():
+                        ssp_num_slots = item.num_slots
                     else:
-                        self.ssp_prevalence = round(
+                        ssp_num_slots = round(
                             self.run_random.betavariate(
                                 item.prevalence,
                                 self.pop.pwid_agents.num_members() - item.prevalence,
@@ -869,22 +869,31 @@ class HIVModel:
                         )
                     break
 
-        target_set = utils.safe_shuffle(self.pop.pwid_agents.members, self.run_random)
+        target_set = utils.safe_shuffle(
+            (self.pop.pwid_agents.members - ssp_agents), self.run_random
+        )
 
-        for agent in target_set:
-            if agent.ssp:
-                if self.num_ssp_enrolled > self.ssp_prevalence:
-                    agent.ssp = False
-                    self.num_ssp_enrolled -= 1
-                elif (
-                    self.run_random.random()
-                    < self.demographics[agent.race].PWID.syringe_services.discontinue
-                ):
-                    agent.ssp = False
-                    self.num_ssp_enrolled -= 1
-            elif self.num_ssp_enrolled < self.ssp_prevalence:
-                agent.ssp = True
-                self.num_ssp_enrolled += 1
+        for agent in ssp_agents.copy():
+            if len(ssp_agents) > ssp_num_slots:
+                agent.ssp = False
+                ssp_agents.remove(agent)
+            elif (
+                self.run_random.random()
+                < self.demographics[agent.race].PWID.syringe_services.discontinue
+            ):
+                agent.ssp = False
+                ssp_agents.remove(agent)
+
+        if target_set:
+            for agent in target_set:
+                if len(ssp_agents) < ssp_num_slots:
+                    agent.ssp = True
+                    ssp_agents.add(agent)
+
+        print(
+            f"SSP has {ssp_num_slots} target slots with "
+            f"{len(ssp_agents)} slots filled"
+        )
 
     def become_high_risk(self, agent: Agent, duration: int = None):
 

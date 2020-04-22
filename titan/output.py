@@ -404,14 +404,12 @@ def print_components(
 
     comp_id = 0
     for comp in components:
-        comp_centrality = betweenness_centrality(comp)
-        centrality = 0
+        assert comp.number_of_nodes() >= 0
         size = effective_size(comp)
         total_size = 0
         tot_agents = (
             nhiv
         ) = ntrthiv = nprep = trtbool = injectable_prep = oral = aware = pca = nidu = 0
-        race_str = ""
 
         for agent in comp.nodes():
             tot_agents += 1
@@ -438,12 +436,15 @@ def print_components(
 
             if agent.drug_use == "NonInj":
                 nidu += 1
-            centrality += comp_centrality[agent]
             total_size += size[agent]
-        comp_centrality = centrality / comp.number_of_nodes()
-        average_size = total_size / comp.number_of_nodes()
+
+        comp_centrality = (
+            sum(betweenness_centrality(comp).values()) / comp.number_of_nodes()
+        )
+        average_size = sum(effective_size(comp).values()) / comp.number_of_nodes()
         comp_density = density(comp)
 
+        race_str = ""
         for race in race_list:
             race_str += "\t" + str(race_count[race])
 
@@ -452,7 +453,7 @@ def print_components(
             f"{nhiv}\t"
             f"{nprep}\t{ntrthiv}\t{trtbool}\t{pca}\t{oral}\t{injectable_prep}"
             f"\t{aware}\t{nidu}\t{comp_centrality:.4f}\t{comp_density:.4f}"
-            f"\t{average_size:.4f}\t{race_str}\n"
+            f"\t{average_size:.4f}{race_str}\n"
         )
 
         comp_id += 1
