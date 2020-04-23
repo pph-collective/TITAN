@@ -460,7 +460,8 @@ model:
     run: 1
     ppl: 2
   num_pop: 100
-  time_range: 100
+  time:
+    num_steps: 100
   network:
     enable: true
   population:

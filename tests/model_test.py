@@ -191,7 +191,9 @@ def test_sex_transmission(make_model, make_agent):
     rel.total_sex_acts = 0
     model.params.calibration.acquisition = 10
 
-    model.run_random = FakeRandom(0.4)
+    model.params.calibration.acquisition = 5
+    model.params.calibration.sex.act = 10
+    model.run_random = FakeRandom(0.6)
 
     # test partner becomes
     model.sex_transmission(rel, 0)
@@ -450,6 +452,7 @@ def test_discontinue_prep_decrement_end(make_model, make_agent):
     # set up so the agent appears to be on PrEP
     a.prep = True
     a.prep_reason = ["blah"]
+    a.prep_type = "Oral"
     num_prep = model.prep_agents[a.race][a.so]
     model.prep_agents[a.race][a.so] += 1
 
@@ -457,6 +460,7 @@ def test_discontinue_prep_decrement_end(make_model, make_agent):
 
     assert a.prep is False
     assert a.prep_reason == []
+    assert a.prep_type == ""
     assert num_prep == model.prep_agents[a.race][a.so]
 
 
@@ -470,6 +474,7 @@ def test_discontinue_prep_decrement_not_end(make_model, make_agent):
     a.prep = True
     a.prep_reason = ["blah"]
     a.prep_last_dose = 3
+    a.prep_type = "Inj"
     num_prep = model.prep_agents[a.race][a.so]
     model.prep_agents[a.race][a.so] += 1
 
@@ -477,9 +482,33 @@ def test_discontinue_prep_decrement_not_end(make_model, make_agent):
 
     assert a.prep
     assert a.prep_reason == ["blah"]
-    assert a.prep_last_dose == -1  # 3 -> -1 -> +1 == 0 # Inj no longer in PrEP types
+    assert a.prep_last_dose == 4  # 3 -> -1 -> +1 == 0 # Inj no longer in PrEP types
     assert num_prep + 1 == model.prep_agents[a.race][a.so]
-    # assert a.prep_load > 0 # Inj no longer in PrEP types
+    assert a.prep_load > 0  # Inj no longer in PrEP types
+
+
+def test_discontinue_prep_decrement_inj_end(make_model, make_agent):
+    model = make_model()
+    a = make_agent()
+
+    model.run_random = FakeRandom(1.1)
+
+    # set up so the agent appears to be on PrEP
+    a.prep = True
+    a.prep_reason = ["blah"]
+    a.prep_load = 0.4
+    a.prep_last_dose = 12  # last step before hitting year mark and discontinuing
+    a.prep_type = "Inj"
+    num_prep = model.prep_agents[a.race][a.so]
+    model.prep_agents[a.race][a.so] += 1
+
+    model.discontinue_prep(a)
+
+    assert a.prep is False
+    assert a.prep_reason == []
+    assert a.prep_last_dose == 0  # 3 -> -1 -> +1 == 0 # Inj no longer in PrEP types
+    assert num_prep == model.prep_agents[a.race][a.so]
+    assert a.prep_load == 0.0  # Inj no longer in PrEP types
 
 
 def test_initiate_prep_assertions(make_model, make_agent):

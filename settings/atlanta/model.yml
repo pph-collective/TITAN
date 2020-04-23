@@ -5,7 +5,7 @@ model:
     net: 0
     run: 0
   num_pop: 17440
-  time_range: 24
+  time_range: 120
   burn_duration: 24
   network:
     type: scale_free

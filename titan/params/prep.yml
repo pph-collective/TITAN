@@ -46,12 +46,13 @@ prep:
       - HighPN10
       - SR
       - Racial
+      - RandomTrial
       - MSM
     description: which model to use to determine who is enrolled in PrEP
     type: enum
   half_life:
     default: 40.0
-    description: Half life of injectable PrEP, used to calculate agent's prep load
+    description: Half life in days of injectable PrEP, used to calculate agent's prep load
     type: float
     min: 0
   peak_load:
@@ -134,3 +135,11 @@ prep:
           prob: 0.139
         4:
           prob: 0.429
+  random_trial:
+    intervention:
+      prob:
+        default: 0.5
+        description: Probablility that a network component is assigned to the treatment arm of the trial
+        type: float
+        min: 0
+        max: 1

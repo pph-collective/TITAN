@@ -180,7 +180,7 @@ class Population:
             p=self.role_weights[race][sex_type]["weights"],
         )
         if self.features.msmw and sex_type == "HM":
-            if self.pop_random.random() < 0.06:
+            if self.pop_random.random() < self.params.msmw.prob:
                 agent.msmw = True
 
         if drug_type == "Inj":
@@ -213,7 +213,7 @@ class Population:
                     agent.haart_time = 0
 
             # if HIV, how long has the agent had it? Random sample
-            agent.hiv_time = self.pop_random.randint(1, 42)
+            agent.hiv_time = self.pop_random.randint(1, self.params.hiv.max_init_time)
 
         else:
 
@@ -360,6 +360,17 @@ class Population:
             self.graph.remove_edge(rel.agent1, rel.agent2)
 
     def get_age(self, race: str):
+        """
+        :Purpose:
+            Get an age of an agent, given their race
+
+        :Input:
+            race : str
+
+        :Returns:
+            age : int
+            bin : int
+        """
         rand = self.pop_random.random()
 
         bins = self.demographics[race].age
@@ -429,7 +440,7 @@ class Population:
         )
 
         # update agent targets annually
-        if t % 12 == 0:
+        if t % self.params.model.time.steps_per_year == 0:
             self.update_partner_targets()
             print(
                 f"\tUpdated partner targets, {self.partnerable_agents.num_members()} "
@@ -492,7 +503,10 @@ class Population:
 
             def trim_component(component, max_size):
                 for ag in component.nodes:
-                    if self.pop_random.random() < 0.1:
+                    if (
+                        self.pop_random.random()
+                        < self.params.calibration.network.trim.prob
+                    ):
                         for rel in ag.relationships:
                             if len(ag.relationships) == 1:
                                 break  # Make sure that agents stay part of the

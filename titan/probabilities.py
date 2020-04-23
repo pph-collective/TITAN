@@ -11,6 +11,7 @@ def safe_sex(num_acts):
     :Input:
         :num_acts: Number of sex acts
     """
+    # REVIEWED hard coded number - needs to be tanslated to acts per month - SARAH TO CHECK ON probs
     if num_acts == 0:
         return 0.443
     elif num_acts == 1:
@@ -38,7 +39,7 @@ def adherence_prob(adherence):
 
 
 @utils.memo
-def get_death_rate(hiv, aids, race, haart_adh, death_rate):
+def get_death_rate(hiv, aids, race, haart_adh, death_rate, steps_per_year):
     if hiv:
         if aids:  # AIDS DEATH RATE
             p = death_rate.aids
@@ -53,4 +54,4 @@ def get_death_rate(hiv, aids, race, haart_adh, death_rate):
         p = death_rate.base
 
     # putting it into per 1 person-month from per 1000 person years
-    return p / 12000.0
+    return p / (steps_per_year * 1000.0)

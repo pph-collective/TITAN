@@ -5,8 +5,9 @@ model:
     net: 0
     run: 0
   num_pop: 5578
-  time_range: 24
-  burn_duration: 6
+  time:
+    num_steps: 24
+    burn_steps: 6
   network:
     type: max_k_comp_size
     component_size:
@@ -52,6 +53,8 @@ calibration:
   race_transmission: 1.0
   partner_sample_depth: 100
 classes:
+  races:
+    - BLACK
   bond_types_probs:
     social: 0.308
     multiplex: 0.105
@@ -61,9 +64,15 @@ classes:
     multiplex: 0.105
     sexOnly: 0.587
   bond_types:
-  - social
+    Social:
+      acts_allowed:
+        - pca
   sex_types:
-  - MSM
+    MSM:
+      gender: M
+      cis_trans: cis
+      sleeps_with:
+        - MSM
 high_risk:
   partner_scale: 300
   proportion: 0.3
@@ -99,143 +108,9 @@ prep:
   target_model: RandomTrial
   peak_load: 1.0
   half_life: 1.0
-PWID:
-  prep:
-    adherence: 1.0
 demographics:
-  WHITE:
-    MSM:
-      Race: null
-      Class: null
-      NUMPartn: 7.0
-      EligSE_PartnerType: MSM
-      boosterProb: 1.0
-      vaccineInit: 0
-      ppl: 1.0
-      hiv:
-        init: 0.5
-        dx:
-          init: 0.826
-          prob: 0.055
-      aids:
-        init: 0.07
-      haart:
-        init: 0.583
-        adherence: 0.885
-        discontinue: 0.1
-      incar:
-        init: 0.0
-        prob: 0.0
-      num_partners: 7.0
-      num_injection_acts: 5.0
-      safe_sex: 0.432
-      syringe_sharing: 0.43
-      prep:
-        discontinue: 0.13
-        adherence: 0.911
-        coverage: 0.0
-      high_risk:
-        init: 0.0
-      vaccine:
-        init: 1
-        booster:
-          interval: 3
-    HM:
-      Race: null
-      Class: null
-      POP: 0.0
-      HIV: 0.0
-      AIDS: 0.0
-      HAARTprev: 0.0
-      INCARprev: 0.0
-      TestedPrev: 0.0
-      mNPart: 0.0
-      NUMPartn: 0.0
-      NUMSexActs: 0.0
-      SAFESEX: 0.0
-      NEEDLESH: 0.0
-      HIVTEST: 0.0
-      INCAR: 0.0
-      HAARTadh: 0.0
-      HAARTdisc: 0.0
-      EligSE_PartnerType: []
-      PrEPdisc: 0.0
-      HighRiskPrev: 0.0
-      PrEPadh: 1.0
-      PrEP_coverage: 0
-      boosterInterval: 0
-      boosterProb: 0
-      vaccinePrev: 0
-      vaccineInit: 0
-    HF:
-      Race: null
-      Class: null
-      POP: 0.0
-      HIV: 0.0
-      AIDS: 0.0
-      HAARTprev: 0.0
-      INCARprev: 0.0
-      TestedPrev: 0.0
-      mNPart: 0.0
-      NUMPartn: 0.0
-      NUMSexActs: 0.0
-      SAFESEX: 0.0
-      NEEDLESH: 0.0
-      HIVTEST: 0.0
-      INCAR: 0.0
-      HAARTadh: 0.0
-      HAARTdisc: 0.0
-      EligSE_PartnerType: []
-      PrEPdisc: 0.0
-      HighRiskPrev: 0.0
-      PrEPadh: 1.0
-      PrEP_coverage: 0
-      boosterInterval: 0
-      boosterProb: 0
-      vaccinePrev: 0
-      vaccineInit: 0
-    PWID:
-      Race: null
-      Class: null
-      NUMPartn: 0.0
-      EligSE_PartnerType: []
-      boosterProb: 0
-      vaccineInit: 0
-      ppl: 0.0
-      hiv:
-        init: 0.0
-        dx:
-          init: 0.0
-          prob: 0.0
-      aids:
-        init: 0.0
-      haart:
-        init: 0.0
-        adherence: 0.0
-        discontinue: 0.0
-      incar:
-        init: 0.0
-        prob: 0.0
-      num_partners: 0.0
-      num_needle_acts: 0.0
-      safe_sex: 0.0
-      needle_sharing: 0.0
-      prep:
-        discontinue: 0.0
-        adherence: 1.0
-        coverage: 0
-      high_risk:
-        init: 0.0
-      vaccine:
-        init: 0
-        booster:
-          interval: 0
-    ALL:
-      Proportion: 0.0
-      HAARTdisc: 0.018
-      PrEPdisc: 0.0
-      params.assort_mix.coefficient: 0.722
   BLACK:
+    ppl: 1.0
     MSM:
       Race: null
       Class: null
@@ -272,60 +147,6 @@ demographics:
         init: 1.0
         booster:
           interval: 3
-    HM:
-      Race: null
-      Class: null
-      POP: 0.0
-      HIV: 0.0
-      AIDS: 0.0
-      HAARTprev: 0.0
-      INCARprev: 0.0
-      TestedPrev: 0.0
-      mNPart: 0.0
-      NUMPartn: 0.0
-      NUMSexActs: 0.0
-      SAFESEX: 0.0
-      NEEDLESH: 0.0
-      HIVTEST: 0.0
-      INCAR: 0.0
-      HAARTadh: 0.0
-      HAARTdisc: 0.0
-      EligSE_PartnerType: []
-      PrEPdisc: 0.0
-      HighRiskPrev: 0.0
-      PrEPadh: 1.0
-      PrEP_coverage: 0
-      boosterInterval: 0
-      boosterProb: 0
-      vaccinePrev: 0
-      vaccineInit: 0
-    HF:
-      Race: null
-      Class: null
-      POP: 0.0
-      HIV: 0.0
-      AIDS: 0.0
-      HAARTprev: 0.0
-      INCARprev: 0.0
-      TestedPrev: 0.0
-      mNPart: 0.0
-      NUMPartn: 0.0
-      NUMSexActs: 0.0
-      SAFESEX: 0.0
-      NEEDLESH: 0.0
-      HIVTEST: 0.0
-      INCAR: 0.0
-      HAARTadh: 0.0
-      HAARTdisc: 0.0
-      EligSE_PartnerType: []
-      PrEPdisc: 0.0
-      HighRiskPrev: 0.0
-      PrEPadh: 1.0
-      PrEP_coverage: 0
-      boosterInterval: 0
-      boosterProb: 0
-      vaccinePrev: 0
-      vaccineInit: 0
     PWID:
       Race: null
       Class: null
@@ -362,11 +183,6 @@ demographics:
         init: 0
         booster:
           interval: 0
-    ALL:
-      Proportion: 1.0
-      HAARTdisc: 0.018
-      PrEPdisc: 0.0
-      params.assort_mix.coefficient: 0.765
 partnership:
   sex:
     duration:
@@ -387,6 +203,7 @@ partnership:
         min: 25
         max: 36
       5:
+        prob: 1.0
         min: 37
         max: 48
     frequency:
@@ -423,6 +240,7 @@ partnership:
         min: 25
         max: 36
       9:
+        prob: 1.0
         min: 37
         max: 48
   needle:
@@ -444,6 +262,7 @@ partnership:
         min: 1
         max: 6
       5:
+        prob: 1.0
         min: 1
         max: 6
     frequency:
@@ -464,12 +283,19 @@ partnership:
         min: 1
         max: 6
       5:
+        prob: 1.0
         min: 1
         max: 6
     transmission:
-      '0': 0.007
-      '1': 0.007
-      '2': 0.0056
-      '3': 0.0028
-      '4': 0.0014
-      '5': 0.0002
+      0:
+        prob: 0.007
+      1:
+        prob: 0.007
+      2:
+        prob: 0.0056
+      3:
+        prob: 0.0028
+      4:
+        prob: 0.0014
+      5:
+        prob: 0.0002

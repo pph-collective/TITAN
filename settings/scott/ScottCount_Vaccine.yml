@@ -1,0 +1,9 @@
+demographics:
+  WHITE:
+    ppl: 0.5
+    MSM:
+      ppl: 1.0
+  BLACK:
+    ppl: 0.5
+    MSM:
+      ppl: 1.0
