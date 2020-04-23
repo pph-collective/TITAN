@@ -766,7 +766,9 @@ class HIVModel:
         """ Decriptor
         :Purpose:
             Determines the probability of a transmission event based on
-            interaction type.
+            interaction type. For sex acts, transmission probability is a
+            function of the acquisition probability of the HIV- agent's sex role
+            and the HIV+ agent's haart adherence, acute status, and dx risk reduction
 
         :Input:
             interaction : str - "injection" or "sex"
@@ -791,7 +793,7 @@ class HIVModel:
         else:
             # get partner's sex role during acts
             if partner_sex_role == "versatile":  # versatile partner takes
-                # "oppsosite" position of agent
+                # "opposite" position of agent
                 if agent_sex_role == "insertive":
                     partner_sex_role = "receptive"
                 elif agent_sex_role == "receptive":
@@ -799,8 +801,9 @@ class HIVModel:
                 else:
                     partner_sex_role = "versatile"  # if both versatile, can switch
                     # between receptive and insertive by act
-            # get probability of sex transmission
-            p = self.params.partnership.sex.transmission[partner.so][partner_sex_role]
+            # get probability of sex acquisition given HIV- partner's position
+            p = self.params.partnership.sex.acquisition[partner.so][partner_sex_role]
+            # scale based on HIV+ agent's haart status/adherence
             p *= self.params.partnership.sex.haart_scaling[agent.so][
                 agent.haart_adherence
             ].prob
@@ -821,7 +824,7 @@ class HIVModel:
         p *= self.params.demographics[partner.race].hiv.transmission
 
         # Scaling parameter for per act transmission.
-        p *= self.params.calibration.transmission
+        p *= self.params.calibration.acquisition
 
         return p
 

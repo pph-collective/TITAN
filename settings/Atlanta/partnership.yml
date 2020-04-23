@@ -35,7 +35,7 @@ partnership:
         prob: 1.0
         min: 13
         max: 20
-  transmission:
+  acquisition:
     MSM:
       insertive: 0.0011
       receptive: 0.0138

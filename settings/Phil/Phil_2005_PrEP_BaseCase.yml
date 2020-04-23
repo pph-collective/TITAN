@@ -25,7 +25,7 @@ calibration:
   sex:
     partner: 0.9
     act: 0.8
-  transmission: 1.0
+  acquisition: 1.0
   acute: 4.3
   risk_reduction:
     transmission: 0.53

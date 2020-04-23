@@ -5,4 +5,4 @@ calibration:
   test_frequency: 1.00
   haart:
     coverage: 0.50
-  transmission: 0.50
+  acquisition: 0.50

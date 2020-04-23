@@ -137,9 +137,9 @@ def test_get_transmission_probability(make_model, make_agent):
     p_needle = model.params.partnership.injection.transmission[1].prob
     p_sex = (
         model.params.partnership.sex.haart_scaling["MSM"][1].prob
-        * model.params.partnership.sex.transmission.MSM.versatile
+        * model.params.partnership.sex.acquisition.MSM.versatile
     )
-    scale = model.params.calibration.transmission
+    scale = model.params.calibration.acquisition
 
     assert model.get_transmission_probability("injection", a, p) == p_needle * scale
     assert model.get_transmission_probability("sex", a, p) == p_sex * scale
@@ -148,11 +148,11 @@ def test_get_transmission_probability(make_model, make_agent):
     a.sex_role = "receptive"
     p_sex_ins = (
         model.params.partnership.sex.haart_scaling.MSM[1].prob
-        * model.params.partnership.sex.transmission.MSM.insertive
+        * model.params.partnership.sex.acquisition.MSM.insertive
     )
     p_sex_rec = (
         model.params.partnership.sex.haart_scaling.MSM[1].prob
-        * model.params.partnership.sex.transmission.MSM.receptive
+        * model.params.partnership.sex.acquisition.MSM.receptive
     )
 
     assert model.get_transmission_probability("sex", a, p) == p_sex_ins * scale
@@ -189,7 +189,7 @@ def test_sex_transmission(make_model, make_agent):
     a.hiv_time = 1  # acute
 
     rel.total_sex_acts = 0
-    model.params.calibration.transmission = 10
+    model.params.calibration.acquisition = 10
 
     model.run_random = FakeRandom(0.4)
 

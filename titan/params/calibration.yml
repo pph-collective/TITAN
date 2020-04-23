@@ -16,9 +16,9 @@ calibration:
       description: Scales probability of partner acquisition
       type: float
       min: 0
-  transmission:
+  acquisition:
     default: 1.0
-    description: Scales probability of transmission
+    description: Scales probability of acquisition
     type: float
     min: 0.0
   test_frequency:

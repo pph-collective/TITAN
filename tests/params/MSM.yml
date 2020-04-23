@@ -16,7 +16,7 @@ partnership:
     durations:
       2:
         min: 9
-    transmission:
+    acquisition:
       MSM:
         0:
           prob: 0.08

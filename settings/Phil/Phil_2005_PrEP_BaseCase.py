@@ -56,7 +56,7 @@ params.calibration.needle.sharing = 0.90  # PWID partner number scaling
 params.calibration.needle.act = 0.60  # PWID act frequency scaling factor
 params.calibration.sex.partner = 0.90  # Sexual partner number scaling factor
 params.calibration.sex.act = 0.80  # Sexual acts  scaling factor
-params.calibration.transmission = 1.0  # Global transmission probability scaling factor
+params.calibration.acquisition = 1.0  # Global transmission probability scaling factor
 params.hiv.acute.infectivity = (
     4.3  # Infectivity multiplier ratio for Acute status infections
 )

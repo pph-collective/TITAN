@@ -399,7 +399,7 @@ partnership:
     durations:
       2:
         min: 9
-    transmission:
+    acquisition:
       HM:
         versatile: 0.0004
       HF:
