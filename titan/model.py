@@ -729,37 +729,6 @@ class HIVModel:
             rel.total_sex_acts += unsafe_sex_acts
             p_per_act = self.get_transmission_probability("sex", agent, partner)
 
-            # Reduction of transmissibility for acts between partners for PrEP adherence
-            if agent.prep or partner.prep:
-                if "Oral" in self.prep.type:
-                    if agent.prep_adherence == 1 or partner.prep_adherence == 1:
-                        p_per_act *= 1.0 - self.prep.efficacy.adherent  # 0.04
-                    else:
-                        p_per_act *= 1.0 - self.prep.efficacy.non_adherant  # 0.24
-
-                elif "Inj" in self.prep.type:
-                    p_per_act_reduction = (
-                        -1.0 * np.exp(-5.528636721 * partner.prep_load) + 1
-                    )
-                    if agent.prep_adherence == 1 or partner.prep_adherence == 1:
-                        p_per_act *= 1.0 - p_per_act_reduction  # 0.04
-
-            if partner.vaccine:
-                p_per_act_perc = 1.0
-                vaccine_time_months = (
-                    partner.vaccine_time / self.params.model.time.steps_per_year
-                ) * 12
-                if self.vaccine.type == "HVTN702":
-                    p_per_act_perc *= np.exp(
-                        -2.88 + 0.76 * (np.log((vaccine_time_months + 0.001) * 30))
-                    )
-                elif self.vaccine.type == "RV144":
-                    p_per_act_perc *= np.exp(
-                        -2.40 + 0.76 * (np.log(vaccine_time_months))
-                    )
-
-                p_per_act *= 1 - p_per_act_perc
-
             p_total_transmission: float
             if unsafe_sex_acts == 1:
                 p_total_transmission = p_per_act
@@ -811,10 +780,35 @@ class HIVModel:
                     # between receptive and insertive by act
             # get probability of sex acquisition given HIV- partner's position
             p = self.params.partnership.sex.acquisition[partner.so][partner_sex_role]
-            # scale based on HIV+ agent's haart status/adherence
-            p *= self.params.partnership.sex.haart_scaling[agent.so][
-                agent.haart_adherence
-            ].prob
+
+        # scale based on HIV+ agent's haart status/adherence
+        p *= self.params.partnership.sex.haart_scaling[agent.so][
+            agent.haart_adherence
+        ].prob
+
+        # Scale if partner on PrEP
+        if partner.prep:
+            if partner.prep_type == "Oral":
+                if partner.prep_adherence == 1:
+                    p *= 1.0 - self.prep.efficacy.adherent
+                else:
+                    p *= 1.0 - self.prep.efficacy.non_adherant
+            elif partner.prep_type == "Inj" and partner.prep_adherence == 1:
+                p *= -1.0 * np.exp(-5.528636721 * partner.prep_load)
+
+        # Scale if partner vaccinated
+        if partner.vaccine:
+            assert self.vaccine.type in [
+                "HVTN702",
+                "RV144",
+            ], f"Vaccine type {self.vaccine.type} not recognized"
+            vaccine_time_months = (
+                partner.vaccine_time / self.params.model.time.steps_per_year
+            ) * 12
+            if self.vaccine.type == "HVTN702":
+                p *= np.exp(-2.88 + 0.76 * (np.log((vaccine_time_months + 0.001) * 30)))
+            elif self.vaccine.type == "RV144":
+                p *= np.exp(-2.40 + 0.76 * (np.log(vaccine_time_months)))
 
         # Scaling parameter for acute HIV infections
         if agent.get_acute_status(self.params.hiv.acute.duration):
