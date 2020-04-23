@@ -112,8 +112,6 @@ demographics:
   BLACK:
     ppl: 1.0
     MSM:
-      Race: null
-      Class: null
       NUMPartn: 5.0
       EligSE_PartnerType: MSM
       boosterProb: 1.0
@@ -136,7 +134,7 @@ demographics:
       num_partners: 5.0
       num_needle_acts: 5.0
       safe_sex: 0.312
-      needle_sharing: 0.27
+      unsafe_injection: 0.27
       prep:
         discontinue: 0.0
         adherence: 0.568
@@ -172,7 +170,7 @@ demographics:
       num_partners: 0.0
       num_needle_acts: 0.0
       safe_sex: 0.0
-      needle_sharing: 0.0
+      unsafe_injection: 0.0
       prep:
         discontinue: 0.0
         adherence: 1.0

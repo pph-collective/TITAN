@@ -126,7 +126,7 @@ demographics:
       num_partners: 0.0
       num_needle_acts: 5.0
       safe_sex: 0.89
-      needle_sharing: 0.43
+      unsafe_injection: 0.43
       prep:
         discontinue: 0.0
       high_risk:
@@ -155,7 +155,7 @@ demographics:
       num_partners: 0.0
       num_needle_acts: 5.0
       safe_sex: 0.43
-      needle_sharing: 0.43
+      unsafe_injection: 0.43
       prep:
         discontinue: 0.15
       high_risk:
@@ -184,7 +184,7 @@ demographics:
       num_partners: 0.0
       num_needle_acts: 5.0
       safe_sex: 0.89
-      needle_sharing: 0.63
+      unsafe_injection: 0.63
       prep:
         discontinue: 0.0
       high_risk:

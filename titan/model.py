@@ -576,10 +576,7 @@ class HIVModel:
                 self.initiate_prep(partner, time, force=True)
 
         def knowledge_transmission_probability():
-            if (
-                rel.agent1.prep_awareness
-                and rel.agent2.prep_awareness
-            ):
+            if rel.agent1.prep_awareness and rel.agent2.prep_awareness:
                 p = self.prep.pca.opinion.transmission
             else:
                 p = self.prep.pca.knowledge.transmission
@@ -820,7 +817,7 @@ class HIVModel:
             ].prob
 
         # Scaling parameter for acute HIV infections
-        if agent.get_acute_status():
+        if agent.get_acute_status(self.params.hiv.acute.duration):
             p *= self.params.hiv.acute.infectivity
 
         # Scaling parameter for positively identified HIV agents
@@ -872,11 +869,13 @@ class HIVModel:
                     self.ssp_enrolled_risk = item.risk
                     if item.num_slots >= self.pop.pwid_agents.num_members():
                         ssp_num_slots = item.num_slots
+                    elif item.num_slots == 0:
+                        ssp_num_slots = 0
                     else:
                         ssp_num_slots = round(
                             self.run_random.betavariate(
-                                item.prevalence,
-                                self.pop.pwid_agents.num_members() - item.prevalence,
+                                item.num_slots,
+                                self.pop.pwid_agents.num_members() - item.num_slots,
                             )
                             * self.pop.pwid_agents.num_members()
                         )

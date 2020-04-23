@@ -5,7 +5,9 @@ model:
     enable: true
     type: scale_free
   population:
-    num_partners: bin
+    num_partners:
+      type:
+        bins
 
 features:
   haart: true
@@ -16,7 +18,7 @@ features:
 syringe_services:
   timeline:
     ssp_off:
-      start: 0
+      start: 1
       stop: 60
       num_slots: 0
       risk: 0.02
@@ -25,3 +27,14 @@ hiv:
   dx:
     risk_reduction:
       sex: 0.27
+
+
+classes:
+  races:
+    - WHITE
+  bond_types_probs:
+    sexOnly: 1.0
+  bond_types_probs_PWID:
+    SexInj: 0.308
+    Sex: 0.105
+    Inj: 0.587

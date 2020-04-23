@@ -168,7 +168,7 @@ flag_RaceAssortMix = True
 params.assort_mix.coefficient = (
     0.75  # Proportion of race1 mixing with race2 when partnering.
 )
-params.timeline.syringe_services.prevalence = 1.0  # Prevalence scalar on SSP
+params.timeline.syringe_services.num_slots = 1.0  # Prevalence scalar on SSP
 params.timeline.syringe_services.init_at_pop = 0
 params.timeline.syringe_services.coverage = 0.0
 params.model.network.component_size.max = 100

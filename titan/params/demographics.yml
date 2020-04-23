@@ -192,9 +192,9 @@ demographics:
       description: "Mean number of partners for an agent in this class if using model.population.num_partners.type = poisson"
       type: float
       min: 0.0
-    num_injection_acts: # REVIEWED this is used with needle, and agent.py has a function for getting number of sex acts - this corresponds to NUMSexActs
+    num_injection_acts:
       default: 0.0
-      description: "???"
+      description: "Mean number of injection acts done within a relationship"
       type: float
       min: 0.0
     safe_sex:

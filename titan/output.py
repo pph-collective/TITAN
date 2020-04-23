@@ -380,7 +380,13 @@ def basicReport(
 
 
 def print_components(
-    run_id: UUID, t: int, runseed: int, popseed: int, components, outdir: str, races
+    run_id: UUID,
+    t: int,
+    runseed: int,
+    popseed: int,
+    components,
+    outdir: str,
+    races: list,
 ):
     """
     Write stats describing the components (sub-graphs) in a graph to file
