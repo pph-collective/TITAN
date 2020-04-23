@@ -71,13 +71,13 @@ def test_get_network_color(params):
     net = Population(params)
     net_util = NetworkGraphUtils(net.graph)
 
-    colors = net_util.get_network_color("SO")
+    colors = net_util.get_network_color("so")
     assert len(colors) == n_pop
-    assert "r" in colors  # pop includes MSM
+    assert "b" in colors  # pop includes MSM
 
-    colors = net_util.get_network_color("DU")
+    colors = net_util.get_network_color("drug_use")
     assert len(colors) == n_pop
-    assert "g" in colors  # pop includes ND
+    assert "b" in colors  # pop includes ND
 
     colors = net_util.get_network_color("Tested")
     assert len(colors) == n_pop
@@ -95,10 +95,6 @@ def test_get_network_color(params):
     assert len(colors) == n_pop
     assert "g" in colors  # pop includes not HR
 
-    colors = net_util.get_network_color("Race")
+    colors = net_util.get_network_color("race")
     assert len(colors) == n_pop
-    assert "g" in colors  # pop includes BLACK
-
-    colors = net_util.get_network_color("MSW")
-    assert len(colors) == n_pop
-    assert "y" in colors  # pop includes BLACK
+    assert "b" in colors  # pop includes BLACK

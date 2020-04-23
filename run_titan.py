@@ -201,8 +201,10 @@ def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
     if setting == "custom":
         setting = None
     else:
-        setting = os.path.join("settings", setting)
-        assert os.path.isdir(setting)
+        setting = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "settings", setting
+        )
+        assert os.path.isdir(setting), f"{setting} is not a directory"
 
     params = create_params(setting, params_path, outfile_dir, use_base=use_base)
 
@@ -214,7 +216,7 @@ def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
 
     if len(sweep_defs) > 100 and not force:
         raise ValueError(
-            "Sweeping more than 100 models. Set `force` flag if you really want to do this."
+            "Sweeping more than 100 models. Set `-F` (force) flag if you really want to do this."
         )
 
     sweep_defs *= num_reps

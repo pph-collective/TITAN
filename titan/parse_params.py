@@ -3,9 +3,14 @@ import os
 import collections
 from inspect import currentframe, getframeinfo
 from pathlib import Path
+import math
 
 
 class ObjMap(dict):
+    """
+    A dictionary-like class which allows accessing members either using standard dictionary notation or dots.  Note the hash function is hard-coded - beware.
+    """
+
     def __init__(self, d):
         for k, v in d.items():
             if isinstance(v, dict):
@@ -29,28 +34,36 @@ class ObjMap(dict):
 
 
 def check_item(val, d, keys=None):
+    """
+    Checks if an item meets the requirements of the field's definition.
+    """
     if "min" in d:
-        assert val >= d["min"]
+        assert val >= d["min"], f"{val} must be greater than {d['min']}"
     if "max" in d:
-        assert val <= d["max"]
+        assert val <= d["max"], f"{val} must be less than {d['max']}"
     if d["type"] == "int":
-        assert isinstance(val, int)
+        assert isinstance(val, int), f"{val} must be an integer"
     if d["type"] == "float":
         if isinstance(val, int):
             val = float(val)
-        assert isinstance(val, float)
+        assert isinstance(val, float), f"{val} must be a float"
     if d["type"] == "boolean":
-        assert isinstance(val, bool)
+        assert isinstance(val, bool), f"{val} must be a bool"
     if d["type"] == "enum":
         assert val in d["values"], f"{val} not in {d}"
     if d["type"] == "array":
-        assert all(x in d["values"] for x in val)
+        assert isinstance(val, list), f"{val} must be an array"
+        assert all(x in d["values"] for x in val), f"{val} not in {d['values']}"
     if d["type"] == "keys":
+        assert isinstance(val, list), f"{val} must be an array of keys"
         assert all(x in keys for x in val)
     return val
 
 
 def get_item(key, d, param):
+    """
+    Get and check item from the params, falling back on the definitions default.
+    """
     if key in param:
         val = param[key]
         return check_item(val, d)
@@ -74,6 +87,9 @@ def merge(d1, d2):
 
 
 def get_bins(key, d, param):
+    """
+    Get and validate a type == bin definition
+    """
     if key not in param:
         return d["default"]
 
@@ -88,7 +104,7 @@ def get_bins(key, d, param):
             raise
 
         for field, defn in d["fields"].items():
-            assert field in val
+            assert field in val, f"{field} must be in {val}"
             val[field] = check_item(val[field], defn)
 
         parsed_bins[int(bin)] = val
@@ -97,6 +113,9 @@ def get_bins(key, d, param):
 
 
 def get_defn(key, d, param):
+    """
+    Get and validate a type == definition definition
+    """
     if key not in param:
         parsed = d["default"]
     else:
@@ -105,13 +124,16 @@ def get_defn(key, d, param):
     # check definitions
     for k, val in parsed.items():
         for field, defn in d["fields"].items():
-            assert field in val
+            assert field in val, f"{field} must be in {val}"
             val[field] = check_item(val[field], defn, parsed.keys())
 
     return parsed
 
 
 def parse_params(defs, params, pops):
+    """
+    Recursively parse the passed params, using the definitions to validate and provide defaults.
+    """
     parsed = {}
     # params is a scalar, return it
     if not isinstance(params, dict):
@@ -154,6 +176,9 @@ def parse_params(defs, params, pops):
 
 
 def parse_classes(defs, params):
+    """
+    Parse the classes definition first as it is needed in parsing the full params.
+    """
     # add sex types to populations
     if "sex_types" in params.get("classes", []):
         params["classes"]["populations"] = params["classes"].get(
@@ -169,6 +194,9 @@ def parse_classes(defs, params):
 
 
 def build_yaml(path):
+    """
+    Read in a yaml or folder of yamls into a dictionary.
+    """
     yml = {}
     if os.path.isdir(path):
         for file in os.listdir(path):
@@ -199,12 +227,17 @@ def check_params(params):
             if st in list(params.classes.sex_types.keys()):
                 sex_type_pop += st_dems.ppl
 
-        assert sex_type_pop == 1
+        assert math.isclose(
+            sex_type_pop, 1, abs_tol=0.001
+        ), f"ppl of {race}'s sex_types must add to 1"
 
-    assert race_pop == 1
+    assert math.isclose(race_pop, 1, abs_tol=0.001), f"ppl of races must add to 1"
 
 
 def create_params(setting_path, param_path, outdir, use_base=True):
+    """
+    Entry funtion - given the path to the setting, params, output directory and whether or not to use the base setting. Parse and create a params (ObjMap) object.
+    """
     filename = getframeinfo(currentframe()).filename
     parent = Path(filename).resolve().parent
     root = os.path.join(parent, "params")

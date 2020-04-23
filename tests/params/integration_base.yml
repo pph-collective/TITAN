@@ -1,0 +1,8 @@
+model:
+  num_pop: 300
+  time:
+    num_steps: 10
+    burn_steps: 2
+  seed:
+    run: 123
+    ppl: 321

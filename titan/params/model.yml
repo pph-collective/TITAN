@@ -22,15 +22,23 @@ model:
     description: "Size of population to model"
     type: int
     min: 1
-  time_range:
-    default: 12
-    description: "Number of time steps to run the model"
-    type: int
-    min: 1
-  burn_duration:
-    default: 6
-    description: "Number of time steps of burn in period, if 0, there is no burn in period."
-    type: int
+  time:
+    num_steps:
+      default: 12
+      description: "Number of time steps to run the model"
+      type: int
+      min: 1
+    steps_per_year:
+      default: 12
+      description: "How many time steps are completed per year (e.g. 12 is equivalent to a monthly time step, and 52 would be weekly)"
+      type: int
+      min: 1
+      max: 365
+    burn_steps:
+      default: 6
+      description: "Number of time steps of burn in period, if 0, there is no burn in period."
+      type: int
+      min: 0
   network:
     enable:
       default: false
@@ -46,7 +54,7 @@ model:
     component_size:
       max:
         default: 100
-        description: Largest allowable size of a sub-graph in the network at initialization
+        description: Largest allowable size of a sub-graph in the network at initialization with max_k_comp_size
         type: int
         min: 1
   population:

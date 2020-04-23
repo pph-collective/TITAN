@@ -45,7 +45,7 @@ class Agent:
         self.update_id_counter()
 
         # agent properties
-        self.so = so  # REVIEWED split this out into gender and sleeps_with
+        self.so = so
         self.age = age
         self.age_bin = 0
         self.race = race
@@ -126,7 +126,7 @@ class Agent:
     def __hash__(self):
         return self.id
 
-    def get_acute_status(self) -> bool:
+    def get_acute_status(self, acute_time_period) -> bool:
         """
         :Purpose:
             Get acute status of agent at time period
@@ -135,7 +135,6 @@ class Agent:
         :Output:
             acute_status : bool
         """
-        acute_time_period = 2
         hiv_t = self.hiv_time
 
         if acute_time_period >= hiv_t > 0:
@@ -143,7 +142,7 @@ class Agent:
         else:
             return False
 
-    def prep_eligible(self, target_model: str) -> bool:
+    def prep_eligible(self, target_model: str, ongoing_duration: int) -> bool:
         """
         :Purpose:
             Determine if an agent is eligible for PrEP
@@ -165,7 +164,7 @@ class Agent:
             if self.so == "HF":
                 for rel in self.relationships:
                     partner = rel.get_partner(self)
-                    if rel.duration > 1:
+                    if rel.duration > ongoing_duration:
                         if partner.drug_use == "Inj":
                             eligible = True
                             self.prep_reason.append("PWID")
@@ -180,7 +179,7 @@ class Agent:
                 for rel in self.relationships:
                     partner = rel.get_partner(self)
 
-                    if rel.duration > 1:
+                    if rel.duration > ongoing_duration:
                         if partner.hiv_dx or self.mean_num_partners > 1:
                             eligible = True
         elif target_model == "MSM":
@@ -202,11 +201,19 @@ class Agent:
         """
         # N(t) = N0 (0.5)^(t/t_half)
         self.prep_last_dose += 1
-        if self.prep_last_dose > 12:
+        if self.prep_last_dose > params.model.time.steps_per_year:
             self.prep_load = 0.0
+            self.prep = False
+            self.prep_reason = []
+            self.prep_type = ""
+            self.prep_last_dose = 0
         else:
+            annualized_last_dose = (
+                self.prep_last_dose / params.model.time.steps_per_year
+            )
+            annualized_half_life = params.prep.half_life / 365
             self.prep_load = params.prep.peak_load * (
-                (0.5) ** (self.prep_last_dose / (params.prep.half_life / 30))
+                (0.5) ** (annualized_last_dose / annualized_half_life)
             )
 
     def vaccinate(self, vax: str):
@@ -244,7 +251,7 @@ class Agent:
             p = params.partnership.sex.transmission[self.so][self.haart_adherence].prob
 
         # Scaling parameter for acute HIV infections
-        if self.get_acute_status():
+        if self.get_acute_status(params.hiv.acute.duration):
             p *= params.hiv.acute.infectivity
 
         # Scaling parameter for positively identified HIV agents
@@ -274,14 +281,6 @@ class Agent:
         :Output:
             number_sex_act : int
         """
-        # 1 time per year 96 1.9 29 0.9 67 3.4
-        # 2–5 times per year 428 8.2 184 5.8 244 12.2
-        # 6–11 times per year 328 6.3 183 5.7 145 7.3
-        # 12–23 times per year 376 7.2 251 7.9 125 6.3
-        # 24–35 times per year 1,551 29.9 648 20.3 903 45.3
-        # 36–51 times per year 1,037 20.0 668 20.9 369 18.5
-        # 52–155 times per year 644 12.4 605 18.9 39 2.0
-        # >156 times per year 733 14.1 631 19.7 102 5.1
         rv = rand_gen.random()
 
         for i in range(1, 6):

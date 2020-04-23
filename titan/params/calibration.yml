@@ -52,3 +52,11 @@ calibration:
       type: int
       description: How many failed attempts an agent can have at partnering in a given round before removing them from the eligible pool
       min: 0
+  network:
+    trim:
+      prob:
+        default: 0.1
+        description: Probability an agent's relationships will be trimmed if using max_k_comp_size for network initialization
+        type: float
+        min: 0
+        max: 1

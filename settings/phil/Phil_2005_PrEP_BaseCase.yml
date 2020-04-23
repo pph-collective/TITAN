@@ -5,8 +5,9 @@ model:
     net: 0
     run: 0
   num_pop: 110000
-  time_range: 168
-  burn_duration: 30
+  time:
+    num_steps: 168
+    burn_steps: 30
   network:
     type: scale_free
 outputs:
@@ -45,7 +46,7 @@ high_risk:
       duration: 6
     HF:
       duration: 6
-  condom_use_type: Partners
+  condom_use_type: Acts
 features:
   assort_mix: true
   incar: true
@@ -71,7 +72,8 @@ incar:
     adherence: 0.21
     discontinue: 0.12
 prep:
-  type: Oral
+  type:
+    - Oral
   target: 0.0
   start: 0
   efficacy:
@@ -83,41 +85,22 @@ PWID:
   prep:
     adherence: 0.923
 classes:
+  races:
+    - WHITE
   sex_types:
-  - HM
-  - HF
-  - MSM
+    HM:
+      gender: M
+      cis_trans: cis
+      sleeps_with:
+        - HF
+    HF:
+      gender: F
+      cis_trans: cis
+      sleeps_with:
+        - HM
 demographics:
   WHITE:
-    MSM:
-      Race: null
-      Class: null
-      NUMPartn: 0.0
-      EligSE_PartnerType: null
-      AssortMixMatrix: []
-      ppl: 0.0
-      hiv:
-        init: 0.0
-        dx:
-          init: 0.0
-          prob: 0.0
-      aids:
-        init: 0.0
-      haart:
-        init: 0.0
-        adherence: 0.0
-        discontinue: 0.0
-      incar:
-        init: 0.0
-        prob: 0.0
-      num_partners: 0.0
-      num_needle_acts: 0.0
-      safe_sex: 0.0
-      needle_sharing: 0.0
-      prep:
-        discontinue: 0.0
-      high_risk:
-        init: 0
+    ppl: 1.0
     HM:
       Race: null
       Class: null
@@ -135,7 +118,7 @@ demographics:
       haart:
         init: 0.41
         adherence: 0.405
-        discontinue: 0.0
+        discontinue: 0.018
       incar:
         init: 0.0274
         prob: 0.001
@@ -193,7 +176,7 @@ demographics:
       haart:
         init: 0.41
         adherence: 0.405
-        discontinue: 0.0
+        discontinue: 0.018
       incar:
         init: 0.0274
         prob: 0.001
@@ -205,133 +188,6 @@ demographics:
         discontinue: 0.0
       high_risk:
         init: 0
-    ALL:
-      Proportion: 1.0
-      HAARTdisc: 0.018
-      PrEPdisc: 0.0
-      params.assort_mix.coefficient: 1.0
-  BLACK:
-    MSM:
-      Race: null
-      Class: null
-      NUMPartn: 0.0
-      EligSE_PartnerType: null
-      AssortMixMatrix: []
-      ppl: 0.0
-      hiv:
-        init: 0.0
-        dx:
-          init: 0.0
-          prob: 0.0
-      aids:
-        init: 0.0
-      haart:
-        init: 0.0
-        adherence: 0.0
-        discontinue: 0.0
-      incar:
-        init: 0.0
-        prob: 0.0
-      num_partners: 0.0
-      num_needle_acts: 0.0
-      safe_sex: 0.0
-      needle_sharing: 0.0
-      prep:
-        discontinue: 0.0
-      high_risk:
-        init: 0
-    HM:
-      Race: null
-      Class: null
-      NUMPartn: 0.0
-      EligSE_PartnerType: null
-      AssortMixMatrix: []
-      ppl: 0.0
-      hiv:
-        init: 0.0
-        dx:
-          init: 0.0
-          prob: 0.0
-      aids:
-        init: 0.0
-      haart:
-        init: 0.0
-        adherence: 0.0
-        discontinue: 0.0
-      incar:
-        init: 0.0
-        prob: 0.0
-      num_partners: 0.0
-      num_needle_acts: 0.0
-      safe_sex: 0.0
-      needle_sharing: 0.0
-      prep:
-        discontinue: 0.0
-      high_risk:
-        init: 0
-    HF:
-      Race: null
-      Class: null
-      NUMPartn: 0.0
-      EligSE_PartnerType: null
-      AssortMixMatrix: []
-      ppl: 0.0
-      hiv:
-        init: 0.0
-        dx:
-          init: 0.0
-          prob: 0.0
-      aids:
-        init: 0.0
-      haart:
-        init: 0.0
-        adherence: 0.0
-        discontinue: 0.0
-      incar:
-        init: 0.0
-        prob: 0.0
-      num_partners: 0.0
-      num_needle_acts: 0.0
-      safe_sex: 0.0
-      needle_sharing: 0.0
-      prep:
-        discontinue: 0.0
-      high_risk:
-        init: 0
-    PWID:
-      Race: null
-      Class: null
-      NUMPartn: 0.0
-      EligSE_PartnerType: null
-      AssortMixMatrix: []
-      ppl: 0.0
-      hiv:
-        init: 0.0
-        dx:
-          init: 0.0
-          prob: 0.0
-      aids:
-        init: 0.0
-      haart:
-        init: 0.0
-        adherence: 0.0
-        discontinue: 0.0
-      incar:
-        init: 0.0
-        prob: 0.0
-      num_partners: 0.0
-      num_needle_acts: 0.0
-      safe_sex: 0.0
-      needle_sharing: 0.0
-      prep:
-        discontinue: 0.0
-      high_risk:
-        init: 0
-    ALL:
-      Proportion: 0.0
-      HAARTdisc: 0.018
-      PrEPdisc: 0.0
-      params.assort_mix.coefficient: 1.0
 partnership:
   sex:
     duration:
@@ -352,6 +208,7 @@ partnership:
         min: 25
         max: 36
       5:
+        prob: 1
         min: 37
         max: 48
     frequency:
@@ -388,6 +245,7 @@ partnership:
         min: 25
         max: 36
       9:
+        prob: 1
         min: 37
         max: 48
   needle:
@@ -409,6 +267,7 @@ partnership:
         min: 1
         max: 6
       5:
+        prob: 1
         min: 1
         max: 6
     frequency:
@@ -429,12 +288,19 @@ partnership:
         min: 9
         max: 36
       5:
+        prob: 1
         min: 12
         max: 60
     transmission:
-      '0': 0.007
-      '1': 0.007
-      '2': 0.0056
-      '3': 0.0028
-      '4': 0.0014
-      '5': 0.0002
+      0:
+        prob: 0.007
+      1:
+        prob: 0.007
+      2:
+        prob: 0.0056
+      3:
+        prob: 0.0028
+      4:
+        prob: 0.0014
+      5:
+        prob: 0.0002
