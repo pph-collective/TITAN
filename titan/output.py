@@ -405,8 +405,6 @@ def print_components(
     comp_id = 0
     for comp in components:
         assert comp.number_of_nodes() >= 0
-        size = effective_size(comp)
-        total_size = 0
         tot_agents = (
             nhiv
         ) = ntrthiv = nprep = trtbool = injectable_prep = oral = aware = pca = nidu = 0
@@ -436,7 +434,6 @@ def print_components(
 
             if agent.drug_use == "NonInj":
                 nidu += 1
-            total_size += size[agent]
 
         comp_centrality = (
             sum(betweenness_centrality(comp).values()) / comp.number_of_nodes()

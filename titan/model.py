@@ -645,8 +645,7 @@ class HIVModel:
 
         if agent.ssp:  # syringe services program risk
             p_unsafe_injection = self.ssp_enrolled_risk
-        else:  # they do share a syringe
-
+        else:
             # If sharing, minimum of 1 share act
             if share_acts < 1:
                 share_acts = 1
