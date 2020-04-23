@@ -486,4 +486,4 @@ model:
   population:
     num_partners:
       type: bins
-  num_reps: 2
+  num_reps: 1
