@@ -124,9 +124,10 @@ demographics:
         init: 0.0274
         prob: 0.001
       num_partners: 0.0
-      num_needle_acts: 5.0
       safe_sex: 0.89
-      unsafe_injection: 0.43
+      injection:
+        unsafe_injection: 0.43
+        num_injection_acts: 5.0
       prep:
         discontinue: 0.0
       high_risk:
@@ -153,9 +154,10 @@ demographics:
         init: 0.0
         prob: 0.0
       num_partners: 0.0
-      num_needle_acts: 5.0
+      injection:
+        num_injection_acts: 5.0
+        unsafe_injection: 0.43
       safe_sex: 0.43
-      unsafe_injection: 0.43
       prep:
         discontinue: 0.15
       high_risk:
@@ -182,9 +184,10 @@ demographics:
         init: 0.0274
         prob: 0.001
       num_partners: 0.0
-      num_needle_acts: 5.0
       safe_sex: 0.89
-      unsafe_injection: 0.63
+      injection:
+        unsafe_injection: 0.63
+        num_needle_acts: 5.0
       prep:
         discontinue: 0.0
       high_risk:

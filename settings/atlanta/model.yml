@@ -5,8 +5,10 @@ model:
     net: 0
     run: 0
   num_pop: 17440
-  time_range: 120
-  burn_duration: 24
+  time:
+    num_steps: 120
+    steps_per_year: 12
+    burn_steps: 24
   network:
     type: scale_free
   population:
@@ -15,7 +17,7 @@ model:
 
 features:
   incar: false
-  prep: true
+  prep: false
   high_risk: false
   haart: true
   die_and_replace: true

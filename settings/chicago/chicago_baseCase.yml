@@ -132,9 +132,10 @@ demographics:
         init: 0.0
         prob: 0.0
       num_partners: 5.0
-      num_needle_acts: 5.0
       safe_sex: 0.312
-      unsafe_injection: 0.27
+      injection:
+        unsafe_injection: 0.27
+        num_injection_acts: 5.0
       prep:
         discontinue: 0.0
         adherence: 0.568
@@ -168,9 +169,10 @@ demographics:
         init: 0.0
         prob: 0.0
       num_partners: 0.0
-      num_needle_acts: 0.0
       safe_sex: 0.0
-      unsafe_injection: 0.0
+      injection:
+        unsafe_injection: 0.0
+        num_injection_acts: 0.0
       prep:
         discontinue: 0.0
         adherence: 1.0

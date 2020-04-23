@@ -20,7 +20,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      unsafe_injection: 0.1
+      injection:
+        unsafe_injection: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -52,7 +53,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      unsafe_injection: 0.1
+      injection:
+        unsafe_injection: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -84,7 +86,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      unsafe_injection: 0.1
+      injection:
+        unsafe_injection: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -116,7 +119,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      unsafe_injection: 0.1
+      injection:
+        unsafe_injection: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -148,7 +152,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      unsafe_injection: 0.1
+      injection:
+        unsafe_injection: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -182,7 +187,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      unsafe_injection: 0.1
+      injection:
+        unsafe_injection: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -218,7 +224,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      unsafe_injection: 0.1
+      injection:
+        unsafe_injection: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -250,7 +257,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      unsafe_injection: 0.1
+      injection:
+        unsafe_injection: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -282,7 +290,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      unsafe_injection: 0.1
+      injection:
+        unsafe_injection: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -314,7 +323,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      unsafe_injection: 0.1
+      injection:
+        unsafe_injection: 0.
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -346,7 +356,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      unsafe_injection: 0.1
+      injection:
+        unsafe_injection: 0.
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -378,7 +389,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      unsafe_injection: 0.1
+      injection:
+        unsafe_injection: 0.
       syringe_services:
         discontinue: 0.0
       prep:

@@ -75,13 +75,12 @@ def select_partner(
 
     if "injection" in acts_allowed:
         eligible &= pwid_agents.members
-        if not eligible:
-            return None, agent_bond
 
     if "sex" in acts_allowed:
         eligible &= sex_partners[agent.so]
-        if not eligible:
-            return None, agent_bond
+
+    if not eligible:
+        return None, agent_bond
 
     if params.features.assort_mix:
         for assort_def in params.assort_mix.values():
