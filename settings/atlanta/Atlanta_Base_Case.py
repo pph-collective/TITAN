@@ -333,20 +333,20 @@ params.demographics = {"WHITE": RaceClass1, "BLACK": RaceClass2}
 """
 Partnership durations and
 """
-params.partnership.sex.duration = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
-params.partnership.sex.duration[1] = {"prob": 0.525, "min": 1, "max": 3}
-params.partnership.sex.duration[2] = {"prob": (0.525 + 0.300), "min": 3, "max": 12}
-params.partnership.sex.duration[3] = {
+params.partnership.duration = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
+params.partnership.duration[1] = {"prob": 0.525, "min": 1, "max": 3}
+params.partnership.duration[2] = {"prob": (0.525 + 0.300), "min": 3, "max": 12}
+params.partnership.duration[3] = {
     "prob": (0.525 + 0.300 + 0.245),
     "min": 13,
     "max": 24,
 }
-params.partnership.sex.duration[4] = {
+params.partnership.duration[4] = {
     "prob": (0.281 + 0.209 + 0.281 + 0.230),
     "min": 13,
     "max": 24,
 }
-params.partnership.sex.duration[5] = {"min": 13, "max": 24}
+params.partnership.duration[5] = {"min": 13, "max": 24}
 
 params.partnership.needle.duration = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
 params.partnership.needle.duration[1] = {"prob": 1.0, "min": 1, "max": 6}
@@ -356,7 +356,7 @@ params.partnership.needle.duration[4] = {"prob": (0.323 + 0.262), "min": 1, "max
 params.partnership.needle.duration[5] = {"min": 1, "max": 6}
 
 PartnershipDurations = {
-    "SEX": params.partnership.sex.duration,
+    "SEX": params.partnership.duration,
     "NEEDLE": params.partnership.needle.duration,
 }
 
@@ -407,7 +407,7 @@ params.partnership.needle.frequency[4] = {"prob": (0.323 + 0.262), "min": 1, "ma
 params.partnership.needle.frequency[5] = {"min": 1, "max": 6}
 
 PartnershipDurations = {
-    "SEX": params.partnership.sex.duration,
+    "SEX": params.partnership.duration,
     "NEEDLE": params.partnership.needle.duration,
 }
 

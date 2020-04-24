@@ -105,8 +105,8 @@ class Population:
         # find average partnership durations
         weights = []
         vals = []
-        dur_bins = params.partnership.sex.duration
-        for bins in params.partnership.sex.duration:
+        dur_bins = params.partnership.duration
+        for bins in params.partnership.duration:
             if bins > 1:
                 weights.append(dur_bins[bins].prob - dur_bins[bins - 1].prob)
             else:

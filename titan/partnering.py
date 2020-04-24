@@ -133,7 +133,7 @@ def get_partnership_duration(agent: Agent, params: ObjMap, rand_gen) -> int:
         NumPartners : int
         Zero partners possible.
     """
-    dur_info = params.partnership.sex.duration
+    dur_info = params.partnership.duration
 
     diceroll = rand_gen.random()
     dur_bin = dur_info[5]

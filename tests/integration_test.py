@@ -114,6 +114,8 @@ def test_target_partners(make_model, tmpdir):
         25: {"prob": 0.3},
     }
     model_a.params.model.population.num_partners.bins = ObjMap(bins)
+    model_a.params.model.seed.run = model_a.run_seed
+    model_a.params.model.seed.ppl = model_a.pop.pop_seed
 
     model_b = HIVModel(model_a.params)
 
@@ -158,8 +160,10 @@ def test_prep_coverage(make_model, tmpdir):
     # run with default bins (0-9)
     run_id_a = model_a.run(path_a)
 
-    # change the coverage upward for creating model b
+    # change the coverage upward for creating model b, use same seeds
     model_a.params.prep.target = 0.9
+    model_a.params.model.seed.run = model_a.run_seed
+    model_a.params.model.seed.ppl = model_a.pop.pop_seed
 
     model_b = HIVModel(model_a.params)
 
