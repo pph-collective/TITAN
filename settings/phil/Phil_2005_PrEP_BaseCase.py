@@ -56,20 +56,20 @@ params.calibration.needle.sharing = 0.90  # PWID partner number scaling
 params.calibration.needle.act = 0.60  # PWID act frequency scaling factor
 params.calibration.sex.partner = 0.90  # Sexual partner number scaling factor
 params.calibration.sex.act = 0.80  # Sexual acts  scaling factor
-params.calibration.transmission = 1.0  # Global transmission probability scaling factor
+params.calibration.acquisition = 1.0  # Global transmission probability scaling factor
 params.hiv.acute.infectivity = (
     4.3  # Infectivity multiplier ratio for Acute status infections
 )
 params.hiv.dx.risk_reduction = (
     0.53  # Risk reduction in transmission probability for agents diagnosed
 )
-params.haart.transmission.prob = (
+params.calibration.haart.transmission = (
     1.0  # Scaling factor for effectiveness of ART therapy on xmission P
 )
 params.calibration.test_frequency = 0.70  # Scaling factor for testing frequency
 params.calibration.mortality = 0.5  # Scaling factor for all cause mortality rates
 params.hiv.aids.prob = 1.0  # Scaling factor for all progression to AIDS from HIV rates
-params.calibration.haart_coverage = (
+params.calibration.haart.coverage = (
     0.70  # Scaling factor for enrollment on ART probability
 )
 params.calibration.incarceration = (
@@ -104,9 +104,9 @@ params.features.assort_mix = True  # Boolean for if assortative mixing occurs at
 params.assort_mix.type = "high_risk"  # Other assortative mixing types
 flag_RaceAssortMix = False  # Assortative mix by race
 params.assort_mix.coefficient = 0.3  # Proportion of following given assort mix rules
-params.needle_exchange.prevalence = 1.0  # Prevalence scalar on SNE
-params.needle_exchange.init_at_pop = 999999
-params.needle_exchange.coverage = 0.0
+params.timelinesyringe_services.num_slots = 1.0  # Prevalence scalar on SSP
+params.timeline.syringe_services.init_at_pop = 999999
+params.timeline.syringe_services.num_slots = 0.0
 params.high_risk.condom_use_type = "Partners"
 
 """

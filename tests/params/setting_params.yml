@@ -3,6 +3,7 @@ features:
 
 partnership:
   sex:
-    role_scaling:
+    acquisition:
       MSM:
-        top: 0.9
+        insertive: 0.0011
+

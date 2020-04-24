@@ -16,7 +16,7 @@ partnership:
     durations:
       2:
         min: 9
-    transmission:
+    acquisition:
       MSM:
         0:
           prob: 0.08
@@ -45,3 +45,7 @@ model:
   network:
     enable: true
   type: scale_free
+
+outputs:
+  network:
+    calc_component_stats: true

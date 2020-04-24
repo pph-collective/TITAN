@@ -4,7 +4,7 @@
 import random
 from collections import deque
 
-from typing import List, Dict, Any, Optional, Set
+from typing import List, Dict, Any, Set
 import numpy as np  # type: ignore
 import networkx as nx  # type: ignore
 
@@ -54,17 +54,26 @@ class Population:
         self.features = params.features
         self.prep = params.prep
 
-        # build weights of population sex types by race - SARAH READ THIS
+        # build weights of population sex types by race
         self.pop_weights: Dict[str, Dict[str, List[Any]]] = {}
+        self.role_weights: Dict[str, Dict] = {}
         for race in params.classes.races:
+            self.role_weights[race] = {}
             self.pop_weights[race] = {}
             self.pop_weights[race]["values"] = []
             self.pop_weights[race]["weights"] = []
             for st in params.classes.sex_types:
                 self.pop_weights[race]["values"].append(st)
                 self.pop_weights[race]["weights"].append(
-                    params.demographics[race][st].ppl
+                    self.demographics[race][st].ppl
                 )
+
+                self.role_weights[race][st] = {}
+                self.role_weights[race][st]["values"] = []
+                self.role_weights[race][st]["weights"] = []
+                for role, prob in self.demographics[race][st].sex_role.init.items():
+                    self.role_weights[race][st]["values"].append(role)
+                    self.role_weights[race][st]["weights"].append(prob)
 
         print("\tBuilding class sets")
 
@@ -83,15 +92,28 @@ class Population:
         # agents who can take on a partner
         self.partnerable_agents = AgentSet("Partnerable", parent=self.all_agents)
 
-        # whoc an sleep with whom
+        # who can sleep with whom
         self.sex_partners: Dict[str, Set[Agent]] = {}
         for sex_type in self.params.classes.sex_types.keys():
             self.sex_partners[sex_type] = set()
 
         self.relationships: Set[Relationship] = set()
 
+
         # keep track of prep agent counts by race
         self.prep_counts = {race: 0 for race in params.classes.races}
+
+        # find average partnership durations
+        weights = []
+        vals = []
+        dur_bins = params.partnership.sex.duration
+        for bins in params.partnership.sex.duration:
+            if bins > 1:
+                weights.append(dur_bins[bins].prob - dur_bins[bins - 1].prob)
+            else:
+                weights.append(dur_bins[bins].prob)
+            vals.append(np.average([dur_bins[bins].min, dur_bins[bins].max]))
+        self.mean_rel_duration = np.average(vals, weights=weights)
 
         print("\tCreating agents")
 
@@ -148,7 +170,6 @@ class Population:
             )
 
         # Determine drugtype
-        # todo: FIX THIS TO GET BACK PWID
         if self.pop_random.random() < self.demographics[race]["PWID"].ppl:
             drug_type = "Inj"
         else:
@@ -158,7 +179,10 @@ class Population:
 
         agent = Agent(sex_type, age, race, drug_type)
         agent.age_bin = age_bin
-
+        agent.sex_role = self.np_random.choice(
+            self.role_weights[race][sex_type]["values"],
+            p=self.role_weights[race][sex_type]["weights"],
+        )
         if self.features.msmw and sex_type == "HM":
             if self.pop_random.random() < self.params.msmw.prob:
                 agent.msmw = True
@@ -241,6 +265,12 @@ class Population:
             agent.mean_num_partners = utils.poisson(
                 self.demographics[race][sex_type].num_partners, self.np_random
             )
+
+        agent.mean_num_partners = np.ceil(
+            agent.mean_num_partners
+            * self.params.calibration.sex.partner
+            / self.mean_rel_duration
+        )
 
         agent.target_partners = agent.mean_num_partners  # so not zero if added mid-year
 
@@ -418,14 +448,16 @@ class Population:
             f"target partnerships: {sum([a.target_partners for a in self.all_agents])}"
         )
         print(
-            f"actual partnerships (pre): {sum([len(a.partners) for a in self.all_agents])}"
+            f"actual partnerships (pre): "
+            f"{sum([len(a.partners) for a in self.all_agents])}"
         )
 
         # update agent targets annually
         if t % self.params.model.time.steps_per_year == 0:
             self.update_partner_targets()
             print(
-                f"\tUpdated partner targets, {self.partnerable_agents.num_members()} now partnerable"
+                f"\tUpdated partner targets, {self.partnerable_agents.num_members()} "
+                f"now partnerable"
             )
 
         # Now create partnerships until available partnerships are out
@@ -449,7 +481,8 @@ class Population:
                 eligible_agents.append(agent)
 
         print(
-            f"actual partnerships (post): {sum([len(a.partners) for a in self.all_agents])}"
+            f"actual partnerships (post): "
+            f"{sum([len(a.partners) for a in self.all_agents])}"
         )
 
     def update_partner_targets(self):
@@ -489,7 +522,8 @@ class Population:
                     ):
                         for rel in ag.relationships:
                             if len(ag.relationships) == 1:
-                                break  # Make sure that agents stay part of the network by keeping one bond
+                                break  # Make sure that agents stay part of the
+                                # network by keeping one bond
                             rel.progress(force=True)
                             self.remove_relationship(rel)
                             component.remove_edge(rel.agent1, rel.agent2)

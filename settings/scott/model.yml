@@ -1,0 +1,40 @@
+model:
+  num_pop: 24110
+  time_range: 60
+  network:
+    enable: true
+    type: scale_free
+  population:
+    num_partners:
+      type:
+        bins
+
+features:
+  haart: true
+  die_and_replace: true
+  bond_type: true
+  syringe_services: true
+
+syringe_services:
+  timeline:
+    ssp_off:
+      start: 1
+      stop: 60
+      num_slots: 0
+      risk: 0.02
+
+hiv:
+  dx:
+    risk_reduction:
+      sex: 0.27
+
+
+classes:
+  races:
+    - WHITE
+  bond_types_probs:
+    sexOnly: 1.0
+  bond_types_probs_PWID:
+    SexInj: 0.308
+    Sex: 0.105
+    Inj: 0.587

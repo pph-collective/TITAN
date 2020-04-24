@@ -1,8 +1,8 @@
 calibration:
-  needle:
+  injection:
     act:
       default: 1.0
-      description: Scales number of needle acts during needle transmission
+      description: Scales number of injection acts during syringe-based transmission
       type: float
       min: 0
   sex:
@@ -16,9 +16,9 @@ calibration:
       description: Scales probability of partner acquisition
       type: float
       min: 0
-  transmission:
+  acquisition:
     default: 1.0
-    description: Scales probability of transmission
+    description: Scales probability of acquisition
     type: float
     min: 0.0
   test_frequency:
@@ -31,11 +31,6 @@ calibration:
     description: Scaling factor for all cause mortality rates
     type: float
     min: 0
-  haart_coverage:
-    default: 1.0
-    description: Scaling factor for enrollment on ART probability
-    type: float
-    min: 0.0
   incarceration:
     default: 1.0
     description: Scaling factor for probability of becoming incarcerated
@@ -52,6 +47,17 @@ calibration:
       type: int
       description: How many failed attempts an agent can have at partnering in a given round before removing them from the eligible pool
       min: 0
+  haart:
+    transmission:
+      default: 1.0
+      description: Scaling factor for effictiveness of ART therapy on transmission probability
+      type: float
+      min: 0.0
+    coverage:
+      default: 1.0
+      description: Scaling factor for enrollment on ART probability
+      type: float
+      min: 0.0
   network:
     trim:
       prob:

@@ -23,6 +23,12 @@ class ObjMap(dict):
     def __hash__(self):
         return 1234567890
 
+    def __getstate__(self):
+        return self.__dict__
+
+    def __setstate__(self, state):
+        self.__dict__.update(state)
+
 
 # ============== PARSING FUNCTIONS ======================
 
@@ -93,7 +99,7 @@ def get_bins(key, d, param):
     for bin, val in bins.items():
         try:
             int(bin)
-        except:
+        except ValueError:
             print("Bins must be integers")
             raise
 

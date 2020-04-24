@@ -64,15 +64,15 @@ classes:
         type: array
         values:
           - sex
-          - needle
+          - injection
           - pca
     default:
       Inj:
         acts_allowed:
-          - needle
+          - injection
       SexInj:
         acts_allowed:
-          - needle
+          - injection
           - sex
       Sex:
         acts_allowed:

@@ -26,7 +26,7 @@ calibration:
   sex:
     partner: 0.9
     act: 0.8
-  transmission: 1.0
+  acquisition: 1.0
   acute: 4.3
   risk_reduction:
     transmission: 0.53
@@ -34,7 +34,8 @@ calibration:
   test_frequency: 0.7
   mortality: 0.5
   aids_progression: 1.0
-  haart_coverage: 0.7
+  haart:
+    coverage: 0.7
   incarceration: 1.0
   race_transmission: 1.0
   partner_sample_depth: 100
@@ -62,7 +63,7 @@ assort_mix:
     partner_values:
       True: 0.3
       __other__: 0.7
-needle_exchange:
+syringe_services:
   prevalence: 1.0
   init_at_pop: 999999
   coverage: 0.0
@@ -123,9 +124,10 @@ demographics:
         init: 0.0274
         prob: 0.001
       num_partners: 0.0
-      num_needle_acts: 5.0
       safe_sex: 0.89
-      needle_sharing: 0.43
+      injection:
+        unsafe_prob: 0.43
+        num_acts: 5.0
       prep:
         discontinue: 0.0
       high_risk:
@@ -152,9 +154,10 @@ demographics:
         init: 0.0
         prob: 0.0
       num_partners: 0.0
-      num_needle_acts: 5.0
+      injection:
+        num_acts: 5.0
+        unsafe_prob: 0.43
       safe_sex: 0.43
-      needle_sharing: 0.43
       prep:
         discontinue: 0.15
       high_risk:
@@ -181,9 +184,10 @@ demographics:
         init: 0.0274
         prob: 0.001
       num_partners: 0.0
-      num_needle_acts: 5.0
       safe_sex: 0.89
-      needle_sharing: 0.63
+      injection:
+        unsafe_prob: 0.63
+        num_acts: 5.0
       prep:
         discontinue: 0.0
       high_risk:

@@ -20,7 +20,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      needle_sharing: 0.1
+      injection:
+        unsafe_prob: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -52,7 +53,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      needle_sharing: 0.1
+      injection:
+        unsafe_prob: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -84,7 +86,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      needle_sharing: 0.1
+      injection:
+        unsafe_prob: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -116,7 +119,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      needle_sharing: 0.1
+      injection:
+        unsafe_prob: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -148,7 +152,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      needle_sharing: 0.1
+      injection:
+        unsafe_prob: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -163,6 +168,8 @@ demographics:
           prob: 0.1
     PWID:
       ppl: 0.2
+      syringe_services:
+        discontinue: 0.0
       num_partners: 10.0
       hiv:
         init: 0.1
@@ -180,7 +187,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      needle_sharing: 0.1
+      injection:
+        unsafe_prob: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -195,6 +203,8 @@ demographics:
           prob: 0.1
   WHITE:
     ppl: 0.4
+    syringe_services:
+      discontinue: 0.0
     MSM:
       ppl: 0.3
       num_partners: 10.0
@@ -214,7 +224,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      needle_sharing: 0.1
+      injection:
+        unsafe_prob: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -246,7 +257,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      needle_sharing: 0.1
+      injection:
+        unsafe_prob: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -278,7 +290,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      needle_sharing: 0.1
+      injection:
+        unsafe_prob: 0.1
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -310,7 +323,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      needle_sharing: 0.1
+      injection:
+        unsafe_prob: 0.
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -342,7 +356,8 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      needle_sharing: 0.1
+      injection:
+        unsafe_prob: 0.
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -374,7 +389,10 @@ demographics:
         init: 0.1
         prob: 0.1
       safe_sex: 0.1
-      needle_sharing: 0.1
+      injection:
+        unsafe_prob: 0.
+      syringe_services:
+        discontinue: 0.0
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -393,10 +411,15 @@ partnership:
     durations:
       2:
         min: 9
-    transmission:
+    acquisition:
+      HM:
+        versatile: 0.0004
+      HF:
+        versatile: 0.0008
       MSM:
-        0:
-          prob: 0.08
+        insertive: 0.0011
+        receptive: 0.0138
+        versatile: 0.00745
   bonds:
     PWID:
       Sex:
@@ -442,6 +465,17 @@ partnership:
 prep:
   target: 0.3
 
+syringe_services:
+  timeline:
+    ssp_open:
+      start: 1
+      stop: 12
+      num_slots: 100
+      risk: 0.02
+
+outputs:
+  network:
+    calc_component_stats: true
 features:
   incar: true
   prep: true
@@ -455,6 +489,7 @@ features:
   partner_tracing: true
   msmw: true
   bond_type: true
+  syringe_services: true
 
 model:
   num_pop: 100
@@ -463,3 +498,4 @@ model:
   population:
     num_partners:
       type: bins
+  num_reps: 1

@@ -18,7 +18,7 @@ demographics:
 
 partnership:
   sex:
-    role_scaling:
+    acquisition:
       MSM:
-        vers: 0.5
-        top: 0.7
+        versatile: 0.00745
+        insertive: 0.7

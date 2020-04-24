@@ -17,7 +17,6 @@ from .population import Population
 from .network import NetworkGraphUtils
 from . import output as ao
 from . import probabilities as prob
-from .partnering import sex_possible
 from . import utils
 from .parse_params import ObjMap
 
@@ -79,7 +78,7 @@ class HIVModel:
         self.new_prep = AgentSet("new_prep")
 
         self.total_dx = 0
-        self.needle_exchange = False
+        self.ssp_enrolled_risk = 0.0
 
         # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed value
         print(f"\tRun seed was set to: {self.run_seed}")
@@ -175,6 +174,7 @@ class HIVModel:
                 self.pop.pop_seed,
                 self.pop.connected_components(),
                 outdir,
+                self.params.classes.races,
             )
 
         print("\t===! Start Main Loop !===")
@@ -229,11 +229,6 @@ class HIVModel:
             self.pop.all_agents.print_subsets()
 
             self.total_dx += len(self.new_dx.members)
-            if (
-                self.total_dx > self.params.needle_exchange.init_at_pop
-                and not self.needle_exchange
-            ):
-                self.enroll_needle_exchange()
 
             # RESET counters for the next time step
             reset_trackers()
@@ -253,6 +248,7 @@ class HIVModel:
                         self.pop.pop_seed,
                         self.pop.connected_components(),
                         outdir,
+                        self.params.classes.races,
                     )
                 if self.params.outputs.network.edge_list:
                     path = os.path.join(
@@ -389,7 +385,7 @@ class HIVModel:
                 2 - get partners
                 3 - agent interacts with partners
                 5 - VCT (Voluntsry Counseling and Testing)
-                6 - if PWID: needle exchange
+                6 - if PWID: syringe services
                 7 - if HIV: HAART, AIDS
 
         :Input:
@@ -410,6 +406,9 @@ class HIVModel:
             if not self.features.static_network:
                 if rel.progress():
                     self.pop.remove_relationship(rel)
+
+        if self.features.syringe_services:
+            self.update_syringe_services(time)
 
         for agent in self.pop.all_agents:
 
@@ -493,13 +492,6 @@ class HIVModel:
         if rel.agent1.incar or rel.agent2.incar:
             return False
 
-        if (
-            self.features.pca
-            and "pca" in self.params.classes.bond_types[rel.bond_type].acts_allowed
-            and rel.duration < rel.total_duration
-        ):
-            self.pca_interaction(rel, time)
-
         # Agent 1 is HIV, partner is succept
         if rel.agent1.hiv and not rel.agent2.hiv:
             agent = rel.agent1
@@ -511,33 +503,16 @@ class HIVModel:
         else:  # neither agent is HIV or both are
             return False
 
-        rel_sex_possible = sex_possible(
-            agent.so, partner.so, self.params.classes.sex_types
-        )
-        partner_drug_type = partner.drug_use
-        agent_drug_type = agent.drug_use
+        interaction_types = self.params.classes.bond_types[rel.bond_type].acts_allowed
 
-        if partner_drug_type == "Inj" and agent_drug_type == "Inj":
-            # Injection is possible
-            if rel_sex_possible:
-                # Sex is possible
-                rv = self.run_random.random()
-                if (
-                    rv < 0.25
-                ):  # Needle only (60%) # REVIEWED hard coded number - will go away when Sarah fixes interaction types
-                    self.needle_transmission(agent, partner, time)
-                else:  # Both sex and needle (20%)
-                    self.needle_transmission(agent, partner, time)
-                    self.sex_transmission(rel, time)
-            else:
-                # Sex not possible, needle only
-                self.needle_transmission(agent, partner, time)
+        if "pca" in interaction_types and rel.duration < rel.total_duration:
+            self.pca_interaction(rel, time)
 
-        else:
-            if rel_sex_possible:
-                self.sex_transmission(rel, time)
-            else:
-                return False
+        if "injection" in interaction_types:
+            self.injection_transmission(agent, partner, time)
+
+        if "sex" in interaction_types:
+            self.sex_transmission(rel, time)
 
         return True
 
@@ -593,7 +568,7 @@ class HIVModel:
             ):
                 self.initiate_prep(partner, time, force=True)
 
-        def transmission_probability():
+        def knowledge_transmission_probability():
             if rel.agent1.prep_awareness and rel.agent2.prep_awareness:
                 p = self.prep.pca.opinion.transmission
             else:
@@ -629,20 +604,20 @@ class HIVModel:
             return
 
         if rel.agent1.prep_awareness and not rel.agent2.prep_awareness:
-            if self.run_random.random() < transmission_probability() or force:
+            if self.run_random.random() < knowledge_transmission_probability() or force:
                 knowledge_dissemination(rel.agent2)
         elif not rel.agent1.prep_awareness and rel.agent2.prep_awareness:
-            if self.run_random.random() < transmission_probability() or force:
+            if self.run_random.random() < knowledge_transmission_probability() or force:
                 knowledge_dissemination(rel.agent1)
         elif rel.agent1.prep_awareness and rel.agent2.prep_awareness or force:
-            if self.run_random.random() < transmission_probability() or force:
+            if self.run_random.random() < knowledge_transmission_probability() or force:
                 influence(rel.agent1, rel.agent2)
 
-    def needle_transmission(self, agent: Agent, partner: Agent, time: int):
+    def injection_transmission(self, agent: Agent, partner: Agent, time: int):
         """
         :Purpose:
             Simulate random transmission of HIV between two PWID agents
-            through needle.\n
+            through injection.
             Agent must by HIV+ and partner not.
 
         :Input:
@@ -661,30 +636,28 @@ class HIVModel:
         agent_sex_type = agent.so
 
         mean_num_acts = (
-            self.demographics[agent_race][agent_sex_type].num_needle_acts
-            * self.calibration.needle.act
+            self.demographics[agent_race][agent_sex_type].injection.num_acts
+            * self.calibration.injection.act
         )
         share_acts = utils.poisson(mean_num_acts, self.np_random)
 
-        if agent.sne:  # safe needle exchange - minimal sharing
-            p_unsafe_needle_share = self.params.needle_exchange.unsafe_share.prob
-        else:  # they do share a needle
-
+        if agent.ssp:  # syringe services program risk
+            p_unsafe_injection = self.ssp_enrolled_risk
+        else:
             # If sharing, minimum of 1 share act
             if share_acts < 1:
                 share_acts = 1
 
-            p_unsafe_needle_share = (
-                self.demographics[agent_race][agent_sex_type].needle_sharing
-                * self.params.needle_exchange.prevalence
-            )
+            p_unsafe_injection = self.demographics[agent_race][
+                agent_sex_type
+            ].injection.unsafe_prob
 
         for n in range(share_acts):
-            if self.run_random.random() > p_unsafe_needle_share:
+            if self.run_random.random() > p_unsafe_injection:
                 share_acts -= 1
 
         if share_acts >= 1.0:
-            p = agent.get_transmission_probability("NEEDLE", self.params)
+            p = self.get_transmission_probability("injection", agent, partner)
 
             p_total_transmission: float
             if share_acts == 1:
@@ -747,38 +720,7 @@ class HIVModel:
         if unsafe_sex_acts >= 1:
             # agent is HIV+
             rel.total_sex_acts += unsafe_sex_acts
-            p_per_act = agent.get_transmission_probability("SEX", self.params)
-
-            # Reduction of transmissibility for acts between partners for PrEP adherence
-            if agent.prep or partner.prep:
-                if "Oral" in self.prep.type:
-                    if agent.prep_adherence == 1 or partner.prep_adherence == 1:
-                        p_per_act *= 1.0 - self.prep.efficacy.adherent  # 0.04
-                    else:
-                        p_per_act *= 1.0 - self.prep.efficacy.non_adherant  # 0.24
-
-                elif "Inj" in self.prep.type:
-                    p_per_act_reduction = (
-                        -1.0 * np.exp(-5.528636721 * partner.prep_load) + 1
-                    )
-                    if agent.prep_adherence == 1 or partner.prep_adherence == 1:
-                        p_per_act *= 1.0 - p_per_act_reduction  # 0.04
-
-            if partner.vaccine:
-                p_per_act_perc = 1.0
-                vaccine_time_months = (
-                    partner.vaccine_time / self.params.model.time.steps_per_year
-                ) * 12
-                if self.vaccine.type == "HVTN702":
-                    p_per_act_perc *= np.exp(
-                        -2.88 + 0.76 * (np.log((vaccine_time_months + 0.001) * 30))
-                    )
-                elif self.vaccine.type == "RV144":
-                    p_per_act_perc *= np.exp(
-                        -2.40 + 0.76 * (np.log(vaccine_time_months))
-                    )
-
-                p_per_act *= 1 - p_per_act_perc
+            p_per_act = self.get_transmission_probability("sex", agent, partner)
 
             p_total_transmission: float
             if unsafe_sex_acts == 1:
@@ -790,7 +732,98 @@ class HIVModel:
                 # if agent HIV+ partner becomes HIV+
                 self.hiv_convert(partner)
 
-    def hiv_convert(self, agent: Agent):  # TODO rename
+    def get_transmission_probability(self, interaction: str, agent, partner) -> float:
+        """ Decriptor
+        :Purpose:
+            Determines the probability of a transmission event based on
+            interaction type. For sex acts, transmission probability is a
+            function of the acquisition probability of the HIV- agent's sex role
+            and the HIV+ agent's haart adherence, acute status, and dx risk reduction
+
+        :Input:
+            interaction : str - "injection" or "sex"
+
+        :Output:
+            probability : float
+        """
+        # Logic for if needle or sex type interaction
+        p: float
+        assert interaction in (
+            "injection",
+            "sex",
+        ), f"Invalid interaction type {interaction}"
+
+        agent_sex_role = agent.sex_role
+        partner_sex_role = partner.sex_role
+
+        if interaction == "injection":
+            p = self.params.partnership.injection.transmission[
+                agent.haart_adherence
+            ].prob
+        else:
+            # get partner's sex role during acts
+            if partner_sex_role == "versatile":  # versatile partner takes
+                # "opposite" position of agent
+                if agent_sex_role == "insertive":
+                    partner_sex_role = "receptive"
+                elif agent_sex_role == "receptive":
+                    partner_sex_role = "insertive"
+                else:
+                    partner_sex_role = "versatile"  # if both versatile, can switch
+                    # between receptive and insertive by act
+            # get probability of sex acquisition given HIV- partner's position
+            p = self.params.partnership.sex.acquisition[partner.so][partner_sex_role]
+
+        # scale based on HIV+ agent's haart status/adherence
+        p *= self.params.partnership.sex.haart_scaling[agent.so][
+            agent.haart_adherence
+        ].prob
+
+        # Scale if partner on PrEP
+        if partner.prep:
+            if partner.prep_type == "Oral":
+                if partner.prep_adherence == 1:
+                    p *= 1.0 - self.prep.efficacy.adherent
+                else:
+                    p *= 1.0 - self.prep.efficacy.non_adherant
+            elif partner.prep_type == "Inj" and partner.prep_adherence == 1:
+                p *= -1.0 * np.exp(-5.528636721 * partner.prep_load)
+
+        # Scale if partner vaccinated
+        if partner.vaccine:
+            assert self.vaccine.type in [
+                "HVTN702",
+                "RV144",
+            ], f"Vaccine type {self.vaccine.type} not recognized"
+            vaccine_time_months = (
+                partner.vaccine_time / self.params.model.time.steps_per_year
+            ) * 12
+            if self.vaccine.type == "HVTN702":
+                p *= np.exp(-2.88 + 0.76 * (np.log((vaccine_time_months + 0.001) * 30)))
+            elif self.vaccine.type == "RV144":
+                p *= np.exp(-2.40 + 0.76 * (np.log(vaccine_time_months)))
+
+        # Scaling parameter for acute HIV infections
+        if agent.get_acute_status(self.params.hiv.acute.duration):
+            p *= self.params.hiv.acute.infectivity
+
+        # Scaling parameter for positively identified HIV agents
+        if agent.hiv_dx:
+            p *= 1 - self.params.hiv.dx.risk_reduction[interaction]
+
+        # Tuning parameter for ART efficiency
+        if agent.haart:
+            p *= self.params.calibration.haart.transmission
+
+        # Racial calibration parameter to attain proper race incidence disparity
+        p *= self.params.demographics[partner.race].hiv.transmission
+
+        # Scaling parameter for per act transmission.
+        p *= self.params.calibration.acquisition
+
+        return p
+
+    def hiv_convert(self, agent: Agent):
         """
         :Purpose:
             agent becomes HIV agent. Update all appropriate list and
@@ -809,20 +842,57 @@ class HIVModel:
         if agent.prep:
             self.discontinue_prep(agent, force=True)
 
-    def enroll_needle_exchange(self):
+    def update_syringe_services(self, time):
         """
         :Purpose:
-            Enroll PWID agents in needle exchange
+            Enroll PWID agents in syringe services
         """
-        print(("\n\n!!!!Engaging safe needle exchange process"))
-        self.needle_exchange = True
-        for agent in self.pop.all_agents:
-            if (
-                self.run_random.random() < self.params.needle_exchange.coverage
-                and agent.drug_use == "Inj"
+        print(("\n\n!!!!Engaging syringe services program"))
+        ssp_num_slots = 0
+        ssp_agents = {agent for agent in self.pop.pwid_agents.members if agent.ssp}
+        if self.features.syringe_services:
+            for item in self.params.syringe_services.timeline.values():
+                if item.start <= time < item.stop:
+                    self.ssp_enrolled_risk = item.risk
+                    if item.num_slots >= self.pop.pwid_agents.num_members():
+                        ssp_num_slots = item.num_slots
+                    elif item.num_slots == 0:
+                        ssp_num_slots = 0
+                    else:
+                        ssp_num_slots = round(
+                            self.run_random.betavariate(
+                                item.num_slots,
+                                self.pop.pwid_agents.num_members() - item.num_slots,
+                            )
+                            * self.pop.pwid_agents.num_members()
+                        )
+                    break
+
+        target_set = utils.safe_shuffle(
+            (self.pop.pwid_agents.members - ssp_agents), self.run_random
+        )
+
+        for agent in ssp_agents.copy():
+            if len(ssp_agents) > ssp_num_slots:
+                agent.ssp = False
+                ssp_agents.remove(agent)
+            elif (
+                self.run_random.random()
+                < self.demographics[agent.race].PWID.syringe_services.discontinue
             ):
-                agent.sne = True
-                agent.intervention_ever = True
+                agent.ssp = False
+                ssp_agents.remove(agent)
+
+        if target_set:
+            for agent in target_set:
+                if len(ssp_agents) < ssp_num_slots:
+                    agent.ssp = True
+                    ssp_agents.add(agent)
+
+        print(
+            f"SSP has {ssp_num_slots} target slots with "
+            f"{len(ssp_agents)} slots filled"
+        )
 
     def become_high_risk(self, agent: Agent, duration: int = None):
 
@@ -942,7 +1012,6 @@ class HIVModel:
                     if not partner.hiv and not agent.vaccine:
                         self.initiate_prep(partner, time)
 
-    # REVIEW - change verbage to diagnosed
     def diagnose_hiv(self, agent: Agent, time: int):
         """
         :Purpose:
@@ -1027,7 +1096,7 @@ class HIVModel:
             if not agent_haart and agent.haart_time == 0:
                 if self.run_random.random() < (
                     self.demographics[agent_race][agent_so].haart.prob
-                    * self.calibration.haart_coverage
+                    * self.calibration.haart.coverage
                 ):
 
                     haart_adh = self.demographics[agent_race][agent_so].haart.adherence

@@ -1,0 +1,96 @@
+demographics:
+  WHITE:
+    ppl: 1.0
+    HM:
+      ppl: 0.495
+      hiv:
+        init: 0.0014
+        dx:
+          init: 0.034
+          prob: 0.2  #TODO: correct number
+        haart:
+          init: 0.0
+          prob: 0.41  # TODO: correct number
+          adherence: 0.405
+          discontinue: 0.000
+      injection:
+        unsafe_prob: 0.43
+      age:
+        1:
+          prob: .221
+          min: 18
+          max: 29
+        2:
+          prob: .213
+          min: 30
+          max: 39
+        3:
+          prob: 0.234
+          min: 40
+          max: 49
+        4:
+          prob: .332
+          min: 50
+          max: 64
+
+    HF:
+      ppl: 0.505
+      hiv:
+        init: 0.0
+        dx:
+          init: 0.0
+          prob: 0.2  #TODO: correct number
+        haart:
+          init: 0.0
+          prob: 0.2  # TODO: correct number
+          adherence: 0.405
+          discontinue: 0.000
+      injection:
+        unsafe_prob: 0.43
+      age:
+        1:
+          prob: .221
+          min: 18
+          max: 29
+        2:
+          prob: .213
+          min: 30
+          max: 39
+        3:
+          prob: 0.234
+          min: 40
+          max: 49
+        4:
+          prob: .332
+          min: 50
+          max: 64
+    PWID:
+      ppl: 0.017
+      hiv:
+        init: 0.0
+        prob: 0.2
+      haart:
+        init: 0.0
+        prob: 0.0
+        adherence: 0.405
+        discontinue: 0.000
+      injection:
+        unsafe_prob: 0.34
+        num_acts: 5.0
+      age:
+        1:
+          prob: .221
+          min: 18
+          max: 29
+        2:
+          prob: .213
+          min: 30
+          max: 39
+        3:
+          prob: 0.234
+          min: 40
+          max: 49
+        4:
+          prob: .332
+          min: 50
+          max: 64

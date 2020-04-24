@@ -20,13 +20,14 @@ jobname=""
 folderName=""
 sweepDefs=""
 force=false
+num_cores=1
 
-while getopts m:S:T:j:r:n:f:w:F:t: option
+while getopts m:S:T:j:r:n:f:w:F:c:t: option
 do
     case "${option}"
         in
 	m) memory=${OPTARG};;
-  j) jobname=${OPTARG};;
+	j) jobname=${OPTARG};;
 	T) walltime=${OPTARG};;
 	S) setting=${OPTARG};;
 	r) repeats=${OPTARG};;
@@ -35,6 +36,7 @@ do
 	f) folderName=${OPTARG};;
 	w) sweepDefs+="-w ${OPTARG} ";;
 	F) force=true;;
+	c) num_cores=${OPTARG};;
 	t) titanPath=${OPTARG};;
     esac
 done
@@ -52,7 +54,7 @@ outPath="$HOME/scratch/$folderName"
 
 usage() {
 echo "
-usage: subtitan {Parameter file or directory}[-T walltime] [-m memory] [-S setting] [-j jobname] [-r repeats] [-n iterations] [-b use_base] [-f folder_name] [-w sweep_defs] [-F force] [-t titanPath ]
+usage: subtitan {Parameter file or directory}[-T walltime] [-m memory] [-S setting] [-j jobname] [-r repeats] [-n iterations] [-b use_base] [-f folder_name] [-w sweep_defs] [-F force] [-c num_cores ] [-t titanPath ]
 
 Starts a TITAN simulation in ~/scratch/{SourceFolder}/{jobname}
 
@@ -67,6 +69,7 @@ options:
 	-f folder_name	What the parent folder for the model run outputs should be called (default: <setting>)
 	-w sweep_defs   Optionally, definitions of sweep parameters in the format param:start:stop[:step]
 	-F force				If the number of sweep combinations exceeds 100, run anyway
+	-c num_cores		How many cores to request and run the job on (default: $num_cores)
 	-t titanPath		where the code is
 "
 exit 0
@@ -78,15 +81,17 @@ echo "
     Updating params:
 	savePath	$PWD
 	sourceCode	$srcCode
-	jobname: 	$jobname
+	jobname 	$jobname
 	walltime	$walltime
 	memory		$memory
+	num_cores	$num_cores
 "
 
 #Submit script params
 sed -i "s/MODEL_NAME/$jobname/g" scripts/bs_Core.sh
 sed -i "s/WALL_TIME/$walltime/g" scripts/bs_Core.sh
 sed -i "s/MEMORY/$memory/g" scripts/bs_Core.sh
+sed -i "s/NCORES/$num_cores/g" scripts/bs_Core.sh
 
 }
 
@@ -150,7 +155,7 @@ if [ $srcCode ]; then
     echo "
         jobname     $jobname
         outPath	    $outPath
-				paramPath   $paramPath
+        paramPath   $paramPath
         user	    $user
         date        $date
         walltime    $walltime

@@ -1,6 +1,6 @@
 demographics:
   type: sub-dict
-  description: "Paramters controlling population class level probabilities and behaviors"
+  description: "Parameters controlling population class level probabilities and behaviors"
   keys:
     - races
     - populations
@@ -11,6 +11,26 @@ demographics:
       type: float
       min: 0.0
       max: 1.0
+    sex_role:
+      init:
+        versatile:
+          default: 1.0
+          description: "Percentage of agents in this class with 'versatile' sex role"
+          type: float
+          min: 0.0
+          max: 1.0
+        insertive:
+          default: 0.0
+          description: "Percentage of agents in this class with 'insertive' sex role"
+          type: float
+          min: 0.0
+          max: 1.0
+        receptive:
+          default: 0.0
+          description: "Percentage of agents in this class with 'receptive' sex role"
+          type: float
+          min: 0.0
+          max: 1.0
     hiv:
       init:
         default: 0.0
@@ -58,13 +78,20 @@ demographics:
         max: 1.0
       adherence:
         default: 0.0
-        description: "Probability that an agent is assigne adherence of 5, otherwise randomly assigned 1-4"
+        description: "Probability that an agent is assigned adherence of 5, otherwise randomly assigned 1-4"
         type: float
         min: 0.0
         max: 1.0
       discontinue:
         default: 0.0
         description: "Probability that an agent on HAART discontinues HAART in a given time step"
+        type: float
+        min: 0.0
+        max: 1.0
+    syringe_services:
+      discontinue:
+        default: 0.0
+        description: "Probability that an agent enrolled in ssp drops out in a given time step"
         type: float
         min: 0.0
         max: 1.0
@@ -165,20 +192,21 @@ demographics:
       description: "Mean number of partners for an agent in this class if using model.population.num_partners.type = poisson"
       type: float
       min: 0.0
-    num_needle_acts:
-      default: 0.0
-      description: "???"
-      type: float
-      min: 0.0
+    injection:
+      num_acts:
+        default: 0.0
+        description: "Mean number of injection acts done within a relationship"
+        type: float
+        min: 0.0
+      unsafe_prob:
+        default: 0.0
+        description: "Probability of sharing a syringe per act"
+        type: float
+        min: 0.0
+        max: 1.0
     safe_sex:
       default: 0.0
-      description: "Pobability of safe sex (condom use) per sex act"
-      type: float
-      min: 0.0
-      max: 1.0
-    needle_sharing:
-      default: 0.0
-      description: "Probability of sharing a needle per act"
+      description: "Probability of safe sex (condom use) per sex act"
       type: float
       min: 0.0
       max: 1.0

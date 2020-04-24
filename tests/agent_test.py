@@ -59,6 +59,7 @@ def test_agent_init(make_agent):
     assert a.drug_use == "None"
     assert a.age_bin == 0
     assert a.msmw is False
+    assert a.sex_role is "versatile"
 
     # partner params
     assert a.relationships == set()
@@ -74,7 +75,7 @@ def test_agent_init(make_agent):
     assert a.haart is False
     assert a.haart_time == 0
     assert a.haart_adherence == 0
-    assert a.sne is False
+    assert a.ssp is False
     assert a.intervention_ever is False
     assert a.prep_reason == []
     assert a.vaccine_time == 0
@@ -127,49 +128,6 @@ def test_update_prep_load(make_agent, params):
 
     assert a.prep_last_dose == 0
     assert a.prep_load == 0.0
-
-
-def test_get_transmission_probability(make_agent, params):
-    a = make_agent(race="WHITE", SO="MSM")
-    a.haart_adherence = 1  # set this explicitly
-
-    p_needle = params.partnership.needle.transmission[1].prob
-    p_sex = params.partnership.sex.transmission["MSM"][1].prob
-    scale = params.calibration.transmission
-
-    # test base case (not tested, not HAART, "WHITE")
-    assert a.get_transmission_probability("NEEDLE", params) == p_needle * scale
-    assert a.get_transmission_probability("SEX", params) == p_sex * scale
-
-    # test acute
-    a.hiv_time = 1
-    assert (
-        a.get_transmission_probability("SEX", params)
-        == p_sex * scale * params.hiv.acute.infectivity
-    )
-    a.hiv_time = 0
-
-    # test tested status
-    a.hiv_dx = True
-    assert a.get_transmission_probability("SEX", params) == p_sex * scale * (
-        1 - params.hiv.dx.risk_reduction
-    )
-    a.hiv_dx = False
-
-    # test HAART
-    a.haart = True
-    assert (
-        a.get_transmission_probability("SEX", params)
-        == p_sex * scale * params.haart.transmission.prob
-    )
-    a.haart = False
-
-    # test Black
-    a.race = "BLACK"
-    assert (
-        a.get_transmission_probability("SEX", params)
-        == p_sex * scale * params.demographics[a.race].hiv.transmission
-    )
 
 
 def test_get_number_of_sex_acts(make_agent, params):

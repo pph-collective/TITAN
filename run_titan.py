@@ -9,6 +9,7 @@ import shutil
 import argparse
 import itertools
 import json
+from multiprocessing import Pool, cpu_count
 
 from titan.model import HIVModel
 from titan.parse_params import create_params
@@ -44,6 +45,10 @@ parser.add_argument(
     default=True,
     help="whether to use base setting",
 )
+
+# how many cores can we use
+NCORES = os.environ.get("SLURM_CPUS_PER_TASK", cpu_count())
+NCORES = int(NCORES)  # environment variable returns string
 
 
 def sweep_range(string):
@@ -113,6 +118,41 @@ def setup_sweeps(sweeps):
     return defs
 
 
+def consolidate_files(outdir):
+    for item in os.listdir(outdir):
+        subdir = os.path.join(outdir, item)
+        if os.path.isdir(subdir) and item != "network":
+            for report in os.listdir(subdir):
+                # network folder
+                if report == "network":
+                    for file in os.listdir(os.path.join(subdir, report)):
+                        shutil.move(
+                            os.path.join(subdir, report, file),
+                            os.path.join(outdir, network),
+                        )
+                else:
+                    # copy data to existing file
+                    if os.path.isfile(os.path.join(outdir, report)):
+                        if report == "SweepVals.json":
+                            header_skipped = True
+                        else:
+                            header_skipped = False
+                        with open(os.path.join(outdir, report), "a") as tgt, open(
+                            os.path.join(subdir, report), "r"
+                        ) as src:
+                            for line in src:
+                                if not header_skipped:
+                                    header_skipped = True
+                                else:
+                                    tgt.write(line)
+
+                    else:
+                        shutil.move(os.path.join(subdir, report), os.path.join(outdir))
+
+            # after copying remove directory
+            shutil.rmtree(subdir)
+
+
 def update_sweep_file(run_id, defn, outdir):
     f = open(os.path.join(outdir, "SweepVals.json"), "a")
     res = copy(defn)
@@ -122,9 +162,33 @@ def update_sweep_file(run_id, defn, outdir):
     f.close()
 
 
-def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
-    wct = []  # wall clock times
+def single_run(sweep, outfile_dir, params):
+    pid = str(os.getpid())
+    pid_outfile_dir = os.path.join(outfile_dir, pid)
+    if not os.path.isdir(pid_outfile_dir):
+        os.mkdir(pid_outfile_dir)
+        os.mkdir(os.path.join(pid_outfile_dir, "network"))
 
+    for param, val in sweep.items():
+        print(f"\t{param}: {val}")
+        path = param.split(".")
+        sweep_item = params
+        for p in path[:-1]:
+            sweep_item = sweep_item[p]
+        sweep_item[path[-1]] = val
+
+    tic = time_mod.time()
+
+    # runs simulations
+    model = HIVModel(params)
+    run_id = model.run(pid_outfile_dir)
+
+    update_sweep_file(run_id, sweep, pid_outfile_dir)
+
+    return time_mod.time() - tic
+
+
+def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
     # delete old results before overwriting with new results
     outfile_dir = os.path.join(os.getcwd(), outdir)
     if os.path.isdir(outfile_dir):
@@ -155,28 +219,27 @@ def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
             "Sweeping more than 100 models. Set `-F` (force) flag if you really want to do this."
         )
 
-    print(sweep_defs)
+    sweep_defs *= num_reps
 
-    for sweep in sweep_defs:
-        print("\n====SWEEPING====")
-        for param, val in sweep.items():
-            print(f"\t{param}: {val}")
-            path = param.split(".")
-            sweep_item = params
-            for p in path[:-1]:
-                sweep_item = sweep_item[p]
-            sweep_item[path[-1]] = val
+    tic = time_mod.time()
+    wct = []  # wall clock times
 
-        for single_sim in range(num_reps):
-            tic = time_mod.time()
+    with Pool(processes=NCORES) as pool:
+        results = [
+            pool.apply_async(single_run, (sweep_def, outfile_dir, params))
+            for sweep_def in sweep_defs
+        ]
+        while True:
+            if all([r.ready() for r in results]):
+                break
 
-            # runs simulations
-            model = HIVModel(params)
-            run_id = model.run(outfile_dir)
+        for r in results:
+            t = r.get()
+            wct.append(t)
 
-            update_sweep_file(run_id, sweep, outfile_dir)
+    toc = time_mod.time() - tic
 
-            wct.append(time_mod.time() - tic)
+    consolidate_files(outfile_dir)
 
     for task, time_t in enumerate(wct):
         print(("wall clock time on for simulation %d: %8.4f seconds" % (task, time_t)))
@@ -188,13 +251,11 @@ def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
     print(("all tasks - min:  %8.4f seconds" % min(wct)))
     print(("all tasks - max:  %8.4f seconds" % max(wct)))
     print(("all tasks - sum:  %8.4f seconds" % sum(wct)))
+    print(f"all tasks - total: {toc} seconds")
 
 
 if __name__ == "__main__":
     args = parser.parse_args()
-
-    print(args.sweep)
-
     main(
         args.setting.strip(),
         args.params.strip(),

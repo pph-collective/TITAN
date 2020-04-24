@@ -1,4 +1,8 @@
 partnership:
+  bonds:
+    MSM:
+      Sex:
+        prob: 1.0
   sex:
     duration:
       1:
@@ -31,3 +35,8 @@ partnership:
         prob: 1.0
         min: 13
         max: 20
+  acquisition:
+    MSM:
+      insertive: 0.0011
+      receptive: 0.0138
+      vers: 0.00745
