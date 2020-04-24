@@ -1,7 +1,7 @@
 partnership:
   sex:
-    role_scaling:
+    acquisition:
       MSM:
-        vers: 1.1
-        top: 1.2
-        bottom: 1.3
+        vers: 0.00745
+        insertive: 0.0011
+        receptive: 0.0138

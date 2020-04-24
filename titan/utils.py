@@ -1,9 +1,6 @@
 import random
-from typing import TypeVar, Optional, Collection
 from functools import wraps
-from math import factorial
-
-import numpy as np  # type: ignore
+from typing import TypeVar, Optional, Collection
 
 
 def get_check_rand_int(seed):
@@ -45,6 +42,21 @@ def safe_random_choice(seq: Collection[T], rand_gen) -> Optional[T]:
         return None
 
 
+def safe_shuffle(seq: Collection[T], rand_gen):
+    """
+    Return None or a shuffled sequence
+    """
+    if seq:
+        if isinstance(seq, set):
+            rand_gen.shuffle(list(seq))
+            return seq
+        else:
+            rand_gen.shuffle(seq)
+            return seq
+    else:
+        return None
+
+
 def binom_0(n: int, p: float):
     """
         mirrors scipy binom.pmf as used in code
@@ -61,7 +73,8 @@ def poisson(mu: float, np_rand):
 
 def memo(f):
     """
-    decorator to memoize a function (caches results given args, only use if deterministic)
+    decorator to memoize a function
+    caches results given args, only use if deterministic)
     """
     cache = {}
 

@@ -4,10 +4,11 @@ model:
     ppl: 0
     net: 0
     run: 0
-  num_pop: 1744
+  num_pop: 17440
   time:
     num_steps: 120
-    burn_steps: 36
+    steps_per_year: 12
+    burn_steps: 24
   network:
     type: scale_free
   population:
@@ -16,13 +17,13 @@ model:
 
 features:
   incar: false
-  prep: true
+  prep: false
   high_risk: false
-  hart: true
+  haart: true
   die_and_replace: true
   static_network: false
   agent_zero: false
-  assort_mix: false
+  assort_mix: true
   vaccine: false
   partner_tracing: false
   msmw: false

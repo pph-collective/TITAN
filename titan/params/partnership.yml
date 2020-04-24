@@ -35,7 +35,7 @@ partnership:
           prob: 1.0
           min: 37
           max: 48
-    frequency: # REVIEWED this is the same default as sex.duration - seems odd? - Sarah to fix
+    frequency:
       type: bin
       description: "Binned probabilities of number of sex acts of a partnership at a given time step"
       fields:
@@ -70,14 +70,14 @@ partnership:
           prob: 1.0
           min: 37
           max: 48
-    transmission:
+    haart_scaling:
       type: sub-dict
-      description: "probability of transmitting HIV for a given sex type"
+      description: "Scaling factor on HIV transmission for a given haart adherence"
       keys:
         - sex_types
       default:
         type: bin
-        description: "Binned probabilities of transmitting HIV"
+        description: "Binned scalar for HIV transmission"
         fields:
           prob:
             type: float
@@ -85,61 +85,45 @@ partnership:
             max: 1.0
         default:
           0:
-            prob: 0.001
+            prob: 1.0
           1:
-            prob: 0.001
+            prob: 1.0
           2:
-            prob: 0.0008
+            prob: 0.8
           3:
-            prob: 0.0004
+            prob: 0.4
           4:
-            prob: 0.0002
+            prob: 0.2
           5:
             prob: 0.0
-    role_scaling:
+    acquisition:
       type: sub-dict
-      description: "Scaling factor for hiv transmission for a given sex type for each sex role"
+      description: "Probability of HIV negative partner acquiring HIV given their preferred sex position"
       keys:
         - sex_types
       default:
-        vers:
+        versatile:
           type: float
-          description: Scaling factor for hiv transmission for a given sex type for vers role
-          min: 0
-          default: 1
-        top:
-          type: float
-          description: Scaling factor for hiv transmission for a given sex type for top role
-          min: 0
-          default: 1
-        bottom:
-          type: float
-          description: Scaling factor for hiv transmission for a given sex type for bottom role
-          min: 0
-          default: 1
-  needle:
-    duration:
-      type: bin
-      description: "Binned probabilities of length of a partnership's needle sharing durations"
-      fields:
-        prob:
-          type: float
+          description: Probability for hiv acquisition for a given sex type for versatile role
           min: 0.0
           max: 1.0
-        min:
-          type: int
-          min: 0
-        max:
-          type: int
-          min: 0
-      default:
-        1:
-          prob: 1.0
-          min: 1
-          max: 6
+          default: 0.00745
+        insertive:
+          type: float
+          description: Probability hiv acquisition for a given sex type for insertive role
+          min: 0.0
+          max: 1.0
+          default: 0.0011
+        receptive:
+          type: float
+          description: Probability for hiv acquisition for a given sex type for receptive role
+          min: 0.0
+          max: 1.0
+          default: 0.0138
+  injection:
     frequency:
       type: bin
-      description: "Binned probabilities of frequency of a partnership's needle sharing"
+      description: "Binned probabilities of frequency of a partnership's syringe sharing"
       fields:
         prob:
           type: float
@@ -158,7 +142,7 @@ partnership:
           max: 6
     transmission:
       type: bin
-      description: Binned probabilities of transmission from needle sharing
+      description: Binned probabilities of transmission from syringe sharing given haart adherence
       fields:
         prob:
           type: float

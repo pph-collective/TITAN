@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 # Imports
-from typing import Set, Optional, Tuple, Dict
+from typing import Optional, Tuple, Dict
 from copy import copy
 
 from .agent import Agent, AgentSet
@@ -44,7 +44,8 @@ def select_partner(
         ).pop()
 
         if partner_type == "__other__":
-            # remove all the specified (not selected) values and remove those partners from the eligible set
+            # remove all the specified (not selected) values and remove those
+            # partners from the eligible set
             for p in partner_types:
                 if p != "__other__":
                     eligible_partners = {
@@ -72,11 +73,15 @@ def select_partner(
 
     acts_allowed = params.classes.bond_types[agent_bond].acts_allowed
 
-    if "needle" in acts_allowed:
+    if "injection" in acts_allowed:
         eligible &= pwid_agents.members
 
     if "sex" in acts_allowed:
         eligible &= sex_partners[agent.so]
+
+    if not eligible:  # short circuit to avoid attempting to assort with no eligible
+        # partners
+        return None, agent_bond
 
     if params.features.assort_mix:
         for assort_def in params.assort_mix.values():

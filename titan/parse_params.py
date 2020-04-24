@@ -99,7 +99,7 @@ def get_bins(key, d, param):
     for bin, val in bins.items():
         try:
             int(bin)
-        except:
+        except ValueError:
             print("Bins must be integers")
             raise
 

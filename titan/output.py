@@ -2,11 +2,12 @@
 # encoding: utf-8
 
 from typing import Dict, Any, List
-from .agent import AgentSet, Relationship, Agent
+from .agent import AgentSet, Agent
 from copy import deepcopy
 from uuid import UUID
 import os
 
+from networkx import betweenness_centrality, effective_size, density  # type: ignore
 from .parse_params import ObjMap
 
 
@@ -379,48 +380,83 @@ def basicReport(
 
 
 def print_components(
-    run_id: UUID, t: int, runseed: int, popseed: int, components, outdir: str,
+    run_id: UUID,
+    t: int,
+    runseed: int,
+    popseed: int,
+    components,
+    outdir: str,
+    races: list,
 ):
     """
     Write stats describing the components (sub-graphs) in a graph to file
     """
     f = open(os.path.join(outdir, "componentReport_ALL.txt"), "a")
 
+    race_count: Dict[str, int] = {}
+    race_list = []
+    header = ""
+    for race in races:
+        race_count[race] = 0
+        race_list.append(race)
+        header += "\t" + race
+
     # if this is a new file, write the header info
     if f.tell() == 0:
         f.write(
-            "run_id\trunseed\tpopseed\tt\tcompID\ttotalN\tNhiv\tNprep\tNtrtHIV\t"
-            "TrtComponent\tPCA\tOral\tLAI\tAware\n"
+            "run_id\trunseed\tpopseed\tt\tcompID\ttotalN\tNhiv\tNprep\tNtrtHIV"
+            "\tTrtComponent\tPCA\tOral\tDensity\tEffectiveSize" + header + "\n"
         )
 
     comp_id = 0
     for comp in components:
+        assert comp.number_of_nodes() >= 0
         tot_agents = (
             nhiv
-        ) = ntrthiv = nprep = trtbool = injectable_prep = oral = aware = pca = 0
+        ) = ntrthiv = nprep = trtbool = injectable_prep = oral = aware = pca = nidu = 0
+
         for agent in comp.nodes():
             tot_agents += 1
+            race_count[agent.race] += 1
             if agent.hiv:
                 nhiv += 1
                 if agent.intervention_ever:
                     ntrthiv += 1
+
             if agent.prep:
                 nprep += 1
                 if agent.prep_type == "Inj":
                     injectable_prep += 1
                 elif agent.prep_type == "Oral":
                     oral += 1
+
             if agent.pca:
                 trtbool += 1
                 if agent.pca_suitable:
                     pca += 1
+
             if agent.prep_awareness:
                 aware += 1
 
+            if agent.drug_use == "NonInj":
+                nidu += 1
+
+        comp_centrality = (
+            sum(betweenness_centrality(comp).values()) / comp.number_of_nodes()
+        )
+        average_size = sum(effective_size(comp).values()) / comp.number_of_nodes()
+        comp_density = density(comp)
+
+        race_str = ""
+        for race in race_list:
+            race_str += "\t" + str(race_count[race])
+
         f.write(
-            f"{run_id}\t{runseed}\t{popseed}\t{t}\t{comp_id}\t{tot_agents}\t{nhiv}\t"
+            f"{run_id}\t{runseed}\t{popseed}\t{t}\t{comp_id}\t{tot_agents}\t"
+            f"{nhiv}\t"
             f"{nprep}\t{ntrthiv}\t{trtbool}\t{pca}\t{oral}\t{injectable_prep}"
-            f"\t{aware}\n"
+            f"\t{aware}\t{nidu}\t{comp_centrality:.4f}\t{comp_density:.4f}"
+            f"\t{average_size:.4f}{race_str}\n"
         )
 
         comp_id += 1

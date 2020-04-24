@@ -47,7 +47,7 @@ features:
     default: false
     description: Whether to have peer change agents spreading awareness of PrEP
     type: boolean
-  bond_type:
+  syringe_services:
     default: false
-    description: whether predefined bond types are used
+    description: Whether to have a syringe services program in the model
     type: boolean

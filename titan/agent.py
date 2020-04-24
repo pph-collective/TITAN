@@ -69,7 +69,7 @@ class Agent:
         self.haart = False
         self.haart_time = 0
         self.haart_adherence = 0
-        self.sne = False
+        self.ssp = False
         self.prep = False
         self.prep_adherence = 0
         self.prep_reason: List[str] = []
@@ -98,6 +98,8 @@ class Agent:
         self.incar = False
         self.incar_ever = False
         self.incar_time = 0
+
+        self.sex_role = "versatile"
 
     def __str__(self):
         """
@@ -231,45 +233,6 @@ class Agent:
         self.vaccine_type = vax
         self.vaccine_time = 1
 
-    def get_transmission_probability(self, interaction: str, params: ObjMap) -> float:
-        """ Decriptor
-        :Purpose:
-            Determines the probability of a transmission event based on
-            interaction type.
-
-        :Input:
-            interaction : str - "NEEDLE" or "SEX"
-
-        :Output:
-            probability : float
-        """
-        # Logic for if needle or sex type interaction
-        p: float
-        if interaction == "NEEDLE":
-            p = params.partnership.needle.transmission[self.haart_adherence].prob
-        elif interaction == "SEX":
-            p = params.partnership.sex.transmission[self.so][self.haart_adherence].prob
-
-        # Scaling parameter for acute HIV infections
-        if self.get_acute_status(params.hiv.acute.duration):
-            p *= params.hiv.acute.infectivity
-
-        # Scaling parameter for positively identified HIV agents
-        if self.hiv_dx:
-            p *= 1 - params.hiv.dx.risk_reduction
-
-        # Tuning parameter for ART efficiency
-        if self.haart:
-            p *= params.haart.transmission.prob
-
-        # Racial calibration parameter to attain proper race incidence disparity
-        p *= params.demographics[self.race].hiv.transmission
-
-        # Scaling parameter for per act transmission.
-        p *= params.calibration.transmission
-
-        return p
-
     def get_number_of_sex_acts(self, rand_gen, params: ObjMap) -> int:
         """
         :Purpose:
@@ -399,7 +362,10 @@ class Relationship:
             return self.agent1
 
     def __repr__(self):
-        return f"\t{self.id}\t{self.agent1.id}\t{self.agent2.id}\t{self.duration}\t{self.bond_type}"
+        return (
+            f"\t{self.id}\t{self.agent1.id}\t{self.agent2.id}\t{self.duration}\t"
+            f"{self.bond_type} "
+        )
 
 
 class AgentSet:

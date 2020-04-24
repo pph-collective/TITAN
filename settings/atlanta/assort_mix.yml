@@ -11,3 +11,16 @@ assort_mix:
     partner_values:
       BLACK: 0.765
       __other__: 0.235
+  assort_receptive:
+    attribute: sex_role
+    agent_value: receptive
+    partner_values:
+      receptive: 0.00
+      __other__: 1.00
+  assort_insertive:
+    attribute: sex_role
+    agent_value: insertive
+    partner_values:
+      insertive: 0.0
+      __other__: 1.00
+
