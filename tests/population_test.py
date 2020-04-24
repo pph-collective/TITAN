@@ -236,6 +236,7 @@ def test_update_agent_partners_PWID_match(make_population, params):
     pop.add_agent(a)
     pop.add_agent(p)
 
+    a.target_partners = 10
     p.target_partners = 10
 
     no_match = pop.update_agent_partners(a)
@@ -257,6 +258,7 @@ def test_update_agent_partners_MSM_match(make_population, params):
     pop.add_agent(a)
     pop.add_agent(p)
 
+    a.target_partners = 10
     p.target_partners = 10
 
     no_match = pop.update_agent_partners(a)
@@ -303,7 +305,7 @@ def test_update_partner_assignments_MSM_match(make_population, params):
     assert params.model.network.enable == True
     assert pop.enable_graph
 
-    pop.update_partner_assignments()
+    pop.update_partner_assignments(1)
     assert a in pop.graph.nodes()
     assert p in pop.graph.nodes()
     assert a.partners
@@ -325,7 +327,7 @@ def test_update_partner_assignments_PWID_match(make_population, params):
     assert params.model.network.enable == True
     assert pop.enable_graph
 
-    pop.update_partner_assignments()
+    pop.update_partner_assignments(1)
     assert a in pop.graph.nodes()
     assert p in pop.graph.nodes()
     assert a.partners
@@ -348,7 +350,7 @@ def test_update_partner_assignments_NDU_PWID_match(make_population, params):
     assert params.model.network.enable == True
     assert pop.enable_graph
 
-    pop.update_partner_assignments()
+    pop.update_partner_assignments(1)
     assert a in pop.graph.nodes()
     assert p in pop.graph.nodes()
     assert a.partners
@@ -371,7 +373,7 @@ def test_update_partner_assignments_no_match(make_population, params):
 
     params.model.num_pop = 0
 
-    pop.update_partner_assignments()
+    pop.update_partner_assignments(1)
     assert a in pop.graph.nodes()
     assert p in pop.graph.nodes()
     assert len(pop.graph.edges()) == 0

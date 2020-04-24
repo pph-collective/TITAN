@@ -109,9 +109,9 @@ def test_target_partners(make_model, tmpdir):
 
     # change the bins upward for creating model b
     bins = {
-        15: {"prob": 0.3},
-        20: {"prob": 0.4},
         25: {"prob": 0.3},
+        30: {"prob": 0.4},
+        35: {"prob": 0.3},
     }
     model_a.params.model.population.num_partners.bins = ObjMap(bins)
     model_a.params.model.seed.run = model_a.run_seed
@@ -185,14 +185,16 @@ def test_prep_coverage(make_model, tmpdir):
 
     # at start, should be similar
     assert res_a[0]["t"] == res_b[0]["t"]
-    assert math.isclose(
-        float(res_a[0]["HIV"]), float(res_b[0]["HIV"]), rel_tol=0.3
-    )  # within 30%
+    t0_hiv_a = float(res_a[0]["HIV"])
+    t0_hiv_b = float(res_b[0]["HIV"])
+    t0_diff = t0_hiv_a - t0_hiv_b
+    assert math.isclose(t0_hiv_a, t0_hiv_b, abs_tol=15)  # within 15 agents
     assert int(res_a[0]["PrEP"]) < int(res_b[0]["PrEP"])
 
     # at end, should be different
     assert res_a[9]["t"] == res_b[9]["t"]
-    assert not math.isclose(
-        float(res_a[9]["HIV"]), float(res_b[9]["HIV"]), rel_tol=0.3
-    )  # not within 30%
+    t9_hiv_a = float(res_a[9]["HIV"])
+    t9_hiv_b = float(res_b[9]["HIV"])
+    t9_diff = t9_hiv_a - t9_hiv_b  # a should be higher
+    assert t9_diff > t0_diff
     assert int(res_a[9]["PrEP"]) < int(res_b[9]["PrEP"])

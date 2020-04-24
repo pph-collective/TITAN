@@ -79,8 +79,8 @@ def select_partner(
     if "sex" in acts_allowed:
         eligible &= sex_partners[agent.so]
 
-    if not eligible:  # short circuit to avoid attempting to assort with no eligible
-        # partners
+    # short circuit to avoid attempting to assort with no eligible partners
+    if not eligible:
         return None, agent_bond
 
     if params.features.assort_mix:
