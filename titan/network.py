@@ -26,7 +26,7 @@ class NetworkGraphUtils:
         return list(self.G.subgraph(c).copy() for c in nx.connected_components(self.G))
 
     def write_graph_edgelist(self, path: str):
-        nx.write_edgelist(self.G, path, delimiter="\t")
+        nx.write_edgelist(self.G, path, delimiter="|", data=False)
 
     def write_network_stats(self, path: str):
         components = sorted(self.connected_components(), key=len, reverse=True)
