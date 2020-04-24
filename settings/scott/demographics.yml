@@ -14,7 +14,7 @@ demographics:
           adherence: 0.405
           discontinue: 0.000
       injection:
-        unsafe_injection: 0.43
+        unsafe_prob: 0.43
       age:
         1:
           prob: .221
@@ -46,7 +46,7 @@ demographics:
           adherence: 0.405
           discontinue: 0.000
       injection:
-        unsafe_injection: 0.43
+        unsafe_prob: 0.43
       age:
         1:
           prob: .221
@@ -75,8 +75,8 @@ demographics:
         adherence: 0.405
         discontinue: 0.000
       injection:
-        unsafe_injection: 0.34
-        num_injection_acts: 5.0
+        unsafe_prob: 0.34
+        num_acts: 5.0
       age:
         1:
           prob: .221

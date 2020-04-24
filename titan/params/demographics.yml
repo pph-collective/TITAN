@@ -193,12 +193,12 @@ demographics:
       type: float
       min: 0.0
     injection:
-      num_injection_acts:
+      num_acts:
         default: 0.0
         description: "Mean number of injection acts done within a relationship"
         type: float
         min: 0.0
-      unsafe_injection:
+      unsafe_prob:
         default: 0.0
         description: "Probability of sharing a syringe per act"
         type: float

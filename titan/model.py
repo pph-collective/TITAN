@@ -643,7 +643,7 @@ class HIVModel:
         agent_sex_type = agent.so
 
         mean_num_acts = (
-            self.demographics[agent_race][agent_sex_type].injection.num_injection_acts
+            self.demographics[agent_race][agent_sex_type].injection.num_acts
             * self.calibration.injection.act
         )
         share_acts = utils.poisson(mean_num_acts, self.np_random)
@@ -657,7 +657,7 @@ class HIVModel:
 
             p_unsafe_injection = self.demographics[agent_race][
                 agent_sex_type
-            ].injection.unsafe_injection
+            ].injection.unsafe_prob
 
         for n in range(share_acts):
             if self.run_random.random() > p_unsafe_injection:
