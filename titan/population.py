@@ -99,7 +99,6 @@ class Population:
 
         self.relationships: Set[Relationship] = set()
 
-
         # keep track of prep agent counts by race
         self.prep_counts = {race: 0 for race in params.classes.races}
 
@@ -114,6 +113,7 @@ class Population:
                 weights.append(dur_bins[bins].prob)
             vals.append(np.average([dur_bins[bins].min, dur_bins[bins].max]))
         self.mean_rel_duration = np.average(vals, weights=weights)
+        print(f"\tMean relationship duration: {self.mean_rel_duration}")
 
         print("\tCreating agents")
 
@@ -152,7 +152,6 @@ class Population:
                 a.incar_time = self.pop_random.randrange(
                     jail_duration[bin].min, jail_duration[bin].max
                 )
-                # self.incarcerated_agents.add_agent(a)
 
     def create_agent(self, race: str, sex_type: str = "NULL") -> Agent:
         """
@@ -246,6 +245,9 @@ class Population:
         ):
             agent.high_risk = True
             agent.high_risk_ever = True
+            agent.high_risk_time = self.pop_random.randint(
+                1, self.params.high_risk.sex_based[agent.so].duration
+            )
 
         # Partnership demographics
         if self.params.model.population.num_partners.type == "bins":

@@ -127,6 +127,9 @@ class HIVModel:
             self.deaths = []
 
         def burn_simulation(duration: int):
+            if duration == 0:
+                return None
+
             print(("\n === Burn Initiated for {} timesteps ===".format(duration + 1)))
             burn_conversions = 0
             for t in range(1, duration + 1):
@@ -177,15 +180,15 @@ class HIVModel:
                 self.params.classes.races,
             )
 
+        if self.params.outputs.network.edge_list:
+            path = os.path.join(outdir, "network", f"{run_id}_Edgelist_t0.txt")
+            self.network_utils.write_graph_edgelist(path)
+
         print("\t===! Start Main Loop !===")
 
         # If we are using an agent zero method, create agent zero.
         if self.features.agent_zero:
             make_agent_zero(4)
-
-        if self.params.outputs.network.edge_list:
-            path = os.path.join(outdir, "network", f"{run_id}_Edgelist_t0.txt")
-            self.network_utils.write_graph_edgelist(path)
 
         for t in range(1, self.params.model.time.num_steps + 1):
             print(f"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME {t}")
@@ -281,7 +284,9 @@ class HIVModel:
             agent.high_risk = False
 
             if self.features.incar:
-                agent.mean_num_partners -= self.high_risk.partner_scale
+                agent.mean_num_partners -= np.ceil(
+                    self.high_risk.partner_scale / self.pop.mean_rel_duration
+                )
                 agent.mean_num_partners = max(
                     0, agent.mean_num_partners
                 )  # make sure not negative
@@ -944,7 +949,9 @@ class HIVModel:
                     not agent.high_risk and self.features.high_risk
                 ):  # If behavioral treatment on and agent HIV, ignore HR period.
                     self.become_high_risk(agent)
-                    agent.mean_num_partners += self.high_risk.partner_scale
+                    agent.mean_num_partners += np.ceil(
+                        self.high_risk.partner_scale / self.pop.mean_rel_duration
+                    )
                     agent.target_partners = utils.poisson(
                         agent.mean_num_partners, self.np_random
                     )

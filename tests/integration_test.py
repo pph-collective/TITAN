@@ -13,12 +13,9 @@ from titan.model import HIVModel
 @pytest.fixture
 def params(tmpdir):
     param_file = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "params", "integration_base.yml"
+        os.path.dirname(os.path.abspath(__file__)), "params", "simple_integration.yml"
     )
-    setting_file = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
-    )
-    return create_params(setting_file, param_file, tmpdir)
+    return create_params(None, param_file, tmpdir)
 
 
 @pytest.fixture
@@ -112,9 +109,9 @@ def test_target_partners(make_model, tmpdir):
 
     # change the bins upward for creating model b
     bins = {
-        10: {"prob": 0.2},
-        15: {"prob": 0.4},
+        15: {"prob": 0.3},
         20: {"prob": 0.4},
+        25: {"prob": 0.3},
     }
     model_a.params.model.population.num_partners.bins = ObjMap(bins)
 
@@ -123,21 +120,30 @@ def test_target_partners(make_model, tmpdir):
     run_id_b = model_b.run(path_b)
 
     g_a_0 = nx.read_edgelist(
-        os.path.join(path_a, "network", f"{run_id_a}_Edgelist_t0.txt"), delimiter="|", data=False
+        os.path.join(path_a, "network", f"{run_id_a}_Edgelist_t0.txt"),
+        delimiter="|",
+        data=False,
     )
     g_a_10 = nx.read_edgelist(
-        os.path.join(path_a, "network", f"{run_id_a}_Edgelist_t10.txt"), delimiter="|", data=False
+        os.path.join(path_a, "network", f"{run_id_a}_Edgelist_t10.txt"),
+        delimiter="|",
+        data=False,
     )
     g_b_0 = nx.read_edgelist(
-        os.path.join(path_b, "network", f"{run_id_b}_Edgelist_t0.txt"), delimiter="|", data=False
+        os.path.join(path_b, "network", f"{run_id_b}_Edgelist_t0.txt"),
+        delimiter="|",
+        data=False,
     )
     g_b_10 = nx.read_edgelist(
-        os.path.join(path_b, "network", f"{run_id_b}_Edgelist_t10.txt"), delimiter="|", data=False
+        os.path.join(path_b, "network", f"{run_id_b}_Edgelist_t10.txt"),
+        delimiter="|",
+        data=False,
     )
 
     # should be at least 2x bigger
     assert (g_a_0.number_of_edges() * 2) < g_b_0.number_of_edges()
     assert (g_a_10.number_of_edges() * 2) < g_b_10.number_of_edges()
+
 
 @pytest.mark.integration
 def test_prep_coverage(make_model, tmpdir):
@@ -173,13 +179,16 @@ def test_prep_coverage(make_model, tmpdir):
         for row in reader_b:
             res_b.append(row)
 
-
     # at start, should be similar
     assert res_a[0]["t"] == res_b[0]["t"]
-    assert math.isclose(float(res_a[0]["HIV"]), float(res_b[0]["HIV"]), rel_tol = 0.3) # within 30%
+    assert math.isclose(
+        float(res_a[0]["HIV"]), float(res_b[0]["HIV"]), rel_tol=0.3
+    )  # within 30%
     assert int(res_a[0]["PrEP"]) < int(res_b[0]["PrEP"])
 
     # at end, should be different
     assert res_a[9]["t"] == res_b[9]["t"]
-    assert not math.isclose(float(res_a[9]["HIV"]), float(res_b[9]["HIV"]), rel_tol = 0.5) # not within 50%
+    assert not math.isclose(
+        float(res_a[9]["HIV"]), float(res_b[9]["HIV"]), rel_tol=0.3
+    )  # not within 30%
     assert int(res_a[9]["PrEP"]) < int(res_b[9]["PrEP"])
