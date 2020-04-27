@@ -120,7 +120,7 @@ def sex_possible(agent_sex_type: str, partner_sex_type: str, sex_types: ObjMap) 
     return agent_match and partner_match
 
 
-def get_partnership_duration(agent: Agent, params: ObjMap, rand_gen) -> int:
+def get_partnership_duration(params: ObjMap, rand_gen, bond_type) -> int:
     """
     :Purpose:
         Get duration of a relationship
@@ -133,15 +133,29 @@ def get_partnership_duration(agent: Agent, params: ObjMap, rand_gen) -> int:
         NumPartners : int
         Zero partners possible.
     """
-    dur_info = params.partnership.sex.duration
+    relationship_type = ""
+    if "sex" in bond_type.acts_allowed:
+        relationship_type = "sex"
+    elif "injection" in bond_type.acts_allowed:
+        relationship_type = "injection"
+    else:
+        relationship_type = "sex"
 
-    diceroll = rand_gen.random()
-    dur_bin = dur_info[5]
-    for i in range(1, 5):
-        if diceroll < dur_info[i].prob:
-            dur_bin = dur_info[i]
-            break
+    if params.partnership.sex.duration.type == "bins":
+        dur_info = params.partnership[relationship_type].duration.bins
 
-    duration = rand_gen.randrange(dur_bin.min, dur_bin.max, 1,)
+        diceroll = rand_gen.random()
+        dur_bin = dur_info[5]
+        for i in range(1, 5):
+            if diceroll < dur_info[i].prob:
+                dur_bin = dur_info[i]
+                break
+
+        duration = rand_gen.randrange(dur_bin.min, dur_bin.max, 1)
+
+    else:
+        dist = params.partnership.sex.duration
+        dist_type = getattr(rand_gen, dist.dist_type)
+        duration = dist_type(dist.var_1, dist.var_2)
 
     return duration

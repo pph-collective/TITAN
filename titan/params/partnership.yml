@@ -1,40 +1,5 @@
 partnership:
   sex:
-    duration:
-      type: bin
-      description: "Binned probabilities of length of a partnership's sexual durations"
-      fields:
-        prob:
-          type: float
-          min: 0.0
-          max: 1.0
-        min:
-          type: int
-          min: 0
-        max:
-          type: int
-          min: 0
-      default:
-        1:
-          prob: 0.585
-          min: 1
-          max: 6
-        2:
-          prob: 0.701
-          min: 7
-          max: 12
-        3:
-          prob: 0.822
-          min: 13
-          max: 24
-        4:
-          prob: 0.882
-          min: 25
-          max: 36
-        5:
-          prob: 1.0
-          min: 37
-          max: 48
     frequency:
       type: bin
       description: "Binned probabilities of number of sex acts of a partnership at a given time step"
@@ -222,3 +187,132 @@ partnership:
     description: Relationship duration past which the relationship is considered "ongoing".  Used for CDCWomen and CDCmsm prep eligibility.
     type: int
     min: 0
+  duration:
+    type: sub-dict
+    keys:
+      - bond_types
+    description: "Duration of relationships given bond type"
+    default:
+      fields:
+        Inj:
+          type:
+            type: enum
+            values:
+              - bins
+              - gamma
+              - beta
+              - poisson
+            default: distribution
+          distribution:
+            dist_type:
+              type: enum
+              values:
+                - gamma
+                - beta
+                - poisson
+              default: gamma
+            var_1:
+              type: float
+              min: 0.0
+              default: 0.0
+            var_2:
+              type: float
+              min: 0.0
+              default: 0.0
+        Sex:
+          type:
+            default: bins
+            description: "How to determine the mean mean partnership duration for an agent's sex bonds"
+            type: enum
+            values:
+              - distribution
+              - bins
+          bins:
+            type: bin
+            description: "Binned probabilities of length of a partnership's sexual durations"
+            fields:
+              prob:
+                type: float
+                min: 0.0
+                max: 1.0
+              min:
+                type: int
+                min: 0
+              max:
+                type: int
+                min: 0
+            default:
+              1:
+                prob: 0.585
+                min: 1
+                max: 6
+              2:
+                prob: 0.701
+                min: 7
+                max: 12
+              3:
+                prob: 0.822
+                min: 13
+                max: 24
+              4:
+                prob: 0.882
+                min: 25
+                max: 36
+              5:
+                prob: 1.0
+                min: 37
+                max: 48
+  mean_num_partners:
+    type: sub-dict
+    keys:
+      - bond_types
+    default:
+      fields:
+        type:
+          default: poisson
+          description: "How to determine mean number of partners for an agent"
+          type: enum
+          values:
+            - poisson
+            - bins
+            - gamma
+            - beta
+        bins:
+          type: bin
+          description: "Binned probabilities of number of partners"
+          fields:
+            prob:
+              type: float
+              min: 0.0
+              max: 1.0
+          default:
+            0:
+              prob: 0.083
+            1:
+              prob: 0.181
+            2:
+              prob: 0.229
+            3:
+              prob: 0.172
+            4:
+              prob: 0.112
+            5:
+              prob: 0.102
+            6:
+              prob: 0.071
+            7:
+              prob: 0.028
+            8:
+              prob: 0.019
+            9:
+              prob: 0.005
+        distribution:
+          var_1:
+            type: float
+            description: "First variable for distribution function"
+            default: 0.0
+          var_2:
+            type: float
+            description: "First variable for distribution function"
+            default: 0.0
+

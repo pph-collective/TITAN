@@ -408,9 +408,6 @@ demographics:
 
 partnership:
   sex:
-    durations:
-      2:
-        min: 9
     acquisition:
       HM:
         versatile: 0.0004
@@ -420,6 +417,12 @@ partnership:
         insertive: 0.0011
         receptive: 0.0138
         versatile: 0.00745
+  duration:
+    Sex:
+      type: bins
+      bins:
+        2:
+          min: 9
   bonds:
     PWID:
       Sex:

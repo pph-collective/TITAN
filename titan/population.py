@@ -100,16 +100,17 @@ class Population:
         self.relationships: Set[Relationship] = set()
 
         # find average partnership durations
-        weights = []
-        vals = []
-        dur_bins = params.partnership.sex.duration
-        for bins in params.partnership.sex.duration:
-            if bins > 1:
-                weights.append(dur_bins[bins].prob - dur_bins[bins - 1].prob)
-            else:
-                weights.append(dur_bins[bins].prob)
-            vals.append(np.average([dur_bins[bins].min, dur_bins[bins].max]))
-        self.mean_rel_duration = np.average(vals, weights=weights)
+        if params.partnership.sex.duration.type == "bins":
+            weights = []
+            vals = []
+            dur_bins = params.partnership.sex.duration.bins
+            for bins in dur_bins:
+                if bins > 1:
+                    weights.append(dur_bins[bins].prob - dur_bins[bins - 1].prob)
+                else:
+                    weights.append(dur_bins[bins].prob)
+                vals.append(np.average([dur_bins[bins].min, dur_bins[bins].max]))
+            self.mean_rel_duration = np.average(vals, weights=weights)
 
         print("\tCreating agents")
 
@@ -255,10 +256,9 @@ class Population:
 
             agent.mean_num_partners = bin
         else:
-            agent.mean_num_partners = utils.poisson(
-                self.demographics[race][sex_type].num_partners, self.np_random
-            )
-
+            distribution = self.params.partnership.mean_num_partners
+            distribution_type = getattr(self.np_random, distribution.type)
+            agent.mean_num_partners = distribution_type(distribution.var_1, distribution.var_2)
         agent.mean_num_partners = np.ceil(
             agent.mean_num_partners
             * self.params.calibration.sex.partner
@@ -410,7 +410,7 @@ class Population:
         no_match = True
 
         if partner:
-            duration = get_partnership_duration(agent, self.params, self.pop_random)
+            duration = get_partnership_duration(self.params, self.np_random, bond_type)
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
             self.add_relationship(relationship)
             # can partner still partner?
