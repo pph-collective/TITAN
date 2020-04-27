@@ -100,17 +100,19 @@ class Population:
         self.relationships: Set[Relationship] = set()
 
         # find average partnership durations
-        if params.partnership.sex.duration.type == "bins":
+        if self.params.partnership.duration.Sex.type == "bins":
             weights = []
             vals = []
-            dur_bins = params.partnership.sex.duration.bins
+            dur_bins = params.partnership.duration.Sex.bins
             for bins in dur_bins:
                 if bins > 1:
                     weights.append(dur_bins[bins].prob - dur_bins[bins - 1].prob)
                 else:
                     weights.append(dur_bins[bins].prob)
                 vals.append(np.average([dur_bins[bins].min, dur_bins[bins].max]))
-            self.mean_rel_duration = np.average(vals, weights=weights)
+            self.mean_sex_duration = np.average(vals, weights=weights)
+        else:
+            self.mean_sex_duration = self.params.partnership.duration.Sex.mean
 
         print("\tCreating agents")
 
@@ -245,10 +247,11 @@ class Population:
             agent.high_risk_ever = True
 
         # Partnership demographics
-        if self.params.model.population.num_partners.type == "bins":
+        partner_num_sex = self.params.partnership.mean_num_partners.Sex
+        if partner_num_sex.type == "bins":
             pn_prob = self.pop_random.random()
             current_p_value = bin = 0
-            bins = self.params.model.population.num_partners.bins
+            bins = partner_num_sex.bins
 
             while pn_prob > current_p_value:
                 current_p_value += bins[bin].prob
@@ -256,13 +259,21 @@ class Population:
 
             agent.mean_num_partners = bin
         else:
-            distribution = self.params.partnership.mean_num_partners
-            distribution_type = getattr(self.np_random, distribution.type)
-            agent.mean_num_partners = distribution_type(distribution.var_1, distribution.var_2)
+            distribution_type = getattr(self.np_random, partner_num_sex.type)
+            try:
+                agent.mean_num_partners = distribution_type(
+                    partner_num_sex.distribution.var_1,
+                    partner_num_sex.distribution.var_2,
+                )
+            except TypeError:  # if poisson or other dist that expects ints
+                agent.mean_num_partners = distribution_type(
+                    int(partner_num_sex.distribution.var_1),
+                    int(partner_num_sex.distribution.var_2),
+                )
         agent.mean_num_partners = np.ceil(
             agent.mean_num_partners
             * self.params.calibration.sex.partner
-            / self.mean_rel_duration
+            / self.mean_sex_duration
         )
 
         agent.target_partners = agent.mean_num_partners  # so not zero if added mid-year

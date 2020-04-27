@@ -133,16 +133,9 @@ def get_partnership_duration(params: ObjMap, rand_gen, bond_type) -> int:
         NumPartners : int
         Zero partners possible.
     """
-    relationship_type = ""
-    if "sex" in bond_type.acts_allowed:
-        relationship_type = "sex"
-    elif "injection" in bond_type.acts_allowed:
-        relationship_type = "injection"
-    else:
-        relationship_type = "sex"
 
-    if params.partnership.sex.duration.type == "bins":
-        dur_info = params.partnership[relationship_type].duration.bins
+    if params.partnership.duration[bond_type].type == "bins":
+        dur_info = params.partnership.duration[bond_type].bins
 
         diceroll = rand_gen.random()
         dur_bin = dur_info[5]
@@ -151,11 +144,11 @@ def get_partnership_duration(params: ObjMap, rand_gen, bond_type) -> int:
                 dur_bin = dur_info[i]
                 break
 
-        duration = rand_gen.randrange(dur_bin.min, dur_bin.max, 1)
+        duration = rand_gen.randint(dur_bin.min, dur_bin.max)
 
     else:
-        dist = params.partnership.sex.duration
-        dist_type = getattr(rand_gen, dist.dist_type)
-        duration = dist_type(dist.var_1, dist.var_2)
+        dist = params.partnership.duration[bond_type]
+        dist_type = getattr(rand_gen, dist.type)
+        duration = dist_type(dist.distribution.var_1, dist.distribution.var_2)
 
     return duration
