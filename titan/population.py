@@ -90,7 +90,9 @@ class Population:
         self.pwid_agents = AgentSet("PWID", parent=self.all_agents)
 
         # agents who can take on a partner
-        self.partnerable_agents = AgentSet("Partnerable", parent=self.all_agents)
+        self.partnerable_agents: Dict[str, Set[Agent]] = {}
+        for bond_type in self.params.classes.bond_types.keys():
+            self.partnerable_agents[bond_type] = set()
 
         # who can sleep with whom
         self.sex_partners: Dict[str, Set[Agent]] = {}
@@ -100,19 +102,23 @@ class Population:
         self.relationships: Set[Relationship] = set()
 
         # find average partnership durations
-        if self.params.partnership.duration.Sex.type == "bins":
-            weights = []
-            vals = []
-            dur_bins = params.partnership.duration.Sex.bins
-            for bins in dur_bins:
-                if bins > 1:
-                    weights.append(dur_bins[bins].prob - dur_bins[bins - 1].prob)
-                else:
-                    weights.append(dur_bins[bins].prob)
-                vals.append(np.average([dur_bins[bins].min, dur_bins[bins].max]))
-            self.mean_sex_duration = np.average(vals, weights=weights)
-        else:
-            self.mean_sex_duration = self.params.partnership.duration.Sex.mean
+        self.mean_rel_duration: Dict[str, int] = {}
+        for bond in self.params.partnership.duration:
+            if self.params.partnership.duration[bond].type == "bins":
+                weights = []
+                vals = []
+                dur_bins = params.partnership.duration[bond].bins
+                for bins in dur_bins:
+                    if bins > 1:
+                        weights.append(dur_bins[bins].prob - dur_bins[bins - 1].prob)
+                    else:
+                        weights.append(dur_bins[bins].prob)
+                    vals.append(np.average([dur_bins[bins].min, dur_bins[bins].max]))
+                self.mean_rel_duration[bond] = np.average(vals, weights=weights)
+            else:
+                self.mean_rel_duration[bond] = self.params.partnership.duration[
+                    bond
+                ].distribution.mean
 
         print("\tCreating agents")
 
@@ -185,6 +191,7 @@ class Population:
         if self.features.msmw and sex_type == "HM":
             if self.pop_random.random() < self.params.msmw.prob:
                 agent.msmw = True
+        agent.partners = {bond: set() for bond in self.params.classes.bond_types.keys()}
 
         if drug_type == "Inj":
             agent_params = self.demographics[race]["PWID"]
@@ -219,7 +226,6 @@ class Population:
             agent.hiv_time = self.pop_random.randint(1, self.params.hiv.max_init_time)
 
         else:
-
             if self.features.prep:
                 if self.prep.start == 0:
                     prob_prep = self.prep.target
@@ -246,35 +252,31 @@ class Population:
             agent.high_risk = True
             agent.high_risk_ever = True
 
-        # Partnership demographics
-        partner_num_sex = self.params.partnership.mean_num_partners.Sex
-        if partner_num_sex.type == "bins":
-            pn_prob = self.pop_random.random()
-            current_p_value = bin = 0
-            bins = partner_num_sex.bins
+        # get agent's mean partner numbers for bond type
+        def partner_distribution():
+            dist = getattr(self.np_random, dist_info.type)
+            partner_num = utils.safe_dist(dist_info.var_1, dist_info.var_2, dist)
+            if self.mean_rel_duration[bond] == 0:
+                return 0
+            return np.ceil(
+                partner_num
+                * self.params.calibration.Sex.partner
+                / self.mean_rel_duration[bond]
+            )
 
-            while pn_prob > current_p_value:
-                current_p_value += bins[bin].prob
-                bin += 1
-
-            agent.mean_num_partners = bin
-        else:
-            distribution_type = getattr(self.np_random, partner_num_sex.type)
-            try:
-                agent.mean_num_partners = distribution_type(
-                    partner_num_sex.distribution.var_1,
-                    partner_num_sex.distribution.var_2,
-                )
-            except TypeError:  # if poisson or other dist that expects ints
-                agent.mean_num_partners = distribution_type(
-                    int(partner_num_sex.distribution.var_1),
-                    int(partner_num_sex.distribution.var_2),
-                )
-        agent.mean_num_partners = np.ceil(
-            agent.mean_num_partners
-            * self.params.calibration.sex.partner
-            / self.mean_sex_duration
-        )
+        for bond, acts in self.params.classes.bond_types.items():
+            if agent.drug_use == "Inj":
+                dist_info = self.params.demographics[agent.race].PWID.num_partners[bond]
+                agent.mean_num_partners[bond] = partner_distribution()
+            else:
+                if "injection" not in acts.acts_allowed:
+                    dist_info = self.params.demographics[agent.race][
+                        agent.so
+                    ].num_partners[bond]
+                    agent.mean_num_partners[bond] = partner_distribution()
+                    assert not np.isnan(agent.mean_num_partners[bond])
+                else:
+                    agent.mean_num_partners[bond] = 0
 
         agent.target_partners = agent.mean_num_partners  # so not zero if added mid-year
 
@@ -317,8 +319,10 @@ class Population:
         for sex_type in self.params.classes.sex_types[agent.so].sleeps_with:
             self.sex_partners[sex_type].add(agent)
 
-        if agent.target_partners > 0:
-            self.partnerable_agents.add_agent(agent)
+        for bond_type, acts in self.params.classes.bond_types.items():
+            if agent.drug_use == "Inj" or "injection" not in acts.acts_allowed:
+                if agent.target_partners[bond_type] > 0:
+                    self.partnerable_agents[bond_type].add(agent)
 
         if self.enable_graph:
             self.graph.add_node(agent)
@@ -395,7 +399,7 @@ class Population:
         age = self.pop_random.randrange(min_age, max_age)
         return age, i
 
-    def update_agent_partners(self, agent: Agent) -> bool:
+    def update_agent_partners(self, agent: Agent, bond_type: str) -> bool:
         """
         :Purpose:
             Finds and bonds new partner. Creates relationship object for partnership,
@@ -410,13 +414,14 @@ class Population:
             noMatch : bool
             Bool if no match was found for agent (used for retries)
         """
-        partner, bond_type = select_partner(
+        partner = select_partner(
             agent,
-            self.partnerable_agents,
+            self.partnerable_agents[bond_type],
             self.sex_partners,
             self.pwid_agents,
             self.params,
             self.pop_random,
+            bond_type,
         )
         no_match = True
 
@@ -425,10 +430,11 @@ class Population:
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
             self.add_relationship(relationship)
             # can partner still partner?
-            if len(partner.partners) >= (
-                partner.target_partners * self.params.calibration.partnership.buffer
+            if len(partner.partners[bond_type]) >= (
+                partner.target_partners[bond_type]
+                * self.params.calibration.partnership.buffer
             ):
-                self.partnerable_agents.remove_agent(partner)
+                self.partnerable_agents[bond_type].remove(partner)
             no_match = False
 
         return no_match
@@ -442,41 +448,38 @@ class Population:
         :Input:
             None
         """
-        print(
-            f"target partnerships: {sum([a.target_partners for a in self.all_agents])}"
-        )
-        print(
-            f"actual partnerships (pre): "
-            f"{sum([len(a.partners) for a in self.all_agents])}"
-        )
+        print(f"target partnerships: ")
 
         # update agent targets annually
         if t % self.params.model.time.steps_per_year == 0:
             self.update_partner_targets()
-            print(
-                f"\tUpdated partner targets, {self.partnerable_agents.num_members()} "
-                f"now partnerable"
-            )
 
         # Now create partnerships until available partnerships are out
-        eligible_agents = deque(
-            [a for a in self.all_agents if len(a.partners) < a.target_partners]
-        )
-        attempts = {a: 0 for a in eligible_agents}
+        eligible_agents = {}
+        for bond, acts in self.params.classes.bond_types.items():
+            attempts = {a: 0 for a in eligible_agents}
+            eligible_agents[bond] = deque(
+                [
+                    a
+                    for a in self.all_agents
+                    if len(a.partners) < a.target_partners[bond]
+                ]
+            )
 
-        while eligible_agents:
-            agent = eligible_agents.popleft()
+            while eligible_agents[bond]:
+                agent = eligible_agents[bond].popleft()
 
-            # no match
-            if self.update_agent_partners(agent):
-                attempts[agent] += 1
+                # no match
+                if self.update_agent_partners(agent, bond):
+                    attempts[agent] += 1
 
-            # add agent back to eligible pool
-            if (
-                len(agent.partners) < agent.target_partners
-                and attempts[agent] < self.params.calibration.partnership.break_point
-            ):
-                eligible_agents.append(agent)
+                # add agent back to eligible pool
+                if (
+                    len(agent.partners) < agent.target_partners
+                    and attempts[agent]
+                    < self.params.calibration.partnership.break_point
+                ):
+                    eligible_agents[bond].add(agent)
 
         print(
             f"actual partnerships (post): "
@@ -485,20 +488,31 @@ class Population:
 
     def update_partner_targets(self):
         for a in self.all_agents:
-            a.target_partners = utils.poisson(a.mean_num_partners, self.np_random)
+            for bond in self.params.classes.bond_types:
+                if (
+                    a.drug_use == "PWID"
+                    or "injection"
+                    not in self.params.classes.bond_types[bond].acts_allowed
+                ):
+                    a.target_partners[bond] = utils.poisson(
+                        int(a.mean_num_partners[bond]), self.np_random
+                    )
             self.update_partnerability(a)
 
     def update_partnerability(self, a):
         # update partnerability
-        if a in self.partnerable_agents:
-            if len(a.partners) > (
-                a.target_partners * self.params.calibration.partnership.buffer
-            ):
-                self.partnerable_agents.remove_agent(a)
-        elif len(a.partners) < (
-            a.target_partners * self.params.calibration.partnership.buffer
-        ):
-            self.partnerable_agents.add_agent(a)
+        for bond, acts in self.params.classes.bond_types.items():
+            if a.drug_use == "Inj" or "injection" not in acts.acts_allowed:
+                if a in self.partnerable_agents[bond]:
+                    if len(a.partners[bond]) > (
+                        a.target_partners[bond]
+                        * self.params.calibration.partnership.buffer
+                    ):
+                        self.partnerable_agents[bond].remove(a)
+                elif len(a.partners) < (
+                    a.target_partners[bond] * self.params.calibration.partnership.buffer
+                ):
+                    self.partnerable_agents[bond].add(a)
 
     def initialize_graph(self):
         """

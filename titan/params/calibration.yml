@@ -5,7 +5,7 @@ calibration:
       description: Scales number of injection acts during syringe-based transmission
       type: float
       min: 0
-  sex:
+  Sex:
     act:
       default: 1.0
       description: Scales number of sex acts during sex trasmission

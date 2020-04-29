@@ -3,7 +3,17 @@ demographics:
     ppl: 0.6
     MSM:
       ppl: 0.3
-      num_partners: 10.0
+      num_partners:
+        Sex:
+          var_1: 10.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        Social:
+          var_1: 0.0
+          var_2: 1
+          mean: 0.0
+          type: poisson
       hiv:
         init: 0.1
         dx:
@@ -36,7 +46,17 @@ demographics:
           prob: 0.1
     HM:
       ppl: 0.3
-      num_partners: 10.0
+      num_partners:
+        Sex:
+          var_1: 10.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        Social:
+          var_1: 0.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
       hiv:
         init: 0.1
         dx:
@@ -69,7 +89,17 @@ demographics:
           prob: 0.1
     HF:
       ppl: 0.2
-      num_partners: 10.0
+      num_partners:
+        Sex:
+          var_1: 10.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        Social:
+          var_1: 0.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
       hiv:
         init: 0.1
         dx:
@@ -102,7 +132,17 @@ demographics:
           prob: 0.1
     WSW:
       ppl: 0.1
-      num_partners: 10.0
+      num_partners:
+        Sex:
+          var_1: 10.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        Social:
+          var_1: 0.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
       hiv:
         init: 0.1
         dx:
@@ -135,7 +175,17 @@ demographics:
           prob: 0.1
     MTF:
       ppl: 0.1
-      num_partners: 10.0
+      num_partners:
+        Sex:
+          var_1: 10.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        Social:
+          var_1: 0.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
       hiv:
         init: 0.1
         dx:
@@ -170,7 +220,27 @@ demographics:
       ppl: 0.2
       syringe_services:
         discontinue: 0.0
-      num_partners: 10.0
+      num_partners:
+        Sex:
+          var_1: 10.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        Social:
+          var_1: 0.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        Inj:
+          var_1: 10.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        SexInj:
+          var_1: 10.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
       hiv:
         init: 0.1
         dx:
@@ -207,7 +277,17 @@ demographics:
       discontinue: 0.0
     MSM:
       ppl: 0.3
-      num_partners: 10.0
+      num_partners:
+        Sex:
+          var_1: 10.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        Social:
+          var_1: 0.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
       hiv:
         init: 0.1
         dx:
@@ -240,7 +320,17 @@ demographics:
           prob: 0.1
     HM:
       ppl: 0.3
-      num_partners: 10.0
+      num_partners:
+        Sex:
+          var_1: 10.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        Social:
+          var_1: 0.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
       hiv:
         init: 0.1
         dx:
@@ -273,7 +363,17 @@ demographics:
           prob: 0.1
     HF:
       ppl: 0.2
-      num_partners: 10.0
+      num_partners:
+        Sex:
+          var_1: 10.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        Social:
+          var_1: 0.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
       hiv:
         init: 0.1
         dx:
@@ -306,7 +406,17 @@ demographics:
           prob: 0.1
     WSW:
       ppl: 0.1
-      num_partners: 10.0
+      num_partners:
+        Sex:
+          var_1: 10.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        Social:
+          var_1: 0.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
       hiv:
         init: 0.1
         dx:
@@ -339,7 +449,17 @@ demographics:
           prob: 0.1
     MTF:
       ppl: 0.1
-      num_partners: 10.0
+      num_partners:
+        Sex:
+          var_1: 10.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        Social:
+          var_1: 0.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
       hiv:
         init: 0.1
         dx:
@@ -372,7 +492,27 @@ demographics:
           prob: 0.1
     PWID:
       ppl: 0.3
-      num_partners: 10.0
+      num_partners:
+        Sex:
+          var_1: 10.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        Inj:
+          var_1: 10.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        SexInj:
+          var_1: 0.0
+          var_2: 1
+          mean: 0.0
+          type: poisson
+        Social:
+          var_1: 0.0
+          var_2: 1
+          mean: 0.0
+          type: poisson
       hiv:
         init: 0.1
         dx:

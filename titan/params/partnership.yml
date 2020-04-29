@@ -217,6 +217,10 @@ partnership:
           type: float
           min: 0.0
           default: 0.0
+        mean:
+          type: float
+          min: 0.0
+          default: 0.0
       bins:
         type: bin
         description: "Binned probabilities of length of a partnership's sexual durations"
@@ -255,6 +259,8 @@ partnership:
   mean_num_partners:
     type: sub-dict
     keys:
+      - races
+      - populations
       - bond_types
     default:
       type:
@@ -263,48 +269,17 @@ partnership:
         type: enum
         values:
           - poisson
-          - bins
           - gamma
           - beta
-      bins:
-        type: bin
-        description: "Binned probabilities of number of partners"
-        fields:
-          prob:
-            type: float
-            min: 0.0
-            max: 1.0
-        default:
-          0:
-            prob: 0.083
-          1:
-            prob: 0.181
-          2:
-            prob: 0.229
-          3:
-            prob: 0.172
-          4:
-            prob: 0.112
-          5:
-            prob: 0.102
-          6:
-            prob: 0.071
-          7:
-            prob: 0.028
-          8:
-            prob: 0.019
-          9:
-            prob: 0.005
-      distribution:
-        var_1:
-          type: float
-          description: "First variable for distribution function"
-          default: 0.0
-        var_2:
-          type: float
-          description: "First variable for distribution function"
-          default: 0.0
-        mean:
-          type: float
-          description: "Expected mean of the distribution"
-          default: 0.0
+      var_1:
+        type: float
+        description: "First variable for distribution function"
+        default: 0.0
+      var_2:
+        type: float
+        description: "First variable for distribution function"
+        default: 0.0
+      mean:
+        type: float
+        description: "Expected mean of the distribution"
+        default: 0.0

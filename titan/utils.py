@@ -57,6 +57,14 @@ def safe_shuffle(seq: Collection[T], rand_gen):
         return None
 
 
+def safe_dist(var_1: float, var_2: float, dist):
+    value = dist(var_1, var_2)
+    if hasattr(value, "__iter__"):  # check if value is any type of sequence
+        return value[0]
+    else:
+        return value
+
+
 def binom_0(n: int, p: float):
     """
         mirrors scipy binom.pmf as used in code

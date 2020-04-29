@@ -64,7 +64,7 @@ def test_agent_init(make_agent):
     # partner params
     assert a.relationships == set()
     assert a.partners == set()
-    assert a.mean_num_partners == 0
+    assert a.mean_num_partners == {}
 
     # STI params
     assert a.hiv is False

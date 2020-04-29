@@ -19,6 +19,7 @@ def test_create_params_base(tmpdir):
     assert params.partnership.sex.acquisition.MSM.versatile == 0.00745  # from setting
     assert params.partnership.sex.acquisition.MSM.receptive == 0.0138  # from base
     assert params.partnership.sex.acquisition.MSM.insertive == 0.0011  # from param
+    assert params.demographics.BLACK.MSM.num_partners.rand == 1.0
 
 
 def test_create_params_error(tmpdir):

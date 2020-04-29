@@ -173,7 +173,8 @@ def test_update_agent_partners_one_agent(make_population, params):
 
     agent = next(iter(pop.all_agents))  # the only agent in the pop
 
-    pop.update_agent_partners(agent)  # noMatch == True
+    for bond in params.classes.bond_types:
+        pop.update_agent_partners(agent, bond)  # noMatch == True
     assert agent in pop.graph.nodes()
     assert len(pop.graph.edges()) == 0
 

@@ -288,14 +288,14 @@ class HIVModel:
             agent.high_risk = False
 
             if self.features.incar:
-                agent.mean_num_partners -= self.high_risk.partner_scale
-                agent.mean_num_partners = max(
-                    0, agent.mean_num_partners
+                agent.mean_num_partners["Sex"] -= self.high_risk.partner_scale
+                agent.mean_num_partners["Sex"] = max(
+                    0, agent.mean_num_partners["Sex"]
                 )  # make sure not negative
-                agent.target_partners = utils.poisson(
-                    agent.mean_num_partners, self.np_random
+                agent.target_partners["Sex"] = utils.poisson(
+                    agent.mean_num_partners["Sex"], self.np_random
                 )
-                while len(agent.partners) > agent.target_partners:
+                while len(agent.partners["Sex"]) > agent.target_partners:
                     rel = utils.safe_random_choice(agent.relationships, self.run_random)
                     if rel is not None:
                         rel.progress(force=True)
@@ -951,9 +951,9 @@ class HIVModel:
                     not agent.high_risk and self.features.high_risk
                 ):  # If behavioral treatment on and agent HIV, ignore HR period.
                     self.become_high_risk(agent)
-                    agent.mean_num_partners += self.high_risk.partner_scale
+                    agent.mean_sex_partners += self.high_risk.partner_scale
                     agent.target_partners = utils.poisson(
-                        agent.mean_num_partners, self.np_random
+                        agent.mean_sex_partners, self.np_random
                     )
                     self.pop.update_partnerability(agent)
 

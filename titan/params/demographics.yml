@@ -188,10 +188,31 @@ demographics:
               min: 260
               max: 520
     num_partners:
-      default: 0.0
-      description: "Mean number of partners for an agent in this class if using model.population.num_partners.type = poisson"
-      type: float
-      min: 0.0
+      type: subdict
+      keys:
+        - bond_types
+      default:
+        type:
+          default: poisson
+          description: "How to determine mean number of partners for an agent"
+          type: enum
+          values:
+            - poisson
+            - gamma
+            - beta
+            - uniform
+        var_1:
+          type: float
+          description: "First variable for chosen distribution function"
+          default: 0.0
+        var_2:
+          type: float
+          description: "Second variable for chosen distribution function"
+          default: 0.0
+        mean:
+          type: float
+          description: "Expected mean of distribution. May be the same as one of the above."
+          default: 0.0
     injection:
       num_acts:
         default: 0.0

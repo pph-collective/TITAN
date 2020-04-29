@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 # Imports
-from typing import Optional, Tuple, Dict
+from typing import Optional, Dict, Set
 from copy import copy
 
 from .agent import Agent, AgentSet
@@ -12,12 +12,13 @@ from .parse_params import ObjMap
 
 def select_partner(
     agent: Agent,
-    partnerable_agents: AgentSet,
+    partnerable_agents: Set[Agent],
     sex_partners: Dict,
     pwid_agents: AgentSet,
     params: ObjMap,
     rand_gen,
-) -> Tuple[Optional[Agent], str]:
+    bond_type,
+) -> Optional[Agent]:
     """
     :Purpose:
         Get partner for agent.
@@ -30,11 +31,6 @@ def select_partner(
     :Output:
         partner: new partner
     """
-
-    def bondtype(bond_dict):
-        bonds = list(params.classes.bond_types.keys())
-        probs = [bond_dict[bond].prob for bond in bonds]
-        return rand_gen.choices(bonds, weights=probs, k=1).pop()
 
     def assort(eligible_partners, assort_params):
         partner_types = list(assort_params.partner_values.keys())
@@ -62,16 +58,11 @@ def select_partner(
 
         return eligible_partners
 
-    eligible = copy(partnerable_agents.members)
-    eligible -= agent.partners
+    eligible = copy(partnerable_agents)
+    eligible -= agent.partners[bond_type]
     eligible -= {agent}
 
-    if agent.drug_use == "Inj":
-        agent_bond = bondtype(params.partnership.bonds["PWID"])
-    else:
-        agent_bond = bondtype(params.partnership.bonds[agent.so])
-
-    acts_allowed = params.classes.bond_types[agent_bond].acts_allowed
+    acts_allowed = params.classes.bond_types[bond_type].acts_allowed
 
     if "injection" in acts_allowed:
         eligible &= pwid_agents.members
@@ -81,7 +72,7 @@ def select_partner(
 
     if not eligible:  # short circuit to avoid attempting to assort with no eligible
         # partners
-        return None, agent_bond
+        return None
 
     if params.features.assort_mix:
         for assort_def in params.assort_mix.values():
@@ -90,7 +81,7 @@ def select_partner(
 
     random_partner = utils.safe_random_choice(eligible, rand_gen)
 
-    return random_partner, agent_bond
+    return random_partner
 
 
 @utils.memo
