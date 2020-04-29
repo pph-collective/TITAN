@@ -128,7 +128,7 @@ def consolidate_files(outdir):
                     for file in os.listdir(os.path.join(subdir, report)):
                         shutil.move(
                             os.path.join(subdir, report, file),
-                            os.path.join(outdir, network),
+                            os.path.join(outdir, "network"),
                         )
                 else:
                     # copy data to existing file

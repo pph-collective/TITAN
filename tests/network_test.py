@@ -38,26 +38,32 @@ def params(tmpdir):
 
 
 def test_write_graph_edgelist(setup_results_dir, params):
-    path = "results/network/Edgelist_t0.txt"
+    id = "test"
+    t = 0
+    path = "results/network"
     net = Population(params)
     net_util = NetworkGraphUtils(net.graph)
 
-    net_util.write_graph_edgelist(path)
+    net_util.write_graph_edgelist(path, id, t)
 
-    count = len(open(path).readlines())
+    file_path = os.path.join(path, f"{id}_Edgelist_t{t}.txt")
+    count = len(open(file_path).readlines())
 
     assert count == len(net.relationships)
 
 
 def test_write_network_stats(setup_results_dir, params):
-    path = "results/network/networkStats.txt"
+    id = "test"
+    t = 0
+    path = "results/network"
     net = Population(params)
     net_util = NetworkGraphUtils(net.graph)
 
-    net_util.write_network_stats(path)
+    net_util.write_network_stats(path, id, t)
 
+    file_path = os.path.join(path, f"{id}_NetworkStats_t{t}.txt")
     asserted = False
-    with open(path, "r") as f:
+    with open(file_path, "r") as f:
         for line in f:
             if "Number of nodes:" in line:
                 assert int(line.split(" ")[-1]) == n_pop

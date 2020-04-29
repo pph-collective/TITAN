@@ -105,7 +105,8 @@ def test_target_partners(make_model, tmpdir):
     path_b.mkdir("network")
 
     # run with default bins (0-9)
-    run_id_a = model_a.run(path_a)
+    run_id_a = model_a.id
+    model_a.run(path_a)
 
     # change the bins upward for creating model b
     bins = {
@@ -118,8 +119,9 @@ def test_target_partners(make_model, tmpdir):
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
 
     model_b = HIVModel(model_a.params)
+    run_id_b = model_b.id
 
-    run_id_b = model_b.run(path_b)
+    model_b.run(path_b)
 
     g_a_0 = nx.read_edgelist(
         os.path.join(path_a, "network", f"{run_id_a}_Edgelist_t0.txt"),
@@ -155,7 +157,9 @@ def test_prep_coverage(make_model, tmpdir):
     model_a = make_model()
 
     path_a = tmpdir.mkdir("a")
+    path_a.mkdir("network")
     path_b = tmpdir.mkdir("b")
+    path_b.mkdir("network")
 
     # run with default bins (0-9)
     run_id_a = model_a.run(path_a)

@@ -3,6 +3,7 @@
 
 import random
 from collections import deque
+from copy import copy
 
 from typing import List, Dict, Any, Set
 import numpy as np  # type: ignore
@@ -522,7 +523,7 @@ class Population:
                         self.pop_random.random()
                         < self.params.calibration.network.trim.prob
                     ):
-                        for rel in ag.relationships:
+                        for rel in copy(ag.relationships):
                             if len(ag.relationships) == 1:
                                 break  # Make sure that agents stay part of the
                                 # network by keeping one bond
@@ -536,7 +537,7 @@ class Population:
                     for c in nx.connected_components(component)
                 )
                 for sub_comp in sub_comps:
-                    if sub_comp.number_of_nodes > max_size:
+                    if sub_comp.number_of_nodes() > max_size:
                         trim_component(component, max_size)
 
             components = sorted(self.connected_components(), key=len, reverse=True)

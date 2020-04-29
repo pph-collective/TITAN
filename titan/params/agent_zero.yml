@@ -1,0 +1,6 @@
+agent_zero:
+  num_partners:
+    default: 4
+    type: int
+    description: Number of partners the randomly selected agent zero is assigned
+    min: 0
