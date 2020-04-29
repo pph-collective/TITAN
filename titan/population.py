@@ -99,17 +99,21 @@ class Population:
 
         self.relationships: Set[Relationship] = set()
 
+        # keep track of prep agent counts by race
+        self.prep_counts = {race: 0 for race in params.classes.races}
+
         # find average partnership durations
         weights = []
         vals = []
-        dur_bins = params.partnership.sex.duration
-        for bins in params.partnership.sex.duration:
+        dur_bins = params.partnership.duration
+        for bins in params.partnership.duration:
             if bins > 1:
                 weights.append(dur_bins[bins].prob - dur_bins[bins - 1].prob)
             else:
                 weights.append(dur_bins[bins].prob)
             vals.append(np.average([dur_bins[bins].min, dur_bins[bins].max]))
         self.mean_rel_duration = np.average(vals, weights=weights)
+        print(f"\tMean relationship duration: {self.mean_rel_duration}")
 
         print("\tCreating agents")
 
@@ -148,7 +152,6 @@ class Population:
                 a.incar_time = self.pop_random.randrange(
                     jail_duration[bin].min, jail_duration[bin].max
                 )
-                # self.incarcerated_agents.add_agent(a)
 
     def create_agent(self, race: str, sex_type: str = "NULL") -> Agent:
         """
@@ -242,6 +245,9 @@ class Population:
         ):
             agent.high_risk = True
             agent.high_risk_ever = True
+            agent.high_risk_time = self.pop_random.randint(
+                1, self.params.high_risk.sex_based[agent.so].duration
+            )
 
         # Partnership demographics
         if self.params.model.population.num_partners.type == "bins":
@@ -249,9 +255,12 @@ class Population:
             current_p_value = bin = 0
             bins = self.params.model.population.num_partners.bins
 
-            while pn_prob > current_p_value:
-                current_p_value += bins[bin].prob
-                bin += 1
+            while True:
+                current_p_value += bins.get(bin, {"prob": 0})["prob"]
+                if pn_prob > current_p_value:
+                    bin += 1
+                else:
+                    break
 
             agent.mean_num_partners = bin
         else:
@@ -309,6 +318,9 @@ class Population:
         if agent.target_partners > 0:
             self.partnerable_agents.add_agent(agent)
 
+        if agent.prep:
+            self.prep_counts[agent.race] += 1
+
         if self.enable_graph:
             self.graph.add_node(agent)
 
@@ -338,6 +350,9 @@ class Population:
         for partner_type in self.sex_partners:
             if agent in self.sex_partners[partner_type]:
                 self.sex_partners[partner_type].remove(agent)
+
+        if agent.prep:
+            self.prep_counts[agent.race] -= 1
 
         if self.enable_graph:
             self.graph.remove_node(agent)

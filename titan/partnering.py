@@ -79,8 +79,8 @@ def select_partner(
     if "sex" in acts_allowed:
         eligible &= sex_partners[agent.so]
 
-    if not eligible:  # short circuit to avoid attempting to assort with no eligible
-        # partners
+    # short circuit to avoid attempting to assort with no eligible partners
+    if not eligible:
         return None, agent_bond
 
     if params.features.assort_mix:
@@ -133,7 +133,7 @@ def get_partnership_duration(agent: Agent, params: ObjMap, rand_gen) -> int:
         NumPartners : int
         Zero partners possible.
     """
-    dur_info = params.partnership.sex.duration
+    dur_info = params.partnership.duration
 
     diceroll = rand_gen.random()
     dur_bin = dur_info[5]
