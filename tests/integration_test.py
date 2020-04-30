@@ -5,6 +5,7 @@ import os
 import subprocess
 import csv
 import math
+from copy import deepcopy
 
 from titan.parse_params import ObjMap, create_params
 from titan.model import HIVModel
@@ -162,7 +163,7 @@ def test_prep_coverage(make_model, tmpdir):
     path_b.mkdir("network")
 
     # run with default bins (0-9)
-    run_id_a = model_a.run(path_a)
+    model_a.run(path_a)
 
     # change the coverage upward for creating model b, use same seeds
     model_a.params.prep.target = 0.9
@@ -170,8 +171,7 @@ def test_prep_coverage(make_model, tmpdir):
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
 
     model_b = HIVModel(model_a.params)
-
-    run_id_b = model_b.run(path_b)
+    model_b.run(path_b)
 
     result_file_a = os.path.join(path_a, "basicReport_ALL_ALL.txt")
     result_file_b = os.path.join(path_b, "basicReport_ALL_ALL.txt")
@@ -202,3 +202,129 @@ def test_prep_coverage(make_model, tmpdir):
     t9_diff = t9_hiv_a - t9_hiv_b  # a should be higher
     assert t9_diff > t0_diff
     assert int(res_a[9]["PrEP"]) < int(res_b[9]["PrEP"])
+
+@pytest.mark.integration
+def test_syringe_services(make_model, tmpdir):
+    """
+    If we use syringe services, does the incidence of hiv decrease?
+    """
+    model_a = make_model()
+
+    path_a = tmpdir.mkdir("a")
+    path_a.mkdir("network")
+    path_b = tmpdir.mkdir("b")
+    path_b.mkdir("network")
+
+    # run with default bins (0-9)
+    model_a.run(path_a)
+
+    # change the coverage upward for creating model b, use same seeds
+    model_a.params.features.syringe_services = True
+    model_a.params.model.seed.run = model_a.run_seed
+    model_a.params.model.seed.ppl = model_a.pop.pop_seed
+
+    model_b = HIVModel(model_a.params)
+
+    model_b.run(path_b)
+
+    result_file_a = os.path.join(path_a, "basicReport_PWID_ALL.txt")
+    result_file_b = os.path.join(path_b, "basicReport_PWID_ALL.txt")
+    assert os.path.isfile(result_file_a)
+    with open(result_file_a, newline="") as fa, open(result_file_b, newline="") as fb:
+        reader_a = csv.DictReader(fa, delimiter="\t")
+        res_a = []
+        for row in reader_a:
+            res_a.append(row)
+
+        reader_b = csv.DictReader(fb, delimiter="\t")
+        res_b = []
+        for row in reader_b:
+            res_b.append(row)
+
+    # at start, should be similar
+    assert res_a[0]["t"] == res_b[0]["t"]
+    t0_hiv_a = float(res_a[0]["HIV"])
+    t0_hiv_b = float(res_b[0]["HIV"])
+    t0_diff = t0_hiv_a - t0_hiv_b
+    assert math.isclose(t0_hiv_a, t0_hiv_b, abs_tol=15)  # within 15 agents
+
+    # at end, should be different
+    assert res_a[9]["t"] == res_b[9]["t"]
+    t9_hiv_a = float(res_a[9]["HIV"])
+    t9_hiv_b = float(res_b[9]["HIV"])
+    t9_diff = t9_hiv_a - t9_hiv_b  # a should be higher
+    assert t9_diff > t0_diff
+
+@pytest.mark.integration
+def test_static_network(make_model, tmpdir):
+    model = make_model()
+    orig_rel_ids = [rel.id for rel in model.pop.relationships]
+
+    # turn on static network - only affects run time, so fine have false during init
+    model.params.features.static_network = True
+
+    tmpdir.mkdir("network")
+
+    for t in range(1,10):
+        model.time = t
+        model.step(tmpdir, burn=False)
+        model.reset_trackers()
+
+        curr_rel_ids = [rel.id for rel in model.pop.relationships]
+
+        for rel in curr_rel_ids:
+            assert rel in orig_rel_ids
+
+        for rel in orig_rel_ids:
+            assert rel in curr_rel_ids
+
+@pytest.mark.integration
+def test_incar(make_model, tmpdir):
+    model = make_model()
+
+    # turn on incar - initi is set to 0, so for these purposes, just run time
+    model.params.features.incar = True
+
+    tmpdir.mkdir("network")
+
+    # make sure we're starting from a clean slate
+    init_incar = sum([1 for agent in model.pop.all_agents if agent.incar])
+    assert init_incar == 0
+
+    model.time = 1
+    model.step(tmpdir, burn=False)
+    model.reset_trackers()
+
+    time_1_incars = [agent for agent in model.pop.all_agents if agent.incar]
+    time_1_incar_hiv_neg = [agent for agent in time_1_incars if not agent.hiv]
+    should_release_t2 = [agent for agent in time_1_incars if agent.incar_time == 1]
+
+    assert len(time_1_incars) > 0
+    assert len(time_1_incar_hiv_neg) > 0
+    assert len(should_release_t2) > 0
+
+    for agent in time_1_incars:
+        assert agent.incar_time > 0
+
+    model.time += 1
+    model.step(tmpdir, burn=False)
+
+    for agent in should_release_t2:
+        assert agent in model.new_incar_release
+        assert not agent.incar
+        assert agent.incar_time == 0
+
+    model.reset_trackers()
+
+    # agents should not hiv convert during incar
+    for agent in time_1_incar_hiv_neg:
+        assert not agent.hiv
+
+@pytest.mark.integration
+def test_incar(make_model, tmpdir):
+    model = make_model()
+
+    # turn on partner tracing - just run time affects
+    model.params.features.partner_tracing = True
+
+    tmpdir.mkdir("network")

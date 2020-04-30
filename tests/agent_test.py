@@ -103,7 +103,6 @@ def test_agent_init(make_agent):
 
     # incarceration
     assert a.incar is False
-    assert a.incar_ever is False
     assert a.incar_time == 0
 
 

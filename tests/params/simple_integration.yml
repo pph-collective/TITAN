@@ -20,6 +20,8 @@ demographics:
           prob: 0.1
       aids:
         init: 0.1
+      incar:
+        prob: 0.5 # default is off, so this only hits when turned on in integraiton test
       haart:
         init: 0.1
         prob: 0.1
@@ -89,19 +91,7 @@ partnership:
         prob: 0.2
       Social:
         prob: 0.2
-    HM:
-      Sex:
-        prob: 1.0
     MSM:
-      Sex:
-        prob: 1.0
-    HF:
-      Sex:
-        prob: 1.0
-    WSW:
-      Sex:
-        prob: 1.0
-    MTF:
       Sex:
         prob: 1.0
   interaction:
@@ -121,16 +111,32 @@ partnership:
         min: 1
         max: 1
 
+syringe_services:
+  timeline:
+    ssp_open:
+      start: 1
+      stop: 12
+      num_slots: 100
+      risk: 0.0001
+
+partner_tracing:
+  prob: 1
+
 prep:
   target: 0.1
 
 outputs:
   network:
     calc_component_stats: true
+
 features:
   prep: true
   haart: true
   bond_type: true
+  syringe_services: false
+  static_network: false
+  incar: false
+  partner_tracing: false
 
 model:
   num_pop: 300

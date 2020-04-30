@@ -345,7 +345,6 @@ def test_incarcerate_unincarcerate(make_model, make_agent):
     assert a.incar is False
     assert a.incar_time == 0
     assert a in model.new_incar_release.members
-    assert a.incar_ever
 
 
 def test_diagnose_hiv(make_model, make_agent):

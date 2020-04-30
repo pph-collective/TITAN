@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# encoding: utf-8
 
 # Imports
 import random
@@ -906,7 +904,6 @@ class HIVModel:
             if agent.incar_time == 0:  # FREE AGENT
                 self.new_incar_release.add_agent(agent)
                 agent.incar = False
-                agent.incar_ever = True
                 if (
                     not agent.high_risk and self.features.high_risk
                 ):  # If behavioral treatment on and agent HIV, ignore HR period.

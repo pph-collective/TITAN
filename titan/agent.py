@@ -96,7 +96,6 @@ class Agent:
 
         # agent incarcartion params
         self.incar = False
-        self.incar_ever = False
         self.incar_time = 0
 
         self.sex_role = "versatile"

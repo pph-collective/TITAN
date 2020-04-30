@@ -33,7 +33,6 @@ def stats(params):
     a.high_risk = True
     a.high_risk_ever = True
     a.incar = True
-    a.incar_ever = True
     a.prep_reason = ["PWID", "MSMW", "HIV test"]
 
     p = agent.Agent("MSM", 20, "BLACK", "Inj")
