@@ -27,8 +27,8 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
       incar:
-        init: 0.1
-        prob: 0.1
+        init: 0.02
+        prob: 0.02
       safe_sex: 0.1
       injection:
         unsafe_prob: 0.1
@@ -70,8 +70,8 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
       incar:
-        init: 0.1
-        prob: 0.1
+        init: 0.02
+        prob: 0.02
       safe_sex: 0.1
       injection:
         unsafe_prob: 0.1
@@ -113,8 +113,8 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
       incar:
-        init: 0.1
-        prob: 0.1
+        init: 0.02
+        prob: 0.02
       safe_sex: 0.1
       injection:
         unsafe_prob: 0.1
@@ -156,8 +156,8 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
       incar:
-        init: 0.1
-        prob: 0.1
+        init: 0.02
+        prob: 0.02
       safe_sex: 0.1
       injection:
         unsafe_prob: 0.1
@@ -199,8 +199,8 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
       incar:
-        init: 0.1
-        prob: 0.1
+        init: 0.02
+        prob: 0.02
       safe_sex: 0.1
       injection:
         unsafe_prob: 0.1
@@ -254,8 +254,8 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
       incar:
-        init: 0.1
-        prob: 0.1
+        init: 0.02
+        prob: 0.02
       safe_sex: 0.1
       injection:
         unsafe_prob: 0.1
@@ -301,8 +301,8 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
       incar:
-        init: 0.1
-        prob: 0.1
+        init: 0.02
+        prob: 0.02
       safe_sex: 0.1
       injection:
         unsafe_prob: 0.1
@@ -344,8 +344,8 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
       incar:
-        init: 0.1
-        prob: 0.1
+        init: 0.02
+        prob: 0.02
       safe_sex: 0.1
       injection:
         unsafe_prob: 0.1
@@ -387,8 +387,8 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
       incar:
-        init: 0.1
-        prob: 0.1
+        init: 0.02
+        prob: 0.02
       safe_sex: 0.1
       injection:
         unsafe_prob: 0.1
@@ -430,8 +430,8 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
       incar:
-        init: 0.1
-        prob: 0.1
+        init: 0.02
+        prob: 0.02
       safe_sex: 0.1
       injection:
         unsafe_prob: 0.
@@ -473,8 +473,8 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
       incar:
-        init: 0.1
-        prob: 0.1
+        init: 0.02
+        prob: 0.02
       safe_sex: 0.1
       injection:
         unsafe_prob: 0.
@@ -526,8 +526,8 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
       incar:
-        init: 0.1
-        prob: 0.1
+        init: 0.02
+        prob: 0.02
       safe_sex: 0.1
       injection:
         unsafe_prob: 0.
@@ -606,7 +606,7 @@ partnership:
         max: 1
 
 prep:
-  target: 0.3
+  target: 0.1
 
 syringe_services:
   timeline:
@@ -625,7 +625,7 @@ features:
   high_risk: true
   haart: true
   die_and_replace: true
-  static_network: true
+  static_network: false
   agent_zero: true
   assort_mix: false
   vaccine: true

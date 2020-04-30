@@ -80,14 +80,7 @@ class HIVModel:
         self.total_dx = 0
         self.ssp_enrolled_risk = 0.0
 
-        self.prep_agents: Dict[str, Dict[str, int]] = {}
-        for race in params.classes.races:
-            self.prep_agents[race] = {}
-            for st in params.classes.sex_types:
-                self.prep_agents[race][st] = 0
-
-        # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed
-        # value
+        # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed value
         print(f"\tRun seed was set to: {self.run_seed}")
         self.run_random = random.Random(self.run_seed)
         self.np_random = np.random.RandomState(self.run_seed)
@@ -134,6 +127,9 @@ class HIVModel:
             self.deaths = []
 
         def burn_simulation(duration: int):
+            if duration == 0:
+                return None
+
             print(("\n === Burn Initiated for {} timesteps ===".format(duration + 1)))
             burn_conversions = 0
             for t in range(1, duration + 1):
@@ -186,15 +182,15 @@ class HIVModel:
                 self.params.classes.races,
             )
 
+        if self.params.outputs.network.edge_list:
+            path = os.path.join(outdir, "network", f"{run_id}_Edgelist_t0.txt")
+            self.network_utils.write_graph_edgelist(path)
+
         print("\t===! Start Main Loop !===")
 
         # If we are using an agent zero method, create agent zero.
         if self.features.agent_zero:
             make_agent_zero(4)
-
-        if self.params.outputs.network.edge_list:
-            path = os.path.join(outdir, "network", f"{run_id}_Edgelist_t0.txt")
-            self.network_utils.write_graph_edgelist(path)
 
         for t in range(1, self.params.model.time.num_steps + 1):
             print(f"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME {t}")
@@ -1138,7 +1134,7 @@ class HIVModel:
 
         # If force flag set, auto kick off prep.
         if force:
-            self.prep_agents[agent.race][agent.so] -= 1
+            self.pop.prep_counts[agent.race] -= 1
             agent.prep = False
             agent.prep_reason = []
             agent.prep_load = 0.0
@@ -1151,7 +1147,7 @@ class HIVModel:
             < self.demographics[agent.race][agent.so].prep.discontinue
             and agent.prep_type == "Oral"
         ):
-            self.prep_agents[agent.race][agent.so] -= 1
+            self.pop.prep_counts[agent.race] -= 1
             agent.prep = False
             agent.prep_type = ""
             agent.prep_reason = []
@@ -1160,7 +1156,7 @@ class HIVModel:
             agent.update_prep_load(self.params)
             # agent timed out of prep
             if not agent.prep:
-                self.prep_agents[agent.race][agent.so] -= 1
+                self.pop.prep_counts[agent.race] -= 1
 
     def advance_vaccine(self, agent: Agent, time: int, vaxType: str, burn: bool):
         """
@@ -1217,7 +1213,7 @@ class HIVModel:
             agent.intervention_ever = True
             self.new_prep.add_agent(agent)
 
-            self.prep_agents[agent.race][agent.so] += 1
+            self.pop.prep_counts[agent.race] += 1
 
             if (
                 self.run_random.random()
@@ -1249,22 +1245,16 @@ class HIVModel:
             enroll_prep(self, agent)
         else:
             if self.prep.target_model == "Racial":
-                num_prep_agents = sum(self.prep_agents[agent.race].values())
+                num_prep_agents = self.pop.prep_counts[agent.race]
             else:
-                num_prep_agents = sum(
-                    [
-                        sum(self.prep_agents[race].values())
-                        for race in self.params.classes.races
-                    ]
-                )
-            #     num_prep_agents = self.pop.intervention_prep_agents.num_members()
+                num_prep_agents = sum(self.pop.prep_counts.values())
 
             if self.prep.target_model in ("Incar", "IncarHR"):
                 if self.run_random.random() < self.prep.target:
                     enroll_prep(self, agent)
                 return None
             elif self.prep.target_model == "Racial":
-                all_hiv_agents = self.pop.all_agents.subset["HIV"].members
+                all_hiv_agents = self.pop.hiv_agents.members
                 all_race = {a for a in self.pop.all_agents if a.race == agent.race}
 
                 hiv_agents = len(all_hiv_agents & all_race)
@@ -1276,7 +1266,7 @@ class HIVModel:
                 target_prep = int(
                     (
                         self.pop.all_agents.num_members()
-                        - self.pop.all_agents.subset["HIV"].num_members()
+                        - self.pop.hiv_agents.num_members()
                     )
                     * self.prep.target
                 )

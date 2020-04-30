@@ -427,14 +427,14 @@ def test_discontinue_prep_force(make_model, make_agent):
     # set up so the agent appears to be on PrEP
     a.prep = True
     a.prep_reason = ["blah"]
-    num_prep = model.prep_agents[a.race][a.so]
-    model.prep_agents[a.race][a.so] += 1
+    num_prep = model.pop.prep_counts[a.race]
+    model.pop.prep_counts[a.race] += 1
 
     model.discontinue_prep(a, True)
 
     assert a.prep is False
     assert a.prep_reason == []
-    assert num_prep == model.prep_agents[a.race][a.so]
+    assert num_prep == model.pop.prep_counts[a.race]
 
 
 def test_discontinue_prep_decrement_time(make_model, make_agent):
@@ -446,14 +446,14 @@ def test_discontinue_prep_decrement_time(make_model, make_agent):
     # set up so the agent appears to be on PrEP
     a.prep = True
     a.prep_reason = ["blah"]
-    num_prep = model.prep_agents[a.race][a.so]
-    model.prep_agents[a.race][a.so] += 1
+    num_prep = model.pop.prep_counts[a.race]
+    model.pop.prep_counts[a.race] += 1
 
     model.discontinue_prep(a)
 
     assert a.prep
     assert a.prep_reason == ["blah"]
-    assert num_prep + 1 == model.prep_agents[a.race][a.so]
+    assert num_prep + 1 == model.pop.prep_counts[a.race]
 
 
 def test_discontinue_prep_decrement_end(make_model, make_agent):
@@ -466,15 +466,15 @@ def test_discontinue_prep_decrement_end(make_model, make_agent):
     a.prep = True
     a.prep_reason = ["blah"]
     a.prep_type = "Oral"
-    num_prep = model.prep_agents[a.race][a.so]
-    model.prep_agents[a.race][a.so] += 1
+    num_prep = model.pop.prep_counts[a.race]
+    model.pop.prep_counts[a.race] += 1
 
     model.discontinue_prep(a)
 
     assert a.prep is False
     assert a.prep_reason == []
     assert a.prep_type == ""
-    assert num_prep == model.prep_agents[a.race][a.so]
+    assert num_prep == model.pop.prep_counts[a.race]
 
 
 def test_discontinue_prep_decrement_not_end(make_model, make_agent):
@@ -488,15 +488,15 @@ def test_discontinue_prep_decrement_not_end(make_model, make_agent):
     a.prep_reason = ["blah"]
     a.prep_last_dose = 3
     a.prep_type = "Inj"
-    num_prep = model.prep_agents[a.race][a.so]
-    model.prep_agents[a.race][a.so] += 1
+    num_prep = model.pop.prep_counts[a.race]
+    model.pop.prep_counts[a.race] += 1
 
     model.discontinue_prep(a)
 
     assert a.prep
     assert a.prep_reason == ["blah"]
     assert a.prep_last_dose == 4  # 3 -> -1 -> +1 == 0 # Inj no longer in PrEP types
-    assert num_prep + 1 == model.prep_agents[a.race][a.so]
+    assert num_prep + 1 == model.pop.prep_counts[a.race]
     assert a.prep_load > 0  # Inj no longer in PrEP types
 
 
@@ -512,15 +512,15 @@ def test_discontinue_prep_decrement_inj_end(make_model, make_agent):
     a.prep_load = 0.4
     a.prep_last_dose = 12  # last step before hitting year mark and discontinuing
     a.prep_type = "Inj"
-    num_prep = model.prep_agents[a.race][a.so]
-    model.prep_agents[a.race][a.so] += 1
+    num_prep = model.pop.prep_counts[a.race]
+    model.pop.prep_counts[a.race] += 1
 
     model.discontinue_prep(a)
 
     assert a.prep is False
     assert a.prep_reason == []
     assert a.prep_last_dose == 0  # 3 -> -1 -> +1 == 0 # Inj no longer in PrEP types
-    assert num_prep == model.prep_agents[a.race][a.so]
+    assert num_prep == model.pop.prep_counts[a.race]
     assert a.prep_load == 0.0  # Inj no longer in PrEP types
 
 

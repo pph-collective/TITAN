@@ -101,6 +101,9 @@ class Population:
 
         self.relationships: Set[Relationship] = set()
 
+        # keep track of prep agent counts by race
+        self.prep_counts = {race: 0 for race in params.classes.races}
+
         # find average partnership durations
         self.mean_rel_duration: Dict[str, int] = {}
         for bond in self.params.partnership.duration:
@@ -157,7 +160,6 @@ class Population:
                 a.incar_time = self.pop_random.randrange(
                     jail_duration[bin].min, jail_duration[bin].max
                 )
-                # self.incarcerated_agents.add_agent(a)
 
     def create_agent(self, race: str, sex_type: str = "NULL") -> Agent:
         """
@@ -254,6 +256,9 @@ class Population:
         ):
             agent.high_risk = True
             agent.high_risk_ever = True
+            agent.high_risk_time = self.pop_random.randint(
+                1, self.params.high_risk.sex_based[agent.so].duration
+            )
 
         # get agent's mean partner numbers for bond type
         def partner_distribution():
@@ -327,6 +332,9 @@ class Population:
                 if agent.target_partners[bond_type] > 0:
                     self.partnerable_agents[bond_type].add(agent)
 
+        if agent.prep:
+            self.prep_counts[agent.race] += 1
+
         if self.enable_graph:
             self.graph.add_node(agent)
 
@@ -356,6 +364,9 @@ class Population:
         for partner_type in self.sex_partners:
             if agent in self.sex_partners[partner_type]:
                 self.sex_partners[partner_type].remove(agent)
+
+        if agent.prep:
+            self.prep_counts[agent.race] -= 1
 
         if self.enable_graph:
             self.graph.remove_node(agent)
