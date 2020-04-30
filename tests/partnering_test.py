@@ -79,7 +79,7 @@ def test_get_random_pwid_partner_no_PWID(make_population, make_agent, params):
         empty_pop.pwid_agents,
         params,
         FakeRandom(1.0),
-        "Inj"
+        "Inj",
     )
     assert partner is None
 
@@ -109,7 +109,7 @@ def test_get_random_pwid_partner_w_PWID(make_population, make_agent, params):
         empty_pop.pwid_agents,
         params,
         FakeRandom(1.0),
-        "Inj"
+        "Inj",
     )
     assert partner == idu_partner
 
@@ -209,7 +209,13 @@ def test_get_assort_partner_race(make_population, make_agent, params):
     params.assort_mix["test_rule"] = test_rule
 
     partner = select_partner(
-        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5), "Sex"
+        a,
+        pop.all_agents,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.5),
+        "Sex",
     )
 
     assert partner == p1
@@ -225,7 +231,13 @@ def test_get_assort_partner_race(make_population, make_agent, params):
     params.assort_mix["test_rule"] = test_rule
 
     partner = select_partner(
-        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5), "Sex"
+        a,
+        pop.all_agents,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.5),
+        "Sex",
     )
 
     assert partner == p2
@@ -268,7 +280,13 @@ def test_get_assort_partner_high_risk(make_population, make_agent, params):
     params.assort_mix["test_rule"] = test_rule
 
     partner = select_partner(
-        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5), "Sex"
+        a,
+        pop.all_agents,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.5),
+        "Sex",
     )
 
     assert partner == p1
@@ -284,7 +302,13 @@ def test_get_assort_partner_high_risk(make_population, make_agent, params):
     params.assort_mix["test_rule"] = test_rule
 
     partner = select_partner(
-        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5), "Sex"
+        a,
+        pop.all_agents,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.5),
+        "Sex",
     )
 
     assert partner == p2
@@ -325,7 +349,13 @@ def test_get_assort_partner_drug_use(make_population, make_agent, params):
     params.assort_mix["test_rule"] = test_rule
 
     partner = select_partner(
-        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5), "Inj"
+        a,
+        pop.all_agents,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.5),
+        "Inj",
     )
 
     assert partner == p1
@@ -341,7 +371,13 @@ def test_get_assort_partner_drug_use(make_population, make_agent, params):
     params.assort_mix["test_rule"] = test_rule
 
     partner = select_partner(
-        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5), "Sex"
+        a,
+        pop.all_agents,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.5),
+        "Sex",
     )
     assert partner == p2
 

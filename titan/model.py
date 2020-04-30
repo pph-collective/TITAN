@@ -158,7 +158,9 @@ class HIVModel:
             )
             if agent_zero:
                 for i in range(self.high_risk.agent_zero.num_agents):
-                    self.pop.update_agent_partners(agent_zero, self.high_risk.agent_zero.type)
+                    self.pop.update_agent_partners(
+                        agent_zero, self.high_risk.agent_zero.type
+                    )
                 self.hiv_convert(agent_zero)
             else:
                 raise ValueError("Must have PWID agents to make an agent zero")
@@ -1047,7 +1049,8 @@ class HIVModel:
                         if (
                             ptnr.hiv
                             and not ptnr.hiv_dx
-                            and self.run_random.random() < self.params.partner_tracing.prob
+                            and self.run_random.random()
+                            < self.params.partner_tracing.prob
                         ):
                             ptnr.partner_traced = True
                             ptnr.trace_time = time + 1
