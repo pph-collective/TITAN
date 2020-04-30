@@ -63,16 +63,23 @@ def test_get_random_pwid_partner_no_PWID(make_population, make_agent, params):
     idu_agent = make_agent(DU="Inj")
     assert idu_agent
     nidu_agent = make_agent()
+    for bond in params.classes.bond_types:
+        idu_agent.target_partners[bond] = 0
+        nidu_agent.target_partners[bond] = 0
+        idu_agent.partners[bond] = set()
+        nidu_agent.partners[bond] = set()
+
     empty_pop.add_agent(idu_agent)
     empty_pop.add_agent(nidu_agent)
 
-    partner, bond_type = select_partner(
+    partner = select_partner(
         idu_agent,
         empty_pop.all_agents,
         empty_pop.sex_partners,
         empty_pop.pwid_agents,
         params,
         FakeRandom(1.0),
+        "Inj"
     )
     assert partner is None
 
@@ -81,8 +88,13 @@ def test_get_random_pwid_partner_w_PWID(make_population, make_agent, params):
     empty_pop = make_population()
     idu_agent = make_agent(DU="Inj")
     idu_partner = make_agent(DU="Inj")
-    idu_agent.target_partners = 10
-    idu_partner.target_partners = 10
+    for bond in params.classes.bond_types:
+        idu_agent.target_partners[bond] = 0
+        idu_partner.target_partners[bond] = 0
+        idu_agent.partners[bond] = set()
+        idu_partner.partners[bond] = set()
+    idu_agent.target_partners["Inj"] = 10
+    idu_partner.target_partners["Inj"] = 10
     empty_pop.add_agent(idu_agent)
     empty_pop.add_agent(idu_partner)
 
@@ -90,13 +102,14 @@ def test_get_random_pwid_partner_w_PWID(make_population, make_agent, params):
         10  # make this weight really high so it will get chosen
     )
 
-    partner, bond_type = select_partner(
+    partner = select_partner(
         idu_agent,
         empty_pop.all_agents,
         empty_pop.sex_partners,
         empty_pop.pwid_agents,
         params,
         FakeRandom(1.0),
+        "Inj"
     )
     assert partner == idu_partner
 
@@ -105,19 +118,25 @@ def test_get_random_sex_partner_valid(make_population, make_agent, params):
     empty_pop = make_population()
     hm_agent = make_agent(SO="HM")
     hf_partner = make_agent(SO="HF")
+    for bond in params.classes.bond_types:
+        hm_agent.target_partners[bond] = 0
+        hf_partner.target_partners[bond] = 0
+        hm_agent.partners[bond] = set()
+        hf_partner.partners[bond] = set()
     empty_pop.add_agent(hm_agent)
     empty_pop.add_agent(hf_partner)
 
     hm_agent.target_partners = 10
     hf_partner.target_partners = 10
 
-    partner, bond_type = select_partner(
+    partner = select_partner(
         hm_agent,
         empty_pop.all_agents,
         empty_pop.sex_partners,
         empty_pop.pwid_agents,
         params,
         FakeRandom(1.0),
+        "Sex",
     )
     assert partner == hf_partner
 
@@ -125,13 +144,14 @@ def test_get_random_sex_partner_valid(make_population, make_agent, params):
     empty_pop.add_relationship(rel)
 
     # no match after bonded
-    partner, bond_type = select_partner(
+    partner = select_partner(
         hm_agent,
         empty_pop.all_agents,
         empty_pop.sex_partners,
         empty_pop.pwid_agents,
         params,
         FakeRandom(1.0),
+        "Sex",
     )
     assert partner is None
 
@@ -140,16 +160,22 @@ def test_get_random_sex_partner_bad(make_population, make_agent, params):
     empty_pop = make_population()
     hm_agent = make_agent(SO="HM")
     msm_partner = make_agent(SO="MSM")
+    for bond in params.classes.bond_types:
+        hm_agent.target_partners[bond] = 0
+        msm_partner.target_partners[bond] = 0
+        hm_agent.partners[bond] = set()
+        msm_partner.partners[bond] = set()
     empty_pop.add_agent(hm_agent)
     empty_pop.add_agent(msm_partner)
 
-    partner, bond_type = select_partner(
+    partner = select_partner(
         hm_agent,
         empty_pop.all_agents,
         empty_pop.sex_partners,
         empty_pop.pwid_agents,
         params,
         FakeRandom(1.0),
+        "Sex",
     )
     assert partner is None
 
@@ -159,6 +185,13 @@ def test_get_assort_partner_race(make_population, make_agent, params):
     a = make_agent(SO="MSM", race="WHITE")
     p1 = make_agent(SO="MSM", race="WHITE")
     p2 = make_agent(SO="MSM", race="BLACK")
+    for bond in params.classes.bond_types:
+        a.target_partners[bond] = 1
+        p1.target_partners[bond] = 1
+        p2.target_partners[bond] = 1
+        a.partners[bond] = set()
+        p1.partners[bond] = set()
+        p2.partners[bond] = set()
     pop.add_agent(a)
     pop.add_agent(p1)
     pop.add_agent(p2)
@@ -175,8 +208,8 @@ def test_get_assort_partner_race(make_population, make_agent, params):
     )
     params.assort_mix["test_rule"] = test_rule
 
-    partner, bond_type = select_partner(
-        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5)
+    partner = select_partner(
+        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5), "Sex"
     )
 
     assert partner == p1
@@ -191,8 +224,8 @@ def test_get_assort_partner_race(make_population, make_agent, params):
     )
     params.assort_mix["test_rule"] = test_rule
 
-    partner, bond_type = select_partner(
-        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5)
+    partner = select_partner(
+        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5), "Sex"
     )
 
     assert partner == p2
@@ -208,6 +241,16 @@ def test_get_assort_partner_high_risk(make_population, make_agent, params):
     p1.high_risk = True
     p2.high_risk = False
 
+    for bond in params.classes.bond_types:
+        a.target_partners[bond] = 0
+        p1.target_partners[bond] = 0
+        p2.target_partners[bond] = 0
+        a.partners[bond] = set()
+        p1.partners[bond] = set()
+        p2.partners[bond] = set()
+    a.target_partners["Sex"] = 1
+    p1.target_partners["Sex"] = 1
+    p2.target_partners["Sex"] = 1
     pop.add_agent(a)
     pop.add_agent(p1)
     pop.add_agent(p2)
@@ -224,8 +267,8 @@ def test_get_assort_partner_high_risk(make_population, make_agent, params):
     )
     params.assort_mix["test_rule"] = test_rule
 
-    partner, bond_type = select_partner(
-        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5)
+    partner = select_partner(
+        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5), "Sex"
     )
 
     assert partner == p1
@@ -240,8 +283,8 @@ def test_get_assort_partner_high_risk(make_population, make_agent, params):
     )
     params.assort_mix["test_rule"] = test_rule
 
-    partner, bond_type = select_partner(
-        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5)
+    partner = select_partner(
+        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5), "Sex"
     )
 
     assert partner == p2
@@ -254,6 +297,14 @@ def test_get_assort_partner_drug_use(make_population, make_agent, params):
     p2 = make_agent(SO="MSM", race="BLACK", DU="None")
     p3 = make_agent(SO="MSM", race="BLACK", DU="NonInj")
 
+    for bond in params.classes.bond_types:
+        a.target_partners[bond] = 0
+        p1.target_partners[bond] = 0
+        p2.target_partners[bond] = 0
+        a.partners[bond] = set()
+        p1.partners[bond] = set()
+        p2.partners[bond] = set()
+
     pop.add_agent(a)
     pop.add_agent(p1)
     pop.add_agent(p2)
@@ -263,7 +314,7 @@ def test_get_assort_partner_drug_use(make_population, make_agent, params):
     # make sure partnering on sex_type
     params.partnership.bonds["PWID"]["Sex"]["prob"] = 10
 
-    # assrot with Inj
+    # assort with Inj
     test_rule = ObjMap(
         {
             "attribute": "drug_use",
@@ -273,8 +324,8 @@ def test_get_assort_partner_drug_use(make_population, make_agent, params):
     )
     params.assort_mix["test_rule"] = test_rule
 
-    partner, bond_type = select_partner(
-        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5)
+    partner = select_partner(
+        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5), "Inj"
     )
 
     assert partner == p1
@@ -289,11 +340,9 @@ def test_get_assort_partner_drug_use(make_population, make_agent, params):
     )
     params.assort_mix["test_rule"] = test_rule
 
-    partner, bond_type = select_partner(
-        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5)
+    partner = select_partner(
+        a, pop.all_agents, pop.sex_partners, pop.pwid_agents, params, FakeRandom(0.5), "Sex"
     )
-
-    assert bond_type == "Sex"
     assert partner == p2
 
 

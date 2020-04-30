@@ -58,22 +58,17 @@ def select_partner(
 
         return eligible_partners
 
-    eligible = copy(partnerable_agents)
-    for bond_type in params.classes.bond_types:
-        eligible -= agent.partners[bond_type]  # this should be for all partners?
+    eligible = set(copy(partnerable_agents))
+    for bond in params.classes.bond_types:
+        eligible -= agent.partners[bond]
     eligible -= {agent}
 
     acts_allowed = params.classes.bond_types[bond_type].acts_allowed
-    assert acts_allowed
-    assert set(acts_allowed) & {"sex", "injection", "pca"}
-    if bond_type in ["Sex", "SexInj"]:
-        assert "sex" in acts_allowed
 
     if "injection" in acts_allowed:
         eligible &= pwid_agents.members
 
-    if "sex" in acts_allowed:
-        assert False
+    if "sex" in acts_allowed or bond_type == "Sex":
         eligible &= sex_partners[agent.so]
 
     if not eligible:  # short circuit to avoid attempting to assort with no eligible

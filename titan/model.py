@@ -157,8 +157,8 @@ class HIVModel:
                 self.pop.pwid_agents.members, self.run_random
             )
             if agent_zero:
-                for i in range(num_partners):
-                    self.pop.update_agent_partners(agent_zero)
+                for i in range(self.high_risk.agent_zero.num_agents):
+                    self.pop.update_agent_partners(agent_zero, self.high_risk.agent_zero.type)
                 self.hiv_convert(agent_zero)
             else:
                 raise ValueError("Must have PWID agents to make an agent zero")
@@ -295,7 +295,7 @@ class HIVModel:
                 agent.target_partners["Sex"] = utils.poisson(
                     agent.mean_num_partners["Sex"], self.np_random
                 )
-                while len(agent.partners["Sex"]) > agent.target_partners:
+                while len(agent.partners["Sex"]) > agent.target_partners["Sex"]:
                     rel = utils.safe_random_choice(agent.relationships, self.run_random)
                     if rel is not None:
                         rel.progress(force=True)
@@ -1042,14 +1042,15 @@ class HIVModel:
                 self.features.partner_tracing
             ):  # TODO fix this logic; should get partnerTraced and then lose it after
                 # For each partner, determine if found by partner testing
-                for ptnr in agent.partners:
-                    if (
-                        ptnr.hiv
-                        and not ptnr.hiv_dx
-                        and self.run_random.random() < self.params.partner_tracing.prob
-                    ):
-                        ptnr.partner_traced = True
-                        ptnr.trace_time = time + 1
+                for bond in agent.partners:
+                    for ptnr in agent.partners[bond]:
+                        if (
+                            ptnr.hiv
+                            and not ptnr.hiv_dx
+                            and self.run_random.random() < self.params.partner_tracing.prob
+                        ):
+                            ptnr.partner_traced = True
+                            ptnr.trace_time = time + 1
 
         if not tested:
             test_prob = self.demographics[race_type][sex_type].hiv.dx.prob

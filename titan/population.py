@@ -430,6 +430,8 @@ class Population:
 
         if partner:
             duration = get_partnership_duration(self.params, self.np_random, bond_type)
+            if bond_type == "Sex":
+                assert partner in self.sex_partners[agent.so]
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
             self.add_relationship(relationship)
             # can partner still partner?

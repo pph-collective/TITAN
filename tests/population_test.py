@@ -375,10 +375,13 @@ def test_update_partner_assignments_no_match(make_population, params):
             p.target_partners[bond] = 0
 
     params.model.num_pop = 0
+    assert p not in pop.sex_partners[a.so]
+    assert a not in pop.sex_partners[p.so]
 
     pop.update_partner_assignments(1)
     assert not a.partners["Social"]
     assert not p.partners["Social"]
+    assert not p.partners["Sex"]
     assert not a.partners["Sex"]
     assert a in pop.graph.nodes()
     assert p in pop.graph.nodes()

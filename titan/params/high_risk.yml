@@ -28,3 +28,17 @@ high_risk:
         description: Number of time steps an agent of this sex type is high risk
         type: int
         min: 0
+  agent_zero:
+    type:
+      description: "Bond type to use initializing agent zeros"
+      type: enum
+      default: Inj
+      values:
+        - Inj
+        - SexInj
+        - Social
+        - Sex
+    num_agents:
+      type: int
+      description: "Number of agents to introduce infections"
+      default: 4
