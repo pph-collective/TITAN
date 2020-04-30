@@ -280,7 +280,7 @@ class HIVModel:
                 and self.features.prep
                 and (self.prep.target_model in ("high_risk", "incarcerated_high_risk"))
             ):
-                for part in agent.partners:
+                for part in agent.partners.values():
                     if not (part.hiv or part.vaccine):
                         self.initiate_prep(part, time)
         else:
@@ -708,7 +708,7 @@ class HIVModel:
         # unprotected sex probabilities for primary partnerships
         mean_sex_acts = (
             agent.get_number_of_sex_acts(self.run_random, self.params)
-            * self.calibration.sex.act
+            * self.calibration.Sex.act
         )
         total_sex_acts = utils.poisson(mean_sex_acts, self.np_random)
 
@@ -951,9 +951,9 @@ class HIVModel:
                     not agent.high_risk and self.features.high_risk
                 ):  # If behavioral treatment on and agent HIV, ignore HR period.
                     self.become_high_risk(agent)
-                    agent.mean_sex_partners += self.high_risk.partner_scale
-                    agent.target_partners = utils.poisson(
-                        agent.mean_sex_partners, self.np_random
+                    agent.mean_num_partners["Sex"] += self.high_risk.partner_scale
+                    agent.target_partners["Sex"] = utils.poisson(
+                        agent.mean_num_partners["Sex"], self.np_random
                     )
                     self.pop.update_partnerability(agent)
 
@@ -1007,7 +1007,7 @@ class HIVModel:
             agent.incar_time = timestay
 
             # PUT PARTNERS IN HIGH RISK
-            for partner in agent.partners:
+            for partner in agent.partners["Sex"]:
                 if not partner.high_risk and self.features.high_risk:
                     if self.run_random.random() < self.high_risk.prob:
                         self.become_high_risk(partner)

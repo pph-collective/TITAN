@@ -191,7 +191,10 @@ class Population:
         if self.features.msmw and sex_type == "HM":
             if self.pop_random.random() < self.params.msmw.prob:
                 agent.msmw = True
-        agent.partners = {bond: set() for bond in self.params.classes.bond_types.keys()}
+        for bond in self.params.classes.bond_types.keys():
+            agent.partners[bond] = set()
+            agent.target_partners[bond] = 0
+            agent.mean_num_partners[bond] = 0
 
         if drug_type == "Inj":
             agent_params = self.demographics[race]["PWID"]
@@ -403,7 +406,7 @@ class Population:
         """
         :Purpose:
             Finds and bonds new partner. Creates relationship object for partnership,
-            calcspartnership duration, and adds to networkX graph if self.enable_graph
+            calcs partnership duration, and adds to networkX graph if self.enable_graph
             is set True.
 
         :Input:
@@ -436,7 +439,6 @@ class Population:
             ):
                 self.partnerable_agents[bond_type].remove(partner)
             no_match = False
-
         return no_match
 
     def update_partner_assignments(self, t=0):
@@ -455,19 +457,19 @@ class Population:
             self.update_partner_targets()
 
         # Now create partnerships until available partnerships are out
-        eligible_agents = {}
         for bond, acts in self.params.classes.bond_types.items():
-            attempts = {a: 0 for a in eligible_agents}
-            eligible_agents[bond] = deque(
+            eligible_agents = deque(
                 [
                     a
                     for a in self.all_agents
-                    if len(a.partners) < a.target_partners[bond]
+                    if len(a.partners[bond]) < a.target_partners[bond]
                 ]
             )
+            attempts = {a: 0 for a in eligible_agents}
 
-            while eligible_agents[bond]:
-                agent = eligible_agents[bond].popleft()
+            while eligible_agents:
+                agent = eligible_agents.popleft()
+                assert agent in attempts.keys()
 
                 # no match
                 if self.update_agent_partners(agent, bond):
@@ -475,11 +477,11 @@ class Population:
 
                 # add agent back to eligible pool
                 if (
-                    len(agent.partners) < agent.target_partners
+                    len(agent.partners[bond]) < agent.target_partners[bond]
                     and attempts[agent]
                     < self.params.calibration.partnership.break_point
                 ):
-                    eligible_agents[bond].add(agent)
+                    eligible_agents.append(agent)
 
         print(
             f"actual partnerships (post): "
