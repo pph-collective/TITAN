@@ -15,9 +15,14 @@ def params(tmpdir):
 
 
 @pytest.fixture
-def make_agent():
+def make_agent(params):
     def _make_agent(SO="MSM", age=30, race="WHITE", DU="None"):
-        return Agent(SO, age, race, DU)
+        agent = Agent(SO, age, race, DU)
+        for bond in params.classes.bond_types:
+            agent.target_partners[bond] = 0
+            agent.mean_num_partners[bond] = 0
+            agent.partners[bond] = set()
+        return agent
 
     return _make_agent
 
@@ -257,6 +262,10 @@ def test_update_agent_partners_MSM_match(make_population, params):
     pop.pop_random = FakeRandom(1.1)
     a.drug_use = "None"
     p.drug_use = "None"
+    a.target_partners["Sex"] = 5
+    p.target_partners["Sex"] = 5
+    pop.add_agent(a)
+    pop.add_agent(p)
 
     no_match = pop.update_agent_partners(a, "Sex")
     assert no_match is False
@@ -275,7 +284,10 @@ def test_update_agent_partners_NDU_PWID_match(make_population, params):
     a.drug_use = "None"
     p.drug_use = "Inj"
 
+    a.target_partners["Sex"] = 10
     p.target_partners["Sex"] = 10
+    pop.add_agent(a)
+    pop.add_agent(p)
 
     no_match = pop.update_agent_partners(a, "Sex")
     assert no_match is False
@@ -293,13 +305,12 @@ def test_update_partner_assignments_MSM_match(make_population, params):
     pop.pop_random = FakeRandom(1.1)
     a.drug_use = "None"
     p.drug_use = "None"
-    a.target_partners = 100
-    p.target_partners = 100
+
     pop.add_agent(a)
     pop.add_agent(p)
     a.mean_num_partners["Sex"] = 100
     p.mean_num_partners["Sex"] = 100
-    assert params.model.network.enable == True
+    assert params.model.network.enable is True
     assert pop.enable_graph
 
     pop.update_partner_assignments(1)
@@ -317,8 +328,6 @@ def test_update_partner_assignments_PWID_match(make_population, params):
     pop.pop_random = FakeRandom(1.1)
     a.drug_use = "Inj"
     p.drug_use = "Inj"
-    a.target_partners = 100
-    p.target_partners = 100
     pop.add_agent(a)
     pop.add_agent(p)
 
@@ -343,8 +352,8 @@ def test_update_partner_assignments_NDU_PWID_match(make_population, params):
     pop.pop_random = FakeRandom(1.1)
     a.drug_use = "None"
     p.drug_use = "Inj"
-    a.target_partners = 100
-    p.target_partners = 100
+    a.target_partners["Sex"] = 100
+    p.target_partners["Sex"] = 100
     pop.add_agent(a)
     pop.add_agent(p)
     a.mean_num_partners["Sex"] = 100
@@ -370,18 +379,10 @@ def test_update_partner_assignments_no_match(make_population, params):
     pop.pop_random = FakeRandom(1.1)
     a.drug_use = "None"
     p.drug_use = "None"
-    a.target_partners = 50
-    p.target_partners = 50
+    a.target_partners["Sex"] = 50
+    p.target_partners["Sex"] = 50
     pop.add_agent(a)
     pop.add_agent(p)
-    for bond in params.classes.bond_types:
-        assert bond in ["Sex", "Inj", "SexInj", "Social"]
-        if bond == "Sex":
-            a.target_partners[bond] = 50
-            p.target_partners[bond] = 50
-        else:
-            a.target_partners[bond] = 0
-            p.target_partners[bond] = 0
 
     params.model.num_pop = 0
     assert p not in pop.sex_partners[a.so]

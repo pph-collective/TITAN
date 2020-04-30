@@ -73,7 +73,7 @@ def select_partner(
 
     # short circuit to avoid attempting to assort with no eligible partners
     if not eligible:
-        return None, agent_bond
+        return None
 
     if params.features.assort_mix:
         for assort_def in params.assort_mix.values():

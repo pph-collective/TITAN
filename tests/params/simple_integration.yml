@@ -40,6 +40,17 @@ demographics:
         booser:
           internval: 12
           prob: 0.1
+      num_partners:
+        Sex:
+          type: poisson
+          var_1: 5
+          var_2: 1
+          mean: 5
+        Social:
+          type: poisson
+          var_1: 0
+          var_2: 1
+          mean: 0
     PWID:
       ppl: 0.2
       syringe_services:
@@ -71,8 +82,36 @@ demographics:
         booser:
           internval: 12
           prob: 0.1
+      num_partners:
+        Sex:
+          type: poisson
+          var_1: 5
+          var_2: 1
+          mean: 5
+        Inj:
+          type: poisson
+          var_1: 5
+          var_2: 1
+          mean: 5
+        SexInj:
+          type: poisson
+          var_1: 5
+          var_2: 1
+          mean: 5
+        Social:
+          type: poisson
+          var_1: 0
+          var_2: 1
+          mean: 0
 
 partnership:
+  duration:
+    Inj:
+      type: bins
+    SexInj:
+      type: bins
+    Sex:
+      type: bins
   sex:
     acquisition:
       MSM:
@@ -139,6 +178,3 @@ model:
     burn_steps: 0
   network:
     enable: true
-  population:
-    num_partners:
-      type: bins
