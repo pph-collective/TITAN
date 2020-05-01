@@ -56,7 +56,7 @@ def check_item(val, d, keys=None):
         assert all(x in d["values"] for x in val), f"{val} not in {d['values']}"
     if d["type"] == "keys":
         assert isinstance(val, list), f"{val} must be an array of keys"
-        assert all(x in keys for x in val)
+        assert all(x in keys for x in val), f"{keys} not in {keys}"
     return val
 
 

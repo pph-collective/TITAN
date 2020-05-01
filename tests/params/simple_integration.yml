@@ -118,31 +118,6 @@ partnership:
         insertive: 0.0011
         receptive: 0.0138
         versatile: 0.00745
-  bonds:
-    PWID:
-      Sex:
-        prob: 0.3
-      SexInj:
-        prob: 0.3
-      Inj:
-        prob: 0.2
-      Social:
-        prob: 0.2
-    HM:
-      Sex:
-        prob: 1.0
-    MSM:
-      Sex:
-        prob: 1.0
-    HF:
-      Sex:
-        prob: 1.0
-    WSW:
-      Sex:
-        prob: 1.0
-    MTF:
-      Sex:
-        prob: 1.0
   interaction:
     Sex:
       1:

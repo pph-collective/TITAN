@@ -58,7 +58,10 @@ def safe_shuffle(seq: Collection[T], rand_gen):
 
 
 def safe_dist(var_1: float, var_2: float, dist):
-    value = dist(var_1, var_2)
+    try:
+        value = dist(var_1, var_2)
+    except TypeError:
+        value = dist(var_1, int(var_2))
     if hasattr(value, "__iter__"):  # check if value is any type of sequence
         return value[0]
     else:

@@ -170,18 +170,6 @@ partnership:
           prob: 1.0
           min: 30
           max: 30
-  bonds:
-    type: sub-dict
-    keys:
-      - populations
-      - bond_types
-    description: Probabilities by population for bond type
-    default:
-      prob:
-        default: 0.0
-        type: float
-        min: 0.0
-        max: 1.0
   ongoing_duration:
     default: 1
     description: Relationship duration past which the relationship is considered "ongoing".  Used for CDCWomen and CDCmsm prep eligibility.

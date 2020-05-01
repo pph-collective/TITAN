@@ -3,6 +3,11 @@ demographics:
     ppl: 1.0
     HM:
       ppl: 0.495
+      num_partners:
+        Sex:
+          type: poisson
+          var_1: 1.1
+          var_2: 1.0
       hiv:
         init: 0.0014
         dx:
@@ -35,6 +40,11 @@ demographics:
 
     HF:
       ppl: 0.505
+      num_partners:
+        Sex:
+          type: poisson
+          var_1: 1.1
+          var_2: 1.0
       hiv:
         init: 0.0
         dx:
@@ -66,6 +76,19 @@ demographics:
           max: 64
     PWID:
       ppl: 0.017
+      num_partners:
+        Sex:
+          type: poisson
+          var_1: 1.1
+          var_2: 1.0
+        Inj:
+          type: gamma
+          var_1: 1.704
+          var_2: 0.363
+        SexInj:
+          type: poisson
+          var_1: 0.0
+          var_2: 1.0
       hiv:
         init: 0.0
         prob: 0.2
@@ -94,3 +117,6 @@ demographics:
           prob: .332
           min: 50
           max: 64
+
+
+

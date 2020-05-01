@@ -199,8 +199,6 @@ demographics:
           values:
             - poisson
             - gamma
-            - beta
-            - uniform
         var_1:
           type: float
           description: "First variable for chosen distribution function"

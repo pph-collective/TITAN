@@ -1,3 +1,4 @@
+
 model:
   processes: 1
   seed:
@@ -55,14 +56,6 @@ calibration:
 classes:
   races:
     - BLACK
-  bond_types_probs:
-    social: 0.308
-    multiplex: 0.105
-    sexOnly: 0.587
-  bond_types_probs_PWID:
-    social: 0.308
-    multiplex: 0.105
-    sexOnly: 0.587
   bond_types:
     Social:
       acts_allowed:
@@ -131,7 +124,11 @@ demographics:
       incar:
         init: 0.0
         prob: 0.0
-      num_partners: 5.0
+      num_partners:
+        Social:
+          type: poisson
+          var_1: 5.0
+          var_2: 1.0
       safe_sex: 0.312
       injection:
         unsafe_prob: 0.27

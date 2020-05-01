@@ -98,9 +98,10 @@ def test_get_random_pwid_partner_w_PWID(make_population, make_agent, params):
     empty_pop.add_agent(idu_agent)
     empty_pop.add_agent(idu_partner)
 
-    empty_pop.params.partnership.bonds.PWID.Inj.prob = (
-        10  # make this weight really high so it will get chosen
-    )
+    for race in params.classes.races:
+        for bond in copy(params.classes.bond_types):
+            if bond != "Sex":
+                params.demographics[race]["PWID"]["num_partners"][bond]["var_1"] = 0.0
 
     partner = select_partner(
         idu_agent,
@@ -336,7 +337,11 @@ def test_get_assort_partner_drug_use(make_population, make_agent, params):
     params.features.assort_mix = True
 
     # make sure partnering on sex_type
-    params.partnership.bonds["PWID"]["Sex"]["prob"] = 10
+    # params.partnership.bonds["PWID"]["Sex"]["prob"] = 10
+    for race in params.classes.races:
+        for bond in copy(params.classes.bond_types):
+            if bond != "Sex":
+                params.demographics[race]["PWID"]["num_partners"][bond]["var_1"] = 0.0
 
     # assort with Inj
     test_rule = ObjMap(

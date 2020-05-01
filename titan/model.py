@@ -278,9 +278,10 @@ class HIVModel:
                 and self.features.prep
                 and (self.prep.target_model in ("high_risk", "incarcerated_high_risk"))
             ):
-                for part in agent.partners.values():
-                    if not (part.hiv or part.vaccine):
-                        self.initiate_prep(part, time)
+                for bond in agent.partners.values():
+                    for part in bond:
+                        if not (part.hiv or part.vaccine):
+                            self.initiate_prep(part, time)
         else:
             self.pop.high_risk_agents.remove_agent(agent)
             agent.high_risk = False
