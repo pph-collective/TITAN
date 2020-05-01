@@ -75,10 +75,6 @@ high_risk:
     HF:
       duration: 6
   condom_use_type: Race
-syringe_services:
-  prevalence: 1.0
-  init_at_pop: 0
-  coverage: 0.0
 vaccine:
   type: RV144
   start: 1

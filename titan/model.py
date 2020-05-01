@@ -892,12 +892,6 @@ class HIVModel:
             if len(ssp_agents) > ssp_num_slots:
                 agent.ssp = False
                 ssp_agents.remove(agent)
-            elif (
-                self.run_random.random()
-                < self.demographics[agent.race].PWID.syringe_services.discontinue
-            ):
-                agent.ssp = False
-                ssp_agents.remove(agent)
 
         if target_set:
             for agent in target_set:

@@ -53,8 +53,6 @@ demographics:
           mean: 0
     PWID:
       ppl: 0.2
-      syringe_services:
-        discontinue: 0.0
       hiv:
         init: 0.1
         dx:

@@ -218,8 +218,6 @@ demographics:
           prob: 0.1
     PWID:
       ppl: 0.2
-      syringe_services:
-        discontinue: 0.0
       num_partners:
         Sex:
           var_1: 10.0
@@ -273,8 +271,6 @@ demographics:
           prob: 0.1
   WHITE:
     ppl: 0.4
-    syringe_services:
-      discontinue: 0.0
     MSM:
       ppl: 0.3
       num_partners:
@@ -531,8 +527,6 @@ demographics:
       safe_sex: 0.1
       injection:
         unsafe_prob: 0.
-      syringe_services:
-        discontinue: 0.0
       prep:
         adherence: 0.1
         discontinue: 0.1

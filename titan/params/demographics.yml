@@ -88,13 +88,6 @@ demographics:
         type: float
         min: 0.0
         max: 1.0
-    syringe_services:
-      discontinue:
-        default: 0.0
-        description: "Probability that an agent enrolled in ssp drops out in a given time step"
-        type: float
-        min: 0.0
-        max: 1.0
     incar:
       init:
         default: 0.0
