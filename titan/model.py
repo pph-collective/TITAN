@@ -858,16 +858,26 @@ class HIVModel:
         ssp_agents = {agent for agent in self.pop.pwid_agents.members if agent.ssp}
         if self.features.syringe_services:
             for item in self.params.syringe_services.timeline.values():
-                if item.start <= time < item.stop:
+                if item.time_start <= time < item.time_stop:
                     self.ssp_enrolled_risk = item.risk
-                    if item.num_slots >= self.pop.pwid_agents.num_members():
-                        ssp_num_slots = item.num_slots
-                    elif item.num_slots == 0:
+                    assert item.time_start != item.time_stop
+                    if time == item.time_start:
+                        ssp_num_slots = item.num_slots_start
+                    elif time == item.time_stop:
+                        ssp_num_slots = item.num_slots_stop
+                    else:
+                        ssp_num_slots = (item.num_slots_stop - item.num_slots_start) / (
+                            item.time_stop - item.time_start
+                        ) * (time - item.time_start) + item.num_slots_start
+
+                    if ssp_num_slots >= self.pop.pwid_agents.num_members():
+                        ssp_num_slots = ssp_num_slots
+                    elif ssp_num_slots == 0:
                         ssp_num_slots = 0
                     else:
                         ssp_num_slots = round(
                             self.run_random.betavariate(
-                                item.num_slots,
+                                ssp_num_slots,
                                 self.pop.pwid_agents.num_members() - item.num_slots,
                             )
                             * self.pop.pwid_agents.num_members()

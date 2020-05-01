@@ -18,9 +18,10 @@ features:
 syringe_services:
   timeline:
     ssp_off:
-      start: 1
-      stop: 60
-      num_slots: 0
+      time_start: 1
+      time_stop: 60
+      num_slots_start: 0
+      num_slots_stop: 0
       risk: 0.02
 
 hiv:

@@ -586,9 +586,10 @@ prep:
 syringe_services:
   timeline:
     ssp_open:
-      start: 1
-      stop: 12
-      num_slots: 100
+      time_start: 1
+      time_stop: 12
+      num_slots_start: 100
+      num_slots_stop: 100
       risk: 0.02
 
 outputs:

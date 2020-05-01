@@ -2,15 +2,19 @@ syringe_services:
   timeline:
     type: definition
     fields:
-      start:
+      time_start:
         type: int
         description: "What time to start this prevalence of syringe services program"
         min: 1
-      stop:
+      time_stop:
         type: int
         description: "What time to stop this prevalence of syringe services program"
         min: 1
-      num_slots:
+      num_slots_start:
+        type: int
+        description: "Cap for number of available slots in SSP"
+        min: 0
+      num_slots_stop:
         type: int
         description: "Cap for number of available slots in SSP"
         min: 0
@@ -21,7 +25,8 @@ syringe_services:
         max: 1.0
     default:
       ssp_default:
-        start: 1
-        stop: 1
-        num_slots: 0
+        time_start: 1
+        time_stop: 2
+        num_slots_start: 0
+        num_slots_stop: 0
         risk: 0.02
