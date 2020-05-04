@@ -12,11 +12,11 @@ syringe_services:
         min: 1
       num_slots_start:
         type: int
-        description: "Cap for number of available slots in SSP"
+        description: "Cap for number of available slots in SSP at beginning of time period"
         min: 0
       num_slots_stop:
         type: int
-        description: "Cap for number of available slots in SSP"
+        description: "Cap for number of available slots in SSP at end of time period. If different from num_slots_start, creates a linear scale-up or scale-down."
         min: 0
       risk:
         type: float

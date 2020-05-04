@@ -193,6 +193,7 @@ class Population:
         if self.features.msmw and sex_type == "HM":
             if self.pop_random.random() < self.params.msmw.prob:
                 agent.msmw = True
+
         for bond in self.params.classes.bond_types.keys():
             agent.partners[bond] = set()
             agent.target_partners[bond] = 0
@@ -261,28 +262,27 @@ class Population:
             )
 
         # get agent's mean partner numbers for bond type
-        def partner_distribution():
+        def partner_distribution(dist_info):
             dist = getattr(self.np_random, dist_info.type)
             partner_num = utils.safe_dist(dist_info.var_1, dist_info.var_2, dist)
             if self.mean_rel_duration[bond] == 0:
                 return 0
             return np.ceil(
                 partner_num
-                * self.params.calibration.Sex.partner
+                * self.params.calibration.sex.partner
                 / self.mean_rel_duration[bond]
             )
 
         for bond, acts in self.params.classes.bond_types.items():
             if agent.drug_use == "Inj":
                 dist_info = self.params.demographics[agent.race].PWID.num_partners[bond]
-                agent.mean_num_partners[bond] = partner_distribution()
+                agent.mean_num_partners[bond] = partner_distribution(dist_info)
             else:
                 if "injection" not in acts.acts_allowed:
                     dist_info = self.params.demographics[agent.race][
                         agent.so
                     ].num_partners[bond]
-                    agent.mean_num_partners[bond] = partner_distribution()
-                    assert not np.isnan(agent.mean_num_partners[bond])
+                    agent.mean_num_partners[bond] = partner_distribution(dist_info)
                 else:
                     agent.mean_num_partners[bond] = 0
 
@@ -371,6 +371,10 @@ class Population:
         if self.enable_graph:
             self.graph.remove_node(agent)
 
+        for bond in self.partnerable_agents.keys():
+            if agent in self.partnerable_agents[bond]:
+                self.partnerable_agents[bond].remove(agent)
+
     def remove_relationship(self, rel: Relationship):
         """
         :Purpose:
@@ -441,8 +445,6 @@ class Population:
 
         if partner:
             duration = get_partnership_duration(self.params, self.np_random, bond_type)
-            if bond_type == "Sex":
-                assert partner in self.sex_partners[agent.so]
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
             self.add_relationship(relationship)
             # can partner still partner?
@@ -482,7 +484,6 @@ class Population:
 
             while eligible_agents:
                 agent = eligible_agents.popleft()
-                assert agent in attempts.keys()
 
                 # no match
                 if self.update_agent_partners(agent, bond):

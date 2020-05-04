@@ -148,14 +148,14 @@ class HIVModel:
 
             print(" === Simulation Burn Complete ===")
 
-        def make_agent_zero(num_partners: int):
+        def make_agent_zero():
             agent_zero = utils.safe_random_choice(
                 self.pop.pwid_agents.members, self.run_random
             )
             if agent_zero:
-                for i in range(self.high_risk.agent_zero.num_agents):
+                for i in range(self.params.agent_zero.num_agents):
                     self.pop.update_agent_partners(
-                        agent_zero, self.high_risk.agent_zero.type
+                        agent_zero, self.params.agent_zero.type
                     )
                 self.hiv_convert(agent_zero)
             else:
@@ -190,7 +190,7 @@ class HIVModel:
 
         # If we are using an agent zero method, create agent zero.
         if self.features.agent_zero:
-            make_agent_zero(4)
+            make_agent_zero()
 
         for t in range(1, self.params.model.time.num_steps + 1):
             print(f"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME {t}")
@@ -707,7 +707,7 @@ class HIVModel:
         # unprotected sex probabilities for primary partnerships
         mean_sex_acts = (
             agent.get_number_of_sex_acts(self.run_random, self.params)
-            * self.calibration.Sex.act
+            * self.calibration.sex.act
         )
         total_sex_acts = utils.poisson(mean_sex_acts, self.np_random)
 
@@ -860,7 +860,6 @@ class HIVModel:
             for item in self.params.syringe_services.timeline.values():
                 if item.time_start <= time < item.time_stop:
                     self.ssp_enrolled_risk = item.risk
-                    assert item.time_start != item.time_stop
                     if time == item.time_start:
                         ssp_num_slots = item.num_slots_start
                     elif time == item.time_stop:
@@ -870,18 +869,17 @@ class HIVModel:
                             item.time_stop - item.time_start
                         ) * (time - item.time_start) + item.num_slots_start
 
-                    if ssp_num_slots >= self.pop.pwid_agents.num_members():
-                        ssp_num_slots = ssp_num_slots
-                    elif ssp_num_slots == 0:
-                        ssp_num_slots = 0
-                    else:
-                        ssp_num_slots = round(
-                            self.run_random.betavariate(
-                                ssp_num_slots,
-                                self.pop.pwid_agents.num_members() - item.num_slots,
+                    if ssp_num_slots < self.pop.pwid_agents.num_members():
+                        if ssp_num_slots == 0:
+                            ssp_num_slots = 0
+                        else:
+                            ssp_num_slots = round(
+                                self.run_random.betavariate(
+                                    ssp_num_slots,
+                                    self.pop.pwid_agents.num_members() - item.num_slots,
+                                )
+                                * self.pop.pwid_agents.num_members()
                             )
-                            * self.pop.pwid_agents.num_members()
-                        )
                     break
 
         target_set = utils.safe_shuffle(

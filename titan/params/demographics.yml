@@ -187,18 +187,18 @@ demographics:
       default:
         type:
           default: poisson
-          description: "How to determine mean number of partners for an agent"
+          description: "How to determine mean number of partners for an agent."
           type: enum
           values:
             - poisson
             - gamma
         var_1:
           type: float
-          description: "First variable for chosen distribution function"
+          description: "First variable for chosen distribution function."
           default: 0.0
         var_2:
           type: float
-          description: "Second variable for chosen distribution function"
+          description: "Second variable for chosen distribution function."
           default: 0.0
         mean:
           type: float

@@ -183,6 +183,7 @@ partnership:
     default:
       type:
         type: enum
+        description: "Whether to use a distribution or bins for partnership durations"
         values:
           - bins
           - distribution
@@ -190,6 +191,7 @@ partnership:
       distribution:
         dist_type:
           type: enum
+          description: "Type of distribution to use for partnership durations if type is distribution"
           values:
             - gamma
             - beta
@@ -198,14 +200,17 @@ partnership:
           default: gamma
         var_1:
           type: float
+          description: "First variable of np function for chosen distribution."
           min: 0.0
           default: 0.0
         var_2:
           type: float
+          description: "Second variable of np function for chosen distribution."
           min: 0.0
           default: 0.0
         mean:
           type: float
+          description: "Mean of distribution, used to calculate partners per timestep from partners per year"
           min: 0.0
           default: 0.0
       bins:
@@ -243,30 +248,3 @@ partnership:
             prob: 1.0
             min: 37
             max: 48
-  mean_num_partners:
-    type: sub-dict
-    keys:
-      - races
-      - populations
-      - bond_types
-    default:
-      type:
-        default: poisson
-        description: "How to determine mean number of partners for an agent"
-        type: enum
-        values:
-          - poisson
-          - gamma
-          - beta
-      var_1:
-        type: float
-        description: "First variable for distribution function"
-        default: 0.0
-      var_2:
-        type: float
-        description: "First variable for distribution function"
-        default: 0.0
-      mean:
-        type: float
-        description: "Expected mean of the distribution"
-        default: 0.0

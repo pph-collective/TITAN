@@ -293,7 +293,7 @@ class Relationship:
         self.total_sex_acts = 0
         self.bond_type = bond_type
 
-        self.bond(self.bond_type)
+        self.bond()
 
     def __eq__(self, other):
         return self.id == other.id
@@ -309,7 +309,7 @@ class Relationship:
             self.duration -= 1
             return False
 
-    def bond(self, bond_type):
+    def bond(self):
         """
         Bond two agents. Adds each to a relationship object, then partners in each
         others' partner list.
@@ -326,8 +326,8 @@ class Relationship:
         self.agent2.relationships.add(self)
 
         # Pair agent with partner and partner with agent
-        self.agent1.partners[bond_type].add(self.agent2)
-        self.agent2.partners[bond_type].add(self.agent1)
+        self.agent1.partners[self.bond_type].add(self.agent2)
+        self.agent2.partners[self.bond_type].add(self.agent1)
 
     def unbond(self):
         """
@@ -346,12 +346,8 @@ class Relationship:
         self.agent2.relationships.remove(self)
 
         # Unpair agent with partner and partner with agent
-        for bond_type in self.agent1.partners:
-            try:
-                self.agent1.partners[bond_type].remove(self.agent2)
-                self.agent2.partners[bond_type].remove(self.agent1)
-            except KeyError:
-                pass
+        self.agent1.partners[self.bond_type].remove(self.agent2)
+        self.agent2.partners[self.bond_type].remove(self.agent1)
 
     def get_partner(self, agent: "Agent") -> "Agent":
         if agent == self.agent1:

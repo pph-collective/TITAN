@@ -58,7 +58,7 @@ def select_partner(
 
         return eligible_partners
 
-    eligible = set(copy(partnerable_agents))
+    eligible = copy(partnerable_agents)
     for bond in params.classes.bond_types:
         eligible -= agent.partners[bond]
     eligible -= {agent}
@@ -68,7 +68,7 @@ def select_partner(
     if "injection" in acts_allowed:
         eligible &= pwid_agents.members
 
-    if "sex" in acts_allowed or bond_type == "Sex":
+    if "sex" in acts_allowed:
         eligible &= sex_partners[agent.so]
 
     # short circuit to avoid attempting to assort with no eligible partners
@@ -139,8 +139,8 @@ def get_partnership_duration(params: ObjMap, rand_gen, bond_type) -> int:
         duration = rand_gen.randint(dur_bin.min, dur_bin.max)
 
     else:
-        dist = params.partnership.duration[bond_type]
-        dist_type = getattr(rand_gen, dist.distribution.dist_type)
-        duration = dist_type(dist.distribution.var_1, dist.distribution.var_2)
+        dist = params.partnership.duration[bond_type].distribution
+        dist_type = getattr(rand_gen, dist.dist_type)
+        duration = dist_type(dist.var_1, dist.var_2)
 
     return duration

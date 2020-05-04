@@ -196,7 +196,7 @@ def test_sex_transmission(make_model, make_agent):
     model.params.calibration.acquisition = 10
 
     model.params.calibration.acquisition = 5
-    model.params.calibration.Sex.act = 10
+    model.params.calibration.sex.act = 10
     model.run_random = FakeRandom(0.6)
 
     # test partner becomes
