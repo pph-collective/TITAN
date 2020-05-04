@@ -274,17 +274,10 @@ class Population:
             )
 
         for bond, acts in self.params.classes.bond_types.items():
-            if agent.drug_use == "Inj":
-                dist_info = self.params.demographics[agent.race].PWID.num_partners[bond]
-                agent.mean_num_partners[bond] = partner_distribution(dist_info)
-            else:
-                if "injection" not in acts.acts_allowed:
-                    dist_info = self.params.demographics[agent.race][
-                        agent.so
-                    ].num_partners[bond]
-                    agent.mean_num_partners[bond] = partner_distribution(dist_info)
-                else:
-                    agent.mean_num_partners[bond] = 0
+            dist_info = self.params.demographics[agent.race][
+                agent.so
+            ].num_partners[bond]
+            agent.mean_num_partners[bond] = partner_distribution(dist_info)
 
         agent.target_partners = agent.mean_num_partners  # so not zero if added mid-year
 
@@ -328,9 +321,8 @@ class Population:
             self.sex_partners[sex_type].add(agent)
 
         for bond_type, acts in self.params.classes.bond_types.items():
-            if agent.drug_use == "Inj" or "injection" not in acts.acts_allowed:
-                if agent.target_partners[bond_type] > 0:
-                    self.partnerable_agents[bond_type].add(agent)
+            if agent.target_partners[bond_type] > 0:
+                self.partnerable_agents[bond_type].add(agent)
 
         if agent.prep:
             self.prep_counts[agent.race] += 1
@@ -518,17 +510,16 @@ class Population:
     def update_partnerability(self, a):
         # update partnerability
         for bond, acts in self.params.classes.bond_types.items():
-            if a.drug_use == "Inj" or "injection" not in acts.acts_allowed:
-                if a in self.partnerable_agents[bond]:
-                    if len(a.partners[bond]) > (
-                        a.target_partners[bond]
-                        * self.params.calibration.partnership.buffer
-                    ):
-                        self.partnerable_agents[bond].remove(a)
-                elif len(a.partners) < (
-                    a.target_partners[bond] * self.params.calibration.partnership.buffer
+            if a in self.partnerable_agents[bond]:
+                if len(a.partners[bond]) > (
+                    a.target_partners[bond]
+                    * self.params.calibration.partnership.buffer
                 ):
-                    self.partnerable_agents[bond].add(a)
+                    self.partnerable_agents[bond].remove(a)
+            elif len(a.partners) < (
+                a.target_partners[bond] * self.params.calibration.partnership.buffer
+            ):
+                self.partnerable_agents[bond].add(a)
 
     def initialize_graph(self):
         """

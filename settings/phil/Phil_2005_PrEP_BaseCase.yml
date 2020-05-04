@@ -117,6 +117,14 @@ demographics:
           type: poisson
           var_1: 1.5
           var_2: 1.0
+        Inj:
+          type: randint
+          var_1: 0
+          var_2: 1
+        SexInj:
+          type: randint
+          var_1: 0
+          var_2: 1
       EligSE_PartnerType: HF
       AssortMixMatrix: []
       ppl: 0.415
@@ -168,6 +176,14 @@ demographics:
           type: poisson
           var_1: 1.5
           var_2: 1.0
+        Inj:
+          type: randint
+          var_1: 0
+          var_2: 1
+        SexInj:
+          type: randint
+          var_1: 0
+          var_2: 1
       injection:
         num_acts: 5.0
         unsafe_prob: 0.43

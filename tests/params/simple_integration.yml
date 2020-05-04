@@ -51,6 +51,16 @@ demographics:
           var_1: 0
           var_2: 1
           mean: 0
+        Inj:
+          type: randint
+          var_1: 0
+          var_2: 1
+          mean: 0
+        SexInj:
+          type: randint
+          var_1: 0
+          var_2: 1
+          mean: 0
     PWID:
       ppl: 0.2
       hiv:

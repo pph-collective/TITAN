@@ -8,6 +8,14 @@ demographics:
           type: poisson
           var_1: 1.1
           var_2: 1.0
+        Inj:
+          type: randint
+          var_1: 0
+          var_2: 1
+        SexInj:
+          type: randint
+          var_1: 0
+          var_2: 1
       hiv:
         init: 0.0014
         dx:
@@ -45,6 +53,14 @@ demographics:
           type: poisson
           var_1: 1.1
           var_2: 1.0
+        Inj:
+          type: randint
+          var_1: 0
+          var_2: 1
+        SexInj:
+          type: randint
+          var_1: 0
+          var_2: 1
       hiv:
         init: 0.0
         dx:

@@ -14,6 +14,16 @@ demographics:
           var_2: 1
           mean: 0.0
           type: poisson
+        Inj:
+          var_1: 0.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        SexInj:
+          var_1: 0.0
+          var_2: 1
+          mean: 0.0
+          type: poisson
       hiv:
         init: 0.1
         dx:
@@ -56,6 +66,16 @@ demographics:
           var_1: 0.0
           var_2: 1
           mean: 10.0
+          type: poisson
+        Inj:
+          var_1: 0.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        SexInj:
+          var_1: 0.0
+          var_2: 1
+          mean: 0.0
           type: poisson
       hiv:
         init: 0.1
@@ -100,6 +120,16 @@ demographics:
           var_2: 1
           mean: 10.0
           type: poisson
+        Inj:
+          var_1: 0.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        SexInj:
+          var_1: 0.0
+          var_2: 1
+          mean: 0.0
+          type: poisson
       hiv:
         init: 0.1
         dx:
@@ -143,6 +173,16 @@ demographics:
           var_2: 1
           mean: 10.0
           type: poisson
+        Inj:
+          var_1: 0.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        SexInj:
+          var_1: 0.0
+          var_2: 1
+          mean: 0.0
+          type: poisson
       hiv:
         init: 0.1
         dx:
@@ -185,6 +225,16 @@ demographics:
           var_1: 0.0
           var_2: 1
           mean: 10.0
+          type: poisson
+        Inj:
+          var_1: 0.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        SexInj:
+          var_1: 0.0
+          var_2: 1
+          mean: 0.0
           type: poisson
       hiv:
         init: 0.1
@@ -284,6 +334,16 @@ demographics:
           var_2: 1
           mean: 10.0
           type: poisson
+        Inj:
+          var_1: 0.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        SexInj:
+          var_1: 0.0
+          var_2: 1
+          mean: 0.0
+          type: poisson
       hiv:
         init: 0.1
         dx:
@@ -326,6 +386,16 @@ demographics:
           var_1: 0.0
           var_2: 1
           mean: 10.0
+          type: poisson
+        Inj:
+          var_1: 0.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        SexInj:
+          var_1: 0.0
+          var_2: 1
+          mean: 0.0
           type: poisson
       hiv:
         init: 0.1
@@ -370,6 +440,16 @@ demographics:
           var_2: 1
           mean: 10.0
           type: poisson
+        Inj:
+          var_1: 0.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        SexInj:
+          var_1: 0.0
+          var_2: 1
+          mean: 0.0
+          type: poisson
       hiv:
         init: 0.1
         dx:
@@ -413,6 +493,16 @@ demographics:
           var_2: 1
           mean: 10.0
           type: poisson
+        Inj:
+          var_1: 0.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        SexInj:
+          var_1: 0.0
+          var_2: 1
+          mean: 0.0
+          type: poisson
       hiv:
         init: 0.1
         dx:
@@ -455,6 +545,16 @@ demographics:
           var_1: 0.0
           var_2: 1
           mean: 10.0
+          type: poisson
+        Inj:
+          var_1: 0.0
+          var_2: 1
+          mean: 10.0
+          type: poisson
+        SexInj:
+          var_1: 0.0
+          var_2: 1
+          mean: 0.0
           type: poisson
       hiv:
         init: 0.1

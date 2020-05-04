@@ -12,6 +12,14 @@ demographics:
           type: poisson
           var_1: 0.0
           var_2: 1.0
+        SexInj:
+          type: randint
+          var_1: 0
+          var_2: 1
+        Inj:
+          type: randint
+          var_1: 0
+          var_2: 1
       hiv:
         init: 0.1
         dx:
@@ -53,6 +61,14 @@ demographics:
           type: poisson
           var_1: 0.0
           var_2: 1.0
+        SexInj:
+          type: randint
+          var_1: 0
+          var_2: 1
+        Inj:
+          type: randint
+          var_1: 0
+          var_2: 1
       hiv:
         init: 0.1
         dx:
@@ -94,6 +110,14 @@ demographics:
           type: poisson
           var_1: 0.0
           var_2: 1.0
+        SexInj:
+          type: randint
+          var_1: 0
+          var_2: 1
+        Inj:
+          type: randint
+          var_1: 0
+          var_2: 1
       hiv:
         init: 0.1
         dx:
@@ -135,6 +159,14 @@ demographics:
           type: poisson
           var_1: 0.0
           var_2: 1.0
+        SexInj:
+          type: randint
+          var_1: 0
+          var_2: 1
+        Inj:
+          type: randint
+          var_1: 0
+          var_2: 1
       hiv:
         init: 0.1
         dx:
@@ -176,6 +208,16 @@ demographics:
           type: poisson
           var_1: 0.0
           var_2: 1.0
+        SexInj:
+          type: randint
+          prob: 1.0
+          var_1: 0
+          var_2: 1
+        Inj:
+          type: randint
+          prob: 1.0
+          var_1: 0
+          var_2: 1
       hiv:
         init: 0.1
         dx:
@@ -268,6 +310,14 @@ demographics:
           type: poisson
           var_1: 0.0
           var_2: 1.0
+        SexInj:
+          type: randint
+          var_1: 0
+          var_2: 1
+        Inj:
+          type: randint
+          var_1: 0
+          var_2: 1
       hiv:
         init: 0.1
         dx:
@@ -309,6 +359,16 @@ demographics:
           type: poisson
           var_1: 0.0
           var_2: 1.0
+        SexInj:
+          type: randint
+          prob: 1.0
+          var_1: 0
+          var_2: 1
+        Inj:
+          type: randint
+          prob: 1.0
+          var_1: 0
+          var_2: 1
       hiv:
         init: 0.1
         dx:
@@ -350,6 +410,16 @@ demographics:
           type: poisson
           var_1: 0.0
           var_2: 1.0
+        SexInj:
+          type: randint
+          prob: 1.0
+          var_1: 0
+          var_2: 1
+        Inj:
+          type: randint
+          prob: 1.0
+          var_1: 0
+          var_2: 1
       hiv:
         init: 0.1
         dx:
@@ -391,6 +461,16 @@ demographics:
           type: poisson
           var_1: 0.0
           var_2: 1.0
+        SexInj:
+          type: randint
+          prob: 1.0
+          var_1: 0
+          var_2: 1
+        Inj:
+          type: randint
+          prob: 1.0
+          var_1: 0
+          var_2: 1
       hiv:
         init: 0.1
         dx:
@@ -432,6 +512,16 @@ demographics:
           type: poisson
           var_1: 0.0
           var_2: 1.0
+        SexInj:
+          type: randint
+          prob: 1.0
+          var_1: 0
+          var_2: 1
+        Inj:
+          type: randint
+          prob: 1.0
+          var_1: 0
+          var_2: 1
       hiv:
         init: 0.1
         dx:
