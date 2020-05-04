@@ -185,10 +185,8 @@ partnership:
         type: enum
         values:
           - bins
-          - gamma
-          - beta
-          - poisson
-        default: gamma
+          - distribution
+        default: distribution
       distribution:
         dist_type:
           type: enum
@@ -196,6 +194,7 @@ partnership:
             - gamma
             - beta
             - poisson
+            - randint
           default: gamma
         var_1:
           type: float

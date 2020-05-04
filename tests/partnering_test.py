@@ -58,6 +58,13 @@ class FakeRandom:
             return [seq[selection]]
 
 
+def test_partnership_duration(params):
+    # test duration with randint
+    assert get_partnership_duration(params, FakeRandom(1.0), "Inj") == 1
+    # test duration with bins
+    assert get_partnership_duration(params, FakeRandom(0.1), "Sex") == 1
+
+
 def test_get_random_pwid_partner_no_PWID(make_population, make_agent, params):
     empty_pop = make_population()
     idu_agent = make_agent(DU="Inj")

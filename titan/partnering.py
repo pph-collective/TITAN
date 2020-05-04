@@ -140,7 +140,7 @@ def get_partnership_duration(params: ObjMap, rand_gen, bond_type) -> int:
 
     else:
         dist = params.partnership.duration[bond_type]
-        dist_type = getattr(rand_gen, dist.type)
+        dist_type = getattr(rand_gen, dist.distribution.dist_type)
         duration = dist_type(dist.distribution.var_1, dist.distribution.var_2)
 
     return duration
