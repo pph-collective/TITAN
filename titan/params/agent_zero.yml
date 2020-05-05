@@ -3,11 +3,7 @@ agent_zero:
     description: "Bond type to use initializing agent zeros"
     type: enum
     default: Inj
-    values:
-      - Inj
-      - SexInj
-      - Social
-      - Sex
+    class: bond_types
   num_agents:
     type: int
     description: "Number of partners to add to agent zero."
