@@ -274,9 +274,9 @@ class Population:
             )
 
         for bond, acts in self.params.classes.bond_types.items():
-            dist_info = self.params.demographics[agent.race][
-                agent.so
-            ].num_partners[bond]
+            dist_info = self.params.demographics[agent.race][agent.so].num_partners[
+                bond
+            ]
             agent.mean_num_partners[bond] = partner_distribution(dist_info)
 
         agent.target_partners = agent.mean_num_partners  # so not zero if added mid-year
@@ -512,8 +512,7 @@ class Population:
         for bond, acts in self.params.classes.bond_types.items():
             if a in self.partnerable_agents[bond]:
                 if len(a.partners[bond]) > (
-                    a.target_partners[bond]
-                    * self.params.calibration.partnership.buffer
+                    a.target_partners[bond] * self.params.calibration.partnership.buffer
                 ):
                     self.partnerable_agents[bond].remove(a)
             elif len(a.partners) < (

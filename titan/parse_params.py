@@ -68,13 +68,13 @@ def check_item(val, d, keys=None, pops=None):
     return val
 
 
-def get_item(key, d, param, pops = None):
+def get_item(key, d, param, pops=None):
     """
     Get and check item from the params, falling back on the definitions default.
     """
     if key in param:
         val = param[key]
-        return check_item(val, d, pops = pops)
+        return check_item(val, d, pops=pops)
     else:
         return d["default"]
 
@@ -113,7 +113,7 @@ def get_bins(key, d, param, pops):
 
         for field, defn in d["fields"].items():
             assert field in val, f"{field} must be in {val}"
-            val[field] = check_item(val[field], defn, pops = pops)
+            val[field] = check_item(val[field], defn, pops=pops)
 
         parsed_bins[int(bin)] = val
 
