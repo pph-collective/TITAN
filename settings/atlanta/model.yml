@@ -11,9 +11,6 @@ model:
     burn_steps: 24
   network:
     type: scale_free
-  population:
-    num_partners:
-      type: poisson
 
 features:
   incar: false

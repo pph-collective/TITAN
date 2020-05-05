@@ -79,7 +79,7 @@ cal_Vaccine = 0  # determines vaccine initiation during run
 Bond Params
 """
 params.classes.bond_types = []
-params.model.population.num_partners.type = "mean"
+params.model.population.num_partners.distribution = "mean"
 
 """
 Peer Change Params

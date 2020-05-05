@@ -185,7 +185,7 @@ demographics:
       keys:
         - bond_types
       default:
-        type:
+        distribution:
           default: poisson
           description: "How to determine mean number of partners for an agent."
           type: enum

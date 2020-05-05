@@ -5,21 +5,21 @@ demographics:
       ppl: 0.3
       num_partners:
         Sex:
-          type: poisson
+          distribution: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          type: poisson
+          distribution: poisson
           var_1: 0.0
           var_2: 1.0
         SexInj:
-          type: randint
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
         Inj:
-          type: randint
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
       hiv:
         init: 0.1
         dx:
@@ -54,21 +54,21 @@ demographics:
       ppl: 0.3
       num_partners:
         Sex:
-          type: poisson
+          distribution: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          type: poisson
+          distribution: uniform
           var_1: 0.0
-          var_2: 1.0
+          var_2: 0.0
         SexInj:
-          type: randint
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
         Inj:
-          type: randint
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
       hiv:
         init: 0.1
         dx:
@@ -103,21 +103,21 @@ demographics:
       ppl: 0.2
       num_partners:
         Sex:
-          type: poisson
+          distribution: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          type: poisson
+          distribution: uniform
           var_1: 0.0
-          var_2: 1.0
+          var_2: 0.0
         SexInj:
-          type: randint
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
         Inj:
-          type: randint
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
       hiv:
         init: 0.1
         dx:
@@ -152,21 +152,21 @@ demographics:
       ppl: 0.1
       num_partners:
         Sex:
-          type: poisson
+          distribution: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          type: poisson
+          distribution: uniform
           var_1: 0.0
-          var_2: 1.0
+          var_2: 0.0
         SexInj:
-          type: randint
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
         Inj:
-          type: randint
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
       hiv:
         init: 0.1
         dx:
@@ -201,23 +201,21 @@ demographics:
       ppl: 0.1
       num_partners:
         Sex:
-          type: poisson
+          distribution: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          type: poisson
+          distribution: uniform
           var_1: 0.0
-          var_2: 1.0
+          var_2: 0
         SexInj:
-          type: randint
-          prob: 1.0
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
         Inj:
-          type: randint
-          prob: 1.0
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
       hiv:
         init: 0.1
         dx:
@@ -252,19 +250,19 @@ demographics:
       ppl: 0.2
       num_partners:
         Sex:
-          type: poisson
+          distribution: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          type: poisson
+          distribution: uniform
           var_1: 0.0
-          var_2: 1.0
+          var_2: 0.0
         SexInj:
-          type: poisson
+          distribution: poisson
           var_1: 3.0
           var_2: 1.0
         Inj:
-          type: poisson
+          distribution: poisson
           var_1: 3.0
           var_2: 1.0
       hiv:
@@ -303,21 +301,21 @@ demographics:
       ppl: 0.3
       num_partners:
         Sex:
-          type: poisson
+          distribution: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          type: poisson
+          distribution: poisson
           var_1: 0.0
           var_2: 1.0
         SexInj:
-          type: randint
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
         Inj:
-          type: randint
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
       hiv:
         init: 0.1
         dx:
@@ -352,23 +350,21 @@ demographics:
       ppl: 0.3
       num_partners:
         Sex:
-          type: poisson
+          distribution: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          type: poisson
+          distribution: poisson
           var_1: 0.0
           var_2: 1.0
         SexInj:
-          type: randint
-          prob: 1.0
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
         Inj:
-          type: randint
-          prob: 1.0
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
       hiv:
         init: 0.1
         dx:
@@ -403,23 +399,21 @@ demographics:
       ppl: 0.2
       num_partners:
         Sex:
-          type: poisson
+          distribution: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          type: poisson
+          distribution: uniform
           var_1: 0.0
-          var_2: 1.0
+          var_2: 0.0
         SexInj:
-          type: randint
-          prob: 1.0
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
         Inj:
-          type: randint
-          prob: 1.0
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
       hiv:
         init: 0.1
         dx:
@@ -454,23 +448,21 @@ demographics:
       ppl: 0.1
       num_partners:
         Sex:
-          type: poisson
+          distribution: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          type: poisson
+          distribution: uniform
           var_1: 0.0
-          var_2: 1.0
+          var_2: 0.0
         SexInj:
-          type: randint
-          prob: 1.0
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
         Inj:
-          type: randint
-          prob: 1.0
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
       hiv:
         init: 0.1
         dx:
@@ -505,23 +497,21 @@ demographics:
       ppl: 0.1
       num_partners:
         Sex:
-          type: poisson
+          distribution: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          type: poisson
+          distribution: uniform
           var_1: 0.0
-          var_2: 1.0
+          var_2: 0.0
         SexInj:
-          type: randint
-          prob: 1.0
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
         Inj:
-          type: randint
-          prob: 1.0
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
       hiv:
         init: 0.1
         dx:
@@ -556,19 +546,19 @@ demographics:
       ppl: 0.3
       num_partners:
         Sex:
-          type: poisson
+          distribution: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          type: poisson
+          distribution: poisson
           var_1: 0.0
           var_2: 1.0
         SexInj:
-          type: poisson
+          distribution: poisson
           var_1: 3.0
           var_2: 1.0
         Inj:
-          type: poisson
+          distribution: poisson
           var_1: 3.0
           var_2: 1.0
       hiv:
@@ -653,6 +643,3 @@ model:
     num_steps: 100
   network:
     enable: true
-  population:
-    num_partners:
-      type: bins

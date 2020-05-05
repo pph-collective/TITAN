@@ -8,22 +8,22 @@ demographics:
           var_1: 10.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         Social:
           var_1: 0.0
           var_2: 1
           mean: 0.0
-          type: poisson
+          distribution: poisson
         Inj:
           var_1: 0.0
-          var_2: 1
-          mean: 10.0
-          type: poisson
+          var_2: 0
+          mean: 0
+          distribution: uniform
         SexInj:
           var_1: 0.0
-          var_2: 1
+          var_2: 0
           mean: 0.0
-          type: poisson
+          distribution: uniform
       hiv:
         init: 0.1
         dx:
@@ -61,22 +61,22 @@ demographics:
           var_1: 10.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         Social:
           var_1: 0.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         Inj:
           var_1: 0.0
-          var_2: 1
-          mean: 10.0
-          type: poisson
+          var_2: 0
+          mean: 0.0
+          distribution: uniform
         SexInj:
           var_1: 0.0
-          var_2: 1
+          var_2: 0
           mean: 0.0
-          type: poisson
+          distribution: uniform
       hiv:
         init: 0.1
         dx:
@@ -114,22 +114,22 @@ demographics:
           var_1: 10.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         Social:
           var_1: 0.0
           var_2: 1
-          mean: 10.0
-          type: poisson
+          mean: 0.0
+          distribution: poisson
         Inj:
           var_1: 0.0
           var_2: 1
-          mean: 10.0
-          type: poisson
+          mean: 0.0
+          distribution: uniform
         SexInj:
           var_1: 0.0
-          var_2: 1
+          var_2: 0
           mean: 0.0
-          type: poisson
+          distribution: uniform
       hiv:
         init: 0.1
         dx:
@@ -167,22 +167,22 @@ demographics:
           var_1: 10.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         Social:
           var_1: 0.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         Inj:
           var_1: 0.0
-          var_2: 1
-          mean: 10.0
-          type: poisson
+          var_2: 0
+          mean: 0.0
+          distribution: uniform
         SexInj:
           var_1: 0.0
-          var_2: 1
+          var_2: 0
           mean: 0.0
-          type: poisson
+          distribution: uniform
       hiv:
         init: 0.1
         dx:
@@ -220,22 +220,22 @@ demographics:
           var_1: 10.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         Social:
           var_1: 0.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         Inj:
           var_1: 0.0
-          var_2: 1
-          mean: 10.0
-          type: poisson
+          var_2: 0
+          mean: 0
+          distribution: uniform
         SexInj:
           var_1: 0.0
-          var_2: 1
+          var_2: 0
           mean: 0.0
-          type: poisson
+          distribution: uniform
       hiv:
         init: 0.1
         dx:
@@ -273,22 +273,22 @@ demographics:
           var_1: 10.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         Social:
           var_1: 0.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         Inj:
           var_1: 10.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         SexInj:
           var_1: 10.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
       hiv:
         init: 0.1
         dx:
@@ -328,22 +328,22 @@ demographics:
           var_1: 10.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         Social:
           var_1: 0.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         Inj:
           var_1: 0.0
-          var_2: 1
-          mean: 10.0
-          type: poisson
+          var_2: 0
+          mean: 0
+          distribution: uniform
         SexInj:
           var_1: 0.0
-          var_2: 1
+          var_2: 0
           mean: 0.0
-          type: poisson
+          distribution: uniform
       hiv:
         init: 0.1
         dx:
@@ -381,22 +381,22 @@ demographics:
           var_1: 10.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         Social:
           var_1: 0.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         Inj:
           var_1: 0.0
-          var_2: 1
-          mean: 10.0
-          type: poisson
+          var_2: 0
+          mean: 0.0
+          distribution: uniform
         SexInj:
           var_1: 0.0
-          var_2: 1
+          var_2: 0
           mean: 0.0
-          type: poisson
+          distribution: uniform
       hiv:
         init: 0.1
         dx:
@@ -434,22 +434,22 @@ demographics:
           var_1: 10.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         Social:
           var_1: 0.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         Inj:
           var_1: 0.0
-          var_2: 1
-          mean: 10.0
-          type: poisson
+          var_2: 0
+          mean: 0.0
+          distribution: uniform
         SexInj:
           var_1: 0.0
-          var_2: 1
+          var_2: 0
           mean: 0.0
-          type: poisson
+          distribution: uniform
       hiv:
         init: 0.1
         dx:
@@ -487,22 +487,22 @@ demographics:
           var_1: 10.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         Social:
           var_1: 0.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         Inj:
           var_1: 0.0
-          var_2: 1
-          mean: 10.0
-          type: poisson
+          var_2: 0
+          mean: 0.0
+          distribution: uniform
         SexInj:
           var_1: 0.0
-          var_2: 1
+          var_2: 0
           mean: 0.0
-          type: poisson
+          distribution: uniform
       hiv:
         init: 0.1
         dx:
@@ -540,22 +540,22 @@ demographics:
           var_1: 10.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         Social:
           var_1: 0.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         Inj:
           var_1: 0.0
-          var_2: 1
-          mean: 10.0
-          type: poisson
+          var_2: 0
+          mean: 0.0
+          distribution: uniform
         SexInj:
           var_1: 0.0
-          var_2: 1
+          var_2: 0
           mean: 0.0
-          type: poisson
+          distribution: uniform
       hiv:
         init: 0.1
         dx:
@@ -593,22 +593,22 @@ demographics:
           var_1: 10.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         Inj:
           var_1: 10.0
           var_2: 1
           mean: 10.0
-          type: poisson
+          distribution: poisson
         SexInj:
-          var_1: 0.0
+          var_1: 3.0
           var_2: 1
-          mean: 0.0
-          type: poisson
+          mean: 3.0
+          distribution: poisson
         Social:
           var_1: 0.0
-          var_2: 1
+          var_2: 0
           mean: 0.0
-          type: poisson
+          distribution: uniform
       hiv:
         init: 0.1
         dx:
@@ -715,7 +715,4 @@ model:
   num_pop: 100
   network:
     enable: true
-  population:
-    num_partners:
-      type: bins
   num_reps: 1

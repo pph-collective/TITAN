@@ -298,7 +298,7 @@ def test_incarcerate_diagnosed(make_model, make_agent):
     a = make_agent(SO="HM", race="WHITE")  # incarceration only for HM and HF?
     a.hiv = True
     a.hiv_dx = True
-    a.partners["Sex"] = {}
+    a.partners["Sex"] = set()
 
     model.run_random = FakeRandom(-0.1)  # always less than params
 

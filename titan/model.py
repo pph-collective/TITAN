@@ -278,27 +278,30 @@ class HIVModel:
                 and self.features.prep
                 and (self.prep.target_model in ("high_risk", "incarcerated_high_risk"))
             ):
-                for bond in agent.partners.values():
-                    for part in bond:
-                        if not (part.hiv or part.vaccine):
-                            self.initiate_prep(part, time)
+                for relationship in agent.relationships:
+                    partner = relationship.get_partner(agent)
+                    if not (partner.hiv or partner.vaccine):
+                        self.initiate_prep(partner, time)
         else:
             self.pop.high_risk_agents.remove_agent(agent)
             agent.high_risk = False
 
             if self.features.incar:
-                agent.mean_num_partners["Sex"] -= self.high_risk.partner_scale
-                agent.mean_num_partners["Sex"] = max(
-                    0, agent.mean_num_partners["Sex"]
-                )  # make sure not negative
-                agent.target_partners["Sex"] = utils.poisson(
-                    agent.mean_num_partners["Sex"], self.np_random
-                )
-                while len(agent.partners["Sex"]) > agent.target_partners["Sex"]:
-                    rel = utils.safe_random_choice(agent.relationships, self.run_random)
-                    if rel is not None:
-                        rel.progress(force=True)
-                        self.pop.remove_relationship(rel)
+                for bond in self.params.high_risk.partnership_types:
+                    agent.mean_num_partners[bond] -= self.high_risk.partner_scale
+                    agent.mean_num_partners[bond] = max(
+                        0, agent.mean_num_partners[bond]
+                    )  # make sure not negative
+                    agent.target_partners[bond] = utils.poisson(
+                        agent.mean_num_partners[bond], self.np_random
+                    )
+                    while len(agent.partners[bond]) > agent.target_partners[bond]:
+                        rel = utils.safe_random_choice(
+                            agent.relationships, self.run_random
+                        )
+                        if rel is not None:
+                            rel.progress(force=True)
+                            self.pop.remove_relationship(rel)
 
     def initialize_random_trial(self, time: int):
         """
@@ -1044,15 +1047,16 @@ class HIVModel:
             ):  # TODO fix this logic; should get partnerTraced and then lose it after
                 # For each partner, determine if found by partner testing
                 for bond in agent.partners:
-                    for ptnr in agent.partners[bond]:
-                        if (
-                            ptnr.hiv
-                            and not ptnr.hiv_dx
-                            and self.run_random.random()
-                            < self.params.partner_tracing.prob
-                        ):
-                            ptnr.partner_traced = True
-                            ptnr.trace_time = time + 1
+                    if bond in self.params.partner_tracing.bond_type:
+                        for ptnr in agent.partners[bond]:
+                            if (
+                                ptnr.hiv
+                                and not ptnr.hiv_dx
+                                and self.run_random.random()
+                                < self.params.partner_tracing.prob
+                            ):
+                                ptnr.partner_traced = True
+                                ptnr.trace_time = time + 1
 
         if not tested:
             test_prob = self.demographics[race_type][sex_type].hiv.dx.prob

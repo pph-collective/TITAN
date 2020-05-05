@@ -194,11 +194,6 @@ class Population:
             if self.pop_random.random() < self.params.msmw.prob:
                 agent.msmw = True
 
-        for bond in self.params.classes.bond_types.keys():
-            agent.partners[bond] = set()
-            agent.target_partners[bond] = 0
-            agent.mean_num_partners[bond] = 0
-
         if drug_type == "Inj":
             agent_params = self.demographics[race]["PWID"]
         else:
@@ -263,7 +258,7 @@ class Population:
 
         # get agent's mean partner numbers for bond type
         def partner_distribution(dist_info):
-            dist = getattr(self.np_random, dist_info.type)
+            dist = getattr(self.np_random, dist_info.distribution)
             partner_num = utils.safe_dist(dist_info.var_1, dist_info.var_2, dist)
             if self.mean_rel_duration[bond] == 0:
                 return 0
@@ -273,10 +268,11 @@ class Population:
                 / self.mean_rel_duration[bond]
             )
 
-        for bond, acts in self.params.classes.bond_types.items():
-            dist_info = self.params.demographics[agent.race][
-                agent.so
-            ].num_partners[bond]
+        for bond in self.params.classes.bond_types.keys():
+            agent.partners[bond] = set()
+            dist_info = self.params.demographics[agent.race][agent.so].num_partners[
+                bond
+            ]
             agent.mean_num_partners[bond] = partner_distribution(dist_info)
 
         agent.target_partners = agent.mean_num_partners  # so not zero if added mid-year
@@ -320,7 +316,7 @@ class Population:
         for sex_type in self.params.classes.sex_types[agent.so].sleeps_with:
             self.sex_partners[sex_type].add(agent)
 
-        for bond_type, acts in self.params.classes.bond_types.items():
+        for bond_type in self.params.classes.bond_types:
             if agent.target_partners[bond_type] > 0:
                 self.partnerable_agents[bond_type].add(agent)
 
@@ -363,9 +359,9 @@ class Population:
         if self.enable_graph:
             self.graph.remove_node(agent)
 
-        for bond in self.partnerable_agents.keys():
-            if agent in self.partnerable_agents[bond]:
-                self.partnerable_agents[bond].remove(agent)
+        for bond in self.partnerable_agents.values():
+            if agent in bond:
+                bond.remove(agent)
 
     def remove_relationship(self, rel: Relationship):
         """
@@ -464,7 +460,7 @@ class Population:
             self.update_partner_targets()
 
         # Now create partnerships until available partnerships are out
-        for bond, acts in self.params.classes.bond_types.items():
+        for bond in self.params.classes.bond_types:
             eligible_agents = deque(
                 [
                     a
@@ -497,23 +493,17 @@ class Population:
     def update_partner_targets(self):
         for a in self.all_agents:
             for bond in self.params.classes.bond_types:
-                if (
-                    a.drug_use == "PWID"
-                    or "injection"
-                    not in self.params.classes.bond_types[bond].acts_allowed
-                ):
-                    a.target_partners[bond] = utils.poisson(
-                        int(a.mean_num_partners[bond]), self.np_random
-                    )
+                a.target_partners[bond] = utils.poisson(
+                    int(a.mean_num_partners[bond]), self.np_random
+                )
             self.update_partnerability(a)
 
     def update_partnerability(self, a):
         # update partnerability
-        for bond, acts in self.params.classes.bond_types.items():
+        for bond in self.params.classes.bond_types.keys():
             if a in self.partnerable_agents[bond]:
                 if len(a.partners[bond]) > (
-                    a.target_partners[bond]
-                    * self.params.calibration.partnership.buffer
+                    a.target_partners[bond] * self.params.calibration.partnership.buffer
                 ):
                     self.partnerable_agents[bond].remove(a)
             elif len(a.partners) < (

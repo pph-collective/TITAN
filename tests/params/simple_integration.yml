@@ -42,25 +42,22 @@ demographics:
           prob: 0.1
       num_partners:
         Sex:
-          type: poisson
+          distribution: poisson
           var_1: 5
           var_2: 1
           mean: 5
         Social:
-          type: poisson
+          distribution: uniform
           var_1: 0
-          var_2: 1
-          mean: 0
+          var_2: 0
         Inj:
-          type: randint
+          distribution: uniform
           var_1: 0
-          var_2: 1
-          mean: 0
+          var_2: 0
         SexInj:
-          type: randint
+          distribution: uniform
           var_1: 0
-          var_2: 1
-          mean: 0
+          var_2: 0
     PWID:
       ppl: 0.2
       hiv:
@@ -92,25 +89,21 @@ demographics:
           prob: 0.1
       num_partners:
         Sex:
-          type: poisson
+          distribution: poisson
           var_1: 5
           var_2: 1
-          mean: 5
         Inj:
-          type: poisson
+          distribution: poisson
           var_1: 5
           var_2: 1
-          mean: 5
         SexInj:
-          type: poisson
+          distribution: poisson
           var_1: 5
           var_2: 1
-          mean: 5
         Social:
-          type: poisson
+          distribution: poisson
           var_1: 0
-          var_2: 1
-          mean: 0
+          var_2: 10
 
 partnership:
   duration:

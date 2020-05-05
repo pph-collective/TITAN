@@ -12,3 +12,14 @@ partner_tracing:
     type: float
     min: 0
     max: 1
+  bond_type:
+    type: array
+    values:
+      - Sex
+      - Inj
+      - SexInj
+      - Social
+    default:
+      - Sex
+      - Inj
+      - SexInj

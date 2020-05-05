@@ -275,11 +275,8 @@ class Relationship:
         """
         # make sure these agents can be in a relationship
         assert agent1 != agent2, "Cannot create relationship with same agent"
-        for bond in agent1.partners:
-            assert (
-                agent1 not in agent2.partners[bond]
-                and agent2 not in agent1.partners[bond]
-            ), "Agents already partnered!"
+        for rel in agent1.relationships:
+            assert agent2 != rel.get_partner(agent1), "Agents already partnered!"
 
         # self.id is unique ID number used to track each person agent.
         self.agent1 = agent1

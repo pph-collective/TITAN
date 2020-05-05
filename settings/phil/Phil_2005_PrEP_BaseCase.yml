@@ -114,17 +114,17 @@ demographics:
       Class: null
       num_partners:
         Sex:
-          type: poisson
+          distribution: poisson
           var_1: 1.5
           var_2: 1.0
         Inj:
-          type: randint
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
         SexInj:
-          type: randint
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
       EligSE_PartnerType: HF
       AssortMixMatrix: []
       ppl: 0.415
@@ -173,17 +173,17 @@ demographics:
         prob: 0.0
       num_partners:
         Sex:
-          type: poisson
+          distribution: poisson
           var_1: 1.5
           var_2: 1.0
         Inj:
-          type: randint
+          distribution: uniform
           var_1: 0
-          var_2: 1
+          var_2: 0
         SexInj:
-          type: randint
           var_1: 0
-          var_2: 1
+          var_2: 0
+          distribution: uniform
       injection:
         num_acts: 5.0
         unsafe_prob: 0.43
@@ -215,11 +215,11 @@ demographics:
         prob: 0.001
       num_partners:
         Sex:
-          type: poisson
+          distribution: poisson
           var_1: 1.5
           var_2: 1.0
         Inj:
-          type: poisson
+          distribution: poisson
           var_1: 1.5
           var_2: 1.0
       safe_sex: 0.89

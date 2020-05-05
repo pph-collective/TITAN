@@ -28,4 +28,16 @@ high_risk:
         description: Number of time steps an agent of this sex type is high risk
         type: int
         min: 0
-
+  partnership_types:
+    type: array
+    description: "What type of partnerships to scale with high risk"
+    values:
+      - Sex
+      - SexInj
+      - Inj
+      - Social
+    default:
+      - Sex
+      - SexInj
+      - Inj
+      - Social
