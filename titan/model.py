@@ -863,14 +863,10 @@ class HIVModel:
             for item in self.params.syringe_services.timeline.values():
                 if item.time_start <= time < item.time_stop:
                     self.ssp_enrolled_risk = item.risk
-                    if time == item.time_start:
-                        ssp_num_slots = item.num_slots_start
-                    elif time == item.time_stop:
-                        ssp_num_slots = item.num_slots_stop
-                    else:
-                        ssp_num_slots = (item.num_slots_stop - item.num_slots_start) / (
-                            item.time_stop - item.time_start
-                        ) * (time - item.time_start) + item.num_slots_start
+
+                    ssp_num_slots = (item.num_slots_stop - item.num_slots_start) / (
+                        item.time_stop - item.time_start
+                    ) * (time - item.time_start) + item.num_slots_start
 
                     if ssp_num_slots < self.pop.pwid_agents.num_members():
                         if ssp_num_slots == 0:
