@@ -31,13 +31,7 @@ high_risk:
   partnership_types:
     type: array
     description: "What type of partnerships to scale with high risk"
-    values:
-      - Sex
-      - SexInj
-      - Inj
-      - Social
+    class: bond_types
     default:
       - Sex
-      - SexInj
-      - Inj
-      - Social
+
