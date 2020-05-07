@@ -1,6 +1,7 @@
 import random
 from functools import wraps
 from typing import TypeVar, Optional, Collection
+from math import ceil
 
 
 def get_check_rand_int(seed):
@@ -65,7 +66,7 @@ def safe_dist(dist_info, rand_gen, dist_type=None):
         dist = getattr(rand_gen, dist_type)
     except AttributeError:
         if dist_info.distribution == "set_value":
-            return dist_info.var_1
+            return round(dist_info.var_1)  # round to avoid floating point error
         else:
             return False
     try:

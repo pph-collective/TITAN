@@ -7,6 +7,7 @@ from collections import deque
 from typing import List, Dict, Any, Set
 import numpy as np  # type: ignore
 import networkx as nx  # type: ignore
+from math import ceil
 
 from .parse_params import ObjMap
 from .agent import AgentSet, Agent, Relationship
@@ -261,7 +262,7 @@ class Population:
             partner_num = utils.safe_dist(dist_info, self.np_random)
             if self.mean_rel_duration[bond] == 0:
                 return 0
-            return math.ceil(  # TODO specify int, import math
+            return int(
                 partner_num
                 * self.params.calibration.sex.partner
                 / self.mean_rel_duration[bond]
