@@ -660,10 +660,26 @@ partnership:
           min: 1
           max: 2
     Inj:
+      type: distribution
       distribution:
-        dist_type: randint
+        dist_type: poisson
         var_1: 1
-        var_2: 2
+        var_2: 5
+        mean: 3
+    SexInj:
+      type: distribution
+      distribution:
+        dist_type: poisson
+        var_1: 1
+        var_2: 1
+        mean: 1
+    Social:
+      type: distribution
+      distribution:
+        dist_type: poisson
+        var_1: 1
+        var_2: 1
+        mean: 1
   interaction:
     Sex:
       1:

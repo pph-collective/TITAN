@@ -57,6 +57,9 @@ class FakeRandom:
             selection = weights.index(max(weights))
             return [seq[selection]]
 
+    def poisson(self, var: float, size: int):
+        return var
+
 
 def test_partnership_duration(params):
     # test duration with randint
@@ -81,7 +84,7 @@ def test_get_random_pwid_partner_no_PWID(make_population, make_agent, params):
 
     partner = select_partner(
         idu_agent,
-        set(empty_pop.all_agents.members),
+        empty_pop.all_agents.members,
         empty_pop.sex_partners,
         empty_pop.pwid_agents,
         params,
@@ -112,7 +115,7 @@ def test_get_random_pwid_partner_w_PWID(make_population, make_agent, params):
 
     partner = select_partner(
         idu_agent,
-        set(empty_pop.all_agents.members),
+        empty_pop.all_agents.members,
         empty_pop.sex_partners,
         empty_pop.pwid_agents,
         params,
@@ -139,7 +142,7 @@ def test_get_random_sex_partner_valid(make_population, make_agent, params):
 
     partner = select_partner(
         hm_agent,
-        set(empty_pop.all_agents.members),
+        empty_pop.all_agents.members,
         empty_pop.sex_partners,
         empty_pop.pwid_agents,
         params,
@@ -154,7 +157,7 @@ def test_get_random_sex_partner_valid(make_population, make_agent, params):
     # no match after bonded
     partner = select_partner(
         hm_agent,
-        set(empty_pop.all_agents.members),
+        empty_pop.all_agents.members,
         empty_pop.sex_partners,
         empty_pop.pwid_agents,
         params,
@@ -178,7 +181,7 @@ def test_get_random_sex_partner_bad(make_population, make_agent, params):
 
     partner = select_partner(
         hm_agent,
-        set(empty_pop.all_agents.members),
+        empty_pop.all_agents.members,
         empty_pop.sex_partners,
         empty_pop.pwid_agents,
         params,
@@ -218,7 +221,7 @@ def test_get_assort_partner_race(make_population, make_agent, params):
 
     partner = select_partner(
         a,
-        set(pop.all_agents.members),
+        pop.all_agents.members,
         pop.sex_partners,
         pop.pwid_agents,
         params,
@@ -240,7 +243,7 @@ def test_get_assort_partner_race(make_population, make_agent, params):
 
     partner = select_partner(
         a,
-        set(pop.all_agents.members),
+        pop.all_agents.members,
         pop.sex_partners,
         pop.pwid_agents,
         params,
@@ -289,7 +292,7 @@ def test_get_assort_partner_high_risk(make_population, make_agent, params):
 
     partner = select_partner(
         a,
-        set(pop.all_agents.members),
+        pop.all_agents.members,
         pop.sex_partners,
         pop.pwid_agents,
         params,
@@ -311,7 +314,7 @@ def test_get_assort_partner_high_risk(make_population, make_agent, params):
 
     partner = select_partner(
         a,
-        set(pop.all_agents.members),
+        pop.all_agents.members,
         pop.sex_partners,
         pop.pwid_agents,
         params,
@@ -346,7 +349,7 @@ def test_get_assort_partner_drug_use(make_population, make_agent, params):
     # make sure partnering on sex_type
     # params.partnership.bonds["PWID"]["Sex"]["prob"] = 10
     for race in params.classes.races:
-        for bond in copy(params.classes.bond_types):
+        for bond in params.classes.bond_types:
             if bond != "Sex":
                 params.demographics[race]["PWID"]["num_partners"][bond]["var_1"] = 0.0
 
@@ -362,7 +365,7 @@ def test_get_assort_partner_drug_use(make_population, make_agent, params):
 
     partner = select_partner(
         a,
-        set(pop.all_agents.members),
+        pop.all_agents.members,
         pop.sex_partners,
         pop.pwid_agents,
         params,
@@ -384,7 +387,7 @@ def test_get_assort_partner_drug_use(make_population, make_agent, params):
 
     partner = select_partner(
         a,
-        set(pop.all_agents.members),
+        pop.all_agents.members,
         pop.sex_partners,
         pop.pwid_agents,
         params,

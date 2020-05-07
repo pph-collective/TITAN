@@ -13,11 +13,11 @@ demographics:
           var_1: 0.0
           var_2: 1.0
         SexInj:
-          distribution: uniform
-          var_1: 0
-          var_2: 0
+          distribution: set_value
+          var_1: 0.0
+          var_2: 0.0
         Inj:
-          distribution: uniform
+          distribution: set_value
           var_1: 0
           var_2: 0
       hiv:

@@ -191,12 +191,12 @@ partnership:
       distribution:
         dist_type:
           type: enum
-          description: "Type of distribution to use for partnership durations if type is distribution"
+          description: "Type of distribution to use for partnership durations if type is distribution. See https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator for function information"
           values:
             - gamma
             - beta
             - poisson
-            - randint
+            - uniform
           default: gamma
         var_1:
           type: float

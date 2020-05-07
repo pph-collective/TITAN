@@ -258,11 +258,10 @@ class Population:
 
         # get agent's mean partner numbers for bond type
         def partner_distribution(dist_info):
-            dist = getattr(self.np_random, dist_info.distribution)
-            partner_num = utils.safe_dist(dist_info.var_1, dist_info.var_2, dist)
+            partner_num = utils.safe_dist(dist_info, self.np_random)
             if self.mean_rel_duration[bond] == 0:
                 return 0
-            return np.ceil(
+            return math.ceil(  # TODO specify int, import math
                 partner_num
                 * self.params.calibration.sex.partner
                 / self.mean_rel_duration[bond]
@@ -270,12 +269,18 @@ class Population:
 
         for bond in self.params.classes.bond_types.keys():
             agent.partners[bond] = set()
-            dist_info = self.params.demographics[agent.race][agent.so].num_partners[
-                bond
-            ]
+            if agent.drug_use == "Inj":
+                dist_info = self.params.demographics[agent.race].PWID.num_partners[bond]
+            else:
+                dist_info = self.params.demographics[agent.race][agent.so].num_partners[
+                    bond
+                ]
             agent.mean_num_partners[bond] = partner_distribution(dist_info)
+            # so not zero if added mid-year
+            agent.target_partners[bond] = agent.mean_num_partners[bond]
 
-        agent.target_partners = agent.mean_num_partners  # so not zero if added mid-year
+            if agent.target_partners[bond] > 0:
+                self.partnerable_agents[bond].add(agent)
 
         if self.features.pca:
             if self.pop_random.random() < self.prep.pca.awareness.init:
@@ -315,10 +320,6 @@ class Population:
         # who can sleep with this agent
         for sex_type in self.params.classes.sex_types[agent.so].sleeps_with:
             self.sex_partners[sex_type].add(agent)
-
-        for bond_type in self.params.classes.bond_types:
-            if agent.target_partners[bond_type] > 0:
-                self.partnerable_agents[bond_type].add(agent)
 
         if agent.prep:
             self.prep_counts[agent.race] += 1

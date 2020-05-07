@@ -187,11 +187,13 @@ demographics:
       default:
         distribution:
           default: poisson
-          description: "How to determine mean number of partners for an agent."
+          description: "How to determine mean number of partners for an agent. Uses numpy.random distributions or 'set_value' to always return the var_1 value. More info at https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator"
           type: enum
           values:
             - poisson
             - gamma
+            - uniform
+            - set_value
         var_1:
           type: float
           description: "First variable for chosen distribution function."
@@ -199,10 +201,6 @@ demographics:
         var_2:
           type: float
           description: "Second variable for chosen distribution function."
-          default: 0.0
-        mean:
-          type: float
-          description: "Expected mean of distribution. May be the same as one of the above."
           default: 0.0
     injection:
       num_acts:

@@ -117,14 +117,17 @@ demographics:
           distribution: poisson
           var_1: 1.5
           var_2: 1.0
+          mean: 1.5
         Inj:
           distribution: uniform
           var_1: 0
           var_2: 0
+          mean: 0
         SexInj:
           distribution: uniform
           var_1: 0
           var_2: 0
+          mean: 0
       EligSE_PartnerType: HF
       AssortMixMatrix: []
       ppl: 0.415
@@ -176,13 +179,16 @@ demographics:
           distribution: poisson
           var_1: 1.5
           var_2: 1.0
+          mean: 1.5
         Inj:
           distribution: uniform
           var_1: 0
           var_2: 0
+          mean: 0
         SexInj:
           var_1: 0
           var_2: 0
+          mean: 0
           distribution: uniform
       injection:
         num_acts: 5.0
@@ -193,8 +199,6 @@ demographics:
       high_risk:
         init: 0
     PWID:
-      Race: null
-      Class: null
       NUMPartn: 1.5
       EligSE_PartnerType: PWID
       AssortMixMatrix: []
@@ -218,10 +222,12 @@ demographics:
           distribution: poisson
           var_1: 1.5
           var_2: 1.0
+          mean: 1.5
         Inj:
           distribution: poisson
           var_1: 1.5
           var_2: 1.0
+          mean: 1.5
       safe_sex: 0.89
       injection:
         unsafe_prob: 0.63

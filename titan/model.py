@@ -868,8 +868,11 @@ class HIVModel:
                         item.time_stop - item.time_start
                     ) * (time - item.time_start) + item.num_slots_start
 
+                    # If the cap is at or above num agents, keep it at max
+                    # otherwise, find true number of slots
                     if ssp_num_slots < self.pop.pwid_agents.num_members():
                         if ssp_num_slots == 0:
+                            # Don't sample from distribution if ssp is off
                             ssp_num_slots = 0
                         else:
                             ssp_num_slots = round(
@@ -951,10 +954,11 @@ class HIVModel:
                     not agent.high_risk and self.features.high_risk
                 ):  # If behavioral treatment on and agent HIV, ignore HR period.
                     self.become_high_risk(agent)
-                    agent.mean_num_partners["Sex"] += self.high_risk.partner_scale
-                    agent.target_partners["Sex"] = utils.poisson(
-                        agent.mean_num_partners["Sex"], self.np_random
-                    )
+                    for bond in self.params.high_risk.partnership_types:
+                        agent.mean_num_partners[bond] += self.high_risk.partner_scale
+                        agent.target_partners[bond] = utils.poisson(
+                            agent.mean_num_partners[bond], self.np_random
+                        )
                     self.pop.update_partnerability(agent)
 
                 if hiv_bool:
@@ -1007,17 +1011,18 @@ class HIVModel:
             agent.incar_time = timestay
 
             # PUT PARTNERS IN HIGH RISK
-            for partner in agent.partners["Sex"]:
-                if not partner.high_risk and self.features.high_risk:
-                    if self.run_random.random() < self.high_risk.prob:
-                        self.become_high_risk(partner)
+            for bond in self.params.high_risk.partnership_types:
+                for partner in agent.partners[bond]:
+                    if not partner.high_risk and self.features.high_risk:
+                        if self.run_random.random() < self.high_risk.prob:
+                            self.become_high_risk(partner)
 
-                if self.features.prep and (
-                    self.prep.target_model in ("Incar", "IncarHR")
-                ):
-                    # Atempt to put partner on prep if less than probability
-                    if not partner.hiv and not agent.vaccine:
-                        self.initiate_prep(partner, time)
+                    if self.features.prep and (
+                        self.prep.target_model in ("Incar", "IncarHR")
+                    ):
+                        # Attempt to put partner on prep if less than probability
+                        if not partner.hiv and not agent.vaccine:
+                            self.initiate_prep(partner, time)
 
     def diagnose_hiv(self, agent: Agent, time: int):
         """

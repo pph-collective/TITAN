@@ -190,15 +190,14 @@ def test_update_agent_partners_one_agent(make_population, params):
 
 def test_update_agent_partners_PWID_no_match(make_population, params):
     pop = make_population(n=0)
+    params.demographics.WHITE.PWID.ppl = 1.0
     a = pop.create_agent("WHITE", "MSM")
+    params.demographics.WHITE.PWID.ppl = 0.0
     p = pop.create_agent("WHITE", "HF")
     pop.pop_random = FakeRandom(1.1)
-    a.drug_use = "Inj"
-    p.drug_use = "Inj"
     pop.add_agent(a)
     pop.add_agent(p)
 
-    p.so = "HF"
     for bond in params.classes.bond_types.keys():
         assert pop.update_agent_partners(a, bond)
         assert a in pop.graph.nodes()
@@ -236,11 +235,15 @@ def test_update_agent_partners_MSM_no_match(make_population, params):
 def test_update_agent_partners_PWID_match(make_population, params):
     pop = make_population(n=0)
     a = pop.create_agent("WHITE", "MSM")
+    params.demographics.WHITE.PWID.ppl = 1.0
+    assert params.demographics.WHITE.PWID.num_partners.Inj.var_1
     p = pop.create_agent("WHITE", "MSM")
+    assert p.drug_use == "Inj"
+    assert p.mean_num_partners["Inj"]
+    assert p.target_partners["Inj"]
     # ensure random sex partner no assorting
     pop.pop_random = FakeRandom(1.1)
     a.drug_use = "Inj"
-    p.drug_use = "Inj"
     pop.add_agent(a)
     p.target_partners["Inj"] = 10
     pop.add_agent(p)

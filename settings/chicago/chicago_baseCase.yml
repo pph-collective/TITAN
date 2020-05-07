@@ -10,14 +10,15 @@ model:
     num_steps: 24
     burn_steps: 6
   network:
+    enable: true
     type: max_k_comp_size
     component_size:
       max: 100
       min: 1
 outputs:
   print_frequency: 12
-  draw_figures: false
-  calc_component_stats: true
+  network:
+    calc_component_stats: true
   reports:
   - prepReport
   - basicReport
