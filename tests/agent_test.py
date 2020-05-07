@@ -4,49 +4,12 @@ import os
 from titan.agent import *
 from titan.parse_params import create_params
 
-import random
-
-
-@pytest.fixture
-def params(tmpdir):
-    param_file = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
-    )
-    return create_params(None, param_file, tmpdir)
-
-
-@pytest.fixture
-def make_agent():
-    def _make_agent(SO="MSM", age=30, race="BLACK", DU="None"):
-        return Agent(SO, age, race, DU)
-
-    return _make_agent
-
-
-@pytest.fixture
-def make_relationship():
-    def _make_relationship(id1, id2, bond_type="#REVIEW", duration=2):
-        return Relationship(id1, id2, duration, bond_type)
-
-    return _make_relationship
-
-
-# helper method to generate a fake number deterministically
-class FakeRandom:
-    def __init__(self, num: float):
-        assert num >= 0 and num <= 1
-        self.num = num
-
-    def random(self):
-        return self.num
-
-    def randrange(self, start, stop, step):
-        return start
-
+from conftest import FakeRandom
 
 # ============================= AGENT TESTS ============================
 
 
+@pytest.mark.unit
 def test_agent_init(make_agent):
     a = make_agent()
     b = make_agent()
@@ -106,6 +69,7 @@ def test_agent_init(make_agent):
     assert a.incar_time == 0
 
 
+@pytest.mark.unit
 def test_get_acute_status(make_agent, params):
     a = make_agent()  # no HIV on init
     assert a.get_acute_status(params.partnership.ongoing_duration) == False
@@ -113,6 +77,7 @@ def test_get_acute_status(make_agent, params):
     assert a.get_acute_status(params.partnership.ongoing_duration) == True
 
 
+@pytest.mark.unit
 def test_update_prep_load(make_agent, params):
     a = make_agent()
     assert a.prep_last_dose == 0
@@ -129,6 +94,7 @@ def test_update_prep_load(make_agent, params):
     assert a.prep_load == 0.0
 
 
+@pytest.mark.unit
 def test_get_number_of_sex_acts(make_agent, params):
     a = make_agent()
 
@@ -146,6 +112,7 @@ def test_get_number_of_sex_acts(make_agent, params):
 # ============== RELATIONSHIP TESTS ===================
 
 
+@pytest.mark.unit
 def test_relationship(make_agent, make_relationship):
     a = make_agent()
     p1 = make_agent()
@@ -204,6 +171,7 @@ def test_relationship(make_agent, make_relationship):
     assert r2 in p2.relationships
 
 
+@pytest.mark.unit
 def test_get_partner(make_agent, make_relationship):
     a = make_agent()
     p = make_agent()
@@ -216,6 +184,7 @@ def test_get_partner(make_agent, make_relationship):
 # ============================== AGENT SET TESTS ===============================
 
 
+@pytest.mark.unit
 def test_AgentSet_init(make_agent):
     s = AgentSet("test")
 
@@ -233,6 +202,7 @@ def test_AgentSet_init(make_agent):
     assert s.subset["child"] == c
 
 
+@pytest.mark.unit
 def test_add_remove_agent(make_agent):
     a = make_agent()
     s = AgentSet("test")
@@ -262,6 +232,7 @@ def test_add_remove_agent(make_agent):
     assert c.num_members() == 0
 
 
+@pytest.mark.unit
 def test_clear_set(make_agent):
     a = make_agent()
     s = AgentSet("test")

@@ -7,64 +7,20 @@ from titan.model import *
 from titan.agent import Agent, Relationship
 from titan.parse_params import create_params
 
-
-@pytest.fixture
-def params(tmpdir):
-    param_file = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
-    )
-    return create_params(None, param_file, tmpdir)
-
-
-@pytest.fixture
-def make_agent():
-    def _make_agent(SO="MSM", age=30, race="BLACK", DU="None"):
-        return Agent(SO, age, race, DU)
-
-    return _make_agent
-
-
-@pytest.fixture
-def make_model(params):
-    def _make_model():
-        return HIVModel(params)
-
-    return _make_model
-
-
-# helper method to generate a fake number deterministically
-class FakeRandom:
-    def __init__(self, num: float):
-        self.num = num
-
-    def random(self):
-        return self.num
-
-    def randrange(self, start, stop, step):
-        return start
-
-    def sample(self, seq, rate):
-        return seq
-
-    def choice(self, seq):
-        return seq[0]
-
-    def randint(self, start, stop):
-        return start
-
-    def shuffle(self, seq):
-        return seq
+from conftest import FakeRandom
 
 
 # ================================ MODEL TESTS =================================
 
 
+@pytest.mark.unit
 def test_model_init_error(params):
     params.model.seed.run = 0.5
     with pytest.raises(ValueError):
         HIVModel(params)
 
 
+@pytest.mark.unit
 def test_model_init(params):
     model = HIVModel(params)
 
@@ -78,10 +34,12 @@ def test_model_init(params):
 
 
 @pytest.mark.skip("too parameter dependent to test at this point")
+@pytest.mark.unit
 def test_update_AllAgents():
     pass
 
 
+@pytest.mark.unit
 def test_agents_interact(make_model, make_agent):
     model = make_model()
     a = make_agent(race="WHITE", SO="HM")
@@ -121,6 +79,7 @@ def test_agents_interact(make_model, make_agent):
     assert p.hiv is False  # but nothing happened
 
 
+@pytest.mark.unit
 def test_get_transmission_probability(make_model, make_agent):
     model = make_model()
     a = make_agent(race="WHITE", SO="MSM")
@@ -157,6 +116,7 @@ def test_get_transmission_probability(make_model, make_agent):
     assert model.get_transmission_probability("sex", p, a) == p_sex_rec * scale
 
 
+@pytest.mark.unit
 def test_needle_transmission(make_model, make_agent):
     model = make_model()
     a = make_agent(race="WHITE", DU="Inj", SO="HM")
@@ -175,6 +135,7 @@ def test_needle_transmission(make_model, make_agent):
     assert p.hiv
 
 
+@pytest.mark.unit
 def test_sex_transmission(make_model, make_agent):
     model = make_model()
     a = make_agent()
@@ -198,6 +159,7 @@ def test_sex_transmission(make_model, make_agent):
     assert p.hiv
 
 
+@pytest.mark.unit
 def test_sex_transmission_do_nothing(make_model, make_agent):
     model = make_model()
     a = make_agent()
@@ -214,6 +176,7 @@ def test_sex_transmission_do_nothing(make_model, make_agent):
     model.sex_transmission(rel)
 
 
+@pytest.mark.unit
 def test_pca_interaction(make_model, make_agent):
     model = make_model()
     a = make_agent()
@@ -240,6 +203,7 @@ def test_pca_interaction(make_model, make_agent):
     assert p.prep_opinion == 3
 
 
+@pytest.mark.unit
 def test_hiv_convert(make_model, make_agent):
     model = make_model()
     a = make_agent()
@@ -256,6 +220,7 @@ def test_hiv_convert(make_model, make_agent):
     assert a.prep is False
 
 
+@pytest.mark.unit
 def test_update_syringe_services(make_model):
     model = make_model()
     # make at least one agent PWID
@@ -274,6 +239,7 @@ def test_update_syringe_services(make_model):
             assert a.ssp
 
 
+@pytest.mark.unit
 def test_become_high_risk(make_model, make_agent):
     model = make_model()
     a = make_agent()
@@ -287,6 +253,7 @@ def test_become_high_risk(make_model, make_agent):
     assert a.high_risk_time == 10
 
 
+@pytest.mark.unit
 def test_incarcerate_diagnosed(make_model, make_agent):
     model = make_model()
     model.time = 10
@@ -305,6 +272,7 @@ def test_incarcerate_diagnosed(make_model, make_agent):
     assert a.haart_time == 10
 
 
+@pytest.mark.unit
 def test_incarcerate_not_diagnosed(make_model, make_agent):
     model = make_model()
     a = make_agent(SO="HM", race="WHITE")  # incarceration only for HM and HF?
@@ -328,6 +296,7 @@ def test_incarcerate_not_diagnosed(make_model, make_agent):
     assert p.high_risk_time > 0
 
 
+@pytest.mark.unit
 def test_incarcerate_unincarcerate(make_model, make_agent):
     model = make_model()
     a = make_agent()
@@ -347,6 +316,7 @@ def test_incarcerate_unincarcerate(make_model, make_agent):
     assert a in model.new_incar_release.members
 
 
+@pytest.mark.unit
 def test_diagnose_hiv(make_model, make_agent):
     model = make_model()
     a = make_agent()
@@ -364,6 +334,7 @@ def test_diagnose_hiv(make_model, make_agent):
     assert a in model.new_dx.members
 
 
+@pytest.mark.unit
 def test_diagnose_hiv_already_tested(make_model, make_agent):
     model = make_model()
     a = make_agent()
@@ -377,6 +348,7 @@ def test_diagnose_hiv_already_tested(make_model, make_agent):
     assert a not in model.new_dx.members
 
 
+@pytest.mark.unit
 def test_update_haart_t1(make_model, make_agent):
     model = make_model()
     model.time = 1
@@ -410,6 +382,7 @@ def test_update_haart_t1(make_model, make_agent):
     assert a.haart is False
 
 
+@pytest.mark.unit
 def test_discontinue_prep_force(make_model, make_agent):
     model = make_model()
     a = make_agent()
@@ -427,6 +400,7 @@ def test_discontinue_prep_force(make_model, make_agent):
     assert num_prep == model.pop.prep_counts[a.race]
 
 
+@pytest.mark.unit
 def test_discontinue_prep_decrement_time(make_model, make_agent):
     model = make_model()
     a = make_agent()
@@ -446,6 +420,7 @@ def test_discontinue_prep_decrement_time(make_model, make_agent):
     assert num_prep + 1 == model.pop.prep_counts[a.race]
 
 
+@pytest.mark.unit
 def test_discontinue_prep_decrement_end(make_model, make_agent):
     model = make_model()
     a = make_agent(race="WHITE")
@@ -467,6 +442,7 @@ def test_discontinue_prep_decrement_end(make_model, make_agent):
     assert num_prep == model.pop.prep_counts[a.race]
 
 
+@pytest.mark.unit
 def test_discontinue_prep_decrement_not_end(make_model, make_agent):
     model = make_model()
     a = make_agent()
@@ -490,6 +466,7 @@ def test_discontinue_prep_decrement_not_end(make_model, make_agent):
     assert a.prep_load > 0  # Inj no longer in PrEP types
 
 
+@pytest.mark.unit
 def test_discontinue_prep_decrement_inj_end(make_model, make_agent):
     model = make_model()
     a = make_agent()
@@ -514,6 +491,7 @@ def test_discontinue_prep_decrement_inj_end(make_model, make_agent):
     assert a.prep_load == 0.0  # Inj no longer in PrEP types
 
 
+@pytest.mark.unit
 def test_initiate_prep_assertions(make_model, make_agent):
     model = make_model()
     a = make_agent()
@@ -528,6 +506,7 @@ def test_initiate_prep_assertions(make_model, make_agent):
     assert model.initiate_prep(a) is None
 
 
+@pytest.mark.unit
 def test_initiate_prep_force_adh(make_model, make_agent):
     model = make_model()
     a = make_agent()
@@ -542,6 +521,7 @@ def test_initiate_prep_force_adh(make_model, make_agent):
     assert a.prep_last_dose == 0
 
 
+@pytest.mark.unit
 def test_initiate_prep_force_non_adh(make_model, make_agent):
     model = make_model()
     a = make_agent()
@@ -555,6 +535,7 @@ def test_initiate_prep_force_non_adh(make_model, make_agent):
     assert a.prep_last_dose == 0
 
 
+@pytest.mark.unit
 def test_initiate_prep_eligible(make_model, make_agent):
     model = make_model()
 
@@ -580,6 +561,7 @@ def test_initiate_prep_eligible(make_model, make_agent):
     assert "MSMW" in a.prep_reason
 
 
+@pytest.mark.unit
 def test_progress_to_aids_error(make_agent, make_model):
     a = make_agent()
     a.hiv = False
@@ -594,6 +576,7 @@ def test_progress_to_aids_error(make_agent, make_model):
     assert sum([1 for agent in model.pop.hiv_agents if agent.aids]) == num_aids
 
 
+@pytest.mark.unit
 def test_progress_to_aids_nothing(make_agent, make_model):
     a = make_agent()
     a.hiv = True
@@ -612,6 +595,7 @@ def test_progress_to_aids_nothing(make_agent, make_model):
     assert a.aids is False
 
 
+@pytest.mark.unit
 def test_progress_to_aids_progress(make_agent, make_model):
     a = make_agent()
     a.hiv = True
@@ -631,6 +615,7 @@ def test_progress_to_aids_progress(make_agent, make_model):
     assert a.aids is True
 
 
+@pytest.mark.unit
 def test_die_and_replace_none(make_model):
     model = make_model()
     model.run_random = FakeRandom(0.999)  # always greater than death rate
@@ -643,6 +628,7 @@ def test_die_and_replace_none(make_model):
         assert agent.id in ids
 
 
+@pytest.mark.unit
 def test_die_and_replace_all(make_model):
     model = make_model()
     model.run_random = FakeRandom(0.0000001)  # always lower than death rate
@@ -677,6 +663,7 @@ def test_die_and_replace_all(make_model):
         assert agent.id in death_ids
 
 
+@pytest.mark.unit
 def test_die_and_replace_incar(make_model):
     model = make_model()
     model.run_random = FakeRandom(0.0000001)  # always lower than death rate

@@ -7,6 +7,7 @@ import titan.parse_params as pp
 setting = "tests/params/setting.yml"
 
 
+@pytest.mark.unit
 def test_create_params_base(tmpdir):
     param_file_clean = "tests/params/setting_params.yml"
     params = pp.create_params(setting, param_file_clean, tmpdir, use_base=True)
@@ -21,6 +22,7 @@ def test_create_params_base(tmpdir):
     assert params.partnership.sex.acquisition.MSM.insertive == 0.0011  # from param
 
 
+@pytest.mark.unit
 def test_create_params_error(tmpdir):
     param_file_error = "tests/params/basic.yml"
     # should error since base has demographics for more populations than there are classes in settings, so the ppl's don't add up
@@ -28,6 +30,7 @@ def test_create_params_error(tmpdir):
         pp.create_params(setting, param_file_error, tmpdir)
 
 
+@pytest.mark.unit
 def test_check_item_min_max():
     defs = {"min": 0, "max": 3, "type": "float"}
 
@@ -46,6 +49,7 @@ def test_check_item_min_max():
         pp.check_item(4.5, defs)
 
 
+@pytest.mark.unit
 def test_check_item_int():
     defs = {"min": 0, "max": 3, "type": "int"}
 
@@ -57,6 +61,7 @@ def test_check_item_int():
         pp.check_item(1.5, defs)
 
 
+@pytest.mark.unit
 def test_check_item_boolean():
     defs = {"type": "boolean"}
 
@@ -68,6 +73,7 @@ def test_check_item_boolean():
         pp.check_item(1, defs)
 
 
+@pytest.mark.unit
 def test_check_item_enum():
     defs = {"type": "enum", "values": ["a", "b"]}
 
@@ -79,8 +85,9 @@ def test_check_item_enum():
         pp.check_item("c", defs)
 
 
+@pytest.mark.unit
 def test_check_item_array():
-    defs = {"type": "enum", "values": ["a", "b"]}
+    defs = {"type": "array", "values": ["a", "b"]}
 
     # happy case
     assert pp.check_item(["a", "b"], defs) == ["a", "b"]
@@ -96,7 +103,8 @@ def test_check_item_array():
         pp.check_item(["a", "c"], defs)
 
 
-def test_check_item_array():
+@pytest.mark.unit
+def test_check_item_keys():
     defs = {"type": "keys"}
 
     # happy case

@@ -10,9 +10,9 @@ from copy import deepcopy
 from titan.parse_params import ObjMap, create_params
 from titan.model import HIVModel
 
-
+# overwrite
 @pytest.fixture
-def params(tmpdir):
+def params_integration(tmpdir):
     param_file = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "params", "simple_integration.yml"
     )
@@ -20,14 +20,14 @@ def params(tmpdir):
 
 
 @pytest.fixture
-def make_model(params):
-    def _make_model():
-        return HIVModel(params)
+def make_model_integration(params_integration):
+    def _make_model_integration():
+        return HIVModel(params_integration)
 
-    return _make_model
+    return _make_model_integration
 
 
-@pytest.mark.integration
+@pytest.mark.integration_deterministic
 def test_model_runs():
     f = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "run_titan.py")
     param_file = os.path.join(
@@ -38,7 +38,7 @@ def test_model_runs():
     assert True
 
 
-@pytest.mark.integration
+@pytest.mark.integration_deterministic
 def test_model_reproducible(tmpdir):
     path_a = tmpdir.mkdir("result_a")
     path_b = tmpdir.mkdir("result_b")
@@ -76,7 +76,7 @@ def test_model_reproducible(tmpdir):
         assert res_a[i]["HIV"] == res_b[i]["HIV"]
 
 
-@pytest.mark.integration
+@pytest.mark.integration_deterministic
 def test_model_settings_run(tmpdir):
     f = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "run_titan.py")
     param_file = os.path.join(
@@ -92,12 +92,12 @@ def test_model_settings_run(tmpdir):
             assert True
 
 
-@pytest.mark.integration
-def test_target_partners(make_model, tmpdir):
+@pytest.mark.integration_stochastic
+def test_target_partners(make_model_integration, tmpdir):
     """
     If we increase the number of target partners, does the number of actual partners increase?
     """
-    model_a = make_model()
+    model_a = make_model_integration()
     model_a.params.outputs.network.edge_list = True
 
     path_a = tmpdir.mkdir("a")
@@ -150,12 +150,12 @@ def test_target_partners(make_model, tmpdir):
     assert (g_a_10.number_of_edges() * 2) < g_b_10.number_of_edges()
 
 
-@pytest.mark.integration
-def test_prep_coverage(make_model, tmpdir):
+@pytest.mark.integration_stochastic
+def test_prep_coverage(make_model_integration, tmpdir):
     """
     If we increase the target of prep coverage, does the incidence of hiv decrease?
     """
-    model_a = make_model()
+    model_a = make_model_integration()
 
     path_a = tmpdir.mkdir("a")
     path_a.mkdir("network")
@@ -203,12 +203,13 @@ def test_prep_coverage(make_model, tmpdir):
     assert t9_diff > t0_diff
     assert int(res_a[9]["PrEP"]) < int(res_b[9]["PrEP"])
 
-@pytest.mark.integration
-def test_syringe_services(make_model, tmpdir):
+
+@pytest.mark.integration_stochastic
+def test_syringe_services(make_model_integration, tmpdir):
     """
     If we use syringe services, does the incidence of hiv decrease?
     """
-    model_a = make_model()
+    model_a = make_model_integration()
 
     path_a = tmpdir.mkdir("a")
     path_a.mkdir("network")
@@ -255,9 +256,10 @@ def test_syringe_services(make_model, tmpdir):
     t9_diff = t9_hiv_a - t9_hiv_b  # a should be higher
     assert t9_diff > t0_diff
 
-@pytest.mark.integration
-def test_static_network(make_model, tmpdir):
-    model = make_model()
+
+@pytest.mark.integration_deterministic
+def test_static_network(make_model_integration, tmpdir):
+    model = make_model_integration()
     orig_rel_ids = [rel.id for rel in model.pop.relationships]
 
     # turn on static network - only affects run time, so fine have false during init
@@ -265,7 +267,7 @@ def test_static_network(make_model, tmpdir):
 
     tmpdir.mkdir("network")
 
-    for t in range(1,10):
+    for t in range(1, 10):
         model.time = t
         model.step(tmpdir, burn=False)
         model.reset_trackers()
@@ -278,9 +280,10 @@ def test_static_network(make_model, tmpdir):
         for rel in orig_rel_ids:
             assert rel in curr_rel_ids
 
-@pytest.mark.integration
-def test_incar(make_model, tmpdir):
-    model = make_model()
+
+@pytest.mark.integration_deterministic
+def test_incar(make_model_integration, tmpdir):
+    model = make_model_integration()
 
     # turn on incar - initi is set to 0, so for these purposes, just run time
     model.params.features.incar = True
@@ -320,9 +323,10 @@ def test_incar(make_model, tmpdir):
     for agent in time_1_incar_hiv_neg:
         assert not agent.hiv
 
-@pytest.mark.integration
-def test_incar(make_model, tmpdir):
-    model = make_model()
+
+@pytest.mark.integration_deterministic
+def test_incar(make_model_integration, tmpdir):
+    model = make_model_integration()
 
     # turn on partner tracing - just run time affects
     model.params.features.partner_tracing = True

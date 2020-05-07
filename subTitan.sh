@@ -19,8 +19,10 @@ useBase="True"
 jobname=""
 folderName=""
 sweepDefs=""
-force=false
+sweepfile=""
+rows=""
 num_cores=1
+forceFlag=""
 
 while getopts m:S:T:j:r:n:f:w:F:c:t: option
 do
@@ -35,7 +37,9 @@ do
 	b) useBase=${OPTARG};;
 	f) folderName=${OPTARG};;
 	w) sweepDefs+="-w ${OPTARG} ";;
-	F) force=true;;
+	W) sweepfile="-W ${OPTARG}";;
+	r) rows="-r ${OPTARG}";;
+	F) forceFlag="-F";;
 	c) num_cores=${OPTARG};;
 	t) titanPath=${OPTARG};;
     esac
@@ -68,6 +72,8 @@ options:
 	-b use_base     whether to use the base setting as True or False (default: $useBase)
 	-f folder_name	What the parent folder for the model run outputs should be called (default: <setting>)
 	-w sweep_defs   Optionally, definitions of sweep parameters in the format param:start:stop[:step]
+	-W sweepfile   	Optionally, a csv file with sweep definitions (if used, -w flag is ignored)
+	-r rows					Optionally, which data rows of the sweep file to use in format start:stop
 	-F force				If the number of sweep combinations exceeds 100, run anyway
 	-c num_cores		How many cores to request and run the job on (default: $num_cores)
 	-t titanPath		where the code is
@@ -110,15 +116,8 @@ prepSubmit() {
     echo -e "\t$PWD"
     updateParams;
 
-		# set up sweeping flags
-		forceFlag=""
-		if [ $force = true ]; then
-			forceFlag=" -F"
-		fi
-
-
     #Submit job to cluster
-    sbatch scripts/bs_Core.sh -S $setting -p $paramPath -n $nMC -b $useBase $forceFlag $sweepDefs
+    sbatch scripts/bs_Core.sh -S $setting -p $paramPath -n $nMC -b $useBase $forceFlag $sweepDefs $sweepfile
 
     #Move back to base directory
     cd $basePath
@@ -156,7 +155,7 @@ if [ $srcCode ]; then
         jobname     $jobname
         outPath	    $outPath
         paramPath   $paramPath
-        user	    $user
+        user        $user
         date        $date
         walltime    $walltime
         memory      $memory

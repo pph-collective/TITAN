@@ -127,6 +127,11 @@ class Agent:
     def __hash__(self):
         return self.id
 
+    def get_partners(self):
+        for partner_set in self.partners:
+            for partner in partner_set:
+                yield partner
+
     def get_acute_status(self, acute_time_period) -> bool:
         """
         :Purpose:

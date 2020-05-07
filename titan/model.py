@@ -1,13 +1,12 @@
-
 # Imports
 import random
 from typing import Dict, List, Optional
-import uuid
 from copy import copy
 import os
 
 import numpy as np  # type: ignore
 import networkx as nx  # type: ignore
+import nanoid  # type: ignore
 
 
 from .agent import AgentSet, Agent, Relationship
@@ -76,7 +75,7 @@ class HIVModel:
         self.ssp_enrolled_risk = 0.0
 
         self.time = -1 * self.params.model.time.burn_steps  # burn is negative time
-        self.id = uuid.uuid4()
+        self.id = nanoid.generate(size=8)
 
         # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed value
         self.run_seed = utils.get_check_rand_int(params.model.seed.run)
