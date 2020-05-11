@@ -40,10 +40,26 @@ demographics:
         booser:
           internval: 12
           prob: 0.1
+      num_partners:
+        Sex:
+          dist_type: poisson
+          var_1: 6
+          var_2: 1
+          mean: 6
+        Social:
+          dist_type: set_value
+          var_1: 0
+          var_2: 0
+        Inj:
+          dist_type: set_value
+          var_1: 0
+          var_2: 0
+        SexInj:
+          dist_type: set_value
+          var_1: 0
+          var_2: 0
     PWID:
       ppl: 0.2
-      syringe_services:
-        discontinue: 0.0
       hiv:
         init: 0.1
         dx:
@@ -68,42 +84,56 @@ demographics:
       vaccine:
         init: 0.1
         prob: 0.1
-        booser:
-          internval: 12
+        booster:
+          interval: 12
           prob: 0.1
+      num_partners:
+        Sex:
+          dist_type: poisson
+          var_1: 15
+          var_2: 1
+        Inj:
+          dist_type: poisson
+          var_1: 15
+          var_2: 1
+        SexInj:
+          dist_type: poisson
+          var_1: 15
+          var_2: 1
+        Social:
+          dist_type: poisson
+          var_1: 0
+          var_2: 1
 
 partnership:
+  duration:
+    Inj:
+      type: distribution
+      distribution:
+        dist_type: poisson
+        var_1: 3
+        var_2: 1
+        mean: 12
+    SexInj:
+      type: bins
+      distribution:
+        dist_type: poisson
+        var_1: 3
+        var_2: 1
+        mean: 12
+    Sex:
+      type: bins
+      bins:
+        1:
+          prob: 1.0
+          min: 1
+          max: 10
   sex:
     acquisition:
       MSM:
         insertive: 0.0011
         receptive: 0.0138
         versatile: 0.00745
-  bonds:
-    PWID:
-      Sex:
-        prob: 0.3
-      SexInj:
-        prob: 0.3
-      Inj:
-        prob: 0.2
-      Social:
-        prob: 0.2
-    HM:
-      Sex:
-        prob: 1.0
-    MSM:
-      Sex:
-        prob: 1.0
-    HF:
-      Sex:
-        prob: 1.0
-    WSW:
-      Sex:
-        prob: 1.0
-    MTF:
-      Sex:
-        prob: 1.0
   interaction:
     Sex:
       1:
@@ -139,6 +169,3 @@ model:
     burn_steps: 0
   network:
     enable: true
-  population:
-    num_partners:
-      type: bins

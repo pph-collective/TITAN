@@ -25,7 +25,7 @@ def make_agent():
 
 @pytest.fixture
 def make_relationship():
-    def _make_relationship(id1, id2, bond_type="#REVIEW", duration=2):
+    def _make_relationship(id1, id2, bond_type="Sex", duration=2):
         return Relationship(id1, id2, duration, bond_type)
 
     return _make_relationship
@@ -63,8 +63,8 @@ def test_agent_init(make_agent):
 
     # partner params
     assert a.relationships == set()
-    assert a.partners == set()
-    assert a.mean_num_partners == 0
+    assert a.partners == {}
+    assert a.mean_num_partners == {}
 
     # STI params
     assert a.hiv is False
@@ -149,8 +149,11 @@ def test_get_number_of_sex_acts(make_agent, params):
 
 def test_relationship(make_agent, make_relationship):
     a = make_agent()
+    a.partners["Sex"] = set()
     p1 = make_agent()
+    p1.partners["Sex"] = set()
     p2 = make_agent()
+    p2.partners["Sex"] = set()
     r1 = make_relationship(a, p1)
     r2 = make_relationship(a, p2)
 
@@ -164,10 +167,10 @@ def test_relationship(make_agent, make_relationship):
     assert r2.duration == 2
     assert r2.total_sex_acts == 0
 
-    assert p1 in a.partners
-    assert p2 in a.partners
-    assert a in p1.partners
-    assert a in p2.partners
+    assert p1 in a.partners["Sex"]
+    assert p2 in a.partners["Sex"]
+    assert a in p1.partners["Sex"]
+    assert a in p2.partners["Sex"]
 
     assert r1 in a.relationships
     assert r1 in p1.relationships
@@ -178,10 +181,10 @@ def test_relationship(make_agent, make_relationship):
     ended = r1.progress()
     assert ended == False
     assert r1.duration == 1
-    assert p1 in a.partners
-    assert p2 in a.partners
-    assert a in p1.partners
-    assert a in p2.partners
+    assert p1 in a.partners["Sex"]
+    assert p2 in a.partners["Sex"]
+    assert a in p1.partners["Sex"]
+    assert a in p2.partners["Sex"]
 
     assert r1 in a.relationships
     assert r1 in p1.relationships
@@ -194,10 +197,10 @@ def test_relationship(make_agent, make_relationship):
     ended = r1.progress()
     assert ended == True
     assert r1.duration == 0
-    assert p1 not in a.partners
-    assert p2 in a.partners
-    assert a not in p1.partners
-    assert a in p2.partners
+    assert p1 not in a.partners["Sex"]
+    assert p2 in a.partners["Sex"]
+    assert a not in p1.partners["Sex"]
+    assert a in p2.partners["Sex"]
 
     assert r1 not in a.relationships
     assert r1 not in p1.relationships
@@ -208,6 +211,8 @@ def test_relationship(make_agent, make_relationship):
 def test_get_partner(make_agent, make_relationship):
     a = make_agent()
     p = make_agent()
+    a.partners["Sex"] = set()
+    p.partners["Sex"] = set()
     rel = make_relationship(a, p)
 
     assert rel.get_partner(a) == p

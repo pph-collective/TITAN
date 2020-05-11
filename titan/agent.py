@@ -55,9 +55,9 @@ class Agent:
 
         # agent-partner params
         self.relationships: Set[Relationship] = set()
-        self.partners: Set[Agent] = set()
-        self.mean_num_partners = 0
-        self.target_partners = 0
+        self.partners: Dict[str, Set] = {}
+        self.mean_num_partners: Dict[str, int] = {}
+        self.target_partners: Dict[str, int] = {}
 
         # agent STI params
         self.hiv = False
@@ -176,14 +176,6 @@ class Agent:
                         if partner.msmw:
                             eligible = True
                             self.prep_reason.append("MSMW")
-        elif target_model == "CDCmsm":
-            if self.so == "MSM":
-                for rel in self.relationships:
-                    partner = rel.get_partner(self)
-
-                    if rel.duration > ongoing_duration:
-                        if partner.hiv_dx or self.mean_num_partners > 1:
-                            eligible = True
         elif target_model == "MSM":
             if self.so in ("MSM", "MTF"):
                 eligible = True
@@ -283,9 +275,8 @@ class Relationship:
         """
         # make sure these agents can be in a relationship
         assert agent1 != agent2, "Cannot create relationship with same agent"
-        assert (
-            agent1 not in agent2.partners and agent2 not in agent1.partners
-        ), "Agents already partnered!"
+        for rel in agent1.relationships:
+            assert agent2 != rel.get_partner(agent1), "Agents already partnered!"
 
         # self.id is unique ID number used to track each person agent.
         self.agent1 = agent1
@@ -332,8 +323,8 @@ class Relationship:
         self.agent2.relationships.add(self)
 
         # Pair agent with partner and partner with agent
-        self.agent1.partners.add(self.agent2)
-        self.agent2.partners.add(self.agent1)
+        self.agent1.partners[self.bond_type].add(self.agent2)
+        self.agent2.partners[self.bond_type].add(self.agent1)
 
     def unbond(self):
         """
@@ -352,8 +343,8 @@ class Relationship:
         self.agent2.relationships.remove(self)
 
         # Unpair agent with partner and partner with agent
-        self.agent1.partners.remove(self.agent2)
-        self.agent2.partners.remove(self.agent1)
+        self.agent1.partners[self.bond_type].remove(self.agent2)
+        self.agent2.partners[self.bond_type].remove(self.agent1)
 
     def get_partner(self, agent: "Agent") -> "Agent":
         if agent == self.agent1:

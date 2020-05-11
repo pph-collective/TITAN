@@ -103,7 +103,7 @@ params.classes.bond_types_probs_PWID = {
     "sexOnly": 0.587,
 }
 params.classes.bond_types = ["social"]
-params.model.population.num_partners.type = "bins"
+params.model.population.num_partners.distribution = "bins"
 
 """
 Peer change params

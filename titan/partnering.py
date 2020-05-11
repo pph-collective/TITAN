@@ -2,8 +2,9 @@
 # encoding: utf-8
 
 # Imports
-from typing import Optional, Tuple, Dict
+from typing import Optional, Dict, Set
 from copy import copy
+
 
 from .agent import Agent, AgentSet
 from . import utils
@@ -12,12 +13,13 @@ from .parse_params import ObjMap
 
 def select_partner(
     agent: Agent,
-    partnerable_agents: AgentSet,
+    partnerable_agents: Set[Agent],
     sex_partners: Dict,
     pwid_agents: AgentSet,
     params: ObjMap,
     rand_gen,
-) -> Tuple[Optional[Agent], str]:
+    bond_type,
+) -> Optional[Agent]:
     """
     :Purpose:
         Get partner for agent.
@@ -30,11 +32,6 @@ def select_partner(
     :Output:
         partner: new partner
     """
-
-    def bondtype(bond_dict):
-        bonds = list(params.classes.bond_types.keys())
-        probs = [bond_dict[bond].prob for bond in bonds]
-        return rand_gen.choices(bonds, weights=probs, k=1).pop()
 
     def assort(eligible_partners, assort_params):
         partner_types = list(assort_params.partner_values.keys())
@@ -62,16 +59,12 @@ def select_partner(
 
         return eligible_partners
 
-    eligible = copy(partnerable_agents.members)
-    eligible -= agent.partners
+    eligible = copy(partnerable_agents)
+    for bond in params.classes.bond_types:
+        eligible -= agent.partners[bond]
     eligible -= {agent}
 
-    if agent.drug_use == "Inj":
-        agent_bond = bondtype(params.partnership.bonds["PWID"])
-    else:
-        agent_bond = bondtype(params.partnership.bonds[agent.so])
-
-    acts_allowed = params.classes.bond_types[agent_bond].acts_allowed
+    acts_allowed = params.classes.bond_types[bond_type].acts_allowed
 
     if "injection" in acts_allowed:
         eligible &= pwid_agents.members
@@ -81,7 +74,7 @@ def select_partner(
 
     # short circuit to avoid attempting to assort with no eligible partners
     if not eligible:
-        return None, agent_bond
+        return None
 
     if params.features.assort_mix:
         for assort_def in params.assort_mix.values():
@@ -90,7 +83,7 @@ def select_partner(
 
     random_partner = utils.safe_random_choice(eligible, rand_gen)
 
-    return random_partner, agent_bond
+    return random_partner
 
 
 @utils.memo
@@ -120,7 +113,7 @@ def sex_possible(agent_sex_type: str, partner_sex_type: str, sex_types: ObjMap) 
     return agent_match and partner_match
 
 
-def get_partnership_duration(agent: Agent, params: ObjMap, rand_gen) -> int:
+def get_partnership_duration(params: ObjMap, rand_gen, bond_type) -> int:
     """
     :Purpose:
         Get duration of a relationship
@@ -133,15 +126,21 @@ def get_partnership_duration(agent: Agent, params: ObjMap, rand_gen) -> int:
         NumPartners : int
         Zero partners possible.
     """
-    dur_info = params.partnership.duration
 
-    diceroll = rand_gen.random()
-    dur_bin = dur_info[5]
-    for i in range(1, 5):
-        if diceroll < dur_info[i].prob:
-            dur_bin = dur_info[i]
-            break
+    if params.partnership.duration[bond_type].type == "bins":
+        dur_info = params.partnership.duration[bond_type].bins
 
-    duration = rand_gen.randrange(dur_bin.min, dur_bin.max, 1,)
+        diceroll = rand_gen.random()
+        dur_bin = dur_info[5]
+        for i in range(1, 5):
+            if diceroll < dur_info[i].prob:
+                dur_bin = dur_info[i]
+                break
+
+        duration = rand_gen.randint(dur_bin.min, dur_bin.max)
+
+    else:
+        dist = params.partnership.duration[bond_type].distribution
+        duration = utils.safe_dist(dist, rand_gen)
 
     return duration

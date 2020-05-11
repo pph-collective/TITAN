@@ -1,6 +1,7 @@
 import random
 from functools import wraps
 from typing import TypeVar, Optional, Collection
+from math import ceil
 
 
 def get_check_rand_int(seed):
@@ -55,6 +56,27 @@ def safe_shuffle(seq: Collection[T], rand_gen):
             return seq
     else:
         return None
+
+
+def safe_dist(dist_info, rand_gen):
+    dist_type = dist_info.dist_type
+
+    try:
+        dist = getattr(rand_gen, dist_type)
+    except AttributeError:
+        if dist_type == "set_value":
+            return round(dist_info.var_1)  # round to avoid floating point error
+        else:
+            raise AttributeError(f"Distribution type {dist_type} not found!")
+    try:
+        value = dist(dist_info.var_1, dist_info.var_2)
+    except TypeError:  # If second param of function is shape, must be int
+        value = dist(dist_info.var_1, int(dist_info.var_2))
+
+    if hasattr(value, "__iter__"):  # check if value is any type of sequence
+        return value[0]
+    else:
+        return value
 
 
 def binom_0(n: int, p: float):

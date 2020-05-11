@@ -1,39 +1,4 @@
 partnership:
-  duration:
-    type: bin
-    description: "Binned probabilities of length of a partnership's durations"
-    fields:
-      prob:
-        type: float
-        min: 0.0
-        max: 1.0
-      min:
-        type: int
-        min: 0
-      max:
-        type: int
-        min: 0
-    default:
-      1:
-        prob: 0.585
-        min: 1
-        max: 6
-      2:
-        prob: 0.701
-        min: 7
-        max: 12
-      3:
-        prob: 0.822
-        min: 13
-        max: 24
-      4:
-        prob: 0.882
-        min: 25
-        max: 36
-      5:
-        prob: 1.0
-        min: 37
-        max: 48
   sex:
     frequency:
       type: bin
@@ -205,20 +170,82 @@ partnership:
           prob: 1.0
           min: 30
           max: 30
-  bonds:
-    type: sub-dict
-    keys:
-      - populations
-      - bond_types
-    description: Probabilities by population for bond type
-    default:
-      prob:
-        default: 0.0
-        type: float
-        min: 0.0
-        max: 1.0
   ongoing_duration:
     default: 1
     description: Relationship duration past which the relationship is considered "ongoing".  Used for CDCWomen and CDCmsm prep eligibility.
     type: int
     min: 0
+  duration:
+    type: sub-dict
+    keys:
+      - bond_types
+    description: "Duration of relationships given bond type"
+    default:
+      type:
+        type: enum
+        description: "Whether to use a distribution or bins for partnership durations"
+        values:
+          - bins
+          - distribution
+        default: distribution
+      distribution:
+        dist_type:
+          type: enum
+          description: "Type of distribution to use for partnership durations if type is distribution. See https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator for function information"
+          values:
+            - gamma
+            - beta
+            - poisson
+            - uniform
+            - set_value
+          default: gamma
+        var_1:
+          type: float
+          description: "First variable of np function for chosen distribution."
+          min: 0.0
+          default: 0.0
+        var_2:
+          type: float
+          description: "Second variable of np function for chosen distribution."
+          min: 0.0
+          default: 0.0
+        mean:
+          type: float
+          description: "Mean of distribution, used to calculate partners per timestep from partners per year"
+          min: 0.0
+          default: 0.0
+      bins:
+        type: bin
+        description: "Binned probabilities of length of a partnership's sexual durations"
+        fields:
+          prob:
+            type: float
+            min: 0.0
+            max: 1.0
+          min:
+            type: int
+            min: 0
+          max:
+            type: int
+            min: 0
+        default:
+          1:
+            prob: 0.585
+            min: 1
+            max: 6
+          2:
+            prob: 0.701
+            min: 7
+            max: 12
+          3:
+            prob: 0.822
+            min: 13
+            max: 24
+          4:
+            prob: 0.882
+            min: 25
+            max: 36
+          5:
+            prob: 1.0
+            min: 37
+            max: 48

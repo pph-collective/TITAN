@@ -38,8 +38,20 @@ Code coverage is tracked via CodeCov and targets are set for unit, integration, 
 
 ## Built With
 * [Python3.x](https://www.python.org/downloads/release/python-374/) - Programming language
+
+  Van Rossum G, Drake FL. Python 3 Reference Manual. Scotts Valley, CA: CreateSpace; 2009.
+
 * [Networkx](https://networkx.github.io/) - Network structure backend
+
+  Hagberg A, Swart P, S Chult D. Exploring network structure, dynamics, and function using NetworkX. 2008.
+
 * [Numpy](http://www.numpy.org/) - Numerical libraries
+
+  Oliphant TE. A guide to NumPy. Vol. 1. Trelgol Publishing USA; 2006.
+
+* [Matplotlib]()
+
+  Hunter JD. Matplotlib: A 2D graphics environment. Computing in science &amp; engineering. 2007;9(3):90–5.
 
 
 ## Authors

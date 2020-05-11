@@ -7,6 +7,7 @@ from collections import deque
 from typing import List, Dict, Any, Set
 import numpy as np  # type: ignore
 import networkx as nx  # type: ignore
+from math import ceil
 
 from .parse_params import ObjMap
 from .agent import AgentSet, Agent, Relationship
@@ -90,7 +91,9 @@ class Population:
         self.pwid_agents = AgentSet("PWID", parent=self.all_agents)
 
         # agents who can take on a partner
-        self.partnerable_agents = AgentSet("Partnerable", parent=self.all_agents)
+        self.partnerable_agents: Dict[str, Set[Agent]] = {}
+        for bond_type in self.params.classes.bond_types.keys():
+            self.partnerable_agents[bond_type] = set()
 
         # who can sleep with whom
         self.sex_partners: Dict[str, Set[Agent]] = {}
@@ -103,17 +106,23 @@ class Population:
         self.prep_counts = {race: 0 for race in params.classes.races}
 
         # find average partnership durations
-        weights = []
-        vals = []
-        dur_bins = params.partnership.duration
-        for bins in params.partnership.duration:
-            if bins > 1:
-                weights.append(dur_bins[bins].prob - dur_bins[bins - 1].prob)
+        self.mean_rel_duration: Dict[str, int] = {}
+        for bond in self.params.partnership.duration:
+            if self.params.partnership.duration[bond].type == "bins":
+                weights = []
+                vals = []
+                dur_bins = params.partnership.duration[bond].bins
+                for bins in dur_bins:
+                    if bins > 1:
+                        weights.append(dur_bins[bins].prob - dur_bins[bins - 1].prob)
+                    else:
+                        weights.append(dur_bins[bins].prob)
+                    vals.append(np.average([dur_bins[bins].min, dur_bins[bins].max]))
+                self.mean_rel_duration[bond] = np.average(vals, weights=weights)
             else:
-                weights.append(dur_bins[bins].prob)
-            vals.append(np.average([dur_bins[bins].min, dur_bins[bins].max]))
-        self.mean_rel_duration = np.average(vals, weights=weights)
-        print(f"\tMean relationship duration: {self.mean_rel_duration}")
+                self.mean_rel_duration[bond] = self.params.partnership.duration[
+                    bond
+                ].distribution.mean
 
         print("\tCreating agents")
 
@@ -219,7 +228,6 @@ class Population:
             agent.hiv_time = self.pop_random.randint(1, self.params.hiv.max_init_time)
 
         else:
-
             if self.features.prep:
                 if self.prep.start == 0:
                     prob_prep = self.prep.target
@@ -249,32 +257,31 @@ class Population:
                 1, self.params.high_risk.sex_based[agent.so].duration
             )
 
-        # Partnership demographics
-        if self.params.model.population.num_partners.type == "bins":
-            pn_prob = self.pop_random.random()
-            current_p_value = bin = 0
-            bins = self.params.model.population.num_partners.bins
-
-            while True:
-                current_p_value += bins.get(bin, {"prob": 0})["prob"]
-                if pn_prob > current_p_value:
-                    bin += 1
-                else:
-                    break
-
-            agent.mean_num_partners = bin
-        else:
-            agent.mean_num_partners = utils.poisson(
-                self.demographics[race][sex_type].num_partners, self.np_random
+        # get agent's mean partner numbers for bond type
+        def partner_distribution(dist_info):
+            return ceil(
+                utils.safe_dist(dist_info, self.np_random)
+                * utils.safe_divide(
+                    self.params.calibration.sex.partner, self.mean_rel_duration[bond]
+                )
             )
 
-        agent.mean_num_partners = np.ceil(
-            agent.mean_num_partners
-            * self.params.calibration.sex.partner
-            / self.mean_rel_duration
-        )
+        for bond in self.params.classes.bond_types.keys():
+            agent.partners[bond] = set()
+            if agent.drug_use == "Inj":
+                dist_info = self.params.demographics[agent.race].PWID.num_partners[bond]
+            else:
+                dist_info = self.params.demographics[agent.race][agent.so].num_partners[
+                    bond
+                ]
+            agent.mean_num_partners[bond] = partner_distribution(dist_info)
+            # so not zero if added mid-year
+            agent.target_partners[bond] = agent.mean_num_partners[bond]
+            if bond == "Inj":
+                assert agent.drug_use == "Inj" or agent.mean_num_partners[bond] == 0
 
-        agent.target_partners = agent.mean_num_partners  # so not zero if added mid-year
+            if agent.target_partners[bond] > 0:
+                self.partnerable_agents[bond].add(agent)
 
         if self.features.pca:
             if self.pop_random.random() < self.prep.pca.awareness.init:
@@ -315,9 +322,6 @@ class Population:
         for sex_type in self.params.classes.sex_types[agent.so].sleeps_with:
             self.sex_partners[sex_type].add(agent)
 
-        if agent.target_partners > 0:
-            self.partnerable_agents.add_agent(agent)
-
         if agent.prep:
             self.prep_counts[agent.race] += 1
 
@@ -356,6 +360,10 @@ class Population:
 
         if self.enable_graph:
             self.graph.remove_node(agent)
+
+        for bond in self.partnerable_agents.values():
+            if agent in bond:
+                bond.remove(agent)
 
     def remove_relationship(self, rel: Relationship):
         """
@@ -399,11 +407,11 @@ class Population:
         age = self.pop_random.randrange(min_age, max_age)
         return age, i
 
-    def update_agent_partners(self, agent: Agent) -> bool:
+    def update_agent_partners(self, agent: Agent, bond_type: str) -> bool:
         """
         :Purpose:
             Finds and bonds new partner. Creates relationship object for partnership,
-            calcspartnership duration, and adds to networkX graph if self.enable_graph
+            calcs partnership duration, and adds to networkX graph if self.enable_graph
             is set True.
 
         :Input:
@@ -414,27 +422,28 @@ class Population:
             noMatch : bool
             Bool if no match was found for agent (used for retries)
         """
-        partner, bond_type = select_partner(
+        partner = select_partner(
             agent,
-            self.partnerable_agents,
+            self.partnerable_agents[bond_type],
             self.sex_partners,
             self.pwid_agents,
             self.params,
             self.pop_random,
+            bond_type,
         )
         no_match = True
 
         if partner:
-            duration = get_partnership_duration(agent, self.params, self.pop_random)
+            duration = get_partnership_duration(self.params, self.np_random, bond_type)
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
             self.add_relationship(relationship)
             # can partner still partner?
-            if len(partner.partners) >= (
-                partner.target_partners * self.params.calibration.partnership.buffer
+            if len(partner.partners[bond_type]) >= (
+                partner.target_partners[bond_type]
+                * self.params.calibration.partnership.buffer
             ):
-                self.partnerable_agents.remove_agent(partner)
+                self.partnerable_agents[bond_type].remove(partner)
             no_match = False
-
         return no_match
 
     def update_partner_assignments(self, t=0):
@@ -446,41 +455,37 @@ class Population:
         :Input:
             None
         """
-        print(
-            f"target partnerships: {sum([a.target_partners for a in self.all_agents])}"
-        )
-        print(
-            f"actual partnerships (pre): "
-            f"{sum([len(a.partners) for a in self.all_agents])}"
-        )
+        print(f"target partnerships: ")
 
         # update agent targets annually
         if t % self.params.model.time.steps_per_year == 0:
             self.update_partner_targets()
-            print(
-                f"\tUpdated partner targets, {self.partnerable_agents.num_members()} "
-                f"now partnerable"
-            )
 
         # Now create partnerships until available partnerships are out
-        eligible_agents = deque(
-            [a for a in self.all_agents if len(a.partners) < a.target_partners]
-        )
-        attempts = {a: 0 for a in eligible_agents}
+        for bond in self.params.classes.bond_types:
+            eligible_agents = deque(
+                [
+                    a
+                    for a in self.all_agents
+                    if len(a.partners[bond]) < a.target_partners[bond]
+                ]
+            )
+            attempts = {a: 0 for a in eligible_agents}
 
-        while eligible_agents:
-            agent = eligible_agents.popleft()
+            while eligible_agents:
+                agent = eligible_agents.popleft()
 
-            # no match
-            if self.update_agent_partners(agent):
-                attempts[agent] += 1
+                # no match
+                if self.update_agent_partners(agent, bond):
+                    attempts[agent] += 1
 
-            # add agent back to eligible pool
-            if (
-                len(agent.partners) < agent.target_partners
-                and attempts[agent] < self.params.calibration.partnership.break_point
-            ):
-                eligible_agents.append(agent)
+                # add agent back to eligible pool
+                if (
+                    len(agent.partners[bond]) < agent.target_partners[bond]
+                    and attempts[agent]
+                    < self.params.calibration.partnership.break_point
+                ):
+                    eligible_agents.append(agent)
 
         print(
             f"actual partnerships (post): "
@@ -489,20 +494,24 @@ class Population:
 
     def update_partner_targets(self):
         for a in self.all_agents:
-            a.target_partners = utils.poisson(a.mean_num_partners, self.np_random)
+            for bond in self.params.classes.bond_types:
+                a.target_partners[bond] = utils.poisson(
+                    a.mean_num_partners[bond], self.np_random
+                )
             self.update_partnerability(a)
 
     def update_partnerability(self, a):
         # update partnerability
-        if a in self.partnerable_agents:
-            if len(a.partners) > (
-                a.target_partners * self.params.calibration.partnership.buffer
+        for bond in self.params.classes.bond_types.keys():
+            if a in self.partnerable_agents[bond]:
+                if len(a.partners[bond]) > (
+                    a.target_partners[bond] * self.params.calibration.partnership.buffer
+                ):
+                    self.partnerable_agents[bond].remove(a)
+            elif len(a.partners) < (
+                a.target_partners[bond] * self.params.calibration.partnership.buffer
             ):
-                self.partnerable_agents.remove_agent(a)
-        elif len(a.partners) < (
-            a.target_partners * self.params.calibration.partnership.buffer
-        ):
-            self.partnerable_agents.add_agent(a)
+                self.partnerable_agents[bond].add(a)
 
     def initialize_graph(self):
         """

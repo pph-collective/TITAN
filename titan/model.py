@@ -148,13 +148,15 @@ class HIVModel:
 
             print(" === Simulation Burn Complete ===")
 
-        def make_agent_zero(num_partners: int):
+        def make_agent_zero():
             agent_zero = utils.safe_random_choice(
                 self.pop.pwid_agents.members, self.run_random
             )
             if agent_zero:
-                for i in range(num_partners):
-                    self.pop.update_agent_partners(agent_zero)
+                for i in range(self.params.agent_zero.num_agents):
+                    self.pop.update_agent_partners(
+                        agent_zero, self.params.agent_zero.type
+                    )
                 self.hiv_convert(agent_zero)
             else:
                 raise ValueError("Must have PWID agents to make an agent zero")
@@ -188,7 +190,7 @@ class HIVModel:
 
         # If we are using an agent zero method, create agent zero.
         if self.features.agent_zero:
-            make_agent_zero(4)
+            make_agent_zero()
 
         for t in range(1, self.params.model.time.num_steps + 1):
             print(f"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME {t}")
@@ -276,28 +278,30 @@ class HIVModel:
                 and self.features.prep
                 and (self.prep.target_model in ("high_risk", "incarcerated_high_risk"))
             ):
-                for part in agent.partners:
-                    if not (part.hiv or part.vaccine):
-                        self.initiate_prep(part, time)
+                for relationship in agent.relationships:
+                    partner = relationship.get_partner(agent)
+                    if not (partner.hiv or partner.vaccine):
+                        self.initiate_prep(partner, time)
         else:
             self.pop.high_risk_agents.remove_agent(agent)
             agent.high_risk = False
 
             if self.features.incar:
-                agent.mean_num_partners -= np.ceil(
-                    self.high_risk.partner_scale / self.pop.mean_rel_duration
-                )
-                agent.mean_num_partners = max(
-                    0, agent.mean_num_partners
-                )  # make sure not negative
-                agent.target_partners = utils.poisson(
-                    agent.mean_num_partners, self.np_random
-                )
-                while len(agent.partners) > agent.target_partners:
-                    rel = utils.safe_random_choice(agent.relationships, self.run_random)
-                    if rel is not None:
-                        rel.progress(force=True)
-                        self.pop.remove_relationship(rel)
+                for bond in self.params.high_risk.partnership_types:
+                    agent.mean_num_partners[bond] -= self.high_risk.partner_scale
+                    agent.mean_num_partners[bond] = max(
+                        0, agent.mean_num_partners[bond]
+                    )  # make sure not negative
+                    agent.target_partners[bond] = utils.poisson(
+                        agent.mean_num_partners[bond], self.np_random
+                    )
+                    while len(agent.partners[bond]) > agent.target_partners[bond]:
+                        rel = utils.safe_random_choice(
+                            agent.relationships, self.run_random
+                        )
+                        if rel is not None:
+                            rel.progress(force=True)
+                            self.pop.remove_relationship(rel)
 
     def initialize_random_trial(self, time: int):
         """
@@ -857,16 +861,19 @@ class HIVModel:
         ssp_agents = {agent for agent in self.pop.pwid_agents.members if agent.ssp}
         if self.features.syringe_services:
             for item in self.params.syringe_services.timeline.values():
-                if item.start <= time < item.stop:
+                if item.time_start <= time < item.time_stop:
                     self.ssp_enrolled_risk = item.risk
-                    if item.num_slots >= self.pop.pwid_agents.num_members():
-                        ssp_num_slots = item.num_slots
-                    elif item.num_slots == 0:
-                        ssp_num_slots = 0
-                    else:
+
+                    ssp_num_slots = (item.num_slots_stop - item.num_slots_start) / (
+                        item.time_stop - item.time_start
+                    ) * (time - item.time_start) + item.num_slots_start
+
+                    # If cap indicates all or no agents, do not change
+                    # otherwise, find true number of slots through distribution
+                    if 0 < ssp_num_slots < self.pop.pwid_agents.num_members():
                         ssp_num_slots = round(
                             self.run_random.betavariate(
-                                item.num_slots,
+                                ssp_num_slots,
                                 self.pop.pwid_agents.num_members() - item.num_slots,
                             )
                             * self.pop.pwid_agents.num_members()
@@ -879,12 +886,6 @@ class HIVModel:
 
         for agent in ssp_agents.copy():
             if len(ssp_agents) > ssp_num_slots:
-                agent.ssp = False
-                ssp_agents.remove(agent)
-            elif (
-                self.run_random.random()
-                < self.demographics[agent.race].PWID.syringe_services.discontinue
-            ):
                 agent.ssp = False
                 ssp_agents.remove(agent)
 
@@ -949,12 +950,11 @@ class HIVModel:
                     not agent.high_risk and self.features.high_risk
                 ):  # If behavioral treatment on and agent HIV, ignore HR period.
                     self.become_high_risk(agent)
-                    agent.mean_num_partners += np.ceil(
-                        self.high_risk.partner_scale / self.pop.mean_rel_duration
-                    )
-                    agent.target_partners = utils.poisson(
-                        agent.mean_num_partners, self.np_random
-                    )
+                    for bond in self.params.high_risk.partnership_types:
+                        agent.mean_num_partners[bond] += self.high_risk.partner_scale
+                        agent.target_partners[bond] = utils.poisson(
+                            agent.mean_num_partners[bond], self.np_random
+                        )
                     self.pop.update_partnerability(agent)
 
                 if hiv_bool:
@@ -1007,17 +1007,18 @@ class HIVModel:
             agent.incar_time = timestay
 
             # PUT PARTNERS IN HIGH RISK
-            for partner in agent.partners:
-                if not partner.high_risk and self.features.high_risk:
-                    if self.run_random.random() < self.high_risk.prob:
-                        self.become_high_risk(partner)
+            for bond in self.params.high_risk.partnership_types:
+                for partner in agent.partners[bond]:
+                    if not partner.high_risk and self.features.high_risk:
+                        if self.run_random.random() < self.high_risk.prob:
+                            self.become_high_risk(partner)
 
-                if self.features.prep and (
-                    self.prep.target_model in ("Incar", "IncarHR")
-                ):
-                    # Atempt to put partner on prep if less than probability
-                    if not partner.hiv and not agent.vaccine:
-                        self.initiate_prep(partner, time)
+                    if self.features.prep and (
+                        self.prep.target_model in ("Incar", "IncarHR")
+                    ):
+                        # Attempt to put partner on prep if less than probability
+                        if not partner.hiv and not agent.vaccine:
+                            self.initiate_prep(partner, time)
 
     def diagnose_hiv(self, agent: Agent, time: int):
         """
@@ -1042,14 +1043,17 @@ class HIVModel:
                 self.features.partner_tracing
             ):  # TODO fix this logic; should get partnerTraced and then lose it after
                 # For each partner, determine if found by partner testing
-                for ptnr in agent.partners:
-                    if (
-                        ptnr.hiv
-                        and not ptnr.hiv_dx
-                        and self.run_random.random() < self.params.partner_tracing.prob
-                    ):
-                        ptnr.partner_traced = True
-                        ptnr.trace_time = time + 1
+                for bond in agent.partners:
+                    if bond in self.params.partner_tracing.bond_type:
+                        for ptnr in agent.partners[bond]:
+                            if (
+                                ptnr.hiv
+                                and not ptnr.hiv_dx
+                                and self.run_random.random()
+                                < self.params.partner_tracing.prob
+                            ):
+                                ptnr.partner_traced = True
+                                ptnr.trace_time = time + 1
 
         if not tested:
             test_prob = self.demographics[race_type][sex_type].hiv.dx.prob

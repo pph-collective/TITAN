@@ -25,7 +25,7 @@ features:
     type: boolean
   agent_zero:
     default: false
-    description: Whether to create 4 "agent_zeros" to initialize HIV in the population
+    description: Whether to create "agent_zero" to initialize HIV in a population
     type: boolean
   assort_mix:
     default: false

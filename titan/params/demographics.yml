@@ -88,13 +88,6 @@ demographics:
         type: float
         min: 0.0
         max: 1.0
-    syringe_services:
-      discontinue:
-        default: 0.0
-        description: "Probability that an agent enrolled in ssp drops out in a given time step"
-        type: float
-        min: 0.0
-        max: 1.0
     incar:
       init:
         default: 0.0
@@ -188,10 +181,27 @@ demographics:
               min: 260
               max: 520
     num_partners:
-      default: 0.0
-      description: "Mean number of partners for an agent in this class if using model.population.num_partners.type = poisson"
-      type: float
-      min: 0.0
+      type: subdict
+      keys:
+        - bond_types
+      default:
+        dist_type:
+          default: poisson
+          description: "How to determine mean number of partners for an agent. Uses numpy.random distributions or 'set_value' to always return the var_1 value. More info at https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator"
+          type: enum
+          values:
+            - poisson
+            - gamma
+            - uniform
+            - set_value
+        var_1:
+          type: float
+          description: "First variable for chosen distribution function."
+          default: 0.0
+        var_2:
+          type: float
+          description: "Second variable for chosen distribution function."
+          default: 0.0
     injection:
       num_acts:
         default: 0.0
