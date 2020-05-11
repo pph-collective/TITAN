@@ -507,7 +507,7 @@ class Population:
         for a in self.all_agents:
             for bond in self.params.classes.bond_types:
                 a.target_partners[bond] = utils.poisson(
-                    int(a.mean_num_partners[bond]), self.np_random
+                    ceil(a.mean_num_partners[bond]), self.np_random
                 )
             self.update_partnerability(a)
 
