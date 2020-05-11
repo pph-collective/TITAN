@@ -68,7 +68,7 @@ def safe_dist(dist_info, rand_gen, dist_type=None):
         if dist_type == "set_value":
             return round(dist_info.var_1)  # round to avoid floating point error
         else:
-            raise AttributeError(f'Distribution type {dist_type} not found!')
+            raise AttributeError(f"Distribution type {dist_type} not found!")
     try:
         value = dist(dist_info.var_1, dist_info.var_2)
     except TypeError:  # If second param of function is shape, must be int
