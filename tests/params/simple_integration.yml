@@ -43,19 +43,19 @@ demographics:
       num_partners:
         Sex:
           distribution: poisson
-          var_1: 5
+          var_1: 6
           var_2: 1
-          mean: 5
+          mean: 6
         Social:
-          distribution: uniform
+          distribution: set_val
           var_1: 0
           var_2: 0
         Inj:
-          distribution: uniform
+          distribution: set_val
           var_1: 0
           var_2: 0
         SexInj:
-          distribution: uniform
+          distribution: set_val
           var_1: 0
           var_2: 0
     PWID:
@@ -84,35 +84,50 @@ demographics:
       vaccine:
         init: 0.1
         prob: 0.1
-        booser:
-          internval: 12
+        booster:
+          interval: 12
           prob: 0.1
       num_partners:
         Sex:
           distribution: poisson
-          var_1: 5
+          var_1: 15
           var_2: 1
         Inj:
           distribution: poisson
-          var_1: 5
+          var_1: 15
           var_2: 1
         SexInj:
           distribution: poisson
-          var_1: 5
+          var_1: 15
           var_2: 1
         Social:
           distribution: poisson
           var_1: 0
-          var_2: 10
+          var_2: 1
 
 partnership:
   duration:
     Inj:
-      type: bins
+      type: distribution
+      distribution:
+        dist_type: poisson
+        var_1: 3
+        var_2: 1
+        mean: 12
     SexInj:
       type: bins
+      distribution:
+        dist_type: poisson
+        var_1: 3
+        var_2: 1
+        mean: 12
     Sex:
       type: bins
+      bins:
+        1:
+          prob: 1.0
+          min: 1
+          max: 10
   sex:
     acquisition:
       MSM:

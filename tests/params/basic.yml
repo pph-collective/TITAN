@@ -664,8 +664,8 @@ partnership:
       distribution:
         dist_type: poisson
         var_1: 1
-        var_2: 5
-        mean: 3
+        var_2: 1
+        mean: 1
     SexInj:
       type: distribution
       distribution:

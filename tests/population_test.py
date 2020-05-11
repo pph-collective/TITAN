@@ -265,8 +265,8 @@ def test_update_agent_partners_MSM_match(make_population, params):
     pop.pop_random = FakeRandom(1.1)
     a.drug_use = "None"
     p.drug_use = "None"
-    a.target_partners["Sex"] = 5
-    p.target_partners["Sex"] = 5
+    a.target_partners["Sex"] = 25
+    p.target_partners["Sex"] = 25
     pop.add_agent(a)
     pop.add_agent(p)
 
@@ -287,8 +287,8 @@ def test_update_agent_partners_NDU_PWID_match(make_population, params):
     a.drug_use = "None"
     p.drug_use = "Inj"
 
-    a.target_partners["Sex"] = 10
-    p.target_partners["Sex"] = 10
+    a.target_partners["Sex"] = 100
+    p.target_partners["Sex"] = 100
     pop.add_agent(a)
     pop.add_agent(p)
 
@@ -311,8 +311,8 @@ def test_update_partner_assignments_MSM_match(make_population, params):
 
     pop.add_agent(a)
     pop.add_agent(p)
-    a.mean_num_partners["Sex"] = 100
-    p.mean_num_partners["Sex"] = 100
+    a.target_partners["Sex"] = 100
+    p.target_partners["Sex"] = 100
     assert params.model.network.enable is True
     assert pop.enable_graph
 
@@ -334,9 +334,9 @@ def test_update_partner_assignments_PWID_match(make_population, params):
     pop.add_agent(a)
     pop.add_agent(p)
 
-    a.mean_num_partners["Inj"] = 100
-    p.mean_num_partners["Inj"] = 100
-    assert params.model.network.enable == True
+    a.target_partners["Inj"] = 100
+    p.target_partners["Inj"] = 100
+    assert params.model.network.enable is True
     assert pop.enable_graph
 
     pop.update_partner_assignments(1)
