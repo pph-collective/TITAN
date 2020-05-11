@@ -263,7 +263,12 @@ class Population:
                 return 0
             elif utils.safe_dist(dist_info, self.np_random):
                 if agent.drug_use != "Inj" and bond == "Inj":
-                    print(utils.safe_dist(dist_info, self.np_random), agent.race, agent.so, agent.drug_use)
+                    print(
+                        utils.safe_dist(dist_info, self.np_random),
+                        agent.race,
+                        agent.so,
+                        agent.drug_use,
+                    )
                 return ceil(
                     utils.safe_dist(dist_info, self.np_random)
                     * self.params.calibration.sex.partner

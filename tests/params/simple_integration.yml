@@ -47,15 +47,15 @@ demographics:
           var_2: 1
           mean: 6
         Social:
-          distribution: set_val
+          distribution: set_value
           var_1: 0
           var_2: 0
         Inj:
-          distribution: set_val
+          distribution: set_value
           var_1: 0
           var_2: 0
         SexInj:
-          distribution: set_val
+          distribution: set_value
           var_1: 0
           var_2: 0
     PWID:
