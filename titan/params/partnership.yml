@@ -197,6 +197,7 @@ partnership:
             - beta
             - poisson
             - uniform
+            - set_value
           default: gamma
         var_1:
           type: float

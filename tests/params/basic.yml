@@ -18,12 +18,12 @@ demographics:
           var_1: 0.0
           var_2: 0
           mean: 0
-          distribution: uniform
+          distribution: set_value
         SexInj:
           var_1: 0.0
           var_2: 0
           mean: 0.0
-          distribution: uniform
+          distribution: set_value
       hiv:
         init: 0.1
         dx:
@@ -65,18 +65,18 @@ demographics:
         Social:
           var_1: 0.0
           var_2: 1
-          mean: 10.0
-          distribution: poisson
+          mean: 0.0
+          distribution: set_value
         Inj:
           var_1: 0.0
           var_2: 0
           mean: 0.0
-          distribution: uniform
+          distribution: set_value
         SexInj:
           var_1: 0.0
           var_2: 0
           mean: 0.0
-          distribution: uniform
+          distribution: set_value
       hiv:
         init: 0.1
         dx:
@@ -119,17 +119,17 @@ demographics:
           var_1: 0.0
           var_2: 1
           mean: 0.0
-          distribution: poisson
+          distribution: set_value
         Inj:
           var_1: 0.0
           var_2: 1
           mean: 0.0
-          distribution: uniform
+          distribution: set_value
         SexInj:
           var_1: 0.0
           var_2: 0
           mean: 0.0
-          distribution: uniform
+          distribution: set_value
       hiv:
         init: 0.1
         dx:
@@ -171,18 +171,18 @@ demographics:
         Social:
           var_1: 0.0
           var_2: 1
-          mean: 10.0
-          distribution: poisson
+          mean: 0.0
+          distribution: set_value
         Inj:
           var_1: 0.0
           var_2: 0
           mean: 0.0
-          distribution: uniform
+          distribution: set_value
         SexInj:
           var_1: 0.0
           var_2: 0
           mean: 0.0
-          distribution: uniform
+          distribution: set_value
       hiv:
         init: 0.1
         dx:
@@ -224,18 +224,18 @@ demographics:
         Social:
           var_1: 0.0
           var_2: 1
-          mean: 10.0
-          distribution: poisson
+          mean: 0.0
+          distribution: set_value
         Inj:
           var_1: 0.0
           var_2: 0
           mean: 0
-          distribution: uniform
+          distribution: set_value
         SexInj:
           var_1: 0.0
           var_2: 0
           mean: 0.0
-          distribution: uniform
+          distribution: set_value
       hiv:
         init: 0.1
         dx:
@@ -338,12 +338,12 @@ demographics:
           var_1: 0.0
           var_2: 0
           mean: 0
-          distribution: uniform
+          distribution: set_value
         SexInj:
           var_1: 0.0
           var_2: 0
           mean: 0.0
-          distribution: uniform
+          distribution: set_value
       hiv:
         init: 0.1
         dx:
@@ -385,18 +385,18 @@ demographics:
         Social:
           var_1: 0.0
           var_2: 1
-          mean: 10.0
-          distribution: poisson
+          mean: 0.0
+          distribution: set_value
         Inj:
           var_1: 0.0
           var_2: 0
           mean: 0.0
-          distribution: uniform
+          distribution: set_value
         SexInj:
           var_1: 0.0
           var_2: 0
           mean: 0.0
-          distribution: uniform
+          distribution: set_value
       hiv:
         init: 0.1
         dx:
@@ -438,18 +438,18 @@ demographics:
         Social:
           var_1: 0.0
           var_2: 1
-          mean: 10.0
-          distribution: poisson
+          mean: 0.0
+          distribution: set_value
         Inj:
           var_1: 0.0
           var_2: 0
           mean: 0.0
-          distribution: uniform
+          distribution: set_value
         SexInj:
           var_1: 0.0
           var_2: 0
           mean: 0.0
-          distribution: uniform
+          distribution: set_value
       hiv:
         init: 0.1
         dx:
@@ -497,12 +497,12 @@ demographics:
           var_1: 0.0
           var_2: 0
           mean: 0.0
-          distribution: uniform
+          distribution: set_value
         SexInj:
           var_1: 0.0
           var_2: 0
           mean: 0.0
-          distribution: uniform
+          distribution: set_value
       hiv:
         init: 0.1
         dx:
@@ -550,12 +550,12 @@ demographics:
           var_1: 0.0
           var_2: 0
           mean: 0.0
-          distribution: uniform
+          distribution: set_value
         SexInj:
           var_1: 0.0
           var_2: 0
           mean: 0.0
-          distribution: uniform
+          distribution: set_value
       hiv:
         init: 0.1
         dx:
@@ -608,7 +608,7 @@ demographics:
           var_1: 0.0
           var_2: 0
           mean: 0.0
-          distribution: uniform
+          distribution: set_value
       hiv:
         init: 0.1
         dx:

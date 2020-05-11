@@ -61,14 +61,15 @@ def safe_shuffle(seq: Collection[T], rand_gen):
 def safe_dist(dist_info, rand_gen, dist_type=None):
     if not dist_type:
         dist_type = dist_info.distribution
+    print(dist_info)
 
-    try:
+    print("\n\n", dist_type)
+
+    if dist_type == "set_value":
+        return int(dist_info.var_1)
+    else:
         dist = getattr(rand_gen, dist_type)
-    except AttributeError:
-        if dist_info.distribution == "set_value":
-            return round(dist_info.var_1)  # round to avoid floating point error
-        else:
-            return False
+
     try:
         value = dist(dist_info.var_1, dist_info.var_2)
     except TypeError:  # If second param of function is shape, must be int

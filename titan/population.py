@@ -259,14 +259,18 @@ class Population:
 
         # get agent's mean partner numbers for bond type
         def partner_distribution(dist_info):
-            partner_num = utils.safe_dist(dist_info, self.np_random)
             if self.mean_rel_duration[bond] == 0:
                 return 0
-            return int(
-                partner_num
-                * self.params.calibration.sex.partner
-                / self.mean_rel_duration[bond]
-            )
+            elif utils.safe_dist(dist_info, self.np_random):
+                if agent.drug_use != "Inj" and bond == "Inj":
+                    print(utils.safe_dist(dist_info, self.np_random), agent.race, agent.so, agent.drug_use)
+                return ceil(
+                    utils.safe_dist(dist_info, self.np_random)
+                    * self.params.calibration.sex.partner
+                    / self.mean_rel_duration[bond]
+                )
+            else:
+                return 0
 
         for bond in self.params.classes.bond_types.keys():
             agent.partners[bond] = set()
@@ -279,6 +283,8 @@ class Population:
             agent.mean_num_partners[bond] = partner_distribution(dist_info)
             # so not zero if added mid-year
             agent.target_partners[bond] = agent.mean_num_partners[bond]
+            if bond == "Inj":
+                assert agent.drug_use == "Inj" or agent.mean_num_partners[bond] == 0
 
             if agent.target_partners[bond] > 0:
                 self.partnerable_agents[bond].add(agent)

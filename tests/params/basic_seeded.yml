@@ -206,7 +206,7 @@ demographics:
           var_2: 1.0
         Social:
           distribution: set_value
-          var_1: 0.0
+          var_1: 0
           var_2: 0
         SexInj:
           distribution: set_value

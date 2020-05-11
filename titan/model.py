@@ -868,20 +868,16 @@ class HIVModel:
                         item.time_stop - item.time_start
                     ) * (time - item.time_start) + item.num_slots_start
 
-                    # If the cap is at or above num agents, keep it at max
-                    # otherwise, find true number of slots
-                    if ssp_num_slots < self.pop.pwid_agents.num_members():
-                        if ssp_num_slots == 0:
-                            # Don't sample from distribution if ssp is off
-                            ssp_num_slots = 0
-                        else:
-                            ssp_num_slots = round(
-                                self.run_random.betavariate(
-                                    ssp_num_slots,
-                                    self.pop.pwid_agents.num_members() - item.num_slots,
-                                )
-                                * self.pop.pwid_agents.num_members()
+                    # If cap indicates all or no agents, do not change
+                    # otherwise, find true number of slots through distribution
+                    if 0 < ssp_num_slots < self.pop.pwid_agents.num_members():
+                        ssp_num_slots = round(
+                            self.run_random.betavariate(
+                                ssp_num_slots,
+                                self.pop.pwid_agents.num_members() - item.num_slots,
                             )
+                            * self.pop.pwid_agents.num_members()
+                        )
                     break
 
         target_set = utils.safe_shuffle(
