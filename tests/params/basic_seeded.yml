@@ -5,19 +5,19 @@ demographics:
       ppl: 0.3
       num_partners:
         Sex:
-          distribution: poisson
+          dist_type: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0.0
           var_2: 0.0
         SexInj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0.0
           var_2: 0.0
         Inj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
       hiv:
@@ -54,19 +54,19 @@ demographics:
       ppl: 0.3
       num_partners:
         Sex:
-          distribution: poisson
+          dist_type: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0.0
           var_2: 0.0
         SexInj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
         Inj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
       hiv:
@@ -103,19 +103,19 @@ demographics:
       ppl: 0.2
       num_partners:
         Sex:
-          distribution: poisson
+          dist_type: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0.0
           var_2: 0.0
         SexInj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
         Inj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
       hiv:
@@ -152,19 +152,19 @@ demographics:
       ppl: 0.1
       num_partners:
         Sex:
-          distribution: poisson
+          dist_type: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0.0
           var_2: 0.0
         SexInj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
         Inj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
       hiv:
@@ -201,19 +201,19 @@ demographics:
       ppl: 0.1
       num_partners:
         Sex:
-          distribution: poisson
+          dist_type: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
         SexInj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
         Inj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
       hiv:
@@ -250,19 +250,19 @@ demographics:
       ppl: 0.2
       num_partners:
         Sex:
-          distribution: poisson
+          dist_type: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0.0
           var_2: 0.0
         SexInj:
-          distribution: poisson
+          dist_type: poisson
           var_1: 3.0
           var_2: 1.0
         Inj:
-          distribution: poisson
+          dist_type: poisson
           var_1: 3.0
           var_2: 1.0
       hiv:
@@ -301,19 +301,19 @@ demographics:
       ppl: 0.3
       num_partners:
         Sex:
-          distribution: poisson
+          dist_type: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0.0
           var_2: 0.0
         SexInj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
         Inj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
       hiv:
@@ -350,19 +350,19 @@ demographics:
       ppl: 0.3
       num_partners:
         Sex:
-          distribution: poisson
+          dist_type: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
         SexInj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
         Inj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
       hiv:
@@ -399,19 +399,19 @@ demographics:
       ppl: 0.2
       num_partners:
         Sex:
-          distribution: poisson
+          dist_type: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0.0
           var_2: 0.0
         SexInj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
         Inj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
       hiv:
@@ -448,19 +448,19 @@ demographics:
       ppl: 0.1
       num_partners:
         Sex:
-          distribution: poisson
+          dist_type: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0.0
           var_2: 0.0
         SexInj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
         Inj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
       hiv:
@@ -497,19 +497,19 @@ demographics:
       ppl: 0.1
       num_partners:
         Sex:
-          distribution: poisson
+          dist_type: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0.0
           var_2: 0.0
         SexInj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
         Inj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
       hiv:
@@ -546,19 +546,19 @@ demographics:
       ppl: 0.3
       num_partners:
         Sex:
-          distribution: poisson
+          dist_type: poisson
           var_1: 4.0
           var_2: 1.0
         Social:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0.0
           var_2: 0.0
         SexInj:
-          distribution: poisson
+          dist_type: poisson
           var_1: 3.0
           var_2: 1.0
         Inj:
-          distribution: poisson
+          dist_type: poisson
           var_1: 3.0
           var_2: 1.0
       hiv:

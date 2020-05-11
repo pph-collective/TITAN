@@ -114,17 +114,17 @@ demographics:
       Class: null
       num_partners:
         Sex:
-          distribution: poisson
+          dist_type: poisson
           var_1: 1.5
           var_2: 1.0
           mean: 1.5
         Inj:
-          distribution: uniform
+          dist_type: uniform
           var_1: 0
           var_2: 0
           mean: 0
         SexInj:
-          distribution: uniform
+          dist_type: uniform
           var_1: 0
           var_2: 0
           mean: 0
@@ -176,12 +176,12 @@ demographics:
         prob: 0.0
       num_partners:
         Sex:
-          distribution: poisson
+          dist_type: poisson
           var_1: 1.5
           var_2: 1.0
           mean: 1.5
         Inj:
-          distribution: uniform
+          dist_type: set_value
           var_1: 0
           var_2: 0
           mean: 0
@@ -189,7 +189,7 @@ demographics:
           var_1: 0
           var_2: 0
           mean: 0
-          distribution: uniform
+          dist_type: set_value
       injection:
         num_acts: 5.0
         unsafe_prob: 0.43
@@ -219,12 +219,12 @@ demographics:
         prob: 0.001
       num_partners:
         Sex:
-          distribution: poisson
+          dist_type: poisson
           var_1: 1.5
           var_2: 1.0
           mean: 1.5
         Inj:
-          distribution: poisson
+          dist_type: poisson
           var_1: 1.5
           var_2: 1.0
           mean: 1.5

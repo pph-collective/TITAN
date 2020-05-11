@@ -5,15 +5,15 @@ demographics:
       ppl: 0.495
       num_partners:
         Sex:
-          distribution: poisson
+          dist_type: poisson
           var_1: 1.1
           var_2: 1.0
         Inj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
         SexInj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
       hiv:
@@ -50,15 +50,15 @@ demographics:
       ppl: 0.505
       num_partners:
         Sex:
-          distribution: poisson
+          dist_type: poisson
           var_1: 1.1
           var_2: 1.0
         Inj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
         SexInj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
       hiv:
@@ -94,15 +94,15 @@ demographics:
       ppl: 0.017
       num_partners:
         Sex:
-          distribution: poisson
+          dist_type: poisson
           var_1: 1.1
           var_2: 1.0
         Inj:
-          distribution: gamma
+          dist_type: gamma
           var_1: 1.704
           var_2: 0.363
         SexInj:
-          distribution: poisson
+          dist_type: poisson
           var_1: 0.0
           var_2: 1.0
       hiv:

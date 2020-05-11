@@ -58,9 +58,8 @@ def safe_shuffle(seq: Collection[T], rand_gen):
         return None
 
 
-def safe_dist(dist_info, rand_gen, dist_type=None):
-    if not dist_type:
-        dist_type = dist_info.distribution
+def safe_dist(dist_info, rand_gen):
+    dist_type = dist_info.dist_type
 
     try:
         dist = getattr(rand_gen, dist_type)

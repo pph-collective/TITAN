@@ -120,7 +120,7 @@ demographics:
         prob: 0.0
       num_partners:
         Social:
-          distribution: poisson
+          dist_type: poisson
           var_1: 5.0
           var_2: 1.0
           mean: 5.0

@@ -42,20 +42,20 @@ demographics:
           prob: 0.1
       num_partners:
         Sex:
-          distribution: poisson
+          dist_type: poisson
           var_1: 6
           var_2: 1
           mean: 6
         Social:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
         Inj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
         SexInj:
-          distribution: set_value
+          dist_type: set_value
           var_1: 0
           var_2: 0
     PWID:
@@ -89,19 +89,19 @@ demographics:
           prob: 0.1
       num_partners:
         Sex:
-          distribution: poisson
+          dist_type: poisson
           var_1: 15
           var_2: 1
         Inj:
-          distribution: poisson
+          dist_type: poisson
           var_1: 15
           var_2: 1
         SexInj:
-          distribution: poisson
+          dist_type: poisson
           var_1: 15
           var_2: 1
         Social:
-          distribution: poisson
+          dist_type: poisson
           var_1: 0
           var_2: 1
 
