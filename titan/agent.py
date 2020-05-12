@@ -127,8 +127,8 @@ class Agent:
     def __hash__(self):
         return self.id
 
-    def get_partners(self):
-        for partner_set in self.partners:
+    def iter_partners(self):
+        for partner_set in self.partners.values():
             for partner in partner_set:
                 yield partner
 

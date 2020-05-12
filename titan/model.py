@@ -228,7 +228,7 @@ class HIVModel:
         if not self.features.static_network:
             self.pop.update_partner_assignments(t=self.time)
 
-        for rel in copy(self.pop.relationships):
+        for rel in self.pop.relationships:
             # If in burn, ignore interactions
             if not burn:
                 self.agents_interact(rel)
@@ -329,7 +329,7 @@ class HIVModel:
                 and self.features.prep
                 and (self.prep.target_model in ("high_risk", "incarcerated_high_risk"))
             ):
-                for part in agent.get_partners():
+                for part in agent.iter_partners():
                     if not (part.hiv or part.vaccine):
                         self.initiate_prep(part)
         else:

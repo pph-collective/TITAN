@@ -78,6 +78,58 @@ def test_get_acute_status(make_agent, params):
 
 
 @pytest.mark.unit
+def test_iter_partners(make_agent):
+    a = make_agent()
+    total_partners = 0
+    for i in range(3):
+        for bond in a.partners:
+            total_partners += 1
+            a.partners[bond].add(make_agent())
+
+    itered_partners = 0
+    for p in a.iter_partners():
+        itered_partners += 1
+
+    assert itered_partners == total_partners
+
+
+@pytest.mark.unit
+def test_enroll_prep_choice(make_agent, params):
+    params.prep.type = ["Oral", "Inj"]
+    params.prep.peak_load = 0.3
+    rand_gen = FakeRandom(-0.1)
+    a = make_agent()
+    a.prep_load = 10
+
+    a.enroll_prep(params, rand_gen)
+
+    assert a.prep
+    assert a.intervention_ever
+    assert a.prep_last_dose == 0
+    assert a.prep_load == 0.3
+    assert a.prep_adherence == 1
+    assert a.prep_type == "Inj"
+
+
+@pytest.mark.unit
+def test_enroll_prep_one(make_agent, params):
+    params.prep.type = ["Oral"]
+    params.prep.peak_load = 0.3
+    rand_gen = FakeRandom(1.1)
+    a = make_agent()
+    a.prep_load = 10
+
+    a.enroll_prep(params, rand_gen)
+
+    assert a.prep
+    assert a.intervention_ever
+    assert a.prep_last_dose == 0
+    assert a.prep_load == 0.3
+    assert a.prep_adherence == 0
+    assert a.prep_type == "Oral"
+
+
+@pytest.mark.unit
 def test_update_prep_load(make_agent, params):
     a = make_agent()
     assert a.prep_last_dose == 0

@@ -262,6 +262,32 @@ def test_become_high_risk(make_model, make_agent):
 
 
 @pytest.mark.unit
+def test_update_high_risk(make_model, make_agent):
+    model = make_model()
+    a = make_agent()
+
+    # try to update when not high risk
+    assert model.update_high_risk(a) is None
+
+    a.high_risk = True
+    a.high_risk_ever = True
+    a.high_risk_time = 1
+    model.pop.high_risk_agents.add_agent(a)
+
+    model.update_high_risk(a)
+
+    assert a.high_risk
+    assert a.high_risk_time == 0
+    assert a in model.pop.high_risk_agents
+
+    model.update_high_risk(a)
+
+    assert a.high_risk is False
+    assert a.high_risk_ever is True
+    assert a not in model.pop.high_risk_agents
+
+
+@pytest.mark.unit
 def test_incarcerate_diagnosed(make_model, make_agent):
     model = make_model()
     model.time = 10
