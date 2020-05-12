@@ -101,13 +101,35 @@ classes:
       cis_trans: cis
       sleeps_with:
         - HM
+  bond_types:
+    Sex:
+      acts_allowed:
+        - sex
+    Inj:
+      acts_allowed:
+        - injection
 demographics:
   WHITE:
     ppl: 1.0
     HM:
       Race: null
       Class: null
-      NUMPartn: 1.5
+      num_partners:
+        Sex:
+          dist_type: poisson
+          var_1: 1.5
+          var_2: 1.0
+          mean: 1.5
+        Inj:
+          dist_type: uniform
+          var_1: 0
+          var_2: 0
+          mean: 0
+        SexInj:
+          dist_type: uniform
+          var_1: 0
+          var_2: 0
+          mean: 0
       EligSE_PartnerType: HF
       AssortMixMatrix: []
       ppl: 0.415
@@ -125,7 +147,6 @@ demographics:
       incar:
         init: 0.0274
         prob: 0.001
-      num_partners: 0.0
       safe_sex: 0.89
       injection:
         unsafe_prob: 0.43
@@ -155,7 +176,22 @@ demographics:
       incar:
         init: 0.0
         prob: 0.0
-      num_partners: 0.0
+      num_partners:
+        Sex:
+          dist_type: poisson
+          var_1: 1.5
+          var_2: 1.0
+          mean: 1.5
+        Inj:
+          dist_type: set_value
+          var_1: 0
+          var_2: 0
+          mean: 0
+        SexInj:
+          var_1: 0
+          var_2: 0
+          mean: 0
+          dist_type: set_value
       injection:
         num_acts: 5.0
         unsafe_prob: 0.43
@@ -165,8 +201,6 @@ demographics:
       high_risk:
         init: 0
     PWID:
-      Race: null
-      Class: null
       NUMPartn: 1.5
       EligSE_PartnerType: PWID
       AssortMixMatrix: []
@@ -185,7 +219,17 @@ demographics:
       incar:
         init: 0.0274
         prob: 0.001
-      num_partners: 0.0
+      num_partners:
+        Sex:
+          dist_type: poisson
+          var_1: 1.5
+          var_2: 1.0
+          mean: 1.5
+        Inj:
+          dist_type: poisson
+          var_1: 1.5
+          var_2: 1.0
+          mean: 1.5
       safe_sex: 0.89
       injection:
         unsafe_prob: 0.63

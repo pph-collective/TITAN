@@ -44,6 +44,8 @@ def test_agents_interact(make_model, make_agent):
     model = make_model()
     a = make_agent(race="WHITE", SO="HM")
     p = make_agent(race="WHITE", SO="HF")
+    a.partners["Sex"] = set()
+    p.partners["Sex"] = set()
     rel = Relationship(a, p, 10, bond_type="Sex")
 
     model.run_random = FakeRandom(0.6)
@@ -142,6 +144,8 @@ def test_sex_transmission(make_model, make_agent):
     a.sex_role = "insertive"
     p = make_agent()
     p.sex_role = "receptive"
+    a.partners["Sex"] = set()
+    p.partners["Sex"] = set()
     rel = Relationship(a, p, 10, bond_type="Sex")
 
     a.hiv = True
@@ -164,6 +168,8 @@ def test_sex_transmission_do_nothing(make_model, make_agent):
     model = make_model()
     a = make_agent()
     p = make_agent()
+    a.partners["Sex"] = set()
+    p.partners["Sex"] = set()
     rel = Relationship(a, p, 10, bond_type="Sex")
 
     with pytest.raises(ValueError):
@@ -184,6 +190,8 @@ def test_pca_interaction(make_model, make_agent):
     a.prep_opinion = 4
     p.prep_opinion = 2
     a.prep_awareness = True
+    a.partners["SexInj"] = set()
+    p.partners["SexInj"] = set()
 
     model.run_random = FakeRandom(1.0)
 
@@ -260,6 +268,7 @@ def test_incarcerate_diagnosed(make_model, make_agent):
     a = make_agent(SO="HM", race="WHITE")  # incarceration only for HM and HF?
     a.hiv = True
     a.hiv_dx = True
+    a.partners["Sex"] = set()
 
     model.run_random = FakeRandom(-0.1)  # always less than params
 
@@ -277,8 +286,10 @@ def test_incarcerate_not_diagnosed(make_model, make_agent):
     model = make_model()
     a = make_agent(SO="HM", race="WHITE")  # incarceration only for HM and HF?
     a.hiv = True
+    a.partners["Sex"] = set()
 
     p = make_agent(SO="HF")
+    p.partners["Sex"] = set()
     rel = Relationship(a, p, 10, bond_type="Sex")
 
     model.run_random = FakeRandom(-0.1)  # always less than params
@@ -300,6 +311,8 @@ def test_incarcerate_not_diagnosed(make_model, make_agent):
 def test_incarcerate_unincarcerate(make_model, make_agent):
     model = make_model()
     a = make_agent()
+    a.target_partners = {bond: 0 for bond in model.params.classes.bond_types.keys()}
+    a.mean_num_partners = copy(a.target_partners)
 
     a.incar = True
     a.incar_time = 2
@@ -542,6 +555,8 @@ def test_initiate_prep_eligible(make_model, make_agent):
     # make sure there's room to add more prep agents
     a = make_agent(SO="HF")  # model is "CDCwomen"
     p = make_agent(DU="Inj")
+    a.partners["Sex"] = set()
+    p.partners["Sex"] = set()
     p.hiv_dx = True
     p.msmw = True
     model.time = 10
@@ -566,6 +581,7 @@ def test_progress_to_aids_error(make_agent, make_model):
     a = make_agent()
     a.hiv = False
     model = make_model()
+    a.target_partners = {bond: 0 for bond in model.params.classes.bond_types.keys()}
     model.pop.add_agent(a)
     num_aids = sum([1 for agent in model.pop.hiv_agents if agent.aids])  # get baseline
 
@@ -581,6 +597,7 @@ def test_progress_to_aids_nothing(make_agent, make_model):
     a = make_agent()
     a.hiv = True
     model = make_model()
+    a.target_partners = {bond: 0 for bond in model.params.classes.bond_types.keys()}
     model.pop.add_agent(a)
     num_aids = sum([1 for agent in model.pop.hiv_agents if agent.aids])  # get baseline
 
@@ -600,6 +617,7 @@ def test_progress_to_aids_progress(make_agent, make_model):
     a = make_agent()
     a.hiv = True
     model = make_model()
+    a.target_partners = {bond: 0 for bond in model.params.classes.bond_types.keys()}
     model.pop.add_agent(a)
     num_aids = sum([1 for agent in model.pop.hiv_agents if agent.aids])  # get baseline
     model.params.hiv.aids.prob = 1.0

@@ -3,13 +3,26 @@ demographics:
     ppl: 1.0
     HM:
       ppl: 0.495
+      num_partners:
+        Sex:
+          dist_type: poisson
+          var_1: 1.1
+          var_2: 1.0
+        Inj:
+          dist_type: set_value
+          var_1: 0
+          var_2: 0
+        SexInj:
+          dist_type: set_value
+          var_1: 0
+          var_2: 0
       hiv:
         init: 0.0014
         dx:
-          init: 0.034
-          prob: 0.2  #TODO: correct number
+          init: 0.9
+          prob: 0.202
         haart:
-          init: 0.0
+          init: 0.608
           prob: 0.41  # TODO: correct number
           adherence: 0.405
           discontinue: 0.000
@@ -35,6 +48,19 @@ demographics:
 
     HF:
       ppl: 0.505
+      num_partners:
+        Sex:
+          dist_type: poisson
+          var_1: 1.1
+          var_2: 1.0
+        Inj:
+          dist_type: set_value
+          var_1: 0
+          var_2: 0
+        SexInj:
+          dist_type: set_value
+          var_1: 0
+          var_2: 0
       hiv:
         init: 0.0
         dx:
@@ -66,6 +92,19 @@ demographics:
           max: 64
     PWID:
       ppl: 0.017
+      num_partners:
+        Sex:
+          dist_type: poisson
+          var_1: 1.1
+          var_2: 1.0
+        Inj:
+          dist_type: gamma
+          var_1: 1.704
+          var_2: 0.363
+        SexInj:
+          dist_type: poisson
+          var_1: 0.0
+          var_2: 1.0
       hiv:
         init: 0.0
         prob: 0.2
@@ -94,3 +133,6 @@ demographics:
           prob: .332
           min: 50
           max: 64
+
+
+

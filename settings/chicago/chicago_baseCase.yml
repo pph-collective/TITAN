@@ -1,3 +1,4 @@
+
 model:
   processes: 1
   seed:
@@ -13,13 +14,9 @@ model:
     type: max_k_comp_size
     component_size:
       max: 100
-  population:
-    num_partners:
-      type: bins
 outputs:
   print_frequency: 12
   network:
-    draw_figures: false
     calc_component_stats: true
   reports:
   - prepReport
@@ -56,14 +53,6 @@ calibration:
 classes:
   races:
     - BLACK
-  bond_types_probs:
-    social: 0.308
-    multiplex: 0.105
-    sexOnly: 0.587
-  bond_types_probs_PWID:
-    social: 0.308
-    multiplex: 0.105
-    sexOnly: 0.587
   bond_types:
     Social:
       acts_allowed:
@@ -83,10 +72,6 @@ high_risk:
     HF:
       duration: 6
   condom_use_type: Race
-syringe_services:
-  prevalence: 1.0
-  init_at_pop: 0
-  coverage: 0.0
 vaccine:
   type: RV144
   start: 1
@@ -132,7 +117,12 @@ demographics:
       incar:
         init: 0.0
         prob: 0.0
-      num_partners: 5.0
+      num_partners:
+        Social:
+          dist_type: poisson
+          var_1: 5.0
+          var_2: 1.0
+          mean: 5.0
       safe_sex: 0.312
       injection:
         unsafe_prob: 0.27
@@ -169,7 +159,6 @@ demographics:
       incar:
         init: 0.0
         prob: 0.0
-      num_partners: 0.0
       safe_sex: 0.0
       injection:
         unsafe_prob: 0.0

@@ -119,3 +119,43 @@ def test_check_item_keys():
     # some not in array
     with pytest.raises(AssertionError):
         pp.check_item(["a", "c"], defs, keys=["a", "b"])
+
+
+@pytest.mark.unit
+def test_check_item_class_enum():
+    defs = {"type": "enum", "class": "bond_types"}
+
+    nested_pops = {"bond_types": {"Inj": {"a": 1}, "Other": {"b": 2}}}
+    flat_pops = {"bond_types": ["Inj", "Other"]}
+
+    # happy case
+    assert pp.check_item("Inj", defs, pops=nested_pops) == "Inj"
+    assert pp.check_item("Inj", defs, pops=flat_pops) == "Inj"
+
+    # not in array
+    with pytest.raises(AssertionError):
+        pp.check_item("Junk", defs, pops=nested_pops)
+
+    # some not in array
+    with pytest.raises(AssertionError):
+        pp.check_item("Junk", defs, pops=flat_pops)
+
+
+@pytest.mark.unit
+def test_check_item_class_array():
+    defs = {"type": "array", "class": "bond_types"}
+
+    nested_pops = {"bond_types": {"Inj": {"a": 1}, "Other": {"b": 2}}}
+    flat_pops = {"bond_types": ["Inj", "Other"]}
+
+    # happy case
+    assert pp.check_item(["Inj"], defs, pops=nested_pops) == ["Inj"]
+    assert pp.check_item(["Inj"], defs, pops=flat_pops) == ["Inj"]
+
+    # not in array
+    with pytest.raises(AssertionError):
+        pp.check_item(["Junk"], defs, pops=nested_pops)
+
+    # some not in array
+    with pytest.raises(AssertionError):
+        pp.check_item(["Junk"], defs, pops=flat_pops)

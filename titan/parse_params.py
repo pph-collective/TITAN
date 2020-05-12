@@ -34,7 +34,7 @@ class ObjMap(dict):
 # ============== PARSING FUNCTIONS ======================
 
 
-def check_item(val, d, keys=None):
+def check_item(val, d, keys=None, pops=None):
     """
     Checks if an item meets the requirements of the field's definition.
     """
@@ -51,23 +51,31 @@ def check_item(val, d, keys=None):
     if d["type"] == "boolean":
         assert isinstance(val, bool), f"{val} must be a bool"
     if d["type"] == "enum":
-        assert val in d["values"], f"{val} not in {d}"
+        if "values" in d:
+            values = d["values"]
+        elif "class" in d:
+            values = pops[d["class"]]
+        assert val in values, f"{val} not in {values}"
     if d["type"] == "array":
+        if "values" in d:
+            values = d["values"]
+        elif "class" in d:
+            values = pops[d["class"]]
         assert isinstance(val, list), f"{val} must be an array"
-        assert all(x in d["values"] for x in val), f"{val} not in {d['values']}"
+        assert all(x in values for x in val), f"{val} not in {values}"
     if d["type"] == "keys":
         assert isinstance(val, list), f"{val} must be an array of keys"
-        assert all(x in keys for x in val)
+        assert all(x in keys for x in val), f"{keys} not in {keys}"
     return val
 
 
-def get_item(key, d, param):
+def get_item(key, d, param, pops=None):
     """
     Get and check item from the params, falling back on the definitions default.
     """
     if key in param:
         val = param[key]
-        return check_item(val, d)
+        return check_item(val, d, pops=pops)
     else:
         return d["default"]
 
@@ -87,7 +95,7 @@ def merge(d1, d2):
         return d2
 
 
-def get_bins(key, d, param):
+def get_bins(key, d, param, pops):
     """
     Get and validate a type == bin definition
     """
@@ -106,14 +114,14 @@ def get_bins(key, d, param):
 
         for field, defn in d["fields"].items():
             assert field in val, f"{field} must be in {val}"
-            val[field] = check_item(val[field], defn)
+            val[field] = check_item(val[field], defn, pops=pops)
 
         parsed_bins[int(bin)] = val
 
     return parsed_bins
 
 
-def get_defn(key, d, param):
+def get_defn(key, d, param, pops):
     """
     Get and validate a type == definition definition
     """
@@ -126,14 +134,15 @@ def get_defn(key, d, param):
     for k, val in parsed.items():
         for field, defn in d["fields"].items():
             assert field in val, f"{field} must be in {val}"
-            val[field] = check_item(val[field], defn, parsed.keys())
+            val[field] = check_item(val[field], defn, keys=parsed.keys(), pops=pops)
 
     return parsed
 
 
 def parse_params(defs, params, pops):
     """
-    Recursively parse the passed params, using the definitions to validate and provide defaults.
+    Recursively parse the passed params, using the definitions to validate
+    and provide defaults.
     """
     parsed = {}
     # params is a scalar, return it
@@ -142,7 +151,7 @@ def parse_params(defs, params, pops):
 
     # handles case of bin as direct default item
     if "default" in defs and defs["type"] == "bin":
-        return get_bins("dummy", defs, {"dummy": params})
+        return get_bins("dummy", defs, {"dummy": params}, pops)
 
     for k, v in defs.items():
         # assumes all v are dicts, as otherwise it would have returned
@@ -165,11 +174,11 @@ def parse_params(defs, params, pops):
                             )
 
             elif v["type"] == "bin":
-                parsed[k] = get_bins(k, v, params)
+                parsed[k] = get_bins(k, v, params, pops)
             elif v["type"] == "definition":
-                parsed[k] = get_defn(k, v, params)
+                parsed[k] = get_defn(k, v, params, pops)
             else:
-                parsed[k] = get_item(k, v, params)
+                parsed[k] = get_item(k, v, params, pops)
         else:
             parsed[k] = parse_params(v, params.get(k, {}), pops)
 

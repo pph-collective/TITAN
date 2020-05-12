@@ -18,9 +18,10 @@ features:
 syringe_services:
   timeline:
     ssp_off:
-      start: 1
-      stop: 60
-      num_slots: 0
+      time_start: 1
+      time_stop: 60
+      num_slots_start: 0
+      num_slots_stop: 0
       risk: 0.02
 
 hiv:
@@ -28,13 +29,28 @@ hiv:
     risk_reduction:
       sex: 0.27
 
-
 classes:
+  sex_types:
+    HM:
+      gender: M
+      cis_trans: cis
+      sleeps_with:
+        - HF
+    HF:
+      gender: F
+      cis_trans: cis
+      sleeps_with:
+        - HM
   races:
     - WHITE
-  bond_types_probs:
-    sexOnly: 1.0
-  bond_types_probs_PWID:
-    SexInj: 0.308
-    Sex: 0.105
-    Inj: 0.587
+  bond_types:
+    Sex:
+      acts_allowed:
+        - sex
+    SexInj:
+      acts_allowed:
+        - sex
+        - injection
+    Inj:
+      acts_allowed:
+        - injection

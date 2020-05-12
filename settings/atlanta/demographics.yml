@@ -10,7 +10,12 @@ demographics:
           versatile: 0.437
           insertive: 0.242
           receptive: 0.321
-      num_partners: 5.0
+      num_partners:
+        Sex:
+          mean: 7.0
+          dist_type: poisson
+          var_1: 7.0
+          var_2: 1
       hiv:
         init: 0.434
         dx:
@@ -37,7 +42,12 @@ demographics:
           insertive: 0.228
           receptive: 0.228
       ppl: 1.0
-      num_partners: 7.0
+      num_partners:
+        Sex:
+          mean: 7.0
+          dist_type: poisson
+          var_1: 7.0
+          var_2: 1
       hiv:
         init: 0.132
         dx:
@@ -60,3 +70,8 @@ demographics:
 hiv:
   aids:
     prob: 0.05
+classes:
+  bond_types:
+    Sex:
+      acts_allowed:
+        - sex

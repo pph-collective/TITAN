@@ -39,6 +39,9 @@ class FakeRandom:
     def shuffle(self, seq):
         return seq
 
+    def poisson(self, var: float, size: int):
+        return var
+
 
 # test fixtures used throughout unit tests
 @pytest.fixture
@@ -50,8 +53,15 @@ def params(tmpdir):
 
 
 @pytest.fixture
-def make_agent():
-    def _make_agent(SO="MSM", age=30, race="BLACK", DU="None"):
+def make_agent(params):
+    def _make_agent(SO="MSM", age=30, race="BLACK", DU="None", init_bond_fields=True):
+        agent = Agent(SO, age, race, DU)
+        if init_bond_fields:
+            for bond in params.classes.bond_types:
+                agent.target_partners[bond] = 0
+                agent.mean_num_partners[bond] = 0
+                agent.partners[bond] = set()
+        return agent
         return Agent(SO, age, race, DU)
 
     return _make_agent
@@ -59,7 +69,7 @@ def make_agent():
 
 @pytest.fixture
 def make_relationship():
-    def _make_relationship(id1, id2, bond_type="#REVIEW", duration=2):
+    def _make_relationship(id1, id2, bond_type="Sex", duration=2):
         return Relationship(id1, id2, duration, bond_type)
 
     return _make_relationship

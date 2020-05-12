@@ -1,8 +1,4 @@
 partnership:
-  bonds:
-    MSM:
-      Sex:
-        prob: 1.0
   sex:
     duration:
       1:

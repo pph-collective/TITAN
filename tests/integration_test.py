@@ -110,12 +110,8 @@ def test_target_partners(make_model_integration, tmpdir):
     model_a.run(path_a)
 
     # change the bins upward for creating model b
-    bins = {
-        25: {"prob": 0.3},
-        30: {"prob": 0.4},
-        35: {"prob": 0.3},
-    }
-    model_a.params.model.population.num_partners.bins = ObjMap(bins)
+    model_a.params.demographics.BLACK.MSM.num_partners.Sex.var_1 *= 10
+    model_a.params.demographics.BLACK.MSM.num_partners.Sex.mean *= 10
     model_a.params.model.seed.run = model_a.run_seed
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
 

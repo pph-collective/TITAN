@@ -26,7 +26,9 @@ def stats(params):
     a.prep_reason = ["PWID", "MSMW", "HIV test"]
 
     p = agent.Agent("MSM", 20, "BLACK", "Inj")
-    rel = agent.Relationship(a, p, 12, bond_type="sexOnly")
+    p.partners["Sex"] = set()
+    a.partners["Sex"] = set()
+    rel = agent.Relationship(a, p, 12, bond_type="Sex")
 
     agent_set = agent.AgentSet("test")
     DU_set = agent.AgentSet("DU", agent_set)
