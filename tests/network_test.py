@@ -11,53 +11,35 @@ import shutil
 n_pop = 100
 
 
-@pytest.fixture
-def setup_results_dir():
-    outfile_dir = os.path.join(os.getcwd(), "results", "network")
-    if os.path.isdir(outfile_dir):
-        shutil.rmtree(outfile_dir)
-    os.makedirs(outfile_dir)
-    yield outfile_dir
-    shutil.rmtree(outfile_dir)
-
-
-@pytest.fixture
-def make_agent():
-    def _make_agent(SO="MSM", age=30, race="BLACK", DU="None"):
-        return agent.Agent(SO, age, race, DU)
-
-    return _make_agent
-
-
-@pytest.fixture
-def params(tmpdir):
-    param_file = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
-    )
-    return create_params(None, param_file, tmpdir)
-
-
+@pytest.mark.unit
 def test_write_graph_edgelist(setup_results_dir, params):
-    path = "results/network/Edgelist_t0.txt"
+    id = "test"
+    t = 0
+    path = "results/network"
     net = Population(params)
     net_util = NetworkGraphUtils(net.graph)
 
-    net_util.write_graph_edgelist(path)
+    net_util.write_graph_edgelist(path, id, t)
 
-    count = len(open(path).readlines())
+    file_path = os.path.join(path, f"{id}_Edgelist_t{t}.txt")
+    count = len(open(file_path).readlines())
 
     assert count == len(net.relationships)
 
 
+@pytest.mark.unit
 def test_write_network_stats(setup_results_dir, params):
-    path = "results/network/networkStats.txt"
+    id = "test"
+    t = 0
+    path = "results/network"
     net = Population(params)
     net_util = NetworkGraphUtils(net.graph)
 
-    net_util.write_network_stats(path)
+    net_util.write_network_stats(path, id, t)
 
+    file_path = os.path.join(path, f"{id}_NetworkStats_t{t}.txt")
     asserted = False
-    with open(path, "r") as f:
+    with open(file_path, "r") as f:
         for line in f:
             if "Number of nodes:" in line:
                 assert int(line.split(" ")[-1]) == n_pop
@@ -67,6 +49,7 @@ def test_write_network_stats(setup_results_dir, params):
     assert asserted
 
 
+@pytest.mark.unit
 def test_get_network_color(params):
     net = Population(params)
     net_util = NetworkGraphUtils(net.graph)

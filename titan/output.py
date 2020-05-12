@@ -4,7 +4,6 @@
 from typing import Dict, Any, List
 from .agent import AgentSet, Agent
 from copy import deepcopy
-from uuid import UUID
 import os
 
 from networkx import betweenness_centrality, effective_size, density  # type: ignore
@@ -166,7 +165,7 @@ def get_stats(
 
 
 def deathReport(
-    run_id: UUID,
+    run_id: str,
     t: int,
     runseed: int,
     popseed: int,
@@ -202,7 +201,7 @@ def deathReport(
 
 
 def incarReport(
-    run_id: UUID,
+    run_id: str,
     t: int,
     runseed: int,
     popseed: int,
@@ -246,7 +245,7 @@ def incarReport(
 
 
 def newlyhighriskReport(
-    run_id: UUID,
+    run_id: str,
     t: int,
     runseed: int,
     popseed: int,
@@ -287,7 +286,7 @@ def newlyhighriskReport(
 
 
 def prepReport(
-    run_id: UUID,
+    run_id: str,
     t: int,
     runseed: int,
     popseed: int,
@@ -316,7 +315,7 @@ def prepReport(
 
 
 def basicReport(
-    run_id: UUID,
+    run_id: str,
     t: int,
     runseed: int,
     popseed: int,
@@ -380,7 +379,7 @@ def basicReport(
 
 
 def print_components(
-    run_id: UUID,
+    run_id: str,
     t: int,
     runseed: int,
     popseed: int,
@@ -391,7 +390,7 @@ def print_components(
     """
     Write stats describing the components (sub-graphs) in a graph to file
     """
-    f = open(os.path.join(outdir, "componentReport_ALL.txt"), "a")
+    f = open(os.path.join(outdir, f"{run_id}_componentReport_ALL.txt"), "a")
 
     race_count: Dict[str, int] = {}
     race_list = []

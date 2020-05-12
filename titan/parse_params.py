@@ -8,7 +8,8 @@ import math
 
 class ObjMap(dict):
     """
-    A dictionary-like class which allows accessing members either using standard dictionary notation or dots.  Note the hash function is hard-coded - beware.
+    A dictionary-like class which allows accessing members either using standard
+    dictionary notation or dots.  Note the hash function is hard-coded - beware.
     """
 
     def __init__(self, d):
@@ -140,7 +141,8 @@ def get_defn(key, d, param, pops):
 
 def parse_params(defs, params, pops):
     """
-    Recursively parse the passed params, using the definitions to validate and provide defaults.
+    Recursively parse the passed params, using the definitions to validate
+    and provide defaults.
     """
     parsed = {}
     # params is a scalar, return it
@@ -244,7 +246,8 @@ def check_params(params):
 
 def create_params(setting_path, param_path, outdir, use_base=True):
     """
-    Entry funtion - given the path to the setting, params, output directory and whether or not to use the base setting. Parse and create a params (ObjMap) object.
+    Entry funtion - given the path to the setting, params, output directory and
+    whether or not to use the base setting. Parse and create a params (ObjMap) object.
     """
     filename = getframeinfo(currentframe()).filename
     parent = Path(filename).resolve().parent

@@ -2,17 +2,9 @@ import pytest
 import os
 
 import titan.probabilities as probs
-from titan.parse_params import create_params
 
 
-@pytest.fixture
-def params(tmpdir):
-    param_file = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
-    )
-    return create_params(None, param_file, tmpdir)
-
-
+@pytest.mark.unit
 def test_safe_sex():
     # initiate result dict with 2 time steps
     assert probs.safe_sex(0) == 0.443
@@ -21,6 +13,7 @@ def test_safe_sex():
     assert probs.safe_sex(100) == 0.759
 
 
+@pytest.mark.unit
 def test_adherence_prob():
     # initiate result dict with 2 time steps
     assert probs.adherence_prob(1) == 0.0051
@@ -31,6 +24,7 @@ def test_adherence_prob():
     assert probs.adherence_prob(6) == 0.0051
 
 
+@pytest.mark.unit
 def test_get_death_rate(params):
     for hiv in [True, False]:
         for aids in [True, False]:

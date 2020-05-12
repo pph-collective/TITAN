@@ -14,7 +14,6 @@ model:
     type: max_k_comp_size
     component_size:
       max: 100
-      min: 1
 outputs:
   print_frequency: 12
   network:

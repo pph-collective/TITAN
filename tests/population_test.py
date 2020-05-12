@@ -5,64 +5,12 @@ from titan.population import *
 from titan.agent import Agent
 from titan.parse_params import create_params
 
-
-@pytest.fixture
-def params(tmpdir):
-    param_file = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
-    )
-    return create_params(None, param_file, tmpdir)
+from conftest import FakeRandom
 
 
-@pytest.fixture
-def make_agent(params):
-    def _make_agent(SO="MSM", age=30, race="WHITE", DU="None"):
-        agent = Agent(SO, age, race, DU)
-        for bond in params.classes.bond_types:
-            agent.target_partners[bond] = 0
-            agent.mean_num_partners[bond] = 0
-            agent.partners[bond] = set()
-        return agent
-
-    return _make_agent
-
-
-@pytest.fixture
-def make_population(params):
-    def _make_population(n=100):
-        params.model.num_pop = n
-        return Population(params)
-
-    return _make_population
-
-
-# helper method to generate a fake number deterministically
-class FakeRandom:
-    def __init__(self, num: float, fake_choice: int = 0):
-        self.num = num
-
-    def random(self):
-        return self.num
-
-    def randrange(self, start, stop, step=1):
-        return start
-
-    def randint(self, start, stop):
-        return start
-
-    def choice(self, seq):
-        return seq[-1]
-
-    def choices(self, seq, weights=None, k=1):
-        if weights is None:
-            return [seq[self.fake_choice]]
-        else:
-            selection = weights.index(max(weights))
-            return [seq[selection]]
-
-
+@pytest.mark.unit
 def test_create_agent(make_population):
-    pop = make_population()
+    pop = make_population(n=100)
 
     a1 = pop.create_agent("WHITE")
     assert a1.race == "WHITE"
@@ -100,8 +48,9 @@ def test_create_agent(make_population):
     assert a4.intervention_ever is False
 
 
+@pytest.mark.unit
 def test_create_agent_proportions(make_population, params):
-    pop = make_population()
+    pop = make_population(n=100)
 
     n = 1000
     race = "WHITE"
@@ -128,8 +77,9 @@ def test_create_agent_proportions(make_population, params):
     assert num_PWID > prop_idu - 50 and num_PWID < prop_idu + 50
 
 
+@pytest.mark.unit
 def test_add_remove_agent_to_pop(make_population):
-    pop = make_population()
+    pop = make_population(n=100)
     agent = pop.create_agent("WHITE", "HM")
     agent.drug_use = "Inj"
     agent.hiv = True
@@ -162,8 +112,9 @@ def test_add_remove_agent_to_pop(make_population):
     assert not pop.graph.has_node(agent)
 
 
+@pytest.mark.unit
 def test_get_age(make_population, params):
-    pop = make_population()
+    pop = make_population(n=100)
 
     race = "WHITE"
 
@@ -176,6 +127,7 @@ def test_get_age(make_population, params):
         assert ageBin == i
 
 
+@pytest.mark.unit
 def test_update_agent_partners_one_agent(make_population, params):
     pop = make_population(n=1)
     params.model.num_pop = 0
@@ -188,6 +140,7 @@ def test_update_agent_partners_one_agent(make_population, params):
     assert len(pop.graph.edges()) == 0
 
 
+@pytest.mark.unit
 def test_update_agent_partners_PWID_no_match(make_population, params):
     pop = make_population(n=0)
     params.demographics.WHITE.PWID.ppl = 1.0
@@ -215,6 +168,7 @@ def test_update_agent_partners_PWID_no_match(make_population, params):
         assert len(pop.graph.edges()) == 0
 
 
+@pytest.mark.unit
 def test_update_agent_partners_MSM_no_match(make_population, params):
     pop = make_population(n=0)
     a = pop.create_agent("WHITE", "MSM")
@@ -232,6 +186,7 @@ def test_update_agent_partners_MSM_no_match(make_population, params):
     assert len(pop.graph.edges()) == 0
 
 
+@pytest.mark.unit
 def test_update_agent_partners_PWID_match(make_population, params):
     pop = make_population(n=0)
     a = pop.create_agent("WHITE", "MSM")
@@ -257,6 +212,7 @@ def test_update_agent_partners_PWID_match(make_population, params):
     assert len(pop.graph.edges()) == 1
 
 
+@pytest.mark.unit
 def test_update_agent_partners_MSM_match(make_population, params):
     pop = make_population(n=0)
     a = pop.create_agent("WHITE", "MSM")
@@ -278,6 +234,7 @@ def test_update_agent_partners_MSM_match(make_population, params):
     assert len(pop.graph.edges()) == 1
 
 
+@pytest.mark.unit
 def test_update_agent_partners_NDU_PWID_match(make_population, params):
     pop = make_population(n=0)
     a = pop.create_agent("WHITE", "MSM")
@@ -300,6 +257,7 @@ def test_update_agent_partners_NDU_PWID_match(make_population, params):
     assert len(pop.graph.edges()) == 1
 
 
+@pytest.mark.unit
 def test_update_partner_assignments_MSM_match(make_population, params):
     pop = make_population(n=0)
     a = pop.create_agent("WHITE", "MSM")
@@ -323,6 +281,7 @@ def test_update_partner_assignments_MSM_match(make_population, params):
     assert len(pop.graph.edges()) == 1
 
 
+@pytest.mark.unit
 def test_update_partner_assignments_PWID_match(make_population, params):
     pop = make_population(n=0)
     a = pop.create_agent("WHITE", "MSM")
@@ -347,6 +306,7 @@ def test_update_partner_assignments_PWID_match(make_population, params):
     assert len(pop.graph.edges()) == 1
 
 
+@pytest.mark.unit
 def test_update_partner_assignments_NDU_PWID_match(make_population, params):
     pop = make_population(n=0)
     a = pop.create_agent("WHITE", "MSM")
@@ -372,6 +332,7 @@ def test_update_partner_assignments_NDU_PWID_match(make_population, params):
     assert len(pop.graph.edges()) == 1
 
 
+@pytest.mark.unit
 def test_update_partner_assignments_no_match(make_population, params):
     pop = make_population(n=0)
     a = pop.create_agent("WHITE", "MSM")
@@ -402,6 +363,7 @@ def test_update_partner_assignments_no_match(make_population, params):
     assert len(pop.graph.edges()) == 0
 
 
+@pytest.mark.unit
 def test_network_init_scale_free(params):
     """Test if all Inj,NonInj,None drug use agents are in the population"""
     net = Population(params)
@@ -415,6 +377,7 @@ def test_network_init_scale_free(params):
         assert agent.so in params.classes.sex_types
 
 
+@pytest.mark.unit
 def test_network_init_max_k(params):
     """Test if all Inj,NonInj,None drug use agents are in the population"""
     params.model.network.type = "max_k_comp_size"
@@ -429,6 +392,7 @@ def test_network_init_max_k(params):
         assert agent.so in params.classes.sex_types
 
 
+@pytest.mark.unit
 def test_population_consistency(params):
     """Test if Drug users add up"""
     net = Population(params)
@@ -437,6 +401,7 @@ def test_population_consistency(params):
     assert params.model.num_pop == net.all_agents.num_members()
 
 
+@pytest.mark.unit
 def test_population_consistency_HIV(params):
     """Test HIV consistency"""
     net = Population(params)

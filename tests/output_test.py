@@ -1,23 +1,13 @@
 import pytest
 
-import uuid
 import csv
 import os
 import shutil
 import networkx as nx
+import nanoid
 
 from titan.output import *
 from titan import agent
-from titan.population import Population
-from titan.parse_params import create_params
-
-
-@pytest.fixture
-def params(tmpdir):
-    param_file = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
-    )
-    return create_params(None, param_file, tmpdir)
 
 
 @pytest.fixture
@@ -33,7 +23,6 @@ def stats(params):
     a.high_risk = True
     a.high_risk_ever = True
     a.incar = True
-    a.incar_ever = True
     a.prep_reason = ["PWID", "MSMW", "HIV test"]
 
     p = agent.Agent("MSM", 20, "BLACK", "Inj")
@@ -60,6 +49,7 @@ def stats(params):
     return stats
 
 
+@pytest.mark.unit
 def test_get_stats(stats):
     assert stats["WHITE"]["ALL"]["numAgents"] == 0
     assert stats["BLACK"]["MSM"]["numAgents"] == 1
@@ -106,8 +96,9 @@ def test_get_stats(stats):
     assert stats["BLACK"]["ALL"]["numART"] == 1
 
 
+@pytest.mark.unit
 def test_deathReport(stats, params, tmpdir):
-    run_id = uuid.uuid4()
+    run_id = nanoid.generate(size=8)
 
     deathReport(run_id, 0, 1, 2, stats, params, tmpdir)
 
@@ -125,8 +116,9 @@ def test_deathReport(stats, params, tmpdir):
             assert row["HIV_HM"] == "0"
 
 
+@pytest.mark.unit
 def test_incarReport(stats, params, tmpdir):
-    run_id = uuid.uuid4()
+    run_id = nanoid.generate(size=8)
 
     incarReport(run_id, 0, 1, 2, stats, params, tmpdir)
 
@@ -144,8 +136,9 @@ def test_incarReport(stats, params, tmpdir):
             assert row["WHITE_MSM_rlsdHIV"] == "0"
 
 
+@pytest.mark.unit
 def test_newlyhighriskReport(stats, params, tmpdir):
-    run_id = uuid.uuid4()
+    run_id = nanoid.generate(size=8)
 
     newlyhighriskReport(run_id, 0, 1, 2, stats, params, tmpdir)
 
@@ -163,8 +156,9 @@ def test_newlyhighriskReport(stats, params, tmpdir):
             assert row["newHR_ART_MSM"] == "1"
 
 
+@pytest.mark.unit
 def test_prepReport(stats, params, tmpdir):
-    run_id = uuid.uuid4()
+    run_id = nanoid.generate(size=8)
 
     prepReport(run_id, 0, 1, 2, stats, params, tmpdir)
 
@@ -182,8 +176,9 @@ def test_prepReport(stats, params, tmpdir):
             assert row["MSMWpartner"] == "1"
 
 
+@pytest.mark.unit
 def test_basicReport(stats, params, tmpdir):
-    run_id = uuid.uuid4()
+    run_id = nanoid.generate(size=8)
 
     basicReport(run_id, 0, 1, 2, stats, params, tmpdir)
 
@@ -230,16 +225,16 @@ def test_basicReport(stats, params, tmpdir):
             assert row["Deaths"] == "1"
 
 
-def test_print_components(stats, params, tmpdir):
-    run_id = uuid.uuid4()
+@pytest.mark.unit
+def test_print_components(stats, params, make_population, tmpdir):
+    run_id = nanoid.generate(size=8)
 
-    params.model.num_pop = 1
-    net = Population(params)
+    net = make_population(n=1)
     components = net.connected_components()
 
     print_components(run_id, 0, 1, 2, components, tmpdir, params.classes.races)
 
-    result_file = os.path.join(tmpdir, "componentReport_ALL.txt")
+    result_file = os.path.join(tmpdir, f"{run_id}_componentReport_ALL.txt")
     assert os.path.isfile(result_file)
     with open(result_file, newline="") as f:
         reader = csv.DictReader(f, delimiter="\t")
