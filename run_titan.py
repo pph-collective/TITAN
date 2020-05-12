@@ -65,12 +65,12 @@ def sweep_range(string):
         start = int(parts[1])
         stop = int(parts[2])
         step = int(step)
-    except:
+    except ValueError:
         try:
             start = float(parts[1])
             stop = float(parts[2])
             step = float(step)
-        except:
+        except ValueError:
             raise ValueError("start, stop, and step must have same type (int or float)")
 
     return {"param": parts[0], "start": start, "stop": stop, "step": step}
@@ -155,10 +155,10 @@ def setup_sweeps_file(sweepfile, rows):
                 for k, v in row.items():
                     try:
                         val = int(v)
-                    except:
+                    except ValueError:
                         try:
                             val = float(v)
-                        except:
+                        except ValueError:
                             raise ValueError(
                                 "sweep values must be numbers (int or float)"
                             )

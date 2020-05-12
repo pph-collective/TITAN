@@ -186,6 +186,26 @@ class Agent:
 
         return eligible
 
+    def enroll_prep(self, params: ObjMap, rand_gen):
+        self.prep = True
+        self.intervention_ever = True
+        self.prep_load = params.prep.peak_load
+        self.prep_last_dose = 0
+
+        if rand_gen.random() < params.demographics[self.race][self.so].prep.adherence:
+            self.prep_adherence = 1
+        else:
+            self.prep_adherence = 0
+
+        # set PrEP load and dosestep for PCK
+        if "Inj" in params.prep.type and "Oral" in params.prep.type:
+            if rand_gen.random() < params.prep.lai.prob:
+                self.prep_type = "Inj"
+            else:
+                self.prep_type = "Oral"
+        else:
+            self.prep_type = params.prep.type[0]
+
     def update_prep_load(self, params: ObjMap):
         """
         :Purpose:

@@ -24,7 +24,7 @@ rows=""
 num_cores=1
 forceFlag=""
 
-while getopts m:S:T:j:r:n:f:w:F:c:t: option
+while getopts m:j:T:S:r:n:b:f:w:W:r:F:c:t: option
 do
     case "${option}"
         in
@@ -117,7 +117,7 @@ prepSubmit() {
     updateParams;
 
     #Submit job to cluster
-    sbatch scripts/bs_Core.sh -S $setting -p $paramPath -n $nMC -b $useBase $forceFlag $sweepDefs $sweepfile
+    sbatch scripts/bs_Core.sh -S $setting -p $paramPath -n $nMC -b $useBase $forceFlag $sweepDefs $sweepfile $rows
 
     #Move back to base directory
     cd $basePath

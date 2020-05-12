@@ -228,23 +228,9 @@ class Population:
             # if HIV, how long has the agent had it? Random sample
             agent.hiv_time = self.pop_random.randint(1, self.params.hiv.max_init_time)
 
-        else:
-            if self.features.prep:
-                if self.prep.start == 0:
-                    prob_prep = self.prep.target
-                else:
-                    prob_prep = 0.0
-
-                if self.pop_random.random() < prob_prep:
-                    agent.prep = True
-                    agent.intervention_ever = True
-                    if (
-                        self.pop_random.random() > self.prep.lai.prob
-                        and "Inj" in self.prep.type
-                    ):
-                        agent.prep_type = "Inj"
-                    else:
-                        agent.prep_type = "Oral"
+        elif self.features.prep:
+            if self.prep.start == 0 and self.pop_random.random() < self.prep.target:
+                agent.enroll_prep(self.params, self.pop_random)
 
         # Check if agent is HR as baseline.
         if (

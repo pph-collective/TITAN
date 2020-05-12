@@ -1162,29 +1162,10 @@ class HIVModel:
         """
 
         def enroll_prep(self, agent: Agent):
-            agent.prep = True
-            agent.intervention_ever = True
+            agent.enroll_prep(self.params, self.run_random)
+
             self.new_prep.add_agent(agent)
-
             self.pop.prep_counts[agent.race] += 1
-
-            if (
-                self.run_random.random()
-                < self.demographics[agent.race][agent.so].prep.adherence
-            ):
-                agent.prep_adherence = 1
-            else:
-                agent.prep_adherence = 0
-
-            # set PrEP load and dosestep for PCK
-            if "Inj" in self.prep.type and "Oral" in self.prep.type:
-                agent.prep_load = self.prep.peak_load
-                agent.prep_last_dose = 0
-
-                if self.run_random.random() < self.prep.lai.prob:
-                    agent.prep_type = "Inj"
-                else:
-                    agent.prep_type = "Oral"
 
         # agent must exist
         assert agent is not None
