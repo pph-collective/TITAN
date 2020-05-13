@@ -156,14 +156,14 @@ def parse_params(defs, params, pops):
         if "default" in v:
             if v["type"] == "sub-dict":
                 parsed[k] = {}
-                field = v["keys"].pop(0)
+                field = v["keys"][0]
                 for val in pops[field]:
                     parsed[k][val] = parse_params(
                         v["default"], params.get(k, {}).get(val, {}), pops
                     )
 
-                    if len(v["keys"]) > 0:
-                        field2 = v["keys"][0]
+                    if len(v["keys"]) > 1:
+                        field2 = v["keys"][1]
                         for val2 in pops[field2]:
                             parsed[k][val][val2] = parse_params(
                                 v["default"],

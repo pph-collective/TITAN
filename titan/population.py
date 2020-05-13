@@ -8,6 +8,7 @@ from typing import List, Dict, Any, Set
 import numpy as np  # type: ignore
 import networkx as nx  # type: ignore
 from math import ceil
+from copy import copy
 
 from .parse_params import ObjMap
 from .agent import AgentSet, Agent, Relationship
@@ -58,8 +59,10 @@ class Population:
         # build weights of population sex types by race
         self.pop_weights: Dict[str, Dict[str, List[Any]]] = {}
         self.role_weights: Dict[str, Dict] = {}
+        self.drug_weights: Dict[str, Dict] = {}
         for race in params.classes.races:
             self.role_weights[race] = {}
+            self.drug_weights[race] = {}
             self.pop_weights[race] = {}
             self.pop_weights[race]["values"] = []
             self.pop_weights[race]["weights"] = []
@@ -68,13 +71,19 @@ class Population:
                 self.pop_weights[race]["weights"].append(
                     self.demographics[race][st].ppl
                 )
-
                 self.role_weights[race][st] = {}
                 self.role_weights[race][st]["values"] = []
                 self.role_weights[race][st]["weights"] = []
+                self.drug_weights[race][st] = {}
+                self.drug_weights[race][st]["values"] = []
+                self.drug_weights[race][st]["weights"] = []
                 for role, prob in self.demographics[race][st].sex_role.init.items():
                     self.role_weights[race][st]["values"].append(role)
                     self.role_weights[race][st]["weights"].append(prob)
+                for use_type, prob in self.demographics[race][st].drug_use.items():
+                    self.drug_weights[race][st]["values"].append(use_type)
+                    self.drug_weights[race][st]["weights"].append(prob.ppl)
+
 
         print("\tBuilding class sets")
 
@@ -178,10 +187,10 @@ class Population:
             )
 
         # Determine drugtype
-        if self.pop_random.random() < self.demographics[race]["PWID"].ppl:
-            drug_type = "Inj"
-        else:
-            drug_type = "None"
+        drug_type = self.np_random.choice(
+            self.drug_weights[race][sex_type]["values"],
+            p=self.drug_weights[race][sex_type]["weights"],
+        )
 
         age, age_bin = self.get_age(race)
 
@@ -258,9 +267,10 @@ class Population:
             )
 
         # get agent's mean partner numbers for bond type
-        def partner_distribution(dist_info):
+        def partner_distribution(dist):
+
             return ceil(
-                utils.safe_dist(dist_info, self.np_random)
+                utils.safe_dist(dist, self.np_random)
                 * utils.safe_divide(
                     self.params.calibration.sex.partner, self.mean_rel_duration[bond]
                 )
@@ -531,7 +541,7 @@ class Population:
                         self.pop_random.random()
                         < self.params.calibration.network.trim.prob
                     ):
-                        for rel in ag.relationships:
+                        for rel in copy(ag.relationships):
                             if len(ag.relationships) == 1:
                                 break  # Make sure that agents stay part of the
                                 # network by keeping one bond
@@ -545,7 +555,7 @@ class Population:
                     for c in nx.connected_components(component)
                 )
                 for sub_comp in sub_comps:
-                    if sub_comp.number_of_nodes > max_size:
+                    if sub_comp.number_of_nodes() > max_size:
                         trim_component(component, max_size)
 
             components = sorted(self.connected_components(), key=len, reverse=True)
