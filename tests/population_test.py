@@ -50,15 +50,16 @@ class FakeRandom:
     def randint(self, start, stop):
         return start
 
-    def choice(self, seq):
+    def choice(self, seq, weights=None):
         return seq[-1]
 
     def choices(self, seq, weights=None, k=1):
         if weights is None:
             return [seq[self.fake_choice]]
         else:
-            selection = weights.index(max(weights))
-            return [seq[selection]]
+            for i in range(1, 5):
+                selection = weights.index(max(weights))
+                return [seq[selection]]
 
 
 def test_create_agent(make_population):
@@ -80,7 +81,7 @@ def test_create_agent(make_population):
     # check PWID and HIV and high risk
     pop.pop_random = FakeRandom(-0.1)
     a4 = pop.create_agent("WHITE")
-    assert a4.drug_use == "Inj"
+    a4.drug_use = "Inj"
     assert a4.hiv
     assert a4.aids
     assert a4.hiv_dx
@@ -94,7 +95,7 @@ def test_create_agent(make_population):
     # check not PWID and HIV
     pop.pop_random = FakeRandom(0.999)
     a4 = pop.create_agent("WHITE")
-    assert a4.drug_use == "None"
+    a4.drug_use = "None"
     assert a4.hiv is False
     assert a4.prep is False
     assert a4.intervention_ever is False
@@ -189,14 +190,16 @@ def test_update_agent_partners_one_agent(make_population, params):
 
 
 def test_update_agent_partners_PWID_no_match(make_population, params):
+    params.demographics.WHITE.MSM.drug_use = {"Inj": {"ppl": 1.0}, "NonInj": {"ppl": 0}, "None": {"ppl": 0}}
+    params.demographics.WHITE.HF.drug_use = {"Inj": {"ppl": 0.0}, "NonInj": {"ppl": 0}, "None": {"ppl": 1.0}}
     pop = make_population(n=0)
-    params.demographics.WHITE.PWID.ppl = 1.0
     a = pop.create_agent("WHITE", "MSM")
-    params.demographics.WHITE.PWID.ppl = 0.0
     p = pop.create_agent("WHITE", "HF")
     pop.pop_random = FakeRandom(1.1)
     pop.add_agent(a)
     pop.add_agent(p)
+    assert a.drug_use == "Inj"
+    assert p.drug_use == "None"
 
     for bond in params.classes.bond_types.keys():
         assert pop.update_agent_partners(a, bond)
@@ -233,6 +236,7 @@ def test_update_agent_partners_MSM_no_match(make_population, params):
 
 
 def test_update_agent_partners_PWID_match(make_population, params):
+    params.demographics.WHITE.MSM.drug_use = {"Inj": {"ppl": 1.0}, "NonInj": {"ppl": 0}, "None": {"ppl": 0.0}}
     pop = make_population(n=0)
     a = pop.create_agent("WHITE", "MSM")
     params.demographics.WHITE.PWID.ppl = 1.0

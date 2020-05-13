@@ -82,8 +82,8 @@ class Population:
                     self.role_weights[race][st]["weights"].append(prob)
                 for use_type, prob in self.demographics[race][st].drug_use.items():
                     self.drug_weights[race][st]["values"].append(use_type)
-                    self.drug_weights[race][st]["weights"].append(prob.ppl)
-
+                    assert "ppl" in prob, f"{prob}"
+                    self.drug_weights[race][st]["weights"].append(prob["ppl"])
 
         print("\tBuilding class sets")
 
@@ -187,6 +187,7 @@ class Population:
             )
 
         # Determine drugtype
+        print(self.drug_weights[race][sex_type])
         drug_type = self.np_random.choice(
             self.drug_weights[race][sex_type]["values"],
             p=self.drug_weights[race][sex_type]["weights"],
