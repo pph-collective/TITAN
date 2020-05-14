@@ -80,7 +80,8 @@ class HIVModel:
         self.total_dx = 0
         self.ssp_enrolled_risk = 0.0
 
-        # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns, else: fixed value
+        # Set seed format. 0: pure random, -1: Stepwise from 1 to nRuns,
+        # else: fixed value
         print(f"\tRun seed was set to: {self.run_seed}")
         self.run_random = random.Random(self.run_seed)
         self.np_random = np.random.RandomState(self.run_seed)
@@ -495,8 +496,6 @@ class HIVModel:
             boolean : whether interaction happened
 
         """
-        # REVIEWED should this now all be based on the interaction types assosciated with the relationship? - SARAH TO DO
-
         # If either agent is incarcerated, skip their interaction
         if rel.agent1.incar or rel.agent2.incar:
             return False

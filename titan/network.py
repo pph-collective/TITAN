@@ -5,8 +5,7 @@ import networkx as nx  # type: ignore
 from networkx.drawing.nx_agraph import graphviz_layout  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 import matplotlib.patches as patches  # type: ignore
-
-from .agent import Agent
+import os
 
 
 class NetworkGraphUtils:
@@ -179,7 +178,7 @@ class NetworkGraphUtils:
         ax.add_patch(p)
 
         if not pos:
-            pos = graphviz_layout(G, prog="neato", args="")
+            pos = graphviz_layout(self.G, prog="neato", args="")
 
         edge_color = "k"
         node_shape = "o"
@@ -194,7 +193,7 @@ class NetworkGraphUtils:
                 NodeSize.append(node_size)
         else:
             for v in self.G:
-                NodeSize.append((10 * G.degree(v)) ** (1.0))
+                NodeSize.append((10 * self.G.degree(v)) ** (1.0))
 
         # draw:
         nx.draw(
@@ -231,7 +230,9 @@ class NetworkGraphUtils:
         )
 
         filename = os.path.join(
-            outdir, "network", f"{label}_{G.number_of_nodes()}_{coloring}_{curtime}.png"
+            outdir,
+            "network",
+            f"{label}_{self.G.number_of_nodes()}_{coloring}_{curtime}.png",
         )
 
         fig.savefig(filename)

@@ -187,7 +187,6 @@ class Population:
             )
 
         # Determine drugtype
-        print(self.drug_weights[race][sex_type])
         drug_type = self.np_random.choice(
             self.drug_weights[race][sex_type]["values"],
             p=self.drug_weights[race][sex_type]["weights"],

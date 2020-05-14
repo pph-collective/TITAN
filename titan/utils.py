@@ -1,7 +1,6 @@
 import random
 from functools import wraps
 from typing import TypeVar, Optional, Collection
-from math import ceil
 
 
 def get_check_rand_int(seed):

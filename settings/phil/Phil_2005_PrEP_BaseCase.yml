@@ -87,7 +87,7 @@ PWID:
     adherence: 0.923
 classes:
   races:
-    - WHITE
+    - BLACK
   sex_types:
     HM:
       gender: M
@@ -107,11 +107,9 @@ classes:
       acts_allowed:
         - injection
 demographics:
-  WHITE:
+  BLACK:
     ppl: 1.0
     HM:
-      Race: null
-      Class: null
       num_partners:
         Sex:
           dist_type: poisson
@@ -128,9 +126,12 @@ demographics:
           var_1: 0
           var_2: 0
           mean: 0
-      EligSE_PartnerType: HF
-      AssortMixMatrix: []
       ppl: 0.415
+      drug_use:
+        Inj:
+          ppl: 0.0173
+        None:
+          ppl: 0.9827
       hiv:
         init: 0.0369
         dx:
@@ -154,12 +155,12 @@ demographics:
       high_risk:
         init: 0
     HF:
-      Race: null
-      Class: null
-      NUMPartn: 1.5
-      EligSE_PartnerType: HM
-      AssortMixMatrix: []
       ppl: 0.585
+      drug_use:
+        Inj:
+          ppl: 0.0173
+        None:
+          ppl: 0.9827
       hiv:
         init: 0.01391
         dx:
@@ -199,10 +200,10 @@ demographics:
       high_risk:
         init: 0
     PWID:
-      NUMPartn: 1.5
-      EligSE_PartnerType: PWID
-      AssortMixMatrix: []
       ppl: 0.0173
+      drug_use:
+        Inj:
+          ppl: 1.0
       hiv:
         init: 0.15
         dx:

@@ -107,9 +107,8 @@ def test_target_partners(make_model, tmpdir):
     # run with default bins (0-9)
     run_id_a = model_a.run(path_a)
 
-    # change the bins upward for creating model b
+    # change the partner distribution mean upward for creating model b
     model_a.params.demographics.BLACK.MSM.num_partners.Sex.var_1 *= 10
-    model_a.params.demographics.BLACK.MSM.num_partners.Sex.mean *= 10
     model_a.params.model.seed.run = model_a.run_seed
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
 
