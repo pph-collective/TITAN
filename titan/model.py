@@ -120,6 +120,9 @@ class HIVModel:
                 )
 
             if self.params.outputs.network.calc_component_stats:
+                assert (
+                    self.params.model.network.enable
+                ), "Cannot print components unless network enabled!"
                 ao.print_components(
                     self.id,
                     self.time,
