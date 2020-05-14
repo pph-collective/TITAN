@@ -4,7 +4,7 @@ agent_zero:
     type: enum
     default: Inj
     class: bond_types
-  num_agents:
+  num_partners:
     type: int
     description: "Number of partners to add to agent zero."
     default: 4

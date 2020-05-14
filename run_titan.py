@@ -10,9 +10,14 @@ import argparse
 import itertools
 import json
 from multiprocessing import Pool, cpu_count
+import csv
 
 from titan.model import HIVModel
 from titan.parse_params import create_params
+
+# how many cores can we use
+NCORES = os.environ.get("SLURM_CPUS_PER_TASK", cpu_count())
+NCORES = int(NCORES)  # environment variable returns string
 
 # set up args parsing
 parser = argparse.ArgumentParser(description="Run TITAN model")
@@ -46,10 +51,6 @@ parser.add_argument(
     help="whether to use base setting",
 )
 
-# how many cores can we use
-NCORES = os.environ.get("SLURM_CPUS_PER_TASK", cpu_count())
-NCORES = int(NCORES)  # environment variable returns string
-
 
 def sweep_range(string):
     error_msg = "Sweep range must have format param:start:stop[:step]"
@@ -64,12 +65,12 @@ def sweep_range(string):
         start = int(parts[1])
         stop = int(parts[2])
         step = int(step)
-    except:
+    except ValueError:
         try:
             start = float(parts[1])
             stop = float(parts[2])
             step = float(step)
-        except:
+        except ValueError:
             raise ValueError("start, stop, and step must have same type (int or float)")
 
     return {"param": parts[0], "start": start, "stop": stop, "step": step}
@@ -83,6 +84,25 @@ parser.add_argument(
     default=[],
     help="Optional and repeatable definitions of numeric params to sweep. Expected format is param:start:stop[:step]",
 )
+
+parser.add_argument(
+    "-W",
+    "--sweepfile",
+    nargs="?",
+    type=str,
+    default=None,
+    help="Optional. CSV file with param sweep definitions. Header row must contain param paths, with data rows containing values. If this is passed, any `-w` args will be ignored.",
+)
+
+parser.add_argument(
+    "-r",
+    "--rows",
+    nargs="?",
+    type=str,
+    default=None,
+    help="Optional. Which data rows of sweepfile to use in format start:stop.",
+)
+
 
 parser.add_argument(
     "-F",
@@ -118,6 +138,37 @@ def setup_sweeps(sweeps):
     return defs
 
 
+def setup_sweeps_file(sweepfile, rows):
+    if rows is not None:
+        start, stop = (int(item) for item in rows.split(":"))
+    else:
+        start = 1
+        stop = sys.maxsize  # very very big number
+
+    defs = []
+    with open(sweepfile, newline="") as f:
+        reader = csv.DictReader(f)
+        n = 1
+        for row in reader:
+            if start <= n <= stop:
+                defn = {}
+                for k, v in row.items():
+                    try:
+                        val = int(v)
+                    except ValueError:
+                        try:
+                            val = float(v)
+                        except ValueError:
+                            raise ValueError(
+                                "sweep values must be numbers (int or float)"
+                            )
+                    defn[k] = val
+                defs.append(defn)
+            n += 1
+
+    return defs
+
+
 def consolidate_files(outdir):
     for item in os.listdir(outdir):
         subdir = os.path.join(outdir, item)
@@ -128,7 +179,7 @@ def consolidate_files(outdir):
                     for file in os.listdir(os.path.join(subdir, report)):
                         shutil.move(
                             os.path.join(subdir, report, file),
-                            os.path.join(outdir, network),
+                            os.path.join(outdir, "network"),
                         )
                 else:
                     # copy data to existing file
@@ -156,7 +207,7 @@ def consolidate_files(outdir):
 def update_sweep_file(run_id, defn, outdir):
     f = open(os.path.join(outdir, "SweepVals.json"), "a")
     res = copy(defn)
-    res["run_id"] = str(run_id)
+    res["run_id"] = run_id
     f.write(json.dumps(res))
     f.write("\n")
     f.close()
@@ -181,14 +232,24 @@ def single_run(sweep, outfile_dir, params):
 
     # runs simulations
     model = HIVModel(params)
-    run_id = model.run(pid_outfile_dir)
+    model.run(pid_outfile_dir)
 
-    update_sweep_file(run_id, sweep, pid_outfile_dir)
+    update_sweep_file(model.id, sweep, pid_outfile_dir)
 
     return time_mod.time() - tic
 
 
-def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
+def main(
+    setting,
+    params_path,
+    num_reps,
+    outdir,
+    use_base,
+    sweeps,
+    force,
+    sweepfile=None,
+    rows=None,
+):
     # delete old results before overwriting with new results
     outfile_dir = os.path.join(os.getcwd(), outdir)
     if os.path.isdir(outfile_dir):
@@ -196,7 +257,7 @@ def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
     os.mkdir(outfile_dir)
     os.mkdir(os.path.join(outfile_dir, "network"))
 
-    # generate params - if no setting, set to null
+    # generate params - if no setting, set to none
     setting = setting.lower()
     if setting == "custom":
         setting = None
@@ -209,7 +270,9 @@ def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
     params = create_params(setting, params_path, outfile_dir, use_base=use_base)
 
     # set up sweeps
-    if sweeps:
+    if sweepfile is not None:
+        sweep_defs = setup_sweeps_file(sweepfile, rows)
+    elif sweeps:
         sweep_defs = setup_sweeps(sweeps)
     else:
         sweep_defs = [{}]  # make sure runs once
@@ -256,6 +319,8 @@ def main(setting, params_path, num_reps, outdir, use_base, sweeps, force):
 
 if __name__ == "__main__":
     args = parser.parse_args()
+    rows = args.rows.strip() if args.rows is not None else None
+    sweepfile = args.sweepfile.strip() if args.sweepfile is not None else None
     main(
         args.setting.strip(),
         args.params.strip(),
@@ -264,4 +329,6 @@ if __name__ == "__main__":
         args.base,
         args.sweep,
         args.force,
+        sweepfile=sweepfile,
+        rows=rows,
     )

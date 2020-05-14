@@ -9,10 +9,12 @@ model:
     num_steps: 168
     burn_steps: 30
   network:
+    enable: true
     type: scale_free
 outputs:
   print_frequency: 10
-  draw_figures: false
+  network:
+    draw_figures: false
   reports:
   - deathReport
   - incarReport

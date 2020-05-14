@@ -6,59 +6,7 @@ from titan.agent import Agent, Relationship
 from titan.population import Population
 from titan.parse_params import create_params, ObjMap
 
-
-@pytest.fixture
-def params(tmpdir):
-    param_file = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
-    )
-    return create_params(None, param_file, tmpdir)
-
-
-@pytest.fixture
-def make_agent():
-    def _make_agent(SO="MSM", age=30, race="WHITE", DU="None"):
-        return Agent(SO, age, race, DU)
-
-    return _make_agent
-
-
-@pytest.fixture
-def make_population(params):
-    def _make_population(n=0):
-        params.model.num_pop = n
-        return Population(params)
-
-    return _make_population
-
-
-# helper method to generate a fake number deterministically
-class FakeRandom:
-    def __init__(self, num: float, fake_choice: int = 0):
-        self.num = num
-        self.fake_choice = fake_choice
-
-    def random(self):
-        return self.num
-
-    def randrange(self, start, stop, step=1):
-        return start
-
-    def randint(self, start, stop):
-        return start
-
-    def choice(self, seq):
-        return seq[-1]
-
-    def choices(self, seq, weights=None, k=1):
-        if weights is None:
-            return [seq[self.fake_choice]]
-        else:
-            selection = weights.index(max(weights))
-            return [seq[selection]]
-
-    def poisson(self, var: float, size: int):
-        return var
+from conftest import FakeRandom
 
 
 def test_partnership_duration(params):
@@ -68,6 +16,7 @@ def test_partnership_duration(params):
     assert get_partnership_duration(params, FakeRandom(0.1), "Sex") == 1
 
 
+@pytest.mark.unit
 def test_get_random_pwid_partner_no_PWID(make_population, make_agent, params):
     empty_pop = make_population()
     idu_agent = make_agent(DU="Inj")
@@ -94,6 +43,7 @@ def test_get_random_pwid_partner_no_PWID(make_population, make_agent, params):
     assert partner is None
 
 
+@pytest.mark.unit
 def test_get_random_pwid_partner_w_PWID(make_population, make_agent, params):
     empty_pop = make_population()
     idu_agent = make_agent(DU="Inj")
@@ -125,6 +75,7 @@ def test_get_random_pwid_partner_w_PWID(make_population, make_agent, params):
     assert partner == idu_partner
 
 
+@pytest.mark.unit
 def test_get_random_sex_partner_valid(make_population, make_agent, params):
     empty_pop = make_population()
     hm_agent = make_agent(SO="HM")
@@ -167,6 +118,7 @@ def test_get_random_sex_partner_valid(make_population, make_agent, params):
     assert partner is None
 
 
+@pytest.mark.unit
 def test_get_random_sex_partner_bad(make_population, make_agent, params):
     empty_pop = make_population()
     hm_agent = make_agent(SO="HM")
@@ -191,6 +143,7 @@ def test_get_random_sex_partner_bad(make_population, make_agent, params):
     assert partner is None
 
 
+@pytest.mark.unit
 def test_get_assort_partner_race(make_population, make_agent, params):
     pop = make_population()
     a = make_agent(SO="MSM", race="WHITE")
@@ -254,6 +207,7 @@ def test_get_assort_partner_race(make_population, make_agent, params):
     assert partner == p2
 
 
+@pytest.mark.unit
 def test_get_assort_partner_high_risk(make_population, make_agent, params):
     pop = make_population()
     a = make_agent(SO="MSM", race="WHITE")
@@ -325,6 +279,7 @@ def test_get_assort_partner_high_risk(make_population, make_agent, params):
     assert partner == p2
 
 
+@pytest.mark.unit
 def test_get_assort_partner_drug_use(make_population, make_agent, params):
     pop = make_population()
     a = make_agent(SO="MSM", race="WHITE", DU="Inj")
@@ -397,6 +352,7 @@ def test_get_assort_partner_drug_use(make_population, make_agent, params):
     assert partner == p2
 
 
+@pytest.mark.unit
 def test_sex_possible(params):
     sex_types = params.classes.sex_types
     # agent sex types are ["HM", "MSM", "WSW", "HF", "MTF"]

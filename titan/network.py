@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import os
+
 import networkx as nx  # type: ignore
 from networkx.drawing.nx_agraph import graphviz_layout  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 import matplotlib.patches as patches  # type: ignore
-import os
 
 
 class NetworkGraphUtils:
@@ -24,13 +25,16 @@ class NetworkGraphUtils:
     def connected_components(self):
         return list(self.G.subgraph(c).copy() for c in nx.connected_components(self.G))
 
-    def write_graph_edgelist(self, path: str):
-        nx.write_edgelist(self.G, path, delimiter="|", data=False)
+    def write_graph_edgelist(self, path: str, id, time):
+        file_path = os.path.join(path, f"{id}_Edgelist_t{time}.txt")
+        nx.write_edgelist(self.G, file_path, delimiter="|", data=False)
 
-    def write_network_stats(self, path: str):
+    def write_network_stats(self, path: str, id, time):
+        file_path = os.path.join(path, f"{id}_NetworkStats_t{time}.txt")
+
         components = sorted(self.connected_components(), key=len, reverse=True)
 
-        outfile = open(path, "w")
+        outfile = open(file_path, "w")
         outfile.write(nx.info(self.G))
 
         cent_dict = nx.degree_centrality(self.G)
@@ -230,9 +234,7 @@ class NetworkGraphUtils:
         )
 
         filename = os.path.join(
-            outdir,
-            "network",
-            f"{label}_{self.G.number_of_nodes()}_{coloring}_{curtime}.png",
+            outdir, f"{label}_{self.G.number_of_nodes()}_{coloring}_{curtime}.png"
         )
 
         fig.savefig(filename)
