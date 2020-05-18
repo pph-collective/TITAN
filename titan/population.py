@@ -9,7 +9,6 @@ from typing import List, Dict, Any, Set
 import numpy as np  # type: ignore
 import networkx as nx  # type: ignore
 from math import ceil
-from copy import copy
 
 from .parse_params import ObjMap
 from .agent import AgentSet, Agent, Relationship
@@ -83,7 +82,6 @@ class Population:
                     self.role_weights[race][st]["weights"].append(prob)
                 for use_type, prob in self.demographics[race][st].drug_use.items():
                     self.drug_weights[race][st]["values"].append(use_type)
-                    assert "ppl" in prob, f"{prob}"
                     self.drug_weights[race][st]["weights"].append(prob["ppl"])
 
         print("\tBuilding class sets")
@@ -183,14 +181,21 @@ class Population:
              agent : Agent
         """
         if sex_type == "NULL":
-            sex_type = self.np_random.choice(
-                self.pop_weights[race]["values"], p=self.pop_weights[race]["weights"]
+            sex_type = str(
+                utils.safe_random_choice(
+                    self.pop_weights[race]["values"],
+                    self.pop_random,
+                    weights=self.pop_weights[race]["weights"],
+                )
             )
 
         # Determine drugtype
-        drug_type = self.np_random.choice(
-            self.drug_weights[race][sex_type]["values"],
-            p=self.drug_weights[race][sex_type]["weights"],
+        drug_type = str(
+            utils.safe_random_choice(
+                self.drug_weights[race][sex_type]["values"],
+                self.pop_random,
+                weights=self.drug_weights[race][sex_type]["weights"],
+            )
         )
 
         age, age_bin = self.get_age(race)
@@ -435,7 +440,7 @@ class Population:
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
             self.add_relationship(relationship)
             # can partner still partner?
-            if len(partner.partners[bond_type]) >= (
+            if len(partner.partners[bond_type]) > (
                 partner.target_partners[bond_type]
                 * self.params.calibration.partnership.buffer
             ):
@@ -452,8 +457,6 @@ class Population:
         :Input:
             None
         """
-        print(f"target partnerships: ")
-
         # update agent targets annually
         if t % self.params.model.time.steps_per_year == 0:
             self.update_partner_targets()
@@ -467,14 +470,25 @@ class Population:
                     if len(a.partners[bond]) < a.target_partners[bond]
                 ]
             )
+            print(f"Eligible agents for {bond}: {len(eligible_agents)}")
+            print(
+                f"Partnerable agents for {bond}: {len(self.partnerable_agents[bond])}"
+            )
             attempts = {a: 0 for a in eligible_agents}
+            no_match_agents = 0
+            num_new_partnerships = 0
 
             while eligible_agents:
                 agent = eligible_agents.popleft()
+                partner_start = {partner for partner in agent.partners[bond]}
 
                 # no match
                 if self.update_agent_partners(agent, bond):
                     attempts[agent] += 1
+                else:
+                    new_partners = {partner for partner in agent.partners[bond]}
+                    assert len(new_partners) == len(partner_start) + 1
+                    num_new_partnerships += 1
 
                 # add agent back to eligible pool
                 if (
@@ -483,11 +497,17 @@ class Population:
                     < self.params.calibration.partnership.break_point
                 ):
                     eligible_agents.append(agent)
+                elif attempts[agent] > self.params.calibration.partnership.break_point:
+                    print("No match!")
+                    no_match_agents += 1
 
-        print(
-            f"actual partnerships (post): "
-            f"{sum([len(a.partners) for a in self.all_agents])}"
-        )
+            print(f"New {bond} relationships: {num_new_partnerships}\n")
+
+        all_partners = 0
+        for a in self.all_agents:
+            for partners in a.partners.values():
+                all_partners += len(partners)
+        print(f"actual partnerships (post): " f"{all_partners}")
 
     def update_partner_targets(self):
         for a in self.all_agents:
@@ -505,7 +525,7 @@ class Population:
                     a.target_partners[bond] * self.params.calibration.partnership.buffer
                 ):
                     self.partnerable_agents[bond].remove(a)
-            elif len(a.partners) < (
+            elif len(a.partners[bond]) < (
                 a.target_partners[bond] * self.params.calibration.partnership.buffer
             ):
                 self.partnerable_agents[bond].add(a)

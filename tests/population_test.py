@@ -9,7 +9,7 @@ from tests.conftest import FakeRandom
 
 
 @pytest.mark.unit
-def test_create_agent(make_population):
+def test_create_agent(make_population, params):
     pop = make_population(n=100)
 
     a1 = pop.create_agent("WHITE")
@@ -27,8 +27,9 @@ def test_create_agent(make_population):
 
     # check PWID and HIV and high risk
     pop.pop_random = FakeRandom(-0.1)
-    a4 = pop.create_agent("WHITE")
-    a4.drug_use = "Inj"
+    pop.drug_weights["WHITE"]["HM"] = ObjMap({"values": ["Inj"], "weights": [1.0]})
+    a4 = pop.create_agent("WHITE", "HM")
+    assert a4.drug_use == "Inj"
     assert a4.hiv
     assert a4.aids
     assert a4.hiv_dx
@@ -41,8 +42,9 @@ def test_create_agent(make_population):
 
     # check not PWID and HIV
     pop.pop_random = FakeRandom(0.999)
-    a4 = pop.create_agent("WHITE")
-    a4.drug_use = "None"
+    pop.drug_weights["WHITE"]["HM"] = ObjMap({"values": ["None"], "weights": [1.0]})
+    a4 = pop.create_agent("WHITE", "HM")
+    assert a4.drug_use == "None"
     assert a4.hiv is False
     assert a4.prep is False
     assert a4.intervention_ever is False

@@ -11,7 +11,7 @@ def safe_sex(num_acts):
     :Input:
         :num_acts: Number of sex acts
     """
-    # REVIEWED hard coded number - needs to be tanslated to acts per month - SARAH TO CHECK ON probs
+    # REVIEWED hard coded number - needs to be translated to acts per month - SARAH TO CHECK ON probs
     if num_acts == 0:
         return 0.443
     elif num_acts == 1:
