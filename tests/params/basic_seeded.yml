@@ -4,10 +4,11 @@ demographics:
     MSM:
       ppl: 0.3
       drug_use:
-        Inj:
-          ppl: 0.2
-        None:
-          ppl: 0.8
+        init:
+          Inj:
+            ppl: 0.2
+          None:
+            ppl: 0.8
       num_partners:
         Sex:
           dist_type: poisson
@@ -58,10 +59,11 @@ demographics:
     HM:
       ppl: 0.3
       drug_use:
-        Inj:
-          ppl: 0.2
-        None:
-          ppl: 0.8
+        init:
+          Inj:
+            ppl: 0.2
+          None:
+            ppl: 0.8
       num_partners:
         Sex:
           dist_type: poisson
@@ -112,10 +114,11 @@ demographics:
     HF:
       ppl: 0.2
       drug_use:
-        Inj:
-          ppl: 0.2
-        None:
-          ppl: 0.8
+        init:
+          Inj:
+            ppl: 0.2
+          None:
+            ppl: 0.8
       num_partners:
         Sex:
           dist_type: poisson
@@ -166,10 +169,11 @@ demographics:
     WSW:
       ppl: 0.1
       drug_use:
-        Inj:
-          ppl: 0.2
-        None:
-          ppl: 0.8
+        init:
+          Inj:
+            ppl: 0.2
+          None:
+            ppl: 0.8
       num_partners:
         Sex:
           dist_type: poisson
@@ -220,10 +224,11 @@ demographics:
     MTF:
       ppl: 0.1
       drug_use:
-        Inj:
-          ppl: 0.2
-        None:
-          ppl: 0.8
+        init:
+          Inj:
+            ppl: 0.2
+          None:
+            ppl: 0.8
       num_partners:
         Sex:
           dist_type: poisson
@@ -274,8 +279,9 @@ demographics:
     PWID:
       ppl: 0.2
       drug_use:
-        Inj:
-          ppl: 1.0
+        init:
+          Inj:
+            ppl: 1.0
       num_partners:
         Sex:
           dist_type: poisson
@@ -328,10 +334,11 @@ demographics:
     MSM:
       ppl: 0.3
       drug_use:
-        Inj:
-          ppl: 0.3
-        None:
-          ppl: 0.7
+        init:
+          Inj:
+            ppl: 0.3
+          None:
+            ppl: 0.7
       num_partners:
         Sex:
           dist_type: poisson
@@ -382,10 +389,11 @@ demographics:
     HM:
       ppl: 0.3
       drug_use:
-        Inj:
-          ppl: 0.3
-        None:
-          ppl: 0.7
+        init:
+          Inj:
+            ppl: 0.3
+          None:
+            ppl: 0.7
       num_partners:
         Sex:
           dist_type: poisson
@@ -436,10 +444,11 @@ demographics:
     HF:
       ppl: 0.2
       drug_use:
-        Inj:
-          ppl: 0.3
-        None:
-          ppl: 0.7
+        init:
+          Inj:
+            ppl: 0.3
+          None:
+            ppl: 0.7
       num_partners:
         Sex:
           dist_type: poisson
@@ -490,10 +499,11 @@ demographics:
     WSW:
       ppl: 0.1
       drug_use:
-        Inj:
-          ppl: 0.3
-        None:
-          ppl: 0.7
+        init:
+          Inj:
+            ppl: 0.3
+          None:
+            ppl: 0.7
       num_partners:
         Sex:
           dist_type: poisson
@@ -544,10 +554,11 @@ demographics:
     MTF:
       ppl: 0.1
       drug_use:
-        Inj:
-          ppl: 0.3
-        None:
-          ppl: 0.7
+        init:
+          Inj:
+            ppl: 0.3
+          None:
+            ppl: 0.7
       num_partners:
         Sex:
           dist_type: poisson
@@ -598,8 +609,9 @@ demographics:
     PWID:
       ppl: 0.3
       drug_use:
-        Inj:
-          ppl: 1.0
+        init:
+          Inj:
+            ppl: 1.0
       num_partners:
         Sex:
           dist_type: poisson

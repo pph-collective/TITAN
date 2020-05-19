@@ -1,5 +1,4 @@
 from dotmap import DotMap
-from dotmap import DotMap
 
 params = DotMap()
 __author__ = "MaximilianKing"

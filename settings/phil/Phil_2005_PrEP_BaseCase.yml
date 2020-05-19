@@ -130,10 +130,11 @@ demographics:
           mean: 0
       ppl: 0.415
       drug_use:
-        Inj:
-          ppl: 0.0173
-        None:
-          ppl: 0.9827
+        init:
+          Inj:
+            ppl: 0.0173
+          None:
+            ppl: 0.9827
       hiv:
         init: 0.0369
         dx:
@@ -159,10 +160,11 @@ demographics:
     HF:
       ppl: 0.585
       drug_use:
-        Inj:
-          ppl: 0.0173
-        None:
-          ppl: 0.9827
+        init:
+          Inj:
+            ppl: 0.0173
+          None:
+            ppl: 0.9827
       hiv:
         init: 0.01391
         dx:
@@ -204,8 +206,9 @@ demographics:
     PWID:
       ppl: 0.0173
       drug_use:
-        Inj:
-          ppl: 1.0
+        init:
+          Inj:
+            ppl: 1.0
       hiv:
         init: 0.15
         dx:

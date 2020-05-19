@@ -120,9 +120,6 @@ class HIVModel:
                 )
 
             if self.params.outputs.network.calc_component_stats:
-                assert (
-                    self.params.model.network.enable
-                ), "Cannot print components unless network enabled!"
                 ao.print_components(
                     self.id,
                     self.time,
@@ -462,11 +459,11 @@ class HIVModel:
         if rel.agent1.incar or rel.agent2.incar:
             return False
 
-        # Agent 1 is HIV, partner is succept
+        # Agent 1 is HIV+, Agent 2 is not, Agent 2 is succept
         if rel.agent1.hiv and not rel.agent2.hiv:
             agent = rel.agent1
             partner = rel.agent2
-        # If agent_2 is HIV agen1 is not, agent_2 is HIV, agent_1 is succept
+        # If Agent 2 is HIV and Agent 1 is not, Agent 1 is succept
         elif not rel.agent1.hiv and rel.agent2.hiv:
             agent = rel.agent2
             partner = rel.agent1

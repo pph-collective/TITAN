@@ -14,12 +14,13 @@ demographics:
     MSM:
       ppl: 1.0
       drug_use:
-        Inj:
-          ppl: 0.2
-        NonInj:
-          ppl: 0.0
-        None:
-          ppl: 0.8
+        init:
+          Inj:
+            ppl: 0.2
+          NonInj:
+            ppl: 0.0
+          None:
+            ppl: 0.8
       hiv:
         init: 0.1
         dx:
@@ -69,8 +70,9 @@ demographics:
     PWID:
       ppl: 0.2
       drug_use:
-        Inj:
-          ppl: 1.0
+        init:
+          Inj:
+            ppl: 1.0
       hiv:
         init: 0.1
         dx:

@@ -246,13 +246,8 @@ def check_params(params):
 
 def create_params(setting_path, param_path, outdir, use_base=True):
     """
-<<<<<<< HEAD
-    Entry funtion - given the path to the setting, params, output directory and whether
+    Entry function - given the path to the setting, params, output directory and whether
     or not to use the base setting. Parse and create a params (ObjMap) object.
-=======
-    Entry funtion - given the path to the setting, params, output directory and
-    whether or not to use the base setting. Parse and create a params (ObjMap) object.
->>>>>>> develop
     """
     filename = getframeinfo(currentframe()).filename
     parent = Path(filename).resolve().parent
