@@ -409,8 +409,8 @@ class HIVModel:
                         if not agent.hiv
                     ]  # all suitable agents in bridges
                     if comp_agents:
-                        chosen_agent = self.run_random.choice(
-                            comp_agents
+                        chosen_agent = utils.safe_random_choice(
+                            comp_agents, self.run_random
                         )  # select change agent
                         chosen_agent.prep_awareness = True  # make aware
                         chosen_agent.pca = True
@@ -425,12 +425,16 @@ class HIVModel:
                         suitable_agent_choices
                     ):  # if there are agents who meet eligibility criteria,
                         # select one randomly
-                        chosen_agent = self.run_random.choice(suitable_agent_choices)
+                        chosen_agent = utils.safe_random_choice(
+                            suitable_agent_choices, self.run_random
+                        )
                         chosen_agent.pca = True
                         chosen_agent.pca_suitable = True
                         chosen_agent.prep_awareness = True  # make aware
                     else:  # if no suitable agents, mark a non-suitable agent
-                        chosen_agent = self.run_random.choice(list(comp.nodes))
+                        chosen_agent = utils.safe_random_choice(
+                            list(comp.nodes), self.run_random
+                        )
                         chosen_agent.pca = True
 
         print(("Total agents in trial: ", total_nodes))

@@ -202,10 +202,13 @@ class Population:
 
         agent = Agent(sex_type, age, race, drug_type)
         agent.age_bin = age_bin
-        agent.sex_role = self.np_random.choice(
-            self.role_weights[race][sex_type]["values"],
-            p=self.role_weights[race][sex_type]["weights"],
-        )
+        agent.sex_role = str(
+            utils.safe_random_choice(
+                self.role_weights[race][sex_type]["values"],
+                self.pop_random,
+                weights=self.role_weights[race][sex_type]["weights"],
+            )
+        )  # mypy doesn't like the Optional in the safe random choice return
         if self.features.msmw and sex_type == "HM":
             if self.pop_random.random() < self.params.msmw.prob:
                 agent.msmw = True
