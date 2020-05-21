@@ -14,6 +14,7 @@ features:
   die_and_replace: true
   bond_type: true
   syringe_services: true
+  agent_zero: true
 
 syringe_services:
   timeline:
@@ -23,6 +24,10 @@ syringe_services:
       num_slots_start: 0
       num_slots_stop: 0
       risk: 0.02
+
+agent_zero:
+  bond_type: Inj
+  num_partners: 4
 
 hiv:
   dx:
@@ -54,3 +59,6 @@ classes:
     Inj:
       acts_allowed:
         - injection
+  drug_types:
+    - Inj
+    - None

@@ -29,7 +29,7 @@ demographics:
           prob: 0.202
         haart:
           init: 0.608
-          prob: 0.41  # TODO: correct number
+          prob: 0.41
           adherence: 0.405
           discontinue: 0.000
       injection:
@@ -130,8 +130,8 @@ demographics:
         adherence: 0.405
         discontinue: 0.000
       injection:
-        unsafe_prob: 0.34
-        num_acts: 5.0
+        unsafe_prob: 0.321
+        num_acts: 20
       age:
         1:
           prob: .221

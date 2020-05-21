@@ -304,15 +304,20 @@ class HIVModel:
             self.die_and_replace()
 
     def make_agent_zero(self):
-        agent_zero = utils.safe_random_choice(
-            self.pop.pwid_agents.members, self.run_random
-        )
+        zero_relationships = []
+        for rel in self.pop.relationships:
+            if rel.bond_type == self.params.agent_zero.bond_type:
+                zero_relationships += [rel.agent1, rel.agent2]
+        zero_eligible = [
+            agent
+            for agent in set(zero_relationships)
+            if zero_relationships.count(agent) > self.params.agent_zero.num_partners
+        ]
+        agent_zero = utils.safe_random_choice(zero_eligible, self.run_random)
         if agent_zero:
-            for i in range(self.params.agent_zero.num_partners):
-                self.pop.update_agent_partners(agent_zero, self.params.agent_zero.type)
             self.hiv_convert(agent_zero)
         else:
-            raise ValueError("Must have PWID agents to make an agent zero")
+            raise ValueError("No agents are eligible for agent zero!")
 
     def update_high_risk(self, agent: Agent):
         """
@@ -993,12 +998,15 @@ class HIVModel:
         race_type = agent.race
         tested = agent.hiv_dx
 
-        def diagnose(agent):
+        def diagnose(agent, time):
             agent.hiv_dx = True
             self.new_dx.add_agent(agent)
             if (
                 self.features.partner_tracing
-            ):  # TODO fix this logic; should get partnerTraced and then lose it after
+                and self.params.partner_tracing.start
+                <= time
+                < self.params.partner_tracing.stop
+            ):
                 # For each partner, determine if found by partner testing
                 for bond in self.params.partner_tracing.bond_type:
                     for ptnr in agent.partners.get(bond, []):
@@ -1009,7 +1017,7 @@ class HIVModel:
                             < self.params.partner_tracing.prob
                         ):
                             ptnr.partner_traced = True
-                            ptnr.trace_time = self.time + 1
+                            ptnr.trace_time = self.time + self.params.partner_tracing.trace_time
 
         if not tested:
             test_prob = self.demographics[race_type][sex_type].hiv.dx.prob
@@ -1020,7 +1028,7 @@ class HIVModel:
             # If roll less than test probablity
             if self.run_random.random() < test_prob:
                 # Become tested, add to tested agent set
-                diagnose(agent)
+                diagnose(agent, self.time)
                 # If treatment co-enrollment enabled and coverage greater than 0
 
             elif (
@@ -1028,9 +1036,9 @@ class HIVModel:
                 and self.run_random.random() < self.params.partner_tracing.hiv.dx
                 and agent.trace_time == self.time
             ):
-                diagnose(agent)
-
-        agent.partner_traced = False
+                diagnose(agent, self.time)
+        if self.time < agent.trace_time:
+            agent.partner_traced = False
 
     def update_haart(self, agent: Agent):
         """

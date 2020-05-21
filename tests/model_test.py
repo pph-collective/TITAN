@@ -358,19 +358,37 @@ def test_incarcerate_unincarcerate(make_model, make_agent):
 @pytest.mark.unit
 def test_diagnose_hiv(make_model, make_agent):
     model = make_model()
+    model.params.partner_tracing.prob = 1.
+    model.time = 1
     a = make_agent()
+    p = make_agent()
+    p.hiv = True
+    a.partners["Sex"].add(p)
 
     model.run_random = FakeRandom(1.1)  # always greater than param
     model.diagnose_hiv(a)
 
     assert a.hiv_dx is False
     assert a not in model.new_dx.members
+    assert p.hiv_dx is False
+    assert p not in model.new_dx.members
+    assert not p.partner_traced
 
     model.run_random = FakeRandom(-0.1)  # always less than param
     model.diagnose_hiv(a)
 
     assert a.hiv_dx
     assert a in model.new_dx.members
+    assert p.partner_traced
+    assert p.trace_time == model.time + 1
+
+    assert p.hiv_dx is False
+    assert p not in model.new_dx.members
+    model.params.demographics[p.race][p.so].hiv.dx.prob = 0
+
+    model.diagnose_hiv(p)
+    assert p.hiv_dx
+    assert p.partner_traced is False
 
 
 @pytest.mark.unit

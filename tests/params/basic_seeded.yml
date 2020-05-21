@@ -686,6 +686,9 @@ partnership:
         min: 1
         max: 1
 
+agent_zero:
+  bond_type: Inj
+  num_partners: 2
 features:
   incar: true
   prep: true
