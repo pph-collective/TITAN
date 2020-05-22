@@ -1000,6 +1000,7 @@ class HIVModel:
 
         def diagnose(agent, time):
             agent.hiv_dx = True
+            self.pop.num_dx_agents += 1
             self.new_dx.add_agent(agent)
             if (
                 self.features.partner_tracing
@@ -1088,7 +1089,7 @@ class HIVModel:
                     if (
                         self.pop.num_haart_agents
                         < self.demographics[agent_race][agent_so].haart.prob
-                        * self.pop.hiv_agents
+                        * self.pop.num_dx_agents
                     ):
                         initiate(agent)
                 else:
@@ -1293,6 +1294,10 @@ class HIVModel:
         # replace stage
         for agent in self.deaths:
             # Remove agent from agent class and sub-sets
+            if agent.hiv_dx:
+                self.pop.num_dx_agents -= 1
+                if agent.haart:
+                    self.pop.num_haart_agents -= 1
             self.pop.remove_agent(agent)
 
             new_agent = self.pop.create_agent(agent.race, agent.so)

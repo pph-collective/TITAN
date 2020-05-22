@@ -85,6 +85,7 @@ class Population:
                     self.drug_weights[race][st]["weights"].append(prob["ppl"])
 
         self.num_haart_agents = 0
+        self.num_dx_agents = 0
         print("\tBuilding class sets")
 
         # All agent set list
@@ -228,10 +229,12 @@ class Population:
 
             if self.pop_random.random() < agent_params.hiv.dx.init:
                 agent.hiv_dx = True
+                self.num_dx_agents += 1
 
                 if self.pop_random.random() < agent_params.haart.init:
                     agent.haart = True
                     agent.intervention_ever = True
+                    self.num_haart_agents += 1
 
                     haart_adh = self.demographics[race][sex_type].haart.adherence
                     if self.pop_random.random() < haart_adh:
