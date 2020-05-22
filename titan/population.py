@@ -84,6 +84,7 @@ class Population:
                     self.drug_weights[race][st]["values"].append(use_type)
                     self.drug_weights[race][st]["weights"].append(prob["ppl"])
 
+        self.num_haart_agents = 0
         print("\tBuilding class sets")
 
         # All agent set list

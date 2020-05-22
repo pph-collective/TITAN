@@ -1017,7 +1017,9 @@ class HIVModel:
                             < self.params.partner_tracing.prob
                         ):
                             ptnr.partner_traced = True
-                            ptnr.trace_time = self.time + self.params.partner_tracing.trace_time
+                            ptnr.trace_time = (
+                                self.time + self.params.partner_tracing.trace_time
+                            )
 
         if not tested:
             test_prob = self.demographics[race_type][sex_type].hiv.dx.prob
@@ -1057,6 +1059,20 @@ class HIVModel:
         if not self.features.haart:
             return None
 
+        def initiate(agent):
+            haart_adh = self.demographics[agent_race][agent_so].haart.adherence
+            if self.run_random.random() < haart_adh:
+                adherence = 5
+            else:
+                adherence = self.run_random.randint(1, 4)
+
+            # Add agent to HAART class set, update agent params
+            agent.haart = True
+            agent.intervention_ever = True
+            agent.haart_adherence = adherence
+            agent.haart_time = self.time
+            self.pop.num_haart_agents += 1
+
         # Check valid input
         assert agent.hiv
 
@@ -1068,23 +1084,19 @@ class HIVModel:
         if agent.hiv_dx:
             # Go on HAART
             if not agent_haart and agent.haart_time == 0:
-                if self.run_random.random() < (
-                    self.demographics[agent_race][agent_so].haart.prob
-                    * self.calibration.haart.coverage
-                ):
-
-                    haart_adh = self.demographics[agent_race][agent_so].haart.adherence
-                    if self.run_random.random() < haart_adh:
-                        adherence = 5
-                    else:
-                        adherence = self.run_random.randint(1, 4)
-
-                    # Add agent to HAART class set, update agent params
-                    agent.haart = True
-                    agent.intervention_ever = True
-                    agent.haart_adherence = adherence
-                    agent.haart_time = self.time
-
+                if self.params.hiv.haart_cap:
+                    if (
+                        self.pop.num_haart_agents
+                        < self.demographics[agent_race][agent_so].haart.prob
+                        * self.pop.hiv_agents
+                    ):
+                        initiate(agent)
+                else:
+                    if self.run_random.random() < (
+                        self.demographics[agent_race][agent_so].haart.prob
+                        * self.calibration.haart.coverage
+                    ):
+                        initiate(agent)
             # Go off HAART
             elif (
                 agent_haart
@@ -1094,6 +1106,7 @@ class HIVModel:
                 agent.haart = False
                 agent.haart_adherence = 0
                 agent.haart_time = 0
+                self.pop.num_haart_agents -= 1
 
     def discontinue_prep(self, agent: Agent, force: bool = False):
         # Agent must be on PrEP to discontinue PrEP

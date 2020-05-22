@@ -15,11 +15,12 @@ features:
   bond_type: true
   syringe_services: true
   agent_zero: true
+  partner_tracing: false
 
 syringe_services:
   timeline:
     ssp_off:
-      time_start: 1
+      time_start: 4
       time_stop: 60
       num_slots_start: 0
       num_slots_stop: 0
@@ -33,6 +34,7 @@ hiv:
   dx:
     risk_reduction:
       sex: 0.27
+  haart_cap: true
 
 classes:
   sex_types:

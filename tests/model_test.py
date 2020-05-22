@@ -358,7 +358,7 @@ def test_incarcerate_unincarcerate(make_model, make_agent):
 @pytest.mark.unit
 def test_diagnose_hiv(make_model, make_agent):
     model = make_model()
-    model.params.partner_tracing.prob = 1.
+    model.params.partner_tracing.prob = 1.0
     model.time = 1
     a = make_agent()
     p = make_agent()
