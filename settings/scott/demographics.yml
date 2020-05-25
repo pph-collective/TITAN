@@ -6,9 +6,9 @@ demographics:
       drug_use:
         init:
           Inj:
-            ppl: 0.0244
+            ppl: 0.0306
           None:
-            ppl: 0.9756
+            ppl: 0.9694
       num_partners:
         Sex:
           dist_type: poisson
@@ -26,14 +26,14 @@ demographics:
         init: 0.0014
         dx:
           init: 0.9
-          prob: 0.202
+          prob: 0.0168
         haart:
           init: 0.608
           prob: 0.41
           adherence: 0.70
           discontinue: 0.000
       injection:
-        unsafe_prob: 0.43
+        unsafe_prob: 0.321
       age:
         1:
           prob: .221
@@ -61,9 +61,9 @@ demographics:
       drug_use:
         init:
           Inj:
-            ppl: 0.0244
+            ppl: 0.0306
           None:
-            ppl: 0.9756
+            ppl: 0.9694
       num_partners:
         Sex:
           dist_type: poisson
@@ -80,11 +80,11 @@ demographics:
       hiv:
         init: 0.0
         dx:
-          init: 0.0
-          prob: 0.2  #TODO: correct number
+          init: 0.9
+          prob: 0.0168
         haart:
-          init: 0.0
-          prob: 0.2  # TODO: correct number
+          init: 0.608
+          prob: 0.608  # TODO: correct number
           adherence: 0.7
           discontinue: 0.000
       injection:
@@ -131,7 +131,9 @@ demographics:
           var_2: 1.0
       hiv:
         init: 0.0
-        prob: 0.2
+        dx:
+          prob: 0.2
+          init: 0.0
       haart:
         init: 0.0
         prob: 0.0

@@ -675,7 +675,7 @@ class HIVModel:
 
         # unprotected sex probabilities for primary partnerships
         mean_sex_acts = (
-            agent.get_number_of_sex_acts(self.run_random, self.params)
+            agent.get_number_of_acts(self.run_random, self.params, "sex")
             * self.calibration.sex.act
         )
         total_sex_acts = utils.poisson(mean_sex_acts, self.np_random)

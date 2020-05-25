@@ -1,6 +1,6 @@
 partnership:
   sex:
-    frequency:
+    frequency_bin:
       type: bin
       description: "Binned probabilities of number of sex acts of a partnership at a given time step"
       fields:
@@ -35,6 +35,24 @@ partnership:
           prob: 1.0
           min: 37
           max: 48
+    frequency_dist:
+      use:
+        type: boolean
+        default: false
+        description: "Whether to use distribution for acts"
+      var_1:
+        type: float
+        default: 1.0
+      var_2:
+        type: float
+        default: 1
+      dist_type:
+        type: enum
+        values:
+          - gamma
+          - poisson
+          - uniform
+        default: gamma
     haart_scaling:
       type: sub-dict
       description: "Scaling factor on HIV transmission for a given haart adherence"
