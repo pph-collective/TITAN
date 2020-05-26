@@ -151,14 +151,14 @@ def test_get_number_of_sex_acts(make_agent, params):
     a = make_agent()
 
     rand_gen_low = FakeRandom(0.0)
-    min_val_low = params.partnership.sex.frequency_bin[1].min
+    min_val_low = params.partnership.sex.frequency[1].min
 
     rand_gen_high = FakeRandom(1.0)
 
-    assert a.get_number_of_acts(rand_gen_low, params, "sex") == min_val_low
+    assert a.get_number_of_sex_acts(rand_gen_low, params) == min_val_low
 
     # test fallthrough
-    assert a.get_number_of_acts(rand_gen_high, params, "sex") == 37
+    assert a.get_number_of_sex_acts(rand_gen_high, params) == 37
 
 
 # ============== RELATIONSHIP TESTS ===================

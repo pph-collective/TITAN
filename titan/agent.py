@@ -4,7 +4,7 @@
 from typing import List, Dict, Set
 
 from .parse_params import ObjMap
-from .utils import safe_divide, safe_dist
+from .utils import safe_divide
 
 
 class Agent:
@@ -250,7 +250,7 @@ class Agent:
         self.vaccine_type = vax
         self.vaccine_time = 1
 
-    def get_number_of_acts(self, rand_gen, params: ObjMap, interaction) -> int:
+    def get_number_of_sex_acts(self, rand_gen, params: ObjMap) -> int:
         """
         :Purpose:
             Number of sexActs an agent has done.
@@ -261,24 +261,19 @@ class Agent:
         :Output:
             number_sex_act : int
         """
-        if params.partnership[interaction].frequency_dist.use is False:
-            rv = rand_gen.random()
+        rv = rand_gen.random()
 
-            for i in range(1, 6):
-                p = params.partnership[interaction].frequency_bin[i].prob
-                if rv <= p:
-                    min_frequency = params.partnership[interaction].frequency_bin[i].min
-                    max_frequency = params.partnership[interaction].frequency_bin[i].max
-                    return rand_gen.randrange(min_frequency, max_frequency, 1)
+        for i in range(1, 6):
+            p = params.partnership.sex.frequency[i].prob
+            if rv <= p:
+                min_frequency = params.partnership.sex.frequency[i].min
+                max_frequency = params.partnership.sex.frequency[i].max
+                return rand_gen.randrange(min_frequency, max_frequency, 1)
 
-            # fallthrough is last i
-            min_frequency = params.partnership[interaction].frequency_bin[i].min
-            max_frequency = params.partnership[interaction].frequency_bin[i].max
-            return rand_gen.randrange(min_frequency, max_frequency, 1)
-        else:
-            return safe_dist(
-                params.partnership[interaction].frequency_dist.dist_type, rand_gen
-            )
+        # fallthrough is last i
+        min_frequency = params.partnership.sex.frequency[i].min
+        max_frequency = params.partnership.sex.frequency[i].max
+        return rand_gen.randrange(min_frequency, max_frequency, 1)
 
 
 class Relationship:
