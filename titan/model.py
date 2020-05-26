@@ -305,16 +305,17 @@ class HIVModel:
 
     def make_agent_zero(self):
         zero_relationships = []
+        bond_type = self.params.agent_zero.bond_type
         for rel in self.pop.relationships:
-            if rel.bond_type == self.params.agent_zero.bond_type:
+            if rel.bond_type == bond_type:
                 zero_relationships += [rel.agent1, rel.agent2]
         zero_eligible = [
             agent
             for agent in set(zero_relationships)
-            if zero_relationships.count(agent) > self.params.agent_zero.num_partners
+            if len(agent.partners[bond_type]) >= self.params.agent_zero.num_partners
         ]
-        agent_zero = utils.safe_random_choice(zero_eligible, self.run_random)
-        if agent_zero:
+        if zero_eligible:
+            agent_zero = utils.safe_random_choice(zero_eligible, self.run_random)
             self.hiv_convert(agent_zero)
         else:
             raise ValueError("No agents are eligible for agent zero!")

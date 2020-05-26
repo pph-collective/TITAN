@@ -7,4 +7,5 @@ model:
     run: 123
     ppl: 321
 
-
+agent_zero:
+  num_partners: 1

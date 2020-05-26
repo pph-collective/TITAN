@@ -205,10 +205,6 @@ demographics:
         init: 0
     PWID:
       ppl: 0.0173
-      drug_use:
-        init:
-          Inj:
-            ppl: 1.0
       hiv:
         init: 0.15
         dx:

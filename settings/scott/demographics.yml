@@ -112,10 +112,6 @@ demographics:
         haart_adherent: 5.69
     PWID:
       ppl: 0.017
-      drug_use:
-        init:
-          Inj:
-            ppl: 1.0
       num_partners:
         Sex:
           dist_type: poisson
