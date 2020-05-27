@@ -208,7 +208,7 @@ demographics:
         keys:
           - drug_types
         default:
-          ppl:
+          None:
             default: 0.0
             description: "Percentage of agents with the given drug use type"
             type: float

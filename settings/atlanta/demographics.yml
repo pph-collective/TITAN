@@ -18,10 +18,8 @@ demographics:
           var_2: 1
       drug_use:
         init:
-          NonInj:
-            ppl: 0.30
-          None:
-            ppl: 0.70
+          NonInj: 0.30
+          None: 0.70
       hiv:
         init: 0.434
         dx:
@@ -56,10 +54,8 @@ demographics:
           var_2: 1
       drug_use:
         init:
-          NonInj:
-            ppl: 0.48
-          None:
-            ppl: 0.52
+          NonInj: 0.48
+          None: 0.52
       hiv:
         init: 0.132
         dx:

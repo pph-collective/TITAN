@@ -94,29 +94,35 @@ def test_model_settings_run(tmpdir):
 
 @pytest.mark.integration_stochastic
 def test_mean_partner_consistency(make_model_integration, tmpdir):
-    model_a = make_model_integration()
+    model = make_model_integration()
     partner_totals_t0 = {}
-    for bond in model_a.params.classes.bond_types.keys():
+    for bond in model.params.classes.bond_types.keys():
         partner_totals_t0[bond] = 0
-        for ag in model_a.pop.all_agents:
+        for ag in model.pop.all_agents:
             partner_totals_t0[bond] += len(ag.partners[bond])
 
-    total_relationships_t0 = len(model_a.pop.relationships)
+    total_relationships_t0 = len(model.pop.relationships)
 
     path_a = tmpdir.mkdir("a")
     path_a.mkdir("network")
 
-    model_a.run(path_a)
+    model.run(path_a)
 
     partner_totals_t10 = {}
-    for bond in model_a.params.classes.bond_types.keys():
+    for bond in model.params.classes.bond_types.keys():
         partner_totals_t10[bond] = 0
-        for ag in model_a.pop.all_agents:
+        for ag in model.pop.all_agents:
             partner_totals_t10[bond] += len(ag.partners[bond])
-    total_relationships_t10 = len(model_a.pop.relationships)
+    total_relationships_t10 = len(model.pop.relationships)
+
+    assert math.isclose(partner_totals_t0["Inj"], partner_totals_t10["Inj"], abs_tol=15)
+    assert math.isclose(partner_totals_t0["Sex"], partner_totals_t10["Sex"], abs_tol=25)
+    assert math.isclose(
+        partner_totals_t0["Social"], partner_totals_t10["Social"], abs_tol=15
+    )
 
     for bond, val in partner_totals_t0.items():
-        assert math.isclose(val, partner_totals_t0[bond], abs_tol=15)
+        assert math.isclose(val, partner_totals_t10[bond], abs_tol=25)
     assert math.isclose(total_relationships_t0, total_relationships_t10, abs_tol=45)
 
 
@@ -127,10 +133,10 @@ def test_target_partners(make_model_integration, tmpdir):
     """
     model_a = make_model_integration()
     model_a.params.outputs.network.edge_list = True
-    model_a.params.calibration.partnership.break_point = 3
     for bond in model_a.params.classes.bond_types:
-        model_a.params.demographics.BLACK.MSM.num_partners[bond].var_1 *= 0.1
-        model_a.params.demographics.BLACK.PWID.num_partners[bond].var_1 *= 0.1
+        if bond != "Inj" and bond != "SexInj":
+            model_a.params.demographics.BLACK.MSM.num_partners[bond].var_1 = 1
+        model_a.params.demographics.BLACK.PWID.num_partners[bond].var_1 = 1
 
     path_a = tmpdir.mkdir("a")
     path_a.mkdir("network")
@@ -143,8 +149,8 @@ def test_target_partners(make_model_integration, tmpdir):
 
     # change the partner distribution mean upward for creating model b
     for bond in model_a.params.classes.bond_types:
-        model_a.params.demographics.BLACK.MSM.num_partners[bond].var_1 *= 100
-        model_a.params.demographics.BLACK.PWID.num_partners[bond].var_1 *= 100
+        model_a.params.demographics.BLACK.MSM.num_partners[bond].var_1 *= 1000
+        model_a.params.demographics.BLACK.PWID.num_partners[bond].var_1 *= 1000
     model_a.params.model.seed.run = model_a.run_seed
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
 

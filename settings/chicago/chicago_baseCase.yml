@@ -63,6 +63,8 @@ classes:
       cis_trans: cis
       sleeps_with:
         - MSM
+  drug_types:
+    - None
 high_risk:
   partner_scale: 300
   proportion: 0.3
@@ -101,8 +103,7 @@ demographics:
       ppl: 1.0
       drug_use:
         init:
-          None:
-            ppl: 1.0
+          None: 1.0
       hiv:
         init: 0.367
         dx:
