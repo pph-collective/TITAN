@@ -181,11 +181,15 @@ class Population:
              agent : Agent
         """
         if sex_type == "NULL":
-            sex_type = utils.safe_random_choice(
+            st = utils.safe_random_choice(
                 self.pop_weights[race]["values"],
                 self.pop_random,
                 weights=self.pop_weights[race]["weights"],
             )
+            if st is not None:
+                sex_type = st
+            else:
+                raise ValueError("Agent must have sex type")
 
         # Determine drugtype
         drug_type = utils.safe_random_choice(
@@ -193,16 +197,21 @@ class Population:
             self.pop_random,
             weights=self.drug_weights[race][sex_type]["weights"],
         )
+        if drug_type is None:
+            raise ValueError("Agent must have drug type")
 
         age, age_bin = self.get_age(race)
 
         agent = Agent(sex_type, age, race, drug_type)
         agent.age_bin = age_bin
-        agent.sex_role = utils.safe_random_choice(
+        sex_role = utils.safe_random_choice(
             self.role_weights[race][sex_type]["values"],
             self.pop_random,
             weights=self.role_weights[race][sex_type]["weights"],
         )
+        if isinstance(sex_role, str):
+            agent.sex_role = sex_role
+
         if self.features.msmw and sex_type == "HM":
             if self.pop_random.random() < self.params.msmw.prob:
                 agent.msmw = True
@@ -472,7 +481,6 @@ class Population:
                 f"Partnerable agents for {bond}: {len(self.partnerable_agents[bond])}"
             )
             attempts = {a: 0 for a in eligible_agents}
-            no_match_agents = 0
             num_new_partnerships = 0
 
             while eligible_agents:
