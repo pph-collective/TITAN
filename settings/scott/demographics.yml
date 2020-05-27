@@ -5,10 +5,8 @@ demographics:
       ppl: 0.495
       drug_use:
         init:
-          Inj:
-            ppl: 0.0244
-          None:
-            ppl: 0.9756
+          Inj: 0.0244
+          None: 0.9756
       num_partners:
         Sex:
           dist_type: poisson
@@ -60,10 +58,8 @@ demographics:
       ppl: 0.505
       drug_use:
         init:
-          Inj:
-            ppl: 0.0244
-          None:
-            ppl: 0.9756
+          Inj: 0.0244
+          None: 0.9756
       num_partners:
         Sex:
           dist_type: poisson

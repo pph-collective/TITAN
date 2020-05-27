@@ -108,6 +108,9 @@ classes:
     Inj:
       acts_allowed:
         - injection
+  drug_types:
+    - Inj
+    - None
 demographics:
   BLACK:
     ppl: 1.0
@@ -131,10 +134,8 @@ demographics:
       ppl: 0.415
       drug_use:
         init:
-          Inj:
-            ppl: 0.0173
-          None:
-            ppl: 0.9827
+          Inj: 0.0173
+          None: 0.9827
       hiv:
         init: 0.0369
         dx:
@@ -161,10 +162,8 @@ demographics:
       ppl: 0.585
       drug_use:
         init:
-          Inj:
-            ppl: 0.0173
-          None:
-            ppl: 0.9827
+          Inj: 0.0173
+          None: 0.9827
       hiv:
         init: 0.01391
         dx:

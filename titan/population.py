@@ -82,7 +82,7 @@ class Population:
                     self.role_weights[race][st]["weights"].append(prob)
                 for use_type, prob in self.demographics[race][st].drug_use.init.items():
                     self.drug_weights[race][st]["values"].append(use_type)
-                    self.drug_weights[race][st]["weights"].append(prob["ppl"])
+                    self.drug_weights[race][st]["weights"].append(prob)
 
         self.num_haart_agents = 0
         self.num_dx_agents = 0
@@ -183,34 +183,28 @@ class Population:
              agent : Agent
         """
         if sex_type == "NULL":
-            sex_type = str(
-                utils.safe_random_choice(
-                    self.pop_weights[race]["values"],
-                    self.pop_random,
-                    weights=self.pop_weights[race]["weights"],
-                )
+            sex_type = utils.safe_random_choice(
+                self.pop_weights[race]["values"],
+                self.pop_random,
+                weights=self.pop_weights[race]["weights"],
             )
 
         # Determine drugtype
-        drug_type = str(
-            utils.safe_random_choice(
-                self.drug_weights[race][sex_type]["values"],
-                self.pop_random,
-                weights=self.drug_weights[race][sex_type]["weights"],
-            )
+        drug_type = utils.safe_random_choice(
+            self.drug_weights[race][sex_type]["values"],
+            self.pop_random,
+            weights=self.drug_weights[race][sex_type]["weights"],
         )
 
         age, age_bin = self.get_age(race)
 
         agent = Agent(sex_type, age, race, drug_type)
         agent.age_bin = age_bin
-        agent.sex_role = str(
-            utils.safe_random_choice(
-                self.role_weights[race][sex_type]["values"],
-                self.pop_random,
-                weights=self.role_weights[race][sex_type]["weights"],
-            )
-        )  # mypy doesn't like the Optional in the safe random choice return
+        agent.sex_role = utils.safe_random_choice(
+            self.role_weights[race][sex_type]["values"],
+            self.pop_random,
+            weights=self.role_weights[race][sex_type]["weights"],
+        )
         if self.features.msmw and sex_type == "HM":
             if self.pop_random.random() < self.params.msmw.prob:
                 agent.msmw = True
@@ -487,34 +481,21 @@ class Population:
 
             while eligible_agents:
                 agent = eligible_agents.popleft()
-                partner_start = {partner for partner in agent.partners[bond]}
+                if len(agent.partners[bond]) < agent.target_partners[bond]:
 
-                # no match
-                if self.update_agent_partners(agent, bond):
-                    attempts[agent] += 1
-                else:
-                    new_partners = {partner for partner in agent.partners[bond]}
-                    assert len(new_partners) == len(partner_start) + 1
-                    num_new_partnerships += 1
+                    # no match
+                    if self.update_agent_partners(agent, bond):
+                        attempts[agent] += 1
 
-                # add agent back to eligible pool
-                if (
-                    len(agent.partners[bond]) < agent.target_partners[bond]
-                    and attempts[agent]
-                    < self.params.calibration.partnership.break_point
-                ):
-                    eligible_agents.append(agent)
-                elif attempts[agent] > self.params.calibration.partnership.break_point:
-                    print("No match!")
-                    no_match_agents += 1
+                    # add agent back to eligible pool
+                    if (
+                        len(agent.partners[bond]) < agent.target_partners[bond]
+                        and attempts[agent]
+                        < self.params.calibration.partnership.break_point
+                    ):
+                        eligible_agents.append(agent)
 
             print(f"New {bond} relationships: {num_new_partnerships}\n")
-
-        all_partners = 0
-        for a in self.all_agents:
-            for partners in a.partners.values():
-                all_partners += len(partners)
-        print(f"actual partnerships (post): " f"{all_partners}")
 
     def update_partner_targets(self):
         for a in self.all_agents:

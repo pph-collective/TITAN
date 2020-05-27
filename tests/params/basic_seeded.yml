@@ -5,10 +5,8 @@ demographics:
       ppl: 0.3
       drug_use:
         init:
-          Inj:
-            ppl: 0.2
-          None:
-            ppl: 0.8
+          Inj: 0.2
+          None: 0.8
       num_partners:
         Sex:
           dist_type: poisson
@@ -60,10 +58,8 @@ demographics:
       ppl: 0.3
       drug_use:
         init:
-          Inj:
-            ppl: 0.2
-          None:
-            ppl: 0.8
+          Inj: 0.2
+          None: 0.8
       num_partners:
         Sex:
           dist_type: poisson
@@ -115,10 +111,8 @@ demographics:
       ppl: 0.2
       drug_use:
         init:
-          Inj:
-            ppl: 0.2
-          None:
-            ppl: 0.8
+          Inj: 0.2
+          None: 0.8
       num_partners:
         Sex:
           dist_type: poisson
@@ -170,10 +164,8 @@ demographics:
       ppl: 0.1
       drug_use:
         init:
-          Inj:
-            ppl: 0.2
-          None:
-            ppl: 0.8
+          Inj: 0.2
+          None: 0.8
       num_partners:
         Sex:
           dist_type: poisson
@@ -225,10 +217,8 @@ demographics:
       ppl: 0.1
       drug_use:
         init:
-          Inj:
-            ppl: 0.2
-          None:
-            ppl: 0.8
+          Inj: 0.2
+          None: 0.8
       num_partners:
         Sex:
           dist_type: poisson
@@ -278,10 +268,6 @@ demographics:
           prob: 0.1
     PWID:
       ppl: 0.2
-      drug_use:
-        init:
-          Inj:
-            ppl: 1.0
       num_partners:
         Sex:
           dist_type: poisson
@@ -335,10 +321,8 @@ demographics:
       ppl: 0.3
       drug_use:
         init:
-          Inj:
-            ppl: 0.3
-          None:
-            ppl: 0.7
+          Inj: 0.3
+          None: 0.7
       num_partners:
         Sex:
           dist_type: poisson
@@ -390,10 +374,8 @@ demographics:
       ppl: 0.3
       drug_use:
         init:
-          Inj:
-            ppl: 0.3
-          None:
-            ppl: 0.7
+          Inj: 0.3
+          None: 0.7
       num_partners:
         Sex:
           dist_type: poisson
@@ -445,10 +427,8 @@ demographics:
       ppl: 0.2
       drug_use:
         init:
-          Inj:
-            ppl: 0.3
-          None:
-            ppl: 0.7
+          Inj: 0.3
+          None: 0.7
       num_partners:
         Sex:
           dist_type: poisson
@@ -500,10 +480,8 @@ demographics:
       ppl: 0.1
       drug_use:
         init:
-          Inj:
-            ppl: 0.3
-          None:
-            ppl: 0.7
+          Inj: 0.3
+          None: 0.7
       num_partners:
         Sex:
           dist_type: poisson
@@ -555,10 +533,8 @@ demographics:
       ppl: 0.1
       drug_use:
         init:
-          Inj:
-            ppl: 0.3
-          None:
-            ppl: 0.7
+          Inj: 0.3
+          None: 0.7
       num_partners:
         Sex:
           dist_type: poisson
@@ -610,8 +586,7 @@ demographics:
       ppl: 0.3
       drug_use:
         init:
-          Inj:
-            ppl: 1.0
+          Inj: 1.0
       num_partners:
         Sex:
           dist_type: poisson
@@ -714,3 +689,8 @@ model:
     num_steps: 100
   network:
     enable: true
+
+classes:
+  drug_types:
+    - Inj
+    - None

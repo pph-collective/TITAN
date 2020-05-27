@@ -29,20 +29,14 @@ def safe_divide(numerator: int, denominator: int):
 T = TypeVar("T")
 
 
-def safe_random_choice(seq: Collection[T], rand_gen, weights=None) -> Optional[T]:
+def safe_random_choice(seq: Collection[T], rand_gen, weights=None) -> T:
     """
     Return None or a random choice
     """
-    if seq:
-        if weights:
-            choices = rand_gen.choices(seq, weights=weights)
-            return choices[0]
-        elif isinstance(seq, set):
-            return rand_gen.choice(tuple(seq))
-        else:
-            return rand_gen.choice(seq)
-    else:
-        return None
+    if isinstance(seq, set):
+        seq = tuple(seq)
+    choices = rand_gen.choices(seq, weights=weights)
+    return choices[0]
 
 
 def safe_shuffle(seq: Collection[T], rand_gen):

@@ -15,12 +15,9 @@ demographics:
       ppl: 1.0
       drug_use:
         init:
-          Inj:
-            ppl: 0.2
-          NonInj:
-            ppl: 0.0
-          None:
-            ppl: 0.8
+          Inj: 0.2
+          NonInj: 0.0
+          None: 0.8
       hiv:
         init: 0.1
         dx:
@@ -53,7 +50,7 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 6
+          var_1: 2
           var_2: 1
         Social:
           dist_type: set_value
@@ -103,7 +100,7 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 6
+          var_1: 2
           var_2: 1
         Inj:
           dist_type: poisson
@@ -111,7 +108,7 @@ demographics:
           var_2: 1
         SexInj:
           dist_type: poisson
-          var_1: 6
+          var_1: 2
           var_2: 1
         Social:
           dist_type: poisson
