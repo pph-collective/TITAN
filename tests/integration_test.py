@@ -115,12 +115,6 @@ def test_mean_partner_consistency(make_model_integration, tmpdir):
             partner_totals_t10[bond] += len(ag.partners[bond])
     total_relationships_t10 = len(model.pop.relationships)
 
-    assert math.isclose(partner_totals_t0["Inj"], partner_totals_t10["Inj"], abs_tol=15)
-    assert math.isclose(partner_totals_t0["Sex"], partner_totals_t10["Sex"], abs_tol=25)
-    assert math.isclose(
-        partner_totals_t0["Social"], partner_totals_t10["Social"], abs_tol=15
-    )
-
     for bond, val in partner_totals_t0.items():
         assert math.isclose(val, partner_totals_t10[bond], abs_tol=25)
     assert math.isclose(total_relationships_t0, total_relationships_t10, abs_tol=45)
