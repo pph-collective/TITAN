@@ -11,9 +11,7 @@ def safe_sex(num_acts, steps_per_year):
     :Input:
         :num_acts: Number of sex acts
     """
-    num_acts_month = (
-                    num_acts / steps_per_year
-                          ) * 12
+    num_acts_month = (num_acts / steps_per_year) * 12
     # REVIEWED hard coded number - needs to be translated to acts per month - SARAH TO CHECK ON probs
     if num_acts_month == 0:
         return 0.443
