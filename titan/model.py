@@ -679,7 +679,7 @@ class HIVModel:
         if self.high_risk.condom_use_type == "Race":
             p_safe_sex = self.demographics[agent.race][agent.so].safe_sex
         else:
-            p_safe_sex = prob.safe_sex(rel.total_sex_acts)
+            p_safe_sex = prob.safe_sex(rel.total_sex_acts, self.params.model.time.steps_per_year)
 
         # Reduction of risk acts between partners for condom usage
         unsafe_sex_acts = total_sex_acts
