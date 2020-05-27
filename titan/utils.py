@@ -35,8 +35,10 @@ def safe_random_choice(seq: Collection[T], rand_gen, weights=None) -> Optional[T
     """
     if not seq:
         return None
+
     if isinstance(seq, set):
         seq = tuple(seq)
+
     choices = rand_gen.choices(seq, weights=weights)
     return choices[0]
 

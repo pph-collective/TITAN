@@ -170,7 +170,7 @@ class Population:
                     jail_duration[bin].min, jail_duration[bin].max
                 )
 
-    def create_agent(self, race: str, sex_type: str = "NULL") -> Agent:
+    def create_agent(self, race: str, sex_type="NULL") -> Agent:
         """
         :Purpose:
             Return a new agent according to population characteristics
@@ -181,15 +181,13 @@ class Population:
              agent : Agent
         """
         if sex_type == "NULL":
-            st = utils.safe_random_choice(
+            sex_type = utils.safe_random_choice(
                 self.pop_weights[race]["values"],
                 self.pop_random,
                 weights=self.pop_weights[race]["weights"],
             )
-            if st is not None:
-                sex_type = st
-            else:
-                raise ValueError("Agent must have sex type")
+        if sex_type is None:
+            raise ValueError("Agent must have sex type")
 
         # Determine drugtype
         drug_type = utils.safe_random_choice(
@@ -209,8 +207,8 @@ class Population:
             self.pop_random,
             weights=self.role_weights[race][sex_type]["weights"],
         )
-        if isinstance(sex_role, str):
-            agent.sex_role = sex_role
+        if sex_role is None:
+            raise ValueError("Agent must have sex role")
 
         if self.features.msmw and sex_type == "HM":
             if self.pop_random.random() < self.params.msmw.prob:
