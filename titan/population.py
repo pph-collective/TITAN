@@ -80,9 +80,9 @@ class Population:
                 for role, prob in self.demographics[race][st].sex_role.init.items():
                     self.role_weights[race][st]["values"].append(role)
                     self.role_weights[race][st]["weights"].append(prob)
-                for use_type, prob in self.demographics[race][st].drug_use.init.items():
+                for use_type, prob in self.demographics[race][st].drug_use.items():
                     self.drug_weights[race][st]["values"].append(use_type)
-                    self.drug_weights[race][st]["weights"].append(prob)
+                    self.drug_weights[race][st]["weights"].append(prob.init)
 
         print("\tBuilding class sets")
 

@@ -102,8 +102,8 @@ demographics:
     MSM:
       ppl: 1.0
       drug_use:
-        init:
-          None: 1.0
+        None:
+          init: 1.0
       hiv:
         init: 0.367
         dx:

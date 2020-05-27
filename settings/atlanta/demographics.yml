@@ -17,9 +17,10 @@ demographics:
           var_1: 7.0
           var_2: 1
       drug_use:
-        init:
-          NonInj: 0.30
-          None: 0.70
+          NonInj:
+            init: 0.30
+          None:
+            init: 0.70
       hiv:
         init: 0.434
         dx:
@@ -53,9 +54,10 @@ demographics:
           var_1: 7.0
           var_2: 1
       drug_use:
-        init:
-          NonInj: 0.48
-          None: 0.52
+        NonInj:
+          init: 0.48
+        None:
+          init: 0.52
       hiv:
         init: 0.132
         dx:
