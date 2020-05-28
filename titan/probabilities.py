@@ -4,19 +4,19 @@ from . import utils
 
 
 @utils.memo
-def safe_sex(num_acts):
+def safe_sex(num_acts, steps_per_year):
     """
     :Purpose:
         Return probability of safe sex in base case
     :Input:
         :num_acts: Number of sex acts
     """
-    # REVIEWED hard coded number - needs to be tanslated to acts per month - SARAH TO CHECK ON probs
-    if num_acts == 0:
+    num_acts_month = (num_acts * steps_per_year) / 12
+    if num_acts_month == 0:
         return 0.443
-    elif num_acts == 1:
+    elif num_acts_month == 1:
         return 0.481
-    elif num_acts < 10:
+    elif num_acts_month < 10:
         return 0.514
     else:
         return 0.759

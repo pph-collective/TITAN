@@ -59,8 +59,10 @@ class Population:
         # build weights of population sex types by race
         self.pop_weights: Dict[str, Dict[str, List[Any]]] = {}
         self.role_weights: Dict[str, Dict] = {}
+        self.drug_weights: Dict[str, Dict] = {}
         for race in params.classes.races:
             self.role_weights[race] = {}
+            self.drug_weights[race] = {}
             self.pop_weights[race] = {}
             self.pop_weights[race]["values"] = []
             self.pop_weights[race]["weights"] = []
@@ -69,13 +71,18 @@ class Population:
                 self.pop_weights[race]["weights"].append(
                     self.demographics[race][st].ppl
                 )
-
                 self.role_weights[race][st] = {}
                 self.role_weights[race][st]["values"] = []
                 self.role_weights[race][st]["weights"] = []
+                self.drug_weights[race][st] = {}
+                self.drug_weights[race][st]["values"] = []
+                self.drug_weights[race][st]["weights"] = []
                 for role, prob in self.demographics[race][st].sex_role.init.items():
                     self.role_weights[race][st]["values"].append(role)
                     self.role_weights[race][st]["weights"].append(prob)
+                for use_type, prob in self.demographics[race][st].drug_use.items():
+                    self.drug_weights[race][st]["values"].append(use_type)
+                    self.drug_weights[race][st]["weights"].append(prob.init)
 
         print("\tBuilding class sets")
 
@@ -163,7 +170,7 @@ class Population:
                     jail_duration[bin].min, jail_duration[bin].max
                 )
 
-    def create_agent(self, race: str, sex_type: str = "NULL") -> Agent:
+    def create_agent(self, race: str, sex_type="NULL") -> Agent:
         """
         :Purpose:
             Return a new agent according to population characteristics
@@ -174,24 +181,37 @@ class Population:
              agent : Agent
         """
         if sex_type == "NULL":
-            sex_type = self.np_random.choice(
-                self.pop_weights[race]["values"], p=self.pop_weights[race]["weights"]
+            sex_type = utils.safe_random_choice(
+                self.pop_weights[race]["values"],
+                self.pop_random,
+                weights=self.pop_weights[race]["weights"],
             )
+        if sex_type is None:
+            raise ValueError("Agent must have sex type")
 
         # Determine drugtype
-        if self.pop_random.random() < self.demographics[race]["PWID"].ppl:
-            drug_type = "Inj"
-        else:
-            drug_type = "None"
+        drug_type = utils.safe_random_choice(
+            self.drug_weights[race][sex_type]["values"],
+            self.pop_random,
+            weights=self.drug_weights[race][sex_type]["weights"],
+        )
+        if drug_type is None:
+            raise ValueError("Agent must have drug type")
 
         age, age_bin = self.get_age(race)
 
         agent = Agent(sex_type, age, race, drug_type)
         agent.age_bin = age_bin
-        agent.sex_role = self.np_random.choice(
+        sex_role = utils.safe_random_choice(
             self.role_weights[race][sex_type]["values"],
-            p=self.role_weights[race][sex_type]["weights"],
+            self.pop_random,
+            weights=self.role_weights[race][sex_type]["weights"],
         )
+        if sex_role is None:
+            raise ValueError("Agent must have sex role")
+        else:
+            agent.sex_role = sex_role
+
         if self.features.msmw and sex_type == "HM":
             if self.pop_random.random() < self.params.msmw.prob:
                 agent.msmw = True
@@ -245,9 +265,10 @@ class Population:
             )
 
         # get agent's mean partner numbers for bond type
-        def partner_distribution(dist_info):
+        def partner_distribution(dist):
+
             return ceil(
-                utils.safe_dist(dist_info, self.np_random)
+                utils.safe_dist(dist, self.np_random)
                 * utils.safe_divide(
                     self.params.calibration.sex.partner, self.mean_rel_duration[bond]
                 )
@@ -425,7 +446,7 @@ class Population:
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
             self.add_relationship(relationship)
             # can partner still partner?
-            if len(partner.partners[bond_type]) >= (
+            if len(partner.partners[bond_type]) > (
                 partner.target_partners[bond_type]
                 * self.params.calibration.partnership.buffer
             ):
@@ -442,8 +463,6 @@ class Population:
         :Input:
             None
         """
-        print(f"target partnerships: ")
-
         # update agent targets annually
         if t % self.params.model.time.steps_per_year == 0:
             self.update_partner_targets()
@@ -457,27 +476,27 @@ class Population:
                     if len(a.partners[bond]) < a.target_partners[bond]
                 ]
             )
+            print(f"Eligible agents for {bond}: {len(eligible_agents)}")
+            print(
+                f"Partnerable agents for {bond}: {len(self.partnerable_agents[bond])}"
+            )
             attempts = {a: 0 for a in eligible_agents}
 
             while eligible_agents:
                 agent = eligible_agents.popleft()
+                if len(agent.partners[bond]) < agent.target_partners[bond]:
 
-                # no match
-                if self.update_agent_partners(agent, bond):
-                    attempts[agent] += 1
+                    # no match
+                    if self.update_agent_partners(agent, bond):
+                        attempts[agent] += 1
 
-                # add agent back to eligible pool
-                if (
-                    len(agent.partners[bond]) < agent.target_partners[bond]
-                    and attempts[agent]
-                    < self.params.calibration.partnership.break_point
-                ):
-                    eligible_agents.append(agent)
-
-        print(
-            f"actual partnerships (post): "
-            f"{sum([len(a.partners) for a in self.all_agents])}"
-        )
+                    # add agent back to eligible pool
+                    if (
+                        len(agent.partners[bond]) < agent.target_partners[bond]
+                        and attempts[agent]
+                        < self.params.calibration.partnership.break_point
+                    ):
+                        eligible_agents.append(agent)
 
     def update_partner_targets(self):
         for a in self.all_agents:
@@ -495,7 +514,7 @@ class Population:
                     a.target_partners[bond] * self.params.calibration.partnership.buffer
                 ):
                     self.partnerable_agents[bond].remove(a)
-            elif len(a.partners) < (
+            elif len(a.partners[bond]) < (
                 a.target_partners[bond] * self.params.calibration.partnership.buffer
             ):
                 self.partnerable_agents[bond].add(a)

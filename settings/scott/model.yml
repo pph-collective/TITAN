@@ -54,3 +54,6 @@ classes:
     Inj:
       acts_allowed:
         - injection
+  drug_types:
+    - Inj
+    - None

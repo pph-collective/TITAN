@@ -63,6 +63,8 @@ classes:
       cis_trans: cis
       sleeps_with:
         - MSM
+  drug_types:
+    - None
 high_risk:
   partner_scale: 300
   proportion: 0.3
@@ -98,11 +100,10 @@ demographics:
   BLACK:
     ppl: 1.0
     MSM:
-      NUMPartn: 5.0
-      EligSE_PartnerType: MSM
-      boosterProb: 1.0
-      vaccineInit: 0
       ppl: 1.0
+      drug_use:
+        None:
+          init: 1.0
       hiv:
         init: 0.367
         dx:
@@ -137,42 +138,6 @@ demographics:
         init: 1.0
         booster:
           interval: 3
-    PWID:
-      Race: null
-      Class: null
-      NUMPartn: 0.0
-      EligSE_PartnerType: []
-      boosterProb: 0
-      vaccineInit: 0
-      ppl: 0.0
-      hiv:
-        init: 0.0
-        dx:
-          init: 0.0
-          prob: 0.0
-      aids:
-        init: 0.0
-      haart:
-        init: 0.0
-        adherence: 0.0
-        discontinue: 0.0
-      incar:
-        init: 0.0
-        prob: 0.0
-      safe_sex: 0.0
-      injection:
-        unsafe_prob: 0.0
-        num_acts: 0.0
-      prep:
-        discontinue: 0.0
-        adherence: 1.0
-        coverage: 0
-      high_risk:
-        init: 0.0
-      vaccine:
-        init: 0
-        booster:
-          interval: 0
 partnership:
   sex:
     duration:

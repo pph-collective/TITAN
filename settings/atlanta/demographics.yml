@@ -16,6 +16,11 @@ demographics:
           dist_type: poisson
           var_1: 7.0
           var_2: 1
+      drug_use:
+          NonInj:
+            init: 0.30
+          None:
+            init: 0.70
       hiv:
         init: 0.434
         dx:
@@ -48,6 +53,11 @@ demographics:
           dist_type: poisson
           var_1: 7.0
           var_2: 1
+      drug_use:
+        NonInj:
+          init: 0.48
+        None:
+          init: 0.52
       hiv:
         init: 0.132
         dx:
@@ -75,3 +85,14 @@ classes:
     Sex:
       acts_allowed:
         - sex
+  drug_types:
+    - NonInj
+    - None
+  sex_types:
+    MSM:
+      gender: M
+      cis_trans: cis
+      sleeps_with:
+        - MSM
+  populations: []
+

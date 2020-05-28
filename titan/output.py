@@ -396,7 +396,6 @@ def print_components(
     race_list = []
     header = ""
     for race in races:
-        race_count[race] = 0
         race_list.append(race)
         header += "\t" + race
 
@@ -409,6 +408,8 @@ def print_components(
 
     comp_id = 0
     for comp in components:
+        for race in races:
+            race_count[race] = 0
         assert comp.number_of_nodes() >= 0
         tot_agents = (
             nhiv

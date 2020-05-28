@@ -13,6 +13,13 @@ demographics:
     ppl: 1.0
     MSM:
       ppl: 1.0
+      drug_use:
+        Inj:
+          init: 0.2
+        NonInj:
+          init: 0.0
+        None:
+          init: 0.8
       hiv:
         init: 0.1
         dx:
@@ -21,7 +28,7 @@ demographics:
       aids:
         init: 0.1
       incar:
-        prob: 0.5 # default is off, so this only hits when turned on in integraiton test
+        prob: 0.5 # default is off, so this only hits when turned on in integration test
       haart:
         init: 0.1
         prob: 0.1
@@ -45,9 +52,8 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 6
+          var_1: 2
           var_2: 1
-          mean: 6
         Social:
           dist_type: set_value
           var_1: 0
@@ -62,6 +68,9 @@ demographics:
           var_2: 0
     PWID:
       ppl: 0.2
+      drug_use:
+        Inj:
+          init: 1.0
       hiv:
         init: 0.1
         dx:
@@ -92,7 +101,7 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 15
+          var_1: 2
           var_2: 1
         Inj:
           dist_type: poisson
@@ -100,7 +109,7 @@ demographics:
           var_2: 1
         SexInj:
           dist_type: poisson
-          var_1: 15
+          var_1: 6
           var_2: 1
         Social:
           dist_type: poisson
@@ -156,11 +165,11 @@ partnership:
 syringe_services:
   timeline:
     ssp_open:
-      time_start: 1
+      time_start: 2
       time_stop: 12
-      num_slots_start: 100
-      num_slots_stop: 100
-      risk: 0.0001
+      num_slots_start: 500
+      num_slots_stop: 500
+      risk: 0.00
 
 partner_tracing:
   prob: 1
@@ -188,3 +197,9 @@ model:
     burn_steps: 0
   network:
     enable: true
+
+calibration:
+  partnership:
+    break_point: 0
+
+

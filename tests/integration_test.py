@@ -93,6 +93,34 @@ def test_model_settings_run(tmpdir):
 
 
 @pytest.mark.integration_stochastic
+def test_mean_partner_consistency(make_model_integration, tmpdir):
+    model = make_model_integration()
+    partner_totals_t0 = {}
+    for bond in model.params.classes.bond_types.keys():
+        partner_totals_t0[bond] = 0
+        for ag in model.pop.all_agents:
+            partner_totals_t0[bond] += len(ag.partners[bond])
+
+    total_relationships_t0 = len(model.pop.relationships)
+
+    path = tmpdir.mkdir("a")
+    path.mkdir("network")
+
+    model.run(path)
+
+    partner_totals_t10 = {}
+    for bond in model.params.classes.bond_types.keys():
+        partner_totals_t10[bond] = 0
+        for ag in model.pop.all_agents:
+            partner_totals_t10[bond] += len(ag.partners[bond])
+    total_relationships_t10 = len(model.pop.relationships)
+
+    for bond, val in partner_totals_t0.items():
+        assert math.isclose(val, partner_totals_t10[bond], abs_tol=25)
+    assert math.isclose(total_relationships_t0, total_relationships_t10, abs_tol=45)
+
+
+@pytest.mark.integration_stochastic
 def test_target_partners(make_model_integration, tmpdir):
     """
     If we increase the number of target partners, does the number of actual partners increase?
@@ -109,9 +137,10 @@ def test_target_partners(make_model_integration, tmpdir):
     run_id_a = model_a.id
     model_a.run(path_a)
 
-    # change the bins upward for creating model b
-    model_a.params.demographics.BLACK.MSM.num_partners.Sex.var_1 *= 10
-    model_a.params.demographics.BLACK.MSM.num_partners.Sex.mean *= 10
+    # change the partner distribution mean upward for creating model b
+    for bond in model_a.params.classes.bond_types:
+        model_a.params.demographics.BLACK.MSM.num_partners[bond].var_1 *= 10
+        model_a.params.demographics.BLACK.PWID.num_partners[bond].var_1 *= 10
     model_a.params.model.seed.run = model_a.run_seed
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
 
@@ -142,8 +171,8 @@ def test_target_partners(make_model_integration, tmpdir):
     )
 
     # should be at least 2x bigger
-    assert (g_a_0.number_of_edges() * 2) < g_b_0.number_of_edges()
-    assert (g_a_10.number_of_edges() * 2) < g_b_10.number_of_edges()
+    assert (g_a_0.number_of_edges() * 1.5) < g_b_0.number_of_edges()
+    assert (g_a_10.number_of_edges() * 1.5) < g_b_10.number_of_edges()
 
 
 @pytest.mark.integration_stochastic

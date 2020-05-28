@@ -162,7 +162,7 @@ def test_get_assort_partner_race(make_population, make_agent, params):
 
     params.features.assort_mix = True
 
-    # assrot with WHITE
+    # assort with WHITE
     test_rule = ObjMap(
         {
             "attribute": "race",

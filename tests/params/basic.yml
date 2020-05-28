@@ -3,6 +3,13 @@ demographics:
     ppl: 0.6
     MSM:
       ppl: 0.3
+      drug_use:
+        Inj:
+          init: 0.2
+        NonInj:
+          init: 0.1
+        None:
+          init: 0.7
       num_partners:
         Sex:
           var_1: 10.0
@@ -56,6 +63,13 @@ demographics:
           prob: 0.1
     HM:
       ppl: 0.3
+      drug_use:
+        Inj:
+          init: 0.2
+        NonInj:
+          init: 0.1
+        None:
+          init: 0.7
       num_partners:
         Sex:
           var_1: 10.0
@@ -109,6 +123,13 @@ demographics:
           prob: 0.1
     HF:
       ppl: 0.2
+      drug_use:
+        Inj:
+          init: 0.2
+        NonInj:
+          init: 0.1
+        None:
+          init: 0.7
       num_partners:
         Sex:
           var_1: 10.0
@@ -162,6 +183,13 @@ demographics:
           prob: 0.1
     WSW:
       ppl: 0.1
+      drug_use:
+        Inj:
+          init: 0.2
+        NonInj:
+          init: 0.1
+        None:
+          init: 0.7
       num_partners:
         Sex:
           var_1: 10.0
@@ -215,6 +243,13 @@ demographics:
           prob: 0.1
     MTF:
       ppl: 0.1
+      drug_use:
+        Inj:
+          init: 0.2
+        NonInj:
+          init: 0.1
+        None:
+          init: 0.7
       num_partners:
         Sex:
           var_1: 10.0
@@ -321,8 +356,22 @@ demographics:
           prob: 0.1
   WHITE:
     ppl: 0.4
+    drug_use:
+      Inj:
+        init: 0.3
+      NonInj:
+        init: 0.1
+      None:
+        init: 0.6
     MSM:
       ppl: 0.3
+      drug_use:
+        Inj:
+          init: 0.3
+        NonInj:
+          init: 0.1
+        None:
+          init: 0.6
       num_partners:
         Sex:
           var_1: 10.0
@@ -376,6 +425,13 @@ demographics:
           prob: 0.1
     HM:
       ppl: 0.3
+      drug_use:
+        Inj:
+          init: 0.3
+        NonInj:
+          init: 0.1
+        None:
+          init: 0.6
       num_partners:
         Sex:
           var_1: 10.0
@@ -429,6 +485,13 @@ demographics:
           prob: 0.1
     HF:
       ppl: 0.2
+      drug_use:
+        Inj:
+          init: 0.3
+        NonInj:
+          init: 0.1
+        None:
+          init: 0.6
       num_partners:
         Sex:
           var_1: 10.0
@@ -482,6 +545,13 @@ demographics:
           prob: 0.1
     WSW:
       ppl: 0.1
+      drug_use:
+        Inj:
+          init: 0.3
+        NonInj:
+          init: 0.1
+        None:
+          init: 0.6
       num_partners:
         Sex:
           var_1: 10.0
@@ -535,6 +605,13 @@ demographics:
           prob: 0.1
     MTF:
       ppl: 0.1
+      drug_use:
+        Inj:
+          init: 0.3
+        NonInj:
+          init: 0.1
+        None:
+          init: 0.6
       num_partners:
         Sex:
           var_1: 10.0

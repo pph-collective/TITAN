@@ -36,9 +36,9 @@ def select_partner(
     def assort(eligible_partners, assort_params):
         partner_types = list(assort_params.partner_values.keys())
         partner_weights = [assort_params.partner_values[p] for p in partner_types]
-        partner_type = rand_gen.choices(
-            partner_types, weights=partner_weights, k=1
-        ).pop()
+        partner_type = utils.safe_random_choice(
+            partner_types, rand_gen, weights=partner_weights
+        )
 
         if partner_type == "__other__":
             # remove all the specified (not selected) values and remove those
