@@ -51,6 +51,13 @@ parser.add_argument(
     help="whether to use base setting",
 )
 
+parser.add_argument(
+    "-e",
+    "--error",
+    action="store_true",
+    help="Error on unused parameters instead of warning",
+)
+
 
 def sweep_range(string):
     error_msg = "Sweep range must have format param:start:stop[:step]"
@@ -249,6 +256,7 @@ def main(
     force,
     sweepfile=None,
     rows=None,
+    error_on_unused=False,
 ):
     # delete old results before overwriting with new results
     outfile_dir = os.path.join(os.getcwd(), outdir)
@@ -267,7 +275,13 @@ def main(
         )
         assert os.path.isdir(setting), f"{setting} is not a directory"
 
-    params = create_params(setting, params_path, outfile_dir, use_base=use_base)
+    params = create_params(
+        setting,
+        params_path,
+        outfile_dir,
+        use_base=use_base,
+        error_on_unused=error_on_unused,
+    )
 
     # set up sweeps
     if sweepfile is not None:
@@ -331,4 +345,5 @@ if __name__ == "__main__":
         args.force,
         sweepfile=sweepfile,
         rows=rows,
+        error_on_unused=args.error,
     )
