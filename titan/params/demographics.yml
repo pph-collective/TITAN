@@ -203,17 +203,16 @@ demographics:
           description: "Second variable for chosen distribution function."
           default: 0.0
     drug_use:
-      init:
-        type: sub-dict
-        keys:
-          - drug_types
-        default:
-          None:
-            default: 0.0
-            description: "Percentage of agents with the given drug use type"
-            type: float
-            min: 0.0
-            max: 1.0
+      type: sub-dict
+      keys:
+        - drug_types
+      default:
+        init:
+          default: 0.0
+          description: "Percentage of agents with the given drug use type"
+          type: float
+          min: 0.0
+          max: 1.0
     injection:
       num_acts:
         default: 0.0

@@ -145,10 +145,10 @@ def test_update_agent_partners_one_agent(make_population, params):
 @pytest.mark.unit
 def test_update_agent_partners_PWID_no_match(make_population, params):
     params.demographics.WHITE.MSM.drug_use = ObjMap(
-        {"init": {"Inj": 1.0, "NonInj": 0, "None": 0.0}}
+        {"Inj": {"init": 1.0}, "NonInj": {"init": 0}, "None": {"init": 0.0}}
     )
     params.demographics.WHITE.HF.drug_use = ObjMap(
-        {"init": {"Inj": 0.0, "NonInj": 0, "None": 1.0}}
+        {"Inj": {"init": 0.0}, "NonInj": {"init": 0}, "None": {"init": 1.0}}
     )
     pop = make_population(n=0)
     a = pop.create_agent("WHITE", "MSM")
@@ -197,7 +197,7 @@ def test_update_agent_partners_MSM_no_match(make_population, params):
 @pytest.mark.unit
 def test_update_agent_partners_PWID_match(make_population, params):
     params.demographics.WHITE.MSM.drug_use = ObjMap(
-        {"init": {"Inj": 1.0, "NonInj": 0, "None": 0.0}}
+        {"Inj": {"init": 1.0}, "NonInj": {"init": 0}, "None": {"init": 0.0}}
     )
     pop = make_population(n=0)
     a = pop.create_agent("WHITE", "MSM")

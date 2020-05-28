@@ -80,9 +80,9 @@ class Population:
                 for role, prob in self.demographics[race][st].sex_role.init.items():
                     self.role_weights[race][st]["values"].append(role)
                     self.role_weights[race][st]["weights"].append(prob)
-                for use_type, prob in self.demographics[race][st].drug_use.init.items():
+                for use_type, prob in self.demographics[race][st].drug_use.items():
                     self.drug_weights[race][st]["values"].append(use_type)
-                    self.drug_weights[race][st]["weights"].append(prob)
+                    self.drug_weights[race][st]["weights"].append(prob.init)
 
         self.num_haart_agents = 0
         self.num_dx_agents = 0
@@ -172,7 +172,7 @@ class Population:
                     jail_duration[bin].min, jail_duration[bin].max
                 )
 
-    def create_agent(self, race: str, sex_type: str = "NULL") -> Agent:
+    def create_agent(self, race: str, sex_type="NULL") -> Agent:
         """
         :Purpose:
             Return a new agent according to population characteristics
@@ -188,6 +188,8 @@ class Population:
                 self.pop_random,
                 weights=self.pop_weights[race]["weights"],
             )
+        if sex_type is None:
+            raise ValueError("Agent must have sex type")
 
         # Determine drugtype
         drug_type = utils.safe_random_choice(
@@ -195,16 +197,23 @@ class Population:
             self.pop_random,
             weights=self.drug_weights[race][sex_type]["weights"],
         )
+        if drug_type is None:
+            raise ValueError("Agent must have drug type")
 
         age, age_bin = self.get_age(race)
 
         agent = Agent(sex_type, age, race, drug_type)
         agent.age_bin = age_bin
-        agent.sex_role = utils.safe_random_choice(
+        sex_role = utils.safe_random_choice(
             self.role_weights[race][sex_type]["values"],
             self.pop_random,
             weights=self.role_weights[race][sex_type]["weights"],
         )
+        if sex_role is None:
+            raise ValueError("Agent must have sex role")
+        else:
+            agent.sex_role = sex_role
+
         if self.features.msmw and sex_type == "HM":
             if self.pop_random.random() < self.params.msmw.prob:
                 agent.msmw = True
@@ -476,8 +485,6 @@ class Population:
                 f"Partnerable agents for {bond}: {len(self.partnerable_agents[bond])}"
             )
             attempts = {a: 0 for a in eligible_agents}
-            no_match_agents = 0
-            num_new_partnerships = 0
 
             while eligible_agents:
                 agent = eligible_agents.popleft()
@@ -494,8 +501,6 @@ class Population:
                         < self.params.calibration.partnership.break_point
                     ):
                         eligible_agents.append(agent)
-
-            print(f"New {bond} relationships: {num_new_partnerships}\n")
 
     def update_partner_targets(self):
         for a in self.all_agents:
