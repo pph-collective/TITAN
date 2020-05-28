@@ -1,13 +1,13 @@
 classes:
   races:
+    type: definition
+    description: Races included in model
+    fields:
+      hispanic:
+        type: boolean
     default:
-      - WHITE
-      - BLACK
-    description: "Which races to use in model (currently only 'WHITE' and 'BLACK' supported)"
-    type: array
-    values:
-      - WHITE
-      - BLACK
+     NONE:
+        hispanic: false
   sex_types:
     description: "Which sex types to use in model"
     type: definition

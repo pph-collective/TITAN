@@ -54,7 +54,7 @@ def get_stats(
         "prep_aware": 0,
     }
 
-    MAIN_CAT = deepcopy(params.classes.races)
+    MAIN_CAT = [race for race in params.classes.races.keys()]
     MAIN_CAT.append("ALL")
     SUB_CAT = deepcopy(params.classes.populations)
     SUB_CAT.append("ALL")
@@ -218,7 +218,7 @@ def incarReport(
         "newReleaseHIV": "rlsdHIV",
     }
 
-    MAIN_CAT = deepcopy(params.classes.races)
+    MAIN_CAT = [race for race in params.classes.races.keys()]
     MAIN_CAT.append("ALL")
 
     if f.tell() == 0:
@@ -323,7 +323,7 @@ def basicReport(
     params: ObjMap,
     outdir: str,
 ):
-    MAIN_CAT = deepcopy(params.classes.races)
+    MAIN_CAT =[race for race in params.classes.races.keys()]
     MAIN_CAT.append("ALL")
     SUB_CAT = deepcopy(params.classes.populations)
     SUB_CAT.append("ALL")
