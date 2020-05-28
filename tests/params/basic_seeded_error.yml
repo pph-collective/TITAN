@@ -10,7 +10,7 @@ demographics:
           init: 0.8
       num_partners:
         Sex:
-          dist_type: poisson
+          dist_type: not_a_dist
           var_1: 4.0
           var_2: 1.0
         Social:

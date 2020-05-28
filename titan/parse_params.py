@@ -256,7 +256,7 @@ def check_params(params):
     assert math.isclose(race_pop, 1, abs_tol=0.001), f"ppl of races must add to 1"
 
 
-def warn_unused_params(parsed, params, key_path):
+def warn_unused_params(parsed, params, base, key_path):
     # both values, return
     count = 0
 
@@ -275,8 +275,10 @@ def warn_unused_params(parsed, params, key_path):
 
     for k, v in params.items():
         if k in parsed:
-            count += warn_unused_params(parsed[k], params[k], f"{key_path}.{k}")
-        else:
+            count += warn_unused_params(
+                parsed[k], params[k], base.get(k, {}), f"{key_path}.{k}"
+            )
+        elif k not in base:
             print(f"[{key_path}.{k}] is unused")
             count += 1
 
@@ -317,7 +319,7 @@ def create_params(
     check_params(parsed)
 
     print("\nChecking for unused parameters...")
-    num_unused = warn_unused_params(parsed, params, "")
+    num_unused = warn_unused_params(parsed, params, base, "")
     print(f"{num_unused} unused parameters found")
     if error_on_unused:
         assert (

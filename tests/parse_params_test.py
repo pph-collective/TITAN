@@ -29,6 +29,14 @@ def test_create_params_error(tmpdir):
     with pytest.raises(AssertionError):
         pp.create_params(setting, param_file_error, tmpdir)
 
+    param_file_bad_val = "tests/params/basic_seeded_error.yml"
+    with pytest.raises(AssertionError) as excinfo:
+        pp.create_params(setting, param_file_bad_val, tmpdir)
+
+        assert "[.demographics.BLACK.MSM.num_partners.Sex.disk_type]" in str(
+            excinfo.value
+        )
+
 
 @pytest.mark.unit
 def test_check_item_min_max():
