@@ -94,6 +94,5 @@ classes:
       cis_trans: cis
       sleeps_with:
         - MSM
-  populations:
-    - MSM
+  populations: []
 

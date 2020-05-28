@@ -103,10 +103,10 @@ def test_mean_partner_consistency(make_model_integration, tmpdir):
 
     total_relationships_t0 = len(model.pop.relationships)
 
-    path_a = tmpdir.mkdir("a")
-    path_a.mkdir("network")
+    path = tmpdir.mkdir("a")
+    path.mkdir("network")
 
-    model.run(path_a)
+    model.run(path)
 
     partner_totals_t10 = {}
     for bond in model.params.classes.bond_types.keys():
