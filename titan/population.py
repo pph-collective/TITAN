@@ -481,7 +481,6 @@ class Population:
                 f"Partnerable agents for {bond}: {len(self.partnerable_agents[bond])}"
             )
             attempts = {a: 0 for a in eligible_agents}
-            num_new_partnerships = 0
 
             while eligible_agents:
                 agent = eligible_agents.popleft()
@@ -498,8 +497,6 @@ class Population:
                         < self.params.calibration.partnership.break_point
                     ):
                         eligible_agents.append(agent)
-
-            print(f"New {bond} relationships: {num_new_partnerships}\n")
 
     def update_partner_targets(self):
         for a in self.all_agents:
