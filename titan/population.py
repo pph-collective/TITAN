@@ -202,13 +202,15 @@ class Population:
 
         agent = Agent(sex_type, age, race, drug_type)
         agent.age_bin = age_bin
-        agent.sex_role = utils.safe_random_choice(
+        sex_role = utils.safe_random_choice(
             self.role_weights[race][sex_type]["values"],
             self.pop_random,
             weights=self.role_weights[race][sex_type]["weights"],
         )
-        if agent.sex_role is None:
+        if sex_role is None:
             raise ValueError("Agent must have sex role")
+        else:
+            agent.sex_role = sex_role
 
         if self.features.msmw and sex_type == "HM":
             if self.pop_random.random() < self.params.msmw.prob:
