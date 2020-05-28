@@ -5,11 +5,11 @@ from titan.population import *
 from titan.agent import Agent
 from titan.parse_params import create_params
 
-from conftest import FakeRandom
+from tests.conftest import FakeRandom
 
 
 @pytest.mark.unit
-def test_create_agent(make_population):
+def test_create_agent(make_population, params):
     pop = make_population(n=100)
 
     a1 = pop.create_agent("WHITE")
@@ -27,7 +27,8 @@ def test_create_agent(make_population):
 
     # check PWID and HIV and high risk
     pop.pop_random = FakeRandom(-0.1)
-    a4 = pop.create_agent("WHITE")
+    pop.drug_weights["WHITE"]["HM"] = ObjMap({"values": ["Inj"], "weights": [1.0]})
+    a4 = pop.create_agent("WHITE", "HM")
     assert a4.drug_use == "Inj"
     assert a4.hiv
     assert a4.aids
@@ -41,7 +42,8 @@ def test_create_agent(make_population):
 
     # check not PWID and HIV
     pop.pop_random = FakeRandom(0.999)
-    a4 = pop.create_agent("WHITE")
+    pop.drug_weights["WHITE"]["HM"] = ObjMap({"values": ["None"], "weights": [1.0]})
+    a4 = pop.create_agent("WHITE", "HM")
     assert a4.drug_use == "None"
     assert a4.hiv is False
     assert a4.prep is False
@@ -142,14 +144,20 @@ def test_update_agent_partners_one_agent(make_population, params):
 
 @pytest.mark.unit
 def test_update_agent_partners_PWID_no_match(make_population, params):
+    params.demographics.WHITE.MSM.drug_use = ObjMap(
+        {"Inj": {"init": 1.0}, "NonInj": {"init": 0}, "None": {"init": 0.0}}
+    )
+    params.demographics.WHITE.HF.drug_use = ObjMap(
+        {"Inj": {"init": 0.0}, "NonInj": {"init": 0}, "None": {"init": 1.0}}
+    )
     pop = make_population(n=0)
-    params.demographics.WHITE.PWID.ppl = 1.0
     a = pop.create_agent("WHITE", "MSM")
-    params.demographics.WHITE.PWID.ppl = 0.0
     p = pop.create_agent("WHITE", "HF")
     pop.pop_random = FakeRandom(1.1)
     pop.add_agent(a)
     pop.add_agent(p)
+    assert a.drug_use == "Inj"
+    assert p.drug_use == "None"
 
     for bond in params.classes.bond_types.keys():
         assert pop.update_agent_partners(a, bond)
@@ -188,6 +196,9 @@ def test_update_agent_partners_MSM_no_match(make_population, params):
 
 @pytest.mark.unit
 def test_update_agent_partners_PWID_match(make_population, params):
+    params.demographics.WHITE.MSM.drug_use = ObjMap(
+        {"Inj": {"init": 1.0}, "NonInj": {"init": 0}, "None": {"init": 0.0}}
+    )
     pop = make_population(n=0)
     a = pop.create_agent("WHITE", "MSM")
     params.demographics.WHITE.PWID.ppl = 1.0

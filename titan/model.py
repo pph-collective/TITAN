@@ -409,8 +409,8 @@ class HIVModel:
                         if not agent.hiv
                     ]  # all suitable agents in bridges
                     if comp_agents:
-                        chosen_agent = self.run_random.choice(
-                            comp_agents
+                        chosen_agent = utils.safe_random_choice(
+                            comp_agents, self.run_random
                         )  # select change agent
                         chosen_agent.prep_awareness = True  # make aware
                         chosen_agent.pca = True
@@ -425,12 +425,16 @@ class HIVModel:
                         suitable_agent_choices
                     ):  # if there are agents who meet eligibility criteria,
                         # select one randomly
-                        chosen_agent = self.run_random.choice(suitable_agent_choices)
+                        chosen_agent = utils.safe_random_choice(
+                            suitable_agent_choices, self.run_random
+                        )
                         chosen_agent.pca = True
                         chosen_agent.pca_suitable = True
                         chosen_agent.prep_awareness = True  # make aware
                     else:  # if no suitable agents, mark a non-suitable agent
-                        chosen_agent = self.run_random.choice(list(comp.nodes))
+                        chosen_agent = utils.safe_random_choice(
+                            list(comp.nodes), self.run_random
+                        )
                         chosen_agent.pca = True
 
         print(("Total agents in trial: ", total_nodes))
@@ -459,11 +463,11 @@ class HIVModel:
         if rel.agent1.incar or rel.agent2.incar:
             return False
 
-        # Agent 1 is HIV, partner is succept
+        # Agent 1 is HIV+, Agent 2 is not, Agent 2 is succept
         if rel.agent1.hiv and not rel.agent2.hiv:
             agent = rel.agent1
             partner = rel.agent2
-        # If agent_2 is HIV agen1 is not, agent_2 is HIV, agent_1 is succept
+        # If Agent 2 is HIV and Agent 1 is not, Agent 1 is succept
         elif not rel.agent1.hiv and rel.agent2.hiv:
             agent = rel.agent2
             partner = rel.agent1
@@ -675,7 +679,9 @@ class HIVModel:
         if self.high_risk.condom_use_type == "Race":
             p_safe_sex = self.demographics[agent.race][agent.so].safe_sex
         else:
-            p_safe_sex = prob.safe_sex(rel.total_sex_acts)
+            p_safe_sex = prob.safe_sex(
+                rel.total_sex_acts, self.params.model.time.steps_per_year
+            )
 
         # Reduction of risk acts between partners for condom usage
         unsafe_sex_acts = total_sex_acts

@@ -181,7 +181,7 @@ demographics:
               min: 260
               max: 520
     num_partners:
-      type: subdict
+      type: sub-dict
       keys:
         - bond_types
       default:
@@ -202,6 +202,17 @@ demographics:
           type: float
           description: "Second variable for chosen distribution function."
           default: 0.0
+    drug_use:
+      type: sub-dict
+      keys:
+        - drug_types
+      default:
+        init:
+          default: 0.0
+          description: "Percentage of agents with the given drug use type"
+          type: float
+          min: 0.0
+          max: 1.0
     injection:
       num_acts:
         default: 0.0

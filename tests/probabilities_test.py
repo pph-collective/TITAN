@@ -6,11 +6,12 @@ import titan.probabilities as probs
 
 @pytest.mark.unit
 def test_safe_sex():
+    year_steps = 12
     # initiate result dict with 2 time steps
-    assert probs.safe_sex(0) == 0.443
-    assert probs.safe_sex(1) == 0.481
-    assert probs.safe_sex(5) == 0.514
-    assert probs.safe_sex(100) == 0.759
+    assert probs.safe_sex(0, year_steps) == 0.443
+    assert probs.safe_sex(1, year_steps) == 0.481
+    assert probs.safe_sex(5, year_steps) == 0.514
+    assert probs.safe_sex(100, year_steps) == 0.759
 
 
 @pytest.mark.unit

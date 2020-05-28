@@ -166,7 +166,7 @@ def parse_params(defs, params, key_path, pops):
         if "default" in v:
             if v["type"] == "sub-dict":
                 parsed[k] = {}
-                field = v["keys"].pop(0)
+                field = v["keys"][0]
                 for val in pops[field]:
                     parsed[k][val] = parse_params(
                         v["default"],
@@ -175,8 +175,8 @@ def parse_params(defs, params, key_path, pops):
                         pops,
                     )
 
-                    if len(v["keys"]) > 0:
-                        field2 = v["keys"][0]
+                    if len(v["keys"]) > 1:
+                        field2 = v["keys"][1]
                         for val2 in pops[field2]:
                             parsed[k][val][val2] = parse_params(
                                 v["default"],
@@ -287,8 +287,8 @@ def create_params(
     setting_path, param_path, outdir, use_base=True, error_on_unused=False
 ):
     """
-    Entry funtion - given the path to the setting, params, output directory and
-    whether or not to use the base setting. Parse and create a params (ObjMap) object.
+    Entry function - given the path to the setting, params, output directory and whether
+    or not to use the base setting. Parse and create a params (ObjMap) object.
     """
     filename = getframeinfo(currentframe()).filename
     parent = Path(filename).resolve().parent

@@ -3,6 +3,11 @@ demographics:
     ppl: 1.0
     HM:
       ppl: 0.495
+      drug_use:
+        Inj:
+          init: 0.0244
+        None:
+          init: 0.9756
       num_partners:
         Sex:
           dist_type: poisson
@@ -48,6 +53,11 @@ demographics:
 
     HF:
       ppl: 0.505
+      drug_use:
+        Inj:
+          init: 0.0244
+        None:
+          init: 0.9756
       num_partners:
         Sex:
           dist_type: poisson
