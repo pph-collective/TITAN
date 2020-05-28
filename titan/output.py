@@ -323,7 +323,7 @@ def basicReport(
     params: ObjMap,
     outdir: str,
 ):
-    MAIN_CAT =[race for race in params.classes.races.keys()]
+    MAIN_CAT = [race for race in params.classes.races.keys()]
     MAIN_CAT.append("ALL")
     SUB_CAT = deepcopy(params.classes.populations)
     SUB_CAT.append("ALL")
