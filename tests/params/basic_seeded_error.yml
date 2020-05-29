@@ -1,5 +1,5 @@
 demographics:
-  black:
+  BLACK:
     ppl: 0.6
     MSM:
       ppl: 0.3
@@ -10,7 +10,7 @@ demographics:
           init: 0.8
       num_partners:
         Sex:
-          dist_type: poisson
+          dist_type: not_a_dist
           var_1: 4.0
           var_2: 1.0
         Social:
@@ -320,7 +320,7 @@ demographics:
         booster:
           internval: 12
           prob: 0.1
-  white:
+  WHITE:
     ppl: 0.4
     MSM:
       ppl: 0.3
@@ -671,9 +671,6 @@ partnership:
         min: 1
         max: 1
 
-agent_zero:
-  bond_type: Inj
-  num_partners: 2
 features:
   incar: true
   prep: true

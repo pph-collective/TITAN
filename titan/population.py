@@ -278,18 +278,13 @@ class Population:
                 )
             )
 
-        for bond in self.params.classes.bond_types.keys():
+        for bond, bond_def in self.params.classes.bond_types.items():
             agent.partners[bond] = set()
-            if agent.drug_use == "Inj":
-                dist_info = self.params.demographics[agent.race].PWID.num_partners[bond]
-            else:
-                dist_info = self.params.demographics[agent.race][agent.so].num_partners[
-                    bond
-                ]
+            dist_info = agent_params.num_partners[bond]
             agent.mean_num_partners[bond] = partner_distribution(dist_info)
             # so not zero if added mid-year
             agent.target_partners[bond] = agent.mean_num_partners[bond]
-            if bond == "Inj":
+            if "injection" in bond_def.acts_allowed:
                 assert agent.drug_use == "Inj" or agent.mean_num_partners[bond] == 0
 
             if agent.target_partners[bond] > 0:

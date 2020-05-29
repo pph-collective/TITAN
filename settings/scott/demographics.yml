@@ -26,11 +26,19 @@ demographics:
         dx:
           init: 0.9
           prob: 0.202
+<<<<<<< HEAD
         haart:
           init: 0.608
           prob: 0.679
           adherence: 0.70
           discontinue: 0.000
+=======
+      haart:
+        init: 0.608
+        prob: 0.41  # TODO: correct number
+        adherence: 0.405
+        discontinue: 0.000
+>>>>>>> develop
       injection:
         unsafe_prob: 0.43
       age:
@@ -80,11 +88,11 @@ demographics:
         dx:
           init: 0.0
           prob: 0.2
-        haart:
-          init: 0.0
-          prob: 0.679
-          adherence: 0.7
-          discontinue: 0.000
+      haart:
+        init: 0.0
+        prob: 0.679
+        adherence: 0.405
+        discontinue: 0.000
       injection:
         unsafe_prob: 0.43
       age:
@@ -125,7 +133,6 @@ demographics:
           var_2: 1.0
       hiv:
         init: 0.0
-        prob: 0.2
       haart:
         init: 0.0
         prob: 0.0
@@ -151,6 +158,7 @@ demographics:
           prob: .332
           min: 50
           max: 64
+<<<<<<< HEAD
       death_rate:
         base: 16.6
         hiv: 24.9
@@ -159,3 +167,5 @@ demographics:
 
 
 
+=======
+>>>>>>> develop
