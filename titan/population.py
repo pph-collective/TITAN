@@ -177,7 +177,7 @@ class Population:
         :Purpose:
             Return a new agent according to population characteristics
         :Input:
-            race : "BLACK" or "WHITE"
+            race : string
             sex_type : default "NULL"
         :Output:
              agent : Agent

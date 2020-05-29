@@ -5,16 +5,6 @@ import titan.probabilities as probs
 
 
 @pytest.mark.unit
-def test_safe_sex():
-    year_steps = 12
-    # initiate result dict with 2 time steps
-    assert probs.safe_sex(0, year_steps) == 0.443
-    assert probs.safe_sex(1, year_steps) == 0.481
-    assert probs.safe_sex(5, year_steps) == 0.514
-    assert probs.safe_sex(100, year_steps) == 0.759
-
-
-@pytest.mark.unit
 def test_adherence_prob():
     # initiate result dict with 2 time steps
     assert probs.adherence_prob(1) == 0.0051
@@ -29,7 +19,7 @@ def test_adherence_prob():
 def test_get_death_rate(params):
     for hiv in [True, False]:
         for aids in [True, False]:
-            for race in ["WHITE", "BLACK"]:
+            for race in ["white", "black"]:
                 for adh in [0, 1]:
                     assert (
                         probs.get_death_rate(

@@ -18,7 +18,7 @@ def test_agent_init(make_agent):
     # demographics
     assert a.so == "MSM"
     assert a.age == 30
-    assert a.race == "BLACK"
+    assert a.race == "black"
     assert a.drug_use == "None"
     assert a.age_bin == 0
     assert a.msmw is False

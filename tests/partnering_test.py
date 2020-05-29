@@ -146,9 +146,9 @@ def test_get_random_sex_partner_bad(make_population, make_agent, params):
 @pytest.mark.unit
 def test_get_assort_partner_race(make_population, make_agent, params):
     pop = make_population()
-    a = make_agent(SO="MSM", race="WHITE")
-    p1 = make_agent(SO="MSM", race="WHITE")
-    p2 = make_agent(SO="MSM", race="BLACK")
+    a = make_agent(SO="MSM", race="white")
+    p1 = make_agent(SO="MSM", race="white")
+    p2 = make_agent(SO="MSM", race="black")
     for bond in params.classes.bond_types:
         a.target_partners[bond] = 1
         p1.target_partners[bond] = 1
@@ -162,12 +162,12 @@ def test_get_assort_partner_race(make_population, make_agent, params):
 
     params.features.assort_mix = True
 
-    # assort with WHITE
+    # assort with white
     test_rule = ObjMap(
         {
             "attribute": "race",
-            "agent_value": "WHITE",
-            "partner_values": {"WHITE": 0.9, "__other__": 0.1},
+            "agent_value": "white",
+            "partner_values": {"white": 0.9, "__other__": 0.1},
         }
     )
     params.assort_mix["test_rule"] = test_rule
@@ -188,8 +188,8 @@ def test_get_assort_partner_race(make_population, make_agent, params):
     test_rule = ObjMap(
         {
             "attribute": "race",
-            "agent_value": "WHITE",
-            "partner_values": {"WHITE": 0.9, "__other__": 10},
+            "agent_value": "white",
+            "partner_values": {"white": 0.9, "__other__": 10},
         }
     )
     params.assort_mix["test_rule"] = test_rule
@@ -210,9 +210,9 @@ def test_get_assort_partner_race(make_population, make_agent, params):
 @pytest.mark.unit
 def test_get_assort_partner_high_risk(make_population, make_agent, params):
     pop = make_population()
-    a = make_agent(SO="MSM", race="WHITE")
-    p1 = make_agent(SO="MSM", race="WHITE")
-    p2 = make_agent(SO="MSM", race="BLACK")
+    a = make_agent(SO="MSM", race="white")
+    p1 = make_agent(SO="MSM", race="white")
+    p2 = make_agent(SO="MSM", race="black")
 
     a.high_risk = True
     p1.high_risk = True
@@ -282,10 +282,10 @@ def test_get_assort_partner_high_risk(make_population, make_agent, params):
 @pytest.mark.unit
 def test_get_assort_partner_drug_use(make_population, make_agent, params):
     pop = make_population()
-    a = make_agent(SO="MSM", race="WHITE", DU="Inj")
-    p1 = make_agent(SO="MSM", race="WHITE", DU="Inj")
-    p2 = make_agent(SO="MSM", race="BLACK", DU="None")
-    p3 = make_agent(SO="MSM", race="BLACK", DU="NonInj")
+    a = make_agent(SO="MSM", race="white", DU="Inj")
+    p1 = make_agent(SO="MSM", race="white", DU="Inj")
+    p2 = make_agent(SO="MSM", race="black", DU="None")
+    p3 = make_agent(SO="MSM", race="black", DU="NonInj")
 
     for bond in params.classes.bond_types:
         a.target_partners[bond] = 0

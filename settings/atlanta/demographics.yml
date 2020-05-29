@@ -1,5 +1,5 @@
 demographics:
-  BLACK:
+  black:
     hiv:
       transmission: 3.75
     ppl: 0.389
@@ -38,7 +38,7 @@ demographics:
         discontinue: 0.10
         adherence: 0.568
         coverage: 0.258
-  WHITE:
+  white:
     ppl: 0.611
     MSM:
       sex_role:

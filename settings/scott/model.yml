@@ -49,7 +49,7 @@ classes:
       sleeps_with:
         - HM
   races:
-    WHITE:
+    white:
       hispanic: false
   bond_types:
     Sex:

@@ -1,5 +1,5 @@
 demographics:
-  BLACK:
+  black:
     ppl: 0.6
     MSM:
       ppl: 0.3
@@ -354,7 +354,7 @@ demographics:
         booser:
           internval: 12
           prob: 0.1
-  WHITE:
+  white:
     ppl: 0.4
     drug_use:
       Inj:

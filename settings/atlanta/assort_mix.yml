@@ -1,15 +1,15 @@
 assort_mix:
   assort_white:
     attribute: race
-    agent_value: WHITE
+    agent_value: white
     partner_values:
-      WHITE: 0.722
+      white: 0.722
       __other__: 0.278
   assort_black:
     attribute: race
-    agent_value: BLACK
+    agent_value: black
     partner_values:
-      BLACK: 0.765
+      black: 0.765
       __other__: 0.235
   assort_receptive:
     attribute: sex_role

@@ -6,5 +6,5 @@ agent_zero:
     default: Inj
   num_partners:
     type: int
-    description: "Number of partners to add to agent zero."
+    description: "Minimum number of partners for agent 0."
     default: 4

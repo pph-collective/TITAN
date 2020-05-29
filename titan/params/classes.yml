@@ -6,7 +6,9 @@ classes:
       hispanic:
         type: boolean
     default:
-     NONE:
+      white:
+        hispanic: false
+      black:
         hispanic: false
   sex_types:
     description: "Which sex types to use in model"

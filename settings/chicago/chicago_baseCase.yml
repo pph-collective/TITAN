@@ -52,7 +52,8 @@ calibration:
   partner_sample_depth: 100
 classes:
   races:
-    - BLACK
+    black:
+      hispanic: false
   bond_types:
     Social:
       acts_allowed:
@@ -97,7 +98,7 @@ prep:
   peak_load: 1.0
   half_life: 1.0
 demographics:
-  BLACK:
+  black:
     ppl: 1.0
     MSM:
       ppl: 1.0

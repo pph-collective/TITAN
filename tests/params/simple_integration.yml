@@ -1,6 +1,7 @@
 classes:
   races:
-    - BLACK
+    black:
+      hispanic: false
   sex_types:
     MSM:
       gender: M
@@ -9,7 +10,7 @@ classes:
         - MSM
 
 demographics:
-  BLACK:
+  black:
     ppl: 1.0
     MSM:
       ppl: 1.0

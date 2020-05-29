@@ -50,8 +50,8 @@ def test_model_reproducible(tmpdir):
     subprocess.check_call([f, f"-p {param_file}", f"-o {path_a}"])
     subprocess.check_call([f, f"-p {param_file}", f"-o {path_b}"])
 
-    result_file_a = os.path.join(path_a, "basicReport_MSM_BLACK.txt")
-    result_file_b = os.path.join(path_b, "basicReport_MSM_BLACK.txt")
+    result_file_a = os.path.join(path_a, "basicReport_MSM_black.txt")
+    result_file_b = os.path.join(path_b, "basicReport_MSM_black.txt")
     assert os.path.isfile(result_file_a)
     with open(result_file_a, newline="") as fa, open(result_file_b, newline="") as fb:
         reader_a = csv.DictReader(fa, delimiter="\t")
@@ -139,8 +139,8 @@ def test_target_partners(make_model_integration, tmpdir):
 
     # change the partner distribution mean upward for creating model b
     for bond in model_a.params.classes.bond_types:
-        model_a.params.demographics.BLACK.MSM.num_partners[bond].var_1 *= 10
-        model_a.params.demographics.BLACK.PWID.num_partners[bond].var_1 *= 10
+        model_a.params.demographics.black.MSM.num_partners[bond].var_1 *= 10
+        model_a.params.demographics.black.PWID.num_partners[bond].var_1 *= 10
     model_a.params.model.seed.run = model_a.run_seed
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
 

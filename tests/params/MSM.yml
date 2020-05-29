@@ -1,11 +1,11 @@
 demographics:
-  BLACK:
+  black:
     ppl: 0.6
     MSM:
       ppl: 1.0
       num_partners: 10.0
 
-  WHITE:
+  white:
     ppl: 0.4
     MSM:
       ppl: 1.0

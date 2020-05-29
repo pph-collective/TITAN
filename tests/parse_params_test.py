@@ -16,7 +16,7 @@ def test_create_params_base(tmpdir):
     assert os.path.isfile(result_file)
 
     assert "HM" not in list(params.classes.sex_types.keys())
-    assert "WHITE" not in params.classes.races
+    assert "white" not in params.classes.races
     assert params.partnership.sex.acquisition.MSM.versatile == 0.00745  # from setting
     assert params.partnership.sex.acquisition.MSM.receptive == 0.0138  # from base
     assert params.partnership.sex.acquisition.MSM.insertive == 0.0011  # from param
