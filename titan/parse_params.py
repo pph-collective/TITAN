@@ -75,7 +75,7 @@ def get_item(key, d, key_path, param, pops=None):
     """
     if key in param:
         val = param[key]
-        return check_item(val, d, f"{key_path}.{key}", pops=pops)
+        return check_item(val, d, f"{key_path}", pops=pops)
     else:
         return d["default"]
 
@@ -135,13 +135,9 @@ def get_defn(key, d, key_path, param, pops):
     # check definitions
     for k, val in parsed.items():
         for field, defn in d["fields"].items():
-            assert field in val, f"{field} must be in {val} [{key_path}.{k}]"
+            assert field in val, f"{field} must be in {val} [{key_path}]"
             val[field] = check_item(
-                val[field],
-                defn,
-                f"{key_path}.{k}.{field}",
-                keys=parsed.keys(),
-                pops=pops,
+                val[field], defn, f"{key_path}.{field}", keys=parsed.keys(), pops=pops,
             )
 
     return parsed
@@ -257,6 +253,11 @@ def check_params(params):
 
 
 def warn_unused_params(parsed, params, base, key_path):
+    """
+    Compare the original params to what was parsed and print warnings for any original
+    params that are unused in the final parsed parasms. This excludes unused params
+    from base as those are unavoidable.
+    """
     # both values, return
     count = 0
 

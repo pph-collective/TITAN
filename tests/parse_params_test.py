@@ -29,13 +29,12 @@ def test_create_params_error(tmpdir):
     with pytest.raises(AssertionError):
         pp.create_params(setting, param_file_error, tmpdir)
 
+    # this params file has a bad value, this makes sure the correct key is included in the error message
     param_file_bad_val = "tests/params/basic_seeded_error.yml"
     with pytest.raises(AssertionError) as excinfo:
         pp.create_params(setting, param_file_bad_val, tmpdir)
 
-        assert "[.demographics.BLACK.MSM.num_partners.Sex.disk_type]" in str(
-            excinfo.value
-        )
+    assert "[.demographics.BLACK.MSM.num_partners.Sex.dist_type]" in str(excinfo.value)
 
 
 @pytest.mark.unit
