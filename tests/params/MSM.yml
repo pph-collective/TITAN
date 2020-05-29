@@ -33,7 +33,6 @@ features:
   vaccine: true
   partner_tracing: true
   msmw: true
-  bond_type: true
   pca: true
 
 model:

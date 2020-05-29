@@ -14,22 +14,18 @@ demographics:
         Sex:
           var_1: 10.0
           var_2: 1
-          mean: 10.0
           dist_type: poisson
         Social:
           var_1: 0.0
           var_2: 1
-          mean: 0.0
           dist_type: poisson
         Inj:
           var_1: 0.0
           var_2: 0
-          mean: 0
           dist_type: set_value
         SexInj:
           var_1: 0.0
           var_2: 0
-          mean: 0.0
           dist_type: set_value
       hiv:
         init: 0.1
@@ -58,8 +54,8 @@ demographics:
       vaccine:
         init: 0.1
         prob: 0.1
-        booser:
-          internval: 12
+        booster:
+          interval: 12
           prob: 0.1
     HM:
       ppl: 0.3
@@ -74,22 +70,18 @@ demographics:
         Sex:
           var_1: 10.0
           var_2: 1
-          mean: 10.0
           dist_type: poisson
         Social:
           var_1: 0.0
           var_2: 1
-          mean: 0.0
           dist_type: set_value
         Inj:
           var_1: 0.0
           var_2: 0
-          mean: 0.0
           dist_type: set_value
         SexInj:
           var_1: 0.0
           var_2: 0
-          mean: 0.0
           dist_type: set_value
       hiv:
         init: 0.1
@@ -118,8 +110,8 @@ demographics:
       vaccine:
         init: 0.1
         prob: 0.1
-        booser:
-          internval: 12
+        booster:
+          interval: 12
           prob: 0.1
     HF:
       ppl: 0.2
@@ -134,17 +126,14 @@ demographics:
         Sex:
           var_1: 10.0
           var_2: 1
-          mean: 10.0
           dist_type: poisson
         Social:
           var_1: 0.0
           var_2: 1
-          mean: 0.0
           dist_type: set_value
         Inj:
           var_1: 0.0
           var_2: 1
-          mean: 0.0
           dist_type: set_value
         SexInj:
           var_1: 0.0
@@ -178,8 +167,8 @@ demographics:
       vaccine:
         init: 0.1
         prob: 0.1
-        booser:
-          internval: 12
+        booster:
+          interval: 12
           prob: 0.1
     WSW:
       ppl: 0.1
@@ -194,22 +183,18 @@ demographics:
         Sex:
           var_1: 10.0
           var_2: 1
-          mean: 10.0
           dist_type: poisson
         Social:
           var_1: 0.0
           var_2: 1
-          mean: 0.0
           dist_type: set_value
         Inj:
           var_1: 0.0
           var_2: 0
-          mean: 0.0
           dist_type: set_value
         SexInj:
           var_1: 0.0
           var_2: 0
-          mean: 0.0
           dist_type: set_value
       hiv:
         init: 0.1
@@ -238,8 +223,8 @@ demographics:
       vaccine:
         init: 0.1
         prob: 0.1
-        booser:
-          internval: 12
+        booster:
+          interval: 12
           prob: 0.1
     MTF:
       ppl: 0.1
@@ -254,22 +239,18 @@ demographics:
         Sex:
           var_1: 10.0
           var_2: 1
-          mean: 10.0
           dist_type: poisson
         Social:
           var_1: 0.0
           var_2: 1
-          mean: 0.0
           dist_type: set_value
         Inj:
           var_1: 0.0
           var_2: 0
-          mean: 0
           dist_type: set_value
         SexInj:
           var_1: 0.0
           var_2: 0
-          mean: 0.0
           dist_type: set_value
       hiv:
         init: 0.1
@@ -298,8 +279,8 @@ demographics:
       vaccine:
         init: 0.1
         prob: 0.1
-        booser:
-          internval: 12
+        booster:
+          interval: 12
           prob: 0.1
     PWID:
       ppl: 0.2
@@ -307,22 +288,18 @@ demographics:
         Sex:
           var_1: 10.0
           var_2: 1
-          mean: 10.0
           dist_type: poisson
         Social:
           var_1: 0.0
           var_2: 1
-          mean: 10.0
           dist_type: poisson
         Inj:
           var_1: 10.0
           var_2: 1
-          mean: 10.0
           dist_type: poisson
         SexInj:
           var_1: 10.0
           var_2: 1
-          mean: 10.0
           dist_type: poisson
       hiv:
         init: 0.1
@@ -351,8 +328,8 @@ demographics:
       vaccine:
         init: 0.1
         prob: 0.1
-        booser:
-          internval: 12
+        booster:
+          interval: 12
           prob: 0.1
   white:
     ppl: 0.4
@@ -376,22 +353,18 @@ demographics:
         Sex:
           var_1: 10.0
           var_2: 1
-          mean: 10.0
           dist_type: poisson
         Social:
           var_1: 0.0
           var_2: 1
-          mean: 10.0
           dist_type: poisson
         Inj:
           var_1: 0.0
           var_2: 0
-          mean: 0
           dist_type: set_value
         SexInj:
           var_1: 0.0
           var_2: 0
-          mean: 0.0
           dist_type: set_value
       hiv:
         init: 0.1
@@ -420,8 +393,8 @@ demographics:
       vaccine:
         init: 0.1
         prob: 0.1
-        booser:
-          internval: 12
+        booster:
+          interval: 12
           prob: 0.1
     HM:
       ppl: 0.3
@@ -436,22 +409,18 @@ demographics:
         Sex:
           var_1: 10.0
           var_2: 1
-          mean: 10.0
           dist_type: poisson
         Social:
           var_1: 0.0
           var_2: 1
-          mean: 0.0
           dist_type: set_value
         Inj:
           var_1: 0.0
           var_2: 0
-          mean: 0.0
           dist_type: set_value
         SexInj:
           var_1: 0.0
           var_2: 0
-          mean: 0.0
           dist_type: set_value
       hiv:
         init: 0.1
@@ -480,8 +449,8 @@ demographics:
       vaccine:
         init: 0.1
         prob: 0.1
-        booser:
-          internval: 12
+        booster:
+          interval: 12
           prob: 0.1
     HF:
       ppl: 0.2
@@ -496,22 +465,18 @@ demographics:
         Sex:
           var_1: 10.0
           var_2: 1
-          mean: 10.0
           dist_type: poisson
         Social:
           var_1: 0.0
           var_2: 1
-          mean: 0.0
           dist_type: set_value
         Inj:
           var_1: 0.0
           var_2: 0
-          mean: 0.0
           dist_type: set_value
         SexInj:
           var_1: 0.0
           var_2: 0
-          mean: 0.0
           dist_type: set_value
       hiv:
         init: 0.1
@@ -540,8 +505,8 @@ demographics:
       vaccine:
         init: 0.1
         prob: 0.1
-        booser:
-          internval: 12
+        booster:
+          interval: 12
           prob: 0.1
     WSW:
       ppl: 0.1
@@ -556,17 +521,14 @@ demographics:
         Sex:
           var_1: 10.0
           var_2: 1
-          mean: 10.0
           dist_type: poisson
         Social:
           var_1: 0.0
           var_2: 1
-          mean: 10.0
           dist_type: poisson
         Inj:
           var_1: 0.0
           var_2: 0
-          mean: 0.0
           dist_type: set_value
         SexInj:
           var_1: 0.0
@@ -600,8 +562,8 @@ demographics:
       vaccine:
         init: 0.1
         prob: 0.1
-        booser:
-          internval: 12
+        booster:
+          interval: 12
           prob: 0.1
     MTF:
       ppl: 0.1
@@ -616,22 +578,18 @@ demographics:
         Sex:
           var_1: 10.0
           var_2: 1
-          mean: 10.0
           dist_type: poisson
         Social:
           var_1: 0.0
           var_2: 1
-          mean: 10.0
           dist_type: poisson
         Inj:
           var_1: 0.0
           var_2: 0
-          mean: 0.0
           dist_type: set_value
         SexInj:
           var_1: 0.0
           var_2: 0
-          mean: 0.0
           dist_type: set_value
       hiv:
         init: 0.1
@@ -660,8 +618,8 @@ demographics:
       vaccine:
         init: 0.1
         prob: 0.1
-        booser:
-          internval: 12
+        booster:
+          interval: 12
           prob: 0.1
     PWID:
       ppl: 0.3
@@ -669,22 +627,18 @@ demographics:
         Sex:
           var_1: 10.0
           var_2: 1
-          mean: 10.0
           dist_type: poisson
         Inj:
           var_1: 10.0
           var_2: 1
-          mean: 10.0
           dist_type: poisson
         SexInj:
           var_1: 3.0
           var_2: 1
-          mean: 3.0
           dist_type: poisson
         Social:
           var_1: 0.0
           var_2: 0
-          mean: 0.0
           dist_type: set_value
       hiv:
         init: 0.1
@@ -713,8 +667,8 @@ demographics:
       vaccine:
         init: 0.1
         prob: 0.1
-        booser:
-          internval: 12
+        booster:
+          interval: 12
           prob: 0.1
 
 partnership:
@@ -801,7 +755,6 @@ features:
   vaccine: true
   partner_tracing: true
   msmw: true
-  bond_type: true
   syringe_services: true
 
 model:

@@ -20,19 +20,27 @@ def adherence_prob(adherence):
 
 
 @utils.memo
-def get_death_rate(hiv, aids, race, haart_adh, death_rate, steps_per_year):
-    if hiv:
-        if aids:  # AIDS DEATH RATE
-            p = death_rate.aids
+def get_death_rate(hiv, aids, so, drug_use, haart_adh, param, steps_per_year):
+    if drug_use == "Inj":
+        p = param.PWID.death_rate.base
+        if aids:
+            p *= param.PWID.death_rate.aids
+        elif hiv:
+            if haart_adh == 5:
+                p *= param.PWID.death_rate.haart_adherent
+            else:
+                p *= param.PWID.death_rate.hiv
+    else:
+        p = param[so].death_rate.base
+        if hiv:
+            if aids:  # AIDS DEATH RATE
+                p *= param[so].death_rate.aids
 
-        elif haart_adh > 1:  # HAART DEATH RATE
-            p = death_rate.base
+            elif haart_adh == 5:  # HAART DEATH RATE
+                p *= param[so].death_rate.haart_adherent
 
-        else:  # HIV+ DEATH RATE
-            p = death_rate.hiv
-
-    else:  # NON HIV DEATH RATE
-        p = death_rate.base
+            else:  # HIV+ DEATH RATE
+                p = param[so].death_rate.hiv
 
     # putting it into per 1 person-month from per 1000 person years
     return p / (steps_per_year * 1000.0)

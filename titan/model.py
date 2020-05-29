@@ -1278,9 +1278,10 @@ class HIVModel:
                 prob.get_death_rate(
                     agent.hiv,
                     agent.aids,
-                    agent.race,
+                    agent.so,
+                    agent.drug_use,
                     agent.haart_adherence,
-                    self.demographics[agent.race].death_rate,
+                    self.demographics[agent.race],
                     self.params.model.time.steps_per_year,
                 )
                 * self.calibration.mortality

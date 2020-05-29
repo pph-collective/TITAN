@@ -47,8 +47,8 @@ demographics:
       vaccine:
         init: 0.1
         prob: 0.1
-        booser:
-          internval: 12
+        booster:
+          interval: 12
           prob: 0.1
       num_partners:
         Sex:
@@ -185,7 +185,6 @@ outputs:
 features:
   prep: true
   haart: true
-  bond_type: true
   syringe_services: false
   static_network: false
   incar: false

@@ -34,7 +34,7 @@ def test_create_params_error(tmpdir):
     with pytest.raises(AssertionError) as excinfo:
         pp.create_params(setting, param_file_bad_val, tmpdir)
 
-    assert "[.demographics.BLACK.MSM.num_partners.Sex.dist_type]" in str(excinfo.value)
+    assert "[.demographics.black.MSM.num_partners.Sex.dist_type]" in str(excinfo.value)
 
 
 @pytest.mark.unit
