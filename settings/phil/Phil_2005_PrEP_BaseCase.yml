@@ -2,7 +2,6 @@ model:
   processes: 1
   seed:
     ppl: 0
-    net: 0
     run: 0
   num_pop: 110000
   time:
@@ -22,28 +21,21 @@ outputs:
   - prepReport
   - basicReport
 calibration:
-  needle:
-    sharing: 0.9
+  injection:
     act: 0.6
   sex:
     partner: 0.9
     act: 0.8
   acquisition: 1.0
-  acute: 4.3
-  risk_reduction:
-    transmission: 0.53
-    haart: 1.0
   test_frequency: 0.7
   mortality: 0.5
-  aids_progression: 1.0
   haart:
     coverage: 0.7
+    transmission: 0.53
   incarceration: 1.0
-  race_transmission: 1.0
-  partner_sample_depth: 100
 high_risk:
   partner_scale: 300
-  proportion: 0.3
+  prob: 0.3
   sex_based:
     HM:
       duration: 6
@@ -65,10 +57,6 @@ assort_mix:
     partner_values:
       True: 0.3
       __other__: 0.7
-syringe_services:
-  prevalence: 1.0
-  init_at_pop: 999999
-  coverage: 0.0
 incar:
   haart:
     prob: 0.51
@@ -84,9 +72,6 @@ prep:
     non_adherant: 0.76
   discontinue: 0.15
   target_model: Allcomers
-PWID:
-  prep:
-    adherence: 0.923
 classes:
   races:
     - BLACK
@@ -120,17 +105,10 @@ demographics:
           dist_type: poisson
           var_1: 1.5
           var_2: 1.0
-          mean: 1.5
         Inj:
           dist_type: uniform
           var_1: 0
           var_2: 0
-          mean: 0
-        SexInj:
-          dist_type: uniform
-          var_1: 0
-          var_2: 0
-          mean: 0
       ppl: 0.415
       drug_use:
         Inj:
@@ -185,17 +163,10 @@ demographics:
           dist_type: poisson
           var_1: 1.5
           var_2: 1.0
-          mean: 1.5
         Inj:
           dist_type: set_value
           var_1: 0
           var_2: 0
-          mean: 0
-        SexInj:
-          var_1: 0
-          var_2: 0
-          mean: 0
-          dist_type: set_value
       injection:
         num_acts: 5.0
         unsafe_prob: 0.43
@@ -225,12 +196,10 @@ demographics:
           dist_type: poisson
           var_1: 1.5
           var_2: 1.0
-          mean: 1.5
         Inj:
           dist_type: poisson
           var_1: 1.5
           var_2: 1.0
-          mean: 1.5
       safe_sex: 0.89
       injection:
         unsafe_prob: 0.63
@@ -240,28 +209,54 @@ demographics:
       high_risk:
         init: 0
 partnership:
+  duration:
+    Sex:
+      type: bins
+      bins:
+        1:
+          prob: 0.585
+          min: 1
+          max: 6
+        2:
+          prob: 0.701
+          min: 7
+          max: 12
+        3:
+          prob: 0.822
+          min: 13
+          max: 24
+        4:
+          prob: 0.8819999999999999
+          min: 25
+          max: 36
+        5:
+          prob: 1
+          min: 37
+          max: 48
+    Inj:
+      type: bins
+      bins:
+        1:
+          prob: 1.0
+          min: 1
+          max: 6
+        2:
+          prob: 0.585
+          min: 1
+          max: 6
+        3:
+          prob: 0.585
+          min: 1
+          max: 6
+        4:
+          prob: 0.585
+          min: 1
+          max: 6
+        5:
+          prob: 1
+          min: 1
+          max: 6
   sex:
-    duration:
-      1:
-        prob: 0.585
-        min: 1
-        max: 6
-      2:
-        prob: 0.701
-        min: 7
-        max: 12
-      3:
-        prob: 0.822
-        min: 13
-        max: 24
-      4:
-        prob: 0.8819999999999999
-        min: 25
-        max: 36
-      5:
-        prob: 1
-        min: 37
-        max: 48
     frequency:
       1:
         prob: 0.585
@@ -299,28 +294,7 @@ partnership:
         prob: 1
         min: 37
         max: 48
-  needle:
-    duration:
-      1:
-        prob: 1.0
-        min: 1
-        max: 6
-      2:
-        prob: 0.585
-        min: 1
-        max: 6
-      3:
-        prob: 0.585
-        min: 1
-        max: 6
-      4:
-        prob: 0.585
-        min: 1
-        max: 6
-      5:
-        prob: 1
-        min: 1
-        max: 6
+  injection:
     frequency:
       1:
         prob: 1.0

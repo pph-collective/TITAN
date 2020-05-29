@@ -3,7 +3,6 @@ model:
   processes: 1
   seed:
     ppl: 0
-    net: 0
     run: 0
   num_pop: 5578
   time:
@@ -31,25 +30,18 @@ features:
   static_network: true
   pca: true
 calibration:
-  syringe:
-    sharing: 1.0
+  injection:
     act: 1.0
   sex:
     partner: 1.0
     act: 1.0
   acquisition: 1.0
-  acute: 1.0
-  risk_reduction:
-    transmission: 1.0
-    haart: 1.0
   test_frequency: 1.0
   mortality: 1.0
-  aids_progression: 1.0
   haart:
     coverage: 1.0
+    transmission: 1.0
   incarceration: 1.0
-  race_transmission: 1.0
-  partner_sample_depth: 100
 classes:
   races:
     - BLACK
@@ -67,12 +59,7 @@ classes:
     - None
 high_risk:
   partner_scale: 300
-  proportion: 0.3
-  sex_based:
-    HM:
-      duration: 6
-    HF:
-      duration: 6
+  prob: 0.3
   condom_use_type: Race
 vaccine:
   type: RV144
@@ -123,7 +110,6 @@ demographics:
           dist_type: poisson
           var_1: 5.0
           var_2: 1.0
-          mean: 5.0
       safe_sex: 0.312
       injection:
         unsafe_prob: 0.27
@@ -139,28 +125,31 @@ demographics:
         booster:
           interval: 3
 partnership:
+  duration:
+    Social:
+      type: bins
+      bins:
+        1:
+          prob: 0.585
+          min: 1
+          max: 6
+        2:
+          prob: 0.701
+          min: 7
+          max: 12
+        3:
+          prob: 0.822
+          min: 13
+          max: 24
+        4:
+          prob: 0.8819999999999999
+          min: 25
+          max: 36
+        5:
+          prob: 1.0
+          min: 37
+          max: 48
   sex:
-    duration:
-      1:
-        prob: 0.585
-        min: 1
-        max: 6
-      2:
-        prob: 0.701
-        min: 7
-        max: 12
-      3:
-        prob: 0.822
-        min: 13
-        max: 24
-      4:
-        prob: 0.8819999999999999
-        min: 25
-        max: 36
-      5:
-        prob: 1.0
-        min: 37
-        max: 48
     frequency:
       1:
         prob: 0.585
@@ -198,28 +187,7 @@ partnership:
         prob: 1.0
         min: 37
         max: 48
-  needle:
-    duration:
-      1:
-        prob: 1.0
-        min: 1
-        max: 6
-      2:
-        prob: 0.585
-        min: 1
-        max: 6
-      3:
-        prob: 0.585
-        min: 1
-        max: 6
-      4:
-        prob: 0.585
-        min: 1
-        max: 6
-      5:
-        prob: 1.0
-        min: 1
-        max: 6
+  injection:
     frequency:
       1:
         prob: 1.0

@@ -1,18 +1,14 @@
 model:
   num_pop: 24110
-  time_range: 60
+  time:
+    num_steps: 60
   network:
     enable: true
     type: scale_free
-  population:
-    num_partners:
-      type:
-        bins
 
 features:
   haart: true
   die_and_replace: true
-  bond_type: true
   syringe_services: true
 
 syringe_services:

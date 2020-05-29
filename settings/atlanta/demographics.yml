@@ -12,7 +12,6 @@ demographics:
           receptive: 0.321
       num_partners:
         Sex:
-          mean: 7.0
           dist_type: poisson
           var_1: 7.0
           var_2: 1
@@ -49,7 +48,6 @@ demographics:
       ppl: 1.0
       num_partners:
         Sex:
-          mean: 7.0
           dist_type: poisson
           var_1: 7.0
           var_2: 1
@@ -65,7 +63,6 @@ demographics:
           prob: 0.055
       aids:
         init: 0.07
-        prob: 0.05
       haart:
         init: 0.585
         prob: 0.20
@@ -95,4 +92,3 @@ classes:
       sleeps_with:
         - MSM
   populations: []
-
