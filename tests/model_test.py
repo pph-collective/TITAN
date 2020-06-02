@@ -54,6 +54,7 @@ def test_update_AllAgents(make_model, make_agent):
         model.update_all_agents()
     assert "No agent zero!" in str(excinfo)
 
+
 @pytest.mark.unit
 def test_agents_interact(make_model, make_agent):
     model = make_model()
@@ -278,6 +279,9 @@ def test_become_high_risk(make_model, make_agent):
     assert a.high_risk_ever
     assert a.high_risk_time == 10
 
+    model.params.features.high_risk = False
+    assert not model.become_high_risk(a, 10)
+
 
 @pytest.mark.unit
 def test_update_high_risk(make_model, make_agent):
@@ -303,6 +307,20 @@ def test_update_high_risk(make_model, make_agent):
     assert a.high_risk is False
     assert a.high_risk_ever is True
     assert a not in model.pop.high_risk_agents
+
+
+@pytest.mark.unit
+def test_incarcerate_not_hiv(make_model, make_agent):
+    model = make_model()
+    a = make_agent(SO="HM", race="white")
+    p = make_agent(SO="HF", race="white")
+    rel = Relationship(a, p, 10, "Sex")
+    model.prep.target = 1.0
+    model.prep.target_model = "Incar"
+    model.params.demographics.white.HM.incar.prob = 1.0
+
+    model.incarcerate(a)
+    assert p.prep
 
 
 @pytest.mark.unit
@@ -762,4 +780,3 @@ def test_die_and_replace_incar(make_model):
     assert agent_id in old_ids
     assert agent_id not in death_ids
     assert agent_id in new_ids
-
