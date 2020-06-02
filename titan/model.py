@@ -721,19 +721,19 @@ class HIVModel:
         assert interaction in (
             "injection",
             "sex",
-        ), f"Invalid interaction type {interaction}"
+        ), f"Invalid interaction type {interaction}. Only sex and injection acts " \
+           f"supported. "
 
         agent_sex_role = agent.sex_role
         partner_sex_role = partner.sex_role
 
         if interaction == "injection":
-            p = (
-                self.params.partnership.injection.transmission.base
-                * self.params.partnership.injection.transmission.haart_scale[
+            p = self.params.partnership.injection.transmission.base
+            if agent.haart:
+                p *= self.params.partnership.injection.transmission.haart_scale[
                     agent.haart_adherence
                 ].scale
-            )
-        else:
+        elif interaction == "sex":
             # get partner's sex role during acts
             if partner_sex_role == "versatile":  # versatile partner takes
                 # "opposite" position of agent
@@ -745,12 +745,14 @@ class HIVModel:
                     partner_sex_role = "versatile"  # if both versatile, can switch
                     # between receptive and insertive by act
             # get probability of sex acquisition given HIV- partner's position
+
             p = self.params.partnership.sex.acquisition[partner.so][partner_sex_role]
 
-        # scale based on HIV+ agent's haart status/adherence
-        p *= self.params.partnership.sex.haart_scaling[agent.so][
-            agent.haart_adherence
-        ].prob
+            # scale based on HIV+ agent's haart status/adherence
+            if agent.haart:
+                p *= self.params.partnership.sex.haart_scaling[agent.so][
+                    agent.haart_adherence
+                ].prob
 
         # Scale if partner on PrEP
         if partner.prep:
