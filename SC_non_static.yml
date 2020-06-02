@@ -1,0 +1,6 @@
+features:
+  static_network: false
+model:
+  time:
+    num_steps: 180
+

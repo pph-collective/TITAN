@@ -24,7 +24,7 @@ rows=""
 num_cores=1
 forceFlag=""
 
-while getopts m:j:T:S:r:n:b:f:w:W:r:F:c:t: option
+while getopts m:j:T:S:r:n:b:f:w:W:R:F:c:t: option
 do
     case "${option}"
         in
@@ -38,7 +38,7 @@ do
 	f) folderName=${OPTARG};;
 	w) sweepDefs+="-w ${OPTARG} ";;
 	W) sweepfile="-W ${OPTARG}";;
-	r) rows="-r ${OPTARG}";;
+	R) rows="-r ${OPTARG}";;
 	F) forceFlag="-F";;
 	c) num_cores=${OPTARG};;
 	t) titanPath=${OPTARG};;
@@ -66,17 +66,17 @@ options:
   -j jobname	  name of analysis for organization (default: {SourceFolder}_date)
   -T walltime     as hh:mm:ss, max compute time (default: $walltime)
   -m memory       as #[k|m|g] (default: $memory)
-	-S setting      name of setting for this model
-	-r repeats      number of times to repeat the analysis (default: $repeats)
+  -S setting      name of setting for this model
+  -r repeats      number of times to repeat the analysis (default: $repeats)
   -n iterations   number of mode iterations per job (default: $nMC)
-	-b use_base     whether to use the base setting as True or False (default: $useBase)
-	-f folder_name	What the parent folder for the model run outputs should be called (default: <setting>)
-	-w sweep_defs   Optionally, definitions of sweep parameters in the format param:start:stop[:step]
-	-W sweepfile   	Optionally, a csv file with sweep definitions (if used, -w flag is ignored)
-	-r rows					Optionally, which data rows of the sweep file to use in format start:stop
-	-F force				If the number of sweep combinations exceeds 100, run anyway
-	-c num_cores		How many cores to request and run the job on (default: $num_cores)
-	-t titanPath		where the code is
+  -b use_base     whether to use the base setting as True or False (default: $useBase)
+  -f folder_name  What the parent folder for the model run outputs should be called (default: <setting>)
+  -w sweep_defs   Optionally, definitions of sweep parameters in the format param:start:stop[:step]
+  -W sweepfile    Optionally, a csv file with sweep definitions (if used, -w flag is ignored)
+  -R rows         Optionally, which data rows of the sweep file to use in format start:stop
+  -F force	  If the number of sweep combinations exceeds 100, run anyway
+  -c num_cores	  How many cores to request and run the job on (default: $num_cores)
+  -t titanPath	  where the code is
 "
 exit 0
 }

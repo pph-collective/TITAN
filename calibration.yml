@@ -1,0 +1,6 @@
+calibration:
+  sex:
+    act: 1.0
+    partner: 2.0
+  test_frequency: cal_dx
+  haart_coverage: cal_haart
