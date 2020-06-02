@@ -110,7 +110,7 @@ partnership:
         default: 0.007
       haart_scale:
         type: bin
-        description: Reduction in hiv transmission given haart adherence
+        description: Scale on base hiv transmission given haart adherence
         fields:
           scale:
             type: float

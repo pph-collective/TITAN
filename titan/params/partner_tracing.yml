@@ -29,6 +29,6 @@ partner_tracing:
     type: int
     default: 9999
   trace_time:
-    description: "How many timesteps after tracing an agent can be diagnosed from the trace"
+    description: "For how many time steps after partner diagnosis a partner is traced"
     type: int
     default: 1

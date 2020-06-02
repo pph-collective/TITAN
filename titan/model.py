@@ -718,11 +718,10 @@ class HIVModel:
         """
         # Logic for if needle or sex type interaction
         p: float
-        assert interaction in (
-            "injection",
-            "sex",
-        ), f"Invalid interaction type {interaction}. Only sex and injection acts " \
-           f"supported. "
+        assert interaction in ("injection", "sex",), (
+            f"Invalid interaction type {interaction}. Only sex and injection acts "
+            f"supported. "
+        )
 
         agent_sex_role = agent.sex_role
         partner_sex_role = partner.sex_role
