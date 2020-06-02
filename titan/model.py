@@ -304,7 +304,6 @@ class HIVModel:
             self.die_and_replace()
 
     def make_agent_zero(self):
-        zero_relationships = []
         bond_type = self.params.agent_zero.bond_type
         zero_eligible = [
             agent

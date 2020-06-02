@@ -33,11 +33,26 @@ def test_model_init(params):
     assert model.new_high_risk.num_members() == 0
 
 
-@pytest.mark.skip("too parameter dependent to test at this point")
 @pytest.mark.unit
-def test_update_AllAgents():
-    pass
+def test_update_AllAgents(make_model, make_agent):
+    # make agent 0
+    model = make_model()
+    assert model.params.agent_zero.bond_type == "Inj"
+    a = make_agent(race="white", DU="Inj")
+    p = make_agent(race="white", DU="Inj")
+    # make sure at least 1 relationship is compatible with agent 0 type
+    Relationship(a, p, 10, bond_type="Inj")
+    model.time = 1
+    # update all agents passes with agent 0
+    model.update_all_agents()
 
+    # remove all bonds compatible with agent 0. agent 0 fails
+    for rel in copy(model.pop.relationships):
+        if rel.bond_type == "Inj":
+            rel.unbond()
+    with pytest.raises(ValueError) as excinfo:
+        model.update_all_agents()
+    assert "No agent zero!" in str(excinfo)
 
 @pytest.mark.unit
 def test_agents_interact(make_model, make_agent):
@@ -747,3 +762,4 @@ def test_die_and_replace_incar(make_model):
     assert agent_id in old_ids
     assert agent_id not in death_ids
     assert agent_id in new_ids
+

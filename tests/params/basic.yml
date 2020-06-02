@@ -740,6 +740,10 @@ syringe_services:
       num_slots_stop: 100
       risk: 0.02
 
+agent_zero:
+  bond_type: Inj
+  num_partners: 1
+
 outputs:
   network:
     calc_component_stats: true
