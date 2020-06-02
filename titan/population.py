@@ -365,6 +365,11 @@ class Population:
         if agent.prep:
             self.prep_counts[agent.race] -= 1
 
+        if agent.hiv_dx:
+            self.num_dx_agents -= 1
+            if agent.haart:
+                self.num_haart_agents -= 1
+
         if self.enable_graph:
             self.graph.remove_node(agent)
 

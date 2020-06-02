@@ -306,12 +306,9 @@ class HIVModel:
     def make_agent_zero(self):
         zero_relationships = []
         bond_type = self.params.agent_zero.bond_type
-        for rel in self.pop.relationships:
-            if rel.bond_type == bond_type:
-                zero_relationships += [rel.agent1, rel.agent2]
         zero_eligible = [
             agent
-            for agent in set(zero_relationships)
+            for agent in self.pop.all_agents.members
             if len(agent.partners[bond_type]) >= self.params.agent_zero.num_partners
         ]
         if zero_eligible:
@@ -1000,16 +997,16 @@ class HIVModel:
         """
         sex_type = agent.so
         race_type = agent.race
-        tested = agent.hiv_dx
+        diagnosed = agent.hiv_dx
 
-        def diagnose(agent, time):
+        def diagnose(agent):
             agent.hiv_dx = True
             self.pop.num_dx_agents += 1
             self.new_dx.add_agent(agent)
             if (
                 self.features.partner_tracing
                 and self.params.partner_tracing.start
-                <= time
+                <= self.time
                 < self.params.partner_tracing.stop
             ):
                 # For each partner, determine if found by partner testing
@@ -1026,7 +1023,7 @@ class HIVModel:
                                 self.time + self.params.partner_tracing.trace_time
                             )
 
-        if not tested:
+        if not diagnosed:
             test_prob = self.demographics[race_type][sex_type].hiv.dx.prob
 
             # Rescale based on calibration param
@@ -1035,7 +1032,7 @@ class HIVModel:
             # If roll less than test probablity
             if self.run_random.random() < test_prob:
                 # Become tested, add to tested agent set
-                diagnose(agent, self.time)
+                diagnose(agent)
                 # If treatment co-enrollment enabled and coverage greater than 0
 
             elif (
@@ -1043,8 +1040,10 @@ class HIVModel:
                 and self.run_random.random() < self.params.partner_tracing.hiv.dx
                 and agent.trace_time == self.time
             ):
-                diagnose(agent, self.time)
+                diagnose(agent)
         if self.time < agent.trace_time:
+            # agents can only be traced for a specified time after their partner is
+            # diagnosed. if past this time, remove ability to trace.
             agent.partner_traced = False
 
     def update_haart(self, agent: Agent):
@@ -1088,8 +1087,10 @@ class HIVModel:
         # Determine probability of HIV treatment
         if agent.hiv_dx:
             # Go on HAART
-            if not agent_haart and agent.haart_time == 0:
+            if not agent_haart:
                 if self.params.hiv.haart_cap:
+                    # if haart is based on cap instead of prob, determine number of
+                    # haart agents based on %
                     if (
                         self.pop.num_haart_agents
                         < self.demographics[agent_race][agent_so].haart.prob
@@ -1279,7 +1280,6 @@ class HIVModel:
                 prob.get_death_rate(
                     agent.hiv,
                     agent.aids,
-                    agent.so,
                     agent.drug_use,
                     agent.haart_adherence,
                     self.demographics[agent.race],
@@ -1299,10 +1299,6 @@ class HIVModel:
         # replace stage
         for agent in self.deaths:
             # Remove agent from agent class and sub-sets
-            if agent.hiv_dx:
-                self.pop.num_dx_agents -= 1
-                if agent.haart:
-                    self.pop.num_haart_agents -= 1
             self.pop.remove_agent(agent)
 
             new_agent = self.pop.create_agent(agent.race, agent.so)

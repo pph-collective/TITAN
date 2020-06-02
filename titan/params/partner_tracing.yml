@@ -21,11 +21,11 @@ partner_tracing:
       - Inj
       - SexInj
   start:
-    description: "What time step to start contact tracing"
+    description: "What time step to start partner tracing"
     type: int
     default: 0
   stop:
-    description: "What time step to stop contact tracing"
+    description: "What time step to stop partner tracing"
     type: int
     default: 9999
   trace_time:

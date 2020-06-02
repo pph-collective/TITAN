@@ -325,12 +325,12 @@ demographics:
       hiv:
         default: 2.
         type: float
-        description: Scalar for death rate for agents with hiv, not aids, and not haart adherent
+        description: Scalar for death rate for agents with hiv, not aids, and not haart adherent. Scales from base.
       aids:
         default: 4.
         type: float
-        description: Scalar for death rate for agents with aids
+        description: Scalar for death rate for agents with aids. Scales from base.
       haart_adherent:
         default: 1.0
         type: float
-        description: Scalar for death rate for those fully adherent on haart
+        description: Scalar for death rate for those fully adherent on haart. Scales from base.

@@ -91,7 +91,9 @@ partnership:
         type: enum
         values:
           - poisson
-          - triangular
+          - gamma
+          - uniform
+          - set_value
         default: poisson
       var_1:
         type: float
@@ -108,7 +110,7 @@ partnership:
         default: 0.007
       haart_scale:
         type: bin
-        description: Binned probabilities of transmission from syringe sharing given haart adherence
+        description: Reduction in hiv transmission given haart adherence
         fields:
           scale:
             type: float

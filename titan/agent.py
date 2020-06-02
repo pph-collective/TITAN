@@ -79,7 +79,6 @@ class Agent:
         self.vaccine_type = ""
         self.partner_traced = False
         self.trace_time = 0
-        self.trace_time = 0
         self.prep_awareness = False
         self.prep_opinion = 0.0
         self.prep_type = ""

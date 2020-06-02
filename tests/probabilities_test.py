@@ -20,18 +20,16 @@ def test_get_death_rate(params):
     for hiv in [True, False]:
         for aids in [True, False]:
             for race in ["white", "black"]:
-                for so in ["HF", "HM", "MSM"]:
-                    for drug_use in ["None", "Inj"]:
-                        for adh in [0, 5]:
-                            assert (
-                                probs.get_death_rate(
-                                    hiv,
-                                    aids,
-                                    so,
-                                    drug_use,
-                                    adh,
-                                    params.demographics[race],
-                                    params.model.time.steps_per_year,
-                                )
-                                > 0
+                for drug_use in ["None", "Inj"]:
+                    for adh in [0, 5]:
+                        assert (
+                            probs.get_death_rate(
+                                hiv,
+                                aids,
+                                drug_use,
+                                adh,
+                                params.demographics[race],
+                                params.model.time.steps_per_year,
                             )
+                            > 0
+                        )
