@@ -169,36 +169,6 @@ partnership:
         min: 25
         max: 36
       5:
-        prob: 0.8819999999999999
-        min: 25
-        max: 36
-      6:
-        prob: 0.8819999999999999
-        min: 25
-        max: 36
-      7:
-        prob: 0.8819999999999999
-        min: 25
-        max: 36
-      8:
-        prob: 0.8819999999999999
-        min: 25
-        max: 36
-      9:
         prob: 1.0
         min: 37
         max: 48
-  injection:
-    transmission:
-      0:
-        prob: 0.007
-      1:
-        prob: 0.007
-      2:
-        prob: 0.0056
-      3:
-        prob: 0.0028
-      4:
-        prob: 0.0014
-      5:
-        prob: 0.0002

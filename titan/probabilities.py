@@ -31,16 +31,16 @@ def get_death_rate(hiv, aids, so, drug_use, haart_adh, param, steps_per_year):
             else:
                 p *= param.PWID.death_rate.hiv
     else:
-        p = param[so].death_rate.base
+        p = param.death_rate.base
         if hiv:
             if aids:  # AIDS DEATH RATE
-                p *= param[so].death_rate.aids
+                p *= param.death_rate.aids
 
             elif haart_adh == 5:  # HAART DEATH RATE
-                p *= param[so].death_rate.haart_adherent
+                p *= param.death_rate.haart_adherent
 
             else:  # HIV+ DEATH RATE
-                p = param[so].death_rate.hiv
+                p = param.death_rate.hiv
 
     # putting it into per 1 person-month from per 1000 person years
     return p / (steps_per_year * 1000.0)

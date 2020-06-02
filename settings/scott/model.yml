@@ -15,12 +15,13 @@ features:
 
 syringe_services:
   timeline:
-    ssp_off:
-      time_start: 4
-      time_stop: 60
-      num_slots_start: 0
-      num_slots_stop: 0
+    ssp_on:
+      time_start: 15
+      time_stop: 121
+      num_slots_start: 277
+      num_slots_stop: 277
       risk: 0.02
+
 
 agent_zero:
   bond_type: Inj

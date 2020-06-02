@@ -93,7 +93,10 @@ def test_get_transmission_probability(make_model, make_agent):
     p.haart_adherence = 1
 
     # test versatile-versatile relationship
-    p_needle = model.params.partnership.injection.transmission[1].prob
+    p_needle = (
+        model.params.partnership.injection.transmission.haart_scale[1].scale
+        * model.params.partnership.injection.transmission.base
+    )
     p_sex = (
         model.params.partnership.sex.haart_scaling["MSM"][1].prob
         * model.params.partnership.sex.acquisition.MSM.versatile

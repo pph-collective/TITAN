@@ -685,9 +685,7 @@ class HIVModel:
         if self.high_risk.condom_use_type == "Race":
             p_safe_sex = self.demographics[agent.race][agent.so].safe_sex
         else:
-            p_safe_sex = prob.safe_sex(
-                rel.total_sex_acts, self.params.model.time.steps_per_year
-            )
+            raise AttributeError("Only race-based condom usage currently supported")
 
         # Reduction of risk acts between partners for condom usage
         unsafe_sex_acts = total_sex_acts
@@ -735,9 +733,12 @@ class HIVModel:
         partner_sex_role = partner.sex_role
 
         if interaction == "injection":
-            p = self.params.partnership.injection.transmission[
-                agent.haart_adherence
-            ].prob
+            p = (
+                self.params.partnership.injection.transmission.base
+                * self.params.partnership.injection.transmission.haart_scale[
+                    agent.haart_adherence
+                ].scale
+            )
         else:
             # get partner's sex role during acts
             if partner_sex_role == "versatile":  # versatile partner takes
