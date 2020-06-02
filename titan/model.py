@@ -311,11 +311,11 @@ class HIVModel:
             for agent in self.pop.all_agents.members
             if len(agent.partners[bond_type]) >= self.params.agent_zero.num_partners
         ]
-        if zero_eligible:
-            agent_zero = utils.safe_random_choice(zero_eligible, self.run_random)
+        agent_zero = utils.safe_random_choice(zero_eligible, self.run_random)
+        if agent_zero:
             self.hiv_convert(agent_zero)
         else:
-            raise ValueError("No agents are eligible for agent zero!")
+            raise ValueError("No agent zero!")
 
     def update_high_risk(self, agent: Agent):
         """
@@ -679,10 +679,7 @@ class HIVModel:
         total_sex_acts = utils.poisson(mean_sex_acts, self.np_random)
 
         # Get condom usage
-        if self.high_risk.condom_use_type == "Race":
-            p_safe_sex = self.demographics[agent.race][agent.so].safe_sex
-        else:
-            raise AttributeError("Only race-based condom usage currently supported")
+        p_safe_sex = self.demographics[agent.race][agent.so].safe_sex
 
         # Reduction of risk acts between partners for condom usage
         unsafe_sex_acts = total_sex_acts
