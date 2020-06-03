@@ -1039,8 +1039,8 @@ class HIVModel:
             ):
                 diagnose(agent)
         if self.time < agent.trace_time:
-            # agents can only be traced for a specified time after their partner is
-            # diagnosed. if past this time, remove ability to trace.
+            # agents can only be traced during a specified period after their partner is
+            # diagnosed. If past this time, remove ability to trace.
             agent.partner_traced = False
 
     def update_haart(self, agent: Agent):
@@ -1086,8 +1086,8 @@ class HIVModel:
             # Go on HAART
             if not agent_haart:
                 if self.params.hiv.haart_cap:
-                    # if haart is based on cap instead of prob, determine number of
-                    # haart agents based on %
+                    # if HAART is based on cap instead of prob, determine number of
+                    # HAART agents based on % of diagnosed agents
                     if (
                         self.pop.num_haart_agents
                         < self.demographics[agent_race][agent_so].haart.prob

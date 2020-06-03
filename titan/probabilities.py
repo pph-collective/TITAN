@@ -25,7 +25,9 @@ def get_death_rate(hiv, aids, drug_use, haart_adh, param, steps_per_year):
         death_param = param.PWID.death_rate
     else:
         death_param = param.death_rate
+
     p = death_param.base
+
     if aids:
         p *= death_param.aids
     elif hiv:
