@@ -54,7 +54,7 @@ def params(tmpdir):
 
 @pytest.fixture
 def make_agent(params):
-    def _make_agent(SO="MSM", age=30, race="BLACK", DU="None", init_bond_fields=True):
+    def _make_agent(SO="MSM", age=30, race="black", DU="None", init_bond_fields=True):
         agent = Agent(SO, age, race, DU)
         if init_bond_fields:
             for bond in params.classes.bond_types:

@@ -12,7 +12,7 @@ from titan import agent
 
 @pytest.fixture
 def stats(params):
-    a = agent.Agent("MSM", 20, "BLACK", "Inj")
+    a = agent.Agent("MSM", 20, "black", "Inj")
     a.hiv = True
     a.aids = True
     a.hiv_dx = True
@@ -25,7 +25,7 @@ def stats(params):
     a.incar = True
     a.prep_reason = ["PWID", "MSMW", "HIV test"]
 
-    p = agent.Agent("MSM", 20, "BLACK", "Inj")
+    p = agent.Agent("MSM", 20, "black", "Inj")
     p.partners["Sex"] = set()
     a.partners["Sex"] = set()
     rel = agent.Relationship(a, p, 12, bond_type="Sex")
@@ -51,49 +51,49 @@ def stats(params):
 
 @pytest.mark.unit
 def test_get_stats(stats):
-    assert stats["WHITE"]["ALL"]["numAgents"] == 0
-    assert stats["BLACK"]["MSM"]["numAgents"] == 1
-    assert stats["BLACK"]["ALL"]["numAgents"] == 1
-    assert stats["BLACK"]["MSM"]["incar"] == 1
-    assert stats["BLACK"]["MSM"]["incarHIV"] == 1
-    assert stats["BLACK"]["MSM"]["newRelease"] == 1
-    assert stats["BLACK"]["MSM"]["newReleaseHIV"] == 1
-    assert stats["BLACK"]["MSM"]["inf_newInf"] == 1
-    assert stats["BLACK"]["MSM"]["inf_HRever"] == 1
-    assert stats["BLACK"]["MSM"]["inf_HR6m"] == 1
-    assert stats["BLACK"]["MSM"]["numPrEP"] == 1
-    assert stats["BLACK"]["MSM"]["iduPartPrep"] == 1
-    assert stats["BLACK"]["MSM"]["msmwPartPrep"] == 1
-    assert stats["BLACK"]["MSM"]["testedPartPrep"] == 1
-    assert stats["BLACK"]["MSM"]["newNumPrEP"] == 1
-    assert stats["BLACK"]["MSM"]["newlyTested"] == 1
-    assert stats["BLACK"]["MSM"]["newHR"] == 1
+    assert stats["white"]["ALL"]["numAgents"] == 0
+    assert stats["black"]["MSM"]["numAgents"] == 1
+    assert stats["black"]["ALL"]["numAgents"] == 1
+    assert stats["black"]["MSM"]["incar"] == 1
+    assert stats["black"]["MSM"]["incarHIV"] == 1
+    assert stats["black"]["MSM"]["newRelease"] == 1
+    assert stats["black"]["MSM"]["newReleaseHIV"] == 1
+    assert stats["black"]["MSM"]["inf_newInf"] == 1
+    assert stats["black"]["MSM"]["inf_HRever"] == 1
+    assert stats["black"]["MSM"]["inf_HR6m"] == 1
+    assert stats["black"]["MSM"]["numPrEP"] == 1
+    assert stats["black"]["MSM"]["iduPartPrep"] == 1
+    assert stats["black"]["MSM"]["msmwPartPrep"] == 1
+    assert stats["black"]["MSM"]["testedPartPrep"] == 1
+    assert stats["black"]["MSM"]["newNumPrEP"] == 1
+    assert stats["black"]["MSM"]["newlyTested"] == 1
+    assert stats["black"]["MSM"]["newHR"] == 1
     assert stats["ALL"]["MSM"]["newHR"] == 1
-    assert stats["BLACK"]["MSM"]["newHR_HIV"] == 1
-    assert stats["BLACK"]["MSM"]["newHR_AIDS"] == 1
-    assert stats["BLACK"]["MSM"]["newHR_tested"] == 1
-    assert stats["BLACK"]["MSM"]["newHR_ART"] == 1
-    assert stats["BLACK"]["MSM"]["numHIV"] == 1
-    assert stats["BLACK"]["MSM"]["numAIDS"] == 1
-    assert stats["BLACK"]["MSM"]["numTested"] == 1
-    assert stats["BLACK"]["MSM"]["numART"] == 1
-    assert stats["BLACK"]["PWID"]["numAgents"] == 1
-    assert stats["BLACK"]["PWID"]["numHIV"] == 1
-    assert stats["BLACK"]["PWID"]["numAIDS"] == 1
-    assert stats["BLACK"]["PWID"]["numTested"] == 1
-    assert stats["BLACK"]["PWID"]["numART"] == 1
-    assert stats["BLACK"]["MSM"]["deaths"] == 1
-    assert stats["BLACK"]["MSM"]["deaths_HIV"] == 1
+    assert stats["black"]["MSM"]["newHR_HIV"] == 1
+    assert stats["black"]["MSM"]["newHR_AIDS"] == 1
+    assert stats["black"]["MSM"]["newHR_tested"] == 1
+    assert stats["black"]["MSM"]["newHR_ART"] == 1
+    assert stats["black"]["MSM"]["numHIV"] == 1
+    assert stats["black"]["MSM"]["numAIDS"] == 1
+    assert stats["black"]["MSM"]["numTested"] == 1
+    assert stats["black"]["MSM"]["numART"] == 1
+    assert stats["black"]["PWID"]["numAgents"] == 1
+    assert stats["black"]["PWID"]["numHIV"] == 1
+    assert stats["black"]["PWID"]["numAIDS"] == 1
+    assert stats["black"]["PWID"]["numTested"] == 1
+    assert stats["black"]["PWID"]["numART"] == 1
+    assert stats["black"]["MSM"]["deaths"] == 1
+    assert stats["black"]["MSM"]["deaths_HIV"] == 1
     assert stats["ALL"]["ALL"]["numAgents"] == 1
-    assert stats["BLACK"]["ALL"]["numAgents"] == 1
+    assert stats["black"]["ALL"]["numAgents"] == 1
     assert stats["ALL"]["MSM"]["numAgents"] == 1
     assert stats["ALL"]["HM"]["numAgents"] == 0
     assert stats["ALL"]["PWID"]["numAgents"] == 1
-    assert stats["BLACK"]["PWID"]["numAgents"] == 1
-    assert stats["BLACK"]["PWID"]["numART"] == 1
+    assert stats["black"]["PWID"]["numAgents"] == 1
+    assert stats["black"]["PWID"]["numART"] == 1
     assert stats["ALL"]["ALL"]["numART"] == 1
     assert stats["ALL"]["PWID"]["numART"] == 1
-    assert stats["BLACK"]["ALL"]["numART"] == 1
+    assert stats["black"]["ALL"]["numART"] == 1
 
 
 @pytest.mark.unit
@@ -131,9 +131,9 @@ def test_incarReport(stats, params, tmpdir):
             assert row["run_id"] == str(run_id)
             assert row["seed"] == "1"
             assert row["ALL_MSM_tot"] == "1"
-            assert row["BLACK_MSM_HIV"] == "1"
+            assert row["black_MSM_HIV"] == "1"
             assert row["ALL_HM_rlsd"] == "0"
-            assert row["WHITE_MSM_rlsdHIV"] == "0"
+            assert row["white_MSM_rlsdHIV"] == "0"
 
 
 @pytest.mark.unit
@@ -182,7 +182,7 @@ def test_basicReport(stats, params, tmpdir):
 
     basicReport(run_id, 0, 1, 2, stats, params, tmpdir)
 
-    result_file = os.path.join(tmpdir, "basicReport_MSM_BLACK.txt")
+    result_file = os.path.join(tmpdir, "basicReport_MSM_black.txt")
     assert os.path.isfile(result_file)
     with open(result_file, newline="") as f:
         reader = csv.DictReader(f, delimiter="\t")
@@ -196,7 +196,7 @@ def test_basicReport(stats, params, tmpdir):
             assert row["PrEP"] == "1"
             assert row["Deaths"] == "1"
 
-    result_file = os.path.join(tmpdir, "basicReport_HM_WHITE.txt")
+    result_file = os.path.join(tmpdir, "basicReport_HM_white.txt")
     assert os.path.isfile(result_file)
     with open(result_file, newline="") as f:
         reader = csv.DictReader(f, delimiter="\t")

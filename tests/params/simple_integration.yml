@@ -1,6 +1,7 @@
 classes:
   races:
-    - BLACK
+    black:
+      hispanic: false
   sex_types:
     MSM:
       gender: M
@@ -9,7 +10,7 @@ classes:
         - MSM
 
 demographics:
-  BLACK:
+  black:
     ppl: 1.0
     MSM:
       ppl: 1.0
@@ -46,8 +47,8 @@ demographics:
       vaccine:
         init: 0.1
         prob: 0.1
-        booser:
-          internval: 12
+        booster:
+          interval: 12
           prob: 0.1
       num_partners:
         Sex:
@@ -109,7 +110,7 @@ demographics:
           var_2: 1
         SexInj:
           dist_type: poisson
-          var_1: 6
+          var_1: 2
           var_2: 1
         Social:
           dist_type: poisson
@@ -184,7 +185,6 @@ outputs:
 features:
   prep: true
   haart: true
-  bond_type: true
   syringe_services: false
   static_network: false
   incar: false

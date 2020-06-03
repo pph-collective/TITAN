@@ -84,6 +84,8 @@ class Population:
                     self.drug_weights[race][st]["values"].append(use_type)
                     self.drug_weights[race][st]["weights"].append(prob.init)
 
+        self.num_haart_agents = 0
+        self.num_dx_agents = 0
         print("\tBuilding class sets")
 
         # All agent set list
@@ -175,7 +177,7 @@ class Population:
         :Purpose:
             Return a new agent according to population characteristics
         :Input:
-            race : "BLACK" or "WHITE"
+            race : string
             sex_type : default "NULL"
         :Output:
              agent : Agent
@@ -230,10 +232,12 @@ class Population:
 
             if self.pop_random.random() < agent_params.hiv.dx.init:
                 agent.hiv_dx = True
+                self.num_dx_agents += 1
 
                 if self.pop_random.random() < agent_params.haart.init:
                     agent.haart = True
                     agent.intervention_ever = True
+                    self.num_haart_agents += 1
 
                     haart_adh = self.demographics[race][sex_type].haart.adherence
                     if self.pop_random.random() < haart_adh:
@@ -360,6 +364,11 @@ class Population:
 
         if agent.prep:
             self.prep_counts[agent.race] -= 1
+
+        if agent.hiv_dx:
+            self.num_dx_agents -= 1
+            if agent.haart:
+                self.num_haart_agents -= 1
 
         if self.enable_graph:
             self.graph.remove_node(agent)

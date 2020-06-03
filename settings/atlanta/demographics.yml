@@ -1,5 +1,5 @@
 demographics:
-  BLACK:
+  black:
     hiv:
       transmission: 3.75
     ppl: 0.389
@@ -37,7 +37,7 @@ demographics:
         discontinue: 0.10
         adherence: 0.568
         coverage: 0.258
-  WHITE:
+  white:
     ppl: 0.611
     MSM:
       sex_role:
@@ -92,3 +92,16 @@ classes:
       sleeps_with:
         - MSM
   populations: []
+assort_mix:
+  assort_black:
+    attribute: race
+    agent_value: black
+    partner_values:
+      black: .765
+      __other__: .278
+  assort_white:
+    attribute: race
+    agent_value: white
+    partner_values:
+      white: .722
+      __other__: .278

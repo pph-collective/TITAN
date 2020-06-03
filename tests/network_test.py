@@ -80,4 +80,4 @@ def test_get_network_color(params):
 
     colors = net_util.get_network_color("race")
     assert len(colors) == n_pop
-    assert "b" in colors  # pop includes BLACK
+    assert "b" in colors  # pop includes black

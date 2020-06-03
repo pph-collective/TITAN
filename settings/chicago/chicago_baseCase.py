@@ -81,7 +81,7 @@ params.calibration.incarceration = (
     1.0  # Scaling factor for probability of becoming incarcerated
 )
 params.demographics[
-    "BLACK"
+    "black"
 ].transmission = (
     1.0  # Scaling factor for increased STI transmission P comparing race1/race2
 )
@@ -418,7 +418,7 @@ RaceClass2["ALL"].update(
     }
 )
 
-params.demographics = {"WHITE": RaceClass1, "BLACK": RaceClass2}
+params.demographics = {"white": RaceClass1, "black": RaceClass2}
 
 """
 Partnership durations and
@@ -563,8 +563,8 @@ TransmissionProbabilities: Dict[str, Any] = {
 """
 Age bin distributions and HIV if utilized
 """
-ageMatrix: Dict[str, Any] = {"WHITE": {}, "BLACK": {}}
-ageMatrix["WHITE"] = {
+ageMatrix: Dict[str, Any] = {"white": {}, "black": {}}
+ageMatrix["white"] = {
     "Prop": {
         0: 0.0,
         1: 0.085,
@@ -575,7 +575,7 @@ ageMatrix["WHITE"] = {
     },
     "HIV": {0: 0.0, 1: 0.006, 2: 0.029, 3: 0.055, 4: 0.069, 5: 0.025},
 }
-ageMatrix["BLACK"] = {
+ageMatrix["black"] = {
     "Prop": {
         0: 0.0,
         1: 0.105,

@@ -304,15 +304,17 @@ class HIVModel:
             self.die_and_replace()
 
     def make_agent_zero(self):
-        agent_zero = utils.safe_random_choice(
-            self.pop.pwid_agents.members, self.run_random
-        )
+        bond_type = self.params.agent_zero.bond_type
+        zero_eligible = [
+            agent
+            for agent in self.pop.all_agents.members
+            if len(agent.partners[bond_type]) >= self.params.agent_zero.num_partners
+        ]
+        agent_zero = utils.safe_random_choice(zero_eligible, self.run_random)
         if agent_zero:
-            for i in range(self.params.agent_zero.num_partners):
-                self.pop.update_agent_partners(agent_zero, self.params.agent_zero.type)
             self.hiv_convert(agent_zero)
         else:
-            raise ValueError("Must have PWID agents to make an agent zero")
+            raise ValueError("No agent zero!")
 
     def update_high_risk(self, agent: Agent):
         """
@@ -676,12 +678,7 @@ class HIVModel:
         total_sex_acts = utils.poisson(mean_sex_acts, self.np_random)
 
         # Get condom usage
-        if self.high_risk.condom_use_type == "Race":
-            p_safe_sex = self.demographics[agent.race][agent.so].safe_sex
-        else:
-            p_safe_sex = prob.safe_sex(
-                rel.total_sex_acts, self.params.model.time.steps_per_year
-            )
+        p_safe_sex = self.demographics[agent.race][agent.so].safe_sex
 
         # Reduction of risk acts between partners for condom usage
         unsafe_sex_acts = total_sex_acts
@@ -720,19 +717,21 @@ class HIVModel:
         """
         # Logic for if needle or sex type interaction
         p: float
-        assert interaction in (
-            "injection",
-            "sex",
-        ), f"Invalid interaction type {interaction}"
+        assert interaction in ("injection", "sex",), (
+            f"Invalid interaction type {interaction}. Only sex and injection acts "
+            f"supported. "
+        )
 
         agent_sex_role = agent.sex_role
         partner_sex_role = partner.sex_role
 
         if interaction == "injection":
-            p = self.params.partnership.injection.transmission[
-                agent.haart_adherence
-            ].prob
-        else:
+            p = self.params.partnership.injection.transmission.base
+            if agent.haart:
+                p *= self.params.partnership.injection.transmission.haart_scaling[
+                    agent.haart_adherence
+                ].scale
+        elif interaction == "sex":
             # get partner's sex role during acts
             if partner_sex_role == "versatile":  # versatile partner takes
                 # "opposite" position of agent
@@ -744,12 +743,14 @@ class HIVModel:
                     partner_sex_role = "versatile"  # if both versatile, can switch
                     # between receptive and insertive by act
             # get probability of sex acquisition given HIV- partner's position
+
             p = self.params.partnership.sex.acquisition[partner.so][partner_sex_role]
 
-        # scale based on HIV+ agent's haart status/adherence
-        p *= self.params.partnership.sex.haart_scaling[agent.so][
-            agent.haart_adherence
-        ].prob
+            # scale based on HIV+ agent's haart status/adherence
+            if agent.haart:
+                p *= self.params.partnership.sex.haart_scaling[agent.so][
+                    agent.haart_adherence
+                ].prob
 
         # Scale if partner on PrEP
         if partner.prep:
@@ -993,14 +994,18 @@ class HIVModel:
         """
         sex_type = agent.so
         race_type = agent.race
-        tested = agent.hiv_dx
+        diagnosed = agent.hiv_dx
 
         def diagnose(agent):
             agent.hiv_dx = True
+            self.pop.num_dx_agents += 1
             self.new_dx.add_agent(agent)
             if (
                 self.features.partner_tracing
-            ):  # TODO fix this logic; should get partnerTraced and then lose it after
+                and self.params.partner_tracing.start
+                <= self.time
+                < self.params.partner_tracing.stop
+            ):
                 # For each partner, determine if found by partner testing
                 for bond in self.params.partner_tracing.bond_type:
                     for ptnr in agent.partners.get(bond, []):
@@ -1011,9 +1016,9 @@ class HIVModel:
                             < self.params.partner_tracing.prob
                         ):
                             ptnr.partner_traced = True
-                            ptnr.trace_time = self.time + 1
+                            ptnr.trace_time = self.time
 
-        if not tested:
+        if not diagnosed:
             test_prob = self.demographics[race_type][sex_type].hiv.dx.prob
 
             # Rescale based on calibration param
@@ -1028,11 +1033,13 @@ class HIVModel:
             elif (
                 agent.partner_traced
                 and self.run_random.random() < self.params.partner_tracing.hiv.dx
-                and agent.trace_time == self.time
+                and self.time > agent.trace_time
             ):
                 diagnose(agent)
-
-        agent.partner_traced = False
+        if self.time >= agent.trace_time + self.params.partner_tracing.trace_time:
+            # agents can only be traced during a specified period after their partner is
+            # diagnosed. If past this time, remove ability to trace.
+            agent.partner_traced = False
 
     def update_haart(self, agent: Agent):
         """
@@ -1051,6 +1058,20 @@ class HIVModel:
         if not self.features.haart:
             return None
 
+        def initiate(agent):
+            haart_adh = self.demographics[agent_race][agent_so].haart.adherence
+            if self.run_random.random() < haart_adh:
+                adherence = 5
+            else:
+                adherence = self.run_random.randint(1, 4)
+
+            # Add agent to HAART class set, update agent params
+            agent.haart = True
+            agent.intervention_ever = True
+            agent.haart_adherence = adherence
+            agent.haart_time = self.time
+            self.pop.num_haart_agents += 1
+
         # Check valid input
         assert agent.hiv
 
@@ -1061,24 +1082,22 @@ class HIVModel:
         # Determine probability of HIV treatment
         if agent.hiv_dx:
             # Go on HAART
-            if not agent_haart and agent.haart_time == 0:
-                if self.run_random.random() < (
-                    self.demographics[agent_race][agent_so].haart.prob
-                    * self.calibration.haart.coverage
-                ):
-
-                    haart_adh = self.demographics[agent_race][agent_so].haart.adherence
-                    if self.run_random.random() < haart_adh:
-                        adherence = 5
-                    else:
-                        adherence = self.run_random.randint(1, 4)
-
-                    # Add agent to HAART class set, update agent params
-                    agent.haart = True
-                    agent.intervention_ever = True
-                    agent.haart_adherence = adherence
-                    agent.haart_time = self.time
-
+            if not agent_haart:
+                if self.params.hiv.haart_cap:
+                    # if HAART is based on cap instead of prob, determine number of
+                    # HAART agents based on % of diagnosed agents
+                    if (
+                        self.pop.num_haart_agents
+                        < self.demographics[agent_race][agent_so].haart.prob
+                        * self.pop.num_dx_agents
+                    ):
+                        initiate(agent)
+                else:
+                    if self.run_random.random() < (
+                        self.demographics[agent_race][agent_so].haart.prob
+                        * self.calibration.haart.coverage
+                    ):
+                        initiate(agent)
             # Go off HAART
             elif (
                 agent_haart
@@ -1088,6 +1107,7 @@ class HIVModel:
                 agent.haart = False
                 agent.haart_adherence = 0
                 agent.haart_time = 0
+                self.pop.num_haart_agents -= 1
 
     def discontinue_prep(self, agent: Agent, force: bool = False):
         # Agent must be on PrEP to discontinue PrEP
@@ -1255,9 +1275,9 @@ class HIVModel:
                 prob.get_death_rate(
                     agent.hiv,
                     agent.aids,
-                    agent.race,
+                    agent.drug_use,
                     agent.haart_adherence,
-                    self.demographics[agent.race].death_rate,
+                    self.demographics[agent.race],
                     self.params.model.time.steps_per_year,
                 )
                 * self.calibration.mortality

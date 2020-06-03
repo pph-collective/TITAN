@@ -323,10 +323,14 @@ demographics:
         type: float
         description: Death rate by race per 1000 person years in base case
       hiv:
-        default: 20.8
+        default: 2.
         type: float
-        description: Death rate by race per 1000 person years if hiv+ (but no aids)
+        description: Scalar for death rate for agents with hiv, not aids, and not haart adherent. Scales from base.
       aids:
-        default: 41.6
+        default: 4.
         type: float
-        description: Death rate by race per 1000 person years if aids
+        description: Scalar for death rate for agents with aids. Scales from base.
+      haart_adherent:
+        default: 1.0
+        type: float
+        description: Scalar for death rate for those fully adherent on haart. Scales from base.

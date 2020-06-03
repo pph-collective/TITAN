@@ -36,3 +36,7 @@ hiv:
     description: On creation, agents are randomly assigned an hiv_time, this is the maximum time
     type: int
     min: 2
+  haart_cap:
+    default: false
+    description: Whether "prob" defined in demographics.race.so.haart is a percent of diagnosed, HIV+ agents instead of a per-time-step probability for HAART coverage
+    type: boolean

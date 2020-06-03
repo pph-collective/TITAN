@@ -10,13 +10,6 @@ high_risk:
     type: float
     min: 0
     max: 1
-  condom_use_type:
-    default: Race
-    description: "Which type of factor to use when determining condom usage"
-    type: enum
-    values:
-      - Race
-      - Acts
   sex_based:
     type: sub-dict
     description: Duration of high risk for each sex_type

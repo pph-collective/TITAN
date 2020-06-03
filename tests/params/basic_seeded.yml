@@ -1,5 +1,5 @@
 demographics:
-  BLACK:
+  black:
     ppl: 0.6
     MSM:
       ppl: 0.3
@@ -53,7 +53,7 @@ demographics:
         init: 0.1
         prob: 0.1
         booster:
-          internval: 12
+          interval: 12
           prob: 0.1
     HM:
       ppl: 0.3
@@ -107,7 +107,7 @@ demographics:
         init: 0.1
         prob: 0.1
         booster:
-          internval: 12
+          interval: 12
           prob: 0.1
     HF:
       ppl: 0.2
@@ -161,7 +161,7 @@ demographics:
         init: 0.1
         prob: 0.1
         booster:
-          internval: 12
+          interval: 12
           prob: 0.1
     WSW:
       ppl: 0.1
@@ -215,7 +215,7 @@ demographics:
         init: 0.1
         prob: 0.1
         booster:
-          internval: 12
+          interval: 12
           prob: 0.1
     MTF:
       ppl: 0.1
@@ -269,7 +269,7 @@ demographics:
         init: 0.1
         prob: 0.1
         booster:
-          internval: 12
+          interval: 12
           prob: 0.1
     PWID:
       ppl: 0.2
@@ -318,9 +318,9 @@ demographics:
         init: 0.1
         prob: 0.1
         booster:
-          internval: 12
+          interval: 12
           prob: 0.1
-  WHITE:
+  white:
     ppl: 0.4
     MSM:
       ppl: 0.3
@@ -428,7 +428,7 @@ demographics:
         init: 0.1
         prob: 0.1
         booster:
-          internval: 12
+          interval: 12
           prob: 0.1
     HF:
       ppl: 0.2
@@ -482,7 +482,7 @@ demographics:
         init: 0.1
         prob: 0.1
         booster:
-          internval: 12
+          interval: 12
           prob: 0.1
     WSW:
       ppl: 0.1
@@ -536,7 +536,7 @@ demographics:
         init: 0.1
         prob: 0.1
         booster:
-          internval: 12
+          interval: 12
           prob: 0.1
     MTF:
       ppl: 0.1
@@ -590,7 +590,7 @@ demographics:
         init: 0.1
         prob: 0.1
         booster:
-          internval: 12
+          interval: 12
           prob: 0.1
     PWID:
       ppl: 0.3
@@ -642,7 +642,7 @@ demographics:
         init: 0.1
         prob: 0.1
         booster:
-          internval: 12
+          interval: 12
           prob: 0.1
 
 partnership:
@@ -671,6 +671,9 @@ partnership:
         min: 1
         max: 1
 
+agent_zero:
+  bond_type: Inj
+  num_partners: 2
 features:
   incar: true
   prep: true

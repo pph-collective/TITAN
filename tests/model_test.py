@@ -33,17 +33,33 @@ def test_model_init(params):
     assert model.new_high_risk.num_members() == 0
 
 
-@pytest.mark.skip("too parameter dependent to test at this point")
 @pytest.mark.unit
-def test_update_AllAgents():
-    pass
+def test_update_AllAgents(make_model, make_agent):
+    # make agent 0
+    model = make_model()
+    assert model.params.agent_zero.bond_type == "Inj"
+    a = make_agent(race="white", DU="Inj")
+    p = make_agent(race="white", DU="Inj")
+    # make sure at least 1 relationship is compatible with agent 0 type
+    Relationship(a, p, 10, bond_type="Inj")
+    model.time = 1
+    # update all agents passes with agent 0
+    model.update_all_agents()
+
+    # remove all bonds compatible with agent 0. agent 0 fails
+    for rel in copy(model.pop.relationships):
+        if rel.bond_type == "Inj":
+            rel.unbond()
+    with pytest.raises(ValueError) as excinfo:
+        model.update_all_agents()
+    assert "No agent zero!" in str(excinfo)
 
 
 @pytest.mark.unit
 def test_agents_interact(make_model, make_agent):
     model = make_model()
-    a = make_agent(race="WHITE", SO="HM")
-    p = make_agent(race="WHITE", SO="HF")
+    a = make_agent(race="white", SO="HM")
+    p = make_agent(race="white", SO="HF")
     a.partners["Sex"] = set()
     p.partners["Sex"] = set()
     rel = Relationship(a, p, 10, bond_type="Sex")
@@ -84,16 +100,19 @@ def test_agents_interact(make_model, make_agent):
 @pytest.mark.unit
 def test_get_transmission_probability(make_model, make_agent):
     model = make_model()
-    a = make_agent(race="WHITE", SO="MSM")
+    a = make_agent(race="white", SO="MSM")
     a.haart_adherence = 1
     a.sex_role = "versatile"
 
-    p = make_agent(race="WHITE", SO="MSM")
+    p = make_agent(race="white", SO="MSM")
     p.sex_role = "versatile"
     p.haart_adherence = 1
 
     # test versatile-versatile relationship
-    p_needle = model.params.partnership.injection.transmission[1].prob
+    p_needle = (
+        model.params.partnership.injection.transmission.haart_scaling[1].scale
+        * model.params.partnership.injection.transmission.base
+    )
     p_sex = (
         model.params.partnership.sex.haart_scaling["MSM"][1].prob
         * model.params.partnership.sex.acquisition.MSM.versatile
@@ -121,8 +140,8 @@ def test_get_transmission_probability(make_model, make_agent):
 @pytest.mark.unit
 def test_needle_transmission(make_model, make_agent):
     model = make_model()
-    a = make_agent(race="WHITE", DU="Inj", SO="HM")
-    p = make_agent(race="WHITE", DU="Inj", SO="HF")
+    a = make_agent(race="white", DU="Inj", SO="HM")
+    p = make_agent(race="white", DU="Inj", SO="HF")
 
     with pytest.raises(AssertionError):
         model.injection_transmission(a, p)
@@ -260,6 +279,9 @@ def test_become_high_risk(make_model, make_agent):
     assert a.high_risk_ever
     assert a.high_risk_time == 10
 
+    model.params.features.high_risk = False
+    assert not model.become_high_risk(a, 10)
+
 
 @pytest.mark.unit
 def test_update_high_risk(make_model, make_agent):
@@ -288,10 +310,24 @@ def test_update_high_risk(make_model, make_agent):
 
 
 @pytest.mark.unit
+def test_incarcerate_not_hiv(make_model, make_agent):
+    model = make_model()
+    a = make_agent(SO="HM", race="white")
+    p = make_agent(SO="HF", race="white")
+    rel = Relationship(a, p, 10, "Sex")
+    model.prep.target = 1.0
+    model.prep.target_model = "Incar"
+    model.params.demographics.white.HM.incar.prob = 1.0
+
+    model.incarcerate(a)
+    assert p.prep
+
+
+@pytest.mark.unit
 def test_incarcerate_diagnosed(make_model, make_agent):
     model = make_model()
     model.time = 10
-    a = make_agent(SO="HM", race="WHITE")  # incarceration only for HM and HF?
+    a = make_agent(SO="HM", race="white")  # incarceration only for HM and HF?
     a.hiv = True
     a.hiv_dx = True
     a.partners["Sex"] = set()
@@ -310,7 +346,7 @@ def test_incarcerate_diagnosed(make_model, make_agent):
 @pytest.mark.unit
 def test_incarcerate_not_diagnosed(make_model, make_agent):
     model = make_model()
-    a = make_agent(SO="HM", race="WHITE")  # incarceration only for HM and HF?
+    a = make_agent(SO="HM", race="white")  # incarceration only for HM and HF?
     a.hiv = True
     a.partners["Sex"] = set()
 
@@ -358,19 +394,38 @@ def test_incarcerate_unincarcerate(make_model, make_agent):
 @pytest.mark.unit
 def test_diagnose_hiv(make_model, make_agent):
     model = make_model()
+    model.params.partner_tracing.prob = 1.0
+    model.time = 1
     a = make_agent()
+    p = make_agent()
+    p.hiv = True
+    a.partners["Sex"].add(p)
 
     model.run_random = FakeRandom(1.1)  # always greater than param
     model.diagnose_hiv(a)
 
     assert a.hiv_dx is False
     assert a not in model.new_dx.members
+    assert p.hiv_dx is False
+    assert p not in model.new_dx.members
+    assert not p.partner_traced
 
     model.run_random = FakeRandom(-0.1)  # always less than param
     model.diagnose_hiv(a)
 
     assert a.hiv_dx
     assert a in model.new_dx.members
+    assert p.partner_traced
+    assert p.trace_time == model.time
+
+    assert p.hiv_dx is False
+    assert p not in model.new_dx.members
+    model.params.demographics[p.race][p.so].hiv.dx.prob = 0
+
+    model.time = p.partner_traced + 1
+    model.diagnose_hiv(p)
+    assert p.hiv_dx
+    assert p.partner_traced is False
 
 
 @pytest.mark.unit
@@ -391,7 +446,7 @@ def test_diagnose_hiv_already_tested(make_model, make_agent):
 def test_update_haart_t1(make_model, make_agent):
     model = make_model()
     model.time = 1
-    a = make_agent(race="WHITE")
+    a = make_agent(race="white")
 
     a.hiv = True
 
@@ -462,7 +517,7 @@ def test_discontinue_prep_decrement_time(make_model, make_agent):
 @pytest.mark.unit
 def test_discontinue_prep_decrement_end(make_model, make_agent):
     model = make_model()
-    a = make_agent(race="WHITE")
+    a = make_agent(race="white")
 
     model.run_random = FakeRandom(-0.1)
 
@@ -685,13 +740,13 @@ def test_die_and_replace_all(make_model):
     old_ids = [a.id for a in baseline_pop]
 
     num_hm = len([x for x in baseline_pop if x.so == "HM"])
-    num_white = len([x for x in baseline_pop if x.race == "WHITE"])
+    num_white = len([x for x in baseline_pop if x.race == "white"])
 
     model.die_and_replace()
 
     assert num_hm == len([x for x in model.pop.all_agents.members if x.so == "HM"])
     assert num_white == len(
-        [x for x in model.pop.all_agents.members if x.race == "WHITE"]
+        [x for x in model.pop.all_agents.members if x.race == "white"]
     )
 
     new_ids = [a.id for a in model.pop.all_agents.members]
