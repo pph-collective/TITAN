@@ -416,12 +416,13 @@ def test_diagnose_hiv(make_model, make_agent):
     assert a.hiv_dx
     assert a in model.new_dx.members
     assert p.partner_traced
-    assert p.trace_time == model.time + 1
+    assert p.trace_time == model.time
 
     assert p.hiv_dx is False
     assert p not in model.new_dx.members
     model.params.demographics[p.race][p.so].hiv.dx.prob = 0
 
+    model.time = p.partner_traced + 1
     model.diagnose_hiv(p)
     assert p.hiv_dx
     assert p.partner_traced is False
