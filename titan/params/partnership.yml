@@ -108,7 +108,7 @@ partnership:
         min: 0.0
         max: 1.0
         default: 0.007
-      haart_scale:
+      haart_scaling:
         type: bin
         description: Scale on base hiv transmission given haart adherence
         fields:

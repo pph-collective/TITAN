@@ -728,7 +728,7 @@ class HIVModel:
         if interaction == "injection":
             p = self.params.partnership.injection.transmission.base
             if agent.haart:
-                p *= self.params.partnership.injection.transmission.haart_scale[
+                p *= self.params.partnership.injection.transmission.haart_scaling[
                     agent.haart_adherence
                 ].scale
         elif interaction == "sex":
