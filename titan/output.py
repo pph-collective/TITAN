@@ -403,9 +403,8 @@ def print_components(
     if f.tell() == 0:
         f.write(
             "run_id\trunseed\tpopseed\tt\tcompID\ttotalN\tNhiv\tNprep\tNtrtHIV"
-            "\tTrtComponent\tPCA\tOral\tInjectable\tAware\tnidu\tcentrality\tDensity\tEffectiveSize"
-            + header
-            + "\n"
+            "\tTrtComponent\tPCA\tOral\tInjectable\tAware\tnidu\tcentrality\tDensity"
+            "\tEffectiveSize" + header + "\n"
         )
 
     comp_id = 0

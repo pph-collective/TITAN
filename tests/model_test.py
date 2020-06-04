@@ -1,7 +1,8 @@
 import pytest
 
-from copy import copy
+from copy import copy, deepcopy
 import os
+import math
 
 from titan.model import *
 from titan.agent import Agent, Relationship
@@ -781,3 +782,55 @@ def test_die_and_replace_incar(make_model):
     assert agent_id in old_ids
     assert agent_id not in death_ids
     assert agent_id in new_ids
+
+
+@pytest.mark.unit
+def test_timeline_scaling_default_def(make_model):
+    model = make_model()
+    original_params = deepcopy(model.params.__getstate__())
+    model.time = 1
+    model.timeline_scaling()
+
+    assert original_params == model.params.__getstate__()
+
+
+@pytest.mark.unit
+def test_timeline_scaling_prep_def(make_model):
+    model = make_model()
+    scalar = 0.5
+    model.params.timeline_scaling.timeline = ObjMap(
+        {"prep|discontinue": {"time_start": 1, "time_stop": 3, "scalar": scalar}}
+    )
+    original_prep_discontinue = model.params.prep.discontinue
+
+    # scale the param
+    model.time = 1
+    model.timeline_scaling()
+
+    assert math.isclose(
+        original_prep_discontinue * scalar, model.params.prep.discontinue, abs_tol=0.001
+    )
+
+    # param still scaled
+    model.time = 2
+    model.timeline_scaling()
+
+    assert math.isclose(
+        original_prep_discontinue * scalar, model.params.prep.discontinue, abs_tol=0.001
+    )
+
+    # revert to original
+    model.time = 3
+    model.timeline_scaling()
+
+    assert math.isclose(
+        original_prep_discontinue, model.params.prep.discontinue, abs_tol=0.001
+    )
+
+    # still original
+    model.time = 4
+    model.timeline_scaling()
+
+    assert math.isclose(
+        original_prep_discontinue, model.params.prep.discontinue, abs_tol=0.001
+    )

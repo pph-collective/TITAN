@@ -760,6 +760,7 @@ features:
   partner_tracing: true
   msmw: true
   syringe_services: true
+  timeline_scaling: true
 
 model:
   num_pop: 100
