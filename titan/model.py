@@ -8,7 +8,6 @@ import numpy as np  # type: ignore
 import networkx as nx  # type: ignore
 import nanoid  # type: ignore
 
-
 from .agent import AgentSet, Agent, Relationship
 from .population import Population
 from .network import NetworkGraphUtils

@@ -39,6 +39,7 @@ def select_partner(
         partner_type = utils.safe_random_choice(
             partner_types, rand_gen, weights=partner_weights
         )
+        attribute = assort_params.attribute
 
         if partner_type == "__other__":
             # remove all the specified (not selected) values and remove those
@@ -48,13 +49,13 @@ def select_partner(
                     eligible_partners = {
                         partner
                         for partner in eligible_partners
-                        if str(getattr(partner, assort_params.attribute)) != p
+                        if str(getattr(partner, attribute)) != p
                     }
         else:
             eligible_partners = {
                 partner
                 for partner in eligible_partners
-                if str(getattr(partner, assort_params.attribute)) == partner_type
+                if str(getattr(partner, attribute)) == partner_type
             }
 
         return eligible_partners
