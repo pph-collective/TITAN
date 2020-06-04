@@ -1,0 +1,30 @@
+high_risk:
+  partner_scale:
+    default: 300
+    description: Linear increase to partner number during high risk period
+    type: int
+    min: 0
+  prob:
+    default: 0.3
+    description: Probability an agent whose partner is incarcerated enters high risk group
+    type: float
+    min: 0
+    max: 1
+  sex_based:
+    type: sub-dict
+    description: Duration of high risk for each sex_type
+    keys:
+      - sex_types
+    default:
+      duration:
+        default: 6
+        description: Number of time steps an agent of this sex type is high risk
+        type: int
+        min: 0
+  partnership_types:
+    type: array
+    description: "What type of partnerships to scale with high risk"
+    class: bond_types
+    default:
+      - Sex
+

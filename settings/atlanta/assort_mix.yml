@@ -1,0 +1,26 @@
+assort_mix:
+  assort_white:
+    attribute: race
+    agent_value: white
+    partner_values:
+      white: 0.722
+      __other__: 0.278
+  assort_black:
+    attribute: race
+    agent_value: black
+    partner_values:
+      black: 0.765
+      __other__: 0.235
+  assort_receptive:
+    attribute: sex_role
+    agent_value: receptive
+    partner_values:
+      receptive: 0.00
+      __other__: 1.00
+  assort_insertive:
+    attribute: sex_role
+    agent_value: insertive
+    partner_values:
+      insertive: 0.0
+      __other__: 1.00
+

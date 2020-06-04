@@ -1,31 +1,10 @@
 import pytest
-import numpy as np
+import os
 
 import titan.probabilities as probs
 
 
-class FakeRandom:
-    def __init__(self, num: float):
-        self.num = num
-
-    def random(self):
-        return self.num
-
-    def randrange(self, start, stop, step=1):
-        return start
-
-    def randint(self, start, stop):
-        return start
-
-
-def test_safe_sex():
-    # initiate result dict with 2 time steps
-    assert probs.safe_sex(0) == 0.443
-    assert probs.safe_sex(1) == 0.481
-    assert probs.safe_sex(5) == 0.514
-    assert probs.safe_sex(100) == 0.759
-
-
+@pytest.mark.unit
 def test_adherence_prob():
     # initiate result dict with 2 time steps
     assert probs.adherence_prob(1) == 0.0051
@@ -36,15 +15,21 @@ def test_adherence_prob():
     assert probs.adherence_prob(6) == 0.0051
 
 
-def test_get_death_rate():
+@pytest.mark.unit
+def test_get_death_rate(params):
     for hiv in [True, False]:
         for aids in [True, False]:
-            for race in ["WHITE", "BLACK"]:
-                for adh in [0, 1]:
-                    assert probs.get_death_rate(hiv, aids, race, adh) > 0
-
-
-def test_get_mean_num_partners():
-    for du in ["IDU", "NIDU"]:
-        for i in np.arange(0, 1, 0.01):
-            assert probs.get_mean_num_partners(du, FakeRandom(i)) > 0
+            for race in ["white", "black"]:
+                for drug_use in ["None", "Inj"]:
+                    for adh in [0, 5]:
+                        assert (
+                            probs.get_death_rate(
+                                hiv,
+                                aids,
+                                drug_use,
+                                adh,
+                                params.demographics[race],
+                                params.model.time.steps_per_year,
+                            )
+                            > 0
+                        )

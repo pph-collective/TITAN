@@ -1,0 +1,19 @@
+assort_mix:
+  description: "Assortative mixing definitions, the key must be an attribute of the Agent class."
+  type: definition
+  fields:
+    attribute:
+      description: "Which Agent attribute to assort on"
+      type: none
+    agent_value:
+      description: "Value of agent's attribute which triggers using this rule"
+      type: none
+    partner_values:
+      description: "Which partners to select if assortative mixing happens. Expects a sub-key of an attribute value with a value of the probability. `__other__` can be used as an attribute value as a fallthrough option.  All of the probabilities should add to one."
+      type: none
+  default:
+    assort_null:
+      attribute: race
+      agent_value: None
+      partner_values:
+        None: 1.0

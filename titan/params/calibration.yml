@@ -1,0 +1,68 @@
+calibration:
+  injection:
+    act:
+      default: 1.0
+      description: Scales number of injection acts during syringe-based transmission
+      type: float
+      min: 0
+  sex:
+    act:
+      default: 1.0
+      description: Scales number of sex acts during sex trasmission
+      type: float
+      min: 0
+    partner:
+      default: 1.0
+      description: Scales probability of partner acquisition
+      type: float
+      min: 0
+  acquisition:
+    default: 1.0
+    description: Scales probability of acquisition
+    type: float
+    min: 0.0
+  test_frequency:
+    default: 1.0
+    description: Scaling factor for testing frequency
+    type: float
+    min: 0
+  mortality:
+    default: 1.0
+    description: Scaling factor for all cause mortality rates
+    type: float
+    min: 0
+  incarceration:
+    default: 1.0
+    description: Scaling factor for probability of becoming incarcerated
+    type: float
+    min: 0
+  partnership:
+    buffer:
+      default: 1.0
+      description: Scaling factor for number of partners able to take on when other agents are looking to partner
+      type: float
+      min: 1.0
+    break_point:
+      default: 3
+      type: int
+      description: How many failed attempts an agent can have at partnering in a given round before removing them from the eligible pool
+      min: 0
+  haart:
+    transmission:
+      default: 1.0
+      description: Scaling factor for effictiveness of ART therapy on transmission probability
+      type: float
+      min: 0.0
+    coverage:
+      default: 1.0
+      description: Scaling factor for enrollment on ART probability
+      type: float
+      min: 0.0
+  network:
+    trim:
+      prob:
+        default: 0.1
+        description: Probability an agent's relationships will be trimmed if using max_k_comp_size for network initialization
+        type: float
+        min: 0
+        max: 1

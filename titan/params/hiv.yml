@@ -1,0 +1,42 @@
+hiv:
+  dx:
+    risk_reduction:
+      sex:
+        default: 0
+        description: risk redection in sex transmission probability for diagnosed agents
+        type: float
+        min: 0
+        max: 1
+      injection:
+        default: 0
+        description: risk reduction in sex transmission probability for diagnosed agents
+        type: float
+        min: 0
+        max: 1
+  acute:
+    infectivity:
+      default: 4.3
+      description: Infectivity multiplier ratio for acute status infections
+      type: float
+      min: 0
+    duration:
+      default: 2
+      description: Number of time steps an agent is in acute status
+      type: int
+      min: 0
+  aids:
+    prob:
+      default: 0.0
+      description: Probability of an agent with hiv progressing to aids at a given time step (scaled by haart adherence)
+      type: float
+      min: 0
+      max: 1
+  max_init_time:
+    default: 42
+    description: On creation, agents are randomly assigned an hiv_time, this is the maximum time
+    type: int
+    min: 2
+  haart_cap:
+    default: false
+    description: Whether "prob" defined in demographics.race.so.haart is a percent of diagnosed, HIV+ agents instead of a per-time-step probability for HAART coverage
+    type: boolean

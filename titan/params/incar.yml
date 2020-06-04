@@ -1,0 +1,32 @@
+incar:
+  hiv:
+    dx:
+      default: 0.69
+      description: Probability an agent with HIV who is incarcerated gets diagnosed while in prison
+      type: float
+      min: 0
+      max: 1
+    multiplier:
+      default: 5.0
+      description: How many times more likely is an agent with HIV to become incarcerated
+      type: float
+      min: 0
+  haart:
+    prob:
+      default: 0.51
+      description: Probability an agent who is incarcerated is enrolled in haart
+      type: float
+      min: 0
+      max: 1
+    adherence:
+      default: 0.21
+      description: Probability an agent who is incarcerated is adherent
+      type: float
+      min: 0
+      max: 1
+    discontinue:
+      default: 0.12
+      description: Probability an agent who is incarcerated discontinues haart
+      type: float
+      min: 0
+      max: 1

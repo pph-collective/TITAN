@@ -1,0 +1,64 @@
+model:
+  num_pop: 24110
+  time:
+    num_steps: 60
+  network:
+    enable: true
+    type: scale_free
+
+features:
+  haart: true
+  die_and_replace: true
+  syringe_services: true
+  agent_zero: true
+  partner_tracing: false
+
+syringe_services:
+  timeline:
+    ssp_on:
+      time_start: 15
+      time_stop: 121
+      num_slots_start: 277
+      num_slots_stop: 277
+      risk: 0.02
+
+
+agent_zero:
+  bond_type: Inj
+  num_partners: 4
+
+hiv:
+  dx:
+    risk_reduction:
+      sex: 0.27
+  haart_cap: true
+
+classes:
+  sex_types:
+    HM:
+      gender: M
+      cis_trans: cis
+      sleeps_with:
+        - HF
+    HF:
+      gender: F
+      cis_trans: cis
+      sleeps_with:
+        - HM
+  races:
+    white:
+      hispanic: false
+  bond_types:
+    Sex:
+      acts_allowed:
+        - sex
+    SexInj:
+      acts_allowed:
+        - sex
+        - injection
+    Inj:
+      acts_allowed:
+        - injection
+  drug_types:
+    - Inj
+    - None

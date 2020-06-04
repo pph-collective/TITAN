@@ -1,0 +1,25 @@
+classes:
+  races:
+    black:
+      hispanic: false
+  sex_types:
+    MSM:
+      gender: M
+      cis_trans: cis
+      sleeps_with:
+        - MSM
+
+demographics:
+  black:
+    ppl: 1
+    MSM:
+      ppl: 1
+    PWID:
+      ppl: 0.1
+
+partnership:
+  sex:
+    acquisition:
+      MSM:
+        versatile: 0.00745
+        insertive: 0.7

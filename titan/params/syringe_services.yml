@@ -1,0 +1,32 @@
+syringe_services:
+  timeline:
+    type: definition
+    fields:
+      time_start:
+        type: int
+        description: "What time to start this prevalence of syringe services program"
+        min: 1
+      time_stop:
+        type: int
+        description: "What time to stop this prevalence of syringe services program"
+        min: 1
+      num_slots_start:
+        type: int
+        description: "Cap for number of available slots in SSP at beginning of time period"
+        min: 0
+      num_slots_stop:
+        type: int
+        description: "Cap for number of available slots in SSP at end of time period. If different from num_slots_start, creates a linear scale-up or scale-down."
+        min: 0
+      risk:
+        type: float
+        description: "Risk of unsafe sharing for agents enrolled in the SSP"
+        min: 0.0
+        max: 1.0
+    default:
+      ssp_default:
+        time_start: 1
+        time_stop: 2
+        num_slots_start: 0
+        num_slots_stop: 0
+        risk: 0.02

@@ -1,0 +1,9 @@
+features:
+  incar: true
+
+partnership:
+  sex:
+    acquisition:
+      MSM:
+        insertive: 0.0011
+

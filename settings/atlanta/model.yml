@@ -1,0 +1,29 @@
+model:
+  processes: 1
+  seed:
+    ppl: 0
+    run: 0
+  num_pop: 17440
+  time:
+    num_steps: 120
+    steps_per_year: 12
+    burn_steps: 24
+  network:
+    type: scale_free
+
+features:
+  incar: false
+  prep: false
+  high_risk: false
+  haart: true
+  die_and_replace: true
+  static_network: false
+  agent_zero: false
+  assort_mix: true
+  vaccine: false
+  partner_tracing: false
+  msmw: false
+  pca: false
+
+prep:
+  target_model: Racial

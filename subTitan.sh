@@ -1,56 +1,83 @@
 #!/bin/bash
 
 #Read in source code path, then shift for optargs
-version="0.1.1"
-titanPath="/gpfs/data/bm8/TITAN/TITAN/"
-settingPath="$1"
+titanPath=$PWD
+paramPath="$1"
 shift
 
-if [ $settingPath ]; then
-    setting=$(basename ${settingPath%.py})
-fi
-
+setting="custom"
 date=`date +%Y-%m-%d-T%H-%M-%S`
-srcCode="${titanPath}titan/"
-parentPath="Module_$setting/"
-jobname=Analysis_$setting_$date
-outPath="$HOME/scratch/$parentPath"
 user=${USER}
-jobid="JA";
-cores=1
 walltime=12:00:00
 memory=12g
 outfile="Jobname.o"
-nJobs=1
-nMC=100
-nPop=100000
-seed=0
-simT=120
-burn=36
 repeats=1
+nMC=1
 model=${PWD##*/}
 basePath=$PWD
+useBase="True"
+jobname=""
+folderName=""
+sweepDefs=""
+sweepfile=""
+rows=""
+num_cores=1
+forceFlag=""
+
+while getopts m:j:T:S:r:n:b:f:w:W:R:F:c:t: option
+do
+    case "${option}"
+        in
+	m) memory=${OPTARG};;
+	j) jobname=${OPTARG};;
+	T) walltime=${OPTARG};;
+	S) setting=${OPTARG};;
+	r) repeats=${OPTARG};;
+	n) nMC=${OPTARG};;
+	b) useBase=${OPTARG};;
+	f) folderName=${OPTARG};;
+	w) sweepDefs+="-w ${OPTARG} ";;
+	W) sweepfile="-W ${OPTARG}";;
+	R) rows="-r ${OPTARG}";;
+	F) forceFlag="-F";;
+	c) num_cores=${OPTARG};;
+	t) titanPath=${OPTARG};;
+    esac
+done
+
+if [[ $jobname == "" ]]; then
+	jobname="Analysis_$setting_$date"
+fi
+
+if [[ $folderName == "" ]]; then
+	folderName="$setting/"
+fi
+
+srcCode="${titanPath}/titan/"
+outPath="$HOME/scratch/$folderName"
 
 usage() {
 echo "
-usage: subtitan {Parameter file} [-r repeats] [-n iterations] [-T walltime] [-m memory] [-s seed]
-                [-o outfile] [-N population] [-t timerange] [-b burntime] [-j jobname]
+usage: subtitan {Parameter file or directory}[-T walltime] [-m memory] [-S setting] [-j jobname] [-r repeats] [-n iterations] [-b use_base] [-f folder_name] [-w sweep_defs] [-F force] [-c num_cores ] [-t titanPath ]
 
 Starts a TITAN simulation in ~/scratch/{SourceFolder}/{jobname}
 
 options:
   -j jobname	  name of analysis for organization (default: {SourceFolder}_date)
-  -r repeats      number of times to repeat the analysis (default: $repeats)
-  -n iterations   number of mode iterations per job (default: $nMC)
-  -N population	  number of agents in population (default: $nPop)
   -T walltime     as hh:mm:ss, max compute time (default: $walltime)
   -m memory       as #[k|m|g] (default: $memory)
-  -o outfile      save a copy of the session's output to outfile (default: off)
-  -s seed         random seed for model [0 random, -1 stepwise] (default: $seed)
-  -t timerange	  number of time steps per iteration in (default: $simT)
-  -b burntime	  number of time steps to burn for equilibration (default: $burn)
+  -S setting      name of setting for this model
+  -r repeats      number of times to repeat the analysis (default: $repeats)
+  -n iterations   number of mode iterations per job (default: $nMC)
+  -b use_base     whether to use the base setting as True or False (default: $useBase)
+  -f folder_name  What the parent folder for the model run outputs should be called (default: <setting>)
+  -w sweep_defs   Optionally, definitions of sweep parameters in the format param:start:stop[:step]
+  -W sweepfile    Optionally, a csv file with sweep definitions (if used, -w flag is ignored)
+  -R rows         Optionally, which data rows of the sweep file to use in format start:stop
+  -F force	  If the number of sweep combinations exceeds 100, run anyway
+  -c num_cores	  How many cores to request and run the job on (default: $num_cores)
+  -t titanPath	  where the code is
 "
-echo "TITAN ver: "$version
 exit 0
 }
 
@@ -60,43 +87,29 @@ echo "
     Updating params:
 	savePath	$PWD
 	sourceCode	$srcCode
-	jobname: 	$jobname
-	iterations: 	$nMC
-	population: 	$nPop
-	seed:		$seed
-	time:		$simT
-	burn:		$burn
-
+	jobname 	$jobname
 	walltime	$walltime
 	memory		$memory
+	num_cores	$num_cores
 "
-
-#TITAN params
-# sed -i "s/\(rSeed = \)\([0-9]*\)/\1${seed}/g" titan/params.py
-sed -i "s/\(N_MC = \)\([0-9]*\)/\1${nMC}/g" titan/params.py
-sed -i "s/\(N_POP = \)\([0-9]*\)/\1${nPop}/g" titan/params.py
-sed -i "s/\(TIME_RANGE = \)\([0-9]*\)/\1${simT}/g" titan/params.py
-sed -i "s/\(burnDuration = \)\([0-9]*\)/\1${burn}/g" titan/params.py
 
 #Submit script params
 sed -i "s/MODEL_NAME/$jobname/g" scripts/bs_Core.sh
 sed -i "s/WALL_TIME/$walltime/g" scripts/bs_Core.sh
 sed -i "s/MEMORY/$memory/g" scripts/bs_Core.sh
+sed -i "s/NCORES/$num_cores/g" scripts/bs_Core.sh
 
 }
 
 prepSubmit() {
 
     #Copy source code into parent path
-    #echo -e "\n\tMoving setting $setting into $srcCode"
-    #cp $settingPath $srcCode/params.py
     echo -e "\n\tCopying $srcCode to $finalPath"
     mkdir -p $finalPath
     cp $titanPath/run_titan.py $finalPath
     cp -rT $titanPath/titan $finalPath/titan
     cp -rT $titanPath/scripts $finalPath/scripts
-    mkdir -p $finalPath/results/network
-    cp $settingPath $finalPath/titan/params.py
+	  cp -rT $titanPath/settings $finalPath/settings
     #Move into new source code folder
     echo -e "\n\tMoving to model folder directory"
     cd $finalPath
@@ -104,33 +117,21 @@ prepSubmit() {
     updateParams;
 
     #Submit job to cluster
-    sbatch scripts/bs_Core.sh
+    sbatch scripts/bs_Core.sh -S $setting -p $paramPath -n $nMC -b $useBase $forceFlag $sweepDefs $sweepfile $rows
 
     #Move back to base directory
     cd $basePath
 }
 
-while getopts j:n:N:t:m:s:c:T:b:r: option
-do
-    case "${option}"
-        in
-	N) nPop=${OPTARG};;
-	m) memory=${OPTARG};;
-    n) nMC=${OPTARG};;
-    s) seed=${OPTARG};;
-    j) jobname=${OPTARG};;
-	t) simT=${OPTARG};;
-	b) burn=${OPTARG};;
-	T) walltime=${OPTARG};;
-	r) repeats=${OPTARG};;
-    esac
-done
-
 
 # User and Date will be ignored if job ID is specified
 
-if [ ! $settingPath ]; then
+if [ ! $paramPath ]; then
     usage;
+fi
+
+if [[ ${paramPath:0:1} != "/" ]] || [[ ${paramPath:0:1} == "~" ]]; then
+	paramPath="${pwd}/$paramPath"
 fi
 
 if [ ! -d $srcCode ]; then
@@ -153,14 +154,12 @@ if [ $srcCode ]; then
     echo "
         jobname     $jobname
         outPath	    $outPath
-        user	    $user
+        paramPath   $paramPath
+        user        $user
         date        $date
-        cores       $cores
         walltime    $walltime
         memory      $memory
         outfile     $outfile
-        nMc         $nMC
-        seed        $seed
         model       $model"
     echo -e "\n"
 
@@ -169,16 +168,16 @@ if [ $srcCode ]; then
     echo -e "\t $outPath"
 
     if [ $repeats -gt 1 ]; then
-        mkdir -p $outPath$jobname
+        # mkdir -p $outPath$jobname
         basejobname=$jobname
         for ((i=1; i<=repeats; i++)); do
             echo -e "\n\nWorking on repeat $i"
             jobname=$basejobname"_"$i
-            finalPath=$outPath$basejobname"/"$jobname
+            finalPath=$outPath"/"$basejobname"/"$jobname
             prepSubmit;
         done
     else
-        finalPath=$outPath$jobname
+        finalPath=$outPath"/"$jobname
         prepSubmit;
     fi
 

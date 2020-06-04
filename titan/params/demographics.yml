@@ -1,0 +1,336 @@
+demographics:
+  type: sub-dict
+  description: "Parameters controlling population class level probabilities and behaviors"
+  keys:
+    - races
+    - populations
+  default:
+    ppl:
+      default: 0.0
+      description: "Percentage of agent population with given parent key that is this class.  Across races this must add up to one, and at the sex type level within a race, this must also add up to one. Other demographic params can have proportions of any value."
+      type: float
+      min: 0.0
+      max: 1.0
+    sex_role:
+      init:
+        versatile:
+          default: 1.0
+          description: "Percentage of agents in this class with 'versatile' sex role"
+          type: float
+          min: 0.0
+          max: 1.0
+        insertive:
+          default: 0.0
+          description: "Percentage of agents in this class with 'insertive' sex role"
+          type: float
+          min: 0.0
+          max: 1.0
+        receptive:
+          default: 0.0
+          description: "Percentage of agents in this class with 'receptive' sex role"
+          type: float
+          min: 0.0
+          max: 1.0
+    hiv:
+      init:
+        default: 0.0
+        description: "Probability that an agent in this class initially has HIV"
+        type: float
+        min: 0.0
+        max: 1.0
+      dx:
+        init:
+          default: 0.0
+          description: "Probability that an agent with HIV is initially diagnosed and 'knows' their HIV status, therefore enabling enrollment in treatment"
+          type: float
+          min: 0.0
+          max: 1.0
+        prob:
+          default: 0.0
+          description: "Probability that an agent with HIV becomes diagnosed at a given time step and 'knows' their HIV status, therefore enabling enrollment in treatment"
+          type: float
+          min: 0.0
+          max: 1.0
+      transmission:
+        default: 1.0
+        description: Scaling factor for transmission probability by race (only effective at race level)
+        type: float
+        min: 0
+    aids:
+      init:
+        default: 0.0
+        description: "Probability that an agent in this class with HIV has AIDS initially"
+        type: float
+        min: 0.0
+        max: 1.0
+    haart:
+      init:
+        default: 0.0
+        description: "Probability that an agent in this class with HIV is initially enrolled in HAART"
+        type: float
+        min: 0.0
+        max: 1.0
+      prob:
+        default: 0.0
+        description: "Probability that an agent in this class with HIV becomes enrolled in HAART at a given time step"
+        type: float
+        min: 0.0
+        max: 1.0
+      adherence:
+        default: 0.0
+        description: "Probability that an agent is assigned adherence of 5, otherwise randomly assigned 1-4"
+        type: float
+        min: 0.0
+        max: 1.0
+      discontinue:
+        default: 0.0
+        description: "Probability that an agent on HAART discontinues HAART in a given time step"
+        type: float
+        min: 0.0
+        max: 1.0
+    incar:
+      init:
+        default: 0.0
+        description: "Probability that an agent in this class is initially incarcerated"
+        type: float
+        min: 0.0
+        max: 1.0
+      prob:
+        default: 0.0
+        description: "Probability that an agent in this class becomes incarcerated at a given time step"
+        type: float
+        min: 0.0
+        max: 1.0
+      duration:
+        prob:
+          type: bin
+          description: Binned probabilities of incarceration duration during model run
+          fields:
+            prob:
+              type: float
+              min: 0.0
+              max: 1.0
+            min:
+              type: int
+              min: 0
+            max:
+              type: int
+              min: 0
+          default:
+            1:
+              prob: 0.4
+              min: 1
+              max: 2
+            2:
+              prob: 0.475
+              min: 1
+              max: 13
+            3:
+              prob: 0.065
+              min: 13
+              max: 26
+            4:
+              prob: 0.045
+              min: 26
+              max: 78
+            5:
+              prob: 0.01
+              min: 78
+              max: 130
+            6:
+              prob: 0.01
+              min: 130
+              max: 260
+        init:
+          type: bin
+          description: Binned probabilities of incarceration duration when initializing population
+          fields:
+            prob:
+              type: float
+              min: 0.0
+              max: 1.0
+            min:
+              type: int
+              min: 0
+            max:
+              type: int
+              min: 0
+          default:
+            1:
+              prob: 0.14
+              min: 1
+              max: 13
+            2:
+              prob: 0.09
+              min: 13
+              max: 26
+            3:
+              prob: 0.20
+              min: 26
+              max: 78
+            4:
+              prob: 0.11
+              min: 78
+              max: 130
+            5:
+              prob: 0.16
+              min: 130
+              max: 260
+            6:
+              prob: 0.30
+              min: 260
+              max: 520
+    num_partners:
+      type: sub-dict
+      keys:
+        - bond_types
+      default:
+        dist_type:
+          default: poisson
+          description: "How to determine mean number of partners for an agent. Uses numpy.random distributions or 'set_value' to always return the var_1 value. More info at https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator"
+          type: enum
+          values:
+            - poisson
+            - gamma
+            - uniform
+            - set_value
+        var_1:
+          type: float
+          description: "First variable for chosen distribution function."
+          default: 0.0
+        var_2:
+          type: float
+          description: "Second variable for chosen distribution function."
+          default: 0.0
+    drug_use:
+      type: sub-dict
+      keys:
+        - drug_types
+      default:
+        init:
+          default: 0.0
+          description: "Percentage of agents with the given drug use type"
+          type: float
+          min: 0.0
+          max: 1.0
+    injection:
+      num_acts:
+        default: 0.0
+        description: "Mean number of injection acts done within a relationship"
+        type: float
+        min: 0.0
+      unsafe_prob:
+        default: 0.0
+        description: "Probability of sharing a syringe per act"
+        type: float
+        min: 0.0
+        max: 1.0
+    safe_sex:
+      default: 0.0
+      description: "Probability of safe sex (condom use) per sex act"
+      type: float
+      min: 0.0
+      max: 1.0
+    prep:
+      discontinue:
+        default: 0.0
+        description: "Probability that an agent on PrEP discontinues PrEP at a given time step"
+        type: float
+        min: 0.0
+        max: 1.0
+      adherence:
+        default: 0.0
+        description: "Probability that an agent on PrEP is assigned an adherence of 1, otherwise assigned 0"
+        type: float
+        min: 0.0
+        max: 1.0
+      coverage:
+        default: 0.0
+        description: "Target percentage of PrEP coverage for this population class"
+        type: float
+        min: 0.0
+        max: 1.0
+    high_risk:
+      init:
+        default: 0.0
+        description: "Probability that an agent is initially marked as high risk"
+        type: float
+        min: 0.0
+        max: 1.0
+    vaccine:
+      init: # to review - not currently used
+        default: 0.0
+        description: "Probability that an agent is initially vaccinated"
+        type: float
+        min: 0.0
+        max: 1.0
+      prob:
+        default: 0.0
+        description: "Probability that an agent becomes vaccinated at a given time step"
+        type: float
+        min: 0.0
+        max: 1.0
+      booster:
+        interval:
+          default: 0
+          description: "Number of time steps from vaccination at which booster vaccine is required"
+          type: int
+          min: 0
+        prob:
+          default: 0.0
+          description: "Probability of an agent getting booster vaccine at required time step"
+          type: float
+          min: 0.0
+          max: 1.0
+    age:
+      type: bin
+      description: Binned probabilities of ages by race, last bin should be 1 to have default
+      fields:
+        prob:
+          type: float
+          min: 0
+          max: 1
+        min:
+          type: int
+          min: 0
+        max:
+          type: int
+          min: 0
+      default:
+        1:
+          prob: 0.085
+          min: 15
+          max: 24
+        2:
+          prob: 0.291
+          min: 25
+          max: 34
+        3:
+          prob: 0.511
+          min: 35
+          max: 44
+        4:
+          prob: 0.96
+          min: 45
+          max: 54
+        5:
+          prob: 1
+          min: 55
+          max: 80
+    death_rate:
+      base:
+        default: 10.4
+        type: float
+        description: Death rate by race per 1000 person years in base case
+      hiv:
+        default: 2.
+        type: float
+        description: Scalar for death rate for agents with hiv, not aids, and not haart adherent. Scales from base.
+      aids:
+        default: 4.
+        type: float
+        description: Scalar for death rate for agents with aids. Scales from base.
+      haart_adherent:
+        default: 1.0
+        type: float
+        description: Scalar for death rate for those fully adherent on haart. Scales from base.

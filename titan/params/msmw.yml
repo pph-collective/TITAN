@@ -1,0 +1,14 @@
+msmw:
+  hiv:
+    prob:
+      default: .01
+      description: Probability of HM who is MSMW additionally converting to HIV
+      type: float
+      min: 0
+      max: 1
+  prob:
+    default: 0.06
+    description: Probability an HM is MSMW
+    type: float
+    min: 0
+    max: 1
