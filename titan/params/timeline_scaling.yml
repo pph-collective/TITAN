@@ -1,7 +1,7 @@
 timeline_scaling:
   timeline:
     type: definition
-    description: Definition of when to start and stop applying a scalr to a parameter.  The parameter should be the definition name with pipes instead of dots (e.g. `prep.discontinue` would be `prep|discontinue`). `ts_default` is ignored during runtime is just available as an example.
+    description: Definition of when to start and stop applying a scalr to a parameter.  The parameter should be the definition name with pipes instead of dots (e.g. `prep.discontinue` would be `prep|discontinue`).
     fields:
       time_start:
         type: int
