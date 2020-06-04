@@ -193,6 +193,8 @@ class HIVModel:
             )
         )
 
+        self.timeline_scaling()
+
         self.update_all_agents(burn=burn)
 
         stats = ao.get_stats(
@@ -315,6 +317,32 @@ class HIVModel:
             self.hiv_convert(agent_zero)
         else:
             raise ValueError("No agent zero!")
+
+    def timeline_scaling(self):
+        """
+        Scale/un-scale any params with timeline_scaling definitions per their
+        definition
+        """
+        if not self.params.features.timeline_scaling:
+            return None
+
+        # parse the param path and scale the param
+        def scale_param(param, scalar):
+            path = param.split("|")
+            scaling_item = self.params
+            for p in path[:-1]:
+                scaling_item = scaling_item[p]
+
+            old_val = scaling_item[path[-1]]
+            print(f"timeline_scaling - {param}: {old_val} => {old_val * scalar}")
+            scaling_item[path[-1]] = old_val * scalar
+
+        for param, defn in self.params.timeline_scaling.timeline.items():
+            if param != "ts_default":
+                if defn["time_start"] == self.time:
+                    scale_param(param, defn["scalar"])
+                elif defn["time_stop"] == self.time:
+                    scale_param(param, 1 / defn["scalar"])
 
     def update_high_risk(self, agent: Agent):
         """
