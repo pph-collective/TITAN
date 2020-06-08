@@ -838,7 +838,7 @@ class HIVModel:
                         ssp_num_slots = round(
                             self.run_random.betavariate(
                                 ssp_num_slots,
-                                self.pop.pwid_agents.num_members() - item.num_slots,
+                                self.pop.pwid_agents.num_members() - ssp_num_slots,
                             )
                             * self.pop.pwid_agents.num_members()
                         )
