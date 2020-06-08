@@ -123,7 +123,7 @@ demographics:
           var_2: 0.363
         SexInj:
           dist_type: poisson
-          var_1: 0.0
+          var_1: 1.1
           var_2: 1.0
       hiv:
         init: 0.0
