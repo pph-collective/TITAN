@@ -386,6 +386,7 @@ def print_components(
     components,
     outdir: str,
     races: list,
+    pca_bool: bool,
 ):
     """
     Write stats describing the components (sub-graphs) in a graph to file
@@ -432,10 +433,13 @@ def print_components(
                 elif agent.prep_type == "Oral":
                     oral += 1
 
-            if agent.pca:
-                trtbool += 1
-                if agent.pca_suitable:
-                    pca += 1
+            if pca_bool:
+                if agent.pca:
+                    trtbool += 1
+                    if agent.pca_suitable:
+                        pca += 1
+                elif agent.intervention_ever:
+                    trtbool += 1
 
             if agent.prep_awareness:
                 aware += 1
@@ -448,6 +452,8 @@ def print_components(
         )
         average_size = sum(effective_size(comp).values()) / comp.number_of_nodes()
         comp_density = density(comp)
+        if trtbool > 0:
+            trtbool = 1
 
         race_str = ""
         for race in race_list:

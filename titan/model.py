@@ -128,6 +128,7 @@ class HIVModel:
                     self.pop.connected_components(),
                     network_outdir,
                     self.params.classes.races,
+                    self.params.features.pca,
                 )
 
             if self.params.outputs.network.calc_network_stats:
@@ -1067,7 +1068,6 @@ class HIVModel:
 
             # Add agent to HAART class set, update agent params
             agent.haart = True
-            agent.intervention_ever = True
             agent.haart_adherence = adherence
             agent.haart_time = self.time
             self.pop.num_haart_agents += 1
