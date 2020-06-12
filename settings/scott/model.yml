@@ -11,7 +11,7 @@ features:
   die_and_replace: true
   syringe_services: true
   agent_zero: true
-  partner_tracing: false
+  partner_tracing: true
 
 syringe_services:
   timeline:
@@ -62,3 +62,11 @@ classes:
   drug_types:
     - Inj
     - None
+partner_tracing:
+  bond_type:
+    - Sex
+    - Inj
+    - SexInj
+  start: 15
+  stop: 277
+  trace_time: 1
