@@ -272,13 +272,16 @@ class HIVModel:
                         self.update_haart(agent)
                         agent.hiv_time += 1
             else:
-                if self.features.prep and self.prep.target_model != "RandomTrial":
+                if self.features.prep:
                     if self.time >= self.prep.start:
                         if agent.prep:
                             self.discontinue_prep(agent)
-                        elif agent.prep_eligible(
-                            self.prep.target_model,
-                            self.params.partnership.ongoing_duration,
+                        elif (
+                            agent.prep_eligible(
+                                self.prep.target_model,
+                                self.params.partnership.ongoing_duration,
+                            )
+                            and self.prep.target_model != "RandomTrial"
                         ):
                             self.initiate_prep(agent)
 
@@ -360,7 +363,6 @@ class HIVModel:
         :Purpose:
             Initialize random trial in population
         """
-        print("HERE ________ DELETE")
         assert (
             self.params.model.network.enable
         ), "Network must be enabled for random trial"
