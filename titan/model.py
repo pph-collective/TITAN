@@ -170,7 +170,7 @@ class HIVModel:
             -1 * self.params.model.time.burn_steps, self.params.model.time.num_steps
         ):
             self.time += 1
-            burn = True if self.time < 1 else False
+            burn = True if self.time < 0 else False
             self.step(outdir, burn=burn)
             self.reset_trackers()
 
@@ -272,7 +272,7 @@ class HIVModel:
                         self.update_haart(agent)
                         agent.hiv_time += 1
             else:
-                if self.features.prep:
+                if self.features.prep and self.prep.target_model != "RandomTrial":
                     if self.time >= self.prep.start:
                         if agent.prep:
                             self.discontinue_prep(agent)
@@ -360,6 +360,7 @@ class HIVModel:
         :Purpose:
             Initialize random trial in population
         """
+        print("HERE ________ DELETE")
         assert (
             self.params.model.network.enable
         ), "Network must be enabled for random trial"
@@ -374,8 +375,7 @@ class HIVModel:
         )
         for comp in components:
             total_nodes += comp.number_of_nodes()
-
-            if self.run_random.random() < self.prep.random_trial.intervention.prob:
+            if self.run_random.random() < self.params.prep.random_trial.intervention.prob:
                 # Component selected as treatment pod!
                 mark_agent = list(comp.nodes)[0]
                 mark_agent.intervention_comp = True

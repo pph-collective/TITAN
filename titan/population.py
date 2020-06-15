@@ -251,7 +251,7 @@ class Population:
             # if HIV, how long has the agent had it? Random sample
             agent.hiv_time = self.pop_random.randint(1, self.params.hiv.max_init_time)
 
-        elif self.features.prep:
+        elif self.features.prep and self.prep.target_model != "RandomTrial":
             if self.prep.start == 0 and self.pop_random.random() < self.prep.target:
                 agent.enroll_prep(self.params, self.pop_random)
 
