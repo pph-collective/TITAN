@@ -188,7 +188,6 @@ class Agent:
 
     def enroll_prep(self, params: ObjMap, rand_gen):
         self.prep = True
-        self.intervention_ever = True
         self.prep_load = params.prep.peak_load
         self.prep_last_dose = 0
 

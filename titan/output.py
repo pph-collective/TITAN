@@ -433,13 +433,15 @@ def print_components(
                 elif agent.prep_type == "Oral":
                     oral += 1
 
-            if pca_bool:
+            if pca_bool:  # pca intervention characteristics
                 if agent.pca:
                     trtbool += 1
                     if agent.pca_suitable:
                         pca += 1
                 elif agent.intervention_ever:
                     trtbool += 1
+            # else:
+            #     if agent.intervention_ever:
 
             if agent.prep_awareness:
                 aware += 1

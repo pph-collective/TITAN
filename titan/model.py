@@ -398,10 +398,12 @@ class HIVModel:
                             ag.pca = True
                             ag.pca_suitable = True
                             intervention_agent = True
+                            ag.intervention_ever = True
                             break
                     if not intervention_agent:
                         ag = ordered_centrality[0]
                         ag._pca = True
+                    ag.intervention_ever = True
                 elif self.prep.pca.choice == "bridge":
                     # list all edges that are bridges
                     all_bridges = list(nx.bridges(comp))
@@ -421,6 +423,7 @@ class HIVModel:
                     else:
                         chosen_agent = list(comp.nodes)[0]
                         chosen_agent.pca = True
+                    chosen_agent.intervention_ever = True
 
                 elif self.prep.pca.choice == "random":
                     suitable_agent_choices = [ag for ag in comp.nodes if not ag.hiv]
@@ -439,6 +442,7 @@ class HIVModel:
                             list(comp.nodes), self.run_random
                         )
                         chosen_agent.pca = True
+                    chosen_agent.intervention_ever = True
 
         print(("Total agents in trial: ", total_nodes))
 
@@ -961,7 +965,6 @@ class HIVModel:
 
                         # Add agent to HAART class set, update agent params
                         agent.haart = True
-                        agent.intervention_ever = True
                         agent.haart_adherence = adherence
                         agent.haart_time = self.time
 
@@ -1007,7 +1010,7 @@ class HIVModel:
                 <= self.time
                 < self.params.partner_tracing.stop
             ):
-                # For each partner, determine if found by partner testing
+                # Determine if each partner is found via partner tracing
                 for bond in self.params.partner_tracing.bond_type:
                     for ptnr in agent.partners.get(bond, []):
                         if (
@@ -1025,12 +1028,8 @@ class HIVModel:
             # Rescale based on calibration param
             test_prob *= self.calibration.test_frequency
 
-            # If roll less than test probablity
             if self.run_random.random() < test_prob:
-                # Become tested, add to tested agent set
                 diagnose(agent)
-                # If treatment co-enrollment enabled and coverage greater than 0
-
             elif (
                 agent.partner_traced
                 and self.run_random.random() < self.params.partner_tracing.hiv.dx

@@ -104,7 +104,6 @@ def test_enroll_prep_choice(make_agent, params):
     a.enroll_prep(params, rand_gen)
 
     assert a.prep
-    assert a.intervention_ever
     assert a.prep_last_dose == 0
     assert a.prep_load == 0.3
     assert a.prep_adherence == 1
@@ -122,7 +121,6 @@ def test_enroll_prep_one(make_agent, params):
     a.enroll_prep(params, rand_gen)
 
     assert a.prep
-    assert a.intervention_ever
     assert a.prep_last_dose == 0
     assert a.prep_load == 0.3
     assert a.prep_adherence == 0

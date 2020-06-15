@@ -36,7 +36,6 @@ def test_create_agent(make_population, params):
     assert a4.haart
     assert a4.haart_adherence == 5
     assert a4.haart_time == 0
-    assert a4.intervention_ever
     assert a4.high_risk
     assert a4.high_risk_ever
 

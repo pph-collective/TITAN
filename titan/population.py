@@ -236,7 +236,6 @@ class Population:
 
                 if self.pop_random.random() < agent_params.haart.init:
                     agent.haart = True
-                    agent.intervention_ever = True
                     self.num_haart_agents += 1
 
                     haart_adh = self.demographics[race][sex_type].haart.adherence
