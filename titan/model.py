@@ -375,7 +375,10 @@ class HIVModel:
         )
         for comp in components:
             total_nodes += comp.number_of_nodes()
-            if self.run_random.random() < self.params.prep.random_trial.intervention.prob:
+            if (
+                self.run_random.random()
+                < self.params.prep.random_trial.intervention.prob
+            ):
                 # Component selected as treatment pod!
                 mark_agent = list(comp.nodes)[0]
                 mark_agent.intervention_comp = True
