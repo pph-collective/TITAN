@@ -386,7 +386,6 @@ def print_components(
     components,
     outdir: str,
     races: list,
-    pca_bool: bool,
 ):
     """
     Write stats describing the components (sub-graphs) in a graph to file
@@ -433,16 +432,14 @@ def print_components(
                 elif agent.prep_type == "Oral":
                     oral += 1
 
-            if pca_bool:  # pca intervention characteristics
-                if agent.pca:
-                    trtbool += 1
-                    if agent.pca_suitable:
-                        pca += 1
-                elif agent.intervention_ever:
-                    trtbool = 1
-            else:
-                if agent.intervention_ever:
-                    trtbool = 1
+            if agent.pca_suitable and agent.pca:
+                pca += 1
+
+            if agent.intervention_ever:  # treatment component
+                trtbool = 1
+            if trtbool == 0 and agent.intervention_comp and not agent.intervention_ever:
+                trtbool = -1  # if the comp was marked for trt but no eligible
+                # agents, mark as "-1"
 
             if agent.prep_awareness:
                 aware += 1

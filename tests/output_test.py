@@ -232,7 +232,7 @@ def test_print_components(stats, params, make_population, tmpdir):
     net = make_population(n=1)
     components = net.connected_components()
 
-    print_components(run_id, 0, 1, 2, components, tmpdir, params.classes.races, False)
+    print_components(run_id, 0, 1, 2, components, tmpdir, params.classes.races)
 
     result_file = os.path.join(tmpdir, f"{run_id}_componentReport_ALL.txt")
     assert os.path.isfile(result_file)

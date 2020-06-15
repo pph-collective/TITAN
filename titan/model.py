@@ -128,7 +128,6 @@ class HIVModel:
                     self.pop.connected_components(),
                     network_outdir,
                     self.params.classes.races,
-                    self.params.features.pca,
                 )
 
             if self.params.outputs.network.calc_network_stats:
@@ -378,6 +377,8 @@ class HIVModel:
 
             if self.run_random.random() < self.prep.random_trial.intervention.prob:
                 # Component selected as treatment pod!
+                mark_agent = list(comp.nodes)[0]
+                mark_agent.intervention_comp = True
                 if not self.features.pca:
                     for ag in comp.nodes():
                         if not ag.hiv and not ag.prep:
@@ -402,8 +403,7 @@ class HIVModel:
                             break
                     if not intervention_agent:
                         ag = ordered_centrality[0]
-                        ag._pca = True
-                    ag.intervention_ever = True
+                        ag.intervention_ever = True
                 elif self.prep.pca.choice == "bridge":
                     # list all edges that are bridges
                     all_bridges = list(nx.bridges(comp))
@@ -413,6 +413,7 @@ class HIVModel:
                         for agent in agents
                         if not agent.hiv
                     ]  # all suitable agents in bridges
+
                     if comp_agents:
                         chosen_agent = utils.safe_random_choice(
                             comp_agents, self.run_random
@@ -423,7 +424,6 @@ class HIVModel:
                     else:
                         chosen_agent = list(comp.nodes)[0]
                         chosen_agent.pca = True
-                    chosen_agent.intervention_ever = True
 
                 elif self.prep.pca.choice == "random":
                     suitable_agent_choices = [ag for ag in comp.nodes if not ag.hiv]
@@ -437,12 +437,12 @@ class HIVModel:
                         chosen_agent.pca = True
                         chosen_agent.pca_suitable = True
                         chosen_agent.prep_awareness = True  # make aware
+                        chosen_agent.intervention_ever = True
                     else:  # if no suitable agents, mark a non-suitable agent
                         chosen_agent = utils.safe_random_choice(
                             list(comp.nodes), self.run_random
                         )
                         chosen_agent.pca = True
-                    chosen_agent.intervention_ever = True
 
         print(("Total agents in trial: ", total_nodes))
 
