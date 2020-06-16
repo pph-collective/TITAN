@@ -22,7 +22,6 @@ syringe_services:
       num_slots_stop: 277
       risk: 0.02
 
-
 agent_zero:
   bond_type: Inj
   num_partners: 4

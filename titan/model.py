@@ -382,10 +382,9 @@ class HIVModel:
                 < self.params.prep.random_trial.intervention.prob
             ):
                 # Component selected as treatment pod!
-                mark_agent = list(comp.nodes)[0]
-                mark_agent.intervention_comp = True
                 if not self.features.pca:
                     for ag in comp.nodes():
+                        ag.intervention_comp = True
                         if not ag.hiv and not ag.prep:
                             ag.intervention_ever = True
                             if (
@@ -399,6 +398,7 @@ class HIVModel:
                     ordered_centrality = sorted(centrality, key=centrality.get)
                     intervention_agent = False
                     for ag in ordered_centrality:
+                        ag.intervention_comp = True
                         if not ag.hiv:
                             ag.prep_awareness = True
                             ag.pca = True
@@ -408,9 +408,11 @@ class HIVModel:
                             break
                     if not intervention_agent:
                         ag = ordered_centrality[0]
-                        ag.intervention_ever = True
                 elif self.prep.pca.choice == "bridge":
                     # list all edges that are bridges
+                    for ag in comp.nodes:
+                        ag.intervention_comp = True
+
                     all_bridges = list(nx.bridges(comp))
                     comp_agents = [
                         agent
@@ -431,7 +433,12 @@ class HIVModel:
                         chosen_agent.pca = True
 
                 elif self.prep.pca.choice == "random":
-                    suitable_agent_choices = [ag for ag in comp.nodes if not ag.hiv]
+                    suitable_agent_choices = []
+                    for ag in comp.nodes:
+                        ag.intervention_comp = True
+                        if not ag.hiv:
+                            suitable_agent_choices.append(ag)
+
                     if (
                         suitable_agent_choices
                     ):  # if there are agents who meet eligibility criteria,

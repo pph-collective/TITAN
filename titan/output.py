@@ -128,6 +128,8 @@ def get_stats(
     # Newly diagnosed tracker statistics
     for a in new_hiv_dx:
         stats[a.race][a.so]["newlyTested"] += 1
+        if a.drug_use == "Inj":
+            stats[a.race]["PWID"]["newlyTested"] += 1
 
     # Newly HR agents
     for a in new_high_risk:
@@ -145,6 +147,10 @@ def get_stats(
         stats[a.race][a.so]["deaths"] += 1
         if a.hiv:
             stats[a.race][a.so]["deaths_HIV"] += 1
+        if a.drug_use == "Inj":
+            stats[a.race]["PWID"]["deaths"] += 1
+            if a.hiv:
+                stats[a.race]["PWID"]["deaths_HIV"] += 1
 
     # Sum 'ALL' categories for race/SO bins
     for race in stats:
