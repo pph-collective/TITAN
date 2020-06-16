@@ -403,8 +403,8 @@ class HIVModel:
                             ag.prep_awareness = True
                             ag.pca = True
                             ag.pca_suitable = True
-                            intervention_agent = True
                             ag.intervention_ever = True
+                            intervention_agent = True
                             break
                     if not intervention_agent:
                         ag = ordered_centrality[0]

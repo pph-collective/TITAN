@@ -414,8 +414,14 @@ def print_components(
             race_count[race] = 0
         assert comp.number_of_nodes() >= 0
         tot_agents = (
+            trt_bool
+        ) = (
             nhiv
-        ) = ntrthiv = nprep = trtbool = injectable_prep = oral = aware = pca = nidu = 0
+        ) = (
+            ntrthiv
+        ) = (
+            nprep
+        ) = trt_comp = trt_agent = injectable_prep = oral = aware = pca = nidu = 0
 
         for agent in comp.nodes():
             tot_agents += 1
@@ -436,9 +442,9 @@ def print_components(
                 pca += 1
 
             if agent.intervention_ever:  # treatment component
-                trtbool = 1
-            if trtbool == 0 and agent.intervention_comp and not agent.intervention_ever:
-                trtbool = -1  # if the comp was marked for trt but no eligible
+                trt_agent = 1
+            if agent.intervention_comp:
+                trt_comp = 1  # if the comp was marked for trt but no eligible
                 # agents, mark as "-1"
 
             if agent.prep_awareness:
@@ -453,6 +459,12 @@ def print_components(
         average_size = sum(effective_size(comp).values()) / comp.number_of_nodes()
         comp_density = density(comp)
 
+        if trt_comp > 0:
+            if trt_agent > 0:
+                trt_bool = 1
+            else:
+                trt_bool = -1
+
         race_str = ""
         for race in race_list:
             race_str += "\t" + str(race_count[race])
@@ -460,7 +472,7 @@ def print_components(
         f.write(
             f"{run_id}\t{runseed}\t{popseed}\t{t}\t{comp_id}\t{tot_agents}\t"
             f"{nhiv}\t"
-            f"{nprep}\t{ntrthiv}\t{trtbool}\t{pca}\t{oral}\t{injectable_prep}"
+            f"{nprep}\t{ntrthiv}\t{trt_bool}\t{pca}\t{oral}\t{injectable_prep}"
             f"\t{aware}\t{nidu}\t{comp_centrality:.4f}\t{comp_density:.4f}"
             f"\t{average_size:.4f}{race_str}\n"
         )
