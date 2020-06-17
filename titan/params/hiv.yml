@@ -40,3 +40,7 @@ hiv:
     default: false
     description: Whether "prob" defined in demographics.race.so.haart is a percent of diagnosed, HIV+ agents instead of a per-time-step probability for HAART coverage
     type: boolean
+  start:
+    default: 0
+    description: "What timestep to start agent interactions/hiv transmission"
+    type: int

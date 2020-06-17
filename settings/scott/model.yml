@@ -16,7 +16,7 @@ features:
 syringe_services:
   timeline:
     ssp_on:
-      time_start: 15
+      time_start: 4
       time_stop: 121
       num_slots_start: 277
       num_slots_stop: 277

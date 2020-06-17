@@ -4,7 +4,7 @@
 from typing import List, Dict, Set
 
 from .parse_params import ObjMap
-from .utils import safe_divide
+from .utils import safe_divide, safe_dist
 
 
 class Agent:
@@ -260,19 +260,24 @@ class Agent:
         :Output:
             number_sex_act : int
         """
-        rv = rand_gen.random()
+        if params.partnership.sex.frequency.type == "bins":
+            rv = rand_gen.random()
 
-        for i in range(1, 6):
-            p = params.partnership.sex.frequency[i].prob
-            if rv <= p:
-                min_frequency = params.partnership.sex.frequency[i].min
-                max_frequency = params.partnership.sex.frequency[i].max
-                return rand_gen.randrange(min_frequency, max_frequency, 1)
+            for i in range(1, 6):
+                p = params.partnership.sex.frequency.bins[i].prob
+                if rv <= p:
+                    min_frequency = params.partnership.sex.frequency.bins[i].min
+                    max_frequency = params.partnership.sex.frequency.bins[i].max
+                    return rand_gen.randrange(min_frequency, max_frequency, 1)
 
-        # fallthrough is last i
-        min_frequency = params.partnership.sex.frequency[i].min
-        max_frequency = params.partnership.sex.frequency[i].max
-        return rand_gen.randrange(min_frequency, max_frequency, 1)
+            # fallthrough is last i
+            min_frequency = params.partnership.sex.frequency.bins[i].min
+            max_frequency = params.partnership.sex.frequency.bins[i].max
+            return rand_gen.randrange(min_frequency, max_frequency, 1)
+        elif params.partnership.sex.frequency.type == "distribution":
+            return int(
+                safe_dist(params.partnership.sex.frequency.distribution, rand_gen)
+            )
 
 
 class Relationship:

@@ -1,40 +1,69 @@
 partnership:
   sex:
     frequency:
-      type: bin
-      description: "Binned probabilities of number of sex acts of a partnership at a given time step"
-      fields:
-        prob:
+      type:
+        type: enum
+        description: "Whether to use distribution or bins for frequency"
+        default: bins
+        values:
+          - bins
+          - distribution
+      bins:
+        type: bin
+        description: "Binned probabilities of frequencies"
+        fields:
+          prob:
+            type: float
+            min: 0.0
+            max: 1.0
+          min:
+            type: int
+            min: 0
+          max:
+            type: int
+            min: 0
+        default:
+          1:
+            prob: 0.585
+            min: 1
+            max: 6
+          2:
+            prob: 0.701
+            min: 7
+            max: 12
+          3:
+            prob: 0.822
+            min: 13
+            max: 24
+          4:
+            prob: 0.882
+            min: 25
+            max: 36
+          5:
+            prob: 1.0
+            min: 37
+            max: 48
+      distribution:
+        dist_type:
+          type: enum
+          description: "Type of distribution to use for partnerships if type is distribution. See https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator for function information"
+          values:
+            - gamma
+            - beta
+            - poisson
+            - uniform
+            - set_value
+          default: poisson
+        var_1:
           type: float
+          description: "First variable of np function for chosen distribution"
           min: 0.0
-          max: 1.0
-        min:
-          type: int
-          min: 0
-        max:
-          type: int
-          min: 0
-      default:
-        1:
-          prob: 0.585
-          min: 1
-          max: 6
-        2:
-          prob: 0.701
-          min: 7
-          max: 12
-        3:
-          prob: 0.822
-          min: 13
-          max: 24
-        4:
-          prob: 0.882
-          min: 25
-          max: 36
-        5:
-          prob: 1.0
-          min: 37
-          max: 48
+          default: 0.0
+        var_2:
+          type: float
+          description: "Second variable of np function for chosen distribution"
+          min: 0.0
+          default: 1
     haart_scaling:
       type: sub-dict
       description: "Scaling factor on HIV transmission for a given haart adherence"

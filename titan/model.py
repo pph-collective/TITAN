@@ -230,7 +230,7 @@ class HIVModel:
 
         for rel in self.pop.relationships:
             # If in burn, ignore interactions
-            if not burn:
+            if self.time > self.params.hiv.start:
                 self.agents_interact(rel)
 
         if self.features.syringe_services:
