@@ -145,11 +145,11 @@ def test_update_prep_load(make_agent, params):
 
 
 @pytest.mark.unit
-def test_get_number_of_sex_acts(make_agent, params):
+def test_get_number_of_sex_acts(make_agent, params):  # TODO test dist
     a = make_agent()
 
     rand_gen_low = FakeRandom(0.0)
-    min_val_low = params.partnership.sex.frequency[1].min
+    min_val_low = params.partnership.sex.frequency.bins[1].min
 
     rand_gen_high = FakeRandom(1.0)
 
