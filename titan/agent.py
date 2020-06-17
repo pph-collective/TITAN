@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from typing import List, Dict, Set
+from typing import List, Dict, Set, Optional
 
 from .parse_params import ObjMap
 from .utils import safe_divide
@@ -23,10 +23,10 @@ class Agent:
     next_agent_id = 0
 
     @classmethod
-    def update_id_counter(cls):
-        cls.next_agent_id += 1
+    def update_id_counter(cls, last_id):
+        cls.next_agent_id = last_id + 1
 
-    def __init__(self, so: str, age: int, race: str, du: str):
+    def __init__(self, so: str, age: int, race: str, du: str, id: Optional[int] = None):
         """
         Initialize an agent based on given properties
 
@@ -41,8 +41,12 @@ class Agent:
             None
         """
         # self.id is unique ID number used to track each person agent.
-        self.id = self.next_agent_id
-        self.update_id_counter()
+        if id is not None:
+            self.id = id
+        else:
+            self.id = self.next_agent_id
+
+        self.update_id_counter(self.id)
 
         # agent properties
         self.so = so
@@ -52,6 +56,7 @@ class Agent:
         self.drug_use = du
 
         self.msmw = False
+        self.sex_role = "versatile"
 
         # agent-partner params
         self.relationships: Set[Relationship] = set()
@@ -97,8 +102,6 @@ class Agent:
         # agent incarcartion params
         self.incar = False
         self.incar_time = 0
-
-        self.sex_role = "versatile"
 
     def __str__(self):
         """
@@ -282,10 +285,17 @@ class Relationship:
     next_rel_id = 0
 
     @classmethod
-    def update_id_counter(cls):
-        cls.next_rel_id += 1
+    def update_id_counter(cls, last_id):
+        cls.next_rel_id = last_id + 1
 
-    def __init__(self, agent1: Agent, agent2: Agent, duration: int, bond_type: str):
+    def __init__(
+        self,
+        agent1: Agent,
+        agent2: Agent,
+        duration: int,
+        bond_type: str,
+        id: Optional[int] = None,
+    ):
         """
         :Purpose:
             Constructor for a Relationship
@@ -305,8 +315,14 @@ class Relationship:
         # self.id is unique ID number used to track each person agent.
         self.agent1 = agent1
         self.agent2 = agent2
-        self.id = self.next_rel_id
-        self.update_id_counter()
+
+        if id is not None:
+            self.id = id
+        else:
+            self.id = self.next_rel_id
+
+        self.update_id_counter(self.id)
+        # TODO MAKE THIS INCREMENT WITH passed IDs
 
         # Relationship properties
         self.duration = duration
@@ -376,11 +392,14 @@ class Relationship:
         else:
             return self.agent1
 
-    def __repr__(self):
+    def __str__(self):
         return (
             f"\t{self.id}\t{self.agent1.id}\t{self.agent2.id}\t{self.duration}\t"
             f"{self.bond_type} "
         )
+
+    def __repr__(self):
+        return str(self.id)
 
 
 class AgentSet:
