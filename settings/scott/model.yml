@@ -25,12 +25,14 @@ syringe_services:
 agent_zero:
   bond_type: Inj
   num_partners: 4
+  start_time: -3
 
 hiv:
   dx:
     risk_reduction:
       sex: 0.27
   haart_cap: true
+  start: -3
 
 classes:
   sex_types:
