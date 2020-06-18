@@ -9,6 +9,9 @@ from .population import Population
 from .agent import Agent, Relationship
 from .parse_params import ObjMap
 
+# These attributes are the non-intervention attributes of an agent.  They are considered
+# "core" as they are assigned in creating an agent and are stable over time (likely
+# backwards compatible)
 core_attrs = [
     "id",
     "so",
@@ -44,9 +47,9 @@ def write(
     :Output:
         path: str - archive name if compress is true
     """
-    # open agent file
     assert len(pop.relationships) > 0, "can't write empty population"
 
+    # open agent file
     agent_file = os.path.join(dir, f"{pop.id}_agents.csv")
 
     if intervention_attrs:
@@ -132,6 +135,9 @@ def read(params: ObjMap, path: str) -> Population:
 
 
 def create_agent(row: Dict[str, str], bond_types) -> Agent:
+    """
+    Initialize an Agent from a row of the saved population
+    """
     init_attrs = ["so", "age", "race", "drug_use", "id"]
     agent = Agent(
         eval(row["so"]),
@@ -151,6 +157,9 @@ def create_agent(row: Dict[str, str], bond_types) -> Agent:
 
 
 def create_relationship(row: Dict[str, str], pop: Population) -> Relationship:
+    """
+    Initialize a Relationship from a row of the saved population
+    """
     init_attrs = ["agent1", "agent2", "duration", "bond_type", "id"]
     agent1 = find_agent(pop, row["agent1"])
     agent2 = find_agent(pop, row["agent2"])
@@ -170,9 +179,12 @@ def create_relationship(row: Dict[str, str], pop: Population) -> Relationship:
 
 
 def find_agent(pop: Population, id_str: str) -> Agent:
+    """
+    Given a Population and an id (as a string), return the Agent with that id
+    """
     id = eval(id_str)
     for a in pop.all_agents:
         if a.id == id:
             return a
 
-    raise Exception("No agent found")
+    raise Exception(f"Agent {id_str} not found")

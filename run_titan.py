@@ -67,6 +67,9 @@ parser.add_argument(
 
 
 def sweep_range(string):
+    """
+    parsing and checking of param:start:stop:step into dictionary
+    """
     error_msg = "Sweep range must have format param:start:stop[:step]"
     parts = string.split(":")
     assert len(parts) in (3, 4), error_msg
@@ -125,6 +128,9 @@ parser.add_argument(
 
 
 def drange(start, stop, step):
+    """
+    Like range, but allows decimal steps
+    """
     r = start
     while r < stop:
         yield r
@@ -133,6 +139,9 @@ def drange(start, stop, step):
 
 
 def setup_sweeps(sweeps):
+    """
+    Set up sweeps definitions from command line definitions
+    """
     sweep_params = [s["param"] for s in sweeps]
     sweep_vals = list(
         itertools.product(
@@ -151,6 +160,9 @@ def setup_sweeps(sweeps):
 
 
 def setup_sweeps_file(sweepfile, rows):
+    """
+    Set up sweeps definitions (params to values) from csv file
+    """
     if rows is not None:
         start, stop = (int(item) for item in rows.split(":"))
     else:
@@ -182,6 +194,10 @@ def setup_sweeps_file(sweepfile, rows):
 
 
 def consolidate_files(outdir):
+    """
+    After running multiple processes, consolidate all of the different processes results
+    into the root result directory (outdir)
+    """
     for item in os.listdir(outdir):
         subdir = os.path.join(outdir, item)
         if os.path.isdir(subdir) and item not in ("network", "pop"):
@@ -223,6 +239,9 @@ def consolidate_files(outdir):
 
 
 def update_sweep_file(run_id, pop_id, defn, outdir):
+    """
+    Add this run to the sweep file json
+    """
     f = open(os.path.join(outdir, "SweepVals.json"), "a")
     res = copy(defn)
     res["run_id"] = run_id
@@ -233,6 +252,9 @@ def update_sweep_file(run_id, pop_id, defn, outdir):
 
 
 def single_run(sweep, outfile_dir, params, save_pop, pop_path):
+    """
+    A single run of titan.  Dispatched from main using parallel processes.
+    """
     pid = str(os.getpid())
     pid_outfile_dir = os.path.join(outfile_dir, pid)
     if not os.path.isdir(pid_outfile_dir):
@@ -288,6 +310,35 @@ def main(
     save_pop=None,
     pop_path=None,
 ):
+    """
+    Run TITAN!
+
+    :Input:
+        setting : str
+            setting name to use, matches a folder name in `settings/`
+        params_path : str
+            path to params file or directory
+        num_reps : int
+            number of time to repeat each sweep
+        outdir : str
+            directory where results are to be saved
+        use_base : boolean
+            whether to use the "base" setting (includes some more complicated defaults)
+        sweeps : array[str]
+            array of strings in param:start:stop:step format
+        force : boolean
+            if true, will run even if combination of sweeps results in greater than 100 runs
+        sweepfile : str [default: None]
+            path to csv file of sweep definitions
+        rows: str [default: None]
+            which rows of the csv to load to create sweeps in start:stop format
+        error_on_unused : boolean [default: False]
+            error if there are parameters that are unused by the model
+        save_pop : str [default: None]
+            'all' or 'core' will save the population with agents have all or core attributes saved
+        pop_path : str [default: None]
+            path to a population to load instead of creating a new population for each run
+    """
     # delete old results before overwriting with new results
     outfile_dir = os.path.join(os.getcwd(), outdir)
     if os.path.isdir(outfile_dir):
