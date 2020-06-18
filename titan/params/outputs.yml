@@ -35,3 +35,14 @@ outputs:
       - newlyhighriskReport
       - prepReport
       - basicReport
+  classes:
+    default:
+      - races
+      - sex_types
+      - drug_types
+    description: Which classes to aggregate data on for `reports`
+    type: array
+    values:
+      - races
+      - sex_types
+      - drug_types

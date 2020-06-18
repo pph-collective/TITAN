@@ -202,7 +202,7 @@ demographics:
           type: float
           description: "Second variable for chosen distribution function."
           default: 0.0
-    drug_use:
+    drug_type:
       type: sub-dict
       keys:
         - drug_types

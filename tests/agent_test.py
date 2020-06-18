@@ -16,10 +16,10 @@ def test_agent_init(make_agent):
     assert b.id == a.id + 1
 
     # demographics
-    assert a.so == "MSM"
+    assert a.sex_type == "MSM"
     assert a.age == 30
     assert a.race == "black"
-    assert a.drug_use == "None"
+    assert a.drug_type == "None"
     assert a.age_bin == 0
     assert a.msmw is False
     assert a.sex_role is "versatile"
