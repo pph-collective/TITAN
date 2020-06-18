@@ -90,19 +90,18 @@ class HIVModel:
 
         print("\n === Initialization Protocol Finished ===")
 
-    def print_stats(self, stat: Optional[Dict[str, Dict[str, int]]], outdir: str):
-        if stat is not None:
-            for report in self.params.outputs.reports:
-                printer = getattr(ao, report)
-                printer(
-                    self.id,
-                    self.time,
-                    self.run_seed,
-                    self.pop.pop_seed,
-                    stat,
-                    self.params,
-                    outdir,
-                )
+    def print_stats(self, stat: Dict[str, Dict[str, int]], outdir: str):
+        for report in self.params.outputs.reports:
+            printer = getattr(ao, report)
+            printer(
+                self.id,
+                self.time,
+                self.run_seed,
+                self.pop.pop_seed,
+                stat,
+                self.params,
+                outdir,
+            )
 
         # network-based reports
         if (
@@ -164,7 +163,17 @@ class HIVModel:
             print("\t===! Start Burn Loop !===")
         else:
             # make sure t0 things get printed
-            self.print_stats(None, outdir)
+            stats = ao.get_stats(
+                self.pop.all_agents,
+                self.new_prep,
+                self.new_infections,
+                self.new_dx,
+                self.new_high_risk,
+                self.new_incar_release,
+                self.deaths,
+                self.params,
+            )
+            self.print_stats(stats, outdir)
         # burn is negative time, model run starts at t = 1
         for i in range(
             -1 * self.params.model.time.burn_steps, self.params.model.time.num_steps

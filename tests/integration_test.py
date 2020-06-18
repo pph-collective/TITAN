@@ -221,17 +221,17 @@ def test_prep_coverage(make_model_integration, tmpdir):
             res_b[row["t"]]["PrEP"] += float(row["PrEP"])
 
     # at start, should be similar
-    t0_hiv_a = res_a["1"]["HIV"]
-    t0_hiv_b = res_b["1"]["HIV"]
+    t0_hiv_a = res_a["0"]["HIV"]
+    t0_hiv_b = res_b["0"]["HIV"]
     t0_diff = t0_hiv_a - t0_hiv_b
     assert math.isclose(t0_hiv_a, t0_hiv_b, abs_tol=15)  # within 15 agents
-    assert res_a["1"]["PrEP"] < res_b["1"]["PrEP"]
+    assert res_a["0"]["PrEP"] < res_b["0"]["PrEP"]
 
     # at end, should be different
-    t9_hiv_a = res_a["10"]["HIV"]
-    t9_hiv_b = res_b["10"]["HIV"]
-    t9_diff = t9_hiv_a - t9_hiv_b  # a should be higher
-    assert t9_diff > t0_diff
+    t10_hiv_a = res_a["10"]["HIV"]
+    t10_hiv_b = res_b["10"]["HIV"]
+    t10_diff = t10_hiv_a - t10_hiv_b  # a should be higher
+    assert t10_diff > t0_diff
     assert res_a["10"]["PrEP"] < res_b["10"]["PrEP"]
 
 
@@ -279,16 +279,16 @@ def test_syringe_services(make_model_integration, tmpdir):
     print(res_b)
 
     # at start, should be similar
-    t0_hiv_a = res_a["1"]
-    t0_hiv_b = res_b["1"]
+    t0_hiv_a = res_a["0"]
+    t0_hiv_b = res_b["0"]
     t0_diff = t0_hiv_a - t0_hiv_b
     assert math.isclose(t0_hiv_a, t0_hiv_b, abs_tol=15)  # within 15 agents
 
     # at end, should be different
-    t9_hiv_a = res_a["10"]
-    t9_hiv_b = res_b["10"]
-    t9_diff = t9_hiv_a - t9_hiv_b  # a should be higher
-    assert t9_diff > t0_diff
+    t10_hiv_a = res_a["10"]
+    t10_hiv_b = res_b["10"]
+    t10_diff = t10_hiv_a - t10_hiv_b  # a should be higher
+    assert t10_diff > t0_diff
 
 
 @pytest.mark.integration_deterministic
