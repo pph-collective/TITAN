@@ -15,7 +15,7 @@ demographics:
           dist_type: poisson
           var_1: 7.0
           var_2: 1
-      drug_use:
+      drug_type:
           NonInj:
             init: 0.30
           None:
@@ -51,7 +51,7 @@ demographics:
           dist_type: poisson
           var_1: 7.0
           var_2: 1
-      drug_use:
+      drug_type:
         NonInj:
           init: 0.48
         None:
