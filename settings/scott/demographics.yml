@@ -27,7 +27,7 @@ demographics:
           init: 0.9
           prob: 0.202
       haart:
-        init: 0.608
+        init: 1.0
         prob: 0.679
         adherence: 0.70
         discontinue: 0.000
@@ -82,7 +82,7 @@ demographics:
           init: 0.0
           prob: 0.2
       haart:
-        init: 0.0
+        init: 1.0
         prob: 0.679
         adherence: 0.405
         discontinue: 0.000
@@ -128,7 +128,7 @@ demographics:
       hiv:
         init: 0.0
       haart:
-        init: 0.0
+        init: 1.0
         prob: 0.0
         adherence: 0.70
         discontinue: 0.000
