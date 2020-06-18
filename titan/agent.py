@@ -269,6 +269,7 @@ class Agent:
                     min_frequency = params.partnership.sex.frequency.bins[i].min
                     max_frequency = params.partnership.sex.frequency.bins[i].max
                     num_acts = rand_gen.randrange(min_frequency, max_frequency, 1)
+                    return num_acts
 
             # fallthrough is last i
             min_frequency = params.partnership.sex.frequency.bins[i].min

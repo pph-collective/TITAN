@@ -641,6 +641,9 @@ class HIVModel:
                 agent_sex_type
             ].injection.unsafe_prob
 
+            if agent.hiv_dx or partner.hiv_dx:  # diagnosis risk reduction
+                p_unsafe_injection *= (1 - self.params.hiv.dx.risk_reduction.injection)
+
         for n in range(share_acts):
             if self.run_random.random() > p_unsafe_injection:
                 share_acts -= 1
@@ -696,6 +699,9 @@ class HIVModel:
 
         # Get condom usage
         p_safe_sex = self.demographics[agent.race][agent.so].safe_sex
+        # increase condom usage if diagnosed
+        if agent.hiv_dx or partner.hiv_dx:
+            p_safe_sex *= (1 - self.params.hiv.dx.risk_reduction.sex)
 
         # Reduction of risk acts between partners for condom usage
         unsafe_sex_acts = total_sex_acts
