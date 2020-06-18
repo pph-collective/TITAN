@@ -222,7 +222,7 @@ class HIVModel:
             none
         """
         # If agent zero enabled, create agent zero at the beginning of main loop.
-        if self.time == 1 and self.features.agent_zero:
+        if self.time == self.params.agent_zero.start_time and self.features.agent_zero:
             self.make_agent_zero()
 
         if not self.features.static_network:
@@ -642,7 +642,7 @@ class HIVModel:
             ].injection.unsafe_prob
 
             if agent.hiv_dx or partner.hiv_dx:  # diagnosis risk reduction
-                p_unsafe_injection *= (1 - self.params.hiv.dx.risk_reduction.injection)
+                p_unsafe_injection *= 1 - self.params.hiv.dx.risk_reduction.injection
 
         for n in range(share_acts):
             if self.run_random.random() > p_unsafe_injection:
@@ -701,7 +701,7 @@ class HIVModel:
         p_safe_sex = self.demographics[agent.race][agent.so].safe_sex
         # increase condom usage if diagnosed
         if agent.hiv_dx or partner.hiv_dx:
-            p_safe_sex *= (1 - self.params.hiv.dx.risk_reduction.sex)
+            p_safe_sex *= 1 - self.params.hiv.dx.risk_reduction.sex
 
         # Reduction of risk acts between partners for condom usage
         unsafe_sex_acts = total_sex_acts

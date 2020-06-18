@@ -8,3 +8,7 @@ agent_zero:
     type: int
     description: "Minimum number of partners for agent 0."
     default: 4
+  start_time:
+    type: int
+    description: "Time to insert the infection for agent 0"
+    default: 1
