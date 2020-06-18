@@ -90,19 +90,18 @@ class HIVModel:
 
         print("\n === Initialization Protocol Finished ===")
 
-    def print_stats(self, stat: Optional[Dict[str, Dict[str, int]]], outdir: str):
-        if stat is not None:
-            for report in self.params.outputs.reports:
-                printer = getattr(ao, report)
-                printer(
-                    self.id,
-                    self.time,
-                    self.run_seed,
-                    self.pop.pop_seed,
-                    stat,
-                    self.params,
-                    outdir,
-                )
+    def print_stats(self, stat: Dict[str, Dict[str, int]], outdir: str):
+        for report in self.params.outputs.reports:
+            printer = getattr(ao, report)
+            printer(
+                self.id,
+                self.time,
+                self.run_seed,
+                self.pop.pop_seed,
+                stat,
+                self.params,
+                outdir,
+            )
 
         # network-based reports
         if (
@@ -164,7 +163,17 @@ class HIVModel:
             print("\t===! Start Burn Loop !===")
         else:
             # make sure t0 things get printed
-            self.print_stats(None, outdir)
+            stats = ao.get_stats(
+                self.pop.all_agents,
+                self.new_prep,
+                self.new_infections,
+                self.new_dx,
+                self.new_high_risk,
+                self.new_incar_release,
+                self.deaths,
+                self.params,
+            )
+            self.print_stats(stats, outdir)
         # burn is negative time, model run starts at t = 1
         for i in range(
             -1 * self.params.model.time.burn_steps, self.params.model.time.num_steps
@@ -355,7 +364,7 @@ class HIVModel:
         if agent.high_risk_time > 0:
             agent.high_risk_time -= 1
             if (
-                agent.so == "HM"
+                agent.sex_type == "HM"
                 and self.features.prep
                 and (self.prep.target_model in ("high_risk", "incarcerated_high_risk"))
             ):
@@ -629,11 +638,11 @@ class HIVModel:
 
         assert agent.hiv
         assert not partner.hiv
-        assert agent.drug_use == "Inj"
-        assert partner.drug_use == "Inj"
+        assert agent.drug_type == "Inj"
+        assert partner.drug_type == "Inj"
 
         agent_race = agent.race
-        agent_sex_type = agent.so
+        agent_sex_type = agent.sex_type
 
         mean_num_acts = (
             self.demographics[agent_race][agent_sex_type].injection.num_acts
@@ -706,7 +715,7 @@ class HIVModel:
         total_sex_acts = utils.poisson(mean_sex_acts, self.np_random)
 
         # Get condom usage
-        p_safe_sex = self.demographics[agent.race][agent.so].safe_sex
+        p_safe_sex = self.demographics[agent.race][agent.sex_type].safe_sex
 
         # Reduction of risk acts between partners for condom usage
         unsafe_sex_acts = total_sex_acts
@@ -772,11 +781,13 @@ class HIVModel:
                     # between receptive and insertive by act
             # get probability of sex acquisition given HIV- partner's position
 
-            p = self.params.partnership.sex.acquisition[partner.so][partner_sex_role]
+            p = self.params.partnership.sex.acquisition[partner.sex_type][
+                partner_sex_role
+            ]
 
             # scale based on HIV+ agent's haart status/adherence
             if agent.haart:
-                p *= self.params.partnership.sex.haart_scaling[agent.so][
+                p *= self.params.partnership.sex.haart_scaling[agent.sex_type][
                     agent.haart_adherence
                 ].prob
 
@@ -909,7 +920,7 @@ class HIVModel:
         if duration is not None:
             agent.high_risk_time = duration
         else:
-            agent.high_risk_time = self.high_risk.sex_based[agent.so].duration
+            agent.high_risk_time = self.high_risk.sex_based[agent.sex_type].duration
 
     def incarcerate(self, agent: Agent):
         """
@@ -957,11 +968,13 @@ class HIVModel:
                         # END FORCE
 
         elif self.run_random.random() < (
-            self.demographics[agent.race][agent.so].incar.prob
+            self.demographics[agent.race][agent.sex_type].incar.prob
             * hiv_multiplier
             * self.calibration.incarceration
         ):
-            incar_duration = self.demographics[agent.race][agent.so].incar.duration.prob
+            incar_duration = self.demographics[agent.race][
+                agent.sex_type
+            ].incar.duration.prob
 
             bin = current_p_value = 1
             p = self.run_random.random()
@@ -1020,7 +1033,7 @@ class HIVModel:
         :Output:
             none
         """
-        sex_type = agent.so
+        sex_type = agent.sex_type
         race_type = agent.race
         diagnosed = agent.hiv_dx
 
@@ -1105,7 +1118,7 @@ class HIVModel:
 
         agent_haart = agent.haart
         agent_race = agent.race
-        agent_so = agent.so
+        agent_so = agent.sex_type
 
         # Determine probability of HIV treatment
         if agent.hiv_dx:
@@ -1153,7 +1166,7 @@ class HIVModel:
         # else if agent is on PrEP, see if they should discontinue
         if (
             self.run_random.random()
-            < self.demographics[agent.race][agent.so].prep.discontinue
+            < self.demographics[agent.race][agent.sex_type].prep.discontinue
             and agent.prep_type == "Oral"
         ):
             self.pop.prep_counts[agent.race] -= 1
@@ -1187,9 +1200,11 @@ class HIVModel:
             if (
                 self.vaccine.booster
                 and agent.vaccine_time
-                == self.demographics[agent.race][agent.so].vaccine.booster.interval
+                == self.demographics[agent.race][
+                    agent.sex_type
+                ].vaccine.booster.interval
                 and self.run_random.random()
-                < self.demographics[agent.race][agent.so].vaccine.booster.prob
+                < self.demographics[agent.race][agent.sex_type].vaccine.booster.prob
             ):
                 agent.vaccinate(vaxType)
 
@@ -1197,7 +1212,7 @@ class HIVModel:
             if self.vaccine.init == burn:  # both true or both false
                 if (
                     self.run_random.random()
-                    < self.demographics[agent.race][agent.so].vaccine.prob
+                    < self.demographics[agent.race][agent.sex_type].vaccine.prob
                 ):
                     agent.vaccinate(vaxType)
 
@@ -1248,7 +1263,7 @@ class HIVModel:
                 hiv_agents = len(all_hiv_agents & all_race)
                 target_prep = (len(all_race) - hiv_agents) * self.demographics[
                     agent.race
-                ][agent.so].prep.coverage
+                ][agent.sex_type].prep.coverage
 
             else:
                 target_prep = int(
@@ -1303,7 +1318,7 @@ class HIVModel:
                 prob.get_death_rate(
                     agent.hiv,
                     agent.aids,
-                    agent.drug_use,
+                    agent.drug_type,
                     agent.haart_adherence,
                     self.demographics[agent.race],
                     self.params.model.time.steps_per_year,
@@ -1324,5 +1339,5 @@ class HIVModel:
             # Remove agent from agent class and sub-sets
             self.pop.remove_agent(agent)
 
-            new_agent = self.pop.create_agent(agent.race, agent.so)
+            new_agent = self.pop.create_agent(agent.race, agent.sex_type)
             self.pop.add_agent(new_agent)

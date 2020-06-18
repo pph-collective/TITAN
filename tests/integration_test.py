@@ -50,8 +50,8 @@ def test_model_reproducible(tmpdir):
     subprocess.check_call([f, f"-p {param_file}", f"-o {path_a}"])
     subprocess.check_call([f, f"-p {param_file}", f"-o {path_b}"])
 
-    result_file_a = os.path.join(path_a, "basicReport_MSM_black.txt")
-    result_file_b = os.path.join(path_b, "basicReport_MSM_black.txt")
+    result_file_a = os.path.join(path_a, "basicReport.txt")
+    result_file_b = os.path.join(path_b, "basicReport.txt")
     assert os.path.isfile(result_file_a)
     with open(result_file_a, newline="") as fa, open(result_file_b, newline="") as fb:
         reader_a = csv.DictReader(fa, delimiter="\t")
@@ -200,35 +200,39 @@ def test_prep_coverage(make_model_integration, tmpdir):
     model_b = HIVModel(model_a.params)
     model_b.run(path_b)
 
-    result_file_a = os.path.join(path_a, "basicReport_ALL_ALL.txt")
-    result_file_b = os.path.join(path_b, "basicReport_ALL_ALL.txt")
+    result_file_a = os.path.join(path_a, "basicReport.txt")
+    result_file_b = os.path.join(path_b, "basicReport.txt")
     assert os.path.isfile(result_file_a)
     with open(result_file_a, newline="") as fa, open(result_file_b, newline="") as fb:
         reader_a = csv.DictReader(fa, delimiter="\t")
-        res_a = []
+        res_a = {}
         for row in reader_a:
-            res_a.append(row)
+            if row["t"] not in res_a:
+                res_a[row["t"]] = {"HIV": 0, "PrEP": 0}
+            res_a[row["t"]]["HIV"] += float(row["HIV"])
+            res_a[row["t"]]["PrEP"] += float(row["PrEP"])
 
         reader_b = csv.DictReader(fb, delimiter="\t")
-        res_b = []
+        res_b = {}
         for row in reader_b:
-            res_b.append(row)
+            if row["t"] not in res_b:
+                res_b[row["t"]] = {"HIV": 0, "PrEP": 0}
+            res_b[row["t"]]["HIV"] += float(row["HIV"])
+            res_b[row["t"]]["PrEP"] += float(row["PrEP"])
 
     # at start, should be similar
-    assert res_a[0]["t"] == res_b[0]["t"]
-    t0_hiv_a = float(res_a[0]["HIV"])
-    t0_hiv_b = float(res_b[0]["HIV"])
+    t0_hiv_a = res_a["0"]["HIV"]
+    t0_hiv_b = res_b["0"]["HIV"]
     t0_diff = t0_hiv_a - t0_hiv_b
     assert math.isclose(t0_hiv_a, t0_hiv_b, abs_tol=15)  # within 15 agents
-    assert int(res_a[0]["PrEP"]) < int(res_b[0]["PrEP"])
+    assert res_a["0"]["PrEP"] < res_b["0"]["PrEP"]
 
     # at end, should be different
-    assert res_a[9]["t"] == res_b[9]["t"]
-    t9_hiv_a = float(res_a[9]["HIV"])
-    t9_hiv_b = float(res_b[9]["HIV"])
-    t9_diff = t9_hiv_a - t9_hiv_b  # a should be higher
-    assert t9_diff > t0_diff
-    assert int(res_a[9]["PrEP"]) < int(res_b[9]["PrEP"])
+    t10_hiv_a = res_a["10"]["HIV"]
+    t10_hiv_b = res_b["10"]["HIV"]
+    t10_diff = t10_hiv_a - t10_hiv_b  # a should be higher
+    assert t10_diff > t0_diff
+    assert res_a["10"]["PrEP"] < res_b["10"]["PrEP"]
 
 
 @pytest.mark.integration_stochastic
@@ -255,33 +259,36 @@ def test_syringe_services(make_model_integration, tmpdir):
 
     model_b.run(path_b)
 
-    result_file_a = os.path.join(path_a, "basicReport_PWID_ALL.txt")
-    result_file_b = os.path.join(path_b, "basicReport_PWID_ALL.txt")
+    result_file_a = os.path.join(path_a, "basicReport.txt")
+    result_file_b = os.path.join(path_b, "basicReport.txt")
     assert os.path.isfile(result_file_a)
     with open(result_file_a, newline="") as fa, open(result_file_b, newline="") as fb:
         reader_a = csv.DictReader(fa, delimiter="\t")
-        res_a = []
+        res_a = {}
         for row in reader_a:
-            res_a.append(row)
+            if row["drug_type"] == "Inj":
+                res_a[row["t"]] = res_a.get(row["t"], 0) + float(row["HIV"])
 
         reader_b = csv.DictReader(fb, delimiter="\t")
-        res_b = []
+        res_b = {}
         for row in reader_b:
-            res_b.append(row)
+            if row["drug_type"] == "Inj":
+                res_b[row["t"]] = res_b.get(row["t"], 0) + float(row["HIV"])
+
+    print(res_a)
+    print(res_b)
 
     # at start, should be similar
-    assert res_a[0]["t"] == res_b[0]["t"]
-    t0_hiv_a = float(res_a[0]["HIV"])
-    t0_hiv_b = float(res_b[0]["HIV"])
+    t0_hiv_a = res_a["0"]
+    t0_hiv_b = res_b["0"]
     t0_diff = t0_hiv_a - t0_hiv_b
     assert math.isclose(t0_hiv_a, t0_hiv_b, abs_tol=15)  # within 15 agents
 
     # at end, should be different
-    assert res_a[9]["t"] == res_b[9]["t"]
-    t9_hiv_a = float(res_a[9]["HIV"])
-    t9_hiv_b = float(res_b[9]["HIV"])
-    t9_diff = t9_hiv_a - t9_hiv_b  # a should be higher
-    assert t9_diff > t0_diff
+    t10_hiv_a = res_a["10"]
+    t10_hiv_b = res_b["10"]
+    t10_diff = t10_hiv_a - t10_hiv_b  # a should be higher
+    assert t10_diff > t0_diff
 
 
 @pytest.mark.integration_deterministic

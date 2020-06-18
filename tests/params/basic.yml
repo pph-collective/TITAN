@@ -3,7 +3,7 @@ demographics:
     ppl: 0.6
     MSM:
       ppl: 0.3
-      drug_use:
+      drug_type:
         Inj:
           init: 0.2
         NonInj:
@@ -59,7 +59,7 @@ demographics:
           prob: 0.1
     HM:
       ppl: 0.3
-      drug_use:
+      drug_type:
         Inj:
           init: 0.2
         NonInj:
@@ -115,7 +115,7 @@ demographics:
           prob: 0.1
     HF:
       ppl: 0.2
-      drug_use:
+      drug_type:
         Inj:
           init: 0.2
         NonInj:
@@ -138,7 +138,6 @@ demographics:
         SexInj:
           var_1: 0.0
           var_2: 0
-          mean: 0.0
           dist_type: set_value
       hiv:
         init: 0.1
@@ -172,7 +171,7 @@ demographics:
           prob: 0.1
     WSW:
       ppl: 0.1
-      drug_use:
+      drug_type:
         Inj:
           init: 0.2
         NonInj:
@@ -228,7 +227,7 @@ demographics:
           prob: 0.1
     MTF:
       ppl: 0.1
-      drug_use:
+      drug_type:
         Inj:
           init: 0.2
         NonInj:
@@ -333,7 +332,7 @@ demographics:
           prob: 0.1
   white:
     ppl: 0.4
-    drug_use:
+    drug_type:
       Inj:
         init: 0.3
       NonInj:
@@ -342,7 +341,7 @@ demographics:
         init: 0.6
     MSM:
       ppl: 0.3
-      drug_use:
+      drug_type:
         Inj:
           init: 0.3
         NonInj:
@@ -398,7 +397,7 @@ demographics:
           prob: 0.1
     HM:
       ppl: 0.3
-      drug_use:
+      drug_type:
         Inj:
           init: 0.3
         NonInj:
@@ -454,7 +453,7 @@ demographics:
           prob: 0.1
     HF:
       ppl: 0.2
-      drug_use:
+      drug_type:
         Inj:
           init: 0.3
         NonInj:
@@ -510,7 +509,7 @@ demographics:
           prob: 0.1
     WSW:
       ppl: 0.1
-      drug_use:
+      drug_type:
         Inj:
           init: 0.3
         NonInj:
@@ -533,7 +532,6 @@ demographics:
         SexInj:
           var_1: 0.0
           var_2: 0
-          mean: 0.0
           dist_type: set_value
       hiv:
         init: 0.1
@@ -567,7 +565,7 @@ demographics:
           prob: 0.1
     MTF:
       ppl: 0.1
-      drug_use:
+      drug_type:
         Inj:
           init: 0.3
         NonInj:
@@ -747,6 +745,9 @@ agent_zero:
 outputs:
   network:
     calc_component_stats: true
+  classes:
+    - races
+    - sex_types
 features:
   incar: true
   prep: true

@@ -80,7 +80,7 @@ class Population:
                 for role, prob in self.demographics[race][st].sex_role.init.items():
                     self.role_weights[race][st]["values"].append(role)
                     self.role_weights[race][st]["weights"].append(prob)
-                for use_type, prob in self.demographics[race][st].drug_use.items():
+                for use_type, prob in self.demographics[race][st].drug_type.items():
                     self.drug_weights[race][st]["values"].append(use_type)
                     self.drug_weights[race][st]["weights"].append(prob.init)
 
@@ -155,7 +155,7 @@ class Population:
     def initialize_incarceration(self):
 
         for a in self.all_agents.members:
-            incar_params = self.demographics[a.race][a.so].incar
+            incar_params = self.demographics[a.race][a.sex_type].incar
             jail_duration = incar_params.duration.init
 
             prob_incar = incar_params.init
@@ -265,7 +265,7 @@ class Population:
             agent.high_risk = True
             agent.high_risk_ever = True
             agent.high_risk_time = self.pop_random.randint(
-                1, self.params.high_risk.sex_based[agent.so].duration
+                1, self.params.high_risk.sex_based[agent.sex_type].duration
             )
 
         # get agent's mean partner numbers for bond type
@@ -285,7 +285,7 @@ class Population:
             # so not zero if added mid-year
             agent.target_partners[bond] = agent.mean_num_partners[bond]
             if "injection" in bond_def.acts_allowed:
-                assert agent.drug_use == "Inj" or agent.mean_num_partners[bond] == 0
+                assert agent.drug_type == "Inj" or agent.mean_num_partners[bond] == 0
 
             if agent.target_partners[bond] > 0:
                 self.partnerable_agents[bond].add(agent)
@@ -322,11 +322,11 @@ class Population:
         if agent.high_risk:
             self.high_risk_agents.add_agent(agent)
 
-        if agent.drug_use == "Inj":
+        if agent.drug_type == "Inj":
             self.pwid_agents.add_agent(agent)
 
         # who can sleep with this agent
-        for sex_type in self.params.classes.sex_types[agent.so].sleeps_with:
+        for sex_type in self.params.classes.sex_types[agent.sex_type].sleeps_with:
             self.sex_partners[sex_type].add(agent)
 
         if agent.prep:

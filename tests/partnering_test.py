@@ -280,7 +280,7 @@ def test_get_assort_partner_high_risk(make_population, make_agent, params):
 
 
 @pytest.mark.unit
-def test_get_assort_partner_drug_use(make_population, make_agent, params):
+def test_get_assort_partner_drug_type(make_population, make_agent, params):
     pop = make_population()
     a = make_agent(SO="MSM", race="white", DU="Inj")
     p1 = make_agent(SO="MSM", race="white", DU="Inj")
@@ -311,7 +311,7 @@ def test_get_assort_partner_drug_use(make_population, make_agent, params):
     # assort with Inj
     test_rule = ObjMap(
         {
-            "attribute": "drug_use",
+            "attribute": "drug_type",
             "agent_value": "Inj",
             "partner_values": {"Inj": 0.8, "NonInj": 0.1, "__other__": 0.1},
         }
@@ -333,7 +333,7 @@ def test_get_assort_partner_drug_use(make_population, make_agent, params):
     # get __other__
     test_rule = ObjMap(
         {
-            "attribute": "drug_use",
+            "attribute": "drug_type",
             "agent_value": "Inj",
             "partner_values": {"Inj": 0.8, "NonInj": 0.1, "__other__": 10},
         }

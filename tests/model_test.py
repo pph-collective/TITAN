@@ -82,8 +82,8 @@ def test_agents_interact(make_model, make_agent):
     assert model.agents_interact(rel)  # sex transmssion
     assert p.hiv is False  # but nothing happened (see skipped test)
 
-    a.drug_use = "Inj"
-    p.drug_use = "Inj"
+    a.drug_type = "Inj"
+    p.drug_type = "Inj"
     rel.bond_type = "Inj"
 
     model.run_random = FakeRandom(-0.1)
@@ -253,7 +253,7 @@ def test_update_syringe_services(make_model):
     model = make_model()
     # make at least one agent PWID
     agent = next(iter(model.pop.all_agents))
-    agent.drug_use = "Inj"
+    agent.drug_type = "Inj"
     if agent not in model.pop.pwid_agents.members:
         model.pop.pwid_agents.add_agent(agent)
 
@@ -262,7 +262,7 @@ def test_update_syringe_services(make_model):
     assert model.pop.pwid_agents
 
     for a in model.pop.all_agents:
-        if a.drug_use == "Inj":
+        if a.drug_type == "Inj":
             assert a in model.pop.pwid_agents.members
             assert a.ssp
 
@@ -421,7 +421,7 @@ def test_diagnose_hiv(make_model, make_agent):
 
     assert p.hiv_dx is False
     assert p not in model.new_dx.members
-    model.params.demographics[p.race][p.so].hiv.dx.prob = 0
+    model.params.demographics[p.race][p.sex_type].hiv.dx.prob = 0
 
     model.time = p.partner_traced + 1
     model.diagnose_hiv(p)
@@ -740,12 +740,14 @@ def test_die_and_replace_all(make_model):
     baseline_pop = copy(model.pop.all_agents.members)
     old_ids = [a.id for a in baseline_pop]
 
-    num_hm = len([x for x in baseline_pop if x.so == "HM"])
+    num_hm = len([x for x in baseline_pop if x.sex_type == "HM"])
     num_white = len([x for x in baseline_pop if x.race == "white"])
 
     model.die_and_replace()
 
-    assert num_hm == len([x for x in model.pop.all_agents.members if x.so == "HM"])
+    assert num_hm == len(
+        [x for x in model.pop.all_agents.members if x.sex_type == "HM"]
+    )
     assert num_white == len(
         [x for x in model.pop.all_agents.members if x.race == "white"]
     )
