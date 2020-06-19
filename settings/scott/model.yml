@@ -71,3 +71,35 @@ partner_tracing:
   start: 15
   stop: 277
   trace_time: 1
+
+partnership:
+  sex:
+    frequency:
+      type: distribution
+      distribution:
+        dist_type: poisson
+        var_1: 13.1
+        var_2: 1
+  duration:
+    Sex:
+      type: distribution
+      distribution:
+        dist_type: set_value
+        var_1: 121
+        var_2: 1
+        mean: 121
+    SexInj:
+      type: distribution
+      distribution:
+        dist_type: set_value
+        var_1: 121
+        var_2: 121
+        mean: 121
+    Injection:
+      type: distribution
+      distribution:
+        dist_type: gamma
+        var_1: 5.37
+        var_2: 23.28
+        mean: 125
+

@@ -262,7 +262,7 @@ class HIVModel:
             if agent.msmw and self.run_random.random() < self.params.msmw.hiv.prob:
                 self.hiv_convert(agent)
 
-            if agent.hiv:
+            if agent.hiv:  # TODO: make flexible in time
                 # If in burnin, ignore HIV
                 if not burn:
                     self.diagnose_hiv(agent)
