@@ -10,7 +10,7 @@ model:
     burn_steps: 6
   network:
     enable: true
-    type: max_k_comp_size
+    type: comp_size
     component_size:
       max: 100
 outputs:

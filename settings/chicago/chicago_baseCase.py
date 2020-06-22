@@ -25,7 +25,7 @@ params.model.time.num_steps = 24  # total time steps to iterate
 params.model.time.burn_steps = 6
 model = "Custom"  # Model Type for fast flag toggling
 setting = "AtlantaMSM"
-params.model.network.type = "max_k_comp_size"
+params.model.network.type = "comp_size"
 ####################
 
 """

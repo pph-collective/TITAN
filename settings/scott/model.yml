@@ -1,7 +1,11 @@
+outputs:
+  network:
+    calc_network_stats: true
 model:
   num_pop: 24110
   time:
     num_steps: 60
+    burn_steps: 48
   network:
     enable: true
     type: scale_free

@@ -532,7 +532,7 @@ class Population:
             None
         """
 
-        if self.params.model.network.type == "max_k_comp_size":
+        if self.params.model.network.type == "comp_size":
 
             def trim_component(component, max_size):
                 for ag in component.nodes:

@@ -62,7 +62,7 @@ calibration:
     trim:
       prob:
         default: 0.1
-        description: Probability an agent's relationships will be trimmed if using max_k_comp_size for network initialization
+        description: Probability an agent's relationships will be trimmed if using comp_size for network initialization
         type: float
         min: 0
         max: 1

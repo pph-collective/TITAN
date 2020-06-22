@@ -390,7 +390,7 @@ def test_network_init_scale_free(params):
 @pytest.mark.unit
 def test_network_init_max_k(params):
     """Test if all Inj,NonInj,None drug use agents are in the population"""
-    params.model.network.type = "max_k_comp_size"
+    params.model.network.type = "comp_size"
     net = Population(params)
     assert params.model.num_pop == net.all_agents.num_members()
 
