@@ -84,7 +84,7 @@ demographics:
       haart:
         init: 1.0
         prob: 0.679
-        adherence: 0.405
+        adherence: 0.7
         discontinue: 0.000
       injection:
         unsafe_prob: 0.43
@@ -115,7 +115,7 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 1.1
+          var_1: .958
           var_2: 1.0
         Inj:
           dist_type: gamma
@@ -123,7 +123,7 @@ demographics:
           var_2: 0.363
         SexInj:
           dist_type: poisson
-          var_1: 1.1
+          var_1: 0.748
           var_2: 1.0
       hiv:
         init: 0.0

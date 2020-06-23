@@ -8,7 +8,9 @@ model:
     burn_steps: 48
   network:
     enable: true
-    type: scale_free
+    type: comp_size
+    component_size:
+      max: 2000
 
 features:
   haart: true
@@ -30,6 +32,8 @@ agent_zero:
   bond_type: Inj
   num_partners: 4
   start_time: -3
+  dx_scalar: 2.5
+  dx_time: 20
 
 hiv:
   dx:
@@ -72,8 +76,8 @@ partner_tracing:
     - Sex
     - Inj
     - SexInj
-  start: 15
-  stop: 277
+  start: 1
+  stop: 12
   trace_time: 1
 
 partnership:
@@ -90,7 +94,7 @@ partnership:
       distribution:
         dist_type: set_value
         var_1: 121
-        var_2: 1
+        var_2: 121
         mean: 121
     SexInj:
       type: distribution
@@ -106,4 +110,10 @@ partnership:
         var_1: 5.37
         var_2: 23.28
         mean: 125
-
+assort_mix:
+  assort_pwid:
+    attribute: drug_use
+    agent_value: Inj
+    partner_values:
+      Inj: 0.6
+      __other__: 0.4
