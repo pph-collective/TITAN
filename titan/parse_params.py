@@ -156,7 +156,6 @@ def parse_params(defs, params, key_path, pops):
     # handles case of bin as direct default item
     if "default" in defs and defs["type"] == "bin":
         return get_bins("dummy", defs, key_path, {"dummy": params}, pops)
-
     for k, v in defs.items():
         # assumes all v are dicts, as otherwise it would have returned
         if "default" in v:

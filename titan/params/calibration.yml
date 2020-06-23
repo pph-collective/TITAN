@@ -8,7 +8,7 @@ calibration:
   sex:
     act:
       default: 1.0
-      description: Scales number of sex acts during sex trasmission
+      description: Scales number of sex acts during sex transmission
       type: float
       min: 0
     partner:

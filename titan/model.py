@@ -227,6 +227,8 @@ class HIVModel:
 
         if not self.features.static_network:
             self.pop.update_partner_assignments(t=self.time)
+            if self.pop.enable_graph:
+                self.pop.initialize_graph()
 
         for rel in self.pop.relationships:
             # If in burn, ignore interactions
@@ -262,9 +264,9 @@ class HIVModel:
             if agent.msmw and self.run_random.random() < self.params.msmw.hiv.prob:
                 self.hiv_convert(agent)
 
-            if agent.hiv:  # TODO: make flexible in time
-                # If in burnin, ignore HIV
-                if not burn:
+            if agent.hiv:
+                # If HIV hasn't started, ignore
+                if self.time > self.params.hiv.start:
                     self.diagnose_hiv(agent)
                     self.progress_to_aids(agent)
 
@@ -308,6 +310,13 @@ class HIVModel:
 
     def make_agent_zero(self):
         bond_type = self.params.agent_zero.bond_type
+        interaction_type = self.params.agent_zero.interaction_type
+        bonds = [
+            i
+            for i in self.params.classes.bond_types.values()
+            if interaction_type in i.acts_allowed
+        ]
+        print(bonds)
         zero_eligible = [
             agent
             for agent in self.pop.all_agents.members
@@ -1042,6 +1051,13 @@ class HIVModel:
 
         if not diagnosed:
             test_prob = self.demographics[race_type][sex_type].hiv.dx.prob
+
+            if (
+                self.params.agent_zero.start_time
+                <= self.time
+                < self.params.agent_zero.start_time + self.params.agent_zero.dx_time
+            ):
+                test_prob *= self.params.agent_zero.dx_scalar
 
             # Rescale based on calibration param
             test_prob *= self.calibration.test_frequency

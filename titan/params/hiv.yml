@@ -1,5 +1,20 @@
 hiv:
   dx:
+    time_scalar:
+      type: bin
+      description: optional scalar on diagnosis rates for time periods
+      fields:
+        time_start:
+          type: float
+        time_stop:
+          type: float
+        scalar:
+          type: float
+      default:
+        1:
+          time_start: 0
+          time_stop: 0
+          scalar: 1.0
     risk_reduction:
       sex:
         default: 0
