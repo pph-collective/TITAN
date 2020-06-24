@@ -31,20 +31,20 @@ syringe_services:
 agent_zero:
   num_partners: 4
   start_time: -3
-  dx_scalar: 2.5
-  dx_time: 20
 
 hiv:
   dx:
     risk_reduction:
       sex: 0.27
-    time_scalar:
-      1:
-        time_start: 1
-        time_stop: 999
-        scalar: 1.8
   haart_cap: true
   start: -3
+
+timeline_scaling:
+  timeline:
+    calibration.test_frequency:
+      time_start: 1
+      time_stop: 999
+      scalar: 1.8
 
 classes:
   sex_types:

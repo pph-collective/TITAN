@@ -228,7 +228,6 @@ def single_run(sweep, outfile_dir, params):
         os.mkdir(os.path.join(pid_outfile_dir, "network"))
 
     for param, val in sweep.items():
-        print(f"\t{param}: {val}")
         path = param.split(".")
         sweep_item = params
         for p in path[:-1]:

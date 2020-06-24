@@ -160,6 +160,7 @@ partnership:
   pca:
     frequency:
       type: sub-dict
+      description: frequency of knowledge/opinion dissemination acts for peer change agent module
       keys:
         - bond_types
       default:

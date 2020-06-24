@@ -256,9 +256,9 @@ class Agent:
         assert bond_types or classes, "Bond types must be provided"
         if not bond_types:
             bond_types = classes
-        partners = []
+        partners = set()
         for bond in bond_types:
-            partners += [partner for partner in self.partners[bond]]
+            partners.update({partner for partner in self.partners[bond]})
         return partners
 
     def get_num_partners(self, classes=None, bond_types=None):
@@ -290,6 +290,8 @@ class Agent:
             return int(
                 safe_dist(params.partnership.sex.frequency.distribution, rand_gen)
             )
+        else:
+            raise Exception("Sex acts must be defined as bin or distribution")
 
 
 class Relationship:

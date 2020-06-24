@@ -150,7 +150,7 @@ class Population:
         self.update_partner_assignments()
 
         if self.enable_graph:
-            self.initialize_graph()
+            self.trim_graph()
 
     def initialize_incarceration(self):
 
@@ -522,7 +522,7 @@ class Population:
             ):
                 self.partnerable_agents[bond].add(a)
 
-    def initialize_graph(self):
+    def trim_graph(self):
         """
         :Purpose:
             Initialize network with graph-based algorithm for relationship

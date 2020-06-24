@@ -239,7 +239,7 @@ class HIVModel:
         if not self.features.static_network:
             self.pop.update_partner_assignments(t=self.time)
             if self.pop.enable_graph:
-                self.pop.initialize_graph()
+                self.pop.trim_graph()
 
         for rel in self.pop.relationships:
             # If before hiv start time, ignore interactions
@@ -1091,11 +1091,6 @@ class HIVModel:
 
             # Rescale based on calibration param
             test_prob *= self.calibration.test_frequency
-
-            # Scale for changing diagnosis over time
-            for bin in self.params.hiv.dx.time_scalar.values():
-                if bin.time_start <= self.time < bin.time_stop:
-                    test_prob *= bin.scalar
 
             if self.run_random.random() < test_prob:
                 diagnose(agent)
