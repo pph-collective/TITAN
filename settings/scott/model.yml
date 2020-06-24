@@ -117,7 +117,7 @@ partnership:
         mean: 125
 assort_mix:
   assort_pwid:
-    attribute: drug_use
+    attribute: drug_type
     agent_value: Inj
     partner_values:
       Inj: 0.6

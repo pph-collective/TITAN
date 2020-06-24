@@ -179,7 +179,7 @@ class HIVModel:
             -1 * self.params.model.time.burn_steps, self.params.model.time.num_steps
         ):
             self.time += 1
-            burn = True if self.time < 0 else False
+            burn = True if self.time < 1 else False
             self.step(outdir, burn=burn)
             self.reset_trackers()
 
@@ -242,7 +242,7 @@ class HIVModel:
                 self.pop.initialize_graph()
 
         for rel in self.pop.relationships:
-            # If in burn, ignore interactions
+            # If before hiv start time, ignore interactions
             if self.time > self.params.hiv.start:
                 self.agents_interact(rel)
 
@@ -277,7 +277,7 @@ class HIVModel:
 
             if agent.hiv:
                 # If HIV hasn't started, ignore
-                if self.time > self.params.hiv.start:
+                if self.time >= self.params.hiv.start:
                     self.diagnose_hiv(agent)
                     self.progress_to_aids(agent)
 
@@ -320,11 +320,10 @@ class HIVModel:
             self.die_and_replace()
 
     def make_agent_zero(self):
-        interaction_type = self.params.agent_zero.interaction_type
         bonds = [  # Find what bond_types have the allowed interaction
-            i
-            for i, j in self.params.classes.bond_types.items()
-            if interaction_type in j.acts_allowed
+            bond
+            for bond, act_type in self.params.classes.bond_types.items()
+            if self.params.agent_zero.interaction_type in act_type.acts_allowed
         ]
         zero_eligible = [
             agent
@@ -735,7 +734,7 @@ class HIVModel:
 
         # unprotected sex probabilities for primary partnerships
         mean_sex_acts = (
-            agent.get_number_of_sex_acts(self.np_random, self.params)
+            agent.get_number_of_sex_acts(self.run_random, self.params)
             * self.calibration.sex.act
         )
         total_sex_acts = utils.poisson(mean_sex_acts, self.np_random)
@@ -1089,13 +1088,6 @@ class HIVModel:
 
         if not diagnosed:
             test_prob = self.demographics[race_type][sex_type].hiv.dx.prob
-
-            if (
-                self.params.agent_zero.start_time
-                <= self.time
-                < self.params.agent_zero.start_time + self.params.agent_zero.dx_time
-            ):
-                test_prob *= self.params.agent_zero.dx_scalar
 
             # Rescale based on calibration param
             test_prob *= self.calibration.test_frequency

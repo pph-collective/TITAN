@@ -281,21 +281,15 @@ class Agent:
             for i in range(1, 6):
                 p = params.partnership.sex.frequency.bins[i].prob
                 if rv <= p:
-                    min_frequency = params.partnership.sex.frequency.bins[i].min
-                    max_frequency = params.partnership.sex.frequency.bins[i].max
-                    num_acts = rand_gen.randint(min_frequency, max_frequency, 1)
-                    return num_acts if type(num_acts) == int else num_acts[0]
+                    break
 
-            # fallthrough is last i
             min_frequency = params.partnership.sex.frequency.bins[i].min
             max_frequency = params.partnership.sex.frequency.bins[i].max
-            num_acts = rand_gen.randint(min_frequency, max_frequency, 1)
-            num_acts = num_acts[0]
+            return rand_gen.randrange(min_frequency, max_frequency, 1)
         elif params.partnership.sex.frequency.type == "distribution":
-            num_acts = int(
+            return int(
                 safe_dist(params.partnership.sex.frequency.distribution, rand_gen)
             )
-        return num_acts
 
 
 class Relationship:

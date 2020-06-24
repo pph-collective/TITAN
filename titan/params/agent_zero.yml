@@ -15,11 +15,3 @@ agent_zero:
     type: int
     description: "Time to insert the infection for agent 0"
     default: 1
-  dx_scalar:
-    type: float
-    description: "Increase in diagnoses for time steps after agent_zero"
-    default: 1.0
-  dx_time:
-    type: int
-    description: "Number of time steps to increase diagnoses after agent_zero"
-    default: 0
