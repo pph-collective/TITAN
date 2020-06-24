@@ -14,7 +14,7 @@ demographics:
     ppl: 1.0
     MSM:
       ppl: 1.0
-      drug_use:
+      drug_type:
         Inj:
           init: 0.2
         NonInj:
@@ -69,7 +69,7 @@ demographics:
           var_2: 0
     PWID:
       ppl: 0.2
-      drug_use:
+      drug_type:
         Inj:
           init: 1.0
       hiv:

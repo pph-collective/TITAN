@@ -3,7 +3,7 @@ demographics:
     ppl: 1.0
     HM:
       ppl: 0.495
-      drug_use:
+      drug_type:
         Inj:
           init: 0.0244
         None:
@@ -58,7 +58,7 @@ demographics:
 
     HF:
       ppl: 0.505
-      drug_use:
+      drug_type:
         Inj:
           init: 0.0244
         None:

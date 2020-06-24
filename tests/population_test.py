@@ -22,14 +22,14 @@ def test_create_agent(make_population, params):
     assert a2.race == "black"
 
     a3 = pop.create_agent("white", "HM")
-    assert a3.so == "HM"
+    assert a3.sex_type == "HM"
     assert a3.race == "white"
 
     # check PWID and HIV and high risk
     pop.pop_random = FakeRandom(-0.1)
     pop.drug_weights["white"]["HM"] = ObjMap({"values": ["Inj"], "weights": [1.0]})
     a4 = pop.create_agent("white", "HM")
-    assert a4.drug_use == "Inj"
+    assert a4.drug_type == "Inj"
     assert a4.hiv
     assert a4.aids
     assert a4.hiv_dx
@@ -43,7 +43,7 @@ def test_create_agent(make_population, params):
     pop.pop_random = FakeRandom(0.999)
     pop.drug_weights["white"]["HM"] = ObjMap({"values": ["None"], "weights": [1.0]})
     a4 = pop.create_agent("white", "HM")
-    assert a4.drug_use == "None"
+    assert a4.drug_type == "None"
     assert a4.hiv is False
     assert a4.prep is False
     assert a4.intervention_ever is False
@@ -63,12 +63,12 @@ def test_create_agent_proportions(make_population, params):
     num_PWID = 0
     for i in range(n):
         a = pop.create_agent(race)
-        if a.drug_use == "Inj":
+        if a.drug_type == "Inj":
             num_PWID += 1
 
-        if a.so == "HF":
+        if a.sex_type == "HF":
             num_HF += 1
-        elif a.so == "HM":
+        elif a.sex_type == "HM":
             num_HM += 1
         else:
             assert False
@@ -82,7 +82,7 @@ def test_create_agent_proportions(make_population, params):
 def test_add_remove_agent_to_pop(make_population):
     pop = make_population(n=100)
     agent = pop.create_agent("white", "HM")
-    agent.drug_use = "Inj"
+    agent.drug_type = "Inj"
     agent.hiv = True
     agent.aids = True
     agent.intervention_ever = True
@@ -143,10 +143,10 @@ def test_update_agent_partners_one_agent(make_population, params):
 
 @pytest.mark.unit
 def test_update_agent_partners_PWID_no_match(make_population, params):
-    params.demographics.white.MSM.drug_use = ObjMap(
+    params.demographics.white.MSM.drug_type = ObjMap(
         {"Inj": {"init": 1.0}, "NonInj": {"init": 0}, "None": {"init": 0.0}}
     )
-    params.demographics.white.HF.drug_use = ObjMap(
+    params.demographics.white.HF.drug_type = ObjMap(
         {"Inj": {"init": 0.0}, "NonInj": {"init": 0}, "None": {"init": 1.0}}
     )
     pop = make_population(n=0)
@@ -155,8 +155,8 @@ def test_update_agent_partners_PWID_no_match(make_population, params):
     pop.pop_random = FakeRandom(1.1)
     pop.add_agent(a)
     pop.add_agent(p)
-    assert a.drug_use == "Inj"
-    assert p.drug_use == "None"
+    assert a.drug_type == "Inj"
+    assert p.drug_type == "None"
 
     for bond in params.classes.bond_types.keys():
         assert pop.update_agent_partners(a, bond)
@@ -165,8 +165,8 @@ def test_update_agent_partners_PWID_no_match(make_population, params):
         assert not a.partners[bond]
         assert len(pop.graph.edges()) == 0
 
-    p.so = "MSM"
-    p.drug_use = "None"
+    p.sex_type = "MSM"
+    p.drug_type = "None"
     for bond in params.classes.bond_types.keys():
         assert pop.update_agent_partners(a, bond)
         assert a in pop.graph.nodes()
@@ -181,8 +181,8 @@ def test_update_agent_partners_MSM_no_match(make_population, params):
     a = pop.create_agent("white", "MSM")
     p = pop.create_agent("white", "HF")
     pop.pop_random = FakeRandom(1.1)
-    a.drug_use = "None"
-    p.drug_use = "None"
+    a.drug_type = "None"
+    p.drug_type = "None"
     pop.add_agent(a)
     pop.add_agent(p)
 
@@ -195,7 +195,7 @@ def test_update_agent_partners_MSM_no_match(make_population, params):
 
 @pytest.mark.unit
 def test_update_agent_partners_PWID_match(make_population, params):
-    params.demographics.white.MSM.drug_use = ObjMap(
+    params.demographics.white.MSM.drug_type = ObjMap(
         {"Inj": {"init": 1.0}, "NonInj": {"init": 0}, "None": {"init": 0.0}}
     )
     pop = make_population(n=0)
@@ -203,12 +203,12 @@ def test_update_agent_partners_PWID_match(make_population, params):
     params.demographics.white.PWID.ppl = 1.0
     assert params.demographics.white.PWID.num_partners.Inj.var_1
     p = pop.create_agent("white", "MSM")
-    assert p.drug_use == "Inj"
+    assert p.drug_type == "Inj"
     assert p.mean_num_partners["Inj"]
     assert p.target_partners["Inj"]
     # ensure random sex partner no assorting
     pop.pop_random = FakeRandom(1.1)
-    a.drug_use = "Inj"
+    a.drug_type = "Inj"
     pop.add_agent(a)
     p.target_partners["Inj"] = 10
     pop.add_agent(p)
@@ -229,8 +229,8 @@ def test_update_agent_partners_MSM_match(make_population, params):
     p = pop.create_agent("white", "MSM")
     # ensure random sex partner no assorting
     pop.pop_random = FakeRandom(1.1)
-    a.drug_use = "None"
-    p.drug_use = "None"
+    a.drug_type = "None"
+    p.drug_type = "None"
     a.target_partners["Sex"] = 25
     p.target_partners["Sex"] = 25
     pop.add_agent(a)
@@ -251,8 +251,8 @@ def test_update_agent_partners_NDU_PWID_match(make_population, params):
     p = pop.create_agent("white", "MSM")
     # ensure random sex partner no assorting
     pop.pop_random = FakeRandom(1.1)
-    a.drug_use = "None"
-    p.drug_use = "Inj"
+    a.drug_type = "None"
+    p.drug_type = "Inj"
 
     a.target_partners["Sex"] = 100
     p.target_partners["Sex"] = 100
@@ -274,8 +274,8 @@ def test_update_partner_assignments_MSM_match(make_population, params):
     p = pop.create_agent("white", "MSM")
     # ensure random sex partner no assorting
     pop.pop_random = FakeRandom(1.1)
-    a.drug_use = "None"
-    p.drug_use = "None"
+    a.drug_type = "None"
+    p.drug_type = "None"
 
     pop.add_agent(a)
     pop.add_agent(p)
@@ -298,8 +298,8 @@ def test_update_partner_assignments_PWID_match(make_population, params):
     p = pop.create_agent("white", "MSM")
     # ensure random sex partner no assorting
     pop.pop_random = FakeRandom(1.1)
-    a.drug_use = "Inj"
-    p.drug_use = "Inj"
+    a.drug_type = "Inj"
+    p.drug_type = "Inj"
     pop.add_agent(a)
     pop.add_agent(p)
 
@@ -323,8 +323,8 @@ def test_update_partner_assignments_NDU_PWID_match(make_population, params):
     p = pop.create_agent("white", "MSM")
     # ensure random sex partner no assorting
     pop.pop_random = FakeRandom(1.1)
-    a.drug_use = "None"
-    p.drug_use = "Inj"
+    a.drug_type = "None"
+    p.drug_type = "Inj"
     a.target_partners["Sex"] = 100
     p.target_partners["Sex"] = 100
     pop.add_agent(a)
@@ -351,16 +351,16 @@ def test_update_partner_assignments_no_match(make_population, params):
     p.id = 2
     # ensure random sex partner no assorting
     pop.pop_random = FakeRandom(1.1)
-    a.drug_use = "None"
-    p.drug_use = "None"
+    a.drug_type = "None"
+    p.drug_type = "None"
     a.target_partners["Sex"] = 50
     p.target_partners["Sex"] = 50
     pop.add_agent(a)
     pop.add_agent(p)
 
     params.model.num_pop = 0
-    assert p not in pop.sex_partners[a.so]
-    assert a not in pop.sex_partners[p.so]
+    assert p not in pop.sex_partners[a.sex_type]
+    assert a not in pop.sex_partners[p.sex_type]
 
     pop.update_partner_assignments(1)
     assert not a.partners["Social"]
@@ -383,8 +383,8 @@ def test_network_init_scale_free(params):
         assert agent in net.graph.nodes()
 
     for agent in net.all_agents:
-        assert agent.drug_use in ["Inj", "NonInj", "None"]
-        assert agent.so in params.classes.sex_types
+        assert agent.drug_type in ["Inj", "NonInj", "None"]
+        assert agent.sex_type in params.classes.sex_types
 
 
 @pytest.mark.unit
@@ -398,8 +398,8 @@ def test_network_init_max_k(params):
         assert agent in net.graph.nodes()
 
     for agent in net.all_agents:
-        assert agent.drug_use in ["Inj", "NonInj", "None"]
-        assert agent.so in params.classes.sex_types
+        assert agent.drug_type in ["Inj", "NonInj", "None"]
+        assert agent.sex_type in params.classes.sex_types
 
 
 @pytest.mark.unit

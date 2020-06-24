@@ -20,8 +20,8 @@ def adherence_prob(adherence):
 
 
 @utils.memo
-def get_death_rate(hiv, aids, drug_use, haart_adh, param, steps_per_year):
-    if drug_use == "Inj":
+def get_death_rate(hiv, aids, drug_type, haart_adh, param, steps_per_year):
+    if drug_type == "Inj":
         death_param = param.PWID.death_rate
     else:
         death_param = param.death_rate

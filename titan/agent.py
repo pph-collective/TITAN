@@ -45,11 +45,11 @@ class Agent:
         self.update_id_counter()
 
         # agent properties
-        self.so = so
+        self.sex_type = so
         self.age = age
         self.age_bin = 0
         self.race = race
-        self.drug_use = du
+        self.drug_type = du
 
         self.msmw = False
 
@@ -109,7 +109,7 @@ class Agent:
             String formatted tab-deliminated agent properties
         """
         return (
-            f"\t{self.id}\t{self.age}\t{self.so}\t{self.drug_use}\t"
+            f"\t{self.id}\t{self.age}\t{self.sex_type}\t{self.drug_type}\t"
             f"{self.race}\t{self.hiv}"
         )
 
@@ -168,11 +168,11 @@ class Agent:
         if target_model in ("Allcomers", "Racial"):
             eligible = True
         elif target_model == "CDCwomen":
-            if self.so == "HF":
+            if self.sex_type == "HF":
                 for rel in self.relationships:
                     partner = rel.get_partner(self)
                     if rel.duration > ongoing_duration:
-                        if partner.drug_use == "Inj":
+                        if partner.drug_type == "Inj":
                             eligible = True
                             self.prep_reason.append("PWID")
                         if partner.hiv_dx:
@@ -182,7 +182,7 @@ class Agent:
                             eligible = True
                             self.prep_reason.append("MSMW")
         elif target_model == "MSM":
-            if self.so in ("MSM", "MTF"):
+            if self.sex_type in ("MSM", "MTF"):
                 eligible = True
 
         return eligible
@@ -192,7 +192,10 @@ class Agent:
         self.prep_load = params.prep.peak_load
         self.prep_last_dose = 0
 
-        if rand_gen.random() < params.demographics[self.race][self.so].prep.adherence:
+        if (
+            rand_gen.random()
+            < params.demographics[self.race][self.sex_type].prep.adherence
+        ):
             self.prep_adherence = 1
         else:
             self.prep_adherence = 0

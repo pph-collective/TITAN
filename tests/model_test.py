@@ -1,7 +1,8 @@
 import pytest
 
-from copy import copy
+from copy import copy, deepcopy
 import os
+import math
 
 from titan.model import *
 from titan.agent import Agent, Relationship
@@ -81,8 +82,8 @@ def test_agents_interact(make_model, make_agent):
     assert model.agents_interact(rel)  # sex transmssion
     assert p.hiv is False  # but nothing happened (see skipped test)
 
-    a.drug_use = "Inj"
-    p.drug_use = "Inj"
+    a.drug_type = "Inj"
+    p.drug_type = "Inj"
     rel.bond_type = "Inj"
 
     model.run_random = FakeRandom(-0.1)
@@ -252,7 +253,7 @@ def test_update_syringe_services(make_model):
     model = make_model()
     # make at least one agent PWID
     agent = next(iter(model.pop.all_agents))
-    agent.drug_use = "Inj"
+    agent.drug_type = "Inj"
     if agent not in model.pop.pwid_agents.members:
         model.pop.pwid_agents.add_agent(agent)
 
@@ -261,7 +262,7 @@ def test_update_syringe_services(make_model):
     assert model.pop.pwid_agents
 
     for a in model.pop.all_agents:
-        if a.drug_use == "Inj":
+        if a.drug_type == "Inj":
             assert a in model.pop.pwid_agents.members
             assert a.ssp
 
@@ -420,7 +421,7 @@ def test_diagnose_hiv(make_model, make_agent):
 
     assert p.hiv_dx is False
     assert p not in model.new_dx.members
-    model.params.demographics[p.race][p.so].hiv.dx.prob = 0
+    model.params.demographics[p.race][p.sex_type].hiv.dx.prob = 0
 
     model.time = p.partner_traced + 1
     model.diagnose_hiv(p)
@@ -739,12 +740,14 @@ def test_die_and_replace_all(make_model):
     baseline_pop = copy(model.pop.all_agents.members)
     old_ids = [a.id for a in baseline_pop]
 
-    num_hm = len([x for x in baseline_pop if x.so == "HM"])
+    num_hm = len([x for x in baseline_pop if x.sex_type == "HM"])
     num_white = len([x for x in baseline_pop if x.race == "white"])
 
     model.die_and_replace()
 
-    assert num_hm == len([x for x in model.pop.all_agents.members if x.so == "HM"])
+    assert num_hm == len(
+        [x for x in model.pop.all_agents.members if x.sex_type == "HM"]
+    )
     assert num_white == len(
         [x for x in model.pop.all_agents.members if x.race == "white"]
     )
@@ -781,3 +784,55 @@ def test_die_and_replace_incar(make_model):
     assert agent_id in old_ids
     assert agent_id not in death_ids
     assert agent_id in new_ids
+
+
+@pytest.mark.unit
+def test_timeline_scaling_default_def(make_model):
+    model = make_model()
+    original_params = deepcopy(model.params.__getstate__())
+    model.time = 1
+    model.timeline_scaling()
+
+    assert original_params == model.params.__getstate__()
+
+
+@pytest.mark.unit
+def test_timeline_scaling_prep_def(make_model):
+    model = make_model()
+    scalar = 0.5
+    model.params.timeline_scaling.timeline = ObjMap(
+        {"prep|discontinue": {"time_start": 1, "time_stop": 3, "scalar": scalar}}
+    )
+    original_prep_discontinue = model.params.prep.discontinue
+
+    # scale the param
+    model.time = 1
+    model.timeline_scaling()
+
+    assert math.isclose(
+        original_prep_discontinue * scalar, model.params.prep.discontinue, abs_tol=0.001
+    )
+
+    # param still scaled
+    model.time = 2
+    model.timeline_scaling()
+
+    assert math.isclose(
+        original_prep_discontinue * scalar, model.params.prep.discontinue, abs_tol=0.001
+    )
+
+    # revert to original
+    model.time = 3
+    model.timeline_scaling()
+
+    assert math.isclose(
+        original_prep_discontinue, model.params.prep.discontinue, abs_tol=0.001
+    )
+
+    # still original
+    model.time = 4
+    model.timeline_scaling()
+
+    assert math.isclose(
+        original_prep_discontinue, model.params.prep.discontinue, abs_tol=0.001
+    )

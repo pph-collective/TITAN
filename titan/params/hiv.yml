@@ -53,7 +53,7 @@ hiv:
     min: 2
   haart_cap:
     default: false
-    description: Whether "prob" defined in demographics.race.so.haart is a percent of diagnosed, HIV+ agents instead of a per-time-step probability for HAART coverage
+    description: Whether "prob" defined in demographics.race.sex_type.haart is a percent of diagnosed, HIV+ agents instead of a per-time-step probability for HAART coverage
     type: boolean
   start:
     default: 0

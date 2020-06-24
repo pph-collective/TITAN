@@ -69,7 +69,7 @@ def select_partner(
         eligible &= pwid_agents.members
 
     if "sex" in acts_allowed:
-        eligible &= sex_partners[agent.so]
+        eligible &= sex_partners[agent.sex_type]
 
     # short circuit to avoid attempting to assort with no eligible partners
     if not eligible:

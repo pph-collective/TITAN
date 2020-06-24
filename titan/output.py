@@ -4,10 +4,89 @@
 from typing import Dict, Any, List
 from .agent import AgentSet, Agent
 from copy import deepcopy
+import itertools
 import os
 
 from networkx import betweenness_centrality, effective_size, density  # type: ignore
 from .parse_params import ObjMap
+
+
+def setup_aggregates(params: ObjMap, classes: List[str]):
+    """
+    Create nested dictionary of attribute values to items to count
+    """
+    if classes == []:
+        return {
+            "numAgents": 0,
+            "inf_HR6m": 0,
+            "inf_HRever": 0,
+            "inf_newInf": 0,
+            "newHR": 0,
+            "newHR_HIV": 0,
+            "newHR_AIDS": 0,
+            "newHR_tested": 0,
+            "newHR_ART": 0,
+            "newRelease": 0,
+            "newReleaseHIV": 0,
+            "numHIV": 0,
+            "numTested": 0,
+            "numAIDS": 0,
+            "numART": 0,
+            "numHR": 0,
+            "newlyTested": 0,
+            "deaths": 0,
+            "deaths_HIV": 0,
+            "incar": 0,
+            "incarHIV": 0,
+            "numPrEP": 0,
+            "newNumPrEP": 0,
+            "iduPartPrep": 0,
+            "msmwPartPrep": 0,
+            "testedPartPrep": 0,
+            "vaccinated": 0,
+            "injectable_prep": 0,
+            "oral_prep": 0,
+            "prep_aware": 0,
+        }
+
+    stats = {}
+    clss, *rem_clss = classes  # head, tail
+    keys = [k for k in params.classes[clss]]
+    for key in keys:
+        stats[key] = setup_aggregates(params, rem_clss)
+
+    return stats
+
+
+def get_aggregates(params: ObjMap):
+    """
+    Get iterator over all attribute combinations for output classes
+    """
+    return itertools.product(
+        *[list(k for k in params.classes[clss]) for clss in params.outputs.classes]
+    )
+
+
+def get_agg_val(stats, attrs, key):
+    """
+    Get the value of a key in stats given the attribute values
+    """
+    stats_item = stats
+    for attr in attrs:
+        stats_item = stats_item[attr]
+
+    return stats_item[key]
+
+
+def add_agent_to_stats(stats: Dict[str, Any], attrs: List[str], agent: Agent, key: str):
+    """
+    Update the stats dictionary with +1 for the key given the agent's attributes
+    """
+    stats_item = stats
+    for attr in attrs:
+        stats_item = stats_item[getattr(agent, attr)]
+
+    stats_item[key] += 1
 
 
 def get_stats(
@@ -21,146 +100,82 @@ def get_stats(
     params: ObjMap,
 ):
 
-    stats_template = {
-        "numAgents": 0,
-        "inf_HR6m": 0,
-        "inf_HRever": 0,
-        "inf_newInf": 0,
-        "newHR": 0,
-        "newHR_HIV": 0,
-        "newHR_AIDS": 0,
-        "newHR_tested": 0,
-        "newHR_ART": 0,
-        "newRelease": 0,
-        "newReleaseHIV": 0,
-        "numHIV": 0,
-        "numTested": 0,
-        "numAIDS": 0,
-        "numART": 0,
-        "numHR": 0,
-        "newlyTested": 0,
-        "deaths": 0,
-        "deaths_HIV": 0,
-        "incar": 0,
-        "incarHIV": 0,
-        "numPrEP": 0,
-        "newNumPrEP": 0,
-        "iduPartPrep": 0,
-        "msmwPartPrep": 0,
-        "testedPartPrep": 0,
-        "Vaccinated": 0,
-        "injectable_prep": 0,
-        "oral_prep": 0,
-        "prep_aware": 0,
-    }
-
-    MAIN_CAT = [race for race in params.classes.races.keys()]
-    MAIN_CAT.append("ALL")
-    SUB_CAT = deepcopy(params.classes.populations)
-    SUB_CAT.append("ALL")
-
-    stats = {}
-    for cat in MAIN_CAT:
-        stats[cat] = {sc: dict(stats_template) for sc in SUB_CAT}
+    stats = setup_aggregates(params, params.outputs.classes)
+    attrs = [
+        clss[:-1] for clss in params.outputs.classes
+    ]  # attribute version (non-plural)
 
     # Incarceration metrics
     for a in new_incar_release:
-        stats[a.race][a.so]["newRelease"] += 1
+        add_agent_to_stats(stats, attrs, a, "newRelease")
         if a.hiv:
-            stats[a.race][a.so]["newReleaseHIV"] += 1
+            add_agent_to_stats(stats, attrs, a, "newReleaseHIV")
 
     # Newly infected tracker statistics (with HR within 6mo and HR ever bool check)
     for a in new_hiv:
-        stats[a.race][a.so]["inf_newInf"] += 1
+        add_agent_to_stats(stats, attrs, a, "inf_newInf")
         if a.high_risk_ever:
-            stats[a.race][a.so]["inf_HRever"] += 1
+            add_agent_to_stats(stats, attrs, a, "inf_HRever")
         if a.high_risk:
-            stats[a.race][a.so]["inf_HR6m"] += 1
+            add_agent_to_stats(stats, attrs, a, "inf_HR6m")
 
     for a in all_agents:
-        stats[a.race][a.so]["numAgents"] += 1
+        add_agent_to_stats(stats, attrs, a, "numAgents")
 
         if a.prep:
-            stats[a.race][a.so]["numPrEP"] += 1
+            add_agent_to_stats(stats, attrs, a, "numPrEP")
             if "PWID" in a.prep_reason:
-                stats[a.race][a.so]["iduPartPrep"] += 1
+                add_agent_to_stats(stats, attrs, a, "iduPartPrep")
             if "MSMW" in a.prep_reason:
-                stats[a.race][a.so]["msmwPartPrep"] += 1
+                add_agent_to_stats(stats, attrs, a, "msmwPartPrep")
             if "HIV test" in a.prep_reason:
-                stats[a.race][a.so]["testedPartPrep"] += 1
+                add_agent_to_stats(stats, attrs, a, "testedPartPrep")
             if a.prep_type == "Inj":
-                stats[a.race][a.so]["injectable_prep"] += 1
+                add_agent_to_stats(stats, attrs, a, "injectable_prep")
             elif a.prep_type == "Oral":
-                stats[a.race][a.so]["oral_prep"] += 1
+                add_agent_to_stats(stats, attrs, a, "oral_prep")
 
         if a.incar:
-            stats[a.race][a.so]["incar"] += 1
+            add_agent_to_stats(stats, attrs, a, "incar")
             if a.hiv:
-                stats[a.race][a.so]["incarHIV"] += 1
+                add_agent_to_stats(stats, attrs, a, "incarHIV")
 
         if a.hiv:
-            stats[a.race][a.so]["numHIV"] += 1
+            add_agent_to_stats(stats, attrs, a, "numHIV")
             if a.aids:
-                stats[a.race][a.so]["numAIDS"] += 1
+                add_agent_to_stats(stats, attrs, a, "numAIDS")
             if a.hiv_dx:
-                stats[a.race][a.so]["numTested"] += 1
+                add_agent_to_stats(stats, attrs, a, "numTested")
             if a.haart:
-                stats[a.race][a.so]["numART"] += 1
-
-        if a.drug_use == "Inj":
-            stats[a.race]["PWID"]["numAgents"] += 1
-            if a.hiv:
-                stats[a.race]["PWID"]["numHIV"] += 1
-            if a.aids:
-                stats[a.race]["PWID"]["numAIDS"] += 1
-            if a.hiv_dx:
-                stats[a.race]["PWID"]["numTested"] += 1
-            if a.haart:
-                stats[a.race]["PWID"]["numART"] += 1
+                add_agent_to_stats(stats, attrs, a, "numART")
 
         if a.vaccine:
-            stats[a.race][a.so]["Vaccinated"] += 1
+            add_agent_to_stats(stats, attrs, a, "vaccinated")
 
     # Newly PrEP tracker statistics
     for a in new_prep_agents:
-        stats[a.race][a.so]["newNumPrEP"] += 1
+        add_agent_to_stats(stats, attrs, a, "newNumPrEP")
 
     # Newly diagnosed tracker statistics
     for a in new_hiv_dx:
-        stats[a.race][a.so]["newlyTested"] += 1
-        if a.drug_use == "Inj":
-            stats[a.race]["PWID"]["newlyTested"] += 1
+        add_agent_to_stats(stats, attrs, a, "newlyTested")
 
     # Newly HR agents
     for a in new_high_risk:
-        stats[a.race][a.so]["newHR"] += 1
+        add_agent_to_stats(stats, attrs, a, "newHR")
         if a.hiv:
-            stats[a.race][a.so]["newHR_HIV"] += 1
+            add_agent_to_stats(stats, attrs, a, "newHR_HIV")
             if a.aids:
-                stats[a.race][a.so]["newHR_AIDS"] += 1
+                add_agent_to_stats(stats, attrs, a, "newHR_AIDS")
             if a.hiv_dx:
-                stats[a.race][a.so]["newHR_tested"] += 1
+                add_agent_to_stats(stats, attrs, a, "newHR_tested")
                 if a.haart:
-                    stats[a.race][a.so]["newHR_ART"] += 1
+                    add_agent_to_stats(stats, attrs, a, "newHR_ART")
 
     for a in deaths:
-        stats[a.race][a.so]["deaths"] += 1
+        add_agent_to_stats(stats, attrs, a, "deaths")
         if a.hiv:
-            stats[a.race][a.so]["deaths_HIV"] += 1
-        if a.drug_use == "Inj":
-            stats[a.race]["PWID"]["deaths"] += 1
-            if a.hiv:
-                stats[a.race]["PWID"]["deaths_HIV"] += 1
-
-    # Sum 'ALL' categories for race/SO bins
-    for race in stats:
-        if race != "ALL":
-            for param in stats_template:
-                for sc in SUB_CAT:
-                    if sc in params.classes.sex_types:
-                        stats[race]["ALL"][param] += stats[race][sc][param]
-                for sc in SUB_CAT:
-                    stats["ALL"][sc][param] += stats[race][sc][param]
+            add_agent_to_stats(stats, attrs, a, "deaths_HIV")
 
     return stats
 
@@ -168,6 +183,41 @@ def get_stats(
 # ================== Printer Functions =========================
 # Each of the following functions takes in the time, seeds, and stats dict for that time
 # and prints the appropriate stats to file
+
+
+def write_report(
+    file_name, name_map, run_id, t, runseed, popseed, stats, params, outdir
+):
+    """
+    Core function for writing reports, writes header if file is new, then data based
+    on the params and name_map
+    """
+    f = open(os.path.join(outdir, file_name), "a")
+    attrs = [clss[:-1] for clss in params.outputs.classes]
+
+    if f.tell() == 0:
+        f.write("run_id\trseed\tpseed\tt\t")  # start header
+
+        # attributes in stats
+        f.write("\t".join(attrs))
+
+        # report specific fields
+        for name in name_map.values():
+            f.write(f"\t{name}")
+
+        f.write("\n")
+
+    for agg in get_aggregates(params):
+        f.write(f"{run_id}\t{runseed}\t{popseed}\t{t}\t")
+
+        f.write("\t".join(agg))  # write attribute values
+
+        for key, name in name_map.items():
+            f.write(f"\t{(get_agg_val(stats, agg, key))}")
+
+        f.write("\n")
+
+    f.close()
 
 
 def deathReport(
@@ -179,31 +229,13 @@ def deathReport(
     params: ObjMap,
     outdir: str,
 ):
-    f = open(os.path.join(outdir, "DeathReport.txt"), "a")
-    sex_types = deepcopy(list(params.classes.sex_types.keys()))
-    sex_types.append("ALL")
-
-    # if this is a new file, write the header info
-    if f.tell() == 0:
-        f.write("run_id\tseed\tt")  # start header
-
-        template = "\ttot_{st}\tHIV_{st}"
-        for sex_type in sex_types:
-            f.write(template.format(st=sex_type))
-
-        f.write("\n")
-
-    f.write(f"{run_id}\t{runseed}\t{t}")  # start row
-
-    for sex_type in sex_types:
-        f.write(
-            "\t{}\t{}".format(
-                stats["ALL"][sex_type]["deaths"], stats["ALL"][sex_type]["deaths_HIV"]
-            )
-        )
-
-    f.write("\n")
-    f.close()
+    name_map = {
+        "deaths": "tot",
+        "deaths_HIV": "HIV",
+    }
+    write_report(
+        "DeathReport.txt", name_map, run_id, t, runseed, popseed, stats, params, outdir
+    )
 
 
 def incarReport(
@@ -215,39 +247,15 @@ def incarReport(
     params: ObjMap,
     outdir: str,
 ):
-    f = open(os.path.join(outdir, "IncarReport.txt"), "a")
-
     name_map = {
         "incar": "tot",
         "incarHIV": "HIV",
         "newRelease": "rlsd",
         "newReleaseHIV": "rlsdHIV",
     }
-
-    MAIN_CAT = [race for race in params.classes.races.keys()]
-    MAIN_CAT.append("ALL")
-
-    if f.tell() == 0:
-        f.write("run_id\tseed\tt")  # start header
-
-        template = "\t{mc}_{st}_{p}"
-        for p in name_map.values():
-            for mc in MAIN_CAT:
-                for sex_type in params.classes.sex_types:
-                    f.write(template.format(mc=mc, st=sex_type, p=p))
-
-        f.write("\n")
-
-    f.write(f"{run_id}\t{runseed}\t{t}")
-
-    for p in name_map:
-        for mc in MAIN_CAT:
-            for st in params.classes.sex_types:
-                f.write("\t")
-                f.write(str(stats[mc][st][p]))
-
-    f.write("\n")
-    f.close()
+    write_report(
+        "IncarReport.txt", name_map, run_id, t, runseed, popseed, stats, params, outdir
+    )
 
 
 def newlyhighriskReport(
@@ -259,36 +267,24 @@ def newlyhighriskReport(
     params: ObjMap,
     outdir: str,
 ):
-    f = open(os.path.join(outdir, "newlyHR_Report.txt"), "a")
-
-    # if this is a new file, write the header info
-    if f.tell() == 0:
-        f.write("run_id\tseed\tt")  # start header
-
-        template = (
-            "\tnewHR_{st}\tnewHR_HIV_{st}\tnewHR_AIDS_{st}\t"
-            "newHR_Tested_{st}\tnewHR_ART_{st}"
-        )
-        for sex_type in params.classes.sex_types:
-            f.write(template.format(st=sex_type))
-
-        f.write("\n")
-
-    f.write(f"{run_id}\t{runseed}\t{t}")  # start row
-
-    for sex_type in params.classes.sex_types:
-        f.write(
-            "\t{}\t{}\t{}\t{}\t{}".format(
-                stats["ALL"][sex_type]["newHR"],
-                stats["ALL"][sex_type]["newHR_HIV"],
-                stats["ALL"][sex_type]["newHR_AIDS"],
-                stats["ALL"][sex_type]["newHR_tested"],
-                stats["ALL"][sex_type]["newHR_ART"],
-            )
-        )
-
-    f.write("\n")
-    f.close()
+    name_map = {
+        "newHR": "newHR",
+        "newHR_HIV": "newHR_HIV",
+        "newHR_AIDS": "newHR_AIDS",
+        "newHR_tested": "newHR_Tested",
+        "newHR_ART": "newHR_ART",
+    }
+    write_report(
+        "newlyHR_Report.txt",
+        name_map,
+        run_id,
+        t,
+        runseed,
+        popseed,
+        stats,
+        params,
+        outdir,
+    )
 
 
 def prepReport(
@@ -300,24 +296,15 @@ def prepReport(
     params: ObjMap,
     outdir: str,
 ):
-    f = open(os.path.join(outdir, "PrEPReport.txt"), "a")
-
-    # if this is a new file, write the header info
-    if f.tell() == 0:
-        f.write("run_id\tseed\tt\tNewEnroll\tPWIDpartner\tTestedPartner\tMSMWpartner\n")
-
-    f.write(
-        "{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(
-            run_id,
-            runseed,
-            t,
-            stats["ALL"]["ALL"]["newNumPrEP"],
-            stats["ALL"]["ALL"]["iduPartPrep"],
-            stats["ALL"]["ALL"]["testedPartPrep"],
-            stats["ALL"]["ALL"]["msmwPartPrep"],
-        )
+    name_map = {
+        "newNumPrEP": "NewEnroll",
+        "iduPartPrep": "PWIDpartner",
+        "testedPartPrep": "TestedPartner",
+        "msmwPartPrep": "MSMWpartner",
+    }
+    write_report(
+        "PrEPReport.txt", name_map, run_id, t, runseed, popseed, stats, params, outdir
     )
-    f.close()
 
 
 def basicReport(
@@ -329,56 +316,30 @@ def basicReport(
     params: ObjMap,
     outdir: str,
 ):
-    MAIN_CAT = [race for race in params.classes.races.keys()]
-    MAIN_CAT.append("ALL")
-    SUB_CAT = deepcopy(params.classes.populations)
-    SUB_CAT.append("ALL")
-
-    for race in MAIN_CAT:
-        for population in SUB_CAT:
-            name = "basicReport_" + population + "_" + race + ".txt"
-            f = open(os.path.join(outdir, name), "a")
-
-            # if this is a new file, write the header info
-            if f.tell() == 0:
-                f.write(
-                    "run_id\trseed\tpseed\tt\tTotal\tHIV\tAIDS\tTstd\tART\tnHR\tIncid\t"
-                    "HR_6mo\tHR_Ev\tNewDiag\tDeaths\tPrEP\tIDUpart_PrEP\t"
-                    "MSMWpart_PrEP\ttestedPart_PrEP\tVaccinated\tLAI\tOral\tAware\n"
-                )
-
-            f.write(
-                (
-                    "{:s}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t"
-                    "{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t{:d}\t"
-                    "{:d}\n".format(
-                        str(run_id),
-                        runseed,
-                        popseed,
-                        t,
-                        stats[race][population]["numAgents"],
-                        stats[race][population]["numHIV"],
-                        stats[race][population]["numAIDS"],
-                        stats[race][population]["numTested"],
-                        stats[race][population]["numART"],
-                        stats[race][population]["numHR"],
-                        stats[race][population]["inf_newInf"],
-                        stats[race][population]["inf_HR6m"],
-                        stats[race][population]["inf_HRever"],
-                        stats[race][population]["newlyTested"],
-                        stats[race][population]["deaths"],
-                        stats[race][population]["numPrEP"],
-                        stats[race][population]["iduPartPrep"],
-                        stats[race][population]["msmwPartPrep"],
-                        stats[race][population]["testedPartPrep"],
-                        stats[race][population]["Vaccinated"],
-                        stats[race][population]["injectable_prep"],
-                        stats[race][population]["oral_prep"],
-                        stats[race][population]["prep_aware"],
-                    )
-                )
-            )
-            f.close()
+    name_map = {
+        "numAgents": "Total",
+        "numHIV": "HIV",
+        "numAIDS": "AIDS",
+        "numTested": "Tstd",
+        "numART": "ART",
+        "numHR": "nHR",
+        "inf_newInf": "Incid",
+        "inf_HR6m": "HR_6mo",
+        "inf_HRever": "HR_Ev",
+        "newlyTested": "NewDiag",
+        "deaths": "Deaths",
+        "numPrEP": "PrEP",
+        "iduPartPrep": "IDUpart_PrEP",
+        "msmwPartPrep": "MSMWpart_PrEP",
+        "testedPartPrep": "testedPart_PrEP",
+        "vaccinated": "Vaccinated",
+        "injectable_prep": "LAI",
+        "oral_prep": "Oral",
+        "prep_aware": "Aware",
+    }
+    write_report(
+        "basicReport.txt", name_map, run_id, t, runseed, popseed, stats, params, outdir
+    )
 
 
 # ========================== Other Print Functions =============================
@@ -409,9 +370,8 @@ def print_components(
     if f.tell() == 0:
         f.write(
             "run_id\trunseed\tpopseed\tt\tcompID\ttotalN\tNhiv\tNprep\tNtrtHIV"
-            "\tTrtComponent\tPCA\tOral\tInjectable\tAware\tnidu\tcentrality\tDensity\tEffectiveSize"
-            + header
-            + "\n"
+            "\tTrtComponent\tPCA\tOral\tInjectable\tAware\tnidu\tcentrality\tDensity"
+            "\tEffectiveSize" + header + "\n"
         )
 
     comp_id = 0
@@ -456,7 +416,7 @@ def print_components(
             if agent.prep_awareness:
                 aware += 1
 
-            if agent.drug_use == "NonInj":
+            if agent.drug_type == "NonInj":
                 nidu += 1
 
         comp_centrality = (
