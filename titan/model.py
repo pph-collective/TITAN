@@ -318,7 +318,8 @@ class HIVModel:
         zero_eligible = [
             agent
             for agent in self.pop.all_agents.members
-            if agent.get_num_partners(bond_types=bonds) >= self.params.agent_zero.num_partners
+            if agent.get_num_partners(bond_types=bonds)
+            >= self.params.agent_zero.num_partners
         ]
         agent_zero = utils.safe_random_choice(zero_eligible, self.run_random)
         if agent_zero:
