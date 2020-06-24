@@ -249,6 +249,21 @@ class Agent:
         self.vaccine_type = vax
         self.vaccine_time = 1
 
+
+    def get_partners(self, classes=None, bond_types=None):
+        assert bond_types or classes, "Bond types must be provided"
+        if not bond_types:
+            bond_types = classes
+        partners = []
+        for bond in bond_types:
+            partners += [partner for partner in self.partners[bond]]
+        return partners
+
+
+    def get_num_partners(self, classes=None, bond_types=None):
+        return len(self.get_partners(classes, bond_types))
+
+
     def get_number_of_sex_acts(self, rand_gen, params: ObjMap) -> int:
         """
         :Purpose:
