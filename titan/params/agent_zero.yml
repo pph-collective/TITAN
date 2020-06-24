@@ -1,9 +1,4 @@
 agent_zero:
-  bond_type:
-    description: "Bond type to use initializing agent zeros"
-    type: enum
-    class: bond_types
-    default: Inj
   interaction_type:
     description: "Interaction type that bonds must have in initializing agent 0"
     type: enum

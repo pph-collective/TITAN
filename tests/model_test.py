@@ -37,7 +37,7 @@ def test_model_init(params):
 def test_update_AllAgents(make_model, make_agent):
     # make agent 0
     model = make_model()
-    assert model.params.agent_zero.bond_type == "Inj"
+    assert model.params.agent_zero.interaction_type == "injection"
     a = make_agent(race="white", DU="Inj")
     p = make_agent(race="white", DU="Inj")
     # make sure at least 1 relationship is compatible with agent 0 type
@@ -48,7 +48,7 @@ def test_update_AllAgents(make_model, make_agent):
 
     # remove all bonds compatible with agent 0. agent 0 fails
     for rel in copy(model.pop.relationships):
-        if rel.bond_type == "Inj":
+        if rel.bond_type in ["Inj", "SexInj"]:
             rel.unbond()
     with pytest.raises(ValueError) as excinfo:
         model.update_all_agents()

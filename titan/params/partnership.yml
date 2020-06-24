@@ -157,6 +157,30 @@ partnership:
             scale: 0.2
           5:
             scale: 0.03
+  pca:
+    frequency:
+      type: sub-dict
+      keys:
+        - bond_types
+      default:
+        type: bin
+        description: Number of pca interactions by bond type
+        fields:
+          prob:
+            type: float
+            min: 0.0
+            max: 1.0
+          min:
+            type: float
+            min: 0.0
+          max:
+            type: float
+            min: 0.0
+        default:
+          1:
+            prob: 1.0
+            min: 0.0
+            max: 0.0
   ongoing_duration:
     default: 1
     description: Relationship duration past which the relationship is considered "ongoing".  Used for CDCWomen and CDCmsm prep eligibility.

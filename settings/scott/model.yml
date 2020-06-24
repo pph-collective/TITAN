@@ -29,7 +29,6 @@ syringe_services:
       risk: 0.02
 
 agent_zero:
-  bond_type: Inj
   num_partners: 4
   start_time: -3
   dx_scalar: 2.5
@@ -39,6 +38,11 @@ hiv:
   dx:
     risk_reduction:
       sex: 0.27
+    time_scalar:
+      1:
+        time_start: 1
+        time_stop: 999
+        scalar: 1.8
   haart_cap: true
   start: -3
 
@@ -79,6 +83,7 @@ partner_tracing:
   start: 1
   stop: 12
   trace_time: 1
+  prob: 1
 
 partnership:
   sex:
@@ -103,7 +108,7 @@ partnership:
         var_1: 121
         var_2: 121
         mean: 121
-    Injection:
+    Inj:
       type: distribution
       distribution:
         dist_type: gamma

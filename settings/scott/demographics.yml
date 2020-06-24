@@ -127,6 +127,7 @@ demographics:
           var_2: 1.0
       hiv:
         init: 0.0
+        dx: 0.202
       haart:
         init: 1.0
         prob: 0.0

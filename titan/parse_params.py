@@ -246,7 +246,7 @@ def check_params(params):
 
         assert math.isclose(
             sex_type_pop, 1, abs_tol=0.001
-        ), f"ppl of {race}'s sex_types must add to 1"
+        ), f"ppl of {race}'s sex_types must add to 1. Currently adding to {sex_type_pop}"
 
     assert math.isclose(race_pop, 1, abs_tol=0.001), f"ppl of races must add to 1"
 

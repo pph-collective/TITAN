@@ -27,3 +27,9 @@ features:
 
 prep:
   target_model: Racial
+
+classes:
+  bond_types:
+    Sex:
+      acts_allowed:
+        - sex

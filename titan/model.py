@@ -309,18 +309,22 @@ class HIVModel:
             self.die_and_replace()
 
     def make_agent_zero(self):
-        bond_type = self.params.agent_zero.bond_type
+        def get_partner_number(agent, bond_types: list):
+            num_partners = 0
+            for bond in bond_types:  # TODO: make this a util?
+                num_partners += len(agent.partners[bond])
+            return num_partners
+
         interaction_type = self.params.agent_zero.interaction_type
-        bonds = [
+        bonds = [  # Find what bond_types have the allowed interaction
             i
-            for i in self.params.classes.bond_types.values()
-            if interaction_type in i.acts_allowed
+            for i, j in self.params.classes.bond_types.items()
+            if interaction_type in j.acts_allowed
         ]
-        print(bonds)
         zero_eligible = [
             agent
             for agent in self.pop.all_agents.members
-            if len(agent.partners[bond_type]) >= self.params.agent_zero.num_partners
+            if get_partner_number(agent, bonds) >= self.params.agent_zero.num_partners
         ]
         agent_zero = utils.safe_random_choice(zero_eligible, self.run_random)
         if agent_zero:
@@ -588,20 +592,18 @@ class HIVModel:
 
         while acts_prob > current_p_value:
             acts_bin += 1
-            current_p_value += self.params.partnership.interaction[rel.bond_type][
+            current_p_value += self.params.partnership.pca.frequency[rel.bond_type][
                 acts_bin
             ].prob
-
-        min = self.params.partnership.interaction[rel.bond_type][acts_bin].min
-        max = self.params.partnership.interaction[rel.bond_type][acts_bin].max
+        min = self.params.partnership.pca.frequency[rel.bond_type][acts_bin].min
+        max = self.params.partnership.pca.frequency[rel.bond_type][acts_bin].max
         if min == max:
             num_acts = min
         else:
             num_acts = self.run_random.randrange(min, max)
 
-        if num_acts < 1:
+        if num_acts < 1 and not force:
             return
-
         if rel.agent1.prep_awareness and not rel.agent2.prep_awareness:
             if self.run_random.random() < knowledge_transmission_probability() or force:
                 knowledge_dissemination(rel.agent2)
@@ -1061,6 +1063,11 @@ class HIVModel:
 
             # Rescale based on calibration param
             test_prob *= self.calibration.test_frequency
+
+            # Scale for changing diagnosis over time
+            for bin in self.params.hiv.dx.time_scalar.values():
+                if bin.time_start <= self.time < bin.time_stop:
+                    test_prob *= bin.scalar
 
             if self.run_random.random() < test_prob:
                 diagnose(agent)

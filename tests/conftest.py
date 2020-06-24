@@ -33,7 +33,7 @@ class FakeRandom:
             selection = weights.index(max(weights))
             return [seq[selection]]
 
-    def randint(self, start, stop):
+    def randint(self, start, stop, size=1):
         return start
 
     def shuffle(self, seq):
