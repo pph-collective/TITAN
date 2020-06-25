@@ -61,7 +61,7 @@ def test_get_random_pwid_partner_w_PWID(make_population, make_agent, params):
     for race in params.classes.races:
         for bond in copy(params.classes.bond_types):
             if bond != "Sex":
-                params.demographics[race]["PWID"]["num_partners"][bond]["var_1"] = 0.0
+                params.demographics[race].PWID.num_partners[bond].vars[1].value = 0.0
 
     partner = select_partner(
         idu_agent,
@@ -306,7 +306,7 @@ def test_get_assort_partner_drug_type(make_population, make_agent, params):
     for race in params.classes.races:
         for bond in params.classes.bond_types:
             if bond != "Sex":
-                params.demographics[race]["PWID"]["num_partners"][bond]["var_1"] = 0.0
+                params.demographics[race].PWID.num_partners[bond].vars[1].value = 0.0
 
     # assort with Inj
     test_rule = ObjMap(

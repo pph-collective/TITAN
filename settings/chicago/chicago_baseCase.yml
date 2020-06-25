@@ -108,8 +108,10 @@ demographics:
       num_partners:
         Social:
           dist_type: poisson
-          var_1: 5.0
-          var_2: 1.0
+          vars:
+            1:
+              value: 5.0
+              value_type: float
       safe_sex: 0.312
       injection:
         unsafe_prob: 0.27

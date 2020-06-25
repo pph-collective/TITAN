@@ -194,14 +194,21 @@ demographics:
             - gamma
             - uniform
             - set_value
-        var_1:
-          type: float
-          description: "First variable for chosen distribution function."
-          default: 0.0
-        var_2:
-          type: float
-          description: "Second variable for chosen distribution function."
-          default: 0.0
+        vars:
+          type: bin
+          description: Pass values in order of bin keys to the distriubtion, starting at 1
+          fields:
+            value:
+              type: float
+            value_type:
+              type: enum
+              values:
+                - int
+                - float
+          default:
+            1:
+              value: 0
+              value_type: int
     drug_type:
       type: sub-dict
       keys:
