@@ -386,7 +386,7 @@ def print_components(
         ) = (
             nprep
         ) = trt_comp = trt_agent = injectable_prep = oral = aware = pca = nidu = 0
-        component_status = "not_treatment"
+        component_status = "control"
 
         for agent in comp.nodes():
             tot_agents += 1
@@ -428,7 +428,7 @@ def print_components(
             if trt_agent > 0:
                 component_status = "treatment"
             else:
-                component_status = "no_agent"
+                component_status = "treatment_no_eligible"
 
         race_str = ""
         for race in race_list:
