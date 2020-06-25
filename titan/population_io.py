@@ -14,11 +14,11 @@ from .parse_params import ObjMap
 # backwards compatible)
 core_attrs = [
     "id",
-    "so",
+    "sex_type",
     "age",
     "age_bin",
     "race",
-    "drug_use",
+    "drug_type",
     "msmw",
     "sex_role",
     "mean_num_partners",
@@ -138,12 +138,12 @@ def create_agent(row: Dict[str, str], bond_types) -> Agent:
     """
     Initialize an Agent from a row of the saved population
     """
-    init_attrs = ["so", "age", "race", "drug_use", "id"]
+    init_attrs = ["sex_type", "age", "race", "drug_type", "id"]
     agent = Agent(
-        eval(row["so"]),
+        eval(row["sex_type"]),
         eval(row["age"]),
         eval(row["race"]),
-        eval(row["drug_use"]),
+        eval(row["drug_type"]),
         eval(row["id"]),
     )
 
