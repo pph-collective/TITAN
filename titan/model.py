@@ -37,7 +37,9 @@ class HIVModel:
 
         return res
 
-    def __init__(self, params: ObjMap, population: Optional[Population] = None):
+    def __init__(
+        self, params: ObjMap, population: Optional[Population] = None,
+    ):
 
         self.params = params
         # pre-fetch commonly used param sub-sets for performance

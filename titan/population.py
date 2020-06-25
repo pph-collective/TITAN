@@ -4,11 +4,12 @@
 import random
 from collections import deque
 from copy import copy
+from math import ceil
+from typing import List, Dict, Any, Set, Optional
 
-from typing import List, Dict, Any, Set
 import numpy as np  # type: ignore
 import networkx as nx  # type: ignore
-from math import ceil
+import nanoid  # type: ignore
 
 from .parse_params import ObjMap
 from .agent import AgentSet, Agent, Relationship
@@ -28,11 +29,16 @@ class Population:
 
     """
 
-    def __init__(self, params: ObjMap):
+    def __init__(self, params: ObjMap, id: Optional[str] = None):
         """
         :Purpose:
             Initialize Population object.
         """
+        if id is None:
+            self.id = nanoid.generate(size=8)
+        else:
+            self.id = id
+
         self.pop_seed = utils.get_check_rand_int(params.model.seed.ppl)
 
         # Init RNG for population creation to pop_seed
