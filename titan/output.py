@@ -370,7 +370,7 @@ def print_components(
     if f.tell() == 0:
         f.write(
             "run_id\trunseed\tpopseed\tt\tcompID\ttotalN\tNhiv\tNprep\tNtrtHIV"
-            "\tTrtComponent\tPCA\tOral\tInjectable\tAware\tnidu\tcentrality\tDensity"
+            "\tComp_Status\tPCA\tOral\tInjectable\tAware\tnidu\tcentrality\tDensity"
             "\tEffectiveSize" + header + "\n"
         )
 
@@ -380,14 +380,13 @@ def print_components(
             race_count[race] = 0
         assert comp.number_of_nodes() >= 0
         tot_agents = (
-            trt_bool
-        ) = (
             nhiv
         ) = (
             ntrthiv
         ) = (
             nprep
         ) = trt_comp = trt_agent = injectable_prep = oral = aware = pca = nidu = 0
+        component_status = "not_treatment"
 
         for agent in comp.nodes():
             tot_agents += 1
@@ -427,9 +426,9 @@ def print_components(
 
         if trt_comp > 0:
             if trt_agent > 0:
-                trt_bool = 1
+                component_status = "treatment"
             else:
-                trt_bool = -1
+                component_status = "no_agent"
 
         race_str = ""
         for race in race_list:
@@ -438,7 +437,7 @@ def print_components(
         f.write(
             f"{run_id}\t{runseed}\t{popseed}\t{t}\t{comp_id}\t{tot_agents}\t"
             f"{nhiv}\t"
-            f"{nprep}\t{ntrthiv}\t{trt_bool}\t{pca}\t{oral}\t{injectable_prep}"
+            f"{nprep}\t{ntrthiv}\t{component_status}\t{pca}\t{oral}\t{injectable_prep}"
             f"\t{aware}\t{nidu}\t{comp_centrality:.4f}\t{comp_density:.4f}"
             f"\t{average_size:.4f}{race_str}\n"
         )
