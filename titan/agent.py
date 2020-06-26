@@ -252,17 +252,18 @@ class Agent:
         self.vaccine_type = vax
         self.vaccine_time = 1
 
-    def get_partners(self, classes=None, bond_types=None):
-        assert bond_types or classes, "Bond types must be provided"
-        if not bond_types:
-            bond_types = classes
-        partners = set()
-        for bond in bond_types:
-            partners.update({partner for partner in self.partners[bond]})
+    def get_partners(self, bond_types=None):
+        if bond_types:
+            partners = set()
+            for bond in bond_types:
+                partners.update({partner for partner in self.partners[bond]})
+        else:
+            partners = {partner for partner in self.iter_partners()}
+
         return partners
 
-    def get_num_partners(self, classes=None, bond_types=None):
-        return len(self.get_partners(classes, bond_types))
+    def get_num_partners(self, bond_types=None):
+        return len(self.get_partners(bond_types))
 
     def get_number_of_sex_acts(self, rand_gen, params: ObjMap) -> int:
         """

@@ -29,11 +29,11 @@ def setup_aggregates(params: ObjMap, classes: List[str]):
             "newRelease": 0,
             "newReleaseHIV": 0,
             "numHIV": 0,
-            "numTested": 0,
+            "numDiagnosed": 0,
             "numAIDS": 0,
             "numART": 0,
             "numHR": 0,
-            "newlyTested": 0,
+            "newlyDiagnosed": 0,
             "deaths": 0,
             "deaths_HIV": 0,
             "incar": 0,
@@ -145,7 +145,7 @@ def get_stats(
             if a.aids:
                 add_agent_to_stats(stats, attrs, a, "numAIDS")
             if a.hiv_dx:
-                add_agent_to_stats(stats, attrs, a, "numTested")
+                add_agent_to_stats(stats, attrs, a, "numDiagnosed")
             if a.haart:
                 add_agent_to_stats(stats, attrs, a, "numART")
 
@@ -158,7 +158,7 @@ def get_stats(
 
     # Newly diagnosed tracker statistics
     for a in new_hiv_dx:
-        add_agent_to_stats(stats, attrs, a, "newlyTested")
+        add_agent_to_stats(stats, attrs, a, "newlyDiagnosed")
 
     # Newly HR agents
     for a in new_high_risk:
@@ -271,7 +271,7 @@ def newlyhighriskReport(
         "newHR": "newHR",
         "newHR_HIV": "newHR_HIV",
         "newHR_AIDS": "newHR_AIDS",
-        "newHR_tested": "newHR_Tested",
+        "newHR_tested": "newHR_Diagnosed",
         "newHR_ART": "newHR_ART",
     }
     write_report(
@@ -299,7 +299,7 @@ def prepReport(
     name_map = {
         "newNumPrEP": "NewEnroll",
         "iduPartPrep": "PWIDpartner",
-        "testedPartPrep": "TestedPartner",
+        "testedPartPrep": "DiagnosedPartner",
         "msmwPartPrep": "MSMWpartner",
     }
     write_report(
@@ -320,13 +320,13 @@ def basicReport(
         "numAgents": "Total",
         "numHIV": "HIV",
         "numAIDS": "AIDS",
-        "numTested": "Tstd",
+        "numDiagnosed": "Dx",
         "numART": "ART",
         "numHR": "nHR",
         "inf_newInf": "Incid",
         "inf_HR6m": "HR_6mo",
         "inf_HRever": "HR_Ev",
-        "newlyTested": "NewDiag",
+        "newlyDiagnosed": "NewDiag",
         "deaths": "Deaths",
         "numPrEP": "PrEP",
         "iduPartPrep": "IDUpart_PrEP",
