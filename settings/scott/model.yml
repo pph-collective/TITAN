@@ -2,7 +2,7 @@ outputs:
   network:
     calc_network_stats: true
 model:
-  num_pop: 24110
+  num_pop: 14573
   time:
     num_steps: 60
     burn_steps: 48
@@ -18,6 +18,7 @@ features:
   syringe_services: true
   agent_zero: true
   partner_tracing: true
+  timeline_scaling: true
 
 syringe_services:
   timeline:
@@ -44,7 +45,7 @@ timeline_scaling:
     calibration.test_frequency:
       time_start: 1
       time_stop: 999
-      scalar: 1.8
+      scalar: 1.2
 
 classes:
   sex_types:

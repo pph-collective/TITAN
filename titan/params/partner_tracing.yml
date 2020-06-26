@@ -7,7 +7,7 @@ partner_tracing:
       min: 0
       max: 1
   prob:
-    default: 0.0
+    default: 1.0
     description: Probability that an agent whose partner is diagnosed with hiv will become traced
     type: float
     min: 0.

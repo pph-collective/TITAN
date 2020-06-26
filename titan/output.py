@@ -385,8 +385,9 @@ def print_components(
             ntrthiv
         ) = (
             nprep
-        ) = trt_comp = trt_agent = injectable_prep = oral = aware = pca = nidu = 0
+        ) = injectable_prep = oral = aware = pca = nidu = 0
         component_status = "control"
+        trt_comp = trt_agent = False
 
         for agent in comp.nodes():
             tot_agents += 1
@@ -407,9 +408,9 @@ def print_components(
                 pca += 1
 
             if agent.intervention_ever:  # treatment component
-                trt_agent = 1
+                trt_agent = True
             if agent.intervention_comp:
-                trt_comp = 1  # if the comp was marked for trt but no eligible
+                trt_comp = True  # if the comp was marked for trt but no eligible
                 # agents, mark as "-1"
 
             if agent.prep_awareness:
@@ -424,8 +425,8 @@ def print_components(
         average_size = sum(effective_size(comp).values()) / comp.number_of_nodes()
         comp_density = density(comp)
 
-        if trt_comp > 0:
-            if trt_agent > 0:
+        if trt_comp:
+            if trt_agent:
                 component_status = "treatment"
             else:
                 component_status = "treatment_no_eligible"

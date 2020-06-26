@@ -286,7 +286,7 @@ class Agent:
 
             min_frequency = params.partnership.sex.frequency.bins[i].min
             max_frequency = params.partnership.sex.frequency.bins[i].max
-            return rand_gen.randrange(min_frequency, max_frequency, 1)
+            return rand_gen.randint(min_frequency, max_frequency)
         elif params.partnership.sex.frequency.type == "distribution":
             return int(
                 safe_dist(params.partnership.sex.frequency.distribution, rand_gen)

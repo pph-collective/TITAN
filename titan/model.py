@@ -243,7 +243,7 @@ class HIVModel:
 
         for rel in self.pop.relationships:
             # If before hiv start time, ignore interactions
-            if self.time > self.params.hiv.start:
+            if (self.time >= self.params.hiv.start) or (not burn and self.features.pca):
                 self.agents_interact(rel)
 
         if self.features.syringe_services:
@@ -443,13 +443,13 @@ class HIVModel:
                     intervention_agent = False
                     for ag in ordered_centrality:
                         ag.intervention_comp = True
-                        if not ag.hiv:
+                        if not ag.hiv and not intervention_agent:
                             ag.prep_awareness = True
                             ag.pca = True
                             ag.pca_suitable = True
                             ag.intervention_ever = True
                             intervention_agent = True
-                            break
+
                     if not intervention_agent:
                         ag = ordered_centrality[0]
                 elif self.prep.pca.choice == "bridge":
@@ -1078,9 +1078,8 @@ class HIVModel:
                 # Determine if each partner is found via partner tracing
                 for ptnr in agent.get_partners(partner_tracing.bond_type):
                     if (
-                        ptnr.hiv_dx
-                        and self.run_random.random()
-                        < self.params.partner_tracing.prob
+                        not ptnr.hiv_dx
+                        and self.run_random.random() < self.params.partner_tracing.prob
                     ):
                         ptnr.partner_traced = True
                         ptnr.trace_time = self.time

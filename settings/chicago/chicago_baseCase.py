@@ -312,7 +312,7 @@ RC_template: Dict[str, Any] = {
     "AIDS": 0.0,  # Proportion of total HIV_ID that are AIDS
     "HAARTprev": 0.0,  # Proportion of HIV_TESTED_ID that are enrolled on ART
     "INCARprev": 0.0,  # Proportion of ID that are incarcerated
-    "TestedPrev": 0.0,  # Proportion of HIV_ID that are tested positively
+    "DiagnosedPrev": 0.0,  # Proportion of HIV_ID that are tested positively
     "mNPart": 0.0,  # Mean number of sex partners
     "NUMPartn": 0.0,  # Number of partners (redundant)
     "NUMSexActs": 0.0,  # Mean number of sex acts with each partner

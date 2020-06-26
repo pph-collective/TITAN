@@ -87,7 +87,7 @@ class NetworkGraphUtils:
             return node_color
 
         # hard coded coloring schemes
-        if coloring == "Tested":
+        if coloring == "Diagnosed":
             for v in G:
                 if v.haart:
                     node_color.append("g")
@@ -128,7 +128,7 @@ class NetworkGraphUtils:
         else:
             raise ValueError(
                 "coloring value invalid!\n{coloring}\n \
-            Only 'Tested', 'Trtmt', 'HR', 'HIV', or an Agent attribute allowed!"
+            Only 'Diagnosed', 'Trtmt', 'HR', 'HIV', or an Agent attribute allowed!"
             )
 
         return node_color
