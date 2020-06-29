@@ -29,7 +29,7 @@ syringe_services:
       risk: 0.02
 
 agent_zero:
-  num_partners: 4
+  num_partners: 10
   start_time: -3
 
 hiv:
@@ -120,5 +120,5 @@ assort_mix:
     attribute: drug_type
     agent_value: Inj
     partner_values:
-      Inj: 0.6
-      __other__: 0.4
+      Inj: 0.8
+      __other__: 0.2
