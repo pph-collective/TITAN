@@ -2,7 +2,7 @@ name: Publish Docker Container
 
 on:
   push:
-    # Publish `master` as Docker `latest` image.
+    # Publish `develop` as Docker `latest` image.
     branches:
       - develop
 
@@ -51,7 +51,7 @@ jobs:
           # Strip "v" prefix from tag name
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
           # Use Docker `latest` tag convention
-          [ "$VERSION" == "master" ] && VERSION=latest
+          [ "$VERSION" == "develop" ] && VERSION=latest
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
