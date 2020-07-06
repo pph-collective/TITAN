@@ -381,11 +381,7 @@ def print_components(
         assert comp.number_of_nodes() >= 0
         tot_agents = (
             nhiv
-        ) = (
-            ntrthiv
-        ) = (
-            nprep
-        ) = injectable_prep = oral = aware = pca = nidu = 0
+        ) = ntrthiv = nprep = injectable_prep = oral = aware = pca = nidu = 0
         component_status = "control"
         trt_comp = trt_agent = False
 

@@ -42,10 +42,10 @@ hiv:
 
 timeline_scaling:
   timeline:
-    calibration.test_frequency:
+    calibration|test_frequency:
       time_start: 1
       time_stop: 999
-      scalar: 1.2
+      scalar: 1.0
 
 classes:
   sex_types:
