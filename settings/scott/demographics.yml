@@ -11,16 +11,22 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 1.1
-          var_2: 1.0
+          vars:
+            1:
+              value: 1.1
+              value_type: float
         Inj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
         SexInj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
       hiv:
         init: 0.0014
         dx:
@@ -66,16 +72,22 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 1.1
-          var_2: 1.0
+          vars:
+            1:
+              value: 1.1
+              value_type: float
         Inj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
         SexInj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
       hiv:
         init: 0.0
         dx:
@@ -115,16 +127,28 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: .958
-          var_2: 1.0
+          vars:
+            1:
+              value: .958
+              value_type: float
         Inj:
           dist_type: gamma
-          var_1: 1.704
-          var_2: 0.363
+          vars:
+            1:
+              value: 1.704
+              value_type: float
+            2:
+              value: 0.363
+              value_type: float
         SexInj:
           dist_type: poisson
-          var_1: 0.748
-          var_2: 1.0
+          vars:
+            1:
+              value: 0.784
+              value_type: float
+            2:
+              value: 1
+              value_type: int
       hiv:
         init: 0.0
         dx:
@@ -160,4 +184,3 @@ demographics:
         hiv: 1.5
         haart_adherent: 1.0
         aids: 10.4
-

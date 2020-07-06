@@ -99,22 +99,31 @@ partnership:
       type: distribution
       distribution:
         dist_type: set_value
-        var_1: 121
-        var_2: 121
+        vars:
+          1:
+            value: 121
+            value_type: int
         mean: 121
     SexInj:
       type: distribution
       distribution:
         dist_type: set_value
-        var_1: 121
-        var_2: 121
+        vars:
+          1:
+            value: 121
+            value_type: int
         mean: 121
     Inj:
       type: distribution
       distribution:
         dist_type: gamma
-        var_1: 5.37
-        var_2: 23.28
+        vars:
+          1:
+            value: 5.37
+            value_type: float
+          2:
+            value: 23.28
+            value_type: float
         mean: 125
 assort_mix:
   assort_pwid:

@@ -6,6 +6,7 @@ import subprocess
 import csv
 import math
 from copy import deepcopy
+from glob import glob
 
 from titan.parse_params import ObjMap, create_params
 from titan.model import HIVModel
@@ -77,6 +78,27 @@ def test_model_reproducible(tmpdir):
 
 
 @pytest.mark.integration_deterministic
+def test_model_pop_write_read(tmpdir):
+    path_a = tmpdir.mkdir("a")
+    f = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "run_titan.py")
+    param_file = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
+    )
+
+    subprocess.check_call([f, "-p", param_file, "-o", path_a, "--savepop", "all"])
+
+    print(glob(os.path.join(path_a, "pop", "*_pop.tar.gz")))
+    saved_pop_path = glob(os.path.join(path_a, "pop", "*_pop.tar.gz"))[0]
+
+    path_b = tmpdir.mkdir("b")
+    subprocess.check_call(
+        [f, "-p", param_file, "-o", path_b, "--poppath", saved_pop_path]
+    )
+
+    assert True
+
+
+@pytest.mark.integration_deterministic
 def test_model_settings_run(tmpdir):
     f = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "run_titan.py")
     param_file = os.path.join(
@@ -142,8 +164,8 @@ def test_target_partners(make_model_integration, tmpdir):
 
     # change the partner distribution mean upward for creating model b
     for bond in model_a.params.classes.bond_types:
-        model_a.params.demographics.black.MSM.num_partners[bond].var_1 *= 10
-        model_a.params.demographics.black.PWID.num_partners[bond].var_1 *= 10
+        model_a.params.demographics.black.MSM.num_partners[bond].vars[1].value *= 10
+        model_a.params.demographics.black.PWID.num_partners[bond].vars[1].value *= 10
     model_a.params.model.seed.run = model_a.run_seed
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
 
