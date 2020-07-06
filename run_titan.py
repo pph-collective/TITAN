@@ -288,8 +288,15 @@ def single_run(sweep, outfile_dir, params, save_pop, pop_path):
         pop_io.write(pop, save_pop_dir, intervention_attrs=intervention_attrs)
         print(save_pop_dir)
 
-    model = HIVModel(params, population=pop)
-    model.run(pid_outfile_dir)
+    try:
+        model = HIVModel(params, population=pop)
+    except Exception as e:
+        raise Exception(f"Model creation failed: {e}")
+
+    try:
+        model.run(pid_outfile_dir)
+    except Exception as e:
+        raise Exception(f"Model run failed for run {model.id}: {e}")
 
     update_sweep_file(model.id, model.pop.id, sweep, pid_outfile_dir)
 
@@ -383,7 +390,6 @@ def main(
 
     tic = time_mod.time()
     wct = []  # wall clock times
-    print(pop_path)
 
     with Pool(processes=NCORES) as pool:
         results = [
@@ -397,8 +403,11 @@ def main(
                 break
 
         for r in results:
-            t = r.get()
-            wct.append(t)
+            try:
+                t = r.get()
+                wct.append(t)
+            except Exception as e:
+                print(e)
 
     toc = time_mod.time() - tic
 
