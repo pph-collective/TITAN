@@ -30,8 +30,8 @@ syringe_services:
       risk: 0.02
 
 agent_zero:
-  num_partners: 4
-  start_time: -3
+  num_partners: 20
+  start_time: -47
 
 hiv:
   dx:

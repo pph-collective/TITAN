@@ -850,6 +850,9 @@ partnership:
 
 prep:
   target: 0.1
+  pca:
+    awareness:
+      prob: 1.0
 
 syringe_services:
   timeline:
@@ -890,3 +893,7 @@ model:
   network:
     enable: true
   num_reps: 1
+
+msmw:
+  hiv:
+    prob: 1.0
