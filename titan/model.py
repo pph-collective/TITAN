@@ -327,14 +327,21 @@ class HIVModel:
             for bond, act_type in self.params.classes.bond_types.items()
             if self.params.agent_zero.interaction_type in act_type.acts_allowed
         ]
-        zero_eligible = [
-            agent
-            for agent in self.pop.all_agents.members
-            if agent.get_num_partners(bond_types=bonds)
-            >= self.params.agent_zero.num_partners
-        ]
+        partner_numbers = []
+        zero_eligible = []
+        for agent in self.pop.all_agents.members:
+            partners = agent.get_num_partners(bond_types=bonds)
+            partner_numbers.append(partners)
+            if partners >= self.params.agent_zero.num_partners:
+                zero_eligible.append(agent)
+
         agent_zero = utils.safe_random_choice(zero_eligible, self.run_random)
         if agent_zero:
+            self.hiv_convert(agent_zero)
+        elif self.params.agent_zero.fallback:
+            assert np.max(partner_numbers) > 0, "No bonds of correct type for agent 0"
+            index = np.argmax(partner_numbers)
+            agent_zero = self.pop.all_agents.members[index]
             self.hiv_convert(agent_zero)
         else:
             raise ValueError("No agent zero!")
