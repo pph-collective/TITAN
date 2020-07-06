@@ -257,7 +257,9 @@ def single_run(sweep, outfile_dir, params, save_pop, pop_path):
     """
     pid = str(os.getpid())
     pid_outfile_dir = os.path.join(outfile_dir, pid)
-    save_pop_dir = os.path.join(pid_outfile_dir, "pop") if save_pop is not None else None
+    save_pop_dir = (
+        os.path.join(pid_outfile_dir, "pop") if save_pop is not None else None
+    )
     if not os.path.isdir(pid_outfile_dir):
         os.mkdir(pid_outfile_dir)
         os.mkdir(os.path.join(pid_outfile_dir, "network"))
