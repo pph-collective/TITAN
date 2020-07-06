@@ -163,8 +163,8 @@ def test_target_partners(make_model_integration, tmpdir):
 
     # change the partner distribution mean upward for creating model b
     for bond in model_a.params.classes.bond_types:
-        model_a.params.demographics.black.MSM.num_partners[bond].var_1 *= 10
-        model_a.params.demographics.black.PWID.num_partners[bond].var_1 *= 10
+        model_a.params.demographics.black.MSM.num_partners[bond].vars[1].value *= 10
+        model_a.params.demographics.black.PWID.num_partners[bond].vars[1].value *= 10
     model_a.params.model.seed.run = model_a.run_seed
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
 
