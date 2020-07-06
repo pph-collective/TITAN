@@ -5,9 +5,9 @@ This file contains distributions that don't exist in numpy.
 
 def set_value(np_random, value):
     """
-    A distribution that always returns the rounded value
+    A distribution that always returns the value passed
     """
-    return round(value)
+    return value
 
 
 def pert(np_random, low, peak, high, temperature):
@@ -20,7 +20,7 @@ def pert(np_random, low, peak, high, temperature):
 
     The support is `[low, high]`.  The `peak` must fit in that interval:
       `low < peak < high`.  The `temperature` is a positive parameter that
-      controls the shape of the distribution. Higher values yield a sharper peak.        
+      controls the shape of the distribution. Higher values yield a sharper peak.
     """
     assert low < peak < high
     assert temperature > 0
