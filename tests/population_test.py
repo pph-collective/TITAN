@@ -201,7 +201,7 @@ def test_update_agent_partners_PWID_match(make_population, params):
     pop = make_population(n=0)
     a = pop.create_agent("white", "MSM")
     params.demographics.white.PWID.ppl = 1.0
-    assert params.demographics.white.PWID.num_partners.Inj.var_1
+    assert params.demographics.white.PWID.num_partners.Inj.vars[1].value
     p = pop.create_agent("white", "MSM")
     assert p.drug_type == "Inj"
     assert p.mean_num_partners["Inj"]

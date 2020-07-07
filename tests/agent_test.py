@@ -70,6 +70,22 @@ def test_agent_init(make_agent):
 
 
 @pytest.mark.unit
+def test_get_partners(make_agent):
+    a = make_agent()
+    p1 = make_agent()
+    p2 = make_agent()
+
+    assert "Inj" in a.partners.keys()
+    assert "Sex" in a.partners.keys()
+    a.partners["Sex"].update({p1})
+    a.partners["Inj"].update({p2})
+
+    assert a.get_partners() == {p1, p2}
+    assert a.get_partners(["Sex"]) == {p1}
+    assert a.get_partners(["Inj"]) == {p2}
+
+
+@pytest.mark.unit
 def test_get_acute_status(make_agent, params):
     a = make_agent()  # no HIV on init
     assert a.get_acute_status(params.partnership.ongoing_duration) == False

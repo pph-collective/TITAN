@@ -118,18 +118,23 @@ partnership:
     frequency:
       distribution:
         type: enum
-        values:
-          - poisson
-          - gamma
-          - uniform
-          - set_value
+        class: distributions
         default: poisson
-      var_1:
-        type: float
-        default: 0.0
-      var_2:
-        type: float
-        default: 0.0
+      vars:
+        type: bin
+        description: Pass values in order of bin keys to the distriubtion, starting at 1
+        fields:
+          value:
+            type: float
+          value_type:
+            type: enum
+            values:
+              - int
+              - float
+        default:
+          1:
+            value: 0
+            value_type: int
     transmission:
       base:
         type: float
@@ -204,23 +209,23 @@ partnership:
         dist_type:
           type: enum
           description: "Type of distribution to use for partnership durations if type is distribution. See https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator for function information"
-          values:
-            - gamma
-            - beta
-            - poisson
-            - uniform
-            - set_value
+          class: distributions
           default: gamma
-        var_1:
-          type: float
-          description: "First variable of np function for chosen distribution."
-          min: 0.0
-          default: 0.0
-        var_2:
-          type: float
-          description: "Second variable of np function for chosen distribution."
-          min: 0.0
-          default: 0.0
+        vars:
+          type: bin
+          description: Pass values in order of bin keys to the distriubtion, starting at 1
+          fields:
+            value:
+              type: float
+            value_type:
+              type: enum
+              values:
+                - int
+                - float
+          default:
+            1:
+              value: 0
+              value_type: int
         mean:
           type: float
           description: "Mean of distribution, used to calculate partners per timestep from partners per year"

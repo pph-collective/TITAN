@@ -11,25 +11,31 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 1.1
-          var_2: 1.0
+          vars:
+            1:
+              value: 1.1
+              value_type: float
         Inj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
         SexInj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
       hiv:
         init: 0.0014
         dx:
-          init: 0.9
+          init: 1.0
           prob: 0.202
       haart:
         init: 1.0
         prob: 0.679
-        adherence: 0.70
+        adherence: 1.0
         discontinue: 0.000
       injection:
         unsafe_prob: 0.43
@@ -66,25 +72,31 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 1.1
-          var_2: 1.0
+          vars:
+            1:
+              value: 1.1
+              value_type: float
         Inj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
         SexInj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
       hiv:
         init: 0.0
         dx:
-          init: 0.0
+          init: 1.0
           prob: 0.2
       haart:
         init: 1.0
         prob: 0.679
-        adherence: 0.7
+        adherence: 1.0
         discontinue: 0.000
       injection:
         unsafe_prob: 0.43
@@ -115,23 +127,37 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: .958
-          var_2: 1.0
+          vars:
+            1:
+              value: .958
+              value_type: float
         Inj:
           dist_type: gamma
-          var_1: 1.704
-          var_2: 0.363
+          vars:
+            1:
+              value: 1.704
+              value_type: float
+            2:
+              value: 0.363
+              value_type: float
         SexInj:
           dist_type: poisson
-          var_1: 0.748
-          var_2: 1.0
+          vars:
+            1:
+              value: 0.784
+              value_type: float
+            2:
+              value: 1
+              value_type: int
       hiv:
         init: 0.0
-        dx: 0.202
+        dx:
+          prob: 0.202
+          init: 1.0
       haart:
         init: 1.0
-        prob: 0.0
-        adherence: 0.70
+        prob: 0.679
+        adherence: 1.0
         discontinue: 0.000
       injection:
         unsafe_prob: 0.321
@@ -158,4 +184,3 @@ demographics:
         hiv: 1.5
         haart_adherent: 1.0
         aids: 10.4
-

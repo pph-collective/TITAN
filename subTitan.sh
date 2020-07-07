@@ -23,8 +23,10 @@ sweepfile=""
 rows=""
 num_cores=1
 forceFlag=""
+savePop=""
+popPath=""
 
-while getopts m:j:T:S:r:n:b:f:w:W:R:F:c:t: option
+while getopts m:j:T:S:r:n:b:f:w:W:R:F:c:t:p:P: option
 do
     case "${option}"
         in
@@ -42,6 +44,8 @@ do
 	F) forceFlag="-F";;
 	c) num_cores=${OPTARG};;
 	t) titanPath=${OPTARG};;
+	p) savePop="-p ${OPTARG}";;
+	P) popPath="-P ${OPTARG}";;
     esac
 done
 
@@ -77,6 +81,8 @@ options:
   -F force	  If the number of sweep combinations exceeds 100, run anyway
   -c num_cores	  How many cores to request and run the job on (default: $num_cores)
   -t titanPath	  where the code is
+	-p savePop			save population, either 'all' or 'core' (default none)
+	-P popPath			load population from the provide path (by default, creates a new population)
 "
 exit 0
 }
@@ -117,7 +123,7 @@ prepSubmit() {
     updateParams;
 
     #Submit job to cluster
-    sbatch scripts/bs_Core.sh -S $setting -p $paramPath -n $nMC -b $useBase $forceFlag $sweepDefs $sweepfile $rows
+    sbatch scripts/bs_Core.sh -S $setting -a $paramPath -n $nMC -b $useBase $forceFlag $sweepDefs $sweepfile $rows $savePop $popPath
 
     #Move back to base directory
     cd $basePath

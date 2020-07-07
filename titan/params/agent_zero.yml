@@ -15,3 +15,7 @@ agent_zero:
     type: int
     description: "Time to insert the infection for agent 0"
     default: 1
+  fallback:
+    type: boolean
+    description: "Whether to find the agent with maximum partnerships if there are none greater than num_partners"
+    default: false

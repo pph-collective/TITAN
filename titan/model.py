@@ -37,7 +37,9 @@ class HIVModel:
 
         return res
 
-    def __init__(self, params: ObjMap, population: Optional[Population] = None):
+    def __init__(
+        self, params: ObjMap, population: Optional[Population] = None,
+    ):
 
         self.params = params
         # pre-fetch commonly used param sub-sets for performance
@@ -243,7 +245,7 @@ class HIVModel:
 
         for rel in self.pop.relationships:
             # If before hiv start time, ignore interactions
-            if self.time > self.params.hiv.start:
+            if (self.time >= self.params.hiv.start) or (not burn and self.features.pca):
                 self.agents_interact(rel)
 
         if self.features.syringe_services:
@@ -278,12 +280,12 @@ class HIVModel:
             if agent.hiv:
                 # If HIV hasn't started, ignore
                 if self.time >= self.params.hiv.start:
+                    agent.hiv_time += 1
                     self.diagnose_hiv(agent)
                     self.progress_to_aids(agent)
 
                     if self.features.haart:
                         self.update_haart(agent)
-                        agent.hiv_time += 1
             else:
                 if self.features.prep:
                     if self.time >= self.prep.start:
@@ -325,14 +327,21 @@ class HIVModel:
             for bond, act_type in self.params.classes.bond_types.items()
             if self.params.agent_zero.interaction_type in act_type.acts_allowed
         ]
-        zero_eligible = [
-            agent
-            for agent in self.pop.all_agents.members
-            if agent.get_num_partners(bond_types=bonds)
-            >= self.params.agent_zero.num_partners
-        ]
+        partner_numbers = []
+        zero_eligible = []
+        for agent in self.pop.all_agents.members:
+            partners = agent.get_num_partners(bond_types=bonds)
+            partner_numbers.append(partners)
+            if partners >= self.params.agent_zero.num_partners:
+                zero_eligible.append(agent)
+
         agent_zero = utils.safe_random_choice(zero_eligible, self.run_random)
         if agent_zero:
+            self.hiv_convert(agent_zero)
+        elif self.params.agent_zero.fallback:
+            assert np.max(partner_numbers) > 0, "No bonds of correct type for agent 0"
+            index = np.argmax(partner_numbers)
+            agent_zero = self.pop.all_agents.members[index]
             self.hiv_convert(agent_zero)
         else:
             raise ValueError("No agent zero!")
@@ -443,13 +452,13 @@ class HIVModel:
                     intervention_agent = False
                     for ag in ordered_centrality:
                         ag.intervention_comp = True
-                        if not ag.hiv:
+                        if not ag.hiv and not intervention_agent:
                             ag.prep_awareness = True
                             ag.pca = True
                             ag.pca_suitable = True
                             ag.intervention_ever = True
                             intervention_agent = True
-                            break
+
                     if not intervention_agent:
                         ag = ordered_centrality[0]
                 elif self.prep.pca.choice == "bridge":
@@ -734,7 +743,7 @@ class HIVModel:
 
         # unprotected sex probabilities for primary partnerships
         mean_sex_acts = (
-            agent.get_number_of_sex_acts(self.run_random, self.params)
+            agent.get_number_of_sex_acts(self.np_random, self.params)
             * self.calibration.sex.act
         )
         total_sex_acts = utils.poisson(mean_sex_acts, self.np_random)
@@ -1063,6 +1072,7 @@ class HIVModel:
         sex_type = agent.sex_type
         race_type = agent.race
         diagnosed = agent.hiv_dx
+        partner_tracing = self.params.partner_tracing
 
         def diagnose(agent):
             agent.hiv_dx = True
@@ -1075,16 +1085,13 @@ class HIVModel:
                 < self.params.partner_tracing.stop
             ):
                 # Determine if each partner is found via partner tracing
-                for bond in self.params.partner_tracing.bond_type:
-                    for ptnr in agent.partners.get(bond, []):
-                        if (
-                            ptnr.hiv
-                            and not ptnr.hiv_dx
-                            and self.run_random.random()
-                            < self.params.partner_tracing.prob
-                        ):
-                            ptnr.partner_traced = True
-                            ptnr.trace_time = self.time
+                for ptnr in agent.get_partners(partner_tracing.bond_type):
+                    if (
+                        not ptnr.hiv_dx
+                        and self.run_random.random() < self.params.partner_tracing.prob
+                    ):
+                        ptnr.partner_traced = True
+                        ptnr.trace_time = self.time
 
         if not diagnosed:
             test_prob = self.demographics[race_type][sex_type].hiv.dx.prob
@@ -1096,11 +1103,11 @@ class HIVModel:
                 diagnose(agent)
             elif (
                 agent.partner_traced
-                and self.run_random.random() < self.params.partner_tracing.hiv.dx
+                and self.run_random.random() < partner_tracing.hiv.dx
                 and self.time > agent.trace_time
             ):
                 diagnose(agent)
-        if self.time >= agent.trace_time + self.params.partner_tracing.trace_time:
+        if self.time >= agent.trace_time + partner_tracing.trace_time:
             # agents can only be traced during a specified period after their partner is
             # diagnosed. If past this time, remove ability to trace.
             agent.partner_traced = False
