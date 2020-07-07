@@ -32,6 +32,7 @@ syringe_services:
 agent_zero:
   num_partners: 10
   start_time: -3
+  fallback: true
 
 hiv:
   dx:
