@@ -42,5 +42,5 @@ hiv:
     type: boolean
   start:
     default: 0
-    description: "What timestep to start agent interactions/hiv transmission"
+    description: "What timestep to start agent interactions related to hiv transmission"
     type: int

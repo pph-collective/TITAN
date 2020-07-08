@@ -80,10 +80,11 @@ def test_initialize_random_trial_prep(make_model, params):
     model = make_model()
     model.run_random = FakeRandom(-0.1)
     model.initialize_random_trial()
-    for agent in [ag for ag in model.pop.all_agents if ag.hiv is False]:
-        assert agent.intervention_comp
-        assert agent.intervention_ever
-        assert agent.prep
+    for agent in model.pop.all_agents:
+        if not agent.hiv:
+            assert agent.intervention_comp
+            assert agent.intervention_ever
+            assert agent.prep
 
 
 @pytest.mark.unit
@@ -469,7 +470,7 @@ def test_diagnose_hiv(make_model, make_agent):
     assert a in model.new_dx.members
     assert p in a.get_partners()
     assert p.partner_traced
-    assert p.trace_time == model.time
+    assert p.trace_duration == model.time
 
     assert p.hiv_dx is False
     assert p not in model.new_dx.members

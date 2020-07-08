@@ -28,7 +28,7 @@ partner_tracing:
     description: "What time step to stop partner tracing"
     type: int
     default: 9999
-  trace_time:
+  trace_duration:
     description: "For how many time steps after partner diagnosis a partner is traced"
     type: int
     default: 1

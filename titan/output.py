@@ -326,7 +326,7 @@ def basicReport(
         "inf_newInf": "Incid",
         "inf_HR6m": "HR_6mo",
         "inf_HRever": "HR_Ev",
-        "newlyDiagnosed": "NewDiag",
+        "newlyDiagnosed": "NewDx",
         "deaths": "Deaths",
         "numPrEP": "PrEP",
         "iduPartPrep": "IDUpart_PrEP",
@@ -405,6 +405,7 @@ def print_components(
 
             if agent.intervention_ever:  # treatment component
                 trt_agent = True
+
             if agent.intervention_comp:
                 trt_comp = True  # if the comp was marked for trt but no eligible
                 # agents, mark as "-1"

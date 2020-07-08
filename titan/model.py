@@ -327,22 +327,22 @@ class HIVModel:
             for bond, act_type in self.params.classes.bond_types.items()
             if self.params.agent_zero.interaction_type in act_type.acts_allowed
         ]
-        partner_numbers = []
+        max_partners = 0
+        max_agent = None
         zero_eligible = []
-        for agent in self.pop.all_agents.members:
-            partners = agent.get_num_partners(bond_types=bonds)
-            partner_numbers.append((agent, partners))
-            if partners >= self.params.agent_zero.num_partners:
+        for agent in self.pop.all_agents:
+            num_partners = agent.get_num_partners(bond_types=bonds)
+            if num_partners >= self.params.agent_zero.num_partners:
                 zero_eligible.append(agent)
+            if num_partners > max_partners:
+                max_partners = num_partners
+                max_agent = agent
 
         agent_zero = utils.safe_random_choice(zero_eligible, self.run_random)
         if agent_zero:  # if eligible agent, make agent 0
             self.hiv_convert(agent_zero)
-        elif self.params.agent_zero.fallback:
-            # if fallback to max, choose agent with most partners
-            agent_zero = sorted(partner_numbers, key=lambda x: x[1], reverse=True)[0]
-            assert agent_zero[1] > 0, "No eligible agent 0; check bond types"
-            self.hiv_convert(agent_zero[0])
+        elif self.params.agent_zero.fallback and max_agent is not None:
+            self.hiv_convert(max_agent)
         else:
             raise ValueError("No agent zero!")
 
@@ -1078,18 +1078,16 @@ class HIVModel:
             self.new_dx.add_agent(agent)
             if (
                 self.features.partner_tracing
-                and self.params.partner_tracing.start
-                <= self.time
-                < self.params.partner_tracing.stop
+                and partner_tracing.start <= self.time < partner_tracing.stop
             ):
                 # Determine if each partner is found via partner tracing
                 for ptnr in agent.get_partners(partner_tracing.bond_type):
                     if (
                         not ptnr.hiv_dx
-                        and self.run_random.random() < self.params.partner_tracing.prob
+                        and self.run_random.random() < partner_tracing.prob
                     ):
                         ptnr.partner_traced = True
-                        ptnr.trace_time = self.time
+                        ptnr.trace_duration = self.time
 
         if not diagnosed:
             test_prob = self.demographics[race_type][sex_type].hiv.dx.prob
@@ -1102,10 +1100,10 @@ class HIVModel:
             elif (
                 agent.partner_traced
                 and self.run_random.random() < partner_tracing.hiv.dx
-                and self.time > agent.trace_time
+                and self.time > agent.trace_duration
             ):
                 diagnose(agent)
-        if self.time >= agent.trace_time + partner_tracing.trace_time:
+        if self.time >= agent.trace_duration + partner_tracing.trace_duration:
             # agents can only be traced during a specified period after their partner is
             # diagnosed. If past this time, remove ability to trace.
             agent.partner_traced = False

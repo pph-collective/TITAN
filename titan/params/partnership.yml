@@ -47,12 +47,7 @@ partnership:
         dist_type:
           type: enum
           description: "Type of distribution to use for partnerships if type is distribution. See https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator for function information"
-          values:
-            - gamma
-            - beta
-            - poisson
-            - uniform
-            - set_value
+          class: distributions
           default: poisson
         vars:
           type: bin

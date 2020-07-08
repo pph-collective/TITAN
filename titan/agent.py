@@ -84,7 +84,7 @@ class Agent:
         self.vaccine_time = 0
         self.vaccine_type = ""
         self.partner_traced = False
-        self.trace_time = 0
+        self.trace_duration = 0
         self.prep_awareness = False
         self.prep_opinion = 0.0
         self.prep_type = ""
@@ -259,7 +259,7 @@ class Agent:
         if bond_types:
             partners = set()
             for bond in bond_types:
-                partners.update({partner for partner in self.partners[bond]})
+                partners.update(self.partners[bond])
         else:
             partners = {partner for partner in self.iter_partners()}
 
@@ -292,7 +292,7 @@ class Agent:
             return rand_gen.randint(min_frequency, max_frequency)
 
         elif params.partnership.sex.frequency.type == "distribution":
-            return int(
+            return round(
                 safe_dist(params.partnership.sex.frequency.distribution, rand_gen)
             )
         else:

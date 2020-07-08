@@ -84,7 +84,7 @@ partner_tracing:
     - SexInj
   start: 1
   stop: 12
-  trace_time: 1
+  trace_duration: 1
   prob: 1
 
 partnership:
