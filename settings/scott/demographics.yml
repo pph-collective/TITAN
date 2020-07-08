@@ -146,9 +146,6 @@ demographics:
             1:
               value: 0.784
               value_type: float
-            2:
-              value: 1
-              value_type: int
       hiv:
         init: 0.0
         dx:

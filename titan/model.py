@@ -336,9 +336,10 @@ class HIVModel:
                 zero_eligible.append(agent)
 
         agent_zero = utils.safe_random_choice(zero_eligible, self.run_random)
-        if agent_zero:
+        if agent_zero:  # if eligible agent, make agent 0
             self.hiv_convert(agent_zero)
         elif self.params.agent_zero.fallback:
+            # if fallback to max, choose agent with most partners
             agent_zero = sorted(partner_numbers, key=lambda x: x[1], reverse=True)[0]
             assert agent_zero[1] > 0, "No eligible agent 0; check bond types"
             self.hiv_convert(agent_zero[0])
@@ -528,8 +529,8 @@ class HIVModel:
 
         Output:
             boolean : whether interaction happened
-
         """
+        interaction_types = self.params.classes.bond_types[rel.bond_type].acts_allowed
         # If either agent is incarcerated, skip their interaction
         if rel.agent1.incar or rel.agent2.incar:
             return False
@@ -544,8 +545,6 @@ class HIVModel:
             partner = rel.agent1
         else:  # neither agent is HIV or both are
             return False
-
-        interaction_types = self.params.classes.bond_types[rel.bond_type].acts_allowed
 
         if "pca" in interaction_types and rel.duration < rel.total_duration:
             self.pca_interaction(rel)

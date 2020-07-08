@@ -93,8 +93,10 @@ partnership:
       type: distribution
       distribution:
         dist_type: poisson
-        var_1: 13.1
-        var_2: 1
+        vars:
+          1:
+            value_type: float
+            value: 13.1
   duration:
     Sex:
       type: distribution

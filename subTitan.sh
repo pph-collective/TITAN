@@ -40,7 +40,7 @@ do
 	f) folderName=${OPTARG};;
 	w) sweepDefs+="-w ${OPTARG} ";;
 	W) sweepfile="-W ${OPTARG}";;
-	R) rows="--r ${OPTARG}";;
+	R) rows="-r ${OPTARG}";;
 	F) forceFlag="-F";;
 	c) num_cores=${OPTARG};;
 	t) titanPath=${OPTARG};;
