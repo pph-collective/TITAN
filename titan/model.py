@@ -331,7 +331,7 @@ class HIVModel:
         zero_eligible = []
         for agent in self.pop.all_agents.members:
             partners = agent.get_num_partners(bond_types=bonds)
-            partner_numbers.append(partners)
+            partner_numbers.append((agent, partners))
             if partners >= self.params.agent_zero.num_partners:
                 zero_eligible.append(agent)
 
@@ -339,10 +339,9 @@ class HIVModel:
         if agent_zero:
             self.hiv_convert(agent_zero)
         elif self.params.agent_zero.fallback:
-            assert np.max(partner_numbers) > 0, "No bonds of correct type for agent 0"
-            index = np.argmax(partner_numbers)
-            agent_zero = self.pop.all_agents.members[index]
-            self.hiv_convert(agent_zero)
+            agent_zero = sorted(partner_numbers, key=lambda x: x[1], reverse=True)[0]
+            assert agent_zero[1] > 0, "No eligible agent 0; check bond types"
+            self.hiv_convert(agent_zero[0])
         else:
             raise ValueError("No agent zero!")
 
