@@ -189,11 +189,7 @@ demographics:
           default: poisson
           description: "How to determine mean number of partners for an agent. Uses numpy.random distributions or 'set_value' to always return the first value. More info at https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator"
           type: enum
-          values:
-            - poisson
-            - gamma
-            - uniform
-            - set_value
+          class: distributions
         vars:
           type: bin
           description: Pass values in order of bin keys to the distribution, starting at 1

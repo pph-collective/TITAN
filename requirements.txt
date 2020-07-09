@@ -1,4 +1,4 @@
-wheel=0.34.2
+wheel==0.34.2
 matplotlib==3.2.0
 networkx==2.4
 nanoid==2.0.0
