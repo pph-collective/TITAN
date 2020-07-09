@@ -471,6 +471,7 @@ def test_diagnose_hiv(make_model, make_agent):
     assert a in model.new_dx.members
     assert p in a.get_partners()
     assert p.partner_traced
+    assert p.trace_time == model.time
 
     assert p.hiv_dx is False
     assert p not in model.new_dx.members

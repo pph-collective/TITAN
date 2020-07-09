@@ -278,11 +278,11 @@ class HIVModel:
                 self.hiv_convert(agent)
 
             if agent.hiv:
+                agent.hiv_time += 1
+                self.progress_to_aids(agent)
                 # If HIV hasn't started, ignore
                 if self.time >= self.params.hiv.start:
-                    agent.hiv_time += 1
                     self.diagnose_hiv(agent)
-                    self.progress_to_aids(agent)
 
                     if self.features.haart:
                         self.update_haart(agent)
@@ -1087,7 +1087,7 @@ class HIVModel:
                         and self.run_random.random() < partner_tracing.prob
                     ):
                         ptnr.partner_traced = True
-                        ptnr.trace_duration = self.time
+                        ptnr.trace_time = self.time
 
         if not diagnosed:
             test_prob = self.demographics[race_type][sex_type].hiv.dx.prob
@@ -1100,10 +1100,10 @@ class HIVModel:
             elif (
                 agent.partner_traced
                 and self.run_random.random() < partner_tracing.hiv.dx
-                and self.time > agent.trace_duration
+                and self.time > agent.trace_time
             ):
                 diagnose(agent)
-        if self.time >= agent.trace_duration + partner_tracing.trace_duration:
+        if self.time >= agent.trace_time + partner_tracing.trace_duration:
             # agents can only be traced during a specified period after their partner is
             # diagnosed. If past this time, remove ability to trace.
             agent.partner_traced = False
