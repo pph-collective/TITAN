@@ -83,7 +83,7 @@ def test_initialize_random_trial_prep(make_model, params):
     model.initialize_random_trial()
     for agent in model.pop.all_agents:
         if not agent.hiv:
-            assert agent.intervention_comp
+            assert agent.random_trial_enrolled
             assert agent.intervention_ever
             assert agent.prep
 
@@ -471,7 +471,6 @@ def test_diagnose_hiv(make_model, make_agent):
     assert a in model.new_dx.members
     assert p in a.get_partners()
     assert p.partner_traced
-    assert p.trace_duration == model.time
 
     assert p.hiv_dx is False
     assert p not in model.new_dx.members

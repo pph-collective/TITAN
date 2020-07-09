@@ -79,7 +79,7 @@ class Agent:
         self.prep_adherence = 0
         self.prep_reason: List[str] = []
         self.intervention_ever = False
-        self.intervention_comp = False
+        self.random_trial_enrolled = False
         self.vaccine = False
         self.vaccine_time = 0
         self.vaccine_type = ""

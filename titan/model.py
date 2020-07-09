@@ -437,7 +437,7 @@ class HIVModel:
                 # Component selected as treatment pod!
                 if not self.features.pca:
                     for ag in comp.nodes():
-                        ag.intervention_comp = True
+                        ag.random_trial_enrolled = True
                         if not ag.hiv and not ag.prep:
                             ag.intervention_ever = True
                             if (
@@ -451,7 +451,7 @@ class HIVModel:
                     ordered_centrality = sorted(centrality, key=centrality.get)
                     intervention_agent = False
                     for ag in ordered_centrality:
-                        ag.intervention_comp = True
+                        ag.random_trial_enrolled = True
                         if not ag.hiv and not intervention_agent:
                             ag.prep_awareness = True
                             ag.pca = True
@@ -464,7 +464,7 @@ class HIVModel:
                 elif self.prep.pca.choice == "bridge":
                     # list all edges that are bridges
                     for ag in comp.nodes:
-                        ag.intervention_comp = True
+                        ag.random_trial_enrolled = True
 
                     all_bridges = list(nx.bridges(comp))
                     comp_agents = [
@@ -488,7 +488,7 @@ class HIVModel:
                 elif self.prep.pca.choice == "random":
                     suitable_agent_choices = []
                     for ag in comp.nodes:
-                        ag.intervention_comp = True
+                        ag.random_trial_enrolled = True
                         if not ag.hiv:
                             suitable_agent_choices.append(ag)
 
