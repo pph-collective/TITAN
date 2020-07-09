@@ -279,10 +279,10 @@ class HIVModel:
 
             if agent.hiv:
                 agent.hiv_time += 1
-                self.progress_to_aids(agent)
                 # If HIV hasn't started, ignore
                 if self.time >= self.params.hiv.start:
                     self.diagnose_hiv(agent)
+                    self.progress_to_aids(agent)
 
                     if self.features.haart:
                         self.update_haart(agent)
@@ -291,12 +291,9 @@ class HIVModel:
                     if self.time >= self.prep.start:
                         if agent.prep:
                             self.discontinue_prep(agent)
-                        elif (
-                            agent.prep_eligible(
-                                self.prep.target_model,
-                                self.params.partnership.ongoing_duration,
-                            )
-                            and self.prep.target_model != "RandomTrial"
+                        elif agent.prep_eligible(
+                            self.prep.target_model,
+                            self.params.partnership.ongoing_duration,
                         ):
                             self.initiate_prep(agent)
 

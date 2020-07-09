@@ -31,12 +31,6 @@ prep:
       type: float
       min: 0
       max: 1
-  discontinue:
-    default: 0.15
-    description: The probabability that an agent on PrEP discontinues PrEP at a given time step
-    type: float
-    min: 0
-    max: 1
   target_model:
     default: Allcomers
     values:
