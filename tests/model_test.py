@@ -60,7 +60,7 @@ def test_update_AllAgents(make_model, make_agent, params):
         model.update_all_agents()
     assert "No agent zero!" in str(excinfo)
 
-    # update all agents for pca and msmw TODO separate tests
+    # test update all agents for pca and msmw TODO separate tests
     model = make_model()
     model.pop.add_agent(a)
     model.pop.add_agent(p)

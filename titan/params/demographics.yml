@@ -187,7 +187,7 @@ demographics:
       default:
         dist_type:
           default: poisson
-          description: "How to determine mean number of partners for an agent. Uses numpy.random distributions or 'set_value' to always return the var_1 value. More info at https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator"
+          description: "How to determine mean number of partners for an agent. Uses numpy.random distributions or 'set_value' to always return the first value. More info at https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator"
           type: enum
           values:
             - poisson
