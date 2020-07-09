@@ -9,8 +9,8 @@ def get_check_rand_int(seed):
     """
     Check the value passed of a seed, make sure it's an int, if 0, get a random seed
     """
-    if type(seed) is not int:
-        raise ValueError("Random seed must be integer")
+    if type(seed) is not int or seed < 0:
+        raise ValueError("Random seed must be positive integer")
     elif seed == 0:
         return random.randint(1, 1000000)
     else:
