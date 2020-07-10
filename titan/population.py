@@ -40,6 +40,7 @@ class Population:
             self.id = id
 
         self.pop_seed = utils.get_check_rand_int(params.model.seed.ppl)
+        self.time = -1 * params.model.time.burn_steps
 
         # Init RNG for population creation to pop_seed
         self.pop_random = random.Random(self.pop_seed)
@@ -144,7 +145,7 @@ class Population:
 
         for race in params.classes.races:
             for i in range(round(params.model.num_pop * params.demographics[race].ppl)):
-                agent = self.create_agent(race)
+                agent = self.create_agent(race, time=self.time)
                 self.add_agent(agent)
 
         if params.features.incar:
@@ -178,7 +179,7 @@ class Population:
                     jail_duration[bin].min, jail_duration[bin].max
                 )
 
-    def create_agent(self, race: str, sex_type="NULL") -> Agent:
+    def create_agent(self, race: str, time, sex_type="NULL") -> Agent:
         """
         :Purpose:
             Return a new agent according to population characteristics
@@ -188,6 +189,9 @@ class Population:
         :Output:
              agent : Agent
         """
+
+        self.time = time
+
         if sex_type == "NULL":
             sex_type = utils.safe_random_choice(
                 self.pop_weights[race]["values"],
@@ -260,7 +264,10 @@ class Population:
         elif self.features.prep and agent.prep_eligible(
             self.prep.target_model, self.params.partnership.ongoing_duration
         ):
-            if self.prep.start == 0 and self.pop_random.random() < self.prep.target:
+            if (
+                self.time >= self.prep.start
+                and self.pop_random.random() < self.prep.target
+            ):
                 agent.enroll_prep(self.params, self.pop_random)
 
         # Check if agent is HR as baseline.

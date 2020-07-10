@@ -1361,5 +1361,5 @@ class HIVModel:
             # Remove agent from agent class and sub-sets
             self.pop.remove_agent(agent)
 
-            new_agent = self.pop.create_agent(agent.race, agent.sex_type)
+            new_agent = self.pop.create_agent(agent.race, self.time, agent.sex_type)
             self.pop.add_agent(new_agent)
