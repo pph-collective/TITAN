@@ -403,7 +403,6 @@ def main(
             if all([r.ready() for r in results]):
                 break
             else:
-                print([r.ready() for r in results])
                 time_mod.sleep(1)
 
         for r in results:

@@ -879,14 +879,10 @@ def test_timeline_scaling_prep_def(make_model):
     model.time = 3
     model.timeline_scaling()
 
-    assert math.isclose(
-        original_prep_target, model.params.prep.target, abs_tol=0.001
-    )
+    assert math.isclose(original_prep_target, model.params.prep.target, abs_tol=0.001)
 
     # still original
     model.time = 4
     model.timeline_scaling()
 
-    assert math.isclose(
-        original_prep_target, model.params.prep.target, abs_tol=0.001
-    )
+    assert math.isclose(original_prep_target, model.params.prep.target, abs_tol=0.001)
