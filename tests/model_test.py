@@ -68,8 +68,8 @@ def test_pca_msmw(make_model, make_agent, params):
     model = make_model()
     a = make_agent(race="white", DU="Inj")
     p = make_agent(race="white", DU="Inj")
-    # model.pop.add_agent(a)
-    # model.pop.add_agent(p)
+    model.pop.add_agent(a)
+    model.pop.add_agent(p)
     msmw_agent = make_agent()
     msmw_agent.msmw = True
     model.pop.add_agent(msmw_agent)

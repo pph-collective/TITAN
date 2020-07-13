@@ -142,9 +142,10 @@ class Population:
 
         print("\tCreating agents")
 
+        init_time = -1 * self.params.model.time.burn_steps
         for race in params.classes.races:
             for i in range(round(params.model.num_pop * params.demographics[race].ppl)):
-                agent = self.create_agent(race)
+                agent = self.create_agent(race, init_time)
                 self.add_agent(agent)
 
         if params.features.incar:
@@ -178,7 +179,7 @@ class Population:
                     jail_duration[bin].min, jail_duration[bin].max
                 )
 
-    def create_agent(self, race: str, sex_type="NULL", time=None) -> Agent:
+    def create_agent(self, race: str, time, sex_type="NULL") -> Agent:
         """
         :Purpose:
             Return a new agent according to population characteristics
@@ -188,10 +189,6 @@ class Population:
         :Output:
              agent : Agent
         """
-
-        if time is None:
-            time = -1 * self.params.model.time.burn_steps
-
         if sex_type == "NULL":
             sex_type = utils.safe_random_choice(
                 self.pop_weights[race]["values"],
