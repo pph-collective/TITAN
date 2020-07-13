@@ -12,13 +12,13 @@ from tests.conftest import FakeRandom
 def test_create_agent(make_population, params):
     pop = make_population(n=100)
 
-    a1 = pop.create_agent("white", )
+    a1 = pop.create_agent("white",)
     assert a1.race == "white"
     assert a1.prep_opinion in range(
         5
     ), f"Agents opinion of injectible PrEP is out of bounds {a1.prep_opinion}"
 
-    a2 = pop.create_agent("black", )
+    a2 = pop.create_agent("black",)
     assert a2.race == "black"
 
     a3 = pop.create_agent("white", "HM")
@@ -62,7 +62,7 @@ def test_create_agent_proportions(make_population, params):
     num_HF = 0
     num_PWID = 0
     for i in range(n):
-        a = pop.create_agent(race, )
+        a = pop.create_agent(race,)
         if a.drug_type == "Inj":
             num_PWID += 1
 

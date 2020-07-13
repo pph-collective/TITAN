@@ -60,6 +60,7 @@ def test_update_AllAgents(make_model, make_agent):
         model.update_all_agents()
     assert "No agent zero!" in str(excinfo)
 
+
 @pytest.mark.unit
 def test_pca_msmw(make_model, make_agent, params):
 

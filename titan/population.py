@@ -234,7 +234,10 @@ class Population:
             agent_params = self.demographics[race][sex_type]
 
         # HIV
-        if self.pop_random.random() < agent_params.hiv.init and time >= self.params.hiv.start:
+        if (
+            self.pop_random.random() < agent_params.hiv.init
+            and time >= self.params.hiv.start
+        ):
             agent.hiv = True
 
             if self.pop_random.random() < agent_params.aids.init:
@@ -264,10 +267,7 @@ class Population:
         elif self.features.prep and agent.prep_eligible(
             self.prep.target_model, self.params.partnership.ongoing_duration
         ):
-            if (
-                time >= self.prep.start
-                and self.pop_random.random() < self.prep.target
-            ):
+            if time >= self.prep.start and self.pop_random.random() < self.prep.target:
                 agent.enroll_prep(self.params, self.pop_random)
 
         # Check if agent is HR as baseline.
