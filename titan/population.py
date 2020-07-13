@@ -40,7 +40,6 @@ class Population:
             self.id = id
 
         self.pop_seed = utils.get_check_rand_int(params.model.seed.ppl)
-        self.time = -1 * params.model.time.burn_steps
 
         # Init RNG for population creation to pop_seed
         self.pop_random = random.Random(self.pop_seed)
@@ -145,7 +144,7 @@ class Population:
 
         for race in params.classes.races:
             for i in range(round(params.model.num_pop * params.demographics[race].ppl)):
-                agent = self.create_agent(race, time=self.time)
+                agent = self.create_agent(race)
                 self.add_agent(agent)
 
         if params.features.incar:
@@ -179,7 +178,7 @@ class Population:
                     jail_duration[bin].min, jail_duration[bin].max
                 )
 
-    def create_agent(self, race: str, time, sex_type="NULL") -> Agent:
+    def create_agent(self, race: str, sex_type="NULL", time=None) -> Agent:
         """
         :Purpose:
             Return a new agent according to population characteristics
@@ -190,7 +189,8 @@ class Population:
              agent : Agent
         """
 
-        self.time = time
+        if time is None:
+            time = -1 * self.params.model.time.burn_steps
 
         if sex_type == "NULL":
             sex_type = utils.safe_random_choice(
@@ -234,7 +234,7 @@ class Population:
             agent_params = self.demographics[race][sex_type]
 
         # HIV
-        if self.pop_random.random() < agent_params.hiv.init:
+        if self.pop_random.random() < agent_params.hiv.init and time >= self.params.hiv.start:
             agent.hiv = True
 
             if self.pop_random.random() < agent_params.aids.init:
@@ -265,7 +265,7 @@ class Population:
             self.prep.target_model, self.params.partnership.ongoing_duration
         ):
             if (
-                self.time >= self.prep.start
+                time >= self.prep.start
                 and self.pop_random.random() < self.prep.target
             ):
                 agent.enroll_prep(self.params, self.pop_random)

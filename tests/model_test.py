@@ -39,7 +39,7 @@ def test_model_init(params):
 
 
 @pytest.mark.unit
-def test_update_AllAgents(make_model, make_agent, params):
+def test_update_AllAgents(make_model, make_agent):
     # make agent 0
     model = make_model()
     assert model.params.agent_zero.interaction_type == "injection"
@@ -60,10 +60,15 @@ def test_update_AllAgents(make_model, make_agent, params):
         model.update_all_agents()
     assert "No agent zero!" in str(excinfo)
 
+@pytest.mark.unit
+def test_pca_msmw(make_model, make_agent, params):
+
     # test update all agents for pca and msmw TODO separate tests
     model = make_model()
-    model.pop.add_agent(a)
-    model.pop.add_agent(p)
+    a = make_agent(race="white", DU="Inj")
+    p = make_agent(race="white", DU="Inj")
+    # model.pop.add_agent(a)
+    # model.pop.add_agent(p)
     msmw_agent = make_agent()
     msmw_agent.msmw = True
     model.pop.add_agent(msmw_agent)
