@@ -43,7 +43,8 @@ hiv:
 
 timeline_scaling:
   timeline:
-    calibration|test_frequency:
+    burn_scale:
+      parameter: calibration|test_frequency
       time_start: 1
       time_stop: 999
       scalar: 1.0

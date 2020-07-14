@@ -54,6 +54,6 @@ model:
     component_size:
       max:
         default: 100
-        description: Largest allowable size of a sub-graph in the network  with comp_size
+        description: Largest allowable size of a sub-graph in the network with comp_size
         type: int
         min: 1

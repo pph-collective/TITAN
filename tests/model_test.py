@@ -861,7 +861,14 @@ def test_timeline_scaling_prep_def(make_model):
     model = make_model()
     scalar = 0.5
     model.params.timeline_scaling.timeline = ObjMap(
-        {"prep|target": {"time_start": 1, "time_stop": 3, "scalar": scalar}}
+        {
+            "scale": {
+                "parameter": "prep|target",
+                "time_start": 1,
+                "time_stop": 3,
+                "scalar": scalar,
+            }
+        }
     )
     original_prep_target = model.params.prep.target
 

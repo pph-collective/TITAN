@@ -362,7 +362,8 @@ class HIVModel:
             print(f"timeline_scaling - {param}: {old_val} => {old_val * scalar}")
             scaling_item[path[-1]] = old_val * scalar
 
-        for param, defn in self.params.timeline_scaling.timeline.items():
+        for defn in self.params.timeline_scaling.timeline.values():
+            param = defn.parameter
             if param != "ts_default":
                 if defn["time_start"] == self.time:
                     scale_param(param, defn["scalar"])
