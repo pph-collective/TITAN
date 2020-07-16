@@ -31,7 +31,7 @@ syringe_services:
 
 agent_zero:
   num_partners: 10
-  start_time: -3
+  start_time: -47
   fallback: true
 
 hiv:
@@ -45,9 +45,14 @@ timeline_scaling:
   timeline:
     burn_scale:
       parameter: calibration|test_frequency
+      time_start: -47
+      time_stop: 0
+      scalar: 0.00000001
+    year_one_scale:
+      parameter: calibration|test_frequency
       time_start: 1
-      time_stop: 999
-      scalar: 1.0
+      time_stop: 2
+      scalar: 3.3
 
 classes:
   sex_types:

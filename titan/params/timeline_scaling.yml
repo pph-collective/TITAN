@@ -9,11 +9,9 @@ timeline_scaling:
       time_start:
         type: int
         description: "What time to start the scaling of this parameter (inclusive)"
-        min: 1
       time_stop:
         type: int
         description: "What time to stop the scaling of this parameter (exclusive)"
-        min: 1
       scalar:
         type: float
         description: Scalar to apply to the param during this time period
