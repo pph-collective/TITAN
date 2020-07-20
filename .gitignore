@@ -3,6 +3,10 @@
 .idea/
 venv/
 venv/*
+python/
+python/*
+venv_pypy/
+venv_pypy/*
 
 __pycache__/
 __pycache__/*
