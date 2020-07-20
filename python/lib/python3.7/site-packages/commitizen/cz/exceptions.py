@@ -1,0 +1,6 @@
+class CzException(Exception):
+    ...
+
+
+class AnswerRequiredError(CzException):
+    ...

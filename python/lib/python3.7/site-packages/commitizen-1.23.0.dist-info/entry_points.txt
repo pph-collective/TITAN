@@ -1,0 +1,4 @@
+[console_scripts]
+cz=commitizen.cli:main
+git-cz=commitizen.cli:main
+

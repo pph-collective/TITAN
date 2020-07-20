@@ -19,6 +19,7 @@ features:
   agent_zero: true
   partner_tracing: true
   timeline_scaling: true
+  assort_mix: true
 
 syringe_services:
   timeline:
