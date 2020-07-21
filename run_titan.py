@@ -123,7 +123,7 @@ parser.add_argument(
     "-F",
     "--force",
     action="store_true",
-    help="Run model even if number of sweeps excedes 100",
+    help="Run model even if number of sweeps exceeds 100",
 )
 
 

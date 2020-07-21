@@ -112,7 +112,7 @@ prep:
         max: 1
     attitude:
       type: bins
-      description: Probability distribution for attitude /opinion level
+      description: Probability distribution for attitude/opinion level
       fields:
         prob:
           type: float
