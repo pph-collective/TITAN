@@ -31,7 +31,7 @@ syringe_services:
 
 agent_zero:
   num_partners: 4
-  start_time: -48
+  start_time: -47
   fallback: true
 
 hiv:
@@ -40,6 +40,7 @@ hiv:
       sex: 0.27
   haart_cap: true
   start: -48
+  init: -48
 
 timeline_scaling:
   timeline:

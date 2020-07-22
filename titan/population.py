@@ -233,7 +233,7 @@ class Population:
         # HIV
         if (
             self.pop_random.random() < agent_params.hiv.init
-            and time >= self.params.hiv.start
+            and time >= self.params.hiv.init
         ):
             agent.hiv = True
 
@@ -288,7 +288,6 @@ class Population:
                     self.params.calibration.sex.partner, self.mean_rel_duration[bond]
                 )
             )
-
 
         for bond, bond_def in self.params.classes.bond_types.items():
             agent.partners[bond] = set()
