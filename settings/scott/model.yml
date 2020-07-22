@@ -1,6 +1,7 @@
 outputs:
   network:
     calc_network_stats: true
+    edge_list: true
 model:
   num_pop: 14573
   time:
@@ -8,9 +9,7 @@ model:
     burn_steps: 48
   network:
     enable: true
-    type: comp_size
-    component_size:
-      max: 2000
+    type: scale_free
 
 features:
   haart: true
@@ -31,8 +30,8 @@ syringe_services:
       risk: 0.02
 
 agent_zero:
-  num_partners: 10
-  start_time: -47
+  num_partners: 4
+  start_time: -48
   fallback: true
 
 hiv:
@@ -40,13 +39,13 @@ hiv:
     risk_reduction:
       sex: 0.27
   haart_cap: true
-  start: -3
+  start: -48
 
 timeline_scaling:
   timeline:
     burn_scale:
       parameter: calibration|test_frequency
-      time_start: -47
+      time_start: -48
       time_stop: 0
       scalar: 0.00000001
     year_one_scale:
@@ -140,5 +139,11 @@ assort_mix:
     attribute: drug_type
     agent_value: Inj
     partner_values:
-      Inj: 0.8
-      __other__: 0.2
+      Inj: 1.0
+      None: 0.0
+      NonInj: 0.0
+  assort_ndu:
+    attribute: drug_type
+    agent_value: None
+    partner_values:
+      None: 1.0

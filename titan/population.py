@@ -289,6 +289,7 @@ class Population:
                 )
             )
 
+
         for bond, bond_def in self.params.classes.bond_types.items():
             agent.partners[bond] = set()
             dist_info = agent_params.num_partners[bond]

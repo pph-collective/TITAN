@@ -27,3 +27,4 @@ results/*.txt
 results/*/*.txt
 
 profile.prof
+site/
