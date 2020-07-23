@@ -5,7 +5,7 @@ import random
 from collections import deque
 from copy import copy
 from math import ceil
-from typing import List, Dict, Any, Set, Optional
+from typing import Dict, Set, Optional
 
 import numpy as np  # type: ignore
 import networkx as nx  # type: ignore

@@ -1,6 +1,6 @@
 import os
 import csv
-from typing import Dict, Optional
+from typing import Dict
 from shutil import make_archive, unpack_archive
 from tempfile import mkdtemp
 import glob

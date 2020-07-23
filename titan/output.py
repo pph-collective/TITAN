@@ -3,7 +3,6 @@
 
 from typing import Dict, Any, List
 from .agent import AgentSet, Agent
-from copy import deepcopy
 import itertools
 import os
 

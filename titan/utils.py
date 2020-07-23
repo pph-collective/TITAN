@@ -150,5 +150,5 @@ def override_param(params, param_path, value, delimiter="|"):
     override_item, last_key = get_param_from_path(params, param_path, delimiter)
 
     old_val = override_item[last_key]
-    print(f"overriding - {param_path}: {override_item} => {value}")
-    scaling_item[last_key] = value
+    print(f"overriding - {param_path}: {old_val} => {value}")
+    override_item[last_key] = value
