@@ -13,7 +13,8 @@ import nanoid  # type: ignore
 
 from .parse_params import ObjMap
 from .agent import AgentSet, Agent, Relationship
-from .partnering import select_partner, get_partnership_duration
+from .location import Location, Geography
+from .partnering import select_partner, get_partnership_duration, get_mean_rel_duration
 from . import utils
 
 
@@ -47,7 +48,7 @@ class Population:
 
         # this sets the global random seed for the population generation phase, during
         # model init it gets reset at the very end
-        random.seed(self.pop_seed)
+        random.seed(self.pop_seed) # TO_REVIEW is this needed? generator should be used everywhere except for line 42
 
         self.enable_graph = params.model.network.enable
 
@@ -58,37 +59,9 @@ class Population:
 
         self.params = params
         # pre-fetch param sub-sets for performance
-        self.demographics = params.demographics
         self.features = params.features
-        self.prep = params.prep
 
-        # build weights of population sex types by race
-        self.pop_weights: Dict[str, Dict[str, List[Any]]] = {}
-        self.role_weights: Dict[str, Dict] = {}
-        self.drug_weights: Dict[str, Dict] = {}
-        for race in params.classes.races:
-            self.role_weights[race] = {}
-            self.drug_weights[race] = {}
-            self.pop_weights[race] = {}
-            self.pop_weights[race]["values"] = []
-            self.pop_weights[race]["weights"] = []
-            for st in params.classes.sex_types:
-                self.pop_weights[race]["values"].append(st)
-                self.pop_weights[race]["weights"].append(
-                    self.demographics[race][st].ppl
-                )
-                self.role_weights[race][st] = {}
-                self.role_weights[race][st]["values"] = []
-                self.role_weights[race][st]["weights"] = []
-                self.drug_weights[race][st] = {}
-                self.drug_weights[race][st]["values"] = []
-                self.drug_weights[race][st]["weights"] = []
-                for role, prob in self.demographics[race][st].sex_role.init.items():
-                    self.role_weights[race][st]["values"].append(role)
-                    self.role_weights[race][st]["weights"].append(prob)
-                for use_type, prob in self.demographics[race][st].drug_type.items():
-                    self.drug_weights[race][st]["values"].append(use_type)
-                    self.drug_weights[race][st]["weights"].append(prob.init)
+        self.geography = Geography(params)
 
         self.num_haart_agents = 0
         self.num_dx_agents = 0
@@ -122,30 +95,15 @@ class Population:
         self.prep_counts = {race: 0 for race in params.classes.races}
 
         # find average partnership durations
-        self.mean_rel_duration: Dict[str, int] = {}
-        for bond in self.params.partnership.duration:
-            if self.params.partnership.duration[bond].type == "bins":
-                weights = []
-                vals = []
-                dur_bins = params.partnership.duration[bond].bins
-                for bins in dur_bins:
-                    if bins > 1:
-                        weights.append(dur_bins[bins].prob - dur_bins[bins - 1].prob)
-                    else:
-                        weights.append(dur_bins[bins].prob)
-                    vals.append(np.average([dur_bins[bins].min, dur_bins[bins].max]))
-                self.mean_rel_duration[bond] = np.average(vals, weights=weights)
-            else:
-                self.mean_rel_duration[bond] = self.params.partnership.duration[
-                    bond
-                ].distribution.mean
+        self.mean_rel_duration: Dict[str, int] = get_mean_rel_duration(self.params)
 
         print("\tCreating agents")
 
-        for race in params.classes.races:
-            for i in range(round(params.model.num_pop * params.demographics[race].ppl)):
-                agent = self.create_agent(race)
-                self.add_agent(agent)
+        for location in self.geography.locations.values():
+            for race in params.classes.races:
+                for i in range(round(params.model.num_pop * location.ppl * location.params.demographics[race].ppl)):
+                    agent = self.create_agent(location, race)
+                    self.add_agent(agent)
 
         if params.features.incar:
             print("\tInitializing Incarceration")
@@ -160,8 +118,8 @@ class Population:
 
     def initialize_incarceration(self):
 
-        for a in self.all_agents.members:
-            incar_params = self.demographics[a.race][a.sex_type].incar
+        for a in self.all_agents:
+            incar_params = a.location.params.demographics[a.race][a.sex_type].incar
             jail_duration = incar_params.duration.init
 
             prob_incar = incar_params.init
@@ -178,42 +136,46 @@ class Population:
                     jail_duration[bin].min, jail_duration[bin].max
                 )
 
-    def create_agent(self, race: str, sex_type="NULL") -> Agent:
+    def create_agent(self, location: Location, race: str, sex_type: Optional[str]=None) -> Agent:
         """
         :Purpose:
             Return a new agent according to population characteristics
         :Input:
+            location : Location
             race : string
             sex_type : default "NULL"
         :Output:
              agent : Agent
         """
-        if sex_type == "NULL":
+
+        # TO_REVIEW might need to pick location first, since that may inform demographics, implications for race, sex_type, drug weights
+
+        if sex_type is None:
             sex_type = utils.safe_random_choice(
-                self.pop_weights[race]["values"],
+                location.pop_weights[race]["values"],
                 self.pop_random,
-                weights=self.pop_weights[race]["weights"],
+                weights=location.pop_weights[race]["weights"],
             )
         if sex_type is None:
             raise ValueError("Agent must have sex type")
 
         # Determine drugtype
         drug_type = utils.safe_random_choice(
-            self.drug_weights[race][sex_type]["values"],
+            location.drug_weights[race][sex_type]["values"],
             self.pop_random,
-            weights=self.drug_weights[race][sex_type]["weights"],
+            weights=location.drug_weights[race][sex_type]["weights"],
         )
         if drug_type is None:
             raise ValueError("Agent must have drug type")
 
-        age, age_bin = self.get_age(race)
+        age, age_bin = self.get_age(location, race)
 
-        agent = Agent(sex_type, age, race, drug_type)
+        agent = Agent(sex_type, age, race, drug_type, location)
         agent.age_bin = age_bin
         sex_role = utils.safe_random_choice(
-            self.role_weights[race][sex_type]["values"],
+            location.role_weights[race][sex_type]["values"],
             self.pop_random,
-            weights=self.role_weights[race][sex_type]["weights"],
+            weights=location.role_weights[race][sex_type]["weights"],
         )
         if sex_role is None:
             raise ValueError("Agent must have sex role")
@@ -221,13 +183,13 @@ class Population:
             agent.sex_role = sex_role
 
         if self.features.msmw and sex_type == "HM":
-            if self.pop_random.random() < self.params.msmw.prob:
+            if self.pop_random.random() < location.params.msmw.prob:
                 agent.msmw = True
 
         if drug_type == "Inj":
-            agent_params = self.demographics[race]["PWID"]
+            agent_params = location.params.demographics[race]["PWID"]
         else:
-            agent_params = self.demographics[race][sex_type]
+            agent_params = location.params.demographics[race][sex_type]
 
         # HIV
         if self.pop_random.random() < agent_params.hiv.init:
@@ -245,7 +207,8 @@ class Population:
                     agent.intervention_ever = True
                     self.num_haart_agents += 1
 
-                    haart_adh = self.demographics[race][sex_type].haart.adherence
+                    # TO_REVIEW is haart adherence purposefully bypassing PWID?
+                    haart_adh = location.params.demographics[race][sex_type].haart.adherence
                     if self.pop_random.random() < haart_adh:
                         adherence = 5
                     else:
@@ -255,23 +218,23 @@ class Population:
                     agent.haart_adherence = adherence
                     agent.haart_time = 0
 
-            # if HIV, how long has the agent had it? Random sample
-            agent.hiv_time = self.pop_random.randint(1, self.params.hiv.max_init_time)
+            # if HIV, how long has the agent had it? Random sample # TO_REVIEW this is more of a duration than a time - should we go through all of our "time" parameters and make that distinction clear?
+            agent.hiv_time = self.pop_random.randint(1, location.params.hiv.max_init_time)
 
         elif self.features.prep:
-            if self.prep.start == 0 and self.pop_random.random() < self.prep.target:
-                agent.enroll_prep(self.params, self.pop_random)
+            if location.params.prep.start == 0 and self.pop_random.random() < location.params.prep.target:
+                agent.enroll_prep(self.pop_random)
 
         # Check if agent is HR as baseline.
         if (
             self.features.high_risk
             and self.pop_random.random()
-            < self.demographics[race][sex_type].high_risk.init
+            < location.params.demographics[race][sex_type].high_risk.init
         ):
             agent.high_risk = True
             agent.high_risk_ever = True
             agent.high_risk_time = self.pop_random.randint(
-                1, self.params.high_risk.sex_based[agent.sex_type].duration
+                1, location.params.high_risk.sex_based[agent.sex_type].duration
             )
 
         # get agent's mean partner numbers for bond type
@@ -280,11 +243,11 @@ class Population:
             return ceil(
                 utils.safe_dist(dist, self.np_random)
                 * utils.safe_divide(
-                    self.params.calibration.sex.partner, self.mean_rel_duration[bond]
+                    self.params.calibration.sex.partner, self.mean_rel_duration[bond] # TO_REVIEW should this be pivoted on location?
                 )
             )
 
-        for bond, bond_def in self.params.classes.bond_types.items():
+        for bond, bond_def in location.params.classes.bond_types.items():
             agent.partners[bond] = set()
             dist_info = agent_params.num_partners[bond]
             agent.mean_num_partners[bond] = partner_distribution(dist_info)
@@ -297,11 +260,11 @@ class Population:
                 self.partnerable_agents[bond].add(agent)
 
         if self.features.pca:
-            if self.pop_random.random() < self.prep.pca.awareness.init:
+            if self.pop_random.random() < location.params.prep.pca.awareness.init:
                 agent.prep_awareness = True
             attprob = self.pop_random.random()
             pvalue = 0.0
-            for bin, fields in self.prep.pca.attitude.items():
+            for bin, fields in location.params.prep.pca.attitude.items():
                 pvalue += fields.prob
                 if attprob < pvalue:
                     agent.prep_opinion = bin
@@ -400,7 +363,7 @@ class Population:
         if self.enable_graph:
             self.graph.remove_edge(rel.agent1, rel.agent2)
 
-    def get_age(self, race: str):
+    def get_age(self, location, race: str):
         """
         :Purpose:
             Get an age of an agent, given their race
@@ -414,7 +377,7 @@ class Population:
         """
         rand = self.pop_random.random()
 
-        bins = self.demographics[race].age
+        bins = location.params.demographics[race].age
 
         for i in range(1, 6):
             if rand < bins[i].prob:
@@ -452,7 +415,7 @@ class Population:
         no_match = True
 
         if partner:
-            duration = get_partnership_duration(self.params, self.np_random, bond_type)
+            duration = get_partnership_duration(self.params, self.np_random, bond_type) # TO_REVIEW should this use location params, if so, which agent's
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
             self.add_relationship(relationship)
             # can partner still partner?
@@ -485,10 +448,6 @@ class Population:
                     for a in self.all_agents
                     if len(a.partners[bond]) < a.target_partners[bond]
                 ]
-            )
-            print(f"Eligible agents for {bond}: {len(eligible_agents)}")
-            print(
-                f"Partnerable agents for {bond}: {len(self.partnerable_agents[bond])}"
             )
             attempts = {a: 0 for a in eligible_agents}
 

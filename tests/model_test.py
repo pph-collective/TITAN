@@ -316,9 +316,9 @@ def test_incarcerate_not_hiv(make_model, make_agent):
     a = make_agent(SO="HM", race="white")
     p = make_agent(SO="HF", race="white")
     rel = Relationship(a, p, 10, "Sex")
-    model.prep.target = 1.0
-    model.prep.target_model = "Incar"
-    model.params.demographics.white.HM.incar.prob = 1.0
+    a.location.params.prep.target = 1.0
+    a.location.params.prep.target_model = "Incar"
+    a.location.params.demographics.white.HM.incar.prob = 1.0
 
     model.incarcerate(a)
     assert p.prep
@@ -642,8 +642,8 @@ def test_initiate_prep_eligible(make_model, make_agent):
     p.hiv_dx = True
     p.msmw = True
     model.time = 10
-    model.params.prep.target = 1.0
-    model.params.prep.target_model = "CDCwomen"
+    a.location.params.prep.target = 1.0
+    a.location.params.prep.target_model = "CDCwomen"
     rel = Relationship(a, p, 10, bond_type="Sex")
     # non-forcing, adherant, inj
     model.run_random = FakeRandom(-0.1)
@@ -702,7 +702,7 @@ def test_progress_to_aids_progress(make_agent, make_model):
     a.target_partners = {bond: 0 for bond in model.params.classes.bond_types.keys()}
     model.pop.add_agent(a)
     num_aids = sum([1 for agent in model.pop.hiv_agents if agent.aids])  # get baseline
-    model.params.hiv.aids.prob = 1.0
+    a.location.params.hiv.aids.prob = 1.0
 
     a.hiv = True
     a.haart_adherence = 1  # .0051 prob
@@ -801,16 +801,16 @@ def test_timeline_scaling_prep_def(make_model):
     model = make_model()
     scalar = 0.5
     model.params.timeline_scaling.timeline = ObjMap(
-        {"prep|discontinue": {"time_start": 1, "time_stop": 3, "scalar": scalar}}
+        {"prep|target": {"time_start": 1, "time_stop": 3, "scalar": scalar}}
     )
-    original_prep_discontinue = model.params.prep.discontinue
+    original_prep_discontinue = model.params.prep.target
 
     # scale the param
     model.time = 1
     model.timeline_scaling()
 
     assert math.isclose(
-        original_prep_discontinue * scalar, model.params.prep.discontinue, abs_tol=0.001
+        original_prep_discontinue * scalar, model.params.prep.target, abs_tol=0.001
     )
 
     # param still scaled
@@ -818,7 +818,7 @@ def test_timeline_scaling_prep_def(make_model):
     model.timeline_scaling()
 
     assert math.isclose(
-        original_prep_discontinue * scalar, model.params.prep.discontinue, abs_tol=0.001
+        original_prep_discontinue * scalar, model.params.prep.target, abs_tol=0.001
     )
 
     # revert to original
@@ -826,7 +826,7 @@ def test_timeline_scaling_prep_def(make_model):
     model.timeline_scaling()
 
     assert math.isclose(
-        original_prep_discontinue, model.params.prep.discontinue, abs_tol=0.001
+        original_prep_discontinue, model.params.prep.target, abs_tol=0.001
     )
 
     # still original
@@ -834,5 +834,5 @@ def test_timeline_scaling_prep_def(make_model):
     model.timeline_scaling()
 
     assert math.isclose(
-        original_prep_discontinue, model.params.prep.discontinue, abs_tol=0.001
+        original_prep_discontinue, model.params.prep.target, abs_tol=0.001
     )

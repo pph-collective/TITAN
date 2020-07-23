@@ -115,3 +115,40 @@ def memo(f):
         return cache[arg]
 
     return wrap
+
+
+def get_param_from_path(params, param_path, delimiter):
+    """
+    Given a params object and a delimited path, get the leaf of the params
+    and the last key to access it
+    """
+    path = param_path.split(delimiter)
+    path_params = params
+    for p in path[:-1]:
+        path_params = path_params[p]
+
+    return path_params, path[-1]
+
+
+def scale_param(params, param_path, scalar, delimiter="|"):
+    """
+    Given the params and a parameter path in the format prep|target, scale the
+    current value by the scalar
+    """
+    scaling_item, last_key = get_param_from_path(params, param_path, delimiter)
+
+    old_val = scaling_item[last_key]
+    print(f"scaling - {param_path}: {old_val} => {old_val * scalar}")
+    scaling_item[last_key] = old_val * scalar
+
+
+def override_param(params, param_path, value, delimiter="|"):
+    """
+    Given the params and a parameter path in the format prep|target, scale the
+    current value by the scalar
+    """
+    override_item, last_key = get_param_from_path(params, param_path, delimiter)
+
+    old_val = override_item[last_key]
+    print(f"overriding - {param_path}: {override_item} => {value}")
+    scaling_item[last_key] = value

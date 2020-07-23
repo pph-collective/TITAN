@@ -15,7 +15,7 @@ timeline_scaling:
         type: float
         description: Scalar to apply to the param during this time period
         default: 1.0
-        min: 0
+        min: 0.001
     default:
       ts_default:
         time_start: 1

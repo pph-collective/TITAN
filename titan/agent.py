@@ -5,6 +5,7 @@ from typing import List, Dict, Set, Optional
 
 from .parse_params import ObjMap
 from .utils import safe_divide
+from .location import Location
 
 
 class Agent:
@@ -13,10 +14,11 @@ class Agent:
         This class constructs and represents an agent within the population
 
     :Input:
-        SO : str - Sexual orientation flag (HM, HF, MSM)
+        SO : str - sex type flag (HM, HF, MSM)
         age : int - Agents initialization age
         race : str - Race of agent
         DU : str - Drug use flag (IDU, NIDU, NDU)
+        location : Location - the location where the agent "lives"
     """
 
     # class variable for agent creation
@@ -26,7 +28,15 @@ class Agent:
     def update_id_counter(cls, last_id):
         cls.next_agent_id = last_id + 1
 
-    def __init__(self, so: str, age: int, race: str, du: str, id: Optional[int] = None):
+    def __init__(
+        self,
+        so: str,
+        age: int,
+        race: str,
+        du: str,
+        location: Location,
+        id: Optional[int] = None,
+    ):
         """
         Initialize an agent based on given properties
 
@@ -54,6 +64,7 @@ class Agent:
         self.age_bin = 0
         self.race = race
         self.drug_type = du
+        self.location = location  # TO_REVIEW name or object
 
         self.msmw = False
         self.sex_role = "versatile"
@@ -189,7 +200,8 @@ class Agent:
 
         return eligible
 
-    def enroll_prep(self, params: ObjMap, rand_gen):
+    def enroll_prep(self, rand_gen):
+        params = self.location.params
         self.prep = True
         self.intervention_ever = True
         self.prep_load = params.prep.peak_load
@@ -212,7 +224,7 @@ class Agent:
         else:
             self.prep_type = params.prep.type[0]
 
-    def update_prep_load(self, params: ObjMap):
+    def update_prep_load(self):
         """
         :Purpose:
             Determine and update load of PrEP concentration in agent.
@@ -223,6 +235,7 @@ class Agent:
         :Output:
             none
         """
+        params = self.location.params
         # N(t) = N0 (0.5)^(t/t_half)
         self.prep_last_dose += 1
         if self.prep_last_dose > params.model.time.steps_per_year:
@@ -255,7 +268,7 @@ class Agent:
         self.vaccine_type = vax
         self.vaccine_time = 1
 
-    def get_number_of_sex_acts(self, rand_gen, params: ObjMap) -> int:
+    def get_number_of_sex_acts(self, rand_gen) -> int:
         """
         :Purpose:
             Number of sexActs an agent has done.
@@ -266,18 +279,19 @@ class Agent:
         :Output:
             number_sex_act : int
         """
+        freq_params = self.location.params.partnership.sex.frequency
         rv = rand_gen.random()
 
         for i in range(1, 6):
-            p = params.partnership.sex.frequency[i].prob
+            p = freq_params[i].prob
             if rv <= p:
-                min_frequency = params.partnership.sex.frequency[i].min
-                max_frequency = params.partnership.sex.frequency[i].max
+                min_frequency = freq_params[i].min
+                max_frequency = freq_params[i].max
                 return rand_gen.randrange(min_frequency, max_frequency, 1)
 
         # fallthrough is last i
-        min_frequency = params.partnership.sex.frequency[i].min
-        max_frequency = params.partnership.sex.frequency[i].max
+        min_frequency = freq_params[i].min
+        max_frequency = freq_params[i].max
         return rand_gen.randrange(min_frequency, max_frequency, 1)
 
 

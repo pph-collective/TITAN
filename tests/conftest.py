@@ -7,6 +7,7 @@ from titan.parse_params import create_params
 from titan.population import Population
 from titan.model import HIVModel
 from titan.agent import Agent, Relationship
+from titan.location import Location
 
 # helper method to generate a fake number deterministically
 class FakeRandom:
@@ -51,11 +52,17 @@ def params(tmpdir):
     )
     return create_params(None, param_file, tmpdir)
 
+@pytest.fixture
+def world_location(params):
+    return Location("world", params.classes.locations.world, params)
+
 
 @pytest.fixture
-def make_agent(params):
-    def _make_agent(SO="MSM", age=30, race="black", DU="None", init_bond_fields=True):
-        agent = Agent(SO, age, race, DU)
+def make_agent(params, world_location):
+    def _make_agent(SO="MSM", age=30, race="black", DU="None", location=None, init_bond_fields=True):
+        if location is None:
+            location = world_location
+        agent = Agent(SO, age, race, DU, location)
         if init_bond_fields:
             for bond in params.classes.bond_types:
                 agent.target_partners[bond] = 0
