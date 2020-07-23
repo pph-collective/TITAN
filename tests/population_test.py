@@ -27,7 +27,9 @@ def test_create_agent(make_population, params):
 
     # check PWID and HIV and high risk
     pop.pop_random = FakeRandom(-0.1)
-    pop.geography.locations["world"].drug_weights["white"]["HM"] = ObjMap({"values": ["Inj"], "weights": [1.0]})
+    pop.geography.locations["world"].drug_weights["white"]["HM"] = ObjMap(
+        {"values": ["Inj"], "weights": [1.0]}
+    )
     a4 = pop.create_agent(pop.geography.locations["world"], "white", "HM")
     assert a4.drug_type == "Inj"
     assert a4.hiv
@@ -42,7 +44,9 @@ def test_create_agent(make_population, params):
 
     # check not PWID and HIV
     pop.pop_random = FakeRandom(0.999)
-    pop.geography.locations["world"].drug_weights["white"]["HM"] = ObjMap({"values": ["None"], "weights": [1.0]})
+    pop.geography.locations["world"].drug_weights["white"]["HM"] = ObjMap(
+        {"values": ["None"], "weights": [1.0]}
+    )
     a4 = pop.create_agent(pop.geography.locations["world"], "white", "HM")
     assert a4.drug_type == "None"
     assert a4.hiv is False
@@ -57,7 +61,10 @@ def test_create_agent_proportions(make_population, params):
     n = 1000
     race = "white"
     # check proportions
-    pop.geography.locations["world"].pop_weights[race] = {"values": ["HM", "HF"], "weights": [0.1, 0.9]}
+    pop.geography.locations["world"].pop_weights[race] = {
+        "values": ["HM", "HF"],
+        "weights": [0.1, 0.9],
+    }
     prop_idu = round(params.demographics[race]["PWID"].ppl * n)
     num_HM = 0
     num_HF = 0
@@ -203,7 +210,11 @@ def test_update_agent_partners_PWID_match(make_population, params):
     pop.geography.locations["world"].drug_weights["white"]["MSM"]["weights"] = [1.0]
 
     a = pop.create_agent(pop.geography.locations["world"], "white", "MSM")
-    assert pop.geography.locations["world"].params.demographics.white.PWID.num_partners.Inj.vars[1].value
+    assert (
+        pop.geography.locations["world"]
+        .params.demographics.white.PWID.num_partners.Inj.vars[1]
+        .value
+    )
     p = pop.create_agent(pop.geography.locations["world"], "white", "MSM")
     assert p.drug_type == "Inj"
     assert p.mean_num_partners["Inj"]

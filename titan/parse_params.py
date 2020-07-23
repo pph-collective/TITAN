@@ -22,6 +22,9 @@ class ObjMap(dict):
     def __getattr__(self, k):
         return self.__getitem__(k)
 
+    def __setattr__(self, k, v):
+        return self.__setitem__(k, v)
+
     def __hash__(self):
         return 1234567890
 

@@ -48,7 +48,9 @@ class Population:
 
         # this sets the global random seed for the population generation phase, during
         # model init it gets reset at the very end
-        random.seed(self.pop_seed) # TO_REVIEW is this needed? generator should be used everywhere except for line 42
+        random.seed(
+            self.pop_seed
+        )  # TO_REVIEW is this needed? generator should be used everywhere except for line 42
 
         self.enable_graph = params.model.network.enable
 
@@ -101,7 +103,13 @@ class Population:
 
         for location in self.geography.locations.values():
             for race in params.classes.races:
-                for i in range(round(params.model.num_pop * location.ppl * location.params.demographics[race].ppl)):
+                for i in range(
+                    round(
+                        params.model.num_pop
+                        * location.ppl
+                        * location.params.demographics[race].ppl
+                    )
+                ):
                     agent = self.create_agent(location, race)
                     self.add_agent(agent)
 
@@ -136,7 +144,9 @@ class Population:
                     jail_duration[bin].min, jail_duration[bin].max
                 )
 
-    def create_agent(self, location: Location, race: str, sex_type: Optional[str]=None) -> Agent:
+    def create_agent(
+        self, location: Location, race: str, sex_type: Optional[str] = None
+    ) -> Agent:
         """
         :Purpose:
             Return a new agent according to population characteristics
@@ -208,7 +218,9 @@ class Population:
                     self.num_haart_agents += 1
 
                     # TO_REVIEW is haart adherence purposefully bypassing PWID?
-                    haart_adh = location.params.demographics[race][sex_type].haart.adherence
+                    haart_adh = location.params.demographics[race][
+                        sex_type
+                    ].haart.adherence
                     if self.pop_random.random() < haart_adh:
                         adherence = 5
                     else:
@@ -219,10 +231,15 @@ class Population:
                     agent.haart_time = 0
 
             # if HIV, how long has the agent had it? Random sample # TO_REVIEW this is more of a duration than a time - should we go through all of our "time" parameters and make that distinction clear?
-            agent.hiv_time = self.pop_random.randint(1, location.params.hiv.max_init_time)
+            agent.hiv_time = self.pop_random.randint(
+                1, location.params.hiv.max_init_time
+            )
 
         elif self.features.prep:
-            if location.params.prep.start == 0 and self.pop_random.random() < location.params.prep.target:
+            if (
+                location.params.prep.start == 0
+                and self.pop_random.random() < location.params.prep.target
+            ):
                 agent.enroll_prep(self.pop_random)
 
         # Check if agent is HR as baseline.
@@ -243,7 +260,10 @@ class Population:
             return ceil(
                 utils.safe_dist(dist, self.np_random)
                 * utils.safe_divide(
-                    self.params.calibration.sex.partner, self.mean_rel_duration[bond] # TO_REVIEW should this be pivoted on location?
+                    self.params.calibration.sex.partner,
+                    self.mean_rel_duration[
+                        bond
+                    ],  # TO_REVIEW should this be pivoted on location?
                 )
             )
 
@@ -415,7 +435,9 @@ class Population:
         no_match = True
 
         if partner:
-            duration = get_partnership_duration(self.params, self.np_random, bond_type) # TO_REVIEW should this use location params, if so, which agent's
+            duration = get_partnership_duration(
+                self.params, self.np_random, bond_type
+            )  # TO_REVIEW should this use location params, if so, which agent's
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
             self.add_relationship(relationship)
             # can partner still partner?

@@ -52,6 +52,7 @@ def params(tmpdir):
     )
     return create_params(None, param_file, tmpdir)
 
+
 @pytest.fixture
 def world_location(params):
     return Location("world", params.classes.locations.world, params)
@@ -59,7 +60,9 @@ def world_location(params):
 
 @pytest.fixture
 def make_agent(params, world_location):
-    def _make_agent(SO="MSM", age=30, race="black", DU="None", location=None, init_bond_fields=True):
+    def _make_agent(
+        SO="MSM", age=30, race="black", DU="None", location=None, init_bond_fields=True
+    ):
         if location is None:
             location = world_location
         agent = Agent(SO, age, race, DU, location)

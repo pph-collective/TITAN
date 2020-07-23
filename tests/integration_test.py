@@ -87,7 +87,6 @@ def test_model_pop_write_read(tmpdir):
 
     subprocess.check_call([f, "-p", param_file, "-o", path_a, "--savepop", "all"])
 
-    print(glob(os.path.join(path_a, "pop", "*_pop.tar.gz")))
     saved_pop_path = glob(os.path.join(path_a, "pop", "*_pop.tar.gz"))[0]
 
     path_b = tmpdir.mkdir("b")
@@ -204,14 +203,12 @@ def test_prep_coverage(make_model_integration, tmpdir):
     """
     If we increase the target of prep coverage, does the incidence of hiv decrease?
     """
-    model_a = make_model_integration()
-
     path_a = tmpdir.mkdir("a")
     path_a.mkdir("network")
     path_b = tmpdir.mkdir("b")
     path_b.mkdir("network")
 
-    # run with default bins (0-9)
+    model_a = make_model_integration()
     model_a.run(path_a)
 
     # change the coverage upward for creating model b, use same seeds
@@ -221,6 +218,9 @@ def test_prep_coverage(make_model_integration, tmpdir):
 
     model_b = HIVModel(model_a.params)
     model_b.run(path_b)
+    print(
+        f"model b prep world target: {model_b.pop.geography.locations['world'].params.prep.target}"
+    )
 
     result_file_a = os.path.join(path_a, "basicReport.txt")
     result_file_b = os.path.join(path_b, "basicReport.txt")
@@ -296,9 +296,6 @@ def test_syringe_services(make_model_integration, tmpdir):
         for row in reader_b:
             if row["drug_type"] == "Inj":
                 res_b[row["t"]] = res_b.get(row["t"], 0) + float(row["HIV"])
-
-    print(res_a)
-    print(res_b)
 
     # at start, should be similar
     t0_hiv_a = res_a["0"]

@@ -5,7 +5,7 @@
 from typing import Optional, Dict, Set
 from copy import copy
 
-import numpy as np
+import numpy as np  # type: ignore
 
 from .agent import Agent, AgentSet
 from . import utils

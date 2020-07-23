@@ -607,7 +607,6 @@ demographics:
       unsafe_prob: 0.0
     safe_sex: 0.0
     prep:
-      discontinue: 0.0
       adherence: 0.0
       coverage: 0.0
     high_risk:

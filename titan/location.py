@@ -1,4 +1,4 @@
-from typing import Optional, Set
+from typing import Optional, Set, Dict, List, Any
 from copy import deepcopy
 
 from .parse_params import ObjMap
@@ -15,27 +15,10 @@ class Location:
         location_def : ObjMap - Definition of location from the params
     """
 
-    next_location_id = 0
-
-    @classmethod
-    def update_id_counter(cls, last_id: int):
-        cls.next_location_id = last_id + 1
-
-    def __init__(
-        self, name: str, defn: ObjMap, params: ObjMap, id: Optional[int] = None
-    ):
+    def __init__(self, name: str, defn: ObjMap, params: ObjMap):
         """
         Initialize location object
         """
-
-        # self.id is unique ID number used to track each location.
-        if id is not None:
-            self.id = id
-        else:
-            self.id = self.next_location_id
-
-        self.update_id_counter(self.id)
-
         # location properties
         self.name = name
         self.params = self.scale_params(params)
@@ -47,14 +30,20 @@ class Location:
         self.drug_weights: Dict[str, Dict] = {}
         self.init_weights()
 
-        self.neighbors = set({})  # or maybe edges instead
+        self.edges: Set["LocationEdge"] = set({})  # or maybe edges instead
 
     def __str__(self):
         return self.name
 
+    def __repr__(self):
+        return f"'{self.name}'"
+
+    def __eq__(self, other):
+        return self.name == other.name
+
     def scale_params(self, params: ObjMap):
         """
-        Scale the generic parameters with any location based scaling from params.location.scaling
+        Scale or override the generic parameters with any location based scaling from params.location.scaling
         """
         new_params = deepcopy(params)
 
@@ -100,11 +89,15 @@ class Location:
 
 class LocationEdge:  # is this a directed or undirected edge?
 
+    next_edge_id = 0
+
     @classmethod
     def update_id_counter(cls, last_id: int):
         cls.next_edge_id = last_id + 1
 
-    def __init__(self, loc1: Location, loc2: Location, distance: float, id: Optional[int] = None):
+    def __init__(
+        self, loc1: Location, loc2: Location, distance: float, id: Optional[int] = None
+    ):
         assert loc1 != loc2, "can't have a location self-edge"
 
         # self.id is unique ID number used to track each edge.
