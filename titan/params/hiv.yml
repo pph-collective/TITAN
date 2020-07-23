@@ -45,6 +45,6 @@ hiv:
     description: "What timestep to start agent interactions related to hiv transmission"
     type: int
   init:
-    default: 0
+    default: -999
     description: "At what timestep agents are eligible to be init-ed with HIV"
     type: int
