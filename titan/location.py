@@ -41,6 +41,9 @@ class Location:
     def __eq__(self, other):
         return self.name == other.name
 
+    def __hash__(self):
+        return hash(self.name)
+
     def scale_params(self, params: ObjMap):
         """
         Scale or override the generic parameters with any location based scaling from params.location.scaling
