@@ -677,7 +677,7 @@ class HIVModel:
         )
         share_acts = utils.poisson(mean_num_acts, self.np_random)
 
-        if agent.ssp:  # syringe services program risk
+        if agent.ssp or partner.hiv:  # syringe services program risk
             p_unsafe_injection = self.ssp_enrolled_risk
         else:
             # If sharing, minimum of 1 share act
@@ -748,7 +748,9 @@ class HIVModel:
         p_safe_sex = self.demographics[agent.race][agent.sex_type].safe_sex
         # increase condom usage if diagnosed
         if agent.hiv_dx or partner.hiv_dx:
-            p_safe_sex *= 1 - self.params.hiv.dx.risk_reduction.sex
+            p_unsafe_sex = 1 - p_safe_sex
+            p_unsafe_sex *= 1 - self.params.hiv.dx.risk_reduction.sex
+            p_safe_sex *= 1 - p_unsafe_sex
 
         # Reduction of risk acts between partners for condom usage
         unsafe_sex_acts = total_sex_acts
@@ -1072,7 +1074,11 @@ class HIVModel:
 
         def diagnose(agent):
             agent.hiv_dx = True
-            self.pop.num_dx_agents += 1
+            if agent.drug_type == "Inj":
+                self.num_dx_agents[agent.race]["PWID"] += 1
+            else:
+                self.num_dx_agents[agent.race][agent.sex_role] += 1
+
             self.new_dx.add_agent(agent)
             if (
                 self.features.partner_tracing
@@ -1150,10 +1156,17 @@ class HIVModel:
                 if self.params.hiv.haart_cap:
                     # if HAART is based on cap instead of prob, determine number of
                     # HAART agents based on % of diagnosed agents
+                    if agent.drug_type == "Inj":
+                        num_dx_agents = self.num_dx_agents[agent.race]["PWID"]
+                        num_haart_agents = self.num_haart_agents[agent.race]["PWID"]
+                    else:
+                        num_dx_agents = self.num_dx_agents[agent.race][agent.sex_role]
+                        num_haart_agents = self.num_haart_agents[agent.race][agent.sex_role]
+
                     if (
-                        self.pop.num_haart_agents
+                        num_haart_agents
                         < self.demographics[agent_race][agent_so].haart.prob
-                        * self.pop.num_dx_agents
+                        * num_dx_agents
                     ):
                         initiate(agent)
                 else:

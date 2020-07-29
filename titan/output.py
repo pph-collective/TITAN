@@ -407,8 +407,7 @@ def print_components(
                 trt_agent = True
 
             if agent.random_trial_enrolled:
-                trt_comp = True  # if the comp was marked for trt but no eligible
-                # agents, mark as "-1"
+                trt_comp = True
 
             if agent.prep_awareness:
                 aware += 1

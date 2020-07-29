@@ -27,7 +27,7 @@ class NetworkGraphUtils:
 
     def write_graph_edgelist(self, path: str, id, time):
         file_path = os.path.join(path, f"{id}_Edgelist_t{time}.txt")
-        nx.write_edgelist(self.G, file_path, delimiter="|", data=False)
+        nx.write_edgelist(self.G, file_path, delimiter="|", data=["type"])
 
     def write_network_stats(self, path: str, id, time):
         file_path = os.path.join(path, f"{id}_NetworkStats_t{time}.txt")

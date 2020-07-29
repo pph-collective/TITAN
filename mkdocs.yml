@@ -1,0 +1,8 @@
+site_name: TITAN docs
+theme:
+  name: material
+
+plugins:
+  - mkdocstrings
+copyright: Copywrite Marshall Lab
+site_author: S. Bessey

@@ -3,7 +3,7 @@
 
 import random
 from collections import deque
-from copy import copy
+from copy import copy, deepcopy
 from math import ceil
 from typing import List, Dict, Any, Set, Optional
 
@@ -66,12 +66,15 @@ class Population:
         self.pop_weights: Dict[str, Dict[str, List[Any]]] = {}
         self.role_weights: Dict[str, Dict] = {}
         self.drug_weights: Dict[str, Dict] = {}
+        self.num_dx_agents: Dict[str, Dict] = {}
         for race in params.classes.races:
             self.role_weights[race] = {}
             self.drug_weights[race] = {}
             self.pop_weights[race] = {}
             self.pop_weights[race]["values"] = []
             self.pop_weights[race]["weights"] = []
+            self.num_dx_agents[race] = {}
+            self.num_dx_agents[race]["PWID"] = 0
             for st in params.classes.sex_types:
                 self.pop_weights[race]["values"].append(st)
                 self.pop_weights[race]["weights"].append(
@@ -83,6 +86,7 @@ class Population:
                 self.drug_weights[race][st] = {}
                 self.drug_weights[race][st]["values"] = []
                 self.drug_weights[race][st]["weights"] = []
+                self.num_dx_agents[race][st] = 0
                 for role, prob in self.demographics[race][st].sex_role.init.items():
                     self.role_weights[race][st]["values"].append(role)
                     self.role_weights[race][st]["weights"].append(prob)
@@ -90,8 +94,7 @@ class Population:
                     self.drug_weights[race][st]["values"].append(use_type)
                     self.drug_weights[race][st]["weights"].append(prob.init)
 
-        self.num_haart_agents = 0
-        self.num_dx_agents = 0
+        self.num_haart_agents = deepcopy(self.num_dx_agents)
         print("\tBuilding class sets")
 
         # All agent set list
@@ -240,13 +243,25 @@ class Population:
             if self.pop_random.random() < agent_params.aids.init:
                 agent.aids = True
 
-            if self.pop_random.random() < agent_params.hiv.dx.init:
+            if time == -1 * self.params.model.time.burn_steps:
+                dx_init = agent_params.hiv.dx.init
+            else:
+                dx_init = agent_params.hiv.dx.new_agent
+                
+            if self.pop_random.random() < dx_init:
                 agent.hiv_dx = True
-                self.num_dx_agents += 1
+
+                if agent.drug_type == "Inj":
+                    self.num_dx_agents[agent.race]["PWID"] += 1
+                else:
+                    self.num_dx_agents[agent.race][agent.sex_role] += 1
 
                 if self.pop_random.random() < agent_params.haart.init:
                     agent.haart = True
-                    self.num_haart_agents += 1
+                    if agent.drug_type == "Inj":
+                        self.num_haart_agents[agent.race]["PWID"] += 1
+                    else:
+                        self.num_haart_agents[agent.race][agent.sex_role] += 1
 
                     haart_adh = self.demographics[race][sex_type].haart.adherence
                     if self.pop_random.random() < haart_adh:
@@ -357,7 +372,7 @@ class Population:
         self.relationships.add(rel)
 
         if self.enable_graph:
-            self.graph.add_edge(rel.agent1, rel.agent2)
+            self.graph.add_edge(rel.agent1, rel.agent2, type=rel.bond_type)
 
     def remove_agent(self, agent: Agent):
         """
@@ -377,9 +392,16 @@ class Population:
             self.prep_counts[agent.race] -= 1
 
         if agent.hiv_dx:
-            self.num_dx_agents -= 1
+            if agent.drug_type == "Inj":
+                self.num_dx_agents[agent.race]["PWID"] -= 1
+            else:
+                self.num_dx_agents[agent.race][agent.sex_role] -= 1
+
             if agent.haart:
-                self.num_haart_agents -= 1
+                if agent.drug_type == "Inj":
+                    self.num_haart_agents[agent.race]["PWID"] -= 1
+                else:
+                    self.num_haart_agents[agent.race][agent.sex_role] -= 1
 
         if self.enable_graph:
             self.graph.remove_node(agent)

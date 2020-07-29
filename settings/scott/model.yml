@@ -49,11 +49,11 @@ timeline_scaling:
       time_start: -48
       time_stop: 0
       scalar: 0.00000001
-    year_one_scale:
-      parameter: calibration|test_frequency
-      time_start: 1
-      time_stop: 2
-      scalar: 3.3
+    PWID_dx_scale:
+      parameter: demographics|white|PWID|hiv|dx
+      time_start: -48
+      time_stop: 0
+      scalar: 0.0001
 
 classes:
   sex_types:
@@ -89,13 +89,18 @@ partner_tracing:
     - Sex
     - Inj
     - SexInj
-  start: 1
-  stop: 12
+  start: 2
+  stop: 13
   trace_duration: 1
   prob: 1
 
 partnership:
   sex:
+    acquisition:
+      HM:
+        insertive: 0.0004
+      HF:
+        receptive: 0.0011
     frequency:
       type: distribution
       distribution:
@@ -104,6 +109,33 @@ partnership:
           1:
             value_type: float
             value: 13.1
+    haart_scaling:
+      HM:
+        0:
+          prob: 0.83
+        1:
+          prob: 0.83
+        2:
+          prob: 0.83
+        3:
+          prob: 0.83
+        4:
+          prob: 0.06
+        5:
+          prob: 0.06
+      HF:
+        0:
+          prob: 0.83
+        1:
+          prob: 0.83
+        2:
+          prob: 0.83
+        3:
+          prob: 0.83
+        4:
+          prob: 0.06
+        5:
+          prob: 0.06
   duration:
     Sex:
       type: distribution
@@ -140,9 +172,8 @@ assort_mix:
     attribute: drug_type
     agent_value: Inj
     partner_values:
-      Inj: 1.0
-      None: 0.0
-      NonInj: 0.0
+      Inj: 0.8
+      __other__: 0.2
   assort_ndu:
     attribute: drug_type
     agent_value: None

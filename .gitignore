@@ -1,5 +1,7 @@
 *.pyc
 *.png
+*.tar.gz
+*.zip
 .idea/
 venv/
 venv/*

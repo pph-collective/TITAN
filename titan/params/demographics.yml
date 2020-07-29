@@ -41,13 +41,19 @@ demographics:
       dx:
         init:
           default: 0.0
-          description: "Probability that an agent with HIV is initially diagnosed and 'knows' their HIV status, therefore enabling enrollment in treatment"
+          description: "Probability that an agent with HIV in the initial population is initially diagnosed and 'knows' their HIV status, therefore enabling enrollment in treatment"
           type: float
           min: 0.0
           max: 1.0
         prob:
           default: 0.0
           description: "Probability that an agent with HIV becomes diagnosed at a given time step and 'knows' their HIV status, therefore enabling enrollment in treatment"
+          type: float
+          min: 0.0
+          max: 1.0
+        new_agent:
+          default: 0.0
+          description: "Probability that an agent with HIV after the population initiation is initially diagnosed and 'knows' their HIV status, therefore enabling enrollment in treatment"
           type: float
           min: 0.0
           max: 1.0
