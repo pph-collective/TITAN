@@ -677,7 +677,7 @@ class HIVModel:
         )
         share_acts = utils.poisson(mean_num_acts, self.np_random)
 
-        if agent.ssp or partner.hiv:  # syringe services program risk
+        if agent.ssp or partner.ssp:  # syringe services program risk
             p_unsafe_injection = self.ssp_enrolled_risk
         else:
             # If sharing, minimum of 1 share act
@@ -1075,9 +1075,9 @@ class HIVModel:
         def diagnose(agent):
             agent.hiv_dx = True
             if agent.drug_type == "Inj":
-                self.num_dx_agents[agent.race]["PWID"] += 1
+                self.pop.num_dx_agents[agent.race]["PWID"] += 1
             else:
-                self.num_dx_agents[agent.race][agent.sex_role] += 1
+                self.pop.num_dx_agents[agent.race][agent.sex_type] += 1
 
             self.new_dx.add_agent(agent)
             if (
@@ -1140,7 +1140,11 @@ class HIVModel:
             agent.haart = True
             agent.haart_adherence = adherence
             agent.haart_time = self.time
-            self.pop.num_haart_agents += 1
+            if agent.drug_type == "Inj":  # TODO: change to util?
+                self.pop.num_haart_agents[agent_race]["PWID"] += 1
+            else:
+                self.pop.num_haart_agents[agent_race][agent_so] += 1
+
 
         # Check valid input
         assert agent.hiv
@@ -1157,11 +1161,11 @@ class HIVModel:
                     # if HAART is based on cap instead of prob, determine number of
                     # HAART agents based on % of diagnosed agents
                     if agent.drug_type == "Inj":
-                        num_dx_agents = self.num_dx_agents[agent.race]["PWID"]
-                        num_haart_agents = self.num_haart_agents[agent.race]["PWID"]
+                        num_dx_agents = self.pop.num_dx_agents[agent.race]["PWID"]
+                        num_haart_agents = self.pop.num_haart_agents[agent.race]["PWID"]
                     else:
-                        num_dx_agents = self.num_dx_agents[agent.race][agent.sex_role]
-                        num_haart_agents = self.num_haart_agents[agent.race][agent.sex_role]
+                        num_dx_agents = self.pop.num_dx_agents[agent.race][agent.sex_type]
+                        num_haart_agents = self.pop.num_haart_agents[agent.race][agent.sex_type]
 
                     if (
                         num_haart_agents
@@ -1184,7 +1188,10 @@ class HIVModel:
                 agent.haart = False
                 agent.haart_adherence = 0
                 agent.haart_time = 0
-                self.pop.num_haart_agents -= 1
+                if agent.drug_type == "Inj":  # TODO: change to util?
+                    self.pop.num_haart_agents[agent_race]["PWID"] -= 1
+                else:
+                    self.pop.num_haart_agents[agent_race][agent_so] -= 1
 
     def discontinue_prep(self, agent: Agent, force: bool = False):
         # Agent must be on PrEP to discontinue PrEP

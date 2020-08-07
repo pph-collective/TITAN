@@ -10,6 +10,9 @@ model:
   network:
     enable: true
     type: scale_free
+  seed:
+    run: 15
+    ppl: 15
 
 features:
   haart: true
@@ -22,11 +25,17 @@ features:
 
 syringe_services:
   timeline:
+    ssp_ramp:
+      time_start: 1
+      time_stop: 4
+      num_slots_start: 0
+      num_slots_stop: 305
+      risk: 0.02
     ssp_on:
       time_start: 4
       time_stop: 121
-      num_slots_start: 277
-      num_slots_stop: 277
+      num_slots_start: 305
+      num_slots_stop: 305
       risk: 0.02
 
 agent_zero:
@@ -46,12 +55,12 @@ timeline_scaling:
   timeline:
     burn_scale:
       parameter: calibration|test_frequency
-      time_start: -48
+      time_start: -47
       time_stop: 0
-      scalar: 0.00000001
+      scalar: 0.0001
     PWID_dx_scale:
-      parameter: demographics|white|PWID|hiv|dx
-      time_start: -48
+      parameter: demographics|white|PWID|hiv|dx|prob
+      time_start: -47
       time_stop: 0
       scalar: 0.0001
 
@@ -143,9 +152,9 @@ partnership:
         dist_type: set_value
         vars:
           1:
-            value: 121
+            value: 12100
             value_type: int
-        mean: 121
+        mean: 12100
     SexInj:
       type: distribution
       distribution:
@@ -172,10 +181,15 @@ assort_mix:
     attribute: drug_type
     agent_value: Inj
     partner_values:
-      Inj: 0.8
-      __other__: 0.2
+      Inj: 0.95
+      __other__: 0.05
   assort_ndu:
     attribute: drug_type
     agent_value: None
     partner_values:
       None: 1.0
+calibration:
+  injection:
+    act: 1.0
+  sex:
+    act: 1.0

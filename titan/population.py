@@ -95,7 +95,6 @@ class Population:
                     self.drug_weights[race][st]["weights"].append(prob.init)
 
         self.num_haart_agents = deepcopy(self.num_dx_agents)
-        print("\tBuilding class sets")
 
         # All agent set list
         self.all_agents = AgentSet("AllAgents")
@@ -254,14 +253,14 @@ class Population:
                 if agent.drug_type == "Inj":
                     self.num_dx_agents[agent.race]["PWID"] += 1
                 else:
-                    self.num_dx_agents[agent.race][agent.sex_role] += 1
+                    self.num_dx_agents[agent.race][agent.sex_type] += 1
 
                 if self.pop_random.random() < agent_params.haart.init:
                     agent.haart = True
                     if agent.drug_type == "Inj":
                         self.num_haart_agents[agent.race]["PWID"] += 1
                     else:
-                        self.num_haart_agents[agent.race][agent.sex_role] += 1
+                        self.num_haart_agents[agent.race][agent.sex_type] += 1
 
                     haart_adh = self.demographics[race][sex_type].haart.adherence
                     if self.pop_random.random() < haart_adh:
@@ -395,13 +394,13 @@ class Population:
             if agent.drug_type == "Inj":
                 self.num_dx_agents[agent.race]["PWID"] -= 1
             else:
-                self.num_dx_agents[agent.race][agent.sex_role] -= 1
+                self.num_dx_agents[agent.race][agent.sex_type] -= 1
 
             if agent.haart:
                 if agent.drug_type == "Inj":
                     self.num_haart_agents[agent.race]["PWID"] -= 1
                 else:
-                    self.num_haart_agents[agent.race][agent.sex_role] -= 1
+                    self.num_haart_agents[agent.race][agent.sex_type] -= 1
 
         if self.enable_graph:
             self.graph.remove_node(agent)
