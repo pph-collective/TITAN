@@ -51,32 +51,32 @@ def stats(params, world_location):
 
 @pytest.mark.unit
 def test_get_stats(stats):
-    assert stats["black"]["MSM"]["numAgents"] == 1
-    assert stats["white"]["MSM"]["numAgents"] == 0
-    assert stats["black"]["MSM"]["incar"] == 1
-    assert stats["black"]["MSM"]["incarHIV"] == 1
-    assert stats["black"]["MSM"]["newRelease"] == 1
-    assert stats["black"]["MSM"]["newReleaseHIV"] == 1
-    assert stats["black"]["MSM"]["inf_newInf"] == 1
-    assert stats["black"]["MSM"]["inf_HRever"] == 1
-    assert stats["black"]["MSM"]["inf_HR6m"] == 1
-    assert stats["black"]["MSM"]["numPrEP"] == 1
-    assert stats["black"]["MSM"]["iduPartPrep"] == 1
-    assert stats["black"]["MSM"]["msmwPartPrep"] == 1
-    assert stats["black"]["MSM"]["testedPartPrep"] == 1
-    assert stats["black"]["MSM"]["newNumPrEP"] == 1
-    assert stats["black"]["MSM"]["newlyTested"] == 1
-    assert stats["black"]["MSM"]["newHR"] == 1
-    assert stats["black"]["MSM"]["newHR_HIV"] == 1
-    assert stats["black"]["MSM"]["newHR_AIDS"] == 1
-    assert stats["black"]["MSM"]["newHR_tested"] == 1
-    assert stats["black"]["MSM"]["newHR_ART"] == 1
-    assert stats["black"]["MSM"]["numHIV"] == 1
-    assert stats["black"]["MSM"]["numAIDS"] == 1
-    assert stats["black"]["MSM"]["numTested"] == 1
-    assert stats["black"]["MSM"]["numART"] == 1
-    assert stats["black"]["MSM"]["deaths"] == 1
-    assert stats["black"]["MSM"]["deaths_HIV"] == 1
+    assert stats["world"]["black"]["MSM"]["numAgents"] == 1
+    assert stats["world"]["white"]["MSM"]["numAgents"] == 0
+    assert stats["world"]["black"]["MSM"]["incar"] == 1
+    assert stats["world"]["black"]["MSM"]["incarHIV"] == 1
+    assert stats["world"]["black"]["MSM"]["newRelease"] == 1
+    assert stats["world"]["black"]["MSM"]["newReleaseHIV"] == 1
+    assert stats["world"]["black"]["MSM"]["inf_newInf"] == 1
+    assert stats["world"]["black"]["MSM"]["inf_HRever"] == 1
+    assert stats["world"]["black"]["MSM"]["inf_HR6m"] == 1
+    assert stats["world"]["black"]["MSM"]["numPrEP"] == 1
+    assert stats["world"]["black"]["MSM"]["iduPartPrep"] == 1
+    assert stats["world"]["black"]["MSM"]["msmwPartPrep"] == 1
+    assert stats["world"]["black"]["MSM"]["testedPartPrep"] == 1
+    assert stats["world"]["black"]["MSM"]["newNumPrEP"] == 1
+    assert stats["world"]["black"]["MSM"]["newlyTested"] == 1
+    assert stats["world"]["black"]["MSM"]["newHR"] == 1
+    assert stats["world"]["black"]["MSM"]["newHR_HIV"] == 1
+    assert stats["world"]["black"]["MSM"]["newHR_AIDS"] == 1
+    assert stats["world"]["black"]["MSM"]["newHR_tested"] == 1
+    assert stats["world"]["black"]["MSM"]["newHR_ART"] == 1
+    assert stats["world"]["black"]["MSM"]["numHIV"] == 1
+    assert stats["world"]["black"]["MSM"]["numAIDS"] == 1
+    assert stats["world"]["black"]["MSM"]["numTested"] == 1
+    assert stats["world"]["black"]["MSM"]["numART"] == 1
+    assert stats["world"]["black"]["MSM"]["deaths"] == 1
+    assert stats["world"]["black"]["MSM"]["deaths_HIV"] == 1
 
 
 @pytest.mark.unit

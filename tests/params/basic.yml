@@ -851,6 +851,7 @@ outputs:
   network:
     calc_component_stats: true
   classes:
+    - locations
     - races
     - sex_types
 features:

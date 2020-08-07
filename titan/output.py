@@ -83,7 +83,7 @@ def add_agent_to_stats(stats: Dict[str, Any], attrs: List[str], agent: Agent, ke
     """
     stats_item = stats
     for attr in attrs:
-        stats_item = stats_item[getattr(agent, attr)]
+        stats_item = stats_item[str(getattr(agent, attr))]
 
     stats_item[key] += 1
 
