@@ -137,7 +137,7 @@ def test_update_agent_partners_one_agent(make_population, params):
     agent = next(iter(pop.all_agents))  # the only agent in the pop
 
     for bond in params.classes.bond_types:
-        pop.update_agent_partners(agent, bond)  # noMatch == True
+        pop.update_agent_partners(agent, bond, [])  # noMatch == True
     assert agent in pop.graph.nodes()
     assert len(pop.graph.edges()) == 0
 
@@ -160,7 +160,7 @@ def test_update_agent_partners_PWID_no_match(make_population, params):
     assert p.drug_type == "None"
 
     for bond in params.classes.bond_types.keys():
-        assert pop.update_agent_partners(a, bond)
+        assert pop.update_agent_partners(a, bond, [])
         assert a in pop.graph.nodes()
         assert p in pop.graph.nodes()
         assert not a.partners[bond]
@@ -169,7 +169,7 @@ def test_update_agent_partners_PWID_no_match(make_population, params):
     p.sex_type = "MSM"
     p.drug_type = "None"
     for bond in params.classes.bond_types.keys():
-        assert pop.update_agent_partners(a, bond)
+        assert pop.update_agent_partners(a, bond, [])
         assert a in pop.graph.nodes()
         assert p in pop.graph.nodes()
         assert not a.partners[bond]
@@ -187,7 +187,7 @@ def test_update_agent_partners_MSM_no_match(make_population, params):
     pop.add_agent(a)
     pop.add_agent(p)
 
-    assert pop.update_agent_partners(a, "Sex")
+    assert pop.update_agent_partners(a, "Sex", [])
     assert a in pop.graph.nodes()
     assert p in pop.graph.nodes()
     assert not a.partners["Sex"]
@@ -215,7 +215,7 @@ def test_update_agent_partners_PWID_match(make_population, params):
     pop.add_agent(p)
     assert pop.partnerable_agents["Inj"]
 
-    no_match = pop.update_agent_partners(a, "Inj")
+    no_match = pop.update_agent_partners(a, "Inj", [])
     assert no_match is False
     assert a in pop.graph.nodes()
     assert p in pop.graph.nodes()
@@ -237,7 +237,7 @@ def test_update_agent_partners_MSM_match(make_population, params):
     pop.add_agent(a)
     pop.add_agent(p)
 
-    no_match = pop.update_agent_partners(a, "Sex")
+    no_match = pop.update_agent_partners(a, "Sex", [])
     assert no_match is False
     assert a in pop.graph.nodes()
     assert p in pop.graph.nodes()
@@ -260,7 +260,7 @@ def test_update_agent_partners_NDU_PWID_match(make_population, params):
     pop.add_agent(a)
     pop.add_agent(p)
 
-    no_match = pop.update_agent_partners(a, "Sex")
+    no_match = pop.update_agent_partners(a, "Sex", [])
     assert no_match is False
     assert a in pop.graph.nodes()
     assert p in pop.graph.nodes()
@@ -422,3 +422,64 @@ def test_population_consistency_HIV(params):
 
     for agent in net.hiv_agents:
         assert agent.hiv
+
+@pytest.mark.unit
+def test_partnering_same_component_no_match(make_population, params):
+    pop = make_population(n=0)
+    a = pop.create_agent("white", "MSM")
+    p = pop.create_agent("white", "MSM")
+    # ensure random sex partner no assorting
+    pop.pop_random = FakeRandom(1.1)
+    a.drug_type = "None"
+    p.drug_type = "None"
+
+    pop.add_agent(a)
+    pop.add_agent(p)
+    a.target_partners["Sex"] = 100
+    p.target_partners["Sex"] = 100
+    pop.params.partnership.network.same_component.prob = 2
+    assert params.model.network.enable is True
+    assert pop.enable_graph
+
+    pop.update_partner_assignments(1)
+    assert a in pop.graph.nodes()
+    assert p in pop.graph.nodes()
+    assert len(a.partners["Sex"]) == 0
+
+def test_partnering_same_component_no_match(make_population, make_relationship, params):
+    pop = make_population(n=0)
+    a = pop.create_agent("white", "MSM")
+    b = pop.create_agent("white", "MSM")
+    c = pop.create_agent("white", "MSM")
+    d = pop.create_agent("white", "MSM")
+    # ensure random sex partner no assorting
+    pop.pop_random = FakeRandom(1.1)
+    a.drug_type = "None"
+    b.drug_type = "None"
+    c.drug_type = "None"
+    d.drug_type = "None"
+
+    pop.add_agent(a)
+    pop.add_agent(b)
+    pop.add_agent(c)
+    pop.add_agent(d)
+    a.target_partners["Sex"] = 100
+    b.target_partners["Sex"] = 100
+    c.target_partners["Sex"] = 100
+    d.target_partners["Sex"] = 100
+
+    # make a, b, and c a component, not d
+    r1 = make_relationship(a, b)
+    r2 = make_relationship(b, c)
+    pop.add_relationship(r1)
+    pop.add_relationship(r2)
+
+    pop.params.partnership.network.same_component.prob = 2
+    assert params.model.network.enable is True
+    assert pop.enable_graph
+
+    pop.update_partner_assignments(1)
+    assert a in c.partners["Sex"]
+    assert d not in c.partners["Sex"]
+    assert d not in b.partners["Sex"]
+    assert d not in a.partners["Sex"]
