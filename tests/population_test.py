@@ -446,7 +446,7 @@ def test_partnering_same_component_no_match(make_population, params):
     assert p in pop.graph.nodes()
     assert len(a.partners["Sex"]) == 0
 
-def test_partnering_same_component_no_match(make_population, make_relationship, params):
+def test_partnering_cross_component(make_population, make_relationship, params):
     pop = make_population(n=0)
     a = pop.create_agent("white", "MSM")
     b = pop.create_agent("white", "MSM")
