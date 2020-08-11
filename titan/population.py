@@ -246,7 +246,7 @@ class Population:
                 dx_init = agent_params.hiv.dx.init
             else:
                 dx_init = agent_params.hiv.dx.new_agent
-                
+
             if self.pop_random.random() < dx_init:
                 agent.hiv_dx = True
 

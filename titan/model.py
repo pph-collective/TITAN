@@ -1145,7 +1145,6 @@ class HIVModel:
             else:
                 self.pop.num_haart_agents[agent_race][agent_so] += 1
 
-
         # Check valid input
         assert agent.hiv
 
@@ -1164,8 +1163,12 @@ class HIVModel:
                         num_dx_agents = self.pop.num_dx_agents[agent.race]["PWID"]
                         num_haart_agents = self.pop.num_haart_agents[agent.race]["PWID"]
                     else:
-                        num_dx_agents = self.pop.num_dx_agents[agent.race][agent.sex_type]
-                        num_haart_agents = self.pop.num_haart_agents[agent.race][agent.sex_type]
+                        num_dx_agents = self.pop.num_dx_agents[agent.race][
+                            agent.sex_type
+                        ]
+                        num_haart_agents = self.pop.num_haart_agents[agent.race][
+                            agent.sex_type
+                        ]
 
                     if (
                         num_haart_agents

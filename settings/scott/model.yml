@@ -181,8 +181,8 @@ assort_mix:
     attribute: drug_type
     agent_value: Inj
     partner_values:
-      Inj: 0.95
-      __other__: 0.05
+      Inj: 0.80
+      __other__: 0.20
   assort_ndu:
     attribute: drug_type
     agent_value: None
@@ -192,4 +192,4 @@ calibration:
   injection:
     act: 1.0
   sex:
-    act: 1.0
+    act: 0.6
