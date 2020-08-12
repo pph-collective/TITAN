@@ -61,6 +61,11 @@ def make_agent(params):
                 agent.target_partners[bond] = 0
                 agent.mean_num_partners[bond] = 0
                 agent.partners[bond] = set()
+
+        if agent.drug_type == "Inj":
+            agent.population = "PWID"
+        else:
+            agent.population = agent.sex_type
         return agent
         return Agent(SO, age, race, DU)
 
