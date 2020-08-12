@@ -170,7 +170,7 @@ demographics:
         discontinue: 0.000
       injection:
         unsafe_prob: 0.321
-        num_acts: 40
+        num_acts: 150
       age:
         1:
           prob: .221
