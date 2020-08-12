@@ -213,10 +213,7 @@ class NetworkGraphUtils:
         )
 
         textstr = "\n".join(
-            (
-                r"N infection={:.2f}".format(txtboxLabel,),
-                r"Time={:.2f}".format(curtime,),
-            )
+            (r"N infection={:.2f}".format(txtboxLabel), r"Time={:.2f}".format(curtime))
         )
 
         # these are matplotlib.patch.Patch properties

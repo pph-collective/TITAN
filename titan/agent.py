@@ -54,6 +54,7 @@ class Agent:
         self.age_bin = 0
         self.race = race
         self.drug_type = du
+        self.population = ""
 
         self.msmw = False
         self.sex_role = "versatile"
@@ -429,9 +430,7 @@ class AgentSet:
     hierarchical  level.
     """
 
-    def __init__(
-        self, id: str, parent: "AgentSet" = None,
-    ):
+    def __init__(self, id: str, parent: "AgentSet" = None):
         # _members stores agent set members in a dictionary keyed by ID
         self.id = id
         self.members: Set[Agent] = set()

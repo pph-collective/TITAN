@@ -137,7 +137,7 @@ def get_defn(key, d, key_path, param, pops):
         for field, defn in d["fields"].items():
             assert field in val, f"{field} must be in {val} [{key_path}]"
             val[field] = check_item(
-                val[field], defn, f"{key_path}.{field}", keys=parsed.keys(), pops=pops,
+                val[field], defn, f"{key_path}.{field}", keys=parsed.keys(), pops=pops
             )
 
     return parsed

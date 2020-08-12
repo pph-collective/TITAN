@@ -37,9 +37,7 @@ class HIVModel:
 
         return res
 
-    def __init__(
-        self, params: ObjMap, population: Optional[Population] = None,
-    ):
+    def __init__(self, params: ObjMap, population: Optional[Population] = None):
 
         self.params = params
         # pre-fetch commonly used param sub-sets for performance
@@ -117,7 +115,7 @@ class HIVModel:
             network_outdir = os.path.join(outdir, "network")
             if self.params.outputs.network.draw_figures:
                 self.network_utils.visualize_network(
-                    network_outdir, curtime=self.time, label=f"{self.id}",
+                    network_outdir, curtime=self.time, label=f"{self.id}"
                 )
 
             if self.params.outputs.network.calc_component_stats:
@@ -789,7 +787,7 @@ class HIVModel:
         """
         # Logic for if needle or sex type interaction
         p: float
-        assert interaction in ("injection", "sex",), (
+        assert interaction in ("injection", "sex"), (
             f"Invalid interaction type {interaction}. Only sex and injection acts "
             f"supported. "
         )
@@ -1074,11 +1072,7 @@ class HIVModel:
 
         def diagnose(agent):
             agent.hiv_dx = True
-            if agent.drug_type == "Inj":
-                self.pop.num_dx_agents[agent.race]["PWID"] += 1
-            else:
-                self.pop.num_dx_agents[agent.race][agent.sex_type] += 1
-
+            self.pop.dx_counts[agent.race][agent.population] += 1
             self.new_dx.add_agent(agent)
             if (
                 self.features.partner_tracing
@@ -1140,10 +1134,7 @@ class HIVModel:
             agent.haart = True
             agent.haart_adherence = adherence
             agent.haart_time = self.time
-            if agent.drug_type == "Inj":  # TODO: change to util?
-                self.pop.num_haart_agents[agent_race]["PWID"] += 1
-            else:
-                self.pop.num_haart_agents[agent_race][agent_so] += 1
+            self.pop.haart_counts[agent_race][agent.population] += 1
 
         # Check valid input
         assert agent.hiv
@@ -1159,20 +1150,13 @@ class HIVModel:
                 if self.params.hiv.haart_cap:
                     # if HAART is based on cap instead of prob, determine number of
                     # HAART agents based on % of diagnosed agents
-                    if agent.drug_type == "Inj":
-                        num_dx_agents = self.pop.num_dx_agents[agent.race]["PWID"]
-                        num_haart_agents = self.pop.num_haart_agents[agent.race]["PWID"]
-                    else:
-                        num_dx_agents = self.pop.num_dx_agents[agent.race][
-                            agent.sex_type
-                        ]
-                        num_haart_agents = self.pop.num_haart_agents[agent.race][
-                            agent.sex_type
-                        ]
+                    num_dx_agents = self.pop.dx_counts[agent.race][agent.population]
+                    num_haart_agents = self.pop.haart_counts[agent.race][
+                        agent.population
+                    ]
 
-                    if (
-                        num_haart_agents
-                        < self.demographics[agent_race][agent_so].haart.prob
+                    if num_haart_agents < (
+                        self.demographics[agent_race][agent_so].haart.prob
                         * num_dx_agents
                     ):
                         initiate(agent)
@@ -1191,10 +1175,7 @@ class HIVModel:
                 agent.haart = False
                 agent.haart_adherence = 0
                 agent.haart_time = 0
-                if agent.drug_type == "Inj":  # TODO: change to util?
-                    self.pop.num_haart_agents[agent_race]["PWID"] -= 1
-                else:
-                    self.pop.num_haart_agents[agent_race][agent_so] -= 1
+                self.pop.haart_counts[agent_race][agent.population] -= 1
 
     def discontinue_prep(self, agent: Agent, force: bool = False):
         # Agent must be on PrEP to discontinue PrEP

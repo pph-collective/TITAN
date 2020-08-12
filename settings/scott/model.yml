@@ -63,6 +63,21 @@ timeline_scaling:
       time_start: -47
       time_stop: 0
       scalar: 0.0001
+    dx_new_agent_zero_PWID: # make init probability 0 after initial population creation
+      parameter: demographics|white|PWID|hiv|dx|init
+      time_start: -47
+      time_stop: 9999
+      scalar: 0
+    dx_new_agent_zero_HM: # make init probability 0 after initial population creation
+      parameter: demographics|white|HM|hiv|dx|init
+      time_start: -47
+      time_stop: 9999
+      scalar: 0
+    dx_new_agent_zero_HF: # make init probability 0 after initial population creation
+      parameter: demographics|white|HF|hiv|dx|init
+      time_start: -47
+      time_stop: 9999
+      scalar: 0
 
 classes:
   sex_types:
