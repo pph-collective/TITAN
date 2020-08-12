@@ -494,7 +494,10 @@ class Population:
         if t % self.params.model.time.steps_per_year == 0:
             self.update_partner_targets()
 
-        network_components = [set(g.nodes()) for g in self.connected_components()]
+        if self.enable_graph:
+            network_components = [set(g.nodes()) for g in self.connected_components()]
+        else:
+            network_components = []
 
         # Now create partnerships until available partnerships are out
         for bond in self.params.classes.bond_types:
