@@ -271,21 +271,21 @@ def test_add_remove_agent(make_agent):
     s.add_agent(a)
 
     assert s.members == {a}
-    assert s.is_member(a)
+    assert a in s
     assert s.num_members() == 1
 
     assert c.members == {a}
-    assert c.is_member(a)
+    assert a in c
     assert c.num_members() == 1
 
     s.remove_agent(a)
 
     assert s.members == set()
-    assert s.is_member(a) is False
+    assert a not in s
     assert s.num_members() == 0
 
     assert c.members == set()
-    assert c.is_member(a) is False
+    assert a not in c
     assert c.num_members() == 0
 
 
@@ -296,11 +296,11 @@ def test_clear_set(make_agent):
     s.add_agent(a)
 
     assert s.members == {a}
-    assert s.is_member(a)
+    assert a in s
     assert s.num_members() == 1
 
     s.clear_set()
 
     assert s.members == set()
-    assert s.is_member(a) == False
+    assert a not in s
     assert s.num_members() == 0

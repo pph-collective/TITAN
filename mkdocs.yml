@@ -1,0 +1,34 @@
+site_name: TITAN
+site_description: Documentation for the TITAN model
+
+theme:
+  name: material
+  features:
+    - instant
+    - tabs
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          setup_commands:
+            - import sys
+            - sys.path.append("docs")
+      watch:
+        - titan
+
+markdown_extensions:
+  - admonition
+  - codehilite
+
+nav:
+  - Overview: index.md
+  - Getting Started:
+    - Installation: getting_started.md
+    - Running locally: run_local.md
+    - Running on Oscar: run_oscar.md
+  - API Reference:
+    - Agent: api/agent.md
+    - Relationship: api/relationship.md
+    - AgentSet: api/agent_set.md
