@@ -425,7 +425,9 @@ class Population:
         age = self.pop_random.randrange(min_age, max_age)
         return age, i
 
-    def update_agent_partners(self, agent: Agent, bond_type: str, components: List) -> bool:
+    def update_agent_partners(
+        self, agent: Agent, bond_type: str, components: List
+    ) -> bool:
         """
         :Purpose:
             Finds and bonds new partner. Creates relationship object for partnership,
@@ -441,7 +443,11 @@ class Population:
             Bool if no match was found for agent (used for retries)
         """
         partnerable_agents = self.partnerable_agents[bond_type]
-        if self.pop_random.random() < self.params.partnership.network.same_component.prob:
+        if (
+            self.pop_random.random()
+            < self.params.partnership.network.same_component.prob
+            and agent.has_partners()
+        ):
             # find agent's component
             agent_component = set()
             for comp in components:

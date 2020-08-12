@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from typing import List, Dict, Set, Optional
+from typing import List, Dict, Set, Optional, Iterable
 
 from .parse_params import ObjMap
 from .utils import safe_divide
@@ -130,10 +130,13 @@ class Agent:
     def __hash__(self):
         return self.id
 
-    def iter_partners(self):
+    def iter_partners(self) -> Iterable["Agent"]:
         for partner_set in self.partners.values():
             for partner in partner_set:
                 yield partner
+
+    def has_partners(self) -> bool:
+        return any(self.iter_partners())
 
     def get_acute_status(self, acute_time_period) -> bool:
         """

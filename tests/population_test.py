@@ -423,8 +423,9 @@ def test_population_consistency_HIV(params):
     for agent in net.hiv_agents:
         assert agent.hiv
 
+
 @pytest.mark.unit
-def test_partnering_same_component_no_match(make_population, params):
+def test_partnering_same_component_singleton_match(make_population, params):
     pop = make_population(n=0)
     a = pop.create_agent("white", "MSM")
     p = pop.create_agent("white", "MSM")
@@ -444,35 +445,43 @@ def test_partnering_same_component_no_match(make_population, params):
     pop.update_partner_assignments(1)
     assert a in pop.graph.nodes()
     assert p in pop.graph.nodes()
-    assert len(a.partners["Sex"]) == 0
+    assert len(a.partners["Sex"]) == 1
 
+
+@pytest.mark.unit
 def test_partnering_cross_component(make_population, make_relationship, params):
     pop = make_population(n=0)
     a = pop.create_agent("white", "MSM")
     b = pop.create_agent("white", "MSM")
     c = pop.create_agent("white", "MSM")
     d = pop.create_agent("white", "MSM")
+    e = pop.create_agent("white", "MSM")
     # ensure random sex partner no assorting
     pop.pop_random = FakeRandom(1.1)
     a.drug_type = "None"
     b.drug_type = "None"
     c.drug_type = "None"
     d.drug_type = "None"
+    e.drug_type = "None"
 
     pop.add_agent(a)
     pop.add_agent(b)
     pop.add_agent(c)
     pop.add_agent(d)
+    pop.add_agent(e)
     a.target_partners["Sex"] = 100
     b.target_partners["Sex"] = 100
     c.target_partners["Sex"] = 100
     d.target_partners["Sex"] = 100
+    e.target_partners["Sex"] = 100
 
     # make a, b, and c a component, not d
     r1 = make_relationship(a, b)
     r2 = make_relationship(b, c)
+    r3 = make_relationship(d, e)
     pop.add_relationship(r1)
     pop.add_relationship(r2)
+    pop.add_relationship(r3)
 
     pop.params.partnership.network.same_component.prob = 2
     assert params.model.network.enable is True
