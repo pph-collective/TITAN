@@ -228,11 +228,6 @@ class Population:
             if self.pop_random.random() < self.params.msmw.prob:
                 agent.msmw = True
 
-        if drug_type == "Inj":
-            agent.population = "PWID"
-        else:
-            agent.population = sex_type
-
         agent_params = self.demographics[race][agent.population]
 
         # HIV

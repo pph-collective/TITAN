@@ -54,7 +54,11 @@ class Agent:
         self.age_bin = 0
         self.race = race
         self.drug_type = du
-        self.population = ""
+
+        if self.drug_type == "Inj":
+            self.population = "PWID"
+        else:
+            self.population = self.sex_type
 
         self.msmw = False
         self.sex_role = "versatile"
