@@ -746,8 +746,10 @@ class HIVModel:
         p_safe_sex = self.demographics[agent.race][agent.sex_type].safe_sex
         # increase condom usage if diagnosed
         if agent.hiv_dx or partner.hiv_dx:
-            p_unsafe_sex = 1 - p_safe_sex
-            p_unsafe_sex *= 1 - self.params.hiv.dx.risk_reduction.sex
+            # Calculate probability of safe sex given risk reduction
+            p_unsafe_sex = (1 - p_safe_sex) * (
+                1 - self.params.hiv.dx.risk_reduction.sex
+            )
             p_safe_sex *= 1 - p_unsafe_sex
 
         # Reduction of risk acts between partners for condom usage
