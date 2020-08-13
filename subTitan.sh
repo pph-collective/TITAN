@@ -69,7 +69,7 @@ Starts a TITAN simulation in ~/scratch/{SourceFolder}/{jobname}
 options:
   -j jobname	  name of analysis for organization (default: {SourceFolder}_date)
   -T walltime     as hh:mm:ss, max compute time (default: $walltime)
-  -m memory       as #[k|m|g] (default: $memory)
+  -m memory       per node, as #[k|m|g] (default: $memory)
   -S setting      name of setting for this model
   -r repeats      number of times to repeat the analysis (default: $repeats)
   -n iterations   number of mode iterations per job (default: $nMC)

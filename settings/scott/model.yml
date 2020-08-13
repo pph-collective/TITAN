@@ -1,7 +1,6 @@
 outputs:
-  network:
-    calc_network_stats: true
-    edge_list: true
+  reports:
+    - basicReport
 model:
   num_pop: 14573
   time:
@@ -10,9 +9,6 @@ model:
   network:
     enable: true
     type: scale_free
-  seed:
-    run: 15
-    ppl: 15
 
 features:
   haart: true
@@ -132,7 +128,7 @@ partnership:
         vars:
           1:
             value_type: float
-            value: 13.1
+            value: 6.0
     haart_scaling:
       HM:
         0:
@@ -203,8 +199,4 @@ assort_mix:
     agent_value: None
     partner_values:
       None: 1.0
-calibration:
-  injection:
-    act: 1.0
-  sex:
-    act: 0.6
+
