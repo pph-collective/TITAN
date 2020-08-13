@@ -61,6 +61,7 @@ def make_agent(params):
                 agent.target_partners[bond] = 0
                 agent.mean_num_partners[bond] = 0
                 agent.partners[bond] = set()
+
         return agent
         return Agent(SO, age, race, DU)
 

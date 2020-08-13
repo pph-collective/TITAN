@@ -45,10 +45,7 @@ drawEdgeList = True
 params.outputs.calc_component_stats = True
 params.features.agent_zero = False
 
-params.outputs.reports = [
-    "prepReport",
-    "basicReport",
-]
+params.outputs.reports = ["prepReport", "basicReport"]
 
 """
 Calibration scaling parameters for fitting to empirical data
@@ -425,11 +422,7 @@ Partnership durations and
 """
 params.partnership.duration: Dict[int, Any] = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
 params.partnership.duration[1] = {"prob": (0.323 + 0.262), "min": 1, "max": 6}
-params.partnership.duration[2] = {
-    "prob": (0.323 + 0.262 + 0.116),
-    "min": 7,
-    "max": 12,
-}
+params.partnership.duration[2] = {"prob": (0.323 + 0.262 + 0.116), "min": 7, "max": 12}
 params.partnership.duration[3] = {
     "prob": (0.323 + 0.262 + 0.116 + 0.121),
     "min": 13,

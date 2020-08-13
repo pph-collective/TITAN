@@ -180,7 +180,7 @@ def test_update_agent_partners_MSM_no_match(make_population, params):
     pop = make_population(n=0)
     a = pop.create_agent("white", 0, "MSM")
     p = pop.create_agent("white", 0, "HF")
-    pop.pop_random = FakeRandom(1.1,)
+    pop.pop_random = FakeRandom(1.1)
     a.drug_type = "None"
     p.drug_type = "None"
     pop.add_agent(a)

@@ -38,10 +38,10 @@ parser.add_argument(
     "-p", "--params", required=True, help="directory or file with params yaml(s)"
 )
 parser.add_argument(
-    "-o", "--outdir", default="results", help="directory name to save results to",
+    "-o", "--outdir", default="results", help="directory name to save results to"
 )
 parser.add_argument(
-    "-b", "--base", type=bool, default=True, help="whether to use base setting",
+    "-b", "--base", type=bool, default=True, help="whether to use base setting"
 )
 
 parser.add_argument(

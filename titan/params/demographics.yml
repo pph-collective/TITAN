@@ -51,12 +51,6 @@ demographics:
           type: float
           min: 0.0
           max: 1.0
-        new_agent:
-          default: 0.0
-          description: "Probability that an agent with HIV after the population initiation is initially diagnosed and 'knows' their HIV status, therefore enabling enrollment in treatment"
-          type: float
-          min: 0.0
-          max: 1.0
       transmission:
         default: 1.0
         description: Scaling factor for transmission probability by race (only effective at race level)

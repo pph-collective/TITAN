@@ -229,10 +229,7 @@ def deathReport(
     params: ObjMap,
     outdir: str,
 ):
-    name_map = {
-        "deaths": "tot",
-        "deaths_HIV": "HIV",
-    }
+    name_map = {"deaths": "tot", "deaths_HIV": "HIV"}
     write_report(
         "DeathReport.txt", name_map, run_id, t, runseed, popseed, stats, params, outdir
     )

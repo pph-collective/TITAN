@@ -14,7 +14,7 @@ timeline_scaling:
         description: "What time to stop the scaling of this parameter (exclusive)"
       scalar:
         type: float
-        description: Scalar to apply to the param during this time period
+        description: Scalar to apply to the param during this time period, if 0 make sure the end time is past the end of the model otherwise things will break (can't divide by zero to get back to original value)
         default: 1.0
         min: 0
     default:

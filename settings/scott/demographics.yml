@@ -36,7 +36,6 @@ demographics:
         dx:
           init: 1.0
           prob: 0.202
-          new_agent: 0.0
       haart:
         init: 1.0
         prob: 0.679
@@ -103,7 +102,6 @@ demographics:
         dx:
           init: 1.0
           prob: 0.2
-          new_agent: 0.0
       haart:
         init: 1.0
         prob: 0.679
@@ -164,7 +162,6 @@ demographics:
         dx:
           prob: 0.202
           init: 1.0
-          new_agent: 0.0
       haart:
         init: 1.0
         prob: 0.679
