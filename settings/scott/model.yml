@@ -25,13 +25,13 @@ syringe_services:
       time_start: 1
       time_stop: 4
       num_slots_start: 0
-      num_slots_stop: 305
+      num_slots_stop: 237
       risk: 0.02
     ssp_on:
       time_start: 4
       time_stop: 121
-      num_slots_start: 305
-      num_slots_stop: 305
+      num_slots_start: 237
+      num_slots_stop: 237
       risk: 0.02
 
 agent_zero:
@@ -42,10 +42,12 @@ agent_zero:
 hiv:
   dx:
     risk_reduction:
-      sex: 0.27
+      sex: 0.19
   haart_cap: true
   start: -48
   init: -48
+  aids:
+    prob: 0.0029
 
 timeline_scaling:
   timeline:
@@ -74,6 +76,21 @@ timeline_scaling:
       time_start: -47
       time_stop: 9999
       scalar: 0
+    adh_prob_HF:  # make viral suppression probability 0.7 after initial pop creation
+      parameter: demographics|white|HF|haart|adherence
+      time_start: -47
+      time_stop: 9999
+      scalar: 0.7
+    adh_prob_HM:   # make viral suppression probability 0.7 after initial pop creation
+      parameter: demographics|white|HM|haart|adherence
+      time_start: -47
+      time_stop: 9999
+      scalar: 0.7
+    adh_prob_PWID:  # make viral suppression probability 0.7 after initial pop creation
+      parameter: demographics|white|PWID|haart|adherence
+      time_start: -47
+      time_stop: 9999
+      scalar: 0.7
 
 classes:
   sex_types:

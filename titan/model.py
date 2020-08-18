@@ -1323,11 +1323,10 @@ class HIVModel:
         # only valid for HIV agents
         assert agent.hiv
 
-        if not agent.haart:
-            p = prob.adherence_prob(agent.haart_adherence)
+        p = prob.adherence_prob(agent.haart_adherence) if agent.haart else 1
 
-            if self.run_random.random() < p * self.params.hiv.aids.prob:
-                agent.aids = True
+        if self.run_random.random() < p * self.params.hiv.aids.prob:
+            agent.aids = True
 
     def die_and_replace(self):
 
