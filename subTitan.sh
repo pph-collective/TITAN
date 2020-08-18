@@ -26,7 +26,7 @@ forceFlag=""
 savePop=""
 popPath=""
 
-while getopts m:j:T:S:r:n:b:f:w:W:R:F:c:t:p:P: option
+while getopts m:j:T:S:r:n:b:f:w:W:R:Fc:t:p:P: option
 do
     case "${option}"
         in

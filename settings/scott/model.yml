@@ -25,13 +25,13 @@ syringe_services:
       time_start: 1
       time_stop: 4
       num_slots_start: 0
-      num_slots_stop: 237
+      num_slots_stop: 277
       risk: 0.02
     ssp_on:
       time_start: 4
       time_stop: 121
-      num_slots_start: 237
-      num_slots_stop: 237
+      num_slots_start: 277
+      num_slots_stop: 277
       risk: 0.02
 
 agent_zero:
