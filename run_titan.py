@@ -11,6 +11,7 @@ import itertools
 import json
 from multiprocessing import Pool, cpu_count
 import csv
+import traceback
 
 from titan.model import HIVModel
 from titan.population import Population
@@ -410,7 +411,7 @@ def main(
                 t = r.get()
                 wct.append(t)
             except Exception as e:
-                print(e)
+                traceback.print_exc()
 
     toc = time_mod.time() - tic
 
