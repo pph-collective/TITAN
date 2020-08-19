@@ -182,7 +182,7 @@ class Population:
                     jail_duration[bin].min, jail_duration[bin].max
                 )
 
-    def create_agent(self, race: str, time, sex_type="NULL") -> Agent:
+    def create_agent(self, race: str, time: int, sex_type="NULL") -> Agent:
         """
         :Purpose:
             Return a new agent according to population characteristics
@@ -457,7 +457,7 @@ class Population:
             and agent.has_partners()
         ):
             # find agent's component
-            agent_component = set()
+            agent_component: Set[Agent] = set()
             for comp in components:
                 if agent in comp:
                     agent_component = comp

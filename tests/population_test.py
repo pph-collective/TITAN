@@ -426,8 +426,8 @@ def test_population_consistency_HIV(params):
 @pytest.mark.unit
 def test_partnering_same_component_singleton_match(make_population, params):
     pop = make_population(n=0)
-    a = pop.create_agent("white", "MSM")
-    p = pop.create_agent("white", "MSM")
+    a = pop.create_agent("white", 0, "MSM")
+    p = pop.create_agent("white", 0, "MSM")
     # ensure random sex partner no assorting
     pop.pop_random = FakeRandom(1.1)
     a.drug_type = "None"
@@ -450,11 +450,11 @@ def test_partnering_same_component_singleton_match(make_population, params):
 @pytest.mark.unit
 def test_partnering_cross_component(make_population, make_relationship, params):
     pop = make_population(n=0)
-    a = pop.create_agent("white", "MSM")
-    b = pop.create_agent("white", "MSM")
-    c = pop.create_agent("white", "MSM")
-    d = pop.create_agent("white", "MSM")
-    e = pop.create_agent("white", "MSM")
+    a = pop.create_agent("white", 0, "MSM")
+    b = pop.create_agent("white", 0, "MSM")
+    c = pop.create_agent("white", 0, "MSM")
+    d = pop.create_agent("white", 0, "MSM")
+    e = pop.create_agent("white", 0, "MSM")
     # ensure random sex partner no assorting
     pop.pop_random = FakeRandom(1.1)
     a.drug_type = "None"

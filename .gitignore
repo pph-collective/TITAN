@@ -19,6 +19,7 @@ pyproject.toml
 .pytest_cache/*
 .mypy_cache
 .coverage
+titan.egg-info/
 
 .vscode/
 
