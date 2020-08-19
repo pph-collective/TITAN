@@ -3,7 +3,7 @@
 
 import random
 from collections import deque
-from copy import copy
+from copy import copy, deepcopy
 from math import ceil
 from typing import List, Dict, Any, Set, Optional
 
@@ -90,10 +90,6 @@ class Population:
                     self.drug_weights[race][st]["values"].append(use_type)
                     self.drug_weights[race][st]["weights"].append(prob.init)
 
-        self.num_haart_agents = 0
-        self.num_dx_agents = 0
-        print("\tBuilding class sets")
-
         # All agent set list
         self.all_agents = AgentSet("AllAgents")
 
@@ -121,6 +117,13 @@ class Population:
         # keep track of prep agent counts by race
         self.prep_counts = {race: 0 for race in params.classes.races}
 
+        agent_counts = {
+            race: {so: 0 for so in params.classes.sex_types}
+            for race in params.classes.races
+        }
+        self.dx_counts = deepcopy(agent_counts)
+        self.haart_counts = deepcopy(agent_counts)
+
         # find average partnership durations
         self.mean_rel_duration: Dict[str, int] = {}
         for bond in self.params.partnership.duration:
@@ -142,9 +145,10 @@ class Population:
 
         print("\tCreating agents")
 
+        init_time = -1 * self.params.model.time.burn_steps
         for race in params.classes.races:
             for i in range(round(params.model.num_pop * params.demographics[race].ppl)):
-                agent = self.create_agent(race)
+                agent = self.create_agent(race, init_time)
                 self.add_agent(agent)
 
         if params.features.incar:
@@ -156,7 +160,7 @@ class Population:
         self.update_partner_assignments()
 
         if self.enable_graph:
-            self.initialize_graph()
+            self.trim_graph()
 
     def initialize_incarceration(self):
 
@@ -178,7 +182,7 @@ class Population:
                     jail_duration[bin].min, jail_duration[bin].max
                 )
 
-    def create_agent(self, race: str, sex_type="NULL") -> Agent:
+    def create_agent(self, race: str, time, sex_type="NULL") -> Agent:
         """
         :Purpose:
             Return a new agent according to population characteristics
@@ -224,13 +228,13 @@ class Population:
             if self.pop_random.random() < self.params.msmw.prob:
                 agent.msmw = True
 
-        if drug_type == "Inj":
-            agent_params = self.demographics[race]["PWID"]
-        else:
-            agent_params = self.demographics[race][sex_type]
+        agent_params = self.demographics[race][agent.population]
 
         # HIV
-        if self.pop_random.random() < agent_params.hiv.init:
+        if (
+            self.pop_random.random() < agent_params.hiv.init
+            and time >= self.params.hiv.init
+        ):
             agent.hiv = True
 
             if self.pop_random.random() < agent_params.aids.init:
@@ -238,12 +242,13 @@ class Population:
 
             if self.pop_random.random() < agent_params.hiv.dx.init:
                 agent.hiv_dx = True
-                self.num_dx_agents += 1
+
+                self.dx_counts[agent.race][agent.sex_type] += 1
 
                 if self.pop_random.random() < agent_params.haart.init:
                     agent.haart = True
-                    agent.intervention_ever = True
-                    self.num_haart_agents += 1
+
+                    self.haart_counts[agent.race][agent.sex_type] += 1
 
                     haart_adh = self.demographics[race][sex_type].haart.adherence
                     if self.pop_random.random() < haart_adh:
@@ -258,8 +263,10 @@ class Population:
             # if HIV, how long has the agent had it? Random sample
             agent.hiv_time = self.pop_random.randint(1, self.params.hiv.max_init_time)
 
-        elif self.features.prep:
-            if self.prep.start == 0 and self.pop_random.random() < self.prep.target:
+        elif self.features.prep and agent.prep_eligible(
+            self.prep.target_model, self.params.partnership.ongoing_duration
+        ):
+            if time >= self.prep.start and self.pop_random.random() < self.prep.target:
                 agent.enroll_prep(self.params, self.pop_random)
 
         # Check if agent is HR as baseline.
@@ -352,7 +359,7 @@ class Population:
         self.relationships.add(rel)
 
         if self.enable_graph:
-            self.graph.add_edge(rel.agent1, rel.agent2)
+            self.graph.add_edge(rel.agent1, rel.agent2, type=rel.bond_type)
 
     def remove_agent(self, agent: Agent):
         """
@@ -372,9 +379,10 @@ class Population:
             self.prep_counts[agent.race] -= 1
 
         if agent.hiv_dx:
-            self.num_dx_agents -= 1
+            self.dx_counts[agent.race][agent.sex_type] -= 1
+
             if agent.haart:
-                self.num_haart_agents -= 1
+                self.haart_counts[agent.race][agent.sex_type] -= 1
 
         if self.enable_graph:
             self.graph.remove_node(agent)
@@ -551,7 +559,7 @@ class Population:
             ):
                 self.partnerable_agents[bond].add(a)
 
-    def initialize_graph(self):
+    def trim_graph(self):
         """
         :Purpose:
             Initialize network with graph-based algorithm for relationship
@@ -561,7 +569,7 @@ class Population:
             None
         """
 
-        if self.params.model.network.type == "max_k_comp_size":
+        if self.params.model.network.type == "comp_size":
 
             def trim_component(component, max_size):
                 for ag in component.nodes:

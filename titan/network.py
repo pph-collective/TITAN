@@ -27,7 +27,8 @@ class NetworkGraphUtils:
 
     def write_graph_edgelist(self, path: str, id, time):
         file_path = os.path.join(path, f"{id}_Edgelist_t{time}.txt")
-        nx.write_edgelist(self.G, file_path, delimiter="|", data=False)
+        # Write edgelist with bond type
+        nx.write_edgelist(self.G, file_path, delimiter="|", data=["type"])
 
     def write_network_stats(self, path: str, id, time):
         file_path = os.path.join(path, f"{id}_NetworkStats_t{time}.txt")
@@ -87,7 +88,7 @@ class NetworkGraphUtils:
             return node_color
 
         # hard coded coloring schemes
-        if coloring == "Tested":
+        if coloring == "Diagnosed":
             for v in G:
                 if v.haart:
                     node_color.append("g")
@@ -128,7 +129,7 @@ class NetworkGraphUtils:
         else:
             raise ValueError(
                 "coloring value invalid!\n{coloring}\n \
-            Only 'Tested', 'Trtmt', 'HR', 'HIV', or an Agent attribute allowed!"
+            Only 'Diagnosed', 'Trtmt', 'HR', 'HIV', or an Agent attribute allowed!"
             )
 
         return node_color
@@ -213,10 +214,7 @@ class NetworkGraphUtils:
         )
 
         textstr = "\n".join(
-            (
-                r"N infection={:.2f}".format(txtboxLabel,),
-                r"Time={:.2f}".format(curtime,),
-            )
+            (r"N infection={:.2f}".format(txtboxLabel), r"Time={:.2f}".format(curtime))
         )
 
         # these are matplotlib.patch.Patch properties

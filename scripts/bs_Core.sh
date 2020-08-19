@@ -26,7 +26,7 @@ sweepDefs=""
 sweepfile=""
 rows=""
 
-while getopts S:n:b:w:W:r:F:a:p:P: option
+while getopts S:n:b:w:W:r:Fa:p:P: option
 do
     case "${option}"
         in

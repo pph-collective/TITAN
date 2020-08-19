@@ -60,8 +60,7 @@ def select_partner(
         return eligible_partners
 
     eligible = copy(partnerable_agents)
-    for bond in params.classes.bond_types:
-        eligible -= agent.partners[bond]
+    eligible -= agent.get_partners()
     eligible -= {agent}
 
     acts_allowed = params.classes.bond_types[bond_type].acts_allowed

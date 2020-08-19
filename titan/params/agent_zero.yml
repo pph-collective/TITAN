@@ -1,10 +1,21 @@
 agent_zero:
-  bond_type:
-    description: "Bond type to use initializing agent zeros"
+  interaction_type:
+    description: "Interaction type that bonds must have in initializing agent 0"
     type: enum
-    class: bond_types
-    default: Inj
+    values:
+      - injection
+      - sex
+      - pca
+    default: injection
   num_partners:
     type: int
     description: "Minimum number of partners for agent 0."
     default: 4
+  start_time:
+    type: int
+    description: "Time to insert the infection for agent 0"
+    default: 1
+  fallback:
+    type: boolean
+    description: "Whether to find the agent with maximum partnerships if there are none greater than num_partners"
+    default: false

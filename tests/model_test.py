@@ -33,12 +33,16 @@ def test_model_init(params):
     assert model.new_incar_release.num_members() == 0
     assert model.new_high_risk.num_members() == 0
 
+    params.model.network.enable = False
+    model = HIVModel(params)
+    assert model.network_utils is None
+
 
 @pytest.mark.unit
 def test_update_AllAgents(make_model, make_agent):
     # make agent 0
     model = make_model()
-    assert model.params.agent_zero.bond_type == "Inj"
+    assert model.params.agent_zero.interaction_type == "injection"
     a = make_agent(race="white", DU="Inj")
     p = make_agent(race="white", DU="Inj")
     # make sure at least 1 relationship is compatible with agent 0 type
@@ -46,14 +50,69 @@ def test_update_AllAgents(make_model, make_agent):
     model.time = 1
     # update all agents passes with agent 0
     model.update_all_agents()
+    assert a.prep_awareness is False
 
     # remove all bonds compatible with agent 0. agent 0 fails
     for rel in copy(model.pop.relationships):
-        if rel.bond_type == "Inj":
+        if rel.bond_type in ["Inj", "SexInj"]:
             rel.unbond()
     with pytest.raises(ValueError) as excinfo:
         model.update_all_agents()
     assert "No agent zero!" in str(excinfo)
+
+
+@pytest.mark.unit
+def test_pca_msmw(make_model, make_agent, params):
+
+    # test update all agents for pca and msmw TODO separate tests
+    model = make_model()
+    a = make_agent(race="white", DU="Inj")
+    p = make_agent(race="white", DU="Inj")
+    model.pop.add_agent(a)
+    model.pop.add_agent(p)
+    msmw_agent = make_agent()
+    msmw_agent.msmw = True
+    model.pop.add_agent(msmw_agent)
+    params.features.pca = True
+    params.prep.pca.awareness.prob = 1.0
+    model.update_all_agents()
+    assert a.prep_awareness
+    assert p.prep_awareness
+    assert msmw_agent.hiv
+
+
+@pytest.mark.unit
+def test_initialize_random_trial_prep(make_model, params):
+    params.features.prep = False
+    model = make_model()
+    model.run_random = FakeRandom(-0.1)
+    model.initialize_random_trial()
+    for agent in model.pop.all_agents:
+        if not agent.hiv:
+            assert agent.random_trial_enrolled
+            assert agent.intervention_ever
+            assert agent.prep
+
+
+@pytest.mark.unit
+def test_initialize_random_trial_pca_bridge(make_model, params):
+    # pca trial
+    model = make_model()
+    params.features.pca = True
+    model.initialize_random_trial()
+    bridge_num = 0
+    for comp in model.pop.connected_components():
+        bridges = list(nx.bridges(comp))
+        if bridges:
+            bridge_num += 1
+            for agent in comp.nodes():
+                if agent.pca:
+                    assert agent in [ag for ags in bridges for ag in ags]
+
+    params.model.network.enable = False
+    with pytest.raises(AssertionError) as excinfo:
+        model.initialize_random_trial()
+    assert "Network must be enabled for random trial" in str(excinfo)
 
 
 @pytest.mark.unit
@@ -416,6 +475,7 @@ def test_diagnose_hiv(make_model, make_agent):
 
     assert a.hiv_dx
     assert a in model.new_dx.members
+    assert p in a.get_partners()
     assert p.partner_traced
     assert p.trace_time == model.time
 
@@ -801,16 +861,23 @@ def test_timeline_scaling_prep_def(make_model):
     model = make_model()
     scalar = 0.5
     model.params.timeline_scaling.timeline = ObjMap(
-        {"prep|discontinue": {"time_start": 1, "time_stop": 3, "scalar": scalar}}
+        {
+            "scale": {
+                "parameter": "prep|target",
+                "time_start": 1,
+                "time_stop": 3,
+                "scalar": scalar,
+            }
+        }
     )
-    original_prep_discontinue = model.params.prep.discontinue
+    original_prep_target = model.params.prep.target
 
     # scale the param
     model.time = 1
     model.timeline_scaling()
 
     assert math.isclose(
-        original_prep_discontinue * scalar, model.params.prep.discontinue, abs_tol=0.001
+        original_prep_target * scalar, model.params.prep.target, abs_tol=0.001
     )
 
     # param still scaled
@@ -818,21 +885,17 @@ def test_timeline_scaling_prep_def(make_model):
     model.timeline_scaling()
 
     assert math.isclose(
-        original_prep_discontinue * scalar, model.params.prep.discontinue, abs_tol=0.001
+        original_prep_target * scalar, model.params.prep.target, abs_tol=0.001
     )
 
     # revert to original
     model.time = 3
     model.timeline_scaling()
 
-    assert math.isclose(
-        original_prep_discontinue, model.params.prep.discontinue, abs_tol=0.001
-    )
+    assert math.isclose(original_prep_target, model.params.prep.target, abs_tol=0.001)
 
     # still original
     model.time = 4
     model.timeline_scaling()
 
-    assert math.isclose(
-        original_prep_discontinue, model.params.prep.discontinue, abs_tol=0.001
-    )
+    assert math.isclose(original_prep_target, model.params.prep.target, abs_tol=0.001)
