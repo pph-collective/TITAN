@@ -425,7 +425,9 @@ class Population:
         age = self.pop_random.randrange(min_age, max_age)
         return age, i
 
-    def update_agent_partners(self, agent: Agent, bond_type: str) -> bool:
+    def update_agent_partners(
+        self, agent: Agent, bond_type: str, components: List
+    ) -> bool:
         """
         :Purpose:
             Finds and bonds new partner. Creates relationship object for partnership,
@@ -440,9 +442,24 @@ class Population:
             noMatch : bool
             Bool if no match was found for agent (used for retries)
         """
+        partnerable_agents = self.partnerable_agents[bond_type]
+        if (
+            self.pop_random.random()
+            < self.params.partnership.network.same_component.prob
+            and agent.has_partners()
+        ):
+            # find agent's component
+            agent_component = set()
+            for comp in components:
+                if agent in comp:
+                    agent_component = comp
+                    break
+
+            partnerable_agents = partnerable_agents & agent_component
+
         partner = select_partner(
             agent,
-            self.partnerable_agents[bond_type],
+            partnerable_agents,
             self.sex_partners,
             self.pwid_agents,
             self.params,
@@ -477,6 +494,11 @@ class Population:
         if t % self.params.model.time.steps_per_year == 0:
             self.update_partner_targets()
 
+        if self.enable_graph:
+            network_components = [set(g.nodes()) for g in self.connected_components()]
+        else:
+            network_components = []
+
         # Now create partnerships until available partnerships are out
         for bond in self.params.classes.bond_types:
             eligible_agents = deque(
@@ -497,7 +519,7 @@ class Population:
                 if len(agent.partners[bond]) < agent.target_partners[bond]:
 
                     # no match
-                    if self.update_agent_partners(agent, bond):
+                    if self.update_agent_partners(agent, bond, network_components):
                         attempts[agent] += 1
 
                     # add agent back to eligible pool

@@ -161,6 +161,18 @@ def test_get_number_of_sex_acts(make_agent, params):
     assert a.get_number_of_sex_acts(rand_gen_high, params) == 37
 
 
+@pytest.mark.unit
+def test_has_partners(make_agent, make_relationship):
+    a = make_agent()
+
+    assert a.has_partners() is False
+
+    p = make_agent()
+    r = make_relationship(a, p)
+
+    assert a.has_partners() is True
+
+
 # ============== RELATIONSHIP TESTS ===================
 
 

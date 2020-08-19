@@ -256,3 +256,11 @@ partnership:
             prob: 1.0
             min: 37
             max: 48
+  network:
+    same_component:
+      prob:
+        default: 0
+        type: float
+        description: Probability that for a given partnering attempt, the agent tries to partner with only other agents in their component. Otherwise, the agent tries to partner with agents from any component.  Network must be enabled.
+        min: 0
+        max: 1
