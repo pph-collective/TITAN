@@ -25,7 +25,7 @@ params.model.time.num_steps = 24  # total time steps to iterate
 params.model.time.burn_steps = 6
 model = "Custom"  # Model Type for fast flag toggling
 setting = "AtlantaMSM"
-params.model.network.type = "max_k_comp_size"
+params.model.network.type = "comp_size"
 ####################
 
 """
@@ -45,10 +45,7 @@ drawEdgeList = True
 params.outputs.calc_component_stats = True
 params.features.agent_zero = False
 
-params.outputs.reports = [
-    "prepReport",
-    "basicReport",
-]
+params.outputs.reports = ["prepReport", "basicReport"]
 
 """
 Calibration scaling parameters for fitting to empirical data
@@ -312,7 +309,7 @@ RC_template: Dict[str, Any] = {
     "AIDS": 0.0,  # Proportion of total HIV_ID that are AIDS
     "HAARTprev": 0.0,  # Proportion of HIV_TESTED_ID that are enrolled on ART
     "INCARprev": 0.0,  # Proportion of ID that are incarcerated
-    "TestedPrev": 0.0,  # Proportion of HIV_ID that are tested positively
+    "DiagnosedPrev": 0.0,  # Proportion of HIV_ID that are tested positively
     "mNPart": 0.0,  # Mean number of sex partners
     "NUMPartn": 0.0,  # Number of partners (redundant)
     "NUMSexActs": 0.0,  # Mean number of sex acts with each partner
@@ -425,11 +422,7 @@ Partnership durations and
 """
 params.partnership.duration: Dict[int, Any] = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}}
 params.partnership.duration[1] = {"prob": (0.323 + 0.262), "min": 1, "max": 6}
-params.partnership.duration[2] = {
-    "prob": (0.323 + 0.262 + 0.116),
-    "min": 7,
-    "max": 12,
-}
+params.partnership.duration[2] = {"prob": (0.323 + 0.262 + 0.116), "min": 7, "max": 12}
 params.partnership.duration[3] = {
     "prob": (0.323 + 0.262 + 0.116 + 0.121),
     "min": 13,

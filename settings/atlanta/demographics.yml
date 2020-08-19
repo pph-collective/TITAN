@@ -13,9 +13,11 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 7.0
-          var_2: 1
-      drug_use:
+          vars:
+            1:
+              value: 7.0
+              value_type: float
+      drug_type:
           NonInj:
             init: 0.30
           None:
@@ -49,9 +51,11 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 7.0
-          var_2: 1
-      drug_use:
+          vars:
+            1:
+              value: 7.0
+              value_type: float
+      drug_type:
         NonInj:
           init: 0.48
         None:

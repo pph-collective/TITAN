@@ -26,7 +26,7 @@ sweepDefs=""
 sweepfile=""
 rows=""
 
-while getopts S:n:b:w:W:r:F:p: option
+while getopts S:n:b:w:W:r:Fa:p:P: option
 do
     case "${option}"
         in
@@ -37,7 +37,9 @@ do
 	W) sweepfile="-W ${OPTARG}";;
 	r) rows="-r ${OPTARG}";;
 	F) forceFlag="-F";;
-	p) paramPath=${OPTARG};;
+	a) paramPath=${OPTARG};;
+	p) savePop="--savepop ${OPTARG}";;
+	P) popPath="--poppath ${OPTARG}";;
     esac
 done
 
@@ -51,4 +53,4 @@ echo Starting execution at `date`
 NCPU=`wc -l < $PBS_NODEFILE`
 echo This job has allocated $NCPU CPUs
 
-./run_titan.py -S $setting -n $nMC -p $paramPath -b $useBase $forceFlag $sweepDefs $sweepfile $rows
+./run_titan.py -S $setting -n $nMC -p $paramPath -b $useBase $forceFlag $sweepDefs $sweepfile $rows $savePop $popPath

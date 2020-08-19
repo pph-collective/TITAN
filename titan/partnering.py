@@ -60,8 +60,7 @@ def select_partner(
         return eligible_partners
 
     eligible = copy(partnerable_agents)
-    for bond in params.classes.bond_types:
-        eligible -= agent.partners[bond]
+    eligible -= agent.get_partners()
     eligible -= {agent}
 
     acts_allowed = params.classes.bond_types[bond_type].acts_allowed
@@ -70,7 +69,7 @@ def select_partner(
         eligible &= pwid_agents.members
 
     if "sex" in acts_allowed:
-        eligible &= sex_partners[agent.so]
+        eligible &= sex_partners[agent.sex_type]
 
     # short circuit to avoid attempting to assort with no eligible partners
     if not eligible:

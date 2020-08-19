@@ -2,13 +2,15 @@ import random
 from functools import wraps
 from typing import TypeVar, Optional, Collection
 
+from . import distributions
+
 
 def get_check_rand_int(seed):
     """
     Check the value passed of a seed, make sure it's an int, if 0, get a random seed
     """
-    if type(seed) is not int:
-        raise ValueError("Random seed must be integer")
+    if type(seed) is not int or seed < 0:
+        raise ValueError("Random seed must be positive integer")
     elif seed == 0:
         return random.randint(1, 1000000)
     else:
@@ -59,19 +61,25 @@ def safe_shuffle(seq: Collection[T], rand_gen):
 
 
 def safe_dist(dist_info, rand_gen):
+    # gather arguments
+    args = []
+    for i in range(1, len(dist_info.vars) + 1):
+        val = dist_info.vars[i].value
+        type_caster = eval(dist_info.vars[i].value_type)
+        val = type_caster(val)
+        args.append(val)
+
     dist_type = dist_info.dist_type
 
-    try:
+    try:  # does dist exist in numpy?
         dist = getattr(rand_gen, dist_type)
+        value = dist(*args)
     except AttributeError:
-        if dist_type == "set_value":
-            return round(dist_info.var_1)  # round to avoid floating point error
-        else:
+        try:  # does dist exist in distributions.py
+            dist = getattr(distributions, dist_type)
+            value = dist(rand_gen, *args)
+        except AttributeError:
             raise AttributeError(f"Distribution type {dist_type} not found!")
-    try:
-        value = dist(dist_info.var_1, dist_info.var_2)
-    except TypeError:  # If second param of function is shape, must be int
-        value = dist(dist_info.var_1, int(dist_info.var_2))
 
     if hasattr(value, "__iter__"):  # check if value is any type of sequence
         return value[0]

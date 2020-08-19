@@ -51,3 +51,7 @@ features:
     default: false
     description: Whether to have a syringe services program in the model
     type: boolean
+  timeline_scaling:
+    default: false
+    description: Whether to scale various parameters based on time (such as a stay at home order affecting prep)
+    type: boolean

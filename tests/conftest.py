@@ -33,7 +33,7 @@ class FakeRandom:
             selection = weights.index(max(weights))
             return [seq[selection]]
 
-    def randint(self, start, stop):
+    def randint(self, start, stop, size=1):
         return start
 
     def shuffle(self, seq):
@@ -61,6 +61,7 @@ def make_agent(params):
                 agent.target_partners[bond] = 0
                 agent.mean_num_partners[bond] = 0
                 agent.partners[bond] = set()
+
         return agent
         return Agent(SO, age, race, DU)
 

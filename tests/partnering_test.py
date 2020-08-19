@@ -61,7 +61,7 @@ def test_get_random_pwid_partner_w_PWID(make_population, make_agent, params):
     for race in params.classes.races:
         for bond in copy(params.classes.bond_types):
             if bond != "Sex":
-                params.demographics[race]["PWID"]["num_partners"][bond]["var_1"] = 0.0
+                params.demographics[race].PWID.num_partners[bond].vars[1].value = 0.0
 
     partner = select_partner(
         idu_agent,
@@ -280,7 +280,7 @@ def test_get_assort_partner_high_risk(make_population, make_agent, params):
 
 
 @pytest.mark.unit
-def test_get_assort_partner_drug_use(make_population, make_agent, params):
+def test_get_assort_partner_drug_type(make_population, make_agent, params):
     pop = make_population()
     a = make_agent(SO="MSM", race="white", DU="Inj")
     p1 = make_agent(SO="MSM", race="white", DU="Inj")
@@ -306,12 +306,12 @@ def test_get_assort_partner_drug_use(make_population, make_agent, params):
     for race in params.classes.races:
         for bond in params.classes.bond_types:
             if bond != "Sex":
-                params.demographics[race]["PWID"]["num_partners"][bond]["var_1"] = 0.0
+                params.demographics[race].PWID.num_partners[bond].vars[1].value = 0.0
 
     # assort with Inj
     test_rule = ObjMap(
         {
-            "attribute": "drug_use",
+            "attribute": "drug_type",
             "agent_value": "Inj",
             "partner_values": {"Inj": 0.8, "NonInj": 0.1, "__other__": 0.1},
         }
@@ -333,7 +333,7 @@ def test_get_assort_partner_drug_use(make_population, make_agent, params):
     # get __other__
     test_rule = ObjMap(
         {
-            "attribute": "drug_use",
+            "attribute": "drug_type",
             "agent_value": "Inj",
             "partner_values": {"Inj": 0.8, "NonInj": 0.1, "__other__": 10},
         }

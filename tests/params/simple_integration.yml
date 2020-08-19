@@ -14,7 +14,7 @@ demographics:
     ppl: 1.0
     MSM:
       ppl: 1.0
-      drug_use:
+      drug_type:
         Inj:
           init: 0.2
         NonInj:
@@ -53,23 +53,31 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 2
-          var_2: 1
+          vars:
+            1:
+              value: 2
+              type: float
         Social:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              type: int
         Inj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              type: int
         SexInj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              type: int
     PWID:
       ppl: 0.2
-      drug_use:
+      drug_type:
         Inj:
           init: 1.0
       hiv:
@@ -102,20 +110,28 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 2
-          var_2: 1
-        Inj:
-          dist_type: poisson
-          var_1: 15
-          var_2: 1
-        SexInj:
-          dist_type: poisson
-          var_1: 2
-          var_2: 1
+          vars:
+            1:
+              value: 2
+              type: float
         Social:
           dist_type: poisson
-          var_1: 0
-          var_2: 1
+          vars:
+            1:
+              value: 15
+              type: int
+        Inj:
+          dist_type: poisson
+          vars:
+            1:
+              value: 2
+              type: int
+        SexInj:
+          dist_type: poisson
+          vars:
+            1:
+              value: 0
+              type: int
 
 partnership:
   duration:
@@ -123,15 +139,19 @@ partnership:
       type: distribution
       distribution:
         dist_type: poisson
-        var_1: 3
-        var_2: 1
+        vars:
+          1:
+            value: 3
+            type: float
         mean: 12
     SexInj:
       type: bins
       distribution:
         dist_type: poisson
-        var_1: 3
-        var_2: 1
+        vars:
+          1:
+            value: 3
+            type: float
         mean: 12
     Sex:
       type: bins
@@ -201,5 +221,3 @@ model:
 calibration:
   partnership:
     break_point: 0
-
-

@@ -3,7 +3,7 @@ demographics:
     ppl: 0.6
     MSM:
       ppl: 0.3
-      drug_use:
+      drug_type:
         Inj:
           init: 0.2
         None:
@@ -11,20 +11,28 @@ demographics:
       num_partners:
         Sex:
           dist_type: not_a_dist
-          var_1: 4.0
-          var_2: 1.0
+          vars:
+            1:
+              value: 4.0
+              value_type: float
         Social:
           dist_type: set_value
-          var_1: 0.0
-          var_2: 0.0
+          vars:
+            1:
+              value: 0
+              value_type: int
         SexInj:
           dist_type: set_value
-          var_1: 0.0
-          var_2: 0.0
+          vars:
+            1:
+              value: 0
+              value_type: int
         Inj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
       hiv:
         init: 0.1
         dx:
@@ -57,7 +65,7 @@ demographics:
           prob: 0.1
     HM:
       ppl: 0.3
-      drug_use:
+      drug_type:
           Inj:
             init: 0.2
           None:
@@ -65,20 +73,28 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 4.0
-          var_2: 1.0
+          vars:
+            1:
+              value: 4.0
+              value_type: float
         Social:
           dist_type: set_value
-          var_1: 0.0
-          var_2: 0.0
+          vars:
+            1:
+              value: 0
+              value_type: int
         SexInj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
         Inj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
       hiv:
         init: 0.1
         dx:
@@ -111,7 +127,7 @@ demographics:
           prob: 0.1
     HF:
       ppl: 0.2
-      drug_use:
+      drug_type:
         Inj:
           init: 0.2
         None:
@@ -119,20 +135,28 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 4.0
-          var_2: 1.0
+          vars:
+            1:
+              value: 4.0
+              value_type: float
         Social:
           dist_type: set_value
-          var_1: 0.0
-          var_2: 0.0
+          vars:
+            1:
+              value: 0
+              value_type: int
         SexInj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
         Inj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
       hiv:
         init: 0.1
         dx:
@@ -165,7 +189,7 @@ demographics:
           prob: 0.1
     WSW:
       ppl: 0.1
-      drug_use:
+      drug_type:
         Inj:
           init: 0.2
         None:
@@ -173,20 +197,28 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 4.0
-          var_2: 1.0
+          vars:
+            1:
+              value: 4.0
+              value_type: float
         Social:
           dist_type: set_value
-          var_1: 0.0
-          var_2: 0.0
+          vars:
+            1:
+              value: 0
+              value_type: int
         SexInj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
         Inj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
       hiv:
         init: 0.1
         dx:
@@ -219,7 +251,7 @@ demographics:
           prob: 0.1
     MTF:
       ppl: 0.1
-      drug_use:
+      drug_type:
         Inj:
           init: 0.2
         None:
@@ -227,20 +259,28 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 4.0
-          var_2: 1.0
+          vars:
+            1:
+              value: 4.0
+              value_type: float
         Social:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
         SexInj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
         Inj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
       hiv:
         init: 0.1
         dx:
@@ -276,20 +316,28 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 4.0
-          var_2: 1.0
+          vars:
+            1:
+              value: 4.0
+              value_type: float
         Social:
           dist_type: set_value
-          var_1: 0.0
-          var_2: 0.0
+          vars:
+            1:
+              value: 0
+              value_type: int
         SexInj:
           dist_type: poisson
-          var_1: 3.0
-          var_2: 1.0
+          vars:
+            1:
+              value: 3.0
+              value_type: float
         Inj:
           dist_type: poisson
-          var_1: 3.0
-          var_2: 1.0
+          vars:
+            1:
+              value: 3.0
+              value_type: float
       hiv:
         init: 0.1
         dx:
@@ -324,7 +372,7 @@ demographics:
     ppl: 0.4
     MSM:
       ppl: 0.3
-      drug_use:
+      drug_type:
         Inj:
           init: 0.3
         None:
@@ -332,20 +380,28 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 4.0
-          var_2: 1.0
+          vars:
+            1:
+              value: 4.0
+              value_type: float
         Social:
           dist_type: set_value
-          var_1: 0.0
-          var_2: 0.0
+          vars:
+            1:
+              value: 0
+              value_type: int
         SexInj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
         Inj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
       hiv:
         init: 0.1
         dx:
@@ -378,7 +434,7 @@ demographics:
           prob: 0.1
     HM:
       ppl: 0.3
-      drug_use:
+      drug_type:
         Inj:
           init: 0.3
         None:
@@ -386,20 +442,28 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 4.0
-          var_2: 1.0
+          vars:
+            1:
+              value: 4.0
+              value_type: float
         Social:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
         SexInj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
         Inj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
       hiv:
         init: 0.1
         dx:
@@ -432,7 +496,7 @@ demographics:
           prob: 0.1
     HF:
       ppl: 0.2
-      drug_use:
+      drug_type:
         Inj:
           init: 0.3
         None:
@@ -440,20 +504,28 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 4.0
-          var_2: 1.0
+          vars:
+            1:
+              value: 4.0
+              value_type: float
         Social:
           dist_type: set_value
-          var_1: 0.0
-          var_2: 0.0
+          vars:
+            1:
+              value: 0
+              value_type: int
         SexInj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
         Inj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
       hiv:
         init: 0.1
         dx:
@@ -486,7 +558,7 @@ demographics:
           prob: 0.1
     WSW:
       ppl: 0.1
-      drug_use:
+      drug_type:
         Inj:
           init: 0.3
         None:
@@ -494,19 +566,28 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 4.0
-          var_2: 1.0
+          vars:
+            1:
+              value: 4.0
+              value_type: float
         Social:
           dist_type: set_value
-          var_1: 0.0
-          var_2: 0.0
+          vars:
+            1:
+              value: 0
+              value_type: int
         SexInj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
         Inj:
           dist_type: set_value
-          var_1: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
           var_2: 0
       hiv:
         init: 0.1
@@ -540,7 +621,7 @@ demographics:
           prob: 0.1
     MTF:
       ppl: 0.1
-      drug_use:
+      drug_type:
         Inj:
           init: 0.3
         None:
@@ -548,19 +629,28 @@ demographics:
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 4.0
-          var_2: 1.0
+          vars:
+            1:
+              value: 4.0
+              value_type: float
         Social:
           dist_type: set_value
-          var_1: 0.0
-          var_2: 0.0
+          vars:
+            1:
+              value: 0
+              value_type: int
         SexInj:
           dist_type: set_value
-          var_1: 0
-          var_2: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
         Inj:
           dist_type: set_value
-          var_1: 0
+          vars:
+            1:
+              value: 0
+              value_type: int
           var_2: 0
       hiv:
         init: 0.1
@@ -594,26 +684,34 @@ demographics:
           prob: 0.1
     PWID:
       ppl: 0.3
-      drug_use:
+      drug_type:
         init:
           Inj: 1.0
       num_partners:
         Sex:
           dist_type: poisson
-          var_1: 4.0
-          var_2: 1.0
+          vars:
+            1:
+              value: 4.0
+              value_type: float
         Social:
           dist_type: set_value
-          var_1: 0.0
-          var_2: 0.0
+          vars:
+            1:
+              value: 0
+              value_type: int
         SexInj:
           dist_type: poisson
-          var_1: 3.0
-          var_2: 1.0
+          vars:
+            1:
+              value: 3.0
+              value_type: float
         Inj:
           dist_type: poisson
-          var_1: 3.0
-          var_2: 1.0
+          vars:
+            1:
+              value: 3.0
+              value_type: float
       hiv:
         init: 0.1
         dx:

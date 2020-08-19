@@ -51,9 +51,8 @@ def stats(params):
 
 @pytest.mark.unit
 def test_get_stats(stats):
-    assert stats["white"]["ALL"]["numAgents"] == 0
     assert stats["black"]["MSM"]["numAgents"] == 1
-    assert stats["black"]["ALL"]["numAgents"] == 1
+    assert stats["white"]["MSM"]["numAgents"] == 0
     assert stats["black"]["MSM"]["incar"] == 1
     assert stats["black"]["MSM"]["incarHIV"] == 1
     assert stats["black"]["MSM"]["newRelease"] == 1
@@ -66,34 +65,18 @@ def test_get_stats(stats):
     assert stats["black"]["MSM"]["msmwPartPrep"] == 1
     assert stats["black"]["MSM"]["testedPartPrep"] == 1
     assert stats["black"]["MSM"]["newNumPrEP"] == 1
-    assert stats["black"]["MSM"]["newlyTested"] == 1
+    assert stats["black"]["MSM"]["newlyDiagnosed"] == 1
     assert stats["black"]["MSM"]["newHR"] == 1
-    assert stats["ALL"]["MSM"]["newHR"] == 1
     assert stats["black"]["MSM"]["newHR_HIV"] == 1
     assert stats["black"]["MSM"]["newHR_AIDS"] == 1
     assert stats["black"]["MSM"]["newHR_tested"] == 1
     assert stats["black"]["MSM"]["newHR_ART"] == 1
     assert stats["black"]["MSM"]["numHIV"] == 1
     assert stats["black"]["MSM"]["numAIDS"] == 1
-    assert stats["black"]["MSM"]["numTested"] == 1
+    assert stats["black"]["MSM"]["numDiagnosed"] == 1
     assert stats["black"]["MSM"]["numART"] == 1
-    assert stats["black"]["PWID"]["numAgents"] == 1
-    assert stats["black"]["PWID"]["numHIV"] == 1
-    assert stats["black"]["PWID"]["numAIDS"] == 1
-    assert stats["black"]["PWID"]["numTested"] == 1
-    assert stats["black"]["PWID"]["numART"] == 1
     assert stats["black"]["MSM"]["deaths"] == 1
     assert stats["black"]["MSM"]["deaths_HIV"] == 1
-    assert stats["ALL"]["ALL"]["numAgents"] == 1
-    assert stats["black"]["ALL"]["numAgents"] == 1
-    assert stats["ALL"]["MSM"]["numAgents"] == 1
-    assert stats["ALL"]["HM"]["numAgents"] == 0
-    assert stats["ALL"]["PWID"]["numAgents"] == 1
-    assert stats["black"]["PWID"]["numAgents"] == 1
-    assert stats["black"]["PWID"]["numART"] == 1
-    assert stats["ALL"]["ALL"]["numART"] == 1
-    assert stats["ALL"]["PWID"]["numART"] == 1
-    assert stats["black"]["ALL"]["numART"] == 1
 
 
 @pytest.mark.unit
@@ -109,11 +92,13 @@ def test_deathReport(stats, params, tmpdir):
         for i, row in enumerate(reader):
             assert row["t"] == "0"
             assert row["run_id"] == str(run_id)
-            assert row["seed"] == "1"
-            assert row["tot_MSM"] == "1"
-            assert row["tot_HM"] == "0"
-            assert row["HIV_MSM"] == "1"
-            assert row["HIV_HM"] == "0"
+            assert row["rseed"] == "1"
+            if row["race"] == "black" and row["sex_type"] == "MSM":
+                assert row["tot"] == "1"
+                assert row["HIV"] == "1"
+            else:
+                assert row["tot"] == "0"
+                assert row["HIV"] == "0"
 
 
 @pytest.mark.unit
@@ -129,11 +114,17 @@ def test_incarReport(stats, params, tmpdir):
         for i, row in enumerate(reader):
             assert row["t"] == "0"
             assert row["run_id"] == str(run_id)
-            assert row["seed"] == "1"
-            assert row["ALL_MSM_tot"] == "1"
-            assert row["black_MSM_HIV"] == "1"
-            assert row["ALL_HM_rlsd"] == "0"
-            assert row["white_MSM_rlsdHIV"] == "0"
+            assert row["rseed"] == "1"
+            if row["race"] == "black" and row["sex_type"] == "MSM":
+                assert row["tot"] == "1"
+                assert row["HIV"] == "1"
+                assert row["rlsd"] == "1"
+                assert row["rlsdHIV"] == "1"
+            else:
+                assert row["tot"] == "0"
+                assert row["HIV"] == "0"
+                assert row["rlsd"] == "0"
+                assert row["rlsdHIV"] == "0"
 
 
 @pytest.mark.unit
@@ -149,11 +140,19 @@ def test_newlyhighriskReport(stats, params, tmpdir):
         for i, row in enumerate(reader):
             assert row["t"] == "0"
             assert row["run_id"] == str(run_id)
-            assert row["seed"] == "1"
-            assert row["newHR_HM"] == "0"
-            assert row["newHR_MSM"] == "1"
-            assert row["newHR_Tested_MSM"] == "1"
-            assert row["newHR_ART_MSM"] == "1"
+            assert row["rseed"] == "1"
+            if row["race"] == "black" and row["sex_type"] == "MSM":
+                assert row["newHR"] == "1"
+                assert row["newHR_HIV"] == "1"
+                assert row["newHR_AIDS"] == "1"
+                assert row["newHR_Diagnosed"] == "1"
+                assert row["newHR_ART"] == "1"
+            else:
+                assert row["newHR"] == "0"
+                assert row["newHR_HIV"] == "0"
+                assert row["newHR_AIDS"] == "0"
+                assert row["newHR_Diagnosed"] == "0"
+                assert row["newHR_ART"] == "0"
 
 
 @pytest.mark.unit
@@ -169,11 +168,17 @@ def test_prepReport(stats, params, tmpdir):
         for i, row in enumerate(reader):
             assert row["t"] == "0"
             assert row["run_id"] == str(run_id)
-            assert row["seed"] == "1"
-            assert row["NewEnroll"] == "1"
-            assert row["PWIDpartner"] == "1"
-            assert row["TestedPartner"] == "1"
-            assert row["MSMWpartner"] == "1"
+            assert row["rseed"] == "1"
+            if row["race"] == "black" and row["sex_type"] == "MSM":
+                assert row["NewEnroll"] == "1"
+                assert row["PWIDpartner"] == "1"
+                assert row["DiagnosedPartner"] == "1"
+                assert row["MSMWpartner"] == "1"
+            else:
+                assert row["NewEnroll"] == "0"
+                assert row["PWIDpartner"] == "0"
+                assert row["DiagnosedPartner"] == "0"
+                assert row["MSMWpartner"] == "0"
 
 
 @pytest.mark.unit
@@ -182,7 +187,7 @@ def test_basicReport(stats, params, tmpdir):
 
     basicReport(run_id, 0, 1, 2, stats, params, tmpdir)
 
-    result_file = os.path.join(tmpdir, "basicReport_MSM_black.txt")
+    result_file = os.path.join(tmpdir, "basicReport.txt")
     assert os.path.isfile(result_file)
     with open(result_file, newline="") as f:
         reader = csv.DictReader(f, delimiter="\t")
@@ -190,39 +195,16 @@ def test_basicReport(stats, params, tmpdir):
             assert row["t"] == "0"
             assert row["run_id"] == str(run_id)
             assert row["rseed"] == "1"
-            assert row["pseed"] == "2"
-            assert row["Total"] == "1"
-            assert row["HIV"] == "1"
-            assert row["PrEP"] == "1"
-            assert row["Deaths"] == "1"
-
-    result_file = os.path.join(tmpdir, "basicReport_HM_white.txt")
-    assert os.path.isfile(result_file)
-    with open(result_file, newline="") as f:
-        reader = csv.DictReader(f, delimiter="\t")
-        for i, row in enumerate(reader):
-            assert row["t"] == "0"
-            assert row["run_id"] == str(run_id)
-            assert row["rseed"] == "1"
-            assert row["pseed"] == "2"
-            assert row["Total"] == "0"
-            assert row["HIV"] == "0"
-            assert row["PrEP"] == "0"
-            assert row["Deaths"] == "0"
-
-    result_file = os.path.join(tmpdir, "basicReport_ALL_ALL.txt")
-    assert os.path.isfile(result_file)
-    with open(result_file, newline="") as f:
-        reader = csv.DictReader(f, delimiter="\t")
-        for i, row in enumerate(reader):
-            assert row["t"] == "0"
-            assert row["run_id"] == str(run_id)
-            assert row["rseed"] == "1"
-            assert row["pseed"] == "2"
-            assert row["Total"] == "1"
-            assert row["HIV"] == "1"
-            assert row["PrEP"] == "1"
-            assert row["Deaths"] == "1"
+            if row["race"] == "black" and row["sex_type"] == "MSM":
+                assert row["Total"] == "1"
+                assert row["HIV"] == "1"
+                assert row["PrEP"] == "1"
+                assert row["Deaths"] == "1"
+            else:
+                assert row["Total"] == "0"
+                assert row["HIV"] == "0"
+                assert row["PrEP"] == "0"
+                assert row["Deaths"] == "0"
 
 
 @pytest.mark.unit

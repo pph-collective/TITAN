@@ -100,3 +100,22 @@ classes:
     type: array
     values:
       - PWID
+  distributions:
+    default:
+      - poisson
+      - gamma
+      - uniform
+      - beta
+      - pert
+      - set_value
+      - randint
+    description: "Which distributions are available in the model - more of a reference than a class"
+    type: array
+    values:
+      - poisson
+      - gamma
+      - uniform
+      - beta
+      - pert
+      - set_value
+      - randint

@@ -8,7 +8,7 @@ calibration:
   sex:
     act:
       default: 1.0
-      description: Scales number of sex acts during sex trasmission
+      description: Scales number of sex acts during sex transmission
       type: float
       min: 0
     partner:
@@ -62,7 +62,7 @@ calibration:
     trim:
       prob:
         default: 0.1
-        description: Probability an agent's relationships will be trimmed if using max_k_comp_size for network initialization
+        description: Probability an agent's relationships will be trimmed if using comp_size for network initialization
         type: float
         min: 0
         max: 1

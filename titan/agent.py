@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from typing import List, Dict, Set
+from typing import List, Dict, Set, Optional, Iterable
 
 from .parse_params import ObjMap
-from .utils import safe_divide
+from .utils import safe_divide, safe_dist
 
 
 class Agent:
@@ -23,10 +23,10 @@ class Agent:
     next_agent_id = 0
 
     @classmethod
-    def update_id_counter(cls):
-        cls.next_agent_id += 1
+    def update_id_counter(cls, last_id):
+        cls.next_agent_id = last_id + 1
 
-    def __init__(self, so: str, age: int, race: str, du: str):
+    def __init__(self, so: str, age: int, race: str, du: str, id: Optional[int] = None):
         """
         Initialize an agent based on given properties
 
@@ -41,17 +41,27 @@ class Agent:
             None
         """
         # self.id is unique ID number used to track each person agent.
-        self.id = self.next_agent_id
-        self.update_id_counter()
+        if id is not None:
+            self.id = id
+        else:
+            self.id = self.next_agent_id
+
+        self.update_id_counter(self.id)
 
         # agent properties
-        self.so = so
+        self.sex_type = so
         self.age = age
         self.age_bin = 0
         self.race = race
-        self.drug_use = du
+        self.drug_type = du
+
+        if self.drug_type == "Inj":
+            self.population = "PWID"
+        else:
+            self.population = self.sex_type
 
         self.msmw = False
+        self.sex_role = "versatile"
 
         # agent-partner params
         self.relationships: Set[Relationship] = set()
@@ -74,6 +84,7 @@ class Agent:
         self.prep_adherence = 0
         self.prep_reason: List[str] = []
         self.intervention_ever = False
+        self.random_trial_enrolled = False
         self.vaccine = False
         self.vaccine_time = 0
         self.vaccine_type = ""
@@ -98,8 +109,6 @@ class Agent:
         self.incar = False
         self.incar_time = 0
 
-        self.sex_role = "versatile"
-
     def __str__(self):
         """
         String formatting of agent object
@@ -108,7 +117,7 @@ class Agent:
             String formatted tab-deliminated agent properties
         """
         return (
-            f"\t{self.id}\t{self.age}\t{self.so}\t{self.drug_use}\t"
+            f"\t{self.id}\t{self.age}\t{self.sex_type}\t{self.drug_type}\t"
             f"{self.race}\t{self.hiv}"
         )
 
@@ -127,10 +136,13 @@ class Agent:
     def __hash__(self):
         return self.id
 
-    def iter_partners(self):
+    def iter_partners(self) -> Iterable["Agent"]:
         for partner_set in self.partners.values():
             for partner in partner_set:
                 yield partner
+
+    def has_partners(self) -> bool:
+        return any(self.iter_partners())
 
     def get_acute_status(self, acute_time_period) -> bool:
         """
@@ -167,11 +179,11 @@ class Agent:
         if target_model in ("Allcomers", "Racial"):
             eligible = True
         elif target_model == "CDCwomen":
-            if self.so == "HF":
+            if self.sex_type == "HF":
                 for rel in self.relationships:
                     partner = rel.get_partner(self)
                     if rel.duration > ongoing_duration:
-                        if partner.drug_use == "Inj":
+                        if partner.drug_type == "Inj":
                             eligible = True
                             self.prep_reason.append("PWID")
                         if partner.hiv_dx:
@@ -181,18 +193,20 @@ class Agent:
                             eligible = True
                             self.prep_reason.append("MSMW")
         elif target_model == "MSM":
-            if self.so in ("MSM", "MTF"):
+            if self.sex_type in ("MSM", "MTF"):
                 eligible = True
 
         return eligible
 
     def enroll_prep(self, params: ObjMap, rand_gen):
         self.prep = True
-        self.intervention_ever = True
         self.prep_load = params.prep.peak_load
         self.prep_last_dose = 0
 
-        if rand_gen.random() < params.demographics[self.race][self.so].prep.adherence:
+        if (
+            rand_gen.random()
+            < params.demographics[self.race][self.sex_type].prep.adherence
+        ):
             self.prep_adherence = 1
         else:
             self.prep_adherence = 0
@@ -249,6 +263,19 @@ class Agent:
         self.vaccine_type = vax
         self.vaccine_time = 1
 
+    def get_partners(self, bond_types=None):
+        if bond_types:
+            partners = set()
+            for bond in bond_types:
+                partners.update(self.partners[bond])
+        else:
+            partners = {partner for partner in self.iter_partners()}
+
+        return partners
+
+    def get_num_partners(self, bond_types=None):
+        return len(self.get_partners(bond_types))
+
     def get_number_of_sex_acts(self, rand_gen, params: ObjMap) -> int:
         """
         :Purpose:
@@ -260,19 +287,24 @@ class Agent:
         :Output:
             number_sex_act : int
         """
-        rv = rand_gen.random()
+        if params.partnership.sex.frequency.type == "bins":
+            rv = rand_gen.random()
 
-        for i in range(1, 6):
-            p = params.partnership.sex.frequency[i].prob
-            if rv <= p:
-                min_frequency = params.partnership.sex.frequency[i].min
-                max_frequency = params.partnership.sex.frequency[i].max
-                return rand_gen.randrange(min_frequency, max_frequency, 1)
+            for i in range(1, 6):
+                p = params.partnership.sex.frequency.bins[i].prob
+                if rv <= p:
+                    break
 
-        # fallthrough is last i
-        min_frequency = params.partnership.sex.frequency[i].min
-        max_frequency = params.partnership.sex.frequency[i].max
-        return rand_gen.randrange(min_frequency, max_frequency, 1)
+            min_frequency = params.partnership.sex.frequency.bins[i].min
+            max_frequency = params.partnership.sex.frequency.bins[i].max
+            return rand_gen.randint(min_frequency, max_frequency)
+
+        elif params.partnership.sex.frequency.type == "distribution":
+            return round(
+                safe_dist(params.partnership.sex.frequency.distribution, rand_gen)
+            )
+        else:
+            raise Exception("Sex acts must be defined as bin or distribution")
 
 
 class Relationship:
@@ -282,10 +314,17 @@ class Relationship:
     next_rel_id = 0
 
     @classmethod
-    def update_id_counter(cls):
-        cls.next_rel_id += 1
+    def update_id_counter(cls, last_id):
+        cls.next_rel_id = last_id + 1
 
-    def __init__(self, agent1: Agent, agent2: Agent, duration: int, bond_type: str):
+    def __init__(
+        self,
+        agent1: Agent,
+        agent2: Agent,
+        duration: int,
+        bond_type: str,
+        id: Optional[int] = None,
+    ):
         """
         :Purpose:
             Constructor for a Relationship
@@ -305,8 +344,14 @@ class Relationship:
         # self.id is unique ID number used to track each person agent.
         self.agent1 = agent1
         self.agent2 = agent2
-        self.id = self.next_rel_id
-        self.update_id_counter()
+
+        if id is not None:
+            self.id = id
+        else:
+            self.id = self.next_rel_id
+
+        self.update_id_counter(self.id)
+        # TODO MAKE THIS INCREMENT WITH passed IDs
 
         # Relationship properties
         self.duration = duration
@@ -376,11 +421,14 @@ class Relationship:
         else:
             return self.agent1
 
-    def __repr__(self):
+    def __str__(self):
         return (
             f"\t{self.id}\t{self.agent1.id}\t{self.agent2.id}\t{self.duration}\t"
             f"{self.bond_type} "
         )
+
+    def __repr__(self):
+        return str(self.id)
 
 
 class AgentSet:
@@ -389,9 +437,7 @@ class AgentSet:
     hierarchical  level.
     """
 
-    def __init__(
-        self, id: str, parent: "AgentSet" = None,
-    ):
+    def __init__(self, id: str, parent: "AgentSet" = None):
         # _members stores agent set members in a dictionary keyed by ID
         self.id = id
         self.members: Set[Agent] = set()
