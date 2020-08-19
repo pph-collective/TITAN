@@ -11,9 +11,49 @@ from networkx import betweenness_centrality, effective_size, density  # type: ig
 from .parse_params import ObjMap
 
 
-def setup_aggregates(params: ObjMap, classes: List[str]):
+def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
     """
-    Create nested dictionary of attribute values to items to count
+    Recursively create a nested dictionary of attribute values to items to count.
+
+    Attributes are classes defined in params, the items counted are:
+
+    * "numAgents"
+    * "inf_HR6m"
+    * "inf_HRever"
+    * "inf_newInf"
+    * "newHR"
+    * "newHR_HIV"
+    * "newHR_AIDS"
+    * "newHR_tested"
+    * "newHR_ART"
+    * "newRelease"
+    * "newReleaseHIV"
+    * "numHIV"
+    * "numTested"
+    * "numAIDS"
+    * "numART"
+    * "numHR"
+    * "newlyTested"
+    * "deaths"
+    * "deaths_HIV"
+    * "incar"
+    * "incarHIV"
+    * "numPrEP"
+    * "newNumPrEP"
+    * "iduPartPrep"
+    * "msmwPartPrep"
+    * "testedPartPrep"
+    * "vaccinated"
+    * "injectable_prep"
+    * "oral_prep"
+    * "prep_aware"
+
+    args:
+        params: model parameters
+        classes: which classes to aggregate by [params.outputs.classes]
+
+    returns:
+        dictionary of class values to counts
     """
     if classes == []:
         return {
@@ -58,18 +98,32 @@ def setup_aggregates(params: ObjMap, classes: List[str]):
     return stats
 
 
-def get_aggregates(params: ObjMap):
+def get_aggregates(params: ObjMap) -> itertools.product:
     """
     Get iterator over all attribute combinations for output classes
+
+    args:
+        params: model parameters
+
+    returns:
+        iterator over attribute combinations
     """
     return itertools.product(
         *[list(k for k in params.classes[clss]) for clss in params.outputs.classes]
     )
 
 
-def get_agg_val(stats, attrs, key):
+def get_agg_val(stats: Dict, attrs: List, key: str) -> int:
     """
     Get the value of a key in stats given the attribute values
+
+    args:
+        stats: a nested dictionariy of attributes to counts
+        attrs: a list of attribute values to find the count for
+        key: the type of count to get the value of
+
+    returns:
+        the count of key for the given attributes
     """
     stats_item = stats
     for attr in attrs:
@@ -80,7 +134,13 @@ def get_agg_val(stats, attrs, key):
 
 def add_agent_to_stats(stats: Dict[str, Any], attrs: List[str], agent: Agent, key: str):
     """
-    Update the stats dictionary with +1 for the key given the agent's attributes
+    Update the stats dictionary counts for the key given the agent's attributes
+
+    args:
+        stats: a nested dictionary of attributes to counts
+        attrs: a list of attribute types (e.g. "race")
+        agent: the agent whose attribute values will be evaluated
+        key: the type of count to increment
     """
     stats_item = stats
     for attr in attrs:
@@ -98,8 +158,23 @@ def get_stats(
     new_incar_release: AgentSet,
     deaths: List[Agent],
     params: ObjMap,
-):
+) -> Dict:
+    """
+    Get the current statistics for a model based on the population, and tracking agent sets from the model.
 
+    args:
+        all_agents: all of the agents in the population
+        new_prep_agents: agents who are newly on prep this timestep
+        new_hiv: agents are newly hiv this timestep
+        new_hiv_dx: agents who are newly diagnosed with hiv this timestep
+        new_high_risk: agents are newly high risk this timestep
+        new_incar_release: agents are released from incarceration this timestep
+        deaths: agents who died this timestep
+        params: model parameters
+
+    returns:
+        nested dictionary of agent attributes to counts of various items
+    """
     stats = setup_aggregates(params, params.outputs.classes)
     attrs = [
         clss[:-1] for clss in params.outputs.classes

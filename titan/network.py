@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 import os
+from typing import List, Optional
 
 import networkx as nx  # type: ignore
 from networkx.drawing.nx_agraph import graphviz_layout  # type: ignore
@@ -12,24 +13,44 @@ import matplotlib.patches as patches  # type: ignore
 class NetworkGraphUtils:
     def __init__(self, graph: nx.Graph):
         """
-        :Purpose:
-            This is the base class used to gather statistics from an
+        This is the base class used to gather statistics from an
             exsting networkx graph object.
 
-        :Input:
-            graph : nx.Graph
-              NetworkX graph object (typically attached to a Population self.nx_graph)
+        args:
+            graph : NetworkX graph object (typically attached to a Population's `graph` attribute)
         """
         self.G = graph
 
-    def connected_components(self):
+    def connected_components(self) -> List:
+        """
+        Get connected components in the graph
+
+        returns:
+            list of connected components
+        """
         return list(self.G.subgraph(c).copy() for c in nx.connected_components(self.G))
 
     def write_graph_edgelist(self, path: str, id, time):
+        """
+        Writes a pipe-delimited edge list to the file `<id>_Edgelist_t<time>.txt`
+
+        ags:
+            path: directory where the file should be saved
+            id: identifier for the network, typically the model's `id`
+            time: timestep the edgelist is being written at
+        """
         file_path = os.path.join(path, f"{id}_Edgelist_t{time}.txt")
         nx.write_edgelist(self.G, file_path, delimiter="|", data=False)
 
     def write_network_stats(self, path: str, id, time):
+        """
+        Writes network statistics to the file `<id>_NetworkStats_t<time>.txt`
+
+        ags:
+            path: directory where the file should be saved
+            id: identifier for the network, typically the model's `id`
+            time: timestep the edgelist is being written at
+        """
         file_path = os.path.join(path, f"{id}_NetworkStats_t{time}.txt")
 
         components = sorted(self.connected_components(), key=len, reverse=True)
@@ -70,7 +91,16 @@ class NetworkGraphUtils:
         )
         outfile.close()
 
-    def get_network_color(self, coloring):
+    def get_network_color(self, coloring) -> List[str]:
+        """
+        Get a vector of node colors for plotting this graph based on the type of coloring requested
+
+        args:
+            coloring: attribute to color nodes by (e.g. "race", "Tested")
+
+        returns:
+            list of colors in node order
+        """
         G = self.G
         node_color = []
 
@@ -135,22 +165,27 @@ class NetworkGraphUtils:
 
     def visualize_network(
         self,
-        outdir,
-        coloring="so",
+        outdir: str,
+        coloring: str="sex_type",
         pos=None,
-        return_layout=0,
-        node_size=None,
-        iterations=10,
-        curtime=0,
-        txtboxLabel=0,
-        label="Network",
+        return_layout: bool=False,
+        node_size: Optional[float]=None,
+        curtime: int=0,
+        infection_label: int=0,
+        label: str="Network",
     ):
         """
-        :Purpose:
-            Visualize the network using the spring layout (default). \n
+        Visualize the network using the spring layout (default). \n
 
-        :Input:
-            graph : networkX graph
+        args:
+            outdir: directory the figure should be saved to
+            coloring: what attribute to color the nodes by
+            pos: a graphviz_layout
+            return_layout: whether to return the layout (if `False`, nothing is returned)
+            node_size: size of the nodes in the graph
+            curtime: the current timestep of the model
+            infection_label: number of infections to list in figure's label
+            label: identifier for this network
         """
         if node_size is None:
             node_size = 5000.0 / self.G.number_of_nodes()
@@ -214,7 +249,7 @@ class NetworkGraphUtils:
 
         textstr = "\n".join(
             (
-                r"N infection={:.2f}".format(txtboxLabel,),
+                r"N infection={:.2f}".format(infection_label,),
                 r"Time={:.2f}".format(curtime,),
             )
         )

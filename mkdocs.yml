@@ -32,3 +32,6 @@ nav:
     - Agent: api/agent.md
     - Relationship: api/relationship.md
     - AgentSet: api/agent_set.md
+    - Population: api/population.md
+    - NetworkGraphUtils: api/network.md
+    - Reporting: api/reporting.md

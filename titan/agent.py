@@ -19,7 +19,14 @@ class Agent:
     def update_id_counter(cls, last_id):
         cls.next_agent_id = last_id + 1
 
-    def __init__(self, sex_type: str, age: int, race: str, drug_use: str, id: Optional[int] = None) -> None:
+    def __init__(
+        self,
+        sex_type: str,
+        age: int,
+        race: str,
+        drug_use: str,
+        id: Optional[int] = None,
+    ) -> None:
         """
         Initialize an agent based on given properties
 

@@ -5,7 +5,7 @@ import random
 from collections import deque
 from copy import copy
 from math import ceil
-from typing import List, Dict, Any, Set, Optional
+from typing import List, Dict, Any, Set, Optional, Tuple
 
 import numpy as np  # type: ignore
 import networkx as nx  # type: ignore
@@ -19,20 +19,16 @@ from . import utils
 
 class Population:
     """
-    :Purpose:
-        This class constructs and represents the model population
-
-    :Input:
-
-        params : ObjMap
-            Model parameters
-
+    This class constructs and represents the model population
     """
 
     def __init__(self, params: ObjMap, id: Optional[str] = None):
         """
-        :Purpose:
-            Initialize Population object.
+        Initialize Population object.
+
+        args:
+            params : Model parameters
+            id: 8 character identifier for a model
         """
         if id is None:
             self.id = nanoid.generate(size=8)
@@ -153,14 +149,17 @@ class Population:
 
         # initialize relationships
         print("\tCreating Relationships")
-        self.update_partner_assignments()
+        self.update_partner_assignments(0)
 
         if self.enable_graph:
             self.initialize_graph()
 
     def initialize_incarceration(self):
+        """
+        Run incarceration assignment on a population.  The duration of incarceration at initialization is different than the ongoing to reflect that agents with longer durations will be more highly represented in that population at any given point in time.
+        """
 
-        for a in self.all_agents.members:
+        for a in self.all_agents:
             incar_params = self.demographics[a.race][a.sex_type].incar
             jail_duration = incar_params.duration.init
 
@@ -180,13 +179,15 @@ class Population:
 
     def create_agent(self, race: str, sex_type="NULL") -> Agent:
         """
-        :Purpose:
-            Return a new agent according to population characteristics
-        :Input:
-            race : string
-            sex_type : default "NULL"
-        :Output:
-             agent : Agent
+        Create a new agent with randomly assigned attributes according to population
+        demographcis [params.demographics]
+
+        args:
+            race : The race of the new agent
+            sex_type : The sex_type of the new agent
+
+        returns:
+             a new agent
         """
         if sex_type == "NULL":
             sex_type = utils.safe_random_choice(
@@ -274,20 +275,15 @@ class Population:
                 1, self.params.high_risk.sex_based[agent.sex_type].duration
             )
 
-        # get agent's mean partner numbers for bond type
-        def partner_distribution(dist):
-
-            return ceil(
-                utils.safe_dist(dist, self.np_random)
+        for bond, bond_def in self.params.classes.bond_types.items():
+            agent.partners[bond] = set()
+            dist_info = agent_params.num_partners[bond]
+            agent.mean_num_partners[bond] = ceil(
+                utils.safe_dist(dist_info, self.np_random)
                 * utils.safe_divide(
                     self.params.calibration.sex.partner, self.mean_rel_duration[bond]
                 )
             )
-
-        for bond, bond_def in self.params.classes.bond_types.items():
-            agent.partners[bond] = set()
-            dist_info = agent_params.num_partners[bond]
-            agent.mean_num_partners[bond] = partner_distribution(dist_info)
             # so not zero if added mid-year
             agent.target_partners[bond] = agent.mean_num_partners[bond]
             if "injection" in bond_def.acts_allowed:
@@ -311,12 +307,10 @@ class Population:
 
     def add_agent(self, agent: Agent):
         """
-        :Purpose:
-            Create a new agent in the population.
+        Adds an agent to the population
 
-        :Input:
-            agent : int
-
+        args:
+            agent : The agent to be added
         """
 
         # Add to all agent set
@@ -343,11 +337,10 @@ class Population:
 
     def add_relationship(self, rel: Relationship):
         """
-        :Purpose:
-            Create a new relationship in the population.
+        Add a new relationship to the population.
 
-        :Input:
-            agent : int
+        args:
+            rel : The Relationship to be added
         """
         self.relationships.add(rel)
 
@@ -356,11 +349,10 @@ class Population:
 
     def remove_agent(self, agent: Agent):
         """
-        :Purpose:
-            Remove an agent from the population.
+        Remove an agent from the population.
 
-        :Input:
-            agent : int
+        args:
+            agent : Agent to remove
         """
         self.all_agents.remove_agent(agent)
 
@@ -385,11 +377,10 @@ class Population:
 
     def remove_relationship(self, rel: Relationship):
         """
-        :Purpose:
-            Remove a relationship from the population.
+        Remove a relationship from the population.
 
-        :Input:
-            agent : int
+        args:
+            rel : Relationship to remove
         """
         self.relationships.remove(rel)
 
@@ -400,17 +391,15 @@ class Population:
         if self.enable_graph:
             self.graph.remove_edge(rel.agent1, rel.agent2)
 
-    def get_age(self, race: str):
+    def get_age(self, race: str) -> Tuple[int, int]:
         """
-        :Purpose:
-            Get an age of an agent, given their race
+        Given the population characteristics, get a random age to assign to an agent given the race of that agent
 
-        :Input:
-            race : str
+        args:
+            race : race of the agent whose age is being generated
 
-        :Returns:
-            age : int
-            bin : int
+        returns:
+            age and the bin the age came from
         """
         rand = self.pop_random.random()
 
@@ -427,18 +416,16 @@ class Population:
 
     def update_agent_partners(self, agent: Agent, bond_type: str) -> bool:
         """
-        :Purpose:
-            Finds and bonds new partner. Creates relationship object for partnership,
-            calcs partnership duration, and adds to networkX graph if self.enable_graph
+        Finds and bonds new partner. Creates relationship object for partnership,
+            calcs partnership duration, adds it to the population, and adds to networkX graph if self.enable_graph
             is set True.
 
-        :Input:
-            agent : Agent
-            Agent that is seeking a new partner
+        args:
+            agent: Agent that is seeking a new partner
+            bond_type: What type of bond the agent is seeking to make
 
-        :Returns:
-            noMatch : bool
-            Bool if no match was found for agent (used for retries)
+        returns:
+            True if no match was found for agent (used for retries)
         """
         partner = select_partner(
             agent,
@@ -464,14 +451,13 @@ class Population:
             no_match = False
         return no_match
 
-    def update_partner_assignments(self, t=0):
+    def update_partner_assignments(self, t: int):
         """
-        :Purpose:
-            Determines which agents will seek new partners from All_agentSet.
+        Determines which agents will seek new partners from All_agentSet.
             Calls update_agent_partners for any agents that desire partners.
 
-        :Input:
-            None
+        args:
+            t: current time step of the model
         """
         # update agent targets annually
         if t % self.params.model.time.steps_per_year == 0:
@@ -509,6 +495,9 @@ class Population:
                         eligible_agents.append(agent)
 
     def update_partner_targets(self):
+        """
+        Update the target number of partners for each agent and bond type
+        """
         for a in self.all_agents:
             for bond in self.params.classes.bond_types:
                 a.target_partners[bond] = utils.poisson(
@@ -517,7 +506,9 @@ class Population:
             self.update_partnerability(a)
 
     def update_partnerability(self, a):
-        # update partnerability
+        """
+        Update whether each agent in the population is currently able to form new relationships for each bond type
+        """
         for bond in self.params.classes.bond_types.keys():
             if a in self.partnerable_agents[bond]:
                 if len(a.partners[bond]) > (
@@ -531,12 +522,8 @@ class Population:
 
     def initialize_graph(self):
         """
-        :Purpose:
-            Initialize network with graph-based algorithm for relationship
+        Initialize network with graph-based algorithm for relationship
             adding/pruning
-
-        :Input:
-            None
         """
 
         if self.params.model.network.type == "max_k_comp_size":
@@ -575,13 +562,12 @@ class Population:
 
         print("\tTotal agents in graph: ", self.graph.number_of_nodes())
 
-    def connected_components(self):
+    def connected_components(self) -> List:
         """
-        :Purpose:
-            Return connected components in graph (if enabled)
+        Get connected components in graph (if enabled)
 
-        :Input:
-            agent : int
+        returns:
+            list of connected components
         """
         if self.enable_graph:
             return list(
