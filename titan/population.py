@@ -18,9 +18,6 @@ from . import utils
 
 
 class Population:
-    """
-    This class constructs and represents the model population
-    """
 
     def __init__(self, params: ObjMap, id: Optional[str] = None):
         """

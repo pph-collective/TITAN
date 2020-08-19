@@ -166,13 +166,13 @@ class NetworkGraphUtils:
     def visualize_network(
         self,
         outdir: str,
-        coloring: str="sex_type",
+        coloring: str = "sex_type",
         pos=None,
-        return_layout: bool=False,
-        node_size: Optional[float]=None,
-        curtime: int=0,
-        infection_label: int=0,
-        label: str="Network",
+        return_layout: bool = False,
+        node_size: Optional[float] = None,
+        curtime: int = 0,
+        infection_label: int = 0,
+        label: str = "Network",
     ):
         """
         Visualize the network using the spring layout (default). \n

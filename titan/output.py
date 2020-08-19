@@ -46,7 +46,6 @@ def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
     * "vaccinated"
     * "injectable_prep"
     * "oral_prep"
-    * "prep_aware"
 
     args:
         params: model parameters
@@ -85,8 +84,7 @@ def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
             "testedPartPrep": 0,
             "vaccinated": 0,
             "injectable_prep": 0,
-            "oral_prep": 0,
-            "prep_aware": 0,
+            "oral_prep": 0
         }
 
     stats = {}
@@ -261,11 +259,30 @@ def get_stats(
 
 
 def write_report(
-    file_name, name_map, run_id, t, runseed, popseed, stats, params, outdir
+    file_name: str,
+    name_map: Dict[str, str],
+    run_id: str,
+    t: int,
+    runseed: int,
+    popseed: int,
+    stats: Dict,
+    params: ObjMap,
+    outdir: str,
 ):
     """
     Core function for writing reports, writes header if file is new, then data based
-    on the params and name_map
+    on the `params` and `name_map`
+
+    args:
+        file_name: Name of the file to write, including the extension (e.g. `MyReport.txt`)
+        name_map: Map from keys in the stats dictionary to column headers in this report
+        run_id: unique identifier for this model
+        t: current timestep
+        runseed: integer used to seed the random number generator for the model
+        popseed: integer used to seed the random number generator for the population
+        stats: nested dictionary of agent attributes to counts
+        params: model parameters
+        outdir: path of where to save this file
     """
     f = open(os.path.join(outdir, file_name), "a")
     attrs = [clss[:-1] for clss in params.outputs.classes]
@@ -304,6 +321,12 @@ def deathReport(
     params: ObjMap,
     outdir: str,
 ):
+    """
+    Standard report writer for agent deaths, columns include:
+
+    * `tot`: total number of deaths at this timestep
+    * `HIV`: number of deaths of agents with HIV at this timestep
+    """
     name_map = {
         "deaths": "tot",
         "deaths_HIV": "HIV",
@@ -322,6 +345,14 @@ def incarReport(
     params: ObjMap,
     outdir: str,
 ):
+    """
+    Standard report writer for agent incarcerations, columns include:
+
+    * `tot`: total number of incarcerated agents at this timestep
+    * `HIV`: number of incarcerated agents with HIV at this timestep
+    * `rlsd`: number of agents released at this timestep
+    * `rlsdHIV`: number of agents with HIV released at this timestep
+    """
     name_map = {
         "incar": "tot",
         "incarHIV": "HIV",
@@ -342,6 +373,15 @@ def newlyhighriskReport(
     params: ObjMap,
     outdir: str,
 ):
+    """
+    Standard report writer for newly high risk agents, columns include:
+
+    * `newHR`: number of agents that became high risk at this timestep
+    * `newHR_HIV`: number of agents with HIV that became high risk at this timestep
+    * `newHR_AIDS`: number of agents with AIDS that became high risk at this timestep
+    * `newHR_Tested`: number of agents with diagnosed HIV that became high risk at this timestep
+    * `newHR_ART`: number of agents on HAART that became high risk at this timestep
+    """
     name_map = {
         "newHR": "newHR",
         "newHR_HIV": "newHR_HIV",
@@ -371,6 +411,14 @@ def prepReport(
     params: ObjMap,
     outdir: str,
 ):
+    """
+    Standard report writer for prep agents, columns include:
+
+    * `newEnroll`: number of agents newly enrolled in PrEP at this timestep
+    * `PWIDpartner`: number of prep agents with a PWID partner at this timestep
+    * `TestedPartner`: number of prep agents with a partner with diagnosed HIV at this timestep
+    * `MSMWpartner`: number of prep agents with an MSMW partner at this timestep
+    """
     name_map = {
         "newNumPrEP": "NewEnroll",
         "iduPartPrep": "PWIDpartner",
@@ -391,6 +439,28 @@ def basicReport(
     params: ObjMap,
     outdir: str,
 ):
+    """
+    Standard report writer for basic agent statistics, columns include:
+
+    * `Total`: number of agents in the population
+    * `HIV`: number of agents with HIV
+    * `AIDS`: number of agents with AIDS
+    * `Tstd`: number of agents with HIV who are diagnosed
+    * `ART`: number of agents on HAART
+    * `nHR`: number of agents who are high risk
+    * `Incid`: number of agents who HIV converted this time period
+    * `HR_6mo`: number of agents with HIV converted this time period who are high risk
+    * `HR_Ev`: number of agents with HIV converted this time period who have ever been high risk
+    * `NewDiag`: number of agents with HIV who were diagnosed this time period
+    * `Deaths`: number of agents who died this time period
+    * `PrEP`: number of agents enrolled in PrEP
+    * `IDUpart_PrEP`: number of agents enrolled in PrEP who have a PWID partner
+    * `MSMWpart_PrEP`: number of agents enrolled in PrEP who have an MSMW partner
+    * `testedPart_PrEP`: number of agents enrolled in PrEP who have an HIV diagnosed partner
+    * `Vaccinated`: number of agents who have been vaccinated
+    * `LAI`: number of agents enrolled in PrEP with a type of LAI
+    * `Oral`: number of agents enrolled in PrEP with a type of Oral
+    """
     name_map = {
         "numAgents": "Total",
         "numHIV": "HIV",
@@ -410,7 +480,6 @@ def basicReport(
         "vaccinated": "Vaccinated",
         "injectable_prep": "LAI",
         "oral_prep": "Oral",
-        "prep_aware": "Aware",
     }
     write_report(
         "basicReport.txt", name_map, run_id, t, runseed, popseed, stats, params, outdir
@@ -425,12 +494,21 @@ def print_components(
     t: int,
     runseed: int,
     popseed: int,
-    components,
+    components: List,
     outdir: str,
     races: list,
 ):
     """
     Write stats describing the components (sub-graphs) in a graph to file
+
+    args:
+        run_id: unique identifer for this run of the model
+        t: current timestep
+        runseed: integer used to seed the model's random number generator
+        popseed: integer used to seed the population's random number generator
+        components: a list of graph components
+        outdir: path where the file should be saved
+        races: the races in the population
     """
     f = open(os.path.join(outdir, f"{run_id}_componentReport_ALL.txt"), "a")
 

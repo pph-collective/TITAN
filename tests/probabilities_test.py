@@ -28,7 +28,8 @@ def test_get_death_rate(params):
                                 aids,
                                 drug_type,
                                 adh,
-                                params.demographics[race],
+                                race,
+                                params.demographics,
                                 params.model.time.steps_per_year,
                             )
                             > 0

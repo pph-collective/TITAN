@@ -15,6 +15,10 @@ plugins:
           setup_commands:
             - import sys
             - sys.path.append("docs")
+          rendering:
+            show_root_heading: false
+            show_root_toc_entry: false
+            heading_level: 3
       watch:
         - titan
 
@@ -30,8 +34,10 @@ nav:
     - Running on Oscar: run_oscar.md
   - API Reference:
     - Agent: api/agent.md
-    - Relationship: api/relationship.md
     - AgentSet: api/agent_set.md
-    - Population: api/population.md
+    - Model: api/model.md
     - NetworkGraphUtils: api/network.md
+    - Population: api/population.md
+    - Relationship: api/relationship.md
     - Reporting: api/reporting.md
+    - Utility Functions: api/utilities.md
