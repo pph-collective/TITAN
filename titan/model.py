@@ -1074,7 +1074,7 @@ class HIVModel:
 
         def diagnose(agent):
             agent.hiv_dx = True
-            self.pop.dx_counts[agent.race][agent.population] += 1
+            self.pop.dx_counts[agent.race][agent.sex_type] += 1
             self.new_dx.add_agent(agent)
             if (
                 self.features.partner_tracing
@@ -1136,7 +1136,7 @@ class HIVModel:
             agent.haart = True
             agent.haart_adherence = adherence
             agent.haart_time = self.time
-            self.pop.haart_counts[agent_race][agent.population] += 1
+            self.pop.haart_counts[agent_race][agent.sex_type] += 1
 
         # Check valid input
         assert agent.hiv
@@ -1152,10 +1152,8 @@ class HIVModel:
                 if self.params.hiv.haart_cap:
                     # if HAART is based on cap instead of prob, determine number of
                     # HAART agents based on % of diagnosed agents
-                    num_dx_agents = self.pop.dx_counts[agent.race][agent.population]
-                    num_haart_agents = self.pop.haart_counts[agent.race][
-                        agent.population
-                    ]
+                    num_dx_agents = self.pop.dx_counts[agent_race][agent.sex_type]
+                    num_haart_agents = self.pop.haart_counts[agent_race][agent.sex_type]
 
                     if num_haart_agents < (
                         self.demographics[agent_race][agent_so].haart.prob
@@ -1177,7 +1175,7 @@ class HIVModel:
                 agent.haart = False
                 agent.haart_adherence = 0
                 agent.haart_time = 0
-                self.pop.haart_counts[agent_race][agent.population] -= 1
+                self.pop.haart_counts[agent_race][agent.sex_type] -= 1
 
     def discontinue_prep(self, agent: Agent, force: bool = False):
         # Agent must be on PrEP to discontinue PrEP

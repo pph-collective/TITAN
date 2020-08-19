@@ -118,7 +118,7 @@ class Population:
         self.prep_counts = {race: 0 for race in params.classes.races}
 
         agent_counts = {
-            race: {population: 0 for population in params.classes.populations}
+            race: {so: 0 for so in params.classes.sex_types}
             for race in params.classes.races
         }
         self.dx_counts = deepcopy(agent_counts)
@@ -243,12 +243,12 @@ class Population:
             if self.pop_random.random() < agent_params.hiv.dx.init:
                 agent.hiv_dx = True
 
-                self.dx_counts[agent.race][agent.population] += 1
+                self.dx_counts[agent.race][agent.sex_type] += 1
 
                 if self.pop_random.random() < agent_params.haart.init:
                     agent.haart = True
 
-                    self.haart_counts[agent.race][agent.population] + +1
+                    self.haart_counts[agent.race][agent.sex_type] += 1
 
                     haart_adh = self.demographics[race][sex_type].haart.adherence
                     if self.pop_random.random() < haart_adh:
@@ -379,10 +379,10 @@ class Population:
             self.prep_counts[agent.race] -= 1
 
         if agent.hiv_dx:
-            self.dx_counts[agent.race][agent.population] -= 1
+            self.dx_counts[agent.race][agent.sex_type] -= 1
 
             if agent.haart:
-                self.haart_counts[agent.race][agent.population] -= 1
+                self.haart_counts[agent.race][agent.sex_type] -= 1
 
         if self.enable_graph:
             self.graph.remove_node(agent)
