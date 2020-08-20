@@ -448,7 +448,6 @@ class AgentSet:
     Container for agents into heirarchical sets (e.g. all_agents > hiv_agents)
     """
 
-<<<<<<< HEAD
     def __init__(
         self, id: str, parent: Optional["AgentSet"] = None,
     ):
@@ -459,15 +458,12 @@ class AgentSet:
             id: name of the set
             parent: the set this set is a subset of
         """
-=======
-    def __init__(self, id: str, parent: "AgentSet" = None):
->>>>>>> 5df7f3c63d44ae441f3f28ebf56ea4b3608b6dbc
-        # _members stores agent set members in a dictionary keyed by ID
+        # members stores agent set members in a dictionary keyed by ID
         self.id = id
         self.members: Set[Agent] = set()
         self.subset: Dict[str, AgentSet] = {}
 
-        # _parent_set stores the parent set if this set is a member of an
+        # parent_set stores the parent set if this set is a member of an
         # AgentSet class instance. For example, for a set that is a
         # member of a larger set, the _parent_set for that set  would
         # be that larger set.
