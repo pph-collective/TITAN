@@ -12,6 +12,7 @@ import json
 from multiprocessing import Pool, cpu_count
 import csv
 import traceback
+from typing import List, Optional
 
 from titan.model import HIVModel
 from titan.population import Population
@@ -303,47 +304,35 @@ def single_run(sweep, outfile_dir, params, save_pop, pop_path):
 
 
 def main(
-    setting,
-    params_path,
-    num_reps,
-    outdir,
-    use_base,
-    sweeps,
-    force,
-    sweepfile=None,
-    rows=None,
-    error_on_unused=False,
-    save_pop=None,
-    pop_path=None,
+    setting: str,
+    params_path: str,
+    num_reps: int,
+    outdir: str,
+    use_base: bool,
+    sweeps: List[str],
+    force: bool,
+    sweepfile: Optional[str]=None,
+    rows: Optional[str]=None,
+    error_on_unused: bool=False,
+    save_pop: Optional[str]=None,
+    pop_path: Optional[str]=None,
 ):
     """
     Run TITAN!
 
-    :Input:
-        setting : str
-            setting name to use, matches a folder name in `settings/`
-        params_path : str
-            path to params file or directory
-        num_reps : int
-            number of time to repeat each sweep
-        outdir : str
-            directory where results are to be saved
-        use_base : boolean
-            whether to use the "base" setting (includes some more complicated defaults)
-        sweeps : array[str]
-            array of strings in param:start:stop:step format
-        force : boolean
-            if true, will run even if combination of sweeps results in greater than 100 runs
-        sweepfile : str [default: None]
-            path to csv file of sweep definitions
-        rows: str [default: None]
-            which rows of the csv to load to create sweeps in start:stop format
-        error_on_unused : boolean [default: False]
-            error if there are parameters that are unused by the model
-        save_pop : str [default: None]
-            'all' or 'core' will save the population with agents have all or core attributes saved
-        pop_path : str [default: None]
-            path to a population to load instead of creating a new population for each run
+    args:
+        setting: setting name to use, matches a folder name in `settings/`
+        params_path: path to params file or directory
+        num_reps: number of time to repeat each sweep
+        outdir: directory where results are to be saved
+        use_base: whether to use the "base" setting (includes some more complicated defaults)
+        sweeps: array of strings in param:start:stop:step format
+        force: if true, will run even if combination of sweeps results in greater than 100 runs
+        sweepfile: path to csv file of sweep definitions
+        rows: which rows of the csv to load to create sweeps in start:stop format
+        error_on_unused: error if there are parameters that are unused by the model
+        save_pop: 'all' or 'core' will save the population with agents have all or core attributes saved
+        pop_path: path to a population to load instead of creating a new population for each run
     """
     # delete old results before overwriting with new results
     outfile_dir = os.path.join(os.getcwd(), outdir)

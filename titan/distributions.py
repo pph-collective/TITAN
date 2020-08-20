@@ -19,8 +19,9 @@ def pert(np_random, low, peak, high, temperature):
     A pert distribution, inspired by [tensorflow](https://github.com/tensorflow/probability/blob/c833ee5cd9f60f3257366b25447b9e50210b0590/tensorflow_probability/python/distributions/pert.py#L137)
 
     arguments must be so that:
-        low < peak < high
-        temperature > 0
+
+    * low < peak < high
+    * temperature > 0
 
     The support is `[low, high]`.  The `peak` must fit in that interval:
       `low < peak < high`.  The `temperature` is a positive parameter that
