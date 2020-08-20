@@ -7,7 +7,7 @@ When working on TITAN, make a branch from `develop` to make changes in, then mak
 ### Branches
 
 * `develop` is the primary working branch for the project
-* `master` is the branch releases are made off of and is in stable condition at all times
+* `main` is the branch releases are made off of and is in stable condition at all times
 * topic branches are created for new features, fixes, or really any changes
 
 ### Commitizen
@@ -59,7 +59,7 @@ flake8 titan --count --exit-zero --max-complexity=12 --max-line-length=88 --stat
 
 ### Typing
 
-Please use type hints on all signatures where reasonable.  This will make sure the code is more readable, can be statically tested for type soundness, and helps fill in the documentation.
+Please use [type hints](https://mypy.readthedocs.io/en/stable/) on all signatures where reasonable.  This will make sure the code is more readable, can be statically tested for type soundness, and helps fill in the documentation.
 
 Run the below to check for type errors:
 ```

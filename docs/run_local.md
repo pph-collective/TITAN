@@ -58,7 +58,67 @@ optional arguments:
 
 ### Running Interactively
 
+The model can also be run interactively in the repl.  Start a `python` session from the root directory of `TITAN`, and follow along!
 
+We'll use the sample params file `tests/params/basic.yml` in all of these examples, but feel free to use a different one.
+
+Here is how one performs the basic steps of running the model:
+```python
+from .titan.parse_params import create_params
+from .titan.model import HIVModel
+
+outdir = 'results'
+
+params = create_params(None, 'tests/params/basic.yml', outdir)
+model = HIVModel(params)
+model.run(outdir)
+```
+This creates a params using no setting (the `None`), our test params, and tells `create_params` to put our computed params file in a directory called `results`.
+
+!!! note "the 'results' directory must already be created"
+
+We then use those params to create our model, and run it.  We also have the model results saved to our `results` directory.
+
+We should now see a `params.yml` in our 'results' directory, and some reports showing what happened at different timesteps in the model.
+
+If we wanted to debug something, or look at a very specific metric that wasn't in our reports, we could instead step through the model one time-step at a time.
+
+Resuming from our code above, here's how we could do that.
+```python
+model2 = HIVModel(params)
+start_time = 0
+end_time = 10
+for i in range(start_time, end_time):
+    model2.time = i # update the model's time
+    model2.step(outdir)
+
+    # do some introspection here, like...
+    print(model2.pop.haart_counts)
+
+    model2.reset_trackets() # make sure the model state is reset for a new time step
+
+```
+
+If we want to write and read in a population instead of letting the model create one...
+
+```python
+from .titan import population_io as pio
+from .titan.population import Population
+from copy import deepcopy
+
+# let's make a copy of our params and tinker with the population a bit
+params2 = deepcopy(params)
+params2.demographics.white.MSM.hiv.prop = 0.4
+
+pop = Population(params2)
+poppath = pio.write(pop, outdir)
+
+pop2 = pio.read(poppath) # this should be the same population as pop
+
+# we can pass a population to the model and it will use that instead of creating a new one
+model3 = HIVModel(param2, pop2)
+model3.run(outdir)
+```
 
 ### Running the Tests
 
