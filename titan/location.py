@@ -6,22 +6,19 @@ from . import utils
 
 
 class Location:
-    """
-    :Purpose:
-        This class constructs and represents a location within the model.  A location
-        can have an arbitrary geographic granularity.
-
-    :Input:
-        location_def : ObjMap - Definition of location from the params
-    """
-
     def __init__(self, name: str, defn: ObjMap, params: ObjMap):
         """
-        Initialize location object
+        This class constructs and represents a location within the model.  A location
+            can have an arbitrary geographic granularity.
+
+        args:
+            name: name of the location
+            defn: definition for this location
+            params: model parameters
         """
         # location properties
         self.name = name
-        self.params = self.scale_params(params)
+        self.params = self.create_params(params)
         self.ppl = defn.ppl  # percent of overall population assigned to this location
 
         # value/weight maps needed for creating new agents in this location
@@ -44,9 +41,15 @@ class Location:
     def __hash__(self):
         return hash(self.name)
 
-    def scale_params(self, params: ObjMap):
+    def create_params(self, params: ObjMap) -> ObjMap:
         """
         Scale or override the generic parameters with any location based scaling from params.location.scaling
+
+        args:
+            params: model parameters
+
+        returns:
+            new parameter object with scaled values for this location
         """
         new_params = deepcopy(params)
 
@@ -61,6 +64,14 @@ class Location:
         return new_params
 
     def init_weights(self):
+        """
+        Create the containers to hold values and weights for randomly selecting:
+
+        * sex_role
+        * drug_type
+        * race
+        * sex_type
+        """
         for race in self.params.classes.races:
             self.role_weights[race] = {}
             self.drug_weights[race] = {}
@@ -90,7 +101,13 @@ class Location:
                     self.drug_weights[race][st]["weights"].append(prob.init)
 
 
-class LocationEdge:  # is this a directed or undirected edge?
+# LocationEdges are very much a WIP and not actually used anywhere yet
+# outstanding questions:
+# * should edges be directed? bi-drectional? uni-drectional, but both directions housed in the same edge?
+# * what attributes do edges need?
+# * how will mobility be implemented?
+# * assorting?
+class LocationEdge:
 
     next_edge_id = 0
 
@@ -101,6 +118,15 @@ class LocationEdge:  # is this a directed or undirected edge?
     def __init__(
         self, loc1: Location, loc2: Location, distance: float, id: Optional[int] = None
     ):
+        """
+        Construct a location edge, which holds attributes that relate two Locations.
+
+        args:
+            loc1: the first location
+            loc2: the other location
+            distance: a measure of distance between the locations
+            id: a unique identifier for this edge
+        """
         assert loc1 != loc2, "can't have a location self-edge"
 
         # self.id is unique ID number used to track each edge.
@@ -116,11 +142,13 @@ class LocationEdge:  # is this a directed or undirected edge?
 
 
 class Geography:
-    """
-    Umbrella class to initialize/store locations and location edges
-    """
-
     def __init__(self, params: ObjMap):
+        """
+        Umbrella class to initialize/store locations and location edges for a population
+
+        args:
+            params: model parameters
+        """
 
         self.locations: Dict[str, Location] = {
             location: Location(location, defn, params)

@@ -331,16 +331,17 @@ class HIVModel:
     def timeline_scaling(self):
         """
         Scale/un-scale any params with timeline_scaling definitions per their
-        definition
+        definition.  Applied to all parameters (main model, and location specific).
         """
         if not self.features.timeline_scaling:
             return None
 
-        # need to apply/un-apply scaling across main params and all location params
+        # gather all of the param objectss to be scaled
         params_set = {self.params}
         for location in self.pop.geography.locations.values():
             params_set.add(location.params)
 
+        # iterate over each param and update the values if the time is right
         for params in params_set:
             for param, defn in params.timeline_scaling.timeline.items():
                 if param != "ts_default":
@@ -562,20 +563,22 @@ class HIVModel:
             elif agent_influence < partner_influence:
                 agent.prep_opinion = np.mean([agent.prep_opinion, partner.prep_opinion])
 
-            # REVIEWED switch the order of these ifs so the agent initiating prep's probability is used
             if (
-                self.run_random.random() < self.params.prep.pca.prep.prob
-            ):  # TO_REVIEW which agent if location based?
-                if (
-                    agent_init_opinion
-                    < self.params.prep.pca.opinion.threshold
-                    < agent.prep_opinion
-                ):
+                agent_init_opinion
+                < agent.location.params.prep.pca.opinion.threshold
+                < agent.prep_opinion
+            ):
+                if self.run_random.random() < agent.location.params.prep.pca.prep.prob:
                     self.initiate_prep(agent, force=True)
-                elif (
-                    partner_init_opinion
-                    < self.params.prep.pca.opinion.threshold
-                    < partner.prep_opinion
+
+            elif (
+                partner_init_opinion
+                < partner.location.params.prep.pca.opinion.threshold
+                < partner.prep_opinion
+            ):
+                if (
+                    self.run_random.random()
+                    < partner.location.params.prep.pca.prep.prob
                 ):
                     self.initiate_prep(partner, force=True)
 
@@ -818,13 +821,10 @@ class HIVModel:
         # Scale if partner vaccinated
         if partner.vaccine:
             vaccine_type = partner.location.params.vaccine.type
-            assert vaccine_type in [
-                "HVTN702",
-                "RV144",
-            ], f"Vaccine type {vaccine_type} not recognized"  # TO_REVIEW - not needed due to params checks?
             vaccine_time_months = (
                 partner.vaccine_time / self.params.model.time.steps_per_year
             ) * 12
+
             if vaccine_type == "HVTN702":
                 p *= np.exp(-2.88 + 0.76 * (np.log((vaccine_time_months + 0.001) * 30)))
             elif vaccine_type == "RV144":
@@ -1064,26 +1064,26 @@ class HIVModel:
         race_type = agent.race
         diagnosed = agent.hiv_dx
 
-        def diagnose(
-            agent,
-        ):  # TO_REVIEW scaling allowed? if so on agent, partner, depends?
+        def diagnose(agent,):
+            # agent's location's params used throughout as that is the agent who
+            # would be interacting with the service
             agent.hiv_dx = True
             self.pop.num_dx_agents += 1
             self.new_dx.add_agent(agent)
             if (
                 self.features.partner_tracing
-                and self.params.partner_tracing.start
+                and agent.location.params.partner_tracing.start
                 <= self.time
-                < self.params.partner_tracing.stop
+                < agent.location.params.partner_tracing.stop
             ):
                 # For each partner, determine if found by partner testing
-                for bond in self.params.partner_tracing.bond_type:
+                for bond in agent.location.params.partner_tracing.bond_type:
                     for ptnr in agent.partners.get(bond, []):
                         if (
                             ptnr.hiv
                             and not ptnr.hiv_dx
                             and self.run_random.random()
-                            < self.params.partner_tracing.prob
+                            < agent.location.params.partner_tracing.prob
                         ):
                             ptnr.partner_traced = True
                             ptnr.trace_time = self.time
@@ -1104,11 +1104,15 @@ class HIVModel:
 
             elif (
                 agent.partner_traced
-                and self.run_random.random() < self.params.partner_tracing.hiv.dx
+                and self.run_random.random()
+                < agent.location.params.partner_tracing.hiv.dx
                 and self.time > agent.trace_time
             ):
                 diagnose(agent)
-        if self.time >= agent.trace_time + self.params.partner_tracing.trace_time:
+        if (
+            self.time
+            >= agent.trace_time + agent.location.params.partner_tracing.trace_time
+        ):
             # agents can only be traced during a specified period after their partner is
             # diagnosed. If past this time, remove ability to trace.
             agent.partner_traced = False

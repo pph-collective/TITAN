@@ -119,7 +119,7 @@ def memo(f):
 
 def get_param_from_path(params, param_path, delimiter):
     """
-    Given a params object and a delimited path, get the leaf of the params
+    Given a params object and a delimited path, get the leaf of the params tree
     and the last key to access it
     """
     path = param_path.split(delimiter)

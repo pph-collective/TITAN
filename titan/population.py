@@ -46,12 +46,6 @@ class Population:
         self.pop_random = random.Random(self.pop_seed)
         self.np_random = np.random.RandomState(self.pop_seed)
 
-        # this sets the global random seed for the population generation phase, during
-        # model init it gets reset at the very end
-        random.seed(
-            self.pop_seed
-        )  # TO_REVIEW is this needed? generator should be used everywhere except for line 42
-
         self.enable_graph = params.model.network.enable
 
         if self.enable_graph:
@@ -63,6 +57,7 @@ class Population:
         # pre-fetch param sub-sets for performance
         self.features = params.features
 
+        # set up the population's locations and edges
         self.geography = Geography(params)
 
         self.num_haart_agents = 0
@@ -100,7 +95,7 @@ class Population:
         self.mean_rel_duration: Dict[str, int] = get_mean_rel_duration(self.params)
 
         print("\tCreating agents")
-
+        # for each location in the population, create agents per that location's demographics
         for location in self.geography.locations.values():
             for race in params.classes.races:
                 for i in range(
@@ -157,9 +152,6 @@ class Population:
         :Output:
              agent : Agent
         """
-
-        # TO_REVIEW might need to pick location first, since that may inform demographics, implications for race, sex_type, drug weights
-
         if sex_type is None:
             sex_type = utils.safe_random_choice(
                 location.pop_weights[race]["values"],
@@ -217,7 +209,6 @@ class Population:
                     agent.intervention_ever = True
                     self.num_haart_agents += 1
 
-                    # TO_REVIEW is haart adherence purposefully bypassing PWID?
                     haart_adh = location.params.demographics[race][
                         sex_type
                     ].haart.adherence
@@ -226,11 +217,10 @@ class Population:
                     else:
                         adherence = self.pop_random.randint(1, 4)
 
-                    # add to agent haart set
                     agent.haart_adherence = adherence
                     agent.haart_time = 0
 
-            # if HIV, how long has the agent had it? Random sample # TO_REVIEW this is more of a duration than a time - should we go through all of our "time" parameters and make that distinction clear?
+            # if HIV, how long has the agent had it? Random sample
             agent.hiv_time = self.pop_random.randint(
                 1, location.params.hiv.max_init_time
             )
@@ -260,10 +250,8 @@ class Population:
             return ceil(
                 utils.safe_dist(dist, self.np_random)
                 * utils.safe_divide(
-                    self.params.calibration.sex.partner,
-                    self.mean_rel_duration[
-                        bond
-                    ],  # TO_REVIEW should this be pivoted on location?
+                    agent.location.params.calibration.sex.partner,
+                    self.mean_rel_duration[bond],
                 )
             )
 
@@ -436,8 +424,8 @@ class Population:
 
         if partner:
             duration = get_partnership_duration(
-                self.params, self.np_random, bond_type
-            )  # TO_REVIEW should this use location params, if so, which agent's
+                agent.location.params, self.np_random, bond_type
+            )
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
             self.add_relationship(relationship)
             # can partner still partner?

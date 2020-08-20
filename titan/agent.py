@@ -64,7 +64,7 @@ class Agent:
         self.age_bin = 0
         self.race = race
         self.drug_type = du
-        self.location = location  # TO_REVIEW name or object
+        self.location = location
 
         self.msmw = False
         self.sex_role = "versatile"
