@@ -17,6 +17,7 @@ from titan.model import HIVModel
 from titan.population import Population
 import titan.population_io as pop_io
 from titan.parse_params import create_params
+from titan import utils
 
 # how many cores can we use
 NCORES = os.environ.get("SLURM_CPUS_PER_TASK", cpu_count())
@@ -271,11 +272,7 @@ def single_run(sweep, outfile_dir, params, save_pop, pop_path):
 
     # apply params from sweep for this run
     for param, val in sweep.items():
-        path = param.split(".")
-        sweep_item = params
-        for p in path[:-1]:
-            sweep_item = sweep_item[p]
-        sweep_item[path[-1]] = val
+        utils.scale_param(params, param, val, delimiter=".")
 
     tic = time_mod.time()
 

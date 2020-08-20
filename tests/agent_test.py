@@ -2,7 +2,6 @@ import pytest
 import os
 
 from titan.agent import *
-from titan.parse_params import create_params
 
 from conftest import FakeRandom
 
@@ -111,13 +110,13 @@ def test_iter_partners(make_agent):
 
 @pytest.mark.unit
 def test_enroll_prep_choice(make_agent, params):
-    params.prep.type = ["Oral", "Inj"]
-    params.prep.peak_load = 0.3
     rand_gen = FakeRandom(-0.1)
     a = make_agent()
+    a.location.params.prep.type = ["Oral", "Inj"]
+    a.location.params.prep.peak_load = 0.3
     a.prep_load = 10
 
-    a.enroll_prep(params, rand_gen)
+    a.enroll_prep(rand_gen)
 
     assert a.prep
     assert a.prep_last_dose == 0
@@ -128,13 +127,14 @@ def test_enroll_prep_choice(make_agent, params):
 
 @pytest.mark.unit
 def test_enroll_prep_one(make_agent, params):
-    params.prep.type = ["Oral"]
-    params.prep.peak_load = 0.3
     rand_gen = FakeRandom(1.1)
     a = make_agent()
+    a.location.params.prep.type = ["Oral"]
+    a.location.params.prep.peak_load = 0.3
+
     a.prep_load = 10
 
-    a.enroll_prep(params, rand_gen)
+    a.enroll_prep(rand_gen)
 
     assert a.prep
     assert a.prep_last_dose == 0
@@ -148,13 +148,13 @@ def test_update_prep_load(make_agent, params):
     a = make_agent()
     assert a.prep_last_dose == 0
     assert a.prep_load == 0
-    a.update_prep_load(params)
+    a.update_prep_load()
     assert a.prep_last_dose == 1
     assert a.prep_load > 0
 
     # make time pass
     for i in range(12):
-        a.update_prep_load(params)
+        a.update_prep_load()
 
     assert a.prep_last_dose == 0
     assert a.prep_load == 0.0
@@ -169,10 +169,10 @@ def test_get_number_of_sex_acts(make_agent, params):  # TODO test dist
 
     rand_gen_high = FakeRandom(1.0)
 
-    assert a.get_number_of_sex_acts(rand_gen_low, params) == min_val_low
+    assert a.get_number_of_sex_acts(rand_gen_low) == min_val_low
 
     # test fallthrough
-    assert a.get_number_of_sex_acts(rand_gen_high, params) == 37
+    assert a.get_number_of_sex_acts(rand_gen_high) == 37
 
 
 @pytest.mark.unit

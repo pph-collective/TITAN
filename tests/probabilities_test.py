@@ -16,7 +16,9 @@ def test_adherence_prob():
 
 
 @pytest.mark.unit
-def test_get_death_rate(params):
+def test_get_death_rate(make_population):
+    pop = make_population(n=0)
+    location = pop.geography.locations["world"]
     for hiv in [True, False]:
         for aids in [True, False]:
             for race in ["white", "black"]:
@@ -29,8 +31,8 @@ def test_get_death_rate(params):
                                 drug_type,
                                 adh,
                                 race,
-                                params.demographics,
-                                params.model.time.steps_per_year,
+                                location,
+                                location.params.model.time.steps_per_year,
                             )
                             > 0
                         )

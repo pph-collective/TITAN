@@ -1,5 +1,5 @@
 from . import utils
-from .parse_params import ObjMap
+from .location import Location
 
 # ================ CORE PROBABILITIES ========================
 
@@ -36,7 +36,7 @@ def get_death_rate(
     drug_type: str,
     haart_adh: int,
     race: str,
-    param: ObjMap,
+    location: Location,
     steps_per_year: int,
 ):
     """
@@ -51,6 +51,8 @@ def get_death_rate(
         param: demographic params
         steps_per_year: the number of model steps in a year
     """
+    param = location.params.demographics
+
     if drug_type == "Inj":
         death_param = param[race].PWID.death_rate
     else:

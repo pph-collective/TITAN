@@ -46,3 +46,4 @@ outputs:
       - races
       - sex_types
       - drug_types
+      - locations
