@@ -264,7 +264,7 @@ class Population:
             agent.hiv_time = self.pop_random.randint(1, self.params.hiv.max_init_time)
 
         elif self.features.prep and agent.prep_eligible(
-            self.prep.target_model, self.params.partnership.ongoing_duration
+            set(self.prep.target_model), self.params.partnership.ongoing_duration
         ):
             if time >= self.prep.start and self.pop_random.random() < self.prep.target:
                 agent.enroll_prep(self.params, self.pop_random)

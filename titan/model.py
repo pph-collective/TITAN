@@ -43,6 +43,7 @@ class HIVModel:
         # pre-fetch commonly used param sub-sets for performance
         self.features = params.features
         self.prep = params.prep
+        self.prep.target_model = set(self.prep.target_model)
         self.demographics = params.demographics
         self.calibration = params.calibration
         self.high_risk = params.high_risk
@@ -303,7 +304,7 @@ class HIVModel:
         if (
             self.features.prep
             and self.time == self.prep.start
-            and self.prep.target_model == "RandomTrial"
+            and "RandomTrial" in self.prep.target_model
         ):
             self.initialize_random_trial()
 
@@ -381,7 +382,9 @@ class HIVModel:
             if (
                 agent.sex_type == "HM"
                 and self.features.prep
-                and (self.prep.target_model in ("high_risk", "incarcerated_high_risk"))
+                and self.prep.target_model.intersection(
+                    {"high_risk", "incarcerated_high_risk"}
+                )
             ):
                 for part in agent.iter_partners():
                     if not (part.hiv or part.vaccine):
@@ -1050,7 +1053,7 @@ class HIVModel:
                             self.become_high_risk(partner)
 
                     if self.features.prep and (
-                        self.prep.target_model in ("Incar", "IncarHR")
+                        self.prep.target_model.intersection({"Incar", "IncarHR"})
                     ):
                         # Attempt to put partner on prep if less than probability
                         if not partner.hiv and not agent.vaccine:
@@ -1274,16 +1277,16 @@ class HIVModel:
         if force:
             enroll_prep(self, agent)
         else:
-            if self.prep.target_model == "Racial":
+            if "Racial" in self.prep.target_model:
                 num_prep_agents = self.pop.prep_counts[agent.race]
             else:
                 num_prep_agents = sum(self.pop.prep_counts.values())
 
-            if self.prep.target_model in ("Incar", "IncarHR"):
+            if self.prep.target_model.intersection({"Incar", "IncarHR"}):
                 if self.run_random.random() < self.prep.target:
                     enroll_prep(self, agent)
                 return None
-            elif self.prep.target_model == "Racial":
+            elif "Racial" in self.prep.target_model:
                 all_hiv_agents = self.pop.hiv_agents.members
                 all_race = {a for a in self.pop.all_agents if a.race == agent.race}
 

@@ -32,7 +32,8 @@ prep:
       min: 0
       max: 1
   target_model:
-    default: Allcomers
+    default:
+      - Allcomers
     values:
       - CDCwomen
       - Allcomers
@@ -43,7 +44,7 @@ prep:
       - RandomTrial
       - MSM
     description: which model to use to determine who is enrolled in PrEP
-    type: enum
+    type: array
   half_life:
     default: 40.0
     description: Half life in days of injectable PrEP, used to calculate agent's prep load

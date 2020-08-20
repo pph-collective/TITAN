@@ -376,7 +376,7 @@ def test_incarcerate_not_hiv(make_model, make_agent):
     p = make_agent(SO="HF", race="white")
     rel = Relationship(a, p, 10, "Sex")
     model.prep.target = 1.0
-    model.prep.target_model = "Incar"
+    model.prep.target_model = {"Incar"}
     model.params.demographics.white.HM.incar.prob = 1.0
 
     model.incarcerate(a)
@@ -703,7 +703,7 @@ def test_initiate_prep_eligible(make_model, make_agent):
     p.msmw = True
     model.time = 10
     model.params.prep.target = 1.0
-    model.params.prep.target_model = "CDCwomen"
+    model.params.prep.target_model = {"CDCwomen"}
     rel = Relationship(a, p, 10, bond_type="Sex")
     # non-forcing, adherant, inj
     model.run_random = FakeRandom(-0.1)

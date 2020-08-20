@@ -160,7 +160,7 @@ class Agent:
         else:
             return False
 
-    def prep_eligible(self, target_model: str, ongoing_duration: int) -> bool:
+    def prep_eligible(self, target_model: set, ongoing_duration: int) -> bool:
         """
         :Purpose:
             Determine if an agent is eligible for PrEP
@@ -176,9 +176,9 @@ class Agent:
             return False
 
         eligible = False
-        if target_model in ("Allcomers", "Racial"):
+        if target_model.intersection({"Allcomers", "Racial"}):
             eligible = True
-        elif target_model == "CDCwomen":
+        elif "CDCwomen" in target_model:
             if self.sex_type == "HF":
                 for rel in self.relationships:
                     partner = rel.get_partner(self)
@@ -192,7 +192,7 @@ class Agent:
                         if partner.msmw:
                             eligible = True
                             self.prep_reason.append("MSMW")
-        elif target_model == "MSM":
+        elif "MSM" in target_model:
             if self.sex_type in ("MSM", "MTF"):
                 eligible = True
 
