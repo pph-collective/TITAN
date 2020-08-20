@@ -62,7 +62,7 @@ The model can also be run interactively in the repl.  Start a `python` session f
 
 We'll use the sample params file `tests/params/basic.yml` in all of these examples, but feel free to use a different one.
 
-Here is how one performs the basic steps of running the model:
+Here is how to perform the basic steps of running the model:
 ```python
 from .titan.parse_params import create_params
 from .titan.model import HIVModel
@@ -73,7 +73,7 @@ params = create_params(None, 'tests/params/basic.yml', outdir)
 model = HIVModel(params)
 model.run(outdir)
 ```
-This creates a params using no setting (the `None`), our test params, and tells `create_params` to put our computed params file in a directory called `results`.
+This creates a params object using no setting (the `None`), our test params, and tells `create_params` to put our computed params file in a directory called `results`.
 
 !!! note "the 'results' directory must already be created"
 
@@ -95,7 +95,8 @@ for i in range(start_time, end_time):
     # do some introspection here, like...
     print(model2.pop.haart_counts)
 
-    model2.reset_trackets() # make sure the model state is reset for a new time step
+    # make sure the model state is reset for a new time step
+    model2.reset_trackets()
 
 ```
 
@@ -108,20 +109,20 @@ from copy import deepcopy
 
 # let's make a copy of our params and tinker with the population a bit
 params2 = deepcopy(params)
-params2.demographics.white.MSM.hiv.prop = 0.4
+params2.demographics.white.MSM.hiv.prob = 0.4
 
 pop = Population(params2)
 poppath = pio.write(pop, outdir)
 
 pop2 = pio.read(poppath) # this should be the same population as pop
 
-# we can pass a population to the model and it will use that instead of creating a new one
+# pass a population to the model to use that instead of creating a new one
 model3 = HIVModel(param2, pop2)
 model3.run(outdir)
 ```
 
 ### Running the Tests
 
-To make sure everything is working, run the tests.
+To make sure everything is working, run the tests.  A few of the tests (marked `integration_stochastic`) sometimes fail as they are testing for general behavior and not specific correctness, but all other tests should always pass.
 
 `python -m pytest`
