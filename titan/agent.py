@@ -375,7 +375,7 @@ class Relationship:
     def __hash__(self) -> int:
         return self.id
 
-    def progress(self, force: bool = False) -> None:
+    def progress(self, force: bool = False) -> bool:
         """
         Progress a relationship to the next time step (decrementing remaining target duration), or end a relationship if the duration is 0 or if `force` is set to `True`
 

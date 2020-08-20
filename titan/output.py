@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Iterator
 from .agent import AgentSet, Agent
 from copy import deepcopy
 import itertools
@@ -84,7 +84,7 @@ def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
             "testedPartPrep": 0,
             "vaccinated": 0,
             "injectable_prep": 0,
-            "oral_prep": 0
+            "oral_prep": 0,
         }
 
     stats = {}
@@ -96,7 +96,7 @@ def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
     return stats
 
 
-def get_aggregates(params: ObjMap) -> itertools.product:
+def get_aggregates(params: ObjMap) -> Iterator:
     """
     Get iterator over all attribute combinations for output classes
 

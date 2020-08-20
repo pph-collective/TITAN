@@ -1,5 +1,6 @@
 from . import utils
 from .parse_params import ObjMap
+
 # ================ CORE PROBABILITIES ========================
 
 
@@ -29,7 +30,15 @@ def adherence_prob(adherence: int):
 
 
 @utils.memo
-def get_death_rate(hiv: bool, aids: bool, drug_type: str, haart_adh: int, race:str, param: ObjMap, steps_per_year: int):
+def get_death_rate(
+    hiv: bool,
+    aids: bool,
+    drug_type: str,
+    haart_adh: int,
+    race: str,
+    param: ObjMap,
+    steps_per_year: int,
+):
     """
     Find the death rate of an agent given a set of attributes.
 

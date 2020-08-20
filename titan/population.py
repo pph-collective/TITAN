@@ -18,7 +18,6 @@ from . import utils
 
 
 class Population:
-
     def __init__(self, params: ObjMap, id: Optional[str] = None):
         """
         Initialize Population object.

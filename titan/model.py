@@ -19,7 +19,6 @@ from .parse_params import ObjMap
 
 
 class HIVModel:
-
     def __repr__(self):
         res = "\n"
         res += f"Seed: {self.run_seed}\n"

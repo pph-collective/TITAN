@@ -108,7 +108,7 @@ class NetworkGraphUtils:
         # attribute based coloring
         color_order = ["b", "g", "c", "r", "y", "purple", "gray"]
         if hasattr(list(G.nodes)[0], coloring):
-            attrs = []
+            attrs: List[str] = []
             for v in G:
                 val = getattr(v, coloring)
                 if val not in attrs:

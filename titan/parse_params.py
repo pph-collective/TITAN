@@ -1,7 +1,7 @@
 import oyaml as yaml  # type: ignore
 import os
 import collections
-from inspect import currentframe, getframeinfo
+from inspect import getsourcefile
 from pathlib import Path
 import math
 from typing import Optional, Dict
@@ -288,7 +288,11 @@ def warn_unused_params(parsed, params, base, key_path):
 
 
 def create_params(
-    setting_path: Optional[str], param_path: str, outdir: str, use_base: bool=True, error_on_unused: bool=False
+    setting_path: Optional[str],
+    param_path: str,
+    outdir: str,
+    use_base: bool = True,
+    error_on_unused: bool = False,
 ) -> ObjMap:
     """
     Entry function - given the path to the setting, params, output directory and whether
@@ -304,8 +308,12 @@ def create_params(
     returns:
         computed/validated model paramters with defaults filled in where needed
     """
-    filename = getframeinfo(currentframe()).filename
-    parent = Path(filename).resolve().parent
+    filename = getsourcefile(warn_unused_params)
+    if filename is not None:
+        parent = Path(filename).resolve().parent
+    else:
+        raise Exception("can't find where I am in the code?")
+
     root = os.path.join(parent, "params")
 
     defs = build_yaml(root)

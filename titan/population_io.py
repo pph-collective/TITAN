@@ -85,6 +85,8 @@ def write(
         os.remove(agent_file)
         os.remove(rel_file)
         return archive_name
+    else:
+        return dir
 
 
 def read(params: ObjMap, path: str) -> Population:
