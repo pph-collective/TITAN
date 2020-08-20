@@ -10,7 +10,7 @@ model:
     burn_steps: 6
   network:
     enable: true
-    type: max_k_comp_size
+    type: comp_size
     component_size:
       max: 100
 outputs:
@@ -152,23 +152,24 @@ partnership:
           max: 48
   sex:
     frequency:
-      1:
-        prob: 0.585
-        min: 1
-        max: 6
-      2:
-        prob: 0.701
-        min: 7
-        max: 12
-      3:
-        prob: 0.822
-        min: 13
-        max: 24
-      4:
-        prob: 0.8819999999999999
-        min: 25
-        max: 36
-      5:
-        prob: 1.0
-        min: 37
-        max: 48
+      bins:
+        1:
+          prob: 0.585
+          min: 1
+          max: 6
+        2:
+          prob: 0.701
+          min: 7
+          max: 12
+        3:
+          prob: 0.822
+          min: 13
+          max: 24
+        4:
+          prob: 0.8819999999999999
+          min: 25
+          max: 36
+        5:
+          prob: 1.0
+          min: 37
+          max: 48

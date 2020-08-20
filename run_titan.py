@@ -11,6 +11,7 @@ import itertools
 import json
 from multiprocessing import Pool, cpu_count
 import csv
+import traceback
 
 from titan.model import HIVModel
 from titan.population import Population
@@ -39,10 +40,10 @@ parser.add_argument(
     "-p", "--params", required=True, help="directory or file with params yaml(s)"
 )
 parser.add_argument(
-    "-o", "--outdir", default="results", help="directory name to save results to",
+    "-o", "--outdir", default="results", help="directory name to save results to"
 )
 parser.add_argument(
-    "-b", "--base", type=bool, default=True, help="whether to use base setting",
+    "-b", "--base", type=bool, default=True, help="whether to use base setting"
 )
 
 parser.add_argument(
@@ -124,7 +125,7 @@ parser.add_argument(
     "-F",
     "--force",
     action="store_true",
-    help="Run model even if number of sweeps excedes 100",
+    help="Run model even if number of sweeps exceeds 100",
 )
 
 
@@ -271,7 +272,6 @@ def single_run(sweep, outfile_dir, params, save_pop, pop_path):
 
     # apply params from sweep for this run
     for param, val in sweep.items():
-        print(f"\t{param}: {val}")
         utils.scale_param(params, param, val, delimiter=".")
 
     tic = time_mod.time()
@@ -401,7 +401,6 @@ def main(
             if all([r.ready() for r in results]):
                 break
             else:
-                print([r.ready() for r in results])
                 time_mod.sleep(1)
 
         for r in results:
@@ -409,7 +408,7 @@ def main(
                 t = r.get()
                 wct.append(t)
             except Exception as e:
-                print(e)
+                traceback.print_exc()
 
     toc = time_mod.time() - tic
 

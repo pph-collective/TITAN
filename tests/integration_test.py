@@ -109,6 +109,7 @@ def test_model_settings_run(tmpdir):
     ):
         if "__" not in item and item != "base":
             path = tmpdir.mkdir(item)
+            print(f"-----------Starting run for {item}-----------")
             subprocess.check_call(
                 [f, f"-p {param_file}", f"-o {path}", f"-S {item}", "-e"]
             )

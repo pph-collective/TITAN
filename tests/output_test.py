@@ -65,7 +65,7 @@ def test_get_stats(stats):
     assert stats["world"]["black"]["MSM"]["msmwPartPrep"] == 1
     assert stats["world"]["black"]["MSM"]["testedPartPrep"] == 1
     assert stats["world"]["black"]["MSM"]["newNumPrEP"] == 1
-    assert stats["world"]["black"]["MSM"]["newlyTested"] == 1
+    assert stats["world"]["black"]["MSM"]["newlyDiagnosed"] == 1
     assert stats["world"]["black"]["MSM"]["newHR"] == 1
     assert stats["world"]["black"]["MSM"]["newHR_HIV"] == 1
     assert stats["world"]["black"]["MSM"]["newHR_AIDS"] == 1
@@ -73,7 +73,7 @@ def test_get_stats(stats):
     assert stats["world"]["black"]["MSM"]["newHR_ART"] == 1
     assert stats["world"]["black"]["MSM"]["numHIV"] == 1
     assert stats["world"]["black"]["MSM"]["numAIDS"] == 1
-    assert stats["world"]["black"]["MSM"]["numTested"] == 1
+    assert stats["world"]["black"]["MSM"]["numDiagnosed"] == 1
     assert stats["world"]["black"]["MSM"]["numART"] == 1
     assert stats["world"]["black"]["MSM"]["deaths"] == 1
     assert stats["world"]["black"]["MSM"]["deaths_HIV"] == 1
@@ -145,13 +145,13 @@ def test_newlyhighriskReport(stats, params, tmpdir):
                 assert row["newHR"] == "1"
                 assert row["newHR_HIV"] == "1"
                 assert row["newHR_AIDS"] == "1"
-                assert row["newHR_Tested"] == "1"
+                assert row["newHR_Diagnosed"] == "1"
                 assert row["newHR_ART"] == "1"
             else:
                 assert row["newHR"] == "0"
                 assert row["newHR_HIV"] == "0"
                 assert row["newHR_AIDS"] == "0"
-                assert row["newHR_Tested"] == "0"
+                assert row["newHR_Diagnosed"] == "0"
                 assert row["newHR_ART"] == "0"
 
 
@@ -172,12 +172,12 @@ def test_prepReport(stats, params, tmpdir):
             if row["race"] == "black" and row["sex_type"] == "MSM":
                 assert row["NewEnroll"] == "1"
                 assert row["PWIDpartner"] == "1"
-                assert row["TestedPartner"] == "1"
+                assert row["DiagnosedPartner"] == "1"
                 assert row["MSMWpartner"] == "1"
             else:
                 assert row["NewEnroll"] == "0"
                 assert row["PWIDpartner"] == "0"
-                assert row["TestedPartner"] == "0"
+                assert row["DiagnosedPartner"] == "0"
                 assert row["MSMWpartner"] == "0"
 
 

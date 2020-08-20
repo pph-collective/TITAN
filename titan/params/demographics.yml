@@ -41,7 +41,7 @@ demographics:
       dx:
         init:
           default: 0.0
-          description: "Probability that an agent with HIV is initially diagnosed and 'knows' their HIV status, therefore enabling enrollment in treatment"
+          description: "Probability that an agent with HIV in the initial population is initially diagnosed and 'knows' their HIV status, therefore enabling enrollment in treatment"
           type: float
           min: 0.0
           max: 1.0
@@ -103,7 +103,7 @@ demographics:
         max: 1.0
       duration:
         prob:
-          type: bin
+          type: bins
           description: Binned probabilities of incarceration duration during model run
           fields:
             prob:
@@ -142,7 +142,7 @@ demographics:
               min: 130
               max: 260
         init:
-          type: bin
+          type: bins
           description: Binned probabilities of incarceration duration when initializing population
           fields:
             prob:
@@ -187,13 +187,9 @@ demographics:
       default:
         dist_type:
           default: poisson
-          description: "How to determine mean number of partners for an agent. Uses numpy.random distributions or 'set_value' to always return the var_1 value. More info at https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator"
+          description: "How to determine mean number of partners for an agent. Uses numpy.random distributions or 'set_value' to always return the first value. More info at https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator"
           type: enum
-          values:
-            - poisson
-            - gamma
-            - uniform
-            - set_value
+          class: distributions
         vars:
           type: bin
           description: Pass values in order of bin keys to the distribution, starting at 1

@@ -69,6 +69,22 @@ def test_agent_init(make_agent):
 
 
 @pytest.mark.unit
+def test_get_partners(make_agent):
+    a = make_agent()
+    p1 = make_agent()
+    p2 = make_agent()
+
+    assert "Inj" in a.partners.keys()
+    assert "Sex" in a.partners.keys()
+    a.partners["Sex"].update({p1})
+    a.partners["Inj"].update({p2})
+
+    assert a.get_partners() == {p1, p2}
+    assert a.get_partners(["Sex"]) == {p1}
+    assert a.get_partners(["Inj"]) == {p2}
+
+
+@pytest.mark.unit
 def test_get_acute_status(make_agent, params):
     a = make_agent()  # no HIV on init
     assert a.get_acute_status(params.partnership.ongoing_duration) == False
@@ -103,7 +119,6 @@ def test_enroll_prep_choice(make_agent, params):
     a.enroll_prep(rand_gen)
 
     assert a.prep
-    assert a.intervention_ever
     assert a.prep_last_dose == 0
     assert a.prep_load == 0.3
     assert a.prep_adherence == 1
@@ -122,7 +137,6 @@ def test_enroll_prep_one(make_agent, params):
     a.enroll_prep(rand_gen)
 
     assert a.prep
-    assert a.intervention_ever
     assert a.prep_last_dose == 0
     assert a.prep_load == 0.3
     assert a.prep_adherence == 0
@@ -147,11 +161,11 @@ def test_update_prep_load(make_agent, params):
 
 
 @pytest.mark.unit
-def test_get_number_of_sex_acts(make_agent, params):
+def test_get_number_of_sex_acts(make_agent, params):  # TODO test dist
     a = make_agent()
 
     rand_gen_low = FakeRandom(0.0)
-    min_val_low = params.partnership.sex.frequency[1].min
+    min_val_low = params.partnership.sex.frequency.bins[1].min
 
     rand_gen_high = FakeRandom(1.0)
 
@@ -159,6 +173,18 @@ def test_get_number_of_sex_acts(make_agent, params):
 
     # test fallthrough
     assert a.get_number_of_sex_acts(rand_gen_high) == 37
+
+
+@pytest.mark.unit
+def test_has_partners(make_agent, make_relationship):
+    a = make_agent()
+
+    assert a.has_partners() is False
+
+    p = make_agent()
+    r = make_relationship(a, p)
+
+    assert a.has_partners() is True
 
 
 # ============== RELATIONSHIP TESTS ===================

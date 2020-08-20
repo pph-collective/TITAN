@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from typing import List, Dict, Set, Optional
+from typing import List, Dict, Set, Optional, Iterable
 
 from .parse_params import ObjMap
-from .utils import safe_divide
+from .utils import safe_divide, safe_dist
 from .location import Location
 
 
@@ -66,6 +66,11 @@ class Agent:
         self.drug_type = du
         self.location = location
 
+        if self.drug_type == "Inj":
+            self.population = "PWID"
+        else:
+            self.population = self.sex_type
+
         self.msmw = False
         self.sex_role = "versatile"
 
@@ -90,6 +95,7 @@ class Agent:
         self.prep_adherence = 0
         self.prep_reason: List[str] = []
         self.intervention_ever = False
+        self.random_trial_enrolled = False
         self.vaccine = False
         self.vaccine_time = 0
         self.vaccine_type = ""
@@ -141,10 +147,13 @@ class Agent:
     def __hash__(self):
         return self.id
 
-    def iter_partners(self):
+    def iter_partners(self) -> Iterable["Agent"]:
         for partner_set in self.partners.values():
             for partner in partner_set:
                 yield partner
+
+    def has_partners(self) -> bool:
+        return any(self.iter_partners())
 
     def get_acute_status(self, acute_time_period) -> bool:
         """
@@ -203,7 +212,6 @@ class Agent:
     def enroll_prep(self, rand_gen):
         params = self.location.params
         self.prep = True
-        self.intervention_ever = True
         self.prep_load = params.prep.peak_load
         self.prep_last_dose = 0
 
@@ -268,6 +276,19 @@ class Agent:
         self.vaccine_type = vax
         self.vaccine_time = 1
 
+    def get_partners(self, bond_types: Optional[Iterable[str]] = None) -> Set["Agent"]:
+        if bond_types:
+            partners = set()
+            for bond in bond_types:
+                partners.update(self.partners[bond])
+        else:
+            partners = {partner for partner in self.iter_partners()}
+
+        return partners
+
+    def get_num_partners(self, bond_types: Optional[Iterable[str]] = None) -> int:
+        return len(self.get_partners(bond_types))
+
     def get_number_of_sex_acts(self, rand_gen) -> int:
         """
         :Purpose:
@@ -280,19 +301,22 @@ class Agent:
             number_sex_act : int
         """
         freq_params = self.location.params.partnership.sex.frequency
-        rv = rand_gen.random()
+        if freq_params.type == "bins":
+            rv = rand_gen.random()
 
-        for i in range(1, 6):
-            p = freq_params[i].prob
-            if rv <= p:
-                min_frequency = freq_params[i].min
-                max_frequency = freq_params[i].max
-                return rand_gen.randrange(min_frequency, max_frequency, 1)
+            for i in range(1, 6):
+                p = freq_params.bins[i].prob
+                if rv <= p:
+                    break
 
-        # fallthrough is last i
-        min_frequency = freq_params[i].min
-        max_frequency = freq_params[i].max
-        return rand_gen.randrange(min_frequency, max_frequency, 1)
+            min_frequency = freq_params.bins[i].min
+            max_frequency = freq_params.bins[i].max
+            return rand_gen.randint(min_frequency, max_frequency)
+
+        elif freq_params.type == "distribution":
+            return round(safe_dist(freq_params.distribution, rand_gen))
+        else:
+            raise Exception("Sex acts must be defined as bin or distribution")
 
 
 class Relationship:
@@ -425,9 +449,7 @@ class AgentSet:
     hierarchical  level.
     """
 
-    def __init__(
-        self, id: str, parent: "AgentSet" = None,
-    ):
+    def __init__(self, id: str, parent: "AgentSet" = None):
         # _members stores agent set members in a dictionary keyed by ID
         self.id = id
         self.members: Set[Agent] = set()

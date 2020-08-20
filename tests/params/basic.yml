@@ -766,6 +766,23 @@ demographics:
           prob: 0.1
 
 partnership:
+  pca:
+    frequency:
+      Sex:
+        1:
+          prob: 1.0
+          min: 1.0
+          max: 1.0
+      SexInj:
+        1:
+          prob: 1.0
+          min: 1.0
+          max: 1.0
+      Inj:
+        1:
+          prob: 1.0
+          min: 1.0
+          max: 1.0
   sex:
     acquisition:
       HM:
@@ -833,6 +850,9 @@ partnership:
 
 prep:
   target: 0.1
+  pca:
+    awareness:
+      prob: 1.0
 
 syringe_services:
   timeline:
@@ -881,3 +901,7 @@ location:
       demographics|white|WSW|aids|init:
         field: override
         override: 1
+
+msmw:
+  hiv:
+    prob: 1.0
