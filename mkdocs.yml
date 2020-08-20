@@ -32,6 +32,7 @@ nav:
     - Installation: getting_started.md
     - Running locally: run_local.md
     - Running on Oscar: run_oscar.md
+    - Contributing: contributing.md
   - API Reference:
     - Agent: api/agent.md
     - AgentSet: api/agent_set.md
