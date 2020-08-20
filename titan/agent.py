@@ -5,6 +5,7 @@ from typing import List, Dict, Set, Optional, Iterable
 
 from .parse_params import ObjMap
 from .utils import safe_divide, safe_dist
+from .location import Location
 
 
 class Agent:
@@ -13,10 +14,11 @@ class Agent:
         This class constructs and represents an agent within the population
 
     :Input:
-        SO : str - Sexual orientation flag (HM, HF, MSM)
+        SO : str - sex type flag (HM, HF, MSM)
         age : int - Agents initialization age
         race : str - Race of agent
         DU : str - Drug use flag (IDU, NIDU, NDU)
+        location : Location - the location where the agent "lives"
     """
 
     # class variable for agent creation
@@ -26,7 +28,15 @@ class Agent:
     def update_id_counter(cls, last_id):
         cls.next_agent_id = last_id + 1
 
-    def __init__(self, so: str, age: int, race: str, du: str, id: Optional[int] = None):
+    def __init__(
+        self,
+        so: str,
+        age: int,
+        race: str,
+        du: str,
+        location: Location,
+        id: Optional[int] = None,
+    ):
         """
         Initialize an agent based on given properties
 
@@ -54,6 +64,7 @@ class Agent:
         self.age_bin = 0
         self.race = race
         self.drug_type = du
+        self.location = location
 
         if self.drug_type == "Inj":
             self.population = "PWID"
@@ -198,7 +209,8 @@ class Agent:
 
         return eligible
 
-    def enroll_prep(self, params: ObjMap, rand_gen):
+    def enroll_prep(self, rand_gen):
+        params = self.location.params
         self.prep = True
         self.prep_load = params.prep.peak_load
         self.prep_last_dose = 0
@@ -220,7 +232,7 @@ class Agent:
         else:
             self.prep_type = params.prep.type[0]
 
-    def update_prep_load(self, params: ObjMap):
+    def update_prep_load(self):
         """
         :Purpose:
             Determine and update load of PrEP concentration in agent.
@@ -231,6 +243,7 @@ class Agent:
         :Output:
             none
         """
+        params = self.location.params
         # N(t) = N0 (0.5)^(t/t_half)
         self.prep_last_dose += 1
         if self.prep_last_dose > params.model.time.steps_per_year:
@@ -263,7 +276,7 @@ class Agent:
         self.vaccine_type = vax
         self.vaccine_time = 1
 
-    def get_partners(self, bond_types=None):
+    def get_partners(self, bond_types: Optional[Iterable[str]] = None) -> Set["Agent"]:
         if bond_types:
             partners = set()
             for bond in bond_types:
@@ -273,10 +286,10 @@ class Agent:
 
         return partners
 
-    def get_num_partners(self, bond_types=None):
+    def get_num_partners(self, bond_types: Optional[Iterable[str]] = None) -> int:
         return len(self.get_partners(bond_types))
 
-    def get_number_of_sex_acts(self, rand_gen, params: ObjMap) -> int:
+    def get_number_of_sex_acts(self, rand_gen) -> int:
         """
         :Purpose:
             Number of sexActs an agent has done.
@@ -287,22 +300,21 @@ class Agent:
         :Output:
             number_sex_act : int
         """
-        if params.partnership.sex.frequency.type == "bins":
+        freq_params = self.location.params.partnership.sex.frequency
+        if freq_params.type == "bins":
             rv = rand_gen.random()
 
             for i in range(1, 6):
-                p = params.partnership.sex.frequency.bins[i].prob
+                p = freq_params.bins[i].prob
                 if rv <= p:
                     break
 
-            min_frequency = params.partnership.sex.frequency.bins[i].min
-            max_frequency = params.partnership.sex.frequency.bins[i].max
+            min_frequency = freq_params.bins[i].min
+            max_frequency = freq_params.bins[i].max
             return rand_gen.randint(min_frequency, max_frequency)
 
-        elif params.partnership.sex.frequency.type == "distribution":
-            return round(
-                safe_dist(params.partnership.sex.frequency.distribution, rand_gen)
-            )
+        elif freq_params.type == "distribution":
+            return round(safe_dist(freq_params.distribution, rand_gen))
         else:
             raise Exception("Sex acts must be defined as bin or distribution")
 

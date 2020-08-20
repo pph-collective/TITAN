@@ -1,0 +1,50 @@
+location:
+  scaling:
+    type: sub-dict
+    description: "Parameters controlling location-specific scaling of other parameters"
+    keys:
+      - locations
+    default:
+      type: definition
+      description: "Definition of applying a scalar to a parameter.  The parameter should be the definition name with pipes instead of dots (e.g. `prep.target` would be `prep|target`). Some parameter categories can't be scaled, these include: model, classes, features, calibration, outputs, agent_zero, syringe_services, location.  Additionally, some fields within otherwise scalable categories cannot be changed by location if their use is not tied to a specific agent (e.g. prep.pca.choice, prep.random_trial). When a parameter is related to the interaction of an agent and a partner, the params of the location where the agent lives is typically used unless the parameter use clearly relates to the partner."
+      fields:
+        field:
+          type: enum
+          default: scalar
+          values:
+            - scalar
+            - override
+          description: Which of the other fields in this definition to use for adjusting the param value
+        scalar:
+          type: float
+          description: Scalar to apply to the param for this location
+          default: 1.0
+          min: 0
+        override:
+          type: any
+          description: Override the generic param value with this value. Note, there will be no checking that this value is valid - be careful when overriding a value.
+          default: not a value
+      default:
+        ls_default: # reserved name to skip scaling in the default scenario
+          scalar: 1.0
+  edges:
+    type: definition
+    description: Definition of an edge (relationship) between two locations
+    fields:
+      location_1:
+        type: enum
+        default: world
+        class: locations
+      location_2:
+        type: enum
+        default: world
+        class: locations
+      distance:
+        type: float
+        default: 0
+        min: 0
+    default:
+      edge_default: # reserved name to skip making an edge in the default scenario
+        location_1: world
+        location_2: world # note this won't actually work, as a location can't have an edge with itself
+        distance: 0

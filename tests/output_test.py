@@ -11,8 +11,8 @@ from titan import agent
 
 
 @pytest.fixture
-def stats(params):
-    a = agent.Agent("MSM", 20, "black", "Inj")
+def stats(params, world_location):
+    a = agent.Agent("MSM", 20, "black", "Inj", world_location)
     a.hiv = True
     a.aids = True
     a.hiv_dx = True
@@ -25,7 +25,7 @@ def stats(params):
     a.incar = True
     a.prep_reason = ["PWID", "MSMW", "HIV test"]
 
-    p = agent.Agent("MSM", 20, "black", "Inj")
+    p = agent.Agent("MSM", 20, "black", "Inj", world_location)
     p.partners["Sex"] = set()
     a.partners["Sex"] = set()
     rel = agent.Relationship(a, p, 12, bond_type="Sex")
@@ -51,32 +51,32 @@ def stats(params):
 
 @pytest.mark.unit
 def test_get_stats(stats):
-    assert stats["black"]["MSM"]["numAgents"] == 1
-    assert stats["white"]["MSM"]["numAgents"] == 0
-    assert stats["black"]["MSM"]["incar"] == 1
-    assert stats["black"]["MSM"]["incarHIV"] == 1
-    assert stats["black"]["MSM"]["newRelease"] == 1
-    assert stats["black"]["MSM"]["newReleaseHIV"] == 1
-    assert stats["black"]["MSM"]["inf_newInf"] == 1
-    assert stats["black"]["MSM"]["inf_HRever"] == 1
-    assert stats["black"]["MSM"]["inf_HR6m"] == 1
-    assert stats["black"]["MSM"]["numPrEP"] == 1
-    assert stats["black"]["MSM"]["iduPartPrep"] == 1
-    assert stats["black"]["MSM"]["msmwPartPrep"] == 1
-    assert stats["black"]["MSM"]["testedPartPrep"] == 1
-    assert stats["black"]["MSM"]["newNumPrEP"] == 1
-    assert stats["black"]["MSM"]["newlyDiagnosed"] == 1
-    assert stats["black"]["MSM"]["newHR"] == 1
-    assert stats["black"]["MSM"]["newHR_HIV"] == 1
-    assert stats["black"]["MSM"]["newHR_AIDS"] == 1
-    assert stats["black"]["MSM"]["newHR_tested"] == 1
-    assert stats["black"]["MSM"]["newHR_ART"] == 1
-    assert stats["black"]["MSM"]["numHIV"] == 1
-    assert stats["black"]["MSM"]["numAIDS"] == 1
-    assert stats["black"]["MSM"]["numDiagnosed"] == 1
-    assert stats["black"]["MSM"]["numART"] == 1
-    assert stats["black"]["MSM"]["deaths"] == 1
-    assert stats["black"]["MSM"]["deaths_HIV"] == 1
+    assert stats["world"]["black"]["MSM"]["numAgents"] == 1
+    assert stats["world"]["white"]["MSM"]["numAgents"] == 0
+    assert stats["world"]["black"]["MSM"]["incar"] == 1
+    assert stats["world"]["black"]["MSM"]["incarHIV"] == 1
+    assert stats["world"]["black"]["MSM"]["newRelease"] == 1
+    assert stats["world"]["black"]["MSM"]["newReleaseHIV"] == 1
+    assert stats["world"]["black"]["MSM"]["inf_newInf"] == 1
+    assert stats["world"]["black"]["MSM"]["inf_HRever"] == 1
+    assert stats["world"]["black"]["MSM"]["inf_HR6m"] == 1
+    assert stats["world"]["black"]["MSM"]["numPrEP"] == 1
+    assert stats["world"]["black"]["MSM"]["iduPartPrep"] == 1
+    assert stats["world"]["black"]["MSM"]["msmwPartPrep"] == 1
+    assert stats["world"]["black"]["MSM"]["testedPartPrep"] == 1
+    assert stats["world"]["black"]["MSM"]["newNumPrEP"] == 1
+    assert stats["world"]["black"]["MSM"]["newlyDiagnosed"] == 1
+    assert stats["world"]["black"]["MSM"]["newHR"] == 1
+    assert stats["world"]["black"]["MSM"]["newHR_HIV"] == 1
+    assert stats["world"]["black"]["MSM"]["newHR_AIDS"] == 1
+    assert stats["world"]["black"]["MSM"]["newHR_tested"] == 1
+    assert stats["world"]["black"]["MSM"]["newHR_ART"] == 1
+    assert stats["world"]["black"]["MSM"]["numHIV"] == 1
+    assert stats["world"]["black"]["MSM"]["numAIDS"] == 1
+    assert stats["world"]["black"]["MSM"]["numDiagnosed"] == 1
+    assert stats["world"]["black"]["MSM"]["numART"] == 1
+    assert stats["world"]["black"]["MSM"]["deaths"] == 1
+    assert stats["world"]["black"]["MSM"]["deaths_HIV"] == 1
 
 
 @pytest.mark.unit

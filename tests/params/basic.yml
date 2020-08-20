@@ -871,6 +871,7 @@ outputs:
   network:
     calc_component_stats: true
   classes:
+    - locations
     - races
     - sex_types
 features:
@@ -893,6 +894,13 @@ model:
   network:
     enable: true
   num_reps: 1
+
+location:
+  scaling:
+    world:
+      demographics|white|WSW|aids|init:
+        field: override
+        override: 1
 
 msmw:
   hiv:
