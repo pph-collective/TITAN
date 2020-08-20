@@ -293,6 +293,7 @@ class HIVModel:
                         elif agent.prep_eligible(
                             self.prep.target_model,
                             self.params.partnership.ongoing_duration,
+                            self.params.classes.sex_types[agent.sex_type],
                         ):
                             self.initiate_prep(agent)
 
@@ -1311,7 +1312,9 @@ class HIVModel:
                 num_prep_agents < target_prep
                 and self.time >= self.prep.start
                 and agent.prep_eligible(
-                    self.prep.target_model, self.params.partnership.ongoing_duration
+                    self.prep.target_model,
+                    self.params.partnership.ongoing_duration,
+                    self.params.classes.sex_types[agent.sex_type],
                 )
             ):
                 enroll_prep(self, agent)

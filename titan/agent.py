@@ -160,43 +160,83 @@ class Agent:
         else:
             return False
 
-    def prep_eligible(self, target_model: set, ongoing_duration: int) -> bool:
+    def cdc_eligible(self, ongoing_duration: int, sex_def) -> bool:
         """
-        :Purpose:
-            Determine if an agent is eligible for PrEP
+        Determine agent eligibility for PrEP under CDC criteria
 
-        :Input:
-            time : int
+        args:
+            ongoing_duration: Number of time steps above which a relationship is considered ongoing [params.partnership.ongoing_duration]
+            sex_def: definition of agent's sex type [param.classes.sex_type]
 
-        :Output:
-            eligibility : bool
+        returns:
+            cdc eligibility
+        """
+        for rel in self.relationships:
+            if rel.duration > ongoing_duration:
+                partner = rel.get_partner(self)
+                if partner.drug_type == "Inj":
+                    eligible = True
+                    self.prep_reason.append("PWID")
+                if partner.hiv_dx:
+                    eligible = True
+                    self.prep_reason.append("HIV test")
+                if partner.msmw:
+                    eligible = True
+                    self.prep_reason.append("MSMW")
+
+        if sex_def.gender == "M":
+            if "MSM" in sex_def.sleeps_with:
+                eligible = True
+
+        return eligible
+
+    def prep_eligible(self, target_model: set, ongoing_duration: int, sex_def) -> bool:
+        """
+            Determine if an agent is eligible for PrEP under target model
+
+        args:
+            target_model: Model of prep allocation [params.prep.target_model]
+            ongoing_duration: Number of time steps above which a relationship is considered ongoing [params.partnership.ongoing_duration]
+            sex_def: definition of agent's sex type [param.classes.sex_type]
+
+        returns
+            eligibility
         """
         # if agent is already on prep, not eligible to enroll
         if self.prep:
             return False
 
-        eligible = False
         if target_model.intersection({"Allcomers", "Racial"}):
-            eligible = True
-        elif "CDCwomen" in target_model:
-            if self.sex_type == "HF":
-                for rel in self.relationships:
-                    partner = rel.get_partner(self)
-                    if rel.duration > ongoing_duration:
-                        if partner.drug_type == "Inj":
-                            eligible = True
-                            self.prep_reason.append("PWID")
-                        if partner.hiv_dx:
-                            eligible = True
-                            self.prep_reason.append("HIV test")
-                        if partner.msmw:
-                            eligible = True
-                            self.prep_reason.append("MSMW")
-        elif "MSM" in target_model:
-            if self.sex_type in ("MSM", "MTF"):
-                eligible = True
+            return True
 
-        return eligible
+        if "cdc_women" in target_model:
+            if self.sex_type == "HF":
+                if self.cdc_eligible(ongoing_duration, sex_def):
+                    return True
+
+        if "cdc_msm" in target_model:
+            if self.sex_type in ("MSM", "MTF") and self.cdc_eligible(
+                ongoing_duration, sex_def
+            ):
+                return True
+
+        if "pwid_sex" in target_model:
+            if self.drug_type == "Inj" and self.cdc_eligible(ongoing_duration, sex_def):
+                return True
+
+        if "pwid" in target_model:
+            if self.drug_type == "Inj":
+                return True
+
+        if "ssp_sex" in target_model:
+            if self.ssp and self.cdc_eligible(ongoing_duration, sex_def):
+                return True
+
+        if "ssp" in target_model:
+            if self.ssp:
+                return True
+
+        return False
 
     def enroll_prep(self, params: ObjMap, rand_gen):
         self.prep = True

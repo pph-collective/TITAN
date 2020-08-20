@@ -35,14 +35,15 @@ prep:
     default:
       - Allcomers
     values:
-      - CDCwomen
       - Allcomers
-      - HighPN5
-      - HighPN10
-      - SR
+      - cdc_women
+      - cdc_msm
+      - pwid
+      - pwid_sex
       - Racial
       - RandomTrial
-      - MSM
+      - ssp
+      - ssp_sex
     description: which model to use to determine who is enrolled in PrEP
     type: array
   half_life:
