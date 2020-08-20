@@ -5,7 +5,7 @@ from .location import Location
 
 
 @utils.memo
-def adherence_prob(adherence: int):
+def adherence_prob(adherence: int) -> float:
     """
     Mapping from HAART adherence levels to probabilities.
 
@@ -38,7 +38,7 @@ def get_death_rate(
     race: str,
     location: Location,
     steps_per_year: int,
-):
+) -> float:
     """
     Find the death rate of an agent given a set of attributes.
 
@@ -48,8 +48,11 @@ def get_death_rate(
         drug_type: whether the PWID base death rate should be used or the base one
         haart_adh: level of HAART adherence
         race: the race of the agent
-        param: demographic params
+        location: agent's location
         steps_per_year: the number of model steps in a year
+
+    returns:
+        the probability of an agent with these characteristics dying in a given time step
     """
     param = location.params.demographics
 

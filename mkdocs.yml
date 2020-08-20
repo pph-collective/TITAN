@@ -35,6 +35,7 @@ nav:
   - API Reference:
     - Agent: api/agent.md
     - AgentSet: api/agent_set.md
+    - Location: api/location.md
     - Model: api/model.md
     - NetworkGraphUtils: api/network.md
     - Population: api/population.md

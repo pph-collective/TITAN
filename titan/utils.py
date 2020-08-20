@@ -1,8 +1,9 @@
 import random
 from functools import wraps
-from typing import TypeVar, Optional, Collection
+from typing import TypeVar, Optional, Collection, Union
 
 from . import distributions
+from .parse_params import ObjMap
 
 
 def get_check_rand_int(seed: int) -> int:
@@ -66,7 +67,7 @@ def safe_random_choice(seq: Collection[T], rand_gen, weights=None) -> Optional[T
     return choices[0]
 
 
-def safe_shuffle(seq: Collection[T], rand_gen):
+def safe_shuffle(seq: Collection[T], rand_gen) -> Optional[Collection[T]]:
     """
     Return None or a shuffled sequence
 
@@ -88,7 +89,7 @@ def safe_shuffle(seq: Collection[T], rand_gen):
         return None
 
 
-def safe_dist(dist_info, rand_gen):
+def safe_dist(dist_info: ObjMap, rand_gen) -> Union[int, float]:
     """
     Draw a value from a distribution as defined in `dist_info`.
 

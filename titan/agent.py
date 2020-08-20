@@ -310,7 +310,6 @@ class Agent:
 
         args:
             rand_gen: random number generator (e.g. self.run_random in model)
-            params: model parameters
 
         returns:
             number of sex acts
