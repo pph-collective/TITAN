@@ -50,10 +50,10 @@ model:
       type: enum
       values:
         - scale_free
-        - max_k_comp_size
+        - comp_size
     component_size:
       max:
         default: 100
-        description: Largest allowable size of a sub-graph in the network at initialization with max_k_comp_size
+        description: Largest allowable size of a sub-graph in the network with comp_size
         type: int
         min: 1

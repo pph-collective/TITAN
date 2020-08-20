@@ -4,7 +4,7 @@
 from typing import List, Dict, Set, Optional, Iterator
 
 from .parse_params import ObjMap
-from .utils import safe_divide
+from .utils import safe_divide, safe_dist
 
 
 class Agent:
@@ -52,6 +52,11 @@ class Agent:
         self.race = race
         self.drug_type = drug_use
 
+        if self.drug_type == "Inj":
+            self.population = "PWID"
+        else:
+            self.population = self.sex_type
+
         self.msmw = False
         self.sex_role = "versatile"
 
@@ -76,6 +81,7 @@ class Agent:
         self.prep_adherence = 0
         self.prep_reason: List[str] = []
         self.intervention_ever = False
+        self.random_trial_enrolled = False
         self.vaccine = False
         self.vaccine_time = 0
         self.vaccine_type = ""
@@ -138,7 +144,16 @@ class Agent:
             for partner in partner_set:
                 yield partner
 
-    def get_acute_status(self, acute_time_period: int) -> bool:
+    def has_partners(self) -> bool:
+        """
+        Get whether an agent has any partners
+
+        returns:
+            whether an agent has at least one partner
+        """
+        return any(self.iter_partners())
+
+    def get_acute_status(self, acute_time_period) -> bool:
         """
         Get acute status of agent at time period
 
@@ -202,7 +217,6 @@ class Agent:
             rand_gen: random number generator
         """
         self.prep = True
-        self.intervention_ever = True
         self.prep_load = params.prep.peak_load
         self.prep_last_dose = 0
 
@@ -258,6 +272,19 @@ class Agent:
         self.vaccine_type = vax
         self.vaccine_time = 1
 
+    def get_partners(self, bond_types=None):
+        if bond_types:
+            partners = set()
+            for bond in bond_types:
+                partners.update(self.partners[bond])
+        else:
+            partners = {partner for partner in self.iter_partners()}
+
+        return partners
+
+    def get_num_partners(self, bond_types=None):
+        return len(self.get_partners(bond_types))
+
     def get_number_of_sex_acts(self, rand_gen, params: ObjMap) -> int:
         """
         Number of sexActs an agent has done.
@@ -269,19 +296,24 @@ class Agent:
         returns:
             number of sex acts
         """
-        rv = rand_gen.random()
+        if params.partnership.sex.frequency.type == "bins":
+            rv = rand_gen.random()
 
-        for i in range(1, 6):
-            p = params.partnership.sex.frequency[i].prob
-            if rv <= p:
-                min_frequency = params.partnership.sex.frequency[i].min
-                max_frequency = params.partnership.sex.frequency[i].max
-                return rand_gen.randrange(min_frequency, max_frequency, 1)
+            for i in range(1, 6):
+                p = params.partnership.sex.frequency.bins[i].prob
+                if rv <= p:
+                    break
 
-        # fallthrough is last i
-        min_frequency = params.partnership.sex.frequency[i].min
-        max_frequency = params.partnership.sex.frequency[i].max
-        return rand_gen.randrange(min_frequency, max_frequency, 1)
+            min_frequency = params.partnership.sex.frequency.bins[i].min
+            max_frequency = params.partnership.sex.frequency.bins[i].max
+            return rand_gen.randint(min_frequency, max_frequency)
+
+        elif params.partnership.sex.frequency.type == "distribution":
+            return round(
+                safe_dist(params.partnership.sex.frequency.distribution, rand_gen)
+            )
+        else:
+            raise Exception("Sex acts must be defined as bin or distribution")
 
 
 class Relationship:
@@ -416,6 +448,7 @@ class AgentSet:
     Container for agents into heirarchical sets (e.g. all_agents > hiv_agents)
     """
 
+<<<<<<< HEAD
     def __init__(
         self, id: str, parent: Optional["AgentSet"] = None,
     ):
@@ -426,6 +459,9 @@ class AgentSet:
             id: name of the set
             parent: the set this set is a subset of
         """
+=======
+    def __init__(self, id: str, parent: "AgentSet" = None):
+>>>>>>> 5df7f3c63d44ae441f3f28ebf56ea4b3608b6dbc
         # _members stores agent set members in a dictionary keyed by ID
         self.id = id
         self.members: Set[Agent] = set()

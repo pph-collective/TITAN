@@ -138,7 +138,7 @@ def get_defn(key, d, key_path, param, pops):
         for field, defn in d["fields"].items():
             assert field in val, f"{field} must be in {val} [{key_path}]"
             val[field] = check_item(
-                val[field], defn, f"{key_path}.{field}", keys=parsed.keys(), pops=pops,
+                val[field], defn, f"{key_path}.{field}", keys=parsed.keys(), pops=pops
             )
 
     return parsed
@@ -248,7 +248,7 @@ def check_params(params):
 
         assert math.isclose(
             sex_type_pop, 1, abs_tol=0.001
-        ), f"ppl of {race}'s sex_types must add to 1"
+        ), f"ppl of {race}'s sex_types must add to 1. Currently adding to {sex_type_pop}"
 
     assert math.isclose(race_pop, 1, abs_tol=0.001), f"ppl of races must add to 1"
 

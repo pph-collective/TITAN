@@ -1,8 +1,14 @@
 *.pyc
 *.png
+*.tar.gz
+*.zip
 .idea/
 venv/
 venv/*
+python/
+python/*
+venv_pypy/
+venv_pypy/*
 
 __pycache__/
 __pycache__/*
@@ -24,3 +30,4 @@ results/*.txt
 results/*/*.txt
 
 profile.prof
+site/

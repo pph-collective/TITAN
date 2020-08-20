@@ -40,7 +40,8 @@ class NetworkGraphUtils:
             time: timestep the edgelist is being written at
         """
         file_path = os.path.join(path, f"{id}_Edgelist_t{time}.txt")
-        nx.write_edgelist(self.G, file_path, delimiter="|", data=False)
+        # Write edgelist with bond type
+        nx.write_edgelist(self.G, file_path, delimiter="|", data=["type"])
 
     def write_network_stats(self, path: str, id, time):
         """
@@ -117,7 +118,7 @@ class NetworkGraphUtils:
             return node_color
 
         # hard coded coloring schemes
-        if coloring == "Tested":
+        if coloring == "Diagnosed":
             for v in G:
                 if v.haart:
                     node_color.append("g")
@@ -158,7 +159,7 @@ class NetworkGraphUtils:
         else:
             raise ValueError(
                 "coloring value invalid!\n{coloring}\n \
-            Only 'Tested', 'Trtmt', 'HR', 'HIV', or an Agent attribute allowed!"
+            Only 'Diagnosed', 'Trtmt', 'HR', 'HIV', or an Agent attribute allowed!"
             )
 
         return node_color

@@ -1,40 +1,69 @@
 partnership:
   sex:
     frequency:
-      type: bin
-      description: "Binned probabilities of number of sex acts of a partnership at a given time step"
-      fields:
-        prob:
-          type: float
-          min: 0.0
-          max: 1.0
-        min:
-          type: int
-          min: 0
-        max:
-          type: int
-          min: 0
-      default:
-        1:
-          prob: 0.585
-          min: 1
-          max: 6
-        2:
-          prob: 0.701
-          min: 7
-          max: 12
-        3:
-          prob: 0.822
-          min: 13
-          max: 24
-        4:
-          prob: 0.882
-          min: 25
-          max: 36
-        5:
-          prob: 1.0
-          min: 37
-          max: 48
+      type:
+        type: enum
+        description: "Whether to use distribution or bins for frequency"
+        default: bins
+        values:
+          - bins
+          - distribution
+      bins:
+        type: bin
+        description: "Binned probabilities of frequencies"
+        fields:
+          prob:
+            type: float
+            min: 0.0
+            max: 1.0
+          min:
+            type: int
+            min: 0
+          max:
+            type: int
+            min: 0
+        default:
+          1:
+            prob: 0.585
+            min: 1
+            max: 6
+          2:
+            prob: 0.701
+            min: 7
+            max: 12
+          3:
+            prob: 0.822
+            min: 13
+            max: 24
+          4:
+            prob: 0.882
+            min: 25
+            max: 36
+          5:
+            prob: 1.0
+            min: 37
+            max: 48
+      distribution:
+        dist_type:
+          type: enum
+          description: "Type of distribution to use for partnerships if type is distribution. See https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator for function information"
+          class: distributions
+          default: poisson
+        vars:
+          type: bin
+          description: Pass values in order of bin keys to the distriubtion, starting at 1
+          fields:
+            value:
+              type: float
+            value_type:
+              type: enum
+              values:
+              - int
+              - float
+          default:
+            1:
+              value: 0
+              value_type: int
     haart_scaling:
       type: sub-dict
       description: "Scaling factor on HIV transmission for a given haart adherence"
@@ -133,50 +162,31 @@ partnership:
             scale: 0.2
           5:
             scale: 0.03
-  interaction:
-    type: sub-dict
-    keys:
-      - bond_types
-    description: Binned probabilities by relationship type of interaction at a given time step
-    default:
-      type: bin
-      description: Binned probabilities of interaction at a given time step
-      fields:
-        prob:
-          type: float
-          min: 0
-          max: 1
-        min:
-          type: int
-          min: 0
-        max:
-          type: int
-          min: 0
+  pca:
+    frequency:
+      type: sub-dict
+      description: frequency of knowledge/opinion dissemination acts for peer change agent module
+      keys:
+        - bond_types
       default:
-        1:
-          prob: 0.306
-          min: 0
-          max: 0
-        2:
-          prob: 0.144
-          min: 1
-          max: 1
-        3:
-          prob: 0.067
-          min: 2
-          max: 2
-        4:
-          prob: 0.106
-          min: 4
-          max: 4
-        5:
-          prob: 0.150
-          min: 5
-          max: 29
-        6:
-          prob: 1.0
-          min: 30
-          max: 30
+        type: bin
+        description: Number of pca interactions by bond type
+        fields:
+          prob:
+            type: float
+            min: 0.0
+            max: 1.0
+          min:
+            type: float
+            min: 0.0
+          max:
+            type: float
+            min: 0.0
+        default:
+          1:
+            prob: 1.0
+            min: 0.0
+            max: 0.0
   ongoing_duration:
     default: 1
     description: Relationship duration past which the relationship is considered "ongoing".  Used for CDCWomen and CDCmsm prep eligibility.
@@ -256,3 +266,11 @@ partnership:
             prob: 1.0
             min: 37
             max: 48
+  network:
+    same_component:
+      prob:
+        default: 0
+        type: float
+        description: Probability that for a given partnering attempt, the agent tries to partner with only other agents in their component. Otherwise, the agent tries to partner with agents from any component.  Network must be enabled.
+        min: 0
+        max: 1

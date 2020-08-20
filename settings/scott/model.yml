@@ -1,7 +1,11 @@
+outputs:
+  reports:
+    - basicReport
 model:
-  num_pop: 24110
+  num_pop: 14573
   time:
     num_steps: 60
+    burn_steps: 48
   network:
     enable: true
     type: scale_free
@@ -11,27 +15,82 @@ features:
   die_and_replace: true
   syringe_services: true
   agent_zero: true
-  partner_tracing: false
+  partner_tracing: true
+  timeline_scaling: true
+  assort_mix: true
 
 syringe_services:
   timeline:
+    ssp_ramp:
+      time_start: 1
+      time_stop: 4
+      num_slots_start: 0
+      num_slots_stop: 237
+      risk: 0.02
     ssp_on:
-      time_start: 15
+      time_start: 4
       time_stop: 121
-      num_slots_start: 277
-      num_slots_stop: 277
+      num_slots_start: 237
+      num_slots_stop: 237
       risk: 0.02
 
-
 agent_zero:
-  bond_type: Inj
   num_partners: 4
+  start_time: -47
+  fallback: true
 
 hiv:
   dx:
     risk_reduction:
-      sex: 0.27
+      sex: 0.19
   haart_cap: true
+  start: -48
+  init: -48
+  aids:
+    prob: 0.0029
+
+timeline_scaling:
+  timeline:
+    burn_scale:
+      parameter: calibration|test_frequency
+      time_start: -47
+      time_stop: 0
+      scalar: 0.0001
+    PWID_dx_scale:
+      parameter: demographics|white|PWID|hiv|dx|prob
+      time_start: -47
+      time_stop: 0
+      scalar: 0.0001
+    dx_new_agent_zero_PWID: # make init probability 0 after initial population creation
+      parameter: demographics|white|PWID|hiv|dx|init
+      time_start: -47
+      time_stop: 9999
+      scalar: 0
+    dx_new_agent_zero_HM: # make init probability 0 after initial population creation
+      parameter: demographics|white|HM|hiv|dx|init
+      time_start: -47
+      time_stop: 9999
+      scalar: 0
+    dx_new_agent_zero_HF: # make init probability 0 after initial population creation
+      parameter: demographics|white|HF|hiv|dx|init
+      time_start: -47
+      time_stop: 9999
+      scalar: 0
+    adh_prob_HF:  # make viral suppression probability 0.7 after initial pop creation
+      parameter: demographics|white|HF|haart|adherence
+      time_start: -47
+      time_stop: 9999
+      scalar: 0.7
+    adh_prob_HM:   # make viral suppression probability 0.7 after initial pop creation
+      parameter: demographics|white|HM|haart|adherence
+      time_start: -47
+      time_stop: 9999
+      scalar: 0.7
+    adh_prob_PWID:  # make viral suppression probability 0.7 after initial pop creation
+      parameter: demographics|white|PWID|haart|adherence
+      time_start: -47
+      time_stop: 9999
+      scalar: 0.7
 
 classes:
   sex_types:
@@ -62,3 +121,99 @@ classes:
   drug_types:
     - Inj
     - None
+partner_tracing:
+  bond_type:
+    - Sex
+    - Inj
+    - SexInj
+  start: 2
+  stop: 13
+  trace_duration: 1
+  prob: 1
+
+partnership:
+  sex:
+    acquisition:
+      HM:
+        insertive: 0.0004
+      HF:
+        receptive: 0.0011
+    frequency:
+      type: distribution
+      distribution:
+        dist_type: poisson
+        vars:
+          1:
+            value_type: float
+            value: 6.0
+    haart_scaling:
+      HM:
+        0:
+          prob: 0.83
+        1:
+          prob: 0.83
+        2:
+          prob: 0.83
+        3:
+          prob: 0.83
+        4:
+          prob: 0.06
+        5:
+          prob: 0.06
+      HF:
+        0:
+          prob: 0.83
+        1:
+          prob: 0.83
+        2:
+          prob: 0.83
+        3:
+          prob: 0.83
+        4:
+          prob: 0.06
+        5:
+          prob: 0.06
+  duration:
+    Sex:
+      type: distribution
+      distribution:
+        dist_type: set_value
+        vars:
+          1:
+            value: 12100
+            value_type: int
+        mean: 12100
+    SexInj:
+      type: distribution
+      distribution:
+        dist_type: set_value
+        vars:
+          1:
+            value: 121
+            value_type: int
+        mean: 121
+    Inj:
+      type: distribution
+      distribution:
+        dist_type: gamma
+        vars:
+          1:
+            value: 5.37
+            value_type: float
+          2:
+            value: 23.28
+            value_type: float
+        mean: 125
+assort_mix:
+  assort_pwid:
+    attribute: drug_type
+    agent_value: Inj
+    partner_values:
+      Inj: 0.80
+      __other__: 0.20
+  assort_ndu:
+    attribute: drug_type
+    agent_value: None
+    partner_values:
+      None: 1.0
+
