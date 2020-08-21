@@ -119,3 +119,14 @@ classes:
       - pert
       - set_value
       - randint
+  locations:
+    type: definition
+    description: Locations that exist within the model
+    fields:
+      ppl:
+        type: float
+        min: 0
+        max: 1.0
+    default:
+      world:
+        ppl: 1.0

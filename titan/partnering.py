@@ -5,6 +5,7 @@
 from typing import Optional, Dict, Set
 from copy import copy
 
+import numpy as np  # type: ignore
 
 from .agent import Agent, AgentSet
 from . import utils
@@ -110,6 +111,31 @@ def sex_possible(agent_sex_type: str, partner_sex_type: str, sex_types: ObjMap) 
     partner_match = partner_sex_type in sex_types[agent_sex_type].sleeps_with
 
     return agent_match and partner_match
+
+
+def get_mean_rel_duration(params: ObjMap):
+    """
+    Find the average partnership duration by bond type
+    """
+    mean_rel_duration: Dict[str, int] = {}
+    for bond in params.partnership.duration:
+        if params.partnership.duration[bond].type == "bins":
+            weights = []
+            vals = []
+            dur_bins = params.partnership.duration[bond].bins
+            for bins in dur_bins:
+                if bins > 1:
+                    weights.append(dur_bins[bins].prob - dur_bins[bins - 1].prob)
+                else:
+                    weights.append(dur_bins[bins].prob)
+                vals.append(np.average([dur_bins[bins].min, dur_bins[bins].max]))
+            mean_rel_duration[bond] = np.average(vals, weights=weights)
+        else:
+            mean_rel_duration[bond] = params.partnership.duration[
+                bond
+            ].distribution.mean
+
+    return mean_rel_duration
 
 
 def get_partnership_duration(params: ObjMap, rand_gen, bond_type) -> int:

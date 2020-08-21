@@ -1,6 +1,6 @@
 import os
 import csv
-from typing import Dict, Optional
+from typing import Dict
 from shutil import make_archive, unpack_archive
 from tempfile import mkdtemp
 import glob
@@ -8,17 +8,19 @@ import glob
 from .population import Population
 from .agent import Agent, Relationship
 from .parse_params import ObjMap
+from .location import Location
 
 # These attributes are the non-intervention attributes of an agent.  They are considered
 # "core" as they are assigned in creating an agent and are stable over time (likely
 # backwards compatible)
-core_attrs = [
+agent_core_attrs = [
     "id",
     "sex_type",
     "age",
     "age_bin",
     "race",
     "drug_type",
+    "location",
     "msmw",
     "sex_role",
     "mean_num_partners",
@@ -30,7 +32,7 @@ core_attrs = [
 ]
 
 # these are functionally saved in the relationships file and complicate the agent file
-exclude_attrs = ["partners", "relationships"]
+agent_exclude_attrs = ["partners", "relationships"]
 
 
 def write(
@@ -55,9 +57,9 @@ def write(
     if intervention_attrs:
         # get all attributes
         a = next(iter(pop.all_agents))
-        agent_attrs = [k for k in a.__dict__.keys() if k not in exclude_attrs]
+        agent_attrs = [k for k in a.__dict__.keys() if k not in agent_exclude_attrs]
     else:
-        agent_attrs = core_attrs
+        agent_attrs = agent_core_attrs
 
     with open(agent_file, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=agent_attrs)
@@ -101,7 +103,6 @@ def read(params: ObjMap, path: str) -> Population:
         unpack_archive(path, dir)
         path = dir
 
-    print(glob.glob(os.path.join(path, "*")))
     agent_file = glob.glob(os.path.join(path, "*_agents.csv"))[0]
     rel_file = glob.glob(os.path.join(path, "*_relationships.csv"))[0]
     assert os.path.isfile(agent_file), f"can't find agents.csv in {dir}"
@@ -118,7 +119,9 @@ def read(params: ObjMap, path: str) -> Population:
     with open(agent_file, newline="") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            a = create_agent(row, params.classes.bond_types.keys())
+            a = create_agent(
+                row, params.classes.bond_types.keys(), pop.geography.locations
+            )
             pop.add_agent(a)
 
     # update num_pop to actual population
@@ -134,16 +137,20 @@ def read(params: ObjMap, path: str) -> Population:
     return pop
 
 
-def create_agent(row: Dict[str, str], bond_types) -> Agent:
+def create_agent(
+    row: Dict[str, str], bond_types, locations: Dict[str, Location]
+) -> Agent:
     """
     Initialize an Agent from a row of the saved population
     """
-    init_attrs = ["sex_type", "age", "race", "drug_type", "id"]
+    init_attrs = ["sex_type", "age", "race", "drug_type", "id", "location"]
+    location = locations[eval(row["location"])]
     agent = Agent(
         eval(row["sex_type"]),
         eval(row["age"]),
         eval(row["race"]),
         eval(row["drug_type"]),
+        location,
         eval(row["id"]),
     )
 

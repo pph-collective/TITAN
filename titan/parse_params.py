@@ -4,6 +4,7 @@ import collections
 from inspect import currentframe, getframeinfo
 from pathlib import Path
 import math
+from copy import deepcopy
 
 
 class ObjMap(dict):
@@ -21,6 +22,9 @@ class ObjMap(dict):
     def __getattr__(self, k):
         return self.__getitem__(k)
 
+    def __setattr__(self, k, v):
+        return self.__setitem__(k, v)
+
     def __hash__(self):
         return 1234567890
 
@@ -29,6 +33,14 @@ class ObjMap(dict):
 
     def __setstate__(self, state):
         self.__dict__.update(state)
+
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        memo[id(self)] = result
+        for k, v in self.items():
+            result[k] = deepcopy(v, memo)
+        return result
 
 
 # ============== PARSING FUNCTIONS ======================
@@ -127,7 +139,7 @@ def get_defn(key, d, key_path, param, pops):
     """
     Get and validate a type == definition definition
     """
-    if key not in param:
+    if key not in param or param[key] == {}:
         parsed = d["default"]
     else:
         parsed = param[key]
@@ -135,7 +147,11 @@ def get_defn(key, d, key_path, param, pops):
     # check definitions
     for k, val in parsed.items():
         for field, defn in d["fields"].items():
-            assert field in val, f"{field} must be in {val} [{key_path}]"
+            if field not in val:
+                if "default" in defn:
+                    val[field] = defn["default"]
+                else:
+                    assert field in val, f"{field} must be in {val} [{key_path}]"
             val[field] = check_item(
                 val[field], defn, f"{key_path}.{field}", keys=parsed.keys(), pops=pops
             )
@@ -154,8 +170,11 @@ def parse_params(defs, params, key_path, pops):
         return params
 
     # handles case of bin as direct default item
-    if "default" in defs and defs["type"] == "bin":
-        return get_bins("dummy", defs, key_path, {"dummy": params}, pops)
+    if "default" in defs:
+        if defs["type"] == "bin":
+            return get_bins("dummy", defs, key_path, {"dummy": params}, pops)
+        elif defs["type"] == "definition":
+            return get_defn("dummy", defs, key_path, {"dummy": params}, pops)
 
     for k, v in defs.items():
         # assumes all v are dicts, as otherwise it would have returned
