@@ -1,6 +1,6 @@
 ## Population
 
-The `Population` class is used to represent the population of agents the model is running on.  On constructions, it stochastically creates the population described in the `params`.  At its core, it is a graph with nodes (`all_agents`) and edges (`relationships`), it can be formally backed by a NetworkX graph by enabling the graph in the prams file.  This allows for some graph-specific logic to be applied throughout the running of the model (e.g. trimming components, writing network statistics).
+The `Population` class is used to represent the population of agents the model is running on.  On construction, it stochastically creates the population described in the `params`.  At its core, it is a graph with nodes (`all_agents`) and edges (`relationships`), it can be formally backed by a NetworkX graph by enabling the graph in the prams file.  This allows for some graph-specific logic to be applied throughout the running of the model (e.g. trimming components, writing network statistics).
 
 ::: titan.population.Population
 
