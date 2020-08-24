@@ -7,7 +7,7 @@ To get started, install the requirements listed in the `requirements.txt` using 
 
 ## Installing the Dependencies
 
-In order for TITAN to run, you must install `Python3.x` and the necessary python packages listed in the `requirements.txt`. This can be done by using `pip` via:
+In order for TITAN to run, you must install `Python3.x` and the necessary python packages listed in the `requirements.txt`. Package installation can be done by using `pip` via:
 
 ```
 pip install -r requirements.txt
