@@ -182,6 +182,7 @@ class Agent:
         returns:
             cdc eligibility
         """
+        eligible = False
         for rel in self.relationships:
             if rel.duration > ongoing_duration:
                 partner = rel.get_partner(self)

@@ -109,6 +109,43 @@ def test_iter_partners(make_agent):
 
 
 @pytest.mark.unit
+def test_cdc_eligible(make_agent, make_relationship):
+    # test MSM
+    a = make_agent()
+    sex_def = ObjMap({"gender": "M", "sleeps_with": "MSM"})
+    assert a.cdc_eligible(1, sex_def)
+
+    # test WSW fail
+    sex_def = ObjMap({"gender": "F", "sleeps_with": "F"})
+    assert not a.cdc_eligible(1, sex_def)
+
+    # relationship no match
+    p = make_agent()
+    r = make_relationship(a, p)
+    assert not a.cdc_eligible(1, sex_def)
+
+    # relationship type matches
+    p.drug_type = "Inj"
+    assert a.cdc_eligible(1, sex_def)
+    assert a.prep_reason == ["PWID"]
+
+    p.hiv_dx = True
+    a.prep_reason = []
+    assert a.cdc_eligible(1, sex_def)
+    assert a.prep_reason == ["PWID", "HIV test"]
+
+    p.msmw = "True"
+    a.prep_reason = []
+    assert a.cdc_eligible(1, sex_def)
+    assert a.prep_reason == ["PWID", "HIV test", "MSMW"]
+
+    # ongoing duration fail
+    a.prep_reason = []
+    assert not a.cdc_eligible(10, sex_def)
+    assert a.prep_reason == []
+
+
+@pytest.mark.unit
 def test_enroll_prep_choice(make_agent, params):
     rand_gen = FakeRandom(-0.1)
     a = make_agent()
