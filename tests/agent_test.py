@@ -113,23 +113,25 @@ def test_cdc_eligible(make_agent, make_relationship):
     a = make_agent()
     p = make_agent()
     r = make_relationship(a, p)
-    assert a.cdc_eligible(1, a.location.params.classes.sex_types[a.sex_type])
+    assert a.cdc_eligible()
 
     # test WSW fail
-    a.sex_type = "WSW"
-    assert not a.cdc_eligible(1, a.location.params.classes.sex_types[a.sex_type])
+    a = make_agent(SO="WSW")
+    assert not a.is_msm()
+    assert not a.cdc_eligible()
 
     # relationship not eligible
-    p = make_agent()
+    p = make_agent(SO="HM")
     r = make_relationship(a, p)
-    assert not a.cdc_eligible(1, a.location.params.classes.sex_types[a.sex_type])
+    assert not a.cdc_eligible()
 
     # relationship eligible
-    p.drug_type = "Inj"
-    assert a.cdc_eligible(1, a.location.params.classes.sex_types[a.sex_type])
+    p.hiv_dx = True
+    assert a.cdc_eligible()
 
     # ongoing duration fail
-    assert not a.cdc_eligible(10, a.location.params.classes.sex_types[a.sex_type])
+    a.location.params.partnership.ongoing_duration = 10
+    assert not a.cdc_eligible()
 
 
 @pytest.mark.unit
@@ -145,6 +147,7 @@ def test_prep_eligible(make_agent, make_relationship):
     a.location.params.prep.target_model.append("cdc_women")
     assert not a.prep_eligible()
     r = make_relationship(a, p)
+    assert not p.is_msm()
     assert not a.prep_eligible()
     p.drug_type = "Inj"
     assert a.prep_eligible()
@@ -158,16 +161,16 @@ def test_prep_eligible(make_agent, make_relationship):
     # test cdc_msm
     a.location.params.prep.target_model = ["cdc_msm"]
     assert not a.prep_eligible()
-    mtf_agent = make_agent(SO="MTF")
-    make_relationship(mtf_agent, p)
-    assert mtf_agent.prep_eligible()
+    msm_agent = make_agent()
+    make_relationship(msm_agent, p)
+    assert msm_agent.prep_eligible()
 
     # test pwid
     a.location.params.prep.target_model = ["pwid"]
     assert not a.prep_eligible()
     assert not a.prep_eligible()
     assert p.prep_eligible()
-    p = make_agent(DU="Inj")
+    p = make_agent(DU="Inj", SO="HM")
     assert p.prep_eligible()  # still eligible without partners
 
     # test ssp
@@ -178,10 +181,8 @@ def test_prep_eligible(make_agent, make_relationship):
     assert p.prep_eligible()
 
     p.location.params.prep.target_model = ["ssp_sex"]
-    assert not p.relationships
-    assert not p.cdc_eligible(1, p.location.params.classes.sex_types[p.sex_type])
     assert not p.prep_eligible()
-    make_relationship(p, mtf_agent)
+    make_relationship(p, msm_agent)
     assert p.prep_eligible()
 
 

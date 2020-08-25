@@ -192,51 +192,52 @@ class Agent:
                 return True
         return False
 
-    def cdc_eligible(self, ongoing_duration: int, sex_def) -> bool:
+    def is_msm(self) -> bool:
+        """
+        Determine whether an agent is a man who can have sex with men
+
+        returns:
+            if agent is MSM
+        """
+        sex_dict = self.location.params.classes.sex_types
+        if sex_dict[self.sex_type].gender != "M":
+            return False
+
+        for sex_type in sex_dict[self.sex_type].sleeps_with:
+            if sex_dict[sex_type].gender == "M":
+                return True
+        return False
+
+    def cdc_eligible(self) -> bool:
         """
         Determine agent eligibility for PrEP under CDC criteria
-
-        args:
-            ongoing_duration: Number of time steps above which a relationship is considered ongoing [params.partnership.ongoing_duration]
-            sex_def: definition of agent's sex type [param.classes.sex_type]
 
         returns:
             cdc eligibility
         """
-        eligible = False
+        if self.is_msm():
+            return True
+
+        ongoing_duration = self.location.params.partnership.ongoing_duration
         for rel in self.relationships:
-            if rel.duration > ongoing_duration:
-                partner = rel.get_partner(self)
-                if partner.drug_type == "Inj":
-                    eligible = True
-                if partner.hiv_dx:
-                    eligible = True
-                if partner.msmw:
-                    eligible = True
+            partner = rel.get_partner(self)
+            if rel.duration > ongoing_duration and partner.hiv_dx:
+                return True
 
-        # TODO: change this over to is_male
-        if sex_def.gender == "M" or (
-            sex_def.gender == "F" and sex_def.cis_trans == "trans"
-        ):
-            if self.has_male_partner():
-                eligible = True
+            if partner.drug_type == "Inj" or partner.is_msm():
+                return True
 
-        return eligible
+        return False
 
     def prep_eligible(self) -> bool:
         """
         Determine if an agent is eligible for PrEP
 
-        args:
-            target_model: Model of prep allocation [params.prep.target_model]
-            ongoing_duration: Number of time steps above which a relationship is considered ongoing [params.partnership.ongoing_duration]
-
         returns:
-            eligibility
+            prep eligibility
         """
         target_model = self.location.params.prep.target_model
-        sex_def = self.location.params.classes.sex_types[self.sex_type]
-        ongoing_duration = self.location.params.partnership.ongoing_duration
+        gender = self.location.params.classes.sex_types[self.sex_type].gender
         # if agent is already on prep, not eligible to enroll
         if self.prep or self.vaccine:
             return False
@@ -247,18 +248,16 @@ class Agent:
             return True
 
         if "cdc_women" in target_model:
-            if self.sex_type == "HF":
-                if self.cdc_eligible(ongoing_duration, sex_def):
+            if gender == "F":
+                if self.cdc_eligible():
                     return True
 
         if "cdc_msm" in target_model:
-            if self.sex_type in ("MSM", "MTF") and self.cdc_eligible(
-                ongoing_duration, sex_def
-            ):
+            if gender == "M" and self.cdc_eligible():
                 return True
 
         if "pwid_sex" in target_model:
-            if self.drug_type == "Inj" and self.cdc_eligible(ongoing_duration, sex_def):
+            if self.drug_type == "Inj" and self.cdc_eligible():
                 return True
 
         if "pwid" in target_model:
@@ -266,7 +265,7 @@ class Agent:
                 return True
 
         if "ssp_sex" in target_model:
-            if self.ssp and self.cdc_eligible(ongoing_duration, sex_def):
+            if self.ssp and self.cdc_eligible():
                 return True
 
         if "ssp" in target_model:
