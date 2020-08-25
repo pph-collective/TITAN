@@ -310,11 +310,7 @@ class HIVModel:
                     if self.time >= agent.location.params.prep.start:
                         if agent.prep:
                             self.discontinue_prep(agent)
-                        elif agent.prep_eligible(
-                            agent.location.params.prep.target_model,
-                            agent.location.params.partnership.ongoing_duration,
-                            agent.location.params.classes.sex_types[agent.sex_type],
-                        ):
+                        elif agent.prep_eligible():
                             self.initiate_prep(agent)
 
                     if self.features.vaccine and not agent.prep:
@@ -1201,7 +1197,6 @@ class HIVModel:
         if force:
             self.pop.prep_counts[agent.race] -= 1
             agent.prep = False
-            agent.prep_reason = []
             agent.prep_load = 0.0
             agent.prep_last_dose = 0
             return None
@@ -1217,7 +1212,6 @@ class HIVModel:
             self.pop.prep_counts[agent.race] -= 1
             agent.prep = False
             agent.prep_type = ""
-            agent.prep_reason = []
 
         if agent.prep_type == "Inj":
             agent.update_prep_load()
@@ -1307,11 +1301,7 @@ class HIVModel:
             if (
                 num_prep_agents < target_prep
                 and self.time >= agent.location.params.prep.start
-                and agent.prep_eligible(
-                    agent.location.params.prep.target_model,
-                    agent.location.params.partnership.ongoing_duration,
-                    agent.location.params.classes.sex_types[agent.sex_type],
-                )
+                and agent.prep_eligible()
             ):
                 enroll_prep(self, agent)
 

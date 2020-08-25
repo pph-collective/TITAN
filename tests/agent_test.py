@@ -39,7 +39,6 @@ def test_agent_init(make_agent):
     assert a.haart_adherence == 0
     assert a.ssp is False
     assert a.intervention_ever is False
-    assert a.prep_reason == []
     assert a.vaccine_time == 0
     assert a.vaccine_type == ""
     assert a.partner_traced is False
@@ -112,79 +111,78 @@ def test_iter_partners(make_agent):
 def test_cdc_eligible(make_agent, make_relationship):
     # test MSM
     a = make_agent()
-    sex_def = ObjMap({"gender": "M", "sleeps_with": "MSM"})
-    assert a.cdc_eligible(1, sex_def)
-
-    # test WSW fail
-    sex_def = ObjMap({"gender": "F", "sleeps_with": "F"})
-    assert not a.cdc_eligible(1, sex_def)
-
-    # relationship no match
     p = make_agent()
     r = make_relationship(a, p)
-    assert not a.cdc_eligible(1, sex_def)
+    assert a.cdc_eligible(1, a.location.params.classes.sex_types[a.sex_type])
 
-    # relationship type matches
+    # test WSW fail
+    a.sex_type = "WSW"
+    assert not a.cdc_eligible(1, a.location.params.classes.sex_types[a.sex_type])
+
+    # relationship not eligible
+    p = make_agent()
+    r = make_relationship(a, p)
+    assert not a.cdc_eligible(1, a.location.params.classes.sex_types[a.sex_type])
+
+    # relationship eligible
     p.drug_type = "Inj"
-    assert a.cdc_eligible(1, sex_def)
-    assert a.prep_reason == ["PWID"]
-
-    p.hiv_dx = True
-    a.prep_reason = []
-    assert a.cdc_eligible(1, sex_def)
-    assert a.prep_reason == ["PWID", "HIV test"]
-
-    p.msmw = "True"
-    a.prep_reason = []
-    assert a.cdc_eligible(1, sex_def)
-    assert a.prep_reason == ["PWID", "HIV test", "MSMW"]
+    assert a.cdc_eligible(1, a.location.params.classes.sex_types[a.sex_type])
 
     # ongoing duration fail
-    a.prep_reason = []
-    assert not a.cdc_eligible(10, sex_def)
-    assert a.prep_reason == []
+    assert not a.cdc_eligible(10, a.location.params.classes.sex_types[a.sex_type])
 
 
 @pytest.mark.unit
 def test_prep_eligible(make_agent, make_relationship):
     a = make_agent(SO="HF")
     p = make_agent(SO="HM")
-    sex_def_F = ObjMap({"gender": "F", "sleeps_with": "HM"})
-    sex_def_MSM = ObjMap({"gender": "M", "sleeps_with": "MSM"})
 
     # test no model
-    assert not a.prep_eligible([], 1, sex_def_F)
-
-    # test Allcomers and Racial
-    assert a.prep_eligible(["Allcomers"], 1, sex_def_F)
-    assert a.prep_eligible(["Racial"], 1, sex_def_F)
+    a.location.params.prep.target_model = ["cdc_women"]
+    assert not a.prep_eligible()
 
     # test cdc_women
-    assert not a.prep_eligible(["cdc_women"], 1, sex_def_F)
+    a.location.params.prep.target_model.append("cdc_women")
+    assert not a.prep_eligible()
     r = make_relationship(a, p)
-    assert not a.prep_eligible(["cdc_women"], 1, sex_def_F)
+    assert not a.prep_eligible()
     p.drug_type = "Inj"
-    assert a.prep_eligible(["cdc_women"], 1, sex_def_F)
+    assert a.prep_eligible()
+
+    # test Allcomers and Racial
+    a.location.params.prep.target_model.append("Allcomers")
+    assert a.prep_eligible()
+    a.location.params.prep.target_model = ["Racial"]
+    assert a.prep_eligible()
 
     # test cdc_msm
-    assert not a.prep_eligible(["cdc_msm"], 1, sex_def_F)
+    a.location.params.prep.target_model = ["cdc_msm"]
+    assert not a.prep_eligible()
     mtf_agent = make_agent(SO="MTF")
-    assert mtf_agent.prep_eligible(["cdc_msm"], 1, sex_def_MSM)
+    make_relationship(mtf_agent, p)
+    assert mtf_agent.prep_eligible()
 
     # test pwid
-    assert not a.prep_eligible(["pwid_sex"], 1, sex_def_F)
-    assert not a.prep_eligible(["pwid"], 1, sex_def_F)
-    assert p.prep_eligible(["pwid_sex"], 1, sex_def_MSM)
-    p.relationships.pop()
-    assert p.prep_eligible(["pwid"], 1, sex_def_F)  # still eligible without partners
+    a.location.params.prep.target_model = ["pwid"]
+    assert not a.prep_eligible()
+    assert not a.prep_eligible()
+    assert p.prep_eligible()
+    p = make_agent(DU="Inj")
+    assert p.prep_eligible()  # still eligible without partners
 
     # test ssp
-    assert not p.prep_eligible(["ssp_sex"], 1, sex_def_MSM)
-    assert not p.prep_eligible(["ssp"], 1, sex_def_MSM)
+    a.location.params.prep.target_model = ["ssp"]
+    assert not p.prep_eligible()
+    assert not p.prep_eligible()
     p.ssp = True
-    assert p.prep_eligible(["ssp_sex"], 1, sex_def_MSM)
-    assert not p.prep_eligible(["ssp_sex"], 1, sex_def_F)
-    assert p.prep_eligible(["ssp"], 1, sex_def_F)
+    assert p.prep_eligible()
+
+    p.location.params.prep.target_model = ["ssp_sex"]
+    assert not p.relationships
+    assert not p.cdc_eligible(1, p.location.params.classes.sex_types[p.sex_type])
+    assert not p.prep_eligible()
+    make_relationship(p, mtf_agent)
+    assert p.prep_eligible()
 
 
 @pytest.mark.unit

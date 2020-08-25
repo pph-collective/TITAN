@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from typing import List, Dict, Set, Optional, Iterator, Iterable
+from typing import List, Dict, Set, Optional, Iterator, Iterable, Tuple
 
 from .parse_params import ObjMap
 from .utils import safe_divide, safe_dist
@@ -82,7 +82,6 @@ class Agent:
         self.ssp = False
         self.prep = False
         self.prep_adherence = 0
-        self.prep_reason: List[str] = []
         self.intervention_ever = False
         self.random_trial_enrolled = False
         self.vaccine = False
@@ -173,6 +172,26 @@ class Agent:
         else:
             return False
 
+    def has_male_partner(self) -> bool:
+        """
+        Get sex of agent partners
+
+        returns:
+            if agent has male partner
+        """
+
+        sex_dict = self.location.params.classes.sex_types
+        for partner in self.iter_partners():
+            if (
+                sex_dict[partner.sex_type].gender == "M"
+                and sex_dict[partner.sex_type].cis_trans == "cis"
+            ) or (
+                sex_dict[partner.sex_type].gender == "F"
+                and sex_dict[partner.sex_type].cis_trans == "trans"
+            ):
+                return True
+        return False
+
     def cdc_eligible(self, ongoing_duration: int, sex_def) -> bool:
         """
         Determine agent eligibility for PrEP under CDC criteria
@@ -190,21 +209,21 @@ class Agent:
                 partner = rel.get_partner(self)
                 if partner.drug_type == "Inj":
                     eligible = True
-                    self.prep_reason.append("PWID")
                 if partner.hiv_dx:
                     eligible = True
-                    self.prep_reason.append("HIV test")
                 if partner.msmw:
                     eligible = True
-                    self.prep_reason.append("MSMW")
 
-        if sex_def.gender == "M":
-            if "MSM" in sex_def.sleeps_with:
+        # TODO: change this over to is_male
+        if sex_def.gender == "M" or (
+            sex_def.gender == "F" and sex_def.cis_trans == "trans"
+        ):
+            if self.has_male_partner():
                 eligible = True
 
         return eligible
 
-    def prep_eligible(self, target_model: set, ongoing_duration: int, sex_def) -> bool:
+    def prep_eligible(self) -> bool:
         """
         Determine if an agent is eligible for PrEP
 
@@ -215,13 +234,16 @@ class Agent:
         returns:
             eligibility
         """
+        target_model = self.location.params.prep.target_model
+        sex_def = self.location.params.classes.sex_types[self.sex_type]
+        ongoing_duration = self.location.params.partnership.ongoing_duration
         # if agent is already on prep, not eligible to enroll
         if self.prep or self.vaccine:
             return False
 
-        target_model = set(target_model)
+        all_eligible_models = {"Allcomers", "Racial"}
 
-        if target_model.intersection({"Allcomers", "Racial"}):
+        if all_eligible_models.intersection(target_model):
             return True
 
         if "cdc_women" in target_model:
@@ -292,7 +314,6 @@ class Agent:
         if self.prep_last_dose > params.model.time.steps_per_year:
             self.prep_load = 0.0
             self.prep = False
-            self.prep_reason = []
             self.prep_type = ""
             self.prep_last_dose = 0
         else:

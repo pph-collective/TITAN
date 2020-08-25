@@ -23,7 +23,6 @@ def stats(params, world_location):
     a.high_risk = True
     a.high_risk_ever = True
     a.incar = True
-    a.prep_reason = ["PWID", "MSMW", "HIV test"]
 
     p = agent.Agent("MSM", 20, "black", "Inj", world_location)
     p.partners["Sex"] = set()
@@ -61,9 +60,6 @@ def test_get_stats(stats):
     assert stats["world"]["black"]["MSM"]["inf_HRever"] == 1
     assert stats["world"]["black"]["MSM"]["inf_HR6m"] == 1
     assert stats["world"]["black"]["MSM"]["numPrEP"] == 1
-    assert stats["world"]["black"]["MSM"]["iduPartPrep"] == 1
-    assert stats["world"]["black"]["MSM"]["msmwPartPrep"] == 1
-    assert stats["world"]["black"]["MSM"]["testedPartPrep"] == 1
     assert stats["world"]["black"]["MSM"]["newNumPrEP"] == 1
     assert stats["world"]["black"]["MSM"]["newlyDiagnosed"] == 1
     assert stats["world"]["black"]["MSM"]["newHR"] == 1
@@ -171,14 +167,8 @@ def test_prepReport(stats, params, tmpdir):
             assert row["rseed"] == "1"
             if row["race"] == "black" and row["sex_type"] == "MSM":
                 assert row["NewEnroll"] == "1"
-                assert row["PWIDpartner"] == "1"
-                assert row["DiagnosedPartner"] == "1"
-                assert row["MSMWpartner"] == "1"
             else:
                 assert row["NewEnroll"] == "0"
-                assert row["PWIDpartner"] == "0"
-                assert row["DiagnosedPartner"] == "0"
-                assert row["MSMWpartner"] == "0"
 
 
 @pytest.mark.unit

@@ -228,11 +228,7 @@ class Population:
                 1, location.params.hiv.max_init_time
             )
 
-        elif self.features.prep and agent.prep_eligible(
-            set(location.params.prep.target_model),
-            location.params.partnership.ongoing_duration,
-            location.params.classes.sex_types[agent.sex_type],
-        ):
+        elif self.features.prep and agent.prep_eligible():
             if (
                 time >= location.params.prep.start
                 and self.pop_random.random() < location.params.prep.target

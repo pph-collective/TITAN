@@ -196,12 +196,6 @@ def get_stats(
 
         if a.prep:
             add_agent_to_stats(stats, attrs, a, "numPrEP")
-            if "PWID" in a.prep_reason:
-                add_agent_to_stats(stats, attrs, a, "iduPartPrep")
-            if "MSMW" in a.prep_reason:
-                add_agent_to_stats(stats, attrs, a, "msmwPartPrep")
-            if "HIV test" in a.prep_reason:
-                add_agent_to_stats(stats, attrs, a, "testedPartPrep")
             if a.prep_type == "Inj":
                 add_agent_to_stats(stats, attrs, a, "injectable_prep")
             elif a.prep_type == "Oral":
