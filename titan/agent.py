@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from typing import List, Dict, Set, Optional, Iterable
+from typing import List, Dict, Set, Optional, Iterator, Iterable
 
 from .parse_params import ObjMap
 from .utils import safe_divide, safe_dist
@@ -10,15 +10,7 @@ from .location import Location
 
 class Agent:
     """
-    :Purpose:
-        This class constructs and represents an agent within the population
-
-    :Input:
-        SO : str - sex type flag (HM, HF, MSM)
-        age : int - Agents initialization age
-        race : str - Race of agent
-        DU : str - Drug use flag (IDU, NIDU, NDU)
-        location : Location - the location where the agent "lives"
+    This class constructs and represents an agent within the population
     """
 
     # class variable for agent creation
@@ -30,25 +22,22 @@ class Agent:
 
     def __init__(
         self,
-        so: str,
+        sex_type: str,
         age: int,
         race: str,
-        du: str,
+        drug_use: str,
         location: Location,
         id: Optional[int] = None,
-    ):
+    ) -> None:
         """
         Initialize an agent based on given properties
 
-        args:
-            ID (int) - Unique agent ID
-            SO (str) - Sexual orientation flag (HM, HF, MSM)
-            age (int) - Agents initialization age
-            race (str) - Race of agent
-            DU (str) - Drug use flag (Inj, NonInj, None)
-
-        returns:
-            None
+        Args:
+            id: Unique agent ID
+            sex_type: Name of defined sex type (e.g. MSM) [params.classes.sex_types]
+            age: Agents initialization age
+            race: Race of agent [params.classes.races]
+            drug_use: Drug use flag [params.classes.drug_types]
         """
         # self.id is unique ID number used to track each person agent.
         if id is not None:
@@ -59,11 +48,11 @@ class Agent:
         self.update_id_counter(self.id)
 
         # agent properties
-        self.sex_type = so
+        self.sex_type = sex_type
         self.age = age
         self.age_bin = 0
         self.race = race
-        self.drug_type = du
+        self.drug_type = drug_use
         self.location = location
 
         if self.drug_type == "Inj":
@@ -120,7 +109,7 @@ class Agent:
         self.incar = False
         self.incar_time = 0
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         String formatting of agent object
 
@@ -132,37 +121,50 @@ class Agent:
             f"{self.race}\t{self.hiv}"
         )
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Repr formatting of agent object
 
         returns:
-            ID (str) - agent ID as str
+            agent ID as str
         """
         return str(self.id)
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         return self.id == other.id
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return self.id
 
-    def iter_partners(self) -> Iterable["Agent"]:
+    def iter_partners(self) -> Iterator["Agent"]:
+        """
+        Get an iterator over an agent's partners
+
+        returns:
+            iterator of agent partners
+        """
         for partner_set in self.partners.values():
             for partner in partner_set:
                 yield partner
 
     def has_partners(self) -> bool:
+        """
+        Get whether an agent has any partners
+
+        returns:
+            whether an agent has at least one partner
+        """
         return any(self.iter_partners())
 
     def get_acute_status(self, acute_time_period) -> bool:
         """
-        :Purpose:
-            Get acute status of agent at time period
-        :Input:
-            None
-        :Output:
-            acute_status : bool
+        Get acute status of agent at time period
+
+        args:
+            acute_time_period: How long an agent with HIV is acute for
+
+        returns:
+            whether an agent is acute
         """
         hiv_t = self.hiv_time
 
@@ -204,14 +206,13 @@ class Agent:
 
     def prep_eligible(self, target_model: set, ongoing_duration: int, sex_def) -> bool:
         """
-            Determine if an agent is eligible for PrEP under target model
+        Determine if an agent is eligible for PrEP
 
         args:
             target_model: Model of prep allocation [params.prep.target_model]
             ongoing_duration: Number of time steps above which a relationship is considered ongoing [params.partnership.ongoing_duration]
-            sex_def: definition of agent's sex type [param.classes.sex_type]
 
-        returns
+        returns:
             eligibility
         """
         # if agent is already on prep, not eligible to enroll
@@ -253,6 +254,12 @@ class Agent:
         return False
 
     def enroll_prep(self, rand_gen):
+        """
+        Enroll an agent in PrEP
+
+        args:
+            rand_gen: random number generator
+        """
         params = self.location.params
         self.prep = True
         self.prep_load = params.prep.peak_load
@@ -277,14 +284,7 @@ class Agent:
 
     def update_prep_load(self):
         """
-        :Purpose:
-            Determine and update load of PrEP concentration in agent.
-
-        :Input:
-            none
-
-        :Output:
-            none
+        Determine and update load of PrEP concentration in agent.
         """
         params = self.location.params
         # N(t) = N0 (0.5)^(t/t_half)
@@ -304,22 +304,27 @@ class Agent:
                 (0.5) ** (annualized_last_dose / annualized_half_life)
             )
 
-    def vaccinate(self, vax: str):
+    def vaccinate(self, vax: str) -> None:
         """
-        :Purpose:
-            Vaccinate an agent and update relevant fields.
+        Vaccinate an agent and update relevant fields.
 
-        :Input:
-            vax - str : Vaccine type
-
-        :Output:
-            none
+        args:
+            vax: Vaccine type
         """
         self.vaccine = True
         self.vaccine_type = vax
         self.vaccine_time = 1
 
     def get_partners(self, bond_types: Optional[Iterable[str]] = None) -> Set["Agent"]:
+        """
+        Get all of an agents partners or those with specific bond types
+
+        args:
+            bond_types: list of bond types which will filter the partners, otherwise all partners returned
+
+        returns:
+            set of agent's partners
+        """
         if bond_types:
             partners = set()
             for bond in bond_types:
@@ -330,18 +335,26 @@ class Agent:
         return partners
 
     def get_num_partners(self, bond_types: Optional[Iterable[str]] = None) -> int:
+        """
+        Get the number of partners an agent has, optionally filtered by bond type
+
+        args:
+            bond_types: list of bond types which will filter the partners, otherwise total number of partners returned
+
+        returns:
+            the number of partners the agent has
+        """
         return len(self.get_partners(bond_types))
 
     def get_number_of_sex_acts(self, rand_gen) -> int:
         """
-        :Purpose:
-            Number of sexActs an agent has done.
+        Number of sexActs an agent has done.
 
-        :Input:
-            rand_gen : random number generator (e.g. self.runRandom in model)
+        args:
+            rand_gen: random number generator (e.g. self.run_random in model)
 
-        :Output:
-            number_sex_act : int
+        returns:
+            number of sex acts
         """
         freq_params = self.location.params.partnership.sex.frequency
         if freq_params.type == "bins":
@@ -381,15 +394,14 @@ class Relationship:
         id: Optional[int] = None,
     ):
         """
-        :Purpose:
-            Constructor for a Relationship
+        Constructor for a Relationship
 
-        :Input:
-            :ID1: first agent
-            :ID2: second agent
-            :SO: Orientation of relationship
-            :bond_type: (future feature) - sex bond or idu bond or both
-            :duration: length of relationship
+        args:
+            agent1: first agent
+            agent2: second agent
+            duration: target duration of relationship
+            bond_type: type of bond for the relationship [params.classes.bond_types]
+            id: unique identifier
         """
         # make sure these agents can be in a relationship
         assert agent1 != agent2, "Cannot create relationship with same agent"
@@ -416,13 +428,19 @@ class Relationship:
 
         self.bond()
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         return self.id == other.id
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return self.id
 
-    def progress(self, force: bool = False):
+    def progress(self, force: bool = False) -> bool:
+        """
+        Progress a relationship to the next time step (decrementing remaining target duration), or end a relationship if the duration is 0 or if `force` is set to `True`
+
+        args:
+            force: whether to force the relationship to end
+        """
         if self.duration <= 0 or force:
             self.unbond()
             return True
@@ -430,16 +448,9 @@ class Relationship:
             self.duration -= 1
             return False
 
-    def bond(self):
+    def bond(self) -> None:
         """
-        Bond two agents. Adds each to a relationship object, then partners in each
-        others' partner list.
-
-        args:
-            agent: Agent - new partner of partner
-            partner: Agent - new partner of agent
-        returns:
-            None
+        Bond two agents. Adds the relationship to each agent's `relationships` set, then adds each partner to the others' partner list.
         """
 
         # Append relationship to relationships list for each agent
@@ -452,14 +463,8 @@ class Relationship:
 
     def unbond(self):
         """
-        Unbond two agents. Removes relationship from relationship lists.
+        Unbond two agents. Removes relationship from relationship sets.
         Removes partners in each others' partner list.
-
-        args:
-            agent: Agent - former partner of partner
-            partner: Agent - former partner of agent
-        returns:
-            None
         """
 
         # Remove relationship to relationships list for each agent
@@ -471,10 +476,21 @@ class Relationship:
         self.agent2.partners[self.bond_type].remove(self.agent1)
 
     def get_partner(self, agent: "Agent") -> "Agent":
+        """
+        Given an agent in the relationship, return the other agent
+
+        args:
+            agent: one of the agents in the relationship
+
+        returns:
+            the agent's partner
+        """
         if agent == self.agent1:
             return self.agent2
-        else:
+        elif agent == self.agent2:
             return self.agent1
+        else:
+            raise ValueError("Agent must be in this relationship")
 
     def __str__(self):
         return (
@@ -488,17 +504,25 @@ class Relationship:
 
 class AgentSet:
     """
-    Class for agents that contain a "set" of agents from a lower
-    hierarchical  level.
+    Container for agents into heirarchical sets (e.g. all_agents > hiv_agents)
     """
 
-    def __init__(self, id: str, parent: "AgentSet" = None):
-        # _members stores agent set members in a dictionary keyed by ID
+    def __init__(
+        self, id: str, parent: Optional["AgentSet"] = None,
+    ):
+        """
+        Constructor of an AgentSet
+
+        args:
+            id: name of the set
+            parent: the set this set is a subset of
+        """
+        # members stores agent set members in a dictionary keyed by ID
         self.id = id
         self.members: Set[Agent] = set()
         self.subset: Dict[str, AgentSet] = {}
 
-        # _parent_set stores the parent set if this set is a member of an
+        # parent_set stores the parent set if this set is a member of an
         # AgentSet class instance. For example, for a set that is a
         # member of a larger set, the _parent_set for that set  would
         # be that larger set.
@@ -513,30 +537,63 @@ class AgentSet:
         return self.id
 
     def clear_set(self):
+        """
+        Clears a set of any members and subsets
+        """
         self.members: Set[Agent] = set()
         self.subset: Dict[str, str] = {}
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Agent]:
+        """
+        Iterate over the memers in the set
+
+        example:
+            ```py
+            for agent in agent_set:
+                # do something with agent
+            ```
+
+        returns:
+            iterator over member agents
+        """
         return self.members.__iter__()
 
-    def __contains__(self, item):
+    def __contains__(self, item) -> bool:
+        """
+        Is an agent a member of this agent set
+
+        example:
+            ```py
+            if agent in agent_set:
+                # do something
+            ```
+
+        returns:
+            whether agent is part of set
+        """
         return self.members.__contains__(item)
 
-    def is_member(self, agent: Agent):
-        """Returns true if agent is a member of this set"""
-        return agent in self.members
-
     # adding trickles up
-    def add_agent(self, agent: Agent):
-        """Adds a new agent to the set."""
+    def add_agent(self, agent: Agent) -> None:
+        """
+        Adds an agent to the set and any parent sets
+
+        args:
+            agent: agent to add
+        """
         self.members.add(agent)
 
         if self.parent_set is not None:
             self.parent_set.add_agent(agent)
 
     # removing trickles down
-    def remove_agent(self, agent: Agent):
-        """Removes agent from agent set."""
+    def remove_agent(self, agent: Agent) -> None:
+        """
+        Removes agent from agent set if they are a member of the set.  Also removes the agent from any sub sets.
+
+        args:
+            agent: agent to remove
+        """
         if agent in self.members:
             self.members.remove(agent)
 
@@ -544,18 +601,38 @@ class AgentSet:
             subset.remove_agent(agent)
 
     def num_members(self) -> int:
+        """
+        Number of members in the set
+
+        returns:
+            number of members
+        """
         return len(self.members)
 
-    def add_subset(self, subset: "AgentSet"):
-        """Adds a new AgentSet to the current sets subset."""
+    def add_subset(self, subset: "AgentSet") -> None:
+        """
+        Adds a new AgentSet to the current sets subset.
+
+        args:
+            subset: subset to add to this set
+        """
         if subset.id not in self.subset:
             self.subset[subset.id] = subset
 
-    def iter_subset(self):
+    def iter_subset(self) -> Iterator["AgentSet"]:
+        """
+        Iterate over the subsets of this agent set
+
+        returns:
+            iterator of agent sets
+        """
         for subset in list(self.subset.values()):
             yield subset
 
     def print_subsets(self):
+        """
+        Pretty print the subsets of this agent set
+        """
         print(f"\t__________ {self.id} __________")
         print("\tID\t\tN\t\t%")
         for set in self.iter_subset():

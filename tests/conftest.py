@@ -73,7 +73,6 @@ def make_agent(params, world_location):
                 agent.partners[bond] = set()
 
         return agent
-        return Agent(SO, age, race, DU)
 
     return _make_agent
 

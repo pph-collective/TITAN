@@ -19,16 +19,6 @@ from .parse_params import ObjMap
 
 
 class HIVModel:
-    """
-    :Purpose:
-        This is the core class used to simulate
-        the spread of HIV and drug use in one MSA
-        (Metropolitan Statistical Area).
-
-    :Input:
-        params: ObjMap - the parameter object for this model
-    """
-
     def __repr__(self):
         res = "\n"
         res += f"Seed: {self.run_seed}\n"
@@ -37,7 +27,17 @@ class HIVModel:
 
         return res
 
-    def __init__(self, params: ObjMap, population: Optional[Population] = None):
+    def __init__(
+        self, params: ObjMap, population: Optional[Population] = None,
+    ):
+        """
+        This is the core class used to simulate
+            the spread of HIV and drug use in one geography.
+
+        args:
+            params: the parameter object for this model
+            population: an initialized population to run the model on
+        """
 
         self.params = params
         # pre-fetch commonly used param sub-sets for performance
@@ -86,6 +86,9 @@ class HIVModel:
         print("\n === Initialization Protocol Finished ===")
 
     def print_stats(self, stat: Dict[str, Dict[str, int]], outdir: str):
+        """
+        Create/update all of the reports defined in the params
+        """
         for report in self.params.outputs.reports:
             printer = getattr(ao, report)
             printer(
@@ -144,15 +147,14 @@ class HIVModel:
 
     def run(self, outdir: str):
         """
-        Core of the model:
-            1. Prints networkReport for first agents.
-            2. Makes agents become HIV (used for current key_time tracking for acute)
-            3. Loops over all time steps
-                a. _update AllAgents()
-                b. reset death count
-                c. _ self.die_and_replace()
-                d. self._update_population()
-                e. self._reset_partner_count()
+        Runs the model for the number of time steps defined in params, at each time step does:
+
+        1. Increments time
+        2. Takes one step
+        3. Resets trackers
+
+        args:
+            outdir: path to directory where results should be saved
         """
         if self.params.model.time.burn_steps > 0:
             print("\t===! Start Burn Loop !===")
@@ -186,6 +188,17 @@ class HIVModel:
         print("\t===! Main Loop Complete !===")
 
     def step(self, outdir: str, burn: bool = False):
+        """
+        A single time step in the model:
+
+        1. Perform timeline_scaling updates to params if needed
+        2. Update all agents
+        3. Write/update reports with this timestep's data
+
+        args:
+            outdir: path to directory where reports should be saved
+            burn: whether the model is in burn-in model (negative time)
+        """
         print(f"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME {self.time}")
         print(
             "\tSTARTING HIV count:{}\tTotal Incarcerated:{}\tHR+:{}\t"
@@ -218,14 +231,23 @@ class HIVModel:
 
     def update_all_agents(self, burn: bool = False):
         """
-        :Purpose:
-            Update agents.  For a time step, update all of the agents and relationships
+        The core of the model.  For a time step, update all of the agents and relationships:
 
-        :Input:
-            agent, time
+        1. Create an agent zero (if enabled and the time is right)
+        2. Update partner assignments (create new relationships as needed)
+        3. Agents in relationships interact
+        4. Update syringe services (if enabled)
+        5. Update each agent's status for:
+            * age
+            * high risk
+            * prep
+            * incarceration
+            * hiv
+        6. End relationships with no remaining duration
+        7. Agent death/replacement
 
-        :Output:
-            none
+        args:
+            burn: whether the model is in burn-in model (negative time)
         """
         # If agent zero enabled, create agent zero at the beginning of main loop.
         if self.time == self.params.agent_zero.start_time and self.features.agent_zero:
@@ -317,6 +339,9 @@ class HIVModel:
             self.die_and_replace()
 
     def make_agent_zero(self):
+        """
+        Identify an agent as agent zero and HIV convert them
+        """
         bonds = [  # Find what bond_types have the allowed interaction
             bond
             for bond, act_type in self.params.classes.bond_types.items()
@@ -368,8 +393,7 @@ class HIVModel:
 
     def update_high_risk(self, agent: Agent):
         """
-        :Purpose:
-            Update high risk agents or remove them from high risk pool
+        Update high risk agents or remove them from high risk pool
         """
         if agent not in self.pop.high_risk_agents:
             return None
@@ -401,8 +425,7 @@ class HIVModel:
 
     def initialize_random_trial(self):
         """
-        :Purpose:
-            Initialize random trial in population
+        Initialize a random trial in the population
         """
         assert (
             self.params.model.network.enable
@@ -500,24 +523,21 @@ class HIVModel:
 
         print(("Total agents in trial: ", total_nodes))
 
-    def agents_interact(self, rel: Relationship):
+    def agents_interact(self, rel: Relationship) -> bool:
         """
-        :Purpose:
-            Let PWID agent interact with a partner.
-            Update PWID agents:
-                1 - determine transition type
-                2 - Injection rules
-                3 - Sex rules
-                4 - HIV transmission
+        Let an agent interact with a partner.
 
-        :Input:
+        Based on the interaction types of the relationship, interact in the following ways:
 
-            rel : Relationship
+        * Peer Change Agent
+        * Injection
+        * Sex
 
-            rand_gen : random number generator
+        args:
+            rel : The relationship that the agents interact in
 
-        Output:
-            boolean : whether interaction happened
+        returns:
+            whether the agents interacted
         """
         interaction_types = self.params.classes.bond_types[rel.bond_type].acts_allowed
         # If either agent is incarcerated, skip their interaction
@@ -548,15 +568,12 @@ class HIVModel:
 
     def pca_interaction(self, rel: Relationship, force=False):
         """
-        :Purpose:
-            Simulate peer change agent interactions
-            Knowledge if one agent is aware and one unaware,
-            opinion if one agent swaying the other
-        :Input:
-            agent: Agent
-            partner: Agent
-            PCAtype: str, either 'Knowledge' or 'Opinion'
-        :Output: -
+        Simulate peer change agent interactions. Knowledge if one agent is aware and one unaware,
+            opinion if one agent swaying the other.
+
+        args:
+            rel: The relationship PCA is happening in
+            force: Whether to force knowledge dissemination and influce
         """
 
         assert (
@@ -650,15 +667,11 @@ class HIVModel:
 
     def injection_transmission(self, agent: Agent, partner: Agent):
         """
-        :Purpose:
-            Simulate random transmission of HIV between two PWID agents
-            through injection.
-            Agent must by HIV+ and partner not.
+        Simulate random transmission of HIV between two PWID agents through injection.
 
-        :Input:
-            agents : int
-            partner : int
-        :Output: -
+        args:
+            agent: PWID agent with HIV
+            partner: PWID agent without HIV
         """
 
         assert agent.hiv
@@ -710,17 +723,10 @@ class HIVModel:
 
     def sex_transmission(self, rel: Relationship):
         """
-        :Purpose:
-            Simulate random transmission of HIV between two agents through Sex.
-            Needed for all users. Sex is not possible in case the agent and
-            assigned partner have incompatible Sex behavior. Given other logic,
-            only one member of the relationship (the agent) has HIV at this time.
+        Simulate random transmission of HIV between two agents through Sex. One of the agents must have HIV.
 
-        :Input:
+        args:
             rel : Relationship
-
-        :Output:
-            none
         """
 
         if rel.agent1.hiv:
@@ -777,18 +783,19 @@ class HIVModel:
                 self.hiv_convert(partner)
 
     def get_transmission_probability(self, interaction: str, agent, partner) -> float:
-        """ Decriptor
-        :Purpose:
-            Determines the probability of a transmission event based on
+        """
+        Determines the probability of a transmission event based on
             interaction type. For sex acts, transmission probability is a
             function of the acquisition probability of the HIV- agent's sex role
             and the HIV+ agent's haart adherence, acute status, and dx risk reduction
 
-        :Input:
-            interaction : str - "injection" or "sex"
+        args:
+            interaction : "injection" or "sex"
+            agent: HIV+ Agent
+            partner: HIV- Agent
 
-        :Output:
-            probability : float
+        returns:
+            probability of transmission from agent to partner
         """
         # Logic for if needle or sex type interaction
         p: float
@@ -873,12 +880,10 @@ class HIVModel:
 
     def hiv_convert(self, agent: Agent):
         """
-        :Purpose:
-            agent becomes HIV agent. Update all appropriate list and
-            dictionaries.
+        Agent becomes HIV agent. Update all appropriate list and dictionaries.
 
-        :Input:
-            agent : int
+        args:
+            agent: The agent being converted
         """
         if not agent.hiv:
             agent.hiv = True
@@ -892,8 +897,7 @@ class HIVModel:
 
     def update_syringe_services(self):
         """
-        :Purpose:
-            Enroll PWID agents in syringe services
+        Enroll PWID agents in syringe services
         """
         print(("\n\n!!!!Engaging syringe services program"))
         ssp_num_slots = 0
@@ -940,6 +944,13 @@ class HIVModel:
         )
 
     def become_high_risk(self, agent: Agent, duration: int = None):
+        """
+        Mark an agent as high risk and assign a duration to their high risk period
+
+        args:
+            agent: agent becoming high risk
+            duration: duration of the high risk period, default so param value if not passed [params.high_risk.sex_based]
+        """
 
         if not self.features.high_risk:
             return None
@@ -962,11 +973,10 @@ class HIVModel:
 
     def incarcerate(self, agent: Agent):
         """
-        :Purpose:
-            To incarcerate an agent or update their incarceration variables
+        Incarcerate an agent or update their incarceration variables
 
-        :Input:
-            agent : int
+        args:
+            agent: agent being updated
         """
         if not self.features.incar:
             return None
@@ -1063,14 +1073,10 @@ class HIVModel:
 
     def diagnose_hiv(self, agent: Agent):
         """
-        :Purpose:
-            Test the agent for HIV. If detected, add to identified list.
+        Stochasticlaly test the agent for HIV.  If tested, mark the agent as diagnosed and trace their partners (if partner tracing enabled).
 
-        :Input:
-            agent : agent_Class
-
-        :Output:
-            none
+        args:
+            agent: agent to diagnose
         """
         sex_type = agent.sex_type
         race_type = agent.race
@@ -1119,17 +1125,13 @@ class HIVModel:
 
     def update_haart(self, agent: Agent):
         """
-        :Purpose:
-            Account for HIV treatment through highly active antiretroviral therapy
+        Account for HIV treatment through highly active antiretroviral therapy
             (HAART).
             HAART was implemented in 1996, hence, there is treatment only after 1996.
-            HIV treatment assumes that the agent knows their HIV+ status.
+            HIV treatment assumes that the agent knows their HIV+ status (`dx` is True).
 
-        :Input:
-            agent : Agent
-
-        :Output:
-            none
+        args:
+            agent: agent being updated
         """
         if not self.features.haart:
             return None
@@ -1185,6 +1187,13 @@ class HIVModel:
                 self.pop.haart_counts[agent.race][agent.sex_type] -= 1
 
     def discontinue_prep(self, agent: Agent, force: bool = False):
+        """
+        Update agent's PrEP status and discontinue stochastically or if `force` is True
+
+        args:
+            agent: agent being updated
+            force: whtehr to force discontinuation of PrEP
+        """
         # Agent must be on PrEP to discontinue PrEP
         assert agent.prep
 
@@ -1218,15 +1227,13 @@ class HIVModel:
 
     def advance_vaccine(self, agent: Agent, vaxType: str, burn: bool):
         """
-        :Purpose:
-            Progress vaccine. Agents may receive injection or progress in time
+        Progress vaccine. Agents may receive injection or progress in time
             since injection.
 
-        :Input:
-            agent: Agent
-
-        :Output:
-            none
+        args:
+            agent: agent being updated
+            vaxType: type of vaccine
+            burn: whether the model is in burn-in mode
         """
         if not self.features.vaccine:
             return None
@@ -1251,16 +1258,11 @@ class HIVModel:
 
     def initiate_prep(self, agent: Agent, force: bool = False):
         """
-        :Purpose:
-            Place agents onto PrEP treatment.
-            PrEP treatment assumes that the agent knows their HIV+ status is negative.
+        Place agents onto PrEP treatment. PrEP treatment assumes that the agent knows their HIV status is negative.
 
-        :Input:
-            agent : Agent
-            force : default is `False`
-
-        :Output:
-            none
+        args:
+            agent : agent being updated
+            force : whether to force the agent to enroll instead of using the appropriate algorithm per the prep params
         """
 
         def enroll_prep(self, agent: Agent):
@@ -1315,8 +1317,7 @@ class HIVModel:
 
     def progress_to_aids(self, agent: Agent):
         """
-        :Purpose:
-            Model the progression of HIV agents to AIDS agents
+        Model the progression of HIV agents to AIDS agents
         """
         # only valid for HIV agents
         assert agent.hiv
@@ -1329,8 +1330,7 @@ class HIVModel:
     def die_and_replace(self):
 
         """
-        :Purpose:
-            Let agents die and replace the dead agent with a new agent randomly.
+        Let agents die and replace the dead agent with a new agent randomly.
         """
         # die stage
         for agent in self.pop.all_agents:
@@ -1346,8 +1346,9 @@ class HIVModel:
                     agent.aids,
                     agent.drug_type,
                     agent.haart_adherence,
-                    agent.location.params.demographics[agent.race],
-                    agent.location.params.model.time.steps_per_year,
+                    agent.race,
+                    agent.location,
+                    self.params.model.time.steps_per_year,
                 )
                 * self.calibration.mortality
             )

@@ -1,9 +1,10 @@
 import oyaml as yaml  # type: ignore
 import os
 import collections
-from inspect import currentframe, getframeinfo
+from inspect import getsourcefile
 from pathlib import Path
 import math
+from typing import Optional, Dict
 from copy import deepcopy
 
 
@@ -13,7 +14,7 @@ class ObjMap(dict):
     dictionary notation or dots.  Note the hash function is hard-coded - beware.
     """
 
-    def __init__(self, d):
+    def __init__(self, d: Dict):
         for k, v in d.items():
             if isinstance(v, dict):
                 v = self.__class__(v)
@@ -306,14 +307,32 @@ def warn_unused_params(parsed, params, base, key_path):
 
 
 def create_params(
-    setting_path, param_path, outdir, use_base=True, error_on_unused=False
-):
+    setting_path: Optional[str],
+    param_path: str,
+    outdir: str,
+    use_base: bool = True,
+    error_on_unused: bool = False,
+) -> ObjMap:
     """
     Entry function - given the path to the setting, params, output directory and whether
     or not to use the base setting. Parse and create a params (ObjMap) object.
+
+    args:
+        setting_path: path to a settings file or directory or `None`
+        param_path: path to parameter file or directory
+        outdir: path to directory where computed params will be saved
+        use_base: whether to use the base setting
+        error_on_unused: throw a hard error if there are unused parameters, otherwise warnings are only printed
+
+    returns:
+        computed/validated model paramters with defaults filled in where needed
     """
-    filename = getframeinfo(currentframe()).filename
-    parent = Path(filename).resolve().parent
+    filename = getsourcefile(warn_unused_params)
+    if filename is not None:
+        parent = Path(filename).resolve().parent
+    else:
+        raise Exception("can't find where I am in the code?")
+
     root = os.path.join(parent, "params")
 
     defs = build_yaml(root)

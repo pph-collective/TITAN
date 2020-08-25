@@ -1,10 +1,20 @@
 from . import utils
+from .location import Location
 
 # ================ CORE PROBABILITIES ========================
 
 
 @utils.memo
-def adherence_prob(adherence):
+def adherence_prob(adherence: int) -> float:
+    """
+    Mapping from HAART adherence levels to probabilities.
+
+    args:
+        adherence: HAART adherence level
+
+    returns:
+        probability of agent transitioning from HIV+ to AIDS
+    """
     if adherence == 1:
         return 0.0051
     elif adherence == 2:
@@ -20,11 +30,36 @@ def adherence_prob(adherence):
 
 
 @utils.memo
-def get_death_rate(hiv, aids, drug_type, haart_adh, param, steps_per_year):
+def get_death_rate(
+    hiv: bool,
+    aids: bool,
+    drug_type: str,
+    haart_adh: int,
+    race: str,
+    location: Location,
+    steps_per_year: int,
+) -> float:
+    """
+    Find the death rate of an agent given a set of attributes.
+
+    args:
+        hiv: whether the agent is HIV+
+        aids: whether the agent has AIDS
+        drug_type: whether the PWID base death rate should be used or the base one
+        haart_adh: level of HAART adherence
+        race: the race of the agent
+        location: agent's location
+        steps_per_year: the number of model steps in a year
+
+    returns:
+        the probability of an agent with these characteristics dying in a given time step
+    """
+    param = location.params.demographics
+
     if drug_type == "Inj":
-        death_param = param.PWID.death_rate
+        death_param = param[race].PWID.death_rate
     else:
-        death_param = param.death_rate
+        death_param = param[race].death_rate
 
     p = death_param.base
 

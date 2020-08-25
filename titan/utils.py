@@ -1,13 +1,20 @@
 import random
 from functools import wraps
-from typing import TypeVar, Optional, Collection
+from typing import TypeVar, Optional, Collection, Union
 
 from . import distributions
+from .parse_params import ObjMap
 
 
-def get_check_rand_int(seed):
+def get_check_rand_int(seed: int) -> int:
     """
     Check the value passed of a seed, make sure it's an int, if 0, get a random seed
+
+    args:
+        seed: integer to check or replace with a seed
+
+    returns:
+        validated seed
     """
     if type(seed) is not int or seed < 0:
         raise ValueError("Random seed must be positive integer")
@@ -17,9 +24,16 @@ def get_check_rand_int(seed):
         return seed
 
 
-def safe_divide(numerator: int, denominator: int):
+def safe_divide(numerator: int, denominator: int) -> float:
     """
-    Default 0 if denominator is 0, otherwise divide as normal
+    Divide two numbers, but default 0 if denominator is 0, otherwise divide as normal.
+
+    args:
+        numerator: number being divided
+        denominator: number doing the dividing
+
+    returns:
+        resulting number
     """
     if denominator == 0:
         return 0.0
@@ -33,7 +47,15 @@ T = TypeVar("T")
 
 def safe_random_choice(seq: Collection[T], rand_gen, weights=None) -> Optional[T]:
     """
-    Return None or a random choice
+    Return None or a random choice from a collection of items
+
+    args:
+        seq: collection to select a random item from
+        rand_gen: random number generator
+        weights: an optional collection of weights to use instead of a uniform distribution
+
+    returns:
+        an item, or `None` if the collection is empty
     """
     if not seq:
         return None
@@ -45,9 +67,16 @@ def safe_random_choice(seq: Collection[T], rand_gen, weights=None) -> Optional[T
     return choices[0]
 
 
-def safe_shuffle(seq: Collection[T], rand_gen):
+def safe_shuffle(seq: Collection[T], rand_gen) -> Optional[Collection[T]]:
     """
     Return None or a shuffled sequence
+
+    args:
+        seq: collection to shuffle
+        rand_gen: random number generator
+
+    returns:
+        shuffled sequence, or `None` if empty
     """
     if seq:
         if isinstance(seq, set):
@@ -60,7 +89,17 @@ def safe_shuffle(seq: Collection[T], rand_gen):
         return None
 
 
-def safe_dist(dist_info, rand_gen):
+def safe_dist(dist_info: ObjMap, rand_gen) -> Union[int, float]:
+    """
+    Draw a value from a distribution as defined in `dist_info`.
+
+    args:
+        dist_info: a definition of a distribution to use [params.classes.distributions]
+        rand_gen: random number generator
+
+    returns:
+        a value drawn from the distribution
+    """
     # gather arguments
     args = []
     for i in range(1, len(dist_info.vars) + 1):
@@ -89,22 +128,22 @@ def safe_dist(dist_info, rand_gen):
 
 def binom_0(n: int, p: float):
     """
-        mirrors scipy binom.pmf as used in code
+    Mirrors scipy binom.pmf as used in code
     """
     return (1 - p) ** n
 
 
 def poisson(mu: float, np_rand):
     """
-        mirrors scipy poisson.rvs function as used in code
+    Mirrors scipy poisson.rvs function as used in code
     """
     return np_rand.poisson(mu)
 
 
 def memo(f):
     """
-    decorator to memoize a function
-    caches results given args, only use if deterministic)
+    Decorator to memoize a function
+    (caches results given args, only use if deterministic)
     """
     cache = {}
 

@@ -22,16 +22,19 @@ def select_partner(
     bond_type,
 ) -> Optional[Agent]:
     """
-    :Purpose:
-        Get partner for agent.
+    Get a partner for the agent.
 
-    :Input:
-        agent : Agent
+    args:
+        agent : agent in need of a partner
+        partnerable_agents: agents that can be selected as a partner
+        sex_partners: mapping from sex_type to agents in the population that can sleep with that sex_type
+        pwid_agents: agents with `drug_type==="Inj"`
+        params: model parameters
+        rand_gen: random number generator
+        bond_type: type of relationship that is being formed with the partner
 
-        all_agent_set: AgentSet of partners to pair with
-
-    :Output:
-        partner: new partner
+    returns:
+        new partner or `None`
     """
 
     def assort(eligible_partners, assort_params):
@@ -89,16 +92,14 @@ def select_partner(
 @utils.memo
 def sex_possible(agent_sex_type: str, partner_sex_type: str, sex_types: ObjMap) -> bool:
     """
-    :Purpose:
     Determine if sex is possible.
 
-    :Input:
-    agent_sex_type : str
+    args:
+        agent_sex_type: name of agent's sex type
+        partner_sex_type: name of partner's sex type
 
-    partner_sex_type : str
-
-    :Output:
-    SexPossible : bool
+    returns:
+        whether sex is possible between agents of these sex types
     """
 
     # Check input
@@ -140,16 +141,15 @@ def get_mean_rel_duration(params: ObjMap):
 
 def get_partnership_duration(params: ObjMap, rand_gen, bond_type) -> int:
     """
-    :Purpose:
-        Get duration of a relationship
-        Drawn from Poisson distribution.
+    Get duration of a relationship drawn from bins or a distribution per the params [params.partnership.duration]
 
-    :Input:
-        agent : Agent
+    args:
+        params: model parameters
+        rand_gen: random number generator
+        bond_type: type of bond for the relationship whose duration is being determined
 
-    :Output:
-        NumPartners : int
-        Zero partners possible.
+    returns:
+        number of time steps the partnership should endure
     """
 
     if params.partnership.duration[bond_type].type == "bins":

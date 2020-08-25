@@ -701,7 +701,7 @@ def test_initiate_prep_eligible(make_model, make_agent):
     p.msmw = True
     model.time = 10
     a.location.params.prep.target = 1.0
-    a.location.params.prep.target_model = {"cdc_women"}
+    a.location.params.prep.target_model = ["cdc_women"]
     rel = Relationship(a, p, 10, bond_type="Sex")
     # non-forcing, adherant, inj
     model.run_random = FakeRandom(-0.1)
