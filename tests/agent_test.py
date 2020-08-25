@@ -106,12 +106,14 @@ def test_iter_partners(make_agent):
 
     assert itered_partners == total_partners
 
+
 @pytest.mark.unit
 def test_is_msm(make_agent):
     a = make_agent()
     assert a.is_msm()
     a.sex_type = "MTF"
     assert not a.is_msm()
+
 
 @pytest.mark.unit
 def test_cdc_eligible(make_agent, make_relationship):
