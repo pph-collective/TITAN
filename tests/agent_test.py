@@ -148,17 +148,43 @@ def test_cdc_eligible(make_agent, make_relationship):
 @pytest.mark.unit
 def test_prep_eligible(make_agent, make_relationship):
     a = make_agent(SO="HF")
+    p = make_agent(SO="HM")
+    sex_def_F = ObjMap({"gender": "F", "sleeps_with": "HM"})
+    sex_def_MSM = ObjMap({"gender": "M", "sleeps_with": "MSM"})
 
     # test no model
-    sex_def = ObjMap({"gender": "F", "sleeps_with": "HM"})
-    assert not a.prep_eligible([], 1, sex_def)
+    assert not a.prep_eligible([], 1, sex_def_F)
 
     # test Allcomers and Racial
-    assert a.prep_eligible(["Allcomers"], 1, sex_def)
-    assert a.prep_eligible(["Racial"], 1, sex_def)
+    assert a.prep_eligible(["Allcomers"], 1, sex_def_F)
+    assert a.prep_eligible(["Racial"], 1, sex_def_F)
 
     # test cdc_women
-    assert a.prep_eligible(["cdc_women"], 1, sex_def)
+    assert not a.prep_eligible(["cdc_women"], 1, sex_def_F)
+    r = make_relationship(a, p)
+    assert not a.prep_eligible(["cdc_women"], 1, sex_def_F)
+    p.drug_type = "Inj"
+    assert a.prep_eligible(["cdc_women"], 1, sex_def_F)
+
+    # test cdc_msm
+    assert not a.prep_eligible(["cdc_msm"], 1, sex_def_F)
+    mtf_agent = make_agent(SO="MTF")
+    assert mtf_agent.prep_eligible(["cdc_msm"], 1, sex_def_MSM)
+
+    # test pwid
+    assert not a.prep_eligible(["pwid_sex"], 1, sex_def_F)
+    assert not a.prep_eligible(["pwid"], 1, sex_def_F)
+    assert p.prep_eligible(["pwid_sex"], 1, sex_def_MSM)
+    p.relationships.pop()
+    assert p.prep_eligible(["pwid"], 1, sex_def_F)  # still eligible without partners
+
+    # test ssp
+    assert not p.prep_eligible(["ssp_sex"], 1, sex_def_MSM)
+    assert not p.prep_eligible(["ssp"], 1, sex_def_MSM)
+    p.ssp = True
+    assert p.prep_eligible(["ssp_sex"], 1, sex_def_MSM)
+    assert not p.prep_eligible(["ssp_sex"], 1, sex_def_F)
+    assert p.prep_eligible(["ssp"], 1, sex_def_F)
 
 
 @pytest.mark.unit

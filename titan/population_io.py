@@ -44,7 +44,9 @@ def write(
     :Input:
         pop: Population - a non-empty agent population
         dir: str - path to directory where files should be written
-        intervention_attrs: boolean - whether to include intervention attributions in addition to core agent attributes (less likely to be backwards compatible if used with different versions of the model) [default False]
+        intervention_attrs: boolean - whether to include intervention attributions in
+        addition to core agent attributes (less likely to be backwards compatible if
+        used with different versions of the model) [default False]
         compress: boolean - whether to compress and archive the csvs [default True]
     :Output:
         path: str - archive name if compress is true
@@ -94,7 +96,8 @@ def read(params: ObjMap, path: str) -> Population:
 
     :Input:
         params: ObjMap - the parameters used for creating this popultation
-        path: str - path where <id>_agents.csv and <id>_relationships.csv are or tar.gz file containing population
+        path: str - path where <id>_agents.csv and <id>_relationships.csv are or tar.gz
+        file containing population
     :Output:
         pop : Population
     """
