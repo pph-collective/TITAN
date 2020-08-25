@@ -146,6 +146,22 @@ def test_cdc_eligible(make_agent, make_relationship):
 
 
 @pytest.mark.unit
+def test_prep_eligible(make_agent, make_relationship):
+    a = make_agent(SO="HF")
+
+    # test no model
+    sex_def = ObjMap({"gender": "F", "sleeps_with": "HM"})
+    assert not a.prep_eligible([], 1, sex_def)
+
+    # test Allcomers and Racial
+    assert a.prep_eligible(["Allcomers"], 1, sex_def)
+    assert a.prep_eligible(["Racial"], 1, sex_def)
+
+    # test cdc_women
+    assert a.prep_eligible(["cdc_women"], 1, sex_def)
+
+
+@pytest.mark.unit
 def test_enroll_prep_choice(make_agent, params):
     rand_gen = FakeRandom(-0.1)
     a = make_agent()
