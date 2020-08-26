@@ -152,26 +152,6 @@ def test_newlyhighriskReport(stats, params, tmpdir):
 
 
 @pytest.mark.unit
-def test_prepReport(stats, params, tmpdir):
-    run_id = nanoid.generate(size=8)
-
-    prepReport(run_id, 0, 1, 2, stats, params, tmpdir)
-
-    result_file = os.path.join(tmpdir, "PrEPReport.txt")
-    assert os.path.isfile(result_file)
-    with open(result_file, newline="") as f:
-        reader = csv.DictReader(f, delimiter="\t")
-        for i, row in enumerate(reader):
-            assert row["t"] == "0"
-            assert row["run_id"] == str(run_id)
-            assert row["rseed"] == "1"
-            if row["race"] == "black" and row["sex_type"] == "MSM":
-                assert row["NewEnroll"] == "1"
-            else:
-                assert row["NewEnroll"] == "0"
-
-
-@pytest.mark.unit
 def test_basicReport(stats, params, tmpdir):
     run_id = nanoid.generate(size=8)
 

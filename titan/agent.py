@@ -172,26 +172,6 @@ class Agent:
         else:
             return False
 
-    def has_male_partner(self) -> bool:
-        """
-        Get sex of agent partners
-
-        returns:
-            if agent has male partner
-        """
-
-        sex_dict = self.location.params.classes.sex_types
-        for partner in self.iter_partners():
-            if (
-                sex_dict[partner.sex_type].gender == "M"
-                and sex_dict[partner.sex_type].cis_trans == "cis"
-            ) or (
-                sex_dict[partner.sex_type].gender == "F"
-                and sex_dict[partner.sex_type].cis_trans == "trans"
-            ):
-                return True
-        return False
-
     def is_msm(self) -> bool:
         """
         Determine whether an agent is a man who can have sex with men

@@ -247,7 +247,7 @@ class Population:
                 1, location.params.high_risk.sex_based[agent.sex_type].duration
             )
 
-        for bond, bond_def in self.params.classes.bond_types.items():
+        for bond, bond_def in location.params.classes.bond_types.items():
             agent.partners[bond] = set()
             dist_info = agent_params.num_partners[bond]
             agent.mean_num_partners[bond] = ceil(
