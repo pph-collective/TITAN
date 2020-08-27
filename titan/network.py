@@ -34,7 +34,7 @@ class NetworkGraphUtils:
         """
         Writes a pipe-delimited edge list to the file `<id>_Edgelist_t<time>.txt`
 
-        ags:
+        args:
             path: directory where the file should be saved
             id: identifier for the network, typically the model's `id`
             time: timestep the edgelist is being written at
@@ -47,7 +47,7 @@ class NetworkGraphUtils:
         """
         Writes network statistics to the file `<id>_NetworkStats_t<time>.txt`
 
-        ags:
+        args:
             path: directory where the file should be saved
             id: identifier for the network, typically the model's `id`
             time: timestep the edgelist is being written at
@@ -97,7 +97,7 @@ class NetworkGraphUtils:
         Get a vector of node colors for plotting this graph based on the type of coloring requested
 
         args:
-            coloring: attribute to color nodes by (e.g. "race", "Tested")
+            coloring: attribute to color nodes by (e.g. "race", "diagnosed")
 
         returns:
             list of colors in node order
@@ -176,7 +176,7 @@ class NetworkGraphUtils:
         label: str = "Network",
     ):
         """
-        Visualize the network using the spring layout (default). \n
+        Visualize the network using the spring layout (default).
 
         args:
             outdir: directory the figure should be saved to
@@ -250,8 +250,12 @@ class NetworkGraphUtils:
 
         textstr = "\n".join(
             (
-                r"N infection={:.2f}".format(infection_label,),
-                r"Time={:.2f}".format(curtime,),
+                r"N infection={:.2f}".format(
+                    infection_label,
+                ),
+                r"Time={:.2f}".format(
+                    curtime,
+                ),
             )
         )
 

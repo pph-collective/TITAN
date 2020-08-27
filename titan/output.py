@@ -23,7 +23,7 @@ def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
     * "newHR"
     * "newHR_HIV"
     * "newHR_AIDS"
-    * "newHR_tested"
+    * "newHR_dx"
     * "newHR_ART"
     * "newRelease"
     * "newReleaseHIV"
@@ -59,7 +59,7 @@ def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
             "newHR": 0,
             "newHR_HIV": 0,
             "newHR_AIDS": 0,
-            "newHR_tested": 0,
+            "newHR_dx": 0,
             "newHR_ART": 0,
             "newRelease": 0,
             "newReleaseHIV": 0,
@@ -109,7 +109,7 @@ def get_agg_val(stats: Dict, attrs: List, key: str) -> int:
     Get the value of a key in stats given the attribute values
 
     args:
-        stats: a nested dictionariy of attributes to counts
+        stats: a nested dictionary of attributes to count
         attrs: a list of attribute values to find the count for
         key: the type of count to get the value of
 
@@ -158,7 +158,7 @@ def get_stats(
         new_prep_agents: agents who are newly on prep this timestep
         new_hiv: agents are newly hiv this timestep
         new_hiv_dx: agents who are newly diagnosed with hiv this timestep
-        new_high_risk: agents are newly high risk this timestep
+        new_high_risk: agents who are newly high risk this timestep
         new_incar_release: agents are released from incarceration this timestep
         deaths: agents who died this timestep
         params: model parameters
@@ -228,7 +228,7 @@ def get_stats(
             if a.aids:
                 add_agent_to_stats(stats, attrs, a, "newHR_AIDS")
             if a.hiv_dx:
-                add_agent_to_stats(stats, attrs, a, "newHR_tested")
+                add_agent_to_stats(stats, attrs, a, "newHR_dx")
                 if a.haart:
                     add_agent_to_stats(stats, attrs, a, "newHR_ART")
 
@@ -373,7 +373,7 @@ def newlyhighriskReport(
         "newHR": "newHR",
         "newHR_HIV": "newHR_HIV",
         "newHR_AIDS": "newHR_AIDS",
-        "newHR_tested": "newHR_Diagnosed",
+        "newHR_dx": "newHR_Diagnosed",
         "newHR_ART": "newHR_ART",
     }
     write_report(
@@ -404,7 +404,7 @@ def basicReport(
     * `Total`: number of agents in the population
     * `HIV`: number of agents with HIV
     * `AIDS`: number of agents with AIDS
-    * `Tstd`: number of agents with HIV who are diagnosed
+    * `Dx`: number of agents with HIV who are diagnosed
     * `ART`: number of agents on HAART
     * `nHR`: number of agents who are high risk
     * `Incid`: number of agents who HIV converted this time period

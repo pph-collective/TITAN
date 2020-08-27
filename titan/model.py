@@ -28,7 +28,9 @@ class HIVModel:
         return res
 
     def __init__(
-        self, params: ObjMap, population: Optional[Population] = None,
+        self,
+        params: ObjMap,
+        population: Optional[Population] = None,
     ):
         """
         This is the core class used to simulate
@@ -247,7 +249,7 @@ class HIVModel:
         7. Agent death/replacement
 
         args:
-            burn: whether the model is in burn-in model (negative time)
+            burn: whether the model is in burn-in period (negative time)
         """
         # If agent zero enabled, create agent zero at the beginning of main loop.
         if self.time == self.params.agent_zero.start_time and self.features.agent_zero:
@@ -569,7 +571,7 @@ class HIVModel:
 
         args:
             rel: The relationship PCA is happening in
-            force: Whether to force knowledge dissemination and influce
+            force: Whether to force knowledge dissemination and influence
         """
 
         assert (
@@ -945,7 +947,7 @@ class HIVModel:
 
         args:
             agent: agent becoming high risk
-            duration: duration of the high risk period, default so param value if not passed [params.high_risk.sex_based]
+            duration: duration of the high risk period, defaults to param value if not passed [params.high_risk.sex_based]
         """
 
         if not self.features.high_risk:
@@ -1069,17 +1071,19 @@ class HIVModel:
 
     def diagnose_hiv(self, agent: Agent):
         """
-        Stochasticlaly test the agent for HIV.  If tested, mark the agent as diagnosed and trace their partners (if partner tracing enabled).
+        Stochastically test the agent for HIV. If tested, mark the agent as diagnosed and trace their partners (if partner tracing enabled).
 
         args:
-            agent: agent to diagnose
+            agent: HIV positive agent to diagnose
         """
         sex_type = agent.sex_type
         race_type = agent.race
         diagnosed = agent.hiv_dx
         partner_tracing = agent.location.params.partner_tracing
 
-        def diagnose(agent,):
+        def diagnose(
+            agent,
+        ):
             # agent's location's params used throughout as that is the agent who
             # would be interacting with the service
             agent.hiv_dx = True
@@ -1188,7 +1192,7 @@ class HIVModel:
 
         args:
             agent: agent being updated
-            force: whtehr to force discontinuation of PrEP
+            force: whether to force discontinuation of PrEP
         """
         # Agent must be on PrEP to discontinue PrEP
         assert agent.prep
@@ -1283,11 +1287,11 @@ class HIVModel:
 
                 hiv_agents = len(all_hiv_agents & all_race)
                 target_prep = (
-                    (len(all_race) - hiv_agents)
-                    * agent.location.params.demographics[agent.race][
-                        agent.sex_type
-                    ].prep.coverage
-                )
+                    len(all_race) - hiv_agents
+                ) * agent.location.params.demographics[agent.race][
+                    agent.sex_type
+                ].prep.coverage
+
             else:
                 num_prep_agents = sum(self.pop.prep_counts.values())
                 target_prep = int(
