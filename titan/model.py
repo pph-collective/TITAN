@@ -961,7 +961,7 @@ class HIVModel:
 
         args:
             agent: agent becoming high risk
-            duration: duration of the high risk period, default so param value if not passed [params.high_risk.sex_based]
+            duration: duration of the high risk period, defaults to param value if not passed [params.high_risk.sex_based]
         """
 
         if not self.features.high_risk:
