@@ -23,7 +23,7 @@ def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
     * "newHR"
     * "newHR_HIV"
     * "newHR_AIDS"
-    * "newHR_tested"
+    * "newHR_dx"
     * "newHR_ART"
     * "newRelease"
     * "newReleaseHIV"
@@ -62,7 +62,7 @@ def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
             "newHR": 0,
             "newHR_HIV": 0,
             "newHR_AIDS": 0,
-            "newHR_tested": 0,
+            "newHR_dx": 0,
             "newHR_ART": 0,
             "newRelease": 0,
             "newReleaseHIV": 0,
@@ -240,7 +240,7 @@ def get_stats(
             if a.aids:
                 add_agent_to_stats(stats, attrs, a, "newHR_AIDS")
             if a.hiv_dx:
-                add_agent_to_stats(stats, attrs, a, "newHR_tested")
+                add_agent_to_stats(stats, attrs, a, "newHR_dx")
                 if a.haart:
                     add_agent_to_stats(stats, attrs, a, "newHR_ART")
 
@@ -385,7 +385,7 @@ def newlyhighriskReport(
         "newHR": "newHR",
         "newHR_HIV": "newHR_HIV",
         "newHR_AIDS": "newHR_AIDS",
-        "newHR_tested": "newHR_Diagnosed",
+        "newHR_dx": "newHR_Diagnosed",
         "newHR_ART": "newHR_ART",
     }
     write_report(
@@ -444,7 +444,7 @@ def basicReport(
     * `Total`: number of agents in the population
     * `HIV`: number of agents with HIV
     * `AIDS`: number of agents with AIDS
-    * `Tstd`: number of agents with HIV who are diagnosed
+    * `Dx`: number of agents with HIV who are diagnosed
     * `ART`: number of agents on HAART
     * `nHR`: number of agents who are high risk
     * `Incid`: number of agents who HIV converted this time period
