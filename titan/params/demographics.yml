@@ -70,12 +70,21 @@ demographics:
         type: float
         min: 0.0
         max: 1.0
-      prob:
-        default: 0.0
-        description: "Probability that an agent in this class with HIV becomes enrolled in HAART at a given time step"
-        type: float
-        min: 0.0
-        max: 1.0
+      start_haart:
+        type: definition
+        description: "Probability that an agent in this class with HIV becomes enrolled in HAART at a given time step given how long they've been diagnosed"
+        fields:
+          start_time:
+            type: int
+          prob:
+            type: float
+            min: 0
+            max: 1
+        default:
+          all_time:
+            time_start: -1
+            time_stop: 9999
+            prob: 0.0
       adherence:
         default: 0.0
         description: "Probability that an agent is assigned adherence of 5, otherwise randomly assigned 1-4"

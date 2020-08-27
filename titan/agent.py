@@ -73,12 +73,14 @@ class Agent:
         self.hiv = False
         self.hiv_time = 0
         self.hiv_dx = False
+        self.hiv_dx_time = 0
         self.aids = False
 
         # agent treatment params
         self.haart = False
         self.haart_time = 0
         self.haart_adherence = 0
+        self.haart_ever = False
         self.ssp = False
         self.prep = False
         self.prep_adherence = 0

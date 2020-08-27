@@ -372,7 +372,7 @@ class HIVModel:
         if not self.features.timeline_scaling:
             return None
 
-        # gather all of the param objectss to be scaled
+        # gather all of the param objects to be scaled
         params_set = {self.params}
         for location in self.pop.geography.locations.values():
             params_set.add(location.params)
@@ -1087,6 +1087,7 @@ class HIVModel:
             # agent's location's params used throughout as that is the agent who
             # would be interacting with the service
             agent.hiv_dx = True
+            agent.hiv_dx_time = 1
             self.pop.dx_counts[agent.race][agent.sex_type] += 1
             self.new_dx.add_agent(agent)
             if (
@@ -1118,6 +1119,8 @@ class HIVModel:
                 and self.time > agent.trace_time
             ):
                 diagnose(agent)
+        else:
+            agent.hiv_dx_time += 1
         if self.time >= agent.trace_time + partner_tracing.trace_duration:
             # agents can only be traced during a specified period after their partner is
             # diagnosed. If past this time, remove ability to trace.
@@ -1159,6 +1162,8 @@ class HIVModel:
             haart_params = agent.location.params.demographics[agent.race][
                 agent.sex_type
             ].haart
+            agent_dx_time = agent.hiv_dx_time
+
             # Go on HAART
             if not agent.haart:
                 if agent.location.params.hiv.haart_cap:
@@ -1175,9 +1180,11 @@ class HIVModel:
                     ):
                         initiate(agent)
                 else:
-                    if self.run_random.random() < (
-                        haart_params.prob * self.calibration.haart.coverage
-                    ):
+                    haart_prob = haart_params.prob * self.calibration.haart.coverage
+                    for defn in agent.location.params.haart.start_haart:
+                        if defn.start_time == agent.hiv_dx_time:
+                            haart_prob *= defn.prob
+                    if self.run_random.random() < haart_prob:
                         initiate(agent)
             # Go off HAART
             elif agent.haart and self.run_random.random() < haart_params.discontinue:
