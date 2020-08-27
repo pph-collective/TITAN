@@ -311,11 +311,11 @@ def main(
     use_base: bool,
     sweeps: List[str],
     force: bool,
-    sweepfile: Optional[str]=None,
-    rows: Optional[str]=None,
-    error_on_unused: bool=False,
-    save_pop: Optional[str]=None,
-    pop_path: Optional[str]=None,
+    sweepfile: Optional[str] = None,
+    rows: Optional[str] = None,
+    error_on_unused: bool = False,
+    save_pop: Optional[str] = None,
+    pop_path: Optional[str] = None,
 ):
     """
     Run TITAN!
