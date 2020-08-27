@@ -158,7 +158,7 @@ class Agent:
 
     def get_acute_status(self, acute_time_period) -> bool:
         """
-        Get acute status of agent at time period
+        Get acute status of agent at time
 
         args:
             acute_time_period: How long an agent with HIV is acute for
