@@ -149,7 +149,7 @@ class Agent:
 
     def has_partners(self) -> bool:
         """
-        Get whether an agent has any partners
+        Determine whether an agent has any partners
 
         returns:
             whether an agent has at least one partner
