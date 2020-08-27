@@ -250,8 +250,12 @@ class NetworkGraphUtils:
 
         textstr = "\n".join(
             (
-                r"N infection={:.2f}".format(infection_label,),
-                r"Time={:.2f}".format(curtime,),
+                r"N infection={:.2f}".format(
+                    infection_label,
+                ),
+                r"Time={:.2f}".format(
+                    curtime,
+                ),
             )
         )
 

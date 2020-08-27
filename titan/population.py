@@ -234,6 +234,13 @@ class Population:
                 and self.pop_random.random() < location.params.prep.target
             ):
                 agent.enroll_prep(self.pop_random)
+        elif (
+            self.features.vaccine
+            and location.params.vaccine.init
+            and self.pop_random.random()
+            < location.params.demographics[agent.race][agent.sex_type].vaccine.prob
+        ):
+            agent.vaccinate()
 
         # Check if agent is HR as baseline.
         if (

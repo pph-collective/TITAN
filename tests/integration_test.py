@@ -295,7 +295,7 @@ def test_static_network(make_model_integration, tmpdir):
 
     for t in range(1, 10):
         model.time = t
-        model.step(tmpdir, burn=False)
+        model.step(tmpdir)
         model.reset_trackers()
 
         curr_rel_ids = [rel.id for rel in model.pop.relationships]
@@ -321,7 +321,7 @@ def test_incar(make_model_integration, tmpdir):
     assert init_incar == 0
 
     model.time = 1
-    model.step(tmpdir, burn=False)
+    model.step(tmpdir)
     model.reset_trackers()
 
     time_1_incars = [agent for agent in model.pop.all_agents if agent.incar]
@@ -336,7 +336,7 @@ def test_incar(make_model_integration, tmpdir):
         assert agent.incar_time > 0
 
     model.time += 1
-    model.step(tmpdir, burn=False)
+    model.step(tmpdir)
 
     for agent in should_release_t2:
         assert agent in model.new_incar_release

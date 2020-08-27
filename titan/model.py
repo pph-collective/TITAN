@@ -28,7 +28,9 @@ class HIVModel:
         return res
 
     def __init__(
-        self, params: ObjMap, population: Optional[Population] = None,
+        self,
+        params: ObjMap,
+        population: Optional[Population] = None,
     ):
         """
         This is the core class used to simulate
@@ -176,8 +178,7 @@ class HIVModel:
             -1 * self.params.model.time.burn_steps, self.params.model.time.num_steps
         ):
             self.time += 1
-            burn = True if self.time < 1 else False
-            self.step(outdir, burn=burn)
+            self.step(outdir)
             self.reset_trackers()
 
             if self.time == 0:
@@ -187,7 +188,7 @@ class HIVModel:
 
         print("\t===! Main Loop Complete !===")
 
-    def step(self, outdir: str, burn: bool = False):
+    def step(self, outdir: str):
         """
         A single time step in the model:
 
@@ -197,7 +198,6 @@ class HIVModel:
 
         args:
             outdir: path to directory where reports should be saved
-            burn: whether the model is in burn-in model (negative time)
         """
         print(f"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME {self.time}")
         print(
@@ -212,7 +212,7 @@ class HIVModel:
 
         self.timeline_scaling()
 
-        self.update_all_agents(burn=burn)
+        self.update_all_agents()
 
         stats = ao.get_stats(
             self.pop.all_agents,
@@ -229,7 +229,7 @@ class HIVModel:
         print(("Number of relationships: {}".format(len(self.pop.relationships))))
         self.pop.all_agents.print_subsets()
 
-    def update_all_agents(self, burn: bool = False):
+    def update_all_agents(self):
         """
         The core of the model.  For a time step, update all of the agents and relationships:
 
@@ -245,9 +245,6 @@ class HIVModel:
             * hiv
         6. End relationships with no remaining duration
         7. Agent death/replacement
-
-        args:
-            burn: whether the model is in burn-in model (negative time)
         """
         # If agent zero enabled, create agent zero at the beginning of main loop.
         if self.time == self.params.agent_zero.start_time and self.features.agent_zero:
@@ -259,9 +256,7 @@ class HIVModel:
                 self.pop.trim_graph()
 
         for rel in self.pop.relationships:
-            # If before hiv start time, ignore interactions
-            if (self.time >= self.params.hiv.start) or (not burn and self.features.pca):
-                self.agents_interact(rel)
+            self.agents_interact(rel)
 
         if self.features.syringe_services:
             self.update_syringe_services()
@@ -279,9 +274,11 @@ class HIVModel:
 
             if (
                 self.features.pca
-                and self.run_random.random()
-                < agent.location.params.prep.pca.awareness.prob
-                and not burn
+                and self.time >= self.params.prep.pca.start_time
+                and (
+                    self.run_random.random()
+                    < agent.location.params.prep.pca.awareness.prob
+                )
             ):
                 agent.prep_awareness = True
                 if self.run_random.random() < agent.location.params.prep.pca.prep.prob:
@@ -314,9 +311,7 @@ class HIVModel:
                             self.initiate_prep(agent)
 
                     if self.features.vaccine and not agent.prep:
-                        self.advance_vaccine(
-                            agent, vaxType=agent.location.params.vaccine.type, burn=burn
-                        )
+                        self.advance_vaccine(agent)
 
         if (
             self.features.prep
@@ -551,14 +546,16 @@ class HIVModel:
         else:  # neither agent is HIV or both are
             return False
 
-        if "pca" in interaction_types and rel.duration < rel.total_duration:
-            self.pca_interaction(rel)
+        if self.params.features.pca and self.time >= self.params.prep.pca.start_time:
+            if "pca" in interaction_types and rel.duration < rel.total_duration:
+                self.pca_interaction(rel)
 
-        if "injection" in interaction_types:
-            self.injection_transmission(agent, partner)
+        if self.time >= self.params.hiv.start:
+            if "injection" in interaction_types:
+                self.injection_transmission(agent, partner)
 
-        if "sex" in interaction_types:
-            self.sex_transmission(rel)
+            if "sex" in interaction_types:
+                self.sex_transmission(rel)
 
         return True
 
@@ -1079,7 +1076,9 @@ class HIVModel:
         diagnosed = agent.hiv_dx
         partner_tracing = agent.location.params.partner_tracing
 
-        def diagnose(agent,):
+        def diagnose(
+            agent,
+        ):
             # agent's location's params used throughout as that is the agent who
             # would be interacting with the service
             agent.hiv_dx = True
@@ -1219,15 +1218,13 @@ class HIVModel:
             if not agent.prep:
                 self.pop.prep_counts[agent.race] -= 1
 
-    def advance_vaccine(self, agent: Agent, vaxType: str, burn: bool):
+    def advance_vaccine(self, agent: Agent):
         """
         Progress vaccine. Agents may receive injection or progress in time
             since injection.
 
         args:
             agent: agent being updated
-            vaxType: type of vaccine
-            burn: whether the model is in burn-in mode
         """
         if not self.features.vaccine:
             return None
@@ -1236,19 +1233,18 @@ class HIVModel:
             agent.sex_type
         ].vaccine
 
-        if agent.vaccine and not burn:
+        if agent.vaccine:
             agent.vaccine_time += 1
             if (
                 agent.location.params.vaccine.booster
                 and agent.vaccine_time == vaccine_params.booster.interval
                 and self.run_random.random() < vaccine_params.booster.prob
             ):
-                agent.vaccinate(vaxType)
+                agent.vaccinate()
 
         elif self.time == agent.location.params.vaccine.start:
-            if agent.location.params.vaccine.init == burn:  # both true or both false
-                if self.run_random.random() < vaccine_params.prob:
-                    agent.vaccinate(vaxType)
+            if self.run_random.random() < vaccine_params.prob:
+                agent.vaccinate()
 
     def initiate_prep(self, agent: Agent, force: bool = False):
         """
@@ -1283,11 +1279,10 @@ class HIVModel:
 
                 hiv_agents = len(all_hiv_agents & all_race)
                 target_prep = (
-                    (len(all_race) - hiv_agents)
-                    * agent.location.params.demographics[agent.race][
-                        agent.sex_type
-                    ].prep.coverage
-                )
+                    len(all_race) - hiv_agents
+                ) * agent.location.params.demographics[agent.race][
+                    agent.sex_type
+                ].prep.coverage
             else:
                 num_prep_agents = sum(self.pop.prep_counts.values())
                 target_prep = int(
