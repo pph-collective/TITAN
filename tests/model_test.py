@@ -375,12 +375,10 @@ def test_incarcerate_not_hiv(make_model, make_agent):
     a = make_agent(SO="HM", race="white")
     p = make_agent(SO="HF", race="white")
     rel = Relationship(a, p, 10, "Sex")
-    a.location.params.prep.target = 1.0
-    a.location.params.prep.target_model = "Incar"
     a.location.params.demographics.white.HM.incar.prob = 1.0
 
     model.incarcerate(a)
-    assert p.prep
+    assert a.incar
 
 
 @pytest.mark.unit
@@ -544,14 +542,12 @@ def test_discontinue_prep_force(make_model, make_agent):
 
     # set up so the agent appears to be on PrEP
     a.prep = True
-    a.prep_reason = ["blah"]
     num_prep = model.pop.prep_counts[a.race]
     model.pop.prep_counts[a.race] += 1
 
     model.discontinue_prep(a, True)
 
     assert a.prep is False
-    assert a.prep_reason == []
     assert num_prep == model.pop.prep_counts[a.race]
 
 
@@ -564,14 +560,12 @@ def test_discontinue_prep_decrement_time(make_model, make_agent):
 
     # set up so the agent appears to be on PrEP
     a.prep = True
-    a.prep_reason = ["blah"]
     num_prep = model.pop.prep_counts[a.race]
     model.pop.prep_counts[a.race] += 1
 
     model.discontinue_prep(a)
 
     assert a.prep
-    assert a.prep_reason == ["blah"]
     assert num_prep + 1 == model.pop.prep_counts[a.race]
 
 
@@ -584,7 +578,6 @@ def test_discontinue_prep_decrement_end(make_model, make_agent):
 
     # set up so the agent appears to be on PrEP
     a.prep = True
-    a.prep_reason = ["blah"]
     a.prep_type = "Oral"
     num_prep = model.pop.prep_counts[a.race]
     model.pop.prep_counts[a.race] += 1
@@ -592,7 +585,6 @@ def test_discontinue_prep_decrement_end(make_model, make_agent):
     model.discontinue_prep(a)
 
     assert a.prep is False
-    assert a.prep_reason == []
     assert a.prep_type == ""
     assert num_prep == model.pop.prep_counts[a.race]
 
@@ -606,7 +598,6 @@ def test_discontinue_prep_decrement_not_end(make_model, make_agent):
 
     # set up so the agent appears to be on PrEP
     a.prep = True
-    a.prep_reason = ["blah"]
     a.prep_last_dose = 3
     a.prep_type = "Inj"
     num_prep = model.pop.prep_counts[a.race]
@@ -615,7 +606,6 @@ def test_discontinue_prep_decrement_not_end(make_model, make_agent):
     model.discontinue_prep(a)
 
     assert a.prep
-    assert a.prep_reason == ["blah"]
     assert a.prep_last_dose == 4  # 3 -> -1 -> +1 == 0 # Inj no longer in PrEP types
     assert num_prep + 1 == model.pop.prep_counts[a.race]
     assert a.prep_load > 0  # Inj no longer in PrEP types
@@ -630,7 +620,6 @@ def test_discontinue_prep_decrement_inj_end(make_model, make_agent):
 
     # set up so the agent appears to be on PrEP
     a.prep = True
-    a.prep_reason = ["blah"]
     a.prep_load = 0.4
     a.prep_last_dose = 12  # last step before hitting year mark and discontinuing
     a.prep_type = "Inj"
@@ -640,7 +629,6 @@ def test_discontinue_prep_decrement_inj_end(make_model, make_agent):
     model.discontinue_prep(a)
 
     assert a.prep is False
-    assert a.prep_reason == []
     assert a.prep_last_dose == 0  # 3 -> -1 -> +1 == 0 # Inj no longer in PrEP types
     assert num_prep == model.pop.prep_counts[a.race]
     assert a.prep_load == 0.0  # Inj no longer in PrEP types
@@ -703,7 +691,7 @@ def test_initiate_prep_eligible(make_model, make_agent):
     p.msmw = True
     model.time = 10
     a.location.params.prep.target = 1.0
-    a.location.params.prep.target_model = "CDCwomen"
+    a.location.params.prep.target_model = ["cdc_women"]
     rel = Relationship(a, p, 10, bond_type="Sex")
     # non-forcing, adherant, inj
     model.run_random = FakeRandom(-0.1)
@@ -713,9 +701,6 @@ def test_initiate_prep_eligible(make_model, make_agent):
     assert a.prep_adherence == 1
     # assert a.prep_load > 0.0 # Inj not in params prep_type anymore
     assert a.prep_last_dose == 0
-    assert "PWID" in a.prep_reason
-    assert "HIV test" in a.prep_reason
-    assert "MSMW" in a.prep_reason
 
 
 @pytest.mark.unit

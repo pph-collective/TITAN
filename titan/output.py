@@ -39,9 +39,6 @@ def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
     * "incarHIV"
     * "numPrEP"
     * "newNumPrEP"
-    * "iduPartPrep"
-    * "msmwPartPrep"
-    * "testedPartPrep"
     * "vaccinated"
     * "injectable_prep"
     * "oral_prep"
@@ -78,9 +75,6 @@ def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
             "incarHIV": 0,
             "numPrEP": 0,
             "newNumPrEP": 0,
-            "iduPartPrep": 0,
-            "msmwPartPrep": 0,
-            "testedPartPrep": 0,
             "vaccinated": 0,
             "injectable_prep": 0,
             "oral_prep": 0,
@@ -196,12 +190,6 @@ def get_stats(
 
         if a.prep:
             add_agent_to_stats(stats, attrs, a, "numPrEP")
-            if "PWID" in a.prep_reason:
-                add_agent_to_stats(stats, attrs, a, "iduPartPrep")
-            if "MSMW" in a.prep_reason:
-                add_agent_to_stats(stats, attrs, a, "msmwPartPrep")
-            if "HIV test" in a.prep_reason:
-                add_agent_to_stats(stats, attrs, a, "testedPartPrep")
             if a.prep_type == "Inj":
                 add_agent_to_stats(stats, attrs, a, "injectable_prep")
             elif a.prep_type == "Oral":
@@ -401,34 +389,6 @@ def newlyhighriskReport(
     )
 
 
-def prepReport(
-    run_id: str,
-    t: int,
-    runseed: int,
-    popseed: int,
-    stats: Dict[str, Any],
-    params: ObjMap,
-    outdir: str,
-):
-    """
-    Standard report writer for prep agents, columns include:
-
-    * `newEnroll`: number of agents newly enrolled in PrEP at this timestep
-    * `PWIDpartner`: number of prep agents with a PWID partner at this timestep
-    * `TestedPartner`: number of prep agents with a partner with diagnosed HIV at this timestep
-    * `MSMWpartner`: number of prep agents with an MSMW partner at this timestep
-    """
-    name_map = {
-        "newNumPrEP": "NewEnroll",
-        "iduPartPrep": "PWIDpartner",
-        "testedPartPrep": "DiagnosedPartner",
-        "msmwPartPrep": "MSMWpartner",
-    }
-    write_report(
-        "PrEPReport.txt", name_map, run_id, t, runseed, popseed, stats, params, outdir
-    )
-
-
 def basicReport(
     run_id: str,
     t: int,
@@ -453,9 +413,6 @@ def basicReport(
     * `NewDiag`: number of agents with HIV who were diagnosed this time period
     * `Deaths`: number of agents who died this time period
     * `PrEP`: number of agents enrolled in PrEP
-    * `IDUpart_PrEP`: number of agents enrolled in PrEP who have a PWID partner
-    * `MSMWpart_PrEP`: number of agents enrolled in PrEP who have an MSMW partner
-    * `testedPart_PrEP`: number of agents enrolled in PrEP who have an HIV diagnosed partner
     * `Vaccinated`: number of agents who have been vaccinated
     * `LAI`: number of agents enrolled in PrEP with a type of LAI
     * `Oral`: number of agents enrolled in PrEP with a type of Oral
@@ -473,9 +430,6 @@ def basicReport(
         "newlyDiagnosed": "NewDx",
         "deaths": "Deaths",
         "numPrEP": "PrEP",
-        "iduPartPrep": "IDUpart_PrEP",
-        "msmwPartPrep": "MSMWpart_PrEP",
-        "testedPartPrep": "testedPart_PrEP",
         "vaccinated": "Vaccinated",
         "injectable_prep": "LAI",
         "oral_prep": "Oral",

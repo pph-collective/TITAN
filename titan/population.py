@@ -228,10 +228,7 @@ class Population:
                 1, location.params.hiv.max_init_time
             )
 
-        elif self.features.prep and agent.prep_eligible(
-            location.params.prep.target_model,
-            location.params.partnership.ongoing_duration,
-        ):
+        elif self.features.prep and agent.prep_eligible():
             if (
                 time >= location.params.prep.start
                 and self.pop_random.random() < location.params.prep.target
@@ -250,7 +247,7 @@ class Population:
                 1, location.params.high_risk.sex_based[agent.sex_type].duration
             )
 
-        for bond, bond_def in self.params.classes.bond_types.items():
+        for bond, bond_def in location.params.classes.bond_types.items():
             agent.partners[bond] = set()
             dist_info = agent_params.num_partners[bond]
             agent.mean_num_partners[bond] = ceil(

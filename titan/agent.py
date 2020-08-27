@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from typing import List, Dict, Set, Optional, Iterator, Iterable
+from typing import List, Dict, Set, Optional, Iterator, Iterable, Tuple
 
 from .parse_params import ObjMap
 from .utils import safe_divide, safe_dist
@@ -82,7 +82,6 @@ class Agent:
         self.ssp = False
         self.prep = False
         self.prep_adherence = 0
-        self.prep_reason: List[str] = []
         self.intervention_ever = False
         self.random_trial_enrolled = False
         self.vaccine = False
@@ -173,43 +172,87 @@ class Agent:
         else:
             return False
 
-    def prep_eligible(self, target_model: str, ongoing_duration: int) -> bool:
+    def is_msm(self) -> bool:
+        """
+        Determine whether an agent is a man who can have sex with men
+
+        returns:
+            if agent is MSM
+        """
+        sex_dict = self.location.params.classes.sex_types
+        if sex_dict[self.sex_type].gender != "M":
+            return False
+
+        for sex_type in sex_dict[self.sex_type].sleeps_with:
+            if sex_dict[sex_type].gender == "M":
+                return True
+        return False
+
+    def cdc_eligible(self) -> bool:
+        """
+        Determine agent eligibility for PrEP under CDC criteria
+
+        returns:
+            cdc eligibility
+        """
+        if self.is_msm():
+            return True
+
+        ongoing_duration = self.location.params.partnership.ongoing_duration
+        for rel in self.relationships:
+            partner = rel.get_partner(self)
+            if rel.duration > ongoing_duration and partner.hiv_dx:
+                return True
+
+            if partner.drug_type == "Inj" or partner.is_msm():
+                return True
+
+        return False
+
+    def prep_eligible(self) -> bool:
         """
         Determine if an agent is eligible for PrEP
 
-        args:
-            target_model: Model of prep allocation [params.prep.target_model]
-            ongoing_duration: Number of time steps above which a relationship is considered ongoing [params.partnership.ongoing_duration]
-
         returns:
-            eligibility
+            prep eligibility
         """
+        target_model = self.location.params.prep.target_model
+        gender = self.location.params.classes.sex_types[self.sex_type].gender
         # if agent is already on prep, not eligible to enroll
-        if self.prep:
+        if self.prep or self.vaccine:
             return False
 
-        eligible = False
-        if target_model in ("Allcomers", "Racial"):
-            eligible = True
-        elif target_model == "CDCwomen":
-            if self.sex_type == "HF":
-                for rel in self.relationships:
-                    partner = rel.get_partner(self)
-                    if rel.duration > ongoing_duration:
-                        if partner.drug_type == "Inj":
-                            eligible = True
-                            self.prep_reason.append("PWID")
-                        if partner.hiv_dx:
-                            eligible = True
-                            self.prep_reason.append("HIV test")
-                        if partner.msmw:
-                            eligible = True
-                            self.prep_reason.append("MSMW")
-        elif target_model == "MSM":
-            if self.sex_type in ("MSM", "MTF"):
-                eligible = True
+        all_eligible_models = {"Allcomers", "Racial"}
 
-        return eligible
+        if all_eligible_models.intersection(target_model):
+            return True
+
+        if "cdc_women" in target_model:
+            if gender == "F":
+                if self.cdc_eligible():
+                    return True
+
+        if "cdc_msm" in target_model:
+            if gender == "M" and self.cdc_eligible():
+                return True
+
+        if "pwid_sex" in target_model:
+            if self.drug_type == "Inj" and self.cdc_eligible():
+                return True
+
+        if "pwid" in target_model:
+            if self.drug_type == "Inj":
+                return True
+
+        if "ssp_sex" in target_model:
+            if self.ssp and self.cdc_eligible():
+                return True
+
+        if "ssp" in target_model:
+            if self.ssp:
+                return True
+
+        return False
 
     def enroll_prep(self, rand_gen):
         """
@@ -250,7 +293,6 @@ class Agent:
         if self.prep_last_dose > params.model.time.steps_per_year:
             self.prep_load = 0.0
             self.prep = False
-            self.prep_reason = []
             self.prep_type = ""
             self.prep_last_dose = 0
         else:

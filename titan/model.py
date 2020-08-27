@@ -312,10 +312,7 @@ class HIVModel:
                     if self.time >= agent.location.params.prep.start:
                         if agent.prep:
                             self.discontinue_prep(agent)
-                        elif agent.prep_eligible(
-                            agent.location.params.prep.target_model,
-                            agent.location.params.partnership.ongoing_duration,
-                        ):
+                        elif agent.prep_eligible():
                             self.initiate_prep(agent)
 
                     if self.features.vaccine and not agent.prep:
@@ -326,7 +323,7 @@ class HIVModel:
         if (
             self.features.prep
             and self.time == agent.location.params.prep.start
-            and agent.location.params.prep.target_model == "RandomTrial"
+            and "RandomTrial" in agent.location.params.prep.target_model
         ):
             self.initialize_random_trial()
 
@@ -401,17 +398,6 @@ class HIVModel:
 
         if agent.high_risk_time > 0:
             agent.high_risk_time -= 1
-            if (
-                agent.sex_type == "HM"
-                and self.features.prep
-                and (
-                    agent.location.params.prep.target_model
-                    in ("high_risk", "incarcerated_high_risk")
-                )
-            ):
-                for part in agent.iter_partners():
-                    if not (part.hiv or part.vaccine):
-                        self.initiate_prep(part)
         else:
             self.pop.high_risk_agents.remove_agent(agent)
             agent.high_risk = False
@@ -1083,14 +1069,6 @@ class HIVModel:
                         ):
                             self.become_high_risk(partner)
 
-                    if self.features.prep and (
-                        partner.location.params.prep.target_model
-                        in ("Incar", "IncarHR")
-                    ):
-                        # Attempt to put partner on prep if less than probability
-                        if not partner.hiv and not agent.vaccine:
-                            self.initiate_prep(partner)
-
     def diagnose_hiv(self, agent: Agent):
         """
         Stochastically test the agent for HIV. If tested, mark the agent as diagnosed and trace their partners (if partner tracing enabled).
@@ -1223,7 +1201,6 @@ class HIVModel:
         if force:
             self.pop.prep_counts[agent.race] -= 1
             agent.prep = False
-            agent.prep_reason = []
             agent.prep_load = 0.0
             agent.prep_last_dose = 0
             return None
@@ -1239,7 +1216,6 @@ class HIVModel:
             self.pop.prep_counts[agent.race] -= 1
             agent.prep = False
             agent.prep_type = ""
-            agent.prep_reason = []
 
         if agent.prep_type == "Inj":
             agent.update_prep_load()
@@ -1304,16 +1280,8 @@ class HIVModel:
         if force:
             enroll_prep(self, agent)
         else:
-            if agent.location.params.prep.target_model == "Racial":
+            if "Racial" in agent.location.params.prep.target_model:
                 num_prep_agents = self.pop.prep_counts[agent.race]
-            else:
-                num_prep_agents = sum(self.pop.prep_counts.values())
-
-            if agent.location.params.prep.target_model in ("Incar", "IncarHR"):
-                if self.run_random.random() < agent.location.params.prep.target:
-                    enroll_prep(self, agent)
-                return None
-            elif agent.location.params.prep.target_model == "Racial":
                 all_hiv_agents = self.pop.hiv_agents.members
                 all_race = {a for a in self.pop.all_agents if a.race == agent.race}
 
@@ -1325,6 +1293,7 @@ class HIVModel:
                 ].prep.coverage
 
             else:
+                num_prep_agents = sum(self.pop.prep_counts.values())
                 target_prep = int(
                     (
                         self.pop.all_agents.num_members()
@@ -1333,16 +1302,10 @@ class HIVModel:
                     * agent.location.params.prep.target
                 )
 
-            if agent.location.params.prep.target_model in ("Incar", "IncarHR"):
-                if self.run_random.random() < agent.location.params.prep.target:
-                    enroll_prep(self, agent)
-            elif (
+            if (
                 num_prep_agents < target_prep
                 and self.time >= agent.location.params.prep.start
-                and agent.prep_eligible(
-                    agent.location.params.prep.target_model,
-                    agent.location.params.partnership.ongoing_duration,
-                )
+                and agent.prep_eligible()
             ):
                 enroll_prep(self, agent)
 
