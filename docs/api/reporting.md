@@ -1,0 +1,3 @@
+# Tabular Reports
+
+::: titan.output

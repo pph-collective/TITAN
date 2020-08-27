@@ -1,3 +1,6 @@
 black
 mypy
 flake8
+mkdocs
+mkdocs-material
+mkdocstrings

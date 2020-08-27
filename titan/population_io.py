@@ -37,17 +37,20 @@ agent_exclude_attrs = ["partners", "relationships"]
 
 def write(
     pop: Population, dir: str, intervention_attrs: bool = False, compress: bool = True
-):
+) -> str:
     """
     Write a non-empty Population to file.
 
-    :Input:
-        pop: Population - a non-empty agent population
-        dir: str - path to directory where files should be written
-        intervention_attrs: boolean - whether to include intervention attributions in addition to core agent attributes (less likely to be backwards compatible if used with different versions of the model) [default False]
-        compress: boolean - whether to compress and archive the csvs [default True]
-    :Output:
-        path: str - archive name if compress is true
+    args:
+        pop: a non-empty agent population
+        dir: path to directory where files should be written
+        intervention_attrs: whether to include intervention attributions in addition to
+            core agent attributes (less likely to be backwards compatible if used with
+            different versions of the model)
+        compress: whether to compress and archive the csv
+
+    returns:
+        path, or archive name if compress is true
     """
     assert len(pop.relationships) > 0, "can't write empty population"
 
@@ -86,17 +89,20 @@ def write(
         os.remove(agent_file)
         os.remove(rel_file)
         return archive_name
+    else:
+        return dir
 
 
 def read(params: ObjMap, path: str) -> Population:
     """
-    Read a population from file and return a Population instnace
+    Read a population from file and return a Population instance
 
-    :Input:
-        params: ObjMap - the parameters used for creating this popultation
-        path: str - path where <id>_agents.csv and <id>_relationships.csv are or tar.gz file containing population
-    :Output:
-        pop : Population
+    args:
+        params: the parameters used for creating this popultation
+        path: path where [id]_agents.csv and [id]_relationships.csv are or tar.gz file
+            containing population
+    returns:
+        the re-constituted population
     """
     if os.path.isfile(path):
         dir = mkdtemp()

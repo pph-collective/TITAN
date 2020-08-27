@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Iterator
 from .agent import AgentSet, Agent
 import itertools
 import os
@@ -10,9 +10,45 @@ from networkx import betweenness_centrality, effective_size, density  # type: ig
 from .parse_params import ObjMap
 
 
-def setup_aggregates(params: ObjMap, classes: List[str]):
+def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
     """
-    Create nested dictionary of attribute values to items to count
+    Recursively create a nested dictionary of attribute values to items to count.
+
+    Attributes are classes defined in params, the items counted are:
+
+    * "numAgents"
+    * "inf_HR6m"
+    * "inf_HRever"
+    * "inf_newInf"
+    * "newHR"
+    * "newHR_HIV"
+    * "newHR_AIDS"
+    * "newHR_tested"
+    * "newHR_ART"
+    * "newRelease"
+    * "newReleaseHIV"
+    * "numHIV"
+    * "numTested"
+    * "numAIDS"
+    * "numART"
+    * "numHR"
+    * "newlyTested"
+    * "deaths"
+    * "deaths_HIV"
+    * "incar"
+    * "incarHIV"
+    * "numPrEP"
+    * "newNumPrEP"
+    * "vaccinated"
+    * "injectable_prep"
+    * "oral_prep"
+
+    args:
+        params: model parameters
+        classes: which classes to aggregate by [params.outputs.classes]
+
+    returns:
+        dictionary of class values to counts
     """
     if classes == []:
         return {
@@ -39,13 +75,9 @@ def setup_aggregates(params: ObjMap, classes: List[str]):
             "incarHIV": 0,
             "numPrEP": 0,
             "newNumPrEP": 0,
-            "iduPartPrep": 0,
-            "msmwPartPrep": 0,
-            "testedPartPrep": 0,
             "vaccinated": 0,
             "injectable_prep": 0,
             "oral_prep": 0,
-            "prep_aware": 0,
         }
 
     stats = {}
@@ -57,18 +89,32 @@ def setup_aggregates(params: ObjMap, classes: List[str]):
     return stats
 
 
-def get_aggregates(params: ObjMap):
+def get_aggregates(params: ObjMap) -> Iterator:
     """
     Get iterator over all attribute combinations for output classes
+
+    args:
+        params: model parameters
+
+    returns:
+        iterator over attribute combinations
     """
     return itertools.product(
         *[list(k for k in params.classes[clss]) for clss in params.outputs.classes]
     )
 
 
-def get_agg_val(stats, attrs, key):
+def get_agg_val(stats: Dict, attrs: List, key: str) -> int:
     """
     Get the value of a key in stats given the attribute values
+
+    args:
+        stats: a nested dictionariy of attributes to counts
+        attrs: a list of attribute values to find the count for
+        key: the type of count to get the value of
+
+    returns:
+        the count of key for the given attributes
     """
     stats_item = stats
     for attr in attrs:
@@ -79,7 +125,13 @@ def get_agg_val(stats, attrs, key):
 
 def add_agent_to_stats(stats: Dict[str, Any], attrs: List[str], agent: Agent, key: str):
     """
-    Update the stats dictionary with +1 for the key given the agent's attributes
+    Update the stats dictionary counts for the key given the agent's attributes
+
+    args:
+        stats: a nested dictionary of attributes to counts
+        attrs: a list of attribute types (e.g. "race")
+        agent: the agent whose attribute values will be evaluated
+        key: the type of count to increment
     """
     stats_item = stats
     for attr in attrs:
@@ -97,8 +149,23 @@ def get_stats(
     new_incar_release: AgentSet,
     deaths: List[Agent],
     params: ObjMap,
-):
+) -> Dict:
+    """
+    Get the current statistics for a model based on the population, and tracking agent sets from the model.
 
+    args:
+        all_agents: all of the agents in the population
+        new_prep_agents: agents who are newly on prep this timestep
+        new_hiv: agents are newly hiv this timestep
+        new_hiv_dx: agents who are newly diagnosed with hiv this timestep
+        new_high_risk: agents are newly high risk this timestep
+        new_incar_release: agents are released from incarceration this timestep
+        deaths: agents who died this timestep
+        params: model parameters
+
+    returns:
+        nested dictionary of agent attributes to counts of various items
+    """
     stats = setup_aggregates(params, params.outputs.classes)
     attrs = [
         clss[:-1] for clss in params.outputs.classes
@@ -123,12 +190,6 @@ def get_stats(
 
         if a.prep:
             add_agent_to_stats(stats, attrs, a, "numPrEP")
-            if "PWID" in a.prep_reason:
-                add_agent_to_stats(stats, attrs, a, "iduPartPrep")
-            if "MSMW" in a.prep_reason:
-                add_agent_to_stats(stats, attrs, a, "msmwPartPrep")
-            if "HIV test" in a.prep_reason:
-                add_agent_to_stats(stats, attrs, a, "testedPartPrep")
             if a.prep_type == "Inj":
                 add_agent_to_stats(stats, attrs, a, "injectable_prep")
             elif a.prep_type == "Oral":
@@ -185,11 +246,30 @@ def get_stats(
 
 
 def write_report(
-    file_name, name_map, run_id, t, runseed, popseed, stats, params, outdir
+    file_name: str,
+    name_map: Dict[str, str],
+    run_id: str,
+    t: int,
+    runseed: int,
+    popseed: int,
+    stats: Dict,
+    params: ObjMap,
+    outdir: str,
 ):
     """
     Core function for writing reports, writes header if file is new, then data based
-    on the params and name_map
+    on the `params` and `name_map`
+
+    args:
+        file_name: Name of the file to write, including the extension (e.g. `MyReport.txt`)
+        name_map: Map from keys in the stats dictionary to column headers in this report
+        run_id: unique identifier for this model
+        t: current timestep
+        runseed: integer used to seed the random number generator for the model
+        popseed: integer used to seed the random number generator for the population
+        stats: nested dictionary of agent attributes to counts
+        params: model parameters
+        outdir: path of where to save this file
     """
     f = open(os.path.join(outdir, file_name), "a")
     attrs = [clss[:-1] for clss in params.outputs.classes]
@@ -228,7 +308,16 @@ def deathReport(
     params: ObjMap,
     outdir: str,
 ):
-    name_map = {"deaths": "tot", "deaths_HIV": "HIV"}
+    """
+    Standard report writer for agent deaths, columns include:
+
+    * `tot`: total number of deaths at this timestep
+    * `HIV`: number of deaths of agents with HIV at this timestep
+    """
+    name_map = {
+        "deaths": "tot",
+        "deaths_HIV": "HIV",
+    }
     write_report(
         "DeathReport.txt", name_map, run_id, t, runseed, popseed, stats, params, outdir
     )
@@ -243,6 +332,14 @@ def incarReport(
     params: ObjMap,
     outdir: str,
 ):
+    """
+    Standard report writer for agent incarcerations, columns include:
+
+    * `tot`: total number of incarcerated agents at this timestep
+    * `HIV`: number of incarcerated agents with HIV at this timestep
+    * `rlsd`: number of agents released at this timestep
+    * `rlsdHIV`: number of agents with HIV released at this timestep
+    """
     name_map = {
         "incar": "tot",
         "incarHIV": "HIV",
@@ -263,6 +360,15 @@ def newlyhighriskReport(
     params: ObjMap,
     outdir: str,
 ):
+    """
+    Standard report writer for newly high risk agents, columns include:
+
+    * `newHR`: number of agents that became high risk at this timestep
+    * `newHR_HIV`: number of agents with HIV that became high risk at this timestep
+    * `newHR_AIDS`: number of agents with AIDS that became high risk at this timestep
+    * `newHR_Tested`: number of agents with diagnosed HIV that became high risk at this timestep
+    * `newHR_ART`: number of agents on HAART that became high risk at this timestep
+    """
     name_map = {
         "newHR": "newHR",
         "newHR_HIV": "newHR_HIV",
@@ -283,26 +389,6 @@ def newlyhighriskReport(
     )
 
 
-def prepReport(
-    run_id: str,
-    t: int,
-    runseed: int,
-    popseed: int,
-    stats: Dict[str, Any],
-    params: ObjMap,
-    outdir: str,
-):
-    name_map = {
-        "newNumPrEP": "NewEnroll",
-        "iduPartPrep": "PWIDpartner",
-        "testedPartPrep": "DiagnosedPartner",
-        "msmwPartPrep": "MSMWpartner",
-    }
-    write_report(
-        "PrEPReport.txt", name_map, run_id, t, runseed, popseed, stats, params, outdir
-    )
-
-
 def basicReport(
     run_id: str,
     t: int,
@@ -312,6 +398,25 @@ def basicReport(
     params: ObjMap,
     outdir: str,
 ):
+    """
+    Standard report writer for basic agent statistics, columns include:
+
+    * `Total`: number of agents in the population
+    * `HIV`: number of agents with HIV
+    * `AIDS`: number of agents with AIDS
+    * `Tstd`: number of agents with HIV who are diagnosed
+    * `ART`: number of agents on HAART
+    * `nHR`: number of agents who are high risk
+    * `Incid`: number of agents who HIV converted this time period
+    * `HR_6mo`: number of agents with HIV converted this time period who are high risk
+    * `HR_Ev`: number of agents with HIV converted this time period who have ever been high risk
+    * `NewDiag`: number of agents with HIV who were diagnosed this time period
+    * `Deaths`: number of agents who died this time period
+    * `PrEP`: number of agents enrolled in PrEP
+    * `Vaccinated`: number of agents who have been vaccinated
+    * `LAI`: number of agents enrolled in PrEP with a type of LAI
+    * `Oral`: number of agents enrolled in PrEP with a type of Oral
+    """
     name_map = {
         "numAgents": "Total",
         "numHIV": "HIV",
@@ -325,13 +430,9 @@ def basicReport(
         "newlyDiagnosed": "NewDx",
         "deaths": "Deaths",
         "numPrEP": "PrEP",
-        "iduPartPrep": "IDUpart_PrEP",
-        "msmwPartPrep": "MSMWpart_PrEP",
-        "testedPartPrep": "testedPart_PrEP",
         "vaccinated": "Vaccinated",
         "injectable_prep": "LAI",
         "oral_prep": "Oral",
-        "prep_aware": "Aware",
     }
     write_report(
         "basicReport.txt", name_map, run_id, t, runseed, popseed, stats, params, outdir
@@ -346,12 +447,21 @@ def print_components(
     t: int,
     runseed: int,
     popseed: int,
-    components,
+    components: List,
     outdir: str,
     races: list,
 ):
     """
     Write stats describing the components (sub-graphs) in a graph to file
+
+    args:
+        run_id: unique identifer for this run of the model
+        t: current timestep
+        runseed: integer used to seed the model's random number generator
+        popseed: integer used to seed the population's random number generator
+        components: a list of graph components
+        outdir: path where the file should be saved
+        races: the races in the population
     """
     f = open(os.path.join(outdir, f"{run_id}_componentReport_ALL.txt"), "a")
 
