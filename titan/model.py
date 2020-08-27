@@ -566,7 +566,7 @@ class HIVModel:
 
         args:
             rel: The relationship PCA is happening in
-            force: Whether to force knowledge dissemination and influce
+            force: Whether to force knowledge dissemination and influence
         """
 
         assert (
@@ -942,7 +942,7 @@ class HIVModel:
 
         args:
             agent: agent becoming high risk
-            duration: duration of the high risk period, default so param value if not passed [params.high_risk.sex_based]
+            duration: duration of the high risk period, defaults to param value if not passed [params.high_risk.sex_based]
         """
 
         if not self.features.high_risk:
@@ -1066,10 +1066,10 @@ class HIVModel:
 
     def diagnose_hiv(self, agent: Agent):
         """
-        Stochasticlaly test the agent for HIV.  If tested, mark the agent as diagnosed and trace their partners (if partner tracing enabled).
+        Stochastically test the agent for HIV. If tested, mark the agent as diagnosed and trace their partners (if partner tracing enabled).
 
         args:
-            agent: agent to diagnose
+            agent: HIV positive agent to diagnose
         """
         sex_type = agent.sex_type
         race_type = agent.race
@@ -1187,7 +1187,7 @@ class HIVModel:
 
         args:
             agent: agent being updated
-            force: whtehr to force discontinuation of PrEP
+            force: whether to force discontinuation of PrEP
         """
         # Agent must be on PrEP to discontinue PrEP
         assert agent.prep
@@ -1283,6 +1283,7 @@ class HIVModel:
                 ) * agent.location.params.demographics[agent.race][
                     agent.sex_type
                 ].prep.coverage
+
             else:
                 num_prep_agents = sum(self.pop.prep_counts.values())
                 target_prep = int(

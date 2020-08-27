@@ -65,7 +65,7 @@ def test_get_stats(stats):
     assert stats["world"]["black"]["MSM"]["newHR"] == 1
     assert stats["world"]["black"]["MSM"]["newHR_HIV"] == 1
     assert stats["world"]["black"]["MSM"]["newHR_AIDS"] == 1
-    assert stats["world"]["black"]["MSM"]["newHR_tested"] == 1
+    assert stats["world"]["black"]["MSM"]["newHR_dx"] == 1
     assert stats["world"]["black"]["MSM"]["newHR_ART"] == 1
     assert stats["world"]["black"]["MSM"]["numHIV"] == 1
     assert stats["world"]["black"]["MSM"]["numAIDS"] == 1

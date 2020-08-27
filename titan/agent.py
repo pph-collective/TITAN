@@ -148,7 +148,7 @@ class Agent:
 
     def has_partners(self) -> bool:
         """
-        Get whether an agent has any partners
+        Determine whether an agent has any partners
 
         returns:
             whether an agent has at least one partner
@@ -157,7 +157,7 @@ class Agent:
 
     def get_acute_status(self, acute_time_period) -> bool:
         """
-        Get acute status of agent at time period
+        Get acute status of agent at time
 
         args:
             acute_time_period: How long an agent with HIV is acute for
@@ -588,7 +588,7 @@ class AgentSet:
     # removing trickles down
     def remove_agent(self, agent: Agent) -> None:
         """
-        Removes agent from agent set if they are a member of the set.  Also removes the agent from any sub sets.
+        Removes agent from agent set if they are a member of the set.  Also removes the agent from any subsets.
 
         args:
             agent: agent to remove
