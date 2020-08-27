@@ -249,7 +249,7 @@ class HIVModel:
         7. Agent death/replacement
 
         args:
-            burn: whether the model is in burn-in model (negative time)
+            burn: whether the model is in burn-in period (negative time)
         """
         # If agent zero enabled, create agent zero at the beginning of main loop.
         if self.time == self.params.agent_zero.start_time and self.features.agent_zero:
