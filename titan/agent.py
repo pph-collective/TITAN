@@ -549,7 +549,7 @@ class AgentSet:
     # removing trickles down
     def remove_agent(self, agent: Agent) -> None:
         """
-        Removes agent from agent set if they are a member of the set.  Also removes the agent from any sub sets.
+        Removes agent from agent set if they are a member of the set.  Also removes the agent from any subsets.
 
         args:
             agent: agent to remove
