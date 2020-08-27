@@ -585,7 +585,7 @@ class HIVModel:
 
         args:
             rel: The relationship PCA is happening in
-            force: Whether to force knowledge dissemination and influce
+            force: Whether to force knowledge dissemination and influence
         """
 
         assert (
