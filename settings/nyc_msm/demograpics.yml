@@ -1,0 +1,21 @@
+demographics:
+  white:
+    ppl: 0.500
+    MSM:
+      ppl: 1.0
+      sex_role:
+        insertive: 0.439
+        receptive: 0.286
+        versatile: 0.276
+      hiv:
+        init: 0.111
+        dx:
+          init: 0.920
+          prob: 0.184
+      aids:
+        init: 0.471
+      haart:
+        init: 0.7912
+        prob:
+
+
