@@ -115,7 +115,7 @@ def get_agg_val(stats: Dict, attrs: List, key: str) -> int:
     Get the value of a key in stats given the attribute values
 
     args:
-        stats: a nested dictionariy of attributes to counts
+        stats: a nested dictionary of attributes to count
         attrs: a list of attribute values to find the count for
         key: the type of count to get the value of
 
@@ -164,7 +164,7 @@ def get_stats(
         new_prep_agents: agents who are newly on prep this timestep
         new_hiv: agents are newly hiv this timestep
         new_hiv_dx: agents who are newly diagnosed with hiv this timestep
-        new_high_risk: agents are newly high risk this timestep
+        new_high_risk: agents who are newly high risk this timestep
         new_incar_release: agents are released from incarceration this timestep
         deaths: agents who died this timestep
         params: model parameters

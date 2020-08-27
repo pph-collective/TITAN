@@ -1093,10 +1093,10 @@ class HIVModel:
 
     def diagnose_hiv(self, agent: Agent):
         """
-        Stochastically test the agent for HIV.  If tested, mark the agent as diagnosed and trace their partners (if partner tracing enabled).
+        Stochastically test the agent for HIV. If tested, mark the agent as diagnosed and trace their partners (if partner tracing enabled).
 
         args:
-            agent: agent to diagnose
+            agent: HIV positive agent to diagnose
         """
         sex_type = agent.sex_type
         race_type = agent.race
@@ -1214,7 +1214,7 @@ class HIVModel:
 
         args:
             agent: agent being updated
-            force: whtehr to force discontinuation of PrEP
+            force: whether to force discontinuation of PrEP
         """
         # Agent must be on PrEP to discontinue PrEP
         assert agent.prep
