@@ -1091,7 +1091,7 @@ class HIVModel:
 
     def diagnose_hiv(self, agent: Agent):
         """
-        Stochasticlaly test the agent for HIV.  If tested, mark the agent as diagnosed and trace their partners (if partner tracing enabled).
+        Stochastically test the agent for HIV.  If tested, mark the agent as diagnosed and trace their partners (if partner tracing enabled).
 
         args:
             agent: agent to diagnose
