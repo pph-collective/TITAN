@@ -1071,7 +1071,8 @@ class HIVModel:
 
     def diagnose_hiv(self, agent: Agent):
         """
-        Stochastically test the agent for HIV. If tested, mark the agent as diagnosed and trace their partners (if partner tracing enabled).
+        Stochastically test the agent for HIV. If tested, mark the agent as diagnosed
+            and trace their partners (if partner tracing enabled).
 
         args:
             agent: HIV positive agent to diagnose
@@ -1132,6 +1133,8 @@ class HIVModel:
             (HAART).
             HAART was implemented in 1996, hence, there is treatment only after 1996.
             HIV treatment assumes that the agent knows their HIV+ status (`dx` is True).
+            Agent initiation probability depends on time since diagnosis and whether
+            they've previously been on haart.
 
         args:
             agent: agent being updated
@@ -1181,6 +1184,8 @@ class HIVModel:
                         initiate(agent)
                 else:
                     if not agent.haart_ever:
+                        # Look through possible haart probabilities based on time since
+                        # diagnosis
                         for defn in agent.location.params.haart.start_haart:
                             if defn.start_time == agent.hiv_dx_time:
                                 haart_prob = defn.prob
@@ -1191,7 +1196,7 @@ class HIVModel:
                     haart_prob *= self.calibration.haart.coverage
                     if self.run_random.random() < haart_prob:
                         initiate(agent)
-                            
+
             # Go off HAART
             elif agent.haart and self.run_random.random() < haart_params.discontinue:
                 agent.haart = False
