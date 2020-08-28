@@ -206,7 +206,7 @@ LAI_chance = 0.5
 params.prep.target = (
     0.088  # Target coverage for PrEP therapy at 10 years (unused in non-PrEP models)
 )
-params.prep.start = 0  # Start date for PrEP program (0 for start of model)
+params.prep.start_time = 0  # Start date for PrEP program (0 for start of model)
 params.demographics.PWID.prep.adherence = 0.82  # Probability of being adherent
 params.prep.efficacy.adherent = 0.96  # Efficacy of adherence PrEP
 params.prep.efficacy.non_adherant = 0.76  # Efficacy of non-adherence PrEP

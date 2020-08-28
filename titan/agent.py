@@ -304,15 +304,12 @@ class Agent:
                 (0.5) ** (annualized_last_dose / annualized_half_life)
             )
 
-    def vaccinate(self, vax: str) -> None:
+    def vaccinate(self) -> None:
         """
         Vaccinate an agent and update relevant fields.
-
-        args:
-            vax: Vaccine type
         """
         self.vaccine = True
-        self.vaccine_type = vax
+        self.vaccine_type = self.location.params.vaccine.type
         self.vaccine_time = 1
 
     def get_partners(self, bond_types: Optional[Iterable[str]] = None) -> Set["Agent"]:
