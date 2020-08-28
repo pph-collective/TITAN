@@ -62,7 +62,7 @@ high_risk:
   prob: 0.3
 vaccine:
   type: RV144
-  start: 1
+  start_time: 1
   booster: false
 incar:
   haart:
@@ -74,7 +74,7 @@ prep:
   - Oral
   - Inj
   target: 0.088
-  start: 0
+  start_time: 0
   efficacy:
     adherent: 0.96
     non_adherant: 0.76

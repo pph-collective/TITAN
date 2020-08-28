@@ -20,11 +20,11 @@ partner_tracing:
       - Sex
       - Inj
       - SexInj
-  start:
+  start_time:
     description: "What time step to start partner tracing"
     type: int
     default: 0
-  stop:
+  stop_time:
     description: "What time step to stop partner tracing"
     type: int
     default: 9999

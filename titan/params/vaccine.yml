@@ -10,12 +10,12 @@ vaccine:
     default: true
     description: Whether to use booster vaccines
     type: boolean
-  start:
+  start_time:
     default: 1
     description: Time step at which to start vaccination
     type: int
     min: 0
-  init:
-    default: true
+  on_init:
+    default: false
     description: Whether to initialize the population with vaccination
     type: boolean

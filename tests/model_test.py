@@ -86,7 +86,7 @@ def test_pca_msmw(make_model, make_agent, params):
 @pytest.mark.unit
 def test_initialize_random_trial_prep(make_model, params):
     params.features.prep = False
-    params.vaccine.init = False
+    params.vaccine.on_init = False
     model = make_model()
     model.run_random = FakeRandom(-0.1)
     model.time = 0
@@ -854,8 +854,8 @@ def test_timeline_scaling_prep_def(make_model):
         {
             "scale": {
                 "parameter": "prep|target",
-                "time_start": 1,
-                "time_stop": 3,
+                "start_time": 1,
+                "stop_time": 3,
                 "scalar": scalar,
             }
         }

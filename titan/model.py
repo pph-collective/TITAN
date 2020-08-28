@@ -296,7 +296,7 @@ class HIVModel:
             if agent.hiv:
                 agent.hiv_time += 1
                 # If HIV hasn't started, ignore
-                if self.time >= self.params.hiv.start:
+                if self.time >= self.params.hiv.start_time:
                     self.diagnose_hiv(agent)
                     self.progress_to_aids(agent)
 
@@ -304,7 +304,7 @@ class HIVModel:
                         self.update_haart(agent)
             else:
                 if self.features.prep:
-                    if self.time >= agent.location.params.prep.start:
+                    if self.time >= agent.location.params.prep.start_time:
                         if agent.prep:
                             self.discontinue_prep(agent)
                         elif agent.prep_eligible():
@@ -315,7 +315,7 @@ class HIVModel:
 
         if (
             self.features.prep
-            and self.time == agent.location.params.prep.start
+            and self.time == agent.location.params.prep.start_time
             and "RandomTrial" in agent.location.params.prep.target_model
         ):
             self.initialize_random_trial()
@@ -375,10 +375,10 @@ class HIVModel:
             for defn in params.timeline_scaling.timeline.values():
                 param = defn.parameter
                 if param != "ts_default":
-                    if defn.time_start == self.time:
+                    if defn.start_time == self.time:
                         print(f"timeline scaling - {param}")
                         utils.scale_param(params, param, defn.scalar)
-                    elif defn.time_stop == self.time:
+                    elif defn.stop_time == self.time:
                         print(f"timeline un-scaling - {param}")
                         utils.scale_param(params, param, 1 / defn.scalar)
 
@@ -550,7 +550,7 @@ class HIVModel:
             if "pca" in interaction_types and rel.duration < rel.total_duration:
                 self.pca_interaction(rel)
 
-        if self.time >= self.params.hiv.start:
+        if self.time >= self.params.hiv.start_time:
             if "injection" in interaction_types:
                 self.injection_transmission(agent, partner)
 
@@ -897,12 +897,12 @@ class HIVModel:
         ssp_agents = {agent for agent in self.pop.pwid_agents.members if agent.ssp}
         if self.features.syringe_services:
             for item in self.params.syringe_services.timeline.values():
-                if item.time_start <= self.time < item.time_stop:
+                if item.start_time <= self.time < item.stop_time:
                     self.ssp_enrolled_risk = item.risk
 
                     ssp_num_slots = (item.num_slots_stop - item.num_slots_start) / (
-                        item.time_stop - item.time_start
-                    ) * (self.time - item.time_start) + item.num_slots_start
+                        item.stop_time - item.start_time
+                    ) * (self.time - item.start_time) + item.num_slots_start
 
                     # If cap indicates all or no agents, do not change
                     # otherwise, find true number of slots through distribution
@@ -1086,7 +1086,7 @@ class HIVModel:
             self.new_dx.add_agent(agent)
             if (
                 self.features.partner_tracing
-                and partner_tracing.start <= self.time < partner_tracing.stop
+                and partner_tracing.start_time <= self.time < partner_tracing.stop_time
             ):
                 # Determine if each partner is found via partner tracing
                 for ptnr in agent.get_partners(partner_tracing.bond_type):
@@ -1242,7 +1242,7 @@ class HIVModel:
             ):
                 agent.vaccinate()
 
-        elif self.time == agent.location.params.vaccine.start:
+        elif self.time == agent.location.params.vaccine.start_time:
             if self.run_random.random() < vaccine_params.prob:
                 agent.vaccinate()
 
@@ -1296,7 +1296,7 @@ class HIVModel:
 
             if (
                 num_prep_agents < target_prep
-                and self.time >= agent.location.params.prep.start
+                and self.time >= agent.location.params.prep.start_time
                 and agent.prep_eligible()
             ):
                 enroll_prep(self, agent)

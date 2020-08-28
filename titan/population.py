@@ -228,19 +228,21 @@ class Population:
                 1, location.params.hiv.max_init_time
             )
 
-        elif self.features.prep and agent.prep_eligible():
+        else:
             if (
-                time >= location.params.prep.start
+                self.features.prep
+                and agent.prep_eligible()
+                and time >= location.params.prep.start_time
                 and self.pop_random.random() < location.params.prep.target
             ):
                 agent.enroll_prep(self.pop_random)
-        elif (
-            self.features.vaccine
-            and location.params.vaccine.init
-            and self.pop_random.random()
-            < location.params.demographics[agent.race][agent.sex_type].vaccine.prob
-        ):
-            agent.vaccinate()
+            elif (
+                self.features.vaccine
+                and location.params.vaccine.on_init
+                and self.pop_random.random()
+                < location.params.demographics[agent.race][agent.sex_type].vaccine.init
+            ):
+                agent.vaccinate()
 
         # Check if agent is HR as baseline.
         if (
