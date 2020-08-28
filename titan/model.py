@@ -1180,12 +1180,18 @@ class HIVModel:
                     ):
                         initiate(agent)
                 else:
-                    haart_prob = haart_params.prob * self.calibration.haart.coverage
-                    for defn in agent.location.params.haart.start_haart:
-                        if defn.start_time == agent.hiv_dx_time:
-                            haart_prob *= defn.prob
+                    if not agent.haart_ever:
+                        for defn in agent.location.params.haart.start_haart:
+                            if defn.start_time == agent.hiv_dx_time:
+                                haart_prob = defn.prob
+                                break
+                    else:
+                        haart_prob = haart_params.reinit_prob
+
+                    haart_prob *= self.calibration.haart.coverage
                     if self.run_random.random() < haart_prob:
                         initiate(agent)
+                            
             # Go off HAART
             elif agent.haart and self.run_random.random() < haart_params.discontinue:
                 agent.haart = False
