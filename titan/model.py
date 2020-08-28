@@ -1187,10 +1187,16 @@ class HIVModel:
                         # Look through possible haart probabilities based on time since
                         # diagnosis
                         for defn in agent.location.params.haart.start_haart:
-                            if defn.start_time == agent.hiv_dx_time:
+                            if (
+                                defn.start_duration
+                                <= agent.hiv_dx_time
+                                < defn.stop_duration
+                            ):
                                 haart_prob = defn.prob
                                 break
-                    else:
+                    if (
+                        not haart_prob
+                    ):  # if no probability found or agent.haart_ever, use reinit prob
                         haart_prob = haart_params.reinit_prob
 
                     haart_prob *= self.calibration.haart.coverage
