@@ -38,7 +38,9 @@ demographics:
           prob: 0.202
       haart:
         init: 1.0
-        prob: 0.679
+        start_haart:
+          1:
+            prob: 0.679
         adherence: 1.0
         discontinue: 0.000
       injection:
@@ -104,7 +106,9 @@ demographics:
           prob: 0.2
       haart:
         init: 1.0
-        prob: 0.679
+        start_haart:
+          1:
+            prob: 0.679
         adherence: 1.0
         discontinue: 0.000
       injection:
@@ -164,7 +168,9 @@ demographics:
           init: 1.0
       haart:
         init: 1.0
-        prob: 0.679
+        start_haart:
+          1:
+            prob: 0.679
         adherence: 1.0
         discontinue: 0.000
       injection:

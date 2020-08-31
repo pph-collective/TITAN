@@ -4,9 +4,10 @@ demographics:
     MSM:
       ppl: 1.0
       sex_role:
-        insertive: 0.439
-        receptive: 0.286
-        versatile: 0.276
+        init:
+          insertive: 0.439
+          receptive: 0.286
+          versatile: 0.276
       hiv:
         init: 0.111
         dx:
@@ -16,6 +17,22 @@ demographics:
         init: 0.471
       haart:
         init: 0.7912
-        prob:
-
+        start_haart:
+          recent_diagnosis:
+            start_time: 1
+            prob: 0.742
+          second_dx_period:
+            start_time: 2
+            prob: 0.163
+          third_dx_period:
+            start_time: 4
+            prob: 0.49
+  black:
+    ppl: 0.3
+    MSM:
+      ppl: 1.0
+  latino:
+    ppl: 0.2
+    MSM:
+      ppl: 1.0
 

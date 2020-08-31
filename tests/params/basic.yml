@@ -44,7 +44,9 @@ demographics:
         init: 0.1
       haart:
         init: 0.1
-        prob: 0.1
+        start_haart:
+          1:
+            prob: 0.1
         adherence: 0.1
         discontinue: 0.1
       incar:
@@ -108,7 +110,9 @@ demographics:
         init: 0.1
       haart:
         init: 0.1
-        prob: 0.1
+        start_haart:
+          1:
+            prob: 0.1
         adherence: 0.1
         discontinue: 0.1
       incar:
@@ -172,7 +176,9 @@ demographics:
         init: 0.1
       haart:
         init: 0.1
-        prob: 0.1
+        start_haart:
+          1:
+            prob: 0.1
         adherence: 0.1
         discontinue: 0.1
       incar:
@@ -236,7 +242,9 @@ demographics:
         init: 0.1
       haart:
         init: 0.1
-        prob: 0.1
+        start_haart:
+          1:
+            prob: 0.1
         adherence: 0.1
         discontinue: 0.1
       incar:
@@ -300,7 +308,9 @@ demographics:
         init: 0.1
       haart:
         init: 0.1
-        prob: 0.1
+        start_haart:
+          1:
+            prob: 0.1
         adherence: 0.1
         discontinue: 0.1
       incar:
@@ -357,7 +367,9 @@ demographics:
         init: 0.1
       haart:
         init: 0.1
-        prob: 0.1
+        start_haart:
+          1:
+            prob: 0.1
         adherence: 0.1
         discontinue: 0.1
       incar:
@@ -430,7 +442,9 @@ demographics:
         init: 0.1
       haart:
         init: 0.1
-        prob: 0.1
+        start_haart:
+          1:
+            prob: 0.1
         adherence: 0.1
         discontinue: 0.1
       incar:
@@ -494,7 +508,9 @@ demographics:
         init: 0.1
       haart:
         init: 0.1
-        prob: 0.1
+        start_haart:
+          1:
+            prob: 0.1
         adherence: 0.1
         discontinue: 0.1
       incar:
@@ -558,7 +574,9 @@ demographics:
         init: 0.1
       haart:
         init: 0.1
-        prob: 0.1
+        start_haart:
+          1:
+            prob: 0.1
         adherence: 0.1
         discontinue: 0.1
       incar:
@@ -622,7 +640,9 @@ demographics:
         init: 0.1
       haart:
         init: 0.1
-        prob: 0.1
+        start_haart:
+          1:
+            prob: 0.1
         adherence: 0.1
         discontinue: 0.1
       incar:
@@ -686,7 +706,9 @@ demographics:
         init: 0.1
       haart:
         init: 0.1
-        prob: 0.1
+        start_haart:
+          1:
+            prob: 0.1
         adherence: 0.1
         discontinue: 0.1
       incar:
@@ -743,7 +765,9 @@ demographics:
         init: 0.1
       haart:
         init: 0.1
-        prob: 0.1
+        start_haart:
+          1:
+            prob: 0.1
         adherence: 0.1
         discontinue: 0.1
       incar:

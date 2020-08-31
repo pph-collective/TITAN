@@ -177,6 +177,11 @@ def parse_params(defs, params, key_path, pops):
         elif defs["type"] == "definition":
             return get_defn("dummy", defs, key_path, {"dummy": params}, pops)
 
+    try:
+        a = [i for i in defs.items()]
+    except:
+        print(defs)
+        assert False
     for k, v in defs.items():
         # assumes all v are dicts, as otherwise it would have returned
         if "default" in v:

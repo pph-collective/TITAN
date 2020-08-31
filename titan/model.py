@@ -1088,7 +1088,7 @@ class HIVModel:
             # agent's location's params used throughout as that is the agent who
             # would be interacting with the service
             agent.hiv_dx = True
-            agent.hiv_dx_time = 1
+            agent.hiv_dx_time = self.time
             self.pop.dx_counts[agent.race][agent.sex_type] += 1
             self.new_dx.add_agent(agent)
             if (
@@ -1120,8 +1120,6 @@ class HIVModel:
                 and self.time > agent.trace_time
             ):
                 diagnose(agent)
-        else:
-            agent.hiv_dx_time += 1
         if self.time >= agent.trace_time + partner_tracing.trace_duration:
             # agents can only be traced during a specified period after their partner is
             # diagnosed. If past this time, remove ability to trace.
@@ -1162,10 +1160,10 @@ class HIVModel:
 
         # Determine probability of HIV treatment
         if agent.hiv_dx:
+            agent_dx_duration = self.time - agent.hiv_dx_time
             haart_params = agent.location.params.demographics[agent.race][
                 agent.sex_type
             ].haart
-            agent_dx_time = agent.hiv_dx_time
 
             # Go on HAART
             if not agent.haart:
@@ -1183,21 +1181,15 @@ class HIVModel:
                     ):
                         initiate(agent)
                 else:
+                    haart_prob = haart_params.reinit_prob
                     if not agent.haart_ever:
                         # Look through possible haart probabilities based on time since
                         # diagnosis
-                        for defn in agent.location.params.haart.start_haart:
-                            if (
-                                defn.start_duration
-                                <= agent.hiv_dx_time
-                                < defn.stop_duration
-                            ):
-                                haart_prob = defn.prob
-                                break
-                    if (
-                        not haart_prob
-                    ):  # if no probability found or agent.haart_ever, use reinit prob
-                        haart_prob = haart_params.reinit_prob
+                        for (defn, val,) in agent.location.params.demographics[
+                            agent.race
+                        ][agent.sex_type].haart.start_haart.items():
+                            if defn <= agent_dx_duration:
+                                haart_prob = val.prob
 
                     haart_prob *= self.calibration.haart.coverage
                     if self.run_random.random() < haart_prob:
