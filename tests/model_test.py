@@ -75,6 +75,8 @@ def test_pca_msmw(make_model, make_agent, params):
     model.pop.add_agent(msmw_agent)
     params.features.pca = True
     params.prep.pca.awareness.prob = 1.0
+
+    model.time = 0
     model.update_all_agents()
     assert a.prep_awareness
     assert p.prep_awareness
@@ -84,8 +86,10 @@ def test_pca_msmw(make_model, make_agent, params):
 @pytest.mark.unit
 def test_initialize_random_trial_prep(make_model, params):
     params.features.prep = False
+    params.vaccine.on_init = False
     model = make_model()
     model.run_random = FakeRandom(-0.1)
+    model.time = 0
     model.initialize_random_trial()
     for agent in model.pop.all_agents:
         if not agent.hiv:
@@ -125,6 +129,7 @@ def test_agents_interact(make_model, make_agent):
     rel = Relationship(a, p, 10, bond_type="Sex")
 
     model.run_random = FakeRandom(0.6)
+    model.time = 0
 
     a.incar = True
     assert model.agents_interact(rel) is False
@@ -849,8 +854,8 @@ def test_timeline_scaling_prep_def(make_model):
         {
             "scale": {
                 "parameter": "prep|target",
-                "time_start": 1,
-                "time_stop": 3,
+                "start_time": 1,
+                "stop_time": 3,
                 "scalar": scalar,
             }
         }

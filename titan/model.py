@@ -178,8 +178,7 @@ class HIVModel:
             -1 * self.params.model.time.burn_steps, self.params.model.time.num_steps
         ):
             self.time += 1
-            burn = True if self.time < 1 else False
-            self.step(outdir, burn=burn)
+            self.step(outdir)
             self.reset_trackers()
 
             if self.time == 0:
@@ -189,7 +188,7 @@ class HIVModel:
 
         print("\t===! Main Loop Complete !===")
 
-    def step(self, outdir: str, burn: bool = False):
+    def step(self, outdir: str):
         """
         A single time step in the model:
 
@@ -199,7 +198,6 @@ class HIVModel:
 
         args:
             outdir: path to directory where reports should be saved
-            burn: whether the model is in burn-in model (negative time)
         """
         print(f"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME {self.time}")
         print(
@@ -214,7 +212,7 @@ class HIVModel:
 
         self.timeline_scaling()
 
-        self.update_all_agents(burn=burn)
+        self.update_all_agents()
 
         stats = ao.get_stats(
             self.pop.all_agents,
@@ -231,7 +229,7 @@ class HIVModel:
         print(("Number of relationships: {}".format(len(self.pop.relationships))))
         self.pop.all_agents.print_subsets()
 
-    def update_all_agents(self, burn: bool = False):
+    def update_all_agents(self):
         """
         The core of the model.  For a time step, update all of the agents and relationships:
 
@@ -247,9 +245,6 @@ class HIVModel:
             * hiv
         6. End relationships with no remaining duration
         7. Agent death/replacement
-
-        args:
-            burn: whether the model is in burn-in period (negative time)
         """
         # If agent zero enabled, create agent zero at the beginning of main loop.
         if self.time == self.params.agent_zero.start_time and self.features.agent_zero:
@@ -261,9 +256,7 @@ class HIVModel:
                 self.pop.trim_graph()
 
         for rel in self.pop.relationships:
-            # If before hiv start time, ignore interactions
-            if (self.time >= self.params.hiv.start) or (not burn and self.features.pca):
-                self.agents_interact(rel)
+            self.agents_interact(rel)
 
         if self.features.syringe_services:
             self.update_syringe_services()
@@ -281,9 +274,11 @@ class HIVModel:
 
             if (
                 self.features.pca
-                and self.run_random.random()
-                < agent.location.params.prep.pca.awareness.prob
-                and not burn
+                and self.time >= self.params.prep.pca.start_time
+                and (
+                    self.run_random.random()
+                    < agent.location.params.prep.pca.awareness.prob
+                )
             ):
                 agent.prep_awareness = True
                 if self.run_random.random() < agent.location.params.prep.pca.prep.prob:
@@ -301,7 +296,7 @@ class HIVModel:
             if agent.hiv:
                 agent.hiv_time += 1
                 # If HIV hasn't started, ignore
-                if self.time >= self.params.hiv.start:
+                if self.time >= self.params.hiv.start_time:
                     self.diagnose_hiv(agent)
                     self.progress_to_aids(agent)
 
@@ -309,20 +304,18 @@ class HIVModel:
                         self.update_haart(agent)
             else:
                 if self.features.prep:
-                    if self.time >= agent.location.params.prep.start:
+                    if self.time >= agent.location.params.prep.start_time:
                         if agent.prep:
                             self.discontinue_prep(agent)
                         elif agent.prep_eligible():
                             self.initiate_prep(agent)
 
                     if self.features.vaccine and not agent.prep:
-                        self.advance_vaccine(
-                            agent, vaxType=agent.location.params.vaccine.type, burn=burn
-                        )
+                        self.advance_vaccine(agent)
 
         if (
             self.features.prep
-            and self.time == agent.location.params.prep.start
+            and self.time == agent.location.params.prep.start_time
             and "RandomTrial" in agent.location.params.prep.target_model
         ):
             self.initialize_random_trial()
@@ -382,10 +375,10 @@ class HIVModel:
             for defn in params.timeline_scaling.timeline.values():
                 param = defn.parameter
                 if param != "ts_default":
-                    if defn.time_start == self.time:
+                    if defn.start_time == self.time:
                         print(f"timeline scaling - {param}")
                         utils.scale_param(params, param, defn.scalar)
-                    elif defn.time_stop == self.time:
+                    elif defn.stop_time == self.time:
                         print(f"timeline un-scaling - {param}")
                         utils.scale_param(params, param, 1 / defn.scalar)
 
@@ -553,14 +546,16 @@ class HIVModel:
         else:  # neither agent is HIV or both are
             return False
 
-        if "pca" in interaction_types and rel.duration < rel.total_duration:
-            self.pca_interaction(rel)
+        if self.params.features.pca and self.time >= self.params.prep.pca.start_time:
+            if "pca" in interaction_types and rel.duration < rel.total_duration:
+                self.pca_interaction(rel)
 
-        if "injection" in interaction_types:
-            self.injection_transmission(agent, partner)
+        if self.time >= self.params.hiv.start_time:
+            if "injection" in interaction_types:
+                self.injection_transmission(agent, partner)
 
-        if "sex" in interaction_types:
-            self.sex_transmission(rel)
+            if "sex" in interaction_types:
+                self.sex_transmission(rel)
 
         return True
 
@@ -902,12 +897,12 @@ class HIVModel:
         ssp_agents = {agent for agent in self.pop.pwid_agents.members if agent.ssp}
         if self.features.syringe_services:
             for item in self.params.syringe_services.timeline.values():
-                if item.time_start <= self.time < item.time_stop:
+                if item.start_time <= self.time < item.stop_time:
                     self.ssp_enrolled_risk = item.risk
 
                     ssp_num_slots = (item.num_slots_stop - item.num_slots_start) / (
-                        item.time_stop - item.time_start
-                    ) * (self.time - item.time_start) + item.num_slots_start
+                        item.stop_time - item.start_time
+                    ) * (self.time - item.start_time) + item.num_slots_start
 
                     # If cap indicates all or no agents, do not change
                     # otherwise, find true number of slots through distribution
@@ -1093,7 +1088,7 @@ class HIVModel:
             self.new_dx.add_agent(agent)
             if (
                 self.features.partner_tracing
-                and partner_tracing.start <= self.time < partner_tracing.stop
+                and partner_tracing.start_time <= self.time < partner_tracing.stop_time
             ):
                 # Determine if each partner is found via partner tracing
                 for ptnr in agent.get_partners(partner_tracing.bond_type):
@@ -1239,15 +1234,13 @@ class HIVModel:
             if not agent.prep:
                 self.pop.prep_counts[agent.race] -= 1
 
-    def advance_vaccine(self, agent: Agent, vaxType: str, burn: bool):
+    def advance_vaccine(self, agent: Agent):
         """
         Progress vaccine. Agents may receive injection or progress in time
             since injection.
 
         args:
             agent: agent being updated
-            vaxType: type of vaccine
-            burn: whether the model is in burn-in mode
         """
         if not self.features.vaccine:
             return None
@@ -1256,19 +1249,18 @@ class HIVModel:
             agent.sex_type
         ].vaccine
 
-        if agent.vaccine and not burn:
+        if agent.vaccine:
             agent.vaccine_time += 1
             if (
                 agent.location.params.vaccine.booster
                 and agent.vaccine_time == vaccine_params.booster.interval
                 and self.run_random.random() < vaccine_params.booster.prob
             ):
-                agent.vaccinate(vaxType)
+                agent.vaccinate()
 
-        elif self.time == agent.location.params.vaccine.start:
-            if agent.location.params.vaccine.init == burn:  # both true or both false
-                if self.run_random.random() < vaccine_params.prob:
-                    agent.vaccinate(vaxType)
+        elif self.time == agent.location.params.vaccine.start_time:
+            if self.run_random.random() < vaccine_params.prob:
+                agent.vaccinate()
 
     def initiate_prep(self, agent: Agent, force: bool = False):
         """
@@ -1320,7 +1312,7 @@ class HIVModel:
 
             if (
                 num_prep_agents < target_prep
-                and self.time >= agent.location.params.prep.start
+                and self.time >= agent.location.params.prep.start_time
                 and agent.prep_eligible()
             ):
                 enroll_prep(self, agent)

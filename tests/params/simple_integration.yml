@@ -186,8 +186,8 @@ partnership:
 syringe_services:
   timeline:
     ssp_open:
-      time_start: 2
-      time_stop: 12
+      start_time: 2
+      stop_time: 12
       num_slots_start: 500
       num_slots_stop: 500
       risk: 0.00
