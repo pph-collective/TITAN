@@ -27,6 +27,9 @@ demographics:
           third_dx_period:
             start_time: 4
             prob: 0.49
+        reinit_prob: 0.041
+        adherence: 0.6794
+        discontinue: 0.0059
   black:
     ppl: 0.3
     MSM:

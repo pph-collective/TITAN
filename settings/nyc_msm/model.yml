@@ -13,7 +13,10 @@ classes:
       sleeps_with:
         - MSM
   bond_types:
-    Sex:
+    sex_main:
+      acts_allowed:
+        - sex
+    sex_casual:
       acts_allowed:
         - sex
   drug_types:
@@ -42,3 +45,9 @@ assort_mix:
       white: 0.313
       black: 0.227
       latino: 0.460
+
+partnership:
+  duration:
+    sex_main:
+
+    sex_casual:
