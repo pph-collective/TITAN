@@ -76,9 +76,6 @@ class Population:
 
         self.relationships: Set[Relationship] = set()
 
-        # keep track of prep agent counts by race
-        self.prep_counts = {race: 0 for race in params.classes.races}
-
         agent_counts = {
             race: {so: 0 for so in params.classes.sex_types}
             for race in params.classes.races
@@ -231,18 +228,18 @@ class Population:
         else:
             if (
                 self.features.prep
-                and agent.prep_eligible()
+                and agent.prep.eligible(agent)
                 and time >= location.params.prep.start_time
                 and self.pop_random.random() < location.params.prep.target
             ):
-                agent.enroll_prep(self.pop_random)
+                agent.prep.enroll(agent, self.pop_random)
             elif (
                 self.features.vaccine
                 and location.params.vaccine.on_init
                 and self.pop_random.random()
                 < location.params.demographics[agent.race][agent.sex_type].vaccine.init
             ):
-                agent.vaccinate()
+                agent.vaccine.vaccinate(agent)
 
         # Check if agent is HR as baseline.
         if (
@@ -276,13 +273,13 @@ class Population:
 
         if self.features.pca:
             if self.pop_random.random() < location.params.prep.pca.awareness.init:
-                agent.prep_awareness = True
+                agent.prep.awareness = True
             attprob = self.pop_random.random()
             pvalue = 0.0
             for bin, fields in location.params.prep.pca.attitude.items():
                 pvalue += fields.prob
                 if attprob < pvalue:
-                    agent.prep_opinion = bin
+                    agent.prep.opinion = bin
                     break
 
         return agent
@@ -311,8 +308,8 @@ class Population:
         for sex_type in self.params.classes.sex_types[agent.sex_type].sleeps_with:
             self.sex_partners[sex_type].add(agent)
 
-        if agent.prep:
-            self.prep_counts[agent.race] += 1
+        if agent.prep.active:
+            agent.prep.add_agent(agent)
 
         if self.enable_graph:
             self.graph.add_node(agent)
@@ -342,8 +339,8 @@ class Population:
             if agent in self.sex_partners[partner_type]:
                 self.sex_partners[partner_type].remove(agent)
 
-        if agent.prep:
-            self.prep_counts[agent.race] -= 1
+        if agent.prep.active:
+            agent.prep.remove_agent(agent)
 
         if agent.hiv_dx:
             self.dx_counts[agent.race][agent.sex_type] -= 1
