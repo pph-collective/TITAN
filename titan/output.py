@@ -9,6 +9,9 @@ import os
 from networkx import betweenness_centrality, effective_size, density  # type: ignore
 from .parse_params import ObjMap
 
+from .features.prep import Prep
+from .features.vaccine import Vaccine
+
 
 def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
     """
@@ -51,7 +54,7 @@ def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
         dictionary of class values to counts
     """
     if classes == []:
-        return {
+        base_stats = {
             "numAgents": 0,
             "inf_HR6m": 0,
             "inf_HRever": 0,
@@ -73,12 +76,12 @@ def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
             "deaths_HIV": 0,
             "incar": 0,
             "incarHIV": 0,
-            "numPrEP": 0,
-            "newNumPrEP": 0,
-            "vaccinated": 0,
-            "injectable_prep": 0,
-            "oral_prep": 0,
         }
+
+        base_stats.update({stat: 0 for stat in Prep.stats})
+        base_stats.update({stat: 0 for stat in Vaccine.stats})
+
+        return base_stats
 
     stats = {}
     clss, *rem_clss = classes  # head, tail
@@ -123,6 +126,14 @@ def get_agg_val(stats: Dict, attrs: List, key: str) -> int:
     return stats_item[key]
 
 
+def get_stats_item(stats: Dict[str, Any], attrs: List[str], agent: Agent):
+    stats_item = stats
+    for attr in attrs:
+        stats_item = stats_item[str(getattr(agent, attr))]
+
+    return stats_item
+
+
 def add_agent_to_stats(stats: Dict[str, Any], attrs: List[str], agent: Agent, key: str):
     """
     Update the stats dictionary counts for the key given the agent's attributes
@@ -133,9 +144,7 @@ def add_agent_to_stats(stats: Dict[str, Any], attrs: List[str], agent: Agent, ke
         agent: the agent whose attribute values will be evaluated
         key: the type of count to increment
     """
-    stats_item = stats
-    for attr in attrs:
-        stats_item = stats_item[str(getattr(agent, attr))]
+    stats_item = get_stats_item(stats, attrs, agent)
 
     stats_item[key] += 1
 
@@ -186,14 +195,12 @@ def get_stats(
             add_agent_to_stats(stats, attrs, a, "inf_HR6m")
 
     for a in all_agents:
+        stats_item = get_stats_item(stats, attrs, a)
+
         add_agent_to_stats(stats, attrs, a, "numAgents")
 
-        if a.prep:
-            add_agent_to_stats(stats, attrs, a, "numPrEP")
-            if a.prep_type == "Inj":
-                add_agent_to_stats(stats, attrs, a, "injectable_prep")
-            elif a.prep_type == "Oral":
-                add_agent_to_stats(stats, attrs, a, "oral_prep")
+        a.prep.set_stats(stats_item, a)
+        a.vaccine.set_stats(stats_item, a)
 
         if a.incar:
             add_agent_to_stats(stats, attrs, a, "incar")
@@ -208,13 +215,6 @@ def get_stats(
                 add_agent_to_stats(stats, attrs, a, "numDiagnosed")
             if a.haart:
                 add_agent_to_stats(stats, attrs, a, "numART")
-
-        if a.vaccine:
-            add_agent_to_stats(stats, attrs, a, "vaccinated")
-
-    # Newly PrEP tracker statistics
-    for a in new_prep_agents:
-        add_agent_to_stats(stats, attrs, a, "newNumPrEP")
 
     # Newly diagnosed tracker statistics
     for a in new_hiv_dx:
@@ -499,11 +499,11 @@ def print_components(
                 if agent.intervention_ever:
                     ntrthiv += 1
 
-            if agent.prep:
+            if agent.prep.active:
                 nprep += 1
-                if agent.prep_type == "Inj":
+                if agent.prep.type == "Inj":
                     injectable_prep += 1
-                elif agent.prep_type == "Oral":
+                elif agent.prep.type == "Oral":
                     oral += 1
 
             if agent.pca_suitable and agent.pca:
@@ -515,7 +515,7 @@ def print_components(
             if agent.random_trial_enrolled:
                 trt_comp = True
 
-            if agent.prep_awareness:
+            if agent.prep.awareness:
                 aware += 1
 
             if agent.drug_type == "NonInj":

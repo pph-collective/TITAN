@@ -82,10 +82,10 @@ class Agent:
         self.haart_time = 0
         self.haart_adherence = 0
         self.ssp = False
-        self.prep = Prep()
+        self.prep = Prep(self)
         self.intervention_ever = False
         self.random_trial_enrolled = False
-        self.vaccine = Vaccine()
+        self.vaccine = Vaccine(self)
         self.partner_traced = False
         self.trace_time = 0
         self.pca = False

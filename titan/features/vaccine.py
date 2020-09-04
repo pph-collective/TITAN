@@ -2,7 +2,11 @@ from .base_feature import BaseFeature
 
 
 class Vaccine(BaseFeature):
-    def __init__(self):
+
+    stats = ["vaccinated"]
+
+    def __init__(self, agent):
+        super().__init__(agent)
         self.active = False
         self.time = 0
         self.type = ""
@@ -10,6 +14,10 @@ class Vaccine(BaseFeature):
     def update_agent(self, agent, model):
         if model.features.prep and not agent.prep.active:
             self.advance_vaccine(agent, model)
+
+    def set_stats(self, stats, agent):
+        if self.active:
+            stats["vaccinated"] += 1
 
     def advance_vaccine(self, agent, model):
         """

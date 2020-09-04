@@ -7,7 +7,10 @@ class Prep(BaseFeature):
     counts = None
     new_agents = set()
 
-    def __init__(self):
+    stats = ["numPrEP", "newNumPrEP", "injectable_prep", "oral_prep"]
+
+    def __init__(self, agent):
+        super().__init__(agent)
         # agent level attributes
         self.active = False
         self.adherence = 0
@@ -45,6 +48,17 @@ class Prep(BaseFeature):
     @classmethod
     def remove_agent(cls, agent):
         cls.counts[agent.race] -= 10
+
+    def set_stats(self, stats, agent):
+        if agent in self.new_agents:
+            stats["newNumPrEP"] += 1
+
+        if self.active:
+            stats["numPrEP"] += 1
+            if self.type == "Inj":
+                stats["injectable_prep"] += 1
+            elif self.type == "Oral":
+                stats["oral_prep"] += 1
 
     ## HELPER FUNCTIONS
 
