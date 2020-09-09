@@ -21,6 +21,6 @@ jobs:
           pip install -r requirements.txt
           pip install -r dev_requirements.txt
       - name: Deploy mkdocs
-        run: mkdocs gh-deploy
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+        run: mkdocs gh-deploy
