@@ -6,11 +6,11 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <meta content="Documentation for the TITAN model" name="description"/>
-<link href="http://marshall-lab.github.io/titan/" rel="canonical"/>
-<link href="assets/images/favicon.png" rel="shortcut icon"/>
+<link href="http://marshall-lab.github.io/titan/getting_started/" rel="canonical"/>
+<link href="../assets/images/favicon.png" rel="shortcut icon"/>
 <meta content="mkdocs-1.1.2, mkdocs-material-5.5.8" name="generator"/>
-<title>Overview - TITAN</title>
-<link href="assets/stylesheets/main.01afc2df.min.css" rel="stylesheet"/>
+<title>Installation - TITAN</title>
+<link href="../assets/stylesheets/main.01afc2df.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&amp;display=fallback" rel="stylesheet"/>
 <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
@@ -20,7 +20,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#overview">
+<a class="md-skip" href="#getting-started">
           Skip to content
         </a>
 </div>
@@ -41,7 +41,7 @@
           </span>
 <span class="md-header-nav__topic md-ellipsis">
             
-              Overview
+              Installation
             
           </span>
 </div>
@@ -77,21 +77,21 @@
 </nav>
 </header>
 <div class="md-container" data-md-component="container">
-<nav aria-label="Tabs" class="md-tabs" data-md-component="tabs">
+<nav aria-label="Tabs" class="md-tabs md-tabs--active" data-md-component="tabs">
 <div class="md-tabs__inner md-grid">
 <ul class="md-tabs__list">
 <li class="md-tabs__item">
-<a class="md-tabs__link md-tabs__link--active" href=".">
+<a class="md-tabs__link" href="..">
         Overview
       </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="getting_started/">
+<a class="md-tabs__link md-tabs__link--active" href="./">
           Getting Started
         </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="api/agent/">
+<a class="md-tabs__link" href="../api/agent/">
           API Reference
         </a>
 </li>
@@ -111,14 +111,13 @@
     TITAN
   </label>
 <ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item md-nav__item--active">
-<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
-<a class="md-nav__link md-nav__link--active" href="." title="Overview">
+<li class="md-nav__item">
+<a class="md-nav__link" href=".." title="Overview">
       Overview
     </a>
 </li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" id="nav-2" type="checkbox"/>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" data-md-toggle="nav-2" id="nav-2" type="checkbox"/>
 <label class="md-nav__link" for="nav-2">
       Getting Started
       <span class="md-nav__icon md-icon">
@@ -133,23 +132,54 @@
         Getting Started
       </label>
 <ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="getting_started/" title="Installation">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+        Installation
+        <span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"></path></svg>
+</span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./" title="Installation">
       Installation
     </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#installing-the-dependencies">
+    Installing the Dependencies
+  </a>
+<nav aria-label="Installing the Dependencies" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#dev-dependencies">
+    Dev Dependencies
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="run_local/" title="Running locally">
+<a class="md-nav__link" href="../run_local/" title="Running locally">
       Running locally
     </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="run_oscar/" title="Running on Oscar">
+<a class="md-nav__link" href="../run_oscar/" title="Running on Oscar">
       Running on Oscar
     </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="contributing/" title="Contributing">
+<a class="md-nav__link" href="../contributing/" title="Contributing">
       Contributing
     </a>
 </li>
@@ -173,47 +203,47 @@
       </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="api/agent/" title="Agent">
+<a class="md-nav__link" href="../api/agent/" title="Agent">
       Agent
     </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="api/agent_set/" title="AgentSet">
+<a class="md-nav__link" href="../api/agent_set/" title="AgentSet">
       AgentSet
     </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="api/location/" title="Location">
+<a class="md-nav__link" href="../api/location/" title="Location">
       Location
     </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="api/model/" title="Model">
+<a class="md-nav__link" href="../api/model/" title="Model">
       Model
     </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="api/network/" title="NetworkGraphUtils">
+<a class="md-nav__link" href="../api/network/" title="NetworkGraphUtils">
       NetworkGraphUtils
     </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="api/population/" title="Population">
+<a class="md-nav__link" href="../api/population/" title="Population">
       Population
     </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="api/relationship/" title="Relationship">
+<a class="md-nav__link" href="../api/relationship/" title="Relationship">
       Relationship
     </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="api/reporting/" title="Reporting">
+<a class="md-nav__link" href="../api/reporting/" title="Reporting">
       Reporting
     </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="api/utilities/" title="Utility Functions">
+<a class="md-nav__link" href="../api/utilities/" title="Utility Functions">
       Utility Functions
     </a>
 </li>
@@ -229,15 +259,48 @@
 <div class="md-sidebar__scrollwrap">
 <div class="md-sidebar__inner">
 <nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#installing-the-dependencies">
+    Installing the Dependencies
+  </a>
+<nav aria-label="Installing the Dependencies" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#dev-dependencies">
+    Dev Dependencies
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
 </nav>
 </div>
 </div>
 </div>
 <div class="md-content">
 <article class="md-content__inner md-typeset">
-<h1 id="overview">Overview</h1>
-<p>TITAN (Treatment of Infectious Transmissions through Agent-based Network) is an agent-based simulation model used to explore contact transmission in complex social networks. Starting with the initializing agent population, TITAN iterates over a series of stochastic interactions where agents can interact with one another, transmit infections through various medium, and enter and exit the care continuum. The purpose of TITAN is to evaluate the impact of prevention and treatment models on incidence and prevalence rates of the targeted disease(s) through the use of data fitting simulated trajectories and rich statistics of primary/sub-population attributable proportions.</p>
-<p>Agent populations are defined as graphs (nodes connected by edges). Nodes in the graph are used to represent the attributes (or collection of attributes) of an agent (person), and edges define the type of relationship between agents. In practice, a graph represents a social network of connected people through various relationship types, and provides the medium for which agents can interact.</p>
+<h1 id="getting-started">Getting Started</h1>
+<p>To get started, install the requirements listed in the <code>requirements.txt</code> using a local python install or virtual env. Once installed, the model can be run using the <code>run_titan.py</code> program and configured using the <code>params.py</code> file.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Running a large job locally? Look into using <a href="https://www.pypy.org/">pypy</a> instead of python for MOAR performance.  This is what we use on OSCAR.  Otherwise, all of the instructions hold, just using pypy and pypy's pip.</p>
+</div>
+<h2 id="installing-the-dependencies">Installing the Dependencies</h2>
+<p>In order for TITAN to run, you must install <code>Python3.x</code> and the necessary python packages listed in the <code>requirements.txt</code>. Package installation can be done by using <code>pip</code> via:</p>
+<div class="codehilite"><pre><span></span><code><span class="err">pip install -r requirements.txt</span>
+</code></pre></div>
+<h3 id="dev-dependencies">Dev Dependencies</h3>
+<p>If you are planning to contribute to the package, also install the dev dependencies.  These packages help with code style, linting, typing, and building documentation.</p>
+<div class="codehilite"><pre><span></span><code><span class="err">pip install -r dev_requirements.txt</span>
+</code></pre></div>
 </article>
 </div>
 </div>
@@ -245,13 +308,26 @@
 <footer class="md-footer">
 <div class="md-footer-nav">
 <nav aria-label="Footer" class="md-footer-nav__inner md-grid">
-<a class="md-footer-nav__link md-footer-nav__link--next" href="getting_started/" rel="next" title="Installation">
+<a class="md-footer-nav__link md-footer-nav__link--prev" href=".." rel="prev" title="Overview">
+<div class="md-footer-nav__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</div>
+<div class="md-footer-nav__title">
+<div class="md-ellipsis">
+<span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Overview
+              </div>
+</div>
+</a>
+<a class="md-footer-nav__link md-footer-nav__link--next" href="../run_local/" rel="next" title="Running locally">
 <div class="md-footer-nav__title">
 <div class="md-ellipsis">
 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Installation
+                Running locally
               </div>
 </div>
 <div class="md-footer-nav__button md-icon">
@@ -273,14 +349,14 @@
 </div>
 </footer>
 </div>
-<script src="assets/javascripts/vendor.df0def68.min.js"></script>
-<script src="assets/javascripts/bundle.ba57d267.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+<script src="../assets/javascripts/vendor.df0def68.min.js"></script>
+<script src="../assets/javascripts/bundle.ba57d267.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
 <script>
         app = initialize({
-          base: ".",
+          base: "..",
           features: ["instant", "tabs"],
           search: Object.assign({
-            worker: "assets/javascripts/worker/search.fae956e7.min.js"
+            worker: "../assets/javascripts/worker/search.fae956e7.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>

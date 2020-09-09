@@ -1,0 +1,1609 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Documentation for the TITAN model" name="description"/>
+<link href="http://marshall-lab.github.io/titan/api/reporting/" rel="canonical"/>
+<link href="../../assets/images/favicon.png" rel="shortcut icon"/>
+<meta content="mkdocs-1.1.2, mkdocs-material-5.5.8" name="generator"/>
+<title>Reporting - TITAN</title>
+<link href="../../assets/stylesheets/main.01afc2df.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&amp;display=fallback" rel="stylesheet"/>
+<style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+</head>
+<body dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#tabular-reports">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Header" class="md-header-nav md-grid">
+<a aria-label="TITAN" class="md-header-nav__button md-logo" href="http://marshall-lab.github.io/titan" title="TITAN">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
+</a>
+<label class="md-header-nav__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"></path></svg>
+</label>
+<div class="md-header-nav__title" data-md-component="header-title">
+<div class="md-header-nav__ellipsis">
+<span class="md-header-nav__topic md-ellipsis">
+            TITAN
+          </span>
+<span class="md-header-nav__topic md-ellipsis">
+            
+              Reporting
+            
+          </span>
+</div>
+</div>
+<label class="md-header-nav__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" data-md-state="active" name="query" placeholder="Search" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</label>
+<button aria-label="Clear" class="md-search__icon md-icon" data-md-component="search-reset" tabindex="-1" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>
+</button>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<nav aria-label="Tabs" class="md-tabs md-tabs--active" data-md-component="tabs">
+<div class="md-tabs__inner md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../..">
+        Overview
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../getting_started/">
+          Getting Started
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link md-tabs__link--active" href="../agent/">
+          API Reference
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="TITAN" class="md-nav__button md-logo" href="http://marshall-lab.github.io/titan" title="TITAN">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
+</a>
+    TITAN
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../.." title="Overview">
+      Overview
+    </a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" id="nav-2" type="checkbox"/>
+<label class="md-nav__link" for="nav-2">
+      Getting Started
+      <span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"></path></svg>
+</span>
+</label>
+<nav aria-label="Getting Started" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="nav-2">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+        Getting Started
+      </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../getting_started/" title="Installation">
+      Installation
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../run_local/" title="Running locally">
+      Running locally
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../run_oscar/" title="Running on Oscar">
+      Running on Oscar
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../contributing/" title="Contributing">
+      Contributing
+    </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" data-md-toggle="nav-3" id="nav-3" type="checkbox"/>
+<label class="md-nav__link" for="nav-3">
+      API Reference
+      <span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"></path></svg>
+</span>
+</label>
+<nav aria-label="API Reference" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="nav-3">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+        API Reference
+      </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../agent/" title="Agent">
+      Agent
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../agent_set/" title="AgentSet">
+      AgentSet
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../location/" title="Location">
+      Location
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../model/" title="Model">
+      Model
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../network/" title="NetworkGraphUtils">
+      NetworkGraphUtils
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../population/" title="Population">
+      Population
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../relationship/" title="Relationship">
+      Relationship
+    </a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+        Reporting
+        <span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"></path></svg>
+</span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./" title="Reporting">
+      Reporting
+    </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.add_agent_to_stats">
+    add_agent_to_stats()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.basicReport">
+    basicReport()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.deathReport">
+    deathReport()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.get_agg_val">
+    get_agg_val()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.get_aggregates">
+    get_aggregates()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.get_stats">
+    get_stats()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.incarReport">
+    incarReport()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.newlyhighriskReport">
+    newlyhighriskReport()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.print_components">
+    print_components()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.setup_aggregates">
+    setup_aggregates()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.write_report">
+    write_report()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../utilities/" title="Utility Functions">
+      Utility Functions
+    </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.add_agent_to_stats">
+    add_agent_to_stats()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.basicReport">
+    basicReport()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.deathReport">
+    deathReport()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.get_agg_val">
+    get_agg_val()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.get_aggregates">
+    get_aggregates()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.get_stats">
+    get_stats()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.incarReport">
+    incarReport()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.newlyhighriskReport">
+    newlyhighriskReport()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.print_components">
+    print_components()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.setup_aggregates">
+    setup_aggregates()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.output.write_report">
+    write_report()
+  </a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content">
+<article class="md-content__inner md-typeset">
+<h1 id="tabular-reports">Tabular Reports</h1>
+<div class="doc doc-object doc-module">
+<div class="doc doc-contents first">
+<div class="doc doc-children">
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="titan.output.add_agent_to_stats">
+<code class="highlight language-python">
+add_agent_to_stats<span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">agent</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Update the stats dictionary counts for the key given the agent's attributes</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stats</code></td>
+<td><code>Dict[str, Any]</code></td>
+<td>
+<p>a nested dictionary of attributes to counts</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>attrs</code></td>
+<td><code>List[str]</code></td>
+<td>
+<p>a list of attribute types (e.g. "race")</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>agent</code></td>
+<td><code>Agent</code></td>
+<td>
+<p>the agent whose attribute values will be evaluated</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>key</code></td>
+<td><code>str</code></td>
+<td>
+<p>the type of count to increment</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/output.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">attrs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">agent</span><span class="p">:</span> <span class="n">Agent</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Update the stats dictionary counts for the key given the agent's attributes</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        stats: a nested dictionary of attributes to counts</span>
+<span class="sd">        attrs: a list of attribute types (e.g. "race")</span>
+<span class="sd">        agent: the agent whose attribute values will be evaluated</span>
+<span class="sd">        key: the type of count to increment</span>
+<span class="sd">    """</span>
+    <span class="n">stats_item</span> <span class="o">=</span> <span class="n">stats</span>
+    <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+        <span class="n">stats_item</span> <span class="o">=</span> <span class="n">stats_item</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">attr</span><span class="p">))]</span>
+
+    <span class="n">stats_item</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="titan.output.basicReport">
+<code class="highlight language-python">
+basicReport<span class="p">(</span><span class="n">run_id</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">runseed</span><span class="p">,</span> <span class="n">popseed</span><span class="p">,</span> <span class="n">stats</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Standard report writer for basic agent statistics, columns include:</p>
+<ul>
+<li><code>Total</code>: number of agents in the population</li>
+<li><code>HIV</code>: number of agents with HIV</li>
+<li><code>AIDS</code>: number of agents with AIDS</li>
+<li><code>Dx</code>: number of agents with HIV who are diagnosed</li>
+<li><code>ART</code>: number of agents on HAART</li>
+<li><code>nHR</code>: number of agents who are high risk</li>
+<li><code>Incid</code>: number of agents who HIV converted this time period</li>
+<li><code>HR_6mo</code>: number of agents with HIV converted this time period who are high risk</li>
+<li><code>HR_Ev</code>: number of agents with HIV converted this time period who have ever been high risk</li>
+<li><code>NewDiag</code>: number of agents with HIV who were diagnosed this time period</li>
+<li><code>Deaths</code>: number of agents who died this time period</li>
+<li><code>PrEP</code>: number of agents enrolled in PrEP</li>
+<li><code>Vaccinated</code>: number of agents who have been vaccinated</li>
+<li><code>LAI</code>: number of agents enrolled in PrEP with a type of LAI</li>
+<li><code>Oral</code>: number of agents enrolled in PrEP with a type of Oral</li>
+</ul>
+<details class="quote">
+<summary>Source code in <code>titan/output.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">basicReport</span><span class="p">(</span>
+    <span class="n">run_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">t</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">runseed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">popseed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">stats</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span>
+    <span class="n">outdir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Standard report writer for basic agent statistics, columns include:</span>
+
+<span class="sd">    * `Total`: number of agents in the population</span>
+<span class="sd">    * `HIV`: number of agents with HIV</span>
+<span class="sd">    * `AIDS`: number of agents with AIDS</span>
+<span class="sd">    * `Dx`: number of agents with HIV who are diagnosed</span>
+<span class="sd">    * `ART`: number of agents on HAART</span>
+<span class="sd">    * `nHR`: number of agents who are high risk</span>
+<span class="sd">    * `Incid`: number of agents who HIV converted this time period</span>
+<span class="sd">    * `HR_6mo`: number of agents with HIV converted this time period who are high risk</span>
+<span class="sd">    * `HR_Ev`: number of agents with HIV converted this time period who have ever been high risk</span>
+<span class="sd">    * `NewDiag`: number of agents with HIV who were diagnosed this time period</span>
+<span class="sd">    * `Deaths`: number of agents who died this time period</span>
+<span class="sd">    * `PrEP`: number of agents enrolled in PrEP</span>
+<span class="sd">    * `Vaccinated`: number of agents who have been vaccinated</span>
+<span class="sd">    * `LAI`: number of agents enrolled in PrEP with a type of LAI</span>
+<span class="sd">    * `Oral`: number of agents enrolled in PrEP with a type of Oral</span>
+<span class="sd">    """</span>
+    <span class="n">name_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"numAgents"</span><span class="p">:</span> <span class="s2">"Total"</span><span class="p">,</span>
+        <span class="s2">"numHIV"</span><span class="p">:</span> <span class="s2">"HIV"</span><span class="p">,</span>
+        <span class="s2">"numAIDS"</span><span class="p">:</span> <span class="s2">"AIDS"</span><span class="p">,</span>
+        <span class="s2">"numDiagnosed"</span><span class="p">:</span> <span class="s2">"Dx"</span><span class="p">,</span>
+        <span class="s2">"numART"</span><span class="p">:</span> <span class="s2">"ART"</span><span class="p">,</span>
+        <span class="s2">"numHR"</span><span class="p">:</span> <span class="s2">"nHR"</span><span class="p">,</span>
+        <span class="s2">"inf_newInf"</span><span class="p">:</span> <span class="s2">"Incid"</span><span class="p">,</span>
+        <span class="s2">"inf_HR6m"</span><span class="p">:</span> <span class="s2">"HR_6mo"</span><span class="p">,</span>
+        <span class="s2">"inf_HRever"</span><span class="p">:</span> <span class="s2">"HR_Ev"</span><span class="p">,</span>
+        <span class="s2">"newlyDiagnosed"</span><span class="p">:</span> <span class="s2">"NewDx"</span><span class="p">,</span>
+        <span class="s2">"deaths"</span><span class="p">:</span> <span class="s2">"Deaths"</span><span class="p">,</span>
+        <span class="s2">"numPrEP"</span><span class="p">:</span> <span class="s2">"PrEP"</span><span class="p">,</span>
+        <span class="s2">"vaccinated"</span><span class="p">:</span> <span class="s2">"Vaccinated"</span><span class="p">,</span>
+        <span class="s2">"injectable_prep"</span><span class="p">:</span> <span class="s2">"LAI"</span><span class="p">,</span>
+        <span class="s2">"oral_prep"</span><span class="p">:</span> <span class="s2">"Oral"</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">write_report</span><span class="p">(</span>
+        <span class="s2">"basicReport.txt"</span><span class="p">,</span> <span class="n">name_map</span><span class="p">,</span> <span class="n">run_id</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">runseed</span><span class="p">,</span> <span class="n">popseed</span><span class="p">,</span> <span class="n">stats</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">outdir</span>
+    <span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="titan.output.deathReport">
+<code class="highlight language-python">
+deathReport<span class="p">(</span><span class="n">run_id</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">runseed</span><span class="p">,</span> <span class="n">popseed</span><span class="p">,</span> <span class="n">stats</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Standard report writer for agent deaths, columns include:</p>
+<ul>
+<li><code>tot</code>: total number of deaths at this timestep</li>
+<li><code>HIV</code>: number of deaths of agents with HIV at this timestep</li>
+</ul>
+<details class="quote">
+<summary>Source code in <code>titan/output.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">deathReport</span><span class="p">(</span>
+    <span class="n">run_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">t</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">runseed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">popseed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">stats</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span>
+    <span class="n">outdir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Standard report writer for agent deaths, columns include:</span>
+
+<span class="sd">    * `tot`: total number of deaths at this timestep</span>
+<span class="sd">    * `HIV`: number of deaths of agents with HIV at this timestep</span>
+<span class="sd">    """</span>
+    <span class="n">name_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"deaths"</span><span class="p">:</span> <span class="s2">"tot"</span><span class="p">,</span>
+        <span class="s2">"deaths_HIV"</span><span class="p">:</span> <span class="s2">"HIV"</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">write_report</span><span class="p">(</span>
+        <span class="s2">"DeathReport.txt"</span><span class="p">,</span> <span class="n">name_map</span><span class="p">,</span> <span class="n">run_id</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">runseed</span><span class="p">,</span> <span class="n">popseed</span><span class="p">,</span> <span class="n">stats</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">outdir</span>
+    <span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="titan.output.get_agg_val">
+<code class="highlight language-python">
+get_agg_val<span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Get the value of a key in stats given the attribute values</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stats</code></td>
+<td><code>Dict</code></td>
+<td>
+<p>a nested dictionary of attributes to count</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>attrs</code></td>
+<td><code>List</code></td>
+<td>
+<p>a list of attribute values to find the count for</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>key</code></td>
+<td><code>str</code></td>
+<td>
+<p>the type of count to get the value of</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int</code></td>
+<td>
+<p>the count of key for the given attributes</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/output.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">get_agg_val</span><span class="p">(</span><span class="n">stats</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">attrs</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Get the value of a key in stats given the attribute values</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        stats: a nested dictionary of attributes to count</span>
+<span class="sd">        attrs: a list of attribute values to find the count for</span>
+<span class="sd">        key: the type of count to get the value of</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        the count of key for the given attributes</span>
+<span class="sd">    """</span>
+    <span class="n">stats_item</span> <span class="o">=</span> <span class="n">stats</span>
+    <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+        <span class="n">stats_item</span> <span class="o">=</span> <span class="n">stats_item</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">stats_item</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="titan.output.get_aggregates">
+<code class="highlight language-python">
+get_aggregates<span class="p">(</span><span class="n">params</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Get iterator over all attribute combinations for output classes</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>params</code></td>
+<td><code>ObjMap</code></td>
+<td>
+<p>model parameters</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Iterator</code></td>
+<td>
+<p>iterator over attribute combinations</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/output.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">get_aggregates</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Get iterator over all attribute combinations for output classes</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        params: model parameters</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        iterator over attribute combinations</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span>
+        <span class="o">*</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="p">[</span><span class="n">clss</span><span class="p">])</span> <span class="k">for</span> <span class="n">clss</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">classes</span><span class="p">]</span>
+    <span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="titan.output.get_stats">
+<code class="highlight language-python">
+get_stats<span class="p">(</span><span class="n">all_agents</span><span class="p">,</span> <span class="n">new_prep_agents</span><span class="p">,</span> <span class="n">new_hiv</span><span class="p">,</span> <span class="n">new_hiv_dx</span><span class="p">,</span> <span class="n">new_high_risk</span><span class="p">,</span> <span class="n">new_incar_release</span><span class="p">,</span> <span class="n">deaths</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Get the current statistics for a model based on the population, and tracking agent sets from the model.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>all_agents</code></td>
+<td><code>AgentSet</code></td>
+<td>
+<p>all of the agents in the population</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>new_prep_agents</code></td>
+<td><code>AgentSet</code></td>
+<td>
+<p>agents who are newly on prep this timestep</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>new_hiv</code></td>
+<td><code>AgentSet</code></td>
+<td>
+<p>agents are newly hiv this timestep</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>new_hiv_dx</code></td>
+<td><code>AgentSet</code></td>
+<td>
+<p>agents who are newly diagnosed with hiv this timestep</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>new_high_risk</code></td>
+<td><code>AgentSet</code></td>
+<td>
+<p>agents who are newly high risk this timestep</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>new_incar_release</code></td>
+<td><code>AgentSet</code></td>
+<td>
+<p>agents are released from incarceration this timestep</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>deaths</code></td>
+<td><code>List[titan.agent.Agent]</code></td>
+<td>
+<p>agents who died this timestep</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>params</code></td>
+<td><code>ObjMap</code></td>
+<td>
+<p>model parameters</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Dict</code></td>
+<td>
+<p>nested dictionary of agent attributes to counts of various items</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/output.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">get_stats</span><span class="p">(</span>
+    <span class="n">all_agents</span><span class="p">:</span> <span class="n">AgentSet</span><span class="p">,</span>
+    <span class="n">new_prep_agents</span><span class="p">:</span> <span class="n">AgentSet</span><span class="p">,</span>
+    <span class="n">new_hiv</span><span class="p">:</span> <span class="n">AgentSet</span><span class="p">,</span>
+    <span class="n">new_hiv_dx</span><span class="p">:</span> <span class="n">AgentSet</span><span class="p">,</span>
+    <span class="n">new_high_risk</span><span class="p">:</span> <span class="n">AgentSet</span><span class="p">,</span>
+    <span class="n">new_incar_release</span><span class="p">:</span> <span class="n">AgentSet</span><span class="p">,</span>
+    <span class="n">deaths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Agent</span><span class="p">],</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Get the current statistics for a model based on the population, and tracking agent sets from the model.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        all_agents: all of the agents in the population</span>
+<span class="sd">        new_prep_agents: agents who are newly on prep this timestep</span>
+<span class="sd">        new_hiv: agents are newly hiv this timestep</span>
+<span class="sd">        new_hiv_dx: agents who are newly diagnosed with hiv this timestep</span>
+<span class="sd">        new_high_risk: agents who are newly high risk this timestep</span>
+<span class="sd">        new_incar_release: agents are released from incarceration this timestep</span>
+<span class="sd">        deaths: agents who died this timestep</span>
+<span class="sd">        params: model parameters</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        nested dictionary of agent attributes to counts of various items</span>
+<span class="sd">    """</span>
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">setup_aggregates</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">classes</span><span class="p">)</span>
+    <span class="n">attrs</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">clss</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">clss</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">classes</span>
+    <span class="p">]</span>  <span class="c1"># attribute version (non-plural)</span>
+
+    <span class="c1"># Incarceration metrics</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">new_incar_release</span><span class="p">:</span>
+        <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"newRelease"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">hiv</span><span class="p">:</span>
+            <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"newReleaseHIV"</span><span class="p">)</span>
+
+    <span class="c1"># Newly infected tracker statistics (with HR within 6mo and HR ever bool check)</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">new_hiv</span><span class="p">:</span>
+        <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"inf_newInf"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">high_risk_ever</span><span class="p">:</span>
+            <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"inf_HRever"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">high_risk</span><span class="p">:</span>
+            <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"inf_HR6m"</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">all_agents</span><span class="p">:</span>
+        <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"numAgents"</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">prep</span><span class="p">:</span>
+            <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"numPrEP"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">prep_type</span> <span class="o">==</span> <span class="s2">"Inj"</span><span class="p">:</span>
+                <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"injectable_prep"</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">a</span><span class="o">.</span><span class="n">prep_type</span> <span class="o">==</span> <span class="s2">"Oral"</span><span class="p">:</span>
+                <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"oral_prep"</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">incar</span><span class="p">:</span>
+            <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"incar"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">hiv</span><span class="p">:</span>
+                <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"incarHIV"</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">hiv</span><span class="p">:</span>
+            <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"numHIV"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">aids</span><span class="p">:</span>
+                <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"numAIDS"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">hiv_dx</span><span class="p">:</span>
+                <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"numDiagnosed"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">haart</span><span class="p">:</span>
+                <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"numART"</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">vaccine</span><span class="p">:</span>
+            <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"vaccinated"</span><span class="p">)</span>
+
+    <span class="c1"># Newly PrEP tracker statistics</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">new_prep_agents</span><span class="p">:</span>
+        <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"newNumPrEP"</span><span class="p">)</span>
+
+    <span class="c1"># Newly diagnosed tracker statistics</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">new_hiv_dx</span><span class="p">:</span>
+        <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"newlyDiagnosed"</span><span class="p">)</span>
+
+    <span class="c1"># Newly HR agents</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">new_high_risk</span><span class="p">:</span>
+        <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"newHR"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">hiv</span><span class="p">:</span>
+            <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"newHR_HIV"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">aids</span><span class="p">:</span>
+                <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"newHR_AIDS"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">hiv_dx</span><span class="p">:</span>
+                <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"newHR_dx"</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">haart</span><span class="p">:</span>
+                    <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"newHR_ART"</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">deaths</span><span class="p">:</span>
+        <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"deaths"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">hiv</span><span class="p">:</span>
+            <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">"deaths_HIV"</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">stats</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="titan.output.incarReport">
+<code class="highlight language-python">
+incarReport<span class="p">(</span><span class="n">run_id</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">runseed</span><span class="p">,</span> <span class="n">popseed</span><span class="p">,</span> <span class="n">stats</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Standard report writer for agent incarcerations, columns include:</p>
+<ul>
+<li><code>tot</code>: total number of incarcerated agents at this timestep</li>
+<li><code>HIV</code>: number of incarcerated agents with HIV at this timestep</li>
+<li><code>rlsd</code>: number of agents released at this timestep</li>
+<li><code>rlsdHIV</code>: number of agents with HIV released at this timestep</li>
+</ul>
+<details class="quote">
+<summary>Source code in <code>titan/output.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">incarReport</span><span class="p">(</span>
+    <span class="n">run_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">t</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">runseed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">popseed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">stats</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span>
+    <span class="n">outdir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Standard report writer for agent incarcerations, columns include:</span>
+
+<span class="sd">    * `tot`: total number of incarcerated agents at this timestep</span>
+<span class="sd">    * `HIV`: number of incarcerated agents with HIV at this timestep</span>
+<span class="sd">    * `rlsd`: number of agents released at this timestep</span>
+<span class="sd">    * `rlsdHIV`: number of agents with HIV released at this timestep</span>
+<span class="sd">    """</span>
+    <span class="n">name_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"incar"</span><span class="p">:</span> <span class="s2">"tot"</span><span class="p">,</span>
+        <span class="s2">"incarHIV"</span><span class="p">:</span> <span class="s2">"HIV"</span><span class="p">,</span>
+        <span class="s2">"newRelease"</span><span class="p">:</span> <span class="s2">"rlsd"</span><span class="p">,</span>
+        <span class="s2">"newReleaseHIV"</span><span class="p">:</span> <span class="s2">"rlsdHIV"</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">write_report</span><span class="p">(</span>
+        <span class="s2">"IncarReport.txt"</span><span class="p">,</span> <span class="n">name_map</span><span class="p">,</span> <span class="n">run_id</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">runseed</span><span class="p">,</span> <span class="n">popseed</span><span class="p">,</span> <span class="n">stats</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">outdir</span>
+    <span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="titan.output.newlyhighriskReport">
+<code class="highlight language-python">
+newlyhighriskReport<span class="p">(</span><span class="n">run_id</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">runseed</span><span class="p">,</span> <span class="n">popseed</span><span class="p">,</span> <span class="n">stats</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Standard report writer for newly high risk agents, columns include:</p>
+<ul>
+<li><code>newHR</code>: number of agents that became high risk at this timestep</li>
+<li><code>newHR_HIV</code>: number of agents with HIV that became high risk at this timestep</li>
+<li><code>newHR_AIDS</code>: number of agents with AIDS that became high risk at this timestep</li>
+<li><code>newHR_Tested</code>: number of agents with diagnosed HIV that became high risk at this timestep</li>
+<li><code>newHR_ART</code>: number of agents on HAART that became high risk at this timestep</li>
+</ul>
+<details class="quote">
+<summary>Source code in <code>titan/output.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">newlyhighriskReport</span><span class="p">(</span>
+    <span class="n">run_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">t</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">runseed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">popseed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">stats</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span>
+    <span class="n">outdir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Standard report writer for newly high risk agents, columns include:</span>
+
+<span class="sd">    * `newHR`: number of agents that became high risk at this timestep</span>
+<span class="sd">    * `newHR_HIV`: number of agents with HIV that became high risk at this timestep</span>
+<span class="sd">    * `newHR_AIDS`: number of agents with AIDS that became high risk at this timestep</span>
+<span class="sd">    * `newHR_Tested`: number of agents with diagnosed HIV that became high risk at this timestep</span>
+<span class="sd">    * `newHR_ART`: number of agents on HAART that became high risk at this timestep</span>
+<span class="sd">    """</span>
+    <span class="n">name_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"newHR"</span><span class="p">:</span> <span class="s2">"newHR"</span><span class="p">,</span>
+        <span class="s2">"newHR_HIV"</span><span class="p">:</span> <span class="s2">"newHR_HIV"</span><span class="p">,</span>
+        <span class="s2">"newHR_AIDS"</span><span class="p">:</span> <span class="s2">"newHR_AIDS"</span><span class="p">,</span>
+        <span class="s2">"newHR_dx"</span><span class="p">:</span> <span class="s2">"newHR_Diagnosed"</span><span class="p">,</span>
+        <span class="s2">"newHR_ART"</span><span class="p">:</span> <span class="s2">"newHR_ART"</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">write_report</span><span class="p">(</span>
+        <span class="s2">"newlyHR_Report.txt"</span><span class="p">,</span>
+        <span class="n">name_map</span><span class="p">,</span>
+        <span class="n">run_id</span><span class="p">,</span>
+        <span class="n">t</span><span class="p">,</span>
+        <span class="n">runseed</span><span class="p">,</span>
+        <span class="n">popseed</span><span class="p">,</span>
+        <span class="n">stats</span><span class="p">,</span>
+        <span class="n">params</span><span class="p">,</span>
+        <span class="n">outdir</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="titan.output.print_components">
+<code class="highlight language-python">
+print_components<span class="p">(</span><span class="n">run_id</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">runseed</span><span class="p">,</span> <span class="n">popseed</span><span class="p">,</span> <span class="n">components</span><span class="p">,</span> <span class="n">outdir</span><span class="p">,</span> <span class="n">races</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Write stats describing the components (sub-graphs) in a graph to file</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>run_id</code></td>
+<td><code>str</code></td>
+<td>
+<p>unique identifer for this run of the model</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>t</code></td>
+<td><code>int</code></td>
+<td>
+<p>current timestep</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>runseed</code></td>
+<td><code>int</code></td>
+<td>
+<p>integer used to seed the model's random number generator</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>popseed</code></td>
+<td><code>int</code></td>
+<td>
+<p>integer used to seed the population's random number generator</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>components</code></td>
+<td><code>List</code></td>
+<td>
+<p>a list of graph components</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>outdir</code></td>
+<td><code>str</code></td>
+<td>
+<p>path where the file should be saved</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>races</code></td>
+<td><code>list</code></td>
+<td>
+<p>the races in the population</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/output.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">print_components</span><span class="p">(</span>
+    <span class="n">run_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">t</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">runseed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">popseed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">components</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span>
+    <span class="n">outdir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">races</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Write stats describing the components (sub-graphs) in a graph to file</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        run_id: unique identifer for this run of the model</span>
+<span class="sd">        t: current timestep</span>
+<span class="sd">        runseed: integer used to seed the model's random number generator</span>
+<span class="sd">        popseed: integer used to seed the population's random number generator</span>
+<span class="sd">        components: a list of graph components</span>
+<span class="sd">        outdir: path where the file should be saved</span>
+<span class="sd">        races: the races in the population</span>
+<span class="sd">    """</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">run_id</span><span class="si">}</span><span class="s2">_componentReport_ALL.txt"</span><span class="p">),</span> <span class="s2">"a"</span><span class="p">)</span>
+
+    <span class="n">race_count</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">race_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">races</span><span class="p">:</span>
+        <span class="n">race_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">race</span><span class="p">)</span>
+        <span class="n">header</span> <span class="o">+=</span> <span class="s2">"</span><span class="se">\t</span><span class="s2">"</span> <span class="o">+</span> <span class="n">race</span>
+
+    <span class="c1"># if this is a new file, write the header info</span>
+    <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+            <span class="s2">"run_id</span><span class="se">\t</span><span class="s2">runseed</span><span class="se">\t</span><span class="s2">popseed</span><span class="se">\t</span><span class="s2">t</span><span class="se">\t</span><span class="s2">compID</span><span class="se">\t</span><span class="s2">totalN</span><span class="se">\t</span><span class="s2">Nhiv</span><span class="se">\t</span><span class="s2">Nprep</span><span class="se">\t</span><span class="s2">NtrtHIV"</span>
+            <span class="s2">"</span><span class="se">\t</span><span class="s2">Comp_Status</span><span class="se">\t</span><span class="s2">PCA</span><span class="se">\t</span><span class="s2">Oral</span><span class="se">\t</span><span class="s2">Injectable</span><span class="se">\t</span><span class="s2">Aware</span><span class="se">\t</span><span class="s2">nidu</span><span class="se">\t</span><span class="s2">centrality</span><span class="se">\t</span><span class="s2">Density"</span>
+            <span class="s2">"</span><span class="se">\t</span><span class="s2">EffectiveSize"</span> <span class="o">+</span> <span class="n">header</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>
+        <span class="p">)</span>
+
+    <span class="n">comp_id</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">races</span><span class="p">:</span>
+            <span class="n">race_count</span><span class="p">[</span><span class="n">race</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">assert</span> <span class="n">comp</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+        <span class="n">tot_agents</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">nhiv</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="n">ntrthiv</span> <span class="o">=</span> <span class="n">nprep</span> <span class="o">=</span> <span class="n">injectable_prep</span> <span class="o">=</span> <span class="n">oral</span> <span class="o">=</span> <span class="n">aware</span> <span class="o">=</span> <span class="n">pca</span> <span class="o">=</span> <span class="n">nidu</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">component_status</span> <span class="o">=</span> <span class="s2">"control"</span>
+        <span class="n">trt_comp</span> <span class="o">=</span> <span class="n">trt_agent</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">comp</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+            <span class="n">tot_agents</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">race_count</span><span class="p">[</span><span class="n">agent</span><span class="o">.</span><span class="n">race</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">hiv</span><span class="p">:</span>
+                <span class="n">nhiv</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">intervention_ever</span><span class="p">:</span>
+                    <span class="n">ntrthiv</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">prep</span><span class="p">:</span>
+                <span class="n">nprep</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">prep_type</span> <span class="o">==</span> <span class="s2">"Inj"</span><span class="p">:</span>
+                    <span class="n">injectable_prep</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">elif</span> <span class="n">agent</span><span class="o">.</span><span class="n">prep_type</span> <span class="o">==</span> <span class="s2">"Oral"</span><span class="p">:</span>
+                    <span class="n">oral</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">pca_suitable</span> <span class="ow">and</span> <span class="n">agent</span><span class="o">.</span><span class="n">pca</span><span class="p">:</span>
+                <span class="n">pca</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">intervention_ever</span><span class="p">:</span>  <span class="c1"># treatment component</span>
+                <span class="n">trt_agent</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">random_trial_enrolled</span><span class="p">:</span>
+                <span class="n">trt_comp</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">prep_awareness</span><span class="p">:</span>
+                <span class="n">aware</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">drug_type</span> <span class="o">==</span> <span class="s2">"NonInj"</span><span class="p">:</span>
+                <span class="n">nidu</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">comp_centrality</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="nb">sum</span><span class="p">(</span><span class="n">betweenness_centrality</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">/</span> <span class="n">comp</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="n">average_size</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">effective_size</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">/</span> <span class="n">comp</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span>
+        <span class="n">comp_density</span> <span class="o">=</span> <span class="n">density</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">trt_comp</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">trt_agent</span><span class="p">:</span>
+                <span class="n">component_status</span> <span class="o">=</span> <span class="s2">"treatment"</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">component_status</span> <span class="o">=</span> <span class="s2">"treatment_no_eligible"</span>
+
+        <span class="n">race_str</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">race_list</span><span class="p">:</span>
+            <span class="n">race_str</span> <span class="o">+=</span> <span class="s2">"</span><span class="se">\t</span><span class="s2">"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">race_count</span><span class="p">[</span><span class="n">race</span><span class="p">])</span>
+
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">run_id</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">runseed</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">popseed</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">comp_id</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">tot_agents</span><span class="si">}</span><span class="se">\t</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">nhiv</span><span class="si">}</span><span class="se">\t</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">nprep</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">ntrthiv</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">component_status</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">pca</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">oral</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">injectable_prep</span><span class="si">}</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="se">\t</span><span class="si">{</span><span class="n">aware</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">nidu</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">comp_centrality</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">comp_density</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="se">\t</span><span class="si">{</span><span class="n">average_size</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}{</span><span class="n">race_str</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+        <span class="p">)</span>
+
+        <span class="n">comp_id</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="titan.output.setup_aggregates">
+<code class="highlight language-python">
+setup_aggregates<span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">classes</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Recursively create a nested dictionary of attribute values to items to count.</p>
+<p>Attributes are classes defined in params, the items counted are:</p>
+<ul>
+<li>"numAgents"</li>
+<li>"inf_HR6m"</li>
+<li>"inf_HRever"</li>
+<li>"inf_newInf"</li>
+<li>"newHR"</li>
+<li>"newHR_HIV"</li>
+<li>"newHR_AIDS"</li>
+<li>"newHR_dx"</li>
+<li>"newHR_ART"</li>
+<li>"newRelease"</li>
+<li>"newReleaseHIV"</li>
+<li>"numHIV"</li>
+<li>"numTested"</li>
+<li>"numAIDS"</li>
+<li>"numART"</li>
+<li>"numHR"</li>
+<li>"newlyTested"</li>
+<li>"deaths"</li>
+<li>"deaths_HIV"</li>
+<li>"incar"</li>
+<li>"incarHIV"</li>
+<li>"numPrEP"</li>
+<li>"newNumPrEP"</li>
+<li>"vaccinated"</li>
+<li>"injectable_prep"</li>
+<li>"oral_prep"</li>
+</ul>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>params</code></td>
+<td><code>ObjMap</code></td>
+<td>
+<p>model parameters</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>classes</code></td>
+<td><code>List[str]</code></td>
+<td>
+<p>which classes to aggregate by [params.outputs.classes]</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Dict</code></td>
+<td>
+<p>dictionary of class values to counts</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/output.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">setup_aggregates</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span> <span class="n">classes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Recursively create a nested dictionary of attribute values to items to count.</span>
+
+<span class="sd">    Attributes are classes defined in params, the items counted are:</span>
+
+<span class="sd">    * "numAgents"</span>
+<span class="sd">    * "inf_HR6m"</span>
+<span class="sd">    * "inf_HRever"</span>
+<span class="sd">    * "inf_newInf"</span>
+<span class="sd">    * "newHR"</span>
+<span class="sd">    * "newHR_HIV"</span>
+<span class="sd">    * "newHR_AIDS"</span>
+<span class="sd">    * "newHR_dx"</span>
+<span class="sd">    * "newHR_ART"</span>
+<span class="sd">    * "newRelease"</span>
+<span class="sd">    * "newReleaseHIV"</span>
+<span class="sd">    * "numHIV"</span>
+<span class="sd">    * "numTested"</span>
+<span class="sd">    * "numAIDS"</span>
+<span class="sd">    * "numART"</span>
+<span class="sd">    * "numHR"</span>
+<span class="sd">    * "newlyTested"</span>
+<span class="sd">    * "deaths"</span>
+<span class="sd">    * "deaths_HIV"</span>
+<span class="sd">    * "incar"</span>
+<span class="sd">    * "incarHIV"</span>
+<span class="sd">    * "numPrEP"</span>
+<span class="sd">    * "newNumPrEP"</span>
+<span class="sd">    * "vaccinated"</span>
+<span class="sd">    * "injectable_prep"</span>
+<span class="sd">    * "oral_prep"</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        params: model parameters</span>
+<span class="sd">        classes: which classes to aggregate by [params.outputs.classes]</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        dictionary of class values to counts</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">classes</span> <span class="o">==</span> <span class="p">[]:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"numAgents"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"inf_HR6m"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"inf_HRever"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"inf_newInf"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"newHR"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"newHR_HIV"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"newHR_AIDS"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"newHR_dx"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"newHR_ART"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"newRelease"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"newReleaseHIV"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"numHIV"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"numDiagnosed"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"numAIDS"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"numART"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"numHR"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"newlyDiagnosed"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"deaths"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"deaths_HIV"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"incar"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"incarHIV"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"numPrEP"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"newNumPrEP"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"vaccinated"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"injectable_prep"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"oral_prep"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="n">stats</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">clss</span><span class="p">,</span> <span class="o">*</span><span class="n">rem_clss</span> <span class="o">=</span> <span class="n">classes</span>  <span class="c1"># head, tail</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="p">[</span><span class="n">clss</span><span class="p">]]</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+        <span class="n">stats</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">setup_aggregates</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">rem_clss</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">stats</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="titan.output.write_report">
+<code class="highlight language-python">
+write_report<span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">name_map</span><span class="p">,</span> <span class="n">run_id</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">runseed</span><span class="p">,</span> <span class="n">popseed</span><span class="p">,</span> <span class="n">stats</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Core function for writing reports, writes header if file is new, then data based
+on the <code>params</code> and <code>name_map</code></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>file_name</code></td>
+<td><code>str</code></td>
+<td>
+<p>Name of the file to write, including the extension (e.g. <code>MyReport.txt</code>)</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>name_map</code></td>
+<td><code>Dict[str, str]</code></td>
+<td>
+<p>Map from keys in the stats dictionary to column headers in this report</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>run_id</code></td>
+<td><code>str</code></td>
+<td>
+<p>unique identifier for this model</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>t</code></td>
+<td><code>int</code></td>
+<td>
+<p>current timestep</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>runseed</code></td>
+<td><code>int</code></td>
+<td>
+<p>integer used to seed the random number generator for the model</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>popseed</code></td>
+<td><code>int</code></td>
+<td>
+<p>integer used to seed the random number generator for the population</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>stats</code></td>
+<td><code>Dict</code></td>
+<td>
+<p>nested dictionary of agent attributes to counts</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>params</code></td>
+<td><code>ObjMap</code></td>
+<td>
+<p>model parameters</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>outdir</code></td>
+<td><code>str</code></td>
+<td>
+<p>path of where to save this file</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/output.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">write_report</span><span class="p">(</span>
+    <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">name_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+    <span class="n">run_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">t</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">runseed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">popseed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">stats</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span>
+    <span class="n">outdir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Core function for writing reports, writes header if file is new, then data based</span>
+<span class="sd">    on the `params` and `name_map`</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        file_name: Name of the file to write, including the extension (e.g. `MyReport.txt`)</span>
+<span class="sd">        name_map: Map from keys in the stats dictionary to column headers in this report</span>
+<span class="sd">        run_id: unique identifier for this model</span>
+<span class="sd">        t: current timestep</span>
+<span class="sd">        runseed: integer used to seed the random number generator for the model</span>
+<span class="sd">        popseed: integer used to seed the random number generator for the population</span>
+<span class="sd">        stats: nested dictionary of agent attributes to counts</span>
+<span class="sd">        params: model parameters</span>
+<span class="sd">        outdir: path of where to save this file</span>
+<span class="sd">    """</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">file_name</span><span class="p">),</span> <span class="s2">"a"</span><span class="p">)</span>
+    <span class="n">attrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">clss</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">clss</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">classes</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"run_id</span><span class="se">\t</span><span class="s2">rseed</span><span class="se">\t</span><span class="s2">pseed</span><span class="se">\t</span><span class="s2">t</span><span class="se">\t</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># start header</span>
+
+        <span class="c1"># attributes in stats</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">attrs</span><span class="p">))</span>
+
+        <span class="c1"># report specific fields</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">name_map</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\t</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">agg</span> <span class="ow">in</span> <span class="n">get_aggregates</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">run_id</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">runseed</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">popseed</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="se">\t</span><span class="s2">"</span><span class="p">)</span>
+
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">agg</span><span class="p">))</span>  <span class="c1"># write attribute values</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">name_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\t</span><span class="si">{</span><span class="p">(</span><span class="n">get_agg_val</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">agg</span><span class="p">,</span> <span class="n">key</span><span class="p">))</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+</div>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-nav">
+<nav aria-label="Footer" class="md-footer-nav__inner md-grid">
+<a class="md-footer-nav__link md-footer-nav__link--prev" href="../relationship/" rel="prev" title="Relationship">
+<div class="md-footer-nav__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</div>
+<div class="md-footer-nav__title">
+<div class="md-ellipsis">
+<span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Relationship
+              </div>
+</div>
+</a>
+<a class="md-footer-nav__link md-footer-nav__link--next" href="../utilities/" rel="next" title="Utility Functions">
+<div class="md-footer-nav__title">
+<div class="md-ellipsis">
+<span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Utility Functions
+              </div>
+</div>
+<div class="md-footer-nav__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"></path></svg>
+</div>
+</a>
+</nav>
+</div>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+          Material for MkDocs
+        </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<script src="../../assets/javascripts/vendor.df0def68.min.js"></script>
+<script src="../../assets/javascripts/bundle.ba57d267.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+<script>
+        app = initialize({
+          base: "../..",
+          features: ["instant", "tabs"],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.fae956e7.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+</body>
+</html>

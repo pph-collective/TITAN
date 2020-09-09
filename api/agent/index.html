@@ -1,0 +1,1389 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Documentation for the TITAN model" name="description"/>
+<link href="http://marshall-lab.github.io/titan/api/agent/" rel="canonical"/>
+<link href="../../assets/images/favicon.png" rel="shortcut icon"/>
+<meta content="mkdocs-1.1.2, mkdocs-material-5.5.8" name="generator"/>
+<title>Agent - TITAN</title>
+<link href="../../assets/stylesheets/main.01afc2df.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&amp;display=fallback" rel="stylesheet"/>
+<style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+</head>
+<body dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#titan.agent.Agent.__init__">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Header" class="md-header-nav md-grid">
+<a aria-label="TITAN" class="md-header-nav__button md-logo" href="http://marshall-lab.github.io/titan" title="TITAN">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
+</a>
+<label class="md-header-nav__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"></path></svg>
+</label>
+<div class="md-header-nav__title" data-md-component="header-title">
+<div class="md-header-nav__ellipsis">
+<span class="md-header-nav__topic md-ellipsis">
+            TITAN
+          </span>
+<span class="md-header-nav__topic md-ellipsis">
+            
+              Agent
+            
+          </span>
+</div>
+</div>
+<label class="md-header-nav__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" data-md-state="active" name="query" placeholder="Search" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</label>
+<button aria-label="Clear" class="md-search__icon md-icon" data-md-component="search-reset" tabindex="-1" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>
+</button>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<nav aria-label="Tabs" class="md-tabs md-tabs--active" data-md-component="tabs">
+<div class="md-tabs__inner md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../..">
+        Overview
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../getting_started/">
+          Getting Started
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link md-tabs__link--active" href="./">
+          API Reference
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="TITAN" class="md-nav__button md-logo" href="http://marshall-lab.github.io/titan" title="TITAN">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
+</a>
+    TITAN
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../.." title="Overview">
+      Overview
+    </a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" id="nav-2" type="checkbox"/>
+<label class="md-nav__link" for="nav-2">
+      Getting Started
+      <span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"></path></svg>
+</span>
+</label>
+<nav aria-label="Getting Started" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="nav-2">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+        Getting Started
+      </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../getting_started/" title="Installation">
+      Installation
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../run_local/" title="Running locally">
+      Running locally
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../run_oscar/" title="Running on Oscar">
+      Running on Oscar
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../contributing/" title="Contributing">
+      Contributing
+    </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" data-md-toggle="nav-3" id="nav-3" type="checkbox"/>
+<label class="md-nav__link" for="nav-3">
+      API Reference
+      <span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"></path></svg>
+</span>
+</label>
+<nav aria-label="API Reference" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="nav-3">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+        API Reference
+      </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+        Agent
+        <span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"></path></svg>
+</span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./" title="Agent">
+      Agent
+    </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.__init__">
+    __init__()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.__repr__">
+    __repr__()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.__str__">
+    __str__()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.cdc_eligible">
+    cdc_eligible()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.enroll_prep">
+    enroll_prep()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.get_acute_status">
+    get_acute_status()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.get_num_partners">
+    get_num_partners()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.get_number_of_sex_acts">
+    get_number_of_sex_acts()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.get_partners">
+    get_partners()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.has_partners">
+    has_partners()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.is_msm">
+    is_msm()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.iter_partners">
+    iter_partners()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.prep_eligible">
+    prep_eligible()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.update_prep_load">
+    update_prep_load()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.vaccinate">
+    vaccinate()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../agent_set/" title="AgentSet">
+      AgentSet
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../location/" title="Location">
+      Location
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../model/" title="Model">
+      Model
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../network/" title="NetworkGraphUtils">
+      NetworkGraphUtils
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../population/" title="Population">
+      Population
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../relationship/" title="Relationship">
+      Relationship
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../reporting/" title="Reporting">
+      Reporting
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../utilities/" title="Utility Functions">
+      Utility Functions
+    </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.__init__">
+    __init__()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.__repr__">
+    __repr__()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.__str__">
+    __str__()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.cdc_eligible">
+    cdc_eligible()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.enroll_prep">
+    enroll_prep()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.get_acute_status">
+    get_acute_status()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.get_num_partners">
+    get_num_partners()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.get_number_of_sex_acts">
+    get_number_of_sex_acts()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.get_partners">
+    get_partners()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.has_partners">
+    has_partners()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.is_msm">
+    is_msm()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.iter_partners">
+    iter_partners()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.prep_eligible">
+    prep_eligible()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.update_prep_load">
+    update_prep_load()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.agent.Agent.vaccinate">
+    vaccinate()
+  </a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content">
+<article class="md-content__inner md-typeset">
+<h1>Agent</h1>
+<div class="doc doc-object doc-class">
+<div class="doc doc-contents first">
+<p>This class constructs and represents an agent within the population</p>
+<div class="doc doc-children">
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.agent.Agent.__init__">
+<code class="highlight language-python">
+__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sex_type</span><span class="p">,</span> <span class="n">age</span><span class="p">,</span> <span class="n">race</span><span class="p">,</span> <span class="n">drug_use</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> </code>
+<span class="doc doc-properties">
+<small class="doc doc-property doc-property-special"><code>special</code></small>
+</span>
+</h3>
+<div class="doc doc-contents">
+<p>Initialize an agent based on given properties</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>Optional[int]</code></td>
+<td>
+<p>Unique agent ID</p>
+</td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td><code>sex_type</code></td>
+<td><code>str</code></td>
+<td>
+<p>Name of defined sex type (e.g. MSM) [params.classes.sex_types]</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>age</code></td>
+<td><code>int</code></td>
+<td>
+<p>Agents initialization age</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>race</code></td>
+<td><code>str</code></td>
+<td>
+<p>Race of agent [params.classes.races]</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>drug_use</code></td>
+<td><code>str</code></td>
+<td>
+<p>Drug use flag [params.classes.drug_types]</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/agent.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">sex_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">race</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">drug_use</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">location</span><span class="p">:</span> <span class="n">Location</span><span class="p">,</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Initialize an agent based on given properties</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        id: Unique agent ID</span>
+<span class="sd">        sex_type: Name of defined sex type (e.g. MSM) [params.classes.sex_types]</span>
+<span class="sd">        age: Agents initialization age</span>
+<span class="sd">        race: Race of agent [params.classes.races]</span>
+<span class="sd">        drug_use: Drug use flag [params.classes.drug_types]</span>
+<span class="sd">    """</span>
+    <span class="c1"># self.id is unique ID number used to track each person agent.</span>
+    <span class="k">if</span> <span class="nb">id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">id</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_agent_id</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">update_id_counter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+    <span class="c1"># agent properties</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">sex_type</span> <span class="o">=</span> <span class="n">sex_type</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">age_bin</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">race</span> <span class="o">=</span> <span class="n">race</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">drug_type</span> <span class="o">=</span> <span class="n">drug_use</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">location</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">drug_type</span> <span class="o">==</span> <span class="s2">"Inj"</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">population</span> <span class="o">=</span> <span class="s2">"PWID"</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">population</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sex_type</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">msmw</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">sex_role</span> <span class="o">=</span> <span class="s2">"versatile"</span>
+
+    <span class="c1"># agent-partner params</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">Relationship</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">partners</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Set</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">mean_num_partners</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">target_partners</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># agent STI params</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">hiv</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">hiv_time</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">hiv_dx</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">aids</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># agent treatment params</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">haart</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">haart_time</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">haart_adherence</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">ssp</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">prep</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">prep_adherence</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">intervention_ever</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">random_trial_enrolled</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">vaccine</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">vaccine_time</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">vaccine_type</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">partner_traced</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">trace_time</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">prep_awareness</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">prep_opinion</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">prep_type</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">pca</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">pca_suitable</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># PrEP pharmacokinetics</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">prep_load</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">prep_last_dose</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># agent high risk params</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">high_risk</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">high_risk_time</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">high_risk_ever</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># agent incarcartion params</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">incar</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">incar_time</span> <span class="o">=</span> <span class="mi">0</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.agent.Agent.__repr__">
+<code class="highlight language-python">
+__repr__<span class="p">(</span><span class="bp">self</span><span class="p">)</span> </code>
+<span class="doc doc-properties">
+<small class="doc doc-property doc-property-special"><code>special</code></small>
+</span>
+</h3>
+<div class="doc doc-contents">
+<p>Repr formatting of agent object</p>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>str</code></td>
+<td>
+<p>agent ID as str</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/agent.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Repr formatting of agent object</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        agent ID as str</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.agent.Agent.__str__">
+<code class="highlight language-python">
+__str__<span class="p">(</span><span class="bp">self</span><span class="p">)</span> </code>
+<span class="doc doc-properties">
+<small class="doc doc-property doc-property-special"><code>special</code></small>
+</span>
+</h3>
+<div class="doc doc-contents">
+<p>String formatting of agent object</p>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>str</code></td>
+<td>
+<p>String formatted tab-deliminated agent properties</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/agent.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    String formatting of agent object</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        String formatted tab-deliminated agent properties</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="se">\t</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">age</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sex_type</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">drug_type</span><span class="si">}</span><span class="se">\t</span><span class="s2">"</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">race</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hiv</span><span class="si">}</span><span class="s2">"</span>
+    <span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.agent.Agent.cdc_eligible">
+<code class="highlight language-python">
+cdc_eligible<span class="p">(</span><span class="bp">self</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Determine agent eligibility for PrEP under CDC criteria</p>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bool</code></td>
+<td>
+<p>cdc eligibility</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/agent.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">cdc_eligible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Determine agent eligibility for PrEP under CDC criteria</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        cdc eligibility</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_msm</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="n">ongoing_duration</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">partnership</span><span class="o">.</span><span class="n">ongoing_duration</span>
+    <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="p">:</span>
+        <span class="n">partner</span> <span class="o">=</span> <span class="n">rel</span><span class="o">.</span><span class="n">get_partner</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rel</span><span class="o">.</span><span class="n">duration</span> <span class="o">&gt;</span> <span class="n">ongoing_duration</span> <span class="ow">and</span> <span class="n">partner</span><span class="o">.</span><span class="n">hiv_dx</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="n">partner</span><span class="o">.</span><span class="n">drug_type</span> <span class="o">==</span> <span class="s2">"Inj"</span> <span class="ow">or</span> <span class="n">partner</span><span class="o">.</span><span class="n">is_msm</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="kc">False</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.agent.Agent.enroll_prep">
+<code class="highlight language-python">
+enroll_prep<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Enroll an agent in PrEP</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rand_gen</code></td>
+<td><code></code></td>
+<td>
+<p>random number generator</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/agent.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">enroll_prep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Enroll an agent in PrEP</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        rand_gen: random number generator</span>
+<span class="sd">    """</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">prep</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">prep_load</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">prep</span><span class="o">.</span><span class="n">peak_load</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">prep_last_dose</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">rand_gen</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+        <span class="o">&lt;</span> <span class="n">params</span><span class="o">.</span><span class="n">demographics</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">race</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">sex_type</span><span class="p">]</span><span class="o">.</span><span class="n">prep</span><span class="o">.</span><span class="n">adherence</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prep_adherence</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prep_adherence</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># set PrEP load and dosestep for PCK</span>
+    <span class="k">if</span> <span class="s2">"Inj"</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">prep</span><span class="o">.</span><span class="n">type</span> <span class="ow">and</span> <span class="s2">"Oral"</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">prep</span><span class="o">.</span><span class="n">type</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">rand_gen</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">params</span><span class="o">.</span><span class="n">prep</span><span class="o">.</span><span class="n">lai</span><span class="o">.</span><span class="n">prob</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prep_type</span> <span class="o">=</span> <span class="s2">"Inj"</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prep_type</span> <span class="o">=</span> <span class="s2">"Oral"</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prep_type</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">prep</span><span class="o">.</span><span class="n">type</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.agent.Agent.get_acute_status">
+<code class="highlight language-python">
+get_acute_status<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">acute_time_period</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Get acute status of agent at time</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>acute_time_period</code></td>
+<td><code></code></td>
+<td>
+<p>How long an agent with HIV is acute for</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bool</code></td>
+<td>
+<p>whether an agent is acute</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/agent.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">get_acute_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">acute_time_period</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Get acute status of agent at time</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        acute_time_period: How long an agent with HIV is acute for</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        whether an agent is acute</span>
+<span class="sd">    """</span>
+    <span class="n">hiv_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hiv_time</span>
+
+    <span class="k">if</span> <span class="n">acute_time_period</span> <span class="o">&gt;=</span> <span class="n">hiv_t</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.agent.Agent.get_num_partners">
+<code class="highlight language-python">
+get_num_partners<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bond_types</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Get the number of partners an agent has, optionally filtered by bond type</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bond_types</code></td>
+<td><code>Optional[Iterable[str]]</code></td>
+<td>
+<p>list of bond types which will filter the partners, otherwise total number of partners returned</p>
+</td>
+<td><code>None</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int</code></td>
+<td>
+<p>the number of partners the agent has</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/agent.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">get_num_partners</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bond_types</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Get the number of partners an agent has, optionally filtered by bond type</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        bond_types: list of bond types which will filter the partners, otherwise total number of partners returned</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        the number of partners the agent has</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_partners</span><span class="p">(</span><span class="n">bond_types</span><span class="p">))</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.agent.Agent.get_number_of_sex_acts">
+<code class="highlight language-python">
+get_number_of_sex_acts<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Number of sexActs an agent has done.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rand_gen</code></td>
+<td><code></code></td>
+<td>
+<p>random number generator (e.g. self.run_random in model)</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int</code></td>
+<td>
+<p>number of sex acts</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/agent.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">get_number_of_sex_acts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Number of sexActs an agent has done.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        rand_gen: random number generator (e.g. self.run_random in model)</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        number of sex acts</span>
+<span class="sd">    """</span>
+    <span class="n">freq_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">partnership</span><span class="o">.</span><span class="n">sex</span><span class="o">.</span><span class="n">frequency</span>
+    <span class="k">if</span> <span class="n">freq_params</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"bins"</span><span class="p">:</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="n">rand_gen</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">freq_params</span><span class="o">.</span><span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">prob</span>
+            <span class="k">if</span> <span class="n">rv</span> <span class="o">&lt;=</span> <span class="n">p</span><span class="p">:</span>
+                <span class="k">break</span>
+
+        <span class="n">min_frequency</span> <span class="o">=</span> <span class="n">freq_params</span><span class="o">.</span><span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">min</span>
+        <span class="n">max_frequency</span> <span class="o">=</span> <span class="n">freq_params</span><span class="o">.</span><span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">max</span>
+        <span class="k">return</span> <span class="n">rand_gen</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">min_frequency</span><span class="p">,</span> <span class="n">max_frequency</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">freq_params</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"distribution"</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">safe_dist</span><span class="p">(</span><span class="n">freq_params</span><span class="o">.</span><span class="n">distribution</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"Sex acts must be defined as bin or distribution"</span><span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.agent.Agent.get_partners">
+<code class="highlight language-python">
+get_partners<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bond_types</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Get all of an agents partners or those with specific bond types</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bond_types</code></td>
+<td><code>Optional[Iterable[str]]</code></td>
+<td>
+<p>list of bond types which will filter the partners, otherwise all partners returned</p>
+</td>
+<td><code>None</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Set[Agent]</code></td>
+<td>
+<p>set of agent's partners</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/agent.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">get_partners</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bond_types</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="s2">"Agent"</span><span class="p">]:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Get all of an agents partners or those with specific bond types</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        bond_types: list of bond types which will filter the partners, otherwise all partners returned</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        set of agent's partners</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">bond_types</span><span class="p">:</span>
+        <span class="n">partners</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">bond</span> <span class="ow">in</span> <span class="n">bond_types</span><span class="p">:</span>
+            <span class="n">partners</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">partners</span><span class="p">[</span><span class="n">bond</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">partners</span> <span class="o">=</span> <span class="p">{</span><span class="n">partner</span> <span class="k">for</span> <span class="n">partner</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter_partners</span><span class="p">()}</span>
+
+    <span class="k">return</span> <span class="n">partners</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.agent.Agent.has_partners">
+<code class="highlight language-python">
+has_partners<span class="p">(</span><span class="bp">self</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Determine whether an agent has any partners</p>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bool</code></td>
+<td>
+<p>whether an agent has at least one partner</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/agent.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">has_partners</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Determine whether an agent has any partners</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        whether an agent has at least one partner</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iter_partners</span><span class="p">())</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.agent.Agent.is_msm">
+<code class="highlight language-python">
+is_msm<span class="p">(</span><span class="bp">self</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Determine whether an agent is a man who can have sex with men</p>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bool</code></td>
+<td>
+<p>if agent is MSM</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/agent.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">is_msm</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Determine whether an agent is a man who can have sex with men</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        if agent is MSM</span>
+<span class="sd">    """</span>
+    <span class="n">sex_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">sex_types</span>
+    <span class="k">if</span> <span class="n">sex_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sex_type</span><span class="p">]</span><span class="o">.</span><span class="n">gender</span> <span class="o">!=</span> <span class="s2">"M"</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">for</span> <span class="n">sex_type</span> <span class="ow">in</span> <span class="n">sex_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sex_type</span><span class="p">]</span><span class="o">.</span><span class="n">sleeps_with</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sex_dict</span><span class="p">[</span><span class="n">sex_type</span><span class="p">]</span><span class="o">.</span><span class="n">gender</span> <span class="o">==</span> <span class="s2">"M"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.agent.Agent.iter_partners">
+<code class="highlight language-python">
+iter_partners<span class="p">(</span><span class="bp">self</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Get an iterator over an agent's partners</p>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Iterator[Agent]</code></td>
+<td>
+<p>iterator of agent partners</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/agent.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">iter_partners</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="s2">"Agent"</span><span class="p">]:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Get an iterator over an agent's partners</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        iterator of agent partners</span>
+<span class="sd">    """</span>
+    <span class="k">for</span> <span class="n">partner_set</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">partners</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">partner</span> <span class="ow">in</span> <span class="n">partner_set</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">partner</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.agent.Agent.prep_eligible">
+<code class="highlight language-python">
+prep_eligible<span class="p">(</span><span class="bp">self</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Determine if an agent is eligible for PrEP</p>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bool</code></td>
+<td>
+<p>prep eligibility</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/agent.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">prep_eligible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Determine if an agent is eligible for PrEP</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        prep eligibility</span>
+<span class="sd">    """</span>
+    <span class="n">target_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">prep</span><span class="o">.</span><span class="n">target_model</span>
+    <span class="n">gender</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">sex_types</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sex_type</span><span class="p">]</span><span class="o">.</span><span class="n">gender</span>
+    <span class="c1"># if agent is already on prep, not eligible to enroll</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prep</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">vaccine</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">all_eligible_models</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Allcomers"</span><span class="p">,</span> <span class="s2">"Racial"</span><span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">all_eligible_models</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">target_model</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="s2">"cdc_women"</span> <span class="ow">in</span> <span class="n">target_model</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">gender</span> <span class="o">==</span> <span class="s2">"F"</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cdc_eligible</span><span class="p">():</span>
+                <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="s2">"cdc_msm"</span> <span class="ow">in</span> <span class="n">target_model</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">gender</span> <span class="o">==</span> <span class="s2">"M"</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">cdc_eligible</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="s2">"pwid_sex"</span> <span class="ow">in</span> <span class="n">target_model</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">drug_type</span> <span class="o">==</span> <span class="s2">"Inj"</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">cdc_eligible</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="s2">"pwid"</span> <span class="ow">in</span> <span class="n">target_model</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">drug_type</span> <span class="o">==</span> <span class="s2">"Inj"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="s2">"ssp_sex"</span> <span class="ow">in</span> <span class="n">target_model</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ssp</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">cdc_eligible</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="s2">"ssp"</span> <span class="ow">in</span> <span class="n">target_model</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ssp</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="kc">False</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.agent.Agent.update_prep_load">
+<code class="highlight language-python">
+update_prep_load<span class="p">(</span><span class="bp">self</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Determine and update load of PrEP concentration in agent.</p>
+<details class="quote">
+<summary>Source code in <code>titan/agent.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">update_prep_load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Determine and update load of PrEP concentration in agent.</span>
+<span class="sd">    """</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span>
+    <span class="c1"># N(t) = N0 (0.5)^(t/t_half)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">prep_last_dose</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prep_last_dose</span> <span class="o">&gt;</span> <span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">steps_per_year</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prep_load</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prep</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prep_type</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prep_last_dose</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">annualized_last_dose</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prep_last_dose</span> <span class="o">/</span> <span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">steps_per_year</span>
+        <span class="p">)</span>
+        <span class="n">annualized_half_life</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">prep</span><span class="o">.</span><span class="n">half_life</span> <span class="o">/</span> <span class="mi">365</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prep_load</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">prep</span><span class="o">.</span><span class="n">peak_load</span> <span class="o">*</span> <span class="p">(</span>
+            <span class="p">(</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="n">annualized_last_dose</span> <span class="o">/</span> <span class="n">annualized_half_life</span><span class="p">)</span>
+        <span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.agent.Agent.vaccinate">
+<code class="highlight language-python">
+vaccinate<span class="p">(</span><span class="bp">self</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Vaccinate an agent and update relevant fields.</p>
+<details class="quote">
+<summary>Source code in <code>titan/agent.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">vaccinate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Vaccinate an agent and update relevant fields.</span>
+<span class="sd">    """</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">vaccine</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">vaccine_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">vaccine</span><span class="o">.</span><span class="n">type</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">vaccine_time</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+</div>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-nav">
+<nav aria-label="Footer" class="md-footer-nav__inner md-grid">
+<a class="md-footer-nav__link md-footer-nav__link--prev" href="../../contributing/" rel="prev" title="Contributing">
+<div class="md-footer-nav__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</div>
+<div class="md-footer-nav__title">
+<div class="md-ellipsis">
+<span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Contributing
+              </div>
+</div>
+</a>
+<a class="md-footer-nav__link md-footer-nav__link--next" href="../agent_set/" rel="next" title="AgentSet">
+<div class="md-footer-nav__title">
+<div class="md-ellipsis">
+<span class="md-footer-nav__direction">
+                  Next
+                </span>
+                AgentSet
+              </div>
+</div>
+<div class="md-footer-nav__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"></path></svg>
+</div>
+</a>
+</nav>
+</div>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+          Material for MkDocs
+        </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<script src="../../assets/javascripts/vendor.df0def68.min.js"></script>
+<script src="../../assets/javascripts/bundle.ba57d267.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+<script>
+        app = initialize({
+          base: "../..",
+          features: ["instant", "tabs"],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.fae956e7.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+</body>
+</html>

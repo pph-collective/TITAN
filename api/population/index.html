@@ -1,0 +1,1881 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Documentation for the TITAN model" name="description"/>
+<link href="http://marshall-lab.github.io/titan/api/population/" rel="canonical"/>
+<link href="../../assets/images/favicon.png" rel="shortcut icon"/>
+<meta content="mkdocs-1.1.2, mkdocs-material-5.5.8" name="generator"/>
+<title>Population - TITAN</title>
+<link href="../../assets/stylesheets/main.01afc2df.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&amp;display=fallback" rel="stylesheet"/>
+<style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+</head>
+<body dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#population">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Header" class="md-header-nav md-grid">
+<a aria-label="TITAN" class="md-header-nav__button md-logo" href="http://marshall-lab.github.io/titan" title="TITAN">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
+</a>
+<label class="md-header-nav__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"></path></svg>
+</label>
+<div class="md-header-nav__title" data-md-component="header-title">
+<div class="md-header-nav__ellipsis">
+<span class="md-header-nav__topic md-ellipsis">
+            TITAN
+          </span>
+<span class="md-header-nav__topic md-ellipsis">
+            
+              Population
+            
+          </span>
+</div>
+</div>
+<label class="md-header-nav__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" data-md-state="active" name="query" placeholder="Search" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</label>
+<button aria-label="Clear" class="md-search__icon md-icon" data-md-component="search-reset" tabindex="-1" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>
+</button>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<nav aria-label="Tabs" class="md-tabs md-tabs--active" data-md-component="tabs">
+<div class="md-tabs__inner md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../..">
+        Overview
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../getting_started/">
+          Getting Started
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link md-tabs__link--active" href="../agent/">
+          API Reference
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="TITAN" class="md-nav__button md-logo" href="http://marshall-lab.github.io/titan" title="TITAN">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
+</a>
+    TITAN
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../.." title="Overview">
+      Overview
+    </a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" id="nav-2" type="checkbox"/>
+<label class="md-nav__link" for="nav-2">
+      Getting Started
+      <span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"></path></svg>
+</span>
+</label>
+<nav aria-label="Getting Started" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="nav-2">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+        Getting Started
+      </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../getting_started/" title="Installation">
+      Installation
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../run_local/" title="Running locally">
+      Running locally
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../run_oscar/" title="Running on Oscar">
+      Running on Oscar
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../contributing/" title="Contributing">
+      Contributing
+    </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" data-md-toggle="nav-3" id="nav-3" type="checkbox"/>
+<label class="md-nav__link" for="nav-3">
+      API Reference
+      <span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"></path></svg>
+</span>
+</label>
+<nav aria-label="API Reference" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="nav-3">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+        API Reference
+      </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../agent/" title="Agent">
+      Agent
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../agent_set/" title="AgentSet">
+      AgentSet
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../location/" title="Location">
+      Location
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../model/" title="Model">
+      Model
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../network/" title="NetworkGraphUtils">
+      NetworkGraphUtils
+    </a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+        Population
+        <span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"></path></svg>
+</span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./" title="Population">
+      Population
+    </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#population">
+    Population
+  </a>
+<nav aria-label="Population" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.__init__">
+    __init__()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.add_agent">
+    add_agent()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.add_relationship">
+    add_relationship()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.connected_components">
+    connected_components()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.create_agent">
+    create_agent()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.get_age">
+    get_age()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.initialize_incarceration">
+    initialize_incarceration()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.remove_agent">
+    remove_agent()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.remove_relationship">
+    remove_relationship()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.trim_graph">
+    trim_graph()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.update_agent_partners">
+    update_agent_partners()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.update_partner_assignments">
+    update_partner_assignments()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.update_partner_targets">
+    update_partner_targets()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.update_partnerability">
+    update_partnerability()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#population-reading-writing">
+    Population Reading &amp; Writing
+  </a>
+<nav aria-label="Population Reading &amp; Writing" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#saving-the-population">
+    Saving the Population
+  </a>
+<nav aria-label="Saving the Population" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population_io.write">
+    write()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#reading-inusing-a-saved-population">
+    Reading in/using a Saved Population
+  </a>
+<nav aria-label="Reading in/using a Saved Population" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population_io.read">
+    read()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../relationship/" title="Relationship">
+      Relationship
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../reporting/" title="Reporting">
+      Reporting
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../utilities/" title="Utility Functions">
+      Utility Functions
+    </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#population">
+    Population
+  </a>
+<nav aria-label="Population" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.__init__">
+    __init__()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.add_agent">
+    add_agent()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.add_relationship">
+    add_relationship()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.connected_components">
+    connected_components()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.create_agent">
+    create_agent()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.get_age">
+    get_age()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.initialize_incarceration">
+    initialize_incarceration()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.remove_agent">
+    remove_agent()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.remove_relationship">
+    remove_relationship()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.trim_graph">
+    trim_graph()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.update_agent_partners">
+    update_agent_partners()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.update_partner_assignments">
+    update_partner_assignments()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.update_partner_targets">
+    update_partner_targets()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population.Population.update_partnerability">
+    update_partnerability()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#population-reading-writing">
+    Population Reading &amp; Writing
+  </a>
+<nav aria-label="Population Reading &amp; Writing" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#saving-the-population">
+    Saving the Population
+  </a>
+<nav aria-label="Saving the Population" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population_io.write">
+    write()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#reading-inusing-a-saved-population">
+    Reading in/using a Saved Population
+  </a>
+<nav aria-label="Reading in/using a Saved Population" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.population_io.read">
+    read()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content">
+<article class="md-content__inner md-typeset">
+<h1>Population</h1>
+<h2 id="population">Population</h2>
+<p>The <code>Population</code> class is used to represent the population of agents the model is running on.  On construction, it stochastically creates the population described in the <code>params</code>.  At its core, it is a graph with nodes (<code>all_agents</code>) and edges (<code>relationships</code>), it can be formally backed by a NetworkX graph by enabling the graph in the prams file.  This allows for some graph-specific logic to be applied throughout the running of the model (e.g. trimming components, writing network statistics).</p>
+<div class="doc doc-object doc-class">
+<div class="doc doc-contents first">
+<div class="doc doc-children">
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.population.Population.__init__">
+<code class="highlight language-python">
+__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> </code>
+<span class="doc doc-properties">
+<small class="doc doc-property doc-property-special"><code>special</code></small>
+</span>
+</h3>
+<div class="doc doc-contents">
+<p>Initialize Population object.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>params</code></td>
+<td><code>ObjMap</code></td>
+<td>
+<p>Model parameters</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>Optional[str]</code></td>
+<td>
+<p>8 character identifier for a model</p>
+</td>
+<td><code>None</code></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/population.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Initialize Population object.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        params : Model parameters</span>
+<span class="sd">        id: 8 character identifier for a model</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="nb">id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">nanoid</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">id</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">pop_seed</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_check_rand_int</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">seed</span><span class="o">.</span><span class="n">ppl</span><span class="p">)</span>
+
+    <span class="c1"># Init RNG for population creation to pop_seed</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pop_seed</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pop_seed</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">enable_graph</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">enable</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_graph</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
+    <span class="c1"># pre-fetch param sub-sets for performance</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">features</span>
+
+    <span class="c1"># set up the population's locations and edges</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">geography</span> <span class="o">=</span> <span class="n">Geography</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="c1"># All agent set list</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">all_agents</span> <span class="o">=</span> <span class="n">AgentSet</span><span class="p">(</span><span class="s2">"AllAgents"</span><span class="p">)</span>
+
+    <span class="c1"># HIV status agent sets</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">hiv_agents</span> <span class="o">=</span> <span class="n">AgentSet</span><span class="p">(</span><span class="s2">"HIV"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">all_agents</span><span class="p">)</span>
+
+    <span class="c1"># High risk agent sets</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">high_risk_agents</span> <span class="o">=</span> <span class="n">AgentSet</span><span class="p">(</span><span class="s2">"HRisk"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">all_agents</span><span class="p">)</span>
+
+    <span class="c1"># pwid agents (performance for partnering)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">pwid_agents</span> <span class="o">=</span> <span class="n">AgentSet</span><span class="p">(</span><span class="s2">"PWID"</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">all_agents</span><span class="p">)</span>
+
+    <span class="c1"># agents who can take on a partner</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">partnerable_agents</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Set</span><span class="p">[</span><span class="n">Agent</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">bond_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">bond_types</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">partnerable_agents</span><span class="p">[</span><span class="n">bond_type</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="c1"># who can sleep with whom</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">sex_partners</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Set</span><span class="p">[</span><span class="n">Agent</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">sex_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">sex_types</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sex_partners</span><span class="p">[</span><span class="n">sex_type</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">Relationship</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="c1"># keep track of prep agent counts by race</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">prep_counts</span> <span class="o">=</span> <span class="p">{</span><span class="n">race</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">races</span><span class="p">}</span>
+
+    <span class="n">agent_counts</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">race</span><span class="p">:</span> <span class="p">{</span><span class="n">so</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">so</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">sex_types</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">races</span>
+    <span class="p">}</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">dx_counts</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">agent_counts</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">haart_counts</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">agent_counts</span><span class="p">)</span>
+
+    <span class="c1"># find average partnership durations</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">mean_rel_duration</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_mean_rel_duration</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\t</span><span class="s2">Creating agents"</span><span class="p">)</span>
+    <span class="c1"># for each location in the population, create agents per that location's demographics</span>
+    <span class="n">init_time</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">burn_steps</span>
+    <span class="k">for</span> <span class="n">location</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">geography</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">races</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
+                <span class="nb">round</span><span class="p">(</span>
+                    <span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">num_pop</span>
+                    <span class="o">*</span> <span class="n">location</span><span class="o">.</span><span class="n">ppl</span>
+                    <span class="o">*</span> <span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">demographics</span><span class="p">[</span><span class="n">race</span><span class="p">]</span><span class="o">.</span><span class="n">ppl</span>
+                <span class="p">)</span>
+            <span class="p">):</span>
+                <span class="n">agent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_agent</span><span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="n">race</span><span class="p">,</span> <span class="n">init_time</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_agent</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">incar</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\t</span><span class="s2">Initializing Incarceration"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialize_incarceration</span><span class="p">()</span>
+
+    <span class="c1"># initialize relationships</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\t</span><span class="s2">Creating Relationships"</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">update_partner_assignments</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_graph</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trim_graph</span><span class="p">()</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.population.Population.add_agent">
+<code class="highlight language-python">
+add_agent<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Adds an agent to the population</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>agent</code></td>
+<td><code>Agent</code></td>
+<td>
+<p>The agent to be added</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/population.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">add_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">:</span> <span class="n">Agent</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Adds an agent to the population</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        agent : The agent to be added</span>
+<span class="sd">    """</span>
+
+    <span class="c1"># Add to all agent set</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">all_agents</span><span class="o">.</span><span class="n">add_agent</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">hiv</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hiv_agents</span><span class="o">.</span><span class="n">add_agent</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">high_risk</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">high_risk_agents</span><span class="o">.</span><span class="n">add_agent</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">drug_type</span> <span class="o">==</span> <span class="s2">"Inj"</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pwid_agents</span><span class="o">.</span><span class="n">add_agent</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+
+    <span class="c1"># who can sleep with this agent</span>
+    <span class="k">for</span> <span class="n">sex_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">sex_types</span><span class="p">[</span><span class="n">agent</span><span class="o">.</span><span class="n">sex_type</span><span class="p">]</span><span class="o">.</span><span class="n">sleeps_with</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sex_partners</span><span class="p">[</span><span class="n">sex_type</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">prep</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prep_counts</span><span class="p">[</span><span class="n">agent</span><span class="o">.</span><span class="n">race</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_graph</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.population.Population.add_relationship">
+<code class="highlight language-python">
+add_relationship<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rel</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Add a new relationship to the population.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rel</code></td>
+<td><code>Relationship</code></td>
+<td>
+<p>The Relationship to be added</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/population.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">add_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rel</span><span class="p">:</span> <span class="n">Relationship</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Add a new relationship to the population.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        rel : The Relationship to be added</span>
+<span class="sd">    """</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_graph</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">rel</span><span class="o">.</span><span class="n">agent1</span><span class="p">,</span> <span class="n">rel</span><span class="o">.</span><span class="n">agent2</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">rel</span><span class="o">.</span><span class="n">bond_type</span><span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.population.Population.connected_components">
+<code class="highlight language-python">
+connected_components<span class="p">(</span><span class="bp">self</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Get connected components in graph (if enabled)</p>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>List</code></td>
+<td>
+<p>list of connected components</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/population.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">connected_components</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Get connected components in graph (if enabled)</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        list of connected components</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_graph</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">subgraph</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">nx</span><span class="o">.</span><span class="n">connected_components</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">"Can't get connected_components, population doesn't have graph enabled."</span>
+        <span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.population.Population.create_agent">
+<code class="highlight language-python">
+create_agent<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">race</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">sex_type</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Create a new agent with randomly assigned attributes according to population
+demographcis [params.demographics]</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>location</code></td>
+<td><code>Location</code></td>
+<td>
+<p>location the agent will live in</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>race</code></td>
+<td><code>str</code></td>
+<td>
+<p>race of the new agent</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>time</code></td>
+<td><code>int</code></td>
+<td>
+<p>current time step of the model</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>sex_type</code></td>
+<td><code>Optional[str]</code></td>
+<td>
+<p>sex_type of the new agent</p>
+</td>
+<td><code>None</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Agent</code></td>
+<td>
+<p>a new agent</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/population.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">create_agent</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">Location</span><span class="p">,</span> <span class="n">race</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sex_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Agent</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Create a new agent with randomly assigned attributes according to population</span>
+<span class="sd">    demographcis [params.demographics]</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        location: location the agent will live in</span>
+<span class="sd">        race : race of the new agent</span>
+<span class="sd">        time: current time step of the model</span>
+<span class="sd">        sex_type : sex_type of the new agent</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">         a new agent</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">sex_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sex_type</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_random_choice</span><span class="p">(</span>
+            <span class="n">location</span><span class="o">.</span><span class="n">pop_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="s2">"values"</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="p">,</span>
+            <span class="n">weights</span><span class="o">=</span><span class="n">location</span><span class="o">.</span><span class="n">pop_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="s2">"weights"</span><span class="p">],</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">sex_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Agent must have sex type"</span><span class="p">)</span>
+
+    <span class="c1"># Determine drugtype</span>
+    <span class="n">drug_type</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_random_choice</span><span class="p">(</span>
+        <span class="n">location</span><span class="o">.</span><span class="n">drug_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">sex_type</span><span class="p">][</span><span class="s2">"values"</span><span class="p">],</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="p">,</span>
+        <span class="n">weights</span><span class="o">=</span><span class="n">location</span><span class="o">.</span><span class="n">drug_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">sex_type</span><span class="p">][</span><span class="s2">"weights"</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">drug_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Agent must have drug type"</span><span class="p">)</span>
+
+    <span class="n">age</span><span class="p">,</span> <span class="n">age_bin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_age</span><span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="n">race</span><span class="p">)</span>
+
+    <span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">sex_type</span><span class="p">,</span> <span class="n">age</span><span class="p">,</span> <span class="n">race</span><span class="p">,</span> <span class="n">drug_type</span><span class="p">,</span> <span class="n">location</span><span class="p">)</span>
+    <span class="n">agent</span><span class="o">.</span><span class="n">age_bin</span> <span class="o">=</span> <span class="n">age_bin</span>
+    <span class="n">sex_role</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_random_choice</span><span class="p">(</span>
+        <span class="n">location</span><span class="o">.</span><span class="n">role_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">sex_type</span><span class="p">][</span><span class="s2">"values"</span><span class="p">],</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="p">,</span>
+        <span class="n">weights</span><span class="o">=</span><span class="n">location</span><span class="o">.</span><span class="n">role_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">sex_type</span><span class="p">][</span><span class="s2">"weights"</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">sex_role</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Agent must have sex role"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">agent</span><span class="o">.</span><span class="n">sex_role</span> <span class="o">=</span> <span class="n">sex_role</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">msmw</span> <span class="ow">and</span> <span class="n">sex_type</span> <span class="o">==</span> <span class="s2">"HM"</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">msmw</span><span class="o">.</span><span class="n">prob</span><span class="p">:</span>
+            <span class="n">agent</span><span class="o">.</span><span class="n">msmw</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">agent_params</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">demographics</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">agent</span><span class="o">.</span><span class="n">population</span><span class="p">]</span>
+
+    <span class="c1"># HIV</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">agent_params</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">init</span>
+        <span class="ow">and</span> <span class="n">time</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">init</span>
+    <span class="p">):</span>
+        <span class="n">agent</span><span class="o">.</span><span class="n">hiv</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">agent_params</span><span class="o">.</span><span class="n">aids</span><span class="o">.</span><span class="n">init</span><span class="p">:</span>
+            <span class="n">agent</span><span class="o">.</span><span class="n">aids</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">agent_params</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">dx</span><span class="o">.</span><span class="n">init</span><span class="p">:</span>
+            <span class="n">agent</span><span class="o">.</span><span class="n">hiv_dx</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">dx_counts</span><span class="p">[</span><span class="n">agent</span><span class="o">.</span><span class="n">race</span><span class="p">][</span><span class="n">agent</span><span class="o">.</span><span class="n">sex_type</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">agent_params</span><span class="o">.</span><span class="n">haart</span><span class="o">.</span><span class="n">init</span><span class="p">:</span>
+                <span class="n">agent</span><span class="o">.</span><span class="n">haart</span> <span class="o">=</span> <span class="kc">True</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">haart_counts</span><span class="p">[</span><span class="n">agent</span><span class="o">.</span><span class="n">race</span><span class="p">][</span><span class="n">agent</span><span class="o">.</span><span class="n">sex_type</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="n">haart_adh</span> <span class="o">=</span> <span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">demographics</span><span class="p">[</span><span class="n">race</span><span class="p">][</span>
+                    <span class="n">sex_type</span>
+                <span class="p">]</span><span class="o">.</span><span class="n">haart</span><span class="o">.</span><span class="n">adherence</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">haart_adh</span><span class="p">:</span>
+                    <span class="n">adherence</span> <span class="o">=</span> <span class="mi">5</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">adherence</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+                <span class="n">agent</span><span class="o">.</span><span class="n">haart_adherence</span> <span class="o">=</span> <span class="n">adherence</span>
+                <span class="n">agent</span><span class="o">.</span><span class="n">haart_time</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># if HIV, how long has the agent had it? Random sample</span>
+        <span class="n">agent</span><span class="o">.</span><span class="n">hiv_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span>
+            <span class="mi">1</span><span class="p">,</span> <span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">max_init_time</span>
+        <span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">prep</span>
+            <span class="ow">and</span> <span class="n">agent</span><span class="o">.</span><span class="n">prep_eligible</span><span class="p">()</span>
+            <span class="ow">and</span> <span class="n">time</span> <span class="o">&gt;=</span> <span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">prep</span><span class="o">.</span><span class="n">start_time</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">prep</span><span class="o">.</span><span class="n">target</span>
+        <span class="p">):</span>
+            <span class="n">agent</span><span class="o">.</span><span class="n">enroll_prep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">vaccine</span>
+            <span class="ow">and</span> <span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">vaccine</span><span class="o">.</span><span class="n">on_init</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+            <span class="o">&lt;</span> <span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">demographics</span><span class="p">[</span><span class="n">agent</span><span class="o">.</span><span class="n">race</span><span class="p">][</span><span class="n">agent</span><span class="o">.</span><span class="n">sex_type</span><span class="p">]</span><span class="o">.</span><span class="n">vaccine</span><span class="o">.</span><span class="n">init</span>
+        <span class="p">):</span>
+            <span class="n">agent</span><span class="o">.</span><span class="n">vaccinate</span><span class="p">()</span>
+
+    <span class="c1"># Check if agent is HR as baseline.</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">high_risk</span>
+        <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+        <span class="o">&lt;</span> <span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">demographics</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">sex_type</span><span class="p">]</span><span class="o">.</span><span class="n">high_risk</span><span class="o">.</span><span class="n">init</span>
+    <span class="p">):</span>
+        <span class="n">agent</span><span class="o">.</span><span class="n">high_risk</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">agent</span><span class="o">.</span><span class="n">high_risk_ever</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">agent</span><span class="o">.</span><span class="n">high_risk_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span>
+            <span class="mi">1</span><span class="p">,</span> <span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">high_risk</span><span class="o">.</span><span class="n">sex_based</span><span class="p">[</span><span class="n">agent</span><span class="o">.</span><span class="n">sex_type</span><span class="p">]</span><span class="o">.</span><span class="n">duration</span>
+        <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">bond</span><span class="p">,</span> <span class="n">bond_def</span> <span class="ow">in</span> <span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">bond_types</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">agent</span><span class="o">.</span><span class="n">partners</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">dist_info</span> <span class="o">=</span> <span class="n">agent_params</span><span class="o">.</span><span class="n">num_partners</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span>
+        <span class="n">agent</span><span class="o">.</span><span class="n">mean_num_partners</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">(</span>
+            <span class="n">utils</span><span class="o">.</span><span class="n">safe_dist</span><span class="p">(</span><span class="n">dist_info</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span><span class="p">)</span>
+            <span class="o">*</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_divide</span><span class="p">(</span>
+                <span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">calibration</span><span class="o">.</span><span class="n">sex</span><span class="o">.</span><span class="n">partner</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mean_rel_duration</span><span class="p">[</span><span class="n">bond</span><span class="p">],</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="c1"># so not zero if added mid-year</span>
+        <span class="n">agent</span><span class="o">.</span><span class="n">target_partners</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">mean_num_partners</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">"injection"</span> <span class="ow">in</span> <span class="n">bond_def</span><span class="o">.</span><span class="n">acts_allowed</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">agent</span><span class="o">.</span><span class="n">drug_type</span> <span class="o">==</span> <span class="s2">"Inj"</span> <span class="ow">or</span> <span class="n">agent</span><span class="o">.</span><span class="n">mean_num_partners</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">target_partners</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">partnerable_agents</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">pca</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">prep</span><span class="o">.</span><span class="n">pca</span><span class="o">.</span><span class="n">awareness</span><span class="o">.</span><span class="n">init</span><span class="p">:</span>
+            <span class="n">agent</span><span class="o">.</span><span class="n">prep_awareness</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">attprob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+        <span class="n">pvalue</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="nb">bin</span><span class="p">,</span> <span class="n">fields</span> <span class="ow">in</span> <span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">prep</span><span class="o">.</span><span class="n">pca</span><span class="o">.</span><span class="n">attitude</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">pvalue</span> <span class="o">+=</span> <span class="n">fields</span><span class="o">.</span><span class="n">prob</span>
+            <span class="k">if</span> <span class="n">attprob</span> <span class="o">&lt;</span> <span class="n">pvalue</span><span class="p">:</span>
+                <span class="n">agent</span><span class="o">.</span><span class="n">prep_opinion</span> <span class="o">=</span> <span class="nb">bin</span>
+                <span class="k">break</span>
+
+    <span class="k">return</span> <span class="n">agent</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.population.Population.get_age">
+<code class="highlight language-python">
+get_age<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">race</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Given the population characteristics, get a random age to assign to an agent given the race of that agent</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>race</code></td>
+<td><code>str</code></td>
+<td>
+<p>race of the agent whose age is being generated</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Tuple[int, int]</code></td>
+<td>
+<p>age and the bin the age came from</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/population.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">get_age</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">Location</span><span class="p">,</span> <span class="n">race</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Given the population characteristics, get a random age to assign to an agent given the race of that agent</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        race : race of the agent whose age is being generated</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        age and the bin the age came from</span>
+<span class="sd">    """</span>
+    <span class="n">rand</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">demographics</span><span class="p">[</span><span class="n">race</span><span class="p">]</span><span class="o">.</span><span class="n">age</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">rand</span> <span class="o">&lt;</span> <span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">prob</span><span class="p">:</span>
+            <span class="n">min_age</span> <span class="o">=</span> <span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">min</span>
+            <span class="n">max_age</span> <span class="o">=</span> <span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">max</span>
+            <span class="k">break</span>
+
+    <span class="n">age</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="n">min_age</span><span class="p">,</span> <span class="n">max_age</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">age</span><span class="p">,</span> <span class="n">i</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.population.Population.initialize_incarceration">
+<code class="highlight language-python">
+initialize_incarceration<span class="p">(</span><span class="bp">self</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Run incarceration assignment on a population.  The duration of incarceration at initialization is different than the ongoing to reflect that agents with longer durations will be more highly represented in that population at any given point in time.</p>
+<details class="quote">
+<summary>Source code in <code>titan/population.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">initialize_incarceration</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Run incarceration assignment on a population.  The duration of incarceration at initialization is different than the ongoing to reflect that agents with longer durations will be more highly represented in that population at any given point in time.</span>
+<span class="sd">    """</span>
+
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_agents</span><span class="p">:</span>
+        <span class="n">incar_params</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">demographics</span><span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">race</span><span class="p">][</span><span class="n">a</span><span class="o">.</span><span class="n">sex_type</span><span class="p">]</span><span class="o">.</span><span class="n">incar</span>
+        <span class="n">jail_duration</span> <span class="o">=</span> <span class="n">incar_params</span><span class="o">.</span><span class="n">duration</span><span class="o">.</span><span class="n">init</span>
+
+        <span class="n">prob_incar</span> <span class="o">=</span> <span class="n">incar_params</span><span class="o">.</span><span class="n">init</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">prob_incar</span><span class="p">:</span>
+            <span class="n">a</span><span class="o">.</span><span class="n">incar</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="nb">bin</span> <span class="o">=</span> <span class="n">current_p_value</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+
+            <span class="k">while</span> <span class="n">p</span> <span class="o">&gt;</span> <span class="n">current_p_value</span><span class="p">:</span>
+                <span class="nb">bin</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">current_p_value</span> <span class="o">+=</span> <span class="n">jail_duration</span><span class="p">[</span><span class="nb">bin</span><span class="p">]</span><span class="o">.</span><span class="n">prob</span>
+
+            <span class="n">a</span><span class="o">.</span><span class="n">incar_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span>
+                <span class="n">jail_duration</span><span class="p">[</span><span class="nb">bin</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="n">jail_duration</span><span class="p">[</span><span class="nb">bin</span><span class="p">]</span><span class="o">.</span><span class="n">max</span>
+            <span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.population.Population.remove_agent">
+<code class="highlight language-python">
+remove_agent<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Remove an agent from the population.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>agent</code></td>
+<td><code>Agent</code></td>
+<td>
+<p>Agent to remove</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/population.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">remove_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">:</span> <span class="n">Agent</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Remove an agent from the population.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        agent : Agent to remove</span>
+<span class="sd">    """</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">all_agents</span><span class="o">.</span><span class="n">remove_agent</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">partner_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sex_partners</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sex_partners</span><span class="p">[</span><span class="n">partner_type</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sex_partners</span><span class="p">[</span><span class="n">partner_type</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">prep</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prep_counts</span><span class="p">[</span><span class="n">agent</span><span class="o">.</span><span class="n">race</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">hiv_dx</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dx_counts</span><span class="p">[</span><span class="n">agent</span><span class="o">.</span><span class="n">race</span><span class="p">][</span><span class="n">agent</span><span class="o">.</span><span class="n">sex_type</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">haart</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">haart_counts</span><span class="p">[</span><span class="n">agent</span><span class="o">.</span><span class="n">race</span><span class="p">][</span><span class="n">agent</span><span class="o">.</span><span class="n">sex_type</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_graph</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">bond</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">partnerable_agents</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">bond</span><span class="p">:</span>
+            <span class="n">bond</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.population.Population.remove_relationship">
+<code class="highlight language-python">
+remove_relationship<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rel</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Remove a relationship from the population.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rel</code></td>
+<td><code>Relationship</code></td>
+<td>
+<p>Relationship to remove</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/population.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">remove_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rel</span><span class="p">:</span> <span class="n">Relationship</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Remove a relationship from the population.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        rel : Relationship to remove</span>
+<span class="sd">    """</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span>
+
+    <span class="c1"># without this relationship, are agents partnerable again?</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">update_partnerability</span><span class="p">(</span><span class="n">rel</span><span class="o">.</span><span class="n">agent1</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">update_partnerability</span><span class="p">(</span><span class="n">rel</span><span class="o">.</span><span class="n">agent2</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_graph</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">remove_edge</span><span class="p">(</span><span class="n">rel</span><span class="o">.</span><span class="n">agent1</span><span class="p">,</span> <span class="n">rel</span><span class="o">.</span><span class="n">agent2</span><span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.population.Population.trim_graph">
+<code class="highlight language-python">
+trim_graph<span class="p">(</span><span class="bp">self</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Initialize network with graph-based algorithm for relationship
+    adding/pruning</p>
+<details class="quote">
+<summary>Source code in <code>titan/population.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">trim_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Initialize network with graph-based algorithm for relationship</span>
+<span class="sd">        adding/pruning</span>
+<span class="sd">    """</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"comp_size"</span><span class="p">:</span>
+
+        <span class="k">def</span> <span class="nf">trim_component</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">max_size</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">ag</span> <span class="ow">in</span> <span class="n">component</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+                    <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">calibration</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">trim</span><span class="o">.</span><span class="n">prob</span>
+                <span class="p">):</span>
+                    <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">copy</span><span class="p">(</span><span class="n">ag</span><span class="o">.</span><span class="n">relationships</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ag</span><span class="o">.</span><span class="n">relationships</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                            <span class="k">break</span>  <span class="c1"># Make sure that agents stay part of the</span>
+                            <span class="c1"># network by keeping one bond</span>
+                        <span class="n">rel</span><span class="o">.</span><span class="n">progress</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">remove_relationship</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span>
+                        <span class="n">component</span><span class="o">.</span><span class="n">remove_edge</span><span class="p">(</span><span class="n">rel</span><span class="o">.</span><span class="n">agent1</span><span class="p">,</span> <span class="n">rel</span><span class="o">.</span><span class="n">agent2</span><span class="p">)</span>
+
+            <span class="c1"># recurse on new sub-components</span>
+            <span class="n">sub_comps</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+                <span class="n">component</span><span class="o">.</span><span class="n">subgraph</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">nx</span><span class="o">.</span><span class="n">connected_components</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">sub_comp</span> <span class="ow">in</span> <span class="n">sub_comps</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">sub_comp</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">max_size</span><span class="p">:</span>
+                    <span class="n">trim_component</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">max_size</span><span class="p">)</span>
+
+        <span class="n">components</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connected_components</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">comp</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span>
+                <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">component_size</span><span class="o">.</span><span class="n">max</span>
+            <span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"TOO BIG"</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">comp</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">())</span>
+                <span class="n">trim_component</span><span class="p">(</span><span class="n">comp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">component_size</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\t</span><span class="s2">Total agents in graph: "</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">())</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.population.Population.update_agent_partners">
+<code class="highlight language-python">
+update_agent_partners<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">,</span> <span class="n">bond_type</span><span class="p">,</span> <span class="n">components</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Finds and bonds new partner. Creates relationship object for partnership,
+    calcs partnership duration, adds it to the population, and adds to networkX graph if self.enable_graph
+    is set True.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>agent</code></td>
+<td><code>Agent</code></td>
+<td>
+<p>Agent that is seeking a new partner</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>bond_type</code></td>
+<td><code>str</code></td>
+<td>
+<p>What type of bond the agent is seeking to make</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bool</code></td>
+<td>
+<p>True if no match was found for agent (used for retries)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/population.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">update_agent_partners</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">:</span> <span class="n">Agent</span><span class="p">,</span> <span class="n">bond_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">components</span><span class="p">:</span> <span class="n">List</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Finds and bonds new partner. Creates relationship object for partnership,</span>
+<span class="sd">        calcs partnership duration, adds it to the population, and adds to networkX graph if self.enable_graph</span>
+<span class="sd">        is set True.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        agent: Agent that is seeking a new partner</span>
+<span class="sd">        bond_type: What type of bond the agent is seeking to make</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        True if no match was found for agent (used for retries)</span>
+<span class="sd">    """</span>
+    <span class="n">partnerable_agents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">partnerable_agents</span><span class="p">[</span><span class="n">bond_type</span><span class="p">]</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+        <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">partnership</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">same_component</span><span class="o">.</span><span class="n">prob</span>
+        <span class="ow">and</span> <span class="n">agent</span><span class="o">.</span><span class="n">has_partners</span><span class="p">()</span>
+    <span class="p">):</span>
+        <span class="c1"># find agent's component</span>
+        <span class="n">agent_component</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">Agent</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">comp</span><span class="p">:</span>
+                <span class="n">agent_component</span> <span class="o">=</span> <span class="n">comp</span>
+                <span class="k">break</span>
+
+        <span class="n">partnerable_agents</span> <span class="o">=</span> <span class="n">partnerable_agents</span> <span class="o">&amp;</span> <span class="n">agent_component</span>
+
+    <span class="n">partner</span> <span class="o">=</span> <span class="n">select_partner</span><span class="p">(</span>
+        <span class="n">agent</span><span class="p">,</span>
+        <span class="n">partnerable_agents</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sex_partners</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pwid_agents</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="p">,</span>
+        <span class="n">bond_type</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">no_match</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="n">partner</span><span class="p">:</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="n">get_partnership_duration</span><span class="p">(</span>
+            <span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span><span class="p">,</span> <span class="n">bond_type</span>
+        <span class="p">)</span>
+        <span class="n">relationship</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">partner</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">bond_type</span><span class="o">=</span><span class="n">bond_type</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_relationship</span><span class="p">(</span><span class="n">relationship</span><span class="p">)</span>
+        <span class="c1"># can partner still partner?</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">partner</span><span class="o">.</span><span class="n">partners</span><span class="p">[</span><span class="n">bond_type</span><span class="p">])</span> <span class="o">&gt;</span> <span class="p">(</span>
+            <span class="n">partner</span><span class="o">.</span><span class="n">target_partners</span><span class="p">[</span><span class="n">bond_type</span><span class="p">]</span>
+            <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">calibration</span><span class="o">.</span><span class="n">partnership</span><span class="o">.</span><span class="n">buffer</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">partnerable_agents</span><span class="p">[</span><span class="n">bond_type</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">partner</span><span class="p">)</span>
+        <span class="n">no_match</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="n">no_match</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.population.Population.update_partner_assignments">
+<code class="highlight language-python">
+update_partner_assignments<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Determines which agents will seek new partners from All_agentSet.
+    Calls update_agent_partners for any agents that desire partners.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>t</code></td>
+<td><code>int</code></td>
+<td>
+<p>current time step of the model</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/population.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">update_partner_assignments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Determines which agents will seek new partners from All_agentSet.</span>
+<span class="sd">        Calls update_agent_partners for any agents that desire partners.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        t: current time step of the model</span>
+<span class="sd">    """</span>
+    <span class="c1"># update agent targets annually</span>
+    <span class="k">if</span> <span class="n">t</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">steps_per_year</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_partner_targets</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_graph</span><span class="p">:</span>
+        <span class="n">network_components</span> <span class="o">=</span> <span class="p">[</span><span class="nb">set</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected_components</span><span class="p">()]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">network_components</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Now create partnerships until available partnerships are out</span>
+    <span class="k">for</span> <span class="n">bond</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">bond_types</span><span class="p">:</span>
+        <span class="n">eligible_agents</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">a</span>
+                <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_agents</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">partners</span><span class="p">[</span><span class="n">bond</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">a</span><span class="o">.</span><span class="n">target_partners</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">attempts</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">eligible_agents</span><span class="p">}</span>
+
+        <span class="k">while</span> <span class="n">eligible_agents</span><span class="p">:</span>
+            <span class="n">agent</span> <span class="o">=</span> <span class="n">eligible_agents</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">partners</span><span class="p">[</span><span class="n">bond</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">agent</span><span class="o">.</span><span class="n">target_partners</span><span class="p">[</span><span class="n">bond</span><span class="p">]:</span>
+
+                <span class="c1"># no match</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_agent_partners</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">bond</span><span class="p">,</span> <span class="n">network_components</span><span class="p">):</span>
+                    <span class="n">attempts</span><span class="p">[</span><span class="n">agent</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="c1"># add agent back to eligible pool</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="nb">len</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">partners</span><span class="p">[</span><span class="n">bond</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">agent</span><span class="o">.</span><span class="n">target_partners</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span>
+                    <span class="ow">and</span> <span class="n">attempts</span><span class="p">[</span><span class="n">agent</span><span class="p">]</span>
+                    <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">calibration</span><span class="o">.</span><span class="n">partnership</span><span class="o">.</span><span class="n">break_point</span>
+                <span class="p">):</span>
+                    <span class="n">eligible_agents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.population.Population.update_partner_targets">
+<code class="highlight language-python">
+update_partner_targets<span class="p">(</span><span class="bp">self</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Update the target number of partners for each agent and bond type</p>
+<details class="quote">
+<summary>Source code in <code>titan/population.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">update_partner_targets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Update the target number of partners for each agent and bond type</span>
+<span class="sd">    """</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_agents</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">bond</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">bond_types</span><span class="p">:</span>
+            <span class="n">a</span><span class="o">.</span><span class="n">target_partners</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">mean_num_partners</span><span class="p">[</span><span class="n">bond</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_partnerability</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.population.Population.update_partnerability">
+<code class="highlight language-python">
+update_partnerability<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Update whether each agent in the population is currently able to form new relationships for each bond type</p>
+<details class="quote">
+<summary>Source code in <code>titan/population.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">update_partnerability</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Update whether each agent in the population is currently able to form new relationships for each bond type</span>
+<span class="sd">    """</span>
+    <span class="k">for</span> <span class="n">bond</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">bond_types</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">partnerable_agents</span><span class="p">[</span><span class="n">bond</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">partners</span><span class="p">[</span><span class="n">bond</span><span class="p">])</span> <span class="o">&gt;</span> <span class="p">(</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">target_partners</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">calibration</span><span class="o">.</span><span class="n">partnership</span><span class="o">.</span><span class="n">buffer</span>
+            <span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">partnerable_agents</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">partners</span><span class="p">[</span><span class="n">bond</span><span class="p">])</span> <span class="o">&lt;</span> <span class="p">(</span>
+            <span class="n">a</span><span class="o">.</span><span class="n">target_partners</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">calibration</span><span class="o">.</span><span class="n">partnership</span><span class="o">.</span><span class="n">buffer</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">partnerable_agents</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+<h2 id="population-reading-writing">Population Reading &amp; Writing</h2>
+<div class="admonition info">
+<p class="admonition-title">Released in v1.1.0</p>
+</div>
+<p>Populations can be saved to file so that they can be analysed in detail or re-used in a future run.  <code>run_titan.py</code> allows this using the <code>--savepop [path]</code> option to save the population to the path, and the <code>--poppath [path]</code> option loads the population at the path.  The population is saved after creation, but before the model has run.</p>
+<h3 id="saving-the-population">Saving the Population</h3>
+<p>The population is represented as a series of csv files that save the attributes for the core entities (agents, relationships at this time).  The population can be saved with only <code>core</code> attributes (e.g. race, sex_type, hiv) or with <code>intervention</code> attributes (e.g. prep, vaccinated) as well.  <code>intervention</code> attributes are less likely to work as intended across versions of the model.</p>
+<div class="doc doc-object doc-function">
+<h4 class="doc doc-heading" id="titan.population_io.write">
+<code class="highlight language-python">
+titan.population_io.write<span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="nb">dir</span><span class="p">,</span> <span class="n">intervention_attrs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> </code>
+</h4>
+<div class="doc doc-contents first">
+<p>Write a non-empty Population to file.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pop</code></td>
+<td><code>Population</code></td>
+<td>
+<p>a non-empty agent population</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>dir</code></td>
+<td><code>str</code></td>
+<td>
+<p>path to directory where files should be written</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>intervention_attrs</code></td>
+<td><code>bool</code></td>
+<td>
+<p>whether to include intervention attributions in addition to
+core agent attributes (less likely to be backwards compatible if used with
+different versions of the model)</p>
+</td>
+<td><code>False</code></td>
+</tr>
+<tr>
+<td><code>compress</code></td>
+<td><code>bool</code></td>
+<td>
+<p>whether to compress and archive the csv</p>
+</td>
+<td><code>True</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>str</code></td>
+<td>
+<p>path, or archive name if compress is true</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/population_io.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">write</span><span class="p">(</span>
+    <span class="n">pop</span><span class="p">:</span> <span class="n">Population</span><span class="p">,</span> <span class="nb">dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">intervention_attrs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">compress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Write a non-empty Population to file.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        pop: a non-empty agent population</span>
+<span class="sd">        dir: path to directory where files should be written</span>
+<span class="sd">        intervention_attrs: whether to include intervention attributions in addition to</span>
+<span class="sd">            core agent attributes (less likely to be backwards compatible if used with</span>
+<span class="sd">            different versions of the model)</span>
+<span class="sd">        compress: whether to compress and archive the csv</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        path, or archive name if compress is true</span>
+<span class="sd">    """</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">relationships</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"can't write empty population"</span>
+
+    <span class="c1"># open agent file</span>
+    <span class="n">agent_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">pop</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">_agents.csv"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">intervention_attrs</span><span class="p">:</span>
+        <span class="c1"># get all attributes</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">all_agents</span><span class="p">))</span>
+        <span class="n">agent_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">agent_exclude_attrs</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">agent_attrs</span> <span class="o">=</span> <span class="n">agent_core_attrs</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">agent_file</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">fieldnames</span><span class="o">=</span><span class="n">agent_attrs</span><span class="p">)</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">pop</span><span class="o">.</span><span class="n">all_agents</span><span class="p">:</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">({</span><span class="n">attr</span><span class="p">:</span> <span class="nb">repr</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">agent_attrs</span><span class="p">})</span>
+
+    <span class="c1"># open relationship file</span>
+    <span class="n">rel_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">pop</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">_relationships.csv"</span><span class="p">)</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">relationships</span><span class="p">))</span>
+    <span class="n">rel_attrs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">rel_file</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">fieldnames</span><span class="o">=</span><span class="n">rel_attrs</span><span class="p">)</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">pop</span><span class="o">.</span><span class="n">relationships</span><span class="p">:</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">({</span><span class="n">attr</span><span class="p">:</span> <span class="nb">repr</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">rel</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">rel_attrs</span><span class="p">})</span>
+
+    <span class="k">if</span> <span class="n">compress</span><span class="p">:</span>
+        <span class="n">archive_name</span> <span class="o">=</span> <span class="n">make_archive</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">pop</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">_pop"</span><span class="p">),</span> <span class="s2">"gztar"</span><span class="p">,</span> <span class="n">root_dir</span><span class="o">=</span><span class="nb">dir</span><span class="p">,</span> <span class="n">base_dir</span><span class="o">=</span><span class="s2">"."</span>
+        <span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">agent_file</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">rel_file</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">archive_name</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">dir</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<h3 id="reading-inusing-a-saved-population">Reading in/using a Saved Population</h3>
+<p>A population can be created from the files saved, however, there is no validation done to ensure the params used when running on this population make sense/match what was originally used when creating it.  Some things may validly change (e.g. interventions, reports needed, seeds), but others may result in strange behavior if changed (e.g. race distribution, what classes are in use).</p>
+<div class="doc doc-object doc-function">
+<h4 class="doc doc-heading" id="titan.population_io.read">
+<code class="highlight language-python">
+titan.population_io.read<span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span> </code>
+</h4>
+<div class="doc doc-contents first">
+<p>Read a population from file and return a Population instance</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>params</code></td>
+<td><code>ObjMap</code></td>
+<td>
+<p>the parameters used for creating this popultation</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>path</code></td>
+<td><code>str</code></td>
+<td>
+<p>path where [id]_agents.csv and [id]_relationships.csv are or tar.gz file
+containing population</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Population</code></td>
+<td>
+<p>the re-constituted population</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/population_io.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Population</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Read a population from file and return a Population instance</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        params: the parameters used for creating this popultation</span>
+<span class="sd">        path: path where [id]_agents.csv and [id]_relationships.csv are or tar.gz file</span>
+<span class="sd">            containing population</span>
+<span class="sd">    returns:</span>
+<span class="sd">        the re-constituted population</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="nb">dir</span> <span class="o">=</span> <span class="n">mkdtemp</span><span class="p">()</span>
+        <span class="n">unpack_archive</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nb">dir</span><span class="p">)</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="nb">dir</span>
+
+    <span class="n">agent_file</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">"*_agents.csv"</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">rel_file</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">"*_relationships.csv"</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">agent_file</span><span class="p">),</span> <span class="sa">f</span><span class="s2">"can't find agents.csv in </span><span class="si">{</span><span class="nb">dir</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">rel_file</span><span class="p">),</span> <span class="sa">f</span><span class="s2">"can't find relationships.csv in </span><span class="si">{</span><span class="nb">dir</span><span class="si">}</span><span class="s2">"</span>
+
+    <span class="n">_</span><span class="p">,</span> <span class="n">agent_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">agent_file</span><span class="p">)</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">agent_filename</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span>
+
+    <span class="c1"># don't create any agents on init</span>
+    <span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">num_pop</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">pop</span> <span class="o">=</span> <span class="n">Population</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+
+    <span class="c1"># re-create all agents and add to population</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">agent_file</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">create_agent</span><span class="p">(</span>
+                <span class="n">row</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">bond_types</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">pop</span><span class="o">.</span><span class="n">geography</span><span class="o">.</span><span class="n">locations</span>
+            <span class="p">)</span>
+            <span class="n">pop</span><span class="o">.</span><span class="n">add_agent</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+    <span class="c1"># update num_pop to actual population</span>
+    <span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">num_pop</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">all_agents</span><span class="o">.</span><span class="n">num_members</span><span class="p">()</span>
+
+    <span class="c1"># re-create all relationships and add to population</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">rel_file</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">create_relationship</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">pop</span><span class="p">)</span>
+            <span class="n">pop</span><span class="o">.</span><span class="n">add_relationship</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pop</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+</article>
+</div>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-nav">
+<nav aria-label="Footer" class="md-footer-nav__inner md-grid">
+<a class="md-footer-nav__link md-footer-nav__link--prev" href="../network/" rel="prev" title="NetworkGraphUtils">
+<div class="md-footer-nav__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</div>
+<div class="md-footer-nav__title">
+<div class="md-ellipsis">
+<span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                NetworkGraphUtils
+              </div>
+</div>
+</a>
+<a class="md-footer-nav__link md-footer-nav__link--next" href="../relationship/" rel="next" title="Relationship">
+<div class="md-footer-nav__title">
+<div class="md-ellipsis">
+<span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Relationship
+              </div>
+</div>
+<div class="md-footer-nav__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"></path></svg>
+</div>
+</a>
+</nav>
+</div>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+          Material for MkDocs
+        </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<script src="../../assets/javascripts/vendor.df0def68.min.js"></script>
+<script src="../../assets/javascripts/bundle.ba57d267.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+<script>
+        app = initialize({
+          base: "../..",
+          features: ["instant", "tabs"],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.fae956e7.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+</body>
+</html>

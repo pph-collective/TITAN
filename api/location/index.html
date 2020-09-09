@@ -1,0 +1,802 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Documentation for the TITAN model" name="description"/>
+<link href="http://marshall-lab.github.io/titan/api/location/" rel="canonical"/>
+<link href="../../assets/images/favicon.png" rel="shortcut icon"/>
+<meta content="mkdocs-1.1.2, mkdocs-material-5.5.8" name="generator"/>
+<title>Location - TITAN</title>
+<link href="../../assets/stylesheets/main.01afc2df.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&amp;display=fallback" rel="stylesheet"/>
+<style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+</head>
+<body dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#location">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Header" class="md-header-nav md-grid">
+<a aria-label="TITAN" class="md-header-nav__button md-logo" href="http://marshall-lab.github.io/titan" title="TITAN">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
+</a>
+<label class="md-header-nav__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"></path></svg>
+</label>
+<div class="md-header-nav__title" data-md-component="header-title">
+<div class="md-header-nav__ellipsis">
+<span class="md-header-nav__topic md-ellipsis">
+            TITAN
+          </span>
+<span class="md-header-nav__topic md-ellipsis">
+            
+              Location
+            
+          </span>
+</div>
+</div>
+<label class="md-header-nav__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" data-md-state="active" name="query" placeholder="Search" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</label>
+<button aria-label="Clear" class="md-search__icon md-icon" data-md-component="search-reset" tabindex="-1" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>
+</button>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<nav aria-label="Tabs" class="md-tabs md-tabs--active" data-md-component="tabs">
+<div class="md-tabs__inner md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../..">
+        Overview
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../getting_started/">
+          Getting Started
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link md-tabs__link--active" href="../agent/">
+          API Reference
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="TITAN" class="md-nav__button md-logo" href="http://marshall-lab.github.io/titan" title="TITAN">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
+</a>
+    TITAN
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../.." title="Overview">
+      Overview
+    </a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" id="nav-2" type="checkbox"/>
+<label class="md-nav__link" for="nav-2">
+      Getting Started
+      <span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"></path></svg>
+</span>
+</label>
+<nav aria-label="Getting Started" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="nav-2">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+        Getting Started
+      </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../getting_started/" title="Installation">
+      Installation
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../run_local/" title="Running locally">
+      Running locally
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../run_oscar/" title="Running on Oscar">
+      Running on Oscar
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../contributing/" title="Contributing">
+      Contributing
+    </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" data-md-toggle="nav-3" id="nav-3" type="checkbox"/>
+<label class="md-nav__link" for="nav-3">
+      API Reference
+      <span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"></path></svg>
+</span>
+</label>
+<nav aria-label="API Reference" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="nav-3">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+        API Reference
+      </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../agent/" title="Agent">
+      Agent
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../agent_set/" title="AgentSet">
+      AgentSet
+    </a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+        Location
+        <span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"></path></svg>
+</span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./" title="Location">
+      Location
+    </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#location">
+    Location
+  </a>
+<nav aria-label="Location" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.location.Location.__init__">
+    __init__()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.location.Location.create_params">
+    create_params()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.location.Location.init_weights">
+    init_weights()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#locationedge">
+    LocationEdge
+  </a>
+<nav aria-label="LocationEdge" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.location.LocationEdge.__init__">
+    __init__()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#geography">
+    Geography
+  </a>
+<nav aria-label="Geography" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.location.Geography.__init__">
+    __init__()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../model/" title="Model">
+      Model
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../network/" title="NetworkGraphUtils">
+      NetworkGraphUtils
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../population/" title="Population">
+      Population
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../relationship/" title="Relationship">
+      Relationship
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../reporting/" title="Reporting">
+      Reporting
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../utilities/" title="Utility Functions">
+      Utility Functions
+    </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#location">
+    Location
+  </a>
+<nav aria-label="Location" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.location.Location.__init__">
+    __init__()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.location.Location.create_params">
+    create_params()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.location.Location.init_weights">
+    init_weights()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#locationedge">
+    LocationEdge
+  </a>
+<nav aria-label="LocationEdge" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.location.LocationEdge.__init__">
+    __init__()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#geography">
+    Geography
+  </a>
+<nav aria-label="Geography" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#titan.location.Geography.__init__">
+    __init__()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content">
+<article class="md-content__inner md-typeset">
+<h1>Location</h1>
+<h2 id="location">Location</h2>
+<div class="doc doc-object doc-class">
+<div class="doc doc-contents first">
+<div class="doc doc-children">
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.location.Location.__init__">
+<code class="highlight language-python">
+__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">defn</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> </code>
+<span class="doc doc-properties">
+<small class="doc doc-property doc-property-special"><code>special</code></small>
+</span>
+</h3>
+<div class="doc doc-contents">
+<p>This class constructs and represents a location within the model.  A location
+    can have an arbitrary geographic granularity.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td><code>str</code></td>
+<td>
+<p>name of the location</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>defn</code></td>
+<td><code>ObjMap</code></td>
+<td>
+<p>definition for this location</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>params</code></td>
+<td><code>ObjMap</code></td>
+<td>
+<p>model parameters</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/location.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">defn</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    This class constructs and represents a location within the model.  A location</span>
+<span class="sd">        can have an arbitrary geographic granularity.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        name: name of the location</span>
+<span class="sd">        defn: definition for this location</span>
+<span class="sd">        params: model parameters</span>
+<span class="sd">    """</span>
+    <span class="c1"># location properties</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_params</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">ppl</span> <span class="o">=</span> <span class="n">defn</span><span class="o">.</span><span class="n">ppl</span>  <span class="c1"># percent of overall population assigned to this location</span>
+
+    <span class="c1"># value/weight maps needed for creating new agents in this location</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">pop_weights</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">role_weights</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">drug_weights</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">init_weights</span><span class="p">()</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="s2">"LocationEdge"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">({})</span>  <span class="c1"># or maybe edges instead</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.location.Location.create_params">
+<code class="highlight language-python">
+create_params<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Scale or override the generic parameters with any location based scaling from params.location.scaling</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>params</code></td>
+<td><code>ObjMap</code></td>
+<td>
+<p>model parameters</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ObjMap</code></td>
+<td>
+<p>new parameter object with scaled values for this location</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/location.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">create_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ObjMap</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Scale or override the generic parameters with any location based scaling from params.location.scaling</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        params: model parameters</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        new parameter object with scaled values for this location</span>
+<span class="sd">    """</span>
+    <span class="n">new_params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="n">defns</span> <span class="o">=</span> <span class="n">new_params</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">scaling</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">param_path</span><span class="p">,</span> <span class="n">defn</span> <span class="ow">in</span> <span class="n">defns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">param_path</span> <span class="o">!=</span> <span class="s2">"ls_default"</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">defn</span><span class="o">.</span><span class="n">field</span> <span class="o">==</span> <span class="s2">"scalar"</span><span class="p">:</span>
+                <span class="n">utils</span><span class="o">.</span><span class="n">scale_param</span><span class="p">(</span><span class="n">new_params</span><span class="p">,</span> <span class="n">param_path</span><span class="p">,</span> <span class="n">defn</span><span class="o">.</span><span class="n">scalar</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">defn</span><span class="o">.</span><span class="n">field</span> <span class="o">==</span> <span class="s2">"override"</span><span class="p">:</span>
+                <span class="n">utils</span><span class="o">.</span><span class="n">override_param</span><span class="p">(</span><span class="n">new_params</span><span class="p">,</span> <span class="n">param_path</span><span class="p">,</span> <span class="n">defn</span><span class="o">.</span><span class="n">override</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">new_params</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.location.Location.init_weights">
+<code class="highlight language-python">
+init_weights<span class="p">(</span><span class="bp">self</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Create the containers to hold values and weights for randomly selecting:</p>
+<ul>
+<li>sex_role</li>
+<li>drug_type</li>
+<li>race</li>
+<li>sex_type</li>
+</ul>
+<details class="quote">
+<summary>Source code in <code>titan/location.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">init_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Create the containers to hold values and weights for randomly selecting:</span>
+
+<span class="sd">    * sex_role</span>
+<span class="sd">    * drug_type</span>
+<span class="sd">    * race</span>
+<span class="sd">    * sex_type</span>
+<span class="sd">    """</span>
+    <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">races</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">role_weights</span><span class="p">[</span><span class="n">race</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">drug_weights</span><span class="p">[</span><span class="n">race</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pop_weights</span><span class="p">[</span><span class="n">race</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pop_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="s2">"values"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pop_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="s2">"weights"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">sex_types</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pop_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="s2">"values"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">st</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pop_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="s2">"weights"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">demographics</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">st</span><span class="p">]</span><span class="o">.</span><span class="n">ppl</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">role_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">st</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">role_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">st</span><span class="p">][</span><span class="s2">"values"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">role_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">st</span><span class="p">][</span><span class="s2">"weights"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">drug_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">st</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">drug_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">st</span><span class="p">][</span><span class="s2">"values"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">drug_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">st</span><span class="p">][</span><span class="s2">"weights"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">role</span><span class="p">,</span> <span class="n">prob</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">demographics</span><span class="p">[</span><span class="n">race</span><span class="p">][</span>
+                <span class="n">st</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">sex_role</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">role_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">st</span><span class="p">][</span><span class="s2">"values"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">role</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">role_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">st</span><span class="p">][</span><span class="s2">"weights"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">use_type</span><span class="p">,</span> <span class="n">prob</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">demographics</span><span class="p">[</span><span class="n">race</span><span class="p">][</span>
+                <span class="n">st</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">drug_type</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">drug_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">st</span><span class="p">][</span><span class="s2">"values"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">use_type</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">drug_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">st</span><span class="p">][</span><span class="s2">"weights"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prob</span><span class="o">.</span><span class="n">init</span><span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+<h2 id="locationedge">LocationEdge</h2>
+<div class="doc doc-object doc-class">
+<div class="doc doc-contents first">
+<div class="doc doc-children">
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.location.LocationEdge.__init__">
+<code class="highlight language-python">
+__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc1</span><span class="p">,</span> <span class="n">loc2</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> </code>
+<span class="doc doc-properties">
+<small class="doc doc-property doc-property-special"><code>special</code></small>
+</span>
+</h3>
+<div class="doc doc-contents">
+<p>Construct a location edge, which holds attributes that relate two Locations.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>loc1</code></td>
+<td><code>Location</code></td>
+<td>
+<p>the first location</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>loc2</code></td>
+<td><code>Location</code></td>
+<td>
+<p>the other location</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>distance</code></td>
+<td><code>float</code></td>
+<td>
+<p>a measure of distance between the locations</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>Optional[int]</code></td>
+<td>
+<p>a unique identifier for this edge</p>
+</td>
+<td><code>None</code></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/location.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">loc1</span><span class="p">:</span> <span class="n">Location</span><span class="p">,</span> <span class="n">loc2</span><span class="p">:</span> <span class="n">Location</span><span class="p">,</span> <span class="n">distance</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Construct a location edge, which holds attributes that relate two Locations.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        loc1: the first location</span>
+<span class="sd">        loc2: the other location</span>
+<span class="sd">        distance: a measure of distance between the locations</span>
+<span class="sd">        id: a unique identifier for this edge</span>
+<span class="sd">    """</span>
+    <span class="k">assert</span> <span class="n">loc1</span> <span class="o">!=</span> <span class="n">loc2</span><span class="p">,</span> <span class="s2">"can't have a location self-edge"</span>
+
+    <span class="c1"># self.id is unique ID number used to track each edge.</span>
+    <span class="k">if</span> <span class="nb">id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">id</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_edge_id</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">update_id_counter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">edge</span> <span class="o">=</span> <span class="nb">set</span><span class="p">({</span><span class="n">loc1</span><span class="p">,</span> <span class="n">loc2</span><span class="p">})</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">distance</span> <span class="o">=</span> <span class="n">distance</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+<h2 id="geography">Geography</h2>
+<div class="doc doc-object doc-class">
+<div class="doc doc-contents first">
+<div class="doc doc-children">
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.location.Geography.__init__">
+<code class="highlight language-python">
+__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> </code>
+<span class="doc doc-properties">
+<small class="doc doc-property doc-property-special"><code>special</code></small>
+</span>
+</h3>
+<div class="doc doc-contents">
+<p>Umbrella class to initialize/store locations and location edges for a population</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>params</code></td>
+<td><code>ObjMap</code></td>
+<td>
+<p>model parameters</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>titan/location.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Umbrella class to initialize/store locations and location edges for a population</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        params: model parameters</span>
+<span class="sd">    """</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">locations</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Location</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">location</span><span class="p">:</span> <span class="n">Location</span><span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="n">defn</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">location</span><span class="p">,</span> <span class="n">defn</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">LocationEdge</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">defn</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s2">"edge_default"</span><span class="p">:</span>
+            <span class="n">loc1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">locations</span><span class="p">[</span><span class="n">defn</span><span class="o">.</span><span class="n">location_1</span><span class="p">]</span>
+            <span class="n">loc2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">locations</span><span class="p">[</span><span class="n">defn</span><span class="o">.</span><span class="n">location_2</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">LocationEdge</span><span class="p">(</span><span class="n">loc1</span><span class="p">,</span> <span class="n">loc2</span><span class="p">,</span> <span class="n">defn</span><span class="o">.</span><span class="n">distance</span><span class="p">))</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+</div>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-nav">
+<nav aria-label="Footer" class="md-footer-nav__inner md-grid">
+<a class="md-footer-nav__link md-footer-nav__link--prev" href="../agent_set/" rel="prev" title="AgentSet">
+<div class="md-footer-nav__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</div>
+<div class="md-footer-nav__title">
+<div class="md-ellipsis">
+<span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                AgentSet
+              </div>
+</div>
+</a>
+<a class="md-footer-nav__link md-footer-nav__link--next" href="../model/" rel="next" title="Model">
+<div class="md-footer-nav__title">
+<div class="md-ellipsis">
+<span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Model
+              </div>
+</div>
+<div class="md-footer-nav__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"></path></svg>
+</div>
+</a>
+</nav>
+</div>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+          Material for MkDocs
+        </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<script src="../../assets/javascripts/vendor.df0def68.min.js"></script>
+<script src="../../assets/javascripts/bundle.ba57d267.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+<script>
+        app = initialize({
+          base: "../..",
+          features: ["instant", "tabs"],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.fae956e7.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+</body>
+</html>
