@@ -17,7 +17,8 @@ jobs:
       - name: Set up credentials
         uses: oleksiyrudenko/gha-git-credentials@v1
         with:
-          token: '${{ secrets.MK_DOCS }}'
+          token: '${{ secrets.GITHUB_TOKEN }}'
+          actor: '${{ github.actor }}'
         
       - name: install dependencies
         run: |
