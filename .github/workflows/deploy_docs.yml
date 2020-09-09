@@ -14,7 +14,6 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install cython
-          pip install -r requirements.txt
           pip install -r dev_requirements.txt
       - name: Deploy mkdocs
         run: mkdocs gh-deploy
