@@ -5,6 +5,15 @@ on:
     branches: [ deploy_docs ]
     
 jobs:
+  publish:
+    - uses: actions/checkout@v2
+    # publish to a branch in current repo using GITHUB_TOKEN and other default settings
+    - uses: oleksiyrudenko/gha-git-credentials@v1
+      with:
+        token: '${{ secrets.GITHUB_TOKEN }}'
+    - run: |
+        yarn run build
+        yarn run deploy
   deploy_site:
     runs-on: ubuntu-latest
     steps:
@@ -19,8 +28,5 @@ jobs:
           pip install --upgrade pip
           pip install cython
           pip install -r dev_requirements.txt
-          pip install -r requirements.txt
       - name: Deploy mkdocs
-        uses: mhausenblas/mkdocs-deploy-gh-pages@1.14
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: mkdocs gh-deploy
