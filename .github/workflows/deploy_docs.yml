@@ -5,17 +5,6 @@ on:
     branches: [ deploy_docs ]
     
 jobs:
-  publish:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    # publish to a branch in current repo using GITHUB_TOKEN and other default settings
-    - uses: oleksiyrudenko/gha-git-credentials@v1
-      with:
-        token: '${{ secrets.GITHUB_TOKEN }}'
-    - run: |
-        yarn run build
-        yarn run deploy
   deploy_site:
     runs-on: ubuntu-latest
     steps:
@@ -24,6 +13,7 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.7
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
         
       - name: install dependencies
         run: |
