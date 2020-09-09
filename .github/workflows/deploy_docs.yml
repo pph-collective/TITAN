@@ -21,4 +21,6 @@ jobs:
           pip install -r dev_requirements.txt
           pip install -r requirements.txt
       - name: Deploy mkdocs
-        run: mkdocs gh-deploy
+        uses: mhausenblas/mkdocs-deploy-gh-pages@1.14
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
