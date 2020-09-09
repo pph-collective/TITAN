@@ -1,0 +1,19 @@
+name: deploy_docs
+
+on:
+  push:
+    branches: [ main ]
+    
+jobs:
+  deploy_site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        
+      - name: install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r dev_requirements.txt
+      - name: Deploy mkdocs
+        run: mkdocs gh-deploy
