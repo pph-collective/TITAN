@@ -13,7 +13,6 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.7
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
         
       - name: install dependencies
         run: |
@@ -23,3 +22,5 @@ jobs:
           pip install -r dev_requirements.txt
       - name: Deploy mkdocs
         run: mkdocs gh-deploy
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
