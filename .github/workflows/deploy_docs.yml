@@ -28,7 +28,6 @@ jobs:
           pip install -r requirements.txt
 
       - name: Deploy mkdocs
-        uses: mhausenblas/mkdocs-deploy-gh-pages@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          SSH: true
