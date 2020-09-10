@@ -28,9 +28,4 @@ jobs:
           pip install -r requirements.txt
 
       - name: Deploy mkdocs
-        run: |
-          git config user.name ${{ secrets.GH_USER }}
-          git config user.email "${{ secrets.GH_MAIL }}"
-          git remote add gh-token "https://${{ secrets.GH_TOKEN}}@github.com/:user/:repo.git"
-          git fetch gh-token && git fetch gh-token gh-pages:gh-pages
-          mkdocs gh-deploy -v
+        uses: Tangerine-Community/tangy-mkdocs-build-action@v1
