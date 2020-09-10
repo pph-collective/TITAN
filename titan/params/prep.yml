@@ -13,7 +13,7 @@ prep:
     type: float
     min: 0
     max: 1
-  start:
+  start_time:
     default: 0
     description: Timestep at which prep should start in the model
     type: int
@@ -32,18 +32,20 @@ prep:
       min: 0
       max: 1
   target_model:
-    default: Allcomers
-    values:
-      - CDCwomen
+    default:
       - Allcomers
-      - HighPN5
-      - HighPN10
-      - SR
+    values:
+      - Allcomers
+      - cdc_women
+      - cdc_msm
+      - pwid
+      - pwid_sex
       - Racial
       - RandomTrial
-      - MSM
-    description: which model to use to determine who is enrolled in PrEP
-    type: enum
+      - ssp
+      - ssp_sex
+    description: which models to use to determine who is enrolled in PrEP
+    type: array
   half_life:
     default: 40.0
     description: Half life in days of injectable PrEP, used to calculate agent's prep load
@@ -62,6 +64,10 @@ prep:
       min: 0
       max: 1
   pca:
+    start_time:
+      default: 0
+      description: Time step at which PCA begins
+      type: int
     awareness:
       init:
         default: 0

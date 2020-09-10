@@ -79,3 +79,56 @@ def test_safe_dist():
     val = utils.safe_dist(pert_info, rand_gen)
     assert val > low
     assert val < high
+
+
+@pytest.mark.unit
+def test_get_param_from_path(params):
+    assert params.classes.sex_types.HM.cis_trans == "cis"
+
+    param_path_pipe = "classes|sex_types|HM|cis_trans"
+    path_params_pipe, last_item_pipe = utils.get_param_from_path(
+        params, param_path_pipe, "|"
+    )
+    assert last_item_pipe == "cis_trans"
+    assert "cis_trans" in path_params_pipe
+    assert path_params_pipe["cis_trans"] == "cis"
+
+    param_path_hash = "classes#sex_types#HM#cis_trans"
+    path_params_hash, last_item_hash = utils.get_param_from_path(
+        params, param_path_hash, "#"
+    )
+    assert last_item_hash == "cis_trans"
+    assert "cis_trans" in path_params_hash
+    assert path_params_hash["cis_trans"] == "cis"
+
+
+@pytest.mark.unit
+def test_scale_param(params):
+    assert params.classes.locations.world.ppl == 1.0
+    param_path_pipe = "classes|locations|world|ppl"
+
+    utils.scale_param(params, param_path_pipe, 2)
+
+    assert params.classes.locations.world.ppl == 2.0
+
+    param_path_hash = "classes#locations#world#ppl"
+
+    utils.scale_param(params, param_path_hash, 2, delimiter="#")
+
+    assert params.classes.locations.world.ppl == 4.0
+
+
+@pytest.mark.unit
+def test_override_param(params):
+    assert params.classes.sex_types.HM.cis_trans == "cis"
+    param_path_hash = "classes#sex_types#HM#cis_trans"
+
+    utils.override_param(params, param_path_hash, "trans", delimiter="#")
+
+    assert params.classes.sex_types.HM.cis_trans == "trans"
+
+    param_path_pipe = "classes|sex_types|HM|cis_trans"
+
+    utils.override_param(params, param_path_pipe, "other")
+
+    assert params.classes.sex_types.HM.cis_trans == "other"

@@ -5,7 +5,7 @@ import random
 from collections import deque
 from copy import copy, deepcopy
 from math import ceil
-from typing import List, Dict, Any, Set, Optional
+from typing import List, Dict, Any, Set, Optional, Tuple
 
 import numpy as np  # type: ignore
 import networkx as nx  # type: ignore
@@ -13,26 +13,19 @@ import nanoid  # type: ignore
 
 from .parse_params import ObjMap
 from .agent import AgentSet, Agent, Relationship
-from .partnering import select_partner, get_partnership_duration
+from .location import Location, Geography
+from .partnering import select_partner, get_partnership_duration, get_mean_rel_duration
 from . import utils
 
 
 class Population:
-    """
-    :Purpose:
-        This class constructs and represents the model population
-
-    :Input:
-
-        params : ObjMap
-            Model parameters
-
-    """
-
     def __init__(self, params: ObjMap, id: Optional[str] = None):
         """
-        :Purpose:
-            Initialize Population object.
+        Initialize Population object.
+
+        args:
+            params : Model parameters
+            id: 8 character identifier for a model
         """
         if id is None:
             self.id = nanoid.generate(size=8)
@@ -45,10 +38,6 @@ class Population:
         self.pop_random = random.Random(self.pop_seed)
         self.np_random = np.random.RandomState(self.pop_seed)
 
-        # this sets the global random seed for the population generation phase, during
-        # model init it gets reset at the very end
-        random.seed(self.pop_seed)
-
         self.enable_graph = params.model.network.enable
 
         if self.enable_graph:
@@ -58,37 +47,10 @@ class Population:
 
         self.params = params
         # pre-fetch param sub-sets for performance
-        self.demographics = params.demographics
         self.features = params.features
-        self.prep = params.prep
 
-        # build weights of population sex types by race
-        self.pop_weights: Dict[str, Dict[str, List[Any]]] = {}
-        self.role_weights: Dict[str, Dict] = {}
-        self.drug_weights: Dict[str, Dict] = {}
-        for race in params.classes.races:
-            self.role_weights[race] = {}
-            self.drug_weights[race] = {}
-            self.pop_weights[race] = {}
-            self.pop_weights[race]["values"] = []
-            self.pop_weights[race]["weights"] = []
-            for st in params.classes.sex_types:
-                self.pop_weights[race]["values"].append(st)
-                self.pop_weights[race]["weights"].append(
-                    self.demographics[race][st].ppl
-                )
-                self.role_weights[race][st] = {}
-                self.role_weights[race][st]["values"] = []
-                self.role_weights[race][st]["weights"] = []
-                self.drug_weights[race][st] = {}
-                self.drug_weights[race][st]["values"] = []
-                self.drug_weights[race][st]["weights"] = []
-                for role, prob in self.demographics[race][st].sex_role.init.items():
-                    self.role_weights[race][st]["values"].append(role)
-                    self.role_weights[race][st]["weights"].append(prob)
-                for use_type, prob in self.demographics[race][st].drug_type.items():
-                    self.drug_weights[race][st]["values"].append(use_type)
-                    self.drug_weights[race][st]["weights"].append(prob.init)
+        # set up the population's locations and edges
+        self.geography = Geography(params)
 
         # All agent set list
         self.all_agents = AgentSet("AllAgents")
@@ -125,31 +87,22 @@ class Population:
         self.haart_counts = deepcopy(agent_counts)
 
         # find average partnership durations
-        self.mean_rel_duration: Dict[str, int] = {}
-        for bond in self.params.partnership.duration:
-            if self.params.partnership.duration[bond].type == "bins":
-                weights = []
-                vals = []
-                dur_bins = params.partnership.duration[bond].bins
-                for bins in dur_bins:
-                    if bins > 1:
-                        weights.append(dur_bins[bins].prob - dur_bins[bins - 1].prob)
-                    else:
-                        weights.append(dur_bins[bins].prob)
-                    vals.append(np.average([dur_bins[bins].min, dur_bins[bins].max]))
-                self.mean_rel_duration[bond] = np.average(vals, weights=weights)
-            else:
-                self.mean_rel_duration[bond] = self.params.partnership.duration[
-                    bond
-                ].distribution.mean
+        self.mean_rel_duration: Dict[str, int] = get_mean_rel_duration(self.params)
 
         print("\tCreating agents")
-
+        # for each location in the population, create agents per that location's demographics
         init_time = -1 * self.params.model.time.burn_steps
-        for race in params.classes.races:
-            for i in range(round(params.model.num_pop * params.demographics[race].ppl)):
-                agent = self.create_agent(race, init_time)
-                self.add_agent(agent)
+        for location in self.geography.locations.values():
+            for race in params.classes.races:
+                for i in range(
+                    round(
+                        params.model.num_pop
+                        * location.ppl
+                        * location.params.demographics[race].ppl
+                    )
+                ):
+                    agent = self.create_agent(location, race, init_time)
+                    self.add_agent(agent)
 
         if params.features.incar:
             print("\tInitializing Incarceration")
@@ -157,15 +110,18 @@ class Population:
 
         # initialize relationships
         print("\tCreating Relationships")
-        self.update_partner_assignments()
+        self.update_partner_assignments(0)
 
         if self.enable_graph:
             self.trim_graph()
 
     def initialize_incarceration(self):
+        """
+        Run incarceration assignment on a population.  The duration of incarceration at initialization is different than the ongoing to reflect that agents with longer durations will be more highly represented in that population at any given point in time.
+        """
 
-        for a in self.all_agents.members:
-            incar_params = self.demographics[a.race][a.sex_type].incar
+        for a in self.all_agents:
+            incar_params = a.location.params.demographics[a.race][a.sex_type].incar
             jail_duration = incar_params.duration.init
 
             prob_incar = incar_params.init
@@ -182,42 +138,48 @@ class Population:
                     jail_duration[bin].min, jail_duration[bin].max
                 )
 
-    def create_agent(self, race: str, time: int, sex_type="NULL") -> Agent:
+    def create_agent(
+        self, location: Location, race: str, time: int, sex_type: Optional[str] = None
+    ) -> Agent:
         """
-        :Purpose:
-            Return a new agent according to population characteristics
-        :Input:
-            race : string
-            sex_type : default "NULL"
-        :Output:
-             agent : Agent
+        Create a new agent with randomly assigned attributes according to population
+        demographcis [params.demographics]
+
+        args:
+            location: location the agent will live in
+            race : race of the new agent
+            time: current time step of the model
+            sex_type : sex_type of the new agent
+
+        returns:
+             a new agent
         """
-        if sex_type == "NULL":
+        if sex_type is None:
             sex_type = utils.safe_random_choice(
-                self.pop_weights[race]["values"],
+                location.pop_weights[race]["values"],
                 self.pop_random,
-                weights=self.pop_weights[race]["weights"],
+                weights=location.pop_weights[race]["weights"],
             )
         if sex_type is None:
             raise ValueError("Agent must have sex type")
 
         # Determine drugtype
         drug_type = utils.safe_random_choice(
-            self.drug_weights[race][sex_type]["values"],
+            location.drug_weights[race][sex_type]["values"],
             self.pop_random,
-            weights=self.drug_weights[race][sex_type]["weights"],
+            weights=location.drug_weights[race][sex_type]["weights"],
         )
         if drug_type is None:
             raise ValueError("Agent must have drug type")
 
-        age, age_bin = self.get_age(race)
+        age, age_bin = self.get_age(location, race)
 
-        agent = Agent(sex_type, age, race, drug_type)
+        agent = Agent(sex_type, age, race, drug_type, location)
         agent.age_bin = age_bin
         sex_role = utils.safe_random_choice(
-            self.role_weights[race][sex_type]["values"],
+            location.role_weights[race][sex_type]["values"],
             self.pop_random,
-            weights=self.role_weights[race][sex_type]["weights"],
+            weights=location.role_weights[race][sex_type]["weights"],
         )
         if sex_role is None:
             raise ValueError("Agent must have sex role")
@@ -225,10 +187,10 @@ class Population:
             agent.sex_role = sex_role
 
         if self.features.msmw and sex_type == "HM":
-            if self.pop_random.random() < self.params.msmw.prob:
+            if self.pop_random.random() < location.params.msmw.prob:
                 agent.msmw = True
 
-        agent_params = self.demographics[race][agent.population]
+        agent_params = agent.location.params.demographics[race][agent.population]
 
         # HIV
         if (
@@ -250,51 +212,60 @@ class Population:
 
                     self.haart_counts[agent.race][agent.sex_type] += 1
 
-                    haart_adh = self.demographics[race][sex_type].haart.adherence
+                    haart_adh = location.params.demographics[race][
+                        sex_type
+                    ].haart.adherence
                     if self.pop_random.random() < haart_adh:
                         adherence = 5
                     else:
                         adherence = self.pop_random.randint(1, 4)
 
-                    # add to agent haart set
                     agent.haart_adherence = adherence
                     agent.haart_time = 0
 
             # if HIV, how long has the agent had it? Random sample
-            agent.hiv_time = self.pop_random.randint(1, self.params.hiv.max_init_time)
+            agent.hiv_time = self.pop_random.randint(
+                1, location.params.hiv.max_init_time
+            )
 
-        elif self.features.prep and agent.prep_eligible(
-            self.prep.target_model, self.params.partnership.ongoing_duration
-        ):
-            if time >= self.prep.start and self.pop_random.random() < self.prep.target:
-                agent.enroll_prep(self.params, self.pop_random)
+        else:
+            if (
+                self.features.prep
+                and agent.prep_eligible()
+                and time >= location.params.prep.start_time
+                and self.pop_random.random() < location.params.prep.target
+            ):
+                agent.enroll_prep(self.pop_random)
+            elif (
+                self.features.vaccine
+                and location.params.vaccine.on_init
+                and self.pop_random.random()
+                < location.params.demographics[agent.race][agent.sex_type].vaccine.init
+            ):
+                agent.vaccinate()
 
         # Check if agent is HR as baseline.
         if (
             self.features.high_risk
             and self.pop_random.random()
-            < self.demographics[race][sex_type].high_risk.init
+            < location.params.demographics[race][sex_type].high_risk.init
         ):
             agent.high_risk = True
             agent.high_risk_ever = True
             agent.high_risk_time = self.pop_random.randint(
-                1, self.params.high_risk.sex_based[agent.sex_type].duration
+                1, location.params.high_risk.sex_based[agent.sex_type].duration
             )
 
-        # get agent's mean partner numbers for bond type
-        def partner_distribution(dist):
-
-            return ceil(
-                utils.safe_dist(dist, self.np_random)
-                * utils.safe_divide(
-                    self.params.calibration.sex.partner, self.mean_rel_duration[bond]
-                )
-            )
-
-        for bond, bond_def in self.params.classes.bond_types.items():
+        for bond, bond_def in location.params.classes.bond_types.items():
             agent.partners[bond] = set()
             dist_info = agent_params.num_partners[bond]
-            agent.mean_num_partners[bond] = partner_distribution(dist_info)
+            agent.mean_num_partners[bond] = ceil(
+                utils.safe_dist(dist_info, self.np_random)
+                * utils.safe_divide(
+                    agent.location.params.calibration.sex.partner,
+                    self.mean_rel_duration[bond],
+                )
+            )
             # so not zero if added mid-year
             agent.target_partners[bond] = agent.mean_num_partners[bond]
             if "injection" in bond_def.acts_allowed:
@@ -304,11 +275,11 @@ class Population:
                 self.partnerable_agents[bond].add(agent)
 
         if self.features.pca:
-            if self.pop_random.random() < self.prep.pca.awareness.init:
+            if self.pop_random.random() < location.params.prep.pca.awareness.init:
                 agent.prep_awareness = True
             attprob = self.pop_random.random()
             pvalue = 0.0
-            for bin, fields in self.prep.pca.attitude.items():
+            for bin, fields in location.params.prep.pca.attitude.items():
                 pvalue += fields.prob
                 if attprob < pvalue:
                     agent.prep_opinion = bin
@@ -318,12 +289,10 @@ class Population:
 
     def add_agent(self, agent: Agent):
         """
-        :Purpose:
-            Create a new agent in the population.
+        Adds an agent to the population
 
-        :Input:
-            agent : int
-
+        args:
+            agent : The agent to be added
         """
 
         # Add to all agent set
@@ -350,11 +319,10 @@ class Population:
 
     def add_relationship(self, rel: Relationship):
         """
-        :Purpose:
-            Create a new relationship in the population.
+        Add a new relationship to the population.
 
-        :Input:
-            agent : int
+        args:
+            rel : The Relationship to be added
         """
         self.relationships.add(rel)
 
@@ -363,11 +331,10 @@ class Population:
 
     def remove_agent(self, agent: Agent):
         """
-        :Purpose:
-            Remove an agent from the population.
+        Remove an agent from the population.
 
-        :Input:
-            agent : int
+        args:
+            agent : Agent to remove
         """
         self.all_agents.remove_agent(agent)
 
@@ -393,11 +360,10 @@ class Population:
 
     def remove_relationship(self, rel: Relationship):
         """
-        :Purpose:
-            Remove a relationship from the population.
+        Remove a relationship from the population.
 
-        :Input:
-            agent : int
+        args:
+            rel : Relationship to remove
         """
         self.relationships.remove(rel)
 
@@ -408,21 +374,19 @@ class Population:
         if self.enable_graph:
             self.graph.remove_edge(rel.agent1, rel.agent2)
 
-    def get_age(self, race: str):
+    def get_age(self, location: Location, race: str) -> Tuple[int, int]:
         """
-        :Purpose:
-            Get an age of an agent, given their race
+        Given the population characteristics, get a random age to assign to an agent given the race of that agent
 
-        :Input:
-            race : str
+        args:
+            race : race of the agent whose age is being generated
 
-        :Returns:
-            age : int
-            bin : int
+        returns:
+            age and the bin the age came from
         """
         rand = self.pop_random.random()
 
-        bins = self.demographics[race].age
+        bins = location.params.demographics[race].age
 
         for i in range(1, 6):
             if rand < bins[i].prob:
@@ -437,18 +401,16 @@ class Population:
         self, agent: Agent, bond_type: str, components: List
     ) -> bool:
         """
-        :Purpose:
-            Finds and bonds new partner. Creates relationship object for partnership,
-            calcs partnership duration, and adds to networkX graph if self.enable_graph
+        Finds and bonds new partner. Creates relationship object for partnership,
+            calcs partnership duration, adds it to the population, and adds to networkX graph if self.enable_graph
             is set True.
 
-        :Input:
-            agent : Agent
-            Agent that is seeking a new partner
+        args:
+            agent: Agent that is seeking a new partner
+            bond_type: What type of bond the agent is seeking to make
 
-        :Returns:
-            noMatch : bool
-            Bool if no match was found for agent (used for retries)
+        returns:
+            True if no match was found for agent (used for retries)
         """
         partnerable_agents = self.partnerable_agents[bond_type]
         if (
@@ -477,7 +439,9 @@ class Population:
         no_match = True
 
         if partner:
-            duration = get_partnership_duration(self.params, self.np_random, bond_type)
+            duration = get_partnership_duration(
+                agent.location.params, self.np_random, bond_type
+            )
             relationship = Relationship(agent, partner, duration, bond_type=bond_type)
             self.add_relationship(relationship)
             # can partner still partner?
@@ -489,14 +453,13 @@ class Population:
             no_match = False
         return no_match
 
-    def update_partner_assignments(self, t=0):
+    def update_partner_assignments(self, t: int):
         """
-        :Purpose:
-            Determines which agents will seek new partners from All_agentSet.
+        Determines which agents will seek new partners from All_agentSet.
             Calls update_agent_partners for any agents that desire partners.
 
-        :Input:
-            None
+        args:
+            t: current time step of the model
         """
         # update agent targets annually
         if t % self.params.model.time.steps_per_year == 0:
@@ -515,10 +478,6 @@ class Population:
                     for a in self.all_agents
                     if len(a.partners[bond]) < a.target_partners[bond]
                 ]
-            )
-            print(f"Eligible agents for {bond}: {len(eligible_agents)}")
-            print(
-                f"Partnerable agents for {bond}: {len(self.partnerable_agents[bond])}"
             )
             attempts = {a: 0 for a in eligible_agents}
 
@@ -539,6 +498,9 @@ class Population:
                         eligible_agents.append(agent)
 
     def update_partner_targets(self):
+        """
+        Update the target number of partners for each agent and bond type
+        """
         for a in self.all_agents:
             for bond in self.params.classes.bond_types:
                 a.target_partners[bond] = utils.poisson(
@@ -547,7 +509,9 @@ class Population:
             self.update_partnerability(a)
 
     def update_partnerability(self, a):
-        # update partnerability
+        """
+        Update whether each agent in the population is currently able to form new relationships for each bond type
+        """
         for bond in self.params.classes.bond_types.keys():
             if a in self.partnerable_agents[bond]:
                 if len(a.partners[bond]) > (
@@ -561,12 +525,8 @@ class Population:
 
     def trim_graph(self):
         """
-        :Purpose:
-            Initialize network with graph-based algorithm for relationship
+        Initialize network with graph-based algorithm for relationship
             adding/pruning
-
-        :Input:
-            None
         """
 
         if self.params.model.network.type == "comp_size":
@@ -605,13 +565,12 @@ class Population:
 
         print("\tTotal agents in graph: ", self.graph.number_of_nodes())
 
-    def connected_components(self):
+    def connected_components(self) -> List:
         """
-        :Purpose:
-            Return connected components in graph (if enabled)
+        Get connected components in graph (if enabled)
 
-        :Input:
-            agent : int
+        returns:
+            list of connected components
         """
         if self.enable_graph:
             return list(

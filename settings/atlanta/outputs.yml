@@ -1,4 +1,3 @@
 outputs:
   reports:
-    - prepReport
     - basicReport

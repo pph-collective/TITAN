@@ -2,7 +2,6 @@ import pytest
 import os
 
 from titan.agent import *
-from titan.parse_params import create_params
 
 from conftest import FakeRandom
 
@@ -40,7 +39,6 @@ def test_agent_init(make_agent):
     assert a.haart_adherence == 0
     assert a.ssp is False
     assert a.intervention_ever is False
-    assert a.prep_reason == []
     assert a.vaccine_time == 0
     assert a.vaccine_type == ""
     assert a.partner_traced is False
@@ -110,14 +108,101 @@ def test_iter_partners(make_agent):
 
 
 @pytest.mark.unit
+def test_is_msm(make_agent):
+    a = make_agent()
+    assert a.is_msm()
+    a.sex_type = "MTF"
+    assert not a.is_msm()
+
+
+@pytest.mark.unit
+def test_cdc_eligible(make_agent, make_relationship):
+    # test MSM
+    a = make_agent()
+    p = make_agent()
+    r = make_relationship(a, p)
+    assert a.cdc_eligible()
+
+    # test WSW fail
+    a = make_agent(SO="WSW")
+    assert not a.is_msm()
+    assert not a.cdc_eligible()
+
+    # relationship not eligible
+    p = make_agent(SO="HM")
+    r = make_relationship(a, p)
+    assert not a.cdc_eligible()
+
+    # relationship eligible
+    p.hiv_dx = True
+    assert a.cdc_eligible()
+
+    # ongoing duration fail
+    a.location.params.partnership.ongoing_duration = 10
+    assert not a.cdc_eligible()
+
+
+@pytest.mark.unit
+def test_prep_eligible(make_agent, make_relationship):
+    a = make_agent(SO="HF")
+    p = make_agent(SO="HM")
+
+    # test no model
+    a.location.params.prep.target_model = ["cdc_women"]
+    assert not a.prep_eligible()
+
+    # test cdc_women
+    a.location.params.prep.target_model.append("cdc_women")
+    assert not a.prep_eligible()
+    r = make_relationship(a, p)
+    assert not p.is_msm()
+    assert not a.prep_eligible()
+    p.drug_type = "Inj"
+    assert a.prep_eligible()
+
+    # test Allcomers and Racial
+    a.location.params.prep.target_model.append("Allcomers")
+    assert a.prep_eligible()
+    a.location.params.prep.target_model = ["Racial"]
+    assert a.prep_eligible()
+
+    # test cdc_msm
+    a.location.params.prep.target_model = ["cdc_msm"]
+    assert not a.prep_eligible()
+    msm_agent = make_agent()
+    make_relationship(msm_agent, p)
+    assert msm_agent.prep_eligible()
+
+    # test pwid
+    a.location.params.prep.target_model = ["pwid"]
+    assert not a.prep_eligible()
+    assert not a.prep_eligible()
+    assert p.prep_eligible()
+    p = make_agent(DU="Inj", SO="HM")
+    assert p.prep_eligible()  # still eligible without partners
+
+    # test ssp
+    a.location.params.prep.target_model = ["ssp"]
+    assert not p.prep_eligible()
+    assert not p.prep_eligible()
+    p.ssp = True
+    assert p.prep_eligible()
+
+    p.location.params.prep.target_model = ["ssp_sex"]
+    assert not p.prep_eligible()
+    make_relationship(p, msm_agent)
+    assert p.prep_eligible()
+
+
+@pytest.mark.unit
 def test_enroll_prep_choice(make_agent, params):
-    params.prep.type = ["Oral", "Inj"]
-    params.prep.peak_load = 0.3
     rand_gen = FakeRandom(-0.1)
     a = make_agent()
+    a.location.params.prep.type = ["Oral", "Inj"]
+    a.location.params.prep.peak_load = 0.3
     a.prep_load = 10
 
-    a.enroll_prep(params, rand_gen)
+    a.enroll_prep(rand_gen)
 
     assert a.prep
     assert a.prep_last_dose == 0
@@ -128,13 +213,14 @@ def test_enroll_prep_choice(make_agent, params):
 
 @pytest.mark.unit
 def test_enroll_prep_one(make_agent, params):
-    params.prep.type = ["Oral"]
-    params.prep.peak_load = 0.3
     rand_gen = FakeRandom(1.1)
     a = make_agent()
+    a.location.params.prep.type = ["Oral"]
+    a.location.params.prep.peak_load = 0.3
+
     a.prep_load = 10
 
-    a.enroll_prep(params, rand_gen)
+    a.enroll_prep(rand_gen)
 
     assert a.prep
     assert a.prep_last_dose == 0
@@ -148,13 +234,13 @@ def test_update_prep_load(make_agent, params):
     a = make_agent()
     assert a.prep_last_dose == 0
     assert a.prep_load == 0
-    a.update_prep_load(params)
+    a.update_prep_load()
     assert a.prep_last_dose == 1
     assert a.prep_load > 0
 
     # make time pass
     for i in range(12):
-        a.update_prep_load(params)
+        a.update_prep_load()
 
     assert a.prep_last_dose == 0
     assert a.prep_load == 0.0
@@ -169,10 +255,10 @@ def test_get_number_of_sex_acts(make_agent, params):  # TODO test dist
 
     rand_gen_high = FakeRandom(1.0)
 
-    assert a.get_number_of_sex_acts(rand_gen_low, params) == min_val_low
+    assert a.get_number_of_sex_acts(rand_gen_low) == min_val_low
 
     # test fallthrough
-    assert a.get_number_of_sex_acts(rand_gen_high, params) == 37
+    assert a.get_number_of_sex_acts(rand_gen_high) == 37
 
 
 @pytest.mark.unit
@@ -297,21 +383,21 @@ def test_add_remove_agent(make_agent):
     s.add_agent(a)
 
     assert s.members == {a}
-    assert s.is_member(a)
+    assert a in s
     assert s.num_members() == 1
 
     assert c.members == {a}
-    assert c.is_member(a)
+    assert a in c
     assert c.num_members() == 1
 
     s.remove_agent(a)
 
     assert s.members == set()
-    assert s.is_member(a) is False
+    assert a not in s
     assert s.num_members() == 0
 
     assert c.members == set()
-    assert c.is_member(a) is False
+    assert a not in c
     assert c.num_members() == 0
 
 
@@ -322,11 +408,11 @@ def test_clear_set(make_agent):
     s.add_agent(a)
 
     assert s.members == {a}
-    assert s.is_member(a)
+    assert a in s
     assert s.num_members() == 1
 
     s.clear_set()
 
     assert s.members == set()
-    assert s.is_member(a) == False
+    assert a not in s
     assert s.num_members() == 0

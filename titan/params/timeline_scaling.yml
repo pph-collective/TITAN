@@ -6,20 +6,19 @@ timeline_scaling:
       parameter:
         type: str
         description: "Them parameter to be scaled. Should be the parameter name with pipes instead of dots (e.g. `prep.discontinue` would be `prep|discontinue`)."
-      time_start:
+      start_time:
         type: int
         description: "What time to start the scaling of this parameter (inclusive)"
-      time_stop:
+      stop_time:
         type: int
         description: "What time to stop the scaling of this parameter (exclusive)"
       scalar:
         type: float
-        description: Scalar to apply to the param during this time period, if 0 make sure the end time is past the end of the model otherwise things will break (can't divide by zero to get back to original value)
+        description: Scalar to apply to the param during this time period, if 0 make sure the end time is past the end of the model otherwise things will break (can't divide by zero to get back to original value). Use a negative number to functionally scale a probability to zero, but retain the ability to recover to the original value.
         default: 1.0
-        min: 0
     default:
       ts_default:
         parameter: ts_default
-        time_start: 1
-        time_stop: 2
+        start_time: 1
+        stop_time: 2
         scalar: 1.0

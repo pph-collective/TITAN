@@ -2,7 +2,13 @@ import pytest
 import os
 import csv
 
-from titan.population_io import write, read, core_attrs, exclude_attrs, find_agent
+from titan.population_io import (
+    write,
+    read,
+    agent_core_attrs,
+    agent_exclude_attrs,
+    find_agent,
+)
 
 
 @pytest.mark.unit
@@ -25,7 +31,7 @@ def test_write_pop_core(tmpdir, make_population):
             res.append(row)
 
     for row, a in zip(res, pop.all_agents):
-        for attr in core_attrs:
+        for attr in agent_core_attrs:
             assert repr(getattr(a, attr)) == row[attr]
 
     # relationship writing
@@ -62,7 +68,7 @@ def test_write_pop_intervention(tmpdir, make_population):
 
     for row, a in zip(res, pop.all_agents):
         for attr in a.__dict__.keys():
-            if attr in exclude_attrs:
+            if attr in agent_exclude_attrs:
                 assert attr not in row
             else:
                 assert repr(getattr(a, attr)) == row[attr]
@@ -94,7 +100,7 @@ def test_read_pop_core(tmpdir, make_population, params):
     agent = next(iter(pop.all_agents))
     new_agent = find_agent(new_pop, str(agent.id))
 
-    for attr in core_attrs:
+    for attr in agent_core_attrs:
         assert getattr(agent, attr) == getattr(new_agent, attr)
 
     assert agent.relationships == new_agent.relationships

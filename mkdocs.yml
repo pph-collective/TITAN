@@ -1,0 +1,46 @@
+site_name: TITAN
+site_description: Documentation for the TITAN model
+site_url: http://marshall-lab.github.io/titan
+theme:
+  name: material
+  features:
+    - instant
+    - tabs
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          setup_commands:
+            - import sys
+            - sys.path.append("docs")
+          rendering:
+            show_root_heading: false
+            show_root_toc_entry: false
+            heading_level: 3
+      watch:
+        - titan
+        - run_titan.py
+
+markdown_extensions:
+  - admonition
+  - codehilite
+
+nav:
+  - Overview: index.md
+  - Getting Started:
+    - Installation: getting_started.md
+    - Running locally: run_local.md
+    - Running on Oscar: run_oscar.md
+    - Contributing: contributing.md
+  - API Reference:
+    - Agent: api/agent.md
+    - AgentSet: api/agent_set.md
+    - Location: api/location.md
+    - Model: api/model.md
+    - NetworkGraphUtils: api/network.md
+    - Population: api/population.md
+    - Relationship: api/relationship.md
+    - Reporting: api/reporting.md
+    - Utility Functions: api/utilities.md
