@@ -2,7 +2,7 @@ name: deploy_docs
 
 on:
   push:
-    branches: [ deploy_docs ]
+    branches: [ main ]
     
 jobs:
   deploy_site:
