@@ -28,4 +28,4 @@ jobs:
           pip install -r requirements.txt
 
       - name: Deploy mkdocs
-        uses: Tangerine-Community/tangy-mkdocs-build-action@v1
+        run: mkdocs gh-deploy -v
