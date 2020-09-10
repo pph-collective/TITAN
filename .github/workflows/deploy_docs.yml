@@ -28,7 +28,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Deploy mkdocs
-        uses: JamesIves/github-pages-deploy-action@releases/v3
-        with:
-          SSH: true
-          branch: gh-pages
+        run: |
+          git remote add gh-token "https://${{ secrets.GH_TOKEN}}@github.com/:user/:repo.git"
+          git fetch gh-token && git fetch gh-token gh-pages:gh-pages
+          mkdocs gh-deploy -v
