@@ -21,7 +21,10 @@ jobs:
           actor: '${{ github.actor }}'
         
       - name: install dependencies
+        env:
+          GH_ACTOR: '${{ github.actor }}'
         run: |
+          echo "$GH_ACTOR"
           pip install --upgrade pip
           pip install cython
           pip install -r dev_requirements.txt
