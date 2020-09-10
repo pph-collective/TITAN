@@ -273,7 +273,7 @@ def single_run(sweep, outfile_dir, params, save_pop, pop_path):
 
     # apply params from sweep for this run
     for param, val in sweep.items():
-        utils.scale_param(params, param, val, delimiter=".")
+        utils.override_param(params, param, val, delimiter=".")
 
     tic = time_mod.time()
 
