@@ -29,5 +29,11 @@ jobs:
           pip install -r dev_requirements.txt
           pip install -r requirements.txt
 
-      - name: Deploy mkdocs
-        run: mkdocs gh-deploy -v
+      - name: Build site
+        run: mkdocs build
+
+      - name: Deploy site
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: $
+          publish_dir: ./site
