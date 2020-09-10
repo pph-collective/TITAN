@@ -1,0 +1,39 @@
+name: deploy_docs
+
+on:
+  push:
+    branches: [ main ]
+    
+jobs:
+  deploy_site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+
+      - name: Set up credentials
+        uses: oleksiyrudenko/gha-git-credentials@v1
+        with:
+          token: '${{ secrets.GITHUB_TOKEN }}'
+        
+      - name: install dependencies
+        env:
+          GH_ACTOR: '${{ github.actor }}'
+        run: |
+          echo "$GH_ACTOR"
+          pip install --upgrade pip
+          pip install cython
+          pip install -r dev_requirements.txt
+          pip install -r requirements.txt
+
+      - name: Build site
+        run: mkdocs build
+
+      - name: Deploy site
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: '${{ secrets.GITHUB_TOKEN }}'
+          publish_dir: ./site
