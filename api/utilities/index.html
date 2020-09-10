@@ -820,15 +820,15 @@ memo<span class="p">(</span><span class="n">f</span><span class="p">)</span> </c
 override_param<span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">param_path</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">'|'</span><span class="p">)</span> </code>
 </h3>
 <div class="doc doc-contents">
-<p>Given the params and a parameter path in the format prep|target, scale the
-current value by the scalar</p>
+<p>Given the params and a parameter path in the format prep|target, change the
+current value to new value</p>
 <details class="quote">
 <summary>Source code in <code>titan/utils.py</code></summary>
 <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">override_param</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">param_path</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">"|"</span><span class="p">):</span>
     <span class="sd">"""</span>
-<span class="sd">    Given the params and a parameter path in the format prep|target, scale the</span>
-<span class="sd">    current value by the scalar</span>
+<span class="sd">    Given the params and a parameter path in the format prep|target, change the</span>
+<span class="sd">    current value to new value</span>
 <span class="sd">    """</span>
     <span class="n">override_item</span><span class="p">,</span> <span class="n">last_key</span> <span class="o">=</span> <span class="n">get_param_from_path</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">param_path</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">)</span>
 
