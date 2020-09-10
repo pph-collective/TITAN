@@ -18,7 +18,6 @@ jobs:
         uses: oleksiyrudenko/gha-git-credentials@v1
         with:
           token: '${{ secrets.GITHUB_TOKEN }}'
-          actor: '${{ github.actor }}'
         
       - name: install dependencies
         env:
