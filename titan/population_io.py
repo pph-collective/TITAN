@@ -11,6 +11,7 @@ from .agent import Agent, Relationship
 from .parse_params import ObjMap
 from .location import Location
 from . import utils
+from .features import *
 
 # These attributes are the non-intervention attributes of an agent.  They are considered
 # "core" as they are assigned in creating an agent and are stable over time (likely
@@ -34,7 +35,7 @@ agent_core_attrs = [
 ]
 
 # these are functionally saved in the relationships file and complicate the agent file
-agent_feature_attrs = ["prep", "vaccine"]
+agent_feature_attrs = [feature.name for feature in BaseFeature.__subclasses__()]
 agent_exclude_attrs = {"partners", "relationships"}.union(agent_feature_attrs)
 
 
@@ -212,8 +213,9 @@ def create_agent(
         feat_row = agent_feats[feature][agent.id]
         agent_feat = getattr(agent, feature)
         for attr, val in feat_row.items():
-            setattr(agent_feat, attr, eval(val))
-            agent_feat.add_agent(agent)
+            if not attr == "agent":
+                setattr(agent_feat, attr, eval(val))
+                agent_feat.add_agent(agent)
 
     agent.partners = {bond: set() for bond in bond_types}
 

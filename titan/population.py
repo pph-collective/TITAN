@@ -16,6 +16,7 @@ from .agent import AgentSet, Agent, Relationship
 from .location import Location, Geography
 from .partnering import select_partner, get_partnership_duration, get_mean_rel_duration
 from . import utils
+from .features import *
 
 
 class Population:
@@ -47,7 +48,11 @@ class Population:
 
         self.params = params
         # pre-fetch param sub-sets for performance
-        self.features = params.features
+        self.features = [
+            feature
+            for feature in BaseFeature.__subclasses__()
+            if self.params.features[feature.name]
+        ]
 
         # set up the population's locations and edges
         self.geography = Geography(params)
@@ -180,7 +185,7 @@ class Population:
         else:
             agent.sex_role = sex_role
 
-        if self.features.msmw and sex_type == "HM":
+        if self.params.features.msmw and sex_type == "HM":
             if self.pop_random.random() < location.params.msmw.prob:
                 agent.msmw = True
 
@@ -222,33 +227,9 @@ class Population:
                 1, location.params.hiv.max_init_time
             )
 
-        else:
-            if (
-                self.features.prep
-                and agent.prep.eligible(agent)
-                and time >= location.params.prep.start_time
-                and self.pop_random.random() < location.params.prep.target
-            ):
-                agent.prep.enroll(agent, self.pop_random)
-            elif (
-                self.features.vaccine
-                and location.params.vaccine.on_init
-                and self.pop_random.random()
-                < location.params.demographics[agent.race][agent.sex_type].vaccine.init
-            ):
-                agent.vaccine.vaccinate(agent)
-
-        # Check if agent is HR as baseline.
-        if (
-            self.features.high_risk
-            and self.pop_random.random()
-            < location.params.demographics[race][sex_type].high_risk.init
-        ):
-            agent.high_risk = True
-            agent.high_risk_ever = True
-            agent.high_risk_time = self.pop_random.randint(
-                1, location.params.high_risk.sex_based[agent.sex_type].duration
-            )
+        for feature in self.features:
+            agent_feature = getattr(agent, feature.name)
+            agent_feature.init_agent(self, time)
 
         for bond, bond_def in location.params.classes.bond_types.items():
             agent.partners[bond] = set()
@@ -268,7 +249,7 @@ class Population:
             if agent.target_partners[bond] > 0:
                 self.partnerable_agents[bond].add(agent)
 
-        if self.features.pca:
+        if self.params.features.pca:
             if self.pop_random.random() < location.params.prep.pca.awareness.init:
                 agent.prep.awareness = True
             attprob = self.pop_random.random()

@@ -3,6 +3,8 @@ from .base_feature import BaseFeature
 
 class SyringeServices(BaseFeature):
 
+    name = "syringe_services"
+
     enrolled_risk = 0.0
 
     def __init__(self, agent):

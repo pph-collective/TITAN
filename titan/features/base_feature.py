@@ -1,6 +1,7 @@
 class BaseFeature:
 
     stats = []
+    name = ""
 
     def __init__(self, agent):
         self.active = False
@@ -9,7 +10,7 @@ class BaseFeature:
     def update_agent(self, model):
         pass
 
-    def init_agent(self, model):
+    def init_agent(self, pop, time):
         pass
 
     @classmethod

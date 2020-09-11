@@ -6,8 +6,7 @@ from typing import List, Dict, Set, Optional, Iterator, Iterable, Tuple
 from .parse_params import ObjMap
 from .utils import safe_divide, safe_dist
 from .location import Location
-from .features.prep import Prep
-from .features.vaccine import Vaccine
+from .features import *
 
 
 class Agent:
@@ -77,22 +76,19 @@ class Agent:
         self.hiv_dx = False
         self.aids = False
 
+        for feature in BaseFeature.__subclasses__():
+            setattr(self, feature.name, feature(self))
+
         # agent treatment params
         self.haart = False
         self.haart_time = 0
         self.haart_adherence = 0
-        self.syringe_services = SyringeServices(self)
-        self.prep = Prep(self)
         self.intervention_ever = False
         self.random_trial_enrolled = False
-        self.vaccine = Vaccine(self)
         self.partner_traced = False
         self.trace_time = 0
         self.pca = False
         self.pca_suitable = False
-
-        # agent high risk params
-        self.high_risk = HighRisk(self)
 
         # agent incarcartion params
         self.incar = False

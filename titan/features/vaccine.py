@@ -4,6 +4,7 @@ from .base_feature import BaseFeature
 class Vaccine(BaseFeature):
 
     stats = ["vaccinated"]
+    name = "vaccine"
 
     def __init__(self, agent):
         super().__init__(agent)
@@ -11,8 +12,23 @@ class Vaccine(BaseFeature):
         self.time = 0
         self.type = ""
 
+    def init_agent(self, pop, time):
+        if (
+            not self.agent.hiv
+            and self.agent.location.params.vaccine.on_init
+            and pop.pop_random.random()
+            < self.agent.location.params.demographics[self.agent.race][
+                self.agent.sex_type
+            ].vaccine.init
+        ):
+            self.vaccinate()
+
     def update_agent(self, model):
-        if model.features.prep and not self.agent.prep.active:
+        if (
+            model.params.features.prep
+            and not self.agent.prep.active
+            and not self.agent.hiv
+        ):
             self.advance_vaccine(model)
 
     def set_stats(self, stats):

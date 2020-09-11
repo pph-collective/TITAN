@@ -7,6 +7,7 @@ class Prep(BaseFeature):
     counts = None
     new_agents = set()
 
+    name = "prep"
     stats = ["numPrEP", "newNumPrEP", "injectable_prep", "oral_prep"]
 
     def __init__(self, agent):
@@ -22,6 +23,15 @@ class Prep(BaseFeature):
         self.opinion = 0.00
 
         # pca here or elsewhere?
+
+    def init_agent(self, pop, time):
+        if (
+            not self.agent.hiv
+            and self.eligible
+            and time >= self.agent.location.params.prep.start_time
+            and pop.pop_random.random() < self.agent.location.params.prep.target
+        ):
+            self.enroll(pop.pop_random)
 
     def update_agent(self, model):
         if not self.agent.hiv:
@@ -89,14 +99,14 @@ class Prep(BaseFeature):
             if "Racial" in params.prep.target_model:
                 num_prep_agents = self.counts[self.agent.race]
                 all_hiv_agents = model.pop.hiv_agents.members
-                all_race = {a for a in model.pop.all_agents if a.race == self.agent.race}
+                all_race = {
+                    a for a in model.pop.all_agents if a.race == self.agent.race
+                }
 
                 num_hiv_agents = len(all_hiv_agents & all_race)
-                target_prep = (
-                    len(all_race) - num_hiv_agents
-                ) * params.demographcis[self.agent.race][
-                    self.agent.sex_type
-                ].prep.coverage
+                target_prep = (len(all_race) - num_hiv_agents) * params.demographcis[
+                    self.agent.race
+                ][self.agent.sex_type].prep.coverage
             else:
                 num_prep_agents = sum(self.counts.values())
                 target_prep = int(
@@ -165,7 +175,7 @@ class Prep(BaseFeature):
             ].prep.discontinue
             and self.type == "Oral"
         ):
-            self.discontinue(agent)
+            self.discontinue()
 
         if self.type == "Inj":
             self.update_load()
@@ -203,7 +213,9 @@ class Prep(BaseFeature):
             prep
         """
         target_model = self.agent.location.params.prep.target_model
-        gender = self.agent.location.params.classes.sex_types[agent.sex_type].gender
+        gender = self.agent.location.params.classes.sex_types[
+            self.agent.sex_type
+        ].gender
 
         if self.active or self.agent.vaccine.active:
             return False

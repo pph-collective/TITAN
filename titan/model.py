@@ -16,8 +16,7 @@ from . import output as ao
 from . import probabilities as prob
 from . import utils
 from .parse_params import ObjMap
-from .features.prep import Prep
-from .features.vaccine import Vaccine
+from .features import *
 
 
 class HIVModel:
@@ -45,7 +44,6 @@ class HIVModel:
 
         self.params = params
         # pre-fetch commonly used param sub-sets for performance
-        self.features = params.features
         self.calibration = params.calibration
 
         print("=== Begin Initialization Protocol ===\n")
@@ -71,6 +69,12 @@ class HIVModel:
 
         self.time = -1 * self.params.model.time.burn_steps  # burn is negative time
         self.id = nanoid.generate(size=8)
+
+        self.features = [
+            feature
+            for feature in BaseFeature.__subclasses__()
+            if self.params.features[feature.name]
+        ]
 
         # Set seed format. 0: pure random, else: fixed value
         self.run_seed = utils.get_check_rand_int(params.model.seed.run)
@@ -160,7 +164,6 @@ class HIVModel:
             # make sure t0 things get printed
             stats = ao.get_stats(
                 self.pop.all_agents,
-                Prep.new_agents,
                 self.new_infections,
                 self.new_dx,
                 self.new_incar_release,
@@ -211,10 +214,8 @@ class HIVModel:
 
         stats = ao.get_stats(
             self.pop.all_agents,
-            Prep.new_agents,
             self.new_infections,
             self.new_dx,
-            self.new_high_risk,
             self.new_incar_release,
             self.deaths,
             self.params,
@@ -242,10 +243,13 @@ class HIVModel:
         7. Agent death/replacement
         """
         # If agent zero enabled, create agent zero at the beginning of main loop.
-        if self.time == self.params.agent_zero.start_time and self.features.agent_zero:
+        if (
+            self.time == self.params.agent_zero.start_time
+            and self.params.features.agent_zero
+        ):
             self.make_agent_zero()
 
-        if not self.features.static_network:
+        if not self.params.features.static_network:
             self.pop.update_partner_assignments(t=self.time)
             if self.pop.enable_graph:
                 self.pop.trim_graph()
@@ -254,8 +258,8 @@ class HIVModel:
             self.agents_interact(rel)
 
         # TODO add check for whether feature is on somehow
-        for cls in (SyringeServices, Prep, Vaccine):
-            cls.update_pop(self)
+        for feature in self.features:
+            feature.update_pop(self)
 
         for agent in self.pop.all_agents:
             # happy birthday agents!
@@ -265,11 +269,12 @@ class HIVModel:
             ):
                 agent.age += 1
 
-            if self.features.high_risk:
-                self.update_high_risk(agent)
+            for feature in self.features:
+                agent_feature = getattr(agent, feature.name)
+                agent_feature.update_agent(self)
 
             if (
-                self.features.pca
+                self.params.features.pca
                 and self.time >= self.params.prep.pca.start_time
                 and (
                     self.run_random.random()
@@ -278,9 +283,9 @@ class HIVModel:
             ):
                 agent.prep.awareness = True
                 if self.run_random.random() < agent.location.params.prep.pca.prep.prob:
-                    agent.prep.initiate(agent, self, force=True)
+                    agent.prep.initiate(self, force=True)
 
-            if self.features.incar:
+            if self.params.features.incar:
                 self.incarcerate(agent)
 
             if (
@@ -296,29 +301,23 @@ class HIVModel:
                     self.diagnose_hiv(agent)
                     self.progress_to_aids(agent)
 
-                    if self.features.haart:
+                    if self.params.features.haart:
                         self.update_haart(agent)
-            else:
-                if self.features.prep:
-                    agent.prep.update_agent(agent, self)
-
-                    if self.features.vaccine:
-                        agent.vaccine.update_agent(agent, self)
 
         if (
-            self.features.prep
+            self.params.features.prep
             and self.time == agent.location.params.prep.start_time
             and "RandomTrial" in agent.location.params.prep.target_model
         ):
             self.initialize_random_trial()
 
         # If static network, ignore relationship progression
-        if not self.features.static_network:
+        if not self.params.features.static_network:
             for rel in copy(self.pop.relationships):
                 if rel.progress():
                     self.pop.remove_relationship(rel)
 
-        if self.features.die_and_replace:
+        if self.params.features.die_and_replace:
             self.die_and_replace()
 
     def make_agent_zero(self):
@@ -354,7 +353,7 @@ class HIVModel:
         Scale/un-scale any params with timeline_scaling definitions per their
         definition.  Applied to all parameters (main model, and location specific).
         """
-        if not self.features.timeline_scaling:
+        if not self.params.features.timeline_scaling:
             return None
 
         # gather all of the param objectss to be scaled
@@ -373,7 +372,6 @@ class HIVModel:
                     elif defn.stop_time == self.time:
                         print(f"timeline un-scaling - {param}")
                         utils.scale_param(params, param, 1 / defn.scalar)
-
 
     def initialize_random_trial(self):
         """
@@ -398,7 +396,7 @@ class HIVModel:
                 < self.params.prep.random_trial.intervention.prob
             ):
                 # Component selected as treatment pod!
-                if not self.features.pca:
+                if not self.params.features.pca:
                     for ag in comp.nodes():
                         ag.random_trial_enrolled = True
                         if not ag.hiv and not ag.prep.active:
@@ -553,7 +551,7 @@ class HIVModel:
                 < agent.prep.opinion
             ):
                 if self.run_random.random() < agent.location.params.prep.pca.prep.prob:
-                    agent.prep.initiate(agent, self, force=True)
+                    agent.prep.initiate(self, force=True)
 
             elif (
                 partner_init_opinion
@@ -849,8 +847,7 @@ class HIVModel:
             self.pop.hiv_agents.add_agent(agent)
 
         if agent.prep.active:
-            agent.prep.progress(agent, self, force=True)
-
+            agent.prep.progress(self, force=True)
 
     def incarcerate(self, agent: Agent):
         """
@@ -859,7 +856,7 @@ class HIVModel:
         args:
             agent: agent being updated
         """
-        if not self.features.incar:
+        if not self.params.features.incar:
             return None
 
         hiv_bool = agent.hiv
@@ -876,7 +873,7 @@ class HIVModel:
                 self.new_incar_release.add_agent(agent)
                 agent.incar = False
                 if (
-                    not agent.high_risk and self.features.high_risk
+                    not agent.high_risk and self.params.features.high_risk
                 ):  # If behavioral treatment on and agent HIV, ignore HR period.
                     self.become_high_risk(agent)
                     for bond in agent.location.params.high_risk.partnership_types:
@@ -945,7 +942,7 @@ class HIVModel:
             # PUT PARTNERS IN HIGH RISK
             for bond in agent.location.params.high_risk.partnership_types:
                 for partner in agent.partners[bond]:
-                    if not partner.high_risk and self.features.high_risk:
+                    if not partner.high_risk and self.params.features.high_risk:
                         if (
                             self.run_random.random()
                             < partner.location.params.high_risk.prob
@@ -973,7 +970,7 @@ class HIVModel:
             self.pop.dx_counts[agent.race][agent.sex_type] += 1
             self.new_dx.add_agent(agent)
             if (
-                self.features.partner_tracing
+                self.params.features.partner_tracing
                 and partner_tracing.start_time <= self.time < partner_tracing.stop_time
             ):
                 # Determine if each partner is found via partner tracing
@@ -1016,7 +1013,7 @@ class HIVModel:
         args:
             agent: agent being updated
         """
-        if not self.features.haart:
+        if not self.params.features.haart:
             return None
 
         def initiate(agent):

@@ -9,8 +9,7 @@ import os
 from networkx import betweenness_centrality, effective_size, density  # type: ignore
 from .parse_params import ObjMap
 
-from .features.prep import Prep
-from .features.vaccine import Vaccine
+from .features import *
 
 
 def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
@@ -59,11 +58,6 @@ def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
             "inf_HR6m": 0,
             "inf_HRever": 0,
             "inf_newInf": 0,
-            "newHR": 0,
-            "newHR_HIV": 0,
-            "newHR_AIDS": 0,
-            "newHR_dx": 0,
-            "newHR_ART": 0,
             "newRelease": 0,
             "newReleaseHIV": 0,
             "numHIV": 0,
@@ -78,8 +72,8 @@ def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
             "incarHIV": 0,
         }
 
-        base_stats.update({stat: 0 for stat in Prep.stats})
-        base_stats.update({stat: 0 for stat in Vaccine.stats})
+        for feature in BaseFeature.__subclasses__():
+            base_stats.update({stat: 0 for stat in feature.stats})
 
         return base_stats
 
@@ -151,10 +145,8 @@ def add_agent_to_stats(stats: Dict[str, Any], attrs: List[str], agent: Agent, ke
 
 def get_stats(
     all_agents: AgentSet,
-    new_prep_agents: AgentSet,
     new_hiv: AgentSet,
     new_hiv_dx: AgentSet,
-    new_high_risk: AgentSet,
     new_incar_release: AgentSet,
     deaths: List[Agent],
     params: ObjMap,
@@ -164,10 +156,8 @@ def get_stats(
 
     args:
         all_agents: all of the agents in the population
-        new_prep_agents: agents who are newly on prep this timestep
         new_hiv: agents are newly hiv this timestep
         new_hiv_dx: agents who are newly diagnosed with hiv this timestep
-        new_high_risk: agents who are newly high risk this timestep
         new_incar_release: agents are released from incarceration this timestep
         deaths: agents who died this timestep
         params: model parameters
@@ -189,9 +179,9 @@ def get_stats(
     # Newly infected tracker statistics (with HR within 6mo and HR ever bool check)
     for a in new_hiv:
         add_agent_to_stats(stats, attrs, a, "inf_newInf")
-        if a.high_risk_ever:
+        if a.high_risk.ever:
             add_agent_to_stats(stats, attrs, a, "inf_HRever")
-        if a.high_risk:
+        if a.high_risk.active:
             add_agent_to_stats(stats, attrs, a, "inf_HR6m")
 
     for a in all_agents:
@@ -199,8 +189,9 @@ def get_stats(
 
         add_agent_to_stats(stats, attrs, a, "numAgents")
 
-        a.prep.set_stats(stats_item, a)
-        a.vaccine.set_stats(stats_item, a)
+        for feature in BaseFeature.__subclasses__():
+            agent_feature = getattr(a, feature.name)
+            agent_feature.set_stats(stats_item)
 
         if a.incar:
             add_agent_to_stats(stats, attrs, a, "incar")
@@ -219,18 +210,6 @@ def get_stats(
     # Newly diagnosed tracker statistics
     for a in new_hiv_dx:
         add_agent_to_stats(stats, attrs, a, "newlyDiagnosed")
-
-    # Newly HR agents
-    for a in new_high_risk:
-        add_agent_to_stats(stats, attrs, a, "newHR")
-        if a.hiv:
-            add_agent_to_stats(stats, attrs, a, "newHR_HIV")
-            if a.aids:
-                add_agent_to_stats(stats, attrs, a, "newHR_AIDS")
-            if a.hiv_dx:
-                add_agent_to_stats(stats, attrs, a, "newHR_dx")
-                if a.haart:
-                    add_agent_to_stats(stats, attrs, a, "newHR_ART")
 
     for a in deaths:
         add_agent_to_stats(stats, attrs, a, "deaths")
