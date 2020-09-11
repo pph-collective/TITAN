@@ -1,360 +1,125 @@
-
 <!DOCTYPE html>
 
-<html class="no-js" lang="en">
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta content="Documentation for the TITAN model" name="description"/>
-<link href="http://marshall-lab.github.io/titan/api/reporting/" rel="canonical"/>
-<link href="../../assets/images/favicon.png" rel="shortcut icon"/>
-<meta content="mkdocs-1.1.2, mkdocs-material-5.5.12" name="generator"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="http://marshall-lab.github.io/TITAN/api/reporting/" rel="canonical"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
 <title>Reporting - TITAN</title>
-<link href="../../assets/stylesheets/main.4dd2dd8d.min.css" rel="stylesheet"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&amp;display=fallback" rel="stylesheet"/>
-<style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+<link href="../../css/bootstrap.min.css" rel="stylesheet"/>
+<link href="../../css/font-awesome.min.css" rel="stylesheet"/>
+<link href="../../css/base.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet"/>
+<script defer="" src="../../js/jquery-1.10.2.min.js"></script>
+<script defer="" src="../../js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body dir="ltr">
-<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
-<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
-<label class="md-overlay" for="__drawer"></label>
-<div data-md-component="skip">
-<a class="md-skip" href="#tabular-reports">
-          Skip to content
-        </a>
-</div>
-<div data-md-component="announce">
-</div>
-<header class="md-header" data-md-component="header">
-<nav aria-label="Header" class="md-header-nav md-grid">
-<a aria-label="TITAN" class="md-header-nav__button md-logo" href="http://marshall-lab.github.io/titan" title="TITAN">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
-</a>
-<label class="md-header-nav__button md-icon" for="__drawer">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"></path></svg>
-</label>
-<div class="md-header-nav__title" data-md-component="header-title">
-<div class="md-header-nav__ellipsis">
-<span class="md-header-nav__topic md-ellipsis">
-            TITAN
-          </span>
-<span class="md-header-nav__topic md-ellipsis">
-            
-              Reporting
-            
-          </span>
-</div>
-</div>
-<label class="md-header-nav__button md-icon" for="__search">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
-</label>
-<div class="md-search" data-md-component="search" role="dialog">
-<label class="md-search__overlay" for="__search"></label>
-<div class="md-search__inner" role="search">
-<form class="md-search__form" name="search">
-<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" data-md-state="active" name="query" placeholder="Search" spellcheck="false" type="text"/>
-<label class="md-search__icon md-icon" for="__search">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
-</label>
-<button aria-label="Clear" class="md-search__icon md-icon" data-md-component="search-reset" tabindex="-1" type="reset">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>
+<body>
+<div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+<div class="container">
+<a class="navbar-brand" href="../..">TITAN</a>
+<!-- Expander button -->
+<button class="navbar-toggler" data-target="#navbar-collapse" data-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
 </button>
-</form>
-<div class="md-search__output">
-<div class="md-search__scrollwrap" data-md-scrollfix="">
-<div class="md-search-result" data-md-component="search-result">
-<div class="md-search-result__meta">
-            Initializing search
-          </div>
-<ol class="md-search-result__list"></ol>
-</div>
-</div>
-</div>
-</div>
-</div>
-</nav>
-</header>
-<div class="md-container" data-md-component="container">
-<nav aria-label="Tabs" class="md-tabs md-tabs--active" data-md-component="tabs">
-<div class="md-tabs__inner md-grid">
-<ul class="md-tabs__list">
-<li class="md-tabs__item">
-<a class="md-tabs__link" href="../..">
-        Overview
-      </a>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse" id="navbar-collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li class="navitem">
+<a class="nav-link" href="../..">Overview</a>
 </li>
-<li class="md-tabs__item">
-<a class="md-tabs__link" href="../../getting_started/">
-          Getting Started
-        </a>
+<li class="dropdown">
+<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Getting Started <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a class="dropdown-item" href="../../getting_started/">Installation</a>
 </li>
-<li class="md-tabs__item">
-<a class="md-tabs__link md-tabs__link--active" href="../agent/">
-          API Reference
-        </a>
+<li>
+<a class="dropdown-item" href="../../run_local/">Running locally</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../run_oscar/">Running on Oscar</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../contributing/">Contributing</a>
 </li>
 </ul>
-</div>
-</nav>
-<main class="md-main" data-md-component="main">
-<div class="md-main__inner md-grid">
-<div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
-<div class="md-sidebar__scrollwrap">
-<div class="md-sidebar__inner">
-<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
-<label class="md-nav__title" for="__drawer">
-<a aria-label="TITAN" class="md-nav__button md-logo" href="http://marshall-lab.github.io/titan" title="TITAN">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
+</li>
+<li class="dropdown active">
+<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">API Reference <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a class="dropdown-item" href="../agent/">Agent</a>
+</li>
+<li>
+<a class="dropdown-item" href="../agent_set/">AgentSet</a>
+</li>
+<li>
+<a class="dropdown-item" href="../location/">Location</a>
+</li>
+<li>
+<a class="dropdown-item" href="../model/">Model</a>
+</li>
+<li>
+<a class="dropdown-item" href="../network/">NetworkGraphUtils</a>
+</li>
+<li>
+<a class="dropdown-item" href="../population/">Population</a>
+</li>
+<li>
+<a class="dropdown-item" href="../relationship/">Relationship</a>
+</li>
+<li>
+<a class="dropdown-item active" href="./">Reporting</a>
+</li>
+<li>
+<a class="dropdown-item" href="../utilities/">Utility Functions</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav ml-auto">
+<li class="nav-item">
+<a class="nav-link" data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fa fa-search"></i> Search
+                            </a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="../relationship/" rel="prev">
+<i class="fa fa-arrow-left"></i> Previous
+                                </a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="../utilities/" rel="next">
+                                    Next <i class="fa fa-arrow-right"></i>
 </a>
-    TITAN
-  </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../.." title="Overview">
-      Overview
-    </a>
-</li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" id="nav-2" type="checkbox"/>
-<label class="md-nav__link" for="nav-2">
-      Getting Started
-      <span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-label="Getting Started" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="nav-2">
-<span class="md-nav__icon md-icon"></span>
-        Getting Started
-      </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../getting_started/" title="Installation">
-      Installation
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../run_local/" title="Running locally">
-      Running locally
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../run_oscar/" title="Running on Oscar">
-      Running on Oscar
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../contributing/" title="Contributing">
-      Contributing
-    </a>
 </li>
 </ul>
-</nav>
-</li>
-<li class="md-nav__item md-nav__item--active md-nav__item--nested">
-<input checked="" class="md-nav__toggle md-toggle" data-md-toggle="nav-3" id="nav-3" type="checkbox"/>
-<label class="md-nav__link" for="nav-3">
-      API Reference
-      <span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-label="API Reference" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="nav-3">
-<span class="md-nav__icon md-icon"></span>
-        API Reference
-      </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../agent/" title="Agent">
-      Agent
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../agent_set/" title="AgentSet">
-      AgentSet
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../location/" title="Location">
-      Location
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../model/" title="Model">
-      Model
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../network/" title="NetworkGraphUtils">
-      NetworkGraphUtils
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../population/" title="Population">
-      Population
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../relationship/" title="Relationship">
-      Relationship
-    </a>
-</li>
-<li class="md-nav__item md-nav__item--active">
-<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
-<label class="md-nav__link md-nav__link--active" for="__toc">
-        Reporting
-        <span class="md-nav__icon md-icon"></span>
-</label>
-<a class="md-nav__link md-nav__link--active" href="./" title="Reporting">
-      Reporting
-    </a>
-<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.add_agent_to_stats">
-    add_agent_to_stats()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.basicReport">
-    basicReport()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.deathReport">
-    deathReport()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.get_agg_val">
-    get_agg_val()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.get_aggregates">
-    get_aggregates()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.get_stats">
-    get_stats()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.incarReport">
-    incarReport()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.newlyhighriskReport">
-    newlyhighriskReport()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.print_components">
-    print_components()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.setup_aggregates">
-    setup_aggregates()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.write_report">
-    write_report()
-  </a>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="row">
+<div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+<div class="navbar-header">
+<button class="navbar-toggler collapsed" data-target="#toc-collapse" data-toggle="collapse" title="Table of Contents" type="button">
+<span class="fa fa-angle-down"></span>
+</button>
+</div>
+<div class="navbar-collapse collapse card bg-secondary" id="toc-collapse">
+<ul class="nav flex-column">
+<li class="nav-item" data-level="1"><a class="nav-link" href="#tabular-reports">Tabular Reports</a>
+<ul class="nav flex-column">
+</ul>
 </li>
 </ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../utilities/" title="Utility Functions">
-      Utility Functions
-    </a>
-</li>
-</ul>
-</nav>
-</li>
-</ul>
-</nav>
 </div>
-</div>
-</div>
-<div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
-<div class="md-sidebar__scrollwrap">
-<div class="md-sidebar__inner">
-<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.add_agent_to_stats">
-    add_agent_to_stats()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.basicReport">
-    basicReport()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.deathReport">
-    deathReport()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.get_agg_val">
-    get_agg_val()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.get_aggregates">
-    get_aggregates()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.get_stats">
-    get_stats()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.incarReport">
-    incarReport()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.newlyhighriskReport">
-    newlyhighriskReport()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.print_components">
-    print_components()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.setup_aggregates">
-    setup_aggregates()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.output.write_report">
-    write_report()
-  </a>
-</li>
-</ul>
-</nav>
-</div>
-</div>
-</div>
-<div class="md-content">
-<article class="md-content__inner md-typeset">
+</div></div>
+<div class="col-md-9" role="main">
 <h1 id="tabular-reports">Tabular Reports</h1>
 <div class="doc doc-object doc-module">
 <div class="doc doc-contents first">
@@ -1531,65 +1296,81 @@ on the <code>params</code> and <code>name_map</code></p>
 </div>
 </div>
 </div>
-</div>
-</article>
-</div>
-</div>
-</main>
-<footer class="md-footer">
-<div class="md-footer-nav">
-<nav aria-label="Footer" class="md-footer-nav__inner md-grid">
-<a class="md-footer-nav__link md-footer-nav__link--prev" href="../relationship/" rel="prev" title="Relationship">
-<div class="md-footer-nav__button md-icon">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
-</div>
-<div class="md-footer-nav__title">
-<div class="md-ellipsis">
-<span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Relationship
-              </div>
-</div>
-</a>
-<a class="md-footer-nav__link md-footer-nav__link--next" href="../utilities/" rel="next" title="Utility Functions">
-<div class="md-footer-nav__title">
-<div class="md-ellipsis">
-<span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Utility Functions
-              </div>
-</div>
-<div class="md-footer-nav__button md-icon">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"></path></svg>
-</div>
-</a>
-</nav>
-</div>
-<div class="md-footer-meta md-typeset">
-<div class="md-footer-meta__inner md-grid">
-<div class="md-footer-copyright">
-        
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
-          Material for MkDocs
-        </a>
+</div></div>
 </div>
 </div>
-</div>
+<footer class="col-md-12">
+<hr/>
+<p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
 </footer>
-</div>
-<script src="../../assets/javascripts/vendor.3636a4ec.min.js"></script>
-<script src="../../assets/javascripts/bundle.e9fe3281.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
 <script>
-        app = initialize({
-          base: "../..",
-          features: ["instant", "tabs"],
-          search: Object.assign({
-            worker: "../../assets/javascripts/worker/search.5eca75d3.min.js"
-          }, typeof search !== "undefined" && search)
-        })
-      </script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+<script defer="" src="../../js/base.js"></script>
+<script defer="" src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="search"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
 </body>
 </html>

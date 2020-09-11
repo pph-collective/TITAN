@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
-     <loc>http://marshall-lab.github.io/titan/</loc>
-     <lastmod>2020-09-10</lastmod>
+     <loc>http://marshall-lab.github.io/TITAN/</loc>
+     <lastmod>2020-09-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>http://marshall-lab.github.io/titan/getting_started/</loc>
-     <lastmod>2020-09-10</lastmod>
+     <loc>http://marshall-lab.github.io/TITAN/getting_started/</loc>
+     <lastmod>2020-09-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>http://marshall-lab.github.io/titan/run_local/</loc>
-     <lastmod>2020-09-10</lastmod>
+     <loc>http://marshall-lab.github.io/TITAN/run_local/</loc>
+     <lastmod>2020-09-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>http://marshall-lab.github.io/titan/run_oscar/</loc>
-     <lastmod>2020-09-10</lastmod>
+     <loc>http://marshall-lab.github.io/TITAN/run_oscar/</loc>
+     <lastmod>2020-09-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>http://marshall-lab.github.io/titan/contributing/</loc>
-     <lastmod>2020-09-10</lastmod>
+     <loc>http://marshall-lab.github.io/TITAN/contributing/</loc>
+     <lastmod>2020-09-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>http://marshall-lab.github.io/titan/api/agent/</loc>
-     <lastmod>2020-09-10</lastmod>
+     <loc>http://marshall-lab.github.io/TITAN/api/agent/</loc>
+     <lastmod>2020-09-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>http://marshall-lab.github.io/titan/api/agent_set/</loc>
-     <lastmod>2020-09-10</lastmod>
+     <loc>http://marshall-lab.github.io/TITAN/api/agent_set/</loc>
+     <lastmod>2020-09-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>http://marshall-lab.github.io/titan/api/location/</loc>
-     <lastmod>2020-09-10</lastmod>
+     <loc>http://marshall-lab.github.io/TITAN/api/location/</loc>
+     <lastmod>2020-09-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>http://marshall-lab.github.io/titan/api/model/</loc>
-     <lastmod>2020-09-10</lastmod>
+     <loc>http://marshall-lab.github.io/TITAN/api/model/</loc>
+     <lastmod>2020-09-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>http://marshall-lab.github.io/titan/api/network/</loc>
-     <lastmod>2020-09-10</lastmod>
+     <loc>http://marshall-lab.github.io/TITAN/api/network/</loc>
+     <lastmod>2020-09-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>http://marshall-lab.github.io/titan/api/population/</loc>
-     <lastmod>2020-09-10</lastmod>
+     <loc>http://marshall-lab.github.io/TITAN/api/population/</loc>
+     <lastmod>2020-09-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>http://marshall-lab.github.io/titan/api/relationship/</loc>
-     <lastmod>2020-09-10</lastmod>
+     <loc>http://marshall-lab.github.io/TITAN/api/relationship/</loc>
+     <lastmod>2020-09-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>http://marshall-lab.github.io/titan/api/reporting/</loc>
-     <lastmod>2020-09-10</lastmod>
+     <loc>http://marshall-lab.github.io/TITAN/api/reporting/</loc>
+     <lastmod>2020-09-11</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>http://marshall-lab.github.io/titan/api/utilities/</loc>
-     <lastmod>2020-09-10</lastmod>
+     <loc>http://marshall-lab.github.io/TITAN/api/utilities/</loc>
+     <lastmod>2020-09-11</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
