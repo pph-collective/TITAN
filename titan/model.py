@@ -68,9 +68,6 @@ class HIVModel:
         self.new_infections = AgentSet("new_infections")
         self.new_dx = AgentSet("new_dx")
         self.new_incar_release = AgentSet("new_incar_release")
-        self.new_high_risk = AgentSet("new_high_risk")
-
-        self.ssp_enrolled_risk = 0.0
 
         self.time = -1 * self.params.model.time.burn_steps  # burn is negative time
         self.id = nanoid.generate(size=8)
@@ -143,7 +140,6 @@ class HIVModel:
     def reset_trackers(self):
         self.new_infections.clear_set()
         self.new_dx.clear_set()
-        self.new_high_risk.clear_set()
         self.new_incar_release.clear_set()
         self.deaths = []
 
@@ -167,7 +163,6 @@ class HIVModel:
                 Prep.new_agents,
                 self.new_infections,
                 self.new_dx,
-                self.new_high_risk,
                 self.new_incar_release,
                 self.deaths,
                 self.params,
@@ -205,7 +200,7 @@ class HIVModel:
             "PrEP:{}".format(
                 self.pop.hiv_agents.num_members(),
                 sum([1 for a in self.pop.all_agents if a.incar]),
-                self.pop.high_risk_agents.num_members(),
+                HighRisk.count,
                 sum([1 for a in self.pop.all_agents if a.prep.active]),
             )
         )
@@ -258,10 +253,8 @@ class HIVModel:
         for rel in self.pop.relationships:
             self.agents_interact(rel)
 
-        if self.features.syringe_services:
-            self.update_syringe_services()
-
-        for cls in (Prep, Vaccine):
+        # TODO add check for whether feature is on somehow
+        for cls in (SyringeServices, Prep, Vaccine):
             cls.update_pop(self)
 
         for agent in self.pop.all_agents:
@@ -381,37 +374,6 @@ class HIVModel:
                         print(f"timeline un-scaling - {param}")
                         utils.scale_param(params, param, 1 / defn.scalar)
 
-    def update_high_risk(self, agent: Agent):
-        """
-        Update high risk agents or remove them from high risk pool
-        """
-        if agent not in self.pop.high_risk_agents:
-            return None
-
-        if agent.high_risk_time > 0:
-            agent.high_risk_time -= 1
-        else:
-            self.pop.high_risk_agents.remove_agent(agent)
-            agent.high_risk = False
-
-            if self.features.incar:
-                for bond in agent.location.params.high_risk.partnership_types:
-                    agent.mean_num_partners[
-                        bond
-                    ] -= agent.location.params.high_risk.partner_scale
-                    agent.mean_num_partners[bond] = max(
-                        0, agent.mean_num_partners[bond]
-                    )  # make sure not negative
-                    agent.target_partners[bond] = utils.poisson(
-                        agent.mean_num_partners[bond], self.np_random
-                    )
-                    while len(agent.partners[bond]) > agent.target_partners[bond]:
-                        rel = utils.safe_random_choice(
-                            agent.relationships, self.run_random
-                        )
-                        if rel is not None:
-                            rel.progress(force=True)
-                            self.pop.remove_relationship(rel)
 
     def initialize_random_trial(self):
         """
@@ -682,8 +644,10 @@ class HIVModel:
         )
         share_acts = utils.poisson(mean_num_acts, self.np_random)
 
-        if agent.ssp or partner.ssp:  # syringe services program risk
-            p_unsafe_injection = self.ssp_enrolled_risk
+        if (
+            agent.syringe_services.active or partner.syringe_services.active
+        ):  # syringe services program risk
+            p_unsafe_injection = SyringeServices.enrolled_risk
         else:
             # If sharing, minimum of 1 share act
             if share_acts < 1:
@@ -887,81 +851,6 @@ class HIVModel:
         if agent.prep.active:
             agent.prep.progress(agent, self, force=True)
 
-    def update_syringe_services(self):
-        """
-        Enroll PWID agents in syringe services
-        """
-        print(("\n\n!!!!Engaging syringe services program"))
-        ssp_num_slots = 0
-        ssp_agents = {agent for agent in self.pop.pwid_agents.members if agent.ssp}
-        if self.features.syringe_services:
-            for item in self.params.syringe_services.timeline.values():
-                if item.start_time <= self.time < item.stop_time:
-                    self.ssp_enrolled_risk = item.risk
-
-                    ssp_num_slots = (item.num_slots_stop - item.num_slots_start) / (
-                        item.stop_time - item.start_time
-                    ) * (self.time - item.start_time) + item.num_slots_start
-
-                    # If cap indicates all or no agents, do not change
-                    # otherwise, find true number of slots through distribution
-                    if 0 < ssp_num_slots < self.pop.pwid_agents.num_members():
-                        ssp_num_slots = round(
-                            self.run_random.betavariate(
-                                ssp_num_slots,
-                                self.pop.pwid_agents.num_members() - ssp_num_slots,
-                            )
-                            * self.pop.pwid_agents.num_members()
-                        )
-                    break
-
-        target_set = utils.safe_shuffle(
-            (self.pop.pwid_agents.members - ssp_agents), self.run_random
-        )
-
-        for agent in ssp_agents.copy():
-            if len(ssp_agents) > ssp_num_slots:
-                agent.ssp = False
-                ssp_agents.remove(agent)
-
-        if target_set:
-            for agent in target_set:
-                if len(ssp_agents) < ssp_num_slots:
-                    agent.ssp = True
-                    ssp_agents.add(agent)
-
-        print(
-            f"SSP has {ssp_num_slots} target slots with "
-            f"{len(ssp_agents)} slots filled"
-        )
-
-    def become_high_risk(self, agent: Agent, duration: int = None):
-        """
-        Mark an agent as high risk and assign a duration to their high risk period
-
-        args:
-            agent: agent becoming high risk
-            duration: duration of the high risk period, defaults to param value if not passed [params.high_risk.sex_based]
-        """
-
-        if not self.features.high_risk:
-            return None
-
-        if agent not in self.pop.high_risk_agents.members:
-            self.pop.high_risk_agents.add_agent(agent)
-
-        if not agent.high_risk_ever:
-            self.new_high_risk.add_agent(agent)
-
-        agent.high_risk = True
-        agent.high_risk_ever = True
-
-        if duration is not None:
-            agent.high_risk_time = duration
-        else:
-            agent.high_risk_time = agent.location.params.high_risk.sex_based[
-                agent.sex_type
-            ].duration
 
     def incarcerate(self, agent: Agent):
         """

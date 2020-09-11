@@ -81,7 +81,7 @@ class Agent:
         self.haart = False
         self.haart_time = 0
         self.haart_adherence = 0
-        self.ssp = False
+        self.syringe_services = SyringeServices(self)
         self.prep = Prep(self)
         self.intervention_ever = False
         self.random_trial_enrolled = False
@@ -92,9 +92,7 @@ class Agent:
         self.pca_suitable = False
 
         # agent high risk params
-        self.high_risk = False
-        self.high_risk_time = 0
-        self.high_risk_ever = False
+        self.high_risk = HighRisk(self)
 
         # agent incarcartion params
         self.incar = False

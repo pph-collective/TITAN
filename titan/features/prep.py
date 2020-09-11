@@ -23,13 +23,13 @@ class Prep(BaseFeature):
 
         # pca here or elsewhere?
 
-    def update_agent(self, agent, model):
-        if not agent.hiv:
-            if model.time >= agent.location.params.prep.start_time:
-                if agent.prep.active:
-                    self.progress(agent, model)
-                elif self.eligible(agent):
-                    self.initiate(agent, model)
+    def update_agent(self, model):
+        if not self.agent.hiv:
+            if model.time >= self.agent.location.params.prep.start_time:
+                if self.active:
+                    self.progress(model)
+                elif self.eligible():
+                    self.initiate(model)
 
     @classmethod
     def update_pop(cls, model):
@@ -49,8 +49,8 @@ class Prep(BaseFeature):
     def remove_agent(cls, agent):
         cls.counts[agent.race] -= 10
 
-    def set_stats(self, stats, agent):
-        if agent in self.new_agents:
+    def set_stats(self, stats):
+        if self.agent in self.new_agents:
             stats["newNumPrEP"] += 1
 
         if self.active:
@@ -66,7 +66,7 @@ class Prep(BaseFeature):
     def init_class(cls, params):
         cls.counts = {race: 0 for race in params.classes.races}
 
-    def initiate(self, agent, model, force: bool = False):
+    def initiate(self, model, force: bool = False):
         """
         Place agents onto PrEP treatment. PrEP treatment assumes that the agent knows their HIV status is negative.
 
@@ -75,25 +75,27 @@ class Prep(BaseFeature):
             force : whether to force the agent to enroll instead of using the appropriate algorithm per the prep params
         """
         # Prep only valid for agents not on prep and are HIV negative
-        if self.active or agent.hiv:
+        if self.active or self.agent.hiv:
             return
 
+        params = self.agent.location.params
+
         if self.counts is None:
-            self.init_class(agent.location.params)
+            self.init_class(params)
 
         if force:
-            self.enroll(agent, model.run_random)
+            self.enroll(model.run_random)
         else:
-            if "Racial" in agent.location.params.prep.target_model:
-                num_prep_agents = self.counts[agent.race]
+            if "Racial" in params.prep.target_model:
+                num_prep_agents = self.counts[self.agent.race]
                 all_hiv_agents = model.pop.hiv_agents.members
-                all_race = {a for a in model.pop.all_agents if a.race == agent.race}
+                all_race = {a for a in model.pop.all_agents if a.race == self.agent.race}
 
                 num_hiv_agents = len(all_hiv_agents & all_race)
                 target_prep = (
                     len(all_race) - num_hiv_agents
-                ) * agent.location.params.demographcis[agent.race][
-                    agent.sex_type
+                ) * params.demographcis[self.agent.race][
+                    self.agent.sex_type
                 ].prep.coverage
             else:
                 num_prep_agents = sum(self.counts.values())
@@ -102,24 +104,24 @@ class Prep(BaseFeature):
                         model.pop.all_agents.num_members()
                         - model.pop.hiv_agents.num_members()
                     )
-                    * agent.location.params.prep.target
+                    * params.prep.target
                 )
 
             if (
                 num_prep_agents < target_prep
-                and model.time >= agent.location.params.prep.start_time
-                and self.eligible(agent)
+                and model.time >= params.prep.start_time
+                and self.eligible()
             ):
-                self.enroll(agent, model.run_random)
+                self.enroll(model.run_random)
 
-    def enroll(self, agent, rand_gen):
+    def enroll(self, rand_gen):
         """
         Enroll an agent in PrEP
 
         args:
             rand_gen: random number generator
         """
-        params = agent.location.params
+        params = self.agent.location.params
 
         self.active = True
         self.load = params.prep.peak_load
@@ -127,7 +129,7 @@ class Prep(BaseFeature):
 
         if (
             rand_gen.random()
-            < params.demographics[agent.race][agent.sex_type].prep.adherence
+            < params.demographics[self.agent.race][self.agent.sex_type].prep.adherence
         ):
             self.adherence = 1
         else:
@@ -142,9 +144,9 @@ class Prep(BaseFeature):
         else:
             self.type = params.prep.type[0]
 
-        self.add_agent(agent)
+        self.add_agent(self.agent)
 
-    def progress(self, agent, model, force: bool = False):
+    def progress(self, model, force: bool = False):
         """
         Update agent's PrEP status and discontinue stochastically or if `force` is True
 
@@ -153,30 +155,30 @@ class Prep(BaseFeature):
             force: whether to force discontinuation of PrEP
         """
         if force:
-            self.remove_agent(agent)
+            self.remove_agent(self.agent)
             return
 
         if (
             model.run_random.random()
-            < agent.location.params.demographics[agent.race][
-                agent.sex_type
+            < self.agent.location.params.demographics[self.agent.race][
+                self.agent.sex_type
             ].prep.discontinue
             and self.type == "Oral"
         ):
             self.discontinue(agent)
 
         if self.type == "Inj":
-            self.update_load(agent)
+            self.update_load()
 
-    def update_load(self, agent):
+    def update_load(self):
         """
         Determine and update load of PrEP concentration in agent.
         """
-        params = agent.location.params
+        params = self.agent.location.params
 
         self.last_dose += 1
         if self.last_dose > params.model.time.steps_per_year:
-            self.remove_agent(agent)
+            self.remove_agent(self.agent)
             self.load = 0.0
         else:
             annualized_last_dose = self.last_dose / params.model.time.steps_per_year
@@ -185,25 +187,25 @@ class Prep(BaseFeature):
                 (0.5) ** (annualized_last_dose / annualized_half_life)
             )
 
-    def discontinue(self, agent):
+    def discontinue(self):
         self.active = False
         self.type = ""
         self.load = 0.0
         self.last_dose = 0
 
-        self.remove_agent(agent)
+        self.remove_agent(self.agent)
 
-    def eligible(self, agent):
+    def eligible(self):
         """
         Determine if an agent is eligible for PrEP
 
         returns:
             prep
         """
-        target_model = agent.location.params.prep.target_model
-        gender = agent.location.params.classes.sex_types[agent.sex_type].gender
+        target_model = self.agent.location.params.prep.target_model
+        gender = self.agent.location.params.classes.sex_types[agent.sex_type].gender
 
-        if self.active or agent.vaccine.active:
+        if self.active or self.agent.vaccine.active:
             return False
 
         all_eligible_models = {"Allcomers", "Racial"}
@@ -213,45 +215,44 @@ class Prep(BaseFeature):
 
         if "cdc_women" in target_model:
             if gender == "F":
-                if self.cdc_eligible(agent):
+                if self.cdc_eligible():
                     return True
 
         if "cdc_msm" in target_model:
-            if gender == "M" and self.cdc_eligible(agent):
+            if gender == "M" and self.cdc_eligible():
                 return True
 
         if "pwid_sex" in target_model:
-            if agent.drug_type == "Inj" and self.cdc_eligible(agent):
+            if self.agent.drug_type == "Inj" and self.cdc_eligible():
                 return True
 
         if "pwid" in target_model:
-            if agent.drug_type == "Inj":
+            if self.agent.drug_type == "Inj":
                 return True
 
         if "ssp_sex" in target_model:
-            if agent.ssp and self.cdc_eligible(agent):
+            if self.agent.syringe_services.active and self.cdc_eligible():
                 return True
 
         if "ssp" in target_model:
-            if agent.ssp:
+            if self.agent.syringe_services.active:
                 return True
 
         return False
 
-    @staticmethod
-    def cdc_eligible(agent) -> bool:
+    def cdc_eligible(self) -> bool:
         """
         Determine agent eligibility for PrEP under CDC criteria
 
         returns:
             cdc eligibility
         """
-        if self.is_msm():
+        if self.agent.is_msm():
             return True
 
-        ongoing_duration = agent.location.params.partnership.ongoing_duration
-        for rel in agent.relationships:
-            partner = rel.get_partner(self)
+        ongoing_duration = self.agent.location.params.partnership.ongoing_duration
+        for rel in self.agent.relationships:
+            partner = rel.get_partner(self.agent)
             if rel.duration > ongoing_duration and partner.hiv_dx:
                 return True
 

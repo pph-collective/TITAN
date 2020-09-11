@@ -58,9 +58,6 @@ class Population:
         # HIV status agent sets
         self.hiv_agents = AgentSet("HIV", parent=self.all_agents)
 
-        # High risk agent sets
-        self.high_risk_agents = AgentSet("HRisk", parent=self.all_agents)
-
         # pwid agents (performance for partnering)
         self.pwid_agents = AgentSet("PWID", parent=self.all_agents)
 
@@ -297,9 +294,6 @@ class Population:
 
         if agent.hiv:
             self.hiv_agents.add_agent(agent)
-
-        if agent.high_risk:
-            self.high_risk_agents.add_agent(agent)
 
         if agent.drug_type == "Inj":
             self.pwid_agents.add_agent(agent)

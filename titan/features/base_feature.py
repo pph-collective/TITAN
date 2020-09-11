@@ -6,10 +6,10 @@ class BaseFeature:
         self.active = False
         self.agent = agent
 
-    def update_agent(self, agent, model):
+    def update_agent(self, model):
         pass
 
-    def init_agent(self, agent, model):
+    def init_agent(self, model):
         pass
 
     @classmethod
@@ -24,5 +24,5 @@ class BaseFeature:
     def update_pop(cls, model):
         pass
 
-    def set_stats(self, stats, agent):
+    def set_stats(self, stats):
         pass
