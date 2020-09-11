@@ -1,6 +1,6 @@
 site_name: TITAN
 site_description: Documentation for the TITAN model
-
+site_url: http://marshall-lab.github.io/TITAN
 theme:
   name: material
   features:
