@@ -139,7 +139,12 @@ class Population:
                 )
 
     def create_agent(
-        self, location: Location, race: str, time: int, sex_type: Optional[str] = None, drug_type: Optional[str] = None
+        self,
+        location: Location,
+        race: str,
+        time: int,
+        sex_type: Optional[str] = None,
+        drug_type: Optional[str] = None,
     ) -> Agent:
         """
         Create a new agent with randomly assigned attributes according to population
