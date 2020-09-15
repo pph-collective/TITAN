@@ -788,7 +788,7 @@ connected_components<span class="p">(</span><span class="bp">self</span><span cl
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.population.Population.create_agent">
 <code class="highlight language-python">
-create_agent<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">race</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">sex_type</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> </code>
+create_agent<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">race</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">sex_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">drug_type</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> </code>
 </h3>
 <div class="doc doc-contents">
 <p>Create a new agent with randomly assigned attributes according to population
@@ -859,7 +859,12 @@ demographcis [params.demographics]</p>
 <summary>Source code in <code>titan/population.py</code></summary>
 <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">create_agent</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">Location</span><span class="p">,</span> <span class="n">race</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sex_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">location</span><span class="p">:</span> <span class="n">Location</span><span class="p">,</span>
+    <span class="n">race</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">time</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">sex_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">drug_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Agent</span><span class="p">:</span>
     <span class="sd">"""</span>
 <span class="sd">    Create a new agent with randomly assigned attributes according to population</span>
@@ -884,11 +889,12 @@ demographcis [params.demographics]</p>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Agent must have sex type"</span><span class="p">)</span>
 
     <span class="c1"># Determine drugtype</span>
-    <span class="n">drug_type</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_random_choice</span><span class="p">(</span>
-        <span class="n">location</span><span class="o">.</span><span class="n">drug_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">sex_type</span><span class="p">][</span><span class="s2">"values"</span><span class="p">],</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="p">,</span>
-        <span class="n">weights</span><span class="o">=</span><span class="n">location</span><span class="o">.</span><span class="n">drug_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">sex_type</span><span class="p">][</span><span class="s2">"weights"</span><span class="p">],</span>
-    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">drug_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">drug_type</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_random_choice</span><span class="p">(</span>
+            <span class="n">location</span><span class="o">.</span><span class="n">drug_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">sex_type</span><span class="p">][</span><span class="s2">"values"</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="p">,</span>
+            <span class="n">weights</span><span class="o">=</span><span class="n">location</span><span class="o">.</span><span class="n">drug_weights</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">sex_type</span><span class="p">][</span><span class="s2">"weights"</span><span class="p">],</span>
+        <span class="p">)</span>
     <span class="k">if</span> <span class="n">drug_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Agent must have drug type"</span><span class="p">)</span>
 
