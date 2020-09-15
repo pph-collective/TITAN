@@ -139,7 +139,12 @@ class Population:
                 )
 
     def create_agent(
-        self, location: Location, race: str, time: int, sex_type: Optional[str] = None
+        self,
+        location: Location,
+        race: str,
+        time: int,
+        sex_type: Optional[str] = None,
+        drug_type: Optional[str] = None,
     ) -> Agent:
         """
         Create a new agent with randomly assigned attributes according to population
@@ -164,11 +169,12 @@ class Population:
             raise ValueError("Agent must have sex type")
 
         # Determine drugtype
-        drug_type = utils.safe_random_choice(
-            location.drug_weights[race][sex_type]["values"],
-            self.pop_random,
-            weights=location.drug_weights[race][sex_type]["weights"],
-        )
+        if drug_type is None:
+            drug_type = utils.safe_random_choice(
+                location.drug_weights[race][sex_type]["values"],
+                self.pop_random,
+                weights=location.drug_weights[race][sex_type]["weights"],
+            )
         if drug_type is None:
             raise ValueError("Agent must have drug type")
 
