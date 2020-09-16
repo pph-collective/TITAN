@@ -7,6 +7,14 @@ features:
     default: false
     description: Whether PrEP will be used in the model
     type: boolean
+  pca:
+    default: false
+    desctiption: Whether to have peer change agents spreading awareness of PrEP (prep feature must be enabled)
+    type: boolean
+  random_trial:
+    default: false
+    description: Whether to run a random trial for pca or prep (prep or pca and prep must be enabled)
+    type: boolean
   high_risk:
     default: false
     description: Whether high risk will be used in the model
@@ -42,10 +50,6 @@ features:
   msmw:
     default: false
     description: Whether to have agents that are men who sleep with men and women - it is not quite a sex type, but adjusts their risks and probabilities accordingly
-    type: boolean
-  pca:
-    default: false
-    description: Whether to have peer change agents spreading awareness of PrEP
     type: boolean
   syringe_services:
     default: false

@@ -61,7 +61,6 @@ class Agent:
         else:
             self.population = self.sex_type
 
-        self.msmw = False
         self.sex_role = "versatile"
 
         # agent-partner params
@@ -80,19 +79,8 @@ class Agent:
             setattr(self, feature.name, feature(self))
 
         # agent treatment params
-        self.haart = False
-        self.haart_time = 0
-        self.haart_adherence = 0
-        self.intervention_ever = False
-        self.random_trial_enrolled = False
         self.partner_traced = False
         self.trace_time = 0
-        self.pca = False
-        self.pca_suitable = False
-
-        # agent incarcartion params
-        self.incar = False
-        self.incar_time = 0
 
     def __str__(self) -> str:
         """

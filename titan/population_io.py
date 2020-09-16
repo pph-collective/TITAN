@@ -24,7 +24,6 @@ agent_core_attrs = [
     "race",
     "drug_type",
     "location",
-    "msmw",
     "sex_role",
     "mean_num_partners",
     "target_partners",

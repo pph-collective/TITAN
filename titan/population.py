@@ -78,12 +78,10 @@ class Population:
 
         self.relationships: Set[Relationship] = set()
 
-        agent_counts = {
+        self.dx_counts = {
             race: {so: 0 for so in params.classes.sex_types}
             for race in params.classes.races
         }
-        self.dx_counts = deepcopy(agent_counts)
-        self.haart_counts = deepcopy(agent_counts)
 
         # find average partnership durations
         self.mean_rel_duration: Dict[str, int] = get_mean_rel_duration(self.params)
@@ -103,39 +101,12 @@ class Population:
                     agent = self.create_agent(location, race, init_time)
                     self.add_agent(agent)
 
-        if params.features.incar:
-            print("\tInitializing Incarceration")
-            self.initialize_incarceration()
-
         # initialize relationships
         print("\tCreating Relationships")
         self.update_partner_assignments(0)
 
         if self.enable_graph:
             self.trim_graph()
-
-    def initialize_incarceration(self):
-        """
-        Run incarceration assignment on a population.  The duration of incarceration at initialization is different than the ongoing to reflect that agents with longer durations will be more highly represented in that population at any given point in time.
-        """
-
-        for a in self.all_agents:
-            incar_params = a.location.params.demographics[a.race][a.sex_type].incar
-            jail_duration = incar_params.duration.init
-
-            prob_incar = incar_params.init
-            if self.pop_random.random() < prob_incar:
-                a.incar = True
-                bin = current_p_value = 0
-                p = self.pop_random.random()
-
-                while p > current_p_value:
-                    bin += 1
-                    current_p_value += jail_duration[bin].prob
-
-                a.incar_time = self.pop_random.randrange(
-                    jail_duration[bin].min, jail_duration[bin].max
-                )
 
     def create_agent(
         self, location: Location, race: str, time: int, sex_type: Optional[str] = None
@@ -185,10 +156,6 @@ class Population:
         else:
             agent.sex_role = sex_role
 
-        if self.params.features.msmw and sex_type == "HM":
-            if self.pop_random.random() < location.params.msmw.prob:
-                agent.msmw = True
-
         agent_params = agent.location.params.demographics[race][agent.population]
 
         # HIV
@@ -198,6 +165,11 @@ class Population:
         ):
             agent.hiv = True
 
+            # if HIV, how long has the agent had it? Random sample
+            agent.hiv_time = self.pop_random.randint(
+                1, location.params.hiv.max_init_time
+            )
+
             if self.pop_random.random() < agent_params.aids.init:
                 agent.aids = True
 
@@ -205,27 +177,6 @@ class Population:
                 agent.hiv_dx = True
 
                 self.dx_counts[agent.race][agent.sex_type] += 1
-
-                if self.pop_random.random() < agent_params.haart.init:
-                    agent.haart = True
-
-                    self.haart_counts[agent.race][agent.sex_type] += 1
-
-                    haart_adh = location.params.demographics[race][
-                        sex_type
-                    ].haart.adherence
-                    if self.pop_random.random() < haart_adh:
-                        adherence = 5
-                    else:
-                        adherence = self.pop_random.randint(1, 4)
-
-                    agent.haart_adherence = adherence
-                    agent.haart_time = 0
-
-            # if HIV, how long has the agent had it? Random sample
-            agent.hiv_time = self.pop_random.randint(
-                1, location.params.hiv.max_init_time
-            )
 
         for feature in self.features:
             agent_feature = getattr(agent, feature.name)
@@ -248,17 +199,6 @@ class Population:
 
             if agent.target_partners[bond] > 0:
                 self.partnerable_agents[bond].add(agent)
-
-        if self.params.features.pca:
-            if self.pop_random.random() < location.params.prep.pca.awareness.init:
-                agent.prep.awareness = True
-            attprob = self.pop_random.random()
-            pvalue = 0.0
-            for bin, fields in location.params.prep.pca.attitude.items():
-                pvalue += fields.prob
-                if attprob < pvalue:
-                    agent.prep.opinion = bin
-                    break
 
         return agent
 
@@ -314,14 +254,13 @@ class Population:
             if agent in self.sex_partners[partner_type]:
                 self.sex_partners[partner_type].remove(agent)
 
-        if agent.prep.active:
-            agent.prep.remove_agent(agent)
+        for feature in BaseFeature.__subclasses__():
+            agent_attr = getattr(agent, feature.name)
+            if agent_attr.active:
+                feature.remove_agent(agent)
 
         if agent.hiv_dx:
             self.dx_counts[agent.race][agent.sex_type] -= 1
-
-            if agent.haart:
-                self.haart_counts[agent.race][agent.sex_type] -= 1
 
         if self.enable_graph:
             self.graph.remove_node(agent)

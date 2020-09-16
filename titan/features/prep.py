@@ -3,12 +3,12 @@ from .base_feature import BaseFeature
 
 class Prep(BaseFeature):
 
+    name = "prep"
+    stats = ["numPrEP", "newNumPrEP", "injectable_prep", "oral_prep"]
+
     # class level attributes to track all Prep agents
     counts = None
     new_agents = set()
-
-    name = "prep"
-    stats = ["numPrEP", "newNumPrEP", "injectable_prep", "oral_prep"]
 
     def __init__(self, agent):
         super().__init__(agent)
@@ -18,11 +18,6 @@ class Prep(BaseFeature):
         self.type = ""
         self.load = 0.0
         self.last_dose = 0
-
-        self.awareness = False
-        self.opinion = 0.00
-
-        # pca here or elsewhere?
 
     def init_agent(self, pop, time):
         if (
@@ -165,7 +160,7 @@ class Prep(BaseFeature):
             force: whether to force discontinuation of PrEP
         """
         if force:
-            self.remove_agent(self.agent)
+            self.discontinue()  # TO_REVIEW should this just remove the agent from counts, or discontinue? does it depend on type?
             return
 
         if (
@@ -188,8 +183,7 @@ class Prep(BaseFeature):
 
         self.last_dose += 1
         if self.last_dose > params.model.time.steps_per_year:
-            self.remove_agent(self.agent)
-            self.load = 0.0
+            self.discontinue()
         else:
             annualized_last_dose = self.last_dose / params.model.time.steps_per_year
             annualized_half_life = params.prep.half_life / 365
@@ -217,7 +211,11 @@ class Prep(BaseFeature):
             self.agent.sex_type
         ].gender
 
-        if self.active or self.agent.vaccine.active:
+        if (
+            self.active
+            or self.agent.vaccine.active
+            or self.agent.location.params.features.random_trial
+        ):
             return False
 
         all_eligible_models = {"Allcomers", "Racial"}

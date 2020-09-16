@@ -58,18 +58,13 @@ def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
             "inf_HR6m": 0,
             "inf_HRever": 0,
             "inf_newInf": 0,
-            "newRelease": 0,
-            "newReleaseHIV": 0,
             "numHIV": 0,
             "numDiagnosed": 0,
             "numAIDS": 0,
-            "numART": 0,
             "numHR": 0,
             "newlyDiagnosed": 0,
             "deaths": 0,
             "deaths_HIV": 0,
-            "incar": 0,
-            "incarHIV": 0,
         }
 
         for feature in BaseFeature.__subclasses__():
@@ -147,7 +142,6 @@ def get_stats(
     all_agents: AgentSet,
     new_hiv: AgentSet,
     new_hiv_dx: AgentSet,
-    new_incar_release: AgentSet,
     deaths: List[Agent],
     params: ObjMap,
 ) -> Dict:
@@ -158,7 +152,6 @@ def get_stats(
         all_agents: all of the agents in the population
         new_hiv: agents are newly hiv this timestep
         new_hiv_dx: agents who are newly diagnosed with hiv this timestep
-        new_incar_release: agents are released from incarceration this timestep
         deaths: agents who died this timestep
         params: model parameters
 
@@ -169,12 +162,6 @@ def get_stats(
     attrs = [
         clss[:-1] for clss in params.outputs.classes
     ]  # attribute version (non-plural)
-
-    # Incarceration metrics
-    for a in new_incar_release:
-        add_agent_to_stats(stats, attrs, a, "newRelease")
-        if a.hiv:
-            add_agent_to_stats(stats, attrs, a, "newReleaseHIV")
 
     # Newly infected tracker statistics (with HR within 6mo and HR ever bool check)
     for a in new_hiv:
@@ -193,19 +180,12 @@ def get_stats(
             agent_feature = getattr(a, feature.name)
             agent_feature.set_stats(stats_item)
 
-        if a.incar:
-            add_agent_to_stats(stats, attrs, a, "incar")
-            if a.hiv:
-                add_agent_to_stats(stats, attrs, a, "incarHIV")
-
         if a.hiv:
             add_agent_to_stats(stats, attrs, a, "numHIV")
             if a.aids:
                 add_agent_to_stats(stats, attrs, a, "numAIDS")
             if a.hiv_dx:
                 add_agent_to_stats(stats, attrs, a, "numDiagnosed")
-            if a.haart:
-                add_agent_to_stats(stats, attrs, a, "numART")
 
     # Newly diagnosed tracker statistics
     for a in new_hiv_dx:
@@ -475,7 +455,7 @@ def print_components(
             race_count[agent.race] += 1
             if agent.hiv:
                 nhiv += 1
-                if agent.intervention_ever:
+                if agent.random_trial.treated:
                     ntrthiv += 1
 
             if agent.prep.active:
@@ -485,16 +465,16 @@ def print_components(
                 elif agent.prep.type == "Oral":
                     oral += 1
 
-            if agent.pca_suitable and agent.pca:
+            if agent.pca.suitable and agent.pca.active:
                 pca += 1
 
-            if agent.intervention_ever:  # treatment component
+            if agent.random_trial.treated:  # treatment component
                 trt_agent = True
 
-            if agent.random_trial_enrolled:
+            if agent.random_trial.active:
                 trt_comp = True
 
-            if agent.prep.awareness:
+            if agent.pca.awareness:
                 aware += 1
 
             if agent.drug_type == "NonInj":
