@@ -88,6 +88,9 @@ class HAART(BaseFeature):
         # Check valid input
         assert self.agent.hiv
 
+        if self.counts is None:
+            self.init_class(model.params)
+
         # Determine probability of HIV treatment
         if self.agent.hiv_dx:
             haart_params = self.agent.location.params.demographics[self.agent.race][
