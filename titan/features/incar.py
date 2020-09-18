@@ -128,12 +128,10 @@ class Incar(BaseFeature):
                 current_p_value += incar_duration[bin].prob
                 bin += 1
 
-            timestay = model.run_random.randint(
+            self.time = model.run_random.randint(
                 incar_duration[bin].min, incar_duration[bin].max
             )
-
             self.active = True
-            self.time = timestay
 
             if hiv_bool:
                 if not self.agent.hiv_dx:
@@ -161,9 +159,11 @@ class Incar(BaseFeature):
                         self.agent.haart.time = model.time
 
             # PUT PARTNERS IN HIGH RISK
-            for bond in self.agent.location.params.high_risk.partnership_types:
-                for partner in self.agent.partners[bond]:
-                    if not partner.high_risk.active and model.params.features.high_risk:
+            if model.params.features.high_risk:
+                for partner in self.agent.get_partners(
+                    self.agent.location.params.high_risk.partnership_types
+                ):
+                    if not partner.high_risk.active:
                         if (
                             model.run_random.random()
                             < partner.location.params.high_risk.prob

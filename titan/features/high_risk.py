@@ -5,7 +5,7 @@ from .. import utils
 class HighRisk(BaseFeature):
 
     name = "high_risk"
-    stats = ["newHR", "newHR_HIV", "newHR_AIDS", "newHR_dx", "newHR_ART"]
+    stats = ["newHR", "newHR_HIV", "newHR_AIDS", "newHR_dx", "newHR_ART", "inf_HR6m", "inf_HRever"]
 
     new_agents = set()
     count = 0
@@ -52,6 +52,13 @@ class HighRisk(BaseFeature):
                     stats["newHR_dx"] += 1
                     if self.agent.haart:
                         stats["newHR_ART"] += 1
+
+        if self.agent.hiv_time == 1: # newly hiv
+            if self.active:
+                stats["inf_HR6m"] += 1
+            if self.ever:
+                stats["inf_HRever"] += 1
+
 
     def update_agent(self, model):
         """

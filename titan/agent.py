@@ -74,13 +74,12 @@ class Agent:
         self.hiv_time = 0
         self.hiv_dx = False
         self.aids = False
-
-        for feature in BaseFeature.__subclasses__():
-            setattr(self, feature.name, feature(self))
-
-        # agent treatment params
         self.partner_traced = False
         self.trace_time = 0
+
+        # model features
+        for feature in BaseFeature.__subclasses__():
+            setattr(self, feature.name, feature(self))
 
     def __str__(self) -> str:
         """

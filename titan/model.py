@@ -63,7 +63,6 @@ class HIVModel:
 
         print("\n\tCreating lists")
         # Other lists / dictionaries
-        self.new_infections = AgentSet("new_infections")
         self.new_dx = AgentSet("new_dx")
 
         self.time = -1 * self.params.model.time.burn_steps  # burn is negative time
@@ -141,7 +140,6 @@ class HIVModel:
                 )
 
     def reset_trackers(self):
-        self.new_infections.clear_set()
         self.new_dx.clear_set()
         self.deaths = []
 
@@ -162,10 +160,10 @@ class HIVModel:
             # make sure t0 things get printed
             stats = ao.get_stats(
                 self.pop.all_agents,
-                self.new_infections,
                 self.new_dx,
                 self.deaths,
                 self.params,
+                self.features,
             )
             self.print_stats(stats, outdir)
         # burn is negative time, model run starts at t = 1
@@ -211,10 +209,10 @@ class HIVModel:
 
         stats = ao.get_stats(
             self.pop.all_agents,
-            self.new_infections,
             self.new_dx,
             self.deaths,
             self.params,
+            self.features
         )
         self.print_stats(stats, outdir)
 
@@ -705,7 +703,6 @@ class HIVModel:
             agent.hiv = True
             agent.hiv_time = 1
             agent.vaccine.active = False
-            self.new_infections.add_agent(agent)
             self.pop.hiv_agents.add_agent(agent)
 
         if agent.prep.active:

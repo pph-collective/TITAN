@@ -223,9 +223,6 @@ class Population:
         for sex_type in self.params.classes.sex_types[agent.sex_type].sleeps_with:
             self.sex_partners[sex_type].add(agent)
 
-        if agent.prep.active:
-            agent.prep.add_agent(agent)
-
         if self.enable_graph:
             self.graph.add_node(agent)
 
@@ -254,7 +251,7 @@ class Population:
             if agent in self.sex_partners[partner_type]:
                 self.sex_partners[partner_type].remove(agent)
 
-        for feature in BaseFeature.__subclasses__():
+        for feature in self.features:
             agent_attr = getattr(agent, feature.name)
             if agent_attr.active:
                 feature.remove_agent(agent)

@@ -1,7 +1,7 @@
 from .base_feature import BaseFeature
 from .. import utils
 
-import networkx as nx # type: ignore
+import networkx as nx  # type: ignore
 
 
 class RandomTrial(BaseFeature):
