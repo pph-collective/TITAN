@@ -18,12 +18,12 @@ def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
 
     Attributes are classes defined in params, the items counted are:
 
-    * "numAgents"
-    * "numHIV"
-    * "numDx"
-    * "numAIDS"
-    * "newlyHIV"
-    * "newlyDx"
+    * "agents"
+    * "HIV"
+    * "Dx"
+    * "AIDS"
+    * "newHIV"
+    * "newDx"
     * "deaths"
     * "deaths_HIV"
 
@@ -243,12 +243,12 @@ def basicReport(
     """
     Standard report writer for basic agent statistics, columns include:
 
-    * "numAgents": number of agents in the population
-    * "numHIV": number of agents with HIV
-    * "numDx": number of agents with HIV who are diagnosed
-    * "numAIDS": number of agents with AIDS
-    * "newlyHIV": number of agents who HIV converted this time period
-    * "newlyDx": number of agents with HIV who were diagnosed this time period
+    * "agents": number of agents in the population
+    * "HIV": number of agents with HIV
+    * "Dx": number of agents with HIV who are diagnosed
+    * "AIDS": number of agents with AIDS
+    * "newHIV": number of agents who HIV converted this time period
+    * "newDx": number of agents with HIV who were diagnosed this time period
     * "deaths": number of agents who died this time period
     * "deaths_HIV": number of agents with HIV who died this time period
 
