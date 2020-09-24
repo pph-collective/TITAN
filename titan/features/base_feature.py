@@ -1,5 +1,9 @@
 from typing import List, Dict
 
+from ..agent import Agent
+from ..population import Population
+from ..model import HIVModel
+
 
 class BaseFeature:
     """

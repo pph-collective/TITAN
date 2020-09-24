@@ -1,4 +1,7 @@
 from .base_feature import BaseFeature
+from ..agent import Agent
+from ..population import Population
+from ..model import HIVModel
 
 
 class Vaccine(BaseFeature):
@@ -48,7 +51,7 @@ class Vaccine(BaseFeature):
         """
         if (
             model.params.features.prep
-            and not self.agent.prep.active
+            and not self.agent.prep.active  # type: ignore[attr-defined]
             and not self.agent.hiv
         ):
             vaccine_params = self.agent.location.params.vaccine

@@ -1,5 +1,8 @@
 from .base_feature import BaseFeature
 from .. import utils
+from ..agent import Agent
+from ..population import Population
+from ..model import HIVModel
 
 import networkx as nx  # type: ignore
 
@@ -90,20 +93,20 @@ class RandomTrial(BaseFeature):
                             if not agent.hiv
                         ]  # all suitable agents in bridges
 
-                        if comp_agents:
-                            chosen_agent = utils.safe_random_choice(
-                                comp_agents, model.run_random
-                            )  # select change agent
-                            chosen_agent.pca.suitable = True
-                            chosen_agent.random_trial.treated = True
+                        chosen_agent = utils.safe_random_choice(
+                            comp_agents, model.run_random
+                        )  # select change agent
+                        if chosen_agent is not None:
+                            chosen_agent.pca.suitable = True  # type: ignore[attr-defined]
+                            chosen_agent.random_trial.treated = True  # type: ignore[attr-defined]
 
                         else:  # if no suitable agents, mark a non-suitable agent
                             chosen_agent = utils.safe_random_choice(
                                 list(comp.nodes), model.run_random
                             )
 
-                        chosen_agent.pca.awareness = True  # make aware
-                        chosen_agent.pca.active = True
+                        chosen_agent.pca.awareness = True  # type: ignore[attr-defined]
+                        chosen_agent.pca.active = True  # type: ignore[attr-defined]
 
                     # pca - random
                     elif model.params.pca.choice == "random":
@@ -111,13 +114,15 @@ class RandomTrial(BaseFeature):
                             agent for agent in comp.nodes if not agent.hiv
                         ]
 
+                        chosen_agent = utils.safe_random_choice(
+                            suitable_agent_choices, model.run_random
+                        )
+
                         if (
-                            suitable_agent_choices
+                            chosen_agent is not None
                         ):  # if there are agents who meet eligibility criteria,
                             # select one randomly
-                            chosen_agent = utils.safe_random_choice(
-                                suitable_agent_choices, model.run_random
-                            )
+
                             chosen_agent.pca.suitable = True
                             chosen_agent.random_trial.treated = True
                         else:  # if no suitable agents, mark a non-suitable agent

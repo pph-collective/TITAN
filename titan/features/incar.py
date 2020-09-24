@@ -1,7 +1,10 @@
-from typing import Dict
+from typing import Dict, ClassVar, Set
 
 from .base_feature import BaseFeature
 from .. import utils
+from ..agent import Agent
+from ..population import Population
+from ..model import HIVModel
 
 
 class Incar(BaseFeature):
@@ -17,7 +20,7 @@ class Incar(BaseFeature):
         * new_release_hiv - number of agents releasted this timestep with HIV
     """
 
-    new_releases = set()
+    new_releases: ClassVar[Set["Agent"]] = set()
 
     def __init__(self, agent: "Agent"):
         super().__init__(agent)
@@ -81,9 +84,9 @@ class Incar(BaseFeature):
 
                 # become high risk on release
                 if (
-                    not self.agent.high_risk.active and model.params.features.high_risk
+                    not self.agent.high_risk.active and model.params.features.high_risk  # type: ignore[attr-defined]
                 ):  # If behavioral treatment on and agent HIV, ignore HR period.
-                    self.agent.high_risk.become_high_risk()
+                    self.agent.high_risk.become_high_risk()  # type: ignore[attr-defined]
                     for bond in self.agent.location.params.high_risk.partnership_types:
                         self.agent.mean_num_partners[
                             bond
@@ -95,13 +98,13 @@ class Incar(BaseFeature):
 
                 # does agent stay on haart
                 if hiv_bool:
-                    if self.agent.haart.active:
+                    if self.agent.haart.active:  # type: ignore[attr-defined]
                         if (
                             model.run_random.random()
                             <= self.agent.location.params.incar.haart.discontinue
                         ):  # 12% remain surpressed
-                            self.agent.haart.active = False
-                            self.agent.haart.adherence = 0
+                            self.agent.haart.active = False  # type: ignore[attr-defined]
+                            self.agent.haart.adherence = 0  # type: ignore[attr-defined]
 
                         # END FORCE
 
@@ -149,21 +152,21 @@ class Incar(BaseFeature):
                             adherence = model.run_random.randint(1, 4)
 
                         # Add agent to HAART class set, update agent params
-                        self.agent.haart.active = True
-                        self.agent.haart.adherence = adherence
-                        self.agent.haart.time = model.time
+                        self.agent.haart.active = True  # type: ignore[attr-defined]
+                        self.agent.haart.adherence = adherence  # type: ignore[attr-defined]
+                        self.agent.haart.time = model.time  # type: ignore[attr-defined]
 
             # PUT PARTNERS IN HIGH RISK
             if model.params.features.high_risk:
                 for partner in self.agent.get_partners(
                     self.agent.location.params.high_risk.partnership_types
                 ):
-                    if not partner.high_risk.active:
+                    if not partner.high_risk.active:  # type: ignore[attr-defined]
                         if (
                             model.run_random.random()
                             < partner.location.params.high_risk.prob
                         ):
-                            partner.high_risk.become_high_risk()
+                            partner.high_risk.become_high_risk()  # type: ignore[attr-defined]
 
     @classmethod
     def add_agent(cls, agent: "Agent"):

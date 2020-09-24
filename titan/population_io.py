@@ -144,16 +144,17 @@ def read(params: ObjMap, path: str) -> Population:
     id = agent_filename[:8]
 
     # create feature dict
-    agent_feats = {}
+    agent_feats: Dict[str, Dict] = {}
     pattern = re.compile("^.*_feat_(.*)\.csv$")
     for file in feat_files:
         m = pattern.match(file)
-        feature = m.group(1)
-        agent_feats[feature] = {}
-        with open(file, newline="") as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                agent_feats[feature][int(row["agent"])] = row
+        if m is not None:
+            feature = m.group(1)
+            agent_feats[feature] = {}
+            with open(file, newline="") as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    agent_feats[feature][int(row["agent"])] = row
 
     # don't create any agents on init
     params.model.num_pop = 0

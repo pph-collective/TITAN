@@ -1,7 +1,12 @@
-from typing import Dict
+# mypy: always-true=HighRisk
+
+from typing import Dict, Set, ClassVar
 
 from .base_feature import BaseFeature
 from .. import utils
+from ..agent import Agent
+from ..population import Population
+from ..model import HIVModel
 
 
 class HighRisk(BaseFeature):
@@ -28,8 +33,8 @@ class HighRisk(BaseFeature):
         * inf_HRever - number of agents that became active with HIV this time step were ever high risk
     """
 
-    new_agents = set()
-    count = 0
+    new_agents: ClassVar[Set["Agent"]] = set()
+    count: ClassVar[int] = 0
 
     def __init__(self, agent: "Agent"):
         super().__init__(agent)
@@ -146,7 +151,7 @@ class HighRisk(BaseFeature):
                     stats["high_risk_new_aids"] += 1
                 if self.agent.hiv_dx:
                     stats["high_risk_new_dx"] += 1
-                    if self.agent.haart:
+                    if self.agent.haart.active:  # type: ignore[attr-defined]
                         stats["high_risk_new_haart"] += 1
 
         if self.agent.hiv_time == 1:  # newly hiv

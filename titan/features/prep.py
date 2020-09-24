@@ -1,6 +1,10 @@
-from typing import Dict
+from typing import Dict, Optional, ClassVar, Set
 
 from .base_feature import BaseFeature
+from ..agent import Agent
+from ..population import Population
+from ..model import HIVModel
+from ..parse_params import ObjMap
 
 
 class Prep(BaseFeature):
@@ -17,8 +21,8 @@ class Prep(BaseFeature):
     """
 
     # class level attributes to track all Prep agents
-    counts = None
-    new_agents = set()
+    counts: ClassVar[Dict[str, int]] = {}
+    new_agents: ClassVar[Set["Agent"]] = set()
 
     def __init__(self, agent: "Agent"):
         super().__init__(agent)
@@ -76,7 +80,7 @@ class Prep(BaseFeature):
             agent: the agent to add to the class attributes
         """
         # set up if this is the first time being called
-        if cls.counts is None:
+        if len(cls.counts) == 0:
             cls.init_class(agent.location.params)
 
         cls.counts[agent.race] += 1
@@ -140,7 +144,7 @@ class Prep(BaseFeature):
 
         params = self.agent.location.params
 
-        if self.counts is None:
+        if len(self.counts) == 0:
             self.init_class(params)
 
         if force:

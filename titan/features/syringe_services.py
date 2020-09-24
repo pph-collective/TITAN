@@ -1,4 +1,7 @@
 from .base_feature import BaseFeature
+from ..agent import Agent
+from ..population import Population
+from ..model import HIVModel
 
 
 class SyringeServices(BaseFeature):

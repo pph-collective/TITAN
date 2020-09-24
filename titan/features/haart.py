@@ -1,6 +1,10 @@
-from typing import Dict
+from typing import Dict, ClassVar, Optional
 
 from .base_feature import BaseFeature
+from ..agent import Agent
+from ..population import Population
+from ..model import HIVModel
+from ..parse_params import ObjMap
 
 
 class HAART(BaseFeature):
@@ -16,7 +20,7 @@ class HAART(BaseFeature):
         * haart - number of agents with active haart
     """
 
-    counts = None
+    counts: ClassVar[Dict] = {}
 
     def __init__(self, agent: "Agent"):
         super().__init__(agent)
@@ -63,7 +67,7 @@ class HAART(BaseFeature):
             model: the instance of HIVModel currently being run
         """
         if self.agent.hiv and model.time >= model.params.hiv.start_time:
-            if self.counts is None:
+            if len(self.counts) == 0:
                 self.init_class(model.params)
 
             # Determine probability of HIV treatment
@@ -110,11 +114,12 @@ class HAART(BaseFeature):
             agent: the agent to add to the class attributes
         """
         # set up if this is the first time being called
-        if cls.counts is None:
+        if len(cls.counts) == 0:
             cls.init_class(agent.location.params)
 
         cls.counts[agent.race][agent.sex_type] += 1
 
+    @classmethod
     def remove_agent(cls, agent: "Agent"):
         """
         Remove an agent from the class (not instance).
@@ -133,7 +138,7 @@ class HAART(BaseFeature):
     # =========== HELPER METHODS ============
 
     @classmethod
-    def init_class(cls, params: "DotMap"):
+    def init_class(cls, params: "ObjMap"):
         """
         Initialize the counts dictionary for the races and sex_types in the model.
 

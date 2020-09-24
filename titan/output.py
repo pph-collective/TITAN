@@ -180,7 +180,6 @@ def get_stats(
 
 def write_report(
     file_name: str,
-    name_map: Dict[str, str],
     run_id: str,
     t: int,
     runseed: int,

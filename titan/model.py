@@ -197,9 +197,9 @@ class HIVModel:
             "\tSTARTING HIV count:{}\tTotal Incarcerated:{}\tHR+:{}\t"
             "PrEP:{}".format(
                 self.pop.hiv_agents.num_members(),
-                sum([1 for a in self.pop.all_agents if a.incar.active]),
+                sum([1 for a in self.pop.all_agents if a.incar.active]),  # type: ignore[attr-defined]
                 HighRisk.count,
-                sum([1 for a in self.pop.all_agents if a.prep.active]),
+                sum([1 for a in self.pop.all_agents if a.prep.active]),  # type: ignore[attr-defined]
             )
         )
 
@@ -350,7 +350,7 @@ class HIVModel:
         """
         interaction_types = self.params.classes.bond_types[rel.bond_type].acts_allowed
         # If either agent is incarcerated, skip their interaction
-        if rel.agent1.incar or rel.agent2.incar:
+        if rel.agent1.incar.active or rel.agent2.incar.active:  # type: ignore[attr-defined]
             return False
 
         # Agent 1 is HIV+, Agent 2 is not, Agent 2 is succept
@@ -463,13 +463,13 @@ class HIVModel:
 
         if num_acts < 1 and not force:
             return
-        if rel.agent1.pca.awareness and not rel.agent2.pca.awareness:
+        if rel.agent1.pca.awareness and not rel.agent2.pca.awareness:  # type: ignore[attr-defined]
             if self.run_random.random() < knowledge_transmission_probability() or force:
                 knowledge_dissemination(rel.agent2)
-        elif not rel.agent1.pca.awareness and rel.agent2.pca.awareness:
+        elif not rel.agent1.pca.awareness and rel.agent2.pca.awareness:  # type: ignore[attr-defined]
             if self.run_random.random() < knowledge_transmission_probability() or force:
                 knowledge_dissemination(rel.agent1)
-        elif rel.agent1.pca.awareness and rel.agent2.pca.awareness or force:
+        elif rel.agent1.pca.awareness and rel.agent2.pca.awareness or force:  # type: ignore[attr-defined]
             if self.run_random.random() < knowledge_transmission_probability() or force:
                 influence(rel.agent1, rel.agent2)
 
@@ -499,7 +499,7 @@ class HIVModel:
         share_acts = utils.poisson(mean_num_acts, self.np_random)
 
         if (
-            agent.syringe_services.active or partner.syringe_services.active
+            agent.syringe_services.active or partner.syringe_services.active  # type: ignore[attr-defined]
         ):  # syringe services program risk
             p_unsafe_injection = SyringeServices.enrolled_risk
         else:
@@ -698,11 +698,11 @@ class HIVModel:
         if not agent.hiv:
             agent.hiv = True
             agent.hiv_time = 1
-            agent.vaccine.active = False
+            agent.vaccine.active = False  # type: ignore[attr-defined]
             self.pop.hiv_agents.add_agent(agent)
 
-        if agent.prep.active:
-            agent.prep.progress(self, force=True)
+        if agent.prep.active:  # type: ignore[attr-defined]
+            agent.prep.progress(self, force=True)  # type: ignore[attr-defined]
 
     def diagnose_hiv(self, agent: Agent):
         """
@@ -765,7 +765,7 @@ class HIVModel:
         # only valid for HIV agents
         assert agent.hiv
 
-        p = prob.adherence_prob(agent.haart.adherence) if agent.haart.active else 1
+        p = prob.adherence_prob(agent.haart.adherence) if agent.haart.active else 1  # type: ignore[attr-defined]
 
         if self.run_random.random() < p * agent.location.params.hiv.aids.prob:
             agent.aids = True

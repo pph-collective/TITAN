@@ -1,4 +1,7 @@
 from .base_feature import BaseFeature
+from ..agent import Agent
+from ..population import Population
+from ..model import HIVModel
 
 
 class PCA(BaseFeature):
@@ -51,4 +54,4 @@ class PCA(BaseFeature):
         ):
             self.awareness = True
             if model.run_random.random() < pca_params.prep.prob:
-                self.agent.prep.initiate(model, force=True)
+                self.agent.prep.initiate(model, force=True)  # type: ignore[attr-defined]
