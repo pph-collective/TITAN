@@ -289,7 +289,7 @@ def single_run(sweep, outfile_dir, params, save_pop, pop_path):
         print(save_pop_dir)
 
     try:
-        model = HIVModel(params, population=pop)
+        model = HIVModel(params, pop=pop)
     except Exception as e:
         raise Exception(f"Model creation failed: {e}")
 

@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 from typing import Dict, Any, List, Iterator
-from .agent import AgentSet, Agent
+from . import agent
 import itertools
 import os
 
@@ -12,20 +12,20 @@ from .parse_params import ObjMap
 from .features import *
 
 
-def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
+def setup_aggregates(params: ObjMap, features, classes: List[str]) -> Dict:
     """
     Recursively create a nested dictionary of attribute values to items to count.
 
     Attributes are classes defined in params, the items counted are:
 
     * "agents"
-    * "HIV"
-    * "Dx"
-    * "AIDS"
-    * "newHIV"
-    * "newDx"
+    * "hiv"
+    * "dx"
+    * "aids"
+    * "hiv_new"
+    * "dx_new"
     * "deaths"
-    * "deaths_HIV"
+    * "deaths_hiv"
 
     Additionally, any feature enabled may have additional stats that are tracked.  See the feature's `stats` attribute.
 
@@ -38,17 +38,17 @@ def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
     """
     if classes == []:
         base_stats = {
-            "numAgents": 0,
-            "numHIV": 0,
-            "numDx": 0,
-            "numAIDS": 0,
-            "newlyHIV": 0,
-            "newlyDx": 0,
+            "agents": 0,
+            "hiv": 0,
+            "dx": 0,
+            "aids": 0,
+            "hiv_new": 0,
+            "dx_new": 0,
             "deaths": 0,
-            "deaths_HIV": 0,
+            "deaths_hiv": 0,
         }
 
-        for feature in BaseFeature.__subclasses__():
+        for feature in features:
             base_stats.update({stat: 0 for stat in feature.stats})
 
         return base_stats
@@ -57,7 +57,7 @@ def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
     clss, *rem_clss = classes  # head, tail
     keys = [k for k in params.classes[clss]]
     for key in keys:
-        stats[key] = setup_aggregates(params, rem_clss)
+        stats[key] = setup_aggregates(params, features, rem_clss)
 
     return stats
 
@@ -96,7 +96,7 @@ def get_agg_val(stats: Dict, attrs: List, key: str) -> int:
     return stats_item[key]
 
 
-def get_stats_item(stats: Dict[str, Any], attrs: List[str], agent: Agent):
+def get_stats_item(stats: Dict[str, Any], attrs: List[str], agent: "agent.Agent"):
     stats_item = stats
     for attr in attrs:
         stats_item = stats_item[str(getattr(agent, attr))]
@@ -104,7 +104,9 @@ def get_stats_item(stats: Dict[str, Any], attrs: List[str], agent: Agent):
     return stats_item
 
 
-def add_agent_to_stats(stats: Dict[str, Any], attrs: List[str], agent: Agent, key: str):
+def add_agent_to_stats(
+    stats: Dict[str, Any], attrs: List[str], agent: "agent.Agent", key: str
+):
     """
     Update the stats dictionary counts for the key given the agent's attributes
 
@@ -120,9 +122,9 @@ def add_agent_to_stats(stats: Dict[str, Any], attrs: List[str], agent: Agent, ke
 
 
 def get_stats(
-    all_agents: AgentSet,
-    new_hiv_dx: AgentSet,
-    deaths: List[Agent],
+    all_agents: "agent.AgentSet",
+    new_hiv_dx: "agent.AgentSet",
+    deaths: List["agent.Agent"],
     params: ObjMap,
     features,
 ) -> Dict:
@@ -138,7 +140,7 @@ def get_stats(
     returns:
         nested dictionary of agent attributes to counts of various items
     """
-    stats = setup_aggregates(params, params.outputs.classes)
+    stats = setup_aggregates(params, features, params.outputs.classes)
     attrs = [
         clss[:-1] for clss in params.outputs.classes
     ]  # attribute version (non-plural)
@@ -146,29 +148,29 @@ def get_stats(
     for a in all_agents:
         stats_item = get_stats_item(stats, attrs, a)
 
-        add_agent_to_stats(stats, attrs, a, "numAgents")
+        add_agent_to_stats(stats, attrs, a, "agents")
 
         for feature in features:
             agent_feature = getattr(a, feature.name)
             agent_feature.set_stats(stats_item)
 
         if a.hiv:
-            add_agent_to_stats(stats, attrs, a, "numHIV")
+            add_agent_to_stats(stats, attrs, a, "hiv")
             if a.hiv_time == 1:
-                add_agent_to_stats(stats, attrs, a, "inf_newInf")
+                add_agent_to_stats(stats, attrs, a, "hiv_new")
             if a.aids:
-                add_agent_to_stats(stats, attrs, a, "numAIDS")
+                add_agent_to_stats(stats, attrs, a, "aids")
             if a.hiv_dx:
-                add_agent_to_stats(stats, attrs, a, "numDiagnosed")
+                add_agent_to_stats(stats, attrs, a, "dx")
 
     # Newly diagnosed tracker statistics
     for a in new_hiv_dx:
-        add_agent_to_stats(stats, attrs, a, "newlyDiagnosed")
+        add_agent_to_stats(stats, attrs, a, "dx_new")
 
     for a in deaths:
         add_agent_to_stats(stats, attrs, a, "deaths")
         if a.hiv:
-            add_agent_to_stats(stats, attrs, a, "deaths_HIV")
+            add_agent_to_stats(stats, attrs, a, "deaths_hiv")
 
     return stats
 
@@ -202,8 +204,17 @@ def write_report(
         params: model parameters
         outdir: path of where to save this file
     """
+
+    def get_stat_names(stats, attrs):
+        stat_ref = stats
+        for i in range(len(attrs)):
+            stat_ref = stat_ref[list(stat_ref.keys())[0]]
+
+        return stat_ref
+
     f = open(os.path.join(outdir, file_name), "a")
     attrs = [clss[:-1] for clss in params.outputs.classes]
+    stat_names = get_stat_names(stats, attrs)
 
     if f.tell() == 0:
         f.write("run_id\trseed\tpseed\tt\t")  # start header
@@ -212,7 +223,7 @@ def write_report(
         f.write("\t".join(attrs))
 
         # report specific fields
-        for name in stats.keys():
+        for name in stat_names:
             f.write(f"\t{name}")
 
         f.write("\n")
@@ -222,7 +233,7 @@ def write_report(
 
         f.write("\t".join(agg))  # write attribute values
 
-        for name in stats.keys():
+        for name in stat_names:
             f.write(f"\t{(get_agg_val(stats, agg, name))}")
 
         f.write("\n")
@@ -243,13 +254,13 @@ def basicReport(
     Standard report writer for basic agent statistics, columns include:
 
     * "agents": number of agents in the population
-    * "HIV": number of agents with HIV
-    * "Dx": number of agents with HIV who are diagnosed
-    * "AIDS": number of agents with AIDS
-    * "newHIV": number of agents who HIV converted this time period
-    * "newDx": number of agents with HIV who were diagnosed this time period
+    * "hiv": number of agents with HIV
+    * "dx": number of agents with HIV who are diagnosed
+    * "aids": number of agents with AIDS
+    * "hiv_new": number of agents who HIV converted this time period
+    * "dx_new": number of agents with HIV who were diagnosed this time period
     * "deaths": number of agents who died this time period
-    * "deaths_HIV": number of agents with HIV who died this time period
+    * "deaths_hiv": number of agents with HIV who died this time period
 
     Additionally, any feature enabled may have additional stats that are tracked.  See the feature's `stats` attribute and docs for details.
     """

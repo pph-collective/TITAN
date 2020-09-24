@@ -1,13 +1,13 @@
 from typing import Dict, ClassVar, Set
 
-from .base_feature import BaseFeature
+from . import base_feature
 from .. import utils
-from ..agent import Agent
-from ..population import Population
-from ..model import HIVModel
+from .. import agent
+from .. import population
+from .. import model
 
 
-class Incar(BaseFeature):
+class Incar(base_feature.BaseFeature):
 
     name = "incar"
     stats = ["incar", "incar_hiv", "new_release", "new_release_hiv"]
@@ -20,15 +20,15 @@ class Incar(BaseFeature):
         * new_release_hiv - number of agents releasted this timestep with HIV
     """
 
-    new_releases: ClassVar[Set["Agent"]] = set()
+    new_releases: ClassVar[Set["agent.Agent"]] = set()
 
-    def __init__(self, agent: "Agent"):
+    def __init__(self, agent: "agent.Agent"):
         super().__init__(agent)
 
         self.active = False
         self.time = 0
 
-    def init_agent(self, pop: "Population", time: int):
+    def init_agent(self, pop: "population.Population", time: int):
         """
         Initialize the agent for this feature during population initialization (`Population.create_agent`).  Called on only features that are enabled per the params.
 
@@ -57,7 +57,7 @@ class Incar(BaseFeature):
                 jail_duration[bin].min, jail_duration[bin].max
             )
 
-    def update_agent(self, model: "HIVModel"):
+    def update_agent(self, model: "model.HIVModel"):
         """
         Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
 
@@ -169,11 +169,11 @@ class Incar(BaseFeature):
                             partner.high_risk.become_high_risk()  # type: ignore[attr-defined]
 
     @classmethod
-    def add_agent(cls, agent: "Agent"):
+    def add_agent(cls, agent: "agent.Agent"):
         cls.new_releases.add(agent)
 
     @classmethod
-    def update_pop(cls, model: "HIVModel"):
+    def update_pop(cls, model: "model.HIVModel"):
         """
         Update the feature for the entire population (class method).
 

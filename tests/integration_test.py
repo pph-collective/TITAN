@@ -70,11 +70,11 @@ def test_model_reproducible(tmpdir):
         assert res_a[i]["run_id"] != res_b[i]["run_id"]
         assert res_a[i]["rseed"] == res_b[i]["rseed"]
         assert res_a[i]["pseed"] == res_b[i]["pseed"]
-        assert res_a[i]["Total"] == res_b[i]["Total"]
-        assert res_a[i]["HIV"] == res_b[i]["HIV"]
-        assert res_a[i]["PrEP"] == res_b[i]["PrEP"]
-        assert res_a[i]["Deaths"] == res_b[i]["Deaths"]
-        assert res_a[i]["HIV"] == res_b[i]["HIV"]
+        assert res_a[i]["agents"] == res_b[i]["agents"]
+        assert res_a[i]["hiv"] == res_b[i]["hiv"]
+        assert res_a[i]["prep"] == res_b[i]["prep"]
+        assert res_a[i]["deaths"] == res_b[i]["deaths"]
+        assert res_a[i]["aids"] == res_b[i]["aids"]
 
 
 @pytest.mark.integration_deterministic

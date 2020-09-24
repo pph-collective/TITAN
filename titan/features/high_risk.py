@@ -2,14 +2,14 @@
 
 from typing import Dict, Set, ClassVar
 
-from .base_feature import BaseFeature
+from . import base_feature
 from .. import utils
-from ..agent import Agent
-from ..population import Population
-from ..model import HIVModel
+from .. import agent
+from .. import population
+from .. import model
 
 
-class HighRisk(BaseFeature):
+class HighRisk(base_feature.BaseFeature):
 
     name = "high_risk"
     stats = [
@@ -18,8 +18,8 @@ class HighRisk(BaseFeature):
         "high_risk_new_aids",
         "high_risk_new_dx",
         "high_risk_new_haart",
-        "inf_HR6m",
-        "inf_HRever",
+        "hiv_new_high_risk",
+        "hiv_new_high_risk_ever",
     ]
     """
         High Risk collects the following stats:
@@ -33,17 +33,17 @@ class HighRisk(BaseFeature):
         * inf_HRever - number of agents that became active with HIV this time step were ever high risk
     """
 
-    new_agents: ClassVar[Set["Agent"]] = set()
+    new_agents: ClassVar[Set["agent.Agent"]] = set()
     count: ClassVar[int] = 0
 
-    def __init__(self, agent: "Agent"):
+    def __init__(self, agent: "agent.Agent"):
         super().__init__(agent)
 
         self.active = False
         self.time = 0
         self.ever = False
 
-    def init_agent(self, pop: "Population", time: int):
+    def init_agent(self, pop: "population.Population", time: int):
         """
         Initialize the agent for this feature during population initialization (`Population.create_agent`).  Called on only features that are enabled per the params.
 
@@ -61,7 +61,7 @@ class HighRisk(BaseFeature):
         ):
             self.become_high_risk()
 
-    def update_agent(self, model: "HIVModel"):
+    def update_agent(self, model: "model.HIVModel"):
         """
         Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
 
@@ -102,7 +102,7 @@ class HighRisk(BaseFeature):
                             model.pop.remove_relationship(rel)
 
     @classmethod
-    def add_agent(cls, agent: "Agent", new_agent: bool = True):
+    def add_agent(cls, agent: "agent.Agent", new_agent: bool = True):
         """
         Add an agent to the class (not instance).
 
@@ -117,7 +117,7 @@ class HighRisk(BaseFeature):
             cls.new_agents.add(agent)
 
     @classmethod
-    def remove_agent(cls, agent: "Agent"):
+    def remove_agent(cls, agent: "agent.Agent"):
         """
         Remove an agent from the class (not instance).
 
@@ -129,7 +129,7 @@ class HighRisk(BaseFeature):
         cls.count -= 1
 
     @classmethod
-    def update_pop(cls, model: "HIVModel"):
+    def update_pop(cls, model: "model.HIVModel"):
         """
         Update the feature for the entire population (class method).
 
@@ -156,9 +156,9 @@ class HighRisk(BaseFeature):
 
         if self.agent.hiv_time == 1:  # newly hiv
             if self.active:
-                stats["inf_HR6m"] += 1
+                stats["hiv_new_high_risk"] += 1
             if self.ever:
-                stats["inf_HRever"] += 1
+                stats["hiv_new_high_risk_ever"] += 1
 
     # ============== HELPER METHODS ================
 

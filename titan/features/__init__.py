@@ -1,5 +1,6 @@
 # makes src a package
-from .haart import *
+from .base_feature import *
+from .haart import *  # import HAART
 from .high_risk import *
 from .incar import *
 from .msmw import *

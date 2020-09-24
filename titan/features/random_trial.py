@@ -1,13 +1,13 @@
-from .base_feature import BaseFeature
+from . import base_feature
 from .. import utils
-from ..agent import Agent
-from ..population import Population
-from ..model import HIVModel
+from .. import agent
+from .. import population
+from .. import model
 
 import networkx as nx  # type: ignore
 
 
-class RandomTrial(BaseFeature):
+class RandomTrial(base_feature.BaseFeature):
 
     name = "random_trial"
 
@@ -18,7 +18,7 @@ class RandomTrial(BaseFeature):
         self.treated = False
 
     @classmethod
-    def update_pop(cls, model: "HIVModel"):
+    def update_pop(cls, model: "model.HIVModel"):
         """
         Update the feature for the entire population (class method).
 

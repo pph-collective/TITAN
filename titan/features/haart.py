@@ -1,13 +1,13 @@
 from typing import Dict, ClassVar, Optional
 
-from .base_feature import BaseFeature
-from ..agent import Agent
-from ..population import Population
-from ..model import HIVModel
+from . import base_feature
+from .. import agent
+from .. import population
+from .. import model
 from ..parse_params import ObjMap
 
 
-class HAART(BaseFeature):
+class HAART(base_feature.BaseFeature):
     """
     Highly Active Antiretroviral Theray (HAART) is a treatment regimen.
     """
@@ -22,14 +22,14 @@ class HAART(BaseFeature):
 
     counts: ClassVar[Dict] = {}
 
-    def __init__(self, agent: "Agent"):
+    def __init__(self, agent: "agent.Agent"):
         super().__init__(agent)
 
         self.active = False
         self.time = 0
         self.adherence = 0
 
-    def init_agent(self, pop: "Population", time: int):
+    def init_agent(self, pop: "population.Population", time: int):
         """
         Initialize the agent for this feature during population initialization (`Population.create_agent`).  Called on only features that are enabled per the params.
 
@@ -57,7 +57,7 @@ class HAART(BaseFeature):
             else:
                 self.adherence = pop.pop_random.randint(1, 4)
 
-    def update_agent(self, model: "HIVModel"):
+    def update_agent(self, model: "model.HIVModel"):
         """
         Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
 
@@ -104,7 +104,7 @@ class HAART(BaseFeature):
                     self.remove_agent(self.agent)
 
     @classmethod
-    def add_agent(cls, agent: "Agent"):
+    def add_agent(cls, agent: "agent.Agent"):
         """
         Add an agent to the class (not instance).
 
@@ -120,7 +120,7 @@ class HAART(BaseFeature):
         cls.counts[agent.race][agent.sex_type] += 1
 
     @classmethod
-    def remove_agent(cls, agent: "Agent"):
+    def remove_agent(cls, agent: "agent.Agent"):
         """
         Remove an agent from the class (not instance).
 
@@ -150,7 +150,7 @@ class HAART(BaseFeature):
             for race in params.classes.races
         }
 
-    def initiate(self, model: "HIVModel"):
+    def initiate(self, model: "model.HIVModel"):
         """
         Initiate an agent with HAART and add them to the population.
 

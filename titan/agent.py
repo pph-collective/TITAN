@@ -6,7 +6,7 @@ from typing import List, Dict, Set, Optional, Iterator, Iterable, Tuple
 from .parse_params import ObjMap
 from .utils import safe_divide, safe_dist
 from .location import Location
-from .features import *
+from . import features
 
 
 class Agent:
@@ -78,7 +78,7 @@ class Agent:
         self.trace_time = 0
 
         # model features
-        for feature in BaseFeature.__subclasses__():
+        for feature in features.BaseFeature.__subclasses__():
             setattr(self, feature.name, feature(self))
 
     def __str__(self) -> str:

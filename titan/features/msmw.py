@@ -1,19 +1,19 @@
-from .base_feature import BaseFeature
-from ..agent import Agent
-from ..population import Population
-from ..model import HIVModel
+from . import base_feature
+from .. import agent
+from .. import population
+from .. import model
 
 
-class MSMW(BaseFeature):
+class MSMW(base_feature.BaseFeature):
 
     name = "msmw"
 
-    def __init__(self, agent: "Agent"):
+    def __init__(self, agent: "agent.Agent"):
         super().__init__(agent)
 
         self.active = False
 
-    def init_agent(self, pop: "Population", time: int):
+    def init_agent(self, pop: "population.Population", time: int):
         """
         Initialize the agent for this feature during population initialization (`Population.create_agent`).  Called on only features that are enabled per the params.
 
@@ -27,7 +27,7 @@ class MSMW(BaseFeature):
             if pop.pop_random.random() < self.agent.location.params.msmw.prob:
                 self.active = True
 
-    def update_agent(self, model: "HIVModel"):
+    def update_agent(self, model: "model.HIVModel"):
         """
         Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
 

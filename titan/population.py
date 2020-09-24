@@ -11,16 +11,16 @@ import numpy as np  # type: ignore
 import networkx as nx  # type: ignore
 import nanoid  # type: ignore
 
-from .parse_params import ObjMap
-from .agent import AgentSet, Agent, Relationship
-from .location import Location, Geography
-from .partnering import select_partner, get_partnership_duration, get_mean_rel_duration
+from . import parse_params
+from . import agent as ag
+from . import location
+from . import partnering
 from . import utils
-from .features import *
+from . import features
 
 
 class Population:
-    def __init__(self, params: ObjMap, id: Optional[str] = None):
+    def __init__(self, params: "parse_params.ObjMap", id: Optional[str] = None):
         """
         Initialize Population object.
 
@@ -50,33 +50,33 @@ class Population:
         # pre-fetch param sub-sets for performance
         self.features = [
             feature
-            for feature in BaseFeature.__subclasses__()
+            for feature in features.BaseFeature.__subclasses__()
             if self.params.features[feature.name]
         ]
 
         # set up the population's locations and edges
-        self.geography = Geography(params)
+        self.geography = location.Geography(params)
 
         # All agent set list
-        self.all_agents = AgentSet("AllAgents")
+        self.all_agents = ag.AgentSet("AllAgents")
 
         # HIV status agent sets
-        self.hiv_agents = AgentSet("HIV", parent=self.all_agents)
+        self.hiv_agents = ag.AgentSet("HIV", parent=self.all_agents)
 
         # pwid agents (performance for partnering)
-        self.pwid_agents = AgentSet("PWID", parent=self.all_agents)
+        self.pwid_agents = ag.AgentSet("PWID", parent=self.all_agents)
 
         # agents who can take on a partner
-        self.partnerable_agents: Dict[str, Set[Agent]] = {}
+        self.partnerable_agents: Dict[str, Set["ag.Agent"]] = {}
         for bond_type in self.params.classes.bond_types.keys():
             self.partnerable_agents[bond_type] = set()
 
         # who can sleep with whom
-        self.sex_partners: Dict[str, Set[Agent]] = {}
+        self.sex_partners: Dict[str, Set["ag.Agent"]] = {}
         for sex_type in self.params.classes.sex_types.keys():
             self.sex_partners[sex_type] = set()
 
-        self.relationships: Set[Relationship] = set()
+        self.relationships: Set["ag.Relationship"] = set()
 
         self.dx_counts = {
             race: {so: 0 for so in params.classes.sex_types}
@@ -84,21 +84,23 @@ class Population:
         }
 
         # find average partnership durations
-        self.mean_rel_duration: Dict[str, int] = get_mean_rel_duration(self.params)
+        self.mean_rel_duration: Dict[str, int] = partnering.get_mean_rel_duration(
+            self.params
+        )
 
         print("\tCreating agents")
         # for each location in the population, create agents per that location's demographics
         init_time = -1 * self.params.model.time.burn_steps
-        for location in self.geography.locations.values():
+        for loc in self.geography.locations.values():
             for race in params.classes.races:
                 for i in range(
                     round(
                         params.model.num_pop
-                        * location.ppl
-                        * location.params.demographics[race].ppl
+                        * loc.ppl
+                        * loc.params.demographics[race].ppl
                     )
                 ):
-                    agent = self.create_agent(location, race, init_time)
+                    agent = self.create_agent(loc, race, init_time)
                     self.add_agent(agent)
 
         # initialize relationships
@@ -109,14 +111,18 @@ class Population:
             self.trim_graph()
 
     def create_agent(
-        self, location: Location, race: str, time: int, sex_type: Optional[str] = None
-    ) -> Agent:
+        self,
+        loc: "location.Location",
+        race: str,
+        time: int,
+        sex_type: Optional[str] = None,
+    ) -> "ag.Agent":
         """
         Create a new agent with randomly assigned attributes according to population
         demographcis [params.demographics]
 
         args:
-            location: location the agent will live in
+            loc: location the agent will live in
             race : race of the new agent
             time: current time step of the model
             sex_type : sex_type of the new agent
@@ -126,30 +132,30 @@ class Population:
         """
         if sex_type is None:
             sex_type = utils.safe_random_choice(
-                location.pop_weights[race]["values"],
+                loc.pop_weights[race]["values"],
                 self.pop_random,
-                weights=location.pop_weights[race]["weights"],
+                weights=loc.pop_weights[race]["weights"],
             )
         if sex_type is None:
             raise ValueError("Agent must have sex type")
 
         # Determine drugtype
         drug_type = utils.safe_random_choice(
-            location.drug_weights[race][sex_type]["values"],
+            loc.drug_weights[race][sex_type]["values"],
             self.pop_random,
-            weights=location.drug_weights[race][sex_type]["weights"],
+            weights=loc.drug_weights[race][sex_type]["weights"],
         )
         if drug_type is None:
             raise ValueError("Agent must have drug type")
 
-        age, age_bin = self.get_age(location, race)
+        age, age_bin = self.get_age(loc, race)
 
-        agent = Agent(sex_type, age, race, drug_type, location)
+        agent = ag.Agent(sex_type, age, race, drug_type, loc)
         agent.age_bin = age_bin
         sex_role = utils.safe_random_choice(
-            location.role_weights[race][sex_type]["values"],
+            loc.role_weights[race][sex_type]["values"],
             self.pop_random,
-            weights=location.role_weights[race][sex_type]["weights"],
+            weights=loc.role_weights[race][sex_type]["weights"],
         )
         if sex_role is None:
             raise ValueError("Agent must have sex role")
@@ -166,9 +172,7 @@ class Population:
             agent.hiv = True
 
             # if HIV, how long has the agent had it? Random sample
-            agent.hiv_time = self.pop_random.randint(
-                1, location.params.hiv.max_init_time
-            )
+            agent.hiv_time = self.pop_random.randint(1, loc.params.hiv.max_init_time)
 
             if self.pop_random.random() < agent_params.aids.init:
                 agent.aids = True
@@ -182,7 +186,7 @@ class Population:
             agent_feature = getattr(agent, feature.name)
             agent_feature.init_agent(self, time)
 
-        for bond, bond_def in location.params.classes.bond_types.items():
+        for bond, bond_def in loc.params.classes.bond_types.items():
             agent.partners[bond] = set()
             dist_info = agent_params.num_partners[bond]
             agent.mean_num_partners[bond] = ceil(
@@ -202,7 +206,7 @@ class Population:
 
         return agent
 
-    def add_agent(self, agent: Agent):
+    def add_agent(self, agent: "ag.Agent"):
         """
         Adds an agent to the population
 
@@ -226,7 +230,7 @@ class Population:
         if self.enable_graph:
             self.graph.add_node(agent)
 
-    def add_relationship(self, rel: Relationship):
+    def add_relationship(self, rel: "ag.Relationship"):
         """
         Add a new relationship to the population.
 
@@ -238,7 +242,7 @@ class Population:
         if self.enable_graph:
             self.graph.add_edge(rel.agent1, rel.agent2, type=rel.bond_type)
 
-    def remove_agent(self, agent: Agent):
+    def remove_agent(self, agent: "ag.Agent"):
         """
         Remove an agent from the population.
 
@@ -266,7 +270,7 @@ class Population:
             if agent in bond:
                 bond.remove(agent)
 
-    def remove_relationship(self, rel: Relationship):
+    def remove_relationship(self, rel: "ag.Relationship"):
         """
         Remove a relationship from the population.
 
@@ -282,7 +286,7 @@ class Population:
         if self.enable_graph:
             self.graph.remove_edge(rel.agent1, rel.agent2)
 
-    def get_age(self, location: Location, race: str) -> Tuple[int, int]:
+    def get_age(self, loc: "location.Location", race: str) -> Tuple[int, int]:
         """
         Given the population characteristics, get a random age to assign to an agent given the race of that agent
 
@@ -294,7 +298,7 @@ class Population:
         """
         rand = self.pop_random.random()
 
-        bins = location.params.demographics[race].age
+        bins = loc.params.demographics[race].age
 
         for i in range(1, 6):
             if rand < bins[i].prob:
@@ -306,7 +310,7 @@ class Population:
         return age, i
 
     def update_agent_partners(
-        self, agent: Agent, bond_type: str, components: List
+        self, agent: "ag.Agent", bond_type: str, components: List
     ) -> bool:
         """
         Finds and bonds new partner. Creates relationship object for partnership,
@@ -327,7 +331,7 @@ class Population:
             and agent.has_partners()
         ):
             # find agent's component
-            agent_component: Set[Agent] = set()
+            agent_component: Set["ag.Agent"] = set()
             for comp in components:
                 if agent in comp:
                     agent_component = comp
@@ -335,7 +339,7 @@ class Population:
 
             partnerable_agents = partnerable_agents & agent_component
 
-        partner = select_partner(
+        partner = partnering.select_partner(
             agent,
             partnerable_agents,
             self.sex_partners,
@@ -347,10 +351,12 @@ class Population:
         no_match = True
 
         if partner:
-            duration = get_partnership_duration(
+            duration = partnering.get_partnership_duration(
                 agent.location.params, self.np_random, bond_type
             )
-            relationship = Relationship(agent, partner, duration, bond_type=bond_type)
+            relationship = ag.Relationship(
+                agent, partner, duration, bond_type=bond_type
+            )
             self.add_relationship(relationship)
             # can partner still partner?
             if len(partner.partners[bond_type]) > (
@@ -440,13 +446,13 @@ class Population:
         if self.params.model.network.type == "comp_size":
 
             def trim_component(component, max_size):
-                for ag in component.nodes:
+                for agent in component.nodes:
                     if (
                         self.pop_random.random()
                         < self.params.calibration.network.trim.prob
                     ):
-                        for rel in copy(ag.relationships):
-                            if len(ag.relationships) == 1:
+                        for rel in copy(agent.relationships):
+                            if len(agent.relationships) == 1:
                                 break  # Make sure that agents stay part of the
                                 # network by keeping one bond
                             rel.progress(force=True)

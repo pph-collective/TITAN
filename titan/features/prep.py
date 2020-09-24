@@ -1,13 +1,13 @@
 from typing import Dict, Optional, ClassVar, Set
 
-from .base_feature import BaseFeature
-from ..agent import Agent
-from ..population import Population
-from ..model import HIVModel
+from . import base_feature
+from .. import agent
+from .. import population
+from .. import model
 from ..parse_params import ObjMap
 
 
-class Prep(BaseFeature):
+class Prep(base_feature.BaseFeature):
 
     name = "prep"
     stats = ["prep", "prep_new", "prep_injectable", "prep_oral"]
@@ -22,9 +22,9 @@ class Prep(BaseFeature):
 
     # class level attributes to track all Prep agents
     counts: ClassVar[Dict[str, int]] = {}
-    new_agents: ClassVar[Set["Agent"]] = set()
+    new_agents: ClassVar[Set["agent.Agent"]] = set()
 
-    def __init__(self, agent: "Agent"):
+    def __init__(self, agent: "agent.Agent"):
         super().__init__(agent)
         # agent level attributes
         self.active = False
@@ -33,7 +33,7 @@ class Prep(BaseFeature):
         self.load = 0.0
         self.last_dose = 0
 
-    def init_agent(self, pop: "Population", time: int):
+    def init_agent(self, pop: "population.Population", time: int):
         """
         Initialize the agent for this feature during population initialization (`Population.create_agent`).  Called on only features that are enabled per the params.
 
@@ -51,7 +51,7 @@ class Prep(BaseFeature):
         ):
             self.enroll(pop.pop_random)
 
-    def update_agent(self, model: "HIVModel"):
+    def update_agent(self, model: "model.HIVModel"):
         """
         Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
 
@@ -70,7 +70,7 @@ class Prep(BaseFeature):
                 self.initiate(model)
 
     @classmethod
-    def add_agent(cls, agent: "Agent"):
+    def add_agent(cls, agent: "agent.Agent"):
         """
         Add an agent to the class (not instance).
 
@@ -99,7 +99,7 @@ class Prep(BaseFeature):
         cls.counts[agent.race] -= 1
 
     @classmethod
-    def update_pop(cls, model: "HIVModel"):
+    def update_pop(cls, model: "model.HIVModel"):
         """
         Update the feature for the entire population (class method).
 
@@ -130,7 +130,7 @@ class Prep(BaseFeature):
         # internal method to initialize count dictionary
         cls.counts = {race: 0 for race in params.classes.races}
 
-    def initiate(self, model: "HIVModel", force: bool = False):
+    def initiate(self, model: "model.HIVModel", force: bool = False):
         """
         Place agents onto PrEP treatment. PrEP treatment assumes that the agent knows their HIV status is negative.
 
@@ -210,7 +210,7 @@ class Prep(BaseFeature):
 
         self.add_agent(self.agent)
 
-    def progress(self, model: "HIVModel", force: bool = False):
+    def progress(self, model: "model.HIVModel", force: bool = False):
         """
         Update agent's PrEP status and discontinue stochastically or if `force` is True
 

@@ -9,14 +9,14 @@ import networkx as nx  # type: ignore
 import nanoid  # type: ignore
 
 
-from .agent import AgentSet, Agent, Relationship
-from .population import Population
+from . import agent  # import AgentSet, Agent, Relationship
+from . import population  # import Population
 from .network import NetworkGraphUtils
 from . import output as ao
 from . import probabilities as prob
 from . import utils
 from .parse_params import ObjMap
-from .features import *
+from . import features
 
 
 class HIVModel:
@@ -31,7 +31,7 @@ class HIVModel:
     def __init__(
         self,
         params: ObjMap,
-        population: Optional[Population] = None,
+        pop: Optional["population.Population"] = None,
     ):
         """
         This is the core class used to simulate
@@ -48,12 +48,12 @@ class HIVModel:
 
         print("=== Begin Initialization Protocol ===\n")
 
-        if population is None:
+        if pop is None:
             print("\tGenerating new population")
-            self.pop = Population(params)
+            self.pop = population.Population(params)
         else:
             print("\tUsing provided population")
-            self.pop = population
+            self.pop = pop
 
         self.network_utils: Optional[NetworkGraphUtils]
         if params.model.network.enable:
@@ -63,14 +63,14 @@ class HIVModel:
 
         print("\n\tCreating lists")
         # Other lists / dictionaries
-        self.new_dx = AgentSet("new_dx")
+        self.new_dx = agent.AgentSet("new_dx")
 
         self.time = -1 * self.params.model.time.burn_steps  # burn is negative time
         self.id = nanoid.generate(size=8)
 
         self.features = [
             feature
-            for feature in BaseFeature.__subclasses__()
+            for feature in features.BaseFeature.__subclasses__()
             if self.params.features[feature.name]
         ]
 
@@ -83,7 +83,7 @@ class HIVModel:
         print(("\tFIRST RANDOM CALL {}".format(random.randint(0, 100))))
 
         print("\tResetting death count")
-        self.deaths: List[Agent] = []  # Number of death
+        self.deaths: List["agent.Agent"] = []  # Number of death
 
         print("\n === Initialization Protocol Finished ===")
 
@@ -198,7 +198,7 @@ class HIVModel:
             "PrEP:{}".format(
                 self.pop.hiv_agents.num_members(),
                 sum([1 for a in self.pop.all_agents if a.incar.active]),  # type: ignore[attr-defined]
-                HighRisk.count,
+                features.HighRisk.count,
                 sum([1 for a in self.pop.all_agents if a.prep.active]),  # type: ignore[attr-defined]
             )
         )
@@ -332,7 +332,7 @@ class HIVModel:
                         print(f"timeline un-scaling - {param}")
                         utils.scale_param(params, param, 1 / defn.scalar)
 
-    def agents_interact(self, rel: Relationship) -> bool:
+    def agents_interact(self, rel: "agent.Relationship") -> bool:
         """
         Let an agent interact with a partner.
 
@@ -377,7 +377,7 @@ class HIVModel:
 
         return True
 
-    def pca_interaction(self, rel: Relationship, force=False):
+    def pca_interaction(self, rel: "agent.Relationship", force=False):
         """
         Simulate peer change agent interactions. Knowledge if one agent is aware and one unaware,
             opinion if one agent swaying the other.
@@ -473,7 +473,7 @@ class HIVModel:
             if self.run_random.random() < knowledge_transmission_probability() or force:
                 influence(rel.agent1, rel.agent2)
 
-    def injection_transmission(self, agent: Agent, partner: Agent):
+    def injection_transmission(self, agent: "agent.Agent", partner: "agent.Agent"):
         """
         Simulate random transmission of HIV between two PWID agents through injection.
 
@@ -501,7 +501,7 @@ class HIVModel:
         if (
             agent.syringe_services.active or partner.syringe_services.active  # type: ignore[attr-defined]
         ):  # syringe services program risk
-            p_unsafe_injection = SyringeServices.enrolled_risk
+            p_unsafe_injection = features.SyringeServices.enrolled_risk
         else:
             # If sharing, minimum of 1 share act
             if share_acts < 1:
@@ -531,7 +531,7 @@ class HIVModel:
                 # if agent HIV+ partner becomes HIV+
                 self.hiv_convert(partner)
 
-    def sex_transmission(self, rel: Relationship):
+    def sex_transmission(self, rel: "agent.Relationship"):
         """
         Simulate random transmission of HIV between two agents through Sex. One of the agents must have HIV.
 
@@ -688,7 +688,7 @@ class HIVModel:
 
         return p
 
-    def hiv_convert(self, agent: Agent):
+    def hiv_convert(self, agent: "agent.Agent"):
         """
         Agent becomes HIV agent. Update all appropriate list and dictionaries.
 
@@ -704,7 +704,7 @@ class HIVModel:
         if agent.prep.active:  # type: ignore[attr-defined]
             agent.prep.progress(self, force=True)  # type: ignore[attr-defined]
 
-    def diagnose_hiv(self, agent: Agent):
+    def diagnose_hiv(self, agent: "agent.Agent"):
         """
         Stochastically test the agent for HIV. If tested, mark the agent as diagnosed and trace their partners (if partner tracing enabled).
 
@@ -758,7 +758,7 @@ class HIVModel:
             # diagnosed. If past this time, remove ability to trace.
             agent.partner_traced = False
 
-    def progress_to_aids(self, agent: Agent):
+    def progress_to_aids(self, agent: "agent.Agent"):
         """
         Model the progression of HIV agents to AIDS agents
         """

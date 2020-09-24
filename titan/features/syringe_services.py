@@ -1,10 +1,11 @@
-from .base_feature import BaseFeature
-from ..agent import Agent
-from ..population import Population
-from ..model import HIVModel
+from . import base_feature
+from .. import agent
+from .. import population
+from .. import model
+from .. import utils
 
 
-class SyringeServices(BaseFeature):
+class SyringeServices(base_feature.BaseFeature):
 
     name = "syringe_services"
 

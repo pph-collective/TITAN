@@ -1,8 +1,8 @@
 from typing import List, Dict
 
-from ..agent import Agent
-from ..population import Population
-from ..model import HIVModel
+from .. import agent
+from .. import population
+from .. import model
 
 
 class BaseFeature:
@@ -25,7 +25,7 @@ class BaseFeature:
     stats: List[str] = []
     """List of names of stats that come from this feature (e.g. numFeat)"""
 
-    def __init__(self, agent: "Agent"):
+    def __init__(self, agent: "agent.Agent"):
         """
         Constructor for an instance of the feature.  This is called from within `Agent.__init__` and passes the agent to the feature to create a two way binding.  All features must have the attributes of `active` and `agent`.  By default `active` is false and `agent` is the passed agent.
 
@@ -37,7 +37,7 @@ class BaseFeature:
         self.active = False
         self.agent = agent
 
-    def init_agent(self, pop: "Population", time: int):
+    def init_agent(self, pop: "population.Population", time: int):
         """
         Initialize the agent for this feature during population initialization (`Population.create_agent`).  Called on only features that are enabled per the params.
 
@@ -47,7 +47,7 @@ class BaseFeature:
         """
         pass
 
-    def update_agent(self, model: "HIVModel"):
+    def update_agent(self, model: "model.HIVModel"):
         """
         Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
 
@@ -57,7 +57,7 @@ class BaseFeature:
         pass
 
     @classmethod
-    def add_agent(cls, agent: "Agent"):
+    def add_agent(cls, agent: "agent.Agent"):
         """
         Add an agent to the class (not instance).  This can be useful if tracking population level statistics or groups, such as counts or newly active agents.
 
@@ -69,7 +69,7 @@ class BaseFeature:
         pass
 
     @classmethod
-    def remove_agent(cls, agent: "Agent"):
+    def remove_agent(cls, agent: "agent.Agent"):
         """
         Remove an agent from the class (not instance).  This can be useful if tracking population level statistics or groups, such as counts.
 
@@ -81,7 +81,7 @@ class BaseFeature:
         pass
 
     @classmethod
-    def update_pop(cls, model: "HIVModel"):
+    def update_pop(cls, model: "model.HIVModel"):
         """
         Update the feature for the entire population (class method).  This is useful for initializing class level trackers that need to be reset each time step, or if enabling a feature for agents needs to be evaluated within the context of the full population (limited slots, or similar).
 
