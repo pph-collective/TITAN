@@ -1,3 +1,5 @@
+from typing import Dict
+
 from .base_feature import BaseFeature
 from .. import utils
 
@@ -5,22 +7,33 @@ from .. import utils
 class Incar(BaseFeature):
 
     name = "incar"
-    stats = ["incar", "incarHIV", "newRelease", "newReleaseHIV"]
+    stats = ["incar", "incar_hiv", "new_release", "new_release_hiv"]
+    """
+        Incar collects the following stats:
+
+        * incar - number of agents with active incar
+        * incar_hiv - number of agents with active incar and HIV
+        * new_release - number of agents released this timestep
+        * new_release_hiv - number of agents releasted this timestep with HIV
+    """
 
     new_releases = set()
 
-    def __init__(self, agent):
+    def __init__(self, agent: "Agent"):
         super().__init__(agent)
 
         self.active = False
         self.time = 0
 
-    def update_agent(self, model):
-        self.incarcerate(model)
-
-    def init_agent(self, pop, time):
+    def init_agent(self, pop: "Population", time: int):
         """
-        Run incarceration assignment on a population.  The duration of incarceration at initialization is different than the ongoing to reflect that agents with longer durations will be more highly represented in that population at any given point in time.
+        Initialize the agent for this feature during population initialization (`Population.create_agent`).  Called on only features that are enabled per the params.
+
+        Run incarceration assignment on an agent.  The duration of incarceration at initialization is different than the ongoing to reflect that agents with longer durations will be more highly represented in that population at any given point in time.
+
+        args:
+            pop: the population this agent is a part of
+            time: the current time step
         """
         incar_params = self.agent.location.params.demographics[self.agent.race][
             self.agent.sex_type
@@ -41,32 +54,14 @@ class Incar(BaseFeature):
                 jail_duration[bin].min, jail_duration[bin].max
             )
 
-    @classmethod
-    def update_pop(cls, model):
-        # population is updated before agents, so clear set at the beginning of updates
-        cls.new_releases = set()
-
-    @classmethod
-    def add_new_release_agent(cls, agent):
-        cls.new_releases.add(agent)
-
-    def set_stats(self, stats):
-        if self.agent in self.new_releases:
-            stats["newRelease"] += 1
-            if self.agent.hiv:
-                stats["newReleaseHIV"] += 1
-
-        if self.active:
-            stats["incar"] += 1
-            if self.agent.hiv:
-                stats["incarHIV"] += 1
-
-    def incarcerate(self, model):
+    def update_agent(self, model: "HIVModel"):
         """
+        Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
+
         Incarcerate an agent or update their incarceration variables
 
         args:
-            agent: agent being updated
+            model: the instance of HIVModel currently being run
         """
         hiv_bool = self.agent.hiv
 
@@ -81,7 +76,7 @@ class Incar(BaseFeature):
 
             # FREE AGENT
             if self.time == 0:
-                self.add_new_release_agent(self.agent)
+                self.add_agent(self.agent)
                 self.active = False
 
                 # become high risk on release
@@ -169,3 +164,35 @@ class Incar(BaseFeature):
                             < partner.location.params.high_risk.prob
                         ):
                             partner.high_risk.become_high_risk()
+
+    @classmethod
+    def add_agent(cls, agent: "Agent"):
+        cls.new_releases.add(agent)
+
+    @classmethod
+    def update_pop(cls, model: "HIVModel"):
+        """
+        Update the feature for the entire population (class method).
+
+        This is called in `HIVModel.update_all_agents` before agent-level updates are made.
+
+        Resets the tracking set for `new_releases` as this is called before `update_agent`
+
+        args:
+            model: the instance of HIVModel currently being run
+        """
+        # population is updated before agents, so clear set at the beginning of updates
+        cls.new_releases = set()
+
+    def set_stats(self, stats: Dict[str, int]):
+        if self.agent in self.new_releases:
+            stats["new_release"] += 1
+            if self.agent.hiv:
+                stats["new_release_hiv"] += 1
+
+        if self.active:
+            stats["incar"] += 1
+            if self.agent.hiv:
+                stats["incar_hiv"] += 1
+
+    # ============== HELPER METHODS ================

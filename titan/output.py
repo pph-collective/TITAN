@@ -254,9 +254,7 @@ def basicReport(
 
     Additionally, any feature enabled may have additional stats that are tracked.  See the feature's `stats` attribute and docs for details.
     """
-    write_report(
-        "basicReport.txt", run_id, t, runseed, popseed, stats, params, outdir
-    )
+    write_report("basicReport.txt", run_id, t, runseed, popseed, stats, params, outdir)
 
 
 # ========================== Other Print Functions =============================

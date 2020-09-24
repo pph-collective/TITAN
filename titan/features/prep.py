@@ -1,16 +1,26 @@
+from typing import Dict
+
 from .base_feature import BaseFeature
 
 
 class Prep(BaseFeature):
 
     name = "prep"
-    stats = ["numPrEP", "newNumPrEP", "injectable_prep", "oral_prep"]
+    stats = ["prep", "prep_new", "prep_injectable", "prep_oral"]
+    """
+        PrEP collects the following stats:
+
+        * prep - number of agents with active PrEP
+        * prep_new - number of agents who became active PrEP this time step
+        * prep_injectable - number of agents on injectable PrEP
+        * prep_oral - number of agents on oral PrEP
+    """
 
     # class level attributes to track all Prep agents
     counts = None
     new_agents = set()
 
-    def __init__(self, agent):
+    def __init__(self, agent: "Agent"):
         super().__init__(agent)
         # agent level attributes
         self.active = False
@@ -19,30 +29,52 @@ class Prep(BaseFeature):
         self.load = 0.0
         self.last_dose = 0
 
-    def init_agent(self, pop, time):
+    def init_agent(self, pop: "Population", time: int):
+        """
+        Initialize the agent for this feature during population initialization (`Population.create_agent`).  Called on only features that are enabled per the params.
+
+        If an agent does not have HIV, is PrEP eligible, and time is at least the prep start time, they are randomly asigned to enroll in PrEP.
+
+        args:
+            pop: the population this agent is a part of
+            time: the current time step
+        """
         if (
             not self.agent.hiv
-            and self.eligible
+            and self.eligible()
             and time >= self.agent.location.params.prep.start_time
             and pop.pop_random.random() < self.agent.location.params.prep.target
         ):
             self.enroll(pop.pop_random)
 
-    def update_agent(self, model):
-        if not self.agent.hiv:
-            if model.time >= self.agent.location.params.prep.start_time:
-                if self.active:
-                    self.progress(model)
-                elif self.eligible():
-                    self.initiate(model)
+    def update_agent(self, model: "HIVModel"):
+        """
+        Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
+
+        If the agent is not hiv and time is at least the prep start time, if the agent is already on PrEP update their PrEP attributes, if the agent isn't on PrEP and is eleigible, initiate PrEP.
+
+        args:
+            model: the instance of HIVModel currently being run
+        """
+        if (
+            not self.agent.hiv
+            and model.time >= self.agent.location.params.prep.start_time
+        ):
+            if self.active:
+                self.progress(model)
+            elif self.eligible():
+                self.initiate(model)
 
     @classmethod
-    def update_pop(cls, model):
-        # population is updated before agents, so clear set at the beginning of updates
-        cls.new_agents = set()
+    def add_agent(cls, agent: "Agent"):
+        """
+        Add an agent to the class (not instance).
 
-    @classmethod
-    def add_agent(cls, agent):
+        Add agent to the PrEP counts by race, and add the agent to the set of new agents.
+
+        args:
+            agent: the agent to add to the class attributes
+        """
         # set up if this is the first time being called
         if cls.counts is None:
             cls.init_class(agent.location.params)
@@ -52,31 +84,54 @@ class Prep(BaseFeature):
 
     @classmethod
     def remove_agent(cls, agent):
-        cls.counts[agent.race] -= 10
+        """
+        Remove an agent from the class (not instance).
 
-    def set_stats(self, stats):
-        if self.agent in self.new_agents:
-            stats["newNumPrEP"] += 1
+        Decrement the prep counts by race.
 
-        if self.active:
-            stats["numPrEP"] += 1
-            if self.type == "Inj":
-                stats["injectable_prep"] += 1
-            elif self.type == "Oral":
-                stats["oral_prep"] += 1
-
-    ## HELPER FUNCTIONS
+        args:
+            agent: the agent to remove from the class attributes
+        """
+        cls.counts[agent.race] -= 1
 
     @classmethod
-    def init_class(cls, params):
+    def update_pop(cls, model: "HIVModel"):
+        """
+        Update the feature for the entire population (class method).
+
+        This is called in `HIVModel.update_all_agents` before agent-level updates are made.
+
+        Resets the tracking set for `new_agents` as this is called before `update_agent`
+
+        args:
+            model: the instance of HIVModel currently being run
+        """
+        cls.new_agents = set()
+
+    def set_stats(self, stats: Dict[str, int]):
+        if self.agent in self.new_agents:
+            stats["prep_new"] += 1
+
+        if self.active:
+            stats["prep"] += 1
+            if self.type == "Inj":
+                stats["prep_injectable"] += 1
+            elif self.type == "Oral":
+                stats["prep_oral"] += 1
+
+    # =============== HELPER METHODS ===================
+
+    @classmethod
+    def init_class(cls, params: "ObjMap"):
+        # internal method to initialize count dictionary
         cls.counts = {race: 0 for race in params.classes.races}
 
-    def initiate(self, model, force: bool = False):
+    def initiate(self, model: "HIVModel", force: bool = False):
         """
         Place agents onto PrEP treatment. PrEP treatment assumes that the agent knows their HIV status is negative.
 
         args:
-            agent : agent being updated
+            model : instance of HIVModel being run
             force : whether to force the agent to enroll instead of using the appropriate algorithm per the prep params
         """
         # Prep only valid for agents not on prep and are HIV negative
@@ -151,12 +206,12 @@ class Prep(BaseFeature):
 
         self.add_agent(self.agent)
 
-    def progress(self, model, force: bool = False):
+    def progress(self, model: "HIVModel", force: bool = False):
         """
         Update agent's PrEP status and discontinue stochastically or if `force` is True
 
         args:
-            agent: agent being updated
+            model: instance of the HIVModel being run
             force: whether to force discontinuation of PrEP
         """
         if force:
@@ -192,6 +247,9 @@ class Prep(BaseFeature):
             )
 
     def discontinue(self):
+        """
+        Discontinue PrEP usage
+        """
         self.active = False
         self.type = ""
         self.load = 0.0

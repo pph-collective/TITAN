@@ -208,11 +208,7 @@ class HIVModel:
         self.update_all_agents()
 
         stats = ao.get_stats(
-            self.pop.all_agents,
-            self.new_dx,
-            self.deaths,
-            self.params,
-            self.features
+            self.pop.all_agents, self.new_dx, self.deaths, self.params, self.features
         )
         self.print_stats(stats, outdir)
 

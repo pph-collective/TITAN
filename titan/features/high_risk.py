@@ -1,3 +1,5 @@
+from typing import Dict
+
 from .base_feature import BaseFeature
 from .. import utils
 
@@ -5,19 +7,47 @@ from .. import utils
 class HighRisk(BaseFeature):
 
     name = "high_risk"
-    stats = ["newHR", "newHR_HIV", "newHR_AIDS", "newHR_dx", "newHR_ART", "inf_HR6m", "inf_HRever"]
+    stats = [
+        "high_risk_new",
+        "high_risk_new_hiv",
+        "high_risk_new_aids",
+        "high_risk_new_dx",
+        "high_risk_new_haart",
+        "inf_HR6m",
+        "inf_HRever",
+    ]
+    """
+        High Risk collects the following stats:
+
+        * high_risk_new - number of agents that became active high risk this time step
+        * high_risk_new_hiv - number of agents that became active high risk this time step with HIV
+        * high_risk_new_aids - number of agents that became active high risk this time step with AIDS
+        * high_risk_new_dx - number of agents that became active high risk this time step with diagnosed HIV
+        * high_risk_new_haart - number of agents that became active high risk this time step with active HAART
+        * inf_HR6m - number of agents that became active with HIV this time step who are high risk
+        * inf_HRever - number of agents that became active with HIV this time step were ever high risk
+    """
 
     new_agents = set()
     count = 0
 
-    def __init__(self, agent):
+    def __init__(self, agent: "Agent"):
         super().__init__(agent)
 
         self.active = False
         self.time = 0
         self.ever = False
 
-    def init_agent(self, pop, time):
+    def init_agent(self, pop: "Population", time: int):
+        """
+        Initialize the agent for this feature during population initialization (`Population.create_agent`).  Called on only features that are enabled per the params.
+
+        Based on agent demographic params, randomly initialize agent as high risk.
+
+        args:
+            pop: the population this agent is a part of
+            time: the current time step
+        """
         if (
             pop.pop_random.random()
             < self.agent.location.params.demographics[self.agent.race][
@@ -26,44 +56,14 @@ class HighRisk(BaseFeature):
         ):
             self.become_high_risk()
 
-    @classmethod
-    def update_pop(cls, model):
-        # population is updated before agents, so clear set at the beginning of updates
-        cls.new_agents = set()
-
-    @classmethod
-    def add_agent(cls, agent, new_agent: bool = True):
-        cls.count += 1
-        if new_agent:
-            cls.new_agents.add(agent)
-
-    @classmethod
-    def remove_agent(cls, agent):
-        cls.count -= 1
-
-    def set_stats(self, stats):
-        if self.agent in self.new_agents:
-            stats["newHR"] += 1
-            if self.agent.hiv:
-                stats["newHR_HIV"] += 1
-                if self.agent.aids:
-                    stats["newHR_AIDS"] += 1
-                if self.agent.hiv_dx:
-                    stats["newHR_dx"] += 1
-                    if self.agent.haart:
-                        stats["newHR_ART"] += 1
-
-        if self.agent.hiv_time == 1: # newly hiv
-            if self.active:
-                stats["inf_HR6m"] += 1
-            if self.ever:
-                stats["inf_HRever"] += 1
-
-
-    def update_agent(self, model):
+    def update_agent(self, model: "HIVModel"):
         """
-        Update high risk agents or remove them from high risk pool.  An agent
-        becomes high_risk through the incarceration feature
+        Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
+
+        Update high risk agents or remove them from high risk pool.  An agent becomes high_risk through the incarceration feature
+
+        args:
+            model: the instance of HIVModel currently being run
         """
         if not self.active:
             return None
@@ -96,12 +96,72 @@ class HighRisk(BaseFeature):
                             rel.progress(force=True)
                             model.pop.remove_relationship(rel)
 
+    @classmethod
+    def add_agent(cls, agent: "Agent", new_agent: bool = True):
+        """
+        Add an agent to the class (not instance).
+
+        Increment the count of high risk agents. Add the agent to the set of newly high risk agents.
+
+        args:
+            agent: the agent to add to the class attributes
+            new_agent: whether the agent is newly high risk
+        """
+        cls.count += 1
+        if new_agent:
+            cls.new_agents.add(agent)
+
+    @classmethod
+    def remove_agent(cls, agent: "Agent"):
+        """
+        Remove an agent from the class (not instance).
+
+        Decrement the count of high risk agents.
+
+        args:
+            agent: the agent to remove from the class attributes
+        """
+        cls.count -= 1
+
+    @classmethod
+    def update_pop(cls, model: "HIVModel"):
+        """
+        Update the feature for the entire population (class method).
+
+        This is called in `HIVModel.update_all_agents` before agent-level updates are made.
+
+        Resets the tracking set for `new_agents` as this is called before `update_agent`
+
+        args:
+            model: the instance of HIVModel currently being run
+        """
+        cls.new_agents = set()
+
+    def set_stats(self, stats: Dict[str, int]):
+        if self.agent in self.new_agents:
+            stats["high_risk_new"] += 1
+            if self.agent.hiv:
+                stats["high_risk_new_hiv"] += 1
+                if self.agent.aids:
+                    stats["high_risk_new_aids"] += 1
+                if self.agent.hiv_dx:
+                    stats["high_risk_new_dx"] += 1
+                    if self.agent.haart:
+                        stats["high_risk_new_haart"] += 1
+
+        if self.agent.hiv_time == 1:  # newly hiv
+            if self.active:
+                stats["inf_HR6m"] += 1
+            if self.ever:
+                stats["inf_HRever"] += 1
+
+    # ============== HELPER METHODS ================
+
     def become_high_risk(self, duration: int = None):
         """
         Mark an agent as high risk and assign a duration to their high risk period
 
         args:
-            agent: agent becoming high risk
             duration: duration of the high risk period, defaults to param value if not passed [params.high_risk.sex_based]
         """
 
