@@ -203,31 +203,31 @@ def test_prep_coverage(make_model_integration, tmpdir):
         res_a = {}
         for row in reader_a:
             if row["t"] not in res_a:
-                res_a[row["t"]] = {"HIV": 0, "PrEP": 0}
-            res_a[row["t"]]["HIV"] += float(row["HIV"])
-            res_a[row["t"]]["PrEP"] += float(row["PrEP"])
+                res_a[row["t"]] = {"hiv": 0, "prep": 0}
+            res_a[row["t"]]["hiv"] += float(row["hiv"])
+            res_a[row["t"]]["prep"] += float(row["hiv"])
 
         reader_b = csv.DictReader(fb, delimiter="\t")
         res_b = {}
         for row in reader_b:
             if row["t"] not in res_b:
-                res_b[row["t"]] = {"HIV": 0, "PrEP": 0}
-            res_b[row["t"]]["HIV"] += float(row["HIV"])
-            res_b[row["t"]]["PrEP"] += float(row["PrEP"])
+                res_b[row["t"]] = {"hiv": 0, "prep": 0}
+            res_b[row["t"]]["hiv"] += float(row["hiv"])
+            res_b[row["t"]]["prep"] += float(row["prep"])
 
     # at start, should be similar
-    t0_hiv_a = res_a["0"]["HIV"]
-    t0_hiv_b = res_b["0"]["HIV"]
+    t0_hiv_a = res_a["0"]["hiv"]
+    t0_hiv_b = res_b["0"]["hiv"]
     t0_diff = t0_hiv_a - t0_hiv_b
     assert math.isclose(t0_hiv_a, t0_hiv_b, abs_tol=15)  # within 15 agents
-    assert res_a["0"]["PrEP"] < res_b["0"]["PrEP"]
+    assert res_a["0"]["prep"] < res_b["0"]["prep"]
 
     # at end, should be different
-    t10_hiv_a = res_a["10"]["HIV"]
-    t10_hiv_b = res_b["10"]["HIV"]
+    t10_hiv_a = res_a["10"]["hiv"]
+    t10_hiv_b = res_b["10"]["hiv"]
     t10_diff = t10_hiv_a - t10_hiv_b  # a should be higher
     assert t10_diff > t0_diff
-    assert res_a["10"]["PrEP"] < res_b["10"]["PrEP"]
+    assert res_a["10"]["prep"] < res_b["10"]["prep"]
 
 
 @pytest.mark.integration_stochastic
@@ -262,13 +262,13 @@ def test_syringe_services(make_model_integration, tmpdir):
         res_a = {}
         for row in reader_a:
             if row["drug_type"] == "Inj":
-                res_a[row["t"]] = res_a.get(row["t"], 0) + float(row["HIV"])
+                res_a[row["t"]] = res_a.get(row["t"], 0) + float(row["hiv"])
 
         reader_b = csv.DictReader(fb, delimiter="\t")
         res_b = {}
         for row in reader_b:
             if row["drug_type"] == "Inj":
-                res_b[row["t"]] = res_b.get(row["t"], 0) + float(row["HIV"])
+                res_b[row["t"]] = res_b.get(row["t"], 0) + float(row["hiv"])
 
     # at start, should be similar
     t0_hiv_a = res_a["0"]
