@@ -1,4 +1,4 @@
-from typing import Dict, Optional, ClassVar, Set
+from typing import Dict, ClassVar, Set
 
 from . import base_feature
 from .. import agent

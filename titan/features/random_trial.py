@@ -1,7 +1,5 @@
 from . import base_feature
 from .. import utils
-from .. import agent
-from .. import population
 from .. import model
 
 import networkx as nx  # type: ignore

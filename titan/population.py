@@ -3,9 +3,9 @@
 
 import random
 from collections import deque
-from copy import copy, deepcopy
+from copy import copy
 from math import ceil
-from typing import List, Dict, Any, Set, Optional, Tuple
+from typing import List, Dict, Set, Optional, Tuple
 
 import numpy as np  # type: ignore
 import networkx as nx  # type: ignore

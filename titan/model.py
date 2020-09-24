@@ -9,8 +9,8 @@ import networkx as nx  # type: ignore
 import nanoid  # type: ignore
 
 
-from . import agent  # import AgentSet, Agent, Relationship
-from . import population  # import Population
+from . import agent as ag
+from . import population
 from .network import NetworkGraphUtils
 from . import output as ao
 from . import probabilities as prob
@@ -63,7 +63,7 @@ class HIVModel:
 
         print("\n\tCreating lists")
         # Other lists / dictionaries
-        self.new_dx = agent.AgentSet("new_dx")
+        self.new_dx = ag.AgentSet("new_dx")
 
         self.time = -1 * self.params.model.time.burn_steps  # burn is negative time
         self.id = nanoid.generate(size=8)
@@ -83,7 +83,7 @@ class HIVModel:
         print(("\tFIRST RANDOM CALL {}".format(random.randint(0, 100))))
 
         print("\tResetting death count")
-        self.deaths: List["agent.Agent"] = []  # Number of death
+        self.deaths: List["ag.Agent"] = []  # Number of death
 
         print("\n === Initialization Protocol Finished ===")
 
@@ -332,7 +332,7 @@ class HIVModel:
                         print(f"timeline un-scaling - {param}")
                         utils.scale_param(params, param, 1 / defn.scalar)
 
-    def agents_interact(self, rel: "agent.Relationship") -> bool:
+    def agents_interact(self, rel: "ag.Relationship") -> bool:
         """
         Let an agent interact with a partner.
 
@@ -377,7 +377,7 @@ class HIVModel:
 
         return True
 
-    def pca_interaction(self, rel: "agent.Relationship", force=False):
+    def pca_interaction(self, rel: "ag.Relationship", force=False):
         """
         Simulate peer change agent interactions. Knowledge if one agent is aware and one unaware,
             opinion if one agent swaying the other.
@@ -473,7 +473,7 @@ class HIVModel:
             if self.run_random.random() < knowledge_transmission_probability() or force:
                 influence(rel.agent1, rel.agent2)
 
-    def injection_transmission(self, agent: "agent.Agent", partner: "agent.Agent"):
+    def injection_transmission(self, agent: "ag.Agent", partner: "ag.Agent"):
         """
         Simulate random transmission of HIV between two PWID agents through injection.
 
@@ -531,7 +531,7 @@ class HIVModel:
                 # if agent HIV+ partner becomes HIV+
                 self.hiv_convert(partner)
 
-    def sex_transmission(self, rel: "agent.Relationship"):
+    def sex_transmission(self, rel: "ag.Relationship"):
         """
         Simulate random transmission of HIV between two agents through Sex. One of the agents must have HIV.
 
@@ -688,7 +688,7 @@ class HIVModel:
 
         return p
 
-    def hiv_convert(self, agent: "agent.Agent"):
+    def hiv_convert(self, agent: "ag.Agent"):
         """
         Agent becomes HIV agent. Update all appropriate list and dictionaries.
 
@@ -704,7 +704,7 @@ class HIVModel:
         if agent.prep.active:  # type: ignore[attr-defined]
             agent.prep.progress(self, force=True)  # type: ignore[attr-defined]
 
-    def diagnose_hiv(self, agent: "agent.Agent"):
+    def diagnose_hiv(self, agent: "ag.Agent"):
         """
         Stochastically test the agent for HIV. If tested, mark the agent as diagnosed and trace their partners (if partner tracing enabled).
 
@@ -758,7 +758,7 @@ class HIVModel:
             # diagnosed. If past this time, remove ability to trace.
             agent.partner_traced = False
 
-    def progress_to_aids(self, agent: "agent.Agent"):
+    def progress_to_aids(self, agent: "ag.Agent"):
         """
         Model the progression of HIV agents to AIDS agents
         """

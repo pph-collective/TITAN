@@ -1,7 +1,5 @@
 from . import base_feature
-from .. import agent
-from .. import population
-from .. import model
+from .. import model as hiv_model
 from .. import utils
 
 
@@ -17,7 +15,7 @@ class SyringeServices(base_feature.BaseFeature):
         self.active = False
 
     @classmethod
-    def update_pop(cls, model):
+    def update_pop(cls, model: "hiv_model.HIVModel"):
         """
         Update the feature for the entire population (class method).  This is useful for initializing class level trackers that need to be reset each time step, or if enabling a feature for agents needs to be evaluated within the context of the full population (limited slots, or similar).
 
@@ -29,12 +27,12 @@ class SyringeServices(base_feature.BaseFeature):
         print(("\n\n!!!!Engaging syringe services program"))
         ssp_num_slots = 0
         ssp_agents = {
-            agent for agent in model.pop.pwid_agents if agent.syringe_services.active
+            agent for agent in model.pop.pwid_agents if agent.syringe_services.active  # type: ignore[attr-defined]
         }
 
         for item in model.params.syringe_services.timeline.values():
             if item.start_time <= model.time < item.stop_time:
-                cls.ssp_enrolled_risk = item.risk
+                cls.enrolled_risk = item.risk
 
                 # linearly interpolate slots between start and stop
                 ssp_num_slots = (item.num_slots_stop - item.num_slots_start) / (
@@ -61,7 +59,7 @@ class SyringeServices(base_feature.BaseFeature):
         # unenroll agents if above cap
         for agent in ssp_agents.copy():
             if len(ssp_agents) > ssp_num_slots:
-                agent.syringe_services.active = False
+                agent.syringe_services.active = False  # type: ignore[attr-defined]
                 ssp_agents.remove(agent)
             else:
                 break
@@ -70,7 +68,7 @@ class SyringeServices(base_feature.BaseFeature):
         if target_set is not None:
             for agent in target_set:
                 if len(ssp_agents) < ssp_num_slots:
-                    agent.syringe_services.active = True
+                    agent.syringe_services.active = True  # type: ignore[attr-defined]
                     ssp_agents.add(agent)
                 else:
                     break

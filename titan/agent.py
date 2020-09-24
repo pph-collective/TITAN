@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from typing import List, Dict, Set, Optional, Iterator, Iterable, Tuple
+from typing import Dict, Set, Optional, Iterator, Iterable
 
-from .parse_params import ObjMap
 from .utils import safe_divide, safe_dist
 from .location import Location
 from . import features

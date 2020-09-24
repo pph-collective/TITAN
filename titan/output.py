@@ -2,14 +2,12 @@
 # encoding: utf-8
 
 from typing import Dict, Any, List, Iterator
-from . import agent
+from . import agent as ag
 import itertools
 import os
 
 from networkx import betweenness_centrality, effective_size, density  # type: ignore
 from .parse_params import ObjMap
-
-from .features import *
 
 
 def setup_aggregates(params: ObjMap, features, classes: List[str]) -> Dict:
@@ -96,7 +94,7 @@ def get_agg_val(stats: Dict, attrs: List, key: str) -> int:
     return stats_item[key]
 
 
-def get_stats_item(stats: Dict[str, Any], attrs: List[str], agent: "agent.Agent"):
+def get_stats_item(stats: Dict[str, Any], attrs: List[str], agent: "ag.Agent"):
     stats_item = stats
     for attr in attrs:
         stats_item = stats_item[str(getattr(agent, attr))]
@@ -105,7 +103,7 @@ def get_stats_item(stats: Dict[str, Any], attrs: List[str], agent: "agent.Agent"
 
 
 def add_agent_to_stats(
-    stats: Dict[str, Any], attrs: List[str], agent: "agent.Agent", key: str
+    stats: Dict[str, Any], attrs: List[str], agent: "ag.Agent", key: str
 ):
     """
     Update the stats dictionary counts for the key given the agent's attributes
@@ -122,9 +120,9 @@ def add_agent_to_stats(
 
 
 def get_stats(
-    all_agents: "agent.AgentSet",
-    new_hiv_dx: "agent.AgentSet",
-    deaths: List["agent.Agent"],
+    all_agents: "ag.AgentSet",
+    new_hiv_dx: "ag.AgentSet",
+    deaths: List["ag.Agent"],
     params: ObjMap,
     features,
 ) -> Dict:

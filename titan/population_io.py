@@ -10,8 +10,7 @@ from .population import Population
 from .agent import Agent, Relationship
 from .parse_params import ObjMap
 from .location import Location
-from . import utils
-from .features import *
+from . import features
 
 # These attributes are the non-intervention attributes of an agent.  They are considered
 # "core" as they are assigned in creating an agent and are stable over time (likely
@@ -34,7 +33,9 @@ agent_core_attrs = [
 ]
 
 # these are functionally saved in the relationships file and complicate the agent file
-agent_feature_attrs = [feature.name for feature in BaseFeature.__subclasses__()]
+agent_feature_attrs = [
+    feature.name for feature in features.BaseFeature.__subclasses__()
+]
 agent_exclude_attrs = {"partners", "relationships"}.union(agent_feature_attrs)
 
 
