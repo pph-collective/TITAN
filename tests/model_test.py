@@ -792,6 +792,7 @@ def test_die_and_replace_all(make_model):
 
     num_hm = len([x for x in baseline_pop if x.sex_type == "HM"])
     num_white = len([x for x in baseline_pop if x.race == "white"])
+    num_pwid = len([x for x in baseline_pop if x.drug_type == "Inj"])
 
     model.die_and_replace()
 
@@ -800,6 +801,9 @@ def test_die_and_replace_all(make_model):
     )
     assert num_white == len(
         [x for x in model.pop.all_agents.members if x.race == "white"]
+    )
+    assert num_pwid == len(
+        [x for x in model.pop.all_agents.members if x.drug_type == "Inj"]
     )
 
     new_ids = [a.id for a in model.pop.all_agents.members]

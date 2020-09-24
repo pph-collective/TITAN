@@ -810,6 +810,6 @@ class HIVModel:
             self.pop.remove_agent(agent)
 
             new_agent = self.pop.create_agent(
-                agent.location, agent.race, self.time, agent.sex_type
+                agent.location, agent.race, self.time, agent.sex_type, agent.drug_type
             )
             self.pop.add_agent(new_agent)
