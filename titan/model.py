@@ -404,37 +404,33 @@ class HIVModel:
 
             if (
                 agent_init_opinion
-                < agent.location.params.prep.pca.opinion.threshold
+                < agent.location.params.pca.opinion.threshold
                 < agent.pca.opinion
             ):
-                if self.run_random.random() < agent.location.params.prep.pca.prep.prob:
+                if self.run_random.random() < agent.location.params.pca.prep.prob:
                     agent.prep.initiate(self, force=True)
 
             elif (
                 partner_init_opinion
-                < partner.location.params.prep.pca.opinion.threshold
+                < partner.location.params.pca.opinion.threshold
                 < partner.pca.opinion
             ):
-                if (
-                    self.run_random.random()
-                    < partner.location.params.prep.pca.prep.prob
-                ):
+                if self.run_random.random() < partner.location.params.pca.prep.prob:
                     partner.prep.initiate(partner, self, force=True)
 
         def knowledge_dissemination(partner):
             partner.pca.awareness = True
             if (
-                partner.pca.opinion > partner.location.params.prep.pca.opinion.threshold
-                and self.run_random.random()
-                < partner.location.params.prep.pca.prep.prob
+                partner.pca.opinion > partner.location.params.pca.opinion.threshold
+                and self.run_random.random() < partner.location.params.pca.prep.prob
             ):
                 self.initiate(partner, force=True)
 
         def knowledge_transmission_probability():
             if rel.agent1.pca.awareness and rel.agent2.pca.awareness:
-                p = self.params.prep.pca.opinion.transmission
+                p = self.params.pca.opinion.transmission
             else:
-                p = self.params.prep.pca.knowledge.transmission
+                p = self.params.pca.knowledge.transmission
 
             if num_acts == 1:
                 p_total_transmission = p

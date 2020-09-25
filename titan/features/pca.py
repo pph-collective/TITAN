@@ -1,3 +1,5 @@
+import networkx as nx # type: ignore
+
 from . import base_feature
 from .. import agent
 from .. import population
