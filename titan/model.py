@@ -441,13 +441,13 @@ class HIVModel:
                     for ag in comp.nodes():
                         ag.random_trial_enrolled = True
                         if not ag.hiv and not ag.prep:
-                            ag.intervention_ever = True
                             if (
                                 self.run_random.random()
                                 < ag.location.params.prep.target
                                 and not ag.vaccine
                             ):
                                 self.initiate_prep(ag, force=True)
+                                ag.intervention_ever = True
                 elif self.params.prep.pca.choice == "eigenvector":
                     centrality = nx.algorithms.centrality.eigenvector_centrality(comp)
                     assert len(centrality) >= 1, "Empty centrality"
