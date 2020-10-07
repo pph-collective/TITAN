@@ -332,6 +332,7 @@ class HIVModel:
                         print(f"timeline un-scaling - {param}")
                         utils.scale_param(params, param, 1 / defn.scalar)
 
+                        
     def agents_interact(self, rel: "ag.Relationship") -> bool:
         """
         Let an agent interact with a partner.
