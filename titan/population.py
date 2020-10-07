@@ -53,6 +53,9 @@ class Population:
             for feature in features.BaseFeature.__subclasses__()
             if self.params.features[feature.name]
         ]
+        # initialize the class level items
+        for feature in self.features:
+            feature.init_class(params)
 
         # set up the population's locations and edges
         self.geography = location.Geography(params)

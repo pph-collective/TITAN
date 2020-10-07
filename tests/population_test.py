@@ -93,20 +93,12 @@ def test_add_remove_agent_to_pop(make_population):
     agent.drug_type = "Inj"
     agent.hiv = True
     agent.aids = True
-    agent.random_trial.treated = True
-    agent.haart.active = True
-    agent.prep.active = True
     agent.hiv_dx = True
-    agent.incar.active = True
-    agent.high_risk.active = True
-
-    num_prep = Prep.counts[agent.race]
 
     pop.add_agent(agent)
 
     assert agent in pop.all_agents.members
     assert agent in pop.hiv_agents.members
-    assert Prep.counts[agent.race] == num_prep + 1
 
     assert pop.graph.has_node(agent)
 
@@ -114,7 +106,6 @@ def test_add_remove_agent_to_pop(make_population):
 
     assert agent not in pop.all_agents.members
     assert agent not in pop.hiv_agents.members
-    assert Prep.counts[agent.race] == num_prep
 
     assert not pop.graph.has_node(agent)
 

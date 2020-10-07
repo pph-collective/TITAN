@@ -775,7 +775,7 @@ class HIVModel:
         for agent in self.pop.all_agents:
 
             # agent incarcerated, don't evaluate for death
-            if agent.incar:
+            if agent.incar.active:
                 continue
 
             # death rate per 1 person-month

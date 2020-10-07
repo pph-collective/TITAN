@@ -1,23 +1,25 @@
 import pytest
 
+from conftest import FakeRandom
+
 
 @pytest.mark.unit
-def test_pca_msmw(make_model, make_agent, params):
+def test_pca(make_model, make_agent, params):
 
     # test update all agents for pca and msmw TODO separate tests
-    model = make_model()
-    a = make_agent(race="white", DU="Inj")
-    p = make_agent(race="white", DU="Inj")
-    model.pop.add_agent(a)
-    model.pop.add_agent(p)
-    msmw_agent = make_agent()
-    msmw_agent.msmw.active = True
-    model.pop.add_agent(msmw_agent)
     params.features.pca = True
-    params.pca.awareness.prob = 1.0
+    params.pca.awareness.prob = 0.0
 
-    model.time = 0
-    model.update_all_agents()
+    model = make_model(params)
+    a = make_agent(race="white", DU="Inj")
+    model.pop.add_agent(a)
+
+    assert not a.pca.awareness
+    assert not a.prep.active
+
+    model.time = model.params.pca.start_time
+    model.run_random = FakeRandom(-0.1)
+    a.pca.update_agent(model)
+
     assert a.pca.awareness
-    assert p.pca.awareness
-    assert msmw_agent.hiv
+    assert a.prep.active

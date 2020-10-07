@@ -33,6 +33,16 @@ class Prep(base_feature.BaseFeature):
         self.load = 0.0
         self.last_dose = 0
 
+    @classmethod
+    def init_class(cls, params: "ObjMap"):
+        """
+        Initialize the counts dictionary for the races in the model.
+
+        args:
+            params: the population params
+        """
+        cls.counts = {race: 0 for race in params.classes.races}
+
     def init_agent(self, pop: "population.Population", time: int):
         """
         Initialize the agent for this feature during population initialization (`Population.create_agent`).  Called on only features that are enabled per the params.
@@ -80,9 +90,6 @@ class Prep(base_feature.BaseFeature):
             agent: the agent to add to the class attributes
         """
         # set up if this is the first time being called
-        if len(cls.counts) == 0:
-            cls.init_class(agent.location.params)
-
         cls.counts[agent.race] += 1
         cls.new_agents.add(agent)
 
@@ -125,11 +132,6 @@ class Prep(base_feature.BaseFeature):
 
     # =============== HELPER METHODS ===================
 
-    @classmethod
-    def init_class(cls, params: "ObjMap"):
-        # internal method to initialize count dictionary
-        cls.counts = {race: 0 for race in params.classes.races}
-
     def initiate(self, model: "model.HIVModel", force: bool = False):
         """
         Place agents onto PrEP treatment. PrEP treatment assumes that the agent knows their HIV status is negative.
@@ -143,9 +145,6 @@ class Prep(base_feature.BaseFeature):
             return
 
         params = self.agent.location.params
-
-        if len(self.counts) == 0:
-            self.init_class(params)
 
         if force:
             self.enroll(model.run_random)

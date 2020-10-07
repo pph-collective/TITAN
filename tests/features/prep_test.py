@@ -27,6 +27,7 @@ def test_update_agent_prep_decrement_time(make_model, make_agent):
     a = make_agent()
 
     model.run_random = FakeRandom(1.1)
+    model.time = model.params.prep.start_time
 
     # set up so the agent appears to be on PrEP
     a.prep.active = True
@@ -45,6 +46,7 @@ def test_update_agent_prep_decrement_end(make_model, make_agent):
     a = make_agent(race="white")
 
     model.run_random = FakeRandom(-0.1)
+    model.time = model.params.prep.start_time
 
     # set up so the agent appears to be on PrEP
     a.prep.active = True
@@ -65,6 +67,7 @@ def test_update_agent_prep_decrement_not_end(make_model, make_agent):
     a = make_agent()
 
     model.run_random = FakeRandom(1.1)
+    model.time = model.params.prep.start_time
 
     # set up so the agent appears to be on PrEP
     a.prep.active = True
@@ -87,6 +90,7 @@ def test_update_agent_prep_decrement_inj_end(make_model, make_agent):
     a = make_agent()
 
     model.run_random = FakeRandom(1.1)
+    model.time = model.params.prep.start_time
 
     # set up so the agent appears to be on PrEP
     a.prep.active = True
@@ -228,22 +232,26 @@ def test_prep_eligible(make_agent, make_relationship):
     a.location.params.prep.target_model = ["cdc_msm"]
     assert not a.prep.eligible()
     msm_agent = make_agent()
+    msm_agent.location.params.prep.target_model = ["cdc_msm"]
     make_relationship(msm_agent, p)
+    assert msm_agent.is_msm()
     assert msm_agent.prep.eligible()
 
     # test pwid
     a.location.params.prep.target_model = ["pwid"]
-    assert not a.prep.eligible()
+    p.location.params.prep.target_model = ["pwid"]
     assert not a.prep.eligible()
     assert p.prep.eligible()
     p = make_agent(DU="Inj", SO="HM")
+    p.location.params.prep.target_model = ["pwid"]
     assert p.prep.eligible()  # still eligible without partners
 
     # test ssp
     a.location.params.prep.target_model = ["ssp"]
+    p.location.params.prep.target_model = ["ssp"]
+    assert not a.prep.eligible()
     assert not p.prep.eligible()
-    assert not p.prep.eligible()
-    p.ssp = True
+    p.syringe_services.active = True
     assert p.prep.eligible()
 
     p.location.params.prep.target_model = ["ssp_sex"]

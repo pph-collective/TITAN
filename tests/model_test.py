@@ -373,13 +373,10 @@ def test_die_and_replace_none(make_model):
 
 
 @pytest.mark.unit
-def test_die_and_replace_all(make_model):
-    model = make_model()
+def test_die_and_replace_all(make_model, params):
+    params.features.incar = False
+    model = make_model(params)
     model.run_random = FakeRandom(0.0000001)  # always lower than death rate
-
-    # un-incarcerate everyone
-    for agent in model.pop.all_agents.members:
-        agent.incar.active = False
 
     baseline_pop = copy(model.pop.all_agents.members)
     old_ids = [a.id for a in baseline_pop]

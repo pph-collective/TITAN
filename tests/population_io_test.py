@@ -1,6 +1,7 @@
 import pytest
 import os
 import csv
+from copy import deepcopy
 
 from titan.population_io import (
     write,
@@ -9,6 +10,7 @@ from titan.population_io import (
     agent_exclude_attrs,
     find_agent,
 )
+from titan.features import Prep, BaseFeature
 
 
 @pytest.mark.unit
@@ -110,6 +112,7 @@ def test_read_pop_core(tmpdir, make_population, params):
 @pytest.mark.unit
 def test_read_pop_intervention(tmpdir, make_population, params):
     pop = make_population(n=10)
+    prep_counts = deepcopy(Prep.counts)
 
     write(pop, tmpdir, intervention_attrs=True, compress=False)
 
@@ -118,6 +121,7 @@ def test_read_pop_intervention(tmpdir, make_population, params):
     assert pop.id == new_pop.id
     assert pop.all_agents.num_members() == new_pop.all_agents.num_members()
     assert len(pop.relationships) == len(new_pop.relationships)
+    assert prep_counts == Prep.counts
 
     agent = next(iter(pop.all_agents))
     new_agent = find_agent(new_pop, str(agent.id))
@@ -125,12 +129,21 @@ def test_read_pop_intervention(tmpdir, make_population, params):
     attrs = agent.__dict__.keys()
 
     for attr in attrs:
-        assert getattr(agent, attr) == getattr(new_agent, attr)
+        orig_attr = getattr(agent, attr)
+        new_attr = getattr(new_agent, attr)
+        if isinstance(orig_attr, BaseFeature):
+            feat_attrs = orig_attr.__dict__.keys()
+            for feat_attr in feat_attrs:
+                assert getattr(orig_attr, feat_attr) == getattr(new_attr, feat_attr)
+        else:
+            assert orig_attr == new_attr
 
 
 @pytest.mark.unit
 def test_write_read_pop_compressed(tmpdir, make_population, params):
+    params.prep.target = 0.5
     pop = make_population(n=10)
+    prep_counts = deepcopy(Prep.counts)
 
     archive = write(pop, tmpdir, intervention_attrs=True, compress=True)
 
@@ -139,6 +152,7 @@ def test_write_read_pop_compressed(tmpdir, make_population, params):
     assert pop.id == new_pop.id
     assert pop.all_agents.num_members() == new_pop.all_agents.num_members()
     assert len(pop.relationships) == len(new_pop.relationships)
+    assert prep_counts == Prep.counts
 
     agent = next(iter(pop.all_agents))
     new_agent = find_agent(new_pop, str(agent.id))
@@ -146,4 +160,11 @@ def test_write_read_pop_compressed(tmpdir, make_population, params):
     attrs = agent.__dict__.keys()
 
     for attr in attrs:
-        assert getattr(agent, attr) == getattr(new_agent, attr)
+        orig_attr = getattr(agent, attr)
+        new_attr = getattr(new_agent, attr)
+        if isinstance(orig_attr, BaseFeature):
+            feat_attrs = orig_attr.__dict__.keys()
+            for feat_attr in feat_attrs:
+                assert getattr(orig_attr, feat_attr) == getattr(new_attr, feat_attr)
+        else:
+            assert orig_attr == new_attr

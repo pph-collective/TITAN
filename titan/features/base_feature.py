@@ -37,6 +37,16 @@ class BaseFeature:
         self.active = False
         self.agent = agent
 
+    @classmethod
+    def init_class(cls, params):
+        """
+        Initialize any class level attributes (such as setting counters to zero). Called on every active feature on population initialization.
+
+        args:
+            params: parameters for this population
+        """
+        pass
+
     def init_agent(self, pop: "population.Population", time: int):
         """
         Initialize the agent for this feature during population initialization (`Population.create_agent`).  Called on only features that are enabled per the params.

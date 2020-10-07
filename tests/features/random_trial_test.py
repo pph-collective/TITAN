@@ -8,15 +8,16 @@ from titan.features import RandomTrial
 
 @pytest.mark.unit
 def test_initialize_random_trial_prep(make_model, params):
-    params.features.prep = False
+    params.features.prep = True
     params.vaccine.on_init = False
-    model = make_model()
+    params.prep.target = 0
+    model = make_model(params)
     model.run_random = FakeRandom(-0.1)
-    model.time = 0
+    model.time = model.params.random_trial.start_time
     RandomTrial.update_pop(model)
     for agent in model.pop.all_agents:
+        assert agent.random_trial.active
         if not agent.hiv:
-            assert agent.random_trial.active
             assert agent.random_trial.treated
             assert agent.prep.active
 
@@ -24,11 +25,14 @@ def test_initialize_random_trial_prep(make_model, params):
 @pytest.mark.unit
 def test_initialize_random_trial_pca_bridge(make_model, params):
     # pca trial
-    model = make_model()
     params.features.pca = True
+    model = make_model(params)
+    model.time = model.params.random_trial.start_time
     RandomTrial.update_pop(model)
     bridge_num = 0
-    for comp in model.pop.connected_components():
+    components = model.pop.connected_components()
+    assert len(components) > 0
+    for comp in components:
         bridges = list(nx.bridges(comp))
         if bridges:
             bridge_num += 1
@@ -36,7 +40,7 @@ def test_initialize_random_trial_pca_bridge(make_model, params):
                 if agent.pca.active:
                     assert agent in [ag for ags in bridges for ag in ags]
 
-    params.model.network.enable = False
+    model.params.model.network.enable = False
     with pytest.raises(AssertionError) as excinfo:
         RandomTrial.update_pop(model)
     assert "Network must be enabled for random trial" in str(excinfo)

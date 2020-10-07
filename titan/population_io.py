@@ -216,7 +216,9 @@ def create_agent(
         for attr, val in feat_row.items():
             if not attr == "agent":
                 setattr(agent_feat, attr, eval(val))
-                agent_feat.add_agent(agent)
+
+        if agent_feat.active:
+            agent_feat.add_agent(agent)
 
     agent.partners = {bond: set() for bond in bond_types}
 

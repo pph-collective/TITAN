@@ -46,7 +46,8 @@ class Incar(base_feature.BaseFeature):
         prob_incar = incar_params.init
         if pop.pop_random.random() < prob_incar:
             self.active = True
-            bin = current_p_value = 0
+            bin = 1
+            current_p_value = jail_duration[bin].prob
             p = pop.pop_random.random()
 
             while p > current_p_value:

@@ -15,6 +15,16 @@ class SyringeServices(base_feature.BaseFeature):
         self.active = False
 
     @classmethod
+    def init_class(cls, params):
+        """
+        Initialize enrolled risk to 0.
+
+        args:
+            params: the population params
+        """
+        cls.enrolled_risk = 0.0
+
+    @classmethod
     def update_pop(cls, model: "hiv_model.HIVModel"):
         """
         Update the feature for the entire population (class method).  This is useful for initializing class level trackers that need to be reset each time step, or if enabling a feature for agents needs to be evaluated within the context of the full population (limited slots, or similar).

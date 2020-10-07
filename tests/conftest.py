@@ -87,8 +87,8 @@ def make_relationship():
 
 @pytest.fixture
 def make_model(params):
-    def _make_model():
-        return HIVModel(params)
+    def _make_model(p=params):
+        return HIVModel(p)
 
     return _make_model
 

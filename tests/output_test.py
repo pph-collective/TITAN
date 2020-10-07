@@ -14,28 +14,25 @@ from titan import agent, features
 def stats(params, world_location):
     a = agent.Agent("MSM", 20, "black", "Inj", world_location)
     a.hiv = True
+    a.hiv_time = 1
     a.aids = True
     a.hiv_dx = True
     a.haart.active = True
     a.syringe_services.active = True
     a.prep.active = True
+    a.prep.init_class(params)
+    a.prep.add_agent(a)  # add to new agents
     a.random_trial.active = True
     a.random_trial.treated = True
     a.high_risk.active = True
     a.high_risk.ever = True
+    a.high_risk.add_agent(a, new_agent=True)  # add to new agents
     a.incar.active = True
-
-    p = agent.Agent("MSM", 20, "black", "Inj", world_location)
-    p.partners["Sex"] = set()
-    a.partners["Sex"] = set()
-    rel = agent.Relationship(a, p, 12, bond_type="Sex")
+    a.incar.add_agent(a)  # adds to new releases
 
     agent_set = agent.AgentSet("test")
-    DU_set = agent.AgentSet("DU", agent_set)
-    PWID_set = agent.AgentSet("Inj", DU_set)
-    PWID_set.add_agent(a)
+    agent_set.add_agent(a)
     agent_list = [a]
-    rel_list = [rel]
     feat_list = [feature for feature in features.BaseFeature.__subclasses__()]
     stats = get_stats(agent_set, agent_set, agent_list, params, feat_list)
     return stats

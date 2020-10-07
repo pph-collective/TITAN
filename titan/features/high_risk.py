@@ -43,6 +43,16 @@ class HighRisk(base_feature.BaseFeature):
         self.time = 0
         self.ever = False
 
+    @classmethod
+    def init_class(cls, params):
+        """
+        Initialize the count of high risk agents to 0.
+
+        args:
+            params: the population params
+        """
+        cls.count = 0
+
     def init_agent(self, pop: "population.Population", time: int):
         """
         Initialize the agent for this feature during population initialization (`Population.create_agent`).  Called on only features that are enabled per the params.

@@ -29,6 +29,19 @@ class HAART(base_feature.BaseFeature):
         self.time = 0
         self.adherence = 0
 
+    @classmethod
+    def init_class(cls, params: "ObjMap"):
+        """
+        Initialize the counts dictionary for the races and sex_types in the model.
+
+        args:
+            params: the population params
+        """
+        cls.counts = {
+            race: {sex_type: 0 for sex_type in params.classes.sex_types}
+            for race in params.classes.races
+        }
+
     def init_agent(self, pop: "population.Population", time: int):
         """
         Initialize the agent for this feature during population initialization (`Population.create_agent`).  Called on only features that are enabled per the params.
@@ -67,9 +80,6 @@ class HAART(base_feature.BaseFeature):
             model: the instance of HIVModel currently being run
         """
         if self.agent.hiv and model.time >= model.params.hiv.start_time:
-            if len(self.counts) == 0:
-                self.init_class(model.params)
-
             # Determine probability of HIV treatment
             if self.agent.hiv_dx:
                 haart_params = self.agent.location.params.demographics[self.agent.race][
@@ -113,10 +123,6 @@ class HAART(base_feature.BaseFeature):
         args:
             agent: the agent to add to the class attributes
         """
-        # set up if this is the first time being called
-        if len(cls.counts) == 0:
-            cls.init_class(agent.location.params)
-
         cls.counts[agent.race][agent.sex_type] += 1
 
     @classmethod
@@ -136,19 +142,6 @@ class HAART(base_feature.BaseFeature):
             stats["haart"] += 1
 
     # =========== HELPER METHODS ============
-
-    @classmethod
-    def init_class(cls, params: "ObjMap"):
-        """
-        Initialize the counts dictionary for the races and sex_types in the model.
-
-        args:
-            params: the model params
-        """
-        cls.counts = {
-            race: {sex_type: 0 for sex_type in params.classes.sex_types}
-            for race in params.classes.races
-        }
 
     def initiate(self, model: "model.HIVModel"):
         """
