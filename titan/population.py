@@ -140,8 +140,9 @@ class Population:
                 self.pop_random,
                 weights=loc.pop_weights[race]["weights"],
             )
-        if sex_type is None:
-            raise ValueError("Agent must have sex type")
+            # no choice available
+            if sex_type is None:
+                raise ValueError("Agent must have sex type")
 
         # Determine drugtype
         if drug_type is None:
@@ -150,14 +151,15 @@ class Population:
                 self.pop_random,
                 weights=loc.drug_weights[race][sex_type]["weights"],
             )
-
-        if drug_type is None:
-            raise ValueError("Agent must have drug type")
+            # no choice available
+            if drug_type is None:
+                raise ValueError("Agent must have drug type")
 
         age, age_bin = self.get_age(loc, race)
 
         agent = ag.Agent(sex_type, age, race, drug_type, loc)
         agent.age_bin = age_bin
+
         sex_role = utils.safe_random_choice(
             loc.role_weights[race][sex_type]["values"],
             self.pop_random,

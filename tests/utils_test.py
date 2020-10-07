@@ -59,6 +59,12 @@ def test_safe_dist():
     dist_info["dist_type"] = "set_value"
     assert utils.safe_dist(dist_info, rand_gen) == 20
 
+    # not a real distribution
+    dist_info["dist_type"] = "fake_dist"
+    with pytest.raises(AttributeError) as excinfo:
+        utils.safe_dist(dist_info, rand_gen)
+    assert "Distribution type fake_dist not found!" in str(excinfo)
+
     # pert
     low = 2
     peak = 5

@@ -191,20 +191,3 @@ def override_param(params, param_path, value, delimiter="|"):
     old_val = override_item[last_key]
     print(f"overriding - {param_path}: {old_val} => {value}")
     override_item[last_key] = value
-
-
-def snake_to_pascal(val: str):
-    """Convert a snake_case string to a PascalCase string"""
-    new_val = ""
-    next_upper = True
-    for letter in val:
-        if next_upper:
-            new_val += letter.upper()
-            next_upper = False
-        else:
-            if letter == "_":
-                next_upper = True
-            else:
-                new_val += letter
-
-    return new_val
