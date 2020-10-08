@@ -54,13 +54,13 @@ class RandomTrial(base_feature.BaseFeature):
                 if not model.params.features.pca:
                     for ag in comp.nodes():
                         if not ag.hiv and not ag.prep.active:
-                            ag.random_trial.treated = True
                             if (
                                 model.run_random.random()
                                 < ag.location.params.prep.target
                                 and not ag.vaccine.active
                             ):
                                 ag.prep.enroll(model.run_random)
+                                ag.random_trial.treated = True
 
                 # pca - eigenvector
                 elif model.params.pca.choice == "eigenvector":
