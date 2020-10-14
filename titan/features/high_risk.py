@@ -1,6 +1,6 @@
 # mypy: always-true=HighRisk
 
-from typing import Dict, Set, ClassVar
+from typing import Dict, Set, ClassVar, Optional
 
 from . import base_feature
 from .. import utils
@@ -33,14 +33,14 @@ class HighRisk(base_feature.BaseFeature):
         * inf_HRever - number of agents that became active with HIV this time step were ever high risk
     """
 
-    new_agents: ClassVar[Set["agent.Agent"]] = set()
     count: ClassVar[int] = 0
 
     def __init__(self, agent: "agent.Agent"):
         super().__init__(agent)
 
         self.active = False
-        self.time = 0
+        self.time: Optional[int] = None
+        self.duration = 0
         self.ever = False
 
     @classmethod
@@ -69,7 +69,7 @@ class HighRisk(base_feature.BaseFeature):
                 self.agent.sex_type
             ].high_risk.init
         ):
-            self.become_high_risk()
+            self.become_high_risk(time)
 
     def update_agent(self, model: "model.HIVModel"):
         """
@@ -83,8 +83,8 @@ class HighRisk(base_feature.BaseFeature):
         if not self.active:
             return None
 
-        if self.time > 0:
-            self.time -= 1
+        if self.duration > 0:
+            self.duration -= 1
         else:
             self.remove_agent(self.agent)
             self.active = False
@@ -112,7 +112,7 @@ class HighRisk(base_feature.BaseFeature):
                             model.pop.remove_relationship(rel)
 
     @classmethod
-    def add_agent(cls, agent: "agent.Agent", new_agent: bool = True):
+    def add_agent(cls, agent: "agent.Agent"):
         """
         Add an agent to the class (not instance).
 
@@ -120,11 +120,8 @@ class HighRisk(base_feature.BaseFeature):
 
         args:
             agent: the agent to add to the class attributes
-            new_agent: whether the agent is newly high risk
         """
         cls.count += 1
-        if new_agent:
-            cls.new_agents.add(agent)
 
     @classmethod
     def remove_agent(cls, agent: "agent.Agent"):
@@ -138,22 +135,8 @@ class HighRisk(base_feature.BaseFeature):
         """
         cls.count -= 1
 
-    @classmethod
-    def update_pop(cls, model: "model.HIVModel"):
-        """
-        Update the feature for the entire population (class method).
-
-        This is called in `HIVModel.update_all_agents` before agent-level updates are made.
-
-        Resets the tracking set for `new_agents` as this is called before `update_agent`
-
-        args:
-            model: the instance of HIVModel currently being run
-        """
-        cls.new_agents = set()
-
-    def set_stats(self, stats: Dict[str, int]):
-        if self.agent in self.new_agents:
+    def set_stats(self, stats: Dict[str, int], time: int):
+        if self.time == time:
             stats["high_risk_new"] += 1
             if self.agent.hiv:
                 stats["high_risk_new_hiv"] += 1
@@ -164,7 +147,7 @@ class HighRisk(base_feature.BaseFeature):
                     if self.agent.haart.active:  # type: ignore[attr-defined]
                         stats["high_risk_new_haart"] += 1
 
-        if self.agent.hiv_time == 1:  # newly hiv
+        if self.agent.hiv_time == time:  # newly hiv
             if self.active:
                 stats["hiv_new_high_risk"] += 1
             if self.ever:
@@ -172,26 +155,29 @@ class HighRisk(base_feature.BaseFeature):
 
     # ============== HELPER METHODS ================
 
-    def become_high_risk(self, duration: int = None):
+    def become_high_risk(self, time: int, duration: int = None):
         """
         Mark an agent as high risk and assign a duration to their high risk period
 
         args:
+            time: the time step the agent is becoming high risk
             duration: duration of the high risk period, defaults to param value if not passed [params.high_risk.sex_based]
         """
 
         if not self.agent.location.params.features.high_risk:
             return None
 
-        is_new_agent = not self.ever
-        self.add_agent(self.agent, new_agent=is_new_agent)
+        self.add_agent(self.agent)
+
+        if not self.ever:
+            self.time = time
 
         self.active = True
         self.ever = True
 
         if duration is not None:
-            self.time = duration
+            self.duration = duration
         else:
-            self.time = self.agent.location.params.high_risk.sex_based[
+            self.duration = self.agent.location.params.high_risk.sex_based[
                 self.agent.sex_type
             ].duration

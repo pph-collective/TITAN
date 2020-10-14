@@ -1,3 +1,5 @@
+from typing import Dict
+
 from . import base_feature
 from .. import agent
 from .. import population
@@ -17,7 +19,7 @@ class Vaccine(base_feature.BaseFeature):
     def __init__(self, agent: "agent.Agent"):
         super().__init__(agent)
         self.active = False
-        self.time = 0
+        self.time = None
         self.type = ""
 
     def init_agent(self, pop: "population.Population", time: int):
@@ -38,7 +40,7 @@ class Vaccine(base_feature.BaseFeature):
                 self.agent.sex_type
             ].vaccine.init
         ):
-            self.vaccinate()
+            self.vaccinate(time)
 
     def update_agent(self, model: "model.HIVModel"):
         """
@@ -60,27 +62,26 @@ class Vaccine(base_feature.BaseFeature):
             ].vaccine
 
             if self.active:
-                self.time += 1
                 if (
                     vaccine_params.booster
-                    and self.time == agent_params.booster.interval
+                    and (model.time - self.time) == agent_params.booster.interval
                     and model.run_random.random() < agent_params.booster.prob
                 ):
-                    self.vaccinate()
+                    self.vaccinate(model.time)
             elif model.time == vaccine_params.start_time:
                 if model.run_random.random() < agent_params.prob:
-                    self.vaccinate()
+                    self.vaccinate(model.time)
 
-    def set_stats(self, stats):
+    def set_stats(self, stats: Dict[str, int], time: int):
         if self.active:
             stats["vaccine"] += 1
 
     # ============= HELPER METHODS =============
 
-    def vaccinate(self):
+    def vaccinate(self, time):
         """
         Vaccinate an agent and update relevant fields.
         """
         self.active = True
         self.type = self.agent.location.params.vaccine.type
-        self.time = 1
+        self.time = time

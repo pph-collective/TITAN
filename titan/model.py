@@ -164,6 +164,7 @@ class HIVModel:
                 self.deaths,
                 self.params,
                 self.features,
+                self.time,
             )
             self.print_stats(stats, outdir)
         # burn is negative time, model run starts at t = 1
@@ -208,7 +209,12 @@ class HIVModel:
         self.update_all_agents()
 
         stats = ao.get_stats(
-            self.pop.all_agents, self.new_dx, self.deaths, self.params, self.features
+            self.pop.all_agents,
+            self.new_dx,
+            self.deaths,
+            self.params,
+            self.features,
+            self.time,
         )
         self.print_stats(stats, outdir)
 
@@ -260,7 +266,6 @@ class HIVModel:
                 agent.age += 1
 
             if agent.hiv:
-                agent.hiv_time += 1
                 # If HIV hasn't started, ignore
                 if self.time >= self.params.hiv.start_time:
                     self.diagnose_hiv(agent)
@@ -656,7 +661,8 @@ class HIVModel:
         if partner.vaccine.active:
             vaccine_type = partner.location.params.vaccine.type
             vaccine_time_months = (
-                partner.vaccine.time / self.params.model.time.steps_per_year
+                (self.time - partner.vaccine.time)
+                / self.params.model.time.steps_per_year
             ) * 12
 
             if vaccine_type == "HVTN702":
@@ -665,7 +671,7 @@ class HIVModel:
                 p *= np.exp(-2.40 + 0.76 * (np.log(vaccine_time_months)))
 
         # Scaling parameter for acute HIV infections
-        if agent.get_acute_status(agent.location.params.hiv.acute.duration):
+        if agent.get_acute_status(self.time):
             p *= agent.location.params.hiv.acute.infectivity
 
         # Scaling parameter for positively identified HIV agents
@@ -693,7 +699,7 @@ class HIVModel:
         """
         if not agent.hiv:
             agent.hiv = True
-            agent.hiv_time = 1
+            agent.hiv_time = self.time
             agent.vaccine.active = False  # type: ignore[attr-defined]
             self.pop.hiv_agents.add_agent(agent)
 

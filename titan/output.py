@@ -125,6 +125,7 @@ def get_stats(
     deaths: List["ag.Agent"],
     params: ObjMap,
     features,
+    time: int,
 ) -> Dict:
     """
     Get the current statistics for a model based on the population, and tracking agent sets from the model.
@@ -150,7 +151,7 @@ def get_stats(
 
         for feature in features:
             agent_feature = getattr(a, feature.name)
-            agent_feature.set_stats(stats_item)
+            agent_feature.set_stats(stats_item, time)
 
         if a.hiv:
             add_agent_to_stats(stats, attrs, a, "hiv")

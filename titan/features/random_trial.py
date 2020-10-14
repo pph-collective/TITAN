@@ -59,7 +59,7 @@ class RandomTrial(base_feature.BaseFeature):
                                 < ag.location.params.prep.target
                                 and not ag.vaccine.active
                             ):
-                                ag.prep.enroll(model.run_random)
+                                ag.prep.enroll(model.run_random, model.time)
                                 ag.random_trial.treated = True
 
                 # pca - eigenvector

@@ -179,8 +179,10 @@ class Population:
         ):
             agent.hiv = True
 
-            # if HIV, how long has the agent had it? Random sample
-            agent.hiv_time = self.pop_random.randint(1, loc.params.hiv.max_init_time)
+            # if HIV, when did the agent convert? Random sample
+            agent.hiv_time = self.pop_random.randint(
+                time - loc.params.hiv.max_init_time, time
+            )
 
             if self.pop_random.random() < agent_params.aids.init:
                 agent.aids = True
