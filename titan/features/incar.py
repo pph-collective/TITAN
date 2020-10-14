@@ -72,7 +72,7 @@ class Incar(base_feature.BaseFeature):
         if hiv_bool:
             hiv_multiplier = self.agent.location.params.incar.hiv.multiplier
         else:
-            hiv_multiplier = 1
+            hiv_multiplier = 1.0
 
         # agent is incarcerated
         if self.active:

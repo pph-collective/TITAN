@@ -79,39 +79,38 @@ class HAART(base_feature.BaseFeature):
         args:
             model: the instance of HIVModel currently being run
         """
-        if self.agent.hiv and model.time >= model.params.hiv.start_time:
+        if self.agent.hiv and self.agent.hiv_dx and model.time >= model.params.hiv.start_time:
             # Determine probability of HIV treatment
-            if self.agent.hiv_dx:
-                haart_params = self.agent.location.params.demographics[self.agent.race][
-                    self.agent.sex_type
-                ].haart
-                # Go on HAART
-                if not self.active:
-                    if self.agent.location.params.hiv.haart_cap:
-                        # if HAART is based on cap instead of prob, determine number of
-                        # HAART agents based on % of diagnosed agents
-                        num_dx_agents = model.pop.dx_counts[self.agent.race][
-                            self.agent.sex_type
-                        ]
-                        num_haart_agents = self.counts[self.agent.race][
-                            self.agent.sex_type
-                        ]
+            haart_params = self.agent.location.params.demographics[self.agent.race][
+                self.agent.sex_type
+            ].haart
+            # Go on HAART
+            if not self.active:
+                if self.agent.location.params.hiv.haart_cap:
+                    # if HAART is based on cap instead of prob, determine number of
+                    # HAART agents based on % of diagnosed agents
+                    num_dx_agents = model.pop.dx_counts[self.agent.race][
+                        self.agent.sex_type
+                    ]
+                    num_haart_agents = self.counts[self.agent.race][
+                        self.agent.sex_type
+                    ]
 
-                        if num_haart_agents < (haart_params.prob * num_dx_agents):
-                            self.initiate(model)
-                    else:
-                        if model.run_random.random() < (
-                            haart_params.prob * model.calibration.haart.coverage
-                        ):
-                            self.initiate(model)
-                # Go off HAART
-                elif (
-                    self.active and model.run_random.random() < haart_params.discontinue
-                ):
-                    self.active = False
-                    self.adherence = 0
-                    self.time = 0
-                    self.remove_agent(self.agent)
+                    if num_haart_agents < (haart_params.prob * num_dx_agents):
+                        self.initiate(model)
+                else:
+                    if model.run_random.random() < (
+                        haart_params.prob * model.calibration.haart.coverage
+                    ):
+                        self.initiate(model)
+            # Go off HAART
+            elif (
+                self.active and model.run_random.random() < haart_params.discontinue
+            ):
+                self.active = False
+                self.adherence = 0
+                self.time = 0
+                self.remove_agent(self.agent)
 
     @classmethod
     def add_agent(cls, agent: "agent.Agent"):
