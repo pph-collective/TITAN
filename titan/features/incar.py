@@ -72,13 +72,13 @@ class Incar(base_feature.BaseFeature):
         if hiv_bool:
             hiv_multiplier = self.agent.location.params.incar.hiv.multiplier
         else:
-            hiv_multiplier = 1
+            hiv_multiplier = 1.0
 
         # agent is incarcerated
         if self.active:
             self.time -= 1
 
-            # FREE AGENT
+            # Release agent
             if self.time == 0:
                 self.add_agent(self.agent)
                 self.active = False
@@ -103,7 +103,7 @@ class Incar(base_feature.BaseFeature):
                         if (
                             model.run_random.random()
                             <= self.agent.location.params.incar.haart.discontinue
-                        ):  # 12% remain surpressed
+                        ):
                             self.agent.haart.active = False  # type: ignore[attr-defined]
                             self.agent.haart.adherence = 0  # type: ignore[attr-defined]
 
