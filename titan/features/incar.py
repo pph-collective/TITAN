@@ -107,7 +107,6 @@ class Incar(base_feature.BaseFeature):
                             self.agent.haart.active = False  # type: ignore[attr-defined]
                             self.agent.haart.adherence = 0  # type: ignore[attr-defined]
 
-                        # END FORCE
 
         # should the agent become incarcerated?
         elif model.run_random.random() < (
