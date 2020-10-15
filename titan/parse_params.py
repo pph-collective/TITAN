@@ -60,6 +60,10 @@ def check_item(val, d, key_path, keys=None, pops=None):
     if d["type"] == "float":
         if isinstance(val, int):
             val = float(val)
+
+        # avoid floating point errors by making numbers more reasonable
+        val = round(val, 6)
+
         assert isinstance(val, float), f"{val} must be a float [{key_path}]"
     if d["type"] == "boolean":
         assert isinstance(val, bool), f"{val} must be a bool [{key_path}]"
