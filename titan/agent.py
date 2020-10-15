@@ -70,7 +70,7 @@ class Agent:
 
         # agent STI params
         self.hiv = False
-        self.hiv_time = 0
+        self.hiv_time: Optional[int] = None
         self.hiv_dx = False
         self.aids = False
         self.partner_traced = False
@@ -127,7 +127,7 @@ class Agent:
         """
         return any(self.iter_partners())
 
-    def get_acute_status(self, acute_time_period) -> bool:
+    def get_acute_status(self, time) -> bool:
         """
         Get acute status of agent at time
 
@@ -137,12 +137,13 @@ class Agent:
         returns:
             whether an agent is acute
         """
-        hiv_t = self.hiv_time
+        if self.hiv:
+            hiv_duration = time - self.hiv_time
 
-        if acute_time_period >= hiv_t > 0:
-            return True
-        else:
-            return False
+            if self.location.params.hiv.acute.duration >= hiv_duration >= 0:
+                return True
+
+        return False
 
     def is_msm(self) -> bool:
         """

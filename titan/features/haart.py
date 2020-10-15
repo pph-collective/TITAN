@@ -26,7 +26,6 @@ class HAART(base_feature.BaseFeature):
         super().__init__(agent)
 
         self.active = False
-        self.time = 0
         self.adherence = 0
 
     @classmethod
@@ -61,7 +60,6 @@ class HAART(base_feature.BaseFeature):
             and pop.pop_random.random() < agent_params.haart.init
         ):
             self.active = True
-            self.time = 0
             self.add_agent(self.agent)
 
             haart_adh = agent_params.haart.adherence
@@ -79,7 +77,11 @@ class HAART(base_feature.BaseFeature):
         args:
             model: the instance of HIVModel currently being run
         """
-        if self.agent.hiv and self.agent.hiv_dx and model.time >= model.params.hiv.start_time:
+        if (
+            self.agent.hiv
+            and self.agent.hiv_dx
+            and model.time >= model.params.hiv.start_time
+        ):
             # Determine probability of HIV treatment
             haart_params = self.agent.location.params.demographics[self.agent.race][
                 self.agent.sex_type
@@ -92,9 +94,7 @@ class HAART(base_feature.BaseFeature):
                     num_dx_agents = model.pop.dx_counts[self.agent.race][
                         self.agent.sex_type
                     ]
-                    num_haart_agents = self.counts[self.agent.race][
-                        self.agent.sex_type
-                    ]
+                    num_haart_agents = self.counts[self.agent.race][self.agent.sex_type]
 
                     if num_haart_agents < (haart_params.prob * num_dx_agents):
                         self.initiate(model)
@@ -104,12 +104,9 @@ class HAART(base_feature.BaseFeature):
                     ):
                         self.initiate(model)
             # Go off HAART
-            elif (
-                self.active and model.run_random.random() < haart_params.discontinue
-            ):
+            elif self.active and model.run_random.random() < haart_params.discontinue:
                 self.active = False
                 self.adherence = 0
-                self.time = 0
                 self.remove_agent(self.agent)
 
     @classmethod
@@ -136,7 +133,7 @@ class HAART(base_feature.BaseFeature):
         """
         cls.counts[agent.race][agent.sex_type] -= 1
 
-    def set_stats(self, stats: Dict[str, int]):
+    def set_stats(self, stats: Dict[str, int], time: int):
         if self.active:
             stats["haart"] += 1
 
@@ -160,5 +157,4 @@ class HAART(base_feature.BaseFeature):
         # Add agent to HAART class set, update agent params
         self.active = True
         self.adherence = adherence
-        self.time = model.time
         self.add_agent(self.agent)

@@ -38,7 +38,6 @@ def test_create_agent(make_population, params):
     assert a4.hiv_dx
     assert a4.haart.active
     assert a4.haart.adherence == 5
-    assert a4.haart.time == 0
     assert a4.high_risk.active
     assert a4.high_risk.ever
 

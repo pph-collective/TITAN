@@ -22,7 +22,6 @@ class Prep(base_feature.BaseFeature):
 
     # class level attributes to track all Prep agents
     counts: ClassVar[Dict[str, int]] = {}
-    new_agents: ClassVar[Set["agent.Agent"]] = set()
 
     def __init__(self, agent: "agent.Agent"):
         super().__init__(agent)
@@ -31,7 +30,8 @@ class Prep(base_feature.BaseFeature):
         self.adherence = 0
         self.type = ""
         self.load = 0.0
-        self.last_dose = 0
+        self.time = None
+        self.last_dose_time = None
 
     @classmethod
     def init_class(cls, params: "ObjMap"):
@@ -59,7 +59,7 @@ class Prep(base_feature.BaseFeature):
             and time >= self.agent.location.params.prep.start_time
             and pop.pop_random.random() < self.agent.location.params.prep.target
         ):
-            self.enroll(pop.pop_random)
+            self.enroll(pop.pop_random, time)
 
     def update_agent(self, model: "model.HIVModel"):
         """
@@ -91,7 +91,6 @@ class Prep(base_feature.BaseFeature):
         """
         # set up if this is the first time being called
         cls.counts[agent.race] += 1
-        cls.new_agents.add(agent)
 
     @classmethod
     def remove_agent(cls, agent):
@@ -105,26 +104,13 @@ class Prep(base_feature.BaseFeature):
         """
         cls.counts[agent.race] -= 1
 
-    @classmethod
-    def update_pop(cls, model: "model.HIVModel"):
-        """
-        Update the feature for the entire population (class method).
-
-        This is called in `HIVModel.update_all_agents` before agent-level updates are made.
-
-        Resets the tracking set for `new_agents` as this is called before `update_agent`
-
-        args:
-            model: the instance of HIVModel currently being run
-        """
-        cls.new_agents = set()
-
-    def set_stats(self, stats: Dict[str, int]):
-        if self.agent in self.new_agents:
-            stats["prep_new"] += 1
-
+    def set_stats(self, stats: Dict[str, int], time: int):
         if self.active:
             stats["prep"] += 1
+
+            if self.time == time:
+                stats["prep_new"] += 1
+
             if self.type == "Inj":
                 stats["prep_injectable"] += 1
             elif self.type == "Oral":
@@ -147,7 +133,7 @@ class Prep(base_feature.BaseFeature):
         params = self.agent.location.params
 
         if force:
-            self.enroll(model.run_random)
+            self.enroll(model.run_random, model.time)
         else:
             if "Racial" in params.prep.target_model:
                 num_prep_agents = self.counts[self.agent.race]
@@ -175,9 +161,9 @@ class Prep(base_feature.BaseFeature):
                 and model.time >= params.prep.start_time
                 and self.eligible()
             ):
-                self.enroll(model.run_random)
+                self.enroll(model.run_random, model.time)
 
-    def enroll(self, rand_gen):
+    def enroll(self, rand_gen, time):
         """
         Enroll an agent in PrEP
 
@@ -188,7 +174,8 @@ class Prep(base_feature.BaseFeature):
 
         self.active = True
         self.load = params.prep.peak_load
-        self.last_dose = 0
+        self.time = time
+        self.last_dose_time = time
 
         if (
             rand_gen.random()
@@ -221,32 +208,36 @@ class Prep(base_feature.BaseFeature):
             self.discontinue()  # TO_REVIEW should this just remove the agent from counts, or discontinue? does it depend on type?
             return
 
-        if (
-            model.run_random.random()
-            < self.agent.location.params.demographics[self.agent.race][
-                self.agent.sex_type
-            ].prep.discontinue
-            and self.type == "Oral"
-        ):
-            self.discontinue()
+        if self.type == "Oral":
+            if (
+                model.run_random.random()
+                < self.agent.location.params.demographics[self.agent.race][
+                    self.agent.sex_type
+                ].prep.discontinue
+            ):
+                self.discontinue()
+            else:
+                self.last_dose_time = model.time
 
+        # TO_REVIEW should inj prep have a way to continue at the year mark (besides maybe getting prep again through the normal channels of enrollment)?
         if self.type == "Inj":
-            self.update_load()
+            self.update_load(model.time)
 
-    def update_load(self):
+    def update_load(self, time):
         """
         Determine and update load of PrEP concentration in agent.
         """
         params = self.agent.location.params
 
-        self.last_dose += 1
-        if self.last_dose > params.model.time.steps_per_year:
+        if self.last_dose_time + params.model.time.steps_per_year == time:
             self.discontinue()
         else:
-            annualized_last_dose = self.last_dose / params.model.time.steps_per_year
+            annualized_last_dose_time = (
+                time - self.last_dose_time
+            ) / params.model.time.steps_per_year
             annualized_half_life = params.prep.half_life / 365
             self.load = params.prep.peak_load * (
-                (0.5) ** (annualized_last_dose / annualized_half_life)
+                (0.5) ** (annualized_last_dose_time / annualized_half_life)
             )
 
     def discontinue(self):
@@ -256,7 +247,8 @@ class Prep(base_feature.BaseFeature):
         self.active = False
         self.type = ""
         self.load = 0.0
-        self.last_dose = 0
+        self.time = None
+        self.last_dose_time = None
 
         self.remove_agent(self.agent)
 

@@ -26,12 +26,10 @@ def test_update_haart_t1(make_model, make_agent):
     a.haart.update_agent(model)
 
     assert a.haart.adherence == 5
-    assert a.haart.time == 1
     assert a.haart.active
 
     # go off haart
     a.haart.update_agent(model)
 
     assert a.haart.adherence == 0
-    assert a.haart.time == 0
     assert a.haart.active is False

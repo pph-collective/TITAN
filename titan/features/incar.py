@@ -26,7 +26,7 @@ class Incar(base_feature.BaseFeature):
         super().__init__(agent)
 
         self.active = False
-        self.time = 0
+        self.duration = 0
 
     def init_agent(self, pop: "population.Population", time: int):
         """
@@ -54,7 +54,7 @@ class Incar(base_feature.BaseFeature):
                 bin += 1
                 current_p_value += jail_duration[bin].prob
 
-            self.time = pop.pop_random.randrange(
+            self.duration = pop.pop_random.randrange(
                 jail_duration[bin].min, jail_duration[bin].max
             )
 
@@ -76,10 +76,10 @@ class Incar(base_feature.BaseFeature):
 
         # agent is incarcerated
         if self.active:
-            self.time -= 1
+            self.duration -= 1
 
             # Release agent
-            if self.time == 0:
+            if self.duration == 0:
                 self.add_agent(self.agent)
                 self.active = False
 
@@ -87,7 +87,7 @@ class Incar(base_feature.BaseFeature):
                 if (
                     not self.agent.high_risk.active and model.params.features.high_risk  # type: ignore[attr-defined]
                 ):  # If behavioral treatment on and agent HIV, ignore HR period.
-                    self.agent.high_risk.become_high_risk()  # type: ignore[attr-defined]
+                    self.agent.high_risk.become_high_risk(model.time)  # type: ignore[attr-defined]
                     for bond in self.agent.location.params.high_risk.partnership_types:
                         self.agent.mean_num_partners[
                             bond
@@ -126,7 +126,7 @@ class Incar(base_feature.BaseFeature):
                 current_p_value += incar_duration[bin].prob
                 bin += 1
 
-            self.time = model.run_random.randint(
+            self.duration = model.run_random.randint(
                 incar_duration[bin].min, incar_duration[bin].max
             )
             self.active = True
@@ -154,7 +154,6 @@ class Incar(base_feature.BaseFeature):
                         # Add agent to HAART class set, update agent params
                         self.agent.haart.active = True  # type: ignore[attr-defined]
                         self.agent.haart.adherence = adherence  # type: ignore[attr-defined]
-                        self.agent.haart.time = model.time  # type: ignore[attr-defined]
 
             # PUT PARTNERS IN HIGH RISK
             if model.params.features.high_risk:
@@ -166,7 +165,7 @@ class Incar(base_feature.BaseFeature):
                             model.run_random.random()
                             < partner.location.params.high_risk.prob
                         ):
-                            partner.high_risk.become_high_risk()  # type: ignore[attr-defined]
+                            partner.high_risk.become_high_risk(model.time)  # type: ignore[attr-defined]
 
     @classmethod
     def add_agent(cls, agent: "agent.Agent"):
@@ -187,7 +186,7 @@ class Incar(base_feature.BaseFeature):
         # population is updated before agents, so clear set at the beginning of updates
         cls.new_releases = set()
 
-    def set_stats(self, stats: Dict[str, int]):
+    def set_stats(self, stats: Dict[str, int], time: int):
         if self.agent in self.new_releases:
             stats["new_release"] += 1
             if self.agent.hiv:

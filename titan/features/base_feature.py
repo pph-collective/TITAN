@@ -102,7 +102,7 @@ class BaseFeature:
         """
         pass
 
-    def set_stats(self, stats: Dict[str, int]):
+    def set_stats(self, stats: Dict[str, int], time: int):
         """
         Update the `stats` dictionary passed for this agent.  Called from `output.get_stats` for each enabled feature in the model.
 
@@ -110,5 +110,6 @@ class BaseFeature:
 
         args:
             stats: the dictionary to update with this agent's feature statistics
+            time: the time step of the model when the stats are set
         """
         pass

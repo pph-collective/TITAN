@@ -76,8 +76,8 @@ def test_agents_interact(make_model, make_agent):
     a.incar.active = False
     assert model.agents_interact(rel) is False  # neither HIV
 
-    a.hiv = True
-    p.hiv = True
+    model.hiv_convert(a)
+    model.hiv_convert(p)
     assert model.agents_interact(rel) is False  # both HIV
 
     p.hiv = False
@@ -151,7 +151,7 @@ def test_needle_transmission(make_model, make_agent):
         model.injection_transmission(a, p)
 
     a.hiv = True
-    a.hiv_time = 1  # acute
+    a.hiv_time = model.time - 1  # acute
 
     model.run_random = FakeRandom(-0.1)
 
@@ -172,7 +172,7 @@ def test_sex_transmission(make_model, make_agent):
     rel = Relationship(a, p, 10, bond_type="Sex")
 
     a.hiv = True
-    a.hiv_time = 1  # acute
+    a.hiv_time = model.time  # acute
 
     rel.total_sex_acts = 0
     model.params.calibration.acquisition = 10
@@ -245,7 +245,7 @@ def test_hiv_convert(make_model, make_agent):
     model.hiv_convert(a)
 
     assert a.hiv
-    assert a.hiv_time == 1
+    assert a.hiv_time == model.time
     assert a in model.pop.hiv_agents.members
     assert a.prep.active is False
 
