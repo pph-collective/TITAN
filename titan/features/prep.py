@@ -1,4 +1,6 @@
-from typing import Dict, ClassVar, Set
+from typing import Dict, ClassVar, Set, Optional
+
+import numpy as np  # type: ignore
 
 from . import base_feature
 from .. import agent
@@ -29,9 +31,8 @@ class Prep(base_feature.BaseFeature):
         self.active = False
         self.adherence = 0
         self.type = ""
-        self.load = 0.0
         self.time = None
-        self.last_dose_time = None
+        self.last_dose_time: Optional[int] = None
 
     @classmethod
     def init_class(cls, params: "ObjMap"):
@@ -116,6 +117,35 @@ class Prep(base_feature.BaseFeature):
             elif self.type == "Oral":
                 stats["prep_oral"] += 1
 
+    def get_acquisition_risk_multiplier(self, time: int, interaction_type: str):
+        """
+        Get a multiplier for how prep reduces risk of HIV acquisition.
+
+        By default, returns 1.0
+
+        args:
+            time: the current model time step
+            interaction_type: The type of interaction where the agent could acquire HIV (e.g. 'sex', 'injection' - from [params.classes.interaction_types])
+        """
+        if self.active and self.last_dose_time is not None:
+            params = self.agent.location.params
+            if self.type == "Oral":
+                if self.adherence == 1:
+                    return 1.0 - params.prep.efficacy.adherent
+                else:
+                    return 1.0 - params.prep.efficacy.non_adherant
+            elif self.type == "Inj" and self.adherence == 1:
+                annualized_last_dose_time = (
+                    time - self.last_dose_time
+                ) / params.model.time.steps_per_year
+                annualized_half_life = params.prep.half_life / 365
+                load = params.prep.peak_load * (
+                    (0.5) ** (annualized_last_dose_time / annualized_half_life)
+                )
+                return -1.0 * np.exp(-5.528636721 * load)
+
+        return 1.0
+
     # =============== HELPER METHODS ===================
 
     def initiate(self, model: "model.HIVModel", force: bool = False):
@@ -173,7 +203,6 @@ class Prep(base_feature.BaseFeature):
         params = self.agent.location.params
 
         self.active = True
-        self.load = params.prep.peak_load
         self.time = time
         self.last_dose_time = time
 
@@ -220,25 +249,13 @@ class Prep(base_feature.BaseFeature):
                 self.last_dose_time = model.time
 
         # TO_REVIEW should inj prep have a way to continue at the year mark (besides maybe getting prep again through the normal channels of enrollment)?
-        if self.type == "Inj":
-            self.update_load(model.time)
-
-    def update_load(self, time):
-        """
-        Determine and update load of PrEP concentration in agent.
-        """
-        params = self.agent.location.params
-
-        if self.last_dose_time + params.model.time.steps_per_year == time:
+        if (
+            self.type == "Inj"
+            and self.last_dose_time
+            + self.agent.location.params.model.time.steps_per_year
+            == model.time
+        ):
             self.discontinue()
-        else:
-            annualized_last_dose_time = (
-                time - self.last_dose_time
-            ) / params.model.time.steps_per_year
-            annualized_half_life = params.prep.half_life / 365
-            self.load = params.prep.peak_load * (
-                (0.5) ** (annualized_last_dose_time / annualized_half_life)
-            )
 
     def discontinue(self):
         """
@@ -246,7 +263,6 @@ class Prep(base_feature.BaseFeature):
         """
         self.active = False
         self.type = ""
-        self.load = 0.0
         self.time = None
         self.last_dose_time = None
 

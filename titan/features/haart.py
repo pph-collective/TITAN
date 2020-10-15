@@ -137,6 +137,33 @@ class HAART(base_feature.BaseFeature):
         if self.active:
             stats["haart"] += 1
 
+    def get_transmission_risk_multiplier(self, time: int, interaction_type: str):
+        """
+        Get a multiplier for how haart reduces transmission risk based on interaction type and params.
+
+        By default, returns 1.0
+
+        args:
+            time: the current model time step
+            interaction_type: The type of interaction where the agent could transmit HIV (e.g. 'sex', 'injection' - from [params.classes.interaction_types])
+        """
+        if self.active:
+            prob = 1.0
+            params = self.agent.location.params
+            if interaction_type == "injection":
+                prob = params.partnership.injection.transmission.haart_scaling[
+                    self.adherence
+                ].scale
+            elif interaction_type == "sex":
+                prob = params.partnership.sex.haart_scaling[self.agent.sex_type][
+                    self.adherence
+                ].prob
+
+            # Tuning parameter for ART efficiency
+            return prob * params.calibration.haart.transmission
+
+        return 1.0
+
     # =========== HELPER METHODS ============
 
     def initiate(self, model: "model.HIVModel"):

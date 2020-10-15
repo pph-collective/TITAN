@@ -228,13 +228,14 @@ class HIVModel:
         1. Create an agent zero (if enabled and the time is right)
         2. Update partner assignments (create new relationships as needed)
         3. Agents in relationships interact
-        4. Update syringe services (if enabled)
+        4. Update features at the population level
         5. Update each agent's status for:
             * age
             * high risk
             * prep
             * incarceration
             * hiv
+            * all features (agent level)
         6. End relationships with no remaining duration
         7. Agent death/replacement
         """
@@ -519,7 +520,7 @@ class HIVModel:
             if self.run_random.random() > p_unsafe_injection:
                 share_acts -= 1
 
-        if share_acts >= 1.0:
+        if share_acts >= 1:
             p = self.get_transmission_probability("injection", agent, partner)
 
             p_total_transmission: float
@@ -615,16 +616,13 @@ class HIVModel:
             f"supported. "
         )
 
-        agent_sex_role = agent.sex_role
-        partner_sex_role = partner.sex_role
-
+        # get baseline probabilities
         if interaction == "injection":
             p = self.params.partnership.injection.transmission.base
-            if agent.haart.active:
-                p *= agent.location.params.partnership.injection.transmission.haart_scaling[
-                    agent.haart.adherence
-                ].scale
         elif interaction == "sex":
+            agent_sex_role = agent.sex_role
+            partner_sex_role = partner.sex_role
+
             # get partner's sex role during acts
             if partner_sex_role == "versatile":  # versatile partner takes
                 # "opposite" position of agent
@@ -635,40 +633,19 @@ class HIVModel:
                 else:
                     partner_sex_role = "versatile"  # if both versatile, can switch
                     # between receptive and insertive by act
-            # get probability of sex acquisition given HIV- partner's position
 
+            # get probability of sex acquisition given HIV- partner's position
             p = partner.location.params.partnership.sex.acquisition[partner.sex_type][
                 partner_sex_role
             ]
 
-            # scale based on HIV+ agent's haart status/adherence
-            if agent.haart.active:
-                p *= agent.location.params.partnership.sex.haart_scaling[
-                    agent.sex_type
-                ][agent.haart.adherence].prob
+        # feature specific risk adjustment
+        for feature in self.features:
+            agent_feature = getattr(agent, feature.name)
+            p *= agent_feature.get_transmission_risk_multiplier(self.time, interaction)
 
-        # Scale if partner on PrEP
-        if partner.prep.active:
-            if partner.prep.type == "Oral":
-                if partner.prep.adherence == 1:
-                    p *= 1.0 - partner.location.params.prep.efficacy.adherent
-                else:
-                    p *= 1.0 - partner.location.params.prep.efficacy.non_adherant
-            elif partner.prep.type == "Inj" and partner.prep.adherence == 1:
-                p *= -1.0 * np.exp(-5.528636721 * partner.prep.load)
-
-        # Scale if partner vaccinated
-        if partner.vaccine.active:
-            vaccine_type = partner.location.params.vaccine.type
-            vaccine_time_months = (
-                (self.time - partner.vaccine.time)
-                / self.params.model.time.steps_per_year
-            ) * 12
-
-            if vaccine_type == "HVTN702":
-                p *= np.exp(-2.88 + 0.76 * (np.log((vaccine_time_months + 0.001) * 30)))
-            elif vaccine_type == "RV144":
-                p *= np.exp(-2.40 + 0.76 * (np.log(vaccine_time_months)))
+            partner_feature = getattr(partner, feature.name)
+            p *= partner_feature.get_acquisition_risk_multiplier(self.time, interaction)
 
         # Scaling parameter for acute HIV infections
         if agent.get_acute_status(self.time):
@@ -677,10 +654,6 @@ class HIVModel:
         # Scaling parameter for positively identified HIV agents
         if agent.hiv_dx:
             p *= 1 - agent.location.params.hiv.dx.risk_reduction[interaction]
-
-        # Tuning parameter for ART efficiency
-        if agent.haart.active:
-            p *= self.calibration.haart.transmission
 
         # Racial calibration parameter to attain proper race incidence disparity
         p *= partner.location.params.demographics[partner.race].hiv.transmission

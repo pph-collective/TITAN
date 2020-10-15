@@ -113,3 +113,27 @@ class BaseFeature:
             time: the time step of the model when the stats are set
         """
         pass
+
+    def get_acquisition_risk_multiplier(self, time: int, interaction_type: str):
+        """
+        Get a multiplier for how this feature affects acquisition of HIV for the given interaction_type.
+
+        By default, returns 1.0
+
+        args:
+            time: the current model time step
+            interaction_type: The type of interaction where the agent could acquire HIV (e.g. 'sex', 'injection' - from [params.classes.interaction_types])
+        """
+        return 1.0
+
+    def get_transmission_risk_multiplier(self, time: int, interaction_type: str):
+        """
+        Get a multiplier for how this feature affects transmission of HIV for the given interaction_type.
+
+        By default, returns 1.0
+
+        args:
+            time: the current model time step
+            interaction_type: The type of interaction where the agent could transmit HIV (e.g. 'sex', 'injection' - from [params.classes.interaction_types])
+        """
+        return 1.0

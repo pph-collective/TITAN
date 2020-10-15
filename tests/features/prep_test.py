@@ -90,7 +90,6 @@ def test_update_agent_prep_decrement_not_end(make_model, make_agent):
     assert a.prep.active
     assert a.prep.last_dose_time == model.time
     assert num_prep + 1 == Prep.counts[a.race]
-    assert a.prep.load > 0  # Inj no longer in PrEP types
 
 
 @pytest.mark.unit
@@ -103,7 +102,6 @@ def test_update_agent_prep_decrement_inj_end(make_model, make_agent):
 
     # set up so the agent appears to be on PrEP
     a.prep.active = True
-    a.prep.load = 0.4
     a.prep.last_dose_time = (
         model.time - 12
     )  # last step before hitting year mark and discontinuing
@@ -118,7 +116,6 @@ def test_update_agent_prep_decrement_inj_end(make_model, make_agent):
         a.prep.last_dose_time is None
     )  # 3 -> -1 -> +1 == 0 # Inj no longer in PrEP types
     assert num_prep == Prep.counts[a.race]
-    assert a.prep.load == 0.0  # Inj no longer in PrEP types
 
 
 @pytest.mark.unit
@@ -146,7 +143,6 @@ def test_initiate_prep_force_adh(make_model, make_agent):
     a.prep.initiate(model, True)
     assert a.prep.active
     assert a.prep.adherence == 1
-    # assert a.prep.load > 0.0 # Inj no longer in PrEP types
     assert a.prep.last_dose_time == model.time
 
 
@@ -159,7 +155,6 @@ def test_initiate_prep_force_non_adh(make_model, make_agent):
     a.prep.initiate(model, True)
     assert a.prep.active
     assert a.prep.adherence == 0
-    # assert a.prep.load > 0.0 # Inj no longer in PrEP types
     assert a.prep.last_dose_time == model.time
 
 
@@ -183,7 +178,6 @@ def test_initiate_prep_eligible(make_model, make_agent):
     a.prep.initiate(model)
     assert a.prep.active
     assert a.prep.adherence == 1
-    # assert a.prep_load > 0.0 # Inj not in params prep.type anymore
     assert a.prep.last_dose_time == 10
     assert a.prep.time == 10
 
@@ -276,14 +270,11 @@ def test_enroll_prep_choice(make_agent, params):
     rand_gen = FakeRandom(-0.1)
     a = make_agent()
     a.location.params.prep.type = ["Oral", "Inj"]
-    a.location.params.prep.peak_load = 0.3
-    a.prep.load = 10
 
     a.prep.enroll(rand_gen, 0)
 
     assert a.prep.active
     assert a.prep.last_dose_time == 0
-    assert a.prep.load == 0.3
     assert a.prep.adherence == 1
     assert a.prep.type == "Inj"
 
@@ -293,37 +284,28 @@ def test_enroll_prep_one(make_agent, params):
     rand_gen = FakeRandom(1.1)
     a = make_agent()
     a.location.params.prep.type = ["Oral"]
-    a.location.params.prep.peak_load = 0.3
-
-    a.prep.load = 10
 
     a.prep.enroll(rand_gen, 0)
 
     assert a.prep.active
     assert a.prep.last_dose_time == 0
-    assert a.prep.load == 0.3
     assert a.prep.adherence == 0
     assert a.prep.type == "Oral"
 
 
 @pytest.mark.unit
-def test_update_prep_load(make_agent, params):
+def test_progress_inj_prep(make_agent, params, make_model):
     a = make_agent()
     a.location.params.prep.type = ["Inj"]
     assert a.prep.last_dose_time is None
-    assert a.prep.load == 0
+
+    model = make_model()
 
     rand_gen = FakeRandom(1.1)
     a.prep.enroll(rand_gen, 0)
     assert a.prep.last_dose_time == 0
-    load = a.prep.load
-    assert load > 0
 
     # make time pass
-    for i in range(12):
-        a.prep.update_load(i + 1)
-        assert a.prep.load < load
-        load = a.prep.load  # update for next timestep
-
+    model.time = 12
+    a.prep.progress(model)
     assert a.prep.last_dose_time is None
-    assert a.prep.load == 0.0
