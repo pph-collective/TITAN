@@ -28,6 +28,7 @@ features:
   die_and_replace: false
   static_network: true
   pca: true
+  random_trial: true
 calibration:
   injection:
     act: 1.0
@@ -78,8 +79,6 @@ prep:
   efficacy:
     adherent: 0.96
     non_adherant: 0.76
-  target_model:
-    - RandomTrial
   peak_load: 1.0
   half_life: 1.0
 demographics:

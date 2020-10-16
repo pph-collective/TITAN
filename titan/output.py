@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 from typing import Dict, Any, List, Iterator
-from .agent import AgentSet, Agent
+from . import agent as ag
 import itertools
 import os
 
@@ -10,38 +10,22 @@ from networkx import betweenness_centrality, effective_size, density  # type: ig
 from .parse_params import ObjMap
 
 
-def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
+def setup_aggregates(params: ObjMap, features, classes: List[str]) -> Dict:
     """
     Recursively create a nested dictionary of attribute values to items to count.
 
     Attributes are classes defined in params, the items counted are:
 
-    * "numAgents"
-    * "inf_HR6m"
-    * "inf_HRever"
-    * "inf_newInf"
-    * "newHR"
-    * "newHR_HIV"
-    * "newHR_AIDS"
-    * "newHR_dx"
-    * "newHR_ART"
-    * "newRelease"
-    * "newReleaseHIV"
-    * "numHIV"
-    * "numTested"
-    * "numAIDS"
-    * "numART"
-    * "numHR"
-    * "newlyTested"
+    * "agents"
+    * "hiv"
+    * "dx"
+    * "aids"
+    * "hiv_new"
+    * "dx_new"
     * "deaths"
-    * "deaths_HIV"
-    * "incar"
-    * "incarHIV"
-    * "numPrEP"
-    * "newNumPrEP"
-    * "vaccinated"
-    * "injectable_prep"
-    * "oral_prep"
+    * "deaths_hiv"
+
+    Additionally, any feature enabled may have additional stats that are tracked.  See the feature's `stats` attribute.
 
     args:
         params: model parameters
@@ -51,40 +35,27 @@ def setup_aggregates(params: ObjMap, classes: List[str]) -> Dict:
         dictionary of class values to counts
     """
     if classes == []:
-        return {
-            "numAgents": 0,
-            "inf_HR6m": 0,
-            "inf_HRever": 0,
-            "inf_newInf": 0,
-            "newHR": 0,
-            "newHR_HIV": 0,
-            "newHR_AIDS": 0,
-            "newHR_dx": 0,
-            "newHR_ART": 0,
-            "newRelease": 0,
-            "newReleaseHIV": 0,
-            "numHIV": 0,
-            "numDiagnosed": 0,
-            "numAIDS": 0,
-            "numART": 0,
-            "numHR": 0,
-            "newlyDiagnosed": 0,
+        base_stats = {
+            "agents": 0,
+            "hiv": 0,
+            "dx": 0,
+            "aids": 0,
+            "hiv_new": 0,
+            "dx_new": 0,
             "deaths": 0,
-            "deaths_HIV": 0,
-            "incar": 0,
-            "incarHIV": 0,
-            "numPrEP": 0,
-            "newNumPrEP": 0,
-            "vaccinated": 0,
-            "injectable_prep": 0,
-            "oral_prep": 0,
+            "deaths_hiv": 0,
         }
+
+        for feature in features:
+            base_stats.update({stat: 0 for stat in feature.stats})
+
+        return base_stats
 
     stats = {}
     clss, *rem_clss = classes  # head, tail
     keys = [k for k in params.classes[clss]]
     for key in keys:
-        stats[key] = setup_aggregates(params, rem_clss)
+        stats[key] = setup_aggregates(params, features, rem_clss)
 
     return stats
 
@@ -123,7 +94,17 @@ def get_agg_val(stats: Dict, attrs: List, key: str) -> int:
     return stats_item[key]
 
 
-def add_agent_to_stats(stats: Dict[str, Any], attrs: List[str], agent: Agent, key: str):
+def get_stats_item(stats: Dict[str, Any], attrs: List[str], agent: "ag.Agent"):
+    stats_item = stats
+    for attr in attrs:
+        stats_item = stats_item[str(getattr(agent, attr))]
+
+    return stats_item
+
+
+def add_agent_to_stats(
+    stats: Dict[str, Any], attrs: List[str], agent: "ag.Agent", key: str
+):
     """
     Update the stats dictionary counts for the key given the agent's attributes
 
@@ -133,109 +114,62 @@ def add_agent_to_stats(stats: Dict[str, Any], attrs: List[str], agent: Agent, ke
         agent: the agent whose attribute values will be evaluated
         key: the type of count to increment
     """
-    stats_item = stats
-    for attr in attrs:
-        stats_item = stats_item[str(getattr(agent, attr))]
+    stats_item = get_stats_item(stats, attrs, agent)
 
     stats_item[key] += 1
 
 
 def get_stats(
-    all_agents: AgentSet,
-    new_prep_agents: AgentSet,
-    new_hiv: AgentSet,
-    new_hiv_dx: AgentSet,
-    new_high_risk: AgentSet,
-    new_incar_release: AgentSet,
-    deaths: List[Agent],
+    all_agents: "ag.AgentSet",
+    new_hiv_dx: "ag.AgentSet",
+    deaths: List["ag.Agent"],
     params: ObjMap,
+    features,
+    time: int,
 ) -> Dict:
     """
     Get the current statistics for a model based on the population, and tracking agent sets from the model.
 
     args:
         all_agents: all of the agents in the population
-        new_prep_agents: agents who are newly on prep this timestep
-        new_hiv: agents are newly hiv this timestep
         new_hiv_dx: agents who are newly diagnosed with hiv this timestep
-        new_high_risk: agents who are newly high risk this timestep
-        new_incar_release: agents are released from incarceration this timestep
         deaths: agents who died this timestep
         params: model parameters
 
     returns:
         nested dictionary of agent attributes to counts of various items
     """
-    stats = setup_aggregates(params, params.outputs.classes)
+    stats = setup_aggregates(params, features, params.outputs.classes)
     attrs = [
         clss[:-1] for clss in params.outputs.classes
     ]  # attribute version (non-plural)
 
-    # Incarceration metrics
-    for a in new_incar_release:
-        add_agent_to_stats(stats, attrs, a, "newRelease")
-        if a.hiv:
-            add_agent_to_stats(stats, attrs, a, "newReleaseHIV")
-
-    # Newly infected tracker statistics (with HR within 6mo and HR ever bool check)
-    for a in new_hiv:
-        add_agent_to_stats(stats, attrs, a, "inf_newInf")
-        if a.high_risk_ever:
-            add_agent_to_stats(stats, attrs, a, "inf_HRever")
-        if a.high_risk:
-            add_agent_to_stats(stats, attrs, a, "inf_HR6m")
-
     for a in all_agents:
-        add_agent_to_stats(stats, attrs, a, "numAgents")
+        stats_item = get_stats_item(stats, attrs, a)
 
-        if a.prep:
-            add_agent_to_stats(stats, attrs, a, "numPrEP")
-            if a.prep_type == "Inj":
-                add_agent_to_stats(stats, attrs, a, "injectable_prep")
-            elif a.prep_type == "Oral":
-                add_agent_to_stats(stats, attrs, a, "oral_prep")
+        add_agent_to_stats(stats, attrs, a, "agents")
 
-        if a.incar:
-            add_agent_to_stats(stats, attrs, a, "incar")
-            if a.hiv:
-                add_agent_to_stats(stats, attrs, a, "incarHIV")
+        for feature in features:
+            agent_feature = getattr(a, feature.name)
+            agent_feature.set_stats(stats_item, time)
 
         if a.hiv:
-            add_agent_to_stats(stats, attrs, a, "numHIV")
+            add_agent_to_stats(stats, attrs, a, "hiv")
+            if a.hiv_time == 1:
+                add_agent_to_stats(stats, attrs, a, "hiv_new")
             if a.aids:
-                add_agent_to_stats(stats, attrs, a, "numAIDS")
+                add_agent_to_stats(stats, attrs, a, "aids")
             if a.hiv_dx:
-                add_agent_to_stats(stats, attrs, a, "numDiagnosed")
-            if a.haart:
-                add_agent_to_stats(stats, attrs, a, "numART")
-
-        if a.vaccine:
-            add_agent_to_stats(stats, attrs, a, "vaccinated")
-
-    # Newly PrEP tracker statistics
-    for a in new_prep_agents:
-        add_agent_to_stats(stats, attrs, a, "newNumPrEP")
+                add_agent_to_stats(stats, attrs, a, "dx")
 
     # Newly diagnosed tracker statistics
     for a in new_hiv_dx:
-        add_agent_to_stats(stats, attrs, a, "newlyDiagnosed")
-
-    # Newly HR agents
-    for a in new_high_risk:
-        add_agent_to_stats(stats, attrs, a, "newHR")
-        if a.hiv:
-            add_agent_to_stats(stats, attrs, a, "newHR_HIV")
-            if a.aids:
-                add_agent_to_stats(stats, attrs, a, "newHR_AIDS")
-            if a.hiv_dx:
-                add_agent_to_stats(stats, attrs, a, "newHR_dx")
-                if a.haart:
-                    add_agent_to_stats(stats, attrs, a, "newHR_ART")
+        add_agent_to_stats(stats, attrs, a, "dx_new")
 
     for a in deaths:
         add_agent_to_stats(stats, attrs, a, "deaths")
         if a.hiv:
-            add_agent_to_stats(stats, attrs, a, "deaths_HIV")
+            add_agent_to_stats(stats, attrs, a, "deaths_hiv")
 
     return stats
 
@@ -247,7 +181,6 @@ def get_stats(
 
 def write_report(
     file_name: str,
-    name_map: Dict[str, str],
     run_id: str,
     t: int,
     runseed: int,
@@ -262,7 +195,6 @@ def write_report(
 
     args:
         file_name: Name of the file to write, including the extension (e.g. `MyReport.txt`)
-        name_map: Map from keys in the stats dictionary to column headers in this report
         run_id: unique identifier for this model
         t: current timestep
         runseed: integer used to seed the random number generator for the model
@@ -271,8 +203,17 @@ def write_report(
         params: model parameters
         outdir: path of where to save this file
     """
+
+    def get_stat_names(stats, attrs):
+        stat_ref = stats
+        for i in range(len(attrs)):
+            stat_ref = stat_ref[list(stat_ref.keys())[0]]
+
+        return stat_ref
+
     f = open(os.path.join(outdir, file_name), "a")
     attrs = [clss[:-1] for clss in params.outputs.classes]
+    stat_names = get_stat_names(stats, attrs)
 
     if f.tell() == 0:
         f.write("run_id\trseed\tpseed\tt\t")  # start header
@@ -281,7 +222,7 @@ def write_report(
         f.write("\t".join(attrs))
 
         # report specific fields
-        for name in name_map.values():
+        for name in stat_names:
             f.write(f"\t{name}")
 
         f.write("\n")
@@ -291,102 +232,12 @@ def write_report(
 
         f.write("\t".join(agg))  # write attribute values
 
-        for key, name in name_map.items():
-            f.write(f"\t{(get_agg_val(stats, agg, key))}")
+        for name in stat_names:
+            f.write(f"\t{(get_agg_val(stats, agg, name))}")
 
         f.write("\n")
 
     f.close()
-
-
-def deathReport(
-    run_id: str,
-    t: int,
-    runseed: int,
-    popseed: int,
-    stats: Dict[str, Any],
-    params: ObjMap,
-    outdir: str,
-):
-    """
-    Standard report writer for agent deaths, columns include:
-
-    * `tot`: total number of deaths at this timestep
-    * `HIV`: number of deaths of agents with HIV at this timestep
-    """
-    name_map = {
-        "deaths": "tot",
-        "deaths_HIV": "HIV",
-    }
-    write_report(
-        "DeathReport.txt", name_map, run_id, t, runseed, popseed, stats, params, outdir
-    )
-
-
-def incarReport(
-    run_id: str,
-    t: int,
-    runseed: int,
-    popseed: int,
-    stats: Dict[str, Any],
-    params: ObjMap,
-    outdir: str,
-):
-    """
-    Standard report writer for agent incarcerations, columns include:
-
-    * `tot`: total number of incarcerated agents at this timestep
-    * `HIV`: number of incarcerated agents with HIV at this timestep
-    * `rlsd`: number of agents released at this timestep
-    * `rlsdHIV`: number of agents with HIV released at this timestep
-    """
-    name_map = {
-        "incar": "tot",
-        "incarHIV": "HIV",
-        "newRelease": "rlsd",
-        "newReleaseHIV": "rlsdHIV",
-    }
-    write_report(
-        "IncarReport.txt", name_map, run_id, t, runseed, popseed, stats, params, outdir
-    )
-
-
-def newlyhighriskReport(
-    run_id: str,
-    t: int,
-    runseed: int,
-    popseed: int,
-    stats: Dict[str, Any],
-    params: ObjMap,
-    outdir: str,
-):
-    """
-    Standard report writer for newly high risk agents, columns include:
-
-    * `newHR`: number of agents that became high risk at this timestep
-    * `newHR_HIV`: number of agents with HIV that became high risk at this timestep
-    * `newHR_AIDS`: number of agents with AIDS that became high risk at this timestep
-    * `newHR_Tested`: number of agents with diagnosed HIV that became high risk at this timestep
-    * `newHR_ART`: number of agents on HAART that became high risk at this timestep
-    """
-    name_map = {
-        "newHR": "newHR",
-        "newHR_HIV": "newHR_HIV",
-        "newHR_AIDS": "newHR_AIDS",
-        "newHR_dx": "newHR_Diagnosed",
-        "newHR_ART": "newHR_ART",
-    }
-    write_report(
-        "newlyHR_Report.txt",
-        name_map,
-        run_id,
-        t,
-        runseed,
-        popseed,
-        stats,
-        params,
-        outdir,
-    )
 
 
 def basicReport(
@@ -401,42 +252,18 @@ def basicReport(
     """
     Standard report writer for basic agent statistics, columns include:
 
-    * `Total`: number of agents in the population
-    * `HIV`: number of agents with HIV
-    * `AIDS`: number of agents with AIDS
-    * `Dx`: number of agents with HIV who are diagnosed
-    * `ART`: number of agents on HAART
-    * `nHR`: number of agents who are high risk
-    * `Incid`: number of agents who HIV converted this time period
-    * `HR_6mo`: number of agents with HIV converted this time period who are high risk
-    * `HR_Ev`: number of agents with HIV converted this time period who have ever been high risk
-    * `NewDiag`: number of agents with HIV who were diagnosed this time period
-    * `Deaths`: number of agents who died this time period
-    * `PrEP`: number of agents enrolled in PrEP
-    * `Vaccinated`: number of agents who have been vaccinated
-    * `LAI`: number of agents enrolled in PrEP with a type of LAI
-    * `Oral`: number of agents enrolled in PrEP with a type of Oral
+    * "agents": number of agents in the population
+    * "hiv": number of agents with HIV
+    * "dx": number of agents with HIV who are diagnosed
+    * "aids": number of agents with AIDS
+    * "hiv_new": number of agents who HIV converted this time period
+    * "dx_new": number of agents with HIV who were diagnosed this time period
+    * "deaths": number of agents who died this time period
+    * "deaths_hiv": number of agents with HIV who died this time period
+
+    Additionally, any feature enabled may have additional stats that are tracked.  See the feature's `stats` attribute and docs for details.
     """
-    name_map = {
-        "numAgents": "Total",
-        "numHIV": "HIV",
-        "numAIDS": "AIDS",
-        "numDiagnosed": "Dx",
-        "numART": "ART",
-        "numHR": "nHR",
-        "inf_newInf": "Incid",
-        "inf_HR6m": "HR_6mo",
-        "inf_HRever": "HR_Ev",
-        "newlyDiagnosed": "NewDx",
-        "deaths": "Deaths",
-        "numPrEP": "PrEP",
-        "vaccinated": "Vaccinated",
-        "injectable_prep": "LAI",
-        "oral_prep": "Oral",
-    }
-    write_report(
-        "basicReport.txt", name_map, run_id, t, runseed, popseed, stats, params, outdir
-    )
+    write_report("basicReport.txt", run_id, t, runseed, popseed, stats, params, outdir)
 
 
 # ========================== Other Print Functions =============================
@@ -496,26 +323,26 @@ def print_components(
             race_count[agent.race] += 1
             if agent.hiv:
                 nhiv += 1
-                if agent.intervention_ever:
+                if agent.random_trial.treated:
                     ntrthiv += 1
 
-            if agent.prep:
+            if agent.prep.active:
                 nprep += 1
-                if agent.prep_type == "Inj":
+                if agent.prep.type == "Inj":
                     injectable_prep += 1
-                elif agent.prep_type == "Oral":
+                elif agent.prep.type == "Oral":
                     oral += 1
 
-            if agent.pca_suitable and agent.pca:
+            if agent.pca.suitable and agent.pca.active:
                 pca += 1
 
-            if agent.intervention_ever:  # treatment component
+            if agent.random_trial.treated:  # treatment component
                 trt_agent = True
 
-            if agent.random_trial_enrolled:
+            if agent.random_trial.active:
                 trt_comp = True
 
-            if agent.prep_awareness:
+            if agent.pca.awareness:
                 aware += 1
 
             if agent.drug_type == "NonInj":

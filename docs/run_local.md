@@ -64,8 +64,8 @@ We'll use the sample params file `tests/params/basic.yml` in all of these exampl
 
 Here is how to perform the basic steps of running the model:
 ```python
-from .titan.parse_params import create_params
-from .titan.model import HIVModel
+from titan.parse_params import create_params
+from titan.model import HIVModel
 
 outdir = 'results'
 
@@ -103,8 +103,8 @@ for i in range(start_time, end_time):
 If we want to write and read in a population instead of letting the model create one...
 
 ```python
-from .titan import population_io as pio
-from .titan.population import Population
+from titan import population_io as pio
+from titan.population import Population
 from copy import deepcopy
 
 # let's make a copy of our params and tinker with the population a bit

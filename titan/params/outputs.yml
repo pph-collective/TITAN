@@ -22,16 +22,10 @@ outputs:
       type: boolean
   reports:
     default:
-      - deathReport
-      - incarReport
-      - newlyhighriskReport
       - basicReport
     description: Which reports to save from run of the model
     type: array
     values:
-      - deathReport
-      - incarReport
-      - newlyhighriskReport
       - basicReport
   classes:
     default:

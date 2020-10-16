@@ -3,7 +3,8 @@ import os
 
 from titan.population import *
 from titan.agent import Agent
-from titan.parse_params import create_params
+from titan.parse_params import create_params, ObjMap
+from titan.features import Prep
 
 from tests.conftest import FakeRandom
 
@@ -14,9 +15,9 @@ def test_create_agent(make_population, params):
 
     a1 = pop.create_agent(pop.geography.locations["world"], "white", 0)
     assert a1.race == "white"
-    assert a1.prep_opinion in range(
+    assert a1.pca.opinion in range(
         5
-    ), f"Agents opinion of injectible PrEP is out of bounds {a1.prep_opinion}"
+    ), f"Agents opinion of injectible PrEP is out of bounds {a1.pca.opinion}"
 
     a2 = pop.create_agent(pop.geography.locations["world"], "black", 0)
     assert a2.race == "black"
@@ -35,11 +36,10 @@ def test_create_agent(make_population, params):
     assert a4.hiv
     assert a4.aids
     assert a4.hiv_dx
-    assert a4.haart
-    assert a4.haart_adherence == 5
-    assert a4.haart_time == 0
-    assert a4.high_risk
-    assert a4.high_risk_ever
+    assert a4.haart.active
+    assert a4.haart.adherence == 5
+    assert a4.high_risk.active
+    assert a4.high_risk.ever
 
     # check not PWID and HIV
     pop.pop_random = FakeRandom(0.999)
@@ -49,8 +49,8 @@ def test_create_agent(make_population, params):
     a4 = pop.create_agent(pop.geography.locations["world"], "white", 0, "HM")
     assert a4.drug_type == "None"
     assert a4.hiv is False
-    assert a4.prep is False
-    assert a4.intervention_ever is False
+    assert a4.prep.active is False
+    assert a4.random_trial.treated is False
 
 
 @pytest.mark.unit
@@ -92,21 +92,12 @@ def test_add_remove_agent_to_pop(make_population):
     agent.drug_type = "Inj"
     agent.hiv = True
     agent.aids = True
-    agent.intervention_ever = True
-    agent.haart = True
-    agent.prep = True
     agent.hiv_dx = True
-    agent.incar = True
-    agent.high_risk = True
-
-    num_prep = pop.prep_counts[agent.race]
 
     pop.add_agent(agent)
 
     assert agent in pop.all_agents.members
     assert agent in pop.hiv_agents.members
-    assert agent in pop.high_risk_agents.members
-    assert pop.prep_counts[agent.race] == num_prep + 1
 
     assert pop.graph.has_node(agent)
 
@@ -114,8 +105,6 @@ def test_add_remove_agent_to_pop(make_population):
 
     assert agent not in pop.all_agents.members
     assert agent not in pop.hiv_agents.members
-    assert agent not in pop.high_risk_agents.members
-    assert pop.prep_counts[agent.race] == num_prep
 
     assert not pop.graph.has_node(agent)
 

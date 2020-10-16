@@ -5,8 +5,8 @@
 .idea/
 venv/
 venv/*
-python/
-python/*
+./python/
+./python/*
 venv_pypy/
 venv_pypy/*
 

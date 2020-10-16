@@ -97,7 +97,7 @@ class NetworkGraphUtils:
         Get a vector of node colors for plotting this graph based on the type of coloring requested
 
         args:
-            coloring: attribute to color nodes by (e.g. "race", "diagnosed")
+            coloring: attribute to color nodes by (e.g. "race", "Diagnosed")
 
         returns:
             list of colors in node order
@@ -120,13 +120,13 @@ class NetworkGraphUtils:
         # hard coded coloring schemes
         if coloring == "Diagnosed":
             for v in G:
-                if v.haart:
+                if v.haart.active:
                     node_color.append("g")
                 elif v.hiv_dx:  # tmp_hiv == 1:
                     node_color.append("y")
                 elif v.hiv:  # tmp_aids == 1:
                     node_color.append("r")
-                elif v.prep:
+                elif v.prep.active:
                     node_color.append("b")
                 else:
                     node_color.append("purple")
@@ -134,9 +134,9 @@ class NetworkGraphUtils:
             for v in G:
                 if v.hiv:  # tmp_aids == 1:
                     node_color.append("r")
-                elif v.prep:
+                elif v.prep.active:
                     node_color.append("g")
-                elif v.intervention_ever:
+                elif v.random_trial.treated:
                     node_color.append("y")
                 else:
                     node_color.append("gray")
@@ -150,9 +150,9 @@ class NetworkGraphUtils:
                     node_color.append("g")
         elif coloring == "HR":
             for v in G:
-                if v.high_risk:  # tmp_hiv == 1:
+                if v.high_risk.active:  # tmp_hiv == 1:
                     node_color.append("r")
-                elif v.high_risk_ever:  # tmp_aids == 1:
+                elif v.high_risk.ever:  # tmp_aids == 1:
                     node_color.append("y")
                 else:
                     node_color.append("g")

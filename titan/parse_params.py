@@ -273,7 +273,7 @@ def check_params(params):
             sex_type_pop, 1, abs_tol=0.001
         ), f"ppl of {race}'s sex_types must add to 1. Currently adding to {sex_type_pop}"
 
-    assert math.isclose(race_pop, 1, abs_tol=0.001), f"ppl of races must add to 1"
+    assert math.isclose(race_pop, 1, abs_tol=0.001), "ppl of races must add to 1"
 
 
 def warn_unused_params(parsed, params, base, key_path):

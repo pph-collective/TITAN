@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from typing import List, Dict, Set, Optional, Iterator, Iterable, Tuple
+from typing import Dict, Set, Optional, Iterator, Iterable
 
-from .parse_params import ObjMap
 from .utils import safe_divide, safe_dist
 from .location import Location
+from . import features
 
 
 class Agent:
@@ -60,7 +60,6 @@ class Agent:
         else:
             self.population = self.sex_type
 
-        self.msmw = False
         self.sex_role = "versatile"
 
         # agent-partner params
@@ -71,42 +70,15 @@ class Agent:
 
         # agent STI params
         self.hiv = False
-        self.hiv_time = 0
+        self.hiv_time: Optional[int] = None
         self.hiv_dx = False
         self.aids = False
-
-        # agent treatment params
-        self.haart = False
-        self.haart_time = 0
-        self.haart_adherence = 0
-        self.ssp = False
-        self.prep = False
-        self.prep_adherence = 0
-        self.intervention_ever = False
-        self.random_trial_enrolled = False
-        self.vaccine = False
-        self.vaccine_time = 0
-        self.vaccine_type = ""
         self.partner_traced = False
         self.trace_time = 0
-        self.prep_awareness = False
-        self.prep_opinion = 0.0
-        self.prep_type = ""
-        self.pca = False
-        self.pca_suitable = False
 
-        # PrEP pharmacokinetics
-        self.prep_load = 0.0
-        self.prep_last_dose = 0
-
-        # agent high risk params
-        self.high_risk = False
-        self.high_risk_time = 0
-        self.high_risk_ever = False
-
-        # agent incarcartion params
-        self.incar = False
-        self.incar_time = 0
+        # model features
+        for feature in features.BaseFeature.__subclasses__():
+            setattr(self, feature.name, feature(self))
 
     def __str__(self) -> str:
         """
@@ -155,7 +127,7 @@ class Agent:
         """
         return any(self.iter_partners())
 
-    def get_acute_status(self, acute_time_period) -> bool:
+    def get_acute_status(self, time) -> bool:
         """
         Get acute status of agent at time
 
@@ -165,12 +137,13 @@ class Agent:
         returns:
             whether an agent is acute
         """
-        hiv_t = self.hiv_time
+        if self.hiv:
+            hiv_duration = time - self.hiv_time
 
-        if acute_time_period >= hiv_t > 0:
-            return True
-        else:
-            return False
+            if self.location.params.hiv.acute.duration >= hiv_duration >= 0:
+                return True
+
+        return False
 
     def is_msm(self) -> bool:
         """
@@ -187,130 +160,6 @@ class Agent:
             if sex_dict[sex_type].gender == "M":
                 return True
         return False
-
-    def cdc_eligible(self) -> bool:
-        """
-        Determine agent eligibility for PrEP under CDC criteria
-
-        returns:
-            cdc eligibility
-        """
-        if self.is_msm():
-            return True
-
-        ongoing_duration = self.location.params.partnership.ongoing_duration
-        for rel in self.relationships:
-            partner = rel.get_partner(self)
-            if rel.duration > ongoing_duration and partner.hiv_dx:
-                return True
-
-            if partner.drug_type == "Inj" or partner.is_msm():
-                return True
-
-        return False
-
-    def prep_eligible(self) -> bool:
-        """
-        Determine if an agent is eligible for PrEP
-
-        returns:
-            prep eligibility
-        """
-        target_model = self.location.params.prep.target_model
-        gender = self.location.params.classes.sex_types[self.sex_type].gender
-        # if agent is already on prep, not eligible to enroll
-        if self.prep or self.vaccine:
-            return False
-
-        all_eligible_models = {"Allcomers", "Racial"}
-
-        if all_eligible_models.intersection(target_model):
-            return True
-
-        if "cdc_women" in target_model:
-            if gender == "F":
-                if self.cdc_eligible():
-                    return True
-
-        if "cdc_msm" in target_model:
-            if gender == "M" and self.cdc_eligible():
-                return True
-
-        if "pwid_sex" in target_model:
-            if self.drug_type == "Inj" and self.cdc_eligible():
-                return True
-
-        if "pwid" in target_model:
-            if self.drug_type == "Inj":
-                return True
-
-        if "ssp_sex" in target_model:
-            if self.ssp and self.cdc_eligible():
-                return True
-
-        if "ssp" in target_model:
-            if self.ssp:
-                return True
-
-        return False
-
-    def enroll_prep(self, rand_gen):
-        """
-        Enroll an agent in PrEP
-
-        args:
-            rand_gen: random number generator
-        """
-        params = self.location.params
-        self.prep = True
-        self.prep_load = params.prep.peak_load
-        self.prep_last_dose = 0
-
-        if (
-            rand_gen.random()
-            < params.demographics[self.race][self.sex_type].prep.adherence
-        ):
-            self.prep_adherence = 1
-        else:
-            self.prep_adherence = 0
-
-        # set PrEP load and dosestep for PCK
-        if "Inj" in params.prep.type and "Oral" in params.prep.type:
-            if rand_gen.random() < params.prep.lai.prob:
-                self.prep_type = "Inj"
-            else:
-                self.prep_type = "Oral"
-        else:
-            self.prep_type = params.prep.type[0]
-
-    def update_prep_load(self):
-        """
-        Determine and update load of PrEP concentration in agent.
-        """
-        params = self.location.params
-        # N(t) = N0 (0.5)^(t/t_half)
-        self.prep_last_dose += 1
-        if self.prep_last_dose > params.model.time.steps_per_year:
-            self.prep_load = 0.0
-            self.prep = False
-            self.prep_type = ""
-            self.prep_last_dose = 0
-        else:
-            annualized_last_dose = (
-                self.prep_last_dose / params.model.time.steps_per_year
-            )
-            annualized_half_life = params.prep.half_life / 365
-            self.prep_load = params.prep.peak_load * (
-                (0.5) ** (annualized_last_dose / annualized_half_life)
-            )
-
-    def vaccinate(self) -> None:
-        """
-        Vaccinate an agent and update relevant fields.
-        """
-        self.vaccine = True
-        self.vaccine_type = self.location.params.vaccine.type
-        self.vaccine_time = 1
 
     def get_partners(self, bond_types: Optional[Iterable[str]] = None) -> Set["Agent"]:
         """

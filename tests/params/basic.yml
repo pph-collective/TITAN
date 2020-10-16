@@ -831,28 +831,13 @@ partnership:
             value: 1
             value_type: float
         mean: 1
-  interaction:
-    Sex:
-      1:
-        prob: 1.0
-        min: 1
-        max: 1
-    SexInj:
-      1:
-        prob: 1.0
-        min: 1
-        max: 1
-    Inj:
-      1:
-        prob: 1.0
-        min: 1
-        max: 1
 
 prep:
   target: 0.1
-  pca:
-    awareness:
-      prob: 1.0
+
+pca:
+  awareness:
+    prob: 1.0
 
 syringe_services:
   timeline:
@@ -864,7 +849,7 @@ syringe_services:
       risk: 0.02
 
 agent_zero:
-  bond_type: Inj
+  interaction_type: injection
   num_partners: 1
 
 outputs:
