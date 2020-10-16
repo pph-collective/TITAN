@@ -8,14 +8,15 @@
 <meta content="Documentation for the TITAN model" name="description"/>
 <link href="http://marshall-lab.github.io/TITAN/api/model/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="shortcut icon"/>
-<meta content="mkdocs-1.1.2, mkdocs-material-5.5.12" name="generator"/>
+<meta content="mkdocs-1.1.2, mkdocs-material-6.0.2" name="generator"/>
 <title>Model - TITAN</title>
-<link href="../../assets/stylesheets/main.4dd2dd8d.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/main.38780c08.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.3f72e892.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&amp;display=fallback" rel="stylesheet"/>
 <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
 </head>
-<body dir="ltr">
+<body data-md-color-accent="none" data-md-color-primary="none" data-md-color-scheme="" dir="ltr">
 <input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
@@ -77,27 +78,6 @@
 </nav>
 </header>
 <div class="md-container" data-md-component="container">
-<nav aria-label="Tabs" class="md-tabs md-tabs--active" data-md-component="tabs">
-<div class="md-tabs__inner md-grid">
-<ul class="md-tabs__list">
-<li class="md-tabs__item">
-<a class="md-tabs__link" href="../..">
-        Overview
-      </a>
-</li>
-<li class="md-tabs__item">
-<a class="md-tabs__link" href="../../getting_started/">
-          Getting Started
-        </a>
-</li>
-<li class="md-tabs__item">
-<a class="md-tabs__link md-tabs__link--active" href="../agent/">
-          API Reference
-        </a>
-</li>
-</ul>
-</div>
-</nav>
 <main class="md-main" data-md-component="main">
 <div class="md-main__inner md-grid">
 <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
@@ -112,7 +92,7 @@
   </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../.." title="Overview">
+<a class="md-nav__link" href="../..">
       Overview
     </a>
 </li>
@@ -129,22 +109,22 @@
       </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../getting_started/" title="Installation">
+<a class="md-nav__link" href="../../getting_started/">
       Installation
     </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../run_local/" title="Running locally">
+<a class="md-nav__link" href="../../run_local/">
       Running locally
     </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../run_oscar/" title="Running on Oscar">
+<a class="md-nav__link" href="../../run_oscar/">
       Running on Oscar
     </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../contributing/" title="Contributing">
+<a class="md-nav__link" href="../../contributing/">
       Contributing
     </a>
 </li>
@@ -164,17 +144,17 @@
       </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../agent/" title="Agent">
+<a class="md-nav__link" href="../agent/">
       Agent
     </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../agent_set/" title="AgentSet">
+<a class="md-nav__link" href="../agent_set/">
       AgentSet
     </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../location/" title="Location">
+<a class="md-nav__link" href="../location/">
       Location
     </a>
 </li>
@@ -184,7 +164,7 @@
         Model
         <span class="md-nav__icon md-icon"></span>
 </label>
-<a class="md-nav__link md-nav__link--active" href="./" title="Model">
+<a class="md-nav__link md-nav__link--active" href="./">
       Model
     </a>
 <nav aria-label="Table of contents" class="md-nav md-nav--secondary">
@@ -331,27 +311,27 @@
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../network/" title="NetworkGraphUtils">
+<a class="md-nav__link" href="../network/">
       NetworkGraphUtils
     </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../population/" title="Population">
+<a class="md-nav__link" href="../population/">
       Population
     </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../relationship/" title="Relationship">
+<a class="md-nav__link" href="../relationship/">
       Relationship
     </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../reporting/" title="Reporting">
+<a class="md-nav__link" href="../reporting/">
       Reporting
     </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../utilities/" title="Utility Functions">
+<a class="md-nav__link" href="../utilities/">
       Utility Functions
     </a>
 </li>
@@ -1482,13 +1462,13 @@ initialize_random_trial<span class="p">(</span><span class="bp">self</span><span
                 <span class="k">for</span> <span class="n">ag</span> <span class="ow">in</span> <span class="n">comp</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
                     <span class="n">ag</span><span class="o">.</span><span class="n">random_trial_enrolled</span> <span class="o">=</span> <span class="kc">True</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">ag</span><span class="o">.</span><span class="n">hiv</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">ag</span><span class="o">.</span><span class="n">prep</span><span class="p">:</span>
-                        <span class="n">ag</span><span class="o">.</span><span class="n">intervention_ever</span> <span class="o">=</span> <span class="kc">True</span>
                         <span class="k">if</span> <span class="p">(</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">run_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
                             <span class="o">&lt;</span> <span class="n">ag</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">prep</span><span class="o">.</span><span class="n">target</span>
                             <span class="ow">and</span> <span class="ow">not</span> <span class="n">ag</span><span class="o">.</span><span class="n">vaccine</span>
                         <span class="p">):</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">initiate_prep</span><span class="p">(</span><span class="n">ag</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                            <span class="n">ag</span><span class="o">.</span><span class="n">intervention_ever</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">prep</span><span class="o">.</span><span class="n">pca</span><span class="o">.</span><span class="n">choice</span> <span class="o">==</span> <span class="s2">"eigenvector"</span><span class="p">:</span>
                 <span class="n">centrality</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">algorithms</span><span class="o">.</span><span class="n">centrality</span><span class="o">.</span><span class="n">eigenvector_centrality</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
                 <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">centrality</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"Empty centrality"</span>
@@ -2680,7 +2660,7 @@ update_syringe_services<span class="p">(</span><span class="bp">self</span><span
 <footer class="md-footer">
 <div class="md-footer-nav">
 <nav aria-label="Footer" class="md-footer-nav__inner md-grid">
-<a class="md-footer-nav__link md-footer-nav__link--prev" href="../location/" rel="prev" title="Location">
+<a class="md-footer-nav__link md-footer-nav__link--prev" href="../location/" rel="prev">
 <div class="md-footer-nav__button md-icon">
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
 </div>
@@ -2693,7 +2673,7 @@ update_syringe_services<span class="p">(</span><span class="bp">self</span><span
               </div>
 </div>
 </a>
-<a class="md-footer-nav__link md-footer-nav__link--next" href="../network/" rel="next" title="NetworkGraphUtils">
+<a class="md-footer-nav__link md-footer-nav__link--next" href="../network/" rel="next">
 <div class="md-footer-nav__title">
 <div class="md-ellipsis">
 <span class="md-footer-nav__direction">
@@ -2721,14 +2701,14 @@ update_syringe_services<span class="p">(</span><span class="bp">self</span><span
 </div>
 </footer>
 </div>
-<script src="../../assets/javascripts/vendor.3636a4ec.min.js"></script>
-<script src="../../assets/javascripts/bundle.e9fe3281.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+<script src="../../assets/javascripts/vendor.77e55a48.min.js"></script>
+<script src="../../assets/javascripts/bundle.9554a270.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
 <script>
         app = initialize({
           base: "../..",
-          features: ["instant", "tabs"],
+          features: ['instant', 'tabs'],
           search: Object.assign({
-            worker: "../../assets/javascripts/worker/search.5eca75d3.min.js"
+            worker: "../../assets/javascripts/worker/search.4ac00218.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>
