@@ -22,7 +22,7 @@ def test_update_haart_t1(make_model, make_agent):
     # go on haart
     model.run_random = FakeRandom(
         -0.1
-    )  # means this will always be less than params even though not physically possible in reality
+    )  # means this will always be less than params even though not possible in reality
     a.haart.update_agent(model)
 
     assert a.haart.adherence == 5
