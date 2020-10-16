@@ -19,7 +19,9 @@ def test_create_params_base(tmpdir):
     assert "white" not in params.classes.races
     assert params.partnership.sex.acquisition.MSM.versatile == 0.00745  # from setting
     assert params.partnership.sex.acquisition.MSM.receptive == 0.0138  # from base
-    assert params.partnership.sex.acquisition.MSM.insertive == 0.0011  # from param
+    assert (
+        params.partnership.sex.acquisition.MSM.insertive == 0.0011
+    )  # from param, rounded
 
 
 @pytest.mark.unit

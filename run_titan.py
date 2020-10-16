@@ -138,7 +138,7 @@ def drange(start, stop, step):
     while r < stop:
         yield r
         r += step
-        r = round(r, 3)
+        r = round(r, 6)
 
 
 def setup_sweeps(sweeps):
@@ -184,7 +184,7 @@ def setup_sweeps_file(sweepfile, rows):
                         val = int(v)
                     except ValueError:
                         try:
-                            val = float(v)
+                            val = round(float(v), 6)
                         except ValueError:
                             raise ValueError(
                                 "sweep values must be numbers (int or float)"
