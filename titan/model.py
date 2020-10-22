@@ -154,30 +154,31 @@ class HIVModel:
         args:
             outdir: path to directory where results should be saved
         """
+        # make sure initial state of things get printed
+        stats = ao.get_stats(
+            self.pop.all_agents,
+            self.deaths,
+            self.params,
+            self.features,
+            self.time,
+        )
+        self.print_stats(stats, outdir)
+
         if self.params.model.time.burn_steps > 0:
             print("\t===! Start Burn Loop !===")
-        else:
-            # make sure t0 things get printed
-            stats = ao.get_stats(
-                self.pop.all_agents,
-                self.deaths,
-                self.params,
-                self.features,
-                self.time,
-            )
-            self.print_stats(stats, outdir)
+
         # burn is negative time, model run starts at t = 1
         for i in range(
             -1 * self.params.model.time.burn_steps, self.params.model.time.num_steps
         ):
-            self.time += 1
-            self.step(outdir)
-            self.reset_trackers()
-
             if self.time == 0:
                 if self.params.model.time.burn_steps > 0:
                     print("\t===! Burn Loop Complete !===")
                 print("\t===! Start Main Loop !===")
+
+            self.time += 1
+            self.step(outdir)
+            self.reset_trackers()
 
         print("\t===! Main Loop Complete !===")
 
