@@ -155,7 +155,7 @@ def get_stats(
 
         if a.hiv:
             add_agent_to_stats(stats, attrs, a, "hiv")
-            if a.hiv_time == 1:
+            if a.hiv_time == time:
                 add_agent_to_stats(stats, attrs, a, "hiv_new")
             if a.aids:
                 add_agent_to_stats(stats, attrs, a, "aids")
