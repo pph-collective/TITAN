@@ -1,6 +1,7 @@
 from . import base_interaction
 from .. import utils
 
+
 class Sex(base_interaction.BaseInteraction):
 
     name = "sex"
@@ -13,6 +14,9 @@ class Sex(base_interaction.BaseInteraction):
         args:
             model: The model being run
             rel : Relationship
+
+        returns:
+            whether the agents interacted
         """
         if model.time < model.params.hiv.start_time:
             return False
@@ -68,3 +72,5 @@ class Sex(base_interaction.BaseInteraction):
             if model.run_random.random() < p_total_transmission:
                 # if agent HIV+ partner becomes HIV+
                 model.hiv_convert(partner)
+
+        return True

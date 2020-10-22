@@ -838,6 +838,10 @@ prep:
 pca:
   awareness:
     prob: 1.0
+  opinion:
+    transmission: 0.5
+  knowledge:
+    transmission: 0.3
 
 syringe_services:
   timeline:

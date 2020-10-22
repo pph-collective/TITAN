@@ -1,4 +1,4 @@
-from typing import Dict, ClassVar, Set, Optional
+from typing import Dict, ClassVar, Optional
 
 import numpy as np  # type: ignore
 

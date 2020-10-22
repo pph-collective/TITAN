@@ -15,6 +15,9 @@ class Injection(base_interaction.BaseInteraction):
         args:
             model: The currently running model
             rel: The relationship in which the interaction is happening
+
+        returns:
+            whether the agents interacted
         """
 
         if model.time < model.params.hiv.start_time:
@@ -74,3 +77,5 @@ class Injection(base_interaction.BaseInteraction):
             if model.run_random.random() < p_total_transmission:
                 # if agent HIV+ partner becomes HIV+
                 model.hiv_convert(partner)
+
+        return True

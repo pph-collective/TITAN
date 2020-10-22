@@ -18,6 +18,9 @@ class PCA(base_interaction.BaseInteraction):
         args:
             model: The running model
             rel: The relationship PCA is happening in
+
+        returns:
+            whether the agents interacted
         """
         if not model.params.features.pca or model.time < model.params.pca.start_time:
             return False
@@ -26,10 +29,10 @@ class PCA(base_interaction.BaseInteraction):
             model.params.model.network.enable
         ), "Network must be enabled for pca interactions"
 
-        acts_prob = model.run_random.random()
-        acts_bin = 0
-        current_p_value = 0.0
         params = model.params.partnership.pca.frequency[rel.bond_type]
+        acts_prob = model.run_random.random()
+        acts_bin = 1
+        current_p_value = params[acts_bin].prob
 
         while acts_prob > current_p_value:
             acts_bin += 1
@@ -49,13 +52,17 @@ class PCA(base_interaction.BaseInteraction):
         agent1_aware = rel.agent1.pca.awareness  # type: ignore[attr-defined]
         agent2_aware = rel.agent2.pca.awareness  # type: ignore[attr-defined]
 
-        if model.run_random.random() < knowledge_transmission_probability(model, rel):
+        if model.run_random.random() < knowledge_transmission_probability(
+            model, rel, num_acts
+        ):
             if agent1_aware and agent2_aware:
-                influence(model, rel.agent1, rel.agent2)
+                influence(model, rel)
             elif agent1_aware:
                 knowledge_dissemination(model, rel.agent2)
             elif agent2_aware:
                 knowledge_dissemination(model, rel.agent1)
+
+        return True
 
 
 # ===================== HELPER FUNCTIONS ===================
@@ -107,7 +114,7 @@ def knowledge_dissemination(model, partner):
         partner.prep.initiate(model, force=True)
 
 
-def knowledge_transmission_probability(model, rel):
+def knowledge_transmission_probability(model, rel, num_acts):
     """
     Get the probability of knowledge/opinion transmission in this relationship
 

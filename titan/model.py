@@ -5,7 +5,6 @@ from copy import copy
 import os
 
 import numpy as np  # type: ignore
-import networkx as nx  # type: ignore
 import nanoid  # type: ignore
 
 

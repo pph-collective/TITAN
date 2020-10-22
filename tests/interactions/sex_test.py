@@ -5,9 +5,11 @@ from titan.agent import Relationship
 
 from conftest import FakeRandom
 
+
 @pytest.mark.unit
 def test_sex_transmission(make_model, make_agent):
     model = make_model()
+    model.time = model.params.hiv.start_time
     a = make_agent()
     a.sex_role = "insertive"
     p = make_agent()
@@ -40,11 +42,10 @@ def test_sex_transmission_do_nothing(make_model, make_agent):
     p.partners["Sex"] = set()
     rel = Relationship(a, p, 10, bond_type="Sex")
 
-    with pytest.raises(ValueError):
-        Sex.interact(model, rel)
+    assert Sex.interact(model, rel) is False
 
     a.hiv = True
     p.hiv = True
 
     # test nothing happens
-    Sex.interact(model, rel)
+    assert Sex.interact(model, rel) is False

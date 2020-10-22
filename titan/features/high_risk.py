@@ -1,6 +1,6 @@
 # mypy: always-true=HighRisk
 
-from typing import Dict, Set, ClassVar, Optional
+from typing import Dict, ClassVar, Optional
 
 from . import base_feature
 from .. import utils
