@@ -121,7 +121,6 @@ def add_agent_to_stats(
 
 def get_stats(
     all_agents: "ag.AgentSet",
-    new_hiv_dx: "ag.AgentSet",
     deaths: List["ag.Agent"],
     params: ObjMap,
     features,
@@ -161,10 +160,8 @@ def get_stats(
                 add_agent_to_stats(stats, attrs, a, "aids")
             if a.hiv_dx:
                 add_agent_to_stats(stats, attrs, a, "dx")
-
-    # Newly diagnosed tracker statistics
-    for a in new_hiv_dx:
-        add_agent_to_stats(stats, attrs, a, "dx_new")
+                if a.hiv_dx_time == time:
+                    add_agent_to_stats(stats, attrs, a, "dx_new")
 
     for a in deaths:
         add_agent_to_stats(stats, attrs, a, "deaths")

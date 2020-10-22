@@ -28,8 +28,6 @@ def test_model_init(params):
     assert model.run_seed > 0
     assert model.pop.pop_seed > 0
 
-    assert model.new_dx.num_members() == 0
-
     params.model.network.enable = False
     model = HIVModel(params)
     assert model.network_utils is None
@@ -171,22 +169,19 @@ def test_diagnose_hiv(make_model, make_agent):
     model.diagnose_hiv(a)
 
     assert a.hiv_dx is False
-    assert a not in model.new_dx.members
     assert p.hiv_dx is False
-    assert p not in model.new_dx.members
     assert not p.partner_traced
 
     model.run_random = FakeRandom(-0.1)  # always less than param
     model.diagnose_hiv(a)
 
     assert a.hiv_dx
-    assert a in model.new_dx.members
+    assert a.hiv_dx_time == model.time
     assert p in a.get_partners()
     assert p.partner_traced
     assert p.trace_time == model.time
 
     assert p.hiv_dx is False
-    assert p not in model.new_dx.members
     model.params.demographics[p.race][p.sex_type].hiv.dx.prob = 0
 
     model.time = p.partner_traced + 1
@@ -206,7 +201,6 @@ def test_diagnose_hiv_already_tested(make_model, make_agent):
     model.diagnose_hiv(a)
 
     assert a.hiv_dx
-    assert a not in model.new_dx.members
 
 
 @pytest.mark.unit

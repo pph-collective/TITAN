@@ -61,10 +61,6 @@ class HIVModel:
         else:
             self.network_utils = None
 
-        print("\n\tCreating lists")
-        # Other lists / dictionaries
-        self.new_dx = ag.AgentSet("new_dx")
-
         self.time = -1 * self.params.model.time.burn_steps  # burn is negative time
         self.id = nanoid.generate(size=8)
 
@@ -145,7 +141,6 @@ class HIVModel:
                 )
 
     def reset_trackers(self):
-        self.new_dx.clear_set()
         self.deaths = []
 
     def run(self, outdir: str):
@@ -165,7 +160,6 @@ class HIVModel:
             # make sure t0 things get printed
             stats = ao.get_stats(
                 self.pop.all_agents,
-                self.new_dx,
                 self.deaths,
                 self.params,
                 self.features,
@@ -215,7 +209,6 @@ class HIVModel:
 
         stats = ao.get_stats(
             self.pop.all_agents,
-            self.new_dx,
             self.deaths,
             self.params,
             self.features,
@@ -471,8 +464,8 @@ class HIVModel:
             # agent's location's params used throughout as that is the agent who
             # would be interacting with the service
             agent.hiv_dx = True
+            agent.hiv_dx_time = self.time
             self.pop.dx_counts[agent.race][agent.sex_type] += 1
-            self.new_dx.add_agent(agent)
             if (
                 self.params.features.partner_tracing
                 and partner_tracing.start_time <= self.time < partner_tracing.stop_time

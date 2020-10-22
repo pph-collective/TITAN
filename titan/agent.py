@@ -72,6 +72,7 @@ class Agent:
         self.hiv = False
         self.hiv_time: Optional[int] = None
         self.hiv_dx = False
+        self.hiv_dx_time: Optional[int] = None
         self.aids = False
         self.partner_traced = False
         self.trace_time = 0
