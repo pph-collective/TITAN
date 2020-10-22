@@ -236,9 +236,6 @@ class HIVModel:
         4. Update features at the population level
         5. Update each agent's status for:
             * age
-            * high risk
-            * prep
-            * incarceration
             * hiv
             * all features (agent level)
         6. End relationships with no remaining duration
