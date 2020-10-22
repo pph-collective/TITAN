@@ -127,17 +127,17 @@ class Agent:
         """
         return any(self.iter_partners())
 
-    def get_acute_status(self, time) -> bool:
+    def get_acute_status(self, time: int) -> bool:
         """
         Get acute status of agent at time
 
         args:
-            acute_time_period: How long an agent with HIV is acute for
+            time: The current time step
 
         returns:
             whether an agent is acute
         """
-        if self.hiv:
+        if self.hiv and self.hiv_time is not None:
             hiv_duration = time - self.hiv_time
 
             if self.location.params.hiv.acute.duration >= hiv_duration >= 0:

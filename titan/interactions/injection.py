@@ -1,6 +1,8 @@
 from . import base_interaction
 from .. import utils
 from .. import features
+from .. import model
+from .. import agent
 
 
 class Injection(base_interaction.BaseInteraction):
@@ -8,7 +10,7 @@ class Injection(base_interaction.BaseInteraction):
     name = "injection"
 
     @staticmethod
-    def interact(model, rel) -> bool:
+    def interact(model: "model.HIVModel", rel: "agent.Relationship") -> bool:
         """
         Simulate random transmission of HIV between two PWID agents through injection.
 

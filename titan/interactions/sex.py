@@ -1,5 +1,7 @@
 from . import base_interaction
 from .. import utils
+from .. import model
+from .. import agent
 
 
 class Sex(base_interaction.BaseInteraction):
@@ -7,9 +9,9 @@ class Sex(base_interaction.BaseInteraction):
     name = "sex"
 
     @staticmethod
-    def interact(model, rel) -> bool:
+    def interact(model: "model.HIVModel", rel: "agent.Relationship") -> bool:
         """
-        Simulate random transmission of HIV between two agents through Sex. One of the agents must have HIV.
+        Simulate random transmission of HIV between two agents through Sex. One of the agents must be HIV+.
 
         args:
             model: The model being run

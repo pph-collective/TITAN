@@ -3,6 +3,8 @@ import networkx as nx  # type: ignore
 
 from . import base_interaction
 from .. import utils
+from .. import model
+from .. import agent
 
 
 class PCA(base_interaction.BaseInteraction):
@@ -10,7 +12,7 @@ class PCA(base_interaction.BaseInteraction):
     name = "pca"
 
     @staticmethod
-    def interact(model, rel) -> bool:
+    def interact(model: "model.HIVModel", rel: "agent.Relationship") -> bool:
         """
         Simulate peer change agent interactions. Knowledge if one agent is aware and one unaware,
             opinion if one agent swaying the other.
@@ -66,7 +68,7 @@ class PCA(base_interaction.BaseInteraction):
 
 
 # ===================== HELPER FUNCTIONS ===================
-def influence(model, rel):
+def influence(model: "model.HIVModel", rel: "agent.Relationship"):
     """
     The higher influence agent chages the opinion of the other agent to be the mean of their opinions.  If the opinion excedes the threshold, initiate prep.
 
@@ -85,20 +87,20 @@ def influence(model, rel):
         agent = rel.agent2
         partner = rel.agent1
 
-    partner_init_opinion = partner.pca.opinion
-    partner.pca.opinion = np.mean([agent.pca.opinion, partner.pca.opinion])
+    partner_init_opinion = partner.pca.opinion  # type: ignore[attr-defined]
+    partner.pca.opinion = np.mean([agent.pca.opinion, partner.pca.opinion])  # type: ignore[attr-defined]
 
     # partner crossed threshhold of pca opinion, stochastically enroll in prep
     if (
         partner_init_opinion
         < partner.location.params.pca.opinion.threshold
-        < partner.pca.opinion
+        < partner.pca.opinion  # type: ignore[attr-defined]
     ):
         if model.run_random.random() < partner.location.params.pca.prep.prob:
-            partner.prep.initiate(model, force=True)
+            partner.prep.initiate(model, force=True)  # type: ignore[attr-defined]
 
 
-def knowledge_dissemination(model, partner):
+def knowledge_dissemination(model: "model.HIVModel", partner: "agent.Agent"):
     """
     Make an agent pca aware, stochastically enroll in prep if their opinion meets the threshold
 
@@ -106,23 +108,29 @@ def knowledge_dissemination(model, partner):
         model: The running model
         partner: The agent to whom knowledge is being disseminated
     """
-    partner.pca.awareness = True
+    partner.pca.awareness = True  # type: ignore[attr-defined]
     if (
-        partner.pca.opinion > partner.location.params.pca.opinion.threshold
+        partner.pca.opinion > partner.location.params.pca.opinion.threshold  # type: ignore[attr-defined]
         and model.run_random.random() < partner.location.params.pca.prep.prob
     ):
-        partner.prep.initiate(model, force=True)
+        partner.prep.initiate(model, force=True)  # type: ignore[attr-defined]
 
 
-def knowledge_transmission_probability(model, rel, num_acts):
+def knowledge_transmission_probability(
+    model: "model.HIVModel", rel: "agent.Relationship", num_acts: int
+) -> float:
     """
     Get the probability of knowledge/opinion transmission in this relationship
 
     args:
         model: The running model
         rel: The relationship where the pca interaction is happening
+        num_acts: The number of interactions the agents had
+
+    returns:
+        the probability of knowledge/opinion transmission
     """
-    if rel.agent1.pca.awareness and rel.agent2.pca.awareness:
+    if rel.agent1.pca.awareness and rel.agent2.pca.awareness:  # type: ignore[attr-defined]
         p = model.params.pca.opinion.transmission
     else:
         p = model.params.pca.knowledge.transmission
@@ -132,6 +140,6 @@ def knowledge_transmission_probability(model, rel, num_acts):
     elif num_acts >= 1:
         p_total_transmission = 1.0 - utils.binom_0(num_acts, p)
     else:
-        p_total_transmission = 0
+        p_total_transmission = 0.0
 
     return p_total_transmission

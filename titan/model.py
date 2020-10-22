@@ -39,7 +39,7 @@ class HIVModel:
 
         args:
             params: the parameter object for this model
-            population: an initialized population to run the model on
+            pop: an initialized population to run the model on
         """
 
         self.params = params

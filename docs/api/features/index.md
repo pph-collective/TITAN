@@ -9,6 +9,7 @@ To add a new feature:
     * Implement the methods of `BaseFeature` which are needed for this feature
     * Not all methods are needed for all features (see below for details on the methods)
 * Re-export the feature from `features/__init__.py`
+* Add tests in `tests/features/`
 * Add it to the docs in `docs/api/features/` and to the nav in `mkdocs.yml`
 
 The `HIVModel`, `Population`, and `Agent` classes all use sub-classes of `BaseFeature` to initialize the object/call methods as appropriate.
