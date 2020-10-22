@@ -74,9 +74,15 @@ class HIVModel:
             if self.params.features[feature.name]
         ]
 
+        # load in interactions that are in scope in this params
+        active_interactions = set()
+        for bond_type in params.classes.bond_types:
+            active_interactions |= bond_type.acts_allowed
+
         self.interactions = {
             interaction.name: interaction
             for interaction in interactions.BaseInteraction.__subclasses__()
+            if interaction.name in active_interactions
         }
 
         # Set seed format. 0: pure random, else: fixed value
