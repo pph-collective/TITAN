@@ -1,6 +1,6 @@
 # Imports
 import random
-from typing import Dict, List, Optional, Set
+from typing import Dict, List, Optional
 from copy import copy
 import os
 
@@ -74,15 +74,9 @@ class HIVModel:
             if self.params.features[feature.name]
         ]
 
-        # load in interactions that are in scope in this params
-        active_interactions: Set[str] = set()
-        for bond_type in self.params.classes.bond_types.values():
-            active_interactions |= set(bond_type.acts_allowed)
-
         self.interactions = {
             interaction.name: interaction
             for interaction in interactions.BaseInteraction.__subclasses__()
-            if interaction.name in active_interactions
         }
 
         # Set seed format. 0: pure random, else: fixed value
