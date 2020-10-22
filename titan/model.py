@@ -167,10 +167,8 @@ class HIVModel:
         if self.params.model.time.burn_steps > 0:
             print("\t===! Start Burn Loop !===")
 
-        # burn is negative time, model run starts at t = 1
-        for i in range(
-            -1 * self.params.model.time.burn_steps, self.params.model.time.num_steps
-        ):
+        # time starts at negative burn steps, model run starts at t = 1
+        while self.time < self.params.model.time.num_steps:
             if self.time == 0:
                 if self.params.model.time.burn_steps > 0:
                     print("\t===! Burn Loop Complete !===")
