@@ -1,6 +1,6 @@
 # Imports
 import random
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Set
 from copy import copy
 import os
 
@@ -75,9 +75,9 @@ class HIVModel:
         ]
 
         # load in interactions that are in scope in this params
-        active_interactions = set()
-        for bond_type in params.classes.bond_types:
-            active_interactions |= bond_type.acts_allowed
+        active_interactions: Set[str] = set()
+        for bond_type in self.params.classes.bond_types.values():
+            active_interactions |= set(bond_type.acts_allowed)
 
         self.interactions = {
             interaction.name: interaction
