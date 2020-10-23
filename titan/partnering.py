@@ -19,7 +19,7 @@ def select_partner(
     pwid_agents: "agent.AgentSet",
     params: "parse_params.ObjMap",
     rand_gen,
-    bond_type,
+    bond_type: str,
 ) -> Optional["agent.Agent"]:
     """
     Get a partner for the agent.
@@ -99,6 +99,7 @@ def sex_possible(
     args:
         agent_sex_type: name of agent's sex type
         partner_sex_type: name of partner's sex type
+        sex_types: params defining in scope sex types
 
     returns:
         whether sex is possible between agents of these sex types
@@ -119,6 +120,9 @@ def sex_possible(
 def get_mean_rel_duration(params: "parse_params.ObjMap"):
     """
     Find the average partnership duration by bond type
+
+    args:
+        params: The current model's parameters
     """
     mean_rel_duration: Dict[str, int] = {}
     for bond in params.partnership.duration:
@@ -141,7 +145,9 @@ def get_mean_rel_duration(params: "parse_params.ObjMap"):
     return mean_rel_duration
 
 
-def get_partnership_duration(params: "parse_params.ObjMap", rand_gen, bond_type) -> int:
+def get_partnership_duration(
+    params: "parse_params.ObjMap", rand_gen, bond_type: str
+) -> int:
     """
     Get duration of a relationship drawn from bins or a distribution per the params [params.partnership.duration]
 

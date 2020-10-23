@@ -1,4 +1,4 @@
-from typing import Dict, ClassVar, Set, Optional
+from typing import Dict, ClassVar, Optional
 
 import numpy as np  # type: ignore
 
@@ -268,12 +268,12 @@ class Prep(base_feature.BaseFeature):
 
         self.remove_agent(self.agent)
 
-    def eligible(self):
+    def eligible(self) -> bool:
         """
         Determine if an agent is eligible for PrEP
 
         returns:
-            prep
+            whether the agent is eligible
         """
         target_model = self.agent.location.params.prep.target_model
         gender = self.agent.location.params.classes.sex_types[
@@ -282,7 +282,7 @@ class Prep(base_feature.BaseFeature):
 
         if (
             self.active
-            or self.agent.vaccine.active
+            or self.agent.vaccine.active  # type: ignore[attr-defined]
             or self.agent.location.params.features.random_trial
         ):
             return False
@@ -310,11 +310,11 @@ class Prep(base_feature.BaseFeature):
                 return True
 
         if "ssp_sex" in target_model:
-            if self.agent.syringe_services.active and self.cdc_eligible():
+            if self.agent.syringe_services.active and self.cdc_eligible():  # type: ignore[attr-defined]
                 return True
 
         if "ssp" in target_model:
-            if self.agent.syringe_services.active:
+            if self.agent.syringe_services.active:  # type: ignore[attr-defined]
                 return True
 
         return False

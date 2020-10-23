@@ -12,12 +12,13 @@ from titan import agent, features
 
 @pytest.fixture
 def stats(params, world_location):
-    cur_time = 1
+    cur_time = 3
     a = agent.Agent("MSM", 20, "black", "Inj", world_location)
     a.hiv = True
     a.hiv_time = cur_time
     a.aids = True
     a.hiv_dx = True
+    a.hiv_dx_time = cur_time
     a.haart.active = True
     a.syringe_services.active = True
     a.prep.active = True
@@ -34,7 +35,7 @@ def stats(params, world_location):
     agent_set.add_agent(a)
     agent_list = [a]
     feat_list = [feature for feature in features.BaseFeature.__subclasses__()]
-    stats = get_stats(agent_set, agent_set, agent_list, params, feat_list, 1)
+    stats = get_stats(agent_set, agent_list, params, feat_list, cur_time)
     return stats
 
 
