@@ -231,11 +231,13 @@ def test_prep_coverage(make_model_integration, tmpdir):
 
 
 @pytest.mark.integration_stochastic
-def test_syringe_services(make_model_integration, tmpdir):
+def test_syringe_services(params_integration, tmpdir):
     """
     If we use syringe services, does the incidence of hiv decrease?
     """
-    model_a = make_model_integration()
+    params_integration.demographics.black.MSM.drug_type.Inj.init = 1.0
+    params_integration.demographics.black.MSM.drug_type["None"].init = 0.0
+    model_a = HIVModel(params_integration)
 
     path_a = tmpdir.mkdir("a")
     path_a.mkdir("network")
