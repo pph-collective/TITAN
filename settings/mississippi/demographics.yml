@@ -1,0 +1,12 @@
+demographics:
+  black:
+    hiv:
+      init: 0.48
+    prep:
+      adherence: 0.860
+    aids:
+      init: 0.46
+    haart:
+      discontinue: 0.023
+    death_rate:
+      haart_adherent: 1.00
