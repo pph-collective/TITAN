@@ -29,8 +29,8 @@ class HighRisk(base_feature.BaseFeature):
         * high_risk_new_aids - number of agents that became active high risk this time step with AIDS
         * high_risk_new_dx - number of agents that became active high risk this time step with diagnosed HIV
         * high_risk_new_haart - number of agents that became active high risk this time step with active HAART
-        * inf_HR6m - number of agents that became active with HIV this time step who are high risk
-        * inf_HRever - number of agents that became active with HIV this time step were ever high risk
+        * hiv_new_high_risk - number of agents that became active with HIV this time step who are high risk
+        * hiv_new_high_risk_ever - number of agents that became active with HIV this time step were ever high risk
     """
 
     def __init__(self, agent: "agent.Agent"):
@@ -162,7 +162,7 @@ class HighRisk(base_feature.BaseFeature):
 
         args:
             pop: the model population
-            amount: the positive or negatative amount to scale the mean by
+            amount: the positive or negatative amount to adjust the mean by
         """
         for bond in self.agent.location.params.high_risk.partnership_types:
             self.agent.mean_num_partners[bond] += amount  # could be negative
