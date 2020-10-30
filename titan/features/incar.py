@@ -67,7 +67,7 @@ class Incar(base_feature.BaseFeature):
         args:
             model: the instance of HIVModel currently being run
         """
-        hiv_bool = self.agent.hiv
+        hiv_bool = self.agent.hiv.active  # type: ignore[attr-defined]
 
         if hiv_bool:
             hiv_multiplier = self.agent.location.params.incar.hiv.multiplier
@@ -131,12 +131,12 @@ class Incar(base_feature.BaseFeature):
             self.active = True
 
             if hiv_bool:
-                if not self.agent.hiv_dx:
+                if not self.agent.hiv.dx:  # type: ignore[attr-defined]
                     if (
                         model.run_random.random()
                         < self.agent.location.params.incar.hiv.dx
                     ):
-                        self.agent.hiv_dx = True
+                        self.agent.hiv.diagnose(model)  # type: ignore[attr-defined]
                 else:  # Then tested and HIV, check to enroll in ART
                     if (
                         model.run_random.random()
@@ -188,12 +188,12 @@ class Incar(base_feature.BaseFeature):
     def set_stats(self, stats: Dict[str, int], time: int):
         if self.agent in self.new_releases:
             stats["new_release"] += 1
-            if self.agent.hiv:
+            if self.agent.hiv.active:  # type: ignore[attr-defined]
                 stats["new_release_hiv"] += 1
 
         if self.active:
             stats["incar"] += 1
-            if self.agent.hiv:
+            if self.agent.hiv.active:  # type: ignore[attr-defined]
                 stats["incar_hiv"] += 1
 
     # ============== HELPER METHODS ================

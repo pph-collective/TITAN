@@ -46,7 +46,7 @@ def test_incarcerate_not_diagnosed(make_model, make_agent):
 
     assert a.incar.active
     assert a.incar.duration == 1
-    assert a.hiv_dx
+    assert a.hiv.dx
 
     assert p.high_risk.active
     assert p.high_risk.ever
@@ -72,7 +72,7 @@ def test_incarcerate_diagnosed(make_model, make_agent):
     model.time = 10
     a = make_agent(SO="HM", race="white")  # incarceration only for HM and HF?
     a.hiv = True
-    a.hiv_dx = True
+    a.hiv.dx = True
     a.partners["Sex"] = set()
 
     model.run_random = FakeRandom(-0.1)  # always less than params

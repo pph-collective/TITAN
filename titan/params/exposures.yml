@@ -1,0 +1,61 @@
+features:
+  incar:
+    default: false
+    description: Whether incarceration will be used in the model
+    type: boolean
+  prep:
+    default: false
+    description: Whether PrEP will be used in the model
+    type: boolean
+  pca:
+    default: false
+    desctiption: Whether to have peer change agents spreading awareness of PrEP (prep feature must be enabled)
+    type: boolean
+  random_trial:
+    default: false
+    description: Whether to run a random trial for pca or prep (prep or pca and prep must be enabled)
+    type: boolean
+  high_risk:
+    default: false
+    description: Whether high risk will be used in the model
+    type: boolean
+  haart:
+    default: false
+    description: Whether haart will be used in the model
+    type: boolean
+  die_and_replace:
+    default: false
+    description: Whether agents can die in the model, if so they will be replaced
+    type: boolean
+  static_network:
+    default: false
+    description: Whether the network is static across time, i.e., no bonds formed or broken after initialization.
+    type: boolean
+  agent_zero:
+    default: false
+    description: Whether to create "agent_zero" to initialize HIV in a population
+    type: boolean
+  assort_mix:
+    default: false
+    description: Whether to use assortative mixing by classes other bond type compatibility when partnering
+    type: boolean
+  vaccine:
+    default: false
+    description: Whether to use a vaccine in the model
+    type: boolean
+  partner_tracing:
+    default: false
+    description: Whether to trace a newly diagnosed agent's partners, so that they become diagnosed at the next time step
+    type: boolean
+  msmw:
+    default: false
+    description: Whether to have agents that are men who sleep with men and women - it is not quite a sex type, but adjusts their risks and probabilities accordingly
+    type: boolean
+  syringe_services:
+    default: false
+    description: Whether to have a syringe services program in the model
+    type: boolean
+  timeline_scaling:
+    default: false
+    description: Whether to scale various parameters based on time (such as a stay at home order affecting prep)
+    type: boolean

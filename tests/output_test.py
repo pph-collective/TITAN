@@ -15,10 +15,10 @@ def stats(params, world_location):
     cur_time = 3
     a = agent.Agent("MSM", 20, "black", "Inj", world_location)
     a.hiv = True
-    a.hiv_time = cur_time
+    a.hiv.time = cur_time
     a.aids = True
-    a.hiv_dx = True
-    a.hiv_dx_time = cur_time
+    a.hiv.dx = True
+    a.hiv.dx_time = cur_time
     a.haart.active = True
     a.syringe_services.active = True
     a.prep.active = True

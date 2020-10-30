@@ -20,34 +20,19 @@ class Sex(base_interaction.BaseInteraction):
         returns:
             whether the agents interacted
         """
-        if model.time < model.params.hiv.start_time:
-            return False
-
-        # Agent 1 is HIV+, Agent 2 is not, Agent 2 is succept
-        if rel.agent1.hiv and not rel.agent2.hiv:
-            agent = rel.agent1
-            partner = rel.agent2
-        # If Agent 2 is HIV and Agent 1 is not, Agent 1 is succept
-        elif not rel.agent1.hiv and rel.agent2.hiv:
-            agent = rel.agent2
-            partner = rel.agent1
-        else:  # neither agent is HIV or both are
-            return False
-
-        # Everything from here is only run if one of them is HIV+
-
         # unprotected sex probabilities for primary partnerships
         mean_sex_acts = (
-            agent.get_number_of_sex_acts(model.np_random) * model.calibration.sex.act
+            rel.agent1.get_number_of_sex_acts(model.np_random)
+            * model.calibration.sex.act
         )
         total_sex_acts = utils.poisson(mean_sex_acts, model.np_random)
 
         # Get condom usage
-        p_safe_sex = agent.location.params.demographics[agent.race][
-            agent.sex_type
+        p_safe_sex = rel.agent1.location.params.demographics[rel.agent1.race][
+            rel.agent1.sex_type
         ].safe_sex
         # increase condom usage if diagnosed
-        if agent.hiv_dx or partner.hiv_dx:
+        if rel.agent1.hiv.dx or rel.agent1.hiv.dx:  # type: ignore[attr-defined]
             # Calculate probability of safe sex given risk reduction
             p_unsafe_sex = (1 - p_safe_sex) * (
                 1 - model.params.hiv.dx.risk_reduction.sex
@@ -60,19 +45,44 @@ class Sex(base_interaction.BaseInteraction):
             if model.run_random.random() < p_safe_sex:
                 unsafe_sex_acts -= 1
 
+        rel.total_sex_acts += unsafe_sex_acts
+
         if unsafe_sex_acts >= 1:
-            # agent is HIV+
-            rel.total_sex_acts += unsafe_sex_acts
-            p_per_act = model.get_transmission_probability("sex", agent, partner)
+            for exposure in model.exposures:
+                if model.time < model.params[exposure.name].start_time:
+                    continue
 
-            p_total_transmission: float
-            if unsafe_sex_acts == 1:
-                p_total_transmission = p_per_act
-            else:
-                p_total_transmission = 1.0 - utils.binom_0(unsafe_sex_acts, p_per_act)
+                agent1_exposure = getattr(rel.agent1, exposure.name)
+                agent2_exposure = getattr(rel.agent2, exposure.name)
 
-            if model.run_random.random() < p_total_transmission:
-                # if agent HIV+ partner becomes HIV+
-                model.hiv_convert(partner)
+                # Agent 1 is HIV+, Agent 2 is not, Agent 2 is succept
+                if agent1_exposure.active and not agent2_exposure.active:  # type: ignore[attr-defined]
+                    agent = rel.agent1
+                    partner = rel.agent2
+                # If Agent 2 is HIV and Agent 1 is not, Agent 1 is succept
+                elif not agent1_exposure.active and agent2_exposure.active:  # type: ignore[attr-defined]
+                    agent = rel.agent2
+                    partner = rel.agent1
+                else:  # neither agent is HIV or both are
+                    continue
+
+                # Everything from here is only run if one of them is exposure active
+                agent_exposure = getattr(agent, exposure.name)
+                p_per_act = agent_exposure.get_transmission_probability(
+                    model, "sex", partner
+                )
+
+                p_total_transmission: float
+                if unsafe_sex_acts == 1:
+                    p_total_transmission = p_per_act
+                else:
+                    p_total_transmission = 1.0 - utils.binom_0(
+                        unsafe_sex_acts, p_per_act
+                    )
+
+                if model.run_random.random() < p_total_transmission:
+                    # if agent HIV+ partner becomes HIV+
+                    partner_exposure = getattr(partner, exposure.name)
+                    partner_exposure.convert(model)
 
         return True

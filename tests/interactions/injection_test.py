@@ -17,7 +17,7 @@ def test_injection_transmission(make_model, make_agent):
     assert Injection.interact(model, rel) is False  # one agent must be HIV+
 
     a.hiv = True
-    a.hiv_time = model.time - 1  # acute
+    a.hiv.time = model.time - 1  # acute
 
     model.run_random = FakeRandom(-0.1)
 

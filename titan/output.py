@@ -10,18 +10,13 @@ from networkx import betweenness_centrality, effective_size, density  # type: ig
 from .parse_params import ObjMap
 
 
-def setup_aggregates(params: ObjMap, features, classes: List[str]) -> Dict:
+def setup_aggregates(params: ObjMap, reportables, classes: List[str]) -> Dict:
     """
     Recursively create a nested dictionary of attribute values to items to count.
 
     Attributes are classes defined in params, the items counted are:
 
     * "agents"
-    * "hiv"
-    * "dx"
-    * "aids"
-    * "hiv_new"
-    * "dx_new"
     * "deaths"
     * "deaths_hiv"
 
@@ -46,8 +41,8 @@ def setup_aggregates(params: ObjMap, features, classes: List[str]) -> Dict:
             "deaths_hiv": 0,
         }
 
-        for feature in features:
-            base_stats.update({stat: 0 for stat in feature.stats})
+        for reportable in reportables:
+            base_stats.update({stat: 0 for stat in reportable.stats})
 
         return base_stats
 
@@ -55,7 +50,7 @@ def setup_aggregates(params: ObjMap, features, classes: List[str]) -> Dict:
     clss, *rem_clss = classes  # head, tail
     keys = [k for k in params.classes[clss]]
     for key in keys:
-        stats[key] = setup_aggregates(params, features, rem_clss)
+        stats[key] = setup_aggregates(params, reportables, rem_clss)
 
     return stats
 
@@ -128,6 +123,7 @@ def get_stats(
     all_agents: "ag.AgentSet",
     deaths: List["ag.Agent"],
     params: ObjMap,
+    exposures,
     features,
     time: int,
 ) -> Dict:
@@ -136,14 +132,15 @@ def get_stats(
 
     args:
         all_agents: all of the agents in the population
-        new_hiv_dx: agents who are newly diagnosed with hiv this timestep
+        new_hiv.dx: agents who are newly diagnosed with hiv this timestep
         deaths: agents who died this timestep
         params: model parameters
 
     returns:
         nested dictionary of agent attributes to counts of various items
     """
-    stats = setup_aggregates(params, features, params.outputs.classes)
+    reportables = exposures + features
+    stats = setup_aggregates(params, reportables, params.outputs.classes)
 
     # attribute names (non-plural)
     attrs = [clss[:-1] for clss in params.outputs.classes]
@@ -153,25 +150,14 @@ def get_stats(
 
         add_agent_to_stats(stats_item, "agents")
 
-        for feature in features:
-            agent_feature = getattr(a, feature.name)
+        for reportable in reportables:
+            agent_feature = getattr(a, reportable.name)
             agent_feature.set_stats(stats_item, time)
-
-        if a.hiv:
-            add_agent_to_stats(stats_item, "hiv")
-            if a.hiv_time == time:
-                add_agent_to_stats(stats_item, "hiv_new")
-            if a.aids:
-                add_agent_to_stats(stats_item, "aids")
-            if a.hiv_dx:
-                add_agent_to_stats(stats_item, "dx")
-                if a.hiv_dx_time == time:
-                    add_agent_to_stats(stats_item, "dx_new")
 
     for a in deaths:
         stats_item = get_stats_item(stats, attrs, a)
         add_agent_to_stats(stats_item, "deaths")
-        if a.hiv:
+        if a.hiv.active:  # type: ignore[attr-defined]
             add_agent_to_stats(stats_item, "deaths_hiv")
 
     return stats

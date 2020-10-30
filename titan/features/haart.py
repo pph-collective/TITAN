@@ -55,8 +55,8 @@ class HAART(base_feature.BaseFeature):
             self.agent.population
         ]
         if (
-            self.agent.hiv
-            and self.agent.hiv_dx
+            self.agent.hiv.active  # type: ignore[attr-defined]
+            and self.agent.hiv.dx  # type: ignore[attr-defined]
             and pop.pop_random.random() < agent_params.haart.init
         ):
             self.active = True
@@ -78,8 +78,8 @@ class HAART(base_feature.BaseFeature):
             model: the instance of HIVModel currently being run
         """
         if (
-            self.agent.hiv
-            and self.agent.hiv_dx
+            self.agent.hiv.active  # type: ignore[attr-defined]
+            and self.agent.hiv.dx  # type: ignore[attr-defined]
             and model.time >= model.params.hiv.start_time
         ):
             # Determine probability of HIV treatment
@@ -91,7 +91,7 @@ class HAART(base_feature.BaseFeature):
                 if self.agent.location.params.hiv.haart_cap:
                     # if HAART is based on cap instead of prob, determine number of
                     # HAART agents based on % of diagnosed agents
-                    num_dx_agents = model.pop.dx_counts[self.agent.race][
+                    num_dx_agents = self.agent.hiv.dx_counts[self.agent.race][  # type: ignore[attr-defined]
                         self.agent.sex_type
                     ]
                     num_haart_agents = self.counts[self.agent.race][self.agent.sex_type]

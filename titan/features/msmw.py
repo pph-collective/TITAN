@@ -40,4 +40,4 @@ class MSMW(base_feature.BaseFeature):
             self.active
             and model.run_random.random() < self.agent.location.params.msmw.hiv.prob
         ):
-            model.hiv_convert(self.agent)
+            self.agent.hiv.convert(model)  # type: ignore[attr-defined]

@@ -7,6 +7,7 @@ from .. import agent
 from .. import population
 from .. import model
 from ..parse_params import ObjMap
+from .. import exposures
 
 
 class Prep(base_feature.BaseFeature):
@@ -55,7 +56,7 @@ class Prep(base_feature.BaseFeature):
             time: the current time step
         """
         if (
-            not self.agent.hiv
+            not self.agent.hiv.active  # type: ignore[attr-defined]
             and self.eligible()
             and time >= self.agent.location.params.prep.start_time
             and pop.pop_random.random() < self.agent.location.params.prep.target
@@ -72,7 +73,7 @@ class Prep(base_feature.BaseFeature):
             model: the instance of HIVModel currently being run
         """
         if (
-            not self.agent.hiv
+            not self.agent.hiv.active  # type: ignore[attr-defined]
             and model.time >= self.agent.location.params.prep.start_time
         ):
             if self.active:
@@ -157,7 +158,7 @@ class Prep(base_feature.BaseFeature):
             force : whether to force the agent to enroll instead of using the appropriate algorithm per the prep params
         """
         # Prep only valid for agents not on prep and are HIV negative
-        if self.active or self.agent.hiv:
+        if self.active or self.agent.hiv.active:  # type: ignore[attr-defined]
             return
 
         params = self.agent.location.params
@@ -167,7 +168,7 @@ class Prep(base_feature.BaseFeature):
         else:
             if "Racial" in params.prep.target_model:
                 num_prep_agents = self.counts[self.agent.race]
-                all_hiv_agents = model.pop.hiv_agents.members
+                all_hiv_agents = exposures.HIV.agents
                 all_race = {
                     a for a in model.pop.all_agents if a.race == self.agent.race
                 }
@@ -179,10 +180,7 @@ class Prep(base_feature.BaseFeature):
             else:
                 num_prep_agents = sum(self.counts.values())
                 target_prep = int(
-                    (
-                        model.pop.all_agents.num_members()
-                        - model.pop.hiv_agents.num_members()
-                    )
+                    (model.pop.all_agents.num_members() - len(exposures.HIV.agents))
                     * params.prep.target
                 )
 
@@ -332,7 +330,7 @@ class Prep(base_feature.BaseFeature):
         ongoing_duration = self.agent.location.params.partnership.ongoing_duration
         for rel in self.agent.relationships:
             partner = rel.get_partner(self.agent)
-            if rel.duration > ongoing_duration and partner.hiv_dx:
+            if rel.duration > ongoing_duration and partner.hiv.dx:  # type: ignore[attr-defined]
                 return True
 
             if partner.drug_type == "Inj" or partner.is_msm():

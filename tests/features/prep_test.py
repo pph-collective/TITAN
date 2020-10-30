@@ -167,7 +167,7 @@ def test_initiate_prep_eligible(make_model, make_agent):
     p = make_agent(DU="Inj")
     a.partners["Sex"] = set()
     p.partners["Sex"] = set()
-    p.hiv_dx = True
+    p.hiv.dx = True
     p.msmw.active = True
     model.time = 10
     a.location.params.prep.target = 1.0
@@ -201,7 +201,7 @@ def test_cdc_eligible(make_agent, make_relationship):
     assert not a.prep.cdc_eligible()
 
     # relationship eligible
-    p.hiv_dx = True
+    p.hiv.dx = True
     assert a.prep.cdc_eligible()
 
     # ongoing duration fail

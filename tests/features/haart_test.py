@@ -17,7 +17,7 @@ def test_update_haart_t1(make_model, make_agent):
     assert a.haart.active is False
 
     # t0 agent initialized HAART
-    a.hiv_dx = True
+    a.hiv.dx = True
 
     # go on haart
     model.run_random = FakeRandom(

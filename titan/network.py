@@ -122,9 +122,9 @@ class NetworkGraphUtils:
             for v in G:
                 if v.haart.active:
                     node_color.append("g")
-                elif v.hiv_dx:  # tmp_hiv == 1:
+                elif v.hiv.dx:  # tmp_hiv == 1:
                     node_color.append("y")
-                elif v.hiv:  # tmp_aids == 1:
+                elif v.hiv.active:  # tmp_aids == 1:
                     node_color.append("r")
                 elif v.prep.active:
                     node_color.append("b")
@@ -132,7 +132,7 @@ class NetworkGraphUtils:
                     node_color.append("purple")
         elif coloring == "Trtmt":
             for v in G:
-                if v.hiv:  # tmp_aids == 1:
+                if v.hiv.active:  # tmp_aids == 1:
                     node_color.append("r")
                 elif v.prep.active:
                     node_color.append("g")
@@ -142,9 +142,9 @@ class NetworkGraphUtils:
                     node_color.append("gray")
         elif coloring == "HIV":
             for v in G:
-                if v.aids:  # tmp_hiv == 1:
+                if v.hiv.aids:  # tmp_hiv == 1:
                     node_color.append("purple")
-                elif v.hiv:  # tmpaids == 1:
+                elif v.hiv.active:  # tmpaids == 1:
                     node_color.append("r")
                 else:
                     node_color.append("g")

@@ -17,6 +17,7 @@ from . import location
 from . import partnering
 from . import utils
 from . import features
+from . import exposures
 
 
 class Population:
@@ -47,7 +48,18 @@ class Population:
             self.graph = None
 
         self.params = params
-        # pre-fetch param sub-sets for performance
+
+        # set up the in-scope exposures
+        self.exposures = [
+            exposure
+            for exposure in exposures.BaseExposure.__subclasses__()
+            if self.params.exposures[exposure.name]
+        ]
+        # initialize the class level items
+        for exposure in self.exposures:
+            exposure.init_class(params)
+
+        # set up the in-scope features
         self.features = [
             feature
             for feature in features.BaseFeature.__subclasses__()
@@ -63,9 +75,6 @@ class Population:
         # All agent set list
         self.all_agents = ag.AgentSet("AllAgents")
 
-        # HIV status agent sets
-        self.hiv_agents = ag.AgentSet("HIV", parent=self.all_agents)
-
         # pwid agents (performance for partnering)
         self.pwid_agents = ag.AgentSet("PWID", parent=self.all_agents)
 
@@ -80,11 +89,6 @@ class Population:
             self.sex_partners[sex_type] = set()
 
         self.relationships: Set["ag.Relationship"] = set()
-
-        self.dx_counts = {
-            race: {so: 0 for so in params.classes.sex_types}
-            for race in params.classes.races
-        }
 
         # find average partnership durations
         self.mean_rel_duration: Dict[str, int] = partnering.get_mean_rel_duration(
@@ -172,25 +176,9 @@ class Population:
 
         agent_params = agent.location.params.demographics[race][agent.population]
 
-        # HIV
-        if (
-            self.pop_random.random() < agent_params.hiv.init
-            and time >= self.params.hiv.init
-        ):
-            agent.hiv = True
-
-            # if HIV, when did the agent convert? Random sample
-            agent.hiv_time = self.pop_random.randint(
-                time - loc.params.hiv.max_init_time, time
-            )
-
-            if self.pop_random.random() < agent_params.aids.init:
-                agent.aids = True
-
-            if self.pop_random.random() < agent_params.hiv.dx.init:
-                agent.hiv_dx = True
-
-                self.dx_counts[agent.race][agent.sex_type] += 1
+        for exposure in self.exposures:
+            agent_feature = getattr(agent, exposure.name)
+            agent_feature.init_agent(self, time)
 
         for feature in self.features:
             agent_feature = getattr(agent, feature.name)
@@ -227,9 +215,6 @@ class Population:
         # Add to all agent set
         self.all_agents.add_agent(agent)
 
-        if agent.hiv:
-            self.hiv_agents.add_agent(agent)
-
         if agent.drug_type == "Inj":
             self.pwid_agents.add_agent(agent)
 
@@ -265,13 +250,15 @@ class Population:
             if agent in self.sex_partners[partner_type]:
                 self.sex_partners[partner_type].remove(agent)
 
+        for exposure in self.exposures:
+            agent_attr = getattr(agent, exposure.name)
+            if agent_attr.active:
+                exposure.remove_agent(agent)
+
         for feature in self.features:
             agent_attr = getattr(agent, feature.name)
             if agent_attr.active:
                 feature.remove_agent(agent)
-
-        if agent.hiv_dx:
-            self.dx_counts[agent.race][agent.sex_type] -= 1
 
         if self.enable_graph:
             self.graph.remove_node(agent)

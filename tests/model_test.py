@@ -150,7 +150,7 @@ def test_hiv_convert(make_model, make_agent):
     model.hiv_convert(a)
 
     assert a.hiv
-    assert a.hiv_time == model.time
+    assert a.hiv.time == model.time
     assert a in model.pop.hiv_agents.members
     assert a.prep.active is False
 
@@ -168,25 +168,25 @@ def test_diagnose_hiv(make_model, make_agent):
     model.run_random = FakeRandom(1.1)  # always greater than param
     model.diagnose_hiv(a)
 
-    assert a.hiv_dx is False
-    assert p.hiv_dx is False
+    assert a.hiv.dx is False
+    assert p.hiv.dx is False
     assert not p.partner_traced
 
     model.run_random = FakeRandom(-0.1)  # always less than param
     model.diagnose_hiv(a)
 
-    assert a.hiv_dx
-    assert a.hiv_dx_time == model.time
+    assert a.hiv.dx
+    assert a.hiv.dx_time == model.time
     assert p in a.get_partners()
     assert p.partner_traced
     assert p.trace_time == model.time
 
-    assert p.hiv_dx is False
+    assert p.hiv.dx is False
     model.params.demographics[p.race][p.sex_type].hiv.dx.prob = 0
 
     model.time = p.partner_traced + 1
     model.diagnose_hiv(p)
-    assert p.hiv_dx
+    assert p.hiv.dx
     assert p.partner_traced is False
 
 
@@ -195,12 +195,12 @@ def test_diagnose_hiv_already_tested(make_model, make_agent):
     model = make_model()
     a = make_agent()
 
-    a.hiv_dx = True
+    a.hiv.dx = True
 
     model.run_random = FakeRandom(-0.1)  # always less than param
     model.diagnose_hiv(a)
 
-    assert a.hiv_dx
+    assert a.hiv.dx
 
 
 @pytest.mark.unit

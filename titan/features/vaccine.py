@@ -35,7 +35,7 @@ class Vaccine(base_feature.BaseFeature):
             time: the current time step
         """
         if (
-            not self.agent.hiv
+            not self.agent.hiv.active  # type: ignore[attr-defined]
             and self.agent.location.params.vaccine.on_init
             and pop.pop_random.random()
             < self.agent.location.params.demographics[self.agent.race][
@@ -56,7 +56,7 @@ class Vaccine(base_feature.BaseFeature):
         if (
             model.params.features.prep
             and not self.agent.prep.active  # type: ignore[attr-defined]
-            and not self.agent.hiv
+            and not self.agent.hiv.active  # type: ignore[attr-defined]
         ):
             vaccine_params = self.agent.location.params.vaccine
             agent_params = self.agent.location.params.demographics[self.agent.race][

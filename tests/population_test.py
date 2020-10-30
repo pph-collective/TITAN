@@ -35,7 +35,7 @@ def test_create_agent(make_population, params):
     assert a4.drug_type == "Inj"
     assert a4.hiv
     assert a4.aids
-    assert a4.hiv_dx
+    assert a4.hiv.dx
     assert a4.haart.active
     assert a4.haart.adherence == 5
     assert a4.high_risk.active
@@ -92,7 +92,7 @@ def test_add_remove_agent_to_pop(make_population):
     agent.drug_type = "Inj"
     agent.hiv = True
     agent.aids = True
-    agent.hiv_dx = True
+    agent.hiv.dx = True
 
     pop.add_agent(agent)
 

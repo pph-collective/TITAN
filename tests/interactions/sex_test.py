@@ -19,7 +19,7 @@ def test_sex_transmission(make_model, make_agent):
     rel = Relationship(a, p, 10, bond_type="Sex")
 
     a.hiv = True
-    a.hiv_time = model.time  # acute
+    a.hiv.time = model.time  # acute
 
     rel.total_sex_acts = 0
     model.params.calibration.acquisition = 10
