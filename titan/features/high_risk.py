@@ -92,7 +92,7 @@ class HighRisk(base_feature.BaseFeature):
             self.active = False
 
             self.update_partner_numbers(
-                model.pop, -self.agent.location.params.high_risk.partner_scale
+                model.pop, -1 * self.agent.location.params.high_risk.partner_scale
             )
 
             for bond in self.agent.location.params.high_risk.partnership_types:
