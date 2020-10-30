@@ -25,6 +25,11 @@ def test_become_high_risk(make_model, make_agent):
 def test_update_high_risk(make_model, make_agent):
     model = make_model()
     a = make_agent()
+    a.mean_num_partners["Sex"] = 0
+    p1 = make_agent()
+    p2 = make_agent()
+    make_relationship(a, p)
+    make_relationship(a, p2)
 
     # try to update when not high risk nor incar
     assert a.high_risk.update_agent(model) is None
@@ -34,14 +39,17 @@ def test_update_high_risk(make_model, make_agent):
     a.high_risk.duration = 1
 
     a.high_risk.update_agent(model)
+    hr_num_partners = a.num_partners()
 
     assert a.high_risk.active
     assert a.high_risk.duration == 0
+    assert hr_num_partners > 2
 
     a.high_risk.update_agent(model)
 
     assert a.high_risk.active is False
     assert a.high_risk.ever is True
+    assert a.num_partners() < hr_num_partners
 
 
 @pytest.mark.unit

@@ -10,12 +10,15 @@ from titan.agent import Relationship
 @pytest.mark.unit
 def test_incarcerate_unincarcerate(make_model, make_agent):
     model = make_model()
+    model.run_random = FakeRandom(-0.1)
     a = make_agent()
     a.target_partners = {bond: 0 for bond in model.params.classes.bond_types.keys()}
     a.mean_num_partners = copy(a.target_partners)
 
     a.incar.active = True
     a.incar.release_time = model.time + 2
+    a.hiv = True
+    a.haart.active = True
 
     model.time += 1
     a.incar.update_agent(model)
@@ -26,6 +29,8 @@ def test_incarcerate_unincarcerate(make_model, make_agent):
     a.incar.update_agent(model)
 
     assert a.incar.active is False
+    assert a.haart.active is False
+    assert a.haart.adherence == 0
 
 
 @pytest.mark.unit
