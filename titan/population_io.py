@@ -41,7 +41,7 @@ agent_exclude_attrs = (
     {"partners", "relationships"}.union(agent_feature_attrs).union(agent_exposure_attrs)
 )
 
-
+# TO DO get rid of option to only write intervention attrs
 def write(
     pop: Population, dir: str, intervention_attrs: bool = False, compress: bool = True
 ) -> str:

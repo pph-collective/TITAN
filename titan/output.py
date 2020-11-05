@@ -32,11 +32,6 @@ def setup_aggregates(params: ObjMap, reportables, classes: List[str]) -> Dict:
     if classes == []:
         base_stats = {
             "agents": 0,
-            "hiv": 0,
-            "dx": 0,
-            "aids": 0,
-            "hiv_new": 0,
-            "dx_new": 0,
             "deaths": 0,
             "deaths_hiv": 0,
         }
@@ -242,11 +237,6 @@ def basicReport(
     Standard report writer for basic agent statistics, columns include:
 
     * "agents": number of agents in the population
-    * "hiv": number of agents with HIV
-    * "dx": number of agents with HIV who are diagnosed
-    * "aids": number of agents with AIDS
-    * "hiv_new": number of agents who HIV converted this time period
-    * "dx_new": number of agents with HIV who were diagnosed this time period
     * "deaths": number of agents who died this time period
     * "deaths_hiv": number of agents with HIV who died this time period
 
@@ -310,7 +300,7 @@ def print_components(
         for agent in comp.nodes():
             tot_agents += 1
             race_count[agent.race] += 1
-            if agent.hiv:
+            if agent.hiv.active:
                 nhiv += 1
                 if agent.random_trial.treated:
                     ntrthiv += 1
