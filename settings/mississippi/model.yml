@@ -1,5 +1,39 @@
 model:
   num_pop: 6825
-
+  time:
+    num_steps: 132
+    steps_per_year: 12
+    burn_steps:
+  network:
+    type: scale_free?
 
 features:
+  incar: false
+  prep: true
+  high_risk: false
+  haart: true
+  die_and_replace:
+  static_network:
+  agent_zero:
+  assort_mix:
+
+classes:
+  races:
+    black:
+      hispanic: false
+  sex_types:
+    MSM:
+      gender: M
+      cis_trans: cis
+      sleeps_with:
+        - MSM
+        -
+
+
+partnership:
+  duration:
+    type: distribution
+    distribution:
+      dist_type:
+      vars:
+      mean:

@@ -1,13 +1,29 @@
 demographics:
   black:
+    sex_role:
+      init:
+        versatile: 0.671
+        insertive: 0.169
+        receptive: 0.160
     hiv:
       init: 0.48
-    prep:
-      adherence: 0.860
+      dx:
+        init: 0.609
+        prob: 0.074
     aids:
       init: 0.46
     haart:
+      init: 0.690
+      adherence: 0.345
       discontinue: 0.023
+    num_partners:
+
+    safe_sex: 0.214
+    prep:
+      discontinue: 0.034
+      adherence: 0.860
     death_rate:
-      haart_adherent: 1.00
-      0
+      base:
+      hiv: 3.0
+      aids: 17.5
+      haart_adherent: 7.5
