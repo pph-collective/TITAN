@@ -109,6 +109,7 @@ classes:
       - pert
       - set_value
       - randint
+      - weibull
     description: "Which distributions are available in the model - more of a reference than a class"
     type: array
     values:
@@ -119,6 +120,7 @@ classes:
       - pert
       - set_value
       - randint
+      - weibull
   locations:
     type: definition
     description: Locations that exist within the model

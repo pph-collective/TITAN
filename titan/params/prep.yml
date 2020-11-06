@@ -13,6 +13,10 @@ prep:
     type: float
     min: 0
     max: 1
+  as_prob:
+    default: false
+    description: If prep.target should be treated as a probability instead of a target
+    type: boolean
   start_time:
     default: 0
     description: Timestep at which prep should start in the model
