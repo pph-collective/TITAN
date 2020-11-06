@@ -5,7 +5,7 @@ model:
     steps_per_year: 12
     burn_steps:
   network:
-    type: scale_free?
+    type: scale_free
 
 features:
   incar: false
@@ -27,13 +27,38 @@ classes:
       cis_trans: cis
       sleeps_with:
         - MSM
-        -
-
+  bond_types:
+    Sex:
+      acts_allowed:
+        - sex
 
 partnership:
+  sex:
+    frequency:
+      type: distribution
+      distribution:
+        dist_type: gamma
+        vars:
+          1:
+            value: 0.730
+            value_type: float
+          2:
+            value: 4.339
+            value_type: float
+    acquisition:
+      MSM:
+        insertive: 0.001075
+        receptive: 0.00425
   duration:
-    type: distribution
-    distribution:
-      dist_type:
-      vars:
-      mean:
+    Sex:
+      type: distribution
+      distribution:
+        dist_type: weibull
+        vars:
+          1:
+            value: 0.586
+            value_type: float
+          2:
+            value: 11.532
+            value_type: float
+        mean: ???

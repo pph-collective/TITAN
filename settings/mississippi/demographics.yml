@@ -17,7 +17,10 @@ demographics:
       adherence: 0.345
       discontinue: 0.023
     num_partners:
-
+      dist_type: negative_binomial
+      vars:
+        1: 0.931
+        2: 12.459
     safe_sex: 0.214
     prep:
       discontinue: 0.034
