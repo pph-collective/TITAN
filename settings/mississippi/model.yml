@@ -3,7 +3,6 @@ model:
   time:
     num_steps: 132
     steps_per_year: 12
-    burn_steps:
   network:
     type: scale_free
 
@@ -12,10 +11,6 @@ features:
   prep: true
   high_risk: false
   haart: true
-  die_and_replace:
-  static_network:
-  agent_zero:
-  assort_mix:
 
 classes:
   races:
@@ -62,3 +57,9 @@ partnership:
             value: 11.532
             value_type: float
         mean: ???
+
+prep:
+  type: Oral
+  efficacy:
+    adherent: 0.96
+    non_adherant: 0.83
