@@ -69,11 +69,11 @@ class HighRisk(base_feature.BaseFeature):
             model: the instance of HIVModel currently being run
         """
         if not self.active:
-            # released last step
+            # released last step, evaluate agent for high risk
             if self.agent.incar.release_time == model.time - 1:  # type: ignore[attr-defined]
                 self.become_high_risk(model.pop, model.time)
 
-            # incarcerated last step
+            # incarcerated last step, evaluate agent's partners for high risk
             elif self.agent.incar.time == model.time - 1:  # type: ignore[attr-defined]
 
                 # put partners in high risk
