@@ -14,6 +14,7 @@ class RandomTrial(base_feature.BaseFeature):
 
         self.active = False
         self.treated = False
+        self.suitable = False
 
     @classmethod
     def update_pop(cls, model: "model.HIVModel"):
@@ -25,10 +26,9 @@ class RandomTrial(base_feature.BaseFeature):
         args:
             model: the instance of HIVModel currently being run
         """
-        if (
-            not model.params.features.prep
-            or not model.time == model.params.random_trial.start_time
-        ):
+        rt_params = model.params.random_trial
+
+        if not model.time == rt_params.start_time:
             return
 
         assert (
@@ -38,6 +38,20 @@ class RandomTrial(base_feature.BaseFeature):
         print("Starting random trial")
         components = model.pop.connected_components()
 
+        # set up helper methods based on params
+        if rt_params.treatment == "prep":
+            assert (
+                model.params.features.prep
+            ), "Prep feature must be enabled to use the prep random trial treatment"
+            treat = treat_prep
+            suitable = suitable_prep
+        elif rt_params.treatment == "knowledge":
+            assert (
+                model.params.exposures.knowledge
+            ), "Knowledge exposure must be enabled to use the knowledge random trial treatment"
+            treat = treat_knowledge
+            suitable = suitable_knowledge
+
         total_nodes = 0
         print(
             "Number of components",
@@ -45,92 +59,110 @@ class RandomTrial(base_feature.BaseFeature):
         )
         for comp in components:
             total_nodes += comp.number_of_nodes()
-            if model.run_random.random() < model.params.random_trial.prob:
+            if model.run_random.random() < rt_params.prob:
                 # Component selected as treatment pod!
-                for ag in comp.nodes:
-                    ag.random_trial.active = True
+                for agent in comp.nodes:
+                    agent.random_trial.active = True
 
-                # prep case
-                if not model.params.features.pca:
-                    for ag in comp.nodes():
-                        if not ag.hiv and not ag.prep.active:
-                            if (
-                                model.run_random.random()
-                                < ag.location.params.prep.target
-                                and not ag.vaccine.active
-                            ):
-                                ag.prep.enroll(model.run_random, model.time)
-                                ag.random_trial.treated = True
+                # treat all agents
+                if rt_params.choice == "all":
+                    for agent in comp.nodes():
+                        if suitable(agent, model):
+                            treat(agent, model)
+                            agent.random_trial.suitable = True
+                            agent.random_trial.treated = True
 
-                # pca - eigenvector
-                elif model.params.pca.choice == "eigenvector":
+                # chose an agent central to the component
+                elif rt_params.choice == "eigenvector":
                     centrality = nx.algorithms.centrality.eigenvector_centrality(comp)
                     assert len(centrality) >= 1, "Empty centrality"
                     ordered_centrality = sorted(centrality, key=centrality.get)
 
                     # find the most central suitable agent, or if none, use most central
                     intervention_agent = ordered_centrality[0]
-                    for ag in ordered_centrality:
-                        if not ag.hiv:
-                            intervention_agent = ag
-                            intervention_agent.sutable = True
-                            intervention_agent.random_trial.treated = True
+                    for agent in ordered_centrality:
+                        if suitable(agent, model):
+                            intervention_agent = agent
+                            intervention_agent.random_trial.suitable = True
                             break
 
-                    intervention_agent.pca.awareness = True
-                    intervention_agent.pca.active = True
+                    intervention_agent.random_trial.treated = True
+                    treat(intervention_agent, model)
 
-                # pca - bridge
-                elif model.params.pca.choice == "bridge":
+                # chose an agent that is a bridge in the network
+                elif rt_params.choice == "bridge":
                     # list all edges that are bridges
                     all_bridges = list(nx.bridges(comp))
-                    comp_agents = [
+                    suitable_agents = [
                         agent
                         for agents in all_bridges
                         for agent in agents
-                        if not agent.hiv
+                        if suitable(agent, model)
                     ]  # all suitable agents in bridges
 
                     chosen_agent = utils.safe_random_choice(
-                        comp_agents, model.run_random
+                        suitable_agents, model.run_random
                     )  # select change agent
                     if chosen_agent is not None:
-                        chosen_agent.pca.suitable = True  # type: ignore[attr-defined]
-                        chosen_agent.random_trial.treated = True  # type: ignore[attr-defined]
+                        chosen_agent.random_trial.suitable = True  # type: ignore[attr-defined]
 
                     else:  # if no suitable agents, mark a non-suitable agent
                         chosen_agent = utils.safe_random_choice(
                             list(comp.nodes), model.run_random
                         )
 
-                    chosen_agent.pca.awareness = True  # type: ignore[attr-defined]
-                    chosen_agent.pca.active = True  # type: ignore[attr-defined]
+                    chosen_agent.random_trial.treated = True  # type: ignore[attr-defined]
+                    treat(chosen_agent, model)
 
-                # pca - random
-                elif model.params.pca.choice == "random":
-                    suitable_agent_choices = [
-                        agent for agent in comp.nodes if not agent.hiv
+                # chose an agent from the component at random
+                elif rt_params.choice == "random":
+                    suitable_agents = [
+                        agent for agent in comp.nodes if suitable(agent, model)
                     ]
 
+                    # if there are agents who meet eligibility criteria,
+                    # select one randomly
                     chosen_agent = utils.safe_random_choice(
-                        suitable_agent_choices, model.run_random
+                        suitable_agents, model.run_random
                     )
 
-                    if (
-                        chosen_agent is not None
-                    ):  # if there are agents who meet eligibility criteria,
-                        # select one randomly
-
-                        chosen_agent.pca.suitable = True
-                        chosen_agent.random_trial.treated = True
+                    if chosen_agent is not None:
+                        chosen_agent.random_trial.suitable = True
                     else:  # if no suitable agents, mark a non-suitable agent
                         chosen_agent = utils.safe_random_choice(
                             list(comp.nodes), model.run_random
                         )
 
-                    chosen_agent.pca.awareness = True  # make aware
-                    chosen_agent.pca.active = True
+                    chosen_agent.random_trial.treated = True  # type: ignore[attr-defined]
+                    treat(chosen_agent, model)
 
         print(("Total agents in trial: ", total_nodes))
 
     # ============= HELPER METHODS ====================
+
+
+# ============= HELPER FUNCTIONS ==================
+
+
+def treat_prep(agent, model):
+    agent.prep.enroll(model.run_random, model.time)
+
+
+def suitable_prep(agent, model) -> bool:
+    if (
+        not agent.hiv.active
+        and not agent.prep.active
+        and model.run_random.random() < agent.location.params.prep.target
+        and not agent.vaccine.active
+    ):
+        return True
+    else:
+        return False
+
+
+def treat_knowledge(agent, model):
+    agent.knowledge.convert(model)
+
+
+def suitable_knowledge(agent, model) -> bool:
+    return not agent.hiv.active

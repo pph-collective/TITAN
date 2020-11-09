@@ -191,3 +191,22 @@ def override_param(params, param_path, value, delimiter="|"):
     old_val = override_item[last_key]
     print(f"overriding - {param_path}: {old_val} => {value}")
     override_item[last_key] = value
+
+
+def total_probability(p: float, num_acts: int) -> float:
+    """
+    Given a per act probability and a number of acts, return the total probability.
+
+    args:
+        p: the per act probability
+        num_acts: the number of acts
+
+    returns:
+        the total probability
+    """
+    if num_acts == 1:
+        return p
+    elif num_acts >= 1:
+        return 1.0 - binom_0(num_acts, p)
+    else:
+        return 0.0

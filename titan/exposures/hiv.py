@@ -5,6 +5,7 @@ from .. import agent
 from .. import population
 from .. import model
 from .. import probabilities as prob
+from .. import utils
 
 
 class HIV(base_exposure.BaseExposure):
@@ -159,27 +160,38 @@ class HIV(base_exposure.BaseExposure):
                 if self.dx_time == time:
                     stats["hiv_dx_new"] += 1
 
-    def convert(self, model: "model.HIVModel"):
-        """
-        Agent becomes HIV agent. Update all appropriate list and dictionaries.
+    @staticmethod
+    def expose(
+        model: "model.HIVModel",
+        interaction: str,
+        rel: "agent.Relationship",
+        num_acts: int,
+    ):
+        # Agent 1 is HIV+, Agent 2 is not, Agent 2 is succept
+        if rel.agent1.hiv.active and not rel.agent2.hiv.active:  # type: ignore[attr-defined]
+            agent = rel.agent1
+            partner = rel.agent2
+        # If Agent 2 is HIV and Agent 1 is not, Agent 1 is succept
+        elif not rel.agent1.hiv.active and rel.agent2.hiv.active:  # type: ignore[attr-defined]
+            agent = rel.agent2
+            partner = rel.agent1
+        else:  # neither agent is HIV or both are
+            return
 
-        args:
-            agent: The agent being converted
-        """
-        if not self.active:
-            self.active = True
-            self.time = model.time
-            self.agent.vaccine.active = False  # type: ignore[attr-defined]
-            self.add_agent(self.agent)
+        p_total_transmission = agent.hiv.get_transmission_probability(
+            model, "sex", partner, num_acts
+        )
 
-        if self.agent.prep.active:  # type: ignore[attr-defined]
-            self.agent.prep.progress(model, force=True)  # type: ignore[attr-defined]
+        if model.run_random.random() < p_total_transmission:
+            # if agent HIV+ partner becomes HIV+
+            partner.hiv.convert(model)
 
     def get_transmission_probability(
         self,
         model: "model.HIVModel",
         interaction: str,
         partner: "agent.Agent",
+        num_acts: int,
     ) -> float:
         """
         Determines the probability of an hiv transmission event from agent to partner based on
@@ -247,7 +259,23 @@ class HIV(base_exposure.BaseExposure):
         # Scaling parameter for per act transmission.
         p *= model.calibration.acquisition
 
-        return p
+        return utils.total_probability(p, num_acts)
+
+    def convert(self, model: "model.HIVModel"):
+        """
+        Agent becomes HIV agent. Update all appropriate list and dictionaries.
+
+        args:
+            agent: The agent being converted
+        """
+        if not self.active:
+            self.active = True
+            self.time = model.time
+            self.agent.vaccine.active = False  # type: ignore[attr-defined]
+            self.add_agent(self.agent)
+
+        if self.agent.prep.active:  # type: ignore[attr-defined]
+            self.agent.prep.progress(model, force=True)  # type: ignore[attr-defined]
 
     # ============================ HELPER METHODS ==============================
 

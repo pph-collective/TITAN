@@ -312,7 +312,7 @@ def print_components(
                 elif agent.prep.type == "Oral":
                     oral += 1
 
-            if agent.pca.suitable and agent.pca.active:
+            if agent.random_trial.suitable and agent.pca.active:
                 pca += 1
 
             if agent.random_trial.treated:  # treatment component
@@ -321,7 +321,7 @@ def print_components(
             if agent.random_trial.active:
                 trt_comp = True
 
-            if agent.pca.awareness:
+            if agent.knowledge.active:
                 aware += 1
 
             if agent.drug_type == "NonInj":

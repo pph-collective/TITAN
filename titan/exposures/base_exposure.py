@@ -82,9 +82,22 @@ class BaseExposure:
         """
         pass
 
-    def get_transmission_probability(
-        self, model: "model.HIVModel", interaction: str, partner: "agent.Agent"
+    @staticmethod
+    def expose(
+        model: "model.HIVModel",
+        interaction: str,
+        rel: "agent.Relationship",
+        num_acts: int,
     ):
+        pass
+
+    def get_transmission_probability(
+        self,
+        model: "model.HIVModel",
+        interaction: str,
+        partner: "agent.Agent",
+        num_acts: int,
+    ) -> float:
         return 0.0
 
     def convert(self, model: "model.HIVModel"):
