@@ -123,7 +123,7 @@ class Population:
     ) -> "ag.Agent":
         """
         Create a new agent with randomly assigned attributes according to population
-        demographcis [params.demographics]
+        demographics [params.demographics]
 
         args:
             loc: location the agent will live in
