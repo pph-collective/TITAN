@@ -95,6 +95,17 @@ def get_agg_val(stats: Dict, attrs: List, key: str) -> int:
 
 
 def get_stats_item(stats: Dict[str, Any], attrs: List[str], agent: "ag.Agent"):
+    """
+    Get the leaf node of the stats dictionary for the given attributes and agent.
+
+    args:
+        stats: a nested dictionary of attributes to count
+        attrs: a list of attribute values to find the count for
+        agent: The agent to get the leaf node for
+
+    returns:
+        a stats_item dictionary of keys to counts
+    """
     stats_item = stats
     for attr in attrs:
         stats_item = stats_item[str(getattr(agent, attr))]
@@ -102,26 +113,19 @@ def get_stats_item(stats: Dict[str, Any], attrs: List[str], agent: "ag.Agent"):
     return stats_item
 
 
-def add_agent_to_stats(
-    stats: Dict[str, Any], attrs: List[str], agent: "ag.Agent", key: str
-):
+def add_agent_to_stats(stats_item: Dict[str, int], key: str):
     """
     Update the stats dictionary counts for the key given the agent's attributes
 
     args:
-        stats: a nested dictionary of attributes to counts
-        attrs: a list of attribute types (e.g. "race")
-        agent: the agent whose attribute values will be evaluated
+        stats_item: the leaf node of a nested dictionary of attributes to counts
         key: the type of count to increment
     """
-    stats_item = get_stats_item(stats, attrs, agent)
-
     stats_item[key] += 1
 
 
 def get_stats(
     all_agents: "ag.AgentSet",
-    new_hiv_dx: "ag.AgentSet",
     deaths: List["ag.Agent"],
     params: ObjMap,
     features,
@@ -140,36 +144,35 @@ def get_stats(
         nested dictionary of agent attributes to counts of various items
     """
     stats = setup_aggregates(params, features, params.outputs.classes)
-    attrs = [
-        clss[:-1] for clss in params.outputs.classes
-    ]  # attribute version (non-plural)
+
+    # attribute names (non-plural)
+    attrs = [clss[:-1] for clss in params.outputs.classes]
 
     for a in all_agents:
         stats_item = get_stats_item(stats, attrs, a)
 
-        add_agent_to_stats(stats, attrs, a, "agents")
+        add_agent_to_stats(stats_item, "agents")
 
         for feature in features:
             agent_feature = getattr(a, feature.name)
             agent_feature.set_stats(stats_item, time)
 
         if a.hiv:
-            add_agent_to_stats(stats, attrs, a, "hiv")
-            if a.hiv_time == 1:
-                add_agent_to_stats(stats, attrs, a, "hiv_new")
+            add_agent_to_stats(stats_item, "hiv")
+            if a.hiv_time == time:
+                add_agent_to_stats(stats_item, "hiv_new")
             if a.aids:
-                add_agent_to_stats(stats, attrs, a, "aids")
+                add_agent_to_stats(stats_item, "aids")
             if a.hiv_dx:
-                add_agent_to_stats(stats, attrs, a, "dx")
-
-    # Newly diagnosed tracker statistics
-    for a in new_hiv_dx:
-        add_agent_to_stats(stats, attrs, a, "dx_new")
+                add_agent_to_stats(stats_item, "dx")
+                if a.hiv_dx_time == time:
+                    add_agent_to_stats(stats_item, "dx_new")
 
     for a in deaths:
-        add_agent_to_stats(stats, attrs, a, "deaths")
+        stats_item = get_stats_item(stats, attrs, a)
+        add_agent_to_stats(stats_item, "deaths")
         if a.hiv:
-            add_agent_to_stats(stats, attrs, a, "deaths_hiv")
+            add_agent_to_stats(stats_item, "deaths_hiv")
 
     return stats
 

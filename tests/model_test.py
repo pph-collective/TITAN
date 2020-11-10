@@ -28,8 +28,6 @@ def test_model_init(params):
     assert model.run_seed > 0
     assert model.pop.pop_seed > 0
 
-    assert model.new_dx.num_members() == 0
-
     params.model.network.enable = False
     model = HIVModel(params)
     assert model.network_utils is None
@@ -142,99 +140,6 @@ def test_get_transmission_probability(make_model, make_agent):
 
 
 @pytest.mark.unit
-def test_needle_transmission(make_model, make_agent):
-    model = make_model()
-    a = make_agent(race="white", DU="Inj", SO="HM")
-    p = make_agent(race="white", DU="Inj", SO="HF")
-
-    with pytest.raises(AssertionError):
-        model.injection_transmission(a, p)
-
-    a.hiv = True
-    a.hiv_time = model.time - 1  # acute
-
-    model.run_random = FakeRandom(-0.1)
-
-    model.injection_transmission(a, p)
-
-    assert p.hiv
-
-
-@pytest.mark.unit
-def test_sex_transmission(make_model, make_agent):
-    model = make_model()
-    a = make_agent()
-    a.sex_role = "insertive"
-    p = make_agent()
-    p.sex_role = "receptive"
-    a.partners["Sex"] = set()
-    p.partners["Sex"] = set()
-    rel = Relationship(a, p, 10, bond_type="Sex")
-
-    a.hiv = True
-    a.hiv_time = model.time  # acute
-
-    rel.total_sex_acts = 0
-    model.params.calibration.acquisition = 10
-
-    model.params.calibration.acquisition = 5
-    model.params.calibration.sex.act = 10
-    model.run_random = FakeRandom(0.6)
-
-    # test partner becomes
-    model.sex_transmission(rel)
-    assert p.hiv
-
-
-@pytest.mark.unit
-def test_sex_transmission_do_nothing(make_model, make_agent):
-    model = make_model()
-    a = make_agent()
-    p = make_agent()
-    a.partners["Sex"] = set()
-    p.partners["Sex"] = set()
-    rel = Relationship(a, p, 10, bond_type="Sex")
-
-    with pytest.raises(ValueError):
-        model.sex_transmission(rel)
-
-    a.hiv = True
-    p.hiv = True
-
-    # test nothing happens
-    model.sex_transmission(rel)
-
-
-@pytest.mark.unit
-def test_pca_interaction(make_model, make_agent):
-    model = make_model()
-    a = make_agent()
-    p = make_agent()
-    a.pca.opinion = 4
-    p.pca.opinion = 2
-    a.pca.awareness = True
-    a.partners["SexInj"] = set()
-    p.partners["SexInj"] = set()
-
-    model.run_random = FakeRandom(1.0)
-
-    model.pop.graph.add_edge(a, p)
-    model.pop.graph.add_edge(a, "edge")
-
-    model.time = 5
-
-    rel = Relationship(a, p, 10, bond_type="SexInj")
-    model.pca_interaction(rel, force=True)
-
-    assert p.pca.awareness
-
-    model.time += 1
-    model.pca_interaction(rel, force=True)
-
-    assert p.pca.opinion == 3
-
-
-@pytest.mark.unit
 def test_hiv_convert(make_model, make_agent):
     model = make_model()
     a = make_agent()
@@ -264,22 +169,19 @@ def test_diagnose_hiv(make_model, make_agent):
     model.diagnose_hiv(a)
 
     assert a.hiv_dx is False
-    assert a not in model.new_dx.members
     assert p.hiv_dx is False
-    assert p not in model.new_dx.members
     assert not p.partner_traced
 
     model.run_random = FakeRandom(-0.1)  # always less than param
     model.diagnose_hiv(a)
 
     assert a.hiv_dx
-    assert a in model.new_dx.members
+    assert a.hiv_dx_time == model.time
     assert p in a.get_partners()
     assert p.partner_traced
     assert p.trace_time == model.time
 
     assert p.hiv_dx is False
-    assert p not in model.new_dx.members
     model.params.demographics[p.race][p.sex_type].hiv.dx.prob = 0
 
     model.time = p.partner_traced + 1
@@ -299,7 +201,6 @@ def test_diagnose_hiv_already_tested(make_model, make_agent):
     model.diagnose_hiv(a)
 
     assert a.hiv_dx
-    assert a not in model.new_dx.members
 
 
 @pytest.mark.unit

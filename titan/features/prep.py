@@ -1,4 +1,4 @@
-from typing import Dict, ClassVar, Set, Optional
+from typing import Dict, ClassVar, Optional
 
 import numpy as np  # type: ignore
 
@@ -164,6 +164,18 @@ class Prep(base_feature.BaseFeature):
 
         if force:
             self.enroll(model.run_random, model.time)
+        elif params.prep.as_prob:
+            if "Racial" in params.prep.target_model:
+                if (
+                    model.run_random.random
+                    <= params.demographics[self.agent.race][
+                        self.agent.sex_type
+                    ].prep.coverage
+                ):
+                    self.enroll(model.run_random, model.time)
+            else:
+                if model.run_random <= params.prep.target:
+                    self.enroll(model.run_random, model.time)
         else:
             if "Racial" in params.prep.target_model:
                 num_prep_agents = self.counts[self.agent.race]
@@ -173,7 +185,7 @@ class Prep(base_feature.BaseFeature):
                 }
 
                 num_hiv_agents = len(all_hiv_agents & all_race)
-                target_prep = (len(all_race) - num_hiv_agents) * params.demographcis[
+                target_prep = (len(all_race) - num_hiv_agents) * params.demographics[
                     self.agent.race
                 ][self.agent.sex_type].prep.coverage
             else:
@@ -268,12 +280,12 @@ class Prep(base_feature.BaseFeature):
 
         self.remove_agent(self.agent)
 
-    def eligible(self):
+    def eligible(self) -> bool:
         """
         Determine if an agent is eligible for PrEP
 
         returns:
-            prep
+            whether the agent is eligible
         """
         target_model = self.agent.location.params.prep.target_model
         gender = self.agent.location.params.classes.sex_types[
@@ -282,7 +294,7 @@ class Prep(base_feature.BaseFeature):
 
         if (
             self.active
-            or self.agent.vaccine.active
+            or self.agent.vaccine.active  # type: ignore[attr-defined]
             or self.agent.location.params.features.random_trial
         ):
             return False
@@ -310,11 +322,11 @@ class Prep(base_feature.BaseFeature):
                 return True
 
         if "ssp_sex" in target_model:
-            if self.agent.syringe_services.active and self.cdc_eligible():
+            if self.agent.syringe_services.active and self.cdc_eligible():  # type: ignore[attr-defined]
                 return True
 
         if "ssp" in target_model:
-            if self.agent.syringe_services.active:
+            if self.agent.syringe_services.active:  # type: ignore[attr-defined]
                 return True
 
         return False

@@ -48,9 +48,15 @@ nav:
       - Random Trial: api/features/random_trial.md
       - Syringe Services: api/features/syringe_services.md
       - Vaccine: api/features/vaccine.md
+    - Agent Interactions:
+      - Overview: api/interactions/index.md
+      - Injection: api/interactions/injection.md
+      - Peer Change Agent: api/interactions/pca.md
+      - Sex: api/interactions/sex.md
     - Location: api/location.md
     - Model: api/model.md
     - NetworkGraphUtils: api/network.md
+    - Partnering: api/partnering.md
     - Population: api/population.md
     - Relationship: api/relationship.md
     - Reporting: api/reporting.md
