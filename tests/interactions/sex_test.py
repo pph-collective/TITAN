@@ -4,6 +4,7 @@ from titan.interactions import Sex
 from titan.agent import Relationship
 
 from conftest import FakeRandom
+from titan.parse_params import ObjMap
 
 
 @pytest.mark.unit
@@ -27,7 +28,8 @@ def test_sex_transmission(make_model, make_agent):
     model.params.calibration.acquisition = 5
     model.params.calibration.sex.act = 10
     model.run_random = FakeRandom(0.6)
-
+    a.location.params.partnership.sex.frequency = ObjMap({"Sex": {"type": "bins", "bins": {1: {"prob": 1.0, "min": 10, "max": 37}}}})
+    p.location.params.partnership.sex.frequency = ObjMap({"Sex": {"type": "bins", "bins": {1: {"prob": 1.0, "min": 10, "max": 37}}}})
     # test partner becomes
     Sex.interact(model, rel)
     assert p.hiv
