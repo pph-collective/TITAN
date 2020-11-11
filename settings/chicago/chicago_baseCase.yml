@@ -149,9 +149,9 @@ partnership:
           prob: 1.0
           min: 37
           max: 48
-  sex:
+  pca:
     frequency:
-      bins:
+      Social:
         1:
           prob: 0.585
           min: 1

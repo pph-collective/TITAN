@@ -236,6 +236,9 @@ def test_syringe_services(make_model_integration, tmpdir):
     If we use syringe services, does the incidence of hiv decrease?
     """
     model_a = make_model_integration()
+    model_a.params.partnership.sex.frequency = ObjMap(
+        {"Sex": {"type": "bins", "bins": {1: {"prob": 1.0, "min": 0, "max": 1}}}}
+    )
 
     path_a = tmpdir.mkdir("a")
     path_a.mkdir("network")

@@ -91,14 +91,14 @@ def test_get_number_of_sex_acts(make_agent, params):  # TODO test dist
     a = make_agent()
 
     rand_gen_low = FakeRandom(0.0)
-    min_val_low = params.partnership.sex.frequency.bins[1].min
+    min_val_low = params.partnership.sex.frequency.Sex.bins[1].min
 
     rand_gen_high = FakeRandom(1.0)
 
-    assert a.get_number_of_sex_acts(rand_gen_low) == min_val_low
+    assert a.get_number_of_sex_acts(rand_gen_low, "Sex") == min_val_low
 
     # test fallthrough
-    assert a.get_number_of_sex_acts(rand_gen_high) == 37
+    assert a.get_number_of_sex_acts(rand_gen_high, "Sex") == 37
 
 
 @pytest.mark.unit

@@ -193,7 +193,7 @@ class Agent:
         """
         return len(self.get_partners(bond_types))
 
-    def get_number_of_sex_acts(self, rand_gen) -> int:
+    def get_number_of_sex_acts(self, rand_gen, bond_type) -> int:
         """
         Number of sexActs an agent has done.
 
@@ -203,11 +203,12 @@ class Agent:
         returns:
             number of sex acts
         """
-        freq_params = self.location.params.partnership.sex.frequency
+        freq_params = self.location.params.partnership.sex.frequency[bond_type]
+
         if freq_params.type == "bins":
             rv = rand_gen.random()
 
-            for i in range(1, 6):
+            for i in range(1, len(freq_params.bins) + 1):
                 p = freq_params.bins[i].prob
                 if rv <= p:
                     break
