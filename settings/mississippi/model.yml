@@ -40,26 +40,47 @@ partnership:
           2:
             value: 4.339
             value_type: float
-    acquisition:
+    haart_scaling:
+      MSM:
+        1:
+          prob: 0.0925
+        2:
+          prob: 0.0925
+        3:
+          prob: 0.0925
+        4:
+          prob: 0.0925
+        5:
+          prob: 0
+    aquisition:
       MSM:
         insertive: 0.001075
         receptive: 0.00425
-  duration:
-    Sex:
-      type: distribution
-      distribution:
-        dist_type: weibull
-        vars:
-          1:
-            value: 0.586
-            value_type: float
-          2:
-            value: 11.532
-            value_type: float
-        mean: ???
+    duration:
+      Sex:
+        type: distribution
+        distribution:
+          dist_type: weibull
+          vars:
+            1:
+              value: 0.586
+              value_type: float
+            2:
+              value: 11.532
+              value_type: float
 
 prep:
   type: Oral
+  target: 0.049
+  as_prob: true
   efficacy:
     adherent: 0.96
     non_adherant: 0.83
+  target_model: Allcomers
+
+hiv:
+  acute:
+    infectivity: 10.5
+    duration: 4
+  aids:
+    prob: 0.00207
