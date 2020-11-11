@@ -42,9 +42,6 @@ class Sex(base_interaction.BaseInteraction):
             * model.calibration.sex.act
         )
         total_sex_acts = utils.poisson(mean_sex_acts, model.np_random)
-        print(
-            f"Total sex acts: {total_sex_acts}, Mean sex acts: {mean_sex_acts} for {rel.bond_type}"
-        )
 
         # Get condom usage
         p_safe_sex = agent.location.params.demographics[agent.race][
