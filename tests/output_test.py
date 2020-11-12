@@ -7,16 +7,16 @@ import networkx as nx
 import nanoid
 
 from titan.output import *
-from titan import agent, features
+from titan import agent, features, exposures
 
 
 @pytest.fixture
 def stats(params, world_location):
     cur_time = 3
     a = agent.Agent("MSM", 20, "black", "Inj", world_location)
-    a.hiv = True
+    a.hiv.active = True
     a.hiv.time = cur_time
-    a.aids = True
+    a.hiv.aids = True
     a.hiv.dx = True
     a.hiv.dx_time = cur_time
     a.haart.active = True
@@ -35,7 +35,8 @@ def stats(params, world_location):
     agent_set.add_agent(a)
     agent_list = [a]
     feat_list = [feature for feature in features.BaseFeature.__subclasses__()]
-    stats = get_stats(agent_set, agent_list, params, feat_list, cur_time)
+    expose_list = [exposure for exposure in exposures.BaseExposure.__subclasses__()]
+    stats = get_stats(agent_set, agent_list, params, feat_list, expose_list, cur_time)
     return stats
 
 
@@ -52,15 +53,15 @@ def test_get_stats(stats):
     assert stats["world"]["black"]["MSM"]["hiv_new_high_risk"] == 1
     assert stats["world"]["black"]["MSM"]["prep"] == 1
     assert stats["world"]["black"]["MSM"]["prep_new"] == 1
-    assert stats["world"]["black"]["MSM"]["dx_new"] == 1
+    assert stats["world"]["black"]["MSM"]["hiv_dx_new"] == 1
     assert stats["world"]["black"]["MSM"]["high_risk_new"] == 1
     assert stats["world"]["black"]["MSM"]["high_risk_new_hiv"] == 1
     assert stats["world"]["black"]["MSM"]["high_risk_new_aids"] == 1
     assert stats["world"]["black"]["MSM"]["high_risk_new_dx"] == 1
     assert stats["world"]["black"]["MSM"]["high_risk_new_haart"] == 1
     assert stats["world"]["black"]["MSM"]["hiv"] == 1
-    assert stats["world"]["black"]["MSM"]["aids"] == 1
-    assert stats["world"]["black"]["MSM"]["dx"] == 1
+    assert stats["world"]["black"]["MSM"]["hiv_aids"] == 1
+    assert stats["world"]["black"]["MSM"]["hiv_dx"] == 1
     assert stats["world"]["black"]["MSM"]["haart"] == 1
     assert stats["world"]["black"]["MSM"]["deaths"] == 1
     assert stats["world"]["black"]["MSM"]["deaths_hiv"] == 1

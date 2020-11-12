@@ -17,7 +17,7 @@ class RandomTrial(base_feature.BaseFeature):
         self.suitable = False
 
     @classmethod
-    def update_pop(cls, model: "model.HIVModel"):
+    def update_pop(cls, model: "model.HIVModel"):  # TODO rename HIVModel to TITAN
         """
         Update the feature for the entire population (class method).
 

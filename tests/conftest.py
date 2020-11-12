@@ -40,8 +40,8 @@ class FakeRandom:
     def shuffle(self, seq):
         return seq
 
-    def poisson(self, var: float, size: int):
-        return var
+    def poisson(self, var: float, size: int = 1):
+        return int(round(var))
 
 
 # test fixtures used throughout unit tests

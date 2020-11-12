@@ -9,7 +9,7 @@ def test_update_haart_t1(make_model, make_agent):
     model.time = 1
     a = make_agent(race="white")
 
-    a.hiv = True
+    a.hiv.active = True
 
     # nothing happens, not tested
     a.haart.update_agent(model)

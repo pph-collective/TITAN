@@ -32,8 +32,10 @@ def test_incarcerate_unincarcerate(make_model, make_agent):
 @pytest.mark.unit
 def test_incarcerate_not_diagnosed(make_model, make_agent):
     model = make_model()
+    model.time = model.params.partner_tracing.start_time + 1
     a = make_agent(SO="HM", race="white")  # incarceration only for HM and HF?
-    a.hiv = True
+    a.hiv.active = True
+    a.hiv.time = model.time - 1
     a.partners["Sex"] = set()
 
     p = make_agent(SO="HF")
@@ -71,7 +73,7 @@ def test_incarcerate_diagnosed(make_model, make_agent):
     model = make_model()
     model.time = 10
     a = make_agent(SO="HM", race="white")  # incarceration only for HM and HF?
-    a.hiv = True
+    a.hiv.active = True
     a.hiv.dx = True
     a.partners["Sex"] = set()
 

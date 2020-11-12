@@ -28,13 +28,11 @@ def test_agent_init(make_agent):
     assert a.mean_num_partners == {}
 
     # STI params
-    assert a.hiv is False
-    assert a.hiv.time is None
-    assert a.aids is False
-    assert a.partner_traced is False
-
-    # prevention parameters
+    assert a.hiv.active is False
     assert a.hiv.dx is False
+    assert a.hiv.time is None
+    assert a.hiv.aids is False
+    assert a.partner_traced is False
 
 
 @pytest.mark.unit
@@ -51,15 +49,6 @@ def test_get_partners(make_agent):
     assert a.get_partners() == {p1, p2}
     assert a.get_partners(["Sex"]) == {p1}
     assert a.get_partners(["Inj"]) == {p2}
-
-
-@pytest.mark.unit
-def test_get_acute_status(make_agent, params):
-    a = make_agent()  # no HIV on init
-    assert a.get_acute_status(2) is False
-    a.hiv = True
-    a.hiv.time = 1  # manually force this to test logic
-    assert a.get_acute_status(2) is True
 
 
 @pytest.mark.unit

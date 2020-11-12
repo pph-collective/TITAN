@@ -129,7 +129,7 @@ def test_initiate_prep_assertions(make_model, make_agent):
 
     # no PrEP if already HIV
     a.prep.active = False
-    a.hiv = True
+    a.hiv.active = True
     assert a.prep.initiate(model) is None
 
 

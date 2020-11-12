@@ -38,7 +38,7 @@ class Knowledge(base_exposure.BaseExposure):
 
             attprob = pop.pop_random.random()
             pvalue = 0.0
-            for bin, fields in knowledge_params.attitude.items():
+            for bin, fields in knowledge_params.opinion.init.items():
                 pvalue += fields.prob
                 if attprob < pvalue:
                     self.opinion = bin

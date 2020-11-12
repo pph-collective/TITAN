@@ -28,10 +28,11 @@ class Injection(base_interaction.BaseInteraction):
             rel.agent1.sex_type
         ].injection
 
+        # TO_REVIEW should this be looking to partnership.injection.frequency?
         mean_num_acts = agent_params.num_acts * model.calibration.injection.act
         share_acts = utils.poisson(mean_num_acts, model.np_random)
 
-        # If sharing, minimum of 1 share act
+        # If sharing, minimum of 1 share act, TO_REVIEW should we allow 0?
         if share_acts < 1:
             share_acts = 1
 
@@ -42,9 +43,9 @@ class Injection(base_interaction.BaseInteraction):
         else:
             p_unsafe_injection = agent_params.unsafe_prob
 
-            # diagnosis risk reduction
-            if rel.agent1.hiv.dx or rel.agent1.hiv.dx:  # type: ignore[attr-defined]
-                p_unsafe_injection *= 1 - model.params.hiv.dx.risk_reduction.injection
+        # diagnosis risk reduction
+        if rel.agent1.hiv.dx or rel.agent1.hiv.dx:  # type: ignore[attr-defined]
+            p_unsafe_injection *= 1 - model.params.hiv.dx.risk_reduction.injection
 
         for n in range(share_acts):
             if model.run_random.random() > p_unsafe_injection:

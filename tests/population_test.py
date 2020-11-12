@@ -15,9 +15,9 @@ def test_create_agent(make_population, params):
 
     a1 = pop.create_agent(pop.geography.locations["world"], "white", 0)
     assert a1.race == "white"
-    assert a1.pca.opinion in range(
+    assert a1.knowledge.opinion in range(
         5
-    ), f"Agents opinion of injectible PrEP is out of bounds {a1.pca.opinion}"
+    ), f"Agents opinion of injectible PrEP is out of bounds {a1.knowledge.opinion}"
 
     a2 = pop.create_agent(pop.geography.locations["world"], "black", 0)
     assert a2.race == "black"
@@ -33,8 +33,8 @@ def test_create_agent(make_population, params):
     )
     a4 = pop.create_agent(pop.geography.locations["world"], "white", 0, "HM")
     assert a4.drug_type == "Inj"
-    assert a4.hiv
-    assert a4.aids
+    assert a4.hiv.active
+    assert a4.hiv.aids
     assert a4.hiv.dx
     assert a4.haart.active
     assert a4.haart.adherence == 5
@@ -48,7 +48,7 @@ def test_create_agent(make_population, params):
     )
     a4 = pop.create_agent(pop.geography.locations["world"], "white", 0, "HM")
     assert a4.drug_type == "None"
-    assert a4.hiv is False
+    assert a4.hiv.active is False
     assert a4.prep.active is False
     assert a4.random_trial.treated is False
 
@@ -90,21 +90,20 @@ def test_add_remove_agent_to_pop(make_population):
     pop = make_population(n=100)
     agent = pop.create_agent(pop.geography.locations["world"], "white", 0, "HM")
     agent.drug_type = "Inj"
-    agent.hiv = True
-    agent.aids = True
+    agent.hiv.active = True
+    agent.hiv.aids = True
     agent.hiv.dx = True
+    agent.hiv.add_agent(agent)
 
     pop.add_agent(agent)
 
     assert agent in pop.all_agents.members
-    assert agent in pop.hiv_agents.members
 
     assert pop.graph.has_node(agent)
 
     pop.remove_agent(agent)
 
     assert agent not in pop.all_agents.members
-    assert agent not in pop.hiv_agents.members
 
     assert not pop.graph.has_node(agent)
 
@@ -410,18 +409,6 @@ def test_population_consistency(params):
     assert net.graph.number_of_edges() == len(net.relationships)
     assert net.graph.number_of_nodes() == net.all_agents.num_members()
     assert params.model.num_pop == net.all_agents.num_members()
-
-
-@pytest.mark.unit
-def test_population_consistency_HIV(params):
-    """Test HIV consistency"""
-    net = Population(params)
-    for agent in net.all_agents:
-        if agent.hiv:
-            assert agent in net.hiv_agents
-
-    for agent in net.hiv_agents:
-        assert agent.hiv
 
 
 @pytest.mark.unit

@@ -340,7 +340,7 @@ class HIVModel:
                         print(f"timeline un-scaling - {param}")
                         utils.scale_param(params, param, 1 / defn.scalar)
 
-    def agents_interact(self, rel: "ag.Relationship") -> bool:
+    def agents_interact(self, rel: "ag.Relationship"):
         """
         Let an agent interact with a partner.
 
@@ -359,14 +359,11 @@ class HIVModel:
         interaction_types = self.params.classes.bond_types[rel.bond_type].acts_allowed
         # If either agent is incarcerated, skip their interaction
         if rel.agent1.incar.active or rel.agent2.incar.active:  # type: ignore[attr-defined]
-            return False
+            return
 
-        agents_interacted = False
         for interaction_type in interaction_types:
             interaction = self.interactions[interaction_type]
-            agents_interacted = interaction.interact(self, rel) or agents_interacted
-
-        return agents_interacted
+            interaction.interact(self, rel)
 
     def die_and_replace(self):
 

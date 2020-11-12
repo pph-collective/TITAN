@@ -53,6 +53,7 @@ demographics:
       safe_sex: 0.1
       injection:
         unsafe_prob: 0.1
+        num_acts: 30
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -860,6 +861,11 @@ outputs:
     - locations
     - races
     - sex_types
+
+exposures:
+  hiv: true
+  knowledge: true
+
 features:
   incar: true
   prep: true

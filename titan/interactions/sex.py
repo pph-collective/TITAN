@@ -34,7 +34,7 @@ class Sex(base_interaction.BaseInteraction):
             p_unsafe_sex = (1 - p_safe_sex) * (
                 1 - model.params.hiv.dx.risk_reduction.sex
             )
-            p_safe_sex *= 1 - p_unsafe_sex
+            p_safe_sex = 1 - p_unsafe_sex
 
         # Reduction of risk acts between partners for condom usage
         unsafe_sex_acts = total_sex_acts
@@ -42,6 +42,6 @@ class Sex(base_interaction.BaseInteraction):
             if model.run_random.random() < p_safe_sex:
                 unsafe_sex_acts -= 1
 
-        rel.total_sex_acts += unsafe_sex_acts
+        rel.total_sex_acts += unsafe_sex_acts  # TO_REVIEW should this be total_sex_acts?, also this attribute seems to be unused...
 
         return unsafe_sex_acts

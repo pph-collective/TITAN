@@ -85,7 +85,7 @@ def test_model_pop_write_read(tmpdir):
         os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
     )
 
-    subprocess.check_call([f, "-p", param_file, "-o", path_a, "--savepop", "all"])
+    subprocess.check_call([f, "-p", param_file, "-o", path_a, "--savepop"])
 
     saved_pop_path = glob(os.path.join(path_a, "pop", "*_pop.tar.gz"))[0]
 

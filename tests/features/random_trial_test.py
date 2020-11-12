@@ -24,8 +24,8 @@ def test_initialize_random_trial_prep(make_model, params):
 
 @pytest.mark.unit
 def test_initialize_random_trial_pca_bridge(make_model, params):
-    # pca trial
-    params.features.pca = True
+    # knowledge bridge trial
+    params.random_trial.treatment = "knowledge"
     model = make_model(params)
     model.time = model.params.random_trial.start_time
     RandomTrial.update_pop(model)
@@ -37,7 +37,7 @@ def test_initialize_random_trial_pca_bridge(make_model, params):
         if bridges:
             bridge_num += 1
             for agent in comp.nodes():
-                if agent.pca.active:
+                if agent.knowledge.active:
                     assert agent in [ag for ags in bridges for ag in ags]
 
     model.params.model.network.enable = False

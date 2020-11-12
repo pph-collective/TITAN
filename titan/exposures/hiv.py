@@ -315,7 +315,7 @@ class HIV(base_exposure.BaseExposure):
         # do partner tracing if enabled
         if (
             model.params.features.partner_tracing
-            and partner_tracing.start_time <= self.time < partner_tracing.stop_time
+            and partner_tracing.start_time <= self.dx_time < partner_tracing.stop_time
         ):
             # Determine if each partner is found via partner tracing
             for ptnr in self.agent.get_partners(partner_tracing.bond_type):
