@@ -29,7 +29,7 @@ def stats(params, world_location):
     a.high_risk.ever = True
     a.high_risk.time = cur_time
     a.incar.active = True
-    a.incar.add_agent(a)  # adds to new releases
+    a.incar.release_time = cur_time
 
     agent_set = agent.AgentSet("test")
     agent_set.add_agent(a)
