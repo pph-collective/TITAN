@@ -312,7 +312,7 @@ def print_components(
                 elif agent.prep.type == "Oral":
                     oral += 1
 
-            if agent.random_trial.suitable and agent.pca.active:
+            if agent.random_trial.suitable and agent.knowledge.active:
                 pca += 1
 
             if agent.random_trial.treated:  # treatment component

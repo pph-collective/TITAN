@@ -835,13 +835,10 @@ partnership:
 prep:
   target: 0.1
 
-pca:
-  awareness:
-    prob: 1.0
+knowledge:
+  prob: 0.3
   opinion:
-    transmission: 0.5
-  knowledge:
-    transmission: 0.3
+    prob: 0.5
 
 syringe_services:
   timeline:

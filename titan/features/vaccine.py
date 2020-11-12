@@ -88,7 +88,7 @@ class Vaccine(base_feature.BaseFeature):
             time: the current model time step
             interaction_type: The type of interaction where the agent could acquire HIV (e.g. 'sex', 'injection' - from [params.classes.interaction_types])
         """
-        if self.active and self.time is not None:
+        if self.active and self.time is not None and self.time < time:
             # TO_REVIEW how to handle when time == self.time? skip?
             vaccine_time_months = (
                 (time - self.time)

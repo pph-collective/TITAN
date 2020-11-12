@@ -23,7 +23,6 @@ features:
   vaccine: false
   partner_tracing: false
   msmw: false
-  pca: false
 
 prep:
   target_model:

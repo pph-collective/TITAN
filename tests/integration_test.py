@@ -74,7 +74,7 @@ def test_model_reproducible(tmpdir):
         assert res_a[i]["hiv"] == res_b[i]["hiv"]
         assert res_a[i]["prep"] == res_b[i]["prep"]
         assert res_a[i]["deaths"] == res_b[i]["deaths"]
-        assert res_a[i]["aids"] == res_b[i]["aids"]
+        assert res_a[i]["hiv_aids"] == res_b[i]["hiv_aids"]
 
 
 @pytest.mark.integration_deterministic
