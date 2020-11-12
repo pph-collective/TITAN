@@ -1,8 +1,4 @@
-import numpy as np  # type: ignore
-import networkx as nx  # type: ignore
-
 from . import base_interaction
-from .. import utils
 from .. import model
 from .. import agent
 

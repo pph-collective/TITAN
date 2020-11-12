@@ -1,7 +1,10 @@
 from typing import List, Dict
 
+import numpy as np  # type: ignore
+import networkx as nx  # type: ignore
+
 from . import base_exposure
-from .. import agent
+from .. import agent as ag
 from .. import population
 from .. import model
 from .. import utils
@@ -15,7 +18,7 @@ class Knowledge(base_exposure.BaseExposure):
     stats: List[str] = ["knowledge_aware"]
     """List of names of stats that come from this exposure (e.g. hiv.dx)"""
 
-    def __init__(self, agent: "agent.Agent"):
+    def __init__(self, agent: "ag.Agent"):
         super().__init__(agent)
 
         self.active = False
@@ -72,7 +75,7 @@ class Knowledge(base_exposure.BaseExposure):
     def expose(
         model: "model.HIVModel",
         interaction: str,
-        rel: "agent.Relationship",
+        rel: "ag.Relationship",
         num_acts: int,
     ):
         assert (
@@ -80,26 +83,26 @@ class Knowledge(base_exposure.BaseExposure):
         ), "Network must be enabled for knowledge exposure"
 
         # agent/partner ordering is irrelevant at this point for knowledge transmission
-        p = rel.agent1.get_transmission_probability(
+        p = rel.agent1.knowledge.get_transmission_probability(  # type: ignore[attr-defined]
             model, interaction, rel.agent2, num_acts
         )
 
-        if model.run_random.random() < p_total_transmission:
+        if model.run_random.random() < p:
             agent1_aware = rel.agent1.knowledge.active  # type: ignore[attr-defined]
             agent2_aware = rel.agent2.knowledge.active  # type: ignore[attr-defined]
 
             if agent1_aware and agent2_aware:
                 influence(model, rel)
             elif agent1_aware:
-                rel.agent2.knowledge.convert(model)
+                rel.agent2.knowledge.convert(model)  # type: ignore[attr-defined]
             elif agent2_aware:
-                rel.agent1.knowledge.convert(model)
+                rel.agent1.knowledge.convert(model)  # type: ignore[attr-defined]
 
     def get_transmission_probability(
         self,
         model: "model.HIVModel",
         interaction: str,
-        partner: "agent.Agent",
+        partner: "ag.Agent",
         num_acts: int,
     ) -> float:
         """
@@ -116,7 +119,7 @@ class Knowledge(base_exposure.BaseExposure):
         if not interaction == "pca":
             return 0.0
 
-        if rel.agent1.knowledge.active and rel.agent2.knowledge.active:  # type: ignore[attr-defined]
+        if self.active and partner.knowledge.active:  # type: ignore[attr-defined]
             p = model.params.knowledge.opinion.prob
         else:
             p = model.params.knowledge.prob
@@ -141,7 +144,7 @@ class Knowledge(base_exposure.BaseExposure):
 
 
 # ===================== HELPER FUNCTIONS ===================
-def influence(model: "model.HIVModel", rel: "agent.Relationship"):
+def influence(model: "model.HIVModel", rel: "ag.Relationship"):
     """
     The higher influence agent chages the opinion of the other agent to be the mean of their opinions.  If the opinion excedes the threshold, initiate feature.
 
@@ -164,11 +167,12 @@ def influence(model: "model.HIVModel", rel: "agent.Relationship"):
     partner.knowledge.opinion = np.mean([agent.knowledge.opinion, partner.knowledge.opinion])  # type: ignore[attr-defined]
 
     # partner crossed threshhold of opinion, stochastically enroll in feature
+    params = partner.location.params.knowledge
     if (
         partner_init_opinion
-        < partner.location.params.knowledge.opinion.threshold
+        < params.opinion.threshold
         < partner.knowledge.opinion  # type: ignore[attr-defined]
     ):
         if model.run_random.random() < params.feature.prob:
-            agent_attr = getattr(self.agent, params.feature.name)
+            agent_attr = getattr(partner, params.feature.name)
             agent_attr.initiate(model, force=True)

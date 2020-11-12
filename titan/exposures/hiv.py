@@ -178,13 +178,13 @@ class HIV(base_exposure.BaseExposure):
         else:  # neither agent is HIV or both are
             return
 
-        p_total_transmission = agent.hiv.get_transmission_probability(
+        p = agent.hiv.get_transmission_probability(  # type: ignore[attr-defined]
             model, "sex", partner, num_acts
         )
 
-        if model.run_random.random() < p_total_transmission:
+        if model.run_random.random() < p:
             # if agent HIV+ partner becomes HIV+
-            partner.hiv.convert(model)
+            partner.hiv.convert(model)  # type: ignore[attr-defined]
 
     def get_transmission_probability(
         self,
