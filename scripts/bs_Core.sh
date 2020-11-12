@@ -38,7 +38,7 @@ do
 	r) rows="-r ${OPTARG}";;
 	F) forceFlag="-F";;
 	a) paramPath=${OPTARG};;
-	p) savePop="--savepop ${OPTARG}";;
+	p) savePop="--savepop";;
 	P) popPath="--poppath ${OPTARG}";;
     esac
 done

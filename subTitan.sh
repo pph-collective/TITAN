@@ -44,7 +44,7 @@ do
 	F) forceFlag="-F";;
 	c) num_cores=${OPTARG};;
 	t) titanPath=${OPTARG};;
-	p) savePop="-p ${OPTARG}";;
+	p) savePop="-p";;
 	P) popPath="-P ${OPTARG}";;
     esac
 done

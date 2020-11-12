@@ -43,18 +43,13 @@ agent_exclude_attrs = (
 
 
 # TO DO get rid of option to only write intervention attrs
-def write(
-    pop: Population, dir: str, intervention_attrs: bool = False, compress: bool = True
-) -> str:
+def write(pop: Population, dir: str, compress: bool = True) -> str:
     """
     Write a non-empty Population to file.
 
     args:
         pop: a non-empty agent population
         dir: path to directory where files should be written
-        intervention_attrs: whether to include intervention attributions in addition to
-            core agent attributes (less likely to be backwards compatible if used with
-            different versions of the model)
         compress: whether to compress and archive the csv
 
     returns:
@@ -66,11 +61,8 @@ def write(
     agent_file = os.path.join(dir, f"{pop.id}_agents.csv")
 
     a = next(iter(pop.all_agents))
-    if intervention_attrs:
-        # get all attributes
-        agent_attrs = [k for k in a.__dict__.keys() if k not in agent_exclude_attrs]
-    else:
-        agent_attrs = agent_core_attrs
+    # get all attributes
+    agent_attrs = [k for k in a.__dict__.keys() if k not in agent_exclude_attrs]
 
     write_class_file(agent_file, pop.all_agents, agent_attrs)
 
