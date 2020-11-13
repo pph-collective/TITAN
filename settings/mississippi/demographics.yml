@@ -8,8 +8,8 @@ demographics:
     hiv:
       init: 0.48
       dx:
-        init: 0.609
-        prob: 0.074
+        init: 0.4715
+        prob: 0.0342
     aids:
       init: 0.46
     haart:
