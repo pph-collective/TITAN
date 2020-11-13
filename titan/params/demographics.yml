@@ -78,7 +78,7 @@ demographics:
         max: 1.0
       adherence:
         default: 0.0
-        description: "Probability that an agent is assigned adherence of 5, otherwise randomly assigned 1-4"
+        description: "Probability that an agent is adherent"
         type: float
         min: 0.0
         max: 1.0
@@ -243,7 +243,7 @@ demographics:
         max: 1.0
       adherence:
         default: 0.0
-        description: "Probability that an agent on PrEP is assigned an adherence of 1, otherwise assigned 0"
+        description: "Probability that an agent on PrEP is adherent"
         type: float
         min: 0.0
         max: 1.0

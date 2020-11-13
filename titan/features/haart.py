@@ -26,7 +26,7 @@ class HAART(base_feature.BaseFeature):
         super().__init__(agent)
 
         self.active = False
-        self.adherence = 0
+        self.adherent = 0
 
     @classmethod
     def init_class(cls, params: "ObjMap"):
@@ -64,9 +64,7 @@ class HAART(base_feature.BaseFeature):
 
             haart_adh = agent_params.haart.adherence
             if pop.pop_random.random() < haart_adh:
-                self.adherence = 5
-            else:
-                self.adherence = pop.pop_random.randint(1, 4)
+                self.adherent = True
 
     def update_agent(self, model: "model.HIVModel"):
         """
@@ -106,7 +104,7 @@ class HAART(base_feature.BaseFeature):
             # Go off HAART
             elif self.active and model.run_random.random() < haart_params.discontinue:
                 self.active = False
-                self.adherence = 0
+                self.adherent = False
                 self.remove_agent(self.agent)
 
     @classmethod
@@ -152,11 +150,11 @@ class HAART(base_feature.BaseFeature):
             params = self.agent.location.params
             if interaction_type == "injection":
                 prob = params.partnership.injection.transmission.haart_scaling[
-                    self.adherence
+                    self.adherent
                 ].scale
             elif interaction_type == "sex":
                 prob = params.partnership.sex.haart_scaling[self.agent.sex_type][
-                    self.adherence
+                    self.adherent
                 ].prob
 
             # Tuning parameter for ART efficiency
@@ -175,13 +173,13 @@ class HAART(base_feature.BaseFeature):
         """
         haart_adh = self.agent.location.params.demographics[self.agent.race][
             self.agent.sex_type
-        ].haart.adherence
+        ].haart.adherent
         if model.run_random.random() < haart_adh:
-            adherence = 5
+            adherent = True
         else:
-            adherence = model.run_random.randint(1, 4)
+            adherent = False
 
         # Add agent to HAART class set, update agent params
         self.active = True
-        self.adherence = adherence
+        self.adherent = adherent
         self.add_agent(self.agent)

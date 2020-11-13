@@ -19,7 +19,10 @@ classes:
       sleeps_with:
         - MSM
   bond_types:
-    Sex:
+    Main:
+      acts_allowed:
+        - sex
+    Casual:
       acts_allowed:
         - sex
   drug_types:

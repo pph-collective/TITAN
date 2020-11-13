@@ -55,7 +55,7 @@ partnership:
                 value_type: int
     haart_scaling:
       type: sub-dict
-      description: "Scaling factor on HIV transmission for a given haart adherence"
+      description: "Scaling factor on HIV transmission depending on HAART adherence"
       keys:
         - sex_types
       default:
@@ -70,14 +70,6 @@ partnership:
           0:
             prob: 1.0
           1:
-            prob: 1.0
-          2:
-            prob: 0.8
-          3:
-            prob: 0.4
-          4:
-            prob: 0.2
-          5:
             prob: 0.0
     acquisition:
       type: sub-dict

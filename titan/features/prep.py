@@ -29,7 +29,7 @@ class Prep(base_feature.BaseFeature):
         super().__init__(agent)
         # agent level attributes
         self.active = False
-        self.adherence = 0
+        self.adherent = False
         self.type = ""
         self.time = None
         self.last_dose_time: Optional[int] = None
@@ -130,11 +130,11 @@ class Prep(base_feature.BaseFeature):
         if self.active and self.last_dose_time is not None:
             params = self.agent.location.params
             if self.type == "Oral":
-                if self.adherence == 1:
+                if self.adherent:
                     return 1.0 - params.prep.efficacy.adherent
                 else:
                     return 1.0 - params.prep.efficacy.non_adherant
-            elif self.type == "Inj" and self.adherence == 1:
+            elif self.type == "Inj" and self.adherent == False:
                 annualized_last_dose_time = (
                     time - self.last_dose_time
                 ) / params.model.time.steps_per_year
@@ -222,9 +222,7 @@ class Prep(base_feature.BaseFeature):
             rand_gen.random()
             < params.demographics[self.agent.race][self.agent.sex_type].prep.adherence
         ):
-            self.adherence = 1
-        else:
-            self.adherence = 0
+            self.adherent = True
 
         if "Inj" in params.prep.type and "Oral" in params.prep.type:
             if rand_gen.random() < params.prep.lai.prob:

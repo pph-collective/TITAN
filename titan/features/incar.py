@@ -105,7 +105,7 @@ class Incar(base_feature.BaseFeature):
                             <= self.agent.location.params.incar.haart.discontinue
                         ):
                             self.agent.haart.active = False  # type: ignore[attr-defined]
-                            self.agent.haart.adherence = 0  # type: ignore[attr-defined]
+                            self.agent.haart.adherent = False  # type: ignore[attr-defined]
 
         # should the agent become incarcerated?
         elif model.run_random.random() < (
@@ -146,13 +146,13 @@ class Incar(base_feature.BaseFeature):
                             model.run_random.random()
                             < self.agent.location.params.incar.haart.adherence
                         ):
-                            adherence = 5
+                            adherent = True
                         else:
-                            adherence = model.run_random.randint(1, 4)
+                            adherent = False
 
                         # Add agent to HAART class set, update agent params
                         self.agent.haart.active = True  # type: ignore[attr-defined]
-                        self.agent.haart.adherence = adherence  # type: ignore[attr-defined]
+                        self.agent.haart.adherent = adherent  # type: ignore[attr-defined]
 
             # PUT PARTNERS IN HIGH RISK
             if model.params.features.high_risk:
