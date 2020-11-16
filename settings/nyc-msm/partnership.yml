@@ -21,4 +21,12 @@ partnership:
               value_type: float
             2:
               value: 48.0
-              
+    haart_scaling:
+      MSM:
+        prob:  # calibration
+          0: 0.165
+          1: 0.0
+    acquisition:
+      insertive: 0.0017
+      receptive: 0.0075
+      versatile: 0.0046

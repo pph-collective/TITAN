@@ -1,7 +1,6 @@
 partnership:
-  sex:
     frequency:
-      description: "Sex act frequency, keyed off of bond type. If all bonds have the same act distribution, use key `ALL`"
+      description: "Sex act frequency, keyed off of bond type."
       type: sub-dict
       keys:
         - bond_types
