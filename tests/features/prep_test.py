@@ -142,7 +142,7 @@ def test_initiate_prep_force_adh(make_model, make_agent):
     model.run_random = FakeRandom(-0.1)
     a.prep.initiate(model, True)
     assert a.prep.active
-    assert a.prep.adherence == 1
+    assert a.prep.adherent is True
     assert a.prep.last_dose_time == model.time
 
 
@@ -154,7 +154,7 @@ def test_initiate_prep_force_non_adh(make_model, make_agent):
     model.run_random = FakeRandom(1.0)
     a.prep.initiate(model, True)
     assert a.prep.active
-    assert a.prep.adherence == 0
+    assert a.prep.adherent is False
     assert a.prep.last_dose_time == model.time
 
 
@@ -177,7 +177,7 @@ def test_initiate_prep_eligible(make_model, make_agent):
     model.run_random = FakeRandom(-0.1)
     a.prep.initiate(model)
     assert a.prep.active
-    assert a.prep.adherence == 1
+    assert a.prep.adherent is True
     assert a.prep.last_dose_time == 10
     assert a.prep.time == 10
 
@@ -275,7 +275,7 @@ def test_enroll_prep_choice(make_agent, params):
 
     assert a.prep.active
     assert a.prep.last_dose_time == 0
-    assert a.prep.adherence == 1
+    assert a.prep.adherent is True
     assert a.prep.type == "Inj"
 
 
@@ -289,7 +289,7 @@ def test_enroll_prep_one(make_agent, params):
 
     assert a.prep.active
     assert a.prep.last_dose_time == 0
-    assert a.prep.adherence == 0
+    assert a.prep.adherent is False
     assert a.prep.type == "Oral"
 
 

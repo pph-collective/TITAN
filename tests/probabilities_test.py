@@ -5,14 +5,10 @@ import titan.probabilities as probs
 
 
 @pytest.mark.unit
-def test_adherence_prob():
+def test_adherent_prob():
     # initiate result dict with 2 time steps
-    assert probs.adherence_prob(1) == 0.0051
-    assert probs.adherence_prob(2) == 0.0039
-    assert probs.adherence_prob(3) == 0.0032
-    assert probs.adherence_prob(4) == 0.0025
-    assert probs.adherence_prob(5) == 0.0008
-    assert probs.adherence_prob(6) == 0.0051
+    assert probs.adherent_prob(True) == 0.0008
+    assert probs.adherent_prob(False) == 0.00368
 
 
 @pytest.mark.unit

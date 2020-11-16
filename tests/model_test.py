@@ -103,12 +103,14 @@ def test_agents_interact(make_model, make_agent):
 def test_get_transmission_probability(make_model, make_agent):
     model = make_model()
     a = make_agent(race="white", SO="MSM")
-    a.haart.adherence = 1
+    a.haart.active = True
+    a.haart.adherent = True
     a.sex_role = "versatile"
 
     p = make_agent(race="white", SO="MSM")
     p.sex_role = "versatile"
-    p.haart.adherence = 1
+    p.haart.active = True
+    p.haart.adherent = True
 
     # test versatile-versatile relationship
     p_needle = (
@@ -230,7 +232,7 @@ def test_progress_to_aids_nothing(make_agent, make_model):
 
     # test nothing case
     a.hiv = True
-    a.haart.adherence = 1  # .0051 prob
+    a.haart.adherent = True  # .0051 prob
 
     model.run_random = FakeRandom(0.9)  # no AIDS
 
@@ -250,7 +252,7 @@ def test_progress_to_aids_progress(make_agent, make_model):
     a.location.params.hiv.aids.prob = 1.0
 
     a.hiv = True
-    a.haart.adherence = 1  # .0051 prob
+    a.haart.adherent = True  # .0051 prob
 
     # test progress case
     model.run_random = FakeRandom(0.001)  # AIDS

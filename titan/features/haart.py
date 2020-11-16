@@ -26,7 +26,7 @@ class HAART(base_feature.BaseFeature):
         super().__init__(agent)
 
         self.active = False
-        self.adherent = 0
+        self.adherent = False
 
     @classmethod
     def init_class(cls, params: "ObjMap"):

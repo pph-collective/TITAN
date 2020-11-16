@@ -82,4 +82,4 @@ def test_incarcerate_diagnosed(make_model, make_agent):
     assert a.incar.active
     assert a.incar.duration == 1
     assert a.haart.active
-    assert a.haart.adherence == 5
+    assert a.haart.adherent is True
