@@ -1,8 +1,9 @@
 model:
   num_pop: 6825
   time:
-    num_steps: 132
+    num_steps: 84
     steps_per_year: 12
+    burn_steps: 48
   network:
     type: scale_free
 
@@ -84,3 +85,11 @@ hiv:
     duration: 4
   aids:
     prob: 0.00207
+
+timeline_scaling:
+  timeline:
+    haart_viral_suppression_scale:
+      parameter: demographics|black|MSM|haart|adherence
+      start_time: -47
+      stop_time: 100
+      scalar: 0.725
