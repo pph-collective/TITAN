@@ -1,25 +1,70 @@
 import pytest
 
+from conftest import FakeRandom
 
-@pytest.mark.skip
-def test_sex_transmission_do_nothing(make_model, make_agent):
+from titan.exposures import HIV
+from titan.agent import Relationship
+
+
+@pytest.mark.unit
+def test_hiv_expose(make_model, make_agent):
     model = make_model()
+    model.run_random = FakeRandom(-0.1)  # forces conversion even if prob is 0
     a = make_agent()
     p = make_agent()
     a.partners["Sex"] = set()
     p.partners["Sex"] = set()
     rel = Relationship(a, p, 10, bond_type="Sex")
 
-    assert Sex.interact(model, rel) is False
+    HIV.expose(model, "sex", rel, 10)
+
+    assert a.hiv.active is False
+    assert p.hiv.active is False
 
     a.hiv.active = True
     p.hiv.active = True
 
     # test nothing happens
-    assert Sex.interact(model, rel) is False
+    HIV.expose(model, "sex", rel, 10)
+
+    assert a.hiv.active
+    assert p.hiv.active
+
+    p.hiv.active = False
+
+    # test conversion happens
+    HIV.expose(model, "sex", rel, 10)
+
+    assert a.hiv.active
+    assert p.hiv.active
 
 
-@pytest.mark.skip
+@pytest.mark.unit
+def test_hiv_init(make_population, make_agent):
+    pop = make_population()
+    pop.pop_random = FakeRandom(-0.1)
+    a = make_agent()
+
+    time = pop.params.hiv.start_time - 1
+
+    a.hiv.init_agent(pop, time)
+
+    assert a.hiv.active is False
+
+    time = pop.params.hiv.start_time
+
+    a.hiv.init_agent(pop, time)
+
+    assert a.hiv.active
+    assert a.hiv.time == time - pop.params.hiv.max_init_time
+    assert a.hiv.dx
+    assert a.hiv.dx_time == a.hiv.time
+    assert a.hiv.aids
+    assert a in HIV.agents
+    assert HIV.dx_counts[a.race][a.sex_type] == 1
+
+
+@pytest.mark.unit
 def test_hiv_convert(make_model, make_agent):
     model = make_model()
     a = make_agent()
@@ -27,15 +72,15 @@ def test_hiv_convert(make_model, make_agent):
 
     model.run_random = FakeRandom(-0.1)
 
-    model.hiv_convert(a)
+    a.hiv.convert(model)
 
-    assert a.hiv
+    assert a.hiv.active
     assert a.hiv.time == model.time
-    assert a in model.pop.hiv_agents.members
+    assert a in HIV.agents
     assert a.prep.active is False
 
 
-@pytest.mark.skip
+@pytest.mark.unit
 def test_diagnose_hiv(make_model, make_agent):
     model = make_model()
     model.params.partner_tracing.prob = 1.0
@@ -45,15 +90,8 @@ def test_diagnose_hiv(make_model, make_agent):
     p.hiv.active = True
     a.partners["Sex"].add(p)
 
-    model.run_random = FakeRandom(1.1)  # always greater than param
-    model.diagnose_hiv(a)
-
-    assert a.hiv.dx is False
-    assert p.hiv.dx is False
-    assert not p.partner_traced
-
     model.run_random = FakeRandom(-0.1)  # always less than param
-    model.diagnose_hiv(a)
+    a.hiv.diagnose(model)
 
     assert a.hiv.dx
     assert a.hiv.dx_time == model.time
@@ -65,82 +103,11 @@ def test_diagnose_hiv(make_model, make_agent):
     model.params.demographics[p.race][p.sex_type].hiv.dx.prob = 0
 
     model.time = p.partner_traced + 1
-    model.diagnose_hiv(p)
+    p.hiv.diagnose(model)
     assert p.hiv.dx
-    assert p.partner_traced is False
 
 
-@pytest.mark.skip
-def test_diagnose_hiv_already_tested(make_model, make_agent):
-    model = make_model()
-    a = make_agent()
-
-    a.hiv.dx = True
-
-    model.run_random = FakeRandom(-0.1)  # always less than param
-    model.diagnose_hiv(a)
-
-    assert a.hiv.dx
-
-
-@pytest.mark.skip
-def test_progress_to_aids_error(make_agent, make_model):
-    a = make_agent()
-    a.hiv.active = False
-    model = make_model()
-    a.target_partners = {bond: 0 for bond in model.params.classes.bond_types.keys()}
-    model.pop.add_agent(a)
-    num_aids = sum([1 for agent in model.pop.hiv_agents if agent.aids])  # get baseline
-
-    # test error case, agent must be HIV+
-    with pytest.raises(AssertionError):
-        model.progress_to_aids(a)
-
-    assert sum([1 for agent in model.pop.hiv_agents if agent.aids]) == num_aids
-
-
-@pytest.mark.skip
-def test_progress_to_aids_nothing(make_agent, make_model):
-    a = make_agent()
-    a.hiv.active = True
-    model = make_model()
-    a.target_partners = {bond: 0 for bond in model.params.classes.bond_types.keys()}
-    model.pop.add_agent(a)
-    num_aids = sum([1 for agent in model.pop.hiv_agents if agent.aids])  # get baseline
-
-    # test nothing case
-    a.hiv.active = True
-    a.haart.adherence = 1  # .0051 prob
-
-    model.run_random = FakeRandom(0.9)  # no AIDS
-
-    assert model.progress_to_aids(a) is None
-    assert sum([1 for agent in model.pop.hiv_agents if agent.aids]) == num_aids
-    assert a.aids is False
-
-
-@pytest.mark.skip
-def test_progress_to_aids_progress(make_agent, make_model):
-    a = make_agent()
-    a.hiv.active = True
-    model = make_model()
-    a.target_partners = {bond: 0 for bond in model.params.classes.bond_types.keys()}
-    model.pop.add_agent(a)
-    num_aids = sum([1 for agent in model.pop.hiv_agents if agent.aids])  # get baseline
-    a.location.params.hiv.aids.prob = 1.0
-
-    a.hiv.active = True
-    a.haart.adherence = 1  # .0051 prob
-
-    # test progress case
-    model.run_random = FakeRandom(0.001)  # AIDS
-
-    assert model.progress_to_aids(a) is None
-    assert sum([1 for agent in model.pop.hiv_agents if agent.aids]) == num_aids + 1
-    assert a.aids is True
-
-
-@pytest.mark.skip
+@pytest.mark.unit
 def test_get_transmission_probability(make_model, make_agent):
     model = make_model()
     a = make_agent(race="white", SO="MSM")
@@ -162,8 +129,10 @@ def test_get_transmission_probability(make_model, make_agent):
     )
     scale = model.params.calibration.acquisition
 
-    assert model.get_transmission_probability("injection", a, p) == p_needle * scale
-    assert model.get_transmission_probability("sex", a, p) == p_sex * scale
+    assert (
+        a.hiv.get_transmission_probability(model, "injection", p, 1) == p_needle * scale
+    )
+    assert a.hiv.get_transmission_probability(model, "sex", p, 1) == p_sex * scale
 
     # test one vers agent, one receptive agent
     a.sex_role = "receptive"
@@ -176,14 +145,14 @@ def test_get_transmission_probability(make_model, make_agent):
         * model.params.partnership.sex.acquisition.MSM.receptive
     )
 
-    assert model.get_transmission_probability("sex", a, p) == p_sex_ins * scale
-    assert model.get_transmission_probability("sex", p, a) == p_sex_rec * scale
+    assert a.hiv.get_transmission_probability(model, "sex", p, 1) == p_sex_ins * scale
+    assert p.hiv.get_transmission_probability(model, "sex", a, 1) == p_sex_rec * scale
 
 
-@pytest.mark.skip
-def test_get_acute_status(make_agent, params):
+@pytest.mark.unit
+def test_get_acute_status(make_agent, make_model):
+    model = make_model()
     a = make_agent()  # no HIV on init
-    assert a.get_acute_status(2) is False
-    a.hiv.active = True
-    a.hiv.time = 1  # manually force this to test logic
-    assert a.get_acute_status(2) is True
+    assert a.hiv.get_acute_status(model.time + 2) is False
+    a.hiv.convert(model)
+    assert a.hiv.get_acute_status(model.time + 2) is True

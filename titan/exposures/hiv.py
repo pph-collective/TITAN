@@ -11,13 +11,22 @@ from .. import utils
 class HIV(base_exposure.BaseExposure):
 
     name: str = "hiv"
-    """Name of exposure in the params file.  Also used to name the attribute in Agent"""
-
     stats: List[str] = ["hiv", "hiv_dx", "hiv_aids", "hiv_new", "hiv_dx_new"]
-    """List of names of stats that come from this exposure (e.g. hiv.dx)"""
+    """
+        HIV collects the following stats:
+
+        * hiv - number of agents with active hiv
+        * hiv_dx - number of agents with diagnosed hiv
+        * hiv_aids - number of agents with aids
+        * hiv_new - number of agents converted to hiv this timestep
+        * hiv_dx_new - number of agents with diagnosed with hiv this timestep
+    """
 
     dx_counts: Dict[str, Dict[str, int]] = {}
+    """Counts of diagnosed agents by race and sex_type"""
+
     agents: Set["agent.Agent"] = set()
+    """Agents with active hiv"""
 
     def __init__(self, agent: "agent.Agent"):
         super().__init__(agent)
@@ -31,7 +40,7 @@ class HIV(base_exposure.BaseExposure):
     @classmethod
     def init_class(cls, params):
         """
-        Initialize any class level attributes (such as setting counters to zero). Called on every active feature on population initialization.
+        Initialize any diagnosis counts and the agents set.
 
         args:
             params: parameters for this population
@@ -46,6 +55,8 @@ class HIV(base_exposure.BaseExposure):
         """
         Initialize the agent for this feature during population initialization (`Population.create_agent`).  Called on only features that are enabled per the params.
 
+        Based on demographic params for the agent, stochastically determine if hiv is active, and if active, at what past time point was the agent converted, if the agent is diagnosed, and if the agent has aids.
+
         args:
             pop: the population this agent is a part of
             time: the current time step
@@ -57,10 +68,9 @@ class HIV(base_exposure.BaseExposure):
         # HIV
         if (
             pop.pop_random.random() < agent_params.hiv.init
-            and time >= pop.params.hiv.init
+            and time >= pop.params.hiv.start_time
         ):
             self.active = True
-            self.add_agent(self.agent)
 
             # if HIV, when did the agent convert? Random sample
             self.time = pop.pop_random.randint(
@@ -75,9 +85,14 @@ class HIV(base_exposure.BaseExposure):
                 # agent was diagnosed at a random time between conversion and now
                 self.dx_time = pop.pop_random.randint(self.time, time)
 
+            # add agent to class
+            self.add_agent(self.agent)
+
     def update_agent(self, model: "model.HIVModel"):
         """
-        Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
+        Update the agent for this exposure for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
+
+        If the agent is hiv+ and the model time is past the hiv start_time, determine if the agent becomes diagnosed if not yet diagnosed, and if the agent has progressed to aids.
 
         args:
             model: the instance of HIVModel currently being run
@@ -102,6 +117,7 @@ class HIV(base_exposure.BaseExposure):
                 ):
                     self.diagnose(model)
 
+            # TO_REVIEW should this be moved outside of the if?
             if model.time >= self.agent.trace_time + partner_tracing.trace_duration:
                 # agents can only be traced during a specified period after their partner is
                 # diagnosed. If past this time, remove ability to trace.
@@ -114,7 +130,7 @@ class HIV(base_exposure.BaseExposure):
         """
         Add an agent to the class (not instance).  This can be useful if tracking population level statistics or groups, such as counts or newly active agents.
 
-        This method is not called from anywhere in the model, but creates a cohesive api with `remove_agent`, which is called from `Population.remove_agent`.
+        Add the agent to the `agents` set and if the agent is diagnosed, updated the `dx_counts`
 
         args:
             agent: the agent to add to the class attributes
@@ -129,7 +145,7 @@ class HIV(base_exposure.BaseExposure):
         """
         Remove an agent from the class (not instance).  This can be useful if tracking population level statistics or groups, such as counts.
 
-        This method is called from `Population.remove_agent`, but may also need to be called within the feature if an agent transitions from `active == True` to `active == False`.
+        Remove the agent from the `agents` set and decrement the `dx_counts` if the agent was diagnosed.
 
         args:
             agent: the agent to remove from the class attributes
@@ -140,15 +156,6 @@ class HIV(base_exposure.BaseExposure):
             cls.dx_counts[agent.race][agent.sex_type] -= 1
 
     def set_stats(self, stats: Dict[str, int], time: int):
-        """
-        Update the `stats` dictionary passed for this agent.  Called from `output.get_stats` for each enabled feature in the model.
-
-        The stats to be updated must be declared in the class attribute `stats` to make sure the dictionary has the expected keys/counter value initialized.
-
-        args:
-            stats: the dictionary to update with this agent's feature statistics
-            time: the time step of the model when the stats are set
-        """
         if self.active:
             stats["hiv"] += 1
             if self.time == time:
@@ -167,6 +174,17 @@ class HIV(base_exposure.BaseExposure):
         rel: "agent.Relationship",
         num_acts: int,
     ):
+        """
+        Expose a relationship to the exposure for a number of acts of a specific interaction type.  Typically, this is determining if the exposure can cause conversion/change in one of the agents, then if so determining the probability of that and then converting the succeptible agent.
+
+        For hiv, one agent must be active and the other not for an exposure to cause conversion.
+
+        args:
+            model: The running model
+            interaction: The type of interaction (e.g. sex, injection)
+            rel: The relationship where the interaction is occuring
+            num_acts: The number of acts of that interaction
+        """
         # Agent 1 is HIV+, Agent 2 is not, Agent 2 is succept
         if rel.agent1.hiv.active and not rel.agent2.hiv.active:  # type: ignore[attr-defined]
             agent = rel.agent1
@@ -179,7 +197,7 @@ class HIV(base_exposure.BaseExposure):
             return
 
         p = agent.hiv.get_transmission_probability(  # type: ignore[attr-defined]
-            model, "sex", partner, num_acts
+            model, interaction, partner, num_acts
         )
 
         if model.run_random.random() < p:
@@ -207,7 +225,7 @@ class HIV(base_exposure.BaseExposure):
         returns:
             probability of transmission from agent to partner
         """
-        # if this isn't an interaction where hiv can transmit, return 0.0
+        # if this isn't an interaction where hiv can transmit, return 0% prob
         if interaction not in ("injection", "sex"):
             return 0.0
 
@@ -263,7 +281,7 @@ class HIV(base_exposure.BaseExposure):
 
     def convert(self, model: "model.HIVModel"):
         """
-        Agent becomes HIV agent. Update all appropriate list and dictionaries.
+        Agent becomes HIV agent. Update all appropriate attributes, sets and dictionaries.
 
         args:
             agent: The agent being converted
@@ -312,6 +330,7 @@ class HIV(base_exposure.BaseExposure):
         self.dx_time = model.time
         self.add_agent(self.agent)
 
+        # TO_REVIEW partner tracing - should this be part of hiv? more generic?
         # do partner tracing if enabled
         if (
             model.params.features.partner_tracing
@@ -330,7 +349,7 @@ class HIV(base_exposure.BaseExposure):
         args:
              model: the running model
         """
-        p = prob.adherence_prob(self.agent.haart.adherence) if self.agent.haart.active else 1  # type: ignore[attr-defined]
+        p = prob.adherence_prob(self.agent.haart.adherence) if self.agent.haart.active else 1.0  # type: ignore[attr-defined]
 
         if model.run_random.random() < p * self.agent.location.params.hiv.aids.prob:
             self.aids = True

@@ -89,6 +89,15 @@ class BaseExposure:
         rel: "agent.Relationship",
         num_acts: int,
     ):
+        """
+        Expose a relationship to the exposure for a number of acts of a specific interaction type.  Typically, this is determining if the exposure can cause conversion/change in one of the agents, then if so determining the probability of that and then converting the succeptible agent.
+
+        args:
+            model: The running model
+            interaction: The type of interaction (e.g. sex, injection)
+            rel: The relationship where the interaction is occuring
+            num_acts: The number of acts of that interaction
+        """
         pass
 
     def get_transmission_probability(
@@ -98,7 +107,28 @@ class BaseExposure:
         partner: "agent.Agent",
         num_acts: int,
     ) -> float:
+        """
+        Determines the probability of a transmission event from agent to partner based on
+            interaction type.
+
+        This is not called from anywhere else in the model, but is recommended as a way to structure the exposure method into getting the transmission probability, then doing the conversion.
+
+        args:
+            model: The running model
+            interaction : The type of interaction (e.g. `sex`, `injection`)
+            partner: The agent's partner
+            num_acts: The number of acts where exposure occured
+
+        returns:
+            probability of transmission from agent to partner
+        """
         return 0.0
 
     def convert(self, model: "model.HIVModel"):
+        """
+        Convert the agent to the exposure (i.e. become active).
+
+        args:
+            model: The running model
+        """
         pass

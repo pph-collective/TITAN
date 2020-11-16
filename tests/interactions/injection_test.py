@@ -39,6 +39,8 @@ def test_injection_num_acts(make_model, make_agent):
     p.drug_type = "Inj"
     rel = Relationship(a, p, 10, bond_type="Inj")
 
+    # set to a high number to ensure above zero
+    a.location.params.demographics[a.race][a.sex_type].injection.num_acts = 100
     assert Injection.get_num_acts(model, rel) > 0
 
     a.syringe_services.active = True

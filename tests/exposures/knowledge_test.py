@@ -1,45 +1,51 @@
 import pytest
 
+from conftest import FakeRandom
 
-@pytest.mark.skip
-def test_pca_knowledge_transmission_probability(make_model, make_agent):
+from titan.agent import Relationship
+from titan import utils
+from titan.exposures import influence
+
+
+@pytest.mark.unit
+def test_knolwedge_transmission_probability(make_model, make_agent):
     model = make_model()
     a = make_agent()
     p = make_agent()
     rel = Relationship(a, p, 10, bond_type="Social")
 
     # knowledge transmission
-    assert knowledge_transmission_probability(model, rel, 0) == 0
+    assert a.knowledge.get_transmission_probability(model, "pca", p, 0) == 0
     assert (
-        knowledge_transmission_probability(model, rel, 1)
-        == model.params.pca.knowledge.transmission
+        a.knowledge.get_transmission_probability(model, "pca", p, 1)
+        == model.params.knowledge.prob
     )
-    assert knowledge_transmission_probability(model, rel, 2) == 1.0 - utils.binom_0(
-        2, model.params.pca.knowledge.transmission
-    )
+    assert a.knowledge.get_transmission_probability(
+        model, "pca", p, 2
+    ) == 1.0 - utils.binom_0(2, model.params.knowledge.prob)
 
     # opinion transmission
     a.knowledge.active = True
     p.knowledge.active = True
 
-    assert knowledge_transmission_probability(model, rel, 0) == 0
+    assert a.knowledge.get_transmission_probability(model, "pca", p, 0) == 0
     assert (
-        knowledge_transmission_probability(model, rel, 1)
-        == model.params.knowledge.opinion.transmission
+        a.knowledge.get_transmission_probability(model, "pca", p, 1)
+        == model.params.knowledge.opinion.prob
     )
-    assert knowledge_transmission_probability(model, rel, 2) == 1.0 - utils.binom_0(
-        2, model.params.knowledge.opinion.transmission
-    )
+    assert a.knowledge.get_transmission_probability(
+        model, "pca", p, 2
+    ) == 1.0 - utils.binom_0(2, model.params.knowledge.opinion.prob)
 
 
-@pytest.mark.skip
-def test_pca_knowledge_dissemination(make_model, make_agent):
+@pytest.mark.unit
+def test_knowledge_convert(make_model, make_agent):
     model = make_model()
     a = make_agent()
 
     a.knowledge.opinion = 0
     model.run_random = FakeRandom(1)
-    knowledge_dissemination(model, a)
+    a.knowledge.convert(model)
 
     assert a.knowledge.active
     assert not a.prep.active
@@ -47,14 +53,14 @@ def test_pca_knowledge_dissemination(make_model, make_agent):
     a.knowledge.active = False
     a.knowledge.opinion = 5
     model.run_random = FakeRandom(-0.1)
-    knowledge_dissemination(model, a)
+    a.knowledge.convert(model)
 
     assert a.knowledge.active
     assert a.prep.active
 
 
-@pytest.mark.skip
-def test_pca_influence(make_model, make_agent):
+@pytest.mark.unit
+def test_knowledge_influence(make_model, make_agent):
     model = make_model()
     model.run_random = FakeRandom(-0.1)
     rel = next(iter(model.pop.relationships))  # get a relationship from the pop
@@ -81,23 +87,24 @@ def test_pca_influence(make_model, make_agent):
         assert rel.agent2.prep.active
 
 
-@pytest.mark.skip
-def test_pca(make_model, make_agent, params):
+@pytest.mark.unit
+def test_knowledge_exposure(make_model, make_agent, params):
 
     # test update all agents for pca and msmw TODO separate tests
-    params.features.pca = True
-    params.knowledge.active.prob = 0.0
+    params.exposures.knowledge = True
+    params.knowledge.prob = 0.0
 
     model = make_model(params)
     a = make_agent(race="white", DU="Inj")
+    a.knowledge.opinion = 4
     model.pop.add_agent(a)
 
     assert not a.knowledge.active
     assert not a.prep.active
 
-    model.time = model.params.pca.start_time
+    model.time = model.params.knowledge.start_time
     model.run_random = FakeRandom(-0.1)
-    a.pca.update_agent(model)
+    a.knowledge.update_agent(model)
 
     assert a.knowledge.active
     assert a.prep.active

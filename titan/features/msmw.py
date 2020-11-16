@@ -38,6 +38,7 @@ class MSMW(base_feature.BaseFeature):
         """
         if (
             self.active
+            and model.params.exposures.hiv
             and model.run_random.random() < self.agent.location.params.msmw.hiv.prob
         ):
             self.agent.hiv.convert(model)  # type: ignore[attr-defined]

@@ -13,10 +13,12 @@ from .. import utils
 class Knowledge(base_exposure.BaseExposure):
 
     name: str = "knowledge"
-    """Name of exposure in the params file.  Also used to name the attribute in Agent"""
-
     stats: List[str] = ["knowledge_aware"]
-    """List of names of stats that come from this exposure (e.g. hiv.dx)"""
+    """
+        Knowledge collects the following stats:
+
+        * knowledge_aware - number of agents with active knowledge
+    """
 
     def __init__(self, agent: "ag.Agent"):
         super().__init__(agent)
@@ -26,7 +28,9 @@ class Knowledge(base_exposure.BaseExposure):
 
     def init_agent(self, pop: "population.Population", time: int):
         """
-        Initialize the agent for this feature during population initialization (`Population.create_agent`).  Called on only features that are enabled per the params.
+        Initialize the agent for this exposure during population initialization (`Population.create_agent`).  Called only on exposures that are enabled per the params.
+
+        Stochastically make agent aware, if aware, set the opinion from the params.
 
         args:
             pop: the population this agent is a part of
@@ -36,6 +40,7 @@ class Knowledge(base_exposure.BaseExposure):
         if pop.pop_random.random() < knowledge_params.init:
             self.active = True
 
+            # TO_REVIEW - non aware agents always start at opinoin of 0?
             attprob = pop.pop_random.random()
             pvalue = 0.0
             for bin, fields in knowledge_params.opinion.init.items():
@@ -46,7 +51,9 @@ class Knowledge(base_exposure.BaseExposure):
 
     def update_agent(self, model: "model.HIVModel"):
         """
-        Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
+        Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`.
+
+        If the knowledge start_time has been met, stochastically convert agents.
 
         args:
             model: the instance of HIVModel currently being run
@@ -54,20 +61,12 @@ class Knowledge(base_exposure.BaseExposure):
         knowledge_params = self.agent.location.params.knowledge
         if (
             model.time >= knowledge_params.start_time
+            and not self.active
             and model.run_random.random() < knowledge_params.prob
         ):
             self.convert(model)
 
     def set_stats(self, stats: Dict[str, int], time: int):
-        """
-        Update the `stats` dictionary passed for this agent.  Called from `output.get_stats` for each enabled feature in the model.
-
-        The stats to be updated must be declared in the class attribute `stats` to make sure the dictionary has the expected keys/counter value initialized.
-
-        args:
-            stats: the dictionary to update with this agent's feature statistics
-            time: the time step of the model when the stats are set
-        """
         if self.active:
             stats["knowledge_aware"] += 1
 
