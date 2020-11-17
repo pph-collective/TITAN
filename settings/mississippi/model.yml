@@ -92,4 +92,4 @@ timeline_scaling:
       parameter: demographics|black|MSM|haart|adherence
       start_time: -47
       stop_time: 100
-      scalar: 0.725
+      scalar: 0.1088
