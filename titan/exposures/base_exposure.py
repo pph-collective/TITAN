@@ -20,7 +20,7 @@ class BaseExposure:
     @classmethod
     def init_class(cls, params):
         """
-        Initialize any class level attributes (such as setting counters to zero). Called on every active feature on population initialization.
+        Initialize any class level attributes (such as setting counters to zero). Called on every active exposure on population initialization.
 
         args:
             params: parameters for this population
@@ -29,7 +29,7 @@ class BaseExposure:
 
     def init_agent(self, pop: "population.Population", time: int):
         """
-        Initialize the agent for this feature during population initialization (`Population.create_agent`).  Called on only features that are enabled per the params.
+        Initialize the agent for this exposure during population initialization (`Population.create_agent`).  Called only on exposures that are enabled per the params.
 
         args:
             pop: the population this agent is a part of
@@ -39,7 +39,7 @@ class BaseExposure:
 
     def update_agent(self, model: "model.HIVModel"):
         """
-        Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
+        Update the agent for this exposure for a time step.  Called once per time step in `HIVModel.update_all_agents`.
 
         args:
             model: the instance of HIVModel currently being run
@@ -72,7 +72,7 @@ class BaseExposure:
 
     def set_stats(self, stats: Dict[str, int], time: int):
         """
-        Update the `stats` dictionary passed for this agent.  Called from `output.get_stats` for each enabled feature in the model.
+        Update the `stats` dictionary passed for this agent.  Called from `output.get_stats` for each enabled exposure in the model.
 
         The stats to be updated must be declared in the class attribute `stats` to make sure the dictionary has the expected keys/counter value initialized.
 
@@ -90,7 +90,7 @@ class BaseExposure:
         num_acts: int,
     ):
         """
-        Expose a relationship to the exposure for a number of acts of a specific interaction type.  Typically, this is determining if the exposure can cause conversion/change in one of the agents, then if so determining the probability of that and then converting the succeptible agent.
+        Expose a relationship to the exposure for a number of acts for a specific interaction type.  Typically, this determines if the exposure can cause conversion/change in one of the agents, then if so, determines the probability of that and then converts the succeptible agent.
 
         args:
             model: The running model

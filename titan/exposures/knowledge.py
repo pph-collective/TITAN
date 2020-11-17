@@ -15,9 +15,9 @@ class Knowledge(base_exposure.BaseExposure):
     name: str = "knowledge"
     stats: List[str] = ["knowledge_aware"]
     """
-        Knowledge collects the following stats:
+    Knowledge collects the following stats:
 
-        * knowledge_aware - number of agents with active knowledge
+    * knowledge_aware - number of agents with active knowledge
     """
 
     def __init__(self, agent: "ag.Agent"):
@@ -51,9 +51,9 @@ class Knowledge(base_exposure.BaseExposure):
 
     def update_agent(self, model: "model.HIVModel"):
         """
-        Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`.
+        Update the agent for this exposure for a time step.  Called once per time step in `HIVModel.update_all_agents`.
 
-        If the knowledge start_time has been met, stochastically convert agents.
+        If the knowledge start_time has happened, stochastically convert agents.
 
         args:
             model: the instance of HIVModel currently being run
@@ -77,6 +77,17 @@ class Knowledge(base_exposure.BaseExposure):
         rel: "ag.Relationship",
         num_acts: int,
     ):
+        """
+        Expose a relationship to the exposure for a number of acts for a specific interaction type.  Typically, this determines if the exposure can cause conversion/change in one of the agents, then if so, determines the probability of that and then converts the succeptible agent.
+
+        If transmission stochastically occurs, either convert the unaware agent, or if both agents aware, have the higher influence agent influce their partner.
+
+        args:
+            model: The running model
+            interaction: The type of interaction (e.g. sex, injection)
+            rel: The relationship where the interaction is occuring
+            num_acts: The number of acts of that interaction
+        """
         assert (
             model.params.model.network.enable
         ), "Network must be enabled for knowledge exposure"
@@ -109,7 +120,8 @@ class Knowledge(base_exposure.BaseExposure):
 
         args:
             model: The running model
-            rel: The relationship where the knowledge interaction is happening
+            interaction: The interaction type (e.g. `pca`)
+            partner: The agent's partner
             num_acts: The number of interactions the agents had
 
         returns:
@@ -127,7 +139,7 @@ class Knowledge(base_exposure.BaseExposure):
 
     def convert(self, model: "model.HIVModel"):
         """
-        Make an agent aware, stochastically enroll in feature if their opinion meets the threshold
+        Make an agent aware, stochastically make knowledge aware if their opinion meets the threshold.
 
         args:
             model: The running model
@@ -145,7 +157,7 @@ class Knowledge(base_exposure.BaseExposure):
 # ===================== HELPER FUNCTIONS ===================
 def influence(model: "model.HIVModel", rel: "ag.Relationship"):
     """
-    The higher influence agent chages the opinion of the other agent to be the mean of their opinions.  If the opinion excedes the threshold, initiate feature.
+    The higher influence agent chages the opinion of the other agent to be the mean of their opinions.  If the opinion excedes the threshold, initiate exposure.
 
     args:
         model: The running model

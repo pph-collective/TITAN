@@ -14,7 +14,7 @@ Below are the results of `python run_titan.py --help`.  It highlights all of the
 
 ```
 usage: run_titan.py [-h] [-n [NMC]] [-S SETTING] -p PARAMS [-o OUTDIR]
-                    [-b BASE] [-e] [--savepop SAVEPOP] [--poppath POPPATH]
+                    [-b BASE] [-e] [--savepop] [--poppath POPPATH]
                     [-w SWEEP [SWEEP ...]] [-W SWEEPFILE] [-r ROWS] [-F]
 
 
@@ -32,9 +32,7 @@ optional arguments:
                         directory name to save results to
   -b BASE, --base BASE  whether to use base setting
   -e, --error           Error on unused parameters instead of warning
-  --savepop SAVEPOP     Save population after creation, but before model run.
-                        'all' = save all atributes, 'core' = save core (non-
-                        intervention) attributes.
+  --savepop             Save population after creation, but before model run.
   --poppath POPPATH     Path to saved population (directory or .tar.gz file)
   -w SWEEP [SWEEP ...], --sweep SWEEP [SWEEP ...]
                         Optional and repeatable definitions of numeric params

@@ -53,7 +53,7 @@ class HIV(base_exposure.BaseExposure):
 
     def init_agent(self, pop: "population.Population", time: int):
         """
-        Initialize the agent for this feature during population initialization (`Population.create_agent`).  Called on only features that are enabled per the params.
+        Initialize the agent for this exposure during population initialization (`Population.create_agent`).  Called on only exposures that are enabled per the params.
 
         Based on demographic params for the agent, stochastically determine if hiv is active, and if active, at what past time point was the agent converted, if the agent is diagnosed, and if the agent has aids.
 
@@ -90,7 +90,7 @@ class HIV(base_exposure.BaseExposure):
 
     def update_agent(self, model: "model.HIVModel"):
         """
-        Update the agent for this exposure for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
+        Update the agent for this exposure for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only exposures that are enabled per the params.
 
         If the agent is hiv+ and the model time is past the hiv start_time, determine if the agent becomes diagnosed if not yet diagnosed, and if the agent has progressed to aids.
 
@@ -213,14 +213,15 @@ class HIV(base_exposure.BaseExposure):
     ) -> float:
         """
         Determines the probability of an hiv transmission event from agent to partner based on
-            interaction type. For sex acts, transmission probability is a
+            interaction type and numer of acts. For sex acts, transmission probability is a
             function of the acquisition probability of the HIV- agent's sex role
             and the HIV+ agent's haart adherence, acute status, and dx risk reduction
 
         args:
+            model: The running model
             interaction : "injection" or "sex"
-            agent: HIV+ Agent
             partner: HIV- Agent
+            num_acts: The number of exposure interactions the agents had this time step
 
         returns:
             probability of transmission from agent to partner
@@ -284,7 +285,7 @@ class HIV(base_exposure.BaseExposure):
         Agent becomes HIV agent. Update all appropriate attributes, sets and dictionaries.
 
         args:
-            agent: The agent being converted
+            model: The model being run
         """
         if not self.active:
             self.active = True
