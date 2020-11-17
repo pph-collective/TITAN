@@ -180,10 +180,6 @@ class Population:
             agent_feature = getattr(agent, exposure.name)
             agent_feature.init_agent(self, time)
 
-        for feature in self.features:
-            agent_feature = getattr(agent, feature.name)
-            agent_feature.init_agent(self, time)
-
         for bond, bond_def in loc.params.classes.bond_types.items():
             agent.partners[bond] = set()
             dist_info = agent_params.num_partners[bond]
@@ -201,6 +197,10 @@ class Population:
 
             if agent.target_partners[bond] > 0:
                 self.partnerable_agents[bond].add(agent)
+
+        for feature in self.features:
+            agent_feature = getattr(agent, feature.name)
+            agent_feature.init_agent(self, time)
 
         return agent
 

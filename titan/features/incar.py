@@ -1,7 +1,6 @@
-from typing import Dict, ClassVar, Set
+from typing import Dict, Optional
 
 from . import base_feature
-from .. import utils
 from .. import agent
 from .. import population
 from .. import model
@@ -20,13 +19,12 @@ class Incar(base_feature.BaseFeature):
         * new_release_hiv - number of agents releasted this timestep with HIV
     """
 
-    new_releases: ClassVar[Set["agent.Agent"]] = set()
-
     def __init__(self, agent: "agent.Agent"):
         super().__init__(agent)
 
         self.active = False
-        self.duration = 0
+        self.time: Optional[int] = None
+        self.release_time: Optional[int] = None
 
     def init_agent(self, pop: "population.Population", time: int):
         """
@@ -54,7 +52,8 @@ class Incar(base_feature.BaseFeature):
                 bin += 1
                 current_p_value += jail_duration[bin].prob
 
-            self.duration = pop.pop_random.randrange(
+            self.time = time
+            self.release_time = time + pop.pop_random.randrange(
                 jail_duration[bin].min, jail_duration[bin].max
             )
 
@@ -76,26 +75,10 @@ class Incar(base_feature.BaseFeature):
 
         # agent is incarcerated
         if self.active:
-            self.duration -= 1
 
             # Release agent
-            if self.duration == 0:
-                self.add_agent(self.agent)
+            if self.release_time == model.time:
                 self.active = False
-
-                # become high risk on release
-                if (
-                    not self.agent.high_risk.active and model.params.features.high_risk  # type: ignore[attr-defined]
-                ):  # If behavioral treatment on and agent HIV, ignore HR period.
-                    self.agent.high_risk.become_high_risk(model.time)  # type: ignore[attr-defined]
-                    for bond in self.agent.location.params.high_risk.partnership_types:
-                        self.agent.mean_num_partners[
-                            bond
-                        ] += self.agent.location.params.high_risk.partner_scale
-                        self.agent.target_partners[bond] = utils.poisson(
-                            self.agent.mean_num_partners[bond], model.np_random
-                        )
-                    model.pop.update_partnerability(self.agent)
 
                 # does agent stay on haart
                 if hiv_bool:
@@ -125,7 +108,8 @@ class Incar(base_feature.BaseFeature):
                 current_p_value += incar_duration[bin].prob
                 bin += 1
 
-            self.duration = model.run_random.randint(
+            self.time = model.time
+            self.release_time = model.time + model.run_random.randint(
                 incar_duration[bin].min, incar_duration[bin].max
             )
             self.active = True
@@ -154,39 +138,8 @@ class Incar(base_feature.BaseFeature):
                         self.agent.haart.active = True  # type: ignore[attr-defined]
                         self.agent.haart.adherence = adherence  # type: ignore[attr-defined]
 
-            # PUT PARTNERS IN HIGH RISK
-            if model.params.features.high_risk:
-                for partner in self.agent.get_partners(
-                    self.agent.location.params.high_risk.partnership_types
-                ):
-                    if not partner.high_risk.active:  # type: ignore[attr-defined]
-                        if (
-                            model.run_random.random()
-                            < partner.location.params.high_risk.prob
-                        ):
-                            partner.high_risk.become_high_risk(model.time)  # type: ignore[attr-defined]
-
-    @classmethod
-    def add_agent(cls, agent: "agent.Agent"):
-        cls.new_releases.add(agent)
-
-    @classmethod
-    def update_pop(cls, model: "model.HIVModel"):
-        """
-        Update the feature for the entire population (class method).
-
-        This is called in `HIVModel.update_all_agents` before agent-level updates are made.
-
-        Resets the tracking set for `new_releases` as this is called before `update_agent`
-
-        args:
-            model: the instance of HIVModel currently being run
-        """
-        # population is updated before agents, so clear set at the beginning of updates
-        cls.new_releases = set()
-
     def set_stats(self, stats: Dict[str, int], time: int):
-        if self.agent in self.new_releases:
+        if self.release_time == time:
             stats["new_release"] += 1
             if self.agent.hiv.active:  # type: ignore[attr-defined]
                 stats["new_release_hiv"] += 1

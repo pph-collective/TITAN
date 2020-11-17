@@ -10,23 +10,27 @@ from titan.agent import Relationship
 @pytest.mark.unit
 def test_incarcerate_unincarcerate(make_model, make_agent):
     model = make_model()
+    model.run_random = FakeRandom(-0.1)
     a = make_agent()
     a.target_partners = {bond: 0 for bond in model.params.classes.bond_types.keys()}
     a.mean_num_partners = copy(a.target_partners)
 
     a.incar.active = True
-    a.incar.duration = 2
+    a.incar.release_time = model.time + 2
+    a.hiv.active = True
+    a.haart.active = True
 
+    model.time += 1
     a.incar.update_agent(model)
 
     assert a.incar.active
-    assert a.incar.duration == 1
 
+    model.time += 1
     a.incar.update_agent(model)
 
     assert a.incar.active is False
-    assert a.incar.duration == 0
-    assert a in Incar.new_releases
+    assert a.haart.active is False
+    assert a.haart.adherence == 0
 
 
 @pytest.mark.unit
@@ -47,13 +51,8 @@ def test_incarcerate_not_diagnosed(make_model, make_agent):
     a.incar.update_agent(model)
 
     assert a.incar.active
-    assert a.incar.duration == 1
+    assert a.incar.release_time == model.time + 1
     assert a.hiv.dx
-
-    assert p.high_risk.active
-    assert p.high_risk.ever
-    assert p.high_risk.duration > 0
-    assert p.high_risk.time == model.time
 
 
 @pytest.mark.unit
@@ -82,6 +81,6 @@ def test_incarcerate_diagnosed(make_model, make_agent):
     a.incar.update_agent(model)
 
     assert a.incar.active
-    assert a.incar.duration == 1
+    assert a.incar.release_time == model.time + 1
     assert a.haart.active
     assert a.haart.adherence == 5
