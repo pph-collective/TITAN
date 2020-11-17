@@ -1,4 +1,3 @@
-# Imports
 import random
 from typing import Dict, List, Optional
 from copy import copy
@@ -7,17 +6,12 @@ import os
 import numpy as np  # type: ignore
 import nanoid  # type: ignore
 
-
 from . import agent as ag
-from . import population
 from .network import NetworkGraphUtils
 from . import output as ao
 from . import probabilities as prob
-from . import utils
 from .parse_params import ObjMap
-from . import features
-from . import interactions
-from . import exposures
+from . import exposures, features, interactions, population, utils
 
 
 class TITAN:
@@ -35,8 +29,7 @@ class TITAN:
         pop: Optional["population.Population"] = None,
     ):
         """
-        This is the core class used to simulate
-            the spread of HIV and drug use in one geography.
+        This is the core class used to simulate the spread of exposures through a relationship based network.
 
         args:
             params: the parameter object for this model
@@ -225,7 +218,7 @@ class TITAN:
         )
         self.print_stats(stats, outdir)
 
-        print(("Number of relationships: {}".format(len(self.pop.relationships))))
+        print(f"Number of relationships: {len(self.pop.relationships)}")
         self.pop.all_agents.print_subsets()
 
     def update_all_agents(self):
@@ -258,7 +251,6 @@ class TITAN:
         for rel in self.pop.relationships:
             self.agents_interact(rel)
 
-        # TODO add check for whether feature is on somehow
         for feature in self.features:
             feature.update_pop(self)
 
@@ -354,9 +346,6 @@ class TITAN:
 
         args:
             rel : The relationship that the agents interact in
-
-        returns:
-            whether the agents interacted
         """
         interaction_types = self.params.classes.bond_types[rel.bond_type].acts_allowed
         # If either agent is incarcerated, skip their interaction
@@ -368,13 +357,11 @@ class TITAN:
             interaction.interact(self, rel)
 
     def die_and_replace(self):
-
         """
         Let agents die and replace the dead agent with a new agent randomly.
         """
         # die stage
         for agent in self.pop.all_agents:
-
             # agent incarcerated, don't evaluate for death
             if agent.incar.active:
                 continue
