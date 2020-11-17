@@ -63,12 +63,12 @@ We'll use the sample params file `tests/params/basic.yml` in all of these exampl
 Here is how to perform the basic steps of running the model:
 ```python
 from titan.parse_params import create_params
-from titan.model import HIVModel
+from titan.model import TITAN
 
 outdir = 'results'
 
 params = create_params(None, 'tests/params/basic.yml', outdir)
-model = HIVModel(params)
+model = TITAN(params)
 model.run(outdir)
 ```
 This creates a params object using no setting (the `None`), our test params, and tells `create_params` to put our computed params file in a directory called `results`.
@@ -83,7 +83,7 @@ If we wanted to debug something, or look at a very specific metric that wasn't i
 
 Resuming from our code above, here's how we could do that.
 ```python
-model2 = HIVModel(params)
+model2 = TITAN(params)
 start_time = 0
 end_time = 10
 for i in range(start_time, end_time):
@@ -115,7 +115,7 @@ poppath = pio.write(pop, outdir)
 pop2 = pio.read(poppath) # this should be the same population as pop
 
 # pass a population to the model to use that instead of creating a new one
-model3 = HIVModel(param2, pop2)
+model3 = TITAN(param2, pop2)
 model3.run(outdir)
 ```
 

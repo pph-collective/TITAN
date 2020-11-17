@@ -88,14 +88,14 @@ class HIV(base_exposure.BaseExposure):
             # add agent to class
             self.add_agent(self.agent)
 
-    def update_agent(self, model: "model.HIVModel"):
+    def update_agent(self, model: "model.TITAN"):
         """
-        Update the agent for this exposure for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only exposures that are enabled per the params.
+        Update the agent for this exposure for a time step.  Called once per time step in `TITAN.update_all_agents`. Agent level updates are done after population level updates.   Called on only exposures that are enabled per the params.
 
         If the agent is hiv+ and the model time is past the hiv start_time, determine if the agent becomes diagnosed if not yet diagnosed, and if the agent has progressed to aids.
 
         args:
-            model: the instance of HIVModel currently being run
+            model: the instance of TITAN currently being run
         """
         if self.active and model.time >= model.params.hiv.start_time:
             partner_tracing = self.agent.location.params.partner_tracing
@@ -169,7 +169,7 @@ class HIV(base_exposure.BaseExposure):
 
     @staticmethod
     def expose(
-        model: "model.HIVModel",
+        model: "model.TITAN",
         interaction: str,
         rel: "agent.Relationship",
         num_acts: int,
@@ -206,7 +206,7 @@ class HIV(base_exposure.BaseExposure):
 
     def get_transmission_probability(
         self,
-        model: "model.HIVModel",
+        model: "model.TITAN",
         interaction: str,
         partner: "agent.Agent",
         num_acts: int,
@@ -280,7 +280,7 @@ class HIV(base_exposure.BaseExposure):
 
         return utils.total_probability(p, num_acts)
 
-    def convert(self, model: "model.HIVModel"):
+    def convert(self, model: "model.TITAN"):
         """
         Agent becomes HIV agent. Update all appropriate attributes, sets and dictionaries.
 
@@ -316,7 +316,7 @@ class HIV(base_exposure.BaseExposure):
 
         return False
 
-    def diagnose(self, model: "model.HIVModel"):
+    def diagnose(self, model: "model.TITAN"):
         """
         Mark the agent as diagnosed and trace their partners (if partner tracing enabled).
 
@@ -343,7 +343,7 @@ class HIV(base_exposure.BaseExposure):
                     ptnr.partner_traced = True
                     ptnr.trace_time = model.time
 
-    def progress_to_aids(self, model: "model.HIVModel"):
+    def progress_to_aids(self, model: "model.TITAN"):
         """
         Model the progression of HIV agents to AIDS agents
 

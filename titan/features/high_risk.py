@@ -59,14 +59,14 @@ class HighRisk(base_feature.BaseFeature):
         ):
             self.become_high_risk(pop, time)
 
-    def update_agent(self, model: "model.HIVModel"):
+    def update_agent(self, model: "model.TITAN"):
         """
-        Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
+        Update the agent for this feature for a time step.  Called once per time step in `TITAN.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
 
         Update high risk agents or remove them from high risk pool.  An agent becomes high_risk through the incarceration feature
 
         args:
-            model: the instance of HIVModel currently being run
+            model: the instance of TITAN currently being run
         """
         if not self.active:
             # released last step, evaluate agent for high risk

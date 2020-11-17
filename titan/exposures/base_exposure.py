@@ -37,12 +37,12 @@ class BaseExposure:
         """
         pass
 
-    def update_agent(self, model: "model.HIVModel"):
+    def update_agent(self, model: "model.TITAN"):
         """
-        Update the agent for this exposure for a time step.  Called once per time step in `HIVModel.update_all_agents`.
+        Update the agent for this exposure for a time step.  Called once per time step in `TITAN.update_all_agents`.
 
         args:
-            model: the instance of HIVModel currently being run
+            model: the instance of TITAN currently being run
         """
         pass
 
@@ -84,7 +84,7 @@ class BaseExposure:
 
     @staticmethod
     def expose(
-        model: "model.HIVModel",
+        model: "model.TITAN",
         interaction: str,
         rel: "agent.Relationship",
         num_acts: int,
@@ -102,7 +102,7 @@ class BaseExposure:
 
     def get_transmission_probability(
         self,
-        model: "model.HIVModel",
+        model: "model.TITAN",
         interaction: str,
         partner: "agent.Agent",
         num_acts: int,
@@ -124,7 +124,7 @@ class BaseExposure:
         """
         return 0.0
 
-    def convert(self, model: "model.HIVModel"):
+    def convert(self, model: "model.TITAN"):
         """
         Convert the agent to the exposure (i.e. become active).
 

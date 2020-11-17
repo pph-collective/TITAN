@@ -44,14 +44,14 @@ class Vaccine(base_feature.BaseFeature):
         ):
             self.vaccinate(time)
 
-    def update_agent(self, model: "model.HIVModel"):
+    def update_agent(self, model: "model.TITAN"):
         """
-        Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
+        Update the agent for this feature for a time step.  Called once per time step in `TITAN.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
 
         If PrEP feature is enable and the agent is not active PrEP and not HIV, either update or stochastically vaccinate the agent.
 
         args:
-            model: the instance of HIVModel currently being run
+            model: the instance of TITAN currently being run
         """
         if (
             model.params.features.prep

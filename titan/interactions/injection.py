@@ -10,7 +10,7 @@ class Injection(base_interaction.BaseInteraction):
     name = "injection"
 
     @staticmethod
-    def get_num_acts(model: "model.HIVModel", rel: "agent.Relationship") -> int:
+    def get_num_acts(model: "model.TITAN", rel: "agent.Relationship") -> int:
         """
         Simulate random transmission of HIV between two PWID agents through injection.
 

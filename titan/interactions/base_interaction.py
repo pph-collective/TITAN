@@ -8,7 +8,7 @@ class BaseInteraction:
     """Name of interaction in the params file."""
 
     @classmethod
-    def interact(cls, model: "model.HIVModel", rel: "agent.Relationship"):
+    def interact(cls, model: "model.TITAN", rel: "agent.Relationship"):
         """
         Given a model and a relation, have the agents in the relationship interact for a time step.
 
@@ -26,5 +26,5 @@ class BaseInteraction:
                 exposure.expose(model, cls.name, rel, num_acts)
 
     @classmethod
-    def get_num_acts(cls, model: "model.HIVModel", rel: "agent.Relationship") -> int:
+    def get_num_acts(cls, model: "model.TITAN", rel: "agent.Relationship") -> int:
         return 0

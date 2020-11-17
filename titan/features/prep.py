@@ -63,14 +63,14 @@ class Prep(base_feature.BaseFeature):
         ):
             self.enroll(pop.pop_random, time)
 
-    def update_agent(self, model: "model.HIVModel"):
+    def update_agent(self, model: "model.TITAN"):
         """
-        Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
+        Update the agent for this feature for a time step.  Called once per time step in `TITAN.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
 
         If the agent is not hiv and time is at least the prep start time, if the agent is already on PrEP update their PrEP attributes, if the agent isn't on PrEP and is eleigible, initiate PrEP.
 
         args:
-            model: the instance of HIVModel currently being run
+            model: the instance of TITAN currently being run
         """
         if (
             not self.agent.hiv.active  # type: ignore[attr-defined]
@@ -149,12 +149,12 @@ class Prep(base_feature.BaseFeature):
 
     # =============== HELPER METHODS ===================
 
-    def initiate(self, model: "model.HIVModel", force: bool = False):
+    def initiate(self, model: "model.TITAN", force: bool = False):
         """
         Place agents onto PrEP treatment. PrEP treatment assumes that the agent knows their HIV status is negative.
 
         args:
-            model : instance of HIVModel being run
+            model : instance of TITAN being run
             force : whether to force the agent to enroll instead of using the appropriate algorithm per the prep params
         """
         # Prep only valid for agents not on prep and are HIV negative
@@ -223,12 +223,12 @@ class Prep(base_feature.BaseFeature):
 
         self.add_agent(self.agent)
 
-    def progress(self, model: "model.HIVModel", force: bool = False):
+    def progress(self, model: "model.TITAN", force: bool = False):
         """
         Update agent's PrEP status and discontinue stochastically or if `force` is True
 
         args:
-            model: instance of the HIVModel being run
+            model: instance of the TITAN being run
             force: whether to force discontinuation of PrEP
         """
         if force:

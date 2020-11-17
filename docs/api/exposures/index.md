@@ -12,7 +12,7 @@ To add a new exposure:
 * Add tests in `tests/exposures/`
 * Add it to the docs in `docs/api/exposures/` and to the nav in `mkdocs.yml`
 
-The `HIVModel`, `Population`, and `Agent` classes all use sub-classes of `BaseFeature` to initialize the object/call methods as appropriate.
+The `TITAN`, `Population`, and `Agent` classes all use sub-classes of `BaseFeature` to initialize the object/call methods as appropriate.
 
 
 ::: titan.exposures.base_exposure

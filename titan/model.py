@@ -20,7 +20,7 @@ from . import interactions
 from . import exposures
 
 
-class HIVModel:
+class TITAN:
     def __repr__(self):
         res = "\n"
         res += f"Seed: {self.run_seed}\n"

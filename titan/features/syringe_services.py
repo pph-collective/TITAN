@@ -25,14 +25,14 @@ class SyringeServices(base_feature.BaseFeature):
         cls.enrolled_risk = 0.0
 
     @classmethod
-    def update_pop(cls, model: "hiv_model.HIVModel"):
+    def update_pop(cls, model: "hiv_model.TITAN"):
         """
         Update the feature for the entire population (class method).  This is useful for initializing class level trackers that need to be reset each time step, or if enabling a feature for agents needs to be evaluated within the context of the full population (limited slots, or similar).
 
         Enroll PWID agents in syringe services according to the syring_services timeline and params.
 
         args:
-            model: the instance of HIVModel currently being run
+            model: the instance of TITAN currently being run
         """
         print(("\n\n!!!!Engaging syringe services program"))
         ssp_num_slots = 0

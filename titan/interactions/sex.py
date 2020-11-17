@@ -9,7 +9,7 @@ class Sex(base_interaction.BaseInteraction):
     name = "sex"
 
     @staticmethod
-    def get_num_acts(model: "model.HIVModel", rel: "agent.Relationship") -> int:
+    def get_num_acts(model: "model.TITAN", rel: "agent.Relationship") -> int:
         """
         Simulate random transmission of HIV between two agents through Sex. One of the agents must be HIV+.
 

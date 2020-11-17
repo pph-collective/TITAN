@@ -9,7 +9,7 @@ from copy import deepcopy
 from glob import glob
 
 from titan.parse_params import ObjMap, create_params
-from titan.model import HIVModel
+from titan.model import TITAN
 
 # overwrite
 @pytest.fixture
@@ -23,7 +23,7 @@ def params_integration(tmpdir):
 @pytest.fixture
 def make_model_integration(params_integration):
     def _make_model_integration():
-        return HIVModel(params_integration)
+        return TITAN(params_integration)
 
     return _make_model_integration
 
@@ -140,7 +140,7 @@ def test_target_partners(make_model_integration, tmpdir):
     model_a.params.model.seed.run = model_a.run_seed
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
 
-    model_b = HIVModel(model_a.params)
+    model_b = TITAN(model_a.params)
     run_id_b = model_b.id
 
     model_b.run(path_b)
@@ -189,7 +189,7 @@ def test_prep_coverage(make_model_integration, tmpdir):
     model_a.params.model.seed.run = model_a.run_seed
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
 
-    model_b = HIVModel(model_a.params)
+    model_b = TITAN(model_a.params)
     model_b.run(path_b)
     print(
         f"model b prep world target: {model_b.pop.geography.locations['world'].params.prep.target}"
@@ -250,7 +250,7 @@ def test_syringe_services(make_model_integration, tmpdir):
     model_a.params.model.seed.run = model_a.run_seed
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
 
-    model_b = HIVModel(model_a.params)
+    model_b = TITAN(model_a.params)
 
     model_b.run(path_b)
 

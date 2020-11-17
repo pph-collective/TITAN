@@ -5,7 +5,7 @@ import shutil
 
 from titan.parse_params import create_params
 from titan.population import Population
-from titan.model import HIVModel
+from titan.model import TITAN
 from titan.agent import Agent, Relationship
 from titan.location import Location
 
@@ -88,7 +88,7 @@ def make_relationship():
 @pytest.fixture
 def make_model(params):
     def _make_model(p=params):
-        return HIVModel(p)
+        return TITAN(p)
 
     return _make_model
 

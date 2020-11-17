@@ -68,14 +68,14 @@ class HAART(base_feature.BaseFeature):
             else:
                 self.adherence = pop.pop_random.randint(1, 4)
 
-    def update_agent(self, model: "model.HIVModel"):
+    def update_agent(self, model: "model.TITAN"):
         """
-        Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
+        Update the agent for this feature for a time step.  Called once per time step in `TITAN.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
 
         Account for HIV treatment through highly active antiretroviral therapy (HAART). HAART was implemented in 1996, hence, there is treatment only after 1996. HIV treatment assumes that the agent knows their HIV+ status (`dx` is True).
 
         args:
-            model: the instance of HIVModel currently being run
+            model: the instance of TITAN currently being run
         """
         if (
             self.agent.hiv.active  # type: ignore[attr-defined]
@@ -166,12 +166,12 @@ class HAART(base_feature.BaseFeature):
 
     # =========== HELPER METHODS ============
 
-    def initiate(self, model: "model.HIVModel"):
+    def initiate(self, model: "model.TITAN"):
         """
         Initiate an agent with HAART and add them to the population.
 
         args:
-            model: the instance of HIVModel currently being run
+            model: the instance of TITAN currently being run
         """
         haart_adh = self.agent.location.params.demographics[self.agent.race][
             self.agent.sex_type

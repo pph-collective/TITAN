@@ -18,18 +18,18 @@ from conftest import FakeRandom
 def test_model_init_error(params):
     params.model.seed.run = 0.5
     with pytest.raises(ValueError):
-        HIVModel(params)
+        TITAN(params)
 
 
 @pytest.mark.unit
 def test_model_init(params):
-    model = HIVModel(params)
+    model = TITAN(params)
 
     assert model.run_seed > 0
     assert model.pop.pop_seed > 0
 
     params.model.network.enable = False
-    model = HIVModel(params)
+    model = TITAN(params)
     assert model.network_utils is None
 
 

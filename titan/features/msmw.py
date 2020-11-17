@@ -27,14 +27,14 @@ class MSMW(base_feature.BaseFeature):
             if pop.pop_random.random() < self.agent.location.params.msmw.prob:
                 self.active = True
 
-    def update_agent(self, model: "model.HIVModel"):
+    def update_agent(self, model: "model.TITAN"):
         """
-        Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
+        Update the agent for this feature for a time step.  Called once per time step in `TITAN.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
 
         If the agent is MSMW, with a probability from params, hiv convert the agent.
 
         args:
-            model: the instance of HIVModel currently being run
+            model: the instance of TITAN currently being run
         """
         if (
             self.active

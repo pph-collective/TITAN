@@ -17,14 +17,14 @@ class RandomTrial(base_feature.BaseFeature):
         self.suitable = False
 
     @classmethod
-    def update_pop(cls, model: "model.HIVModel"):  # TODO rename HIVModel to TITAN
+    def update_pop(cls, model: "model.TITAN"):  # TODO rename TITAN to TITAN
         """
         Update the feature for the entire population (class method).
 
         Initialize a random trial in the population if time is the random trial start time.
 
         args:
-            model: the instance of HIVModel currently being run
+            model: the instance of TITAN currently being run
         """
         rt_params = model.params.random_trial
 

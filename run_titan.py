@@ -14,7 +14,7 @@ import csv
 import traceback
 from typing import List, Optional
 
-from titan.model import HIVModel
+from titan.model import TITAN
 from titan.population import Population
 import titan.population_io as pop_io
 from titan.parse_params import create_params
@@ -287,7 +287,7 @@ def single_run(sweep, outfile_dir, params, save_pop, pop_path):
         print(f"Population saved to: {save_pop_dir}")
 
     try:
-        model = HIVModel(params, pop=pop)
+        model = TITAN(params, pop=pop)
     except Exception as e:
         raise Exception(f"Model creation failed: {e}")
 

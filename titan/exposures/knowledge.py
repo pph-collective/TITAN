@@ -49,14 +49,14 @@ class Knowledge(base_exposure.BaseExposure):
                     self.opinion = bin
                 break
 
-    def update_agent(self, model: "model.HIVModel"):
+    def update_agent(self, model: "model.TITAN"):
         """
-        Update the agent for this exposure for a time step.  Called once per time step in `HIVModel.update_all_agents`.
+        Update the agent for this exposure for a time step.  Called once per time step in `TITAN.update_all_agents`.
 
         If the knowledge start_time has happened, stochastically convert agents.
 
         args:
-            model: the instance of HIVModel currently being run
+            model: the instance of TITAN currently being run
         """
         knowledge_params = self.agent.location.params.knowledge
         if (
@@ -72,7 +72,7 @@ class Knowledge(base_exposure.BaseExposure):
 
     @staticmethod
     def expose(
-        model: "model.HIVModel",
+        model: "model.TITAN",
         interaction: str,
         rel: "ag.Relationship",
         num_acts: int,
@@ -110,7 +110,7 @@ class Knowledge(base_exposure.BaseExposure):
 
     def get_transmission_probability(
         self,
-        model: "model.HIVModel",
+        model: "model.TITAN",
         interaction: str,
         partner: "ag.Agent",
         num_acts: int,
@@ -137,7 +137,7 @@ class Knowledge(base_exposure.BaseExposure):
 
         return utils.total_probability(p, num_acts)
 
-    def convert(self, model: "model.HIVModel"):
+    def convert(self, model: "model.TITAN"):
         """
         Make an agent aware, stochastically make knowledge aware if their opinion meets the threshold.
 
@@ -155,7 +155,7 @@ class Knowledge(base_exposure.BaseExposure):
 
 
 # ===================== HELPER FUNCTIONS ===================
-def influence(model: "model.HIVModel", rel: "ag.Relationship"):
+def influence(model: "model.TITAN", rel: "ag.Relationship"):
     """
     The higher influence agent chages the opinion of the other agent to be the mean of their opinions.  If the opinion excedes the threshold, initiate exposure.
 
