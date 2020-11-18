@@ -13,6 +13,7 @@ from multiprocessing import Pool, cpu_count
 import csv
 import traceback
 from typing import List, Optional
+import subprocess
 
 from titan.model import HIVModel
 from titan.population import Population
@@ -66,6 +67,13 @@ parser.add_argument(
     type=str,
     default=None,
     help="Path to saved population (directory or .tar.gz file)",
+)
+
+parser.add_argument(
+    "-gittag",
+    type=bytes,
+    default=subprocess.check_output(["git", "describe", "--tags"]).strip(),
+    help="find git tag",
 )
 
 
@@ -422,6 +430,7 @@ if __name__ == "__main__":
     sweepfile = args.sweepfile.strip() if args.sweepfile is not None else None
     savepop = args.savepop.strip() if args.savepop is not None else None
     poppath = args.poppath.strip() if args.poppath is not None else None
+    print("git version:\n", str(args.gittag)[1:], "\n")
     main(
         args.setting.strip(),
         args.params.strip(),

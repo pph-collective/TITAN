@@ -108,7 +108,8 @@ sed -i "s/NCORES/$num_cores/g" scripts/bs_Core.sh
 }
 
 prepSubmit() {
-
+    #find git tag
+    gittag=$(git describe --tags)
     #Copy source code into parent path
     echo -e "\n\tCopying $srcCode to $finalPath"
     mkdir -p $finalPath
@@ -123,7 +124,7 @@ prepSubmit() {
     updateParams;
 
     #Submit job to cluster
-    sbatch scripts/bs_Core.sh -S $setting -a $paramPath -n $nMC -b $useBase $forceFlag $sweepDefs $sweepfile $rows $savePop $popPath
+    sbatch scripts/bs_Core.sh -S $setting -a $paramPath -n $nMC -b $useBase --git-tag $gittag $forceFlag $sweepDefs $sweepfile $rows $savePop $popPath
 
     #Move back to base directory
     cd $basePath
