@@ -164,7 +164,10 @@ def get_param_from_path(params, param_path, delimiter):
     path = param_path.split(delimiter)
     path_params = params
     for p in path[:-1]:
-        path_params = path_params[p]
+        try:
+            path_params = path_params[p]
+        except KeyError:
+            path_params = path_params[int(p)]
 
     return path_params, path[-1]
 
@@ -187,7 +190,9 @@ def override_param(params, param_path, value, delimiter="|"):
     current value to new value
     """
     override_item, last_key = get_param_from_path(params, param_path, delimiter)
-
-    old_val = override_item[last_key]
+    try:
+        old_val = override_item[last_key]
+    except KeyError:
+        old_val = override_item[int(last_key)]
     print(f"overriding - {param_path}: {old_val} => {value}")
     override_item[last_key] = value
