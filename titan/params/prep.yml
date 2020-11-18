@@ -21,7 +21,6 @@ prep:
     default: 0
     description: Timestep at which prep should start in the model
     type: int
-    min: 0
   efficacy:
     adherent:
       default: 0.96
@@ -29,7 +28,7 @@ prep:
       type: float
       min: 0
       max: 1
-    non_adherant:
+    non_adherent:
       default: 0.76
       description: Probabilty of PrEP efficacy if agent is non-adherent
       type: float

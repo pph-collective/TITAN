@@ -21,7 +21,6 @@ def adherent_prob(adherent: bool) -> float:
         return 0.00368
 
 
-
 @utils.memo
 def get_death_rate(
     hiv: bool,

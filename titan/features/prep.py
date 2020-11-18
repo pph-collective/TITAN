@@ -133,7 +133,7 @@ class Prep(base_feature.BaseFeature):
                 if self.adherent:
                     return 1.0 - params.prep.efficacy.adherent
                 else:
-                    return 1.0 - params.prep.efficacy.non_adherant
+                    return 1.0 - params.prep.efficacy.non_adherent
             elif self.type == "Inj" and self.adherent == False:
                 annualized_last_dose_time = (
                     time - self.last_dose_time
@@ -164,17 +164,17 @@ class Prep(base_feature.BaseFeature):
 
         if force:
             self.enroll(model.run_random, model.time)
-        elif params.prep.as_prob:
+        elif params.prep.target_as_prob:
             if "Racial" in params.prep.target_model:
                 if (
-                    model.run_random.random
+                    model.run_random.random()
                     <= params.demographics[self.agent.race][
                         self.agent.sex_type
                     ].prep.coverage
                 ):
                     self.enroll(model.run_random, model.time)
             else:
-                if model.run_random <= params.prep.target:
+                if model.run_random() <= params.prep.target:
                     self.enroll(model.run_random, model.time)
         else:
             if "Racial" in params.prep.target_model:

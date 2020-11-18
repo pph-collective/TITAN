@@ -28,8 +28,12 @@ def test_sex_transmission(make_model, make_agent):
     model.params.calibration.acquisition = 5
     model.params.calibration.sex.act = 10
     model.run_random = FakeRandom(0.6)
-    a.location.params.partnership.sex.frequency = ObjMap({"Sex": {"type": "bins", "bins": {1: {"prob": 1.0, "min": 10, "max": 37}}}})
-    p.location.params.partnership.sex.frequency = ObjMap({"Sex": {"type": "bins", "bins": {1: {"prob": 1.0, "min": 10, "max": 37}}}})
+    a.location.params.partnership.sex.frequency = ObjMap(
+        {"Sex": {"type": "bins", "bins": {1: {"prob": 1.0, "min": 10, "max": 37}}}}
+    )
+    p.location.params.partnership.sex.frequency = ObjMap(
+        {"Sex": {"type": "bins", "bins": {1: {"prob": 1.0, "min": 10, "max": 37}}}}
+    )
     # test partner becomes
     Sex.interact(model, rel)
     assert p.hiv

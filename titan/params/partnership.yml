@@ -1,4 +1,5 @@
 partnership:
+  sex:
     frequency:
       description: "Sex act frequency, keyed off of bond type."
       type: sub-dict

@@ -1,7 +1,8 @@
 demographics:
   black:
+    ppl: 0.182
     MSM:
-      ppl: 0.182
+      ppl: 1.0
       sex_role:
         init:
           versatile: 0.200
@@ -11,12 +12,130 @@ demographics:
         init: 0.315
         dx:
           init: 0.920
-          prob: 0.166
+          prob: 0.198
       aids:
         init: 0.500
-        prob: 0.0040
       haart:
         init: 0.764
         prob: 0.212
         adherence: 0.489
         discontinue: 0.0076
+      num_partners:
+        Main:
+          dist_type: negative_binomial
+          vars:
+            1:
+              value_type: float
+              value: 1.56
+            2:
+              value_type: float
+              value: 0.59
+        Casual:
+          dist_type: negative_binomial
+          vars:
+            1:
+              value_type: float
+              value: 0.67
+            2:
+              value_type: float
+              value: 0.06
+      safe_sex: 0.275
+      prep: 
+        discontinue: 0.034  # calibration
+        adherence: 0.565
+        coverage: 0.028
+      death_rate:
+        base: 1.512
+  latino:
+    ppl: 0.261
+    MSM:
+      ppl: 1.0
+      sex_role:  # calibration
+        init:
+          insertive: 0.220
+          receptive: 0.195
+          versatile: 0.585
+      hiv:
+        init: 0.166
+        dx:
+          init: 0.920
+          prob: 0.055
+      aids:
+        init: 0.487
+      haart:
+        init: 0.764
+        prob: 0.193
+        adherence: 0.719
+        discontinue: 0.0069  # calibration
+      num_partners:
+        Main:
+          dist_type: negative_binomial
+          vars:
+            1:
+              value_type: float
+              value: 1.37
+            2:
+              value_type: float
+              value: 0.58
+        Casual:
+          dist_type: negative_binomial
+          vars:
+            1:
+              value_type: float
+              value: 0.46
+            2:
+              value_type: float
+              value: 0.03
+      safe_sex: 0.262
+      prep:
+        discontinue: 0.025  # calibration
+        adherence: 0.719
+        coverage: 0.026
+      death_rate:
+        base: 0.792
+  white:
+    ppl: 0.557
+    MSM:
+      ppl: 1.0
+      sex_role:
+        init:
+          insertive: 0.439
+          receptive: 0.286
+          versatile: 0.275
+      hiv:
+        init: 0.111
+        dx:
+          init: 0.920
+          prob: 0.155
+      aids:
+        init: 0.471
+      haart:
+        init: 0.791
+        prob: 0.163
+        adherence: 0.707
+        discontinue: 0.0059
+      num_partners:
+        Main:
+          dist_type: negative_binomial
+          vars:
+            1:
+              value_type: float
+              value: 1.02
+            2:
+              value_type: float
+              value: 0.48
+        Casual:
+          dist_type: negative_binomial
+          vars:
+            1:
+              value_type: float
+              value: 0.57
+            2:
+              value_type: float
+              value: 0.03
+      safe_sex: 0.126
+      prep:
+        discontinue: 0.014
+        adherence: 0.738
+        coverage: 0.031
+

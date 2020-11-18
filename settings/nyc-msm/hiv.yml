@@ -7,8 +7,9 @@ hiv:
   start_time: -48
 
 prep:
-  target_model: Racial
-  as_prob: true
+  target_model:
+    - Racial
+  target_as_prob: true
   start_time: -48
   efficacy:
     adherent: 0.96
