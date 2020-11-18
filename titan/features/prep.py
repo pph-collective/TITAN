@@ -164,7 +164,7 @@ class Prep(base_feature.BaseFeature):
 
         if force:
             self.enroll(model.run_random, model.time)
-        elif params.prep.as_prob:
+        elif params.prep.target_as_prob:
             if "Racial" in params.prep.target_model:
                 if (
                     model.run_random.random
