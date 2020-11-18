@@ -16,6 +16,7 @@ demographics:
         init: 0.46
       haart:
         init: 0.690
+        prob: 0.057
         adherence: 0.500
         discontinue: 0.023
       num_partners:
@@ -33,7 +34,7 @@ demographics:
         discontinue: 0.034
         adherence: 0.860
       death_rate:
-        base: 4.0265
+        base: 6.2
         hiv: 3.0
         aids: 17.5
         haart_adherent: 1.0

@@ -57,6 +57,7 @@ partnership:
       MSM:
         insertive: 0.001075
         receptive: 0.00425
+        versatile: 0.0026625
     duration:
       Sex:
         type: distribution
@@ -73,7 +74,7 @@ partnership:
 prep:
   type: Oral
   target: 0.049
-  as_prob: true
+  target_as_prob: true
   efficacy:
     adherent: 0.96
     non_adherant: 0.83
