@@ -121,6 +121,7 @@ classes:
       - set_value
       - randint
       - weibull
+      - negative_binomial
   locations:
     type: definition
     description: Locations that exist within the model

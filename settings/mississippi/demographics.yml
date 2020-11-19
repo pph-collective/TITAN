@@ -1,5 +1,6 @@
 demographics:
   black:
+    ppl: 1.0
     MSM:
       ppl: 1.0
       sex_role:

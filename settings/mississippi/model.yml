@@ -72,7 +72,8 @@ partnership:
               value_type: float
 
 prep:
-  type: Oral
+  type:
+    - Oral
   target: 0.049
   target_as_prob: true
   efficacy:
