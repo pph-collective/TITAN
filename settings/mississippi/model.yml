@@ -53,23 +53,23 @@ partnership:
           prob: 0.0925
         5:
           prob: 0
-    aquisition:
+    acquisition:
       MSM:
         insertive: 0.001075
         receptive: 0.00425
         versatile: 0.0026625
-    duration:
-      Sex:
-        type: distribution
-        distribution:
-          dist_type: weibull
-          vars:
-            1:
-              value: 0.586
-              value_type: float
-            2:
-              value: 11.532
-              value_type: float
+  duration:
+    Sex:
+      type: distribution
+      distribution:
+        dist_type: weibull
+        vars:
+          1:
+            value: 0.586
+            value_type: float
+          2:
+            value: 11.532
+            value_type: float
 
 prep:
   type:
@@ -79,7 +79,8 @@ prep:
   efficacy:
     adherent: 0.96
     non_adherant: 0.83
-  target_model: Allcomers
+  target_model:
+    - Allcomers
 
 hiv:
   acute:

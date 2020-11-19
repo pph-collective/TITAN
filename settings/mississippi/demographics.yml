@@ -25,10 +25,10 @@ demographics:
           dist_type: negative_binomial
           vars:
             1:
-              value: 0.931
+              value: 12.459
               value_type: float
             2:
-              value: 12.459
+              value: 0.931
               value_type: float
       safe_sex: 0.214
       prep:

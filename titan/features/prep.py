@@ -167,14 +167,14 @@ class Prep(base_feature.BaseFeature):
         elif params.prep.target_as_prob:
             if "Racial" in params.prep.target_model:
                 if (
-                    model.run_random.random
+                    model.run_random.random()
                     <= params.demographics[self.agent.race][
                         self.agent.sex_type
                     ].prep.coverage
                 ):
                     self.enroll(model.run_random, model.time)
             else:
-                if model.run_random <= params.prep.target:
+                if model.run_random() <= params.prep.target:
                     self.enroll(model.run_random, model.time)
         else:
             if "Racial" in params.prep.target_model:
