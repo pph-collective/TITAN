@@ -42,7 +42,6 @@ agent_exclude_attrs = (
 )
 
 
-# TO DO get rid of option to only write intervention attrs
 def write(pop: Population, dir: str, compress: bool = True) -> str:
     """
     Write a non-empty Population to file.

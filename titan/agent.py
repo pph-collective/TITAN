@@ -247,7 +247,6 @@ class Relationship:
             self.id = self.next_rel_id
 
         self.update_id_counter(self.id)
-        # TODO MAKE THIS INCREMENT WITH passed IDs
 
         # Relationship properties
         self.duration = duration

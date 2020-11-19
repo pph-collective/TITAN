@@ -5,8 +5,6 @@ from conftest import FakeRandom
 
 @pytest.mark.unit
 def test_msmw(make_model, make_agent, params):
-
-    # test update all agents for pca and msmw TODO separate tests
     params.features.msmw = True
 
     model = make_model(params)
