@@ -7,7 +7,6 @@ import numpy as np  # type: ignore
 import nanoid  # type: ignore
 
 from . import agent as ag
-from .network import NetworkGraphUtils
 from . import output as ao
 from . import probabilities as prob
 from .parse_params import ObjMap
@@ -48,12 +47,6 @@ class TITAN:
         else:
             print("\tUsing provided population")
             self.pop = pop
-
-        self.network_utils: Optional[NetworkGraphUtils]
-        if params.model.network.enable:
-            self.network_utils = NetworkGraphUtils(self.pop.graph)
-        else:
-            self.network_utils = None
 
         self.time = -1 * self.params.model.time.burn_steps  # burn is negative time
         self.id = nanoid.generate(size=8)
@@ -110,16 +103,7 @@ class TITAN:
             self.time % self.params.outputs.print_frequency == 0
             and self.params.model.network.enable
         ):
-            assert (
-                self.network_utils is not None
-            ), "Graph must be enabled to print network reports"
-
             network_outdir = os.path.join(outdir, "network")
-            if self.params.outputs.network.draw_figures:
-                self.network_utils.visualize_network(
-                    network_outdir, curtime=self.time, label=f"{self.id}"
-                )
-
             if self.params.outputs.network.calc_component_stats:
                 ao.print_components(
                     self.id,
@@ -132,13 +116,13 @@ class TITAN:
                 )
 
             if self.params.outputs.network.calc_network_stats:
-                self.network_utils.write_network_stats(
-                    network_outdir, self.id, self.time
+                ao.write_network_stats(
+                    self.pop.graph, network_outdir, self.id, self.time
                 )
 
             if self.params.outputs.network.edge_list:
-                self.network_utils.write_graph_edgelist(
-                    network_outdir, self.id, self.time
+                ao.write_graph_edgelist(
+                    self.pop.graph, network_outdir, self.id, self.time
                 )
 
     def reset_trackers(self):

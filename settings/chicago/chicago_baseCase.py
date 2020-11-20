@@ -224,9 +224,7 @@ if "Oral" in params.prep.type:
     params.prep.discontinue = 0.00  # 0.15
     params.prep.peak_load = 1.0
     params.prep.half_life = 1.0
-elif (
-    "Inj" in params.prep.type
-):  # TODO make both of these compatible; can use both at once??
+elif "Inj" in params.prep.type:
     params.demographics.PWID.prep.adherence = 1.0
     params.prep.efficacy.adherent = 1.0
     params.prep.efficacy.non_adherant = 1.00

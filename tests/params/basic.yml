@@ -118,6 +118,7 @@ demographics:
       safe_sex: 0.1
       injection:
         unsafe_prob: 0.1
+        num_acts: 30
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -182,6 +183,7 @@ demographics:
       safe_sex: 0.1
       injection:
         unsafe_prob: 0.1
+        num_acts: 30
       prep:
         adherence: 0.1
         discontinue: 0.1
@@ -877,7 +879,7 @@ features:
   assort_mix: false
   vaccine: true
   partner_tracing: true
-  msmw: true
+  external_exposure: true
   syringe_services: true
   timeline_scaling: true
 
@@ -894,6 +896,5 @@ location:
         field: override
         override: 1
 
-msmw:
-  hiv:
-    prob: 1.0
+external_exposure:
+  dx_prob: 1.0

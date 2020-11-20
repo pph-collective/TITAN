@@ -2,6 +2,8 @@ import random
 from functools import wraps
 from typing import TypeVar, Optional, Collection, Union
 
+import networkx as nx  # type: ignore
+
 from . import distributions
 from .parse_params import ObjMap
 
@@ -210,3 +212,13 @@ def total_probability(p: float, num_acts: int) -> float:
         return 1.0 - binom_0(num_acts, p)
     else:
         return 0.0
+
+
+def connected_components(graph):
+    """
+    Get connected components in graph
+
+    returns:
+        list of connected components
+    """
+    return list(graph.subgraph(c).copy() for c in nx.connected_components(graph))

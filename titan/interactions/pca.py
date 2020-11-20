@@ -7,8 +7,8 @@ class PCA(base_interaction.BaseInteraction):
 
     name = "pca"
 
-    @staticmethod
-    def get_num_acts(model: "model.TITAN", rel: "agent.Relationship") -> int:
+    @classmethod
+    def get_num_acts(cls, model: "model.TITAN", rel: "agent.Relationship") -> int:
         params = model.params.partnership.pca.frequency[rel.bond_type]
         acts_prob = model.run_random.random()
         acts_bin = 1

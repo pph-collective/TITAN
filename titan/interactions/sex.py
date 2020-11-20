@@ -8,8 +8,8 @@ class Sex(base_interaction.BaseInteraction):
 
     name = "sex"
 
-    @staticmethod
-    def get_num_acts(model: "model.TITAN", rel: "agent.Relationship") -> int:
+    @classmethod
+    def get_num_acts(cls, model: "model.TITAN", rel: "agent.Relationship") -> int:
         """
         Simulate random transmission of HIV between two agents through Sex. One of the agents must be HIV+.
 
@@ -41,7 +41,5 @@ class Sex(base_interaction.BaseInteraction):
         for n in range(unsafe_sex_acts):
             if model.run_random.random() < p_safe_sex:
                 unsafe_sex_acts -= 1
-
-        rel.total_sex_acts += unsafe_sex_acts  # TO_REVIEW should this be total_sex_acts?, also this attribute seems to be unused...
 
         return unsafe_sex_acts

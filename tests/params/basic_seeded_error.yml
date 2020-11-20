@@ -780,7 +780,7 @@ features:
   assort_mix: true
   vaccine: true
   partner_tracing: true
-  msmw: true
+  external_exposure: true
 
 prep:
   target: 0.3

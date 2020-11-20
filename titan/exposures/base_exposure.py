@@ -132,3 +132,12 @@ class BaseExposure:
             model: The running model
         """
         pass
+
+    def diagnose(self, model: "model.TITAN"):
+        """
+        Diagnose the agent with the exposure (if applicable).
+
+        args:
+            model: The running model
+        """
+        pass

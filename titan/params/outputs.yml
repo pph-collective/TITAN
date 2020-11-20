@@ -4,10 +4,6 @@ outputs:
     description: How frequently to update the component states, visualization, network stats reports during  a run
     type: int
   network:
-    draw_figures:
-      default: false
-      description: Whether to plot the network during the run of a model
-      type: boolean
     edge_list:
       default: false
       description: Whether to write the graph's edge list during the run of a model

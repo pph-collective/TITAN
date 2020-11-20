@@ -4,9 +4,9 @@ from .. import population
 from .. import model
 
 
-class MSMW(base_feature.BaseFeature):
+class ExternalExposure(base_feature.BaseFeature):
 
-    name = "msmw"
+    name = "external_exposure"
 
     def __init__(self, agent: "agent.Agent"):
         super().__init__(agent)
@@ -17,28 +17,27 @@ class MSMW(base_feature.BaseFeature):
         """
         Initialize the agent for this feature during population initialization (`Population.create_agent`).  Called on only features that are enabled per the params.
 
-        If an agent has `sex_type == "HM"`, with a random probability from params, assign them to be a Man who Sleeps with Men and Women (MSMW).
+        If an agent has defined sex_type, with a random probability from params, assign them to be an agent with external exposure.
 
         args:
             pop: the population this agent is a part of
             time: the current time step
         """
-        if self.agent.sex_type == "HM":
-            if pop.pop_random.random() < self.agent.location.params.msmw.prob:
+        params = self.agent.location.params.external_exposure
+        if self.agent.sex_type == params.sex_type:
+            if pop.pop_random.random() < params.init:
                 self.active = True
 
     def update_agent(self, model: "model.TITAN"):
         """
         Update the agent for this feature for a time step.  Called once per time step in `TITAN.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
 
-        If the agent is MSMW, with a probability from params, hiv convert the agent.
+        If the agent has external exposure, with a probability from params, convert the agent.
 
         args:
             model: the instance of TITAN currently being run
         """
-        if (
-            self.active
-            and model.params.exposures.hiv
-            and model.run_random.random() < self.agent.location.params.msmw.hiv.prob
-        ):
-            self.agent.hiv.convert(model)  # type: ignore[attr-defined]
+        params = self.agent.location.params.external_exposure
+        if self.active and model.run_random.random() < params.convert_prob:
+            agent_exposure = getattr(self.agent, params.exposure)
+            agent_exposure.convert(model)

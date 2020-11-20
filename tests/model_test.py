@@ -28,10 +28,6 @@ def test_model_init(params):
     assert model.run_seed > 0
     assert model.pop.pop_seed > 0
 
-    params.model.network.enable = False
-    model = TITAN(params)
-    assert model.network_utils is None
-
 
 @pytest.mark.unit
 def test_update_AllAgents(make_model, make_agent):

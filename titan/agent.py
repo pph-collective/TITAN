@@ -74,9 +74,6 @@ class Agent:
         for exposure in exposures.BaseExposure.__subclasses__():
             setattr(self, exposure.name, exposure(self))
 
-        self.partner_traced = False
-        self.trace_time = 0
-
         # model features
         for feature in features.BaseFeature.__subclasses__():
             setattr(self, feature.name, feature(self))
@@ -251,7 +248,6 @@ class Relationship:
         # Relationship properties
         self.duration = duration
         self.total_duration = duration
-        self.total_sex_acts = 0
         self.bond_type = bond_type
 
         self.bond()

@@ -2,12 +2,14 @@
 # encoding: utf-8
 
 from typing import Dict, Any, List, Iterator
-from . import agent as ag
 import itertools
 import os
 
-from networkx import betweenness_centrality, effective_size, density  # type: ignore
+import networkx as nx  # type: ignore
+
 from .parse_params import ObjMap
+from . import utils
+from . import agent as ag
 
 
 def setup_aggregates(params: ObjMap, reportables, classes: List[str]) -> Dict:
@@ -328,10 +330,10 @@ def print_components(
                 nidu += 1
 
         comp_centrality = (
-            sum(betweenness_centrality(comp).values()) / comp.number_of_nodes()
+            sum(nx.betweenness_centrality(comp).values()) / comp.number_of_nodes()
         )
-        average_size = sum(effective_size(comp).values()) / comp.number_of_nodes()
-        comp_density = density(comp)
+        average_size = sum(nx.effective_size(comp).values()) / comp.number_of_nodes()
+        comp_density = nx.density(comp)
 
         if trt_comp:
             if trt_agent:
@@ -354,3 +356,65 @@ def print_components(
         comp_id += 1
 
     f.close()
+
+
+def write_graph_edgelist(graph, path: str, id, time):
+    """
+    Writes a pipe-delimited edge list to the file `<id>_Edgelist_t<time>.txt`
+
+    args:
+        path: directory where the file should be saved
+        id: identifier for the network, typically the model's `id`
+        time: timestep the edgelist is being written at
+    """
+    file_path = os.path.join(path, f"{id}_Edgelist_t{time}.txt")
+    # Write edgelist with bond type
+    nx.write_edgelist(graph, file_path, delimiter="|", data=["type"])
+
+
+def write_network_stats(graph, path: str, id, time):
+    """
+    Writes network statistics to the file `<id>_NetworkStats_t<time>.txt`
+
+    args:
+        path: directory where the file should be saved
+        id: identifier for the network, typically the model's `id`
+        time: timestep the edgelist is being written at
+    """
+    file_path = os.path.join(path, f"{id}_NetworkStats_t{time}.txt")
+
+    components = sorted(utils.connected_components(graph), key=len, reverse=True)
+
+    outfile = open(file_path, "w")
+    outfile.write(nx.info(graph))
+
+    cent_dict = nx.degree_centrality(graph)
+
+    outfile.write(
+        "\nNumber of connected components: {}\n".format(
+            nx.number_connected_components(graph)
+        )
+    )
+
+    tot_nodes = 0
+    for c in components:
+        tot_nodes += c.number_of_nodes()
+
+    outfile.write(
+        "Average component size: {}\n".format(
+            tot_nodes * 1.0 / nx.number_connected_components(graph)
+        )
+    )
+    outfile.write(
+        "Maximum component size: {}\n".format(nx.number_of_nodes(components[0]))
+    )
+    outfile.write("Degree Histogram: {}\n".format(nx.degree_histogram(graph)))
+    outfile.write("Graph density: {}\n".format(nx.density(graph)))
+    outfile.write(
+        "Average node degree centrality: {}\n".format(
+            sum(cent_dict.values()) / len(list(cent_dict.values()))
+        )
+    )
+
+    outfile.write("Average node clustering: {}\n".format(nx.average_clustering(graph)))
+    outfile.close()

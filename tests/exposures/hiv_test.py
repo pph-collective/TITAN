@@ -95,16 +95,6 @@ def test_diagnose_hiv(make_model, make_agent):
 
     assert a.hiv.dx
     assert a.hiv.dx_time == model.time
-    assert p in a.get_partners()
-    assert p.partner_traced
-    assert p.trace_time == model.time
-
-    assert p.hiv.dx is False
-    model.params.demographics[p.race][p.sex_type].hiv.dx.prob = 0
-
-    model.time = p.partner_traced + 1
-    p.hiv.diagnose(model)
-    assert p.hiv.dx
 
 
 @pytest.mark.unit

@@ -97,8 +97,8 @@ def test_basicReport(stats, params, tmpdir):
 def test_print_components(stats, params, make_population, tmpdir):
     run_id = nanoid.generate(size=8)
 
-    net = make_population(n=1)
-    components = net.connected_components()
+    pop = make_population(n=1)
+    components = pop.connected_components()
 
     print_components(run_id, 0, 1, 2, components, tmpdir, params.classes.races)
 
@@ -112,3 +112,41 @@ def test_print_components(stats, params, make_population, tmpdir):
             assert row["runseed"] == "1"
             assert row["compID"] == "0"
             assert row["totalN"] == "1"
+
+
+@pytest.mark.unit
+def test_write_graph_edgelist(setup_results_dir, make_population):
+    id = "test"
+    t = 0
+    path = "results/network"
+    n_pop = 100
+    pop = make_population(n=n_pop)
+
+    write_graph_edgelist(pop.graph, path, id, t)
+
+    file_path = os.path.join(path, f"{id}_Edgelist_t{t}.txt")
+    count = len(open(file_path).readlines())
+
+    assert count == len(pop.relationships)
+
+
+@pytest.mark.unit
+def test_write_network_stats(setup_results_dir, make_population):
+    id = "test"
+    t = 0
+    path = "results/network"
+    n_pop = 100
+    pop = make_population(n=n_pop)
+
+    write_network_stats(pop.graph, path, id, t)
+
+    file_path = os.path.join(path, f"{id}_NetworkStats_t{t}.txt")
+    asserted = False
+    with open(file_path, "r") as f:
+        for line in f:
+            if "Number of nodes:" in line:
+                assert int(line.split(" ")[-1]) == n_pop
+                asserted = True
+
+    # make sure we tested something was tested
+    assert asserted

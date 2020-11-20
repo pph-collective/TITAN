@@ -168,7 +168,7 @@ def test_initiate_prep_eligible(make_model, make_agent):
     a.partners["Sex"] = set()
     p.partners["Sex"] = set()
     p.hiv.dx = True
-    p.msmw.active = True
+    p.external_exposure.active = True
     model.time = 10
     a.location.params.prep.target = 1.0
     a.location.params.prep.target_model = ["cdc_women"]

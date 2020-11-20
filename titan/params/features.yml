@@ -43,9 +43,9 @@ features:
     default: false
     description: Whether to trace a newly diagnosed agent's partners, so that they become diagnosed at the next time step
     type: boolean
-  msmw:
+  external_exposure:
     default: false
-    description: Whether to have agents that are men who sleep with men and women - it is not quite a sex type, but adjusts their risks and probabilities accordingly
+    description: Whether to have agents that have some out of model exposure.
     type: boolean
   syringe_services:
     default: false

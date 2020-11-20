@@ -32,7 +32,6 @@ def test_agent_init(make_agent):
     assert a.hiv.dx is False
     assert a.hiv.time is None
     assert a.hiv.aids is False
-    assert a.partner_traced is False
 
 
 @pytest.mark.unit
@@ -121,10 +120,8 @@ def test_relationship(make_agent, make_relationship):
 
     # properties
     assert r1.duration == 2
-    assert r1.total_sex_acts == 0
 
     assert r2.duration == 2
-    assert r2.total_sex_acts == 0
 
     assert p1 in a.partners["Sex"]
     assert p2 in a.partners["Sex"]

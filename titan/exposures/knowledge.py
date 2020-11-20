@@ -40,14 +40,14 @@ class Knowledge(base_exposure.BaseExposure):
         if pop.pop_random.random() < knowledge_params.init:
             self.active = True
 
-            # TO_REVIEW - non aware agents always start at opinoin of 0?
-            attprob = pop.pop_random.random()
-            pvalue = 0.0
-            for bin, fields in knowledge_params.opinion.init.items():
-                pvalue += fields.prob
-                if attprob < pvalue:
-                    self.opinion = bin
-                break
+        # Initialize all agents with some opinion, may or may not be active
+        attprob = pop.pop_random.random()
+        pvalue = 0.0
+        for bin, fields in knowledge_params.opinion.init.items():
+            pvalue += fields.prob
+            if attprob < pvalue:
+                self.opinion = bin
+            break
 
     def update_agent(self, model: "model.TITAN"):
         """

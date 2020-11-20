@@ -22,7 +22,7 @@ features:
   assort_mix: true
   vaccine: false
   partner_tracing: false
-  msmw: false
+  external_exposure: false
 
 prep:
   target_model:

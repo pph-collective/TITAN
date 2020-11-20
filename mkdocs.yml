@@ -46,7 +46,8 @@ nav:
       - HAART: api/features/haart.md
       - High Risk: api/features/high_risk.md
       - Incarceration: api/features/incar.md
-      - MSMW: api/features/msmw.md
+      - External Exposure: api/features/external_exposure.md
+      - Partner Tracing: api/features/partner_tracing.md
       - PrEP: api/features/prep.md
       - Random Trial: api/features/random_trial.md
       - Syringe Services: api/features/syringe_services.md
@@ -58,7 +59,6 @@ nav:
       - Sex: api/interactions/sex.md
     - Location: api/location.md
     - Model: api/model.md
-    - NetworkGraphUtils: api/network.md
     - Partnering: api/partnering.md
     - Population: api/population.md
     - Relationship: api/relationship.md

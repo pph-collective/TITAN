@@ -98,8 +98,6 @@ class HIV(base_exposure.BaseExposure):
             model: the instance of TITAN currently being run
         """
         if self.active and model.time >= model.params.hiv.start_time:
-            partner_tracing = self.agent.location.params.partner_tracing
-
             if not self.dx:
                 test_prob = self.agent.location.params.demographics[self.agent.race][
                     self.agent.sex_type
@@ -110,18 +108,6 @@ class HIV(base_exposure.BaseExposure):
 
                 if model.run_random.random() < test_prob:
                     self.diagnose(model)
-                elif (
-                    self.agent.partner_traced
-                    and model.run_random.random() < partner_tracing.hiv.dx
-                    and model.time > self.agent.trace_time
-                ):
-                    self.diagnose(model)
-
-            # TO_REVIEW should this be moved outside of the if?
-            if model.time >= self.agent.trace_time + partner_tracing.trace_duration:
-                # agents can only be traced during a specified period after their partner is
-                # diagnosed. If past this time, remove ability to trace.
-                self.agent.partner_traced = False
 
             self.progress_to_aids(model)
 
@@ -296,6 +282,17 @@ class HIV(base_exposure.BaseExposure):
         if self.agent.prep.active:  # type: ignore[attr-defined]
             self.agent.prep.progress(model, force=True)  # type: ignore[attr-defined]
 
+    def diagnose(self, model: "model.TITAN"):
+        """
+        Mark the agent as diagnosed.
+
+        args:
+             model: the running model
+        """
+        self.dx = True
+        self.dx_time = model.time
+        self.add_agent(self.agent)
+
     # ============================ HELPER METHODS ==============================
 
     def get_acute_status(self, time: int) -> bool:
@@ -315,33 +312,6 @@ class HIV(base_exposure.BaseExposure):
                 return True
 
         return False
-
-    def diagnose(self, model: "model.TITAN"):
-        """
-        Mark the agent as diagnosed and trace their partners (if partner tracing enabled).
-
-        args:
-             model: the running model
-        """
-        # agent's location's params used throughout as that is the agent who
-        # would be interacting with the service
-        partner_tracing = self.agent.location.params.partner_tracing
-
-        self.dx = True
-        self.dx_time = model.time
-        self.add_agent(self.agent)
-
-        # TO_REVIEW partner tracing - should this be part of hiv? more generic?
-        # do partner tracing if enabled
-        if (
-            model.params.features.partner_tracing
-            and partner_tracing.start_time <= self.dx_time < partner_tracing.stop_time
-        ):
-            # Determine if each partner is found via partner tracing
-            for ptnr in self.agent.get_partners(partner_tracing.bond_type):
-                if not ptnr.hiv.dx and model.run_random.random() < partner_tracing.prob:  # type: ignore[attr-defined]
-                    ptnr.partner_traced = True
-                    ptnr.trace_time = model.time
 
     def progress_to_aids(self, model: "model.TITAN"):
         """

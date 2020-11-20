@@ -484,10 +484,7 @@ class Population:
             list of connected components
         """
         if self.enable_graph:
-            return list(
-                self.graph.subgraph(c).copy()
-                for c in nx.connected_components(self.graph)
-            )
+            return utils.connected_components(self.graph)
         else:
             raise ValueError(
                 "Can't get connected_components, population doesn't have graph enabled."
