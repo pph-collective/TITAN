@@ -40,6 +40,7 @@ def select_partner(
     def assort(eligible_partners, assort_params):
         partner_types = list(assort_params.partner_values.keys())
         partner_weights = [assort_params.partner_values[p] for p in partner_types]
+        assert sum(partner_weights) == 1.0, "Assorting probabilities must add to 1.0"
         partner_type = utils.safe_random_choice(
             partner_types, rand_gen, weights=partner_weights
         )
