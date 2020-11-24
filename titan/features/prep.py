@@ -174,7 +174,7 @@ class Prep(base_feature.BaseFeature):
                 ):
                     self.enroll(model.run_random, model.time)
             else:
-                if model.run_random() <= params.prep.target:
+                if model.run_random.random() <= params.prep.target:
                     self.enroll(model.run_random, model.time)
         else:
             if "Racial" in params.prep.target_model:

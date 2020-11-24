@@ -110,7 +110,7 @@ classes:
       - set_value
       - randint
       - weibull
-      - negative_bincomial
+      - negative_binomial
     description: "Which distributions are available in the model - more of a reference than a class"
     type: array
     values:
