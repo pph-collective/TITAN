@@ -13,7 +13,7 @@ prep:
     type: float
     min: 0
     max: 1
-  target_as_prob:
+  as_prob:
     default: false
     description: If prep.target should be treated as a probability instead of a target
     type: boolean
