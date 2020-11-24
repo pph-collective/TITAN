@@ -164,6 +164,18 @@ class Prep(base_feature.BaseFeature):
 
         if force:
             self.enroll(model.run_random, model.time)
+        elif params.prep.target_as_prob:
+            if "Racial" in params.prep.target_model:
+                if (
+                    model.run_random.random()
+                    <= params.demographics[self.agent.race][
+                        self.agent.sex_type
+                    ].prep.coverage
+                ):
+                    self.enroll(model.run_random, model.time)
+            else:
+                if model.run_random.random() <= params.prep.target:
+                    self.enroll(model.run_random, model.time)
         else:
             if "Racial" in params.prep.target_model:
                 num_prep_agents = self.counts[self.agent.race]
@@ -173,7 +185,7 @@ class Prep(base_feature.BaseFeature):
                 }
 
                 num_hiv_agents = len(all_hiv_agents & all_race)
-                target_prep = (len(all_race) - num_hiv_agents) * params.demographcis[
+                target_prep = (len(all_race) - num_hiv_agents) * params.demographics[
                     self.agent.race
                 ][self.agent.sex_type].prep.coverage
             else:
