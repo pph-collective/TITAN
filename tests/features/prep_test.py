@@ -310,17 +310,28 @@ def test_progress_inj_prep(make_agent, params, make_model):
     a.prep.progress(model)
     assert a.prep.last_dose_time is None
 
+
 @pytest.mark.unit
-def test_target_as_prob(make_agent, make_model):
-    model = make_model()
+def test_target_as_prob(make_agent, make_model, params):
+    model = make_model(params)
     a = make_agent()
     a.location.params.prep.target_as_prob = True
 
-    model.run_random = FakeRandom(1.0)
+    model.run_random = FakeRandom(0.2)
     a.prep.initiate(model)
     assert not a.prep.active
 
     model.run_random = FakeRandom(0.0)
     a = make_agent()
+    a.prep.initiate(model)
+    assert a.prep.active
+
+    model.run_random = FakeRandom(0.4)
+    a.location.params.prep.target_model = ["Racial"]
+    a.prep.active = False
+    a.prep.initiate(model)
+    assert not a.prep.active
+
+    model.run_random = FakeRandom(0.3)
     a.prep.initiate(model)
     assert a.prep.active

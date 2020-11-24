@@ -870,6 +870,7 @@ partnership:
 
 prep:
   target: 0.1
+  target_as_prob: false
 
 pca:
   awareness:
