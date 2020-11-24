@@ -18,7 +18,9 @@ demographics:
       haart:
         init: 0.764
         prob: 0.212
-        adherence: 0.489
+        adherence:
+          init: 0.489
+          prob: 0.489
         discontinue: 0.0076
       num_partners:
         Main:
@@ -65,7 +67,9 @@ demographics:
       haart:
         init: 0.764
         prob: 0.193
-        adherence: 0.719
+        adherence:
+          init: 0.719
+          prob: 0.719
         discontinue: 0.0069  # calibration
       num_partners:
         Main:
@@ -112,7 +116,9 @@ demographics:
       haart:
         init: 0.791
         prob: 0.163
-        adherence: 0.707
+        adherence:
+          init: 0.707
+          prob: 0.707
         discontinue: 0.0059
       num_partners:
         Main:

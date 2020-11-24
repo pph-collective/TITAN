@@ -62,7 +62,7 @@ class HAART(base_feature.BaseFeature):
             self.active = True
             self.add_agent(self.agent)
 
-            haart_adh = agent_params.haart.adherence
+            haart_adh = agent_params.haart.adherence.init
             if pop.pop_random.random() < haart_adh:
                 self.adherent = True
 
@@ -173,7 +173,7 @@ class HAART(base_feature.BaseFeature):
         """
         haart_adh = self.agent.location.params.demographics[self.agent.race][
             self.agent.sex_type
-        ].haart.adherence
+        ].haart.adherence.prob
         if model.run_random.random() < haart_adh:
             adherent = True
         else:

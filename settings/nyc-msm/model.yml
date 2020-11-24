@@ -44,20 +44,20 @@ assort_mix:
     agent_value: white
     partner_values:
       white: 0.649
-      black: 0.185
-      latino: 0.313
+      black: 0.099
+      latino: 0.252
   assort_black:
     attribute: race
     agent_value: black
     partner_values:
-      black: 0.560
+      black: 0.588
       latino: 0.227
-      white: 0.099
+      white: 0.185
   assort_latino:
     attribute: race
     agent_value: latino
     partner_values:
       black: 0.227
       latino: 0.460
-      white: 0.252
+      white: 0.313
       

@@ -33,7 +33,9 @@ demographics:
       haart:
         init: 0.1
         prob: 0.1
-        adherence: 0.1
+        adherence:
+          init: 0.1
+          prob: 0.1
         discontinue: 0.1
       safe_sex: 0.1
       injection:
@@ -90,7 +92,9 @@ demographics:
       haart:
         init: 0.1
         prob: 0.1
-        adherence: 0.1
+        adherence:
+          init: 0.1
+          prob: 0.1
         discontinue: 0.1
       safe_sex: 0.1
       injection:
