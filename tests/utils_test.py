@@ -107,6 +107,15 @@ def test_get_param_from_path(params):
     assert "cis_trans" in path_params_hash
     assert path_params_hash["cis_trans"] == "cis"
 
+    assert params.partnership.sex.haart_scaling.HM[0].prob == 1.0
+    param_path_haart = "partnership|sex|haart_scaling|HM|0|prob"
+    path_params_haart, last_item_haart = utils.get_param_from_path(
+        params, param_path_haart, "|"
+    )
+    assert last_item_haart == "prob"
+    assert "prob" in path_params_haart
+    assert path_params_haart["prob"] == 1.0
+
 
 @pytest.mark.unit
 def test_scale_param(params):
