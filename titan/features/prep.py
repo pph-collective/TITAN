@@ -133,7 +133,7 @@ class Prep(base_feature.BaseFeature):
                 if self.adherence == 1:
                     return 1.0 - params.prep.efficacy.adherent
                 else:
-                    return 1.0 - params.prep.efficacy.non_adherant
+                    return 1.0 - params.prep.efficacy.non_adherent
             elif self.type == "Inj" and self.adherence == 1:
                 annualized_last_dose_time = (
                     time - self.last_dose_time

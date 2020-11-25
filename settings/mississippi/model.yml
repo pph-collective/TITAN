@@ -78,7 +78,7 @@ prep:
   target_as_prob: true
   efficacy:
     adherent: 0.96
-    non_adherant: 0.83
+    non_adherent: 0.83
   target_model:
     - Allcomers
 
