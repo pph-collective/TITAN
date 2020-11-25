@@ -130,11 +130,14 @@ def test_override_param(params):
     param_path_hash = "classes#sex_types#HM#cis_trans"
 
     utils.override_param(params, param_path_hash, "trans", delimiter="#")
-
     assert params.classes.sex_types.HM.cis_trans == "trans"
 
     param_path_pipe = "classes|sex_types|HM|cis_trans"
-
     utils.override_param(params, param_path_pipe, "other")
-
     assert params.classes.sex_types.HM.cis_trans == "other"
+
+    # test if the override works with an int key
+    assert params.partnership.sex.haart_scaling.HM[0].prob == 1.0
+    param_path_haart = "partnership|sex|haart_scaling|HM|0|prob"
+    utils.override_param(params, param_path_haart, 0.0)
+    assert params.partnership.sex.haart_scaling.HM[0].prob == 0.0
