@@ -33,3 +33,16 @@ def test_update_haart_t1(make_model, make_agent):
 
     assert a.haart.adherent is False
     assert a.haart.active is False
+
+    # Try haart cap with low cap. Nothing happens
+    a.location.params.hiv.haart_cap = True
+    a.haart.update_agent(model)
+    assert a.haart.active is False
+    assert a.haart.adherent is False
+
+    # Increase cap. Agent goes on prep
+    a.location.params.demographics[a.race][a.sex_type].haart.prob = 2.0
+    model.pop.dx_counts[a.race][a.sex_type] = 30
+    a.haart.update_agent(model)
+    assert a.haart.active
+    assert a.haart.adherent is True
