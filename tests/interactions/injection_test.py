@@ -24,3 +24,6 @@ def test_injection_transmission(make_model, make_agent):
     assert Injection.interact(model, rel)
 
     assert p.hiv
+
+
+# TODO make this test the different bond types

@@ -55,3 +55,6 @@ def test_sex_transmission_do_nothing(make_model, make_agent):
 
     # test nothing happens
     assert Sex.interact(model, rel) is False
+
+
+# TODO make this test the different bond types
