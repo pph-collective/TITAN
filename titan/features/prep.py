@@ -134,7 +134,7 @@ class Prep(base_feature.BaseFeature):
                     return 1.0 - params.prep.efficacy.adherent
                 else:
                     return 1.0 - params.prep.efficacy.non_adherent
-            elif self.type == "Inj" and self.adherent == False:
+            elif self.type == "Inj" and self.adherent is False:
                 annualized_last_dose_time = (
                     time - self.last_dose_time
                 ) / params.model.time.steps_per_year

@@ -313,7 +313,7 @@ class Relationship:
 
     def get_number_of_sex_acts(self, rand_gen) -> int:
         """
-        Number of sexActs an agent has done.
+        Number of sex acts in the relationship during the time step.
 
         args:
             rand_gen: random number generator (e.g. self.run_random in model)

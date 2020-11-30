@@ -150,3 +150,8 @@ def test_override_param(params):
     param_path_haart = "partnership|sex|haart_scaling|HM|0|prob"
     utils.override_param(params, param_path_haart, 0.0)
     assert params.partnership.sex.haart_scaling.HM[0].prob == 0.0
+
+    # test that the try/except doesn't silence real key errors
+    param_path_fake = "model|time|0"
+    with pytest.raises(KeyError):
+        utils.override_param(params, param_path_fake, 0)
