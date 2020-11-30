@@ -58,7 +58,7 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -124,7 +124,7 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -190,7 +190,7 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -256,7 +256,7 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -322,7 +322,7 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -381,7 +381,7 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -456,7 +456,7 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -522,7 +522,7 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -588,7 +588,7 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -654,7 +654,7 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -720,7 +720,7 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -779,7 +779,7 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
       high_risk:
         init: 0.1
       vaccine:

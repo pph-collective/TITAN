@@ -170,7 +170,7 @@ class Prep(base_feature.BaseFeature):
                     model.run_random.random()
                     <= params.demographics[self.agent.race][
                         self.agent.sex_type
-                    ].prep.coverage
+                    ].prep.target
                 ):
                     self.enroll(model.run_random, model.time)
             else:
@@ -187,7 +187,7 @@ class Prep(base_feature.BaseFeature):
                 num_hiv_agents = len(all_hiv_agents & all_race)
                 target_prep = (len(all_race) - num_hiv_agents) * params.demographics[
                     self.agent.race
-                ][self.agent.sex_type].prep.coverage
+                ][self.agent.sex_type].prep.target
             else:
                 num_prep_agents = sum(self.counts.values())
                 target_prep = int(

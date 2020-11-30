@@ -7,7 +7,7 @@ from .location import Location
 @utils.memo
 def adherent_prob(adherent: bool) -> float:
     """
-    Mapping from HAART q levels to probabilities.
+    Mapping from HAART adherence levels to probabilities.
 
     args:
         adherent: Whether an agent is HAART adherent

@@ -254,7 +254,7 @@ demographics:
         type: float
         min: 0.0
         max: 1.0
-      coverage:
+      target:
         default: 0.0
         description: "Target percentage of PrEP coverage for this population class"
         type: float

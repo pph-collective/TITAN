@@ -96,30 +96,6 @@ partnership:
           max: 1.0
           default: 0.0138
   injection:
-    frequency:
-      type: sub-dict
-      keys:
-        - bond_types
-      default:
-        distribution:
-          type: enum
-          class: distributions
-          default: poisson
-        vars:
-          type: bin
-          description: Pass values in order of bin keys to the distriubtion, starting at 1
-          fields:
-            value:
-              type: float
-            value_type:
-              type: enum
-              values:
-                - int
-                - float
-          default:
-            1:
-              value: 0
-              value_type: int
     transmission:
       base:
         type: float

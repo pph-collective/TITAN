@@ -40,7 +40,7 @@ demographics:
       prep:
         discontinue: 0.10
         adherence: 0.568
-        coverage: 0.258
+        target: 0.258
   white:
     ppl: 0.611
     MSM:
@@ -79,7 +79,7 @@ demographics:
       safe_sex: 0.528
     prep:
       adherence: 0.911
-      coverage: 0.415
+      target: 0.415
 
 hiv:
   aids:

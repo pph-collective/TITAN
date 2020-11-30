@@ -45,7 +45,7 @@ demographics:
       prep: 
         discontinue: 0.034  # calibration
         adherence: 0.565
-        coverage: 0.028
+        target: 0.028
       death_rate:
         base: 1.512
   latino:
@@ -94,7 +94,7 @@ demographics:
       prep:
         discontinue: 0.025  # calibration
         adherence: 0.719
-        coverage: 0.026
+        target: 0.026
       death_rate:
         base: 0.792
   white:
@@ -143,5 +143,5 @@ demographics:
       prep:
         discontinue: 0.014
         adherence: 0.738
-        coverage: 0.031
+        target: 0.031
 

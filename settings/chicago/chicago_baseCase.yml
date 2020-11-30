@@ -119,7 +119,7 @@ demographics:
       prep:
         discontinue: 0.0
         adherence: 0.568
-        coverage: 0.5
+        target: 0.5
       high_risk:
         init: 0.0
       vaccine:

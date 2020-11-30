@@ -6,7 +6,6 @@ import titan.probabilities as probs
 
 @pytest.mark.unit
 def test_adherent_prob():
-    # initiate result dict with 2 time steps
     assert probs.adherent_prob(True) == 0.0008
     assert probs.adherent_prob(False) == 0.00368
 
