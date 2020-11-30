@@ -26,4 +26,23 @@ def test_injection_transmission(make_model, make_agent):
     assert p.hiv
 
 
-# TODO make this test the different bond types
+@pytest.mark.unit
+def test_injection_transmission_do_nothing(make_model, make_agent):
+    model = make_model()
+    model.time = model.params.hiv.start_time + 2
+    a = make_agent(race="white", DU="Inj", SO="HM")
+    p_inj = make_agent(race="white", DU="Inj", SO="HF")
+    p_sex = make_agent(race="white", DU="Inj", SO="HF")
+    rel_Inj = Relationship(a, p_inj, 10, bond_type="Inj")
+    rel_Sex = Relationship(a, p_sex, 10, bond_type="Sex")
+
+    assert Injection.interact(model, rel_Inj) is False
+
+    a.hiv = True
+
+    with pytest.raises(AssertionError) as excinfo:
+        assert Injection.interact(model, rel_Sex)
+    assert "No injection acts allowed in" in str(excinfo)
+
+    p_inj.hiv = True
+    assert Injection.interact(model, rel_Inj) is False
