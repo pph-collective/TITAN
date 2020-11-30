@@ -321,9 +321,8 @@ class Relationship:
         returns:
             number of sex acts
         """
-        freq_params = self.agent1.location.params.partnership.sex.frequency[
-            self.bond_type
-        ]
+        agent = rand_gen.choice([self.agent1, self.agent2])
+        freq_params = agent.location.params.partnership.sex.frequency[self.bond_type]
 
         if freq_params.type == "bins":
             rv = rand_gen.random()
