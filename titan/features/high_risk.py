@@ -1,6 +1,6 @@
 # mypy: always-true=HighRisk
 
-from typing import Dict, ClassVar, Optional
+from typing import Dict, Optional
 
 from . import base_feature
 from .. import utils
@@ -29,11 +29,9 @@ class HighRisk(base_feature.BaseFeature):
         * high_risk_new_aids - number of agents that became active high risk this time step with AIDS
         * high_risk_new_dx - number of agents that became active high risk this time step with diagnosed HIV
         * high_risk_new_haart - number of agents that became active high risk this time step with active HAART
-        * inf_HR6m - number of agents that became active with HIV this time step who are high risk
-        * inf_HRever - number of agents that became active with HIV this time step were ever high risk
+        * hiv_new_high_risk - number of agents that became active with HIV this time step who are high risk
+        * hiv_new_high_risk_ever - number of agents that became active with HIV this time step were ever high risk
     """
-
-    count: ClassVar[int] = 0
 
     def __init__(self, agent: "agent.Agent"):
         super().__init__(agent)
@@ -42,16 +40,6 @@ class HighRisk(base_feature.BaseFeature):
         self.time: Optional[int] = None
         self.duration = 0
         self.ever = False
-
-    @classmethod
-    def init_class(cls, params):
-        """
-        Initialize the count of high risk agents to 0.
-
-        args:
-            params: the population params
-        """
-        cls.count = 0
 
     def init_agent(self, pop: "population.Population", time: int):
         """
@@ -69,7 +57,7 @@ class HighRisk(base_feature.BaseFeature):
                 self.agent.sex_type
             ].high_risk.init
         ):
-            self.become_high_risk(time)
+            self.become_high_risk(pop, time)
 
     def update_agent(self, model: "model.HIVModel"):
         """
@@ -81,59 +69,40 @@ class HighRisk(base_feature.BaseFeature):
             model: the instance of HIVModel currently being run
         """
         if not self.active:
-            return None
+            # released last step, evaluate agent for high risk
+            if self.agent.incar.release_time == model.time - 1:  # type: ignore[attr-defined]
+                self.become_high_risk(model.pop, model.time)
 
-        if self.duration > 0:
+            # incarcerated last step, evaluate agent's partners for high risk
+            elif self.agent.incar.time == model.time - 1:  # type: ignore[attr-defined]
+
+                # put partners in high risk
+                for partner in self.agent.get_partners(
+                    self.agent.location.params.high_risk.partnership_types
+                ):
+                    if (
+                        not partner.high_risk.active  # type: ignore[attr-defined]
+                        and model.run_random.random()
+                        < partner.location.params.high_risk.prob
+                    ):
+                        partner.high_risk.become_high_risk(model.pop, model.time)  # type: ignore[attr-defined]
+        elif self.duration > 0:
             self.duration -= 1
         else:
-            self.remove_agent(self.agent)
             self.active = False
 
-            if model.params.features.incar:
-                for bond in self.agent.location.params.high_risk.partnership_types:
-                    self.agent.mean_num_partners[
-                        bond
-                    ] -= self.agent.location.params.high_risk.partner_scale
-                    self.agent.mean_num_partners[bond] = max(
-                        0, self.agent.mean_num_partners[bond]
-                    )  # make sure not negative
-                    self.agent.target_partners[bond] = utils.poisson(
-                        self.agent.mean_num_partners[bond], model.np_random
+            self.update_partner_numbers(
+                model.pop, -1 * self.agent.location.params.high_risk.partner_scale
+            )
+
+            for bond in self.agent.location.params.high_risk.partnership_types:
+                while len(self.agent.partners[bond]) > self.agent.target_partners[bond]:
+                    rel = utils.safe_random_choice(
+                        self.agent.relationships, model.run_random
                     )
-                    while (
-                        len(self.agent.partners[bond])
-                        > self.agent.target_partners[bond]
-                    ):
-                        rel = utils.safe_random_choice(
-                            self.agent.relationships, model.run_random
-                        )
-                        if rel is not None:
-                            rel.progress(force=True)
-                            model.pop.remove_relationship(rel)
-
-    @classmethod
-    def add_agent(cls, agent: "agent.Agent"):
-        """
-        Add an agent to the class (not instance).
-
-        Increment the count of high risk agents. Add the agent to the set of newly high risk agents.
-
-        args:
-            agent: the agent to add to the class attributes
-        """
-        cls.count += 1
-
-    @classmethod
-    def remove_agent(cls, agent: "agent.Agent"):
-        """
-        Remove an agent from the class (not instance).
-
-        Decrement the count of high risk agents.
-
-        args:
-            agent: the agent to remove from the class attributes
-        """
-        cls.count -= 1
+                    if rel is not None:
+                        rel.progress(force=True)
+                        model.pop.remove_relationship(rel)
 
     def set_stats(self, stats: Dict[str, int], time: int):
         if self.time == time:
@@ -155,19 +124,20 @@ class HighRisk(base_feature.BaseFeature):
 
     # ============== HELPER METHODS ================
 
-    def become_high_risk(self, time: int, duration: int = None):
+    def become_high_risk(
+        self, pop: "population.Population", time: int, duration: int = None
+    ):
         """
         Mark an agent as high risk and assign a duration to their high risk period
 
         args:
+            pop: the model poopulation
             time: the time step the agent is becoming high risk
             duration: duration of the high risk period, defaults to param value if not passed [params.high_risk.sex_based]
         """
 
         if not self.agent.location.params.features.high_risk:
             return None
-
-        self.add_agent(self.agent)
 
         if not self.ever:
             self.time = time
@@ -181,3 +151,22 @@ class HighRisk(base_feature.BaseFeature):
             self.duration = self.agent.location.params.high_risk.sex_based[
                 self.agent.sex_type
             ].duration
+
+        self.update_partner_numbers(
+            pop, self.agent.location.params.high_risk.partner_scale
+        )
+
+    def update_partner_numbers(self, pop: "population.Population", amount: int):
+        """
+        Update the agent's mean and target partner numbers by the amount passed.  Update partnerability for the population.
+
+        args:
+            pop: the model population
+            amount: the positive or negatative amount to adjust the mean by
+        """
+        for bond in self.agent.location.params.high_risk.partnership_types:
+            self.agent.mean_num_partners[bond] += amount  # could be negative
+            self.agent.target_partners[bond] = utils.poisson(
+                self.agent.mean_num_partners[bond], pop.np_random
+            )
+            pop.update_partnerability(self.agent)

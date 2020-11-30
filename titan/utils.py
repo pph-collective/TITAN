@@ -193,6 +193,8 @@ def override_param(params, param_path, value, delimiter="|"):
     try:
         old_val = override_item[last_key]
     except KeyError:
-        old_val = override_item[int(last_key)]
+        last_key = int(last_key)
+        old_val = override_item[last_key]
+
     print(f"overriding - {param_path}: {old_val} => {value}")
     override_item[last_key] = value
