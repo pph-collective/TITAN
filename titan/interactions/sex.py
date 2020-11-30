@@ -38,7 +38,7 @@ class Sex(base_interaction.BaseInteraction):
 
         # unprotected sex probabilities for primary partnerships
         mean_sex_acts = (
-            agent.get_number_of_sex_acts(model.np_random, rel.bond_type)
+            rel.get_number_of_sex_acts(model.np_random)
             * model.calibration.sex.act
         )
         total_sex_acts = utils.poisson(mean_sex_acts, model.np_random)

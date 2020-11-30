@@ -87,21 +87,6 @@ def test_is_msm(make_agent):
 
 
 @pytest.mark.unit
-def test_get_number_of_sex_acts(make_agent, params):  # TODO test dist
-    a = make_agent()
-
-    rand_gen_low = FakeRandom(0.0)
-    min_val_low = params.partnership.sex.frequency.Sex.bins[1].min
-
-    rand_gen_high = FakeRandom(1.0)
-
-    assert a.get_number_of_sex_acts(rand_gen_low, "Sex") == min_val_low
-
-    # test fallthrough
-    assert a.get_number_of_sex_acts(rand_gen_high, "Sex") == 37
-
-
-@pytest.mark.unit
 def test_has_partners(make_agent, make_relationship):
     a = make_agent()
 
@@ -188,6 +173,23 @@ def test_get_partner(make_agent, make_relationship):
 
     assert rel.get_partner(a) == p
     assert rel.get_partner(p) == a
+
+
+@pytest.mark.unit
+def test_get_number_of_sex_acts(make_agent, make_relationship, params):  # TODO test dist
+    a = make_agent()
+    p = make_agent()
+    rel = make_relationship(a, p)
+
+    rand_gen_low = FakeRandom(0.0)
+    min_val_low = params.partnership.sex.frequency.Sex.bins[1].min
+
+    rand_gen_high = FakeRandom(1.0)
+
+    assert rel.get_number_of_sex_acts(rand_gen_low) == min_val_low
+
+    # test fallthrough
+    assert rel.get_number_of_sex_acts(rand_gen_high) == 37
 
 
 # ============================== AGENT SET TESTS ===============================

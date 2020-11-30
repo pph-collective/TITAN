@@ -30,7 +30,7 @@ def test_incarcerate_unincarcerate(make_model, make_agent):
 
     assert a.incar.active is False
     assert a.haart.active is False
-    assert a.haart.adherence == 0
+    assert a.haart.adherent is False
 
 
 @pytest.mark.unit
