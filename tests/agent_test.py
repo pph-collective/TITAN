@@ -176,7 +176,9 @@ def test_get_partner(make_agent, make_relationship):
 
 
 @pytest.mark.unit
-def test_get_number_of_sex_acts(make_agent, make_relationship, params):  # TODO test dist
+def test_get_number_of_sex_acts(
+    make_agent, make_relationship, params
+):  # TODO test dist
     a = make_agent()
     p = make_agent()
     rel = make_relationship(a, p)

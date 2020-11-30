@@ -311,7 +311,6 @@ class Relationship:
         else:
             raise ValueError("Agent must be in this relationship")
 
-
     def get_number_of_sex_acts(self, rand_gen) -> int:
         """
         Number of sexActs an agent has done.
@@ -322,7 +321,9 @@ class Relationship:
         returns:
             number of sex acts
         """
-        freq_params = self.agent1.location.params.partnership.sex.frequency[self.bond_type]
+        freq_params = self.agent1.location.params.partnership.sex.frequency[
+            self.bond_type
+        ]
 
         if freq_params.type == "bins":
             rv = rand_gen.random()
@@ -340,7 +341,6 @@ class Relationship:
             return round(safe_dist(freq_params.distribution, rand_gen))
         else:
             raise Exception("Sex acts must be defined as bin or distribution")
-
 
     def __str__(self):
         return (
