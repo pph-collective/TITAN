@@ -69,13 +69,6 @@ parser.add_argument(
     help="Path to saved population (directory or .tar.gz file)",
 )
 
-parser.add_argument(
-    "-gittag",
-    type=bytes,
-    default=subprocess.check_output(["git", "describe", "--tags"]).strip(),
-    help="find git tag",
-)
-
 
 def sweep_range(string):
     """
@@ -430,7 +423,6 @@ if __name__ == "__main__":
     sweepfile = args.sweepfile.strip() if args.sweepfile is not None else None
     savepop = args.savepop.strip() if args.savepop is not None else None
     poppath = args.poppath.strip() if args.poppath is not None else None
-    print("git version:\n", str(args.gittag)[1:], "\n")
     main(
         args.setting.strip(),
         args.params.strip(),
