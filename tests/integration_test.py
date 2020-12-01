@@ -111,7 +111,7 @@ def test_model_settings_run(tmpdir):
             path = tmpdir.mkdir(item)
             print(f"-----------Starting run for {item}-----------")
             subprocess.check_call(
-                [f, f"-p {param_file}", f"-o {path}", f"-S {item}", "-e"]
+                [f, f"-S {item}", f"-p {param_file}", f"-o {path}", "-e"]
             )
             assert True
 
