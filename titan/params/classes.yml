@@ -109,7 +109,7 @@ classes:
       - pert
       - set_value
       - randint
-      - weibull
+      - weibull_modified
       - wald
       - negative_binomial
     description: "Which distributions are available in the model - more of a reference than a class"
@@ -123,7 +123,7 @@ classes:
       - set_value
       - randint
       - wald
-      - weibull
+      - weibull_modified
       - negative_binomial
   locations:
     type: definition

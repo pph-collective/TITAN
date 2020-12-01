@@ -63,7 +63,7 @@ partnership:
     Sex:
       type: distribution
       distribution:
-        dist_type: weibull
+        dist_type: weibull_modified
         vars:
           1:
             value: 0.586
@@ -71,6 +71,7 @@ partnership:
           2:
             value: 11.532
             value_type: float
+        mean: 16
 
 prep:
   type:

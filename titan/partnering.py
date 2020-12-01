@@ -141,6 +141,7 @@ def get_mean_rel_duration(params: "parse_params.ObjMap"):
             mean_rel_duration[bond] = params.partnership.duration[
                 bond
             ].distribution.mean
+        assert mean_rel_duration[bond] > 0, "All bonds must have a positive duration!"
 
     return mean_rel_duration
 

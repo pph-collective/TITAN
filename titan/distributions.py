@@ -41,3 +41,7 @@ def pert(np_random, low, peak, high, temperature):
     alpha = 1.0 + temperature * (peak - low) / scale
     beta = 1.0 + temperature * (high - peak) / scale
     return low + scale * np_random.beta(alpha, beta)
+
+
+def weibull_modified(np_random, shape, scale):
+    return scale * np_random.weibull(shape)
