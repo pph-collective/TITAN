@@ -28,7 +28,7 @@ partnership:
         0:
           prob: 0.165
         1:
-          prob: 0.0
+          prob: 0.00
     acquisition:
       MSM:
         insertive: 0.0017
