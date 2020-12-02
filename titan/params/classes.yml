@@ -102,6 +102,8 @@ classes:
       - pert
       - set_value
       - randint
+      - weibull
+      - negative_binomial
     description: "Which distributions are available in the model - more of a reference than a class"
     type: array
     values:
@@ -112,6 +114,8 @@ classes:
       - pert
       - set_value
       - randint
+      - weibull
+      - negative_binomial
   locations:
     type: definition
     description: Locations that exist within the model
