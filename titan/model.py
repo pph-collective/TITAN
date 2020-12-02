@@ -29,7 +29,9 @@ class HIVModel:
         return res
 
     def __init__(
-        self, params: ObjMap, pop: Optional["population.Population"] = None,
+        self,
+        params: ObjMap,
+        pop: Optional["population.Population"] = None,
     ):
         """
         This is the core class used to simulate
@@ -154,7 +156,11 @@ class HIVModel:
         """
         # make sure initial state of things get printed
         stats = ao.get_stats(
-            self.pop.all_agents, self.deaths, self.params, self.features, self.time,
+            self.pop.all_agents,
+            self.deaths,
+            self.params,
+            self.features,
+            self.time,
         )
         self.print_stats(stats, outdir)
 
@@ -201,7 +207,11 @@ class HIVModel:
         self.update_all_agents()
 
         stats = ao.get_stats(
-            self.pop.all_agents, self.deaths, self.params, self.features, self.time,
+            self.pop.all_agents,
+            self.deaths,
+            self.params,
+            self.features,
+            self.time,
         )
         self.print_stats(stats, outdir)
 
@@ -447,7 +457,9 @@ class HIVModel:
         diagnosed = agent.hiv_dx
         partner_tracing = agent.location.params.partner_tracing
 
-        def diagnose(agent,):
+        def diagnose(
+            agent,
+        ):
             # agent's location's params used throughout as that is the agent who
             # would be interacting with the service
             agent.hiv_dx = True
