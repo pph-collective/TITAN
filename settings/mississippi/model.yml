@@ -14,6 +14,8 @@ features:
   haart: true
 
 classes:
+  drug_types:
+    - None
   races:
     black:
       hispanic: false
