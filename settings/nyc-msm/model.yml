@@ -1,7 +1,7 @@
 model:
   num_pop: 171990
   time:
-    num_steps: 87
+    num_steps: 27
     burn_steps: 48
 
 classes:

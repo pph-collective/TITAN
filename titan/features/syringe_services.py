@@ -55,8 +55,7 @@ class SyringeServices(base_feature.BaseFeature):
                 if 0 < ssp_num_slots < num_pwid_agents:
                     ssp_num_slots = round(
                         model.run_random.betavariate(
-                            ssp_num_slots,
-                            num_pwid_agents - ssp_num_slots,
+                            ssp_num_slots, num_pwid_agents - ssp_num_slots,
                         )
                         * num_pwid_agents
                     )

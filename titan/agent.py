@@ -357,9 +357,7 @@ class AgentSet:
     """
 
     def __init__(
-        self,
-        id: str,
-        parent: Optional["AgentSet"] = None,
+        self, id: str, parent: Optional["AgentSet"] = None,
     ):
         """
         Constructor of an AgentSet
