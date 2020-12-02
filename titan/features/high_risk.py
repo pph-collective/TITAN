@@ -53,9 +53,9 @@ class HighRisk(base_feature.BaseFeature):
         """
         if (
             pop.pop_random.random()
-            < self.agent.location.params.demographics[self.agent.race][
-                self.agent.sex_type
-            ].high_risk.init
+            < self.agent.location.params.demographics[self.agent.race]
+            .sex_type[self.agent.sex_type]
+            .high_risk.init
         ):
             self.become_high_risk(pop, time)
 

@@ -168,9 +168,9 @@ class Prep(base_feature.BaseFeature):
             if "Racial" in params.prep.target_model:
                 if (
                     model.run_random.random()
-                    <= params.demographics[self.agent.race][
-                        self.agent.sex_type
-                    ].prep.coverage
+                    <= params.demographics[self.agent.race]
+                    .sex_type[self.agent.sex_type]
+                    .prep.coverage
                 ):
                     self.enroll(model.run_random, model.time)
             else:
@@ -187,7 +187,7 @@ class Prep(base_feature.BaseFeature):
                 num_hiv_agents = len(all_hiv_agents & all_race)
                 target_prep = (len(all_race) - num_hiv_agents) * params.demographics[
                     self.agent.race
-                ][self.agent.sex_type].prep.coverage
+                ].sex_type[self.agent.sex_type].prep.coverage
             else:
                 num_prep_agents = sum(self.counts.values())
                 target_prep = int(
@@ -220,7 +220,9 @@ class Prep(base_feature.BaseFeature):
 
         if (
             rand_gen.random()
-            < params.demographics[self.agent.race][self.agent.sex_type].prep.adherence
+            < params.demographics[self.agent.race]
+            .sex_type[self.agent.sex_type]
+            .prep.adherence
         ):
             self.adherence = 1
         else:
@@ -252,9 +254,9 @@ class Prep(base_feature.BaseFeature):
         if self.type == "Oral":
             if (
                 model.run_random.random()
-                < self.agent.location.params.demographics[self.agent.race][
-                    self.agent.sex_type
-                ].prep.discontinue
+                < self.agent.location.params.demographics[self.agent.race]
+                .sex_type[self.agent.sex_type]
+                .prep.discontinue
             ):
                 self.discontinue()
             else:

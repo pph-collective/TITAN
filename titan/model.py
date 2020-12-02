@@ -422,11 +422,7 @@ class HIVModel:
             p *= 1 - agent.location.params.hiv.dx.risk_reduction[interaction]
 
         # Racial calibration parameter to attain proper race incidence disparity
-        p *= (
-            partner.location.params.demographics[partner.race][partner.sex_type]
-            .drug_type[partner.drug_type]
-            .hiv.transmission
-        )
+        p *= partner.location.params.demographics[partner.race].hiv.transmission
 
         # Scaling parameter for per act transmission.
         p *= self.calibration.acquisition
@@ -483,9 +479,12 @@ class HIVModel:
                         ptnr.trace_time = self.time
 
         if not diagnosed:
-            test_prob = agent.location.params.demographics[race_type][
-                sex_type
-            ].drug_type[agent.drug_type].hiv.dx.prob
+            test_prob = (
+                agent.location.params.demographics[race_type]
+                .sex_type[sex_type]
+                .drug_type[agent.drug_type]
+                .hiv.dx.prob
+            )
 
             # Rescale based on calibration param
             test_prob *= self.calibration.test_frequency

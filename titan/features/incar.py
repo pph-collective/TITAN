@@ -36,9 +36,11 @@ class Incar(base_feature.BaseFeature):
             pop: the population this agent is a part of
             time: the current time step
         """
-        incar_params = self.agent.location.params.demographics[self.agent.race][
-            self.agent.sex_type
-        ].incar
+        incar_params = (
+            self.agent.location.params.demographics[self.agent.race]
+            .sex_type[self.agent.sex_type]
+            .incar
+        )
         jail_duration = incar_params.duration.init
 
         prob_incar = incar_params.init
@@ -92,15 +94,17 @@ class Incar(base_feature.BaseFeature):
 
         # should the agent become incarcerated?
         elif model.run_random.random() < (
-            self.agent.location.params.demographics[self.agent.race][
-                self.agent.sex_type
-            ].incar.prob
+            self.agent.location.params.demographics[self.agent.race]
+            .sex_type[self.agent.sex_type]
+            .incar.prob
             * hiv_multiplier
             * model.calibration.incarceration
         ):
-            incar_duration = self.agent.location.params.demographics[self.agent.race][
-                self.agent.sex_type
-            ].incar.duration.prob
+            incar_duration = (
+                self.agent.location.params.demographics[self.agent.race]
+                .sex_type[self.agent.sex_type]
+                .incar.duration.prob
+            )
 
             bin = current_p_value = 1
             p = model.run_random.random()

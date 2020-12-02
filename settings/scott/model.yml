@@ -57,52 +57,52 @@ timeline_scaling:
       stop_time: 0
       scalar: 0.0001
     PWID_dx_scale_HM_Inj:
-      parameter: demographics|white|HM|drug_type|Inj|hiv|dx|prob
+      parameter: demographics|white|sex_type|HM|drug_type|Inj|hiv|dx|prob
       start_time: -47
       stop_time: 0
       scalar: 0.0001
     dx_new_agent_zero_HM_Inj: # make init probability 0 after initial population creation
-      parameter: demographics|white|HM|drug_type|Inj|hiv|dx|init
+      parameter: demographics|white|sex_type|HM|drug_type|Inj|hiv|dx|init
       start_time: -47
       stop_time: 9999
       scalar: 0
     PWID_dx_scale_HF_Inj:
-      parameter: demographics|white|HF|drug_type|Inj|hiv|dx|prob
+      parameter: demographics|white|sex_type|HF|drug_type|Inj|hiv|dx|prob
       start_time: -47
       stop_time: 0
       scalar: 0.0001
     dx_new_agent_zero_HF_Inj: # make init probability 0 after initial population creation
-      parameter: demographics|white|HF|drug_type|Inj|hiv|dx|init
+      parameter: demographics|white|sex_type|HF|drug_type|Inj|hiv|dx|init
       start_time: -47
       stop_time: 9999
       scalar: 0
     dx_new_agent_zero_HM: # make init probability 0 after initial population creation
-      parameter: demographics|white|HM|drug_type|None|hiv|dx|init
+      parameter: demographics|white|sex_type|HM|drug_type|None|hiv|dx|init
       start_time: -47
       stop_time: 9999
       scalar: 0
     dx_new_agent_zero_HF: # make init probability 0 after initial population creation
-      parameter: demographics|white|HF|drug_type|None|hiv|dx|init
+      parameter: demographics|white|sex_type|HF|drug_type|None|hiv|dx|init
       start_time: -47
       stop_time: 9999
       scalar: 0
     adh_prob_HF_None:  # make viral suppression probability 0.7 after initial pop creation
-      parameter: demographics|white|HF|drug_type|None|haart|adherence
+      parameter: demographics|white|sex_type|HF|drug_type|None|haart|adherence
       start_time: -47
       stop_time: 9999
       scalar: 0.7
     adh_prob_HM_None:   # make viral suppression probability 0.7 after initial pop creation
-      parameter: demographics|white|HM|drug_type|None|haart|adherence
+      parameter: demographics|white|sex_type|HM|drug_type|None|haart|adherence
       start_time: -47
       stop_time: 9999
       scalar: 0.7
     adh_prob_HF_Inj:  # make viral suppression probability 0.7 after initial pop creation
-      parameter: demographics|white|HF|drug_type|Inj|haart|adherence
+      parameter: demographics|white|sex_type|HF|drug_type|Inj|haart|adherence
       start_time: -47
       stop_time: 9999
       scalar: 0.7
     adh_prob_HM_Inj:  # make viral suppression probability 0.7 after initial pop creation
-      parameter: demographics|white|HM|drug_type|Inj|haart|adherence
+      parameter: demographics|white|sex_type|HM|drug_type|Inj|haart|adherence
       start_time: -47
       stop_time: 9999
       scalar: 0.7

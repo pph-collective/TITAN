@@ -27,6 +27,8 @@ classes:
     Sex:
       acts_allowed:
         - sex
+  drug_types:
+    - None
 
 partnership:
   sex:

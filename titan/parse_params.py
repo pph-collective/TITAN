@@ -57,9 +57,18 @@ def check_params(params):
         r_dems = params.demographics[race]
         race_pop += r_dems.ppl
         sex_type_pop = 0
-        for st, st_dems in r_dems.items():
+        for st, st_dems in r_dems.sex_type.items():
             if st in list(params.classes.sex_types.keys()):
                 sex_type_pop += st_dems.ppl
+
+            drug_type_pop = 0
+            for dt, dt_dems in st_dems.drug_type.items():
+                if dt in list(params.classes.drug_types):
+                    drug_type_pop += dt_dems.ppl
+
+            assert math.isclose(
+                drug_type_pop, 1, abs_tol=0.001
+            ), f"ppl of {race}'s {st}'s drug_types must add to 1. Currently adding to {drug_type_pop}"
 
         assert math.isclose(
             sex_type_pop, 1, abs_tol=0.001

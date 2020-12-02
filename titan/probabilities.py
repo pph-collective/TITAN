@@ -57,7 +57,7 @@ def get_death_rate(
     """
     param = location.params.demographics
 
-    death_param = param[race][sex_type].drug_type[drug_type].death_rate
+    death_param = param[race].sex_type[sex_type].drug_type[drug_type].death_rate
 
     p = death_param.base
 

@@ -41,9 +41,11 @@ class Injection(base_interaction.BaseInteraction):
         assert agent.drug_type == "Inj"
         assert partner.drug_type == "Inj"
 
-        agent_params = agent.location.params.demographics[agent.race][
-            agent.sex_type
-        ].injection
+        agent_params = (
+            agent.location.params.demographics[agent.race]
+            .sex_type[agent.sex_type]
+            .injection
+        )
 
         mean_num_acts = agent_params.num_acts * model.calibration.injection.act
         share_acts = utils.poisson(mean_num_acts, model.np_random)

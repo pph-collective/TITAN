@@ -92,46 +92,47 @@ prep:
 demographics:
   black:
     ppl: 1.0
-    MSM:
-      ppl: 1.0
-      drug_type:
-        None:
+    sex_type:
+      MSM:
+        ppl: 1.0
+        incar:
+          init: 0.0
+          prob: 0.0
+        safe_sex: 0.312
+        injection:
+          unsafe_prob: 0.27
+          num_acts: 5.0
+        prep:
+          discontinue: 0.0
+          adherence: 0.568
+          coverage: 0.5
+        high_risk:
+          init: 0.0
+        vaccine:
           init: 1.0
-          hiv:
-            init: 0.367
-            dx:
-              init: 0.655
-              prob: 0.06
-            aids:
-              init: 0.232
-          haart:
-            init: 0.627
-            adherence: 0.817
-            discontinue: 0.07
-          num_partners:
-            Social:
-              dist_type: poisson
-              vars:
-                1:
-                  value: 5.0
-                  value_type: float
-      incar:
-        init: 0.0
-        prob: 0.0
-      safe_sex: 0.312
-      injection:
-        unsafe_prob: 0.27
-        num_acts: 5.0
-      prep:
-        discontinue: 0.0
-        adherence: 0.568
-        coverage: 0.5
-      high_risk:
-        init: 0.0
-      vaccine:
-        init: 1.0
-        booster:
-          interval: 3
+          booster:
+            interval: 3
+        drug_type:
+          None:
+            ppl: 1.0
+            hiv:
+              init: 0.367
+              dx:
+                init: 0.655
+                prob: 0.06
+              aids:
+                init: 0.232
+            haart:
+              init: 0.627
+              adherence: 0.817
+              discontinue: 0.07
+            num_partners:
+              Social:
+                dist_type: poisson
+                vars:
+                  1:
+                    value: 5.0
+                    value_type: float
 
 partnership:
   duration:
