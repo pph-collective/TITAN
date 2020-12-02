@@ -170,7 +170,9 @@ class Population:
         else:
             agent.sex_role = sex_role
 
-        agent_params = agent.location.params.demographics[race][agent.population]
+        agent_params = agent.location.params.demographics[race][sex_type].drug_type[
+            drug_type
+        ]
 
         # HIV
         if (
@@ -184,7 +186,7 @@ class Population:
                 time - loc.params.hiv.max_init_time, time
             )
 
-            if self.pop_random.random() < agent_params.aids.init:
+            if self.pop_random.random() < agent_params.hiv.aids.init:
                 agent.aids = True
 
             if self.pop_random.random() < agent_params.hiv.dx.init:

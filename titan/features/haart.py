@@ -52,8 +52,8 @@ class HAART(base_feature.BaseFeature):
             time: the current time step
         """
         agent_params = self.agent.location.params.demographics[self.agent.race][
-            self.agent.population
-        ]
+            self.agent.sex_type
+        ].drug_type[self.agent.drug_type]
         if (
             self.agent.hiv
             and self.agent.hiv_dx
@@ -85,7 +85,7 @@ class HAART(base_feature.BaseFeature):
             # Determine probability of HIV treatment
             haart_params = self.agent.location.params.demographics[self.agent.race][
                 self.agent.sex_type
-            ].haart
+            ].drug_type[self.agent.drug_type].haart
             # Go on HAART
             if not self.active:
                 if self.agent.location.params.hiv.haart_cap:
@@ -175,7 +175,7 @@ class HAART(base_feature.BaseFeature):
         """
         haart_adh = self.agent.location.params.demographics[self.agent.race][
             self.agent.sex_type
-        ].haart.adherence
+        ].drug_type[self.agent.drug_type].haart.adherence
         if model.run_random.random() < haart_adh:
             adherence = 5
         else:

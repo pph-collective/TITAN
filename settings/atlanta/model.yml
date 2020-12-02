@@ -29,8 +29,21 @@ prep:
   target_model:
     - Racial
 
+hiv:
+  aids:
+    prob: 0.05
+
 classes:
   bond_types:
     Sex:
       acts_allowed:
         - sex
+  sex_types:
+    MSM:
+      gender: M
+      cis_trans: cis
+      sleeps_with:
+        - MSM
+  drug_types:
+    - NonInj
+    - None

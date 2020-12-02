@@ -3,7 +3,7 @@ demographics:
   description: "Parameters controlling population class level probabilities and behaviors"
   keys:
     - races
-    - populations
+    - sex_types
   default:
     ppl:
       default: 0.0
@@ -31,63 +31,6 @@ demographics:
           type: float
           min: 0.0
           max: 1.0
-    hiv:
-      init:
-        default: 0.0
-        description: "Probability that an agent in this class initially has HIV"
-        type: float
-        min: 0.0
-        max: 1.0
-      dx:
-        init:
-          default: 0.0
-          description: "Probability that an agent with HIV in the initial population is initially diagnosed and 'knows' their HIV status, therefore enabling enrollment in treatment"
-          type: float
-          min: 0.0
-          max: 1.0
-        prob:
-          default: 0.0
-          description: "Probability that an agent with HIV becomes diagnosed at a given time step and 'knows' their HIV status, therefore enabling enrollment in treatment"
-          type: float
-          min: 0.0
-          max: 1.0
-      transmission:
-        default: 1.0
-        description: Scaling factor for transmission probability by race (only effective at race level)
-        type: float
-        min: 0
-    aids:
-      init:
-        default: 0.0
-        description: "Probability that an agent in this class with HIV has AIDS initially"
-        type: float
-        min: 0.0
-        max: 1.0
-    haart:
-      init:
-        default: 0.0
-        description: "Probability that an agent in this class with HIV is initially enrolled in HAART"
-        type: float
-        min: 0.0
-        max: 1.0
-      prob:
-        default: 0.0
-        description: "Probability that an agent in this class with HIV becomes enrolled in HAART at a given time step"
-        type: float
-        min: 0.0
-        max: 1.0
-      adherence:
-        default: 0.0
-        description: "Probability that an agent is assigned adherence of 5, otherwise randomly assigned 1-4"
-        type: float
-        min: 0.0
-        max: 1.0
-      discontinue:
-        default: 0.0
-        description: "Probability that an agent on HAART discontinues HAART in a given time step"
-        type: float
-        min: 0.0
-        max: 1.0
     incar:
       init:
         default: 0.0
@@ -180,31 +123,7 @@ demographics:
               prob: 0.30
               min: 260
               max: 520
-    num_partners:
-      type: sub-dict
-      keys:
-        - bond_types
-      default:
-        dist_type:
-          default: poisson
-          description: "How to determine mean number of partners for an agent. Uses numpy.random distributions or 'set_value' to always return the first value. More info at https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator"
-          type: enum
-          class: distributions
-        vars:
-          type: bin
-          description: Pass values in order of bin keys to the distribution, starting at 1
-          fields:
-            value:
-              type: float
-            value_type:
-              type: enum
-              values:
-                - int
-                - float
-          default:
-            1:
-              value: 0
-              value_type: int
+
     drug_type:
       type: sub-dict
       keys:
@@ -216,6 +135,105 @@ demographics:
           type: float
           min: 0.0
           max: 1.0
+        hiv:
+          init:
+            default: 0.0
+            description: "Probability that an agent in this class initially has HIV"
+            type: float
+            min: 0.0
+            max: 1.0
+          dx:
+            init:
+              default: 0.0
+              description: "Probability that an agent with HIV in the initial population is initially diagnosed and 'knows' their HIV status, therefore enabling enrollment in treatment"
+              type: float
+              min: 0.0
+              max: 1.0
+            prob:
+              default: 0.0
+              description: "Probability that an agent with HIV becomes diagnosed at a given time step and 'knows' their HIV status, therefore enabling enrollment in treatment"
+              type: float
+              min: 0.0
+              max: 1.0
+          transmission:
+            default: 1.0
+            description: Scaling factor for transmission probability
+            type: float
+            min: 0
+          aids:
+            init:
+              default: 0.0
+              description: "Probability that an agent in this class with HIV has AIDS initially"
+              type: float
+              min: 0.0
+              max: 1.0
+        haart:
+          init:
+            default: 0.0
+            description: "Probability that an agent in this class with HIV is initially enrolled in HAART"
+            type: float
+            min: 0.0
+            max: 1.0
+          prob:
+            default: 0.0
+            description: "Probability that an agent in this class with HIV becomes enrolled in HAART at a given time step"
+            type: float
+            min: 0.0
+            max: 1.0
+          adherence:
+            default: 0.0
+            description: "Probability that an agent is assigned adherence of 5, otherwise randomly assigned 1-4"
+            type: float
+            min: 0.0
+            max: 1.0
+          discontinue:
+            default: 0.0
+            description: "Probability that an agent on HAART discontinues HAART in a given time step"
+            type: float
+            min: 0.0
+            max: 1.0
+        death_rate:
+          base:
+            default: 10.4
+            type: float
+            description: Death rate by race per 1000 person years in base case
+          hiv:
+            default: 2.
+            type: float
+            description: Scalar for death rate for agents with hiv, not aids, and not haart adherent. Scales from base.
+          aids:
+            default: 4.
+            type: float
+            description: Scalar for death rate for agents with aids. Scales from base.
+          haart_adherent:
+            default: 1.0
+            type: float
+            description: Scalar for death rate for those fully adherent on haart. Scales from base.
+        num_partners:
+          type: sub-dict
+          keys:
+            - bond_types
+          default:
+            dist_type:
+              default: set_value
+              description: "How to determine mean number of partners for an agent. Uses numpy.random distributions or 'set_value' to always return the first value. More info at https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator"
+              type: enum
+              class: distributions
+            vars:
+              type: bin
+              description: Pass values in order of bin keys to the distribution, starting at 1
+              fields:
+                value:
+                  type: float
+                value_type:
+                  type: enum
+                  values:
+                    - int
+                    - float
+              default:
+                1:
+                  value: 0
+                  value_type: int
     injection:
       num_acts:
         default: 0.0
@@ -320,20 +338,3 @@ demographics:
           prob: 1
           min: 55
           max: 80
-    death_rate:
-      base:
-        default: 10.4
-        type: float
-        description: Death rate by race per 1000 person years in base case
-      hiv:
-        default: 2.
-        type: float
-        description: Scalar for death rate for agents with hiv, not aids, and not haart adherent. Scales from base.
-      aids:
-        default: 4.
-        type: float
-        description: Scalar for death rate for agents with aids. Scales from base.
-      haart_adherent:
-        default: 1.0
-        type: float
-        description: Scalar for death rate for those fully adherent on haart. Scales from base.

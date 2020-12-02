@@ -1,52 +1,91 @@
 demographics:
   black:
     ppl: 0.600000000000567
-    MSM:
-      ppl: 0.3
-      drug_type:
+    MTF:
+      ppl: 0.1
+      drug_type: &base_drug_type
         Inj:
           init: 0.2
-        NonInj:
-          init: 0.1
-        None:
-          init: 0.7
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 10
-              value_type: float
-        Social:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        SexInj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        Inj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-      hiv:
-        init: 0.1
-        dx:
-          init: 0.1
-          prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
+          num_partners:
+            Sex:
+              dist_type: poisson
+              vars:
+                1:
+                  value: 10
+                  value_type: float
+            Social:
+              dist_type: poisson
+              vars:
+                1:
+                  value: 0
+                  value_type: float
+            SexInj:
+              dist_type: poisson
+              vars:
+                1:
+                  value: 10
+                  value_type: float
+            Inj:
+              dist_type: poisson
+              vars:
+                1:
+                  value: 10
+                  value_type: float
+          hiv:
+            init: 0.1
+            dx:
+              init: 0.1
+              prob: 0.1
+            aids:
+              init: 0.1
+          haart:
+            init: 0.1
+            prob: 0.1
+            adherence: 0.1
+            discontinue: 0.1
+        NonInj: &npwid_drug_type
+          init: 0.4
+          hiv:
+            init: 0.1
+            dx:
+              init: 0.1
+              prob: 0.1
+            aids:
+              init: 0.1
+          num_partners:
+            Sex:
+              dist_type: poisson
+              vars:
+                1:
+                  value: 10
+                  value_type: float
+          haart:
+            init: 0.1
+            prob: 0.1
+            adherence: 0.1
+            discontinue: 0.1
+        None: *npwid_drug_type
+      incar:
+        init: 0.02
+        prob: 0.02
+      safe_sex: 0.1
+      injection:
+        unsafe_prob: 0.1
+      prep:
         adherence: 0.1
         discontinue: 0.1
+        coverage: 0.3
+      high_risk:
+        init: 0.1
+      vaccine:
+        init: 0.1
+        prob: 0.1
+        booster:
+          interval: 12
+          prob: 0.1
+    MSM:
+      ppl: 0.3
+      drug_type: *base_drug_type
       incar:
         init: 0.02
         prob: 0.02
@@ -67,50 +106,7 @@ demographics:
           prob: 0.1
     HM:
       ppl: 0.3
-      drug_type:
-        Inj:
-          init: 0.2
-        NonInj:
-          init: 0.1
-        None:
-          init: 0.7
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 10
-              value_type: float
-        Social:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        SexInj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        Inj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-      hiv:
-        init: 0.1
-        dx:
-          init: 0.1
-          prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
+      drug_type: *base_drug_type
       incar:
         init: 0.02
         prob: 0.02
@@ -131,50 +127,7 @@ demographics:
           prob: 0.1
     HF:
       ppl: 0.2
-      drug_type:
-        Inj:
-          init: 0.2
-        NonInj:
-          init: 0.1
-        None:
-          init: 0.7
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 10
-              value_type: float
-        Social:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        SexInj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        Inj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-      hiv:
-        init: 0.1
-        dx:
-          init: 0.1
-          prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
+      drug_type: *base_drug_type
       incar:
         init: 0.02
         prob: 0.02
@@ -195,171 +148,7 @@ demographics:
           prob: 0.1
     WSW:
       ppl: 0.1
-      drug_type:
-        Inj:
-          init: 0.2
-        NonInj:
-          init: 0.1
-        None:
-          init: 0.7
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 10
-              value_type: float
-        Social:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        SexInj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        Inj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-      hiv:
-        init: 0.1
-        dx:
-          init: 0.1
-          prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
-      incar:
-        init: 0.02
-        prob: 0.02
-      safe_sex: 0.1
-      injection:
-        unsafe_prob: 0.1
-      prep:
-        adherence: 0.1
-        discontinue: 0.1
-        coverage: 0.3
-      high_risk:
-        init: 0.1
-      vaccine:
-        init: 0.1
-        prob: 0.1
-        booster:
-          interval: 12
-          prob: 0.1
-    MTF:
-      ppl: 0.1
-      drug_type:
-        Inj:
-          init: 0.2
-        NonInj:
-          init: 0.1
-        None:
-          init: 0.7
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 10
-              value_type: float
-        Social:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        SexInj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        Inj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-      hiv:
-        init: 0.1
-        dx:
-          init: 0.1
-          prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
-      incar:
-        init: 0.02
-        prob: 0.02
-      safe_sex: 0.1
-      injection:
-        unsafe_prob: 0.1
-      prep:
-        adherence: 0.1
-        discontinue: 0.1
-        coverage: 0.3
-      high_risk:
-        init: 0.1
-      vaccine:
-        init: 0.1
-        prob: 0.1
-        booster:
-          interval: 12
-          prob: 0.1
-    PWID:
-      ppl: 0.2
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 10
-              value_type: float
-        Social:
-          dist_type: poisson
-          vars:
-            1:
-              value: 0
-              value_type: float
-        SexInj:
-          dist_type: poisson
-          vars:
-            1:
-              value: 10
-              value_type: float
-        Inj:
-          dist_type: poisson
-          vars:
-            1:
-              value: 10
-              value_type: float
-      hiv:
-        init: 0.1
-        dx:
-          init: 0.1
-          prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
+      drug_type: *base_drug_type
       incar:
         init: 0.02
         prob: 0.02
@@ -380,59 +169,9 @@ demographics:
           prob: 0.1
   white:
     ppl: 0.4
-    drug_type:
-      Inj:
-        init: 0.3
-      NonInj:
-        init: 0.1
-      None:
-        init: 0.6
     MSM:
       ppl: 0.3
-      drug_type:
-        Inj:
-          init: 0.3
-        NonInj:
-          init: 0.1
-        None:
-          init: 0.6
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 10
-              value_type: float
-        Social:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        SexInj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        Inj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-      hiv:
-        init: 0.1
-        dx:
-          init: 0.1
-          prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
+      drug_type: *base_drug_type
       incar:
         init: 0.02
         prob: 0.02
@@ -453,50 +192,7 @@ demographics:
           prob: 0.1
     HM:
       ppl: 0.3
-      drug_type:
-        Inj:
-          init: 0.3
-        NonInj:
-          init: 0.1
-        None:
-          init: 0.6
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 10
-              value_type: float
-        Social:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        SexInj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        Inj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-      hiv:
-        init: 0.1
-        dx:
-          init: 0.1
-          prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
+      drug_type: *base_drug_type
       incar:
         init: 0.02
         prob: 0.02
@@ -517,50 +213,7 @@ demographics:
           prob: 0.1
     HF:
       ppl: 0.2
-      drug_type:
-        Inj:
-          init: 0.3
-        NonInj:
-          init: 0.1
-        None:
-          init: 0.6
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 10
-              value_type: float
-        Social:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        SexInj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        Inj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-      hiv:
-        init: 0.1
-        dx:
-          init: 0.1
-          prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
+      drug_type: *base_drug_type
       incar:
         init: 0.02
         prob: 0.02
@@ -581,50 +234,7 @@ demographics:
           prob: 0.1
     WSW:
       ppl: 0.1
-      drug_type:
-        Inj:
-          init: 0.3
-        NonInj:
-          init: 0.1
-        None:
-          init: 0.6
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 10
-              value_type: float
-        Social:
-          dist_type: poisson
-          vars:
-            1:
-              value: 0
-              value_type: float
-        SexInj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        Inj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-      hiv:
-        init: 0.1
-        dx:
-          init: 0.1
-          prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
+      drug_type: *base_drug_type
       incar:
         init: 0.02
         prob: 0.02
@@ -645,107 +255,7 @@ demographics:
           prob: 0.1
     MTF:
       ppl: 0.1
-      drug_type:
-        Inj:
-          init: 0.3
-        NonInj:
-          init: 0.1
-        None:
-          init: 0.6
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 10
-              value_type: float
-        Social:
-          dist_type: poisson
-          vars:
-            1:
-              value: 0
-              value_type: float
-        SexInj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        Inj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-      hiv:
-        init: 0.1
-        dx:
-          init: 0.1
-          prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
-      incar:
-        init: 0.02
-        prob: 0.02
-      safe_sex: 0.1
-      injection:
-        unsafe_prob: 0.
-      prep:
-        adherence: 0.1
-        discontinue: 0.1
-        coverage: 0.3
-      high_risk:
-        init: 0.1
-      vaccine:
-        init: 0.1
-        prob: 0.1
-        booster:
-          interval: 12
-          prob: 0.1
-    PWID:
-      ppl: 0.3
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 10
-              value_type: float
-        Social:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        SexInj:
-          dist_type: poisson
-          vars:
-            1:
-              value: 3.0
-              value_type: float
-        Inj:
-          dist_type: poisson
-          vars:
-            1:
-              value: 10
-              value_type: float
-      hiv:
-        init: 0.1
-        dx:
-          init: 0.1
-          prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
+      drug_type: *base_drug_type
       incar:
         init: 0.02
         prob: 0.02
@@ -887,7 +397,7 @@ model:
 location:
   scaling:
     world:
-      demographics|white|WSW|aids|init:
+      demographics|white|WSW|drug_type|None|hiv|aids|init:
         field: override
         override: 1
 
