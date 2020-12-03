@@ -171,15 +171,13 @@ class HAART(base_feature.BaseFeature):
         args:
             model: the instance of HIVModel currently being run
         """
-        haart_adh = self.agent.location.params.demographics[self.agent.race][
-            self.agent.sex_type
-        ].haart.adherence.prob
-        if model.run_random.random() < haart_adh:
-            adherent = True
-        else:
-            adherent = False
+        self.adherent = (
+            model.run_random.random()
+            < self.agent.location.params.demographics[self.agent.race][
+                self.agent.sex_type
+            ].haart.adherence.prob
+        )
 
         # Add agent to HAART class set, update agent params
         self.active = True
-        self.adherent = adherent
         self.add_agent(self.agent)

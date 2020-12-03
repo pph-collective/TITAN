@@ -218,11 +218,10 @@ class Prep(base_feature.BaseFeature):
         self.time = time
         self.last_dose_time = time
 
-        if (
+        self.adherent = (
             rand_gen.random()
             < params.demographics[self.agent.race][self.agent.sex_type].prep.adherence
-        ):
-            self.adherent = True
+        )
 
         if "Inj" in params.prep.type and "Oral" in params.prep.type:
             if rand_gen.random() < params.prep.lai.prob:
