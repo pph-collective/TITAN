@@ -38,7 +38,7 @@ demographics:
         discontinue: 0.10
       safe_sex: 0.688
       prep:
-        discontinue: 0.10
+        discontinue: 0.0
         adherence: 0.568
         target: 0.258
   white:
