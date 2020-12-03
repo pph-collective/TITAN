@@ -176,9 +176,7 @@ def test_get_partner(make_agent, make_relationship):
 
 
 @pytest.mark.unit
-def test_get_number_of_sex_acts(
-    make_agent, make_relationship, params
-):  # TODO test dist
+def test_get_number_of_sex_acts(make_agent, make_relationship, params):
     a = make_agent()
     p = make_agent()
     rel = make_relationship(a, p)
@@ -192,6 +190,12 @@ def test_get_number_of_sex_acts(
 
     # test fallthrough
     assert rel.get_number_of_sex_acts(rand_gen_high) == 37
+
+    # test with distribution; should be independent of random
+    a.location.params.partnership.sex.frequency.Sex.type = "distribution"
+
+    assert rel.get_number_of_sex_acts(rand_gen_low) == 0
+    assert rel.get_number_of_sex_acts(rand_gen_high) == 0
 
 
 # ============================== AGENT SET TESTS ===============================

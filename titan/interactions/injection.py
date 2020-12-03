@@ -26,8 +26,7 @@ class Injection(base_interaction.BaseInteraction):
             return False
 
         assert (
-            "injection"
-            in rel.agent1.location.params.classes.bond_types[rel.bond_type].acts_allowed
+            "injection" in model.params.classes.bond_types[rel.bond_type].acts_allowed
         ), f"No injection acts allowed in {rel.bond_type}"
 
         # Agent 1 is HIV+, Agent 2 is not, Agent 2 is succept
