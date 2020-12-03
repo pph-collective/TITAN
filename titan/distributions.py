@@ -44,4 +44,12 @@ def pert(np_random, low, peak, high, temperature):
 
 
 def weibull_modified(np_random, shape, scale):
+    """
+    Modified version of numpy's (single parameter) weibull distribution to use the 2-parameter weibull.
+
+    args:
+        np_random: random number generator
+        shape: weibull shape parameter
+        scale: weibull scale parameter
+    """
     return scale * np_random.weibull(shape)
