@@ -36,7 +36,7 @@ demographics:
         dx:
           init: 1.0
           prob: 0.202
-      haart:
+      haart: &white_haart
         init: 1.0
         prob: 0.679
         adherence:
@@ -104,13 +104,7 @@ demographics:
         dx:
           init: 1.0
           prob: 0.2
-      haart:
-        init: 1.0
-        prob: 0.679
-        adherence:
-          init: 1.0
-          prob: 1.0
-        discontinue: 0.000
+      haart: *white_haart
       injection:
         unsafe_prob: 0.321
         num_acts: 5
@@ -166,13 +160,7 @@ demographics:
         dx:
           prob: 0.202
           init: 1.0
-      haart:
-        init: 1.0
-        prob: 0.679
-        adherence:
-          init: 1.0
-          prob: 1.0
-        discontinue: 0.000
+      haart: *white_haart
       injection:
         unsafe_prob: 0.321
         num_acts: 5

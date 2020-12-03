@@ -39,10 +39,5 @@ def test_injection_transmission_do_nothing(make_model, make_agent):
     assert Injection.interact(model, rel_Inj) is False
 
     a.hiv = True
-
-    with pytest.raises(AssertionError) as excinfo:
-        assert Injection.interact(model, rel_Sex)
-    assert "No injection acts allowed in" in str(excinfo)
-
     p_inj.hiv = True
     assert Injection.interact(model, rel_Inj) is False

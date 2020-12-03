@@ -9,7 +9,7 @@ prep:
     type: array
   target:
     default: 0.0
-    description: Target coverage for PrEP therapy at 10 years
+    description: Target coverage for PrEP coverage, or probability of initiating prep at a timestep if target_as_prob is true
     type: float
     min: 0
     max: 1

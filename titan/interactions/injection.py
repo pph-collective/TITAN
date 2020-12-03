@@ -25,10 +25,6 @@ class Injection(base_interaction.BaseInteraction):
         if model.time < model.params.hiv.start_time:
             return False
 
-        assert (
-            "injection" in model.params.classes.bond_types[rel.bond_type].acts_allowed
-        ), f"No injection acts allowed in {rel.bond_type}"
-
         # Agent 1 is HIV+, Agent 2 is not, Agent 2 is succept
         if rel.agent1.hiv and not rel.agent2.hiv:
             agent = rel.agent1

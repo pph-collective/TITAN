@@ -54,12 +54,6 @@ def test_sex_transmission_do_nothing(make_model, make_agent):
     assert Sex.interact(model, rel_Sex) is False
 
     a.hiv = True
-
-    # Check that bondtype without sex allowed fails
-    with pytest.raises(AssertionError) as excinfo:
-        assert Sex.interact(model, rel_Inj)
-    assert "No sex acts allowed in" in str(excinfo)
-
     p.hiv = True
 
     # test nothing happens

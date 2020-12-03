@@ -77,9 +77,10 @@ demographics:
           prob: 0.817
         discontinue: 0.07
       safe_sex: 0.528
-    prep:
-      adherence: 0.911
-      target: 0.415
+      prep:
+        adherence: 0.911
+        target: 0.415
+        discontinue: 0.0
 
 hiv:
   aids:
