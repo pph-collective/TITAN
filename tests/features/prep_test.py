@@ -216,53 +216,53 @@ def test_prep_eligible(make_agent, make_relationship):
 
     # test no model
     a.location.params.prep.target_model = ["cdc_women"]
-    assert not a.prep.eligible()
+    assert not a.prep.eligible(10)
 
     # test cdc_women
     a.location.params.prep.target_model.append("cdc_women")
-    assert not a.prep.eligible()
+    assert not a.prep.eligible(10)
     r = make_relationship(a, p)
     assert not p.is_msm()
-    assert not a.prep.eligible()
+    assert not a.prep.eligible(10)
     p.drug_type = "Inj"
-    assert a.prep.eligible()
+    assert a.prep.eligible(10)
 
     # test Allcomers and Racial
     a.location.params.prep.target_model.append("Allcomers")
-    assert a.prep.eligible()
+    assert a.prep.eligible(10)
     a.location.params.prep.target_model = ["Racial"]
-    assert a.prep.eligible()
+    assert a.prep.eligible(10)
 
     # test cdc_msm
     a.location.params.prep.target_model = ["cdc_msm"]
-    assert not a.prep.eligible()
+    assert not a.prep.eligible(10)
     msm_agent = make_agent()
     msm_agent.location.params.prep.target_model = ["cdc_msm"]
     make_relationship(msm_agent, p)
     assert msm_agent.is_msm()
-    assert msm_agent.prep.eligible()
+    assert msm_agent.prep.eligible(10)
 
     # test pwid
     a.location.params.prep.target_model = ["pwid"]
     p.location.params.prep.target_model = ["pwid"]
-    assert not a.prep.eligible()
-    assert p.prep.eligible()
+    assert not a.prep.eligible(10)
+    assert p.prep.eligible(10)
     p = make_agent(DU="Inj", SO="HM")
     p.location.params.prep.target_model = ["pwid"]
-    assert p.prep.eligible()  # still eligible without partners
+    assert p.prep.eligible(10)  # still eligible without partners
 
     # test ssp
     a.location.params.prep.target_model = ["ssp"]
     p.location.params.prep.target_model = ["ssp"]
-    assert not a.prep.eligible()
-    assert not p.prep.eligible()
+    assert not a.prep.eligible(10)
+    assert not p.prep.eligible(10)
     p.syringe_services.active = True
-    assert p.prep.eligible()
+    assert p.prep.eligible(10)
 
     p.location.params.prep.target_model = ["ssp_sex"]
-    assert not p.prep.eligible()
+    assert not p.prep.eligible(10)
     make_relationship(p, msm_agent)
-    assert p.prep.eligible()
+    assert p.prep.eligible(10)
 
 
 @pytest.mark.unit

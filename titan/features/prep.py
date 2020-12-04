@@ -55,8 +55,7 @@ class Prep(base_feature.BaseFeature):
             time: the current time step
         """
         params = self.agent.location.params
-        if not self.agent.hiv and self.eligible() and time >= params.prep.start_time:
-            print(params.prep)
+        if self.eligible(time):
             if "Racial" in params.prep.target_model:
                 if (
                     pop.pop_random.random()
@@ -83,7 +82,7 @@ class Prep(base_feature.BaseFeature):
         ):
             if self.active:
                 self.progress(model)
-            elif self.eligible():
+            elif self.eligible(model.time):
                 self.initiate(model)
 
     @classmethod
@@ -207,7 +206,7 @@ class Prep(base_feature.BaseFeature):
             if (
                 num_prep_agents < target_prep
                 and model.time >= params.prep.start_time
-                and self.eligible()
+                and self.eligible(model.time)
             ):
                 self.enroll(model.run_random, model.time)
 
@@ -283,13 +282,16 @@ class Prep(base_feature.BaseFeature):
 
         self.remove_agent(self.agent)
 
-    def eligible(self) -> bool:
+    def eligible(self, time) -> bool:
         """
         Determine if an agent is eligible for PrEP
 
         returns:
             whether the agent is eligible
         """
+        if self.agent.hiv or time < self.agent.location.params.prep.start_time:
+            return False
+
         target_model = self.agent.location.params.prep.target_model
         gender = self.agent.location.params.classes.sex_types[
             self.agent.sex_type

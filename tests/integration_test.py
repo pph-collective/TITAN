@@ -186,6 +186,7 @@ def test_prep_coverage(make_model_integration, tmpdir):
 
     # change the coverage upward for creating model b, use same seeds
     model_a.params.prep.target = 0.9
+    model_a.params.prep.init = 0.9
     model_a.params.model.seed.run = model_a.run_seed
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
 
