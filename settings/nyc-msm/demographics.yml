@@ -3,6 +3,9 @@ demographics:
     ppl: 0.182
     MSM:
       ppl: 1.0
+      drug_type: &drug_type
+        None:
+          init: 1.0
       sex_role:
         init:
           versatile: 0.200
@@ -52,6 +55,7 @@ demographics:
     ppl: 0.261
     MSM:
       ppl: 1.0
+      drug_type: *drug_type
       sex_role:  # calibration
         init:
           insertive: 0.220
@@ -101,6 +105,7 @@ demographics:
     ppl: 0.557
     MSM:
       ppl: 1.0
+      drug_type: *drug_type
       sex_role:
         init:
           insertive: 0.439
