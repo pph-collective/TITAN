@@ -46,8 +46,10 @@ def test_sex_transmission(make_model, make_agent):
         {
             "Sex": {
                 "type": "distribution",
-                "dist_type": "set_value",
-                "vars": {1: {"value": 1, "value_type": "int"}},
+                "distribution": {
+                    "dist_type": "set_value",
+                    "vars": {1: {"value": 1, "value_type": "int"}},
+                },
             }
         }
     )
@@ -81,8 +83,10 @@ def test_sex_transmission_do_nothing(make_model, make_agent):
         {
             "Sex": {
                 "type": "distribution",
-                "dist_type": "set_value",
-                "vars": {1: {"value": 0, "value_type": "int"}},
+                "distribution": {
+                    "dist_type": "set_value",
+                    "vars": {1: {"value": 0, "value_type": "int"}},
+                },
             }
         }
     )
