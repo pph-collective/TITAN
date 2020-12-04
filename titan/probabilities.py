@@ -5,23 +5,6 @@ from .location import Location
 
 
 @utils.memo
-def adherent_prob(adherent: bool) -> float:
-    """
-    Mapping from HAART adherence levels to probabilities.
-
-    args:
-        adherent: Whether an agent is HAART adherent
-
-    returns:
-        probability of agent transitioning from HIV+ to AIDS
-    """
-    if adherent:
-        return 0.0008
-    else:
-        return 0.00368
-
-
-@utils.memo
 def get_death_rate(
     hiv: bool,
     aids: bool,

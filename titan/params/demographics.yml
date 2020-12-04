@@ -110,7 +110,7 @@ demographics:
         max: 1.0
       duration:
         prob:
-          type: bins
+          type: bin
           description: Binned probabilities of incarceration duration during model run
           fields:
             prob:
@@ -149,7 +149,7 @@ demographics:
               min: 130
               max: 260
         init:
-          type: bins
+          type: bin
           description: Binned probabilities of incarceration duration when initializing population
           fields:
             prob:

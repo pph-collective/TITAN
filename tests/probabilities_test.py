@@ -5,12 +5,6 @@ import titan.probabilities as probs
 
 
 @pytest.mark.unit
-def test_adherent_prob():
-    assert probs.adherent_prob(True) == 0.0008
-    assert probs.adherent_prob(False) == 0.00368
-
-
-@pytest.mark.unit
 def test_get_death_rate(make_population):
     pop = make_population(n=0)
     location = pop.geography.locations["world"]
