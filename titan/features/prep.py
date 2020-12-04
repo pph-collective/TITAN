@@ -67,7 +67,6 @@ class Prep(base_feature.BaseFeature):
                     self.enroll(pop.pop_random, time)
             elif pop.pop_random.random() < params.prep.init:
                 self.enroll(pop.pop_random, time)
-                
 
     def update_agent(self, model: "model.HIVModel"):
         """
