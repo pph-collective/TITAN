@@ -26,7 +26,6 @@ class PCA(base_interaction.BaseInteraction):
         """
         if not model.params.features.pca or model.time < model.params.pca.start_time:
             return False
-
         assert (
             model.params.model.network.enable
         ), "Network must be enabled for pca interactions"
