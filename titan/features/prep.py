@@ -56,25 +56,18 @@ class Prep(base_feature.BaseFeature):
         """
         params = self.agent.location.params
         if not self.agent.hiv and self.eligible() and time >= params.prep.start_time:
-            if params.prep.target_as_prob:
-                if "Racial" in params.prep.target_model:
-                    if (
-                        pop.pop_random.random()
-                        < params.demographics[self.agent.race][
-                            self.agent.sex_type
-                        ].prep.init
-                    ):
-                        self.enroll(pop.pop_random, time)
-                elif pop.pop_random.random() < params.prep.init:
-                    self.enroll(pop.pop_random, time)
-            elif "Racial" in params.prep.target_model:
+            print(params.prep)
+            if "Racial" in params.prep.target_model:
                 if (
                     pop.pop_random.random()
-                    < params.demographics[agent.race][agent.sex_type].prep.target
+                    < params.demographics[self.agent.race][
+                        self.agent.sex_type
+                    ].prep.init
                 ):
                     self.enroll(pop.pop_random, time)
-            elif pop.pop_random.random() < params.prep.target:
+            elif pop.pop_random.random() < params.prep.init:
                 self.enroll(pop.pop_random, time)
+                
 
     def update_agent(self, model: "model.HIVModel"):
         """

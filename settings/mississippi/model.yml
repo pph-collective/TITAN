@@ -79,6 +79,7 @@ prep:
   type:
     - Oral
   target: 0.049
+  init: 0.25
   target_as_prob: true
   efficacy:
     adherent: 0.96

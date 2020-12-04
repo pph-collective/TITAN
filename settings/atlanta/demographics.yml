@@ -41,6 +41,7 @@ demographics:
         discontinue: 0.0
         adherence: 0.568
         target: 0.258
+        init: 0.258
   white:
     ppl: 0.611
     MSM:
@@ -81,6 +82,7 @@ demographics:
         adherence: 0.911
         target: 0.415
         discontinue: 0.0
+        init: 0.415
 
 hiv:
   aids:

@@ -758,6 +758,7 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
         target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:

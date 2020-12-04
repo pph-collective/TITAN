@@ -13,6 +13,12 @@ prep:
     type: float
     min: 0
     max: 1
+  init:
+    default: 0.0
+    description: Probability of initiating PrEP at model initiation
+    type: float
+    min: 0.
+    max: 1.
   target_as_prob:
     default: false
     description: If prep.target should be treated as a probability instead of a target

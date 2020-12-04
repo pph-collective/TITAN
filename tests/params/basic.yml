@@ -59,6 +59,7 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
         target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -125,6 +126,7 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
         target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -191,6 +193,7 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
         target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -257,6 +260,7 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
         target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -323,6 +327,7 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
         target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -382,6 +387,7 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
         target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -457,6 +463,7 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
         target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -523,6 +530,7 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
         target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -589,6 +597,7 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
         target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -655,6 +664,7 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
         target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -721,6 +731,7 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
         target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -780,6 +791,7 @@ demographics:
         adherence: 0.1
         discontinue: 0.1
         target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -873,6 +885,7 @@ partnership:
 
 prep:
   target: 0.1
+  init: 0.1
   target_as_prob: false
 
 pca:

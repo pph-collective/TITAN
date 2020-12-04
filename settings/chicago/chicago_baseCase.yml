@@ -75,6 +75,7 @@ prep:
   - Oral
   - Inj
   target: 0.088
+  init: 0.088
   start_time: 0
   efficacy:
     adherent: 0.96
@@ -120,6 +121,7 @@ demographics:
         discontinue: 0.0
         adherence: 0.568
         target: 0.5
+        init: 0.5
       high_risk:
         init: 0.0
       vaccine:
