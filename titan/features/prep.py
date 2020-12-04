@@ -54,13 +54,27 @@ class Prep(base_feature.BaseFeature):
             pop: the population this agent is a part of
             time: the current time step
         """
-        if (
-            not self.agent.hiv
-            and self.eligible()
-            and time >= self.agent.location.params.prep.start_time
-            and pop.pop_random.random() < self.agent.location.params.prep.target
-        ):
-            self.enroll(pop.pop_random, time)
+        params = self.agent.location.params
+        if not self.agent.hiv and self.eligible() and time >= params.prep.start_time:
+            if params.prep.target_as_prob:
+                if "Racial" in params.prep.target_model:
+                    if (
+                        pop.pop_random.random()
+                        < params.demographics[self.agent.race][
+                            self.agent.sex_type
+                        ].prep.init
+                    ):
+                        self.enroll(pop.pop_random, time)
+                elif pop.pop_random.random() < params.prep.init:
+                    self.enroll(pop.pop_random, time)
+            elif "Racial" in params.prep.target_model:
+                if (
+                    pop.pop_random.random()
+                    < params.demographics[agent.race][agent.sex_type].prep.target
+                ):
+                    self.enroll(pop.pop_random, time)
+            elif pop.pop_random.random() < params.prep.target:
+                self.enroll(pop.pop_random, time)
 
     def update_agent(self, model: "model.HIVModel"):
         """

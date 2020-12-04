@@ -256,7 +256,13 @@ demographics:
         max: 1.0
       target:
         default: 0.0
-        description: "Target percentage of PrEP coverage for this population class"
+        description: "Target percentage of PrEP coverage for this population class, or probability of going on PrEP if target_as_prob is true"
+        type: float
+        min: 0.0
+        max: 1.0
+      init:
+        default: 0.0
+        description: "Initial PrEP coverage, only used if target_as_prob is true"
         type: float
         min: 0.0
         max: 1.0
