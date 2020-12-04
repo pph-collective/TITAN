@@ -38,6 +38,12 @@ def test_sex_transmission(make_model, make_agent):
     Sex.interact(model, rel)
     assert p.hiv
 
+    p.hiv = False
+
+    a.location.params.partnership.sex.frequency.type = p.location.params.partnership.sex.frequency.type = ObjMap({"Sex": {"type": "distribution", "dist_type": "set_value", "vars": {1: {"value": 1, "value_type": "int"}}}})
+    Sex.interact(model, rel)
+    assert p.hiv
+
 
 @pytest.mark.unit
 def test_sex_transmission_do_nothing(make_model, make_agent):
@@ -57,4 +63,7 @@ def test_sex_transmission_do_nothing(make_model, make_agent):
     p.hiv = True
 
     # test nothing happens
+    assert Sex.interact(model, rel_Sex) is False
+
+    a.location.params.partnership.sex.frequency.type = p.location.params.partnership.sex.frequency.type = ObjMap({"Sex": {"type": "distribution", "dist_type": "set_value", "vars": {1: {"value": 0, "value_type": "int"}}}})
     assert Sex.interact(model, rel_Sex) is False

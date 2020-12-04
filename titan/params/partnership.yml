@@ -130,24 +130,53 @@ partnership:
       keys:
         - bond_types
       default:
-        type: bin
-        description: Number of pca interactions by bond type
-        fields:
-          prob:
-            type: float
-            min: 0.0
-            max: 1.0
-          min:
-            type: float
-            min: 0.0
-          max:
-            type: float
-            min: 0.0
-        default:
-          1:
-            prob: 1.0
-            min: 0.0
-            max: 0.0
+        type:
+          type: enum
+          description: Whether to use distribution or bins for frequency
+          default: bins
+          values:
+            - bins
+            - distributions
+        bins:
+          type: bin
+          description: Number of pca interactions by bond type, binned
+          fields:
+            prob:
+              type: float
+              min: 0.0
+              max: 1.0
+            min:
+              type: float
+              min: 0.0
+            max:
+              type: float
+              min: 0.0
+          default:
+            1:
+              prob: 1.0
+              min: 0.0
+              max: 0.0
+        distribution:
+          dist_type:
+            type: enum
+            description: "Type of distribution to use for partnerships if type is distribution. See https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator for function information"
+            class: distributions
+            default: set_value
+          vars:
+            type: bin
+            description: Pass values in order of bin keys to the distriubtion, starting at 1
+            fields:
+              value:
+                type: float
+              value_type:
+                type: enum
+                values:
+                - int
+                - float
+            default:
+              1:
+                value: 0
+                value_type: int
   ongoing_duration:
     default: 1
     description: Relationship duration past which the relationship is considered "ongoing".  Used for CDCWomen and CDCmsm prep eligibility.
