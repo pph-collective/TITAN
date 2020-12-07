@@ -54,7 +54,7 @@ def test_incarcerate_not_hiv(make_model, make_agent):
     a = make_agent(SO="HM", race="white")
     p = make_agent(SO="HF", race="white")
     rel = Relationship(a, p, 10, "Sex")
-    a.location.params.demographics.white.HM.incar.prob = 1.0
+    a.location.params.demographics.white.sex_type.HM.incar.prob = 1.0
 
     a.incar.update_agent(model)
     assert a.incar.active

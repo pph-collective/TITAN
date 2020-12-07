@@ -399,7 +399,7 @@ model:
 location:
   scaling:
     world:
-      demographics|white|sex_type|WSW|drug_type|None|hiv|aids|init:
+      demographics|white|sex_type|WSW|drug_type|NonInj|hiv|aids|init:
         field: override
         override: 1
 

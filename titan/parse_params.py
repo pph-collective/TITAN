@@ -1,4 +1,4 @@
-import paraml
+import paraml  # type: ignore
 
 import os
 from inspect import getsourcefile
@@ -47,7 +47,7 @@ class ObjMap(dict):
 # ============== PARSING FUNCTIONS ======================
 
 
-def check_params(params):
+def check_params(params: ObjMap):
     """
     Consistency checks for param populations
     """

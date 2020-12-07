@@ -12,11 +12,13 @@ classes:
 demographics:
   black:
     ppl: 1
-    MSM:
-      ppl: 1
-    PWID:
-      ppl: 0.1
-
+    sex_type:
+      MSM:
+        ppl: 1
+        drug_type:
+          Inj:
+            ppl: 1
+            
 partnership:
   sex:
     acquisition:
