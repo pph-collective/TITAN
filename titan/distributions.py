@@ -1,3 +1,5 @@
+from numpy import log  # type: ignore
+
 """
 This file contains distributions that don't exist in numpy.
 """
@@ -52,4 +54,5 @@ def weibull_modified(np_random, shape, scale):
         shape: weibull shape parameter
         scale: weibull scale parameter
     """
-    return scale * np_random.weibull(shape)
+    random_number = np_random.random()
+    return scale * -log(random_number) ** (1 / shape)
