@@ -209,7 +209,7 @@ params.prep.target = (
 params.prep.start_time = 0  # Start date for PrEP program (0 for start of model)
 params.demographics.PWID.prep.adherence = 0.82  # Probability of being adherent
 params.prep.efficacy.adherent = 0.96  # Efficacy of adherence PrEP
-params.prep.efficacy.non_adherant = 0.76  # Efficacy of non-adherence PrEP
+params.prep.efficacy.non_adherent = 0.76  # Efficacy of non-adherence PrEP
 PrEP_falloutT = 0  # During PrEP remains effective post discontinuation
 PrEP_resist = 0.01
 params.prep.discontinue = 0.15
@@ -219,7 +219,7 @@ PrEP_clinic_cat = "Mid"  # If clinical target model, which category does it foll
 if "Oral" in params.prep.type:
     params.demographics.PWID.prep.adherence = 1.0
     params.prep.efficacy.adherent = 0.96
-    params.prep.efficacy.non_adherant = 0.76
+    params.prep.efficacy.non_adherent = 0.76
     PrEP_falloutT = 1
     params.prep.discontinue = 0.00  # 0.15
     params.prep.peak_load = 1.0
@@ -227,7 +227,7 @@ if "Oral" in params.prep.type:
 elif "Inj" in params.prep.type:
     params.demographics.PWID.prep.adherence = 1.0
     params.prep.efficacy.adherent = 1.0
-    params.prep.efficacy.non_adherant = 1.00
+    params.prep.efficacy.non_adherent = 1.00
     PrEP_falloutT = 12
     params.prep.discontinue = 0.00  # 0.04
     params.prep.peak_load = 4.91

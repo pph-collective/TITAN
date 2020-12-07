@@ -13,6 +13,10 @@ prep:
     type: float
     min: 0
     max: 1
+  target_as_prob:
+    default: false
+    description: If prep.target should be treated as a probability instead of a target
+    type: boolean
   start_time:
     default: 0
     description: Timestep at which prep should start in the model
@@ -25,7 +29,7 @@ prep:
       type: float
       min: 0
       max: 1
-    non_adherant:
+    non_adherent:
       default: 0.76
       description: Probabilty of PrEP efficacy if agent is non-adherent
       type: float
