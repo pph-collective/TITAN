@@ -216,6 +216,7 @@ partner_tracing:
 prep:
   target: 0.1
   init: 0.1
+  start_time: -6
 
 outputs:
   network:
