@@ -202,13 +202,8 @@ class Prep(base_feature.BaseFeature):
                     )
                     * params.prep.target
                 )
-
-            if (
-                num_prep_agents < target_prep
-                and model.time >= params.prep.start_time
-                and self.eligible(model.time)
-            ):
-                self.enroll(model.run_random, model.time)
+            
+            self.enroll(model.run_random, model.time)
 
     def enroll(self, rand_gen, time):
         """
@@ -289,18 +284,19 @@ class Prep(base_feature.BaseFeature):
         returns:
             whether the agent is eligible
         """
-        if self.agent.hiv or time < self.agent.location.params.prep.start_time:
+        params = self.agent.location.params
+        if self.agent.hiv or time < params.prep.start_time:
             return False
 
-        target_model = self.agent.location.params.prep.target_model
-        gender = self.agent.location.params.classes.sex_types[
+        target_model = params.prep.target_model
+        gender = params.classes.sex_types[
             self.agent.sex_type
         ].gender
 
         if (
             self.active
             or self.agent.vaccine.active  # type: ignore[attr-defined]
-            or self.agent.location.params.features.random_trial
+            or params.features.random_trial
         ):
             return False
 

@@ -15,7 +15,7 @@ prep:
     max: 1
   init:
     default: 0.0
-    description: Probability of initiating PrEP at model initiation
+    description: Probability of initiating PrEP at agent creation
     type: float
     min: 0.
     max: 1.
