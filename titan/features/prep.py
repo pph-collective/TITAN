@@ -202,7 +202,7 @@ class Prep(base_feature.BaseFeature):
                     )
                     * params.prep.target
                 )
-            
+
             self.enroll(model.run_random, model.time)
 
     def enroll(self, rand_gen, time):
@@ -289,9 +289,7 @@ class Prep(base_feature.BaseFeature):
             return False
 
         target_model = params.prep.target_model
-        gender = params.classes.sex_types[
-            self.agent.sex_type
-        ].gender
+        gender = params.classes.sex_types[self.agent.sex_type].gender
 
         if (
             self.active

@@ -86,6 +86,21 @@ def test_safe_dist():
     assert val > low
     assert val < high
 
+    # weibull_modified (2-param weibull)
+    rand_gen = FakeRandom(0.5)
+    shape = 0.5
+    scale = 11
+    weibull_info = ObjMap(
+        {
+            "dist_type": "weibull_modified",
+            "vars": {
+                1: {"value": shape, "value_type": "float"},
+                2: {"value": scale, "value_type": "float"},
+            },
+        }
+    )
+    assert utils.safe_dist(weibull_info, rand_gen) == 5.284983153100216
+
 
 @pytest.mark.unit
 def test_get_param_from_path(params):
