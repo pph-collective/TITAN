@@ -55,4 +55,4 @@ def weibull_modified(np_random, shape, scale):
         scale: weibull scale parameter
     """
     random_number = np_random.random()
-    return scale * (-log(1-random_number)) ** (1 / shape)
+    return scale * (-log(1 - random_number)) ** (1 / shape)

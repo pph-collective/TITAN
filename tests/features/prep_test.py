@@ -7,6 +7,35 @@ from titan.agent import Relationship
 
 
 @pytest.mark.unit
+def test_init_agent(make_agent, make_population, make_model):
+    model = make_model()
+    pop = make_population(n=1)
+
+    # test allcomers (no prep)
+    pop.pop_random = FakeRandom(0.9)
+    a1 = make_agent(race="black")
+    a2 = make_agent(race="white")
+    assert not a1.prep.active and not a2.prep.active
+
+    # test allcomers
+    pop.pop_random = FakeRandom(0.4)
+    a1.prep.init_agent(pop, 10)
+    a2.prep.init_agent(pop, 10)
+    assert a1.prep.active
+    assert a2.prep.active
+
+    # reset prep, change to racial model between black and white init prob
+    a1.prep.active = a2.prep.active = False
+    a1.location.params.prep.target_model = a2.location.params.prep.target_model = [
+        "Racial"
+    ]
+    a1.prep.init_agent(pop, 10)
+    a2.prep.init_agent(pop, 10)
+    assert a1.prep.active
+    assert not a2.prep.active
+
+
+@pytest.mark.unit
 def test_discontinue_prep(make_agent):
     a = make_agent()
 

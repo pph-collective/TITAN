@@ -55,6 +55,11 @@ def test_sex_transmission(make_model, make_agent):
     )
     Sex.interact(model, rel)
     assert p.hiv
+    # before hiv start time
+    p.hiv = False
+    model.time = model.params.hiv.start_time - 1
+    assert Sex.interact(model, rel) is False
+    assert not p.hiv
 
 
 @pytest.mark.unit
