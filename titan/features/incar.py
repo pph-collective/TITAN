@@ -126,14 +126,7 @@ class Incar(base_feature.BaseFeature):
                         model.run_random.random()
                         < self.agent.location.params.incar.haart.prob
                     ):
-                        if (
-                            model.run_random.random()
-                            < self.agent.location.params.incar.haart.adherence
-                        ):
-                            self.agent.haart.adherent = True  # type: ignore[attr-defined]
-                        else:
-                            self.agent.haart.adherent = False  # type: ignore[attr-defined]
-
+                        self.agent.haart.adherent = model.run_random.random() < self.agent.location.params.incar.haart.adherence  # type: ignore[attr-defined]
                         # Add agent to HAART class set, update agent params
                         self.agent.haart.active = True  # type: ignore[attr-defined]
 
