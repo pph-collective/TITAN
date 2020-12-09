@@ -41,7 +41,7 @@ demographics:
       injection:
         unsafe_prob: 0.1
       prep:
-        adherence: 0.1
+        adherence: 0.9
         discontinue: 0.1
         target: 0.3
         init: 0.3
@@ -101,7 +101,7 @@ demographics:
       injection:
         unsafe_prob: 0.1
       prep:
-        adherence: 0.1
+        adherence: 0.9
         discontinue: 0.1
         target: 0.3
         init: 0.3

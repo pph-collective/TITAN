@@ -227,8 +227,8 @@ def test_prep_coverage(make_model_integration, tmpdir):
     t10_hiv_a = res_a["10"]["hiv"]
     t10_hiv_b = res_b["10"]["hiv"]
     t10_diff = t10_hiv_a - t10_hiv_b  # a should be higher
-    assert t10_diff > t0_diff
     assert res_a["10"]["prep"] < res_b["10"]["prep"]
+    assert t10_diff > t0_diff
 
 
 @pytest.mark.integration_stochastic
