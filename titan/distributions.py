@@ -1,3 +1,5 @@
+from numpy import log  # type: ignore
+
 """
 This file contains distributions that don't exist in numpy.
 """
@@ -41,3 +43,16 @@ def pert(np_random, low, peak, high, temperature):
     alpha = 1.0 + temperature * (peak - low) / scale
     beta = 1.0 + temperature * (high - peak) / scale
     return low + scale * np_random.beta(alpha, beta)
+
+
+def weibull_modified(np_random, shape, scale):
+    """
+    Modified version of numpy's (single parameter) weibull distribution to use the 2-parameter weibull.
+
+    args:
+        np_random: random number generator
+        shape: weibull shape parameter
+        scale: weibull scale parameter
+    """
+    random_number = np_random.random()
+    return scale * (-log(1 - random_number)) ** (1 / shape)

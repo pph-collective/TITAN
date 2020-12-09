@@ -43,7 +43,9 @@ demographics:
       haart:
         init: 0.1
         prob: 0.1
-        adherence: 0.1
+        adherence:
+          init: 0.1
+          prob: 0.1
         discontinue: 0.1
       incar:
         init: 0.1
@@ -54,7 +56,8 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -105,7 +108,9 @@ demographics:
       haart:
         init: 0.1
         prob: 0.1
-        adherence: 0.1
+        adherence:
+          init: 0.1
+          prob: 0.1
         discontinue: 0.1
       incar:
         init: 0.1
@@ -116,7 +121,8 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -167,7 +173,9 @@ demographics:
       haart:
         init: 0.1
         prob: 0.1
-        adherence: 0.1
+        adherence:
+          init: 0.1
+          prob: 0.1
         discontinue: 0.1
       incar:
         init: 0.1
@@ -178,7 +186,8 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -229,7 +238,9 @@ demographics:
       haart:
         init: 0.1
         prob: 0.1
-        adherence: 0.1
+        adherence:
+          init: 0.1
+          prob: 0.1
         discontinue: 0.1
       incar:
         init: 0.1
@@ -240,7 +251,8 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -291,7 +303,9 @@ demographics:
       haart:
         init: 0.1
         prob: 0.1
-        adherence: 0.1
+        adherence:
+          init: 0.1
+          prob: 0.1
         discontinue: 0.1
       incar:
         init: 0.1
@@ -302,7 +316,8 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -348,7 +363,9 @@ demographics:
       haart:
         init: 0.1
         prob: 0.1
-        adherence: 0.1
+        adherence:
+          init: 0.1
+          prob: 0.1
         discontinue: 0.1
       incar:
         init: 0.1
@@ -359,7 +376,8 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -412,7 +430,9 @@ demographics:
       haart:
         init: 0.1
         prob: 0.1
-        adherence: 0.1
+        adherence:
+          init: 0.1
+          prob: 0.1
         discontinue: 0.1
       incar:
         init: 0.1
@@ -423,7 +443,8 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -474,7 +495,9 @@ demographics:
       haart:
         init: 0.1
         prob: 0.1
-        adherence: 0.1
+        adherence:
+          init: 0.1
+          prob: 0.1
         discontinue: 0.1
       incar:
         init: 0.1
@@ -485,7 +508,8 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -536,7 +560,9 @@ demographics:
       haart:
         init: 0.1
         prob: 0.1
-        adherence: 0.1
+        adherence:
+          init: 0.1
+          prob: 0.1
         discontinue: 0.1
       incar:
         init: 0.1
@@ -547,7 +573,8 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -598,7 +625,9 @@ demographics:
       haart:
         init: 0.1
         prob: 0.1
-        adherence: 0.1
+        adherence:
+          init: 0.1
+          prob: 0.1
         discontinue: 0.1
       incar:
         init: 0.1
@@ -609,7 +638,8 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -660,7 +690,9 @@ demographics:
       haart:
         init: 0.1
         prob: 0.1
-        adherence: 0.1
+        adherence:
+          init: 0.1
+          prob: 0.1
         discontinue: 0.1
       incar:
         init: 0.1
@@ -671,7 +703,8 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -720,7 +753,9 @@ demographics:
       haart:
         init: 0.1
         prob: 0.1
-        adherence: 0.1
+        adherence:
+          init: 0.1
+          prob: 0.1
         discontinue: 0.1
       incar:
         init: 0.1
@@ -731,7 +766,8 @@ demographics:
       prep:
         adherence: 0.1
         discontinue: 0.1
-        coverage: 0.3
+        target: 0.3
+        init: 0.3
       high_risk:
         init: 0.1
       vaccine:
@@ -785,6 +821,7 @@ features:
 
 prep:
   target: 0.3
+  init: 0.3
 
 model:
   seed:

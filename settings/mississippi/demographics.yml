@@ -18,7 +18,9 @@ demographics:
       haart:
         init: 0.690
         prob: 0.057
-        adherence: 0.500
+        adherence:
+          init: 0.500
+          prob: 0.500
         discontinue: 0.023
       num_partners:
         Sex:

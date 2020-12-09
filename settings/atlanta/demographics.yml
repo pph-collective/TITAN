@@ -32,13 +32,16 @@ demographics:
       haart:
         init: 0.625
         prob: 0.35
-        adherence: 0.885
+        adherence:
+          init: 0.885
+          prob: 0.885
         discontinue: 0.10
       safe_sex: 0.688
       prep:
-        discontinue: 0.10
+        discontinue: 0.0
         adherence: 0.568
-        coverage: 0.258
+        target: 0.258
+        init: 0.258
   white:
     ppl: 0.611
     MSM:
@@ -70,12 +73,16 @@ demographics:
       haart:
         init: 0.585
         prob: 0.20
-        adherence: 0.817
+        adherence:
+          init: 0.817
+          prob: 0.817
         discontinue: 0.07
       safe_sex: 0.528
       prep:
         adherence: 0.911
-        coverage: 0.415
+        target: 0.415
+        discontinue: 0.0
+        init: 0.415
 
 hiv:
   aids:
@@ -95,16 +102,4 @@ classes:
       sleeps_with:
         - MSM
   populations: []
-assort_mix:
-  assort_black:
-    attribute: race
-    agent_value: black
-    partner_values:
-      black: .765
-      __other__: .278
-  assort_white:
-    attribute: race
-    agent_value: white
-    partner_values:
-      white: .722
-      __other__: .278
+

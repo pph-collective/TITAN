@@ -29,7 +29,7 @@ class Prep(base_feature.BaseFeature):
         super().__init__(agent)
         # agent level attributes
         self.active = False
-        self.adherence = 0
+        self.adherent = False
         self.type = ""
         self.time = None
         self.last_dose_time: Optional[int] = None
@@ -54,13 +54,18 @@ class Prep(base_feature.BaseFeature):
             pop: the population this agent is a part of
             time: the current time step
         """
-        if (
-            not self.agent.hiv
-            and self.eligible()
-            and time >= self.agent.location.params.prep.start_time
-            and pop.pop_random.random() < self.agent.location.params.prep.target
-        ):
-            self.enroll(pop.pop_random, time)
+        params = self.agent.location.params
+        if self.eligible(time):
+            if "Racial" in params.prep.target_model:
+                if (
+                    pop.pop_random.random()
+                    < params.demographics[self.agent.race][
+                        self.agent.sex_type
+                    ].prep.init
+                ):
+                    self.enroll(pop.pop_random, time)
+            elif pop.pop_random.random() < params.prep.init:
+                self.enroll(pop.pop_random, time)
 
     def update_agent(self, model: "model.HIVModel"):
         """
@@ -77,7 +82,7 @@ class Prep(base_feature.BaseFeature):
         ):
             if self.active:
                 self.progress(model)
-            elif self.eligible():
+            elif self.eligible(model.time):
                 self.initiate(model)
 
     @classmethod
@@ -130,11 +135,11 @@ class Prep(base_feature.BaseFeature):
         if self.active and self.last_dose_time is not None:
             params = self.agent.location.params
             if self.type == "Oral":
-                if self.adherence == 1:
+                if self.adherent:
                     return 1.0 - params.prep.efficacy.adherent
                 else:
                     return 1.0 - params.prep.efficacy.non_adherent
-            elif self.type == "Inj" and self.adherence == 1:
+            elif self.type == "Inj":
                 annualized_last_dose_time = (
                     time - self.last_dose_time
                 ) / params.model.time.steps_per_year
@@ -170,7 +175,7 @@ class Prep(base_feature.BaseFeature):
                     model.run_random.random()
                     <= params.demographics[self.agent.race][
                         self.agent.sex_type
-                    ].prep.coverage
+                    ].prep.target
                 ):
                     self.enroll(model.run_random, model.time)
             else:
@@ -187,7 +192,7 @@ class Prep(base_feature.BaseFeature):
                 num_hiv_agents = len(all_hiv_agents & all_race)
                 target_prep = (len(all_race) - num_hiv_agents) * params.demographics[
                     self.agent.race
-                ][self.agent.sex_type].prep.coverage
+                ][self.agent.sex_type].prep.target
             else:
                 num_prep_agents = sum(self.counts.values())
                 target_prep = int(
@@ -198,12 +203,7 @@ class Prep(base_feature.BaseFeature):
                     * params.prep.target
                 )
 
-            if (
-                num_prep_agents < target_prep
-                and model.time >= params.prep.start_time
-                and self.eligible()
-            ):
-                self.enroll(model.run_random, model.time)
+            self.enroll(model.run_random, model.time)
 
     def enroll(self, rand_gen, time):
         """
@@ -218,13 +218,10 @@ class Prep(base_feature.BaseFeature):
         self.time = time
         self.last_dose_time = time
 
-        if (
+        self.adherent = (
             rand_gen.random()
             < params.demographics[self.agent.race][self.agent.sex_type].prep.adherence
-        ):
-            self.adherence = 1
-        else:
-            self.adherence = 0
+        )
 
         if "Inj" in params.prep.type and "Oral" in params.prep.type:
             if rand_gen.random() < params.prep.lai.prob:
@@ -280,22 +277,24 @@ class Prep(base_feature.BaseFeature):
 
         self.remove_agent(self.agent)
 
-    def eligible(self) -> bool:
+    def eligible(self, time) -> bool:
         """
         Determine if an agent is eligible for PrEP
 
         returns:
             whether the agent is eligible
         """
-        target_model = self.agent.location.params.prep.target_model
-        gender = self.agent.location.params.classes.sex_types[
-            self.agent.sex_type
-        ].gender
+        params = self.agent.location.params
+        if self.agent.hiv or time < params.prep.start_time:
+            return False
+
+        target_model = params.prep.target_model
+        gender = params.classes.sex_types[self.agent.sex_type].gender
 
         if (
             self.active
             or self.agent.vaccine.active  # type: ignore[attr-defined]
-            or self.agent.location.params.features.random_trial
+            or params.features.random_trial
         ):
             return False
 

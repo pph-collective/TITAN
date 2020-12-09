@@ -139,40 +139,29 @@ partnership:
       HF:
         receptive: 0.0011
     frequency:
-      type: distribution
-      distribution:
-        dist_type: poisson
-        vars:
-          1:
-            value_type: float
-            value: 6.0
+      SexInj:
+        type: distribution
+        distribution:
+          dist_type: poisson
+          vars:
+            1:
+              value_type: float
+              value: 6.0
+      Sex:
+        type: distribution
+        distribution:
+          dist_type: poisson
+          vars:
+            1:
+              value_type: float
+              value: 6.0
     haart_scaling:
       HM:
-        0:
-          prob: 0.83
-        1:
-          prob: 0.83
-        2:
-          prob: 0.83
-        3:
-          prob: 0.83
-        4:
-          prob: 0.06
-        5:
-          prob: 0.06
+        non_adherent: 0.83
+        adherent: 0.06
       HF:
-        0:
-          prob: 0.83
-        1:
-          prob: 0.83
-        2:
-          prob: 0.83
-        3:
-          prob: 0.83
-        4:
-          prob: 0.06
-        5:
-          prob: 0.06
+        non_adherent: 0.83
+        adherent: 0.06
   duration:
     Sex:
       type: distribution

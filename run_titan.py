@@ -13,6 +13,7 @@ from multiprocessing import Pool, cpu_count
 import csv
 import traceback
 from typing import List, Optional
+import subprocess
 
 from titan.model import HIVModel
 from titan.population import Population

@@ -26,7 +26,7 @@ class HAART(base_feature.BaseFeature):
         super().__init__(agent)
 
         self.active = False
-        self.adherence = 0
+        self.adherent = False
 
     @classmethod
     def init_class(cls, params: "ObjMap"):
@@ -62,11 +62,9 @@ class HAART(base_feature.BaseFeature):
             self.active = True
             self.add_agent(self.agent)
 
-            haart_adh = agent_params.haart.adherence
+            haart_adh = agent_params.haart.adherence.init
             if pop.pop_random.random() < haart_adh:
-                self.adherence = 5
-            else:
-                self.adherence = pop.pop_random.randint(1, 4)
+                self.adherent = True
 
     def update_agent(self, model: "model.HIVModel"):
         """
@@ -106,7 +104,7 @@ class HAART(base_feature.BaseFeature):
             # Go off HAART
             elif self.active and model.run_random.random() < haart_params.discontinue:
                 self.active = False
-                self.adherence = 0
+                self.adherent = False
                 self.remove_agent(self.agent)
 
     @classmethod
@@ -151,13 +149,23 @@ class HAART(base_feature.BaseFeature):
             prob = 1.0
             params = self.agent.location.params
             if interaction_type == "injection":
-                prob = params.partnership.injection.transmission.haart_scaling[
-                    self.adherence
-                ].scale
+                if self.adherent:
+                    prob = (
+                        params.partnership.injection.transmission.haart_scaling.adherent
+                    )
+                else:
+                    prob = (
+                        params.partnership.injection.transmission.haart_scaling.adherent
+                    )
             elif interaction_type == "sex":
-                prob = params.partnership.sex.haart_scaling[self.agent.sex_type][
-                    self.adherence
-                ].prob
+                if self.adherent:
+                    prob = params.partnership.sex.haart_scaling[
+                        self.agent.sex_type
+                    ].adherent
+                else:
+                    prob = params.partnership.sex.haart_scaling[
+                        self.agent.sex_type
+                    ].non_adherent
 
             # Tuning parameter for ART efficiency
             return prob * params.calibration.haart.transmission
@@ -173,15 +181,13 @@ class HAART(base_feature.BaseFeature):
         args:
             model: the instance of HIVModel currently being run
         """
-        haart_adh = self.agent.location.params.demographics[self.agent.race][
-            self.agent.sex_type
-        ].haart.adherence
-        if model.run_random.random() < haart_adh:
-            adherence = 5
-        else:
-            adherence = model.run_random.randint(1, 4)
+        self.adherent = (
+            model.run_random.random()
+            < self.agent.location.params.demographics[self.agent.race][
+                self.agent.sex_type
+            ].haart.adherence.prob
+        )
 
         # Add agent to HAART class set, update agent params
         self.active = True
-        self.adherence = adherence
         self.add_agent(self.agent)
