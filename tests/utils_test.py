@@ -160,6 +160,12 @@ def test_override_param(params):
     utils.override_param(params, param_path_pipe, "other")
     assert params.classes.sex_types.HM.cis_trans == "other"
 
+    # test if the override works with an int key
+    assert params.partnership.sex.frequency.Sex.bins[1].prob == 0.5
+    param_path_haart = "partnership|sex|frequency|Sex|bins|1|prob"
+    utils.override_param(params, param_path_haart, 0.0)
+    assert params.partnership.sex.frequency.Sex.bins[1].prob == 0.0
+
     # test that the try/except doesn't silence real key errors
     param_path_fake = "model|time|0"
     with pytest.raises(KeyError):
