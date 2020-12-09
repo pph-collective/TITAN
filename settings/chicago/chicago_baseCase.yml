@@ -170,7 +170,7 @@ partnership:
             min: 13
             max: 24
           4:
-            prob: 0.8819999999999999
+            prob: 0.882
             min: 25
             max: 36
           5:

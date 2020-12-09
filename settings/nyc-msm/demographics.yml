@@ -152,4 +152,6 @@ demographics:
         adherence: 0.738
         target: 0.031
         init: 0.279
+      death_rate:
+        base: 0.0696
 
