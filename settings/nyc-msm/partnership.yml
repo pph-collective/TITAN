@@ -7,10 +7,10 @@ partnership:
           dist_type: gamma
           vars:
             1:
-              value: 0.38
+              value: 0.439
               value_type: float
             2:
-              value: 48.0
+              value: 15.3
               value_type: float
       Casual:
         type: distribution
@@ -18,10 +18,10 @@ partnership:
           dist_type: gamma
           vars:
             1:
-              value: 0.126
+              value: 0.131
               value_type: float
             2:
-              value: 29.23
+              value: 16.5
               value_type: float
     haart_scaling:
       MSM: # calibration
