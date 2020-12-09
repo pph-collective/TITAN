@@ -130,13 +130,12 @@ class Incar(base_feature.BaseFeature):
                             model.run_random.random()
                             < self.agent.location.params.incar.haart.adherence
                         ):
-                            adherent = True
+                            self.agent.haart.adherent = True  # type: ignore[attr-defined]
                         else:
-                            adherent = False
+                            self.agent.haart.adherent = False  # type: ignore[attr-defined]
 
                         # Add agent to HAART class set, update agent params
                         self.agent.haart.active = True  # type: ignore[attr-defined]
-                        self.agent.haart.adherent = adherent  # type: ignore[attr-defined]
 
     def set_stats(self, stats: Dict[str, int], time: int):
         if self.release_time == time:

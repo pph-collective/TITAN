@@ -51,8 +51,6 @@ class PCA(base_interaction.BaseInteraction):
                 num_acts = model.run_random.randrange(min, max)
         elif params.type == "distribution":
             num_acts = round(utils.safe_dist(params.distribution, model.run_random))
-        else:
-            raise Exception("PCA frequency must be defined as bin or distribution")
 
         if num_acts < 1:
             return False

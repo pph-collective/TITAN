@@ -114,11 +114,11 @@ def test_get_transmission_probability(make_model, make_agent):
 
     # test versatile-versatile relationship
     p_needle = (
-        model.params.partnership.injection.transmission.haart_scaling[1].scale
+        model.params.partnership.injection.transmission.haart_scaling.adherent
         * model.params.partnership.injection.transmission.base
     )
     p_sex = (
-        model.params.partnership.sex.haart_scaling["MSM"][1].prob
+        model.params.partnership.sex.haart_scaling.MSM.adherent
         * model.params.partnership.sex.acquisition.MSM.versatile
     )
     scale = model.params.calibration.acquisition
@@ -129,11 +129,11 @@ def test_get_transmission_probability(make_model, make_agent):
     # test one vers agent, one receptive agent
     a.sex_role = "receptive"
     p_sex_ins = (
-        model.params.partnership.sex.haart_scaling.MSM[1].prob
+        model.params.partnership.sex.haart_scaling.MSM.adherent
         * model.params.partnership.sex.acquisition.MSM.insertive
     )
     p_sex_rec = (
-        model.params.partnership.sex.haart_scaling.MSM[1].prob
+        model.params.partnership.sex.haart_scaling.MSM.adherent
         * model.params.partnership.sex.acquisition.MSM.receptive
     )
 

@@ -46,16 +46,8 @@ partnership:
               value_type: float
     haart_scaling:
       MSM:
-        1:
-          prob: 0.0925
-        2:
-          prob: 0.0925
-        3:
-          prob: 0.0925
-        4:
-          prob: 0.0925
-        5:
-          prob: 0
+        non_adherent: 0.0925
+        adherent: 0
     acquisition:
       MSM:
         insertive: 0.001075

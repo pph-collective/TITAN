@@ -149,13 +149,23 @@ class HAART(base_feature.BaseFeature):
             prob = 1.0
             params = self.agent.location.params
             if interaction_type == "injection":
-                prob = params.partnership.injection.transmission.haart_scaling[
-                    self.adherent
-                ].scale
+                if self.adherent:
+                    prob = (
+                        params.partnership.injection.transmission.haart_scaling.adherent
+                    )
+                else:
+                    prob = (
+                        params.partnership.injection.transmission.haart_scaling.adherent
+                    )
             elif interaction_type == "sex":
-                prob = params.partnership.sex.haart_scaling[self.agent.sex_type][
-                    self.adherent
-                ].prob
+                if self.adherent:
+                    prob = params.partnership.sex.haart_scaling[
+                        self.agent.sex_type
+                    ].adherent
+                else:
+                    prob = params.partnership.sex.haart_scaling[
+                        self.agent.sex_type
+                    ].non_adherent
 
             # Tuning parameter for ART efficiency
             return prob * params.calibration.haart.transmission
