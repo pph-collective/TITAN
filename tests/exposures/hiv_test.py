@@ -101,22 +101,14 @@ def test_diagnose_hiv(make_model, make_agent):
 def test_get_transmission_probability(make_model, make_agent):
     model = make_model()
     a = make_agent(race="white", SO="MSM")
-    a.haart.adherence = 1
     a.sex_role = "versatile"
 
     p = make_agent(race="white", SO="MSM")
     p.sex_role = "versatile"
-    p.haart.adherence = 1
 
     # test versatile-versatile relationship
-    p_needle = (
-        model.params.partnership.injection.transmission.haart_scaling[1].scale
-        * model.params.partnership.injection.transmission.base
-    )
-    p_sex = (
-        model.params.partnership.sex.haart_scaling["MSM"][1].prob
-        * model.params.partnership.sex.acquisition.MSM.versatile
-    )
+    p_needle = model.params.partnership.injection.transmission.base
+    p_sex = model.params.partnership.sex.acquisition.MSM.versatile
     scale = model.params.calibration.acquisition
 
     assert (
@@ -126,14 +118,8 @@ def test_get_transmission_probability(make_model, make_agent):
 
     # test one vers agent, one receptive agent
     a.sex_role = "receptive"
-    p_sex_ins = (
-        model.params.partnership.sex.haart_scaling.MSM[1].prob
-        * model.params.partnership.sex.acquisition.MSM.insertive
-    )
-    p_sex_rec = (
-        model.params.partnership.sex.haart_scaling.MSM[1].prob
-        * model.params.partnership.sex.acquisition.MSM.receptive
-    )
+    p_sex_ins = model.params.partnership.sex.acquisition.MSM.insertive
+    p_sex_rec = model.params.partnership.sex.acquisition.MSM.receptive
 
     assert a.hiv.get_transmission_probability(model, "sex", p, 1) == p_sex_ins * scale
     assert p.hiv.get_transmission_probability(model, "sex", a, 1) == p_sex_rec * scale

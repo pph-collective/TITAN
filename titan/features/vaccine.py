@@ -38,9 +38,9 @@ class Vaccine(base_feature.BaseFeature):
             not self.agent.hiv.active  # type: ignore[attr-defined]
             and self.agent.location.params.vaccine.on_init
             and pop.pop_random.random()
-            < self.agent.location.params.demographics[self.agent.race][
-                self.agent.sex_type
-            ].vaccine.init
+            < self.agent.location.params.demographics[self.agent.race]
+            .sex_type[self.agent.sex_type]
+            .vaccine.init
         ):
             self.vaccinate(time)
 
@@ -59,9 +59,11 @@ class Vaccine(base_feature.BaseFeature):
             and not self.agent.hiv.active  # type: ignore[attr-defined]
         ):
             vaccine_params = self.agent.location.params.vaccine
-            agent_params = self.agent.location.params.demographics[self.agent.race][
-                self.agent.sex_type
-            ].vaccine
+            agent_params = (
+                self.agent.location.params.demographics[self.agent.race]
+                .sex_type[self.agent.sex_type]
+                .vaccine
+            )
 
             if self.active:
                 if (

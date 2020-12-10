@@ -9,10 +9,16 @@ prep:
     type: array
   target:
     default: 0.0
-    description: Target coverage for PrEP therapy at 10 years
+    description: Target coverage for PrEP coverage, or probability of initiating prep at a timestep if target_as_prob is true
     type: float
     min: 0
     max: 1
+  init:
+    default: 0.0
+    description: Probability of initiating PrEP at agent creation
+    type: float
+    min: 0.
+    max: 1.
   target_as_prob:
     default: false
     description: If prep.target should be treated as a probability instead of a target
@@ -21,7 +27,6 @@ prep:
     default: 0
     description: Timestep at which prep should start in the model
     type: int
-    min: 0
   efficacy:
     adherent:
       default: 0.96

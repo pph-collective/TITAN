@@ -5,7 +5,7 @@ timeline_scaling:
     fields:
       parameter:
         type: str
-        description: "Them parameter to be scaled. Should be the parameter name with pipes instead of dots (e.g. `prep.discontinue` would be `prep|discontinue`)."
+        description: "The parameter to be scaled. Should be the parameter name with pipes instead of dots (e.g. `prep.discontinue` would be `prep|discontinue`)."
       start_time:
         type: int
         description: "What time to start the scaling of this parameter (inclusive)"

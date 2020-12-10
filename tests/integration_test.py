@@ -111,7 +111,7 @@ def test_model_settings_run(tmpdir):
             path = tmpdir.mkdir(item)
             print(f"-----------Starting run for {item}-----------")
             subprocess.check_call(
-                [f, f"-p {param_file}", f"-o {path}", f"-S {item}", "-e"]
+                [f, f"-S {item}", f"-p {param_file}", f"-o {path}", "-e"]
             )
             assert True
 
@@ -135,8 +135,12 @@ def test_target_partners(make_model_integration, tmpdir):
 
     # change the partner distribution mean upward for creating model b
     for bond in model_a.params.classes.bond_types:
-        model_a.params.demographics.black.MSM.num_partners[bond].vars[1].value *= 10
-        model_a.params.demographics.black.PWID.num_partners[bond].vars[1].value *= 10
+        model_a.params.demographics.black.sex_type.MSM.drug_type["None"].num_partners[
+            bond
+        ].vars[1].value *= 10
+        model_a.params.demographics.black.sex_type.MSM.drug_type["Inj"].num_partners[
+            bond
+        ].vars[1].value *= 10
     model_a.params.model.seed.run = model_a.run_seed
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
 
@@ -186,6 +190,7 @@ def test_prep_coverage(make_model_integration, tmpdir):
 
     # change the coverage upward for creating model b, use same seeds
     model_a.params.prep.target = 0.9
+    model_a.params.prep.init = 0.9
     model_a.params.model.seed.run = model_a.run_seed
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
 
@@ -226,8 +231,8 @@ def test_prep_coverage(make_model_integration, tmpdir):
     t10_hiv_a = res_a["10"]["hiv"]
     t10_hiv_b = res_b["10"]["hiv"]
     t10_diff = t10_hiv_a - t10_hiv_b  # a should be higher
-    assert t10_diff > t0_diff
     assert res_a["10"]["prep"] < res_b["10"]["prep"]
+    assert t10_diff > t0_diff
 
 
 @pytest.mark.integration_stochastic
@@ -236,6 +241,9 @@ def test_syringe_services(make_model_integration, tmpdir):
     If we use syringe services, does the incidence of hiv decrease?
     """
     model_a = make_model_integration()
+    model_a.params.partnership.sex.frequency.Sex = ObjMap(
+        {"type": "bins", "bins": {1: {"prob": 1.0, "min": 0, "max": 1}}}
+    )
 
     path_a = tmpdir.mkdir("a")
     path_a.mkdir("network")

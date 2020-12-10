@@ -13,7 +13,7 @@ def test_update_haart_t1(make_model, make_agent):
 
     # nothing happens, not tested
     a.haart.update_agent(model)
-    assert a.haart.adherence == 0
+    assert a.haart.adherent is False
     assert a.haart.active is False
 
     # t0 agent initialized HAART
@@ -25,11 +25,30 @@ def test_update_haart_t1(make_model, make_agent):
     )  # means this will always be less than params even though not possible in reality
     a.haart.update_agent(model)
 
-    assert a.haart.adherence == 5
+    assert a.haart.adherent is True
     assert a.haart.active
 
     # go off haart
     a.haart.update_agent(model)
 
-    assert a.haart.adherence == 0
+    assert a.haart.adherent is False
     assert a.haart.active is False
+
+    # Try haart cap with low cap, one agent on haart and one diagnosed agent. Nothing happens
+    a.location.params.hiv.haart_cap = True
+    a.haart.counts[a.race][a.sex_type] = 1
+    a.hiv.dx_counts[a.race][a.sex_type] = 5
+    a.location.params.demographics[a.race].sex_type[a.sex_type].drug_type[
+        a.drug_type
+    ].haart.prob = 0.1
+    a.haart.update_agent(model)
+    assert a.haart.active is False
+    assert a.haart.adherent is False
+
+    # Increase cap. Agent goes on haart
+    a.location.params.demographics[a.race].sex_type[a.sex_type].drug_type[
+        a.drug_type
+    ].haart.prob = 2.0
+    a.haart.update_agent(model)
+    assert a.haart.active
+    assert a.haart.adherent is True

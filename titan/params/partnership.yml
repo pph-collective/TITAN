@@ -1,95 +1,76 @@
 partnership:
   sex:
     frequency:
-      type:
-        type: enum
-        description: "Whether to use distribution or bins for frequency"
-        default: bins
-        values:
-          - bins
-          - distribution
-      bins:
-        type: bin
-        description: "Binned probabilities of frequencies"
-        fields:
-          prob:
-            type: float
-            min: 0.0
-            max: 1.0
-          min:
-            type: int
-            min: 0
-          max:
-            type: int
-            min: 0
-        default:
-          1:
-            prob: 0.585
-            min: 1
-            max: 6
-          2:
-            prob: 0.701
-            min: 7
-            max: 12
-          3:
-            prob: 0.822
-            min: 13
-            max: 24
-          4:
-            prob: 0.882
-            min: 25
-            max: 36
-          5:
-            prob: 1.0
-            min: 37
-            max: 48
-      distribution:
-        dist_type:
+      description: "Sex act frequency, keyed off of bond type."
+      type: sub-dict
+      keys:
+        - bond_types
+      default:
+        type:
           type: enum
-          description: "Type of distribution to use for partnerships if type is distribution. See https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator for function information"
-          class: distributions
-          default: poisson
-        vars:
+          description: "Whether to use distribution or bins for frequency"
+          default: bins
+          values:
+            - bins
+            - distribution
+        bins:
           type: bin
-          description: Pass values in order of bin keys to the distriubtion, starting at 1
+          description: "Binned probabilities of frequencies"
           fields:
-            value:
+            prob:
               type: float
-            value_type:
-              type: enum
-              values:
-              - int
-              - float
+              min: 0.0
+              max: 1.0
+            min:
+              type: int
+              min: 0
+            max:
+              type: int
+              min: 0
           default:
             1:
-              value: 0
-              value_type: int
+              prob: 1.0
+              min: 0
+              max: 1
+        distribution:
+          dist_type:
+            type: enum
+            description: "Type of distribution to use for partnerships if type is distribution. See https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator for function information"
+            class: distributions
+            default: set_value
+          vars:
+            type: bin
+            description: Pass values in order of bin keys to the distriubtion, starting at 1
+            fields:
+              value:
+                type: float
+              value_type:
+                type: enum
+                values:
+                - int
+                - float
+            default:
+              1:
+                value: 0
+                value_type: int
     haart_scaling:
       type: sub-dict
-      description: "Scaling factor on HIV transmission for a given haart adherence"
+      description: "Scaling factor on HIV transmission depending on whether an agent is HAART adherent"
       keys:
         - sex_types
       default:
-        type: bin
-        description: "Binned scalar for HIV transmission"
-        fields:
-          prob:
-            type: float
-            min: 0.0
-            max: 1.0
-        default:
-          0:
-            prob: 1.0
-          1:
-            prob: 1.0
-          2:
-            prob: 0.8
-          3:
-            prob: 0.4
-          4:
-            prob: 0.2
-          5:
-            prob: 0.0
+        non_adherent:
+          default: 1.0
+          min: 0.0
+          max: 1.0
+          description: "scalar for HIV transmission for agents on HAART but non-adherent"
+          type: float
+        adherent:
+          default: 0.03
+          min: 0.0
+          max: 1.0
+          description: "Scalar for HIV transmission for agents on HAART and adherent"
+          type: float
     acquisition:
       type: sub-dict
       description: "Probability of HIV negative partner acquiring HIV given their preferred sex position"
@@ -123,25 +104,18 @@ partnership:
         max: 1.0
         default: 0.007
       haart_scaling:
-        type: bin
-        description: Scale on base hiv transmission given haart adherence
-        fields:
-          scale:
-            type: float
-            min: 0
-        default:
-          0:
-            scale: 1
-          1:
-            scale: 1
-          2:
-            scale: 0.8
-          3:
-            scale: 0.4
-          4:
-            scale: 0.2
-          5:
-            scale: 0.03
+        non_adherent:
+          default: 0.0
+          min: 0.0
+          max: 1.0
+          description: "scalar for HIV transmission for agents on HAART but non-adherent"
+          type: float
+        adherent:
+          default: 1.0
+          min: 0.0
+          max: 1.0
+          description: "scalar for HIV transmission for agents on HAART and adherent"
+          type: float
   pca:
     frequency:
       type: sub-dict
@@ -149,24 +123,53 @@ partnership:
       keys:
         - bond_types
       default:
-        type: bin
-        description: Number of pca interactions by bond type
-        fields:
-          prob:
-            type: float
-            min: 0.0
-            max: 1.0
-          min:
-            type: float
-            min: 0.0
-          max:
-            type: float
-            min: 0.0
-        default:
-          1:
-            prob: 1.0
-            min: 0.0
-            max: 0.0
+        type:
+          type: enum
+          description: Whether to use distribution or bins for frequency
+          default: bins
+          values:
+            - bins
+            - distributions
+        bins:
+          type: bin
+          description: Number of pca interactions by bond type, binned
+          fields:
+            prob:
+              type: float
+              min: 0.0
+              max: 1.0
+            min:
+              type: float
+              min: 0.0
+            max:
+              type: float
+              min: 0.0
+          default:
+            1:
+              prob: 1.0
+              min: 0.0
+              max: 0.0
+        distribution:
+          dist_type:
+            type: enum
+            description: "Type of distribution to use for partnerships if type is distribution. See https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator for function information"
+            class: distributions
+            default: set_value
+          vars:
+            type: bin
+            description: Pass values in order of bin keys to the distriubtion, starting at 1
+            fields:
+              value:
+                type: float
+              value_type:
+                type: enum
+                values:
+                - int
+                - float
+            default:
+              1:
+                value: 0
+                value_type: int
   ongoing_duration:
     default: 1
     description: Relationship duration past which the relationship is considered "ongoing".  Used for CDCWomen and CDCmsm prep eligibility.

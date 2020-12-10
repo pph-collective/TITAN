@@ -19,17 +19,19 @@ class Sex(base_interaction.BaseInteraction):
         """
         # unprotected sex probabilities for primary partnerships
         mean_sex_acts = (
-            rel.agent1.get_number_of_sex_acts(model.np_random)
-            * model.calibration.sex.act
+            rel.get_number_of_sex_acts(model.np_random) * model.calibration.sex.act
         )
         total_sex_acts = utils.poisson(mean_sex_acts, model.np_random)
 
         # Get condom usage
-        p_safe_sex = rel.agent1.location.params.demographics[rel.agent1.race][
-            rel.agent1.sex_type
-        ].safe_sex
+        p_safe_sex = (
+            rel.agent1.location.params.demographics[rel.agent1.race]
+            .sex_type[rel.agent1.sex_type]
+            .safe_sex
+        )
+
         # increase condom usage if diagnosed
-        if rel.agent1.hiv.dx or rel.agent1.hiv.dx:  # type: ignore[attr-defined]
+        if rel.agent1.hiv.dx or rel.agent2.hiv.dx:  # type: ignore[attr-defined]
             # Calculate probability of safe sex given risk reduction
             p_unsafe_sex = (1 - p_safe_sex) * (
                 1 - model.params.hiv.dx.risk_reduction.sex

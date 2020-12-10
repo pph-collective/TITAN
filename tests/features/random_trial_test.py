@@ -7,17 +7,18 @@ from titan.features import RandomTrial
 
 
 @pytest.mark.unit
-def test_initialize_random_trial_prep(make_model, params):
+def test_initialize_random_trial_prep_all(make_model, params):
     params.features.prep = True
     params.vaccine.on_init = False
     params.prep.target = 0
+    params.random_trial.choice = "all"
     model = make_model(params)
     model.run_random = FakeRandom(-0.1)
     model.time = model.params.random_trial.start_time
     RandomTrial.update_pop(model)
     for agent in model.pop.all_agents:
         assert agent.random_trial.active
-        if not agent.hiv:
+        if not agent.hiv.active:
             assert agent.random_trial.treated
             assert agent.prep.active
 

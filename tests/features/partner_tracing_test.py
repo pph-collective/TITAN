@@ -29,7 +29,9 @@ def test_partner_tracing(make_model, make_agent):
     assert p.partner_tracing.time == model.time
 
     assert p.hiv.dx is False
-    model.params.demographics[p.race][p.sex_type].hiv.dx.prob = 0
+    model.params.demographics[p.race].sex_type[p.sex_type].drug_type[
+        p.drug_type
+    ].hiv.dx.prob = 0
 
     model.time += 1
     p.partner_tracing.update_agent(model)

@@ -36,9 +36,11 @@ class Incar(base_feature.BaseFeature):
             pop: the population this agent is a part of
             time: the current time step
         """
-        incar_params = self.agent.location.params.demographics[self.agent.race][
-            self.agent.sex_type
-        ].incar
+        incar_params = (
+            self.agent.location.params.demographics[self.agent.race]
+            .sex_type[self.agent.sex_type]
+            .incar
+        )
         jail_duration = incar_params.duration.init
 
         prob_incar = incar_params.init
@@ -88,19 +90,21 @@ class Incar(base_feature.BaseFeature):
                             <= self.agent.location.params.incar.haart.discontinue
                         ):
                             self.agent.haart.active = False  # type: ignore[attr-defined]
-                            self.agent.haart.adherence = 0  # type: ignore[attr-defined]
+                            self.agent.haart.adherent = False  # type: ignore[attr-defined]
 
         # should the agent become incarcerated?
         elif model.run_random.random() < (
-            self.agent.location.params.demographics[self.agent.race][
-                self.agent.sex_type
-            ].incar.prob
+            self.agent.location.params.demographics[self.agent.race]
+            .sex_type[self.agent.sex_type]
+            .incar.prob
             * hiv_multiplier
             * model.calibration.incarceration
         ):
-            incar_duration = self.agent.location.params.demographics[self.agent.race][
-                self.agent.sex_type
-            ].incar.duration.prob
+            incar_duration = (
+                self.agent.location.params.demographics[self.agent.race]
+                .sex_type[self.agent.sex_type]
+                .incar.duration.prob
+            )
 
             bin = current_p_value = 1
             p = model.run_random.random()
@@ -126,17 +130,9 @@ class Incar(base_feature.BaseFeature):
                         model.run_random.random()
                         < self.agent.location.params.incar.haart.prob
                     ):
-                        if (
-                            model.run_random.random()
-                            < self.agent.location.params.incar.haart.adherence
-                        ):
-                            adherence = 5
-                        else:
-                            adherence = model.run_random.randint(1, 4)
-
+                        self.agent.haart.adherent = model.run_random.random() < self.agent.location.params.incar.haart.adherence  # type: ignore[attr-defined]
                         # Add agent to HAART class set, update agent params
                         self.agent.haart.active = True  # type: ignore[attr-defined]
-                        self.agent.haart.adherence = adherence  # type: ignore[attr-defined]
 
     def set_stats(self, stats: Dict[str, int], time: int):
         if self.release_time == time:

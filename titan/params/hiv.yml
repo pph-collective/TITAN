@@ -31,6 +31,19 @@ hiv:
       type: float
       min: 0
       max: 1
+    haart_scale:
+      non_adherent:
+        description: Scalar for aids progression for agents on haart but non-adherent
+        default: 0.00368
+        type: float
+        min: 0.
+        max: 1.
+      adherent:
+        description: Scalar for aids progression for agents adherent to haart
+        default: 0.0008
+        type: float
+        min: 0.
+        max: 1.
   max_init_time:
     default: 42
     description: On creation, agents are randomly assigned an hiv.time, this is the maximum time

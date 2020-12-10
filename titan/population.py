@@ -174,7 +174,11 @@ class Population:
         else:
             agent.sex_role = sex_role
 
-        agent_params = agent.location.params.demographics[race][agent.population]
+        agent_params = (
+            agent.location.params.demographics[race]
+            .sex_type[sex_type]
+            .drug_type[drug_type]
+        )
 
         for exposure in self.exposures:
             agent_feature = getattr(agent, exposure.name)

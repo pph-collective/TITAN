@@ -4,7 +4,6 @@ from . import base_exposure
 from .. import agent
 from .. import population
 from .. import model
-from .. import probabilities as prob
 from .. import utils
 
 
@@ -61,9 +60,11 @@ class HIV(base_exposure.BaseExposure):
             pop: the population this agent is a part of
             time: the current time step
         """
-        agent_params = self.agent.location.params.demographics[self.agent.race][
-            self.agent.population
-        ]
+        agent_params = (
+            self.agent.location.params.demographics[self.agent.race]
+            .sex_type[self.agent.sex_type]
+            .drug_type[self.agent.drug_type]
+        )
 
         # HIV
         if (
@@ -77,7 +78,7 @@ class HIV(base_exposure.BaseExposure):
                 time - self.agent.location.params.hiv.max_init_time, time
             )
 
-            if pop.pop_random.random() < agent_params.aids.init:
+            if pop.pop_random.random() < agent_params.hiv.aids.init:
                 self.aids = True
 
             if pop.pop_random.random() < agent_params.hiv.dx.init:
@@ -99,9 +100,12 @@ class HIV(base_exposure.BaseExposure):
         """
         if self.active and model.time >= model.params.hiv.start_time:
             if not self.dx:
-                test_prob = self.agent.location.params.demographics[self.agent.race][
-                    self.agent.sex_type
-                ].hiv.dx.prob
+                test_prob = (
+                    self.agent.location.params.demographics[self.agent.race]
+                    .sex_type[self.agent.sex_type]
+                    .drug_type[self.agent.drug_type]
+                    .hiv.dx.prob
+                )
 
                 # Rescale based on calibration param
                 test_prob *= model.calibration.test_frequency
@@ -320,7 +324,13 @@ class HIV(base_exposure.BaseExposure):
         args:
              model: the running model
         """
-        p = prob.adherence_prob(self.agent.haart.adherence) if self.agent.haart.active else 1.0  # type: ignore[attr-defined]
+        aids_params = self.agent.location.params.hiv.aids
+        p = 1.0
+        if self.agent.haart.active:  # type: ignore[attr-defined]
+            if self.agent.haart.adherent:  # type: ignore[attr-defined]
+                p = aids_params.haart_scale.adherent
+            else:
+                p = aids_params.haart_scale.non_adherent
 
-        if model.run_random.random() < p * self.agent.location.params.hiv.aids.prob:
+        if model.run_random.random() < p * aids_params.prob:
             self.aids = True

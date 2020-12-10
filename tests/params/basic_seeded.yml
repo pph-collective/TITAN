@@ -1,802 +1,429 @@
 demographics:
   black:
-    ppl: 0.6
-    MSM:
-      ppl: 0.3
-      drug_type:
-        Inj:
-          init: 0.2
-        None:
-          init: 0.8
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 4
-              value_type: float
-        Social:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        SexInj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        Inj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-      hiv:
-        init: 0.1
-        dx:
-          init: 0.1
-          prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
-      incar:
-        init: 0.1
-        prob: 0.1
-      safe_sex: 0.1
-      injection:
-        unsafe_prob: 0.
-      prep:
-        adherence: 0.1
-        discontinue: 0.1
-        coverage: 0.3
-      high_risk:
-        init: 0.1
-      vaccine:
-        init: 0.1
-        prob: 0.1
-        booster:
-          interval: 12
-          prob: 0.1
-    HM:
-      ppl: 0.3
-      drug_type:
+    ppl: 0.600000000000567
+    sex_type:
+      MTF:
+        ppl: 0.1
+        drug_type: &base_drug_type
           Inj:
-            init: 0.2
-          None:
-            init: 0.8
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 4
-              value_type: float
-        Social:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        SexInj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        Inj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-      hiv:
-        init: 0.1
-        dx:
+            ppl: 0.2
+            num_partners:
+              Sex:
+                dist_type: poisson
+                vars:
+                  1:
+                    value: 10
+                    value_type: float
+              Social:
+                dist_type: poisson
+                vars:
+                  1:
+                    value: 0
+                    value_type: float
+              SexInj:
+                dist_type: poisson
+                vars:
+                  1:
+                    value: 10
+                    value_type: float
+              Inj:
+                dist_type: poisson
+                vars:
+                  1:
+                    value: 10
+                    value_type: float
+            hiv:
+              init: 0.1
+              dx:
+                init: 0.1
+                prob: 0.1
+              aids:
+                init: 0.1
+            haart:
+              init: 0.1
+              prob: 0.1
+              adherence:
+                init: 0.1
+                prob: 0.1
+              discontinue: 0.1
+          NonInj: &npwid_drug_type
+            ppl: 0.4
+            hiv:
+              init: 0.1
+              dx:
+                init: 0.1
+                prob: 0.1
+              aids:
+                init: 0.1
+            num_partners:
+              Sex:
+                dist_type: poisson
+                vars:
+                  1:
+                    value: 10
+                    value_type: float
+            haart:
+              init: 0.1
+              prob: 0.1
+              adherence:
+                init: 0.1
+                prob: 0.1
+              discontinue: 0.1
+          None: *npwid_drug_type
+        incar:
+          init: 0.02
+          prob: 0.02
+        safe_sex: 0.1
+        injection:
+          unsafe_prob: 0.1
+        prep:
+          adherence: 0.1
+          discontinue: 0.1
+          target: 0.3
+          init: 0.3
+        high_risk:
+          init: 0.1
+        vaccine:
           init: 0.1
           prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
-      incar:
-        init: 0.1
-        prob: 0.1
-      safe_sex: 0.1
-      injection:
-        unsafe_prob: 0.
-      prep:
-        adherence: 0.1
-        discontinue: 0.1
-        coverage: 0.3
-      high_risk:
-        init: 0.1
-      vaccine:
-        init: 0.1
-        prob: 0.1
-        booster:
-          interval: 12
-          prob: 0.1
-    HF:
-      ppl: 0.2
-      drug_type:
-        Inj:
-          init: 0.2
-        None:
-          init: 0.8
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 4
-              value_type: float
-        Social:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        SexInj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        Inj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-      hiv:
-        init: 0.1
-        dx:
+          booster:
+            interval: 12
+            prob: 0.1
+      MSM:
+        ppl: 0.3
+        drug_type: *base_drug_type
+        incar:
+          init: 0.02
+          prob: 0.02
+        safe_sex: 0.1
+        injection:
+          unsafe_prob: 0.1
+        prep:
+          adherence: 0.1
+          discontinue: 0.1
+          target: 0.3
+          init: 0.3
+        high_risk:
+          init: 0.1
+        vaccine:
           init: 0.1
           prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
-      incar:
-        init: 0.1
-        prob: 0.1
-      safe_sex: 0.1
-      injection:
-        unsafe_prob: 0.
-      prep:
-        adherence: 0.1
-        discontinue: 0.1
-        coverage: 0.3
-      high_risk:
-        init: 0.1
-      vaccine:
-        init: 0.1
-        prob: 0.1
-        booster:
-          interval: 12
-          prob: 0.1
-    WSW:
-      ppl: 0.1
-      drug_type:
-        Inj:
-          init: 0.2
-        None:
-          init: 0.8
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 4
-              value_type: float
-        Social:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        SexInj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        Inj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-      hiv:
-        init: 0.1
-        dx:
+          booster:
+            interval: 12
+            prob: 0.1
+      HM:
+        ppl: 0.3
+        drug_type: *base_drug_type
+        incar:
+          init: 0.02
+          prob: 0.02
+        safe_sex: 0.1
+        injection:
+          unsafe_prob: 0.1
+        prep:
+          adherence: 0.1
+          discontinue: 0.1
+          target: 0.3
+          init: 0.3
+        high_risk:
+          init: 0.1
+        vaccine:
           init: 0.1
           prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
-      incar:
-        init: 0.1
-        prob: 0.1
-      safe_sex: 0.1
-      injection:
-        unsafe_prob: 0.
-      prep:
-        adherence: 0.1
-        discontinue: 0.1
-        coverage: 0.3
-      high_risk:
-        init: 0.1
-      vaccine:
-        init: 0.1
-        prob: 0.1
-        booster:
-          interval: 12
-          prob: 0.1
-    MTF:
-      ppl: 0.1
-      drug_type:
-        Inj:
-          init: 0.2
-        None:
-          init: 0.8
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 4
-              value_type: float
-        Social:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        SexInj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        Inj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-      hiv:
-        init: 0.1
-        dx:
+          booster:
+            interval: 12
+            prob: 0.1
+      HF:
+        ppl: 0.2
+        drug_type: *base_drug_type
+        incar:
+          init: 0.02
+          prob: 0.02
+        safe_sex: 0.1
+        injection:
+          unsafe_prob: 0.1
+        prep:
+          adherence: 0.1
+          discontinue: 0.1
+          target: 0.3
+          init: 0.3
+        high_risk:
+          init: 0.1
+        vaccine:
           init: 0.1
           prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
-      incar:
-        init: 0.1
-        prob: 0.1
-      safe_sex: 0.1
-      injection:
-        unsafe_prob: 0.
-      prep:
-        adherence: 0.1
-        discontinue: 0.1
-        coverage: 0.3
-      high_risk:
-        init: 0.1
-      vaccine:
-        init: 0.1
-        prob: 0.1
-        booster:
-          interval: 12
-          prob: 0.1
-    PWID:
-      ppl: 0.2
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 4
-              value_type: float
-        Social:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        SexInj:
-          dist_type: poisson
-          vars:
-            1:
-              value: 3.0
-              value_type: float
-        Inj:
-          dist_type: poisson
-          vars:
-            1:
-              value: 3.0
-              value_type: float
-      hiv:
-        init: 0.1
-        dx:
+          booster:
+            interval: 12
+            prob: 0.1
+      WSW:
+        ppl: 0.1
+        drug_type: *base_drug_type
+        incar:
+          init: 0.02
+          prob: 0.02
+        safe_sex: 0.1
+        injection:
+          unsafe_prob: 0.1
+        prep:
+          adherence: 0.1
+          discontinue: 0.1
+          target: 0.3
+          init: 0.3
+        high_risk:
+          init: 0.1
+        vaccine:
           init: 0.1
           prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
-      incar:
-        init: 0.1
-        prob: 0.1
-      safe_sex: 0.1
-      injection:
-        unsafe_prob: 0.
-      prep:
-        adherence: 0.1
-        discontinue: 0.1
-        coverage: 0.3
-      high_risk:
-        init: 0.1
-      vaccine:
-        init: 0.1
-        prob: 0.1
-        booster:
-          interval: 12
-          prob: 0.1
+          booster:
+            interval: 12
+            prob: 0.1
   white:
     ppl: 0.4
-    MSM:
-      ppl: 0.3
-      drug_type:
-        Inj:
+    sex_type:
+      MSM:
+        ppl: 0.3
+        drug_type: *base_drug_type
+        incar:
+          init: 0.02
+          prob: 0.02
+        safe_sex: 0.1
+        injection:
+          unsafe_prob: 0.1
+        prep:
+          adherence: 0.1
+          discontinue: 0.1
+          target: 0.3
           init: 0.3
-        None:
-          init: 0.7
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 4
-              value_type: float
-        Social:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        SexInj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        Inj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-      hiv:
-        init: 0.1
-        dx:
+        high_risk:
+          init: 0.1
+        vaccine:
           init: 0.1
           prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
-      incar:
-        init: 0.1
-        prob: 0.1
-      safe_sex: 0.1
-      injection:
-        unsafe_prob: 0.
-      prep:
-        adherence: 0.1
-        discontinue: 0.1
-        coverage: 0.3
-      high_risk:
-        init: 0.1
-      vaccine:
-        init: 0.1
-        prob: 0.1
-        booster:
-          interval: 12
-          prob: 0.1
-    HM:
-      ppl: 0.3
-      drug_type:
-        Inj:
+          booster:
+            interval: 12
+            prob: 0.1
+      HM:
+        ppl: 0.3
+        drug_type: *base_drug_type
+        incar:
+          init: 0.02
+          prob: 0.02
+        safe_sex: 0.1
+        injection:
+          unsafe_prob: 0.1
+        prep:
+          adherence: 0.1
+          discontinue: 0.1
+          target: 0.3
           init: 0.3
-        None:
-          init: 0.7
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 4
-              value_type: float
-        Social:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        SexInj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        Inj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-      hiv:
-        init: 0.1
-        dx:
+        high_risk:
+          init: 0.1
+        vaccine:
           init: 0.1
           prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
-      incar:
-        init: 0.1
-        prob: 0.1
-      safe_sex: 0.1
-      injection:
-        unsafe_prob: 0.
-      prep:
-        adherence: 0.1
-        discontinue: 0.1
-        coverage: 0.3
-      high_risk:
-        init: 0.1
-      vaccine:
-        init: 0.1
-        prob: 0.1
-        booster:
-          interval: 12
-          prob: 0.1
-    HF:
-      ppl: 0.2
-      drug_type:
-        Inj:
+          booster:
+            interval: 12
+            prob: 0.1
+      HF:
+        ppl: 0.2
+        drug_type: *base_drug_type
+        incar:
+          init: 0.02
+          prob: 0.02
+        safe_sex: 0.1
+        injection:
+          unsafe_prob: 0.1
+        prep:
+          adherence: 0.1
+          discontinue: 0.1
+          target: 0.3
           init: 0.3
-        None:
-          init: 0.7
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 4
-              value_type: float
-        Social:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        SexInj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        Inj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-      hiv:
-        init: 0.1
-        dx:
+        high_risk:
+          init: 0.1
+        vaccine:
           init: 0.1
           prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
-      incar:
-        init: 0.1
-        prob: 0.1
-      safe_sex: 0.1
-      injection:
-        unsafe_prob: 0.
-      prep:
-        adherence: 0.1
-        discontinue: 0.1
-        coverage: 0.3
-      high_risk:
-        init: 0.1
-      vaccine:
-        init: 0.1
-        prob: 0.1
-        booster:
-          interval: 12
-          prob: 0.1
-    WSW:
-      ppl: 0.1
-      drug_type:
-        Inj:
+          booster:
+            interval: 12
+            prob: 0.1
+      WSW:
+        ppl: 0.1
+        drug_type: *base_drug_type
+        incar:
+          init: 0.02
+          prob: 0.02
+        safe_sex: 0.1
+        injection:
+          unsafe_prob: 0.
+        prep:
+          adherence: 0.1
+          discontinue: 0.1
+          target: 0.3
           init: 0.3
-        None:
-          init: 0.7
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 4
-              value_type: float
-        Social:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        SexInj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        Inj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-      hiv:
-        init: 0.1
-        dx:
+        high_risk:
+          init: 0.1
+        vaccine:
           init: 0.1
           prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
-      incar:
-        init: 0.1
-        prob: 0.1
-      safe_sex: 0.1
-      injection:
-        unsafe_prob: 0.
-      prep:
-        adherence: 0.1
-        discontinue: 0.1
-        coverage: 0.3
-      high_risk:
-        init: 0.1
-      vaccine:
-        init: 0.1
-        prob: 0.1
-        booster:
-          interval: 12
-          prob: 0.1
-    MTF:
-      ppl: 0.1
-      drug_type:
-        Inj:
+          booster:
+            interval: 12
+            prob: 0.1
+      MTF:
+        ppl: 0.1
+        drug_type: *base_drug_type
+        incar:
+          init: 0.02
+          prob: 0.02
+        safe_sex: 0.1
+        injection:
+          unsafe_prob: 0.
+        prep:
+          adherence: 0.1
+          discontinue: 0.1
+          target: 0.3
           init: 0.3
-        None:
-          init: 0.7
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 4
-              value_type: float
-        Social:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        SexInj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        Inj:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-      hiv:
-        init: 0.1
-        dx:
+        high_risk:
+          init: 0.1
+        vaccine:
           init: 0.1
           prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
-      incar:
-        init: 0.1
-        prob: 0.1
-      safe_sex: 0.1
-      injection:
-        unsafe_prob: 0.
-      prep:
-        adherence: 0.1
-        discontinue: 0.1
-        coverage: 0.3
-      high_risk:
-        init: 0.1
-      vaccine:
-        init: 0.1
-        prob: 0.1
-        booster:
-          interval: 12
-          prob: 0.1
-    PWID:
-      ppl: 0.3
-      drug_type:
-        init:
-          Inj: 1.0
-      num_partners:
-        Sex:
-          dist_type: poisson
-          vars:
-            1:
-              value: 4
-              value_type: float
-        Social:
-          dist_type: set_value
-          vars:
-            1:
-              value: 0
-              value_type: int
-        SexInj:
-          dist_type: poisson
-          vars:
-            1:
-              value: 3.0
-              value_type: float
-        Inj:
-          dist_type: poisson
-          vars:
-            1:
-              value: 3.0
-              value_type: float
-      hiv:
-        init: 0.1
-        dx:
-          init: 0.1
-          prob: 0.1
-      aids:
-        init: 0.1
-      haart:
-        init: 0.1
-        prob: 0.1
-        adherence: 0.1
-        discontinue: 0.1
-      incar:
-        init: 0.1
-        prob: 0.1
-      safe_sex: 0.1
-      injection:
-        unsafe_prob: 0.
-      prep:
-        adherence: 0.1
-        discontinue: 0.1
-        coverage: 0.3
-      high_risk:
-        init: 0.1
-      vaccine:
-        init: 0.1
-        prob: 0.1
-        booster:
-          interval: 12
-          prob: 0.1
+          booster:
+            interval: 12
+            prob: 0.1
 
 partnership:
+  pca:
+    frequency:
+      Sex:
+        1:
+          prob: 1.0
+          min: 1.0
+          max: 1.0
+      SexInj:
+        1:
+          prob: 1.0
+          min: 1.0
+          max: 1.0
+      Inj:
+        1:
+          prob: 1.0
+          min: 1.0
+          max: 1.0
   sex:
-    durations:
-      2:
-        min: 9
-    transmission:
+    acquisition:
+      HM:
+        versatile: 0.0004
+      HF:
+        versatile: 0.0008
       MSM:
-        0:
-          prob: 0.08
-  interaction:
+        insertive: 0.0011
+        receptive: 0.0138
+        versatile: 0.00745
+  duration:
     Sex:
-      1:
-        prob: 1.0
-        min: 1
-        max: 1
-    SexInj:
-      1:
-        prob: 1.0
-        min: 1
-        max: 1
+      type: bins
+      bins:
+        1:
+          prob: 1.0
+          min: 1
+          max: 2
     Inj:
-      1:
-        prob: 1.0
-        min: 1
-        max: 1
+      type: distribution
+      distribution:
+        dist_type: randint
+        vars:
+          1:
+            value: 1
+            value_type: int
+          2:
+            value: 3
+            value_type: int
+        mean: 1
+    SexInj:
+      type: distribution
+      distribution:
+        dist_type: poisson
+        vars:
+          1:
+            value: 1
+            value_type: float
+        mean: 1
+    Social:
+      type: distribution
+      distribution:
+        dist_type: poisson
+        vars:
+          1:
+            value: 1
+            value_type: float
+        mean: 1
+
+prep:
+  target: 0.1
+
+pca:
+  awareness:
+    prob: 1.0
+  opinion:
+    transmission: 0.5
+  knowledge:
+    transmission: 0.3
+
+syringe_services:
+  timeline:
+    ssp_open:
+      start_time: 1
+      stop_time: 12
+      num_slots_start: 100
+      num_slots_stop: 100
+      risk: 0.02
 
 agent_zero:
-  bond_type: Inj
-  num_partners: 2
+  interaction_type: injection
+  num_partners: 1
+
+outputs:
+  network:
+    calc_component_stats: true
+  classes:
+    - locations
+    - races
+    - sex_types
 features:
   incar: true
   prep: true
   high_risk: true
   haart: true
   die_and_replace: true
-  static_n: true
+  static_network: false
   agent_zero: true
-  assort_mix: true
+  assort_mix: false
   vaccine: true
   partner_tracing: true
   external_exposure: true
+  syringe_services: true
+  timeline_scaling: true
 
 prep:
   target: 0.3
+  init: 0.3
 
 model:
   seed:
     run: 1
     ppl: 2
   num_pop: 100
-  time:
-    num_steps: 100
   network:
     enable: true
+  num_reps: 1
 
-classes:
-  drug_types:
-    - Inj
-    - None
+location:
+  scaling:
+    world:
+      demographics|white|sex_type|WSW|drug_type|None|hiv|aids|init:
+        field: override
+        override: 1
+
+external_exposure:
+  hiv:
+    prob: 1.0

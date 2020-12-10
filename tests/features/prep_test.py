@@ -7,6 +7,35 @@ from titan.agent import Relationship
 
 
 @pytest.mark.unit
+def test_init_agent(make_agent, make_population, make_model):
+    model = make_model()
+    pop = make_population(n=1)
+
+    # test allcomers (no prep)
+    pop.pop_random = FakeRandom(0.9)
+    a1 = make_agent(race="black")
+    a2 = make_agent(race="white")
+    assert not a1.prep.active and not a2.prep.active
+
+    # test allcomers
+    pop.pop_random = FakeRandom(0.4)
+    a1.prep.init_agent(pop, 10)
+    a2.prep.init_agent(pop, 10)
+    assert a1.prep.active
+    assert a2.prep.active
+
+    # reset prep, change to racial model between black and white init prob
+    a1.prep.active = a2.prep.active = False
+    a1.location.params.prep.target_model = a2.location.params.prep.target_model = [
+        "Racial"
+    ]
+    a1.prep.init_agent(pop, 10)
+    a2.prep.init_agent(pop, 10)
+    assert a1.prep.active
+    assert not a2.prep.active
+
+
+@pytest.mark.unit
 def test_discontinue_prep(make_agent):
     a = make_agent()
 
@@ -142,7 +171,7 @@ def test_initiate_prep_force_adh(make_model, make_agent):
     model.run_random = FakeRandom(-0.1)
     a.prep.initiate(model, True)
     assert a.prep.active
-    assert a.prep.adherence == 1
+    assert a.prep.adherent is True
     assert a.prep.last_dose_time == model.time
 
 
@@ -154,7 +183,7 @@ def test_initiate_prep_force_non_adh(make_model, make_agent):
     model.run_random = FakeRandom(1.0)
     a.prep.initiate(model, True)
     assert a.prep.active
-    assert a.prep.adherence == 0
+    assert a.prep.adherent is False
     assert a.prep.last_dose_time == model.time
 
 
@@ -177,7 +206,7 @@ def test_initiate_prep_eligible(make_model, make_agent):
     model.run_random = FakeRandom(-0.1)
     a.prep.initiate(model)
     assert a.prep.active
-    assert a.prep.adherence == 1
+    assert a.prep.adherent is True
     assert a.prep.last_dose_time == 10
     assert a.prep.time == 10
 
@@ -216,53 +245,53 @@ def test_prep_eligible(make_agent, make_relationship):
 
     # test no model
     a.location.params.prep.target_model = ["cdc_women"]
-    assert not a.prep.eligible()
+    assert not a.prep.eligible(10)
 
     # test cdc_women
     a.location.params.prep.target_model.append("cdc_women")
-    assert not a.prep.eligible()
+    assert not a.prep.eligible(10)
     r = make_relationship(a, p)
     assert not p.is_msm()
-    assert not a.prep.eligible()
+    assert not a.prep.eligible(10)
     p.drug_type = "Inj"
-    assert a.prep.eligible()
+    assert a.prep.eligible(10)
 
     # test Allcomers and Racial
     a.location.params.prep.target_model.append("Allcomers")
-    assert a.prep.eligible()
+    assert a.prep.eligible(10)
     a.location.params.prep.target_model = ["Racial"]
-    assert a.prep.eligible()
+    assert a.prep.eligible(10)
 
     # test cdc_msm
     a.location.params.prep.target_model = ["cdc_msm"]
-    assert not a.prep.eligible()
+    assert not a.prep.eligible(10)
     msm_agent = make_agent()
     msm_agent.location.params.prep.target_model = ["cdc_msm"]
     make_relationship(msm_agent, p)
     assert msm_agent.is_msm()
-    assert msm_agent.prep.eligible()
+    assert msm_agent.prep.eligible(10)
 
     # test pwid
     a.location.params.prep.target_model = ["pwid"]
     p.location.params.prep.target_model = ["pwid"]
-    assert not a.prep.eligible()
-    assert p.prep.eligible()
+    assert not a.prep.eligible(10)
+    assert p.prep.eligible(10)
     p = make_agent(DU="Inj", SO="HM")
     p.location.params.prep.target_model = ["pwid"]
-    assert p.prep.eligible()  # still eligible without partners
+    assert p.prep.eligible(10)  # still eligible without partners
 
     # test ssp
     a.location.params.prep.target_model = ["ssp"]
     p.location.params.prep.target_model = ["ssp"]
-    assert not a.prep.eligible()
-    assert not p.prep.eligible()
+    assert not a.prep.eligible(10)
+    assert not p.prep.eligible(10)
     p.syringe_services.active = True
-    assert p.prep.eligible()
+    assert p.prep.eligible(10)
 
     p.location.params.prep.target_model = ["ssp_sex"]
-    assert not p.prep.eligible()
+    assert not p.prep.eligible(10)
     make_relationship(p, msm_agent)
-    assert p.prep.eligible()
+    assert p.prep.eligible(10)
 
 
 @pytest.mark.unit
@@ -275,7 +304,7 @@ def test_enroll_prep_choice(make_agent, params):
 
     assert a.prep.active
     assert a.prep.last_dose_time == 0
-    assert a.prep.adherence == 1
+    assert a.prep.adherent is True
     assert a.prep.type == "Inj"
 
 
@@ -289,7 +318,7 @@ def test_enroll_prep_one(make_agent, params):
 
     assert a.prep.active
     assert a.prep.last_dose_time == 0
-    assert a.prep.adherence == 0
+    assert a.prep.adherent is False
     assert a.prep.type == "Oral"
 
 
@@ -309,3 +338,29 @@ def test_progress_inj_prep(make_agent, params, make_model):
     model.time = 12
     a.prep.progress(model)
     assert a.prep.last_dose_time is None
+
+
+@pytest.mark.unit
+def test_target_as_prob(make_agent, make_model, params):
+    model = make_model(params)
+    a = make_agent()
+    a.location.params.prep.target_as_prob = True
+
+    model.run_random = FakeRandom(0.2)
+    a.prep.initiate(model)
+    assert not a.prep.active
+
+    model.run_random = FakeRandom(0.0)
+    a = make_agent()
+    a.prep.initiate(model)
+    assert a.prep.active
+
+    model.run_random = FakeRandom(0.4)
+    a.location.params.prep.target_model = ["Racial"]
+    a.prep.active = False
+    a.prep.initiate(model)
+    assert not a.prep.active
+
+    model.run_random = FakeRandom(0.3)
+    a.prep.initiate(model)
+    assert a.prep.active

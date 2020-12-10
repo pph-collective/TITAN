@@ -20,19 +20,17 @@ module load graphviz
 setting=""
 paramPath=""
 nMC=""
-useBase=""
 forceFlag=""
 sweepDefs=""
 sweepfile=""
 rows=""
 
-while getopts S:n:b:w:W:r:Fa:p:P: option
+while getopts S:n:w:W:r:Fa:p:P: option
 do
     case "${option}"
         in
 	S) setting=${OPTARG};;
 	n) nMC=${OPTARG};;
-	b) useBase=${OPTARG};;
 	w) sweepDefs+="-w ${OPTARG} ";;
 	W) sweepfile="-W ${OPTARG}";;
 	r) rows="-r ${OPTARG}";;
@@ -53,4 +51,4 @@ echo Starting execution at `date`
 NCPU=`wc -l < $PBS_NODEFILE`
 echo This job has allocated $NCPU CPUs
 
-./run_titan.py -S $setting -n $nMC -p $paramPath -b $useBase $forceFlag $sweepDefs $sweepfile $rows $savePop $popPath
+./run_titan.py -S $setting -n $nMC -p $paramPath $forceFlag $sweepDefs $sweepfile $rows $savePop $popPath

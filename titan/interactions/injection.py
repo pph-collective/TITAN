@@ -24,12 +24,16 @@ class Injection(base_interaction.BaseInteraction):
         assert rel.agent1.drug_type == "Inj"
         assert rel.agent2.drug_type == "Inj"
 
-        agent_params = rel.agent1.location.params.demographics[rel.agent1.race][
-            rel.agent1.sex_type
-        ].injection
-        partner_params = rel.agent1.location.params.demographics[rel.agent2.race][
-            rel.agent2.sex_type
-        ].injection
+        agent_params = (
+            rel.agent1.location.params.demographics[rel.agent1.race]
+            .sex_type[rel.agent1.sex_type]
+            .injection
+        )
+        partner_params = (
+            rel.agent2.location.params.demographics[rel.agent2.race]
+            .sex_type[rel.agent2.sex_type]
+            .injection
+        )
 
         mean_num_acts = (
             min(agent_params.num_acts, partner_params.num_acts)

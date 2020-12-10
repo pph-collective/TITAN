@@ -26,7 +26,7 @@ class HAART(base_feature.BaseFeature):
         super().__init__(agent)
 
         self.active = False
-        self.adherence = 0
+        self.adherent = False
 
     @classmethod
     def init_class(cls, params: "ObjMap"):
@@ -51,9 +51,11 @@ class HAART(base_feature.BaseFeature):
             pop: the population this agent is a part of
             time: the current time step
         """
-        agent_params = self.agent.location.params.demographics[self.agent.race][
-            self.agent.population
-        ]
+        agent_params = (
+            self.agent.location.params.demographics[self.agent.race]
+            .sex_type[self.agent.sex_type]
+            .drug_type[self.agent.drug_type]
+        )
         if (
             self.agent.hiv.active  # type: ignore[attr-defined]
             and self.agent.hiv.dx  # type: ignore[attr-defined]
@@ -62,11 +64,9 @@ class HAART(base_feature.BaseFeature):
             self.active = True
             self.add_agent(self.agent)
 
-            haart_adh = agent_params.haart.adherence
+            haart_adh = agent_params.haart.adherence.init
             if pop.pop_random.random() < haart_adh:
-                self.adherence = 5
-            else:
-                self.adherence = pop.pop_random.randint(1, 4)
+                self.adherent = True
 
     def update_agent(self, model: "model.TITAN"):
         """
@@ -83,9 +83,12 @@ class HAART(base_feature.BaseFeature):
             and model.time >= model.params.hiv.start_time
         ):
             # Determine probability of HIV treatment
-            haart_params = self.agent.location.params.demographics[self.agent.race][
-                self.agent.sex_type
-            ].haart
+            haart_params = (
+                self.agent.location.params.demographics[self.agent.race]
+                .sex_type[self.agent.sex_type]
+                .drug_type[self.agent.drug_type]
+                .haart
+            )
             # Go on HAART
             if not self.active:
                 if self.agent.location.params.hiv.haart_cap:
@@ -106,7 +109,7 @@ class HAART(base_feature.BaseFeature):
             # Go off HAART
             elif self.active and model.run_random.random() < haart_params.discontinue:
                 self.active = False
-                self.adherence = 0
+                self.adherent = False
                 self.remove_agent(self.agent)
 
     @classmethod
@@ -139,7 +142,7 @@ class HAART(base_feature.BaseFeature):
 
     def get_transmission_risk_multiplier(self, time: int, interaction_type: str):
         """
-        Get a multiplier for how haart reduces transmission risk based on interaction type and params.
+        Get a multiplier for how haart reduces hiv transmission risk based on interaction type and params.
 
         By default, returns 1.0
 
@@ -147,22 +150,23 @@ class HAART(base_feature.BaseFeature):
             time: the current model time step
             interaction_type: The type of interaction where the agent could transmit HIV (e.g. 'sex', 'injection' - from [params.classes.interaction_types])
         """
+        prob = 1.0
         if self.active:
-            prob = 1.0
             params = self.agent.location.params
+            adherence = "adherent" if self.adherent else "non_adherent"
             if interaction_type == "injection":
                 prob = params.partnership.injection.transmission.haart_scaling[
-                    self.adherence
-                ].scale
+                    adherence
+                ]
             elif interaction_type == "sex":
                 prob = params.partnership.sex.haart_scaling[self.agent.sex_type][
-                    self.adherence
-                ].prob
+                    adherence
+                ]
 
             # Tuning parameter for ART efficiency
-            return prob * params.calibration.haart.transmission
+            prob *= params.calibration.haart.transmission
 
-        return 1.0
+        return prob
 
     # =========== HELPER METHODS ============
 
@@ -173,15 +177,14 @@ class HAART(base_feature.BaseFeature):
         args:
             model: the instance of TITAN currently being run
         """
-        haart_adh = self.agent.location.params.demographics[self.agent.race][
-            self.agent.sex_type
-        ].haart.adherence
-        if model.run_random.random() < haart_adh:
-            adherence = 5
-        else:
-            adherence = model.run_random.randint(1, 4)
+        self.adherent = (
+            model.run_random.random()
+            < self.agent.location.params.demographics[self.agent.race]
+            .sex_type[self.agent.sex_type]
+            .drug_type[self.agent.drug_type]
+            .haart.adherence.prob
+        )
 
         # Add agent to HAART class set, update agent params
         self.active = True
-        self.adherence = adherence
         self.add_agent(self.agent)

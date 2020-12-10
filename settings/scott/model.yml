@@ -56,38 +56,53 @@ timeline_scaling:
       start_time: -47
       stop_time: 0
       scalar: 0.0001
-    PWID_dx_scale:
-      parameter: demographics|white|PWID|hiv|dx|prob
+    PWID_dx_scale_HM_Inj:
+      parameter: demographics|white|sex_type|HM|drug_type|Inj|hiv|dx|prob
       start_time: -47
       stop_time: 0
       scalar: 0.0001
-    dx_new_agent_zero_PWID: # make init probability 0 after initial population creation
-      parameter: demographics|white|PWID|hiv|dx|init
+    dx_new_agent_zero_HM_Inj: # make init probability 0 after initial population creation
+      parameter: demographics|white|sex_type|HM|drug_type|Inj|hiv|dx|init
+      start_time: -47
+      stop_time: 9999
+      scalar: 0
+    PWID_dx_scale_HF_Inj:
+      parameter: demographics|white|sex_type|HF|drug_type|Inj|hiv|dx|prob
+      start_time: -47
+      stop_time: 0
+      scalar: 0.0001
+    dx_new_agent_zero_HF_Inj: # make init probability 0 after initial population creation
+      parameter: demographics|white|sex_type|HF|drug_type|Inj|hiv|dx|init
       start_time: -47
       stop_time: 9999
       scalar: 0
     dx_new_agent_zero_HM: # make init probability 0 after initial population creation
-      parameter: demographics|white|HM|hiv|dx|init
+      parameter: demographics|white|sex_type|HM|drug_type|None|hiv|dx|init
       start_time: -47
       stop_time: 9999
       scalar: 0
     dx_new_agent_zero_HF: # make init probability 0 after initial population creation
-      parameter: demographics|white|HF|hiv|dx|init
+      parameter: demographics|white|sex_type|HF|drug_type|None|hiv|dx|init
       start_time: -47
       stop_time: 9999
       scalar: 0
-    adh_prob_HF:  # make viral suppression probability 0.7 after initial pop creation
-      parameter: demographics|white|HF|haart|adherence
+    adh_prob_HF_None:  # make viral suppression probability 0.7 after initial pop creation
+      parameter: demographics|white|sex_type|HF|drug_type|None|haart|adherence
       start_time: -47
       stop_time: 9999
       scalar: 0.7
-    adh_prob_HM:   # make viral suppression probability 0.7 after initial pop creation
-      parameter: demographics|white|HM|haart|adherence
+    adh_prob_HM_None:   # make viral suppression probability 0.7 after initial pop creation
+      parameter: demographics|white|sex_type|HM|drug_type|None|haart|adherence
       start_time: -47
       stop_time: 9999
       scalar: 0.7
-    adh_prob_PWID:  # make viral suppression probability 0.7 after initial pop creation
-      parameter: demographics|white|PWID|haart|adherence
+    adh_prob_HF_Inj:  # make viral suppression probability 0.7 after initial pop creation
+      parameter: demographics|white|sex_type|HF|drug_type|Inj|haart|adherence
+      start_time: -47
+      stop_time: 9999
+      scalar: 0.7
+    adh_prob_HM_Inj:  # make viral suppression probability 0.7 after initial pop creation
+      parameter: demographics|white|sex_type|HM|drug_type|Inj|haart|adherence
       start_time: -47
       stop_time: 9999
       scalar: 0.7
@@ -121,6 +136,7 @@ classes:
   drug_types:
     - Inj
     - None
+
 partner_tracing:
   bond_type:
     - Sex
@@ -139,40 +155,29 @@ partnership:
       HF:
         receptive: 0.0011
     frequency:
-      type: distribution
-      distribution:
-        dist_type: poisson
-        vars:
-          1:
-            value_type: float
-            value: 6.0
+      SexInj:
+        type: distribution
+        distribution:
+          dist_type: poisson
+          vars:
+            1:
+              value_type: float
+              value: 6.0
+      Sex:
+        type: distribution
+        distribution:
+          dist_type: poisson
+          vars:
+            1:
+              value_type: float
+              value: 6.0
     haart_scaling:
       HM:
-        0:
-          prob: 0.83
-        1:
-          prob: 0.83
-        2:
-          prob: 0.83
-        3:
-          prob: 0.83
-        4:
-          prob: 0.06
-        5:
-          prob: 0.06
+        non_adherent: 0.83
+        adherent: 0.06
       HF:
-        0:
-          prob: 0.83
-        1:
-          prob: 0.83
-        2:
-          prob: 0.83
-        3:
-          prob: 0.83
-        4:
-          prob: 0.06
-        5:
-          prob: 0.06
+        non_adherent: 0.83
+        adherent: 0.06
   duration:
     Sex:
       type: distribution
@@ -204,6 +209,7 @@ partnership:
             value: 23.28
             value_type: float
         mean: 125
+
 assort_mix:
   assort_pwid:
     attribute: drug_type
