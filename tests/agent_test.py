@@ -186,6 +186,10 @@ def test_get_number_of_sex_acts(make_agent, make_relationship, params):
     assert rel.get_number_of_sex_acts(rand_gen_low) == 0
     assert rel.get_number_of_sex_acts(rand_gen_high) == 0
 
+    a.location.params.partnership.sex.frequency.Sex.type = "not a thing"
+    with pytest.raises(Exception):
+        rel.get_number_of_sex_acts(rand_gen_low)
+
 
 # ============================== AGENT SET TESTS ===============================
 

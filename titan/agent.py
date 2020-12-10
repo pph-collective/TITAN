@@ -310,6 +310,8 @@ class Relationship:
 
         elif freq_params.type == "distribution":
             return round(safe_dist(freq_params.distribution, rand_gen))
+        else:
+            raise Exception("Sex acts must be defined as bin or distribution")
 
     def __str__(self):
         return (
