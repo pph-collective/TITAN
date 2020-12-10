@@ -303,9 +303,10 @@ class Population:
 
         for i in range(1, 6):
             if rand < bins[i].prob:
-                min_age = bins[i].min
-                max_age = bins[i].max
                 break
+
+        min_age = bins[i].min
+        max_age = bins[i].max
 
         age = self.pop_random.randrange(min_age, max_age)
         return age, i

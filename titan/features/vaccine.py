@@ -54,7 +54,7 @@ class Vaccine(base_feature.BaseFeature):
             model: the instance of TITAN currently being run
         """
         if (
-            model.params.features.prep
+            model.params.features.prep  # TO_REVIEW should this be required?
             and not self.agent.prep.active  # type: ignore[attr-defined]
             and not self.agent.hiv.active  # type: ignore[attr-defined]
         ):

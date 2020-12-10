@@ -153,12 +153,15 @@ def test_relationship(make_agent, make_relationship):
 def test_get_partner(make_agent, make_relationship):
     a = make_agent()
     p = make_agent()
+    a2 = make_agent()
     a.partners["Sex"] = set()
     p.partners["Sex"] = set()
     rel = make_relationship(a, p)
 
     assert rel.get_partner(a) == p
     assert rel.get_partner(p) == a
+    with pytest.raises(ValueError):
+        rel.get_partner(a2)
 
 
 @pytest.mark.unit
