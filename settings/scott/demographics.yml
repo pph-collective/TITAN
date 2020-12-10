@@ -39,7 +39,9 @@ demographics:
             haart:
               init: 1.0
               prob: 0.679
-              adherence: 1.0
+              adherence:
+                init: 1.0
+                prob: 1.0
               discontinue: 0.000
             death_rate:
               base: 16.6
@@ -83,7 +85,9 @@ demographics:
             haart:
               init: 1.0
               prob: 0.679
-              adherence: 1.0
+              adherence:
+                init: 1.0
+                prob: 1.0
               discontinue: 0.000
             num_partners:
               Sex:

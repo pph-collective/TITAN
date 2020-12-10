@@ -42,7 +42,9 @@ demographics:
             haart:
               init: 0.1
               prob: 0.1
-              adherence: 0.1
+              adherence:
+                init: 0.1
+                prob: 0.1
               discontinue: 0.1
           NonInj: &npwid_drug_type
             ppl: 0.4
@@ -63,7 +65,9 @@ demographics:
             haart:
               init: 0.1
               prob: 0.1
-              adherence: 0.1
+              adherence:
+                init: 0.1
+                prob: 0.1
               discontinue: 0.1
           None: *npwid_drug_type
         incar:
@@ -96,7 +100,8 @@ demographics:
         prep:
           adherence: 0.1
           discontinue: 0.1
-          coverage: 0.3
+          target: 0.3
+          init: 0.5
         high_risk:
           init: 0.1
         vaccine:
@@ -117,7 +122,8 @@ demographics:
         prep:
           adherence: 0.1
           discontinue: 0.1
-          coverage: 0.3
+          target: 0.3
+          init: 0.3
         high_risk:
           init: 0.1
         vaccine:
@@ -138,7 +144,8 @@ demographics:
         prep:
           adherence: 0.1
           discontinue: 0.1
-          coverage: 0.3
+          target: 0.3
+          init: 0.3
         high_risk:
           init: 0.1
         vaccine:
@@ -159,7 +166,8 @@ demographics:
         prep:
           adherence: 0.1
           discontinue: 0.1
-          coverage: 0.3
+          target: 0.3
+          init: 0.3
         high_risk:
           init: 0.1
         vaccine:
@@ -204,7 +212,8 @@ demographics:
         prep:
           adherence: 0.1
           discontinue: 0.1
-          coverage: 0.3
+          target: 0.3
+          init: 0.3
         high_risk:
           init: 0.1
         vaccine:
@@ -225,7 +234,8 @@ demographics:
         prep:
           adherence: 0.1
           discontinue: 0.1
-          coverage: 0.3
+          target: 0.3
+          init: 0.3
         high_risk:
           init: 0.1
         vaccine:
@@ -246,7 +256,8 @@ demographics:
         prep:
           adherence: 0.1
           discontinue: 0.1
-          coverage: 0.3
+          target: 0.3
+          init: 0.3
         high_risk:
           init: 0.1
         vaccine:
@@ -267,7 +278,8 @@ demographics:
         prep:
           adherence: 0.1
           discontinue: 0.1
-          coverage: 0.3
+          target: 0.3
+          init: 0.3
         high_risk:
           init: 0.1
         vaccine:
@@ -281,21 +293,36 @@ partnership:
   pca:
     frequency:
       Sex:
-        1:
-          prob: 1.0
-          min: 1.0
-          max: 1.0
+        bins:
+          1:
+            prob: 1.0
+            min: 1.0
+            max: 1.0
       SexInj:
-        1:
-          prob: 1.0
-          min: 1.0
-          max: 1.0
+        bins:
+          1:
+            prob: 1.0
+            min: 1.0
+            max: 1.0
       Inj:
-        1:
-          prob: 1.0
-          min: 1.0
-          max: 1.0
+        bins:
+          1:
+            prob: 1.0
+            min: 1.0
+            max: 1.0
   sex:
+    frequency:
+      Sex:
+        type: bins
+        bins:
+          1:
+            prob: 0.5
+            min: 0
+            max: 1
+          2:
+            prob: 1.0
+            min: 37
+            max: 38
     acquisition:
       HM:
         versatile: 0.0004
@@ -346,6 +373,8 @@ partnership:
 
 prep:
   target: 0.1
+  init: 0.7
+  target_as_prob: false
 
 pca:
   awareness:

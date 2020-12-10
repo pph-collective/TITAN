@@ -5,6 +5,7 @@ from titan.agent import Relationship
 from titan import utils
 
 from conftest import FakeRandom
+from titan.parse_params import ObjMap
 
 
 @pytest.mark.unit
@@ -37,6 +38,40 @@ def test_pca_interaction(make_model, make_agent):
     PCA.interact(model, rel)
 
     assert p.pca.opinion == 3
+
+
+def test_pca_interact_dist(make_model, make_agent):
+    model = make_model()
+    model.params.features.pca = True
+    model.params.partnership.pca.frequency = ObjMap(
+        {
+            "Sex": {
+                "type": "distribution",
+                "distribution": {
+                    "dist_type": "set_value",
+                    "vars": {1: {"value": 0, "value_type": "int"}},
+                },
+            }
+        }
+    )
+
+    a = make_agent()
+    p = make_agent()
+    model.run_random = FakeRandom(-0.1)
+    a.pca.opinion = 4
+    p.pca.opinion = 2
+    a.pca.awareness = True
+    a.partners["Sex"] = set()
+    p.partners["Sex"] = set()
+    rel = Relationship(a, p, 10, bond_type="Sex")
+    model.time = 5
+
+    PCA.interact(model, rel)
+    assert p.pca.awareness is False
+
+    model.params.partnership.pca.frequency.Sex.distribution.vars[1].value = 10
+    PCA.interact(model, rel)
+    assert p.pca.awareness
 
 
 @pytest.mark.unit

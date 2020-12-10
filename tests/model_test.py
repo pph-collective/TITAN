@@ -103,20 +103,22 @@ def test_agents_interact(make_model, make_agent):
 def test_get_transmission_probability(make_model, make_agent):
     model = make_model()
     a = make_agent(race="white", SO="MSM")
-    a.haart.adherence = 1
+    a.haart.active = True
+    a.haart.adherent = True
     a.sex_role = "versatile"
 
     p = make_agent(race="white", SO="MSM")
     p.sex_role = "versatile"
-    p.haart.adherence = 1
+    p.haart.active = True
+    p.haart.adherent = True
 
     # test versatile-versatile relationship
     p_needle = (
-        model.params.partnership.injection.transmission.haart_scaling[1].scale
+        model.params.partnership.injection.transmission.haart_scaling.adherent
         * model.params.partnership.injection.transmission.base
     )
     p_sex = (
-        model.params.partnership.sex.haart_scaling["MSM"][1].prob
+        model.params.partnership.sex.haart_scaling.MSM.adherent
         * model.params.partnership.sex.acquisition.MSM.versatile
     )
     scale = model.params.calibration.acquisition
@@ -127,11 +129,11 @@ def test_get_transmission_probability(make_model, make_agent):
     # test one vers agent, one receptive agent
     a.sex_role = "receptive"
     p_sex_ins = (
-        model.params.partnership.sex.haart_scaling.MSM[1].prob
+        model.params.partnership.sex.haart_scaling.MSM.adherent
         * model.params.partnership.sex.acquisition.MSM.insertive
     )
     p_sex_rec = (
-        model.params.partnership.sex.haart_scaling.MSM[1].prob
+        model.params.partnership.sex.haart_scaling.MSM.adherent
         * model.params.partnership.sex.acquisition.MSM.receptive
     )
 
@@ -232,7 +234,7 @@ def test_progress_to_aids_nothing(make_agent, make_model):
 
     # test nothing case
     a.hiv = True
-    a.haart.adherence = 1  # .0051 prob
+    a.haart.adherent = True  # .0051 prob
 
     model.run_random = FakeRandom(0.9)  # no AIDS
 
@@ -252,7 +254,7 @@ def test_progress_to_aids_progress(make_agent, make_model):
     a.location.params.hiv.aids.prob = 1.0
 
     a.hiv = True
-    a.haart.adherence = 1  # .0051 prob
+    a.haart.adherent = True  # .0051 prob
 
     # test progress case
     model.run_random = FakeRandom(0.001)  # AIDS

@@ -188,34 +188,6 @@ class Agent:
         """
         return len(self.get_partners(bond_types))
 
-    def get_number_of_sex_acts(self, rand_gen) -> int:
-        """
-        Number of sexActs an agent has done.
-
-        args:
-            rand_gen: random number generator (e.g. self.run_random in model)
-
-        returns:
-            number of sex acts
-        """
-        freq_params = self.location.params.partnership.sex.frequency
-        if freq_params.type == "bins":
-            rv = rand_gen.random()
-
-            for i in range(1, 6):
-                p = freq_params.bins[i].prob
-                if rv <= p:
-                    break
-
-            min_frequency = freq_params.bins[i].min
-            max_frequency = freq_params.bins[i].max
-            return rand_gen.randint(min_frequency, max_frequency)
-
-        elif freq_params.type == "distribution":
-            return round(safe_dist(freq_params.distribution, rand_gen))
-        else:
-            raise Exception("Sex acts must be defined as bin or distribution")
-
 
 class Relationship:
     """Class for agent relationships."""
@@ -333,6 +305,36 @@ class Relationship:
             return self.agent1
         else:
             raise ValueError("Agent must be in this relationship")
+
+    def get_number_of_sex_acts(self, rand_gen) -> int:
+        """
+        Number of sex acts in the relationship during the time step.
+
+        args:
+            rand_gen: random number generator (e.g. self.run_random in model)
+
+        returns:
+            number of sex acts
+        """
+        agent = rand_gen.choice([self.agent1, self.agent2])
+        freq_params = agent.location.params.partnership.sex.frequency[self.bond_type]
+
+        if freq_params.type == "bins":
+            rv = rand_gen.random()
+
+            for i in range(1, len(freq_params.bins) + 1):
+                p = freq_params.bins[i].prob
+                if rv <= p:
+                    break
+
+            min_frequency = freq_params.bins[i].min
+            max_frequency = freq_params.bins[i].max
+            return rand_gen.randint(min_frequency, max_frequency)
+
+        elif freq_params.type == "distribution":
+            return round(safe_dist(freq_params.distribution, rand_gen))
+        else:
+            raise Exception("Sex acts must be defined as bin or distribution")
 
     def __str__(self):
         return (

@@ -508,8 +508,12 @@ class HIVModel:
         """
         # only valid for HIV agents
         assert agent.hiv
-
-        p = prob.adherence_prob(agent.haart.adherence) if agent.haart.active else 1  # type: ignore[attr-defined]
+        p = 1
+        if agent.haart.active:  # type: ignore[attr-defined]
+            if agent.haart.adherent:  # type: ignore[attr-defined]
+                p = agent.location.params.hiv.aids.haart_scale.adherent
+            else:
+                p = agent.location.params.hiv.aids.haart_scale.non_adherent
 
         if self.run_random.random() < p * agent.location.params.hiv.aids.prob:
             agent.aids = True
@@ -533,7 +537,7 @@ class HIVModel:
                     agent.aids,
                     agent.drug_type,
                     agent.sex_type,
-                    agent.haart.adherence,
+                    agent.haart.adherent,
                     agent.race,
                     agent.location,
                     self.params.model.time.steps_per_year,

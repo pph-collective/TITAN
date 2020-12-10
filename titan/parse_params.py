@@ -76,6 +76,14 @@ def check_params(params: ObjMap):
 
     assert math.isclose(race_pop, 1, abs_tol=0.001), "ppl of races must add to 1"
 
+    for param, assort in params.assort_mix.items():
+        assort_value = 0
+        for ptnr_value in assort.partner_values.values():
+            assort_value += ptnr_value
+        assert math.isclose(
+            assort_value, 1, abs_tol=0.001
+        ), f"assort values must add to 1, not {assort_value} in {param}"
+
 
 def create_params(
     setting_path: Optional[str],

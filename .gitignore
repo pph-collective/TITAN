@@ -21,6 +21,8 @@ pyproject.toml
 .coverage
 titan.egg-info/
 
+run_nycmsm_cal.sh
+
 .vscode/
 
 ipynb/.ipynb_checkpoints/

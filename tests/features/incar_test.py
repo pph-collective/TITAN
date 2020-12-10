@@ -30,7 +30,7 @@ def test_incarcerate_unincarcerate(make_model, make_agent):
 
     assert a.incar.active is False
     assert a.haart.active is False
-    assert a.haart.adherence == 0
+    assert a.haart.adherent is False
 
 
 @pytest.mark.unit
@@ -76,4 +76,17 @@ def test_incarcerate_diagnosed(make_model, make_agent):
     assert a.incar.active
     assert a.incar.release_time == model.time + 1
     assert a.haart.active
-    assert a.haart.adherence == 5
+    assert a.haart.adherent is True
+
+    # Goes on haart but nonadherent
+    a = make_agent(SO="HM", race="white")
+    a.location.params.incar.haart.adherence = -1.0
+    a.hiv = True
+    a.hiv_dx = True
+    a.partners["Sex"] = set()
+    model.run_random = FakeRandom(-0.1)  # between haart adherence and other params
+    a.incar.update_agent(model)
+    assert a.incar.active
+    assert a.incar.release_time == model.time + 1
+    assert a.haart.active
+    assert not a.haart.adherent

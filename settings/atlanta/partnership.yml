@@ -17,23 +17,24 @@ partnership:
           max: 24
   sex:
     frequency:
-      bins:
-        1:
-          prob: 0.244
-          min: 1
-          max: 2
-        2:
-          prob: 0.737
-          min: 3
-          max: 4
-        3:
-          prob: 0.86
-          min: 5
-          max: 12
-        4:
-          prob: 1.0
-          min: 13
-          max: 20
+      Sex:
+        bins:
+          1:
+            prob: 0.244
+            min: 1
+            max: 2
+          2:
+            prob: 0.737
+            min: 3
+            max: 4
+          3:
+            prob: 0.86
+            min: 5
+            max: 12
+          4:
+            prob: 1.0
+            min: 13
+            max: 20
     acquisition:
       MSM:
         insertive: 0.0011

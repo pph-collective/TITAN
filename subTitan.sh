@@ -108,7 +108,6 @@ sed -i "s/NCORES/$num_cores/g" scripts/bs_Core.sh
 }
 
 prepSubmit() {
-
     #Copy source code into parent path
     echo -e "\n\tCopying $srcCode to $finalPath"
     mkdir -p $finalPath

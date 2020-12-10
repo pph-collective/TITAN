@@ -86,6 +86,21 @@ def test_safe_dist():
     assert val > low
     assert val < high
 
+    # weibull_modified (2-param weibull)
+    rand_gen = FakeRandom(0.5)
+    shape = 0.5
+    scale = 11
+    weibull_info = ObjMap(
+        {
+            "dist_type": "weibull_modified",
+            "vars": {
+                1: {"value": shape, "value_type": "float"},
+                2: {"value": scale, "value_type": "float"},
+            },
+        }
+    )
+    assert utils.safe_dist(weibull_info, rand_gen) == 5.284983153100216
+
 
 @pytest.mark.unit
 def test_get_param_from_path(params):
@@ -106,6 +121,15 @@ def test_get_param_from_path(params):
     assert last_item_hash == "cis_trans"
     assert "cis_trans" in path_params_hash
     assert path_params_hash["cis_trans"] == "cis"
+
+    assert params.partnership.sex.haart_scaling.HM.non_adherent == 1.0
+    param_path_haart = "partnership|sex|haart_scaling|HM|non_adherent"
+    path_params_haart, last_item_haart = utils.get_param_from_path(
+        params, param_path_haart, "|"
+    )
+    assert last_item_haart == "non_adherent"
+    assert "non_adherent" in path_params_haart
+    assert path_params_haart["non_adherent"] == 1.0
 
 
 @pytest.mark.unit
@@ -130,11 +154,19 @@ def test_override_param(params):
     param_path_hash = "classes#sex_types#HM#cis_trans"
 
     utils.override_param(params, param_path_hash, "trans", delimiter="#")
-
     assert params.classes.sex_types.HM.cis_trans == "trans"
 
     param_path_pipe = "classes|sex_types|HM|cis_trans"
-
     utils.override_param(params, param_path_pipe, "other")
-
     assert params.classes.sex_types.HM.cis_trans == "other"
+
+    # test if the override works with an int key
+    assert params.partnership.sex.frequency.Sex.bins[1].prob == 0.5
+    param_path_haart = "partnership|sex|frequency|Sex|bins|1|prob"
+    utils.override_param(params, param_path_haart, 0.0)
+    assert params.partnership.sex.frequency.Sex.bins[1].prob == 0.0
+
+    # test that the try/except doesn't silence real key errors
+    param_path_fake = "model|time|0"
+    with pytest.raises(KeyError):
+        utils.override_param(params, param_path_fake, 0)
