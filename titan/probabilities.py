@@ -9,6 +9,7 @@ def get_death_rate(
     hiv: bool,
     aids: bool,
     drug_type: str,
+    sex_type: str,
     haart_adh: int,
     race: str,
     location: Location,
@@ -31,10 +32,7 @@ def get_death_rate(
     """
     param = location.params.demographics
 
-    if drug_type == "Inj":
-        death_param = param[race].PWID.death_rate
-    else:
-        death_param = param[race].death_rate
+    death_param = param[race].sex_type[sex_type].drug_type[drug_type].death_rate
 
     p = death_param.base
 

@@ -64,7 +64,7 @@ def test_create_agent_proportions(make_population, params):
         "values": ["HM", "HF"],
         "weights": [0.1, 0.9],
     }
-    prop_idu = round(params.demographics[race]["PWID"].ppl * n)
+    prop_idu = round(params.demographics[race].sex_type["HF"].drug_type["Inj"].ppl * n)
     num_HM = 0
     num_HF = 0
     num_PWID = 0
@@ -200,7 +200,7 @@ def test_update_agent_partners_PWID_match(make_population, params):
     a = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
     assert (
         pop.geography.locations["world"]
-        .params.demographics.white.PWID.num_partners.Inj.vars[1]
+        .params.demographics.white.sex_type.MSM.drug_type.Inj.num_partners.Inj.vars[1]
         .value
     )
     p = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")

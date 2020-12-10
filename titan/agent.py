@@ -55,11 +55,6 @@ class Agent:
         self.drug_type = drug_use
         self.location = location
 
-        if self.drug_type == "Inj":
-            self.population = "PWID"
-        else:
-            self.population = self.sex_type
-
         self.sex_role = "versatile"
 
         # agent-partner params

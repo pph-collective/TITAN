@@ -93,13 +93,6 @@ classes:
       - Inj
       - NonInj
       - None
-  populations:
-    default:
-      - PWID
-    description: "Which demographic populations to track in addition to sex_types"
-    type: array
-    values:
-      - PWID
   distributions:
     default:
       - poisson

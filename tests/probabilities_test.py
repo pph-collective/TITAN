@@ -12,16 +12,18 @@ def test_get_death_rate(make_population):
         for aids in [True, False]:
             for race in ["white", "black"]:
                 for drug_type in ["None", "Inj"]:
-                    for adh in [0, 5]:
-                        assert (
-                            probs.get_death_rate(
-                                hiv,
-                                aids,
-                                drug_type,
-                                adh,
-                                race,
-                                location,
-                                location.params.model.time.steps_per_year,
+                    for sex_type in ["MSM", "HM", "HF", "MTF", "WSW"]:
+                        for adh in [0, 5]:
+                            assert (
+                                probs.get_death_rate(
+                                    hiv,
+                                    aids,
+                                    drug_type,
+                                    sex_type,
+                                    adh,
+                                    race,
+                                    location,
+                                    location.params.model.time.steps_per_year,
+                                )
+                                > 0
                             )
-                            > 0
-                        )

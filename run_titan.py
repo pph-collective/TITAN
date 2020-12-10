@@ -44,9 +44,6 @@ parser.add_argument(
 parser.add_argument(
     "-o", "--outdir", default="results", help="directory name to save results to"
 )
-parser.add_argument(
-    "-b", "--base", type=bool, default=True, help="whether to use base setting"
-)
 
 parser.add_argument(
     "-e",
@@ -309,7 +306,6 @@ def main(
     params_path: str,
     num_reps: int,
     outdir: str,
-    use_base: bool,
     sweeps: List[str],
     force: bool,
     sweepfile: Optional[str] = None,
@@ -326,7 +322,6 @@ def main(
         params_path: path to params file or directory
         num_reps: number of time to repeat each sweep
         outdir: directory where results are to be saved
-        use_base: whether to use the "base" setting (includes some more complicated defaults)
         sweeps: array of strings in param:start:stop:step format
         force: if true, will run even if combination of sweeps results in greater than 100 runs
         sweepfile: path to csv file of sweep definitions
@@ -358,7 +353,6 @@ def main(
         setting,
         params_path,
         outfile_dir,
-        use_base=use_base,
         error_on_unused=error_on_unused,
     )
 
@@ -428,7 +422,6 @@ if __name__ == "__main__":
         args.params.strip(),
         args.nMC,
         args.outdir.strip(),
-        args.base,
         args.sweep,
         args.force,
         sweepfile=sweepfile,

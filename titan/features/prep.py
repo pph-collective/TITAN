@@ -59,9 +59,9 @@ class Prep(base_feature.BaseFeature):
             if "Racial" in params.prep.target_model:
                 if (
                     pop.pop_random.random()
-                    < params.demographics[self.agent.race][
-                        self.agent.sex_type
-                    ].prep.init
+                    < params.demographics[self.agent.race]
+                    .sex_type[self.agent.sex_type]
+                    .prep.init
                 ):
                     self.enroll(pop.pop_random, time)
             elif pop.pop_random.random() < params.prep.init:
@@ -173,9 +173,9 @@ class Prep(base_feature.BaseFeature):
             if "Racial" in params.prep.target_model:
                 if (
                     model.run_random.random()
-                    <= params.demographics[self.agent.race][
-                        self.agent.sex_type
-                    ].prep.target
+                    <= params.demographics[self.agent.race]
+                    .sex_type[self.agent.sex_type]
+                    .prep.target
                 ):
                     self.enroll(model.run_random, model.time)
             else:
@@ -192,7 +192,7 @@ class Prep(base_feature.BaseFeature):
                 num_hiv_agents = len(all_hiv_agents & all_race)
                 target_prep = (len(all_race) - num_hiv_agents) * params.demographics[
                     self.agent.race
-                ][self.agent.sex_type].prep.target
+                ].sex_type[self.agent.sex_type].prep.target
             else:
                 num_prep_agents = sum(self.counts.values())
                 target_prep = int(
@@ -203,7 +203,8 @@ class Prep(base_feature.BaseFeature):
                     * params.prep.target
                 )
 
-            self.enroll(model.run_random, model.time)
+            if num_prep_agents < target_prep:
+                self.enroll(model.run_random, model.time)
 
     def enroll(self, rand_gen, time):
         """
@@ -220,7 +221,9 @@ class Prep(base_feature.BaseFeature):
 
         self.adherent = (
             rand_gen.random()
-            < params.demographics[self.agent.race][self.agent.sex_type].prep.adherence
+            < params.demographics[self.agent.race]
+            .sex_type[self.agent.sex_type]
+            .prep.adherence
         )
 
         if "Inj" in params.prep.type and "Oral" in params.prep.type:
@@ -249,9 +252,9 @@ class Prep(base_feature.BaseFeature):
         if self.type == "Oral":
             if (
                 model.run_random.random()
-                < self.agent.location.params.demographics[self.agent.race][
-                    self.agent.sex_type
-                ].prep.discontinue
+                < self.agent.location.params.demographics[self.agent.race]
+                .sex_type[self.agent.sex_type]
+                .prep.discontinue
             ):
                 self.discontinue()
             else:

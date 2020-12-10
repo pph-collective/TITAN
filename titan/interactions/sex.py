@@ -43,9 +43,11 @@ class Sex(base_interaction.BaseInteraction):
         total_sex_acts = utils.poisson(mean_sex_acts, model.np_random)
 
         # Get condom usage
-        p_safe_sex = agent.location.params.demographics[agent.race][
-            agent.sex_type
-        ].safe_sex
+        p_safe_sex = (
+            agent.location.params.demographics[agent.race]
+            .sex_type[agent.sex_type]
+            .safe_sex
+        )
         # increase condom usage if diagnosed
         if agent.hiv_dx or partner.hiv_dx:
             # Calculate probability of safe sex given risk reduction

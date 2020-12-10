@@ -479,9 +479,12 @@ class HIVModel:
                         ptnr.trace_time = self.time
 
         if not diagnosed:
-            test_prob = agent.location.params.demographics[race_type][
-                sex_type
-            ].hiv.dx.prob
+            test_prob = (
+                agent.location.params.demographics[race_type]
+                .sex_type[sex_type]
+                .drug_type[agent.drug_type]
+                .hiv.dx.prob
+            )
 
             # Rescale based on calibration param
             test_prob *= self.calibration.test_frequency
@@ -533,6 +536,7 @@ class HIVModel:
                     agent.hiv,
                     agent.aids,
                     agent.drug_type,
+                    agent.sex_type,
                     agent.haart.adherent,
                     agent.race,
                     agent.location,

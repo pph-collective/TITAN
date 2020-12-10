@@ -135,8 +135,12 @@ def test_target_partners(make_model_integration, tmpdir):
 
     # change the partner distribution mean upward for creating model b
     for bond in model_a.params.classes.bond_types:
-        model_a.params.demographics.black.MSM.num_partners[bond].vars[1].value *= 10
-        model_a.params.demographics.black.PWID.num_partners[bond].vars[1].value *= 10
+        model_a.params.demographics.black.sex_type.MSM.drug_type["None"].num_partners[
+            bond
+        ].vars[1].value *= 10
+        model_a.params.demographics.black.sex_type.MSM.drug_type["Inj"].num_partners[
+            bond
+        ].vars[1].value *= 10
     model_a.params.model.seed.run = model_a.run_seed
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
 
@@ -237,8 +241,8 @@ def test_syringe_services(make_model_integration, tmpdir):
     If we use syringe services, does the incidence of hiv decrease?
     """
     model_a = make_model_integration()
-    model_a.params.partnership.sex.frequency = ObjMap(
-        {"Sex": {"type": "bins", "bins": {1: {"prob": 1.0, "min": 0, "max": 1}}}}
+    model_a.params.partnership.sex.frequency.Sex = ObjMap(
+        {"type": "bins", "bins": {1: {"prob": 1.0, "min": 0, "max": 1}}}
     )
 
     path_a = tmpdir.mkdir("a")
