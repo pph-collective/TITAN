@@ -35,7 +35,7 @@ class RandomTrial(base_feature.BaseFeature):
             model.params.model.network.enable
         ), "Network must be enabled for random trial"
 
-        print("Starting random trial")
+        print(f"Starting random trial ({rt_params.choice})")
         components = model.pop.connected_components()
 
         # set up helper methods based on params
