@@ -424,6 +424,5 @@ def test_get_acquisition_risk_multiplier(make_agent):
         1.0 - a.location.params.prep.efficacy.adherent
     )
 
-    # TO_REVIEW why is this returning anegative number?
     a.prep.type = "Inj"
     assert 0 < a.prep.get_acquisition_risk_multiplier(t, "sex") < 1.0

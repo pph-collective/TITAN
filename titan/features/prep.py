@@ -146,7 +146,7 @@ class Prep(base_feature.BaseFeature):
                 load = params.prep.peak_load * (
                     (0.5) ** (annualized_last_dose_time / annualized_half_life)
                 )
-                return -1.0 * np.exp(-5.528636721 * load)
+                return np.exp(-5.528636721 * load)
 
         return 1.0
 

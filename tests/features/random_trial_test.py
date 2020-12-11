@@ -75,7 +75,7 @@ def test_initialize_random_trial_prep_random(make_model, params):
     assert num_suitable == num_components
 
 
-@pytest.mark.unit
+@pytest.mark.bridge
 def test_initialize_random_trial_pca_bridge(make_model, params):
     # knowledge bridge trial
     params.random_trial.treatment = "knowledge"
@@ -97,20 +97,18 @@ def test_initialize_random_trial_pca_bridge(make_model, params):
     num_components = len(model.pop.connected_components())
 
     assert num_treated == num_components
-    assert num_suitable == num_components
+    assert num_suitable <= num_components
 
     bridge_num = 0
     components = model.pop.connected_components()
     assert len(components) > 0
     for comp in components:
-        bridges = list(nx.bridges(comp))
-        if bridges:
+        bridge_agents = set(a for bridge in nx.bridges(comp) for a in bridge)
+        if bridge_agents:
             bridge_num += 1
             for agent in comp.nodes():
                 if agent.knowledge.active:
-                    assert agent in [
-                        ag for ags in bridges for ag in ags
-                    ]  # TO_REVIEW what?
+                    assert agent in bridge_agents
 
     model.params.model.network.enable = False
     with pytest.raises(AssertionError) as excinfo:

@@ -32,11 +32,6 @@ def test_vaccine_update_agent(make_model, make_agent):
     model.run_random = FakeRandom(-0.1)
     a = make_agent()
 
-    model.params.features.prep = False
-    a.vaccine.update_agent(model)
-    assert a.vaccine.active is False
-
-    model.params.features.prep = True
     a.prep.active = True
     a.vaccine.update_agent(model)
     assert a.vaccine.active is False
