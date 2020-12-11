@@ -75,7 +75,7 @@ def test_initialize_random_trial_prep_random(make_model, params):
     assert num_suitable == num_components
 
 
-@pytest.mark.bridge
+@pytest.mark.unit
 def test_initialize_random_trial_pca_bridge(make_model, params):
     # knowledge bridge trial
     params.random_trial.treatment = "knowledge"

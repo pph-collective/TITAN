@@ -447,4 +447,4 @@ location:
         override: 1
 
 external_exposure:
-  dx_prob: 1.0
+  convert_prob: 1.0

@@ -90,7 +90,7 @@ def test_knowledge_influence(make_model, make_agent):
 @pytest.mark.unit
 def test_knowledge_exposure(make_model, make_agent, params):
 
-    # test update all agents for pca and msmw
+    # test update all agents for knowledge
     params.exposures.knowledge = True
     params.knowledge.prob = 0.0
 
