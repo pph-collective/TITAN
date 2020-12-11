@@ -479,3 +479,19 @@ def test_partnering_cross_component(make_population, make_relationship, params):
     assert d not in c.partners["Sex"]
     assert d not in b.partners["Sex"]
     assert d not in a.partners["Sex"]
+
+
+@pytest.mark.unit
+def test_trim_components(make_population):
+    n = 20
+    pop = make_population(n=20)
+    pop.params.model.network.type = "comp_size"
+    orig_num_components = len(pop.connected_components())
+
+    pop.params.model.network.component_size.max = n
+    pop.trim_graph()
+    assert len(pop.connected_components()) == orig_num_components
+
+    pop.params.model.network.component_size.max = 2
+    pop.trim_graph()
+    assert len(pop.connected_components()) > orig_num_components

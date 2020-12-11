@@ -136,10 +136,8 @@ class Prep(base_feature.BaseFeature):
         if self.active and self.last_dose_time is not None:
             params = self.agent.location.params
             if self.type == "Oral":
-                if self.adherent:
-                    return 1.0 - params.prep.efficacy.adherent
-                else:
-                    return 1.0 - params.prep.efficacy.non_adherent
+                adherence = "adherent" if self.adherent else "non_adherent"
+                return 1.0 - params.prep.efficacy[adherence]
             elif self.type == "Inj":
                 annualized_last_dose_time = (
                     time - self.last_dose_time

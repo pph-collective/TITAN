@@ -79,6 +79,7 @@ def test_initialize_random_trial_prep_random(make_model, params):
 def test_initialize_random_trial_pca_bridge(make_model, params):
     # knowledge bridge trial
     params.random_trial.treatment = "knowledge"
+    params.hiv.start_time = 5
     model = make_model(params)
     model.run_random = FakeRandom(-0.1)
     model.time = model.params.random_trial.start_time

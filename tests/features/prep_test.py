@@ -212,6 +212,30 @@ def test_initiate_prep_eligible(make_model, make_agent):
 
 
 @pytest.mark.unit
+def test_initiate_prep_eligible_racial(make_model, make_agent):
+    model = make_model()
+
+    # make sure there's room to add more prep agents
+    a = make_agent(SO="HF")  # model is "CDCwomen"
+    p = make_agent(DU="Inj")
+    a.partners["Sex"] = set()
+    p.partners["Sex"] = set()
+    p.hiv.dx = True
+    p.external_exposure.active = True
+    model.time = 10
+    a.location.params.prep.target = 1.0
+    a.location.params.prep.target_model = ["Racial"]
+    rel = Relationship(a, p, 10, bond_type="Sex")
+    # non-forcing, adherant, inj
+    model.run_random = FakeRandom(-0.1)
+    a.prep.initiate(model)
+    assert a.prep.active
+    assert a.prep.adherent is True
+    assert a.prep.last_dose_time == 10
+    assert a.prep.time == 10
+
+
+@pytest.mark.unit
 def test_cdc_eligible(make_agent, make_relationship):
     # test MSM
     a = make_agent()
@@ -271,6 +295,12 @@ def test_prep_eligible(make_agent, make_relationship):
     assert msm_agent.is_msm()
     assert msm_agent.prep.eligible(10)
 
+    # test pwid sex
+    a.location.params.prep.target_model = ["pwid_sex"]
+    p.location.params.prep.target_model = ["pwid_sex"]
+    assert not a.prep.eligible(10)
+    assert p.prep.eligible(10)
+
     # test pwid
     a.location.params.prep.target_model = ["pwid"]
     p.location.params.prep.target_model = ["pwid"]
@@ -292,6 +322,18 @@ def test_prep_eligible(make_agent, make_relationship):
     assert not p.prep.eligible(10)
     make_relationship(p, msm_agent)
     assert p.prep.eligible(10)
+
+    b = make_agent()
+    b.location.params.prep.target_model = ["Allcomers"]
+    assert b.prep.eligible(10)
+    b.prep.active = True
+    assert not b.prep.eligible(10)
+    b.prep.active = False
+    b.hiv.active = True
+    assert not b.prep.eligible(10)
+    b.hiv.active = False
+    b.location.params.features.random_trial = True
+    assert not b.prep.eligible(10)
 
 
 @pytest.mark.unit
@@ -364,3 +406,24 @@ def test_target_as_prob(make_agent, make_model, params):
     model.run_random = FakeRandom(0.3)
     a.prep.initiate(model)
     assert a.prep.active
+
+
+@pytest.mark.unit
+def test_get_acquisition_risk_multiplier(make_agent):
+    a = make_agent()
+    t = 0
+
+    assert a.prep.get_acquisition_risk_multiplier(t, "sex") == 1.0
+
+    a.prep.active = True
+    a.prep.type = "Oral"
+    a.prep.adherent = True
+    a.prep.last_dose_time = -2
+
+    assert a.prep.get_acquisition_risk_multiplier(t, "sex") == (
+        1.0 - a.location.params.prep.efficacy.adherent
+    )
+
+    # TO_REVIEW why is this returning anegative number?
+    a.prep.type = "Inj"
+    assert 0 < a.prep.get_acquisition_risk_multiplier(t, "sex") < 1.0
