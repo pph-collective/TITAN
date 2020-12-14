@@ -242,7 +242,7 @@ def test_syringe_services(params_integration, tmpdir):
     """
     params_integration.demographics.black.sex_type.MSM.drug_type.Inj.ppl = 1.0
     params_integration.demographics.black.sex_type.MSM.drug_type["None"].ppl = 0.0
-    model_a = HIVModel(params_integration)
+    model_a = TITAN(params_integration)
     model_a.params.partnership.sex.frequency.Sex = ObjMap(
         {"type": "bins", "bins": {1: {"prob": 1.0, "min": 0, "max": 1}}}
     )
