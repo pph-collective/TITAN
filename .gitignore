@@ -5,8 +5,8 @@
 .idea/
 venv/
 venv/*
-python/
-python/*
+./python/
+./python/*
 venv_pypy/
 venv_pypy/*
 
@@ -20,6 +20,8 @@ pyproject.toml
 .mypy_cache
 .coverage
 titan.egg-info/
+
+run_nycmsm_cal.sh
 
 .vscode/
 

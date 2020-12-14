@@ -15,7 +15,6 @@ repeats=1
 nMC=1
 model=${PWD##*/}
 basePath=$PWD
-useBase="True"
 jobname=""
 folderName=""
 sweepDefs=""
@@ -26,7 +25,7 @@ forceFlag=""
 savePop=""
 popPath=""
 
-while getopts m:j:T:S:r:n:b:f:w:W:R:Fc:t:p:P: option
+while getopts m:j:T:S:r:n:f:w:W:R:Fc:t:p:P: option
 do
     case "${option}"
         in
@@ -36,7 +35,6 @@ do
 	S) setting=${OPTARG};;
 	r) repeats=${OPTARG};;
 	n) nMC=${OPTARG};;
-	b) useBase=${OPTARG};;
 	f) folderName=${OPTARG};;
 	w) sweepDefs+="-w ${OPTARG} ";;
 	W) sweepfile="-W ${OPTARG}";;
@@ -44,7 +42,7 @@ do
 	F) forceFlag="-F";;
 	c) num_cores=${OPTARG};;
 	t) titanPath=${OPTARG};;
-	p) savePop="-p ${OPTARG}";;
+	p) savePop="-p";;
 	P) popPath="-P ${OPTARG}";;
     esac
 done
@@ -73,7 +71,6 @@ options:
   -S setting      name of setting for this model
   -r repeats      number of times to repeat the analysis (default: $repeats)
   -n iterations   number of mode iterations per job (default: $nMC)
-  -b use_base     whether to use the base setting as True or False (default: $useBase)
   -f folder_name  What the parent folder for the model run outputs should be called (default: <setting>)
   -w sweep_defs   Optionally, definitions of sweep parameters in the format param:start:stop[:step]
   -W sweepfile    Optionally, a csv file with sweep definitions (if used, -w flag is ignored)
@@ -108,7 +105,6 @@ sed -i "s/NCORES/$num_cores/g" scripts/bs_Core.sh
 }
 
 prepSubmit() {
-
     #Copy source code into parent path
     echo -e "\n\tCopying $srcCode to $finalPath"
     mkdir -p $finalPath
@@ -123,7 +119,7 @@ prepSubmit() {
     updateParams;
 
     #Submit job to cluster
-    sbatch scripts/bs_Core.sh -S $setting -a $paramPath -n $nMC -b $useBase $forceFlag $sweepDefs $sweepfile $rows $savePop $popPath
+    sbatch scripts/bs_Core.sh -S $setting -a $paramPath -n $nMC $forceFlag $sweepDefs $sweepfile $rows $savePop $popPath
 
     #Move back to base directory
     cd $basePath

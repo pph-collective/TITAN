@@ -1,0 +1,25 @@
+external_exposure:
+  exposure:
+    description: "Which exposure does the agent have external exposure to"
+    type: enum
+    default: hiv
+    values:
+      - hiv
+      - knowledge
+  sex_type:
+    description: "Which sex_type does this external exposure affect"
+    type: enum
+    default: HM
+    class: sex_types
+  convert_prob:
+    default: .01
+    description: Probability of an external exposure agent additionally converting to that exposure
+    type: float
+    min: 0
+    max: 1
+  init:
+    default: 0.06
+    description: Probability an agent is initialized as having external exposure
+    type: float
+    min: 0
+    max: 1

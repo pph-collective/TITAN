@@ -14,7 +14,7 @@ Below are the results of `python run_titan.py --help`.  It highlights all of the
 
 ```
 usage: run_titan.py [-h] [-n [NMC]] [-S SETTING] -p PARAMS [-o OUTDIR]
-                    [-b BASE] [-e] [--savepop SAVEPOP] [--poppath POPPATH]
+                    [-b BASE] [-e] [--savepop] [--poppath POPPATH]
                     [-w SWEEP [SWEEP ...]] [-W SWEEPFILE] [-r ROWS] [-F]
 
 
@@ -32,9 +32,7 @@ optional arguments:
                         directory name to save results to
   -b BASE, --base BASE  whether to use base setting
   -e, --error           Error on unused parameters instead of warning
-  --savepop SAVEPOP     Save population after creation, but before model run.
-                        'all' = save all atributes, 'core' = save core (non-
-                        intervention) attributes.
+  --savepop             Save population after creation, but before model run.
   --poppath POPPATH     Path to saved population (directory or .tar.gz file)
   -w SWEEP [SWEEP ...], --sweep SWEEP [SWEEP ...]
                         Optional and repeatable definitions of numeric params
@@ -64,13 +62,13 @@ We'll use the sample params file `tests/params/basic.yml` in all of these exampl
 
 Here is how to perform the basic steps of running the model:
 ```python
-from .titan.parse_params import create_params
-from .titan.model import HIVModel
+from titan.parse_params import create_params
+from titan.model import TITAN
 
 outdir = 'results'
 
 params = create_params(None, 'tests/params/basic.yml', outdir)
-model = HIVModel(params)
+model = TITAN(params)
 model.run(outdir)
 ```
 This creates a params object using no setting (the `None`), our test params, and tells `create_params` to put our computed params file in a directory called `results`.
@@ -85,7 +83,7 @@ If we wanted to debug something, or look at a very specific metric that wasn't i
 
 Resuming from our code above, here's how we could do that.
 ```python
-model2 = HIVModel(params)
+model2 = TITAN(params)
 start_time = 0
 end_time = 10
 for i in range(start_time, end_time):
@@ -103,8 +101,8 @@ for i in range(start_time, end_time):
 If we want to write and read in a population instead of letting the model create one...
 
 ```python
-from .titan import population_io as pio
-from .titan.population import Population
+from titan import population_io as pio
+from titan.population import Population
 from copy import deepcopy
 
 # let's make a copy of our params and tinker with the population a bit
@@ -117,7 +115,7 @@ poppath = pio.write(pop, outdir)
 pop2 = pio.read(poppath) # this should be the same population as pop
 
 # pass a population to the model to use that instead of creating a new one
-model3 = HIVModel(param2, pop2)
+model3 = TITAN(param2, pop2)
 model3.run(outdir)
 ```
 

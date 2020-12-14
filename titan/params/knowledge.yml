@@ -1,0 +1,62 @@
+knowledge:
+  start_time:
+    default: 0
+    description: Time step at which knowledge begins
+    type: int
+  init:
+    default: 0
+    description: Probability of agent awareness at time zero
+    type: float
+    min: 0
+    max: 1
+  prob:
+    default: 0.01
+    description: Per-act probability of knowledge change (becoming aware) in unaware partner
+    type: float
+    min: 0
+    max: 1
+  opinion:
+    init:
+      type: bins
+      description: Probability distribution for initial attitude/opinion level
+      fields:
+        prob:
+          type: float
+          min: 0
+          max: 1
+      default:
+        0:
+          prob: 0.167
+        1:
+          prob: 0.082
+        2:
+          prob: 0.184
+        3:
+          prob: 0.139
+        4:
+          prob: 0.429
+    prob:
+      default: 0.005
+      description: Per-act probability of opinion change in less-prominent partner
+      type: float
+      min: 0
+      max: 1
+    threshold:
+      default: 3
+      description: Opinion needed to initiate PrEP on a 0-4 scale (translated from 1-5 scale)
+      type: float
+      min: 0
+      max: 4
+  feature:
+    name:
+      default: prep
+      description: The feature that agents are being exposed to knowledge of.
+      type: enum
+      values:
+        - prep
+    prob:
+      default: 0.1275
+      description: The probability of attempting and initiating the feature when the opinion threshold is met.
+      type: float
+      min: 0
+      max: 1

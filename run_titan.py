@@ -13,8 +13,9 @@ from multiprocessing import Pool, cpu_count
 import csv
 import traceback
 from typing import List, Optional
+import subprocess
 
-from titan.model import HIVModel
+from titan.model import TITAN
 from titan.population import Population
 import titan.population_io as pop_io
 from titan.parse_params import create_params
@@ -43,9 +44,6 @@ parser.add_argument(
 parser.add_argument(
     "-o", "--outdir", default="results", help="directory name to save results to"
 )
-parser.add_argument(
-    "-b", "--base", type=bool, default=True, help="whether to use base setting"
-)
 
 parser.add_argument(
     "-e",
@@ -56,9 +54,8 @@ parser.add_argument(
 
 parser.add_argument(
     "--savepop",
-    type=str,
-    default=None,
-    help="Save population after creation, but before model run. 'all' = save all atributes, 'core' = save core (non-intervention) attributes.",
+    action="store_true",
+    help="Save population after creation, but before model run.",
 )
 
 parser.add_argument(
@@ -266,7 +263,7 @@ def single_run(sweep, outfile_dir, params, save_pop, pop_path):
     if not os.path.isdir(pid_outfile_dir):
         os.mkdir(pid_outfile_dir)
         os.mkdir(os.path.join(pid_outfile_dir, "network"))
-        if save_pop in ("all", "core"):
+        if save_pop:
             os.mkdir(save_pop_dir)
         else:
             save_pop_dir = None
@@ -284,12 +281,11 @@ def single_run(sweep, outfile_dir, params, save_pop, pop_path):
         pop = pop_io.read(params, pop_path)
 
     if save_pop_dir is not None:
-        intervention_attrs = True if save_pop == "all" else False
-        pop_io.write(pop, save_pop_dir, intervention_attrs=intervention_attrs)
-        print(save_pop_dir)
+        pop_io.write(pop, save_pop_dir)
+        print(f"Population saved to: {save_pop_dir}")
 
     try:
-        model = HIVModel(params, population=pop)
+        model = TITAN(params, pop=pop)
     except Exception as e:
         raise Exception(f"Model creation failed: {e}")
 
@@ -308,13 +304,12 @@ def main(
     params_path: str,
     num_reps: int,
     outdir: str,
-    use_base: bool,
     sweeps: List[str],
     force: bool,
     sweepfile: Optional[str] = None,
     rows: Optional[str] = None,
     error_on_unused: bool = False,
-    save_pop: Optional[str] = None,
+    save_pop: bool = False,
     pop_path: Optional[str] = None,
 ):
     """
@@ -325,13 +320,12 @@ def main(
         params_path: path to params file or directory
         num_reps: number of time to repeat each sweep
         outdir: directory where results are to be saved
-        use_base: whether to use the "base" setting (includes some more complicated defaults)
         sweeps: array of strings in param:start:stop:step format
         force: if true, will run even if combination of sweeps results in greater than 100 runs
         sweepfile: path to csv file of sweep definitions
         rows: which rows of the csv to load to create sweeps in start:stop format
         error_on_unused: error if there are parameters that are unused by the model
-        save_pop: 'all' or 'core' will save the population with agents have all or core attributes saved
+        save_pop: if true, will save the population to file after creation
         pop_path: path to a population to load instead of creating a new population for each run
     """
     # delete old results before overwriting with new results
@@ -340,7 +334,7 @@ def main(
         shutil.rmtree(outfile_dir)
     os.mkdir(outfile_dir)
     os.mkdir(os.path.join(outfile_dir, "network"))
-    if save_pop in ("all", "core"):
+    if save_pop:
         os.mkdir(os.path.join(outfile_dir, "pop"))
 
     # generate params - if no setting, set to none
@@ -357,7 +351,6 @@ def main(
         setting,
         params_path,
         outfile_dir,
-        use_base=use_base,
         error_on_unused=error_on_unused,
     )
 
@@ -422,19 +415,17 @@ if __name__ == "__main__":
     args = parser.parse_args()
     rows = args.rows.strip() if args.rows is not None else None
     sweepfile = args.sweepfile.strip() if args.sweepfile is not None else None
-    savepop = args.savepop.strip() if args.savepop is not None else None
     poppath = args.poppath.strip() if args.poppath is not None else None
     main(
         args.setting.strip(),
         args.params.strip(),
         args.nMC,
         args.outdir.strip(),
-        args.base,
         args.sweep,
         args.force,
         sweepfile=sweepfile,
         rows=rows,
         error_on_unused=args.error,
-        save_pop=savepop,
+        save_pop=args.savepop,
         pop_path=poppath,
     )

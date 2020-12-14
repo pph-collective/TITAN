@@ -56,4 +56,4 @@ model:
         default: 100
         description: Largest allowable size of a sub-graph in the network with comp_size
         type: int
-        min: 1
+        min: 2

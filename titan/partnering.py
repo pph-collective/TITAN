@@ -7,20 +7,20 @@ from copy import copy
 
 import numpy as np  # type: ignore
 
-from .agent import Agent, AgentSet
+from . import agent  # import Agent, AgentSet
 from . import utils
-from .parse_params import ObjMap
+from . import parse_params
 
 
 def select_partner(
-    agent: Agent,
-    partnerable_agents: Set[Agent],
+    agent: "agent.Agent",
+    partnerable_agents: Set["agent.Agent"],
     sex_partners: Dict,
-    pwid_agents: AgentSet,
-    params: ObjMap,
+    pwid_agents: "agent.AgentSet",
+    params: "parse_params.ObjMap",
     rand_gen,
-    bond_type,
-) -> Optional[Agent]:
+    bond_type: str,
+) -> Optional["agent.Agent"]:
     """
     Get a partner for the agent.
 
@@ -90,13 +90,16 @@ def select_partner(
 
 
 @utils.memo
-def sex_possible(agent_sex_type: str, partner_sex_type: str, sex_types: ObjMap) -> bool:
+def sex_possible(
+    agent_sex_type: str, partner_sex_type: str, sex_types: "parse_params.ObjMap"
+) -> bool:
     """
     Determine if sex is possible.
 
     args:
         agent_sex_type: name of agent's sex type
         partner_sex_type: name of partner's sex type
+        sex_types: params defining in scope sex types
 
     returns:
         whether sex is possible between agents of these sex types
@@ -114,9 +117,12 @@ def sex_possible(agent_sex_type: str, partner_sex_type: str, sex_types: ObjMap) 
     return agent_match and partner_match
 
 
-def get_mean_rel_duration(params: ObjMap):
+def get_mean_rel_duration(params: "parse_params.ObjMap"):
     """
     Find the average partnership duration by bond type
+
+    args:
+        params: The current model's parameters
     """
     mean_rel_duration: Dict[str, int] = {}
     for bond in params.partnership.duration:
@@ -135,11 +141,14 @@ def get_mean_rel_duration(params: ObjMap):
             mean_rel_duration[bond] = params.partnership.duration[
                 bond
             ].distribution.mean
+        assert mean_rel_duration[bond] > 0, "All bonds must have a positive duration!"
 
     return mean_rel_duration
 
 
-def get_partnership_duration(params: ObjMap, rand_gen, bond_type) -> int:
+def get_partnership_duration(
+    params: "parse_params.ObjMap", rand_gen, bond_type: str
+) -> int:
     """
     Get duration of a relationship drawn from bins or a distribution per the params [params.partnership.duration]
 

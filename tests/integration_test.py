@@ -9,7 +9,7 @@ from copy import deepcopy
 from glob import glob
 
 from titan.parse_params import ObjMap, create_params
-from titan.model import HIVModel
+from titan.model import TITAN
 
 # overwrite
 @pytest.fixture
@@ -23,7 +23,7 @@ def params_integration(tmpdir):
 @pytest.fixture
 def make_model_integration(params_integration):
     def _make_model_integration():
-        return HIVModel(params_integration)
+        return TITAN(params_integration)
 
     return _make_model_integration
 
@@ -70,11 +70,11 @@ def test_model_reproducible(tmpdir):
         assert res_a[i]["run_id"] != res_b[i]["run_id"]
         assert res_a[i]["rseed"] == res_b[i]["rseed"]
         assert res_a[i]["pseed"] == res_b[i]["pseed"]
-        assert res_a[i]["Total"] == res_b[i]["Total"]
-        assert res_a[i]["HIV"] == res_b[i]["HIV"]
-        assert res_a[i]["PrEP"] == res_b[i]["PrEP"]
-        assert res_a[i]["Deaths"] == res_b[i]["Deaths"]
-        assert res_a[i]["HIV"] == res_b[i]["HIV"]
+        assert res_a[i]["agents"] == res_b[i]["agents"]
+        assert res_a[i]["hiv"] == res_b[i]["hiv"]
+        assert res_a[i]["prep"] == res_b[i]["prep"]
+        assert res_a[i]["deaths"] == res_b[i]["deaths"]
+        assert res_a[i]["hiv_aids"] == res_b[i]["hiv_aids"]
 
 
 @pytest.mark.integration_deterministic
@@ -85,7 +85,7 @@ def test_model_pop_write_read(tmpdir):
         os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
     )
 
-    subprocess.check_call([f, "-p", param_file, "-o", path_a, "--savepop", "all"])
+    subprocess.check_call([f, "-p", param_file, "-o", path_a, "--savepop"])
 
     saved_pop_path = glob(os.path.join(path_a, "pop", "*_pop.tar.gz"))[0]
 
@@ -111,7 +111,7 @@ def test_model_settings_run(tmpdir):
             path = tmpdir.mkdir(item)
             print(f"-----------Starting run for {item}-----------")
             subprocess.check_call(
-                [f, f"-p {param_file}", f"-o {path}", f"-S {item}", "-e"]
+                [f, f"-S {item}", f"-p {param_file}", f"-o {path}", "-e"]
             )
             assert True
 
@@ -135,12 +135,16 @@ def test_target_partners(make_model_integration, tmpdir):
 
     # change the partner distribution mean upward for creating model b
     for bond in model_a.params.classes.bond_types:
-        model_a.params.demographics.black.MSM.num_partners[bond].vars[1].value *= 10
-        model_a.params.demographics.black.PWID.num_partners[bond].vars[1].value *= 10
+        model_a.params.demographics.black.sex_type.MSM.drug_type["None"].num_partners[
+            bond
+        ].vars[1].value *= 10
+        model_a.params.demographics.black.sex_type.MSM.drug_type["Inj"].num_partners[
+            bond
+        ].vars[1].value *= 10
     model_a.params.model.seed.run = model_a.run_seed
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
 
-    model_b = HIVModel(model_a.params)
+    model_b = TITAN(model_a.params)
     run_id_b = model_b.id
 
     model_b.run(path_b)
@@ -186,10 +190,11 @@ def test_prep_coverage(make_model_integration, tmpdir):
 
     # change the coverage upward for creating model b, use same seeds
     model_a.params.prep.target = 0.9
+    model_a.params.prep.init = 0.9
     model_a.params.model.seed.run = model_a.run_seed
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
 
-    model_b = HIVModel(model_a.params)
+    model_b = TITAN(model_a.params)
     model_b.run(path_b)
     print(
         f"model b prep world target: {model_b.pop.geography.locations['world'].params.prep.target}"
@@ -203,31 +208,31 @@ def test_prep_coverage(make_model_integration, tmpdir):
         res_a = {}
         for row in reader_a:
             if row["t"] not in res_a:
-                res_a[row["t"]] = {"HIV": 0, "PrEP": 0}
-            res_a[row["t"]]["HIV"] += float(row["HIV"])
-            res_a[row["t"]]["PrEP"] += float(row["PrEP"])
+                res_a[row["t"]] = {"hiv": 0, "prep": 0}
+            res_a[row["t"]]["hiv"] += float(row["hiv"])
+            res_a[row["t"]]["prep"] += float(row["hiv"])
 
         reader_b = csv.DictReader(fb, delimiter="\t")
         res_b = {}
         for row in reader_b:
             if row["t"] not in res_b:
-                res_b[row["t"]] = {"HIV": 0, "PrEP": 0}
-            res_b[row["t"]]["HIV"] += float(row["HIV"])
-            res_b[row["t"]]["PrEP"] += float(row["PrEP"])
+                res_b[row["t"]] = {"hiv": 0, "prep": 0}
+            res_b[row["t"]]["hiv"] += float(row["hiv"])
+            res_b[row["t"]]["prep"] += float(row["prep"])
 
     # at start, should be similar
-    t0_hiv_a = res_a["0"]["HIV"]
-    t0_hiv_b = res_b["0"]["HIV"]
+    t0_hiv_a = res_a["0"]["hiv"]
+    t0_hiv_b = res_b["0"]["hiv"]
     t0_diff = t0_hiv_a - t0_hiv_b
     assert math.isclose(t0_hiv_a, t0_hiv_b, abs_tol=15)  # within 15 agents
-    assert res_a["0"]["PrEP"] < res_b["0"]["PrEP"]
+    assert res_a["0"]["prep"] < res_b["0"]["prep"]
 
     # at end, should be different
-    t10_hiv_a = res_a["10"]["HIV"]
-    t10_hiv_b = res_b["10"]["HIV"]
+    t10_hiv_a = res_a["10"]["hiv"]
+    t10_hiv_b = res_b["10"]["hiv"]
     t10_diff = t10_hiv_a - t10_hiv_b  # a should be higher
+    assert res_a["10"]["prep"] < res_b["10"]["prep"]
     assert t10_diff > t0_diff
-    assert res_a["10"]["PrEP"] < res_b["10"]["PrEP"]
 
 
 @pytest.mark.integration_stochastic
@@ -235,9 +240,12 @@ def test_syringe_services(params_integration, tmpdir):
     """
     If we use syringe services, does the incidence of hiv decrease?
     """
-    params_integration.demographics.black.MSM.drug_type.Inj.init = 1.0
-    params_integration.demographics.black.MSM.drug_type["None"].init = 0.0
-    model_a = HIVModel(params_integration)
+    params_integration.demographics.black.sex_type.MSM.drug_type.Inj.ppl = 1.0
+    params_integration.demographics.black.sex_type.MSM.drug_type["None"].ppl = 0.0
+    model_a = TITAN(params_integration)
+    model_a.params.partnership.sex.frequency.Sex = ObjMap(
+        {"type": "bins", "bins": {1: {"prob": 1.0, "min": 0, "max": 1}}}
+    )
 
     path_a = tmpdir.mkdir("a")
     path_a.mkdir("network")
@@ -252,7 +260,7 @@ def test_syringe_services(params_integration, tmpdir):
     model_a.params.model.seed.run = model_a.run_seed
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
 
-    model_b = HIVModel(model_a.params)
+    model_b = TITAN(model_a.params)
 
     model_b.run(path_b)
 
@@ -264,13 +272,13 @@ def test_syringe_services(params_integration, tmpdir):
         res_a = {}
         for row in reader_a:
             if row["drug_type"] == "Inj":
-                res_a[row["t"]] = res_a.get(row["t"], 0) + float(row["HIV"])
+                res_a[row["t"]] = res_a.get(row["t"], 0) + float(row["hiv"])
 
         reader_b = csv.DictReader(fb, delimiter="\t")
         res_b = {}
         for row in reader_b:
             if row["drug_type"] == "Inj":
-                res_b[row["t"]] = res_b.get(row["t"], 0) + float(row["HIV"])
+                res_b[row["t"]] = res_b.get(row["t"], 0) + float(row["hiv"])
 
     # at start, should be similar
     t0_hiv_a = res_a["0"]

@@ -14,8 +14,11 @@ def test_location_init(params):
     assert world.ppl == 1.0
     assert world.name == location
 
-    assert params.demographics.white.WSW.aids.init == 0.1
-    assert world.params.demographics.white.WSW.aids.init == 1.0
+    assert params.demographics.white.sex_type.WSW.drug_type.NonInj.hiv.aids.init == 0.1
+    assert (
+        world.params.demographics.white.sex_type.WSW.drug_type.NonInj.hiv.aids.init
+        == 1.0
+    )
 
     assert "white" in world.role_weights
     assert "black" in world.drug_weights

@@ -1,0 +1,97 @@
+model:
+  num_pop: 6825
+  time:
+    num_steps: 84
+    steps_per_year: 12
+    burn_steps: 48
+  network:
+    type: scale_free
+
+features:
+  incar: false
+  prep: true
+  high_risk: false
+  haart: true
+
+classes:
+  drug_types:
+    - None
+  races:
+    black:
+      hispanic: false
+  sex_types:
+    MSM:
+      gender: M
+      cis_trans: cis
+      sleeps_with:
+        - MSM
+  bond_types:
+    Sex:
+      acts_allowed:
+        - sex
+  drug_types:
+    - None
+
+partnership:
+  sex:
+    frequency:
+      Sex:
+        type: distribution
+        distribution:
+          dist_type: gamma
+          vars:
+            1:
+              value: 0.730
+              value_type: float
+            2:
+              value: 4.339
+              value_type: float
+    haart_scaling:
+      MSM:
+        non_adherent: 0.0925
+        adherent: 0
+    acquisition:
+      MSM:
+        insertive: 0.001075
+        receptive: 0.00425
+        versatile: 0.0026625
+  duration:
+    Sex:
+      type: distribution
+      distribution:
+        dist_type: weibull_modified
+        vars:
+          1:
+            value: 0.586
+            value_type: float
+          2:
+            value: 11.532
+            value_type: float
+        mean: 16
+
+prep:
+  type:
+    - Oral
+  target: 0.049
+  init: 0.25
+  target_as_prob: true
+  efficacy:
+    adherent: 0.96
+    non_adherent: 0.83
+  target_model:
+    - Allcomers
+
+hiv:
+  acute:
+    infectivity: 10.5
+    duration: 4
+  aids:
+    prob: 0.00207
+
+timeline_scaling:
+  timeline:
+    haart_viral_suppression_scale:
+      parameter: demographics|black|MSM|haart|adherence
+      start_time: -47
+      stop_time: 100
+      scalar: 0.1088

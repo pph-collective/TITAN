@@ -1,0 +1,27 @@
+random_trial:
+  prob:
+    default: 0.5
+    description: Probablility that a network component is assigned to the treatment arm of the trial
+    type: float
+    min: 0
+    max: 1
+  start_time:
+    default: 0
+    description: time step at which the random trial is started
+    type: int
+  treatment:
+    default: prep
+    description: what type of treatment to apply to treated agents
+    type: enum
+    values:
+      - prep
+      - knowledge
+  choice:
+    default: bridge
+    description: how the treatment agent within an enrolled component is selected (`all` treats all eligible agents in the component)
+    type: enum
+    values:
+      - all
+      - bridge
+      - eigenvector
+      - random

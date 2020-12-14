@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from typing import List, Dict, Set, Optional, Iterator, Iterable, Tuple
+from typing import Dict, Set, Optional, Iterator, Iterable
 
-from .parse_params import ObjMap
 from .utils import safe_divide, safe_dist
 from .location import Location
+from . import features
+from . import exposures
 
 
 class Agent:
@@ -55,12 +56,6 @@ class Agent:
         self.drug_type = drug_use
         self.location = location
 
-        if self.drug_type == "Inj":
-            self.population = "PWID"
-        else:
-            self.population = self.sex_type
-
-        self.msmw = False
         self.sex_role = "versatile"
 
         # agent-partner params
@@ -69,44 +64,14 @@ class Agent:
         self.mean_num_partners: Dict[str, int] = {}
         self.target_partners: Dict[str, int] = {}
 
-        # agent STI params
-        self.hiv = False
-        self.hiv_time = 0
-        self.hiv_dx = False
-        self.aids = False
+        # agent exposures params
+        # model features
+        for exposure in exposures.BaseExposure.__subclasses__():
+            setattr(self, exposure.name, exposure(self))
 
-        # agent treatment params
-        self.haart = False
-        self.haart_time = 0
-        self.haart_adherence = 0
-        self.ssp = False
-        self.prep = False
-        self.prep_adherence = 0
-        self.intervention_ever = False
-        self.random_trial_enrolled = False
-        self.vaccine = False
-        self.vaccine_time = 0
-        self.vaccine_type = ""
-        self.partner_traced = False
-        self.trace_time = 0
-        self.prep_awareness = False
-        self.prep_opinion = 0.0
-        self.prep_type = ""
-        self.pca = False
-        self.pca_suitable = False
-
-        # PrEP pharmacokinetics
-        self.prep_load = 0.0
-        self.prep_last_dose = 0
-
-        # agent high risk params
-        self.high_risk = False
-        self.high_risk_time = 0
-        self.high_risk_ever = False
-
-        # agent incarcartion params
-        self.incar = False
-        self.incar_time = 0
+        # model features
+        for feature in features.BaseFeature.__subclasses__():
+            setattr(self, feature.name, feature(self))
 
     def __str__(self) -> str:
         """
@@ -116,8 +81,8 @@ class Agent:
             String formatted tab-deliminated agent properties
         """
         return (
-            f"\t{self.id}\t{self.age}\t{self.sex_type}\t{self.drug_type}\t"
-            f"{self.race}\t{self.hiv}"
+            f"\t{self.id}\t{self.age}\t{self.sex_type}\t{self.drug_type}\t"  # type: ignore[attr-defined]
+            f"{self.race}\t{self.hiv.active}"
         )
 
     def __repr__(self) -> str:
@@ -155,23 +120,6 @@ class Agent:
         """
         return any(self.iter_partners())
 
-    def get_acute_status(self, acute_time_period) -> bool:
-        """
-        Get acute status of agent at time
-
-        args:
-            acute_time_period: How long an agent with HIV is acute for
-
-        returns:
-            whether an agent is acute
-        """
-        hiv_t = self.hiv_time
-
-        if acute_time_period >= hiv_t > 0:
-            return True
-        else:
-            return False
-
     def is_msm(self) -> bool:
         """
         Determine whether an agent is a man who can have sex with men
@@ -187,130 +135,6 @@ class Agent:
             if sex_dict[sex_type].gender == "M":
                 return True
         return False
-
-    def cdc_eligible(self) -> bool:
-        """
-        Determine agent eligibility for PrEP under CDC criteria
-
-        returns:
-            cdc eligibility
-        """
-        if self.is_msm():
-            return True
-
-        ongoing_duration = self.location.params.partnership.ongoing_duration
-        for rel in self.relationships:
-            partner = rel.get_partner(self)
-            if rel.duration > ongoing_duration and partner.hiv_dx:
-                return True
-
-            if partner.drug_type == "Inj" or partner.is_msm():
-                return True
-
-        return False
-
-    def prep_eligible(self) -> bool:
-        """
-        Determine if an agent is eligible for PrEP
-
-        returns:
-            prep eligibility
-        """
-        target_model = self.location.params.prep.target_model
-        gender = self.location.params.classes.sex_types[self.sex_type].gender
-        # if agent is already on prep, not eligible to enroll
-        if self.prep or self.vaccine:
-            return False
-
-        all_eligible_models = {"Allcomers", "Racial"}
-
-        if all_eligible_models.intersection(target_model):
-            return True
-
-        if "cdc_women" in target_model:
-            if gender == "F":
-                if self.cdc_eligible():
-                    return True
-
-        if "cdc_msm" in target_model:
-            if gender == "M" and self.cdc_eligible():
-                return True
-
-        if "pwid_sex" in target_model:
-            if self.drug_type == "Inj" and self.cdc_eligible():
-                return True
-
-        if "pwid" in target_model:
-            if self.drug_type == "Inj":
-                return True
-
-        if "ssp_sex" in target_model:
-            if self.ssp and self.cdc_eligible():
-                return True
-
-        if "ssp" in target_model:
-            if self.ssp:
-                return True
-
-        return False
-
-    def enroll_prep(self, rand_gen):
-        """
-        Enroll an agent in PrEP
-
-        args:
-            rand_gen: random number generator
-        """
-        params = self.location.params
-        self.prep = True
-        self.prep_load = params.prep.peak_load
-        self.prep_last_dose = 0
-
-        if (
-            rand_gen.random()
-            < params.demographics[self.race][self.sex_type].prep.adherence
-        ):
-            self.prep_adherence = 1
-        else:
-            self.prep_adherence = 0
-
-        # set PrEP load and dosestep for PCK
-        if "Inj" in params.prep.type and "Oral" in params.prep.type:
-            if rand_gen.random() < params.prep.lai.prob:
-                self.prep_type = "Inj"
-            else:
-                self.prep_type = "Oral"
-        else:
-            self.prep_type = params.prep.type[0]
-
-    def update_prep_load(self):
-        """
-        Determine and update load of PrEP concentration in agent.
-        """
-        params = self.location.params
-        # N(t) = N0 (0.5)^(t/t_half)
-        self.prep_last_dose += 1
-        if self.prep_last_dose > params.model.time.steps_per_year:
-            self.prep_load = 0.0
-            self.prep = False
-            self.prep_type = ""
-            self.prep_last_dose = 0
-        else:
-            annualized_last_dose = (
-                self.prep_last_dose / params.model.time.steps_per_year
-            )
-            annualized_half_life = params.prep.half_life / 365
-            self.prep_load = params.prep.peak_load * (
-                (0.5) ** (annualized_last_dose / annualized_half_life)
-            )
-
-    def vaccinate(self) -> None:
-        """
-        Vaccinate an agent and update relevant fields.
-        """
-        self.vaccine = True
-        self.vaccine_type = self.location.params.vaccine.type
-        self.vaccine_time = 1
 
     def get_partners(self, bond_types: Optional[Iterable[str]] = None) -> Set["Agent"]:
         """
@@ -342,34 +166,6 @@ class Agent:
             the number of partners the agent has
         """
         return len(self.get_partners(bond_types))
-
-    def get_number_of_sex_acts(self, rand_gen) -> int:
-        """
-        Number of sexActs an agent has done.
-
-        args:
-            rand_gen: random number generator (e.g. self.run_random in model)
-
-        returns:
-            number of sex acts
-        """
-        freq_params = self.location.params.partnership.sex.frequency
-        if freq_params.type == "bins":
-            rv = rand_gen.random()
-
-            for i in range(1, 6):
-                p = freq_params.bins[i].prob
-                if rv <= p:
-                    break
-
-            min_frequency = freq_params.bins[i].min
-            max_frequency = freq_params.bins[i].max
-            return rand_gen.randint(min_frequency, max_frequency)
-
-        elif freq_params.type == "distribution":
-            return round(safe_dist(freq_params.distribution, rand_gen))
-        else:
-            raise Exception("Sex acts must be defined as bin or distribution")
 
 
 class Relationship:
@@ -415,12 +211,10 @@ class Relationship:
             self.id = self.next_rel_id
 
         self.update_id_counter(self.id)
-        # TODO MAKE THIS INCREMENT WITH passed IDs
 
         # Relationship properties
         self.duration = duration
         self.total_duration = duration
-        self.total_sex_acts = 0
         self.bond_type = bond_type
 
         self.bond()
@@ -488,6 +282,36 @@ class Relationship:
             return self.agent1
         else:
             raise ValueError("Agent must be in this relationship")
+
+    def get_number_of_sex_acts(self, rand_gen) -> int:
+        """
+        Number of sex acts in the relationship during the time step.
+
+        args:
+            rand_gen: random number generator (e.g. self.run_random in model)
+
+        returns:
+            number of sex acts
+        """
+        agent = rand_gen.choice([self.agent1, self.agent2])
+        freq_params = agent.location.params.partnership.sex.frequency[self.bond_type]
+
+        if freq_params.type == "bins":
+            rv = rand_gen.random()
+
+            for i in range(1, len(freq_params.bins) + 1):
+                p = freq_params.bins[i].prob
+                if rv <= p:
+                    break
+
+            min_frequency = freq_params.bins[i].min
+            max_frequency = freq_params.bins[i].max
+            return rand_gen.randint(min_frequency, max_frequency)
+
+        elif freq_params.type == "distribution":
+            return round(safe_dist(freq_params.distribution, rand_gen))
+        else:
+            raise Exception("Sex acts must be defined as bin or distribution")
 
     def __str__(self):
         return (

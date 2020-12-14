@@ -3,7 +3,8 @@ import os
 
 from titan.population import *
 from titan.agent import Agent
-from titan.parse_params import create_params
+from titan.parse_params import create_params, ObjMap
+from titan.features import Prep
 
 from tests.conftest import FakeRandom
 
@@ -14,9 +15,9 @@ def test_create_agent(make_population, params):
 
     a1 = pop.create_agent(pop.geography.locations["world"], "white", 0)
     assert a1.race == "white"
-    assert a1.prep_opinion in range(
+    assert a1.knowledge.opinion in range(
         5
-    ), f"Agents opinion of injectible PrEP is out of bounds {a1.prep_opinion}"
+    ), f"Agents opinion of injectible PrEP is out of bounds {a1.knowledge.opinion}"
 
     a2 = pop.create_agent(pop.geography.locations["world"], "black", 0)
     assert a2.race == "black"
@@ -32,14 +33,13 @@ def test_create_agent(make_population, params):
     )
     a4 = pop.create_agent(pop.geography.locations["world"], "white", 0, "HM")
     assert a4.drug_type == "Inj"
-    assert a4.hiv
-    assert a4.aids
-    assert a4.hiv_dx
-    assert a4.haart
-    assert a4.haart_adherence == 5
-    assert a4.haart_time == 0
-    assert a4.high_risk
-    assert a4.high_risk_ever
+    assert a4.hiv.active
+    assert a4.hiv.aids
+    assert a4.hiv.dx
+    assert a4.haart.active
+    assert a4.haart.adherent
+    assert a4.high_risk.active
+    assert a4.high_risk.ever
 
     # check not PWID and HIV
     pop.pop_random = FakeRandom(0.999)
@@ -48,9 +48,9 @@ def test_create_agent(make_population, params):
     )
     a4 = pop.create_agent(pop.geography.locations["world"], "white", 0, "HM")
     assert a4.drug_type == "None"
-    assert a4.hiv is False
-    assert a4.prep is False
-    assert a4.intervention_ever is False
+    assert a4.hiv.active is False
+    assert a4.prep.active is False
+    assert a4.random_trial.treated is False
 
 
 @pytest.mark.unit
@@ -64,7 +64,7 @@ def test_create_agent_proportions(make_population, params):
         "values": ["HM", "HF"],
         "weights": [0.1, 0.9],
     }
-    prop_idu = round(params.demographics[race]["PWID"].ppl * n)
+    prop_idu = round(params.demographics[race].sex_type["HF"].drug_type["Inj"].ppl * n)
     num_HM = 0
     num_HF = 0
     num_PWID = 0
@@ -90,32 +90,20 @@ def test_add_remove_agent_to_pop(make_population):
     pop = make_population(n=100)
     agent = pop.create_agent(pop.geography.locations["world"], "white", 0, "HM")
     agent.drug_type = "Inj"
-    agent.hiv = True
-    agent.aids = True
-    agent.intervention_ever = True
-    agent.haart = True
-    agent.prep = True
-    agent.hiv_dx = True
-    agent.incar = True
-    agent.high_risk = True
-
-    num_prep = pop.prep_counts[agent.race]
+    agent.hiv.active = True
+    agent.hiv.aids = True
+    agent.hiv.dx = True
+    agent.hiv.add_agent(agent)
 
     pop.add_agent(agent)
 
     assert agent in pop.all_agents.members
-    assert agent in pop.hiv_agents.members
-    assert agent in pop.high_risk_agents.members
-    assert pop.prep_counts[agent.race] == num_prep + 1
 
     assert pop.graph.has_node(agent)
 
     pop.remove_agent(agent)
 
     assert agent not in pop.all_agents.members
-    assert agent not in pop.hiv_agents.members
-    assert agent not in pop.high_risk_agents.members
-    assert pop.prep_counts[agent.race] == num_prep
 
     assert not pop.graph.has_node(agent)
 
@@ -211,7 +199,7 @@ def test_update_agent_partners_PWID_match(make_population, params):
     a = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
     assert (
         pop.geography.locations["world"]
-        .params.demographics.white.PWID.num_partners.Inj.vars[1]
+        .params.demographics.white.sex_type.MSM.drug_type.Inj.num_partners.Inj.vars[1]
         .value
     )
     p = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
@@ -424,18 +412,6 @@ def test_population_consistency(params):
 
 
 @pytest.mark.unit
-def test_population_consistency_HIV(params):
-    """Test HIV consistency"""
-    net = Population(params)
-    for agent in net.all_agents:
-        if agent.hiv:
-            assert agent in net.hiv_agents
-
-    for agent in net.hiv_agents:
-        assert agent.hiv
-
-
-@pytest.mark.unit
 def test_partnering_same_component_singleton_match(make_population, params):
     pop = make_population(n=0)
     a = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
@@ -503,3 +479,19 @@ def test_partnering_cross_component(make_population, make_relationship, params):
     assert d not in c.partners["Sex"]
     assert d not in b.partners["Sex"]
     assert d not in a.partners["Sex"]
+
+
+@pytest.mark.unit
+def test_trim_components(make_population):
+    n = 20
+    pop = make_population(n=20)
+    pop.params.model.network.type = "comp_size"
+    orig_num_components = len(pop.connected_components())
+
+    pop.params.model.network.component_size.max = n
+    pop.trim_graph()
+    assert len(pop.connected_components()) == orig_num_components
+
+    pop.params.model.network.component_size.max = 2
+    pop.trim_graph()
+    assert len(pop.connected_components()) > orig_num_components

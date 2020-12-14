@@ -93,13 +93,6 @@ classes:
       - Inj
       - NonInj
       - None
-  populations:
-    default:
-      - PWID
-    description: "Which demographic populations to track in addition to sex_types"
-    type: array
-    values:
-      - PWID
   distributions:
     default:
       - poisson
@@ -109,6 +102,9 @@ classes:
       - pert
       - set_value
       - randint
+      - weibull_modified
+      - wald
+      - negative_binomial
     description: "Which distributions are available in the model - more of a reference than a class"
     type: array
     values:
@@ -119,6 +115,9 @@ classes:
       - pert
       - set_value
       - randint
+      - wald
+      - weibull_modified
+      - negative_binomial
   locations:
     type: definition
     description: Locations that exist within the model

@@ -9,15 +9,24 @@ prep:
     type: array
   target:
     default: 0.0
-    description: Target coverage for PrEP therapy at 10 years
+    description: Target coverage for PrEP coverage, or probability of initiating prep at a timestep if target_as_prob is true
     type: float
     min: 0
     max: 1
+  init:
+    default: 0.0
+    description: Probability of initiating PrEP at agent creation
+    type: float
+    min: 0.
+    max: 1.
+  target_as_prob:
+    default: false
+    description: If prep.target should be treated as a probability instead of a target
+    type: boolean
   start_time:
     default: 0
     description: Timestep at which prep should start in the model
     type: int
-    min: 0
   efficacy:
     adherent:
       default: 0.96
@@ -25,7 +34,7 @@ prep:
       type: float
       min: 0
       max: 1
-    non_adherant:
+    non_adherent:
       default: 0.76
       description: Probabilty of PrEP efficacy if agent is non-adherent
       type: float
@@ -41,7 +50,6 @@ prep:
       - pwid
       - pwid_sex
       - Racial
-      - RandomTrial
       - ssp
       - ssp_sex
     description: which models to use to determine who is enrolled in PrEP
@@ -63,83 +71,3 @@ prep:
       type: float
       min: 0
       max: 1
-  pca:
-    start_time:
-      default: 0
-      description: Time step at which PCA begins
-      type: int
-    awareness:
-      init:
-        default: 0
-        description: Probability of Agent awareness of PrEP at time zero
-        type: float
-        min: 0
-        max: 1
-      prob:
-        default: 0.055
-        description: Probability an agent becomes aware of PrEP
-        type: float
-        min: 0
-        max: 1
-    prep:
-      prob:
-        default: .1275
-        description: Probability of attempting * chance of initiating oral or inj PrEP
-        type: float
-        min: 0
-        max: 1
-    choice:
-      default: bridge
-      description: how the PCA is selected
-      type: enum
-      values:
-        - bridge
-        - eigenvector
-        - random
-    opinion:
-      threshold:
-        default: 3
-        description: Opinion needed to initiate PrEP on a 0-4 scale (translated from 1-5 scale)
-        type: float
-        min: 0
-        max: 4
-      transmission:
-        default: 0.005
-        description: Per-act probability of opinion change in less-prominent partner
-        type: float
-        min: 0
-        max: 1
-    knowledge:
-      transmission:
-        default: 0.01
-        description: Per-act probability of knowledge change in unaware partner
-        type: float
-        min: 0
-        max: 1
-    attitude:
-      type: bins
-      description: Probability distribution for attitude/opinion level
-      fields:
-        prob:
-          type: float
-          min: 0
-          max: 1
-      default:
-        0:
-          prob: 0.167
-        1:
-          prob: 0.082
-        2:
-          prob: 0.184
-        3:
-          prob: 0.139
-        4:
-          prob: 0.429
-  random_trial:
-    intervention:
-      prob:
-        default: 0.5
-        description: Probablility that a network component is assigned to the treatment arm of the trial
-        type: float
-        min: 0
-        max: 1

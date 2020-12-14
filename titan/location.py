@@ -78,27 +78,24 @@ class Location:
             self.pop_weights[race] = {}
             self.pop_weights[race]["values"] = []
             self.pop_weights[race]["weights"] = []
+            race_param = self.params.demographics[race]
             for st in self.params.classes.sex_types:
+                st_param = race_param.sex_type[st]
                 self.pop_weights[race]["values"].append(st)
-                self.pop_weights[race]["weights"].append(
-                    self.params.demographics[race][st].ppl
-                )
+                self.pop_weights[race]["weights"].append(st_param.ppl)
                 self.role_weights[race][st] = {}
                 self.role_weights[race][st]["values"] = []
                 self.role_weights[race][st]["weights"] = []
                 self.drug_weights[race][st] = {}
                 self.drug_weights[race][st]["values"] = []
                 self.drug_weights[race][st]["weights"] = []
-                for role, prob in self.params.demographics[race][
-                    st
-                ].sex_role.init.items():
+                for role, prob in st_param.sex_role.init.items():
                     self.role_weights[race][st]["values"].append(role)
                     self.role_weights[race][st]["weights"].append(prob)
-                for use_type, prob in self.params.demographics[race][
-                    st
-                ].drug_type.items():
-                    self.drug_weights[race][st]["values"].append(use_type)
-                    self.drug_weights[race][st]["weights"].append(prob.init)
+                for dt in self.params.classes.drug_types:
+                    dt_param = st_param.drug_type[dt]
+                    self.drug_weights[race][st]["values"].append(dt)
+                    self.drug_weights[race][st]["weights"].append(dt_param.ppl)
 
 
 # LocationEdges are very much a WIP and not actually used anywhere yet

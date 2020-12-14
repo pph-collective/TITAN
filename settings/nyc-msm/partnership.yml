@@ -1,0 +1,49 @@
+partnership:
+  sex:
+    frequency:
+      Main:
+        type: distribution
+        distribution:
+          dist_type: gamma
+          vars:
+            1:
+              value: 0.439
+              value_type: float
+            2:
+              value: 15.3
+              value_type: float
+      Casual:
+        type: distribution
+        distribution:
+          dist_type: gamma
+          vars:
+            1:
+              value: 0.131
+              value_type: float
+            2:
+              value: 16.5
+              value_type: float
+    haart_scaling:
+      MSM: # calibration
+        non_adherent: 0.165
+        adherent: 0.00
+    acquisition:
+      MSM:
+        insertive: 0.0017
+        receptive: 0.0075
+        versatile: 0.0046
+
+  duration:
+    Main:
+      type: distribution
+      distribution:
+        dist_type: wald
+        vars:
+          1:
+            value: 52.88
+            value_type: float
+          2:
+            value: 5.248
+            value_type: float
+        mean: 52.88
+

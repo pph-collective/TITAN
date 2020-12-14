@@ -13,9 +13,16 @@ agent_zero:
     default: 4
   start_time:
     type: int
-    description: "Time to insert the infection for agent 0"
+    description: "Time to insert the exposure conversion for agent 0"
     default: 1
   fallback:
     type: boolean
     description: "Whether to find the agent with maximum partnerships if there are none greater than num_partners"
     default: false
+  exposure:
+    type: enum
+    default: hiv
+    description: For which exposure the agent zero should be converted
+    values:
+      - hiv
+      - knowledge

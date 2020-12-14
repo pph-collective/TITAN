@@ -17,10 +17,9 @@ def test_agent_init(make_agent):
     # demographics
     assert a.sex_type == "MSM"
     assert a.age == 30
+    assert a.age_bin == 0
     assert a.race == "black"
     assert a.drug_type == "None"
-    assert a.age_bin == 0
-    assert a.msmw is False
     assert a.sex_role is "versatile"
 
     # partner params
@@ -29,42 +28,10 @@ def test_agent_init(make_agent):
     assert a.mean_num_partners == {}
 
     # STI params
-    assert a.hiv is False
-    assert a.hiv_time == 0
-    assert a.aids is False
-
-    # treatment params
-    assert a.haart is False
-    assert a.haart_time == 0
-    assert a.haart_adherence == 0
-    assert a.ssp is False
-    assert a.intervention_ever is False
-    assert a.vaccine_time == 0
-    assert a.vaccine_type == ""
-    assert a.partner_traced is False
-    assert a.prep_awareness is False
-    assert a.prep_opinion == 0.0
-    assert a.prep_type == ""
-    assert a.pca is False
-    assert a.pca_suitable is False
-
-    # prevention parameters
-    assert a.hiv_dx is False
-    assert a.prep is False
-    assert a.prep_adherence == 0
-
-    # prep pharmacokinetics
-    assert a.prep_load == 0.0
-    assert a.prep_last_dose == 0
-
-    # high risk params
-    assert a.high_risk is False
-    assert a.high_risk_time == 0
-    assert a.high_risk_ever is False
-
-    # incarceration
-    assert a.incar is False
-    assert a.incar_time == 0
+    assert a.hiv.active is False
+    assert a.hiv.dx is False
+    assert a.hiv.time is None
+    assert a.hiv.aids is False
 
 
 @pytest.mark.unit
@@ -81,14 +48,6 @@ def test_get_partners(make_agent):
     assert a.get_partners() == {p1, p2}
     assert a.get_partners(["Sex"]) == {p1}
     assert a.get_partners(["Inj"]) == {p2}
-
-
-@pytest.mark.unit
-def test_get_acute_status(make_agent, params):
-    a = make_agent()  # no HIV on init
-    assert a.get_acute_status(params.partnership.ongoing_duration) == False
-    a.hiv_time = 1  # manually force this to test logic
-    assert a.get_acute_status(params.partnership.ongoing_duration) == True
 
 
 @pytest.mark.unit
@@ -113,152 +72,6 @@ def test_is_msm(make_agent):
     assert a.is_msm()
     a.sex_type = "MTF"
     assert not a.is_msm()
-
-
-@pytest.mark.unit
-def test_cdc_eligible(make_agent, make_relationship):
-    # test MSM
-    a = make_agent()
-    p = make_agent()
-    r = make_relationship(a, p)
-    assert a.cdc_eligible()
-
-    # test WSW fail
-    a = make_agent(SO="WSW")
-    assert not a.is_msm()
-    assert not a.cdc_eligible()
-
-    # relationship not eligible
-    p = make_agent(SO="HM")
-    r = make_relationship(a, p)
-    assert not a.cdc_eligible()
-
-    # relationship eligible
-    p.hiv_dx = True
-    assert a.cdc_eligible()
-
-    # ongoing duration fail
-    a.location.params.partnership.ongoing_duration = 10
-    assert not a.cdc_eligible()
-
-
-@pytest.mark.unit
-def test_prep_eligible(make_agent, make_relationship):
-    a = make_agent(SO="HF")
-    p = make_agent(SO="HM")
-
-    # test no model
-    a.location.params.prep.target_model = ["cdc_women"]
-    assert not a.prep_eligible()
-
-    # test cdc_women
-    a.location.params.prep.target_model.append("cdc_women")
-    assert not a.prep_eligible()
-    r = make_relationship(a, p)
-    assert not p.is_msm()
-    assert not a.prep_eligible()
-    p.drug_type = "Inj"
-    assert a.prep_eligible()
-
-    # test Allcomers and Racial
-    a.location.params.prep.target_model.append("Allcomers")
-    assert a.prep_eligible()
-    a.location.params.prep.target_model = ["Racial"]
-    assert a.prep_eligible()
-
-    # test cdc_msm
-    a.location.params.prep.target_model = ["cdc_msm"]
-    assert not a.prep_eligible()
-    msm_agent = make_agent()
-    make_relationship(msm_agent, p)
-    assert msm_agent.prep_eligible()
-
-    # test pwid
-    a.location.params.prep.target_model = ["pwid"]
-    assert not a.prep_eligible()
-    assert not a.prep_eligible()
-    assert p.prep_eligible()
-    p = make_agent(DU="Inj", SO="HM")
-    assert p.prep_eligible()  # still eligible without partners
-
-    # test ssp
-    a.location.params.prep.target_model = ["ssp"]
-    assert not p.prep_eligible()
-    assert not p.prep_eligible()
-    p.ssp = True
-    assert p.prep_eligible()
-
-    p.location.params.prep.target_model = ["ssp_sex"]
-    assert not p.prep_eligible()
-    make_relationship(p, msm_agent)
-    assert p.prep_eligible()
-
-
-@pytest.mark.unit
-def test_enroll_prep_choice(make_agent, params):
-    rand_gen = FakeRandom(-0.1)
-    a = make_agent()
-    a.location.params.prep.type = ["Oral", "Inj"]
-    a.location.params.prep.peak_load = 0.3
-    a.prep_load = 10
-
-    a.enroll_prep(rand_gen)
-
-    assert a.prep
-    assert a.prep_last_dose == 0
-    assert a.prep_load == 0.3
-    assert a.prep_adherence == 1
-    assert a.prep_type == "Inj"
-
-
-@pytest.mark.unit
-def test_enroll_prep_one(make_agent, params):
-    rand_gen = FakeRandom(1.1)
-    a = make_agent()
-    a.location.params.prep.type = ["Oral"]
-    a.location.params.prep.peak_load = 0.3
-
-    a.prep_load = 10
-
-    a.enroll_prep(rand_gen)
-
-    assert a.prep
-    assert a.prep_last_dose == 0
-    assert a.prep_load == 0.3
-    assert a.prep_adherence == 0
-    assert a.prep_type == "Oral"
-
-
-@pytest.mark.unit
-def test_update_prep_load(make_agent, params):
-    a = make_agent()
-    assert a.prep_last_dose == 0
-    assert a.prep_load == 0
-    a.update_prep_load()
-    assert a.prep_last_dose == 1
-    assert a.prep_load > 0
-
-    # make time pass
-    for i in range(12):
-        a.update_prep_load()
-
-    assert a.prep_last_dose == 0
-    assert a.prep_load == 0.0
-
-
-@pytest.mark.unit
-def test_get_number_of_sex_acts(make_agent, params):  # TODO test dist
-    a = make_agent()
-
-    rand_gen_low = FakeRandom(0.0)
-    min_val_low = params.partnership.sex.frequency.bins[1].min
-
-    rand_gen_high = FakeRandom(1.0)
-
-    assert a.get_number_of_sex_acts(rand_gen_low) == min_val_low
-
-    # test fallthrough
-    assert a.get_number_of_sex_acts(rand_gen_high) == 37
 
 
 @pytest.mark.unit
@@ -292,10 +105,8 @@ def test_relationship(make_agent, make_relationship):
 
     # properties
     assert r1.duration == 2
-    assert r1.total_sex_acts == 0
 
     assert r2.duration == 2
-    assert r2.total_sex_acts == 0
 
     assert p1 in a.partners["Sex"]
     assert p2 in a.partners["Sex"]
@@ -342,12 +153,42 @@ def test_relationship(make_agent, make_relationship):
 def test_get_partner(make_agent, make_relationship):
     a = make_agent()
     p = make_agent()
+    a2 = make_agent()
     a.partners["Sex"] = set()
     p.partners["Sex"] = set()
     rel = make_relationship(a, p)
 
     assert rel.get_partner(a) == p
     assert rel.get_partner(p) == a
+    with pytest.raises(ValueError):
+        rel.get_partner(a2)
+
+
+@pytest.mark.unit
+def test_get_number_of_sex_acts(make_agent, make_relationship, params):
+    a = make_agent()
+    p = make_agent()
+    rel = make_relationship(a, p)
+
+    rand_gen_low = FakeRandom(0.0)
+    min_val_low = params.partnership.sex.frequency.Sex.bins[1].min
+
+    rand_gen_high = FakeRandom(1.0)
+
+    assert rel.get_number_of_sex_acts(rand_gen_low) == min_val_low
+
+    # test fallthrough
+    assert rel.get_number_of_sex_acts(rand_gen_high) == 37
+
+    # test with distribution; should be independent of random
+    a.location.params.partnership.sex.frequency.Sex.type = "distribution"
+
+    assert rel.get_number_of_sex_acts(rand_gen_low) == 0
+    assert rel.get_number_of_sex_acts(rand_gen_high) == 0
+
+    a.location.params.partnership.sex.frequency.Sex.type = "not a thing"
+    with pytest.raises(Exception):
+        rel.get_number_of_sex_acts(rand_gen_low)
 
 
 # ============================== AGENT SET TESTS ===============================
