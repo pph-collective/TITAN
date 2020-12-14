@@ -1,0 +1,1639 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the TITAN model">
+      
+      
+      
+        <link rel="canonical" href="http://marshall-lab.github.io/TITAN/api/features/">
+      
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.7">
+    
+    
+      
+        <title>Overview - TITAN</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.19753c6b.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.196e0c26.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#agent-features" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-header-nav__button md-logo" aria-label="TITAN">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            TITAN
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Overview
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    TITAN
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" >
+    <label class="md-nav__link" for="nav-2">
+      Getting Started
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon"></span>
+        Getting Started
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../getting_started/" class="md-nav__link">
+      Installation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../run_local/" class="md-nav__link">
+      Running locally
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../run_oscar/" class="md-nav__link">
+      Running on Oscar
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contributing/" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    <label class="md-nav__link" for="nav-3">
+      API Reference
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="API Reference" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon"></span>
+        API Reference
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../agent/" class="md-nav__link">
+      Agent
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../agent_set/" class="md-nav__link">
+      AgentSet
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-3" type="checkbox" id="nav-3-3" >
+    <label class="md-nav__link" for="nav-3-3">
+      Agent Exposures
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Agent Exposures" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-3">
+        <span class="md-nav__icon md-icon"></span>
+        Agent Exposures
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../exposures/" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../exposures/hiv/" class="md-nav__link">
+      HIV
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../exposures/knowledge/" class="md-nav__link">
+      Knowledge
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-4" type="checkbox" id="nav-3-4" checked>
+    <label class="md-nav__link" for="nav-3-4">
+      Agent Features
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Agent Features" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-4">
+        <span class="md-nav__icon md-icon"></span>
+        Agent Features
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Overview
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" class="md-nav__link md-nav__link--active">
+      Overview
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#agent-features" class="md-nav__link">
+    Agent Features
+  </a>
+  
+    <nav class="md-nav" aria-label="Agent Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature" class="md-nav__link">
+    BaseFeature
+  </a>
+  
+    <nav class="md-nav" aria-label="BaseFeature">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.name" class="md-nav__link">
+    name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.stats" class="md-nav__link">
+    stats
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.add_agent" class="md-nav__link">
+    add_agent()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.get_acquisition_risk_multiplier" class="md-nav__link">
+    get_acquisition_risk_multiplier()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.get_transmission_risk_multiplier" class="md-nav__link">
+    get_transmission_risk_multiplier()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.init_agent" class="md-nav__link">
+    init_agent()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.init_class" class="md-nav__link">
+    init_class()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.remove_agent" class="md-nav__link">
+    remove_agent()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.set_stats" class="md-nav__link">
+    set_stats()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.update_agent" class="md-nav__link">
+    update_agent()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.update_pop" class="md-nav__link">
+    update_pop()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="haart/" class="md-nav__link">
+      HAART
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="high_risk/" class="md-nav__link">
+      High Risk
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="incar/" class="md-nav__link">
+      Incarceration
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="external_exposure/" class="md-nav__link">
+      External Exposure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="partner_tracing/" class="md-nav__link">
+      Partner Tracing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="prep/" class="md-nav__link">
+      PrEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="random_trial/" class="md-nav__link">
+      Random Trial
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="syringe_services/" class="md-nav__link">
+      Syringe Services
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="vaccine/" class="md-nav__link">
+      Vaccine
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-5" type="checkbox" id="nav-3-5" >
+    <label class="md-nav__link" for="nav-3-5">
+      Agent Interactions
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Agent Interactions" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-5">
+        <span class="md-nav__icon md-icon"></span>
+        Agent Interactions
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../interactions/" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../interactions/injection/" class="md-nav__link">
+      Injection
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../interactions/pca/" class="md-nav__link">
+      Peer Change Agent
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../interactions/sex/" class="md-nav__link">
+      Sex
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../location/" class="md-nav__link">
+      Location
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../model/" class="md-nav__link">
+      Model
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../partnering/" class="md-nav__link">
+      Partnering
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../population/" class="md-nav__link">
+      Population
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../relationship/" class="md-nav__link">
+      Relationship
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../reporting/" class="md-nav__link">
+      Reporting
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../utilities/" class="md-nav__link">
+      Utility Functions
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#agent-features" class="md-nav__link">
+    Agent Features
+  </a>
+  
+    <nav class="md-nav" aria-label="Agent Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature" class="md-nav__link">
+    BaseFeature
+  </a>
+  
+    <nav class="md-nav" aria-label="BaseFeature">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.name" class="md-nav__link">
+    name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.stats" class="md-nav__link">
+    stats
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.add_agent" class="md-nav__link">
+    add_agent()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.get_acquisition_risk_multiplier" class="md-nav__link">
+    get_acquisition_risk_multiplier()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.get_transmission_risk_multiplier" class="md-nav__link">
+    get_transmission_risk_multiplier()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.init_agent" class="md-nav__link">
+    init_agent()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.init_class" class="md-nav__link">
+    init_class()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.remove_agent" class="md-nav__link">
+    remove_agent()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.set_stats" class="md-nav__link">
+    set_stats()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.update_agent" class="md-nav__link">
+    update_agent()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.features.base_feature.BaseFeature.update_pop" class="md-nav__link">
+    update_pop()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>Overview</h1>
+                
+                <h2 id="agent-features">Agent Features</h2>
+<p>Features from <a href="https://marshall-lab.github.io/titan-params-app/#/params#features-1"><code>params.features</code></a> that include an agent attribute (e.g. PrEP, incarceration) are implemented in standalone files that implement the interface from <code>features.BaseFeature</code>.  This allows for all of the logic related to a feature to be consolidated in one place and additionally makes incorporating a new feature into the model as simple as possible.</p>
+<p>To add a new feature:</p>
+<ul>
+<li>Add the param to <code>param.features</code></li>
+<li>Add a file to <code>features/</code> which creates a class that is a sub-class of <code>BaseFeature</code><ul>
+<li>Implement the methods of <code>BaseFeature</code> which are needed for this feature</li>
+<li>Not all methods are needed for all features (see below for details on the methods)</li>
+</ul>
+</li>
+<li>Re-export the feature from <code>features/__init__.py</code></li>
+<li>Add tests in <code>tests/features/</code></li>
+<li>Add it to the docs in <code>docs/api/features/</code> and to the nav in <code>mkdocs.yml</code></li>
+</ul>
+<p>The <code>TITAN</code>, <code>Population</code>, and <code>Agent</code> classes all use sub-classes of <code>BaseFeature</code> to initialize the object/call methods as appropriate.</p>
+<div class="doc doc-object doc-module">
+<div class="doc doc-contents first">
+<div class="doc doc-children">
+<div class="doc doc-object doc-class">
+<h3 class="doc doc-heading" id="titan.features.base_feature.BaseFeature">
+
+        <code>BaseFeature</code>
+
+
+      </h3>
+<div class="doc doc-contents ">
+<p>Interface class for an agent-oriented feature of the TITAN model.  It is intended to be
+inherited by feature classes to ensure that the expected methods/fields exist.</p>
+<p>The class takes advantage of both instance and class methods and attributes. The instance
+methods/attributes are used at the agent level, whereas the class methods/attributes are
+used at the population level.</p>
+<p>A class method can be called on an instance of an object, but it doesn't have access
+to that instance (e.g. agent.feature.add_agent has to be passed agent because it is a class
+method).</p>
+<div class="doc doc-children">
+<div class="doc doc-object doc-attribute">
+<h4 class="doc doc-heading" id="titan.features.base_feature.BaseFeature.name">
+
+        <code class="highlight">
+name: <span class="nb">str</span>        </code>
+
+
+      </h4>
+<div class="doc doc-contents ">
+<p>Name of feature in the params file.  Also used to name the attribute in Agent</p>
+</div>
+</div>
+<div class="doc doc-object doc-attribute">
+<h4 class="doc doc-heading" id="titan.features.base_feature.BaseFeature.stats">
+
+        <code class="highlight">
+stats: <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>        </code>
+
+
+      </h4>
+<div class="doc doc-contents ">
+<p>List of names of stats that come from this feature (e.g. numFeat)</p>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h4 class="doc doc-heading" id="titan.features.base_feature.BaseFeature.__init__">
+
+        <code class="highlight language-python">
+__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">)</span>        </code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+      </h4>
+<div class="doc doc-contents ">
+<p>Constructor for an instance of the feature.  This is called from within <code>Agent.__init__</code> and passes the agent to the feature to create a two way binding.  All features must have the attributes of <code>active</code> and <code>agent</code>.  By default <code>active</code> is false and <code>agent</code> is the passed agent.</p>
+<p>Called on all features whether or not param is enabled to make sure that references to other features within a feature do not cause errors (e.g. incar referring to prep, but prep isn't on).</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>agent</code></td>
+<td><code>agent.Agent</code></td>
+<td>
+<p>The agent this feature instance is attached to.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>titan/features/base_feature.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">:</span> <span class="s2">"agent.Agent"</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Constructor for an instance of the feature.  This is called from within `Agent.__init__` and passes the agent to the feature to create a two way binding.  All features must have the attributes of `active` and `agent`.  By default `active` is false and `agent` is the passed agent.</span>
+
+<span class="sd">    Called on all features whether or not param is enabled to make sure that references to other features within a feature do not cause errors (e.g. incar referring to prep, but prep isn't on).</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        agent: The agent this feature instance is attached to.</span>
+<span class="sd">    """</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">active</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">agent</span> <span class="o">=</span> <span class="n">agent</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h4 class="doc doc-heading" id="titan.features.base_feature.BaseFeature.add_agent">
+
+        <code class="highlight language-python">
+add_agent<span class="p">(</span><span class="n">agent</span><span class="p">)</span>        </code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-classmethod"><code>classmethod</code></small>
+  </span>
+
+      </h4>
+<div class="doc doc-contents ">
+<p>Add an agent to the class (not instance).  This can be useful if tracking population level statistics or groups, such as counts or newly active agents.</p>
+<p>This method is not called from anywhere in the model, but creates a cohesive api with <code>remove_agent</code>, which is called from <code>Population.remove_agent</code>.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>agent</code></td>
+<td><code>agent.Agent</code></td>
+<td>
+<p>the agent to add to the class attributes</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>titan/features/base_feature.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">add_agent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">agent</span><span class="p">:</span> <span class="s2">"agent.Agent"</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Add an agent to the class (not instance).  This can be useful if tracking population level statistics or groups, such as counts or newly active agents.</span>
+
+<span class="sd">    This method is not called from anywhere in the model, but creates a cohesive api with `remove_agent`, which is called from `Population.remove_agent`.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        agent: the agent to add to the class attributes</span>
+<span class="sd">    """</span>
+    <span class="k">pass</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h4 class="doc doc-heading" id="titan.features.base_feature.BaseFeature.get_acquisition_risk_multiplier">
+
+        <code class="highlight language-python">
+get_acquisition_risk_multiplier<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">interaction_type</span><span class="p">)</span>        </code>
+
+
+      </h4>
+<div class="doc doc-contents ">
+<p>Get a multiplier for how this feature affects acquisition of HIV for the given interaction_type.</p>
+<p>By default, returns 1.0</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>time</code></td>
+<td><code>int</code></td>
+<td>
+<p>the current model time step</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>interaction_type</code></td>
+<td><code>str</code></td>
+<td>
+<p>The type of interaction where the agent could acquire HIV (e.g. 'sex', 'injection' - from [params.classes.interaction_types])</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>titan/features/base_feature.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">get_acquisition_risk_multiplier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">interaction_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Get a multiplier for how this feature affects acquisition of HIV for the given interaction_type.</span>
+
+<span class="sd">    By default, returns 1.0</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        time: the current model time step</span>
+<span class="sd">        interaction_type: The type of interaction where the agent could acquire HIV (e.g. 'sex', 'injection' - from [params.classes.interaction_types])</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="mf">1.0</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h4 class="doc doc-heading" id="titan.features.base_feature.BaseFeature.get_transmission_risk_multiplier">
+
+        <code class="highlight language-python">
+get_transmission_risk_multiplier<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">interaction_type</span><span class="p">)</span>        </code>
+
+
+      </h4>
+<div class="doc doc-contents ">
+<p>Get a multiplier for how this feature affects transmission of HIV for the given interaction_type.</p>
+<p>By default, returns 1.0</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>time</code></td>
+<td><code>int</code></td>
+<td>
+<p>the current model time step</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>interaction_type</code></td>
+<td><code>str</code></td>
+<td>
+<p>The type of interaction where the agent could transmit HIV (e.g. 'sex', 'injection' - from [params.classes.interaction_types])</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>titan/features/base_feature.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">get_transmission_risk_multiplier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">interaction_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Get a multiplier for how this feature affects transmission of HIV for the given interaction_type.</span>
+
+<span class="sd">    By default, returns 1.0</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        time: the current model time step</span>
+<span class="sd">        interaction_type: The type of interaction where the agent could transmit HIV (e.g. 'sex', 'injection' - from [params.classes.interaction_types])</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="mf">1.0</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h4 class="doc doc-heading" id="titan.features.base_feature.BaseFeature.init_agent">
+
+        <code class="highlight language-python">
+init_agent<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span>        </code>
+
+
+      </h4>
+<div class="doc doc-contents ">
+<p>Initialize the agent for this feature during population initialization (<code>Population.create_agent</code>).  Called on only features that are enabled per the params.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pop</code></td>
+<td><code>population.Population</code></td>
+<td>
+<p>the population this agent is a part of</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>time</code></td>
+<td><code>int</code></td>
+<td>
+<p>the current time step</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>titan/features/base_feature.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">init_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pop</span><span class="p">:</span> <span class="s2">"population.Population"</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Initialize the agent for this feature during population initialization (`Population.create_agent`).  Called on only features that are enabled per the params.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        pop: the population this agent is a part of</span>
+<span class="sd">        time: the current time step</span>
+<span class="sd">    """</span>
+    <span class="k">pass</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h4 class="doc doc-heading" id="titan.features.base_feature.BaseFeature.init_class">
+
+        <code class="highlight language-python">
+init_class<span class="p">(</span><span class="n">params</span><span class="p">)</span>        </code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-classmethod"><code>classmethod</code></small>
+  </span>
+
+      </h4>
+<div class="doc doc-contents ">
+<p>Initialize any class level attributes (such as setting counters to zero). Called on every active feature on population initialization.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>params</code></td>
+<td><code></code></td>
+<td>
+<p>parameters for this population</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>titan/features/base_feature.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">init_class</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Initialize any class level attributes (such as setting counters to zero). Called on every active feature on population initialization.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        params: parameters for this population</span>
+<span class="sd">    """</span>
+    <span class="k">pass</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h4 class="doc doc-heading" id="titan.features.base_feature.BaseFeature.remove_agent">
+
+        <code class="highlight language-python">
+remove_agent<span class="p">(</span><span class="n">agent</span><span class="p">)</span>        </code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-classmethod"><code>classmethod</code></small>
+  </span>
+
+      </h4>
+<div class="doc doc-contents ">
+<p>Remove an agent from the class (not instance).  This can be useful if tracking population level statistics or groups, such as counts.</p>
+<p>This method is called from <code>Population.remove_agent</code>, but may also need to be called within the feature if an agent transitions from <code>active == True</code> to <code>active == False</code>.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>agent</code></td>
+<td><code>agent.Agent</code></td>
+<td>
+<p>the agent to remove from the class attributes</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>titan/features/base_feature.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">remove_agent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">agent</span><span class="p">:</span> <span class="s2">"agent.Agent"</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Remove an agent from the class (not instance).  This can be useful if tracking population level statistics or groups, such as counts.</span>
+
+<span class="sd">    This method is called from `Population.remove_agent`, but may also need to be called within the feature if an agent transitions from `active == True` to `active == False`.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        agent: the agent to remove from the class attributes</span>
+<span class="sd">    """</span>
+    <span class="k">pass</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h4 class="doc doc-heading" id="titan.features.base_feature.BaseFeature.set_stats">
+
+        <code class="highlight language-python">
+set_stats<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stats</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span>        </code>
+
+
+      </h4>
+<div class="doc doc-contents ">
+<p>Update the <code>stats</code> dictionary passed for this agent.  Called from <code>output.get_stats</code> for each enabled feature in the model.</p>
+<p>The stats to be updated must be declared in the class attribute <code>stats</code> to make sure the dictionary has the expected keys/counter value initialized.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stats</code></td>
+<td><code>Dict[str, int]</code></td>
+<td>
+<p>the dictionary to update with this agent's feature statistics</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>time</code></td>
+<td><code>int</code></td>
+<td>
+<p>the time step of the model when the stats are set</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>titan/features/base_feature.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">set_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stats</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">time</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Update the `stats` dictionary passed for this agent.  Called from `output.get_stats` for each enabled feature in the model.</span>
+
+<span class="sd">    The stats to be updated must be declared in the class attribute `stats` to make sure the dictionary has the expected keys/counter value initialized.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        stats: the dictionary to update with this agent's feature statistics</span>
+<span class="sd">        time: the time step of the model when the stats are set</span>
+<span class="sd">    """</span>
+    <span class="k">pass</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h4 class="doc doc-heading" id="titan.features.base_feature.BaseFeature.update_agent">
+
+        <code class="highlight language-python">
+update_agent<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>        </code>
+
+
+      </h4>
+<div class="doc doc-contents ">
+<p>Update the agent for this feature for a time step.  Called once per time step in <code>TITAN.update_all_agents</code>. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model</code></td>
+<td><code>model.TITAN</code></td>
+<td>
+<p>the instance of TITAN currently being run</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>titan/features/base_feature.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">update_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="s2">"model.TITAN"</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Update the agent for this feature for a time step.  Called once per time step in `TITAN.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        model: the instance of TITAN currently being run</span>
+<span class="sd">    """</span>
+    <span class="k">pass</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h4 class="doc doc-heading" id="titan.features.base_feature.BaseFeature.update_pop">
+
+        <code class="highlight language-python">
+update_pop<span class="p">(</span><span class="n">model</span><span class="p">)</span>        </code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-classmethod"><code>classmethod</code></small>
+  </span>
+
+      </h4>
+<div class="doc doc-contents ">
+<p>Update the feature for the entire population (class method).  This is useful for initializing class level trackers that need to be reset each time step, or if enabling a feature for agents needs to be evaluated within the context of the full population (limited slots, or similar).</p>
+<p>This is called in <code>TITAN.update_all_agents</code> before agent-level updates are made.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model</code></td>
+<td><code>model.TITAN</code></td>
+<td>
+<p>the instance of TITAN currently being run</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>titan/features/base_feature.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">update_pop</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="s2">"model.TITAN"</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Update the feature for the entire population (class method).  This is useful for initializing class level trackers that need to be reset each time step, or if enabling a feature for agents needs to be evaluated within the context of the full population (limited slots, or similar).</span>
+
+<span class="sd">    This is called in `TITAN.update_all_agents` before agent-level updates are made.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        model: the instance of TITAN currently being run</span>
+<span class="sd">    """</span>
+    <span class="k">pass</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../exposures/knowledge/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Knowledge
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="haart/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                HAART
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.0ac82a11.min.js"></script>
+      <script src="../../assets/javascripts/bundle.f81dfb4d.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: ['instant', 'tabs'],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.4ac00218.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

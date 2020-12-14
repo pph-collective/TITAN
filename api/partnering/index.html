@@ -1,0 +1,1314 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the TITAN model">
+      
+      
+      
+        <link rel="canonical" href="http://marshall-lab.github.io/TITAN/api/partnering/">
+      
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.7">
+    
+    
+      
+        <title>Partnering - TITAN</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.19753c6b.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.196e0c26.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#titan.partnering.get_mean_rel_duration" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-header-nav__button md-logo" aria-label="TITAN">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            TITAN
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Partnering
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    TITAN
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" >
+    <label class="md-nav__link" for="nav-2">
+      Getting Started
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon"></span>
+        Getting Started
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../getting_started/" class="md-nav__link">
+      Installation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../run_local/" class="md-nav__link">
+      Running locally
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../run_oscar/" class="md-nav__link">
+      Running on Oscar
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contributing/" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    <label class="md-nav__link" for="nav-3">
+      API Reference
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="API Reference" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon"></span>
+        API Reference
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../agent/" class="md-nav__link">
+      Agent
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../agent_set/" class="md-nav__link">
+      AgentSet
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-3" type="checkbox" id="nav-3-3" >
+    <label class="md-nav__link" for="nav-3-3">
+      Agent Exposures
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Agent Exposures" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-3">
+        <span class="md-nav__icon md-icon"></span>
+        Agent Exposures
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../exposures/" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../exposures/hiv/" class="md-nav__link">
+      HIV
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../exposures/knowledge/" class="md-nav__link">
+      Knowledge
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-4" type="checkbox" id="nav-3-4" >
+    <label class="md-nav__link" for="nav-3-4">
+      Agent Features
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Agent Features" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-4">
+        <span class="md-nav__icon md-icon"></span>
+        Agent Features
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../features/" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../features/haart/" class="md-nav__link">
+      HAART
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../features/high_risk/" class="md-nav__link">
+      High Risk
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../features/incar/" class="md-nav__link">
+      Incarceration
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../features/external_exposure/" class="md-nav__link">
+      External Exposure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../features/partner_tracing/" class="md-nav__link">
+      Partner Tracing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../features/prep/" class="md-nav__link">
+      PrEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../features/random_trial/" class="md-nav__link">
+      Random Trial
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../features/syringe_services/" class="md-nav__link">
+      Syringe Services
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../features/vaccine/" class="md-nav__link">
+      Vaccine
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-5" type="checkbox" id="nav-3-5" >
+    <label class="md-nav__link" for="nav-3-5">
+      Agent Interactions
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Agent Interactions" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-5">
+        <span class="md-nav__icon md-icon"></span>
+        Agent Interactions
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../interactions/" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../interactions/injection/" class="md-nav__link">
+      Injection
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../interactions/pca/" class="md-nav__link">
+      Peer Change Agent
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../interactions/sex/" class="md-nav__link">
+      Sex
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../location/" class="md-nav__link">
+      Location
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../model/" class="md-nav__link">
+      Model
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Partnering
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" class="md-nav__link md-nav__link--active">
+      Partnering
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#titan.partnering.get_mean_rel_duration" class="md-nav__link">
+    get_mean_rel_duration()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.partnering.get_partnership_duration" class="md-nav__link">
+    get_partnership_duration()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.partnering.select_partner" class="md-nav__link">
+    select_partner()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.partnering.sex_possible" class="md-nav__link">
+    sex_possible()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../population/" class="md-nav__link">
+      Population
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../relationship/" class="md-nav__link">
+      Relationship
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../reporting/" class="md-nav__link">
+      Reporting
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../utilities/" class="md-nav__link">
+      Utility Functions
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#titan.partnering.get_mean_rel_duration" class="md-nav__link">
+    get_mean_rel_duration()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.partnering.get_partnership_duration" class="md-nav__link">
+    get_partnership_duration()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.partnering.select_partner" class="md-nav__link">
+    select_partner()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.partnering.sex_possible" class="md-nav__link">
+    sex_possible()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>Partnering</h1>
+                
+                <div class="doc doc-object doc-module">
+<div class="doc doc-contents first">
+<div class="doc doc-children">
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="titan.partnering.get_mean_rel_duration">
+
+        <code class="highlight language-python">
+get_mean_rel_duration<span class="p">(</span><span class="n">params</span><span class="p">)</span>        </code>
+
+
+      </h3>
+<div class="doc doc-contents ">
+<p>Find the average partnership duration by bond type</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>params</code></td>
+<td><code>parse_params.ObjMap</code></td>
+<td>
+<p>The current model's parameters</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>titan/partnering.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">get_mean_rel_duration</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="s2">"parse_params.ObjMap"</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Find the average partnership duration by bond type</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        params: The current model's parameters</span>
+<span class="sd">    """</span>
+    <span class="n">mean_rel_duration</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">bond</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">partnership</span><span class="o">.</span><span class="n">duration</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">partnership</span><span class="o">.</span><span class="n">duration</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"bins"</span><span class="p">:</span>
+            <span class="n">weights</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">vals</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">dur_bins</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">partnership</span><span class="o">.</span><span class="n">duration</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span><span class="o">.</span><span class="n">bins</span>
+            <span class="k">for</span> <span class="n">bins</span> <span class="ow">in</span> <span class="n">dur_bins</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">bins</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">weights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dur_bins</span><span class="p">[</span><span class="n">bins</span><span class="p">]</span><span class="o">.</span><span class="n">prob</span> <span class="o">-</span> <span class="n">dur_bins</span><span class="p">[</span><span class="n">bins</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">prob</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">weights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dur_bins</span><span class="p">[</span><span class="n">bins</span><span class="p">]</span><span class="o">.</span><span class="n">prob</span><span class="p">)</span>
+                <span class="n">vals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">([</span><span class="n">dur_bins</span><span class="p">[</span><span class="n">bins</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="n">dur_bins</span><span class="p">[</span><span class="n">bins</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">]))</span>
+            <span class="n">mean_rel_duration</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mean_rel_duration</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">partnership</span><span class="o">.</span><span class="n">duration</span><span class="p">[</span>
+                <span class="n">bond</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">mean</span>
+        <span class="k">assert</span> <span class="n">mean_rel_duration</span><span class="p">[</span><span class="n">bond</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"All bonds must have a positive duration!"</span>
+
+    <span class="k">return</span> <span class="n">mean_rel_duration</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="titan.partnering.get_partnership_duration">
+
+        <code class="highlight language-python">
+get_partnership_duration<span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">,</span> <span class="n">bond_type</span><span class="p">)</span>        </code>
+
+
+      </h3>
+<div class="doc doc-contents ">
+<p>Get duration of a relationship drawn from bins or a distribution per the params [params.partnership.duration]</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>params</code></td>
+<td><code>parse_params.ObjMap</code></td>
+<td>
+<p>model parameters</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>rand_gen</code></td>
+<td><code></code></td>
+<td>
+<p>random number generator</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>bond_type</code></td>
+<td><code>str</code></td>
+<td>
+<p>type of bond for the relationship whose duration is being determined</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int</code></td>
+<td>
+<p>number of time steps the partnership should endure</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>titan/partnering.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">get_partnership_duration</span><span class="p">(</span>
+    <span class="n">params</span><span class="p">:</span> <span class="s2">"parse_params.ObjMap"</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">,</span> <span class="n">bond_type</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Get duration of a relationship drawn from bins or a distribution per the params [params.partnership.duration]</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        params: model parameters</span>
+<span class="sd">        rand_gen: random number generator</span>
+<span class="sd">        bond_type: type of bond for the relationship whose duration is being determined</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        number of time steps the partnership should endure</span>
+<span class="sd">    """</span>
+
+    <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">partnership</span><span class="o">.</span><span class="n">duration</span><span class="p">[</span><span class="n">bond_type</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"bins"</span><span class="p">:</span>
+        <span class="n">dur_info</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">partnership</span><span class="o">.</span><span class="n">duration</span><span class="p">[</span><span class="n">bond_type</span><span class="p">]</span><span class="o">.</span><span class="n">bins</span>
+
+        <span class="n">diceroll</span> <span class="o">=</span> <span class="n">rand_gen</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+        <span class="n">dur_bin</span> <span class="o">=</span> <span class="n">dur_info</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">diceroll</span> <span class="o">&lt;</span> <span class="n">dur_info</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">prob</span><span class="p">:</span>
+                <span class="n">dur_bin</span> <span class="o">=</span> <span class="n">dur_info</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">break</span>
+
+        <span class="n">duration</span> <span class="o">=</span> <span class="n">rand_gen</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">dur_bin</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="n">dur_bin</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">partnership</span><span class="o">.</span><span class="n">duration</span><span class="p">[</span><span class="n">bond_type</span><span class="p">]</span><span class="o">.</span><span class="n">distribution</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_dist</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">duration</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="titan.partnering.select_partner">
+
+        <code class="highlight language-python">
+select_partner<span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">partnerable_agents</span><span class="p">,</span> <span class="n">sex_partners</span><span class="p">,</span> <span class="n">pwid_agents</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">,</span> <span class="n">bond_type</span><span class="p">)</span>        </code>
+
+
+      </h3>
+<div class="doc doc-contents ">
+<p>Get a partner for the agent.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>agent</code></td>
+<td><code>agent.Agent</code></td>
+<td>
+<p>agent in need of a partner</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>partnerable_agents</code></td>
+<td><code>Set[agent.Agent]</code></td>
+<td>
+<p>agents that can be selected as a partner</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>sex_partners</code></td>
+<td><code>Dict</code></td>
+<td>
+<p>mapping from sex_type to agents in the population that can sleep with that sex_type</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>pwid_agents</code></td>
+<td><code>agent.AgentSet</code></td>
+<td>
+<p>agents with <code>drug_type==="Inj"</code></p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>params</code></td>
+<td><code>parse_params.ObjMap</code></td>
+<td>
+<p>model parameters</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>rand_gen</code></td>
+<td><code></code></td>
+<td>
+<p>random number generator</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>bond_type</code></td>
+<td><code>str</code></td>
+<td>
+<p>type of relationship that is being formed with the partner</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Optional[agent.Agent]</code></td>
+<td>
+<p>new partner or <code>None</code></p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>titan/partnering.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">select_partner</span><span class="p">(</span>
+    <span class="n">agent</span><span class="p">:</span> <span class="s2">"agent.Agent"</span><span class="p">,</span>
+    <span class="n">partnerable_agents</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="s2">"agent.Agent"</span><span class="p">],</span>
+    <span class="n">sex_partners</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">pwid_agents</span><span class="p">:</span> <span class="s2">"agent.AgentSet"</span><span class="p">,</span>
+    <span class="n">params</span><span class="p">:</span> <span class="s2">"parse_params.ObjMap"</span><span class="p">,</span>
+    <span class="n">rand_gen</span><span class="p">,</span>
+    <span class="n">bond_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">"agent.Agent"</span><span class="p">]:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Get a partner for the agent.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        agent : agent in need of a partner</span>
+<span class="sd">        partnerable_agents: agents that can be selected as a partner</span>
+<span class="sd">        sex_partners: mapping from sex_type to agents in the population that can sleep with that sex_type</span>
+<span class="sd">        pwid_agents: agents with `drug_type==="Inj"`</span>
+<span class="sd">        params: model parameters</span>
+<span class="sd">        rand_gen: random number generator</span>
+<span class="sd">        bond_type: type of relationship that is being formed with the partner</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        new partner or `None`</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="nf">assort</span><span class="p">(</span><span class="n">eligible_partners</span><span class="p">,</span> <span class="n">assort_params</span><span class="p">):</span>
+        <span class="n">partner_types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">assort_params</span><span class="o">.</span><span class="n">partner_values</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">partner_weights</span> <span class="o">=</span> <span class="p">[</span><span class="n">assort_params</span><span class="o">.</span><span class="n">partner_values</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">partner_types</span><span class="p">]</span>
+        <span class="n">partner_type</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_random_choice</span><span class="p">(</span>
+            <span class="n">partner_types</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">partner_weights</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">partner_type</span> <span class="o">==</span> <span class="s2">"__other__"</span><span class="p">:</span>
+            <span class="c1"># remove all the specified (not selected) values and remove those</span>
+            <span class="c1"># partners from the eligible set</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">partner_types</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">p</span> <span class="o">!=</span> <span class="s2">"__other__"</span><span class="p">:</span>
+                    <span class="n">eligible_partners</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="n">partner</span>
+                        <span class="k">for</span> <span class="n">partner</span> <span class="ow">in</span> <span class="n">eligible_partners</span>
+                        <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">partner</span><span class="p">,</span> <span class="n">assort_params</span><span class="o">.</span><span class="n">attribute</span><span class="p">))</span> <span class="o">!=</span> <span class="n">p</span>
+                    <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">eligible_partners</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">partner</span>
+                <span class="k">for</span> <span class="n">partner</span> <span class="ow">in</span> <span class="n">eligible_partners</span>
+                <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">partner</span><span class="p">,</span> <span class="n">assort_params</span><span class="o">.</span><span class="n">attribute</span><span class="p">))</span> <span class="o">==</span> <span class="n">partner_type</span>
+            <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">eligible_partners</span>
+
+    <span class="n">eligible</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">partnerable_agents</span><span class="p">)</span>
+    <span class="n">eligible</span> <span class="o">-=</span> <span class="n">agent</span><span class="o">.</span><span class="n">get_partners</span><span class="p">()</span>
+    <span class="n">eligible</span> <span class="o">-=</span> <span class="p">{</span><span class="n">agent</span><span class="p">}</span>
+
+    <span class="n">acts_allowed</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">bond_types</span><span class="p">[</span><span class="n">bond_type</span><span class="p">]</span><span class="o">.</span><span class="n">acts_allowed</span>
+
+    <span class="k">if</span> <span class="s2">"injection"</span> <span class="ow">in</span> <span class="n">acts_allowed</span><span class="p">:</span>
+        <span class="n">eligible</span> <span class="o">&amp;=</span> <span class="n">pwid_agents</span><span class="o">.</span><span class="n">members</span>
+
+    <span class="k">if</span> <span class="s2">"sex"</span> <span class="ow">in</span> <span class="n">acts_allowed</span><span class="p">:</span>
+        <span class="n">eligible</span> <span class="o">&amp;=</span> <span class="n">sex_partners</span><span class="p">[</span><span class="n">agent</span><span class="o">.</span><span class="n">sex_type</span><span class="p">]</span>
+
+    <span class="c1"># short circuit to avoid attempting to assort with no eligible partners</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">eligible</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">assort_mix</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">assort_def</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">assort_mix</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">assort_def</span><span class="o">.</span><span class="n">attribute</span><span class="p">)</span> <span class="o">==</span> <span class="n">assort_def</span><span class="o">.</span><span class="n">agent_value</span><span class="p">:</span>
+                <span class="n">eligible</span> <span class="o">=</span> <span class="n">assort</span><span class="p">(</span><span class="n">eligible</span><span class="p">,</span> <span class="n">assort_def</span><span class="p">)</span>
+
+    <span class="n">random_partner</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_random_choice</span><span class="p">(</span><span class="n">eligible</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">random_partner</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="titan.partnering.sex_possible">
+
+        <code class="highlight language-python">
+sex_possible<span class="p">(</span><span class="n">agent_sex_type</span><span class="p">,</span> <span class="n">partner_sex_type</span><span class="p">,</span> <span class="n">sex_types</span><span class="p">)</span>        </code>
+
+
+      </h3>
+<div class="doc doc-contents ">
+<p>Determine if sex is possible.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>agent_sex_type</code></td>
+<td><code>str</code></td>
+<td>
+<p>name of agent's sex type</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>partner_sex_type</code></td>
+<td><code>str</code></td>
+<td>
+<p>name of partner's sex type</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>sex_types</code></td>
+<td><code>parse_params.ObjMap</code></td>
+<td>
+<p>params defining in scope sex types</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bool</code></td>
+<td>
+<p>whether sex is possible between agents of these sex types</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>titan/partnering.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="nd">@utils</span><span class="o">.</span><span class="n">memo</span>
+<span class="k">def</span> <span class="nf">sex_possible</span><span class="p">(</span>
+    <span class="n">agent_sex_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">partner_sex_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sex_types</span><span class="p">:</span> <span class="s2">"parse_params.ObjMap"</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Determine if sex is possible.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        agent_sex_type: name of agent's sex type</span>
+<span class="sd">        partner_sex_type: name of partner's sex type</span>
+<span class="sd">        sex_types: params defining in scope sex types</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        whether sex is possible between agents of these sex types</span>
+<span class="sd">    """</span>
+
+    <span class="c1"># Check input</span>
+    <span class="k">if</span> <span class="n">agent_sex_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sex_types</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid agent_sex_type! </span><span class="si">{</span><span class="n">agent_sex_type</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">partner_sex_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sex_types</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid partner_sex_type! </span><span class="si">{</span><span class="n">partner_sex_type</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="n">agent_match</span> <span class="o">=</span> <span class="n">agent_sex_type</span> <span class="ow">in</span> <span class="n">sex_types</span><span class="p">[</span><span class="n">partner_sex_type</span><span class="p">]</span><span class="o">.</span><span class="n">sleeps_with</span>
+    <span class="n">partner_match</span> <span class="o">=</span> <span class="n">partner_sex_type</span> <span class="ow">in</span> <span class="n">sex_types</span><span class="p">[</span><span class="n">agent_sex_type</span><span class="p">]</span><span class="o">.</span><span class="n">sleeps_with</span>
+
+    <span class="k">return</span> <span class="n">agent_match</span> <span class="ow">and</span> <span class="n">partner_match</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../model/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Model
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../population/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Population
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.0ac82a11.min.js"></script>
+      <script src="../../assets/javascripts/bundle.f81dfb4d.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: ['instant', 'tabs'],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.4ac00218.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>
