@@ -67,6 +67,7 @@ def write(pop: Population, dir: str, compress: bool = True) -> str:
 
     extra_files = []
 
+    # write agent extras (features, exposures) to their own files
     def write_extra_class(extra_attrs, extra_type):
         for extra in extra_attrs:
             extra_obj = getattr(a, extra)

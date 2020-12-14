@@ -9,7 +9,7 @@ from titan.agent import Relationship
 @pytest.mark.unit
 def test_hiv_expose(make_model, make_agent):
     model = make_model()
-    model.run_random = FakeRandom(-0.1)  # forces conversion even if prob is 0
+    model.run_random = FakeRandom(-0.1)  # always less than param
     a = make_agent()
     p = make_agent()
     a.partners["Sex"] = set()
