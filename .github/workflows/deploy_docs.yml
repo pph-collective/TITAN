@@ -15,7 +15,7 @@ jobs:
           python-version: 3.7
 
       - name: Set up credentials
-        uses: oleksiyrudenko/gha-git-credentials@v1
+        uses: oleksiyrudenko/gha-git-credentials@v2
         with:
           token: '${{ secrets.GITHUB_TOKEN }}'
         
