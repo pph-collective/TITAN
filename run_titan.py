@@ -372,7 +372,9 @@ def main(
     tic = time_mod.time()
     wct = []  # wall clock times
 
-    with Pool(processes=NCORES) as pool:
+    with Pool(
+        processes=NCORES, maxtasksperchild=1
+    ) as pool:  # set max tasks/child to prevent processor drift
         results = [
             pool.apply_async(
                 single_run, (sweep_def, outfile_dir, params, save_pop, pop_path)
