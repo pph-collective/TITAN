@@ -57,8 +57,8 @@ class HAART(base_feature.BaseFeature):
             .drug_type[self.agent.drug_type]
         )
         if (
-            self.agent.hiv
-            and self.agent.hiv_dx
+            self.agent.hiv.active  # type: ignore[attr-defined]
+            and self.agent.hiv.dx  # type: ignore[attr-defined]
             and pop.pop_random.random() < agent_params.haart.init
         ):
             self.active = True
@@ -68,18 +68,18 @@ class HAART(base_feature.BaseFeature):
             if pop.pop_random.random() < haart_adh:
                 self.adherent = True
 
-    def update_agent(self, model: "model.HIVModel"):
+    def update_agent(self, model: "model.TITAN"):
         """
-        Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
+        Update the agent for this feature for a time step.  Called once per time step in `TITAN.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
 
         Account for HIV treatment through highly active antiretroviral therapy (HAART). HAART was implemented in 1996, hence, there is treatment only after 1996. HIV treatment assumes that the agent knows their HIV+ status (`dx` is True).
 
         args:
-            model: the instance of HIVModel currently being run
+            model: the instance of TITAN currently being run
         """
         if (
-            self.agent.hiv
-            and self.agent.hiv_dx
+            self.agent.hiv.active  # type: ignore[attr-defined]
+            and self.agent.hiv.dx  # type: ignore[attr-defined]
             and model.time >= model.params.hiv.start_time
         ):
             # Determine probability of HIV treatment
@@ -94,7 +94,7 @@ class HAART(base_feature.BaseFeature):
                 if self.agent.location.params.hiv.haart_cap:
                     # if HAART is based on cap instead of prob, determine number of
                     # HAART agents based on % of diagnosed agents
-                    num_dx_agents = model.pop.dx_counts[self.agent.race][
+                    num_dx_agents = self.agent.hiv.dx_counts[self.agent.race][  # type: ignore[attr-defined]
                         self.agent.sex_type
                     ]
                     num_haart_agents = self.counts[self.agent.race][self.agent.sex_type]
@@ -142,7 +142,7 @@ class HAART(base_feature.BaseFeature):
 
     def get_transmission_risk_multiplier(self, time: int, interaction_type: str):
         """
-        Get a multiplier for how haart reduces transmission risk based on interaction type and params.
+        Get a multiplier for how haart reduces hiv transmission risk based on interaction type and params.
 
         By default, returns 1.0
 
@@ -150,41 +150,32 @@ class HAART(base_feature.BaseFeature):
             time: the current model time step
             interaction_type: The type of interaction where the agent could transmit HIV (e.g. 'sex', 'injection' - from [params.classes.interaction_types])
         """
+        prob = 1.0
         if self.active:
-            prob = 1.0
             params = self.agent.location.params
+            adherence = "adherent" if self.adherent else "non_adherent"
             if interaction_type == "injection":
-                if self.adherent:
-                    prob = (
-                        params.partnership.injection.transmission.haart_scaling.adherent
-                    )
-                else:
-                    prob = (
-                        params.partnership.injection.transmission.haart_scaling.adherent
-                    )
+                prob = params.partnership.injection.transmission.haart_scaling[
+                    adherence
+                ]
             elif interaction_type == "sex":
-                if self.adherent:
-                    prob = params.partnership.sex.haart_scaling[
-                        self.agent.sex_type
-                    ].adherent
-                else:
-                    prob = params.partnership.sex.haart_scaling[
-                        self.agent.sex_type
-                    ].non_adherent
+                prob = params.partnership.sex.haart_scaling[self.agent.sex_type][
+                    adherence
+                ]
 
             # Tuning parameter for ART efficiency
-            return prob * params.calibration.haart.transmission
+            prob *= params.calibration.haart.transmission
 
-        return 1.0
+        return prob
 
     # =========== HELPER METHODS ============
 
-    def initiate(self, model: "model.HIVModel"):
+    def initiate(self, model: "model.TITAN"):
         """
         Initiate an agent with HAART and add them to the population.
 
         args:
-            model: the instance of HIVModel currently being run
+            model: the instance of TITAN currently being run
         """
         self.adherent = (
             model.run_random.random()

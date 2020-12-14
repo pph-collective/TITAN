@@ -70,20 +70,21 @@ demographics:
                 prob: 0.1
               discontinue: 0.1
           None: *npwid_drug_type
-        incar:
+        incar: &base_incar
           init: 0.02
           prob: 0.02
         safe_sex: 0.1
-        injection:
+        injection: &base_injection
           unsafe_prob: 0.1
-        prep:
+          num_acts: 10
+        prep: &base_prep
           adherence: 0.1
           discontinue: 0.1
           target: 0.3
           init: 0.3
-        high_risk:
+        high_risk: &base_high_risk
           init: 0.1
-        vaccine:
+        vaccine: &base_vaccine
           init: 0.1
           prob: 0.1
           booster:
@@ -92,224 +93,120 @@ demographics:
       MSM:
         ppl: 0.3
         drug_type: *base_drug_type
-        incar:
-          init: 0.02
-          prob: 0.02
+        incar: *base_incar
         safe_sex: 0.1
-        injection:
-          unsafe_prob: 0.1
+        injection: *base_injection
         prep:
           adherence: 0.1
           discontinue: 0.1
           target: 0.3
-          init: 0.3
-        high_risk:
-          init: 0.1
-        vaccine:
-          init: 0.1
-          prob: 0.1
-          booster:
-            interval: 12
-            prob: 0.1
+          init: 0.5
+        high_risk: *base_high_risk
+        vaccine: *base_vaccine
       HM:
         ppl: 0.3
         drug_type: *base_drug_type
-        incar:
-          init: 0.02
-          prob: 0.02
+        incar: *base_incar
         safe_sex: 0.1
-        injection:
-          unsafe_prob: 0.1
-        prep:
-          adherence: 0.1
-          discontinue: 0.1
-          target: 0.3
-          init: 0.3
-        high_risk:
-          init: 0.1
-        vaccine:
-          init: 0.1
-          prob: 0.1
-          booster:
-            interval: 12
-            prob: 0.1
+        injection: *base_injection
+        prep: *base_prep
+        high_risk: *base_high_risk
+        vaccine: *base_vaccine
       HF:
         ppl: 0.2
         drug_type: *base_drug_type
-        incar:
-          init: 0.02
-          prob: 0.02
+        incar: *base_incar
         safe_sex: 0.1
-        injection:
-          unsafe_prob: 0.1
-        prep:
-          adherence: 0.1
-          discontinue: 0.1
-          target: 0.3
-          init: 0.3
-        high_risk:
-          init: 0.1
-        vaccine:
-          init: 0.1
-          prob: 0.1
-          booster:
-            interval: 12
-            prob: 0.1
+        injection: *base_injection
+        prep: *base_prep
+        high_risk: *base_high_risk
+        vaccine: *base_vaccine
       WSW:
         ppl: 0.1
         drug_type: *base_drug_type
-        incar:
-          init: 0.02
-          prob: 0.02
+        incar: *base_incar
         safe_sex: 0.1
-        injection:
-          unsafe_prob: 0.1
-        prep:
-          adherence: 0.1
-          discontinue: 0.1
-          target: 0.3
-          init: 0.3
-        high_risk:
-          init: 0.1
-        vaccine:
-          init: 0.1
-          prob: 0.1
-          booster:
-            interval: 12
-            prob: 0.1
+        injection: *base_injection
+        prep: *base_prep
+        high_risk: *base_high_risk
+        vaccine: *base_vaccine
   white:
     ppl: 0.4
     sex_type:
       MSM:
         ppl: 0.3
         drug_type: *base_drug_type
-        incar:
-          init: 0.02
-          prob: 0.02
+        incar: *base_incar
         safe_sex: 0.1
-        injection:
-          unsafe_prob: 0.1
-        prep:
-          adherence: 0.1
-          discontinue: 0.1
-          target: 0.3
-          init: 0.3
-        high_risk:
-          init: 0.1
-        vaccine:
-          init: 0.1
-          prob: 0.1
-          booster:
-            interval: 12
-            prob: 0.1
+        injection: *base_injection
+        prep: *base_prep
+        high_risk: *base_high_risk
+        vaccine: *base_vaccine
       HM:
         ppl: 0.3
         drug_type: *base_drug_type
-        incar:
-          init: 0.02
-          prob: 0.02
+        incar: *base_incar
         safe_sex: 0.1
-        injection:
-          unsafe_prob: 0.1
-        prep:
-          adherence: 0.1
-          discontinue: 0.1
-          target: 0.3
-          init: 0.3
-        high_risk:
-          init: 0.1
-        vaccine:
-          init: 0.1
-          prob: 0.1
-          booster:
-            interval: 12
-            prob: 0.1
+        injection: *base_injection
+        prep: *base_prep
+        high_risk: *base_high_risk
+        vaccine: *base_vaccine
       HF:
         ppl: 0.2
         drug_type: *base_drug_type
-        incar:
-          init: 0.02
-          prob: 0.02
+        incar: *base_incar
         safe_sex: 0.1
-        injection:
-          unsafe_prob: 0.1
-        prep:
-          adherence: 0.1
-          discontinue: 0.1
-          target: 0.3
-          init: 0.3
-        high_risk:
-          init: 0.1
-        vaccine:
-          init: 0.1
-          prob: 0.1
-          booster:
-            interval: 12
-            prob: 0.1
+        injection: *base_injection
+        prep: *base_prep
+        high_risk: *base_high_risk
+        vaccine: *base_vaccine
       WSW:
         ppl: 0.1
         drug_type: *base_drug_type
-        incar:
-          init: 0.02
-          prob: 0.02
+        incar: *base_incar
         safe_sex: 0.1
         injection:
           unsafe_prob: 0.
-        prep:
-          adherence: 0.1
-          discontinue: 0.1
-          target: 0.3
-          init: 0.3
-        high_risk:
-          init: 0.1
-        vaccine:
-          init: 0.1
-          prob: 0.1
-          booster:
-            interval: 12
-            prob: 0.1
+          num_acts: 10
+        prep: *base_prep
+        high_risk: *base_high_risk
+        vaccine: *base_vaccine
       MTF:
         ppl: 0.1
         drug_type: *base_drug_type
-        incar:
-          init: 0.02
-          prob: 0.02
+        incar: *base_incar
         safe_sex: 0.1
         injection:
           unsafe_prob: 0.
-        prep:
-          adherence: 0.1
-          discontinue: 0.1
-          target: 0.3
-          init: 0.3
-        high_risk:
-          init: 0.1
-        vaccine:
-          init: 0.1
-          prob: 0.1
-          booster:
-            interval: 12
-            prob: 0.1
+          num_acts: 10
+        prep: *base_prep
+        high_risk: *base_high_risk
+        vaccine: *base_vaccine
 
 partnership:
   pca:
     frequency:
-      Sex:
-        1:
-          prob: 1.0
-          min: 1.0
-          max: 1.0
-      SexInj:
-        1:
-          prob: 1.0
-          min: 1.0
-          max: 1.0
-      Inj:
-        1:
-          prob: 1.0
-          min: 1.0
-          max: 1.0
+      Sex: &bin_always_one
+        bins:
+          1:
+            prob: 1.0
+            min: 1.0
+            max: 1.0
+      SexInj: *bin_always_one
+      Inj: *bin_always_one
   sex:
+    frequency:
+      Sex:
+        type: bins
+        bins:
+          1:
+            prob: 0.5
+            min: 0
+            max: 1
+          2:
+            prob: 1.0
+            min: 37
+            max: 38
     acquisition:
       HM:
         versatile: 0.0004
@@ -339,7 +236,7 @@ partnership:
             value: 3
             value_type: int
         mean: 1
-    SexInj:
+    SexInj: &poisson_one
       type: distribution
       distribution:
         dist_type: poisson
@@ -348,26 +245,17 @@ partnership:
             value: 1
             value_type: float
         mean: 1
-    Social:
-      type: distribution
-      distribution:
-        dist_type: poisson
-        vars:
-          1:
-            value: 1
-            value_type: float
-        mean: 1
+    Social: *poisson_one
 
 prep:
   target: 0.1
+  init: 0.7
+  target_as_prob: false
 
-pca:
-  awareness:
-    prob: 1.0
+knowledge:
+  prob: 0.3
   opinion:
-    transmission: 0.5
-  knowledge:
-    transmission: 0.3
+    prob: 0.5
 
 syringe_services:
   timeline:
@@ -389,6 +277,11 @@ outputs:
     - locations
     - races
     - sex_types
+
+exposures:
+  hiv: true
+  knowledge: true
+
 features:
   incar: true
   prep: true
@@ -400,13 +293,9 @@ features:
   assort_mix: false
   vaccine: true
   partner_tracing: true
-  msmw: true
+  external_exposure: true
   syringe_services: true
   timeline_scaling: true
-
-prep:
-  target: 0.3
-  init: 0.3
 
 model:
   seed:
@@ -420,10 +309,9 @@ model:
 location:
   scaling:
     world:
-      demographics|white|sex_type|WSW|drug_type|None|hiv|aids|init:
+      demographics|white|sex_type|WSW|drug_type|NonInj|hiv|aids|init:
         field: override
         override: 1
 
-msmw:
-  hiv:
-    prob: 1.0
+external_exposure:
+  convert_prob: 1.0

@@ -66,7 +66,7 @@ partnership:
           description: "scalar for HIV transmission for agents on HAART but non-adherent"
           type: float
         adherent:
-          default: 0.0
+          default: 0.03
           min: 0.0
           max: 1.0
           description: "Scalar for HIV transmission for agents on HAART and adherent"

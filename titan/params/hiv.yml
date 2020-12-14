@@ -46,7 +46,7 @@ hiv:
         max: 1.
   max_init_time:
     default: 42
-    description: On creation, agents are randomly assigned an hiv_time, this is the maximum time
+    description: On creation, agents are randomly assigned an hiv.time, this is the maximum time
     type: int
     min: 2
   haart_cap:

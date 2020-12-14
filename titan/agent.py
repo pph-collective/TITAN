@@ -6,6 +6,7 @@ from typing import Dict, Set, Optional, Iterator, Iterable
 from .utils import safe_divide, safe_dist
 from .location import Location
 from . import features
+from . import exposures
 
 
 class Agent:
@@ -63,14 +64,10 @@ class Agent:
         self.mean_num_partners: Dict[str, int] = {}
         self.target_partners: Dict[str, int] = {}
 
-        # agent STI params
-        self.hiv = False
-        self.hiv_time: Optional[int] = None
-        self.hiv_dx = False
-        self.hiv_dx_time: Optional[int] = None
-        self.aids = False
-        self.partner_traced = False
-        self.trace_time = 0
+        # agent exposures params
+        # model features
+        for exposure in exposures.BaseExposure.__subclasses__():
+            setattr(self, exposure.name, exposure(self))
 
         # model features
         for feature in features.BaseFeature.__subclasses__():
@@ -84,8 +81,8 @@ class Agent:
             String formatted tab-deliminated agent properties
         """
         return (
-            f"\t{self.id}\t{self.age}\t{self.sex_type}\t{self.drug_type}\t"
-            f"{self.race}\t{self.hiv}"
+            f"\t{self.id}\t{self.age}\t{self.sex_type}\t{self.drug_type}\t"  # type: ignore[attr-defined]
+            f"{self.race}\t{self.hiv.active}"
         )
 
     def __repr__(self) -> str:
@@ -122,24 +119,6 @@ class Agent:
             whether an agent has at least one partner
         """
         return any(self.iter_partners())
-
-    def get_acute_status(self, time: int) -> bool:
-        """
-        Get acute status of agent at time
-
-        args:
-            time: The current time step
-
-        returns:
-            whether an agent is acute
-        """
-        if self.hiv and self.hiv_time is not None:
-            hiv_duration = time - self.hiv_time
-
-            if self.location.params.hiv.acute.duration >= hiv_duration >= 0:
-                return True
-
-        return False
 
     def is_msm(self) -> bool:
         """
@@ -232,12 +211,10 @@ class Relationship:
             self.id = self.next_rel_id
 
         self.update_id_counter(self.id)
-        # TODO MAKE THIS INCREMENT WITH passed IDs
 
         # Relationship properties
         self.duration = duration
         self.total_duration = duration
-        self.total_sex_acts = 0
         self.bond_type = bond_type
 
         self.bond()

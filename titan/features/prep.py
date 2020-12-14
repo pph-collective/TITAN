@@ -7,6 +7,7 @@ from .. import agent
 from .. import population
 from .. import model
 from ..parse_params import ObjMap
+from .. import exposures
 
 
 class Prep(base_feature.BaseFeature):
@@ -67,17 +68,17 @@ class Prep(base_feature.BaseFeature):
             elif pop.pop_random.random() < params.prep.init:
                 self.enroll(pop.pop_random, time)
 
-    def update_agent(self, model: "model.HIVModel"):
+    def update_agent(self, model: "model.TITAN"):
         """
-        Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
+        Update the agent for this feature for a time step.  Called once per time step in `TITAN.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
 
         If the agent is not hiv and time is at least the prep start time, if the agent is already on PrEP update their PrEP attributes, if the agent isn't on PrEP and is eleigible, initiate PrEP.
 
         args:
-            model: the instance of HIVModel currently being run
+            model: the instance of TITAN currently being run
         """
         if (
-            not self.agent.hiv
+            not self.agent.hiv.active  # type: ignore[attr-defined]
             and model.time >= self.agent.location.params.prep.start_time
         ):
             if self.active:
@@ -135,10 +136,8 @@ class Prep(base_feature.BaseFeature):
         if self.active and self.last_dose_time is not None:
             params = self.agent.location.params
             if self.type == "Oral":
-                if self.adherent:
-                    return 1.0 - params.prep.efficacy.adherent
-                else:
-                    return 1.0 - params.prep.efficacy.non_adherent
+                adherence = "adherent" if self.adherent else "non_adherent"
+                return 1.0 - params.prep.efficacy[adherence]
             elif self.type == "Inj":
                 annualized_last_dose_time = (
                     time - self.last_dose_time
@@ -147,22 +146,22 @@ class Prep(base_feature.BaseFeature):
                 load = params.prep.peak_load * (
                     (0.5) ** (annualized_last_dose_time / annualized_half_life)
                 )
-                return -1.0 * np.exp(-5.528636721 * load)
+                return np.exp(-5.528636721 * load)
 
         return 1.0
 
     # =============== HELPER METHODS ===================
 
-    def initiate(self, model: "model.HIVModel", force: bool = False):
+    def initiate(self, model: "model.TITAN", force: bool = False):
         """
         Place agents onto PrEP treatment. PrEP treatment assumes that the agent knows their HIV status is negative.
 
         args:
-            model : instance of HIVModel being run
+            model : instance of TITAN being run
             force : whether to force the agent to enroll instead of using the appropriate algorithm per the prep params
         """
         # Prep only valid for agents not on prep and are HIV negative
-        if self.active or self.agent.hiv:
+        if self.active or self.agent.hiv.active:  # type: ignore[attr-defined]
             return
 
         params = self.agent.location.params
@@ -184,7 +183,7 @@ class Prep(base_feature.BaseFeature):
         else:
             if "Racial" in params.prep.target_model:
                 num_prep_agents = self.counts[self.agent.race]
-                all_hiv_agents = model.pop.hiv_agents.members
+                all_hiv_agents = exposures.HIV.agents
                 all_race = {
                     a for a in model.pop.all_agents if a.race == self.agent.race
                 }
@@ -196,10 +195,7 @@ class Prep(base_feature.BaseFeature):
             else:
                 num_prep_agents = sum(self.counts.values())
                 target_prep = int(
-                    (
-                        model.pop.all_agents.num_members()
-                        - model.pop.hiv_agents.num_members()
-                    )
+                    (model.pop.all_agents.num_members() - len(exposures.HIV.agents))
                     * params.prep.target
                 )
 
@@ -237,12 +233,12 @@ class Prep(base_feature.BaseFeature):
 
         self.add_agent(self.agent)
 
-    def progress(self, model: "model.HIVModel", force: bool = False):
+    def progress(self, model: "model.TITAN", force: bool = False):
         """
         Update agent's PrEP status and discontinue stochastically or if `force` is True
 
         args:
-            model: instance of the HIVModel being run
+            model: instance of the TITAN being run
             force: whether to force discontinuation of PrEP
         """
         if force:
@@ -288,7 +284,7 @@ class Prep(base_feature.BaseFeature):
             whether the agent is eligible
         """
         params = self.agent.location.params
-        if self.agent.hiv or time < params.prep.start_time:
+        if self.agent.hiv.active or time < params.prep.start_time:  # type: ignore[attr-defined]
             return False
 
         target_model = params.prep.target_model
@@ -346,7 +342,7 @@ class Prep(base_feature.BaseFeature):
         ongoing_duration = self.agent.location.params.partnership.ongoing_duration
         for rel in self.agent.relationships:
             partner = rel.get_partner(self.agent)
-            if rel.duration > ongoing_duration and partner.hiv_dx:
+            if rel.duration > ongoing_duration and partner.hiv.dx:  # type: ignore[attr-defined]
                 return True
 
             if partner.drug_type == "Inj" or partner.is_msm():

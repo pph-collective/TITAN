@@ -1,4 +1,3 @@
-# Imports
 import random
 from typing import Dict, List, Optional
 from copy import copy
@@ -7,19 +6,14 @@ import os
 import numpy as np  # type: ignore
 import nanoid  # type: ignore
 
-
 from . import agent as ag
-from . import population
-from .network import NetworkGraphUtils
 from . import output as ao
 from . import probabilities as prob
-from . import utils
 from .parse_params import ObjMap
-from . import features
-from . import interactions
+from . import exposures, features, interactions, population, utils
 
 
-class HIVModel:
+class TITAN:
     def __repr__(self):
         res = "\n"
         res += f"Seed: {self.run_seed}\n"
@@ -34,8 +28,7 @@ class HIVModel:
         pop: Optional["population.Population"] = None,
     ):
         """
-        This is the core class used to simulate
-            the spread of HIV and drug use in one geography.
+        This is the core class used to simulate the spread of exposures through a relationship based network.
 
         args:
             params: the parameter object for this model
@@ -55,12 +48,6 @@ class HIVModel:
             print("\tUsing provided population")
             self.pop = pop
 
-        self.network_utils: Optional[NetworkGraphUtils]
-        if params.model.network.enable:
-            self.network_utils = NetworkGraphUtils(self.pop.graph)
-        else:
-            self.network_utils = None
-
         self.time = -1 * self.params.model.time.burn_steps  # burn is negative time
         self.id = nanoid.generate(size=8)
 
@@ -68,6 +55,13 @@ class HIVModel:
             feature
             for feature in features.BaseFeature.__subclasses__()
             if self.params.features[feature.name]
+        ]
+
+        # set up the in-scope exposures
+        self.exposures = [
+            exposure
+            for exposure in exposures.BaseExposure.__subclasses__()
+            if self.params.exposures[exposure.name]
         ]
 
         self.interactions = {
@@ -109,16 +103,7 @@ class HIVModel:
             self.time % self.params.outputs.print_frequency == 0
             and self.params.model.network.enable
         ):
-            assert (
-                self.network_utils is not None
-            ), "Graph must be enabled to print network reports"
-
             network_outdir = os.path.join(outdir, "network")
-            if self.params.outputs.network.draw_figures:
-                self.network_utils.visualize_network(
-                    network_outdir, curtime=self.time, label=f"{self.id}"
-                )
-
             if self.params.outputs.network.calc_component_stats:
                 ao.print_components(
                     self.id,
@@ -131,13 +116,13 @@ class HIVModel:
                 )
 
             if self.params.outputs.network.calc_network_stats:
-                self.network_utils.write_network_stats(
-                    network_outdir, self.id, self.time
+                ao.write_network_stats(
+                    self.pop.graph, network_outdir, self.id, self.time
                 )
 
             if self.params.outputs.network.edge_list:
-                self.network_utils.write_graph_edgelist(
-                    network_outdir, self.id, self.time
+                ao.write_graph_edgelist(
+                    self.pop.graph, network_outdir, self.id, self.time
                 )
 
     def reset_trackers(self):
@@ -159,6 +144,7 @@ class HIVModel:
             self.pop.all_agents,
             self.deaths,
             self.params,
+            self.exposures,
             self.features,
             self.time,
         )
@@ -195,7 +181,7 @@ class HIVModel:
         print(
             "\tSTARTING HIV count:{}\tTotal Incarcerated:{}\tHR+:{}\t"
             "PrEP:{}".format(
-                self.pop.hiv_agents.num_members(),
+                len(exposures.HIV.agents),
                 sum([1 for a in self.pop.all_agents if a.incar.active]),  # type: ignore[attr-defined]
                 sum([1 for a in self.pop.all_agents if a.high_risk.active]),  # type: ignore[attr-defined]
                 sum([1 for a in self.pop.all_agents if a.prep.active]),  # type: ignore[attr-defined]
@@ -210,12 +196,13 @@ class HIVModel:
             self.pop.all_agents,
             self.deaths,
             self.params,
+            self.exposures,
             self.features,
             self.time,
         )
         self.print_stats(stats, outdir)
 
-        print(("Number of relationships: {}".format(len(self.pop.relationships))))
+        print(f"Number of relationships: {len(self.pop.relationships)}")
         self.pop.all_agents.print_subsets()
 
     def update_all_agents(self):
@@ -228,7 +215,7 @@ class HIVModel:
         4. Update features at the population level
         5. Update each agent's status for:
             * age
-            * hiv
+            * all exposures
             * all features (agent level)
         6. End relationships with no remaining duration
         7. Agent death/replacement
@@ -248,7 +235,6 @@ class HIVModel:
         for rel in self.pop.relationships:
             self.agents_interact(rel)
 
-        # TODO add check for whether feature is on somehow
         for feature in self.features:
             feature.update_pop(self)
 
@@ -260,11 +246,9 @@ class HIVModel:
             ):
                 agent.age += 1
 
-            if agent.hiv:
-                # If HIV hasn't started, ignore
-                if self.time >= self.params.hiv.start_time:
-                    self.diagnose_hiv(agent)
-                    self.progress_to_aids(agent)
+            for exposure in self.exposures:
+                agent_feature = getattr(agent, exposure.name)
+                agent_feature.update_agent(self)
 
             for feature in self.features:
                 agent_feature = getattr(agent, feature.name)
@@ -301,9 +285,11 @@ class HIVModel:
 
         agent_zero = utils.safe_random_choice(zero_eligible, self.run_random)
         if agent_zero:  # if eligible agent, make agent 0
-            self.hiv_convert(agent_zero)
+            zero_attr = getattr(agent_zero, self.params.agent_zero.exposure)
+            zero_attr.convert(self)
         elif self.params.agent_zero.fallback and max_agent is not None:
-            self.hiv_convert(max_agent)
+            zero_attr = getattr(max_agent, self.params.agent_zero.exposure)
+            zero_attr.convert(self)
         else:
             raise ValueError("No agent zero!")
 
@@ -332,7 +318,7 @@ class HIVModel:
                         print(f"timeline un-scaling - {param}")
                         utils.scale_param(params, param, 1 / defn.scalar)
 
-    def agents_interact(self, rel: "ag.Relationship") -> bool:
+    def agents_interact(self, rel: "ag.Relationship"):
         """
         Let an agent interact with a partner.
 
@@ -344,188 +330,22 @@ class HIVModel:
 
         args:
             rel : The relationship that the agents interact in
-
-        returns:
-            whether the agents interacted
         """
         interaction_types = self.params.classes.bond_types[rel.bond_type].acts_allowed
         # If either agent is incarcerated, skip their interaction
         if rel.agent1.incar.active or rel.agent2.incar.active:  # type: ignore[attr-defined]
-            return False
+            return
 
-        agents_interacted = False
         for interaction_type in interaction_types:
             interaction = self.interactions[interaction_type]
-            agents_interacted = interaction.interact(self, rel) or agents_interacted
-
-        return agents_interacted
-
-    def get_transmission_probability(self, interaction: str, agent, partner) -> float:
-        """
-        Determines the probability of a transmission event based on
-            interaction type. For sex acts, transmission probability is a
-            function of the acquisition probability of the HIV- agent's sex role
-            and the HIV+ agent's haart adherence, acute status, and dx risk reduction
-
-        args:
-            interaction : "injection" or "sex"
-            agent: HIV+ Agent
-            partner: HIV- Agent
-
-        returns:
-            probability of transmission from agent to partner
-        """
-        # Logic for if needle or sex type interaction
-        p: float
-        assert interaction in ("injection", "sex"), (
-            f"Invalid interaction type {interaction}. Only sex and injection acts "
-            f"supported. "
-        )
-
-        # get baseline probabilities
-        if interaction == "injection":
-            p = self.params.partnership.injection.transmission.base
-        elif interaction == "sex":
-            agent_sex_role = agent.sex_role
-            partner_sex_role = partner.sex_role
-
-            # get partner's sex role during acts
-            if partner_sex_role == "versatile":  # versatile partner takes
-                # "opposite" position of agent
-                if agent_sex_role == "insertive":
-                    partner_sex_role = "receptive"
-                elif agent_sex_role == "receptive":
-                    partner_sex_role = "insertive"
-                else:
-                    partner_sex_role = "versatile"  # if both versatile, can switch
-                    # between receptive and insertive by act
-
-            # get probability of sex acquisition given HIV- partner's position
-            p = partner.location.params.partnership.sex.acquisition[partner.sex_type][
-                partner_sex_role
-            ]
-
-        # feature specific risk adjustment
-        for feature in self.features:
-            agent_feature = getattr(agent, feature.name)
-            p *= agent_feature.get_transmission_risk_multiplier(self.time, interaction)
-
-            partner_feature = getattr(partner, feature.name)
-            p *= partner_feature.get_acquisition_risk_multiplier(self.time, interaction)
-
-        # Scaling parameter for acute HIV infections
-        if agent.get_acute_status(self.time):
-            p *= agent.location.params.hiv.acute.infectivity
-
-        # Scaling parameter for positively identified HIV agents
-        if agent.hiv_dx:
-            p *= 1 - agent.location.params.hiv.dx.risk_reduction[interaction]
-
-        # Racial calibration parameter to attain proper race incidence disparity
-        p *= partner.location.params.demographics[partner.race].hiv.transmission
-
-        # Scaling parameter for per act transmission.
-        p *= self.calibration.acquisition
-
-        return p
-
-    def hiv_convert(self, agent: "ag.Agent"):
-        """
-        Agent becomes HIV agent. Update all appropriate list and dictionaries.
-
-        args:
-            agent: The agent being converted
-        """
-        if not agent.hiv:
-            agent.hiv = True
-            agent.hiv_time = self.time
-            agent.vaccine.active = False  # type: ignore[attr-defined]
-            self.pop.hiv_agents.add_agent(agent)
-
-        if agent.prep.active:  # type: ignore[attr-defined]
-            agent.prep.progress(self, force=True)  # type: ignore[attr-defined]
-
-    def diagnose_hiv(self, agent: "ag.Agent"):
-        """
-        Stochastically test the agent for HIV. If tested, mark the agent as diagnosed and trace their partners (if partner tracing enabled).
-
-        args:
-            agent: HIV positive agent to diagnose
-        """
-        sex_type = agent.sex_type
-        race_type = agent.race
-        diagnosed = agent.hiv_dx
-        partner_tracing = agent.location.params.partner_tracing
-
-        def diagnose(
-            agent,
-        ):
-            # agent's location's params used throughout as that is the agent who
-            # would be interacting with the service
-            agent.hiv_dx = True
-            agent.hiv_dx_time = self.time
-            self.pop.dx_counts[agent.race][agent.sex_type] += 1
-            if (
-                self.params.features.partner_tracing
-                and partner_tracing.start_time <= self.time < partner_tracing.stop_time
-            ):
-                # Determine if each partner is found via partner tracing
-                for ptnr in agent.get_partners(partner_tracing.bond_type):
-                    if (
-                        not ptnr.hiv_dx
-                        and self.run_random.random() < partner_tracing.prob
-                    ):
-                        ptnr.partner_traced = True
-                        ptnr.trace_time = self.time
-
-        if not diagnosed:
-            test_prob = (
-                agent.location.params.demographics[race_type]
-                .sex_type[sex_type]
-                .drug_type[agent.drug_type]
-                .hiv.dx.prob
-            )
-
-            # Rescale based on calibration param
-            test_prob *= self.calibration.test_frequency
-
-            if self.run_random.random() < test_prob:
-                diagnose(agent)
-            elif (
-                agent.partner_traced
-                and self.run_random.random() < partner_tracing.hiv.dx
-                and self.time > agent.trace_time
-            ):
-                diagnose(agent)
-        if self.time >= agent.trace_time + partner_tracing.trace_duration:
-            # agents can only be traced during a specified period after their partner is
-            # diagnosed. If past this time, remove ability to trace.
-            agent.partner_traced = False
-
-    def progress_to_aids(self, agent: "ag.Agent"):
-        """
-        Model the progression of HIV agents to AIDS agents
-        """
-        # only valid for HIV agents
-        assert agent.hiv
-        p = 1
-        if agent.haart.active:  # type: ignore[attr-defined]
-            if agent.haart.adherent:  # type: ignore[attr-defined]
-                p = agent.location.params.hiv.aids.haart_scale.adherent
-            else:
-                p = agent.location.params.hiv.aids.haart_scale.non_adherent
-
-        if self.run_random.random() < p * agent.location.params.hiv.aids.prob:
-            agent.aids = True
+            interaction.interact(self, rel)
 
     def die_and_replace(self):
-
         """
         Let agents die and replace the dead agent with a new agent randomly.
         """
         # die stage
         for agent in self.pop.all_agents:
-
             # agent incarcerated, don't evaluate for death
             if agent.incar.active:
                 continue
@@ -533,8 +353,8 @@ class HIVModel:
             # death rate per 1 person-month
             p = (
                 prob.get_death_rate(
-                    agent.hiv,
-                    agent.aids,
+                    agent.hiv.active,
+                    agent.hiv.aids,
                     agent.drug_type,
                     agent.sex_type,
                     agent.haart.adherent,

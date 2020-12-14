@@ -1,0 +1,9 @@
+exposures:
+  hiv:
+    default: true
+    description: Whether hiv will be used as an exposure in the model
+    type: boolean
+  knowledge:
+    default: false
+    description: Whether knowledge will be used as an exposure in the model
+    type: boolean

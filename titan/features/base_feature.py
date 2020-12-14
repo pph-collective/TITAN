@@ -57,12 +57,12 @@ class BaseFeature:
         """
         pass
 
-    def update_agent(self, model: "model.HIVModel"):
+    def update_agent(self, model: "model.TITAN"):
         """
-        Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
+        Update the agent for this feature for a time step.  Called once per time step in `TITAN.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
 
         args:
-            model: the instance of HIVModel currently being run
+            model: the instance of TITAN currently being run
         """
         pass
 
@@ -91,14 +91,14 @@ class BaseFeature:
         pass
 
     @classmethod
-    def update_pop(cls, model: "model.HIVModel"):
+    def update_pop(cls, model: "model.TITAN"):
         """
         Update the feature for the entire population (class method).  This is useful for initializing class level trackers that need to be reset each time step, or if enabling a feature for agents needs to be evaluated within the context of the full population (limited slots, or similar).
 
-        This is called in `HIVModel.update_all_agents` before agent-level updates are made.
+        This is called in `TITAN.update_all_agents` before agent-level updates are made.
 
         args:
-            model: the instance of HIVModel currently being run
+            model: the instance of TITAN currently being run
         """
         pass
 

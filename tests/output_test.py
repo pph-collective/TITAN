@@ -7,18 +7,18 @@ import networkx as nx
 import nanoid
 
 from titan.output import *
-from titan import agent, features
+from titan import agent, features, exposures
 
 
 @pytest.fixture
 def stats(params, world_location):
     cur_time = 3
     a = agent.Agent("MSM", 20, "black", "Inj", world_location)
-    a.hiv = True
-    a.hiv_time = cur_time
-    a.aids = True
-    a.hiv_dx = True
-    a.hiv_dx_time = cur_time
+    a.hiv.active = True
+    a.hiv.time = cur_time
+    a.hiv.aids = True
+    a.hiv.dx = True
+    a.hiv.dx_time = cur_time
     a.haart.active = True
     a.syringe_services.active = True
     a.prep.active = True
@@ -35,7 +35,8 @@ def stats(params, world_location):
     agent_set.add_agent(a)
     agent_list = [a]
     feat_list = [feature for feature in features.BaseFeature.__subclasses__()]
-    stats = get_stats(agent_set, agent_list, params, feat_list, cur_time)
+    expose_list = [exposure for exposure in exposures.BaseExposure.__subclasses__()]
+    stats = get_stats(agent_set, agent_list, params, feat_list, expose_list, cur_time)
     return stats
 
 
@@ -52,15 +53,15 @@ def test_get_stats(stats):
     assert stats["world"]["black"]["MSM"]["hiv_new_high_risk"] == 1
     assert stats["world"]["black"]["MSM"]["prep"] == 1
     assert stats["world"]["black"]["MSM"]["prep_new"] == 1
-    assert stats["world"]["black"]["MSM"]["dx_new"] == 1
+    assert stats["world"]["black"]["MSM"]["hiv_dx_new"] == 1
     assert stats["world"]["black"]["MSM"]["high_risk_new"] == 1
     assert stats["world"]["black"]["MSM"]["high_risk_new_hiv"] == 1
     assert stats["world"]["black"]["MSM"]["high_risk_new_aids"] == 1
     assert stats["world"]["black"]["MSM"]["high_risk_new_dx"] == 1
     assert stats["world"]["black"]["MSM"]["high_risk_new_haart"] == 1
     assert stats["world"]["black"]["MSM"]["hiv"] == 1
-    assert stats["world"]["black"]["MSM"]["aids"] == 1
-    assert stats["world"]["black"]["MSM"]["dx"] == 1
+    assert stats["world"]["black"]["MSM"]["hiv_aids"] == 1
+    assert stats["world"]["black"]["MSM"]["hiv_dx"] == 1
     assert stats["world"]["black"]["MSM"]["haart"] == 1
     assert stats["world"]["black"]["MSM"]["deaths"] == 1
     assert stats["world"]["black"]["MSM"]["deaths_hiv"] == 1
@@ -96,8 +97,8 @@ def test_basicReport(stats, params, tmpdir):
 def test_print_components(stats, params, make_population, tmpdir):
     run_id = nanoid.generate(size=8)
 
-    net = make_population(n=1)
-    components = net.connected_components()
+    pop = make_population(n=1)
+    components = pop.connected_components()
 
     print_components(run_id, 0, 1, 2, components, tmpdir, params.classes.races)
 
@@ -111,3 +112,41 @@ def test_print_components(stats, params, make_population, tmpdir):
             assert row["runseed"] == "1"
             assert row["compID"] == "0"
             assert row["totalN"] == "1"
+
+
+@pytest.mark.unit
+def test_write_graph_edgelist(setup_results_dir, make_population):
+    id = "test"
+    t = 0
+    path = "results/network"
+    n_pop = 100
+    pop = make_population(n=n_pop)
+
+    write_graph_edgelist(pop.graph, path, id, t)
+
+    file_path = os.path.join(path, f"{id}_Edgelist_t{t}.txt")
+    count = len(open(file_path).readlines())
+
+    assert count == len(pop.relationships)
+
+
+@pytest.mark.unit
+def test_write_network_stats(setup_results_dir, make_population):
+    id = "test"
+    t = 0
+    path = "results/network"
+    n_pop = 100
+    pop = make_population(n=n_pop)
+
+    write_network_stats(pop.graph, path, id, t)
+
+    file_path = os.path.join(path, f"{id}_NetworkStats_t{t}.txt")
+    asserted = False
+    with open(file_path, "r") as f:
+        for line in f:
+            if "Number of nodes:" in line:
+                assert int(line.split(" ")[-1]) == n_pop
+                asserted = True
+
+    # make sure we tested something was tested
+    assert asserted

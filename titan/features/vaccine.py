@@ -35,7 +35,7 @@ class Vaccine(base_feature.BaseFeature):
             time: the current time step
         """
         if (
-            not self.agent.hiv
+            not self.agent.hiv.active  # type: ignore[attr-defined]
             and self.agent.location.params.vaccine.on_init
             and pop.pop_random.random()
             < self.agent.location.params.demographics[self.agent.race]
@@ -44,19 +44,18 @@ class Vaccine(base_feature.BaseFeature):
         ):
             self.vaccinate(time)
 
-    def update_agent(self, model: "model.HIVModel"):
+    def update_agent(self, model: "model.TITAN"):
         """
-        Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
+        Update the agent for this feature for a time step.  Called once per time step in `TITAN.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
 
         If PrEP feature is enable and the agent is not active PrEP and not HIV, either update or stochastically vaccinate the agent.
 
         args:
-            model: the instance of HIVModel currently being run
+            model: the instance of TITAN currently being run
         """
         if (
-            model.params.features.prep
-            and not self.agent.prep.active  # type: ignore[attr-defined]
-            and not self.agent.hiv
+            not self.agent.prep.active  # type: ignore[attr-defined]
+            and not self.agent.hiv.active  # type: ignore[attr-defined]
         ):
             vaccine_params = self.agent.location.params.vaccine
             agent_params = (
@@ -90,7 +89,8 @@ class Vaccine(base_feature.BaseFeature):
             time: the current model time step
             interaction_type: The type of interaction where the agent could acquire HIV (e.g. 'sex', 'injection' - from [params.classes.interaction_types])
         """
-        if self.active and self.time is not None:
+        # not protected the time step the agent is vaccinaetd
+        if self.active and self.time is not None and self.time < time:
             vaccine_time_months = (
                 (time - self.time)
                 / self.agent.location.params.model.time.steps_per_year

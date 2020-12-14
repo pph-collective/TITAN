@@ -20,6 +20,10 @@ outputs:
   reports:
   - basicReport
 
+exposures:
+  hiv: true
+  knowledge: true
+  
 features:
   agent_zero: false
   assort_mix: true
@@ -28,7 +32,6 @@ features:
   haart: false
   die_and_replace: false
   static_network: true
-  pca: true
   random_trial: true
 
 calibration:

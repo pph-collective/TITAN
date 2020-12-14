@@ -28,13 +28,10 @@ def test_agent_init(make_agent):
     assert a.mean_num_partners == {}
 
     # STI params
-    assert a.hiv is False
-    assert a.hiv_time is None
-    assert a.aids is False
-    assert a.partner_traced is False
-
-    # prevention parameters
-    assert a.hiv_dx is False
+    assert a.hiv.active is False
+    assert a.hiv.dx is False
+    assert a.hiv.time is None
+    assert a.hiv.aids is False
 
 
 @pytest.mark.unit
@@ -51,15 +48,6 @@ def test_get_partners(make_agent):
     assert a.get_partners() == {p1, p2}
     assert a.get_partners(["Sex"]) == {p1}
     assert a.get_partners(["Inj"]) == {p2}
-
-
-@pytest.mark.unit
-def test_get_acute_status(make_agent, params):
-    a = make_agent()  # no HIV on init
-    assert a.get_acute_status(2) is False
-    a.hiv = True
-    a.hiv_time = 1  # manually force this to test logic
-    assert a.get_acute_status(2) is True
 
 
 @pytest.mark.unit
@@ -117,10 +105,8 @@ def test_relationship(make_agent, make_relationship):
 
     # properties
     assert r1.duration == 2
-    assert r1.total_sex_acts == 0
 
     assert r2.duration == 2
-    assert r2.total_sex_acts == 0
 
     assert p1 in a.partners["Sex"]
     assert p2 in a.partners["Sex"]
@@ -167,12 +153,15 @@ def test_relationship(make_agent, make_relationship):
 def test_get_partner(make_agent, make_relationship):
     a = make_agent()
     p = make_agent()
+    a2 = make_agent()
     a.partners["Sex"] = set()
     p.partners["Sex"] = set()
     rel = make_relationship(a, p)
 
     assert rel.get_partner(a) == p
     assert rel.get_partner(p) == a
+    with pytest.raises(ValueError):
+        rel.get_partner(a2)
 
 
 @pytest.mark.unit
@@ -196,6 +185,10 @@ def test_get_number_of_sex_acts(make_agent, make_relationship, params):
 
     assert rel.get_number_of_sex_acts(rand_gen_low) == 0
     assert rel.get_number_of_sex_acts(rand_gen_high) == 0
+
+    a.location.params.partnership.sex.frequency.Sex.type = "not a thing"
+    with pytest.raises(Exception):
+        rel.get_number_of_sex_acts(rand_gen_low)
 
 
 # ============================== AGENT SET TESTS ===============================

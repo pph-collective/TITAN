@@ -17,7 +17,7 @@ def test_incarcerate_unincarcerate(make_model, make_agent):
 
     a.incar.active = True
     a.incar.release_time = model.time + 2
-    a.hiv = True
+    a.hiv.active = True
     a.haart.active = True
 
     model.time += 1
@@ -36,8 +36,15 @@ def test_incarcerate_unincarcerate(make_model, make_agent):
 @pytest.mark.unit
 def test_incarcerate_not_diagnosed(make_model, make_agent):
     model = make_model()
+    model.time = model.params.partner_tracing.start_time + 1
     a = make_agent(SO="HM", race="white")  # incarceration only for HM and HF?
-    a.hiv = True
+    a.hiv.active = True
+    a.hiv.time = model.time - 1
+    a.partners["Sex"] = set()
+
+    p = make_agent(SO="HF")
+    p.partners["Sex"] = set()
+    rel = Relationship(a, p, 10, bond_type="Sex")
 
     model.run_random = FakeRandom(-0.1)  # always less than params
 
@@ -45,7 +52,7 @@ def test_incarcerate_not_diagnosed(make_model, make_agent):
 
     assert a.incar.active
     assert a.incar.release_time == model.time + 1
-    assert a.hiv_dx
+    assert a.hiv.dx
 
 
 @pytest.mark.unit
@@ -65,8 +72,8 @@ def test_incarcerate_diagnosed(make_model, make_agent):
     model = make_model()
     model.time = 10
     a = make_agent(SO="HM", race="white")  # incarceration only for HM and HF?
-    a.hiv = True
-    a.hiv_dx = True
+    a.hiv.active = True
+    a.hiv.dx = True
     a.partners["Sex"] = set()
 
     model.run_random = FakeRandom(-0.1)  # always less than params
@@ -81,8 +88,8 @@ def test_incarcerate_diagnosed(make_model, make_agent):
     # Goes on haart but nonadherent
     a = make_agent(SO="HM", race="white")
     a.location.params.incar.haart.adherence = -1.0
-    a.hiv = True
-    a.hiv_dx = True
+    a.hiv.active = True
+    a.hiv.dx = True
     a.partners["Sex"] = set()
     model.run_random = FakeRandom(-0.1)  # between haart adherence and other params
     a.incar.update_agent(model)

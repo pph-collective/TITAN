@@ -19,8 +19,8 @@ def test_sex_transmission(make_model, make_agent):
     p.partners["Sex"] = set()
     rel = Relationship(a, p, 10, bond_type="Sex")
 
-    a.hiv = True
-    a.hiv_time = model.time  # acute
+    a.hiv.active = True
+    a.hiv.time = model.time  # acute
 
     rel.total_sex_acts = 0
     model.params.calibration.acquisition = 10
@@ -36,9 +36,9 @@ def test_sex_transmission(make_model, make_agent):
     )
     # test partner becomes
     Sex.interact(model, rel)
-    assert p.hiv
+    assert p.hiv.active
 
-    p.hiv = False
+    p.hiv.active = False
 
     a.location.params.partnership.sex.frequency = (
         p.location.params.partnership.sex.frequency
@@ -54,33 +54,33 @@ def test_sex_transmission(make_model, make_agent):
         }
     )
     Sex.interact(model, rel)
-    assert p.hiv
+    assert p.hiv.active
     # before hiv start time
-    p.hiv = False
+    p.hiv.active = False
     model.time = model.params.hiv.start_time - 1
-    assert Sex.interact(model, rel) is False
-    assert not p.hiv
+    Sex.interact(model, rel)
+    assert not p.hiv.active
 
 
 @pytest.mark.unit
-def test_sex_transmission_do_nothing(make_model, make_agent):
+def test_sex_num_acts(make_model, make_agent, make_relationship, params):
+    params.hiv.dx.risk_reduction.sex = 1.0
     model = make_model()
     model.time = model.params.hiv.start_time
+    model.np_random = FakeRandom(1.0)
     a = make_agent()
     p = make_agent()
-    p_inj = make_agent()
     a.partners["Sex"] = set()
     p.partners["Sex"] = set()
     rel_Sex = Relationship(a, p, 10, bond_type="Sex")
-    rel_Inj = Relationship(a, p_inj, 10, bond_type="Inj")
 
-    assert Sex.interact(model, rel_Sex) is False
+    assert Sex.get_num_acts(model, rel_Sex) > 0
 
-    a.hiv = True
-    p.hiv = True
+    a.hiv.active = True
+    a.hiv.dx = True
 
     # test nothing happens
-    assert Sex.interact(model, rel_Sex) is False
+    assert Sex.get_num_acts(model, rel_Sex) == 0
 
     a.location.params.partnership.sex.frequency = (
         p.location.params.partnership.sex.frequency
@@ -95,4 +95,4 @@ def test_sex_transmission_do_nothing(make_model, make_agent):
             }
         }
     )
-    assert Sex.interact(model, rel_Sex) is False
+    assert Sex.get_num_acts(model, rel_Sex) == 0

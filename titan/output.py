@@ -2,26 +2,23 @@
 # encoding: utf-8
 
 from typing import Dict, Any, List, Iterator
-from . import agent as ag
 import itertools
 import os
 
-from networkx import betweenness_centrality, effective_size, density  # type: ignore
+import networkx as nx  # type: ignore
+
 from .parse_params import ObjMap
+from . import utils
+from . import agent as ag
 
 
-def setup_aggregates(params: ObjMap, features, classes: List[str]) -> Dict:
+def setup_aggregates(params: ObjMap, reportables, classes: List[str]) -> Dict:
     """
     Recursively create a nested dictionary of attribute values to items to count.
 
     Attributes are classes defined in params, the items counted are:
 
     * "agents"
-    * "hiv"
-    * "dx"
-    * "aids"
-    * "hiv_new"
-    * "dx_new"
     * "deaths"
     * "deaths_hiv"
 
@@ -37,17 +34,12 @@ def setup_aggregates(params: ObjMap, features, classes: List[str]) -> Dict:
     if classes == []:
         base_stats = {
             "agents": 0,
-            "hiv": 0,
-            "dx": 0,
-            "aids": 0,
-            "hiv_new": 0,
-            "dx_new": 0,
             "deaths": 0,
             "deaths_hiv": 0,
         }
 
-        for feature in features:
-            base_stats.update({stat: 0 for stat in feature.stats})
+        for reportable in reportables:
+            base_stats.update({stat: 0 for stat in reportable.stats})
 
         return base_stats
 
@@ -55,7 +47,7 @@ def setup_aggregates(params: ObjMap, features, classes: List[str]) -> Dict:
     clss, *rem_clss = classes  # head, tail
     keys = [k for k in params.classes[clss]]
     for key in keys:
-        stats[key] = setup_aggregates(params, features, rem_clss)
+        stats[key] = setup_aggregates(params, reportables, rem_clss)
 
     return stats
 
@@ -128,6 +120,7 @@ def get_stats(
     all_agents: "ag.AgentSet",
     deaths: List["ag.Agent"],
     params: ObjMap,
+    exposures,
     features,
     time: int,
 ) -> Dict:
@@ -136,14 +129,15 @@ def get_stats(
 
     args:
         all_agents: all of the agents in the population
-        new_hiv_dx: agents who are newly diagnosed with hiv this timestep
+        new_hiv.dx: agents who are newly diagnosed with hiv this timestep
         deaths: agents who died this timestep
         params: model parameters
 
     returns:
         nested dictionary of agent attributes to counts of various items
     """
-    stats = setup_aggregates(params, features, params.outputs.classes)
+    reportables = exposures + features
+    stats = setup_aggregates(params, reportables, params.outputs.classes)
 
     # attribute names (non-plural)
     attrs = [clss[:-1] for clss in params.outputs.classes]
@@ -153,25 +147,14 @@ def get_stats(
 
         add_agent_to_stats(stats_item, "agents")
 
-        for feature in features:
-            agent_feature = getattr(a, feature.name)
+        for reportable in reportables:
+            agent_feature = getattr(a, reportable.name)
             agent_feature.set_stats(stats_item, time)
-
-        if a.hiv:
-            add_agent_to_stats(stats_item, "hiv")
-            if a.hiv_time == time:
-                add_agent_to_stats(stats_item, "hiv_new")
-            if a.aids:
-                add_agent_to_stats(stats_item, "aids")
-            if a.hiv_dx:
-                add_agent_to_stats(stats_item, "dx")
-                if a.hiv_dx_time == time:
-                    add_agent_to_stats(stats_item, "dx_new")
 
     for a in deaths:
         stats_item = get_stats_item(stats, attrs, a)
         add_agent_to_stats(stats_item, "deaths")
-        if a.hiv:
+        if a.hiv.active:  # type: ignore[attr-defined]
             add_agent_to_stats(stats_item, "deaths_hiv")
 
     return stats
@@ -256,11 +239,6 @@ def basicReport(
     Standard report writer for basic agent statistics, columns include:
 
     * "agents": number of agents in the population
-    * "hiv": number of agents with HIV
-    * "dx": number of agents with HIV who are diagnosed
-    * "aids": number of agents with AIDS
-    * "hiv_new": number of agents who HIV converted this time period
-    * "dx_new": number of agents with HIV who were diagnosed this time period
     * "deaths": number of agents who died this time period
     * "deaths_hiv": number of agents with HIV who died this time period
 
@@ -324,7 +302,7 @@ def print_components(
         for agent in comp.nodes():
             tot_agents += 1
             race_count[agent.race] += 1
-            if agent.hiv:
+            if agent.hiv.active:
                 nhiv += 1
                 if agent.random_trial.treated:
                     ntrthiv += 1
@@ -336,7 +314,7 @@ def print_components(
                 elif agent.prep.type == "Oral":
                     oral += 1
 
-            if agent.pca.suitable and agent.pca.active:
+            if agent.random_trial.suitable and agent.knowledge.active:
                 pca += 1
 
             if agent.random_trial.treated:  # treatment component
@@ -345,17 +323,17 @@ def print_components(
             if agent.random_trial.active:
                 trt_comp = True
 
-            if agent.pca.awareness:
+            if agent.knowledge.active:
                 aware += 1
 
             if agent.drug_type == "NonInj":
                 nidu += 1
 
         comp_centrality = (
-            sum(betweenness_centrality(comp).values()) / comp.number_of_nodes()
+            sum(nx.betweenness_centrality(comp).values()) / comp.number_of_nodes()
         )
-        average_size = sum(effective_size(comp).values()) / comp.number_of_nodes()
-        comp_density = density(comp)
+        average_size = sum(nx.effective_size(comp).values()) / comp.number_of_nodes()
+        comp_density = nx.density(comp)
 
         if trt_comp:
             if trt_agent:
@@ -378,3 +356,65 @@ def print_components(
         comp_id += 1
 
     f.close()
+
+
+def write_graph_edgelist(graph, path: str, id, time):
+    """
+    Writes a pipe-delimited edge list to the file `<id>_Edgelist_t<time>.txt`
+
+    args:
+        path: directory where the file should be saved
+        id: identifier for the network, typically the model's `id`
+        time: timestep the edgelist is being written at
+    """
+    file_path = os.path.join(path, f"{id}_Edgelist_t{time}.txt")
+    # Write edgelist with bond type
+    nx.write_edgelist(graph, file_path, delimiter="|", data=["type"])
+
+
+def write_network_stats(graph, path: str, id, time):
+    """
+    Writes network statistics to the file `<id>_NetworkStats_t<time>.txt`
+
+    args:
+        path: directory where the file should be saved
+        id: identifier for the network, typically the model's `id`
+        time: timestep the edgelist is being written at
+    """
+    file_path = os.path.join(path, f"{id}_NetworkStats_t{time}.txt")
+
+    components = sorted(utils.connected_components(graph), key=len, reverse=True)
+
+    outfile = open(file_path, "w")
+    outfile.write(nx.info(graph))
+
+    cent_dict = nx.degree_centrality(graph)
+
+    outfile.write(
+        "\nNumber of connected components: {}\n".format(
+            nx.number_connected_components(graph)
+        )
+    )
+
+    tot_nodes = 0
+    for c in components:
+        tot_nodes += c.number_of_nodes()
+
+    outfile.write(
+        "Average component size: {}\n".format(
+            tot_nodes * 1.0 / nx.number_connected_components(graph)
+        )
+    )
+    outfile.write(
+        "Maximum component size: {}\n".format(nx.number_of_nodes(components[0]))
+    )
+    outfile.write("Degree Histogram: {}\n".format(nx.degree_histogram(graph)))
+    outfile.write("Graph density: {}\n".format(nx.density(graph)))
+    outfile.write(
+        "Average node degree centrality: {}\n".format(
+            sum(cent_dict.values()) / len(list(cent_dict.values()))
+        )
+    )
+
+    outfile.write("Average node clustering: {}\n".format(nx.average_clustering(graph)))
+    outfile.close()

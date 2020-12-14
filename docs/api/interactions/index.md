@@ -12,6 +12,6 @@ To add a new interaction:
 * Add tests in `tests/interactions/`
 * Add it to the docs in `docs/api/interactions/` and to the nav in `mkdocs.yml`
 
-The `HIVModel` class uses sub-classes of `BaseInteraction` to initialize the object/call methods as appropriate.
+The `TITAN` class uses sub-classes of `BaseInteraction` to initialize the object/call methods as appropriate.
 
 ::: titan.interactions.base_interaction

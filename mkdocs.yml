@@ -37,13 +37,17 @@ nav:
   - API Reference:
     - Agent: api/agent.md
     - AgentSet: api/agent_set.md
+    - Agent Exposures:
+      - Overview: api/exposures/index.md
+      - HIV: api/exposures/hiv.md
+      - Knowledge: api/exposures/knowledge.md
     - Agent Features:
       - Overview: api/features/index.md
       - HAART: api/features/haart.md
       - High Risk: api/features/high_risk.md
       - Incarceration: api/features/incar.md
-      - MSMW: api/features/msmw.md
-      - Peer Change Agent: api/features/pca.md
+      - External Exposure: api/features/external_exposure.md
+      - Partner Tracing: api/features/partner_tracing.md
       - PrEP: api/features/prep.md
       - Random Trial: api/features/random_trial.md
       - Syringe Services: api/features/syringe_services.md
@@ -55,7 +59,6 @@ nav:
       - Sex: api/interactions/sex.md
     - Location: api/location.md
     - Model: api/model.md
-    - NetworkGraphUtils: api/network.md
     - Partnering: api/partnering.md
     - Population: api/population.md
     - Relationship: api/relationship.md

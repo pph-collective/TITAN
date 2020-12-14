@@ -59,14 +59,14 @@ class HighRisk(base_feature.BaseFeature):
         ):
             self.become_high_risk(pop, time)
 
-    def update_agent(self, model: "model.HIVModel"):
+    def update_agent(self, model: "model.TITAN"):
         """
-        Update the agent for this feature for a time step.  Called once per time step in `HIVModel.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
+        Update the agent for this feature for a time step.  Called once per time step in `TITAN.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.
 
         Update high risk agents or remove them from high risk pool.  An agent becomes high_risk through the incarceration feature
 
         args:
-            model: the instance of HIVModel currently being run
+            model: the instance of TITAN currently being run
         """
         if not self.active:
             # released last step, evaluate agent for high risk
@@ -107,16 +107,17 @@ class HighRisk(base_feature.BaseFeature):
     def set_stats(self, stats: Dict[str, int], time: int):
         if self.time == time:
             stats["high_risk_new"] += 1
-            if self.agent.hiv:
+            if self.agent.hiv.active:  # type: ignore[attr-defined]
                 stats["high_risk_new_hiv"] += 1
-                if self.agent.aids:
+                if self.agent.hiv.aids:  # type: ignore[attr-defined]
                     stats["high_risk_new_aids"] += 1
-                if self.agent.hiv_dx:
+                if self.agent.hiv.dx:  # type: ignore[attr-defined]
                     stats["high_risk_new_dx"] += 1
                     if self.agent.haart.active:  # type: ignore[attr-defined]
                         stats["high_risk_new_haart"] += 1
 
-        if self.agent.hiv_time == time:  # newly hiv
+        # newly hiv
+        if self.agent.hiv.time == time:  # type: ignore[attr-defined]
             if self.active:
                 stats["hiv_new_high_risk"] += 1
             if self.ever:
