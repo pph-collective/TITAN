@@ -98,7 +98,7 @@ demographics:
             max: 1.0
           duration:
             prob:
-              type: bins
+              type: bin
               description: Binned probabilities of incarceration duration during model run
               fields:
                 prob:
@@ -137,7 +137,7 @@ demographics:
                   min: 130
                   max: 260
             init:
-              type: bins
+              type: bin
               description: Binned probabilities of incarceration duration when initializing population
               fields:
                 prob:
@@ -297,12 +297,31 @@ demographics:
                 type: float
                 min: 0.0
                 max: 1.0
-              prob:
-                default: 0.0
-                description: "Probability that an agent in this class with HIV becomes enrolled in HAART at a given time step"
+              cap:
                 type: float
+                default: 0.0
+                description: "Percent of agents on haart if haart cap is used"
                 min: 0.0
                 max: 1.0
+              prob:
+                type: bin
+                description: "Probability that an agent in this class with HIV becomes enrolled in HAART at a given time step based on time since diagnosis (use 0 for haart cap)"
+                fields:
+                  enroll_prob:
+                    type: float
+                    min: 0.0
+                    max: 1.0
+                  start:
+                    type: int
+                    min: 0
+                  stop:
+                    type: int
+                    min: 1
+                default:
+                  0:
+                    start: 0
+                    stop: 999
+                    enroll_prob: 0.0
               adherence:
                 init:
                   default: 0.0

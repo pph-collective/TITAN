@@ -48,7 +48,11 @@ demographics:
                 init: 0.1
             haart:
               init: 0.1
-              prob: 0.1
+              prob:
+                1:
+                  enroll_prob: 0.1
+                  start: 0
+                  stop: 999
               adherence:
                 init: 0.1
                 prob: 0.1
@@ -89,7 +93,11 @@ demographics:
                 init: 0.1
             haart:
               init: 0.1
-              prob: 0.1
+              prob:
+                1:
+                  enroll_prob: 0.1
+                  start: 0
+                  stop: 999
               adherence:
                 init: 0.1
                 prob: 0.1

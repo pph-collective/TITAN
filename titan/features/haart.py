@@ -94,18 +94,27 @@ class HAART(base_feature.BaseFeature):
                 if self.agent.location.params.hiv.haart_cap:
                     # if HAART is based on cap instead of prob, determine number of
                     # HAART agents based on % of diagnosed agents
+                    assert len(haart_params) == 1  # should only have one val for cap TODO check earlier
                     num_dx_agents = self.agent.hiv.dx_counts[self.agent.race][  # type: ignore[attr-defined]
                         self.agent.sex_type
                     ]
                     num_haart_agents = self.counts[self.agent.race][self.agent.sex_type]
 
-                    if num_haart_agents < (haart_params.prob * num_dx_agents):
+                    # take value from dictionary for cap
+                    if num_haart_agents < (haart_params.cap * num_dx_agents):
                         self.initiate(model)
                 else:
+                    # Find enroll probability based on time since diagnosis
+                    for i in haart_params.prob.values():
+                        if i.start <= (model.time - self.agent.hiv.dx_time) < i.stop:
+                            enroll_prob = i.enroll_prob
+                            break
+
                     if model.run_random.random() < (
-                        haart_params.prob * model.calibration.haart.coverage
+                        enroll_prob * model.calibration.haart.coverage
                     ):
                         self.initiate(model)
+
             # Go off HAART
             elif self.active and model.run_random.random() < haart_params.discontinue:
                 self.active = False
