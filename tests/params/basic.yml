@@ -225,35 +225,43 @@ partnership:
         receptive: 0.0138
         versatile: 0.00745
   duration:
-    Sex:
-      type: bins
-      bins:
-        1:
-          prob: 1.0
-          min: 1
-          max: 2
+    Sex: 
+      white: &sex_dur
+        type: bins
+        bins:
+          1:
+            prob: 1.0
+            min: 1
+            max: 2
+      black: *sex_dur
     Inj:
-      type: distribution
-      distribution:
-        dist_type: randint
-        vars:
-          1:
-            value: 1
-            value_type: int
-          2:
-            value: 3
-            value_type: int
-        mean: 1
-    SexInj: &poisson_one
-      type: distribution
-      distribution:
-        dist_type: poisson
-        vars:
-          1:
-            value: 1
-            value_type: float
-        mean: 1
-    Social: *poisson_one
+      white: &inj_dur
+        type: distribution
+        distribution:
+          dist_type: randint
+          vars:
+            1:
+              value: 1
+              value_type: int
+            2:
+              value: 3
+              value_type: int
+          mean: 1
+      black: *inj_dur
+    SexInj:
+      white: &poisson_one
+        type: distribution
+        distribution:
+          dist_type: poisson
+          vars:
+            1:
+              value: 1
+              value_type: float
+          mean: 1
+      black: *poisson_one
+    Social:
+      white: *poisson_one
+      black: *poisson_one
 
 prep:
   target: 0.1

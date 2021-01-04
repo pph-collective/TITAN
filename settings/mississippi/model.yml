@@ -57,17 +57,18 @@ partnership:
         versatile: 0.0026625
   duration:
     Sex:
-      type: distribution
-      distribution:
-        dist_type: weibull_modified
-        vars:
-          1:
-            value: 0.586
-            value_type: float
-          2:
-            value: 11.532
-            value_type: float
-        mean: 16
+      black:
+        type: distribution
+        distribution:
+          dist_type: weibull_modified
+          vars:
+            1:
+              value: 0.586
+              value_type: float
+            2:
+              value: 11.532
+              value_type: float
+          mean: 16
 
 prep:
   type:

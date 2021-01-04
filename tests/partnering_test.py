@@ -11,9 +11,9 @@ from conftest import FakeRandom
 
 def test_partnership_duration(params):
     # test duration with randint
-    assert get_partnership_duration(params, FakeRandom(1.0), "Inj") == 1
+    assert get_partnership_duration(params, FakeRandom(1.0), "Inj", "white") == 1
     # test duration with bins
-    assert get_partnership_duration(params, FakeRandom(0.1), "Sex") == 1
+    assert get_partnership_duration(params, FakeRandom(0.1), "Sex", "white") == 1
 
 
 @pytest.mark.unit

@@ -124,30 +124,34 @@ def get_mean_rel_duration(params: "parse_params.ObjMap"):
     args:
         params: The current model's parameters
     """
-    mean_rel_duration: Dict[str, int] = {}
+    mean_rel_duration: Dict[str, Dict] = {}
     for bond in params.partnership.duration:
-        if params.partnership.duration[bond].type == "bins":
-            weights = []
-            vals = []
-            dur_bins = params.partnership.duration[bond].bins
-            for bins in dur_bins:
-                if bins > 1:
-                    weights.append(dur_bins[bins].prob - dur_bins[bins - 1].prob)
-                else:
-                    weights.append(dur_bins[bins].prob)
-                vals.append(np.average([dur_bins[bins].min, dur_bins[bins].max]))
-            mean_rel_duration[bond] = np.average(vals, weights=weights)
-        else:
-            mean_rel_duration[bond] = params.partnership.duration[
-                bond
-            ].distribution.mean
-        assert mean_rel_duration[bond] > 0, "All bonds must have a positive duration!"
+        mean_rel_duration[bond] = {}
+        for race in params.classes.races:
+            if params.partnership.duration[bond][race].type == "bins":
+                weights = []
+                vals = []
+                dur_bins = params.partnership.duration[bond][race].bins
+                for bins in dur_bins:
+                    if bins > 1:
+                        weights.append(dur_bins[bins].prob - dur_bins[bins - 1].prob)
+                    else:
+                        weights.append(dur_bins[bins].prob)
+                    vals.append(np.average([dur_bins[bins].min, dur_bins[bins].max]))
+                mean_rel_duration[bond][race] = np.average(vals, weights=weights)
+            else:
+                mean_rel_duration[bond][race] = params.partnership.duration[bond][
+                    race
+                ].distribution.mean
+            assert (
+                mean_rel_duration[bond][race] > 0
+            ), "All bonds must have a positive duration!"
 
     return mean_rel_duration
 
 
 def get_partnership_duration(
-    params: "parse_params.ObjMap", rand_gen, bond_type: str
+    params: "parse_params.ObjMap", rand_gen, bond_type: str, race: Optional[str]
 ) -> int:
     """
     Get duration of a relationship drawn from bins or a distribution per the params [params.partnership.duration]
@@ -161,10 +165,11 @@ def get_partnership_duration(
         number of time steps the partnership should endure
     """
 
-    if params.partnership.duration[bond_type].type == "bins":
-        dur_info = params.partnership.duration[bond_type].bins
+    if params.partnership.duration[bond_type][race].type == "bins":
+        dur_info = params.partnership.duration[bond_type][race].bins
 
         diceroll = rand_gen.random()
+        print(dur_info)
         dur_bin = dur_info[5]
         for i in range(1, 5):
             if diceroll < dur_info[i].prob:
@@ -174,7 +179,7 @@ def get_partnership_duration(
         duration = rand_gen.randint(dur_bin.min, dur_bin.max)
 
     else:
-        dist = params.partnership.duration[bond_type].distribution
+        dist = params.partnership.duration[bond_type][race].distribution
         duration = utils.safe_dist(dist, rand_gen)
 
     return duration

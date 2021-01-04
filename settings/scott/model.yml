@@ -180,35 +180,38 @@ partnership:
         adherent: 0.06
   duration:
     Sex:
-      type: distribution
-      distribution:
-        dist_type: set_value
-        vars:
-          1:
-            value: 12100
-            value_type: int
-        mean: 12100
+      white:
+        type: distribution
+        distribution:
+          dist_type: set_value
+          vars:
+            1:
+              value: 12100
+              value_type: int
+          mean: 12100
     SexInj:
-      type: distribution
-      distribution:
-        dist_type: set_value
-        vars:
-          1:
-            value: 121
-            value_type: int
-        mean: 121
+      white:
+        type: distribution
+        distribution:
+          dist_type: set_value
+          vars:
+            1:
+              value: 121
+              value_type: int
+          mean: 121
     Inj:
-      type: distribution
-      distribution:
-        dist_type: gamma
-        vars:
-          1:
-            value: 5.37
-            value_type: float
-          2:
-            value: 23.28
-            value_type: float
-        mean: 125
+      white:
+        type: distribution
+        distribution:
+          dist_type: gamma
+          vars:
+            1:
+              value: 5.37
+              value_type: float
+            2:
+              value: 23.28
+              value_type: float
+          mean: 125
 
 assort_mix:
   assort_pwid:
