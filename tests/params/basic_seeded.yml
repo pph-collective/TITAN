@@ -41,7 +41,11 @@ demographics:
                 init: 0.1
             haart:
               init: 0.1
-              prob: 0.1
+              prob:
+                0:
+                  enroll_prob: 0.1
+                  start: 0
+                  stop: 99
               adherence:
                 init: 0.1
                 prob: 0.1
@@ -64,7 +68,11 @@ demographics:
                     value_type: float
             haart:
               init: 0.1
-              prob: 0.1
+              prob:
+                0:
+                  enroll_prob: 0.1
+                  start: 0
+                  stop: 99
               adherence:
                 init: 0.1
                 prob: 0.1

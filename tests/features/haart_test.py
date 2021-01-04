@@ -18,6 +18,7 @@ def test_update_haart_t1(make_model, make_agent):
 
     # t0 agent initialized HAART
     a.hiv.dx = True
+    a.hiv.dx_time = model.time
 
     # go on haart
     model.run_random = FakeRandom(
@@ -48,7 +49,24 @@ def test_update_haart_t1(make_model, make_agent):
     # Increase cap. Agent goes on haart
     a.location.params.demographics[a.race].sex_type[a.sex_type].drug_type[
         a.drug_type
-    ].haart.prob = 2.0
+    ].haart.cap = 2.0
     a.haart.update_agent(model)
     assert a.haart.active
     assert a.haart.adherent is True
+
+
+def test_update_haart_dx_time(make_model, make_agent):
+    model = make_model()
+    model.time = 1
+    a = make_agent(race="white")
+    model.run_random = FakeRandom(0.5)
+
+    a.hiv.active = True
+    a.hiv.dx = True
+    a.hiv.dx_time = 1  # agent dx duration is 0
+    a.haart.update_agent(model)
+    assert not a.haart.active
+
+    a.hiv.dx_time -= 10
+    a.haart.update_agent(model)
+    assert a.haart.active

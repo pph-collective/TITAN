@@ -27,7 +27,23 @@ demographics:
                 init: 0.500
             haart:
               init: 0.764
-              prob: 0.212
+              prob:
+                0:
+                  start: 0
+                  stop: 1
+                  enroll_prob: 0.709
+                1:
+                  start: 1
+                  stop: 3
+                  enroll_prob: 0.212
+                2:
+                  start: 3
+                  stop: 12
+                  enroll_prob: 0.051
+                3:
+                  start: 12
+                  stop: 9999
+                  enroll_prob: 0.0
               adherence:
                 init: 0.489
                 prob: 0.489
@@ -81,7 +97,23 @@ demographics:
                 init: 0.487
             haart:
               init: 0.764
-              prob: 0.193
+              prob:
+                0:
+                  enroll_prob: 0.278
+                  start: 0
+                  stop: 1
+                1:
+                  enroll_prob: 0.193
+                  start: 1
+                  stop: 3
+                2:
+                  enroll_prob: 0.037
+                  start: 3
+                  stop: 12
+                3:
+                  start: 12
+                  stop: 9999
+                  enroll_prob: 0.0
               adherence:
                 init: 0.719
                 prob: 0.719
@@ -135,7 +167,23 @@ demographics:
                 init: 0.471
             haart:
               init: 0.791
-              prob: 0.163
+              prob:
+                0:
+                  start: 0
+                  stop: 1
+                  enroll_prob: 0.742
+                1:
+                  start: 1
+                  stop: 3
+                  enroll_prob: 0.163
+                2:
+                  start: 3
+                  stop: 12
+                  enroll_prob: 0.029
+                3:
+                  start: 12
+                  stop: 9999
+                  enroll_prob: 0.0
               adherence:
                 init: 0.707
                 prob: 0.707

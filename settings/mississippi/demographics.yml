@@ -25,7 +25,19 @@ demographics:
                 init: 0.46
             haart:
               init: 0.690
-              prob: 0.057
+              prob:
+                0:
+                  enroll_prob: 0.609
+                  start: 0
+                  stop: 1
+                1:
+                  enroll_prob: 0.074
+                  start: 1
+                  stop: 12
+                2:
+                  enroll_prob: 0.0
+                  start: 12
+                  stop: 9999
               adherence:
                 init: 0.500
                 prob: 0.500

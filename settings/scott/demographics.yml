@@ -36,9 +36,13 @@ demographics:
               dx:
                 prob: 0.202
                 init: 1.0
-            haart:
+            haart: &haart_vals
               init: 1.0
-              prob: 0.679
+              prob:
+                0:
+                  enroll_prob: 0.679
+                  start: 0
+                  stop: 999
               adherence:
                 init: 1.0
                 prob: 1.0
@@ -82,13 +86,7 @@ demographics:
               hiv: 3.1
               aids: 10.4
               haart_adherent: 1.0
-            haart:
-              init: 1.0
-              prob: 0.679
-              adherence:
-                init: 1.0
-                prob: 1.0
-              discontinue: 0.000
+            haart: *haart_vals
             num_partners:
               Sex:
                 dist_type: poisson
