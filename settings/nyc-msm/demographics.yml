@@ -48,6 +48,9 @@ demographics:
                   start: 12
                   stop: 9999
                   enroll_prob: 0.0
+              reinit:
+                allow: true
+                prob: 0.035
               adherence:
                 init: 0.489
                 prob: 0.489
@@ -122,6 +125,9 @@ demographics:
                   start: 12
                   stop: 9999
                   enroll_prob: 0.0
+              reinit:
+                allow: true
+                prob: 0.032
               adherence:
                 init: 0.719
                 prob: 0.719
@@ -196,6 +202,9 @@ demographics:
                   start: 12
                   stop: 9999
                   enroll_prob: 0.0
+              reinit:
+                allow: true
+                prob: 0.041
               adherence:
                 init: 0.707
                 prob: 0.707

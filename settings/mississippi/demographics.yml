@@ -40,6 +40,9 @@ demographics:
                   enroll_prob: 0.0
                   start: 12
                   stop: 9999
+              reinit:
+                allow: true
+                prob: 0.01
               adherence:
                 init: 0.500
                 prob: 0.500

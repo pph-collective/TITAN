@@ -327,6 +327,15 @@ demographics:
                     start: 0
                     stop: 999
                     enroll_prob: 0.0
+              reinit:
+                allow:
+                  type: boolean
+                  description: "Whether or not agents who have previously been on prep have a separate haart probability"
+                  default: false
+                prob:
+                  type: float
+                  description: "Probability of reinitiating haart"
+                  default: 0.0
               adherence:
                 init:
                   default: 0.0

@@ -26,6 +26,7 @@ class HAART(base_feature.BaseFeature):
         super().__init__(agent)
 
         self.active = False
+        self.ever = False
         self.adherent = False
 
     @classmethod
@@ -62,6 +63,7 @@ class HAART(base_feature.BaseFeature):
             and pop.pop_random.random() < agent_params.haart.init
         ):
             self.active = True
+            self.ever = True
             self.add_agent(self.agent)
 
             haart_adh = agent_params.haart.adherence.init
@@ -103,16 +105,20 @@ class HAART(base_feature.BaseFeature):
                     if num_haart_agents < (haart_params.cap * num_dx_agents):
                         self.initiate(model)
                 else:
-                    # Find enroll probability based on time since diagnosis
-                    for i in haart_params.prob.values():
-                        if i.start <= (model.time - self.agent.hiv.dx_time) < i.stop:  # type: ignore[attr-defined]
-                            enroll_prob = i.enroll_prob
-                            break
+                    if self.ever and haart_params.reinit.allow:
+                        if model.run_random.random() < haart_params.reinit.prob:
+                            self.initiate(model)
+                    else:
+                        # Find enroll probability based on time since diagnosis
+                        for i in haart_params.prob.values():
+                            if i.start <= (model.time - self.agent.hiv.dx_time) < i.stop:  # type: ignore[attr-defined]
+                                enroll_prob = i.enroll_prob
+                                break
 
-                    if model.run_random.random() < (
-                        enroll_prob * model.calibration.haart.coverage
-                    ):
-                        self.initiate(model)
+                        if model.run_random.random() < (
+                            enroll_prob * model.calibration.haart.coverage
+                        ):
+                            self.initiate(model)
 
             # Go off HAART
             elif self.active and model.run_random.random() < haart_params.discontinue:
@@ -195,4 +201,5 @@ class HAART(base_feature.BaseFeature):
 
         # Add agent to HAART class set, update agent params
         self.active = True
+        self.ever = True
         self.add_agent(self.agent)
