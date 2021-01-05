@@ -102,10 +102,6 @@ demographics:
         incar:
           init: 0.0
           prob: 0.0
-        safe_sex: 0.312
-        injection:
-          unsafe_prob: 0.27
-          num_acts: 5.0
         prep:
           discontinue: 0.0
           adherence: 0.568

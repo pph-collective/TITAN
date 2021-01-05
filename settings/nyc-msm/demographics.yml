@@ -9,7 +9,11 @@ demographics:
             versatile: 0.200
             insertive: 0.480
             receptive: 0.320
-        safe_sex: 0.275
+        safe_sex:
+          Main:
+            prob: 0.275
+          Casual:
+            prob: 0.409
         prep:
           discontinue: 0.034  # calibration
           adherence: 0.565
@@ -79,7 +83,11 @@ demographics:
             insertive: 0.220
             receptive: 0.195
             versatile: 0.585
-        safe_sex: 0.262
+        safe_sex:
+          Main:
+            prob: 0.183
+          Casual:
+            prob: 0.341
         prep:
           discontinue: 0.025  # calibration
           adherence: 0.719
@@ -144,7 +152,11 @@ demographics:
     sex_type:
       MSM:
         ppl: 1.0
-        safe_sex: 0.126
+        safe_sex:
+          Main:
+            prob: 0.126
+          Casual:
+            prob: 0.277
         sex_role:
           init:
             insertive: 0.439

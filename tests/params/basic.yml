@@ -81,7 +81,13 @@ demographics:
         incar: &base_incar
           init: 0.02
           prob: 0.02
-        safe_sex: 0.1
+        safe_sex: &safe_sex_default
+          Sex:
+            prob: 0.1
+          Inj:
+            prob: 0.1
+          SexInj:
+            prob: 0.1
         injection: &base_injection
           unsafe_prob: 0.1
           num_acts: 10
@@ -102,7 +108,7 @@ demographics:
         ppl: 0.3
         drug_type: *base_drug_type
         incar: *base_incar
-        safe_sex: 0.1
+        safe_sex: *safe_sex_default
         injection: *base_injection
         prep:
           adherence: 0.1
@@ -115,7 +121,7 @@ demographics:
         ppl: 0.3
         drug_type: *base_drug_type
         incar: *base_incar
-        safe_sex: 0.1
+        safe_sex: *safe_sex_default
         injection: *base_injection
         prep: *base_prep
         high_risk: *base_high_risk
@@ -124,7 +130,7 @@ demographics:
         ppl: 0.2
         drug_type: *base_drug_type
         incar: *base_incar
-        safe_sex: 0.1
+        safe_sex: *safe_sex_default
         injection: *base_injection
         prep: *base_prep
         high_risk: *base_high_risk
@@ -133,7 +139,7 @@ demographics:
         ppl: 0.1
         drug_type: *base_drug_type
         incar: *base_incar
-        safe_sex: 0.1
+        safe_sex: *safe_sex_default
         injection: *base_injection
         prep: *base_prep
         high_risk: *base_high_risk
@@ -145,7 +151,7 @@ demographics:
         ppl: 0.3
         drug_type: *base_drug_type
         incar: *base_incar
-        safe_sex: 0.1
+        safe_sex: *safe_sex_default
         injection: *base_injection
         prep: *base_prep
         high_risk: *base_high_risk
@@ -154,7 +160,7 @@ demographics:
         ppl: 0.3
         drug_type: *base_drug_type
         incar: *base_incar
-        safe_sex: 0.1
+        safe_sex: *safe_sex_default
         injection: *base_injection
         prep: *base_prep
         high_risk: *base_high_risk
@@ -163,7 +169,7 @@ demographics:
         ppl: 0.2
         drug_type: *base_drug_type
         incar: *base_incar
-        safe_sex: 0.1
+        safe_sex: *safe_sex_default
         injection: *base_injection
         prep: *base_prep
         high_risk: *base_high_risk
@@ -172,7 +178,7 @@ demographics:
         ppl: 0.1
         drug_type: *base_drug_type
         incar: *base_incar
-        safe_sex: 0.1
+        safe_sex: *safe_sex_default
         injection:
           unsafe_prob: 0.
           num_acts: 10
@@ -183,7 +189,7 @@ demographics:
         ppl: 0.1
         drug_type: *base_drug_type
         incar: *base_incar
-        safe_sex: 0.1
+        safe_sex: *safe_sex_default
         injection:
           unsafe_prob: 0.
           num_acts: 10
@@ -233,7 +239,6 @@ partnership:
             prob: 1.0
             min: 1
             max: 2
-      black: *sex_dur
     Inj:
       white: &inj_dur
         type: distribution

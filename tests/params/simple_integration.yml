@@ -20,9 +20,16 @@ demographics:
         ppl: 1.0
         incar:
           prob: 0.5 # default is off, so this only hits when turned on in integration test
-        safe_sex: 0.1
+        safe_sex:
+          Sex:
+            prob: 1.0
+          SexInj:
+            prob: 1.0
+          Inj:
+            prob: 1.0
         injection:
-          unsafe_prob: 0.1
+          unsafe_prob: 0.3
+          num_acts: 10
         prep:
           adherence: 0.9
           discontinue: 0.1
@@ -159,7 +166,7 @@ partnership:
 syringe_services:
   timeline:
     ssp_open:
-      start_time: 2
+      start_time: 0
       stop_time: 12
       num_slots_start: 500
       num_slots_stop: 500

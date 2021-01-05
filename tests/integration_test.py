@@ -232,6 +232,7 @@ def test_prep_coverage(make_model_integration, tmpdir):
     t10_hiv_b = res_b["10"]["hiv"]
     t10_diff = t10_hiv_a - t10_hiv_b  # a should be higher
     assert res_a["10"]["prep"] < res_b["10"]["prep"]
+    assert t10_hiv_a > t0_hiv_a
     assert t10_diff > t0_diff
 
 
@@ -243,10 +244,11 @@ def test_syringe_services(params_integration, tmpdir):
     params_integration.demographics.black.sex_type.MSM.drug_type.Inj.ppl = 1.0
     params_integration.demographics.black.sex_type.MSM.drug_type["None"].ppl = 0.0
     model_a = TITAN(params_integration)
-    model_a.params.partnership.sex.frequency.Sex = ObjMap(
-        {"type": "bins", "bins": {1: {"prob": 1.0, "min": 0, "max": 1}}}
+    model_a.params.partnership.sex.frequency.Sex = (
+        ObjMap(  # turn off sex to show only injection effects
+            {"type": "bins", "bins": {1: {"prob": 1.0, "min": 0, "max": 1}}}
+        )
     )
-
     path_a = tmpdir.mkdir("a")
     path_a.mkdir("network")
     path_b = tmpdir.mkdir("b")
@@ -254,6 +256,15 @@ def test_syringe_services(params_integration, tmpdir):
 
     # run with default bins (0-9)
     model_a.run(path_a)
+    num_bonds = 0
+    num_ag = 0
+    for ag in model_a.pop.all_agents:
+        if ag.hiv.active:
+            num_ag += 1
+            for ptnr in ag.get_partners(["Inj", "SexInj"]):
+                if not ptnr.hiv.active:
+                    num_bonds += 1
+    assert num_bonds  # make sure there are serodiscordant partnerships
 
     # change the coverage upward for creating model b, use same seeds
     model_a.params.features.syringe_services = True
@@ -290,6 +301,8 @@ def test_syringe_services(params_integration, tmpdir):
     t10_hiv_a = res_a["10"]
     t10_hiv_b = res_b["10"]
     t10_diff = t10_hiv_a - t10_hiv_b  # a should be higher
+    assert t10_hiv_a > t0_hiv_a
+    assert t10_hiv_b > t0_hiv_b
     assert t10_diff > t0_diff
 
 

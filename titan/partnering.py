@@ -169,7 +169,6 @@ def get_partnership_duration(
         dur_info = params.partnership.duration[bond_type][race].bins
 
         diceroll = rand_gen.random()
-        print(dur_info)
         dur_bin = dur_info[5]
         for i in range(1, 5):
             if diceroll < dur_info[i].prob:

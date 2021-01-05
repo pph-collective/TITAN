@@ -24,7 +24,13 @@ demographics:
         sex_role:
           init:
             insertive: 1.0
-        safe_sex: 0.1
+        safe_sex:
+          Sex:
+            prob: 0.1
+          Inj:
+            prob: 0.1
+          SexInj:
+            prob: 0.1
         injection:
           unsafe_prob: 0.321
           num_acts: 5
@@ -99,7 +105,13 @@ demographics:
         sex_role:
           init:
             receptive: 1.0
-        safe_sex: 0.2
+        safe_sex:
+          Sex:
+            prob: 0.2
+          Inj:
+            prob: 0.2
+          SexInj:
+            prob: 0.2
         injection:
           unsafe_prob: 0.321
           num_acts: 5

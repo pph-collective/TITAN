@@ -9,7 +9,9 @@ demographics:
             versatile: 0.671
             insertive: 0.169
             receptive: 0.160
-        safe_sex: 0.214
+        safe_sex:
+          Sex:
+            prob: 0.214
         prep:
           discontinue: 0.034
           adherence: 0.860

@@ -189,11 +189,16 @@ demographics:
             min: 0.0
             max: 1.0
         safe_sex:
-          default: 0.0
-          description: "Probability of safe sex (condom use) per sex act"
-          type: float
-          min: 0.0
-          max: 1.0
+          type: sub-dict
+          description: "Parameters controlling condom use (safe sex) given bond type"
+          keys:
+            - bond_types
+          default:
+            prob:
+              default: 0.0
+              type: float
+              min: 0.0
+              max: 1.0
         prep:
           discontinue:
             default: 0.0
