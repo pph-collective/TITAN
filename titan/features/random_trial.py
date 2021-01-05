@@ -73,7 +73,7 @@ class RandomTrial(base_feature.BaseFeature):
                     for ag in ordered_centrality:
                         if not ag.hiv:
                             intervention_agent = ag
-                            intervention_agent.sutable = True
+                            intervention_agent.suitable = True
                             intervention_agent.random_trial.treated = True
                             break
 
