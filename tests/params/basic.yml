@@ -50,6 +50,9 @@ demographics:
                   enroll_prob: 1.0
                   start: 10
                   stop: 100
+              reinit: &reinit_prob
+                allow: true
+                prob: 0.0
               adherence:
                 init: 0.1
                 prob: 0.1
@@ -73,6 +76,7 @@ demographics:
             haart:
               init: 0.1
               prob: *haart_prob
+              reinit: *reinit_prob
               adherence:
                 init: 0.1
                 prob: 0.1
@@ -232,13 +236,20 @@ partnership:
         versatile: 0.00745
   duration:
     Sex: 
-      white: &sex_dur
+      white:
         type: bins
         bins:
           1:
             prob: 1.0
             min: 1
             max: 2
+      black:
+        type: bins
+        bins:
+          1:
+            prob: 1.0
+            min: 3
+            max: 4
     Inj:
       white: &inj_dur
         type: distribution

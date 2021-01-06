@@ -70,3 +70,15 @@ def test_update_haart_dx_time(make_model, make_agent):
     a.hiv.dx_time -= 10
     a.haart.update_agent(model)
     assert a.haart.active
+
+
+def test_update_haart_reinit(make_model, make_agent):
+    model = make_model()
+    a = make_agent(race="white")
+
+    a.hiv.active = True
+    a.hiv.dx = True
+    a.hiv.dx_time = model.time - 1  # make duration 1, would pass if not reinit
+    a.haart.ever = True  # uses reinit prob
+    a.haart.update_agent(model)
+    assert not a.haart.active
