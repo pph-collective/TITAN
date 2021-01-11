@@ -51,7 +51,6 @@ demographics:
                   start: 10
                   stop: 100
               reinit: &reinit_prob
-                allow: true
                 prob: 0.0
               adherence:
                 init: 0.1
@@ -313,6 +312,9 @@ outputs:
 exposures:
   hiv: true
   knowledge: true
+
+hiv:
+  reinit_haart: true
 
 features:
   incar: true

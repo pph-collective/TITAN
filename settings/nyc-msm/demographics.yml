@@ -54,7 +54,7 @@ demographics:
                 init: 0.489
                 prob: 0.489
                 discontinue: 0.0689
-              discontinue: 0.0076
+              discontinue: 0.014
             death_rate:
               base: 1.512
             num_partners:
@@ -130,7 +130,7 @@ demographics:
               adherence:
                 init: 0.719
                 prob: 0.719
-                discontinue: 0.0718
+                discontinue: 0.0115
               discontinue: 0.0069  # calibration
             death_rate:
               base: 0.792
@@ -208,7 +208,7 @@ demographics:
                 init: 0.707
                 prob: 0.707
                 discontinue: 0.0745
-              discontinue: 0.0059
+              discontinue: 0.00883
             death_rate:
               base: 0.0696
             num_partners:

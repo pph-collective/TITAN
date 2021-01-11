@@ -54,6 +54,15 @@ def test_update_haart_t1(make_model, make_agent):
     assert a.haart.active
     assert a.haart.adherent is True
 
+    # falls off adherence
+    model.run_random = FakeRandom(1.0)
+    a.location.params.demographics[a.race].sex_type[a.sex_type].drug_type[
+        a.drug_type
+    ].haart.adherence.discontinue = 5.0
+    a.haart.update_agent(model)
+    assert a.haart.active
+    assert a.haart.adherent is False
+
 
 def test_update_haart_dx_time(make_model, make_agent):
     model = make_model()
@@ -76,7 +85,6 @@ def test_update_haart_reinit(make_model, make_agent):
     model = make_model()
     a = make_agent(race="white")
 
-    a.hiv.active = True
     a.hiv.dx = True
     a.hiv.dx_time = model.time - 1  # make duration 1, would pass if not reinit
     a.haart.ever = True  # uses reinit prob
