@@ -49,11 +49,11 @@ demographics:
                   stop: 9999
                   enroll_prob: 0.0
               reinit:
-                allow: true
                 prob: 0.035
               adherence:
                 init: 0.489
                 prob: 0.489
+                discontinue: 0.0689
               discontinue: 0.0076
             death_rate:
               base: 1.512
@@ -126,11 +126,11 @@ demographics:
                   stop: 9999
                   enroll_prob: 0.0
               reinit:
-                allow: true
                 prob: 0.032
               adherence:
                 init: 0.719
                 prob: 0.719
+                discontinue: 0.0718
               discontinue: 0.0069  # calibration
             death_rate:
               base: 0.792
@@ -203,11 +203,11 @@ demographics:
                   stop: 9999
                   enroll_prob: 0.0
               reinit:
-                allow: true
                 prob: 0.041
               adherence:
                 init: 0.707
                 prob: 0.707
+                discontinue: 0.0745
               discontinue: 0.0059
             death_rate:
               base: 0.0696

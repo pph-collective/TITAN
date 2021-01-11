@@ -105,7 +105,7 @@ class HAART(base_feature.BaseFeature):
                     if num_haart_agents < (haart_params.cap * num_dx_agents):
                         self.initiate(model)
                 else:
-                    if self.ever and haart_params.reinit.allow:
+                    if self.ever and self.agent.location.params.hiv.reinit_haart:
                         if model.run_random.random() < haart_params.reinit.prob:
                             self.initiate(model)
                     else:
@@ -121,10 +121,16 @@ class HAART(base_feature.BaseFeature):
                             self.initiate(model)
 
             # Go off HAART
-            elif self.active and model.run_random.random() < haart_params.discontinue:
-                self.active = False
-                self.adherent = False
-                self.remove_agent(self.agent)
+            elif self.active:
+                if model.run_random.random() < haart_params.discontinue:
+                    self.active = False
+                    self.adherent = False
+                    self.remove_agent(self.agent)
+                elif (
+                    self.adherent
+                    and model.run_random.random() < haart_params.adherence.discontinue
+                ):
+                    self.adherent = False
 
     @classmethod
     def add_agent(cls, agent: "agent.Agent"):
