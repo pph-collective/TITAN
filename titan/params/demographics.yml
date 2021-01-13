@@ -190,7 +190,7 @@ demographics:
             max: 1.0
         safe_sex:
           type: sub-dict
-          description: "Parameters controlling condom use (safe sex) given bond type"
+          description: "Parameters controlling condom use/safe sex per sex act given bond type"
           keys:
             - bond_types
           default:
@@ -305,22 +305,14 @@ demographics:
               cap:
                 type: float
                 default: 0.0
-                description: "Percent of agents on haart if haart cap is used"
+                description: "Percent of diagnosed agents on haart if haart cap is used"
                 min: 0.0
                 max: 1.0
-              haart_cap:
-                default: false
-                description: Whether "prob" defined in demographics.race.sex_type.haart is a percent of diagnosed, HIV+ agents instead of a per-time-step probability for HAART coverage
-                type: boolean
-              reinit_haart:
-                type: boolean
-                default: false
-                description: Whether a separate probability should be used for haart initiation among agents who have previously discontinued haart
-              prob:
+              enroll_prob:
                 type: bin
                 description: "Probability that an agent in this class with HIV becomes enrolled in HAART at a given time step based on time since diagnosis (use 0 for haart cap)"
                 fields:
-                  enroll_prob:
+                  prob:
                     type: float
                     min: 0.0
                     max: 1.0
@@ -334,7 +326,7 @@ demographics:
                   0:
                     start: 0
                     stop: 999
-                    enroll_prob: 0.0
+                    prob: 0.0
               reinit:
                 prob:
                   type: float
@@ -362,6 +354,9 @@ demographics:
                 become:
                   default: 0.0
                   description: "Probability that an agent already on haart will become adherent at a given timestep"
+                  type: float
+                  min: 0.0
+                  max: 1.0
               discontinue:
                 default: 0.0
                 description: "Probability that an agent on HAART discontinues HAART in a given time step"
