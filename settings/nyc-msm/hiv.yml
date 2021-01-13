@@ -5,7 +5,6 @@ hiv:
   aids:
     prob: 0.004
   start_time: -48
-  reinit_haart: true
 
 prep:
   target_model:
@@ -15,3 +14,6 @@ prep:
   efficacy:
     adherent: 0.96
     non_adherent: 0.76
+
+haart:
+  reinit: true

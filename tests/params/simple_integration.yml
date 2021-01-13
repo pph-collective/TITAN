@@ -57,7 +57,7 @@ demographics:
               init: 0.1
               prob:
                 1:
-                  enroll_prob: 0.1
+                  enroll: 0.1
                   start: 0
                   stop: 999
               adherence:
@@ -102,7 +102,7 @@ demographics:
               init: 0.1
               prob:
                 1:
-                  enroll_prob: 0.1
+                  enroll: 0.1
                   start: 0
                   stop: 999
               adherence:

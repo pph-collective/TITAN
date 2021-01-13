@@ -41,13 +41,13 @@ demographics:
                 init: 0.1
             haart:
               init: 0.1
-              prob: &haart_prob
+              enroll: &haart_prob
                 0:
-                  enroll_prob: 0.1
+                  prob: 0.1
                   start: 0
                   stop: 10
                 1:
-                  enroll_prob: 1.0
+                  prob: 1.0
                   start: 10
                   stop: 100
               reinit: &reinit_prob
@@ -74,7 +74,7 @@ demographics:
                     value_type: float
             haart:
               init: 0.1
-              prob: *haart_prob
+              enroll: *haart_prob
               reinit: *reinit_prob
               adherence:
                 init: 0.1
@@ -313,8 +313,8 @@ exposures:
   hiv: true
   knowledge: true
 
-hiv:
-  reinit_haart: true
+haart:
+  reinit: true
 
 features:
   incar: true

@@ -43,11 +43,13 @@ hiv:
   dx:
     risk_reduction:
       sex: 0.19
-  haart_cap: true
   start_time: -48
   init: -48
   aids:
     prob: 0.0029
+
+haart:
+  use_cap: true
 
 timeline_scaling:
   timeline:

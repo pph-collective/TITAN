@@ -42,9 +42,9 @@ demographics:
                 init: 1.0
             haart: &haart_vals
               init: 1.0
-              prob:
+              enroll:
                 0:
-                  enroll_prob: 0.679
+                  prob: 0.679
                   start: 0
                   stop: 999
               adherence:
@@ -104,7 +104,7 @@ demographics:
           init:
             receptive: 1.0
         safe_sex:
-          Sex: &condom_use
+          Sex: &condom_use_HF
             prob: 0.2
           Inj: *condom_use_HF
           SexInj: *condom_use_HF

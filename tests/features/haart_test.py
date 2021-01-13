@@ -36,7 +36,7 @@ def test_update_haart_t1(make_model, make_agent):
     assert a.haart.active is False
 
     # Try haart cap with low cap, one agent on haart and one diagnosed agent. Nothing happens
-    a.location.params.hiv.haart_cap = True
+    a.location.params.haart.use_cap = True
     a.haart.counts[a.race][a.sex_type] = 1
     a.hiv.dx_counts[a.race][a.sex_type] = 5
     a.location.params.demographics[a.race].sex_type[a.sex_type].drug_type[

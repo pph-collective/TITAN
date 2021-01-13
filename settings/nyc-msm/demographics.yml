@@ -31,23 +31,23 @@ demographics:
                 init: 0.500
             haart:
               init: 0.764
-              prob:
+              enroll:
                 0:
                   start: 0
                   stop: 1
-                  enroll_prob: 0.709
+                  prob: 0.709
                 1:
                   start: 1
                   stop: 3
-                  enroll_prob: 0.212
+                  prob: 0.212
                 2:
                   start: 3
                   stop: 12
-                  enroll_prob: 0.051
+                  prob: 0.051
                 3:
                   start: 12
                   stop: 9999
-                  enroll_prob: 0.0
+                  prob: 0.0
               reinit:
                 prob: 0.035
               adherence:
@@ -108,23 +108,23 @@ demographics:
                 init: 0.487
             haart:
               init: 0.764
-              prob:
+              enroll:
                 0:
-                  enroll_prob: 0.278
+                  prob: 0.278
                   start: 0
                   stop: 1
                 1:
-                  enroll_prob: 0.193
+                  prob: 0.193
                   start: 1
                   stop: 3
                 2:
-                  enroll_prob: 0.037
+                  prob: 0.037
                   start: 3
                   stop: 12
                 3:
                   start: 12
                   stop: 9999
-                  enroll_prob: 0.0
+                  prob: 0.0
               reinit:
                 prob: 0.032
               adherence:
@@ -185,23 +185,23 @@ demographics:
                 init: 0.471
             haart:
               init: 0.791
-              prob:
+              enroll:
                 0:
                   start: 0
                   stop: 1
-                  enroll_prob: 0.742
+                  prob: 0.742
                 1:
                   start: 1
                   stop: 3
-                  enroll_prob: 0.163
+                  prob: 0.163
                 2:
                   start: 3
                   stop: 12
-                  enroll_prob: 0.029
+                  prob: 0.029
                 3:
                   start: 12
                   stop: 9999
-                  enroll_prob: 0.0
+                  prob: 0.0
               reinit:
                 prob: 0.041
               adherence:
