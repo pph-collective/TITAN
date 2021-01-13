@@ -25,12 +25,10 @@ demographics:
           init:
             insertive: 1.0
         safe_sex:
-          Sex:
+          Sex: &condom_use_HM
             prob: 0.1
-          Inj:
-            prob: 0.1
-          SexInj:
-            prob: 0.1
+          Inj: *condom_use_HM
+          SexInj: *condom_use_HM
         injection:
           unsafe_prob: 0.321
           num_acts: 5
@@ -106,12 +104,10 @@ demographics:
           init:
             receptive: 1.0
         safe_sex:
-          Sex:
+          Sex: &condom_use
             prob: 0.2
-          Inj:
-            prob: 0.2
-          SexInj:
-            prob: 0.2
+          Inj: *condom_use_HF
+          SexInj: *condom_use_HF
         injection:
           unsafe_prob: 0.321
           num_acts: 5

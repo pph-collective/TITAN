@@ -1,0 +1,9 @@
+haart:
+  cap:
+    default: false
+    description: Whether "prob" defined in demographics.race.sex_type.haart is a percent of diagnosed, HIV+ agents instead of a per-time-step probability for HAART coverage
+    type: boolean
+  reinit_haart:
+    type: boolean
+    default: false
+    description: Whether a separate probability should be used for haart initiation among agents who have previously discontinued haart

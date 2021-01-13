@@ -109,6 +109,7 @@ class HAART(base_feature.BaseFeature):
                         if model.run_random.random() < haart_params.reinit.prob:
                             self.initiate(model)
                     else:
+                        enroll_prob = 0
                         # Find enroll probability based on time since diagnosis
                         for i in haart_params.prob.values():
                             if i.start <= (model.time - self.agent.hiv.dx_time) < i.stop:  # type: ignore[attr-defined]
@@ -131,6 +132,11 @@ class HAART(base_feature.BaseFeature):
                     and model.run_random.random() < haart_params.adherence.discontinue
                 ):
                     self.adherent = False
+                elif (
+                    not self.adherent
+                    and model.run_random.random() < haart_params.adherence.prob
+                ):
+                    self.adherent = True
 
     @classmethod
     def add_agent(cls, agent: "agent.Agent"):

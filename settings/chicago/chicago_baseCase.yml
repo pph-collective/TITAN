@@ -37,9 +37,6 @@ features:
 calibration:
   injection:
     act: 1.0
-  sex:
-    partner: 1.0
-    act: 1.0
   acquisition: 1.0
   test_frequency: 1.0
   mortality: 1.0
@@ -163,12 +160,6 @@ partnership:
             prob: 1.0
             min: 37
             max: 48
-  sex:
-    acquisition:
-      MSM:
-        versatile: 0.00745
-        insertive: 0.0011
-        receptive: 0.0138
   pca:
     frequency:
       Social:
