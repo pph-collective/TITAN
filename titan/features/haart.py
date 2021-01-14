@@ -109,7 +109,7 @@ class HAART(base_feature.BaseFeature):
                         if model.run_random.random() < haart_params.reinit.prob:
                             self.initiate(model)
                     else:
-                        enroll = 0
+                        enroll_prob = 0
                         # Find enroll probability based on time since diagnosis
                         for i in haart_params.enroll.values():
                             if i.start <= (model.time - self.agent.hiv.dx_time) < i.stop:  # type: ignore[attr-defined]
