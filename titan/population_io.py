@@ -54,7 +54,7 @@ def write(pop: Population, dir: str, compress: bool = True) -> str:
     returns:
         path, or archive name if compress is true
     """
-    assert len(pop.relationships) > 0, "can't write empty population"
+    assert len(pop.relationships) > 0, "Can't write empty population"
 
     # open agent file
     agent_file = os.path.join(dir, f"{pop.id}_agents.csv")
