@@ -341,11 +341,6 @@ def main(
     setting = setting.lower()
     if setting == "custom":
         setting = None
-    else:
-        setting = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)), "settings", setting
-        )
-        assert os.path.isdir(setting), f"{setting} is not a directory"
 
     params = create_params(
         setting,

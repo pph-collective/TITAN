@@ -86,7 +86,7 @@ def check_params(params: ObjMap):
 
 
 def create_params(
-    setting_path: Optional[str],
+    setting_name: Optional[str],
     param_path: str,
     outdir: str,
     error_on_unused: bool = False,
@@ -117,7 +117,7 @@ def create_params(
 
     # merge setting and params
     if setting_path is not None:
-        param_paths.append(setting_path)
+        param_paths.append(os.path.join(parent, "settings", setting_name))
 
     param_paths.append(param_path)
 

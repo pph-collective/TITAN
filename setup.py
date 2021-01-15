@@ -18,6 +18,5 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
-    package_data={'titan': ['params/*.yml']},
-    data_files=[('settings', ['settings/*/*.yml', 'settings/*/*.yaml'])]
+    package_data={'titan': ['params/*.yml', 'settings/*/*.yml']}
 )
