@@ -20,6 +20,6 @@ setuptools.setup(
     python_requires='>=3.6',
     package_data={'titan': ['params/*.yml', 'settings/*/*.yml']},
     entry_points={
-        'console_scripts': ['run_titan=titan:main']
+        'console_scripts': ['run_titan=titan:script_init']
     }
 )

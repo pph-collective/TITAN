@@ -405,7 +405,7 @@ def main(
     print(("all tasks - sum:  %8.4f seconds" % sum(wct)))
     print(f"all tasks - total: {toc} seconds")
 
-def main():
+def script_init():
     args = parser.parse_args()
     rows = args.rows.strip() if args.rows is not None else None
     sweepfile = args.sweepfile.strip() if args.sweepfile is not None else None
@@ -425,4 +425,4 @@ def main():
     )
 
 if __name__ == "__main__":
-    main()
+    init()
