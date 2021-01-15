@@ -405,8 +405,7 @@ def main(
     print(("all tasks - sum:  %8.4f seconds" % sum(wct)))
     print(f"all tasks - total: {toc} seconds")
 
-
-if __name__ == "__main__":
+def main():
     args = parser.parse_args()
     rows = args.rows.strip() if args.rows is not None else None
     sweepfile = args.sweepfile.strip() if args.sweepfile is not None else None
@@ -424,3 +423,6 @@ if __name__ == "__main__":
         save_pop=args.savepop,
         pop_path=poppath,
     )
+
+if __name__ == "__main__":
+    main()
