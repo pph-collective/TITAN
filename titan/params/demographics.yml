@@ -309,7 +309,7 @@ demographics:
                 min: 0.0
                 max: 1.0
               enroll:
-                type: bin
+                type: definition
                 description: "Probability that an agent in this class with HIV becomes enrolled in HAART at a given time step based on time since diagnosis (use 0 for haart cap)"
                 fields:
                   prob:
@@ -323,7 +323,7 @@ demographics:
                     type: int
                     min: 1
                 default:
-                  0:
+                  enroll_0:
                     start: 0
                     stop: 999
                     prob: 0.0

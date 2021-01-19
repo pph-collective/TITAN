@@ -32,19 +32,19 @@ demographics:
             haart:
               init: 0.764
               enroll:
-                0:
+                enroll_0:
                   start: 0
                   stop: 1
                   prob: 0.709
-                1:
+                enroll_1:
                   start: 1
                   stop: 3
                   prob: 0.212
-                2:
+                enroll_2:
                   start: 3
                   stop: 12
                   prob: 0.051
-                3:
+                enroll_3:
                   start: 12
                   stop: 9999
                   prob: 0.0

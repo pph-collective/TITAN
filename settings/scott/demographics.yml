@@ -43,7 +43,7 @@ demographics:
             haart: &haart_vals
               init: 1.0
               enroll:
-                0:
+                enroll_0:
                   prob: 0.679
                   start: 0
                   stop: 999
