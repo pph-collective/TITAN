@@ -7,9 +7,9 @@ prep:
       - Inj
     description: Type of PrEP used in model
     type: array
-  target:
+  cap:
     default: 0.0
-    description: Target coverage for PrEP coverage, or probability of initiating prep at a timestep if target_as_prob is true
+    description: Ceiling/target coverage for PrEP coverage, or probability of initiating prep at a timestep if cap_as_prob is true
     type: float
     min: 0
     max: 1
@@ -19,9 +19,9 @@ prep:
     type: float
     min: 0.
     max: 1.
-  target_as_prob:
+  cap_as_prob:
     default: false
-    description: If prep.target should be treated as a probability instead of a target
+    description: If prep.cap should be treated as a probability instead of a cap
     type: boolean
   start_time:
     default: 0

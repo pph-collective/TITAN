@@ -97,7 +97,7 @@ demographics:
         prep: &base_prep
           adherence: 0.1
           discontinue: 0.1
-          target: 0.3
+          cap: 0.3
           init: 0.3
         high_risk: &base_high_risk
           init: 0.1
@@ -116,7 +116,7 @@ demographics:
         prep:
           adherence: 0.1
           discontinue: 0.1
-          target: 0.3
+          cap: 0.3
           init: 0.5
         high_risk: *base_high_risk
         vaccine: *base_vaccine
@@ -279,9 +279,9 @@ partnership:
       black: *poisson_one
 
 prep:
-  target: 0.1
+  cap: 0.1
   init: 0.7
-  target_as_prob: false
+  cap_as_prob: false
 
 knowledge:
   prob: 0.3

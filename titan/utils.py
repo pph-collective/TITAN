@@ -176,7 +176,7 @@ def get_param_from_path(params, param_path, delimiter):
 
 def scale_param(params, param_path, scalar, delimiter="|"):
     """
-    Given the params and a parameter path in the format prep|target, scale the
+    Given the params and a parameter path in the format prep|cap, scale the
     current value by the scalar
     """
     scaling_item, last_key = get_param_from_path(params, param_path, delimiter)
@@ -188,7 +188,7 @@ def scale_param(params, param_path, scalar, delimiter="|"):
 
 def override_param(params, param_path, value, delimiter="|"):
     """
-    Given the params and a parameter path in the format prep|target, change the
+    Given the params and a parameter path in the format prep|cap, change the
     current value to new value
     """
     override_item, last_key = get_param_from_path(params, param_path, delimiter)

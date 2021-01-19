@@ -96,7 +96,7 @@ def test_read_pop(tmpdir, make_population, params):
 
 @pytest.mark.unit
 def test_write_read_pop_compressed(tmpdir, make_population, params):
-    params.prep.target = 0.5
+    params.prep.cap = 0.5
     pop = make_population(n=10)
     prep_counts = deepcopy(Prep.counts)
 

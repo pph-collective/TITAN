@@ -17,7 +17,7 @@ demographics:
         prep:
           discontinue: 0.0
           adherence: 0.568
-          target: 0.258
+          cap: 0.258
           init: 0.258
         drug_type:
             NonInj:
@@ -63,7 +63,7 @@ demographics:
             prob: 0.528
         prep:
           adherence: 0.911
-          target: 0.415
+          cap: 0.415
           discontinue: 0.0
           init: 0.415
         drug_type:

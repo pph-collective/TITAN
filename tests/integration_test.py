@@ -189,7 +189,7 @@ def test_prep_coverage(make_model_integration, tmpdir):
     model_a.run(path_a)
 
     # change the coverage upward for creating model b, use same seeds
-    model_a.params.prep.target = 0.9
+    model_a.params.prep.cap = 0.9
     model_a.params.prep.init = 0.9
     model_a.params.model.seed.run = model_a.run_seed
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
@@ -197,7 +197,7 @@ def test_prep_coverage(make_model_integration, tmpdir):
     model_b = TITAN(model_a.params)
     model_b.run(path_b)
     print(
-        f"model b prep world target: {model_b.pop.geography.locations['world'].params.prep.target}"
+        f"model b prep world target: {model_b.pop.geography.locations['world'].params.prep.cap}"
     )
 
     result_file_a = os.path.join(path_a, "basicReport.txt")

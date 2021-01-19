@@ -9,7 +9,7 @@ hiv:
 prep:
   target_model:
     - Racial
-  target_as_prob: true
+  cap_as_prob: true
   start_time: -48
   efficacy:
     adherent: 0.96

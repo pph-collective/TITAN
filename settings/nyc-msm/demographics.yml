@@ -17,7 +17,7 @@ demographics:
         prep:
           discontinue: 0.034  # calibration
           adherence: 0.565
-          target: 0.028
+          cap: 0.028
           init: 0.252
         drug_type:
           None:
@@ -94,7 +94,7 @@ demographics:
         prep:
           discontinue: 0.025  # calibration
           adherence: 0.719
-          target: 0.026
+          cap: 0.026
           init: 0.234
         drug_type:
           None:
@@ -171,7 +171,7 @@ demographics:
         prep:
           discontinue: 0.014
           adherence: 0.738
-          target: 0.031
+          cap: 0.031
           init: 0.279
         drug_type:
           None:

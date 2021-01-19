@@ -10,7 +10,7 @@ from titan.features import RandomTrial
 def test_initialize_random_trial_prep_all(make_model, params):
     params.features.prep = True
     params.vaccine.on_init = False
-    params.prep.target = 0
+    params.prep.cap = 0
     params.random_trial.choice = "all"
     model = make_model(params)
     model.run_random = FakeRandom(-0.1)
@@ -27,7 +27,7 @@ def test_initialize_random_trial_prep_all(make_model, params):
 def test_initialize_random_trial_prep_eigenvector(make_model, params):
     params.features.prep = True
     params.vaccine.on_init = False
-    params.prep.target = 0
+    params.prep.cap = 0
     params.hiv.start_time = 5
     params.random_trial.choice = "eigenvector"
     model = make_model(params)
@@ -53,7 +53,7 @@ def test_initialize_random_trial_prep_eigenvector(make_model, params):
 def test_initialize_random_trial_prep_random(make_model, params):
     params.features.prep = True
     params.vaccine.on_init = False
-    params.prep.target = 0
+    params.prep.cap = 0
     params.hiv.start_time = 5
     params.random_trial.choice = "random"
     model = make_model(params)

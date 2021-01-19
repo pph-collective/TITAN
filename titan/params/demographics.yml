@@ -212,9 +212,9 @@ demographics:
             type: float
             min: 0.0
             max: 1.0
-          target:
+          cap:
             default: 0.0
-            description: "Target percentage of PrEP coverage for this population class, or probability of going on PrEP if target_as_prob is true"
+            description: "Ceiling/target percentage of PrEP coverage for this population class, or probability of going on PrEP if cap_as_prob is true"
             type: float
             min: 0.0
             max: 1.0

@@ -33,7 +33,7 @@ demographics:
         prep:
           adherence: 0.9
           discontinue: 0.1
-          target: 0.3
+          cap: 0.3
           init: 0.3
         high_risk:
           init: 0.1
@@ -176,7 +176,7 @@ partner_tracing:
   prob: 1
 
 prep:
-  target: 0.1
+  cap: 0.1
   init: 0.1
   start_time: -6
 
