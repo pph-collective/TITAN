@@ -5,6 +5,7 @@ import time as time_mod
 from copy import copy
 import sys
 import os
+from inspect import getsourcefile
 import shutil
 import argparse
 import itertools
@@ -14,6 +15,14 @@ import csv
 import traceback
 from typing import List, Optional
 import subprocess
+
+# allow imports to work if running it as a script for development locally
+if __name__ == "__main__":
+    PACKAGE_PARENT = ".."
+    SCRIPT_DIR = os.path.dirname(
+        os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__)))
+    )
+    sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
 from titan.model import TITAN
 from titan.population import Population
