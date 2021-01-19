@@ -1,4 +1,13 @@
 import setuptools
+from pathlib import Path
+
+def get_active_branch_name():
+    head_dir = Path(".") / ".git" / "HEAD"
+    with head_dir.open("r") as f: content = f.read().splitlines()
+
+    for line in content:
+        if line[0:4] == "ref:":
+            return line.partition("refs/heads/")[2]
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
@@ -8,7 +17,7 @@ with open('requirements.txt') as f:
 
 setuptools.setup(
     name="titan", # Replace with your own username
-    version="2.0.0",
+    version=get_active_branch_name(),
     # author="Example Author",
     # author_email="author@example.com",
     description="TITAN Agent Based Model",
