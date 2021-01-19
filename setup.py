@@ -17,7 +17,7 @@ with open('requirements.txt') as f:
 
 setuptools.setup(
     name="titan", # Replace with your own username
-    version=get_active_branch_name(),
+    version=f"0.0.0-{get_active_branch_name()}",
     # author="Example Author",
     # author_email="author@example.com",
     description="TITAN Agent Based Model",
