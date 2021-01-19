@@ -42,6 +42,19 @@ def test_model_runs():
 
 
 @pytest.mark.integration_deterministic
+def test_model_runs_sweep():
+    f = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "..", "titan", "run_titan.py"
+    )
+    param_file = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
+    )
+
+    subprocess.check_call([f, f"-p {param_file}", "-w model.seed.run:1:3"])
+    assert True
+
+
+@pytest.mark.integration_deterministic
 def test_model_reproducible(tmpdir):
     path_a = tmpdir.mkdir("result_a")
     path_b = tmpdir.mkdir("result_b")

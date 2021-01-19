@@ -98,7 +98,7 @@ def sweep_range(string):
         except ValueError:
             raise ValueError("start, stop, and step must have same type (int or float)")
 
-    return {"param": parts[0], "start": start, "stop": stop, "step": step}
+    return {"param": parts[0].strip(), "start": start, "stop": stop, "step": step}
 
 
 parser.add_argument(
