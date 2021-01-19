@@ -21,9 +21,8 @@ import titan.population_io as pop_io
 from titan.parse_params import create_params
 from titan import utils
 
-# how many cores can we use
-NCORES = os.environ.get("SLURM_CPUS_PER_TASK", cpu_count())
-NCORES = int(NCORES)  # environment variable returns string
+# how many cores can we use, environment variable returns string
+NCORES = int(os.environ.get("SLURM_CPUS_PER_TASK", cpu_count()))
 
 # set up args parsing
 parser = argparse.ArgumentParser(description="Run TITAN model")
@@ -339,11 +338,10 @@ def main(
 
     # generate params - if no setting, set to none
     setting = setting.lower()
-    if setting == "custom":
-        setting = None
+    setting_parsed = None if setting == "custom" else setting
 
     params = create_params(
-        setting,
+        setting_parsed,
         params_path,
         outfile_dir,
         error_on_unused=error_on_unused,
@@ -405,6 +403,7 @@ def main(
     print(("all tasks - sum:  %8.4f seconds" % sum(wct)))
     print(f"all tasks - total: {toc} seconds")
 
+
 def script_init():
     args = parser.parse_args()
     rows = args.rows.strip() if args.rows is not None else None
@@ -424,5 +423,6 @@ def script_init():
         pop_path=poppath,
     )
 
+
 if __name__ == "__main__":
-    init()
+    script_init()

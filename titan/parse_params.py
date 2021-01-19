@@ -117,7 +117,11 @@ def create_params(
 
     # merge setting and params
     if setting_name is not None:
-        param_paths.append(os.path.join(parent, "settings", setting_name))
+        # check if it's a known setting or pass it through as a path
+        if setting_name in os.listdir(os.path.join(parent, "settings")):
+            param_paths.append(os.path.join(parent, "settings", setting_name))
+        else:
+            param_paths.append(setting_name)
 
     param_paths.append(param_path)
 

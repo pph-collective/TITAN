@@ -30,7 +30,9 @@ def make_model_integration(params_integration):
 
 @pytest.mark.integration_deterministic
 def test_model_runs():
-    f = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "run_titan.py")
+    f = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "..", "titan", "run_titan.py"
+    )
     param_file = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
     )
@@ -43,7 +45,9 @@ def test_model_runs():
 def test_model_reproducible(tmpdir):
     path_a = tmpdir.mkdir("result_a")
     path_b = tmpdir.mkdir("result_b")
-    f = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "run_titan.py")
+    f = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "..", "titan", "run_titan.py"
+    )
     param_file = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "params", "basic_seeded.yml"
     )
@@ -80,7 +84,9 @@ def test_model_reproducible(tmpdir):
 @pytest.mark.integration_deterministic
 def test_model_pop_write_read(tmpdir):
     path_a = tmpdir.mkdir("a")
-    f = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "run_titan.py")
+    f = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "..", "titan", "run_titan.py"
+    )
     param_file = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
     )
@@ -99,13 +105,17 @@ def test_model_pop_write_read(tmpdir):
 
 @pytest.mark.integration_deterministic
 def test_model_settings_run(tmpdir):
-    f = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "run_titan.py")
+    f = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "..", "titan", "run_titan.py"
+    )
     param_file = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "params", "integration_base.yml"
     )
 
     for item in os.listdir(
-        os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "settings")
+        os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "..", "titan", "settings"
+        )
     ):
         if "__" not in item and item != "base":
             path = tmpdir.mkdir(item)

@@ -3,19 +3,25 @@ import subprocess
 
 # ========= FROM https://github.com/vivin/better-setuptools-git-version/blob/master/better_setuptools_git_version.py with edits =========
 def get_latest_tag():
-    return subprocess.getoutput("git describe --tags `git rev-list --tags --max-count=1`")
+    return subprocess.getoutput(
+        "git describe --tags `git rev-list --tags --max-count=1`"
+    )
+
 
 def get_tag_commit_sha(tag):
     """Return the commit that the tag is pointing to."""
     return subprocess.getoutput("git rev-list -n 1 {tag}".format(tag=tag))
 
+
 def get_head_sha():
     """Return the sha key of HEAD."""
-    return subprocess.getoutput('git rev-parse HEAD')
+    return subprocess.getoutput("git rev-parse HEAD")
+
 
 def is_head_at_tag(tag):
     """Return True or False depending on whether the given tag is pointing to HEAD"""
     return get_head_sha() == get_tag_commit_sha(tag)
+
 
 def get_version():
     """
@@ -27,7 +33,7 @@ def get_version():
     Returns:
         the formatted version based on tags in the git repository.
     """
-    template="{tag}.dev{sha}"
+    template = "{tag}.dev{sha}"
     tag = get_latest_tag()
     if is_head_at_tag(tag):
         version = tag
@@ -35,16 +41,19 @@ def get_version():
         sha = get_head_sha()[:8]
         version = template.format(tag=tag, sha=sha)
 
-    return version
+    return versio
 
+
+# add the readme as the description
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-with open('requirements.txt') as f:
+# make the requirements.txt be installed (not good practice for general packaging, good for current oscar set up)
+with open("requirements.txt") as f:
     required = f.read().splitlines()
 
 setuptools.setup(
-    name="titan", # Replace with your own username,
+    name="titan",  # Replace with your own username,
     version=get_version(),
     # author="Example Author",
     # author_email="author@example.com",
@@ -58,9 +67,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.6',
-    package_data={'titan': ['params/*.yml', 'settings/*/*.yml']},
-    entry_points={
-        'console_scripts': ['run_titan=titan:script_init']
-    }
+    python_requires=">=3.6",
+    package_data={"titan": ["params/*.yml", "settings/*/*.yml"]},
+    entry_points={"console_scripts": ["run_titan=titan:script_init"]},
 )
