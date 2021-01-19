@@ -8,6 +8,7 @@ def get_active_branch_name():
     for line in content:
         print(line)
         if line[0:4] == "ref:":
+            assert False
             return line.partition("refs/heads/")[2]
 
 with open("README.md", "r", encoding="utf-8") as fh:
