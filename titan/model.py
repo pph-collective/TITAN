@@ -1283,7 +1283,9 @@ class HIVModel:
                 ) * agent.location.params.demographics[agent.race][
                     agent.sex_type
                 ].prep.coverage
-
+            elif {"pwid", "pwid_sex", "ssp_sex", "ssp"} & set(agent.location.params.prep.target_model):
+                num_prep_agents = sum(self.pop.prep_counts.values())
+                target_prep = len({a for a in self.pop.all_agents if (a.prep_eligible() and not a.hiv)}) * agent.location.params.prep.target
             else:
                 num_prep_agents = sum(self.pop.prep_counts.values())
                 target_prep = int(
