@@ -2,6 +2,7 @@ import setuptools
 from pathlib import Path
 
 def get_active_branch_name():
+    print("getting active branch name...")
     head_dir = Path(".") / ".git" / "HEAD"
     with head_dir.open("r") as f: content = f.read().splitlines()
     for line in content:
