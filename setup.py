@@ -3,7 +3,7 @@ import subprocess
 
 # ========= FROM https://github.com/vivin/better-setuptools-git-version/blob/master/better_setuptools_git_version.py with edits =========
 def get_latest_tag():
-    subprocess.getoutput("git describe --tags `git rev-list --tags --max-count=1`")
+    return subprocess.getoutput("git describe --tags `git rev-list --tags --max-count=1`")
 
 def get_tag_commit_sha(tag):
     """Return the commit that the tag is pointing to."""
