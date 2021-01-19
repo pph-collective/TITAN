@@ -194,6 +194,15 @@ class HAART(base_feature.BaseFeature):
 
         return prob
 
+    def aids_scale(self):
+        prob = 1.0
+        if self.active:
+            params = self.agent.location.params
+            adherence = "adherent" if self.adherent else "non_adherent"
+            prob = params.haart.aids_scale[adherence]
+
+        return prob
+
     # =========== HELPER METHODS ============
 
     def initiate(self, model: "model.TITAN"):
