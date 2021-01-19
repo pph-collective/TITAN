@@ -41,7 +41,7 @@ def get_version():
         sha = get_head_sha()[:8]
         version = template.format(tag=tag, sha=sha)
 
-    return versio
+    return version
 
 
 # add the readme as the description
