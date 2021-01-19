@@ -197,7 +197,7 @@ def test_prep_coverage(make_model_integration, tmpdir):
     model_b = TITAN(model_a.params)
     model_b.run(path_b)
     print(
-        f"model b prep world target: {model_b.pop.geography.locations['world'].params.prep.cap}"
+        f"model b prep world cap: {model_b.pop.geography.locations['world'].params.prep.cap}"
     )
 
     result_file_a = os.path.join(path_a, "basicReport.txt")
@@ -243,6 +243,7 @@ def test_syringe_services(params_integration, tmpdir):
     """
     params_integration.demographics.black.sex_type.MSM.drug_type.Inj.ppl = 1.0
     params_integration.demographics.black.sex_type.MSM.drug_type["None"].ppl = 0.0
+    params_integration.model.num_pop = 500
     model_a = TITAN(params_integration)
     model_a.params.partnership.sex.frequency.Sex = (
         ObjMap(  # turn off sex to show only injection effects

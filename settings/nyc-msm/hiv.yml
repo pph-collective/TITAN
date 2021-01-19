@@ -16,4 +16,4 @@ prep:
     non_adherent: 0.76
 
 haart:
-  reinit: true
+  use_reinit: true

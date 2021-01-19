@@ -72,7 +72,7 @@ def test_update_haart_dx_time(make_model, make_agent):
 
     a.hiv.active = True
     a.hiv.dx = True
-    a.hiv.dx_time = 1  # agent dx duration is 0
+    a.hiv.dx_time = model.time  # agent dx duration is 0
     a.haart.update_agent(model)
     assert not a.haart.active
 
@@ -93,6 +93,8 @@ def test_update_haart_reinit(make_model, make_agent):
     a.haart.update_agent(model)
     assert not a.haart.active
 
-    model.run_random = FakeRandom(-1.1)
+    a.location.params.demographics[a.race].sex_type[a.sex_type].drug_type[
+        a.drug_type
+    ].haart.reinit.prob = 1.0
     a.haart.update_agent(model)
     assert a.haart.active

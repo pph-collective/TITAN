@@ -314,7 +314,7 @@ exposures:
   knowledge: true
 
 haart:
-  reinit: true
+  use_reinit: true
 
 features:
   incar: true

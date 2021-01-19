@@ -105,14 +105,15 @@ class HAART(base_feature.BaseFeature):
                     if num_haart_agents < (haart_params.cap * num_dx_agents):
                         self.initiate(model)
                 else:
-                    if self.ever and self.agent.location.params.haart.reinit:
+                    if self.ever and self.agent.location.params.haart.use_reinit:
                         if model.run_random.random() < haart_params.reinit.prob:
                             self.initiate(model)
                     else:
                         enroll_prob = 0
                         # Find enroll probability based on time since diagnosis
+                        haart_duration = model.time - self.agent.hiv.dx_time  # type: ignore[attr-defined]
                         for i in haart_params.enroll.values():
-                            if i.start <= (model.time - self.agent.hiv.dx_time) < i.stop:  # type: ignore[attr-defined]
+                            if i.start <= haart_duration < i.stop:  # type: ignore[attr-defined]
                                 enroll_prob = i.prob
                                 break
 
@@ -121,20 +122,21 @@ class HAART(base_feature.BaseFeature):
                         ):
                             self.initiate(model)
 
-            # Go off HAART
-            elif self.active:
+            # Update agents on HAART
+            else:
+                # Go off HAART
                 if model.run_random.random() < haart_params.discontinue:
                     self.active = False
                     self.adherent = False
                     self.remove_agent(self.agent)
-                elif (
+                elif (  # Become non-adherent
                     self.adherent
                     and model.run_random.random() < haart_params.adherence.discontinue
                 ):
                     self.adherent = False
-                elif (
+                elif (  # Become adherent
                     not self.adherent
-                    and model.run_random.random() < haart_params.adherence.prob
+                    and model.run_random.random() < haart_params.adherence.become
                 ):
                     self.adherent = True
 
@@ -197,9 +199,8 @@ class HAART(base_feature.BaseFeature):
     def aids_scale(self):
         prob = 1.0
         if self.active:
-            params = self.agent.location.params
             adherence = "adherent" if self.adherent else "non_adherent"
-            prob = params.haart.aids_scale[adherence]
+            prob = self.agent.location.params.haart.aids_scale[adherence]
 
         return prob
 

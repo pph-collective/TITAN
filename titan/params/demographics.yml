@@ -310,7 +310,7 @@ demographics:
                 max: 1.0
               enroll:
                 type: definition
-                description: "Probability that an agent in this class with HIV becomes enrolled in HAART at a given time step based on time since diagnosis (use 0 for haart cap)"
+                description: "Probability that an agent in this class with HIV becomes enrolled in HAART given the agent's time since diagnosis (unused if use_cap is true)"
                 fields:
                   prob:
                     type: float
