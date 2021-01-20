@@ -11,11 +11,13 @@ demographics:
             versatile: 0.437
             insertive: 0.242
             receptive: 0.321
-        safe_sex: 0.688
+        safe_sex:
+          Sex: 
+            prob: 0.688
         prep:
           discontinue: 0.0
           adherence: 0.568
-          target: 0.258
+          cap: 0.258
           init: 0.258
         drug_type:
             NonInj:
@@ -36,7 +38,7 @@ demographics:
                   init: 0.232
               haart: &black_haart
                 init: 0.625
-                prob: 0.35
+                cap: 0.35
                 adherence:
                   init: 0.885
                   prob: 0.885
@@ -56,10 +58,12 @@ demographics:
             versatile: 0.544
             insertive: 0.228
             receptive: 0.228
-        safe_sex: 0.528
+        safe_sex:
+          Sex:
+            prob: 0.528
         prep:
           adherence: 0.911
-          target: 0.415
+          cap: 0.415
           discontinue: 0.0
           init: 0.415
         drug_type:
@@ -78,7 +82,7 @@ demographics:
               aids: 34.4
             haart: &white_haart
               init: 0.585
-              prob: 0.20
+              cap: 0.20
               adherence:
                 init: 0.817
                 prob: 0.817

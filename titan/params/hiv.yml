@@ -31,28 +31,11 @@ hiv:
       type: float
       min: 0
       max: 1
-    haart_scale:
-      non_adherent:
-        description: Scalar for aids progression for agents on haart but non-adherent
-        default: 0.00368
-        type: float
-        min: 0.
-        max: 1.
-      adherent:
-        description: Scalar for aids progression for agents adherent to haart
-        default: 0.0008
-        type: float
-        min: 0.
-        max: 1.
   max_init_time:
     default: 42
     description: On creation, agents are randomly assigned an hiv.time, this is the maximum time
     type: int
     min: 2
-  haart_cap:
-    default: false
-    description: Whether "prob" defined in demographics.race.sex_type.haart is a percent of diagnosed, HIV+ agents instead of a per-time-step probability for HAART coverage
-    type: boolean
   start_time:
     default: 0
     description: "What timestep to start agent interactions related to hiv transmission"

@@ -9,7 +9,9 @@ demographics:
             versatile: 0.671
             insertive: 0.169
             receptive: 0.160
-        safe_sex: 0.214
+        safe_sex:
+          Sex:
+            prob: 0.214
         prep:
           discontinue: 0.034
           adherence: 0.860
@@ -25,7 +27,21 @@ demographics:
                 init: 0.46
             haart:
               init: 0.690
-              prob: 0.057
+              enroll:
+                enroll_0:
+                  prob: 0.609
+                  start: 0
+                  stop: 1
+                enroll_1:
+                  prob: 0.074
+                  start: 1
+                  stop: 12
+                enroll_2:
+                  prob: 0.0
+                  start: 12
+                  stop: 9999
+              reinit:
+                prob: 0.01
               adherence:
                 init: 0.500
                 prob: 0.500

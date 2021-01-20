@@ -248,7 +248,7 @@ def test_update_agent_partners_MSM_match(make_population, params):
 def test_update_agent_partners_NDU_PWID_match(make_population, params):
     pop = make_population(n=0)
     a = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
-    p = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
+    p = pop.create_agent(pop.geography.locations["world"], "black", 0, "MSM")
     # ensure random sex partner no assorting
     pop.pop_random = FakeRandom(1.1)
     a.drug_type = "None"
@@ -265,6 +265,17 @@ def test_update_agent_partners_NDU_PWID_match(make_population, params):
     assert p in pop.graph.nodes()
     assert a.partners
     assert len(pop.graph.edges()) == 1
+    for (
+        rel
+    ) in (
+        a.relationships
+    ):  # check that duration uses "randomly selected" (first) partner
+        assert rel.duration == partnering.get_partnership_duration(
+            a.location.params, pop.np_random, "Sex", a.race
+        )
+        assert rel.duration != partnering.get_partnership_duration(
+            a.location.params, pop.np_random, "Sex", p.race
+        )
 
 
 @pytest.mark.unit
