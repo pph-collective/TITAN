@@ -353,7 +353,7 @@ demographics:
                   max: 1.0
                 become:
                   default: 0.0
-                  description: "Probability that an agent already on haart will become adherent at a given timestep"
+                  description: "Probability that a non-adherent agent will become adherent at a given timestep"
                   type: float
                   min: 0.0
                   max: 1.0
