@@ -113,7 +113,7 @@ class HAART(base_feature.BaseFeature):
                         # Find enroll probability based on time since diagnosis
                         haart_duration = model.time - self.agent.hiv.dx_time  # type: ignore[attr-defined]
                         for i in haart_params.enroll.values():
-                            if i.start <= haart_duration < i.stop:  # type: ignore[attr-defined]
+                            if i.start <= haart_duration < i.stop:
                                 enroll_prob = i.prob
                                 break
 
@@ -129,12 +129,14 @@ class HAART(base_feature.BaseFeature):
                     self.active = False
                     self.adherent = False
                     self.remove_agent(self.agent)
-                elif (  # Become non-adherent
+                # Become non-adherent
+                elif (
                     self.adherent
                     and model.run_random.random() < haart_params.adherence.discontinue
                 ):
                     self.adherent = False
-                elif (  # Become adherent
+                # Become adherent
+                elif (
                     not self.adherent
                     and model.run_random.random() < haart_params.adherence.become
                 ):
