@@ -5,6 +5,7 @@ import time as time_mod
 from copy import copy
 import sys
 import os
+from inspect import getsourcefile
 import shutil
 import argparse
 import itertools
@@ -15,15 +16,22 @@ import traceback
 from typing import List, Optional
 import subprocess
 
+# allow imports to work if running it as a script for development locally
+if __name__ == "__main__":
+    PACKAGE_PARENT = ".."
+    SCRIPT_DIR = os.path.dirname(
+        os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__)))
+    )
+    sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
+
 from titan.model import TITAN
 from titan.population import Population
 import titan.population_io as pop_io
 from titan.parse_params import create_params
 from titan import utils
 
-# how many cores can we use
-NCORES = os.environ.get("SLURM_CPUS_PER_TASK", cpu_count())
-NCORES = int(NCORES)  # environment variable returns string
+# how many cores can we use, environment variable returns string
+NCORES = int(os.environ.get("SLURM_CPUS_PER_TASK", cpu_count()))
 
 # set up args parsing
 parser = argparse.ArgumentParser(description="Run TITAN model")
@@ -90,7 +98,7 @@ def sweep_range(string):
         except ValueError:
             raise ValueError("start, stop, and step must have same type (int or float)")
 
-    return {"param": parts[0], "start": start, "stop": stop, "step": step}
+    return {"param": parts[0].strip(), "start": start, "stop": stop, "step": step}
 
 
 parser.add_argument(
@@ -339,16 +347,10 @@ def main(
 
     # generate params - if no setting, set to none
     setting = setting.lower()
-    if setting == "custom":
-        setting = None
-    else:
-        setting = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)), "settings", setting
-        )
-        assert os.path.isdir(setting), f"{setting} is not a directory"
+    setting_parsed = None if setting == "custom" else setting
 
     params = create_params(
-        setting,
+        setting_parsed,
         params_path,
         outfile_dir,
         error_on_unused=error_on_unused,
@@ -411,7 +413,7 @@ def main(
     print(f"all tasks - total: {toc} seconds")
 
 
-if __name__ == "__main__":
+def script_init():
     args = parser.parse_args()
     rows = args.rows.strip() if args.rows is not None else None
     sweepfile = args.sweepfile.strip() if args.sweepfile is not None else None
@@ -429,3 +431,7 @@ if __name__ == "__main__":
         save_pop=args.savepop,
         pop_path=poppath,
     )
+
+
+if __name__ == "__main__":
+    script_init()
