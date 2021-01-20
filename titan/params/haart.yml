@@ -1,7 +1,7 @@
 haart:
   use_cap:
     default: false
-    description: Whether "cap" defined in demographics.race.sex_type.haart is used. Otherwise, haart probability is based on time since diagnosis.
+    description: Whether "cap" defined in demographics.race.sex_type.haart.cap is used. Otherwise, haart probability is based on time since diagnosis (demographics.race.sex_type.haart.enroll).
     type: boolean
   use_reinit:
     type: boolean
