@@ -37,9 +37,6 @@ features:
 calibration:
   injection:
     act: 1.0
-  sex:
-    partner: 1.0
-    act: 1.0
   acquisition: 1.0
   test_frequency: 1.0
   mortality: 1.0
@@ -84,7 +81,7 @@ prep:
   type:
   - Oral
   - Inj
-  target: 0.088
+  cap: 0.088
   init: 0.088
   start_time: 0
   efficacy:
@@ -102,14 +99,10 @@ demographics:
         incar:
           init: 0.0
           prob: 0.0
-        safe_sex: 0.312
-        injection:
-          unsafe_prob: 0.27
-          num_acts: 5.0
         prep:
           discontinue: 0.0
           adherence: 0.568
-          target: 0.5
+          cap: 0.5
           init: 0.5
         high_risk:
           init: 0.0
@@ -144,34 +137,29 @@ demographics:
 partnership:
   duration:
     Social:
-      type: bins
-      bins:
-        1:
-          prob: 0.585
-          min: 1
-          max: 6
-        2:
-          prob: 0.701
-          min: 7
-          max: 12
-        3:
-          prob: 0.822
-          min: 13
-          max: 24
-        4:
-          prob: 0.8819999999999999
-          min: 25
-          max: 36
-        5:
-          prob: 1.0
-          min: 37
-          max: 48
-  sex:
-    acquisition:
-      MSM:
-        versatile: 0.00745
-        insertive: 0.0011
-        receptive: 0.0138
+      black:
+        type: bins
+        bins:
+          1:
+            prob: 0.585
+            min: 1
+            max: 6
+          2:
+            prob: 0.701
+            min: 7
+            max: 12
+          3:
+            prob: 0.822
+            min: 13
+            max: 24
+          4:
+            prob: 0.8819999999999999
+            min: 25
+            max: 36
+          5:
+            prob: 1.0
+            min: 37
+            max: 48
   pca:
     frequency:
       Social:

@@ -199,7 +199,7 @@ def test_initiate_prep_eligible(make_model, make_agent):
     p.hiv.dx = True
     p.external_exposure.active = True
     model.time = 10
-    a.location.params.prep.target = 1.0
+    a.location.params.prep.cap = 1.0
     a.location.params.prep.target_model = ["cdc_women"]
     rel = Relationship(a, p, 10, bond_type="Sex")
     # non-forcing, adherant, inj
@@ -223,7 +223,7 @@ def test_initiate_prep_eligible_racial(make_model, make_agent):
     p.hiv.dx = True
     p.external_exposure.active = True
     model.time = 10
-    a.location.params.prep.target = 1.0
+    a.location.params.prep.cap = 1.0
     a.location.params.prep.target_model = ["Racial"]
     rel = Relationship(a, p, 10, bond_type="Sex")
     # non-forcing, adherant, inj
@@ -383,10 +383,10 @@ def test_progress_inj_prep(make_agent, params, make_model):
 
 
 @pytest.mark.unit
-def test_target_as_prob(make_agent, make_model, params):
+def test_cap_as_prob(make_agent, make_model, params):
     model = make_model(params)
     a = make_agent()
-    a.location.params.prep.target_as_prob = True
+    a.location.params.prep.cap_as_prob = True
 
     model.run_random = FakeRandom(0.2)
     a.prep.initiate(model)

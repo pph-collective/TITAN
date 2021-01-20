@@ -98,7 +98,7 @@ demographics:
             max: 1.0
           duration:
             prob:
-              type: bins
+              type: bin
               description: Binned probabilities of incarceration duration during model run
               fields:
                 prob:
@@ -137,7 +137,7 @@ demographics:
                   min: 130
                   max: 260
             init:
-              type: bins
+              type: bin
               description: Binned probabilities of incarceration duration when initializing population
               fields:
                 prob:
@@ -189,11 +189,16 @@ demographics:
             min: 0.0
             max: 1.0
         safe_sex:
-          default: 0.0
-          description: "Probability of safe sex (condom use) per sex act"
-          type: float
-          min: 0.0
-          max: 1.0
+          type: sub-dict
+          description: "Parameters controlling condom use/safe sex per sex act given bond type"
+          keys:
+            - bond_types
+          default:
+            prob:
+              default: 0.0
+              type: float
+              min: 0.0
+              max: 1.0
         prep:
           discontinue:
             default: 0.0
@@ -207,9 +212,9 @@ demographics:
             type: float
             min: 0.0
             max: 1.0
-          target:
+          cap:
             default: 0.0
-            description: "Target percentage of PrEP coverage for this population class, or probability of going on PrEP if target_as_prob is true"
+            description: "Ceiling/target percentage of PrEP coverage for this population class, or probability of going on PrEP if cap_as_prob is true"
             type: float
             min: 0.0
             max: 1.0
@@ -297,12 +302,36 @@ demographics:
                 type: float
                 min: 0.0
                 max: 1.0
-              prob:
-                default: 0.0
-                description: "Probability that an agent in this class with HIV becomes enrolled in HAART at a given time step"
+              cap:
                 type: float
+                default: 0.0
+                description: "Percent of diagnosed agents on haart if haart cap is used"
                 min: 0.0
                 max: 1.0
+              enroll:
+                type: definition
+                description: "Probability that an agent in this class with HIV becomes enrolled in HAART given the agent's time since diagnosis (unused if use_cap is true)"
+                fields:
+                  prob:
+                    type: float
+                    min: 0.0
+                    max: 1.0
+                  start:
+                    type: int
+                    min: 0
+                  stop:
+                    type: int
+                    min: 1
+                default:
+                  enroll_0:
+                    start: 0
+                    stop: 999
+                    prob: 0.0
+              reinit:
+                prob:
+                  type: float
+                  description: "Probability of reinitiating haart"
+                  default: 0.0
               adherence:
                 init:
                   default: 0.0
@@ -313,6 +342,18 @@ demographics:
                 prob:
                   default: 0.0
                   description: "Probability that an agent is adherent when going on haart"
+                  type: float
+                  min: 0.0
+                  max: 1.0
+                discontinue:
+                  default: 0.0
+                  description: "Probability that an adherent agent will become nonadherent at a given timestep"
+                  type: float
+                  min: 0.0
+                  max: 1.0
+                become:
+                  default: 0.0
+                  description: "Probability that a non-adherent agent will become adherent at a given timestep"
                   type: float
                   min: 0.0
                   max: 1.0

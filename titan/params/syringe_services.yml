@@ -5,11 +5,9 @@ syringe_services:
       start_time:
         type: int
         description: "What time to start this prevalence of syringe services program"
-        min: 1
       stop_time:
         type: int
         description: "What time to stop this prevalence of syringe services program"
-        min: 1
       num_slots_start:
         type: int
         description: "Cap for number of available slots in SSP at beginning of time period"

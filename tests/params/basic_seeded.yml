@@ -41,7 +41,11 @@ demographics:
                 init: 0.1
             haart:
               init: 0.1
-              prob: 0.1
+              prob:
+                0:
+                  enroll: 0.1
+                  start: 0
+                  stop: 99
               adherence:
                 init: 0.1
                 prob: 0.1
@@ -64,7 +68,11 @@ demographics:
                     value_type: float
             haart:
               init: 0.1
-              prob: 0.1
+              prob:
+                0:
+                  enroll: 0.1
+                  start: 0
+                  stop: 99
               adherence:
                 init: 0.1
                 prob: 0.1
@@ -73,14 +81,22 @@ demographics:
         incar: &base_incar
           init: 0.02
           prob: 0.02
-        safe_sex: 0.1
+        safe_sex: &safe_sex_default
+          Sex:
+            prob: 0.1
+          Inj:
+            prob: 0.1
+          SexInj:
+            prob: 0.1
+          Social:
+            prob: 0.1
         injection: &base_injection
           unsafe_prob: 0.1
           num_acts: 10
         prep: &base_prep
           adherence: 0.1
           discontinue: 0.1
-          target: 0.3
+          cap: 0.3
           init: 0.3
         high_risk: &base_high_risk
           init: 0.1
@@ -94,12 +110,12 @@ demographics:
         ppl: 0.3
         drug_type: *base_drug_type
         incar: *base_incar
-        safe_sex: 0.1
+        safe_sex: *safe_sex_default
         injection: *base_injection
         prep:
           adherence: 0.1
           discontinue: 0.1
-          target: 0.3
+          cap: 0.3
           init: 0.5
         high_risk: *base_high_risk
         vaccine: *base_vaccine
@@ -107,7 +123,7 @@ demographics:
         ppl: 0.3
         drug_type: *base_drug_type
         incar: *base_incar
-        safe_sex: 0.1
+        safe_sex: *safe_sex_default
         injection: *base_injection
         prep: *base_prep
         high_risk: *base_high_risk
@@ -116,7 +132,7 @@ demographics:
         ppl: 0.2
         drug_type: *base_drug_type
         incar: *base_incar
-        safe_sex: 0.1
+        safe_sex: *safe_sex_default
         injection: *base_injection
         prep: *base_prep
         high_risk: *base_high_risk
@@ -125,7 +141,7 @@ demographics:
         ppl: 0.1
         drug_type: *base_drug_type
         incar: *base_incar
-        safe_sex: 0.1
+        safe_sex: *safe_sex_default
         injection: *base_injection
         prep: *base_prep
         high_risk: *base_high_risk
@@ -137,7 +153,7 @@ demographics:
         ppl: 0.3
         drug_type: *base_drug_type
         incar: *base_incar
-        safe_sex: 0.1
+        safe_sex: *safe_sex_default
         injection: *base_injection
         prep: *base_prep
         high_risk: *base_high_risk
@@ -146,7 +162,7 @@ demographics:
         ppl: 0.3
         drug_type: *base_drug_type
         incar: *base_incar
-        safe_sex: 0.1
+        safe_sex: *safe_sex_default
         injection: *base_injection
         prep: *base_prep
         high_risk: *base_high_risk
@@ -155,7 +171,7 @@ demographics:
         ppl: 0.2
         drug_type: *base_drug_type
         incar: *base_incar
-        safe_sex: 0.1
+        safe_sex: *safe_sex_default
         injection: *base_injection
         prep: *base_prep
         high_risk: *base_high_risk
@@ -164,7 +180,7 @@ demographics:
         ppl: 0.1
         drug_type: *base_drug_type
         incar: *base_incar
-        safe_sex: 0.1
+        safe_sex: *safe_sex_default
         injection:
           unsafe_prob: 0.
           num_acts: 10
@@ -175,7 +191,7 @@ demographics:
         ppl: 0.1
         drug_type: *base_drug_type
         incar: *base_incar
-        safe_sex: 0.1
+        safe_sex: *safe_sex_default
         injection:
           unsafe_prob: 0.
           num_acts: 10
@@ -248,9 +264,9 @@ partnership:
     Social: *poisson_one
 
 prep:
-  target: 0.1
+  cap: 0.1
   init: 0.7
-  target_as_prob: false
+  cap_as_prob: false
 
 knowledge:
   prob: 0.3

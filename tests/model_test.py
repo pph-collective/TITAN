@@ -141,21 +141,21 @@ def test_timeline_scaling_prep_def(make_model):
     model.params.timeline_scaling.timeline = ObjMap(
         {
             "scale": {
-                "parameter": "prep|target",
+                "parameter": "prep|cap",
                 "start_time": 1,
                 "stop_time": 3,
                 "scalar": scalar,
             }
         }
     )
-    original_prep_target = model.params.prep.target
+    original_prep_target = model.params.prep.cap
 
     # scale the param
     model.time = 1
     model.timeline_scaling()
 
     assert math.isclose(
-        original_prep_target * scalar, model.params.prep.target, abs_tol=0.001
+        original_prep_target * scalar, model.params.prep.cap, abs_tol=0.001
     )
 
     # param still scaled
@@ -163,17 +163,17 @@ def test_timeline_scaling_prep_def(make_model):
     model.timeline_scaling()
 
     assert math.isclose(
-        original_prep_target * scalar, model.params.prep.target, abs_tol=0.001
+        original_prep_target * scalar, model.params.prep.cap, abs_tol=0.001
     )
 
     # revert to original
     model.time = 3
     model.timeline_scaling()
 
-    assert math.isclose(original_prep_target, model.params.prep.target, abs_tol=0.001)
+    assert math.isclose(original_prep_target, model.params.prep.cap, abs_tol=0.001)
 
     # still original
     model.time = 4
     model.timeline_scaling()
 
-    assert math.isclose(original_prep_target, model.params.prep.target, abs_tol=0.001)
+    assert math.isclose(original_prep_target, model.params.prep.cap, abs_tol=0.001)

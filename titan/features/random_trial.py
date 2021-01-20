@@ -152,7 +152,7 @@ def suitable_prep(agent, model) -> bool:
     if (
         not agent.hiv.active
         and not agent.prep.active
-        and model.run_random.random() < agent.location.params.prep.target
+        and model.run_random.random() < agent.location.params.prep.cap
         and not agent.vaccine.active
     ):
         return True

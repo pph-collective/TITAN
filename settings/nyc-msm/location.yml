@@ -1,0 +1,55 @@
+location:
+  scaling:
+    high_test:
+      demographics|white|ppl:
+        field: override
+        override: 0.384
+      demographics|white|sex_type|MSM|drug_type|None|hiv|dx|prob: &high_test_prob
+        field: override
+        override: 0.333
+      demographics|black|ppl:
+        field: override
+        override: 0.278
+      demographics|black|sex_type|MSM|drug_type|None|hiv|dx|prob: *high_test_prob
+      demographics|latino|ppl:
+        field: override
+        override: 0.338
+      demographics|latino|sex_type|MSM|drug_type|None|hiv|dx|prob: *high_test_prob
+
+    mid_test:
+      demographics|white|ppl:
+        field: override
+        override: 0.587
+      demographics|white|sex_type|MSM|drug_type|None|hiv|dx|prob: &mid_test_prob
+        field: override
+        override: 0.167
+      demographics|black|ppl:
+        field: override
+        override: 0.187
+      demographics|black|sex_type|MSM|drug_type|None|hiv|dx|prob: *mid_test_prob
+      demographics|latino|ppl:
+        field: override
+        override: 0.226
+      demographics|latino|sex_type|MSM|drug_type|None|hiv|dx|prob: *mid_test_prob
+
+    low_test:
+      demographics|white|ppl:
+        field: override
+        override: 0.605
+      demographics|white|sex_type|MSM|drug_type|None|hiv|dx|prob: &low_test_prob
+        field: override
+        override: 0.042
+      demographics|black|ppl:
+        field: override
+        override: 0.082
+      demographics|black|sex_type|MSM|drug_type|None|hiv|dx|prob: *low_test_prob
+      demographics|latino|ppl:
+        field: override
+        override: 0.313
+      demographics|latino|sex_type|MSM|drug_type|None|hiv|dx|prob: *low_test_prob
+
+  edges:
+    edge_default:
+      location_1: high_test
+      location_2: high_test
+      distance: 0

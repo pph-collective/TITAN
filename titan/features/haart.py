@@ -26,6 +26,7 @@ class HAART(base_feature.BaseFeature):
         super().__init__(agent)
 
         self.active = False
+        self.ever = False
         self.adherent = False
 
     @classmethod
@@ -62,6 +63,7 @@ class HAART(base_feature.BaseFeature):
             and pop.pop_random.random() < agent_params.haart.init
         ):
             self.active = True
+            self.ever = True
             self.add_agent(self.agent)
 
             haart_adh = agent_params.haart.adherence.init
@@ -91,7 +93,7 @@ class HAART(base_feature.BaseFeature):
             )
             # Go on HAART
             if not self.active:
-                if self.agent.location.params.hiv.haart_cap:
+                if self.agent.location.params.haart.use_cap:
                     # if HAART is based on cap instead of prob, determine number of
                     # HAART agents based on % of diagnosed agents
                     num_dx_agents = self.agent.hiv.dx_counts[self.agent.race][  # type: ignore[attr-defined]
@@ -99,18 +101,46 @@ class HAART(base_feature.BaseFeature):
                     ]
                     num_haart_agents = self.counts[self.agent.race][self.agent.sex_type]
 
-                    if num_haart_agents < (haart_params.prob * num_dx_agents):
+                    # take value from dictionary for cap
+                    if num_haart_agents < (haart_params.cap * num_dx_agents):
                         self.initiate(model)
                 else:
-                    if model.run_random.random() < (
-                        haart_params.prob * model.calibration.haart.coverage
-                    ):
-                        self.initiate(model)
-            # Go off HAART
-            elif self.active and model.run_random.random() < haart_params.discontinue:
-                self.active = False
-                self.adherent = False
-                self.remove_agent(self.agent)
+                    if self.ever and self.agent.location.params.haart.use_reinit:
+                        if model.run_random.random() < haart_params.reinit.prob:
+                            self.initiate(model)
+                    else:
+                        enroll_prob = 0
+                        # Find enroll probability based on time since diagnosis
+                        haart_duration = model.time - self.agent.hiv.dx_time  # type: ignore[attr-defined]
+                        for i in haart_params.enroll.values():
+                            if i.start <= haart_duration < i.stop:
+                                enroll_prob = i.prob
+                                break
+
+                        if model.run_random.random() < (
+                            enroll_prob * model.calibration.haart.coverage
+                        ):
+                            self.initiate(model)
+
+            # Update agents on HAART
+            else:
+                # Go off HAART
+                if model.run_random.random() < haart_params.discontinue:
+                    self.active = False
+                    self.adherent = False
+                    self.remove_agent(self.agent)
+                # Become non-adherent
+                elif (
+                    self.adherent
+                    and model.run_random.random() < haart_params.adherence.discontinue
+                ):
+                    self.adherent = False
+                # Become adherent
+                elif (
+                    not self.adherent
+                    and model.run_random.random() < haart_params.adherence.become
+                ):
+                    self.adherent = True
 
     @classmethod
     def add_agent(cls, agent: "agent.Agent"):
@@ -168,6 +198,14 @@ class HAART(base_feature.BaseFeature):
 
         return prob
 
+    def aids_scale(self):
+        prob = 1.0
+        if self.active:
+            adherence = "adherent" if self.adherent else "non_adherent"
+            prob = self.agent.location.params.haart.aids_scale[adherence]
+
+        return prob
+
     # =========== HELPER METHODS ============
 
     def initiate(self, model: "model.TITAN"):
@@ -187,4 +225,5 @@ class HAART(base_feature.BaseFeature):
 
         # Add agent to HAART class set, update agent params
         self.active = True
+        self.ever = True
         self.add_agent(self.agent)

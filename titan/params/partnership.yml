@@ -179,7 +179,8 @@ partnership:
     type: sub-dict
     keys:
       - bond_types
-    description: "Duration of relationships given bond type"
+      - races
+    description: "Duration of relationships given agent race and partnership bond type"
     default:
       type:
         type: enum
