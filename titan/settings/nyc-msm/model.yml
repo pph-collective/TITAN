@@ -27,6 +27,14 @@ classes:
         - sex
   drug_types:
     - None
+  locations:
+    high_test:
+      ppl: .190
+    mid_test:
+      ppl: .634
+    low_test:
+      ppl: .176
+
   
 features:
   prep: true

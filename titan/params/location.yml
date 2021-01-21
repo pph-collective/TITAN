@@ -6,7 +6,7 @@ location:
       - locations
     default:
       type: definition
-      description: "Definition of applying a scalar to a parameter.  The parameter should be the definition name with pipes instead of dots (e.g. `prep.target` would be `prep|target`). Some parameter categories can't be scaled, these include: model, classes, features, calibration, outputs, agent_zero, syringe_services, location.  Additionally, some fields within otherwise scalable categories cannot be changed by location if their use is not tied to a specific agent (e.g. prep.pca.choice, prep.random_trial). When a parameter is related to the interaction of an agent and a partner, the params of the location where the agent lives is typically used unless the parameter use clearly relates to the partner."
+      description: "Definition of applying a scalar to a parameter.  The parameter should be the definition name with pipes instead of dots (e.g. `prep.cap` would be `prep|cap`). Some parameter categories can't be scaled, these include: model, classes, features, calibration, outputs, agent_zero, syringe_services, location.  Additionally, some fields within otherwise scalable categories cannot be changed by location if their use is not tied to a specific agent (e.g. prep.pca.choice, prep.random_trial). When a parameter is related to the interaction of an agent and a partner, the params of the location where the agent lives is typically used unless the parameter use clearly relates to the partner."
       fields:
         field:
           type: enum

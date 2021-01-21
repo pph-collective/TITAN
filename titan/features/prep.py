@@ -168,17 +168,17 @@ class Prep(base_feature.BaseFeature):
 
         if force:
             self.enroll(model.run_random, model.time)
-        elif params.prep.target_as_prob:
+        elif params.prep.cap_as_prob:
             if "Racial" in params.prep.target_model:
                 if (
                     model.run_random.random()
                     <= params.demographics[self.agent.race]
                     .sex_type[self.agent.sex_type]
-                    .prep.target
+                    .prep.cap
                 ):
                     self.enroll(model.run_random, model.time)
             else:
-                if model.run_random.random() <= params.prep.target:
+                if model.run_random.random() <= params.prep.cap:
                     self.enroll(model.run_random, model.time)
         else:
             if "Racial" in params.prep.target_model:
@@ -191,12 +191,12 @@ class Prep(base_feature.BaseFeature):
                 num_hiv_agents = len(all_hiv_agents & all_race)
                 target_prep = (len(all_race) - num_hiv_agents) * params.demographics[
                     self.agent.race
-                ].sex_type[self.agent.sex_type].prep.target
+                ].sex_type[self.agent.sex_type].prep.cap
             else:
                 num_prep_agents = sum(self.counts.values())
                 target_prep = int(
                     (model.pop.all_agents.num_members() - len(exposures.HIV.agents))
-                    * params.prep.target
+                    * params.prep.cap
                 )
 
             if num_prep_agents < target_prep:

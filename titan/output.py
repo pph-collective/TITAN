@@ -6,6 +6,7 @@ import itertools
 import os
 
 import networkx as nx  # type: ignore
+from numpy import mean  # type: ignore
 
 from .parse_params import ObjMap
 from . import utils
@@ -284,8 +285,8 @@ def print_components(
     if f.tell() == 0:
         f.write(
             "run_id\trunseed\tpopseed\tt\tcompID\ttotalN\tNhiv\tNprep\tNtrtHIV"
-            "\tComp_Status\tPCA\tOral\tInjectable\tAware\tnidu\tcentrality\tDensity"
-            "\tEffectiveSize" + header + "\n"
+            "\tComp_Status\tPCA\tOral\tInjectable\tAware\tnidu\tcentrality\tdensity"
+            "\tEffectiveSize" + header + "\tdeg_cent\n"
         )
 
     comp_id = 0
@@ -341,6 +342,7 @@ def print_components(
             else:
                 component_status = "treatment_no_eligible"
 
+        deg_cent = mean(list(nx.degree_centrality(comp).values()))
         race_str = ""
         for race in race_list:
             race_str += "\t" + str(race_count[race])
@@ -350,7 +352,7 @@ def print_components(
             f"{nhiv}\t"
             f"{nprep}\t{ntrthiv}\t{component_status}\t{pca}\t{oral}\t{injectable_prep}"
             f"\t{aware}\t{nidu}\t{comp_centrality:.4f}\t{comp_density:.4f}"
-            f"\t{average_size:.4f}{race_str}\n"
+            f"\t{average_size:.4f}{race_str}\t{deg_cent}\n"
         )
 
         comp_id += 1

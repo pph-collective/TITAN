@@ -86,7 +86,7 @@ def check_params(params: ObjMap):
 
 
 def create_params(
-    setting_path: Optional[str],
+    setting_name: Optional[str],
     param_path: str,
     outdir: str,
     error_on_unused: bool = False,
@@ -96,7 +96,7 @@ def create_params(
     or not to use the base setting. Parse and create a params (ObjMap) object.
 
     args:
-        setting_path: path to a settings file or directory or `None`
+        setting_name: path to a settings file or directory or `None`
         param_path: path to parameter file or directory
         outdir: path to directory where computed params will be saved
         error_on_unused: throw a hard error if there are unused parameters, otherwise warnings are only printed
@@ -116,8 +116,12 @@ def create_params(
     param_paths = []
 
     # merge setting and params
-    if setting_path is not None:
-        param_paths.append(setting_path)
+    if setting_name is not None:
+        # check if it's a known setting or pass it through as a path
+        if setting_name in os.listdir(os.path.join(parent, "settings")):
+            param_paths.append(os.path.join(parent, "settings", setting_name))
+        else:
+            param_paths.append(setting_name)
 
     param_paths.append(param_path)
 

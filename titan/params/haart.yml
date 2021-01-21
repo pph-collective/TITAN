@@ -1,0 +1,22 @@
+haart:
+  use_cap:
+    default: false
+    description: Whether "cap" defined in demographics.race.sex_type.haart.cap is used. Otherwise, haart probability is based on time since diagnosis (demographics.race.sex_type.haart.enroll).
+    type: boolean
+  use_reinit:
+    type: boolean
+    default: false
+    description: Whether a separate probability should be used for haart initiation among agents who have previously discontinued haart
+  aids_scale:
+    non_adherent:
+      description: Scalar for aids progression for agents on haart but non-adherent
+      default: 0.00368
+      type: float
+      min: 0.
+      max: 1.
+    adherent:
+      description: Scalar for aids progression for agents adherent to haart
+      default: 0.0008
+      type: float
+      min: 0.
+      max: 1.

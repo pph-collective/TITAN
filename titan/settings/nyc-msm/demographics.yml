@@ -9,11 +9,15 @@ demographics:
             versatile: 0.200
             insertive: 0.480
             receptive: 0.320
-        safe_sex: 0.275
+        safe_sex:
+          Main:
+            prob: 0.275
+          Casual:
+            prob: 0.409
         prep:
           discontinue: 0.034  # calibration
           adherence: 0.565
-          target: 0.028
+          cap: 0.028
           init: 0.252
         drug_type:
           None:
@@ -27,11 +31,30 @@ demographics:
                 init: 0.500
             haart:
               init: 0.764
-              prob: 0.212
+              enroll:
+                enroll_0:
+                  start: 0
+                  stop: 1
+                  prob: 0.709
+                enroll_1:
+                  start: 1
+                  stop: 3
+                  prob: 0.212
+                enroll_2:
+                  start: 3
+                  stop: 12
+                  prob: 0.051
+                enroll_3:
+                  start: 12
+                  stop: 9999
+                  prob: 0.0
+              reinit:
+                prob: 0.035
               adherence:
                 init: 0.489
                 prob: 0.489
-              discontinue: 0.0076
+                discontinue: 0.0689
+              discontinue: 0.014
             death_rate:
               base: 1.512
             num_partners:
@@ -63,11 +86,15 @@ demographics:
             insertive: 0.220
             receptive: 0.195
             versatile: 0.585
-        safe_sex: 0.262
+        safe_sex:
+          Main:
+            prob: 0.183
+          Casual:
+            prob: 0.341
         prep:
           discontinue: 0.025  # calibration
           adherence: 0.719
-          target: 0.026
+          cap: 0.026
           init: 0.234
         drug_type:
           None:
@@ -81,10 +108,29 @@ demographics:
                 init: 0.487
             haart:
               init: 0.764
-              prob: 0.193
+              enroll:
+                0:
+                  prob: 0.278
+                  start: 0
+                  stop: 1
+                1:
+                  prob: 0.193
+                  start: 1
+                  stop: 3
+                2:
+                  prob: 0.037
+                  start: 3
+                  stop: 12
+                3:
+                  start: 12
+                  stop: 9999
+                  prob: 0.0
+              reinit:
+                prob: 0.032
               adherence:
                 init: 0.719
                 prob: 0.719
+                discontinue: 0.0115
               discontinue: 0.0069  # calibration
             death_rate:
               base: 0.792
@@ -112,7 +158,11 @@ demographics:
     sex_type:
       MSM:
         ppl: 1.0
-        safe_sex: 0.126
+        safe_sex:
+          Main:
+            prob: 0.126
+          Casual:
+            prob: 0.277
         sex_role:
           init:
             insertive: 0.439
@@ -121,7 +171,7 @@ demographics:
         prep:
           discontinue: 0.014
           adherence: 0.738
-          target: 0.031
+          cap: 0.031
           init: 0.279
         drug_type:
           None:
@@ -135,11 +185,30 @@ demographics:
                 init: 0.471
             haart:
               init: 0.791
-              prob: 0.163
+              enroll:
+                0:
+                  start: 0
+                  stop: 1
+                  prob: 0.742
+                1:
+                  start: 1
+                  stop: 3
+                  prob: 0.163
+                2:
+                  start: 3
+                  stop: 12
+                  prob: 0.029
+                3:
+                  start: 12
+                  stop: 9999
+                  prob: 0.0
+              reinit:
+                prob: 0.041
               adherence:
                 init: 0.707
                 prob: 0.707
-              discontinue: 0.0059
+                discontinue: 0.0745
+              discontinue: 0.00883
             death_rate:
               base: 0.0696
             num_partners:

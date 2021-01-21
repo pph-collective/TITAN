@@ -1,0 +1,111 @@
+partnership:
+  sex:
+    frequency:
+      Main:
+        type: distribution
+        distribution:
+          dist_type: gamma
+          vars:
+            1:
+              value: 0.439
+              value_type: float
+            2:
+              value: 15.3
+              value_type: float
+      Casual:
+        type: distribution
+        distribution:
+          dist_type: gamma
+          vars:
+            1:
+              value: 0.131
+              value_type: float
+            2:
+              value: 16.5
+              value_type: float
+    haart_scaling:
+      MSM: # calibration
+        non_adherent: 0.165
+        adherent: 0.00
+    acquisition:
+      MSM:
+        insertive: 0.0017
+        receptive: 0.0075
+        versatile: 0.0046
+
+  duration:
+    Main:
+      white:
+        type: distribution
+        distribution:
+          dist_type: wald
+          vars:
+            1:
+              value: 70.44
+              value_type: float
+            2:
+              value: 6.72
+              value_type: float
+          mean: 70.44
+      black:
+        type: distribution
+        distribution:
+          dist_type: wald
+          vars:
+            1:
+              value: 20.88
+              value_type: float
+            2:
+              value: 2.76
+              value_type: float
+          mean: 20.88
+      latino:
+        type: distribution
+        distribution:
+          dist_type: wald
+          vars:
+            1:
+              value: 35.52
+              value_type: float
+            2:
+              value: 3.84
+              value_type: float
+          mean: 3.84
+    Casual:
+      white:
+        type: distribution
+        distribution:
+          dist_type: wald
+          vars:
+            1:
+              value: 11.76
+              value_type: float
+            2:
+              value: 1.32
+              value_type: float
+          mean: 11.76
+      black:
+        type: distribution
+        distribution:
+          dist_type: wald
+          vars:
+            1:
+              value: 17.16
+              value_type: float
+            2:
+              value: 1.56
+              value_type: float
+          mean: 17.16
+      latino:
+        type: distribution
+        distribution:
+          dist_type: wald
+          vars:
+            1:
+              value: 16.32
+              value_type: float
+            2:
+              value: 1.20
+              value_type: float
+          mean: 16.32
+

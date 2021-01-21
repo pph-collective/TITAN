@@ -27,7 +27,8 @@ class Sex(base_interaction.BaseInteraction):
         p_safe_sex = (
             rel.agent1.location.params.demographics[rel.agent1.race]
             .sex_type[rel.agent1.sex_type]
-            .safe_sex
+            .safe_sex[rel.bond_type]
+            .prob
         )
 
         # increase condom usage if diagnosed

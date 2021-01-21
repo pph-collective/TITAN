@@ -91,7 +91,7 @@ class Population:
         self.relationships: Set["ag.Relationship"] = set()
 
         # find average partnership durations
-        self.mean_rel_duration: Dict[str, int] = partnering.get_mean_rel_duration(
+        self.mean_rel_duration: Dict[str, Dict] = partnering.get_mean_rel_duration(
             self.params
         )
 
@@ -191,7 +191,7 @@ class Population:
                 utils.safe_dist(dist_info, self.np_random)
                 * utils.safe_divide(
                     agent.location.params.calibration.sex.partner,
-                    self.mean_rel_duration[bond],
+                    self.mean_rel_duration[bond][race],
                 )
             )
             # so not zero if added mid-year
@@ -353,8 +353,9 @@ class Population:
         no_match = True
 
         if partner:
+            race = utils.safe_random_choice([agent.race, partner.race], self.pop_random)
             duration = partnering.get_partnership_duration(
-                agent.location.params, self.np_random, bond_type
+                agent.location.params, self.np_random, bond_type, race
             )
             relationship = ag.Relationship(
                 agent, partner, duration, bond_type=bond_type
