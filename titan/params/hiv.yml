@@ -38,5 +38,5 @@ hiv:
     min: 2
   start_time:
     default: -999
-    description: "What timestep to allow agents to init with HIV and start agent interactions related to hiv transmission"
+    description: "What timestep to allow agents to init with HIV"
     type: int
