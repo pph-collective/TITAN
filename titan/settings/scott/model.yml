@@ -44,7 +44,6 @@ hiv:
     risk_reduction:
       sex: 0.19
   start_time: -48
-  init: -48
   aids:
     prob: 0.0029
 
