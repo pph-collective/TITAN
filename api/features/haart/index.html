@@ -1,480 +1,923 @@
 
-<!DOCTYPE html>
-
-<html class="no-js" lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta content="Documentation for the TITAN model" name="description"/>
-<link href="http://marshall-lab.github.io/TITAN/api/features/haart/" rel="canonical"/>
-<link href="../../../assets/images/favicon.png" rel="shortcut icon"/>
-<meta content="mkdocs-1.1.2, mkdocs-material-6.1.7" name="generator"/>
-<title>HAART - TITAN</title>
-<link href="../../../assets/stylesheets/main.19753c6b.min.css" rel="stylesheet"/>
-<link href="../../../assets/stylesheets/palette.196e0c26.min.css" rel="stylesheet"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&amp;display=fallback" rel="stylesheet"/>
-<style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
-</head>
-<body data-md-color-accent="none" data-md-color-primary="none" data-md-color-scheme="" dir="ltr">
-<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
-<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
-<label class="md-overlay" for="__drawer"></label>
-<div data-md-component="skip">
-<a class="md-skip" href="#titan.features.haart.HAART.name">
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the TITAN model">
+      
+      
+      
+      
+        <link rel="canonical" href="http://marshall-lab.github.io/TITAN/api/features/haart/">
+      
+      <link rel="shortcut icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.7">
+    
+    
+      
+        <title>HAART - TITAN</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.cb6bc1d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.39b8e14a.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#titan.features.haart.HAART.name" class="md-skip">
           Skip to content
         </a>
-</div>
-<div data-md-component="announce">
-</div>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
 <header class="md-header" data-md-component="header">
-<nav aria-label="Header" class="md-header-nav md-grid">
-<a aria-label="TITAN" class="md-header-nav__button md-logo" href="http://marshall-lab.github.io/TITAN" title="TITAN">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
-</a>
-<label class="md-header-nav__button md-icon" for="__drawer">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"></path></svg>
-</label>
-<div class="md-header-nav__title" data-md-component="header-title">
-<div class="md-header-nav__ellipsis">
-<span class="md-header-nav__topic md-ellipsis">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-header-nav__button md-logo" aria-label="TITAN">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
             TITAN
           </span>
-<span class="md-header-nav__topic md-ellipsis">
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
             
               HAART
             
           </span>
-</div>
-</div>
-<label class="md-header-nav__button md-icon" for="__search">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
-</label>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
 <div class="md-search" data-md-component="search" role="dialog">
-<label class="md-search__overlay" for="__search"></label>
-<div class="md-search__inner" role="search">
-<form class="md-search__form" name="search">
-<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" data-md-state="active" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
-<label class="md-search__icon md-icon" for="__search">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
-</label>
-<button aria-label="Clear" class="md-search__icon md-icon" data-md-component="search-reset" tabindex="-1" type="reset">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>
-</button>
-</form>
-<div class="md-search__output">
-<div class="md-search__scrollwrap" data-md-scrollfix="">
-<div class="md-search-result" data-md-component="search-result">
-<div class="md-search-result__meta">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
             Initializing search
           </div>
-<ol class="md-search-result__list"></ol>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</nav>
+    
+    
+  </nav>
 </header>
-<div class="md-container" data-md-component="container">
-<main class="md-main" data-md-component="main">
-<div class="md-main__inner md-grid">
-<div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
-<div class="md-sidebar__scrollwrap">
-<div class="md-sidebar__inner">
-<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
-<label class="md-nav__title" for="__drawer">
-<a aria-label="TITAN" class="md-nav__button md-logo" href="http://marshall-lab.github.io/TITAN" title="TITAN">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
-</a>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
     TITAN
   </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../..">
-      Overview
-    </a>
-</li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" id="nav-2" type="checkbox"/>
-<label class="md-nav__link" for="nav-2">
-      Getting Started
-      <span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-label="Getting Started" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="nav-2">
-<span class="md-nav__icon md-icon"></span>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" >
+      
+      <label class="md-nav__link" for="nav-2">
         Getting Started
-      </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../../getting_started/">
-      Installation
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../../run_local/">
-      Running locally
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../../run_oscar/">
-      Running on Oscar
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../../contributing/">
-      Contributing
-    </a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item md-nav__item--active md-nav__item--nested">
-<input checked="" class="md-nav__toggle md-toggle" data-md-toggle="nav-3" id="nav-3" type="checkbox"/>
-<label class="md-nav__link" for="nav-3">
-      API Reference
-      <span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-label="API Reference" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="nav-3">
-<span class="md-nav__icon md-icon"></span>
-        API Reference
-      </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../agent/">
-      Agent
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../agent_set/">
-      AgentSet
-    </a>
-</li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-3" id="nav-3-3" type="checkbox"/>
-<label class="md-nav__link" for="nav-3-3">
-      Agent Exposures
-      <span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-label="Agent Exposures" class="md-nav" data-md-level="2">
-<label class="md-nav__title" for="nav-3-3">
-<span class="md-nav__icon md-icon"></span>
-        Agent Exposures
-      </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../exposures/">
-      Overview
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../exposures/hiv/">
-      HIV
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../exposures/knowledge/">
-      Knowledge
-    </a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item md-nav__item--active md-nav__item--nested">
-<input checked="" class="md-nav__toggle md-toggle" data-md-toggle="nav-3-4" id="nav-3-4" type="checkbox"/>
-<label class="md-nav__link" for="nav-3-4">
-      Agent Features
-      <span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-label="Agent Features" class="md-nav" data-md-level="2">
-<label class="md-nav__title" for="nav-3-4">
-<span class="md-nav__icon md-icon"></span>
-        Agent Features
-      </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../">
-      Overview
-    </a>
-</li>
-<li class="md-nav__item md-nav__item--active">
-<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
-<label class="md-nav__link md-nav__link--active" for="__toc">
-        HAART
         <span class="md-nav__icon md-icon"></span>
-</label>
-<a class="md-nav__link md-nav__link--active" href="./">
-      HAART
-    </a>
-<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.features.haart.HAART.name">
-    name
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.features.haart.HAART.stats">
-    stats
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.features.haart.HAART.add_agent">
-    add_agent()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.features.haart.HAART.get_transmission_risk_multiplier">
-    get_transmission_risk_multiplier()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.features.haart.HAART.init_agent">
-    init_agent()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.features.haart.HAART.init_class">
-    init_class()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.features.haart.HAART.initiate">
-    initiate()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.features.haart.HAART.remove_agent">
-    remove_agent()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.features.haart.HAART.set_stats">
-    set_stats()
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.features.haart.HAART.update_agent">
-    update_agent()
-  </a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../high_risk/">
-      High Risk
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../incar/">
-      Incarceration
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../external_exposure/">
-      External Exposure
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../partner_tracing/">
-      Partner Tracing
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../prep/">
-      PrEP
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../random_trial/">
-      Random Trial
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../syringe_services/">
-      Syringe Services
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../vaccine/">
-      Vaccine
-    </a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-5" id="nav-3-5" type="checkbox"/>
-<label class="md-nav__link" for="nav-3-5">
-      Agent Interactions
-      <span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-label="Agent Interactions" class="md-nav" data-md-level="2">
-<label class="md-nav__title" for="nav-3-5">
-<span class="md-nav__icon md-icon"></span>
-        Agent Interactions
       </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../interactions/">
-      Overview
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../interactions/injection/">
-      Injection
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../interactions/pca/">
-      Peer Change Agent
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../interactions/sex/">
-      Sex
-    </a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../location/">
-      Location
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../model/">
-      Model
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../partnering/">
-      Partnering
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../population/">
-      Population
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../relationship/">
-      Relationship
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../reporting/">
-      Reporting
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../utilities/">
-      Utility Functions
-    </a>
-</li>
-</ul>
-</nav>
-</li>
-</ul>
-</nav>
-</div>
-</div>
-</div>
-<div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
-<div class="md-sidebar__scrollwrap">
-<div class="md-sidebar__inner">
-<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
+      <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
+        <label class="md-nav__title" for="nav-2">
+          <span class="md-nav__icon md-icon"></span>
+          Getting Started
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting_started/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../run_local/" class="md-nav__link">
+        Running locally
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../run_oscar/" class="md-nav__link">
+        Running on Oscar
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../contributing/" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+      
+      <label class="md-nav__link" for="nav-3">
+        API Reference
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="API Reference" data-md-level="1">
+        <label class="md-nav__title" for="nav-3">
+          <span class="md-nav__icon md-icon"></span>
+          API Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../agent/" class="md-nav__link">
+        Agent
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../agent_set/" class="md-nav__link">
+        AgentSet
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-3" type="checkbox" id="nav-3-3" >
+      
+      <label class="md-nav__link" for="nav-3-3">
+        Agent Exposures
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Agent Exposures" data-md-level="2">
+        <label class="md-nav__title" for="nav-3-3">
+          <span class="md-nav__icon md-icon"></span>
+          Agent Exposures
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exposures/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exposures/hiv/" class="md-nav__link">
+        HIV
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exposures/knowledge/" class="md-nav__link">
+        Knowledge
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-4" type="checkbox" id="nav-3-4" checked>
+      
+      <label class="md-nav__link" for="nav-3-4">
+        Agent Features
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Agent Features" data-md-level="2">
+        <label class="md-nav__title" for="nav-3-4">
+          <span class="md-nav__icon md-icon"></span>
+          Agent Features
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          HAART
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        HAART
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.features.haart.HAART.name">
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.name" class="md-nav__link">
     name
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.features.haart.HAART.stats">
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.stats" class="md-nav__link">
     stats
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.features.haart.HAART.add_agent">
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.add_agent" class="md-nav__link">
     add_agent()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.features.haart.HAART.get_transmission_risk_multiplier">
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.get_transmission_risk_multiplier" class="md-nav__link">
     get_transmission_risk_multiplier()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.features.haart.HAART.init_agent">
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.init_agent" class="md-nav__link">
     init_agent()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.features.haart.HAART.init_class">
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.init_class" class="md-nav__link">
     init_class()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.features.haart.HAART.initiate">
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.initiate" class="md-nav__link">
     initiate()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.features.haart.HAART.remove_agent">
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.remove_agent" class="md-nav__link">
     remove_agent()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.features.haart.HAART.set_stats">
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.set_stats" class="md-nav__link">
     set_stats()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.features.haart.HAART.update_agent">
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.update_agent" class="md-nav__link">
     update_agent()
   </a>
+  
 </li>
-</ul>
+      
+    </ul>
+  
 </nav>
-</div>
-</div>
-</div>
-<div class="md-content">
-<article class="md-content__inner md-typeset">
-<h1>HAART</h1>
-<div class="doc doc-object doc-class">
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../high_risk/" class="md-nav__link">
+        High Risk
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../incar/" class="md-nav__link">
+        Incarceration
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../external_exposure/" class="md-nav__link">
+        External Exposure
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../partner_tracing/" class="md-nav__link">
+        Partner Tracing
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prep/" class="md-nav__link">
+        PrEP
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../random_trial/" class="md-nav__link">
+        Random Trial
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../syringe_services/" class="md-nav__link">
+        Syringe Services
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vaccine/" class="md-nav__link">
+        Vaccine
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-5" type="checkbox" id="nav-3-5" >
+      
+      <label class="md-nav__link" for="nav-3-5">
+        Agent Interactions
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Agent Interactions" data-md-level="2">
+        <label class="md-nav__title" for="nav-3-5">
+          <span class="md-nav__icon md-icon"></span>
+          Agent Interactions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../interactions/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../interactions/injection/" class="md-nav__link">
+        Injection
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../interactions/pca/" class="md-nav__link">
+        Peer Change Agent
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../interactions/sex/" class="md-nav__link">
+        Sex
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../location/" class="md-nav__link">
+        Location
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../model/" class="md-nav__link">
+        Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../partnering/" class="md-nav__link">
+        Partnering
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../population/" class="md-nav__link">
+        Population
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../relationship/" class="md-nav__link">
+        Relationship
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reporting/" class="md-nav__link">
+        Reporting
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utilities/" class="md-nav__link">
+        Utility Functions
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.name" class="md-nav__link">
+    name
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.stats" class="md-nav__link">
+    stats
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.add_agent" class="md-nav__link">
+    add_agent()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.get_transmission_risk_multiplier" class="md-nav__link">
+    get_transmission_risk_multiplier()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.init_agent" class="md-nav__link">
+    init_agent()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.init_class" class="md-nav__link">
+    init_class()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.initiate" class="md-nav__link">
+    initiate()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.remove_agent" class="md-nav__link">
+    remove_agent()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.set_stats" class="md-nav__link">
+    set_stats()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.update_agent" class="md-nav__link">
+    update_agent()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>HAART</h1>
+                
+                <div class="doc doc-object doc-class">
 <div class="doc doc-contents first">
 <p>Highly Active Antiretroviral Theray (HAART) is a treatment regimen.</p>
 <div class="doc doc-children">
 <div class="doc doc-object doc-attribute">
 <h3 class="doc doc-heading" id="titan.features.haart.HAART.name">
-<code class="highlight">
-name: <span class="nb">str</span> </code>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">name</span><span class="p">:</span> <span class="nb">str</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Name of feature in the params file.  Also used to name the attribute in Agent</p>
 </div>
 </div>
 <div class="doc doc-object doc-attribute">
 <h3 class="doc doc-heading" id="titan.features.haart.HAART.stats">
-<code class="highlight">
-stats: <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> </code>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">stats</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
 <p>HAART collects the following stats:</p>
 <ul>
 <li>haart - number of agents with active haart</li>
@@ -483,13 +926,15 @@ stats: <span class="n">List</span><span class="p">[</span><span class="nb">str</
 </div>
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.features.haart.HAART.add_agent">
-<code class="highlight language-python">
-add_agent<span class="p">(</span><span class="n">agent</span><span class="p">)</span> </code>
-<span class="doc doc-properties">
-<small class="doc doc-property doc-property-classmethod"><code>classmethod</code></small>
-</span>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">add_agent</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-classmethod"><code>classmethod</code></small>
+  </span>
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Add an agent to the class (not instance).</p>
 <p>Increments <code>counts</code> or haart agents by race and sex_type for the given agent.</p>
 <p><strong>Parameters:</strong></p>
@@ -514,8 +959,8 @@ add_agent<span class="p">(</span><span class="n">agent</span><span class="p">)</
 </tbody>
 </table>
 <details class="quote">
-<summary>Source code in <code>titan/features/haart.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/features/haart.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">add_agent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">agent</span><span class="p">:</span> <span class="s2">"agent.Agent"</span><span class="p">):</span>
     <span class="sd">"""</span>
@@ -534,10 +979,12 @@ add_agent<span class="p">(</span><span class="n">agent</span><span class="p">)</
 </div>
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.features.haart.HAART.get_transmission_risk_multiplier">
-<code class="highlight language-python">
-get_transmission_risk_multiplier<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">interaction_type</span><span class="p">)</span> </code>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">get_transmission_risk_multiplier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">interaction_type</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Get a multiplier for how haart reduces hiv transmission risk based on interaction type and params.</p>
 <p>By default, returns 1.0</p>
 <p><strong>Parameters:</strong></p>
@@ -570,8 +1017,8 @@ get_transmission_risk_multiplier<span class="p">(</span><span class="bp">self</s
 </tbody>
 </table>
 <details class="quote">
-<summary>Source code in <code>titan/features/haart.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/features/haart.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">get_transmission_risk_multiplier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">interaction_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Get a multiplier for how haart reduces hiv transmission risk based on interaction type and params.</span>
@@ -606,10 +1053,12 @@ get_transmission_risk_multiplier<span class="p">(</span><span class="bp">self</s
 </div>
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.features.haart.HAART.init_agent">
-<code class="highlight language-python">
-init_agent<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span> </code>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">init_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Initialize the agent for this feature during population initialization (<code>Population.create_agent</code>).  Called on only features that are enabled per the params.</p>
 <p>An Agent can only be initialized with HAART if they are HIV+ and diagnosed.  They are randomly assigned to HAART with a probability based on demographics and then if assigned to haart, assigned an adherence based on those same demographic params.</p>
 <p><strong>Parameters:</strong></p>
@@ -642,8 +1091,8 @@ init_agent<span class="p">(</span><span class="bp">self</span><span class="p">,<
 </tbody>
 </table>
 <details class="quote">
-<summary>Source code in <code>titan/features/haart.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/features/haart.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">init_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pop</span><span class="p">:</span> <span class="s2">"population.Population"</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Initialize the agent for this feature during population initialization (`Population.create_agent`).  Called on only features that are enabled per the params.</span>
@@ -665,6 +1114,7 @@ init_agent<span class="p">(</span><span class="bp">self</span><span class="p">,<
         <span class="ow">and</span> <span class="n">pop</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">agent_params</span><span class="o">.</span><span class="n">haart</span><span class="o">.</span><span class="n">init</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">active</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ever</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_agent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="p">)</span>
 
         <span class="n">haart_adh</span> <span class="o">=</span> <span class="n">agent_params</span><span class="o">.</span><span class="n">haart</span><span class="o">.</span><span class="n">adherence</span><span class="o">.</span><span class="n">init</span>
@@ -677,13 +1127,15 @@ init_agent<span class="p">(</span><span class="bp">self</span><span class="p">,<
 </div>
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.features.haart.HAART.init_class">
-<code class="highlight language-python">
-init_class<span class="p">(</span><span class="n">params</span><span class="p">)</span> </code>
-<span class="doc doc-properties">
-<small class="doc doc-property doc-property-classmethod"><code>classmethod</code></small>
-</span>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">init_class</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-classmethod"><code>classmethod</code></small>
+  </span>
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Initialize the counts dictionary for the races and sex_types in the model.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -707,8 +1159,8 @@ init_class<span class="p">(</span><span class="n">params</span><span class="p">)
 </tbody>
 </table>
 <details class="quote">
-<summary>Source code in <code>titan/features/haart.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/features/haart.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">init_class</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="s2">"ObjMap"</span><span class="p">):</span>
     <span class="sd">"""</span>
@@ -728,10 +1180,12 @@ init_class<span class="p">(</span><span class="n">params</span><span class="p">)
 </div>
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.features.haart.HAART.initiate">
-<code class="highlight language-python">
-initiate<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span> </code>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">initiate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Initiate an agent with HAART and add them to the population.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -755,8 +1209,8 @@ initiate<span class="p">(</span><span class="bp">self</span><span class="p">,</s
 </tbody>
 </table>
 <details class="quote">
-<summary>Source code in <code>titan/features/haart.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/features/haart.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">initiate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="s2">"model.TITAN"</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Initiate an agent with HAART and add them to the population.</span>
@@ -774,6 +1228,7 @@ initiate<span class="p">(</span><span class="bp">self</span><span class="p">,</s
 
     <span class="c1"># Add agent to HAART class set, update agent params</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">active</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">ever</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">add_agent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="p">)</span>
 </code></pre>
 </div>
@@ -782,13 +1237,15 @@ initiate<span class="p">(</span><span class="bp">self</span><span class="p">,</s
 </div>
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.features.haart.HAART.remove_agent">
-<code class="highlight language-python">
-remove_agent<span class="p">(</span><span class="n">agent</span><span class="p">)</span> </code>
-<span class="doc doc-properties">
-<small class="doc doc-property doc-property-classmethod"><code>classmethod</code></small>
-</span>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">remove_agent</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-classmethod"><code>classmethod</code></small>
+  </span>
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Remove an agent from the class (not instance).</p>
 <p>Decrements <code>counts</code> or haart agents by race and sex_type for the given agent.</p>
 <p><strong>Parameters:</strong></p>
@@ -813,8 +1270,8 @@ remove_agent<span class="p">(</span><span class="n">agent</span><span class="p">
 </tbody>
 </table>
 <details class="quote">
-<summary>Source code in <code>titan/features/haart.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/features/haart.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">remove_agent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">agent</span><span class="p">:</span> <span class="s2">"agent.Agent"</span><span class="p">):</span>
     <span class="sd">"""</span>
@@ -833,10 +1290,12 @@ remove_agent<span class="p">(</span><span class="n">agent</span><span class="p">
 </div>
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.features.haart.HAART.set_stats">
-<code class="highlight language-python">
-set_stats<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stats</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span> </code>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">set_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stats</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Update the <code>stats</code> dictionary passed for this agent.  Called from <code>output.get_stats</code> for each enabled feature in the model.</p>
 <p>The stats to be updated must be declared in the class attribute <code>stats</code> to make sure the dictionary has the expected keys/counter value initialized.</p>
 <p><strong>Parameters:</strong></p>
@@ -869,8 +1328,8 @@ set_stats<span class="p">(</span><span class="bp">self</span><span class="p">,</
 </tbody>
 </table>
 <details class="quote">
-<summary>Source code in <code>titan/features/haart.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/features/haart.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">set_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stats</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">time</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
         <span class="n">stats</span><span class="p">[</span><span class="s2">"haart"</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -881,10 +1340,12 @@ set_stats<span class="p">(</span><span class="bp">self</span><span class="p">,</
 </div>
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.features.haart.HAART.update_agent">
-<code class="highlight language-python">
-update_agent<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span> </code>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">update_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Update the agent for this feature for a time step.  Called once per time step in <code>TITAN.update_all_agents</code>. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.</p>
 <p>Account for HIV treatment through highly active antiretroviral therapy (HAART). HAART was implemented in 1996, hence, there is treatment only after 1996. HIV treatment assumes that the agent knows their HIV+ status (<code>dx</code> is True).</p>
 <p><strong>Parameters:</strong></p>
@@ -909,8 +1370,8 @@ update_agent<span class="p">(</span><span class="bp">self</span><span class="p">
 </tbody>
 </table>
 <details class="quote">
-<summary>Source code in <code>titan/features/haart.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/features/haart.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">update_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="s2">"model.TITAN"</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Update the agent for this feature for a time step.  Called once per time step in `TITAN.update_all_agents`. Agent level updates are done after population level updates.   Called on only features that are enabled per the params.</span>
@@ -934,7 +1395,7 @@ update_agent<span class="p">(</span><span class="bp">self</span><span class="p">
         <span class="p">)</span>
         <span class="c1"># Go on HAART</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">haart_cap</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">haart</span><span class="o">.</span><span class="n">use_cap</span><span class="p">:</span>
                 <span class="c1"># if HAART is based on cap instead of prob, determine number of</span>
                 <span class="c1"># HAART agents based on % of diagnosed agents</span>
                 <span class="n">num_dx_agents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">dx_counts</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">race</span><span class="p">][</span>  <span class="c1"># type: ignore[attr-defined]</span>
@@ -942,18 +1403,46 @@ update_agent<span class="p">(</span><span class="bp">self</span><span class="p">
                 <span class="p">]</span>
                 <span class="n">num_haart_agents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">counts</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">race</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">sex_type</span><span class="p">]</span>
 
-                <span class="k">if</span> <span class="n">num_haart_agents</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">haart_params</span><span class="o">.</span><span class="n">prob</span> <span class="o">*</span> <span class="n">num_dx_agents</span><span class="p">):</span>
+                <span class="c1"># take value from dictionary for cap</span>
+                <span class="k">if</span> <span class="n">num_haart_agents</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">haart_params</span><span class="o">.</span><span class="n">cap</span> <span class="o">*</span> <span class="n">num_dx_agents</span><span class="p">):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">initiate</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">run_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="p">(</span>
-                    <span class="n">haart_params</span><span class="o">.</span><span class="n">prob</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">calibration</span><span class="o">.</span><span class="n">haart</span><span class="o">.</span><span class="n">coverage</span>
-                <span class="p">):</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">initiate</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-        <span class="c1"># Go off HAART</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">active</span> <span class="ow">and</span> <span class="n">model</span><span class="o">.</span><span class="n">run_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">haart_params</span><span class="o">.</span><span class="n">discontinue</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">active</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">adherent</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">remove_agent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ever</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">haart</span><span class="o">.</span><span class="n">use_reinit</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">run_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">haart_params</span><span class="o">.</span><span class="n">reinit</span><span class="o">.</span><span class="n">prob</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">initiate</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">enroll_prob</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="c1"># Find enroll probability based on time since diagnosis</span>
+                    <span class="n">haart_duration</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">time</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">dx_time</span>  <span class="c1"># type: ignore[attr-defined]</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">haart_params</span><span class="o">.</span><span class="n">enroll</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                        <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">start</span> <span class="o">&lt;=</span> <span class="n">haart_duration</span> <span class="o">&lt;</span> <span class="n">i</span><span class="o">.</span><span class="n">stop</span><span class="p">:</span>
+                            <span class="n">enroll_prob</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">prob</span>
+                            <span class="k">break</span>
+
+                    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">run_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="p">(</span>
+                        <span class="n">enroll_prob</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">calibration</span><span class="o">.</span><span class="n">haart</span><span class="o">.</span><span class="n">coverage</span>
+                    <span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">initiate</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+        <span class="c1"># Update agents on HAART</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Go off HAART</span>
+            <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">run_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">haart_params</span><span class="o">.</span><span class="n">discontinue</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">active</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">adherent</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">remove_agent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="p">)</span>
+            <span class="c1"># Become non-adherent</span>
+            <span class="k">elif</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">adherent</span>
+                <span class="ow">and</span> <span class="n">model</span><span class="o">.</span><span class="n">run_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">haart_params</span><span class="o">.</span><span class="n">adherence</span><span class="o">.</span><span class="n">discontinue</span>
+            <span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">adherent</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="c1"># Become adherent</span>
+            <span class="k">elif</span> <span class="p">(</span>
+                <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">adherent</span>
+                <span class="ow">and</span> <span class="n">model</span><span class="o">.</span><span class="n">run_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">haart_params</span><span class="o">.</span><span class="n">adherence</span><span class="o">.</span><span class="n">become</span>
+            <span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">adherent</span> <span class="o">=</span> <span class="kc">True</span>
 </code></pre>
 </div>
 </details>
@@ -962,64 +1451,85 @@ update_agent<span class="p">(</span><span class="bp">self</span><span class="p">
 </div>
 </div>
 </div>
-</article>
-</div>
-</div>
-</main>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
 <footer class="md-footer">
-<div class="md-footer-nav">
-<nav aria-label="Footer" class="md-footer-nav__inner md-grid">
-<a class="md-footer-nav__link md-footer-nav__link--prev" href="../" rel="prev">
-<div class="md-footer-nav__button md-icon">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
-</div>
-<div class="md-footer-nav__title">
-<div class="md-ellipsis">
-<span class="md-footer-nav__direction">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
                   Previous
                 </span>
                 Overview
               </div>
-</div>
-</a>
-<a class="md-footer-nav__link md-footer-nav__link--next" href="../high_risk/" rel="next">
-<div class="md-footer-nav__title">
-<div class="md-ellipsis">
-<span class="md-footer-nav__direction">
+            </div>
+          </a>
+        
+        
+          <a href="../high_risk/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
                   Next
                 </span>
                 High Risk
               </div>
-</div>
-<div class="md-footer-nav__button md-icon">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"></path></svg>
-</div>
-</a>
-</nav>
-</div>
-<div class="md-footer-meta md-typeset">
-<div class="md-footer-meta__inner md-grid">
-<div class="md-footer-copyright">
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
         
         Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
           Material for MkDocs
         </a>
-</div>
-</div>
-</div>
+      </div>
+      
+    </div>
+  </div>
 </footer>
-</div>
-<script src="../../../assets/javascripts/vendor.0ac82a11.min.js"></script>
-<script src="../../../assets/javascripts/bundle.f81dfb4d.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
-<script>
+      
+    </div>
+    
+      <script src="../../../assets/javascripts/vendor.53cc9318.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.e9c9f54f.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
         app = initialize({
           base: "../../..",
           features: ['instant', 'tabs'],
           search: Object.assign({
-            worker: "../../../assets/javascripts/worker/search.4ac00218.min.js"
+            worker: "../../../assets/javascripts/worker/search.9c0e82ba.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>
-</body>
+      
+    
+  </body>
 </html>

@@ -1,597 +1,1088 @@
 
-<!DOCTYPE html>
-
-<html class="no-js" lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta content="Documentation for the TITAN model" name="description"/>
-<link href="http://marshall-lab.github.io/TITAN/api/population/" rel="canonical"/>
-<link href="../../assets/images/favicon.png" rel="shortcut icon"/>
-<meta content="mkdocs-1.1.2, mkdocs-material-6.1.7" name="generator"/>
-<title>Population - TITAN</title>
-<link href="../../assets/stylesheets/main.19753c6b.min.css" rel="stylesheet"/>
-<link href="../../assets/stylesheets/palette.196e0c26.min.css" rel="stylesheet"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&amp;display=fallback" rel="stylesheet"/>
-<style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
-</head>
-<body data-md-color-accent="none" data-md-color-primary="none" data-md-color-scheme="" dir="ltr">
-<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
-<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
-<label class="md-overlay" for="__drawer"></label>
-<div data-md-component="skip">
-<a class="md-skip" href="#population">
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the TITAN model">
+      
+      
+      
+      
+        <link rel="canonical" href="http://marshall-lab.github.io/TITAN/api/population/">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.7">
+    
+    
+      
+        <title>Population - TITAN</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.cb6bc1d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.39b8e14a.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#population" class="md-skip">
           Skip to content
         </a>
-</div>
-<div data-md-component="announce">
-</div>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
 <header class="md-header" data-md-component="header">
-<nav aria-label="Header" class="md-header-nav md-grid">
-<a aria-label="TITAN" class="md-header-nav__button md-logo" href="http://marshall-lab.github.io/TITAN" title="TITAN">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
-</a>
-<label class="md-header-nav__button md-icon" for="__drawer">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"></path></svg>
-</label>
-<div class="md-header-nav__title" data-md-component="header-title">
-<div class="md-header-nav__ellipsis">
-<span class="md-header-nav__topic md-ellipsis">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-header-nav__button md-logo" aria-label="TITAN">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
             TITAN
           </span>
-<span class="md-header-nav__topic md-ellipsis">
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
             
               Population
             
           </span>
-</div>
-</div>
-<label class="md-header-nav__button md-icon" for="__search">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
-</label>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
 <div class="md-search" data-md-component="search" role="dialog">
-<label class="md-search__overlay" for="__search"></label>
-<div class="md-search__inner" role="search">
-<form class="md-search__form" name="search">
-<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" data-md-state="active" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
-<label class="md-search__icon md-icon" for="__search">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
-</label>
-<button aria-label="Clear" class="md-search__icon md-icon" data-md-component="search-reset" tabindex="-1" type="reset">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>
-</button>
-</form>
-<div class="md-search__output">
-<div class="md-search__scrollwrap" data-md-scrollfix="">
-<div class="md-search-result" data-md-component="search-result">
-<div class="md-search-result__meta">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
             Initializing search
           </div>
-<ol class="md-search-result__list"></ol>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</nav>
+    
+    
+  </nav>
 </header>
-<div class="md-container" data-md-component="container">
-<main class="md-main" data-md-component="main">
-<div class="md-main__inner md-grid">
-<div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
-<div class="md-sidebar__scrollwrap">
-<div class="md-sidebar__inner">
-<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
-<label class="md-nav__title" for="__drawer">
-<a aria-label="TITAN" class="md-nav__button md-logo" href="http://marshall-lab.github.io/TITAN" title="TITAN">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
-</a>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
     TITAN
   </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../..">
-      Overview
-    </a>
-</li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" id="nav-2" type="checkbox"/>
-<label class="md-nav__link" for="nav-2">
-      Getting Started
-      <span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-label="Getting Started" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="nav-2">
-<span class="md-nav__icon md-icon"></span>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" >
+      
+      <label class="md-nav__link" for="nav-2">
         Getting Started
-      </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../getting_started/">
-      Installation
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../run_local/">
-      Running locally
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../run_oscar/">
-      Running on Oscar
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../contributing/">
-      Contributing
-    </a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item md-nav__item--active md-nav__item--nested">
-<input checked="" class="md-nav__toggle md-toggle" data-md-toggle="nav-3" id="nav-3" type="checkbox"/>
-<label class="md-nav__link" for="nav-3">
-      API Reference
-      <span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-label="API Reference" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="nav-3">
-<span class="md-nav__icon md-icon"></span>
-        API Reference
-      </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../agent/">
-      Agent
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../agent_set/">
-      AgentSet
-    </a>
-</li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-3" id="nav-3-3" type="checkbox"/>
-<label class="md-nav__link" for="nav-3-3">
-      Agent Exposures
-      <span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-label="Agent Exposures" class="md-nav" data-md-level="2">
-<label class="md-nav__title" for="nav-3-3">
-<span class="md-nav__icon md-icon"></span>
-        Agent Exposures
-      </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../exposures/">
-      Overview
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../exposures/hiv/">
-      HIV
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../exposures/knowledge/">
-      Knowledge
-    </a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-4" id="nav-3-4" type="checkbox"/>
-<label class="md-nav__link" for="nav-3-4">
-      Agent Features
-      <span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-label="Agent Features" class="md-nav" data-md-level="2">
-<label class="md-nav__title" for="nav-3-4">
-<span class="md-nav__icon md-icon"></span>
-        Agent Features
-      </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../features/">
-      Overview
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../features/haart/">
-      HAART
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../features/high_risk/">
-      High Risk
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../features/incar/">
-      Incarceration
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../features/external_exposure/">
-      External Exposure
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../features/partner_tracing/">
-      Partner Tracing
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../features/prep/">
-      PrEP
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../features/random_trial/">
-      Random Trial
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../features/syringe_services/">
-      Syringe Services
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../features/vaccine/">
-      Vaccine
-    </a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-5" id="nav-3-5" type="checkbox"/>
-<label class="md-nav__link" for="nav-3-5">
-      Agent Interactions
-      <span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-label="Agent Interactions" class="md-nav" data-md-level="2">
-<label class="md-nav__title" for="nav-3-5">
-<span class="md-nav__icon md-icon"></span>
-        Agent Interactions
-      </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../interactions/">
-      Overview
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../interactions/injection/">
-      Injection
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../interactions/pca/">
-      Peer Change Agent
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../interactions/sex/">
-      Sex
-    </a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../location/">
-      Location
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../model/">
-      Model
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../partnering/">
-      Partnering
-    </a>
-</li>
-<li class="md-nav__item md-nav__item--active">
-<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
-<label class="md-nav__link md-nav__link--active" for="__toc">
-        Population
         <span class="md-nav__icon md-icon"></span>
-</label>
-<a class="md-nav__link md-nav__link--active" href="./">
-      Population
-    </a>
-<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
+        <label class="md-nav__title" for="nav-2">
+          <span class="md-nav__icon md-icon"></span>
+          Getting Started
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run_local/" class="md-nav__link">
+        Running locally
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run_oscar/" class="md-nav__link">
+        Running on Oscar
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+      
+      <label class="md-nav__link" for="nav-3">
+        API Reference
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="API Reference" data-md-level="1">
+        <label class="md-nav__title" for="nav-3">
+          <span class="md-nav__icon md-icon"></span>
+          API Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agent/" class="md-nav__link">
+        Agent
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agent_set/" class="md-nav__link">
+        AgentSet
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-3" type="checkbox" id="nav-3-3" >
+      
+      <label class="md-nav__link" for="nav-3-3">
+        Agent Exposures
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Agent Exposures" data-md-level="2">
+        <label class="md-nav__title" for="nav-3-3">
+          <span class="md-nav__icon md-icon"></span>
+          Agent Exposures
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exposures/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exposures/hiv/" class="md-nav__link">
+        HIV
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exposures/knowledge/" class="md-nav__link">
+        Knowledge
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-4" type="checkbox" id="nav-3-4" >
+      
+      <label class="md-nav__link" for="nav-3-4">
+        Agent Features
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Agent Features" data-md-level="2">
+        <label class="md-nav__title" for="nav-3-4">
+          <span class="md-nav__icon md-icon"></span>
+          Agent Features
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/haart/" class="md-nav__link">
+        HAART
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/high_risk/" class="md-nav__link">
+        High Risk
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/incar/" class="md-nav__link">
+        Incarceration
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/external_exposure/" class="md-nav__link">
+        External Exposure
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/partner_tracing/" class="md-nav__link">
+        Partner Tracing
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/prep/" class="md-nav__link">
+        PrEP
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/random_trial/" class="md-nav__link">
+        Random Trial
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/syringe_services/" class="md-nav__link">
+        Syringe Services
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/vaccine/" class="md-nav__link">
+        Vaccine
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-5" type="checkbox" id="nav-3-5" >
+      
+      <label class="md-nav__link" for="nav-3-5">
+        Agent Interactions
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Agent Interactions" data-md-level="2">
+        <label class="md-nav__title" for="nav-3-5">
+          <span class="md-nav__icon md-icon"></span>
+          Agent Interactions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interactions/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interactions/injection/" class="md-nav__link">
+        Injection
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interactions/pca/" class="md-nav__link">
+        Peer Change Agent
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interactions/sex/" class="md-nav__link">
+        Sex
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../location/" class="md-nav__link">
+        Location
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model/" class="md-nav__link">
+        Model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../partnering/" class="md-nav__link">
+        Partnering
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Population
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Population
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#population">
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#population" class="md-nav__link">
     Population
   </a>
-<nav aria-label="Population" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.__init__">
+  
+    <nav class="md-nav" aria-label="Population">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.__init__" class="md-nav__link">
     __init__()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.add_agent">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.add_agent" class="md-nav__link">
     add_agent()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.add_relationship">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.add_relationship" class="md-nav__link">
     add_relationship()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.connected_components">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.connected_components" class="md-nav__link">
     connected_components()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.create_agent">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.create_agent" class="md-nav__link">
     create_agent()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.get_age">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.get_age" class="md-nav__link">
     get_age()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.remove_agent">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.remove_agent" class="md-nav__link">
     remove_agent()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.remove_relationship">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.remove_relationship" class="md-nav__link">
     remove_relationship()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.trim_graph">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.trim_graph" class="md-nav__link">
     trim_graph()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.update_agent_partners">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.update_agent_partners" class="md-nav__link">
     update_agent_partners()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.update_partner_assignments">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.update_partner_assignments" class="md-nav__link">
     update_partner_assignments()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.update_partner_targets">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.update_partner_targets" class="md-nav__link">
     update_partner_targets()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.update_partnerability">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.update_partnerability" class="md-nav__link">
     update_partnerability()
   </a>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#population-reading-writing">
+      
+        <li class="md-nav__item">
+  <a href="#population-reading-writing" class="md-nav__link">
     Population Reading &amp; Writing
   </a>
-<nav aria-label="Population Reading &amp; Writing" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#saving-the-population">
+  
+    <nav class="md-nav" aria-label="Population Reading &amp; Writing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#saving-the-population" class="md-nav__link">
     Saving the Population
   </a>
-<nav aria-label="Saving the Population" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population_io.write">
+  
+    <nav class="md-nav" aria-label="Saving the Population">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population_io.write" class="md-nav__link">
     write()
   </a>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#reading-inusing-a-saved-population">
+        
+          <li class="md-nav__item">
+  <a href="#reading-inusing-a-saved-population" class="md-nav__link">
     Reading in/using a Saved Population
   </a>
-<nav aria-label="Reading in/using a Saved Population" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population_io.read">
+  
+    <nav class="md-nav" aria-label="Reading in/using a Saved Population">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population_io.read" class="md-nav__link">
     read()
   </a>
+  
 </li>
-</ul>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
-</li>
-</ul>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../relationship/" class="md-nav__link">
+        Relationship
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reporting/" class="md-nav__link">
+        Reporting
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utilities/" class="md-nav__link">
+        Utility Functions
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
 </nav>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../relationship/">
-      Relationship
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../reporting/">
-      Reporting
-    </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../utilities/">
-      Utility Functions
-    </a>
-</li>
-</ul>
-</nav>
-</li>
-</ul>
-</nav>
-</div>
-</div>
-</div>
-<div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
-<div class="md-sidebar__scrollwrap">
-<div class="md-sidebar__inner">
-<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#population">
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#population" class="md-nav__link">
     Population
   </a>
-<nav aria-label="Population" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.__init__">
+  
+    <nav class="md-nav" aria-label="Population">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.__init__" class="md-nav__link">
     __init__()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.add_agent">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.add_agent" class="md-nav__link">
     add_agent()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.add_relationship">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.add_relationship" class="md-nav__link">
     add_relationship()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.connected_components">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.connected_components" class="md-nav__link">
     connected_components()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.create_agent">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.create_agent" class="md-nav__link">
     create_agent()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.get_age">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.get_age" class="md-nav__link">
     get_age()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.remove_agent">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.remove_agent" class="md-nav__link">
     remove_agent()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.remove_relationship">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.remove_relationship" class="md-nav__link">
     remove_relationship()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.trim_graph">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.trim_graph" class="md-nav__link">
     trim_graph()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.update_agent_partners">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.update_agent_partners" class="md-nav__link">
     update_agent_partners()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.update_partner_assignments">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.update_partner_assignments" class="md-nav__link">
     update_partner_assignments()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.update_partner_targets">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.update_partner_targets" class="md-nav__link">
     update_partner_targets()
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population.Population.update_partnerability">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.update_partnerability" class="md-nav__link">
     update_partnerability()
   </a>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#population-reading-writing">
+      
+        <li class="md-nav__item">
+  <a href="#population-reading-writing" class="md-nav__link">
     Population Reading &amp; Writing
   </a>
-<nav aria-label="Population Reading &amp; Writing" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#saving-the-population">
+  
+    <nav class="md-nav" aria-label="Population Reading &amp; Writing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#saving-the-population" class="md-nav__link">
     Saving the Population
   </a>
-<nav aria-label="Saving the Population" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population_io.write">
+  
+    <nav class="md-nav" aria-label="Saving the Population">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population_io.write" class="md-nav__link">
     write()
   </a>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#reading-inusing-a-saved-population">
+        
+          <li class="md-nav__item">
+  <a href="#reading-inusing-a-saved-population" class="md-nav__link">
     Reading in/using a Saved Population
   </a>
-<nav aria-label="Reading in/using a Saved Population" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#titan.population_io.read">
+  
+    <nav class="md-nav" aria-label="Reading in/using a Saved Population">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#titan.population_io.read" class="md-nav__link">
     read()
   </a>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-</ul>
+      
+    </ul>
+  
 </nav>
-</div>
-</div>
-</div>
-<div class="md-content">
-<article class="md-content__inner md-typeset">
-<h1>Population</h1>
-<h2 id="population">Population</h2>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>Population</h1>
+                
+                <h2 id="population">Population</h2>
 <p>The <code>Population</code> class is used to represent the population of agents the model is running on.  On construction, it stochastically creates the population described in the <code>params</code>.  At its core, it is a graph with nodes (<code>all_agents</code>) and edges (<code>relationships</code>), it can be formally backed by a NetworkX graph by enabling the graph in the prams file.  This allows for some graph-specific logic to be applied throughout the running of the model (e.g. trimming components, writing network statistics).</p>
 <div class="doc doc-object doc-class">
 <div class="doc doc-contents first">
 <div class="doc doc-children">
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.population.Population.__init__">
-<code class="highlight language-python">
-__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> </code>
-<span class="doc doc-properties">
-<small class="doc doc-property doc-property-special"><code>special</code></small>
-</span>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Initialize Population object.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -623,8 +1114,8 @@ __init__<span class="p">(</span><span class="bp">self</span><span class="p">,</s
 </tbody>
 </table>
 <details class="quote">
-<summary>Source code in <code>titan/population.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/population.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="s2">"parse_params.ObjMap"</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Initialize Population object.</span>
@@ -695,7 +1186,7 @@ __init__<span class="p">(</span><span class="bp">self</span><span class="p">,</s
     <span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="s2">"ag.Relationship"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
     <span class="c1"># find average partnership durations</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">mean_rel_duration</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">partnering</span><span class="o">.</span><span class="n">get_mean_rel_duration</span><span class="p">(</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">mean_rel_duration</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="n">partnering</span><span class="o">.</span><span class="n">get_mean_rel_duration</span><span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span>
     <span class="p">)</span>
 
@@ -727,10 +1218,12 @@ __init__<span class="p">(</span><span class="bp">self</span><span class="p">,</s
 </div>
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.population.Population.add_agent">
-<code class="highlight language-python">
-add_agent<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">)</span> </code>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">add_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Adds an agent to the population</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -754,8 +1247,8 @@ add_agent<span class="p">(</span><span class="bp">self</span><span class="p">,</
 </tbody>
 </table>
 <details class="quote">
-<summary>Source code in <code>titan/population.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/population.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">add_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">:</span> <span class="s2">"ag.Agent"</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Adds an agent to the population</span>
@@ -783,10 +1276,12 @@ add_agent<span class="p">(</span><span class="bp">self</span><span class="p">,</
 </div>
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.population.Population.add_relationship">
-<code class="highlight language-python">
-add_relationship<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rel</span><span class="p">)</span> </code>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">add_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rel</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Add a new relationship to the population.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -810,8 +1305,8 @@ add_relationship<span class="p">(</span><span class="bp">self</span><span class=
 </tbody>
 </table>
 <details class="quote">
-<summary>Source code in <code>titan/population.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/population.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">add_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rel</span><span class="p">:</span> <span class="s2">"ag.Relationship"</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Add a new relationship to the population.</span>
@@ -830,10 +1325,12 @@ add_relationship<span class="p">(</span><span class="bp">self</span><span class=
 </div>
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.population.Population.connected_components">
-<code class="highlight language-python">
-connected_components<span class="p">(</span><span class="bp">self</span><span class="p">)</span> </code>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">connected_components</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Get connected components in graph (if enabled)</p>
 <p><strong>Returns:</strong></p>
 <table>
@@ -853,8 +1350,8 @@ connected_components<span class="p">(</span><span class="bp">self</span><span cl
 </tbody>
 </table>
 <details class="quote">
-<summary>Source code in <code>titan/population.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/population.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">connected_components</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
     <span class="sd">"""</span>
 <span class="sd">    Get connected components in graph (if enabled)</span>
@@ -875,10 +1372,12 @@ connected_components<span class="p">(</span><span class="bp">self</span><span cl
 </div>
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.population.Population.create_agent">
-<code class="highlight language-python">
-create_agent<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">race</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">sex_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">drug_type</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> </code>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">create_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">race</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">sex_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">drug_type</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Create a new agent with randomly assigned attributes according to population
 demographics [params.demographics]</p>
 <p><strong>Parameters:</strong></p>
@@ -944,8 +1443,8 @@ demographics [params.demographics]</p>
 </tbody>
 </table>
 <details class="quote">
-<summary>Source code in <code>titan/population.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/population.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">create_agent</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">loc</span><span class="p">:</span> <span class="s2">"location.Location"</span><span class="p">,</span>
@@ -1020,7 +1519,7 @@ demographics [params.demographics]</p>
             <span class="n">utils</span><span class="o">.</span><span class="n">safe_dist</span><span class="p">(</span><span class="n">dist_info</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span><span class="p">)</span>
             <span class="o">*</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_divide</span><span class="p">(</span>
                 <span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">calibration</span><span class="o">.</span><span class="n">sex</span><span class="o">.</span><span class="n">partner</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">mean_rel_duration</span><span class="p">[</span><span class="n">bond</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mean_rel_duration</span><span class="p">[</span><span class="n">bond</span><span class="p">][</span><span class="n">race</span><span class="p">],</span>
             <span class="p">)</span>
         <span class="p">)</span>
         <span class="c1"># so not zero if added mid-year</span>
@@ -1043,10 +1542,12 @@ demographics [params.demographics]</p>
 </div>
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.population.Population.get_age">
-<code class="highlight language-python">
-get_age<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">race</span><span class="p">)</span> </code>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">get_age</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">race</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Given the population characteristics, get a random age to assign to an agent given the race of that agent</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1087,8 +1588,8 @@ get_age<span class="p">(</span><span class="bp">self</span><span class="p">,</sp
 </tbody>
 </table>
 <details class="quote">
-<summary>Source code in <code>titan/population.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/population.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">get_age</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="p">:</span> <span class="s2">"location.Location"</span><span class="p">,</span> <span class="n">race</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
     <span class="sd">"""</span>
 <span class="sd">    Given the population characteristics, get a random age to assign to an agent given the race of that agent</span>
@@ -1119,10 +1620,12 @@ get_age<span class="p">(</span><span class="bp">self</span><span class="p">,</sp
 </div>
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.population.Population.remove_agent">
-<code class="highlight language-python">
-remove_agent<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">)</span> </code>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">remove_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Remove an agent from the population.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1146,8 +1649,8 @@ remove_agent<span class="p">(</span><span class="bp">self</span><span class="p">
 </tbody>
 </table>
 <details class="quote">
-<summary>Source code in <code>titan/population.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/population.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">remove_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">:</span> <span class="s2">"ag.Agent"</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Remove an agent from the population.</span>
@@ -1184,10 +1687,12 @@ remove_agent<span class="p">(</span><span class="bp">self</span><span class="p">
 </div>
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.population.Population.remove_relationship">
-<code class="highlight language-python">
-remove_relationship<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rel</span><span class="p">)</span> </code>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">remove_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rel</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Remove a relationship from the population.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1211,8 +1716,8 @@ remove_relationship<span class="p">(</span><span class="bp">self</span><span cla
 </tbody>
 </table>
 <details class="quote">
-<summary>Source code in <code>titan/population.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/population.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">remove_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rel</span><span class="p">:</span> <span class="s2">"ag.Relationship"</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Remove a relationship from the population.</span>
@@ -1235,15 +1740,17 @@ remove_relationship<span class="p">(</span><span class="bp">self</span><span cla
 </div>
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.population.Population.trim_graph">
-<code class="highlight language-python">
-trim_graph<span class="p">(</span><span class="bp">self</span><span class="p">)</span> </code>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">trim_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Initialize network with graph-based algorithm for relationship
     adding/pruning</p>
 <details class="quote">
-<summary>Source code in <code>titan/population.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/population.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">trim_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Initialize network with graph-based algorithm for relationship</span>
@@ -1292,10 +1799,12 @@ trim_graph<span class="p">(</span><span class="bp">self</span><span class="p">)<
 </div>
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.population.Population.update_agent_partners">
-<code class="highlight language-python">
-update_agent_partners<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">,</span> <span class="n">bond_type</span><span class="p">,</span> <span class="n">components</span><span class="p">)</span> </code>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">update_agent_partners</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">,</span> <span class="n">bond_type</span><span class="p">,</span> <span class="n">components</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Finds and bonds new partner. Creates relationship object for partnership,
     calcs partnership duration, adds it to the population, and adds to networkX graph if self.enable_graph
     is set True.</p>
@@ -1346,8 +1855,8 @@ update_agent_partners<span class="p">(</span><span class="bp">self</span><span c
 </tbody>
 </table>
 <details class="quote">
-<summary>Source code in <code>titan/population.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/population.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">update_agent_partners</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">:</span> <span class="s2">"ag.Agent"</span><span class="p">,</span> <span class="n">bond_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">components</span><span class="p">:</span> <span class="n">List</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -1390,8 +1899,9 @@ update_agent_partners<span class="p">(</span><span class="bp">self</span><span c
     <span class="n">no_match</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">if</span> <span class="n">partner</span><span class="p">:</span>
+        <span class="n">race</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_random_choice</span><span class="p">([</span><span class="n">agent</span><span class="o">.</span><span class="n">race</span><span class="p">,</span> <span class="n">partner</span><span class="o">.</span><span class="n">race</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="p">)</span>
         <span class="n">duration</span> <span class="o">=</span> <span class="n">partnering</span><span class="o">.</span><span class="n">get_partnership_duration</span><span class="p">(</span>
-            <span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span><span class="p">,</span> <span class="n">bond_type</span>
+            <span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span><span class="p">,</span> <span class="n">bond_type</span><span class="p">,</span> <span class="n">race</span>
         <span class="p">)</span>
         <span class="n">relationship</span> <span class="o">=</span> <span class="n">ag</span><span class="o">.</span><span class="n">Relationship</span><span class="p">(</span>
             <span class="n">agent</span><span class="p">,</span> <span class="n">partner</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">bond_type</span><span class="o">=</span><span class="n">bond_type</span>
@@ -1412,10 +1922,12 @@ update_agent_partners<span class="p">(</span><span class="bp">self</span><span c
 </div>
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.population.Population.update_partner_assignments">
-<code class="highlight language-python">
-update_partner_assignments<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> </code>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">update_partner_assignments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Determines which agents will seek new partners from All_agentSet.
     Calls update_agent_partners for any agents that desire partners.</p>
 <p><strong>Parameters:</strong></p>
@@ -1440,8 +1952,8 @@ update_partner_assignments<span class="p">(</span><span class="bp">self</span><s
 </tbody>
 </table>
 <details class="quote">
-<summary>Source code in <code>titan/population.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/population.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">update_partner_assignments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Determines which agents will seek new partners from All_agentSet.</span>
@@ -1492,14 +2004,16 @@ update_partner_assignments<span class="p">(</span><span class="bp">self</span><s
 </div>
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.population.Population.update_partner_targets">
-<code class="highlight language-python">
-update_partner_targets<span class="p">(</span><span class="bp">self</span><span class="p">)</span> </code>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">update_partner_targets</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Update the target number of partners for each agent and bond type</p>
 <details class="quote">
-<summary>Source code in <code>titan/population.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/population.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">update_partner_targets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Update the target number of partners for each agent and bond type</span>
@@ -1517,14 +2031,16 @@ update_partner_targets<span class="p">(</span><span class="bp">self</span><span 
 </div>
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.population.Population.update_partnerability">
-<code class="highlight language-python">
-update_partnerability<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span> </code>
-</h3>
-<div class="doc doc-contents">
+
+<code class="highlight language-python"><span class="n">update_partnerability</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
 <p>Update whether each agent in the population is currently able to form new relationships for each bond type</p>
 <details class="quote">
-<summary>Source code in <code>titan/population.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/population.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">update_partnerability</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Update whether each agent in the population is currently able to form new relationships for each bond type</span>
@@ -1556,9 +2072,11 @@ update_partnerability<span class="p">(</span><span class="bp">self</span><span c
 <p>The population is represented as a series of csv files that save the attributes for the core entities (agents, relationships at this time).  The population can be saved with only <code>core</code> attributes (e.g. race, sex_type, hiv) or with <code>intervention</code> attributes (e.g. prep, vaccinated) as well.  <code>intervention</code> attributes are less likely to work as intended across versions of the model.</p>
 <div class="doc doc-object doc-function">
 <h4 class="doc doc-heading" id="titan.population_io.write">
-<code class="highlight language-python">
-titan.population_io.write<span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="nb">dir</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> </code>
-</h4>
+
+<code class="highlight language-python"><span class="n">titan</span><span class="o">.</span><span class="n">population_io</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="nb">dir</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+
+
+      </h4>
 <div class="doc doc-contents first">
 <p>Write a non-empty Population to file.</p>
 <p><strong>Parameters:</strong></p>
@@ -1616,8 +2134,8 @@ titan.population_io.write<span class="p">(</span><span class="n">pop</span><span
 </tbody>
 </table>
 <details class="quote">
-<summary>Source code in <code>titan/population_io.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/population_io.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="n">pop</span><span class="p">:</span> <span class="n">Population</span><span class="p">,</span> <span class="nb">dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">compress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">"""</span>
 <span class="sd">    Write a non-empty Population to file.</span>
@@ -1630,7 +2148,7 @@ titan.population_io.write<span class="p">(</span><span class="n">pop</span><span
 <span class="sd">    returns:</span>
 <span class="sd">        path, or archive name if compress is true</span>
 <span class="sd">    """</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">relationships</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"can't write empty population"</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">relationships</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"Can't write empty population"</span>
 
     <span class="c1"># open agent file</span>
     <span class="n">agent_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">pop</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">_agents.csv"</span><span class="p">)</span>
@@ -1684,9 +2202,11 @@ titan.population_io.write<span class="p">(</span><span class="n">pop</span><span
 <p>A population can be created from the files saved, however, there is no validation done to ensure the params used when running on this population make sense/match what was originally used when creating it.  Some things may validly change (e.g. interventions, reports needed, seeds), but others may result in strange behavior if changed (e.g. race distribution, what classes are in use).</p>
 <div class="doc doc-object doc-function">
 <h4 class="doc doc-heading" id="titan.population_io.read">
-<code class="highlight language-python">
-titan.population_io.read<span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span> </code>
-</h4>
+
+<code class="highlight language-python"><span class="n">titan</span><span class="o">.</span><span class="n">population_io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></code>
+
+
+      </h4>
 <div class="doc doc-contents first">
 <p>Read a population from file and return a Population instance</p>
 <p><strong>Parameters:</strong></p>
@@ -1737,8 +2257,8 @@ containing population</p>
 </tbody>
 </table>
 <details class="quote">
-<summary>Source code in <code>titan/population_io.py</code></summary>
-<div class="highlight">
+          <summary>Source code in <code>titan/population_io.py</code></summary>
+          <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Population</span><span class="p">:</span>
     <span class="sd">"""</span>
 <span class="sd">    Read a population from file and return a Population instance</span>
@@ -1815,64 +2335,85 @@ containing population</p>
 </details>
 </div>
 </div>
-</article>
-</div>
-</div>
-</main>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
 <footer class="md-footer">
-<div class="md-footer-nav">
-<nav aria-label="Footer" class="md-footer-nav__inner md-grid">
-<a class="md-footer-nav__link md-footer-nav__link--prev" href="../partnering/" rel="prev">
-<div class="md-footer-nav__button md-icon">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
-</div>
-<div class="md-footer-nav__title">
-<div class="md-ellipsis">
-<span class="md-footer-nav__direction">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../partnering/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
                   Previous
                 </span>
                 Partnering
               </div>
-</div>
-</a>
-<a class="md-footer-nav__link md-footer-nav__link--next" href="../relationship/" rel="next">
-<div class="md-footer-nav__title">
-<div class="md-ellipsis">
-<span class="md-footer-nav__direction">
+            </div>
+          </a>
+        
+        
+          <a href="../relationship/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
                   Next
                 </span>
                 Relationship
               </div>
-</div>
-<div class="md-footer-nav__button md-icon">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"></path></svg>
-</div>
-</a>
-</nav>
-</div>
-<div class="md-footer-meta md-typeset">
-<div class="md-footer-meta__inner md-grid">
-<div class="md-footer-copyright">
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
         
         Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
           Material for MkDocs
         </a>
-</div>
-</div>
-</div>
+      </div>
+      
+    </div>
+  </div>
 </footer>
-</div>
-<script src="../../assets/javascripts/vendor.0ac82a11.min.js"></script>
-<script src="../../assets/javascripts/bundle.f81dfb4d.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
-<script>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.53cc9318.min.js"></script>
+      <script src="../../assets/javascripts/bundle.e9c9f54f.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
         app = initialize({
           base: "../..",
           features: ['instant', 'tabs'],
           search: Object.assign({
-            worker: "../../assets/javascripts/worker/search.4ac00218.min.js"
+            worker: "../../assets/javascripts/worker/search.9c0e82ba.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>
-</body>
+      
+    
+  </body>
 </html>
