@@ -44,7 +44,6 @@ hiv:
     risk_reduction:
       sex: 0.19
   start_time: -48
-  init: -48
   aids:
     prob: 0.0029
 
@@ -88,26 +87,6 @@ timeline_scaling:
       start_time: -47
       stop_time: 9999
       scalar: 0
-    adh_prob_HF_None:  # make viral suppression probability 0.7 after initial pop creation
-      parameter: demographics|white|sex_type|HF|drug_type|None|haart|adherence
-      start_time: -47
-      stop_time: 9999
-      scalar: 0.7
-    adh_prob_HM_None:   # make viral suppression probability 0.7 after initial pop creation
-      parameter: demographics|white|sex_type|HM|drug_type|None|haart|adherence
-      start_time: -47
-      stop_time: 9999
-      scalar: 0.7
-    adh_prob_HF_Inj:  # make viral suppression probability 0.7 after initial pop creation
-      parameter: demographics|white|sex_type|HF|drug_type|Inj|haart|adherence
-      start_time: -47
-      stop_time: 9999
-      scalar: 0.7
-    adh_prob_HM_Inj:  # make viral suppression probability 0.7 after initial pop creation
-      parameter: demographics|white|sex_type|HM|drug_type|Inj|haart|adherence
-      start_time: -47
-      stop_time: 9999
-      scalar: 0.7
 
 classes:
   sex_types:
