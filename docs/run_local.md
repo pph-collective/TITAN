@@ -47,7 +47,7 @@ optional arguments:
   -F, --force           Run model even if number of sweeps exceeds 100
 ```
 
-::: run_titan.main
+::: titan.run_titan.main
     rendering:
         show_root_heading: true
         show_root_toc_entry: false
