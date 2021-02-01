@@ -49,7 +49,7 @@ demographics:
                   stop: 999
               adherence:
                 init: 1.0
-                prob: 1.0
+                prob: 0.7
               discontinue: 0.000
             death_rate:
               base: 16.6
