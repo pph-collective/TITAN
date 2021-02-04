@@ -10,5 +10,5 @@ Agent populations are defined as graphs (nodes connected by edges). Nodes in the
 <div>
   <iframe width="100%" height="814" frameborder="0"
     src="https://observablehq.com/embed/@mcmcgrath13/visualizing-titan?cells=viewof+circle_view"></iframe>
-  <figcaption>Visualizing the TITAN network during a model run.  Hover on an agent's dot to highlight their relationships to other agents. See <a href="https://observablehq.com/@mcmcgrath13/visualizing-titan">the Visualizing TITAN Observable notebook</a> to learn more.</figcaption>
+  <figcaption>Visualizing the TITAN network during a model run.  Hover over an agent's dot to highlight their relationships to other agents. See <a href="https://observablehq.com/@mcmcgrath13/visualizing-titan">the Visualizing TITAN Observable notebook</a> to learn more.</figcaption>
 </div>
