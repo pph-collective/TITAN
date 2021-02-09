@@ -239,22 +239,10 @@ class TITAN:
             feature.update_pop(self)
 
         for agent in self.pop.all_agents:
-            # happy birthday agents!
-            if (
-                self.time > 0
-                and (self.time % self.params.model.time.steps_per_year) == 0
-            ):
-                agent.age += 1
-
-            for exposure in self.exposures:
-                agent_feature = getattr(agent, exposure.name)
-                agent_feature.update_agent(self)
-
-            for feature in self.features:
-                agent_feature = getattr(agent, feature.name)
-                agent_feature.update_agent(self)
+            self.update_agent(agent)
 
         # If static network, ignore relationship progression
+        # TO_REVIEW should we end relationships at the start of the update cycle, so that way a relationship that interacted this cycle, but then ended still gets counted for component stats?
         if not self.params.features.static_network:
             for rel in copy(self.pop.relationships):
                 if rel.progress():
@@ -262,6 +250,27 @@ class TITAN:
 
         if self.params.features.die_and_replace:
             self.die_and_replace()
+
+    def update_agent(self, agent):
+        """
+        Update an agent at the given model timestep.
+
+        Update the agent's status for:
+            * age
+            * all exposures
+            * all features (agent level)
+        """
+        # happy birthday agents!
+        if self.time > 0 and (self.time % self.params.model.time.steps_per_year) == 0:
+            agent.age += 1
+
+        for exposure in self.exposures:
+            agent_feature = getattr(agent, exposure.name)
+            agent_feature.update_agent(self)
+
+        for feature in self.features:
+            agent_feature = getattr(agent, feature.name)
+            agent_feature.update_agent(self)
 
     def make_agent_zero(self):
         """
