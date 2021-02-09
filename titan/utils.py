@@ -158,7 +158,7 @@ def memo(f):
     return wrap
 
 
-def get_param_from_path(params, param_path, delimiter):
+def get_param_from_path(params: ObjMap, param_path: str, delimiter: str):
     """
     Given a params object and a delimited path, get the leaf of the params tree
     and the last key to access it
@@ -174,7 +174,7 @@ def get_param_from_path(params, param_path, delimiter):
     return path_params, path[-1]
 
 
-def scale_param(params, param_path, scalar, delimiter="|"):
+def scale_param(params: ObjMap, param_path: str, scalar: float, delimiter="|"):
     """
     Given the params and a parameter path in the format prep|cap, scale the
     current value by the scalar
@@ -186,7 +186,7 @@ def scale_param(params, param_path, scalar, delimiter="|"):
     scaling_item[last_key] = old_val * scalar
 
 
-def override_param(params, param_path, value, delimiter="|"):
+def override_param(params: ObjMap, param_path: str, value, delimiter="|"):
     """
     Given the params and a parameter path in the format prep|cap, change the
     current value to new value
@@ -225,7 +225,50 @@ def connected_components(graph):
     """
     Get connected components in graph
 
+    args:
+        graph: the model's underlying graph
+
     returns:
         list of connected components
     """
     return list(graph.subgraph(c).copy() for c in nx.connected_components(graph))
+
+
+def get_independent_bin(rand_gen, bin_def: ObjMap) -> int:
+    """
+    Get the bin key given independent bins.  A probability is selected at random, then each bin's `prob` is compared to it, the first bin that has a `prob` less than or equal to that probability is returned.
+
+    args:
+        rand_gen: A random number generator
+        bin_def: The ObjMap containing the bins
+
+    returns:
+        The integer key of the matched bin (or last bin if no matches)
+    """
+    rand_val = rand_gen.random()
+    for bin, fields in bin_def.items():
+        if rand_val <= fields.prob:
+            break
+
+    return bin
+
+
+def get_cumulative_bin(rand_gen, bin_def: ObjMap) -> int:
+    """
+    Get the bin key given cumulative bins.  A probability is selected at random, then each bin's `prob` is compared to it, the first bin that has a cumulative `prob` (e.g. for bin 2, the prob of bin 1 plus the prob of bin 2) less than or equal to that probability is returned.
+
+    args:
+        rand_gen: random number generator
+        bin_def: ObjMap containing the bins
+
+    returns:
+        integer key of the matched bin (or last bin if no matches)
+    """
+    rand_val = rand_gen.random()
+    p = 0.0
+    for bin, fields in bin_def.items():
+        p += fields.prob
+        if rand_val <= p:
+            break
+
+    return bin

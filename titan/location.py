@@ -72,30 +72,28 @@ class Location:
         * race
         * sex_type
         """
-        for race in self.params.classes.races:
+
+        def init_weight_dict(d, item):
+            d[item] = {}
+            d[item]["values"] = []
+            d[item]["weights"] = []
+
+        def add_weight(d, v, w):
+            d["values"].append(v)
+            d["weights"].append(w)
+
+        for race, race_param in self.params.demographics.items():
             self.role_weights[race] = {}
             self.drug_weights[race] = {}
-            self.pop_weights[race] = {}
-            self.pop_weights[race]["values"] = []
-            self.pop_weights[race]["weights"] = []
-            race_param = self.params.demographics[race]
-            for st in self.params.classes.sex_types:
-                st_param = race_param.sex_type[st]
-                self.pop_weights[race]["values"].append(st)
-                self.pop_weights[race]["weights"].append(st_param.ppl)
-                self.role_weights[race][st] = {}
-                self.role_weights[race][st]["values"] = []
-                self.role_weights[race][st]["weights"] = []
-                self.drug_weights[race][st] = {}
-                self.drug_weights[race][st]["values"] = []
-                self.drug_weights[race][st]["weights"] = []
+            init_weight_dict(self.pop_weights, race)
+            for st, st_param in race_param.sex_type.items():
+                add_weight(self.pop_weights[race], st, st_param.ppl)
+                init_weight_dict(self.role_weights[race], st)
+                init_weight_dict(self.drug_weights[race], st)
                 for role, prob in st_param.sex_role.init.items():
-                    self.role_weights[race][st]["values"].append(role)
-                    self.role_weights[race][st]["weights"].append(prob)
-                for dt in self.params.classes.drug_types:
-                    dt_param = st_param.drug_type[dt]
-                    self.drug_weights[race][st]["values"].append(dt)
-                    self.drug_weights[race][st]["weights"].append(dt_param.ppl)
+                    add_weight(self.role_weights[race][st], role, prob)
+                for dt, dt_param in st_param.drug_type.items():
+                    add_weight(self.drug_weights[race][st], dt, dt_param.ppl)
 
 
 # LocationEdges are very much a WIP and not actually used anywhere yet

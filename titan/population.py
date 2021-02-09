@@ -297,18 +297,9 @@ class Population:
         returns:
             age and the bin the age came from
         """
-        rand = self.pop_random.random()
-
         bins = loc.params.demographics[race].age
-
-        for i in range(1, 6):
-            if rand < bins[i].prob:
-                break
-
-        min_age = bins[i].min
-        max_age = bins[i].max
-
-        age = self.pop_random.randrange(min_age, max_age)
+        i = utils.get_independent_bin(self.pop_random, bins)
+        age = self.pop_random.randrange(bins[i].min, bins[i].max)
         return age, i
 
     def update_agent_partners(
