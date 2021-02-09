@@ -52,23 +52,17 @@ class HAART(base_feature.BaseFeature):
             pop: the population this agent is a part of
             time: the current time step
         """
-        agent_params = (
+        haart_params = (
             self.agent.location.params.demographics[self.agent.race]
             .sex_type[self.agent.sex_type]
             .drug_type[self.agent.drug_type]
+            .haart
         )
         if (
-            self.agent.hiv.active  # type: ignore[attr-defined]
-            and self.agent.hiv.dx  # type: ignore[attr-defined]
-            and pop.pop_random.random() < agent_params.haart.init
+            self.agent.hiv.dx  # type: ignore[attr-defined]
+            and pop.pop_random.random() < haart_params.init
         ):
-            self.active = True
-            self.ever = True
-            self.add_agent(self.agent)
-
-            haart_adh = agent_params.haart.adherence.init
-            if pop.pop_random.random() < haart_adh:
-                self.adherent = True
+            self.initiate(pop.pop_random, haart_params, "init")
 
     def update_agent(self, model: "model.TITAN"):
         """
@@ -80,9 +74,9 @@ class HAART(base_feature.BaseFeature):
             model: the instance of TITAN currently being run
         """
         if (
-            self.agent.hiv.active  # type: ignore[attr-defined]
-            and self.agent.hiv.dx  # type: ignore[attr-defined]
-            and model.time >= model.params.hiv.start_time
+            self.agent.hiv.dx  # type: ignore[attr-defined]
+            and model.time
+            >= model.params.hiv.start_time  # TO_REVIEW why based on hiv start time - should there be a haart start time?
         ):
             # Determine probability of HIV treatment
             haart_params = (
@@ -93,34 +87,7 @@ class HAART(base_feature.BaseFeature):
             )
             # Go on HAART
             if not self.active:
-                if self.agent.location.params.haart.use_cap:
-                    # if HAART is based on cap instead of prob, determine number of
-                    # HAART agents based on % of diagnosed agents
-                    num_dx_agents = self.agent.hiv.dx_counts[self.agent.race][  # type: ignore[attr-defined]
-                        self.agent.sex_type
-                    ]
-                    num_haart_agents = self.counts[self.agent.race][self.agent.sex_type]
-
-                    # take value from dictionary for cap
-                    if num_haart_agents < (haart_params.cap * num_dx_agents):
-                        self.initiate(model)
-                else:
-                    if self.ever and self.agent.location.params.haart.use_reinit:
-                        if model.run_random.random() < haart_params.reinit.prob:
-                            self.initiate(model)
-                    else:
-                        enroll_prob = 0
-                        # Find enroll probability based on time since diagnosis
-                        haart_duration = model.time - self.agent.hiv.dx_time  # type: ignore[attr-defined]
-                        for i in haart_params.enroll.values():
-                            if i.start <= haart_duration < i.stop:
-                                enroll_prob = i.prob
-                                break
-
-                        if model.run_random.random() < (
-                            enroll_prob * model.calibration.haart.coverage
-                        ):
-                            self.initiate(model)
+                self.enroll(model, haart_params)
 
             # Update agents on HAART
             else:
@@ -208,20 +175,69 @@ class HAART(base_feature.BaseFeature):
 
     # =========== HELPER METHODS ============
 
-    def initiate(self, model: "model.TITAN"):
+    def enroll(self, model: "model.TITAN", haart_params: ObjMap):
+        """
+        Determine whether to enroll an agent in HAART.
+
+        args:
+            model: the instance of TITAN currently being run
+            haart_params: the HAART demographic params for this agent
+        """
+        if self.agent.location.params.haart.use_cap:
+            self.enroll_cap(model, haart_params)
+        else:
+            self.enroll_prob(model, haart_params)
+
+    def enroll_cap(self, model: "model.TITAN", haart_params: ObjMap):
+        """
+        Determine whether to enroll an agent in HAART using the cap method.
+
+        args:
+            model: the instance of TITAN currently being run
+            haart_params: the HAART demographic params for this agent
+        """
+        race = self.agent.race
+        sex_type = self.agent.sex_type
+        # if HAART is based on cap instead of prob, determine number of
+        # HAART agents based on % of diagnosed agents
+        num_dx_agents = self.agent.hiv.dx_counts[race][sex_type]  # type: ignore[attr-defined]
+        num_haart_agents = self.counts[race][sex_type]
+
+        # take value from dictionary for cap
+        if num_haart_agents < (haart_params.cap * num_dx_agents):
+            self.initiate(model.run_random, haart_params, "prob")
+
+    def enroll_prob(self, model: "model.TITAN", haart_params: ObjMap):
+        """
+        Determine whether to enroll an agent in HAART using probability method.
+
+        args:
+            model: the instance of TITAN currently being run
+            haart_params: the HAART demographic params for this agent
+        """
+        if self.ever and self.agent.location.params.haart.use_reinit:
+            if model.run_random.random() < haart_params.reinit.prob:
+                self.initiate(model.run_random, haart_params, "prob")
+        else:
+            # Find enroll probability based on time since diagnosis
+            enroll_prob = 0.0
+            dx_duration = model.time - self.agent.hiv.dx_time  # type: ignore[attr-defined]
+            for i in haart_params.enroll.values():
+                if i.start <= dx_duration < i.stop:
+                    enroll_prob = i.prob * model.calibration.haart.coverage
+                    break
+
+            if model.run_random.random() < (enroll_prob):
+                self.initiate(model.run_random, haart_params, "prob")
+
+    def initiate(self, rand_gen, haart_params: ObjMap, init_or_prob: str):
         """
         Initiate an agent with HAART and add them to the population.
 
         args:
             model: the instance of TITAN currently being run
         """
-        self.adherent = (
-            model.run_random.random()
-            < self.agent.location.params.demographics[self.agent.race]
-            .sex_type[self.agent.sex_type]
-            .drug_type[self.agent.drug_type]
-            .haart.adherence.prob
-        )
+        self.adherent = rand_gen.random() < haart_params.adherence[init_or_prob]
 
         # Add agent to HAART class set, update agent params
         self.active = True
