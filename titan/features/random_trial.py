@@ -21,7 +21,7 @@ class RandomTrial(base_feature.BaseFeature):
 
         * random_trial - number of agents with active random_trial
         * random_trial_treated - number of active agents treated
-        * random_trial_treated_hiv - number of HIV+ agents treated 
+        * random_trial_treated_hiv - number of HIV+ agents treated
         * random_trial_suitable - number of active agents suitable
     """
 
