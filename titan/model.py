@@ -112,7 +112,6 @@ class TITAN:
                     self.pop.pop_seed,
                     self.pop.connected_components(),
                     network_outdir,
-                    self.params.classes.races,
                 )
 
             if self.params.outputs.network.calc_network_stats:
@@ -209,6 +208,9 @@ class TITAN:
         """
         The core of the model.  For a time step, update all of the agents and relationships:
 
+
+        6. End relationships with no remaining duration
+        7. Agent death/replacement
         1. Create an agent zero (if enabled and the time is right)
         2. Update partner assignments (create new relationships as needed)
         3. Agents in relationships interact
@@ -217,9 +219,17 @@ class TITAN:
             * age
             * all exposures
             * all features (agent level)
-        6. End relationships with no remaining duration
-        7. Agent death/replacement
         """
+        # If static network, ignore relationship progression
+        # TO_REVIEW should we end relationships at the start of the update cycle, so that way a relationship that interacted this cycle, but then ended still gets counted for component stats?
+        if not self.params.features.static_network:
+            for rel in copy(self.pop.relationships):
+                if rel.progress():
+                    self.pop.remove_relationship(rel)
+
+        if self.params.features.die_and_replace:
+            self.die_and_replace()
+
         # If agent zero enabled, create agent zero at the beginning of main loop.
         if (
             self.time == self.params.agent_zero.start_time
@@ -240,16 +250,6 @@ class TITAN:
 
         for agent in self.pop.all_agents:
             self.update_agent(agent)
-
-        # If static network, ignore relationship progression
-        # TO_REVIEW should we end relationships at the start of the update cycle, so that way a relationship that interacted this cycle, but then ended still gets counted for component stats?
-        if not self.params.features.static_network:
-            for rel in copy(self.pop.relationships):
-                if rel.progress():
-                    self.pop.remove_relationship(rel)
-
-        if self.params.features.die_and_replace:
-            self.die_and_replace()
 
     def update_agent(self, agent):
         """

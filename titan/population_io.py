@@ -190,6 +190,8 @@ def read(params: ObjMap, path: str) -> Population:
             r = create_relationship(row, pop)
             pop.add_relationship(r)
 
+    pop.update_agent_components()
+
     return pop
 
 

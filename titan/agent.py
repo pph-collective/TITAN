@@ -55,6 +55,7 @@ class Agent:
         self.race = race
         self.drug_type = drug_use
         self.location = location
+        self.component = "-1"  # updated after relationships created
 
         self.sex_role = "versatile"
 

@@ -234,7 +234,7 @@ partnership:
         receptive: 0.0138
         versatile: 0.00745
   duration:
-    Sex: 
+    Sex:
       white:
         type: bins
         bins:
@@ -308,6 +308,8 @@ outputs:
     - locations
     - races
     - sex_types
+    - components
+    - drug_types
 
 exposures:
   hiv: true
