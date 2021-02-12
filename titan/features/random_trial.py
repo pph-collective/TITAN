@@ -10,13 +10,18 @@ import networkx as nx  # type: ignore
 class RandomTrial(base_feature.BaseFeature):
 
     name = "random_trial"
-    stats = ["random_trial", "random_trial_treated", "random_trial_suitable", "random_trial_treated_hiv"]
+    stats = [
+        "random_trial",
+        "random_trial_treated",
+        "random_trial_suitable",
+        "random_trial_treated_hiv",
+    ]
     """
         Random Trial collects the following stats:
 
         * random_trial - number of agents with active random_trial
         * random_trial_treated - number of active agents treated
-        * random_trial_treated_hiv - number of HIV+ agents treated 
+        * random_trial_treated_hiv - number of HIV+ agents treated
         * random_trial_suitable - number of active agents suitable
     """
 
@@ -154,7 +159,7 @@ class RandomTrial(base_feature.BaseFeature):
             stats["random_trial"] += 1
             if self.treated:
                 stats["random_trial_treated"] += 1
-                if self.agent.hiv.active: # type: ignore[attr-defined]
+                if self.agent.hiv.active:  # type: ignore[attr-defined]
                     stats["random_trial_treated_hiv"] += 1
             if self.suitable:
                 stats["random_trial_suitable"] += 1

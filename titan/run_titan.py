@@ -321,7 +321,7 @@ def setup_outdir(outdir, save_pop):
     return outfile_dir
 
 
-def get_sweep_defs(sweepfile, rows, sweeps, num_reps):
+def get_sweep_defs(sweepfile, rows, sweeps, num_reps, force):
     """
     Get the sweep definitions from file if available, then from the command line definitions, otherwise return an empty definition to ensure the model runs.
     """
@@ -385,7 +385,7 @@ def main(
     )
 
     # set up sweeps
-    sweep_defs = get_sweep_defs(sweepfile, rows, sweeps, num_reps)
+    sweep_defs = get_sweep_defs(sweepfile, rows, sweeps, num_reps, force)
 
     tic = time_mod.time()
     wct = []  # wall clock times
