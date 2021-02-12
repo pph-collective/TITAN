@@ -209,19 +209,18 @@ class TITAN:
         The core of the model.  For a time step, update all of the agents and relationships:
 
 
-        6. End relationships with no remaining duration
-        7. Agent death/replacement
-        1. Create an agent zero (if enabled and the time is right)
-        2. Update partner assignments (create new relationships as needed)
-        3. Agents in relationships interact
-        4. Update features at the population level
-        5. Update each agent's status for:
+        1. End relationships with no remaining duration
+        2. Agent death/replacement
+        3. Update partner assignments (create new relationships as needed)
+        4. Create an agent zero (if enabled and the time is right)
+        5. Agents in relationships interact
+        6. Update features at the population level
+        7. Update each agent's status for:
             * age
             * all exposures
             * all features (agent level)
         """
         # If static network, ignore relationship progression
-        # TO_REVIEW should we end relationships at the start of the update cycle, so that way a relationship that interacted this cycle, but then ended still gets counted for component stats?
         if not self.params.features.static_network:
             for rel in copy(self.pop.relationships):
                 if rel.progress():
@@ -230,17 +229,17 @@ class TITAN:
         if self.params.features.die_and_replace:
             self.die_and_replace()
 
+        if not self.params.features.static_network:
+            self.pop.update_partner_assignments(t=self.time)
+            if self.pop.enable_graph:
+                self.pop.trim_graph()
+
         # If agent zero enabled, create agent zero at the beginning of main loop.
         if (
             self.time == self.params.agent_zero.start_time
             and self.params.features.agent_zero
         ):
             self.make_agent_zero()
-
-        if not self.params.features.static_network:
-            self.pop.update_partner_assignments(t=self.time)
-            if self.pop.enable_graph:
-                self.pop.trim_graph()
 
         for rel in self.pop.relationships:
             self.agents_interact(rel)
