@@ -3,7 +3,7 @@
 
 from typing import Dict, Set, Optional, Iterator, Iterable
 
-from .utils import safe_divide, safe_dist
+from .utils import safe_divide, safe_dist, get_independent_bin
 from .location import Location
 from . import features
 from . import exposures
@@ -55,6 +55,7 @@ class Agent:
         self.race = race
         self.drug_type = drug_use
         self.location = location
+        self.component = "-1"  # updated after relationships created
 
         self.sex_role = "versatile"
 
@@ -297,16 +298,8 @@ class Relationship:
         freq_params = agent.location.params.partnership.sex.frequency[self.bond_type]
 
         if freq_params.type == "bins":
-            rv = rand_gen.random()
-
-            for i in range(1, len(freq_params.bins) + 1):
-                p = freq_params.bins[i].prob
-                if rv <= p:
-                    break
-
-            min_frequency = freq_params.bins[i].min
-            max_frequency = freq_params.bins[i].max
-            return rand_gen.randint(min_frequency, max_frequency)
+            i = get_independent_bin(rand_gen, freq_params.bins)
+            return rand_gen.randint(freq_params.bins[i].min, freq_params.bins[i].max)
 
         elif freq_params.type == "distribution":
             return round(safe_dist(freq_params.distribution, rand_gen))

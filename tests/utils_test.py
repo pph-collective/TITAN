@@ -170,3 +170,25 @@ def test_override_param(params):
     param_path_fake = "model|time|0"
     with pytest.raises(KeyError):
         utils.override_param(params, param_path_fake, 0)
+
+
+@pytest.mark.unit
+def test_get_independent_bin(params):
+    bin_def = params.partnership.sex.frequency.Sex.bins
+    rand_gen = FakeRandom(-0.1)
+
+    assert utils.get_independent_bin(rand_gen, bin_def) == 1
+
+    rand_gen = FakeRandom(1.1)
+    assert utils.get_independent_bin(rand_gen, bin_def) == len(bin_def)
+
+
+@pytest.mark.unit
+def test_get_cumulative_bin(params):
+    bin_def = params.partnership.sex.frequency.Sex.bins
+    rand_gen = FakeRandom(-0.1)
+
+    assert utils.get_independent_bin(rand_gen, bin_def) == 1
+
+    rand_gen = FakeRandom(1.1)
+    assert utils.get_independent_bin(rand_gen, bin_def) == len(bin_def)

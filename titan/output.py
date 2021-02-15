@@ -47,6 +47,7 @@ def setup_aggregates(params: ObjMap, reportables, classes: List[str]) -> Dict:
     stats = {}
     clss, *rem_clss = classes  # head, tail
     keys = [k for k in params.classes[clss]]
+
     for key in keys:
         stats[key] = setup_aggregates(params, reportables, rem_clss)
 
@@ -258,7 +259,6 @@ def print_components(
     popseed: int,
     components: List,
     outdir: str,
-    races: list,
 ):
     """
     Write stats describing the components (sub-graphs) in a graph to file
@@ -274,47 +274,22 @@ def print_components(
     """
     f = open(os.path.join(outdir, f"{run_id}_componentReport_ALL.txt"), "a")
 
-    race_count: Dict[str, int] = {}
-    race_list = []
-    header = ""
-    for race in races:
-        race_list.append(race)
-        header += "\t" + race
-
     # if this is a new file, write the header info
     if f.tell() == 0:
         f.write(
-            "run_id\trunseed\tpopseed\tt\tcompID\ttotalN\tNhiv\tNprep\tNtrtHIV"
-            "\tComp_Status\tPCA\tOral\tInjectable\tAware\tnidu\tcentrality\tdensity"
-            "\tEffectiveSize" + header + "\tdeg_cent\n"
+            "run_id\trunseed\tpopseed\tt\tcomponent"
+            "\tComp_Status\tPCA\tcentrality\tdensity"
+            "\tEffectiveSize\tdeg_cent\n"
         )
 
-    comp_id = 0
-    for comp in components:
-        for race in races:
-            race_count[race] = 0
-        assert comp.number_of_nodes() >= 0
-        tot_agents = (
-            nhiv
-        ) = ntrthiv = nprep = injectable_prep = oral = aware = pca = nidu = 0
+    for (id, comp) in enumerate(components):
+        pca = 0
+
         component_status = "control"
         trt_comp = trt_agent = False
 
         for agent in comp.nodes():
-            tot_agents += 1
-            race_count[agent.race] += 1
-            if agent.hiv.active:
-                nhiv += 1
-                if agent.random_trial.treated:
-                    ntrthiv += 1
-
-            if agent.prep.active:
-                nprep += 1
-                if agent.prep.type == "Inj":
-                    injectable_prep += 1
-                elif agent.prep.type == "Oral":
-                    oral += 1
-
+            # TO_REVIEW are these deivable from basic? add something to random trial's stats, maybe?
             if agent.random_trial.suitable and agent.knowledge.active:
                 pca += 1
 
@@ -323,12 +298,6 @@ def print_components(
 
             if agent.random_trial.active:
                 trt_comp = True
-
-            if agent.knowledge.active:
-                aware += 1
-
-            if agent.drug_type == "NonInj":
-                nidu += 1
 
         comp_centrality = (
             sum(nx.betweenness_centrality(comp).values()) / comp.number_of_nodes()
@@ -343,19 +312,13 @@ def print_components(
                 component_status = "treatment_no_eligible"
 
         deg_cent = mean(list(nx.degree_centrality(comp).values()))
-        race_str = ""
-        for race in race_list:
-            race_str += "\t" + str(race_count[race])
 
         f.write(
-            f"{run_id}\t{runseed}\t{popseed}\t{t}\t{comp_id}\t{tot_agents}\t"
-            f"{nhiv}\t"
-            f"{nprep}\t{ntrthiv}\t{component_status}\t{pca}\t{oral}\t{injectable_prep}"
-            f"\t{aware}\t{nidu}\t{comp_centrality:.4f}\t{comp_density:.4f}"
-            f"\t{average_size:.4f}{race_str}\t{deg_cent}\n"
+            f"{run_id}\t{runseed}\t{popseed}\t{t}\t{id}\t"
+            f"{component_status}\t{pca}"
+            f"\t{comp_centrality:.4f}\t{comp_density:.4f}"
+            f"\t{average_size:.4f}\t{deg_cent}\n"
         )
-
-        comp_id += 1
 
     f.close()
 

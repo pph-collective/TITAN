@@ -41,13 +41,9 @@ class Knowledge(base_exposure.BaseExposure):
             self.active = True
 
         # Initialize all agents with some opinion, may or may not be active
-        attprob = pop.pop_random.random()
-        pvalue = 0.0
-        for bin, fields in knowledge_params.opinion.init.items():
-            pvalue += fields.prob
-            if attprob < pvalue:
-                self.opinion = bin
-            break
+        self.opinion = utils.get_cumulative_bin(
+            pop.pop_random, knowledge_params.opinion.init
+        )
 
     def update_agent(self, model: "model.TITAN"):
         """

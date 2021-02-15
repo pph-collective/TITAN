@@ -30,7 +30,7 @@ def test_model_init(params):
 
 
 @pytest.mark.unit
-def test_update_AllAgents(make_model, make_agent):
+def test_update_all_agents(make_model, make_agent):
     # make agent 0
     model = make_model()
     assert model.params.agent_zero.interaction_type == "injection"
@@ -47,6 +47,13 @@ def test_update_AllAgents(make_model, make_agent):
     for rel in copy(model.pop.relationships):
         if rel.bond_type in ["Inj", "SexInj"]:
             rel.unbond()
+            model.pop.remove_relationship(rel)
+
+    # no target partners available
+    for agent in model.pop.all_agents:
+        for k in agent.target_partners.keys():
+            agent.target_partners[k] = 0
+
     with pytest.raises(ValueError) as excinfo:
         model.update_all_agents()
     assert "No agent zero!" in str(excinfo)
