@@ -252,6 +252,21 @@ def basicReport(
 # ========================== Other Print Functions =============================
 
 
+def effective_size(comp):
+    radius = 1
+    total_size = 0
+    for node in comp.nodes():
+        if len(comp[node]) == 0:
+            continue
+
+        sp = dict(nx.single_source_shortest_path_length(comp, node, cutoff=radius))
+        E = comp.subgraph(sp).copy()
+        E.remove_node(node)
+        total_size += len(E) - (2 * E.size()) / len(E)
+
+    return total_size
+
+
 def print_components(
     run_id: str,
     t: int,
@@ -278,44 +293,21 @@ def print_components(
     if f.tell() == 0:
         f.write(
             "run_id\trunseed\tpopseed\tt\tcomponent"
-            "\tComp_Status\tPCA\tcentrality\tdensity"
+            "\tcentrality\tdensity"
             "\tEffectiveSize\tdeg_cent\n"
         )
 
     for (id, comp) in enumerate(components):
-        pca = 0
+        num_nodes = comp.number_of_nodes()
 
-        component_status = "control"
-        trt_comp = trt_agent = False
-
-        for agent in comp.nodes():
-            # TO_REVIEW are these deivable from basic? add something to random trial's stats, maybe?
-            if agent.random_trial.suitable and agent.knowledge.active:
-                pca += 1
-
-            if agent.random_trial.treated:  # treatment component
-                trt_agent = True
-
-            if agent.random_trial.active:
-                trt_comp = True
-
-        comp_centrality = (
-            sum(nx.betweenness_centrality(comp).values()) / comp.number_of_nodes()
-        )
-        average_size = sum(nx.effective_size(comp).values()) / comp.number_of_nodes()
+        comp_centrality = sum(nx.betweenness_centrality(comp).values()) / num_nodes
+        average_size = effective_size(comp) / num_nodes
         comp_density = nx.density(comp)
-
-        if trt_comp:
-            if trt_agent:
-                component_status = "treatment"
-            else:
-                component_status = "treatment_no_eligible"
 
         deg_cent = mean(list(nx.degree_centrality(comp).values()))
 
         f.write(
             f"{run_id}\t{runseed}\t{popseed}\t{t}\t{id}\t"
-            f"{component_status}\t{pca}"
             f"\t{comp_centrality:.4f}\t{comp_density:.4f}"
             f"\t{average_size:.4f}\t{deg_cent}\n"
         )
