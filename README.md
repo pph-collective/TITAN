@@ -1,6 +1,6 @@
 # TITAN Simulation
 [![DOI](https://zenodo.org/badge/80315242.svg)](https://zenodo.org/badge/latestdoi/80315242)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/marshall-lab/TITAN)](https://github.com/marshall-lab/TITAN/releases/latest/) [![](https://github.com/marshall-lab/TITAN/workflows/Unit%20Tests/badge.svg)](https://github.com/marshall-lab/TITAN/actions) [![codecov](https://codecov.io/gh/marshall-lab/TITAN/branch/develop/graph/badge.svg?token=wjkExshhyh)](https://codecov.io/gh/marshall-lab/TITAN) [![GitHub](https://img.shields.io/github/license/marshall-lab/TITAN)](https://github.com/marshall-lab/TITAN/blob/develop/LICENSE) [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://marshall-lab.github.io/TITAN/)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/pph-collective/TITAN)](https://github.com/pph-collective/TITAN/releases/latest/) [![](https://github.com/pph-collective/TITAN/workflows/Unit%20Tests/badge.svg)](https://github.com/pph-collective/TITAN/actions) [![codecov](https://codecov.io/gh/pph-collective/TITAN/branch/develop/graph/badge.svg?token=wjkExshhyh)](https://codecov.io/gh/pph-collective/TITAN) [![GitHub](https://img.shields.io/github/license/pph-collective/TITAN)](https://github.com/pph-collective/TITAN/blob/develop/LICENSE) [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://pph-collective.github.io/TITAN/)
 
 TITAN (Treatment of Infectious Transmissions through Agent-based Network) is an agent-based simulation model used to explore contact transmission in complex social networks. Starting with the initializing agent population, TITAN iterates over a series of stochastic interactions where agents can interact with one another, transmit infections through various medium, and enter and exit the care continuum. The purpose of TITAN is to evaluate the impact of prevention and treatment models on incidence and prevalence rates of the targeted disease(s) through the use of data fitting simulated trajectories and rich statistics of primary/sub-population attributable proportions.
 
@@ -24,7 +24,7 @@ Currently, TITAN does not require any further installation as the source code ex
 
 ## Running the Model
 
-To run the model, execute the `run_titan.py` program within the `/titan/` directory. See [TITAN params](https://marshall-lab.github.io/titan-params-app) for documentation on how to set and use parameters.
+To run the model, execute the `run_titan.py` program within the `/titan/` directory. See [TITAN params](https://pph-collective.github.io/titan-params-app) for documentation on how to set and use parameters.
 
 Results of the model are generated and aggregated into the `/results/` directory by default. If the model is re-run, the existing results will be overwritten. A helper script has been written to prepare simulations for use with OSCAR, and is labelled `subTitan.sh` in the root directory.
 

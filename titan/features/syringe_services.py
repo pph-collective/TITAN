@@ -75,13 +75,12 @@ class SyringeServices(base_feature.BaseFeature):
                 break
 
         # enroll agents if below cap
-        if target_set is not None:
-            for agent in target_set:
-                if len(ssp_agents) < ssp_num_slots:
-                    agent.syringe_services.active = True  # type: ignore[attr-defined]
-                    ssp_agents.add(agent)
-                else:
-                    break
+        for agent in target_set:
+            if len(ssp_agents) < ssp_num_slots:
+                agent.syringe_services.active = True  # type: ignore[attr-defined]
+                ssp_agents.add(agent)
+            else:
+                break
 
         print(
             f"SSP has {ssp_num_slots} target slots with "

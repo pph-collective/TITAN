@@ -73,7 +73,7 @@ class TITAN:
         self.run_seed = utils.get_check_rand_int(params.model.seed.run)
         print(f"\tRun seed was set to: {self.run_seed}")
         self.run_random = random.Random(self.run_seed)
-        self.np_random = np.random.RandomState(self.run_seed)
+        self.np_random = np.random.default_rng(self.run_seed)
         random.seed(self.run_seed)
         print(("\tFIRST RANDOM CALL {}".format(random.randint(0, 100))))
 
@@ -383,6 +383,9 @@ class TITAN:
 
         # replace stage
         for agent in self.deaths:
+            # mark agent component as -1 (no componenet)
+            agent.component = "-1"
+
             # Remove agent from agent class and sub-sets
             self.pop.remove_agent(agent)
 

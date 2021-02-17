@@ -13,22 +13,6 @@ from .location import Location
 from . import features
 from . import exposures
 
-# These attributes are the non-intervention attributes of an agent.  They are considered
-# "core" as they are assigned in creating an agent and are stable over time (likely
-# backwards compatible)
-agent_core_attrs = [
-    "id",
-    "sex_type",
-    "age",
-    "age_bin",
-    "race",
-    "drug_type",
-    "location",
-    "sex_role",
-    "mean_num_partners",
-    "target_partners",
-]
-
 agent_feature_attrs = [
     feature.name for feature in features.BaseFeature.__subclasses__()
 ]

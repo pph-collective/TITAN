@@ -60,7 +60,7 @@ setuptools.setup(
     description="TITAN Agent Based Model",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/marshall-lab/TITAN",
+    url="https://github.com/pph-collective/TITAN",
     packages=setuptools.find_packages(),
     install_requires=required,
     classifiers=[

@@ -253,16 +253,14 @@ def basicReport(
 
 
 def effective_size(comp):
-    radius = 1
     total_size = 0
     for node in comp.nodes():
-        if len(comp[node]) == 0:
+        num_neighbors = len(comp[node])
+        if num_neighbors == 0:
             continue
 
-        sp = dict(nx.single_source_shortest_path_length(comp, node, cutoff=radius))
-        E = comp.subgraph(sp).copy()
-        E.remove_node(node)
-        total_size += len(E) - (2 * E.size()) / len(E)
+        E = comp.subgraph(comp.neighbors(node))
+        total_size += num_neighbors - (2 * E.size()) / num_neighbors
 
     return total_size
 
@@ -293,14 +291,12 @@ def print_components(
     if f.tell() == 0:
         f.write(
             "run_id\trunseed\tpopseed\tt\tcomponent"
-            "\tcentrality\tdensity"
-            "\tEffectiveSize\tdeg_cent\n"
+            "\tdensity\tEffectiveSize\tdeg_cent\n"
         )
 
     for (id, comp) in enumerate(components):
         num_nodes = comp.number_of_nodes()
 
-        comp_centrality = sum(nx.betweenness_centrality(comp).values()) / num_nodes
         average_size = effective_size(comp) / num_nodes
         comp_density = nx.density(comp)
 
@@ -308,7 +304,7 @@ def print_components(
 
         f.write(
             f"{run_id}\t{runseed}\t{popseed}\t{t}\t{id}\t"
-            f"\t{comp_centrality:.4f}\t{comp_density:.4f}"
+            f"\t{comp_density:.4f}"
             f"\t{average_size:.4f}\t{deg_cent}\n"
         )
 
@@ -340,7 +336,7 @@ def write_network_stats(graph, path: str, id, time):
     """
     file_path = os.path.join(path, f"{id}_NetworkStats_t{time}.txt")
 
-    components = sorted(utils.connected_components(graph), key=len, reverse=True)
+    components = utils.connected_components(graph)
 
     outfile = open(file_path, "w")
     outfile.write(nx.info(graph))

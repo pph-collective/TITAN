@@ -1,11 +1,28 @@
 import random
 from functools import wraps
-from typing import TypeVar, Optional, Collection, Union
+from typing import TypeVar, Optional, Collection, Union, Iterable
 
 import networkx as nx  # type: ignore
+import numpy as np  # type: ignore
 
 from . import distributions
 from .parse_params import ObjMap
+
+
+def memo(f):
+    """
+    Decorator to memoize a function
+    (caches results given args, only use if deterministic)
+    """
+    cache = {}
+
+    @wraps(f)
+    def wrap(*arg):
+        if arg not in cache:
+            cache[arg] = f(*arg)
+        return cache[arg]
+
+    return wrap
 
 
 def get_check_rand_int(seed: int) -> int:
@@ -47,7 +64,7 @@ def safe_divide(numerator: int, denominator: int) -> float:
 T = TypeVar("T")
 
 
-def safe_random_choice(seq: Collection[T], rand_gen, weights=None) -> Optional[T]:
+def safe_random_choice(seq, rand_gen, weights=None):
     """
     Return None or a random choice from a collection of items
 
@@ -65,11 +82,32 @@ def safe_random_choice(seq: Collection[T], rand_gen, weights=None) -> Optional[T
     if isinstance(seq, set):
         seq = tuple(seq)
 
+    # don't call out to random choices if we don't need to (for performance)
+    if len(seq) == 1:
+        return seq[0]
+    elif len(seq) == 2 and weights is None:
+        return seq[0] if rand_gen.random() <= 0.5 else seq[1]
+
     choices = rand_gen.choices(seq, weights=weights)
     return choices[0]
 
 
-def safe_shuffle(seq: Collection[T], rand_gen) -> Optional[Collection[T]]:
+def safe_rand_int(start: int, stop: int, rand_gen) -> int:
+    """
+    Return an integer between [start, stop]
+
+    args:
+        start: start value
+        stop: stop value
+        rand_gen: random number generator
+
+    returns:
+        an item, or `None` if the collection is empty
+    """
+    return round(rand_gen.random() * (stop - start) + start)
+
+
+def safe_shuffle(seq: Collection[T], rand_gen) -> Iterable[T]:
     """
     Return None or a shuffled sequence
 
@@ -82,13 +120,30 @@ def safe_shuffle(seq: Collection[T], rand_gen) -> Optional[Collection[T]]:
     """
     if seq:
         if isinstance(seq, set):
-            rand_gen.shuffle(list(seq))
-            return seq
-        else:
-            rand_gen.shuffle(seq)
-            return seq
+            seq = list(seq)
+        rand_gen.shuffle(seq)
+        return seq
     else:
-        return None
+        return []
+
+
+@memo
+def parse_var(dist_value, dist_type):
+    type_caster = eval(dist_type)
+    return type_caster(dist_value)
+
+
+@memo
+def get_dist(rand_gen, dist_type):
+    if dist_type == "randint":
+        return lambda *args: safe_rand_int(*args, rand_gen)
+    elif hasattr(rand_gen, dist_type):
+        return getattr(rand_gen, dist_type)
+    elif hasattr(distributions, dist_type):
+        dist = getattr(distributions, dist_type)
+        return lambda *args: dist(rand_gen, *args)
+    else:
+        raise AttributeError(f"Distribution type {dist_type} not found!")
 
 
 def safe_dist(dist_info: ObjMap, rand_gen) -> Union[int, float]:
@@ -104,23 +159,11 @@ def safe_dist(dist_info: ObjMap, rand_gen) -> Union[int, float]:
     """
     # gather arguments
     args = []
-    for i in range(1, len(dist_info.vars) + 1):
-        val = dist_info.vars[i].value
-        type_caster = eval(dist_info.vars[i].value_type)
-        val = type_caster(val)
-        args.append(val)
+    for d in dist_info.vars.values():
+        args.append(parse_var(d.value, d.value_type))
 
-    dist_type = dist_info.dist_type
-
-    try:  # does dist exist in numpy?
-        dist = getattr(rand_gen, dist_type)
-        value = dist(*args)
-    except AttributeError:
-        try:  # does dist exist in distributions.py
-            dist = getattr(distributions, dist_type)
-            value = dist(rand_gen, *args)
-        except AttributeError:
-            raise AttributeError(f"Distribution type {dist_type} not found!")
+    dist = get_dist(rand_gen, dist_info.dist_type)
+    value = dist(*args)
 
     if hasattr(value, "__iter__"):  # check if value is any type of sequence
         return value[0]
@@ -140,22 +183,6 @@ def poisson(mu: float, np_rand):
     Mirrors scipy poisson.rvs function as used in code
     """
     return np_rand.poisson(mu)
-
-
-def memo(f):
-    """
-    Decorator to memoize a function
-    (caches results given args, only use if deterministic)
-    """
-    cache = {}
-
-    @wraps(f)
-    def wrap(*arg):
-        if arg not in cache:
-            cache[arg] = f(*arg)
-        return cache[arg]
-
-    return wrap
 
 
 def get_param_from_path(params: ObjMap, param_path: str, delimiter: str):
@@ -231,7 +258,11 @@ def connected_components(graph):
     returns:
         list of connected components
     """
-    return list(graph.subgraph(c).copy() for c in nx.connected_components(graph))
+    return sorted(
+        list(graph.subgraph(c) for c in nx.connected_components(graph)),
+        key=len,
+        reverse=True,
+    )
 
 
 def get_independent_bin(rand_gen, bin_def: ObjMap) -> int:

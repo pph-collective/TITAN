@@ -250,6 +250,7 @@ def test_update_agent_partners_NDU_PWID_match(make_population, params):
     a = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
     p = pop.create_agent(pop.geography.locations["world"], "black", 0, "MSM")
     # ensure random sex partner no assorting
+    pop.np_random = FakeRandom(0.99)
     pop.pop_random = FakeRandom(1.1)
     a.drug_type = "None"
     p.drug_type = "Inj"
@@ -269,11 +270,11 @@ def test_update_agent_partners_NDU_PWID_match(make_population, params):
         rel
     ) in (
         a.relationships
-    ):  # check that duration uses "randomly selected" (first) partner
-        assert rel.duration == partnering.get_partnership_duration(
+    ):  # check that duration uses "randomly selected" (second) partner
+        assert rel.duration != partnering.get_partnership_duration(
             a.location.params, pop.np_random, "Sex", a.race
         )
-        assert rel.duration != partnering.get_partnership_duration(
+        assert rel.duration == partnering.get_partnership_duration(
             a.location.params, pop.np_random, "Sex", p.race
         )
 

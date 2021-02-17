@@ -36,33 +36,6 @@ def select_partner(
     returns:
         new partner or `None`
     """
-
-    def assort(eligible_partners, assort_params):
-        partner_types = list(assort_params.partner_values.keys())
-        partner_weights = [assort_params.partner_values[p] for p in partner_types]
-        partner_type = utils.safe_random_choice(
-            partner_types, rand_gen, weights=partner_weights
-        )
-
-        if partner_type == "__other__":
-            # remove all the specified (not selected) values and remove those
-            # partners from the eligible set
-            for p in partner_types:
-                if p != "__other__":
-                    eligible_partners = {
-                        partner
-                        for partner in eligible_partners
-                        if str(getattr(partner, assort_params.attribute)) != p
-                    }
-        else:
-            eligible_partners = {
-                partner
-                for partner in eligible_partners
-                if str(getattr(partner, assort_params.attribute)) == partner_type
-            }
-
-        return eligible_partners
-
     eligible = copy(partnerable_agents)
     eligible -= agent.get_partners()
     eligible -= {agent}
@@ -80,13 +53,52 @@ def select_partner(
         return None
 
     if params.features.assort_mix:
-        for assort_def in params.assort_mix.values():
-            if getattr(agent, assort_def.attribute) == assort_def.agent_value:
-                eligible = assort(eligible, assort_def)
-
-    random_partner = utils.safe_random_choice(eligible, rand_gen)
+        random_partner = None
+        assort_attrs = get_assort_attrs(params.assort_mix.values(), agent, rand_gen)
+        for partner in utils.safe_shuffle(eligible, rand_gen):
+            if is_assortable(partner, assort_attrs):
+                random_partner = partner
+                break
+    else:
+        random_partner = utils.safe_random_choice(eligible, rand_gen)
 
     return random_partner
+
+
+def is_assortable(agent, assort_attrs):
+    for attr, defn in assort_attrs.items():
+        if not defn["compare"](agent, attr, defn["value"]):
+            return False
+
+    return True
+
+
+def get_assort_attrs(assort_defs, agent, rand_gen):
+    assort_attrs = {}
+    for assort_def in assort_defs:
+        if getattr(agent, assort_def.attribute) == assort_def.agent_value:
+            assort_attrs[assort_def.attribute] = get_assort_attr_value(
+                assort_def, rand_gen
+            )
+
+    return assort_attrs
+
+
+def get_assort_attr_value(assort_def, rand_gen):
+    partner_types = list(assort_def.partner_values.keys())
+    partner_weights = [assort_def.partner_values[p] for p in partner_types]
+    partner_type = utils.safe_random_choice(
+        partner_types, rand_gen, weights=partner_weights
+    )
+    if partner_type == "__other__":
+        compare = lambda ag, attr, v: str(getattr(ag, attr)) not in v
+        partner_types.remove("__other__")
+        val = partner_types
+    else:
+        compare = lambda ag, attr, v: str(getattr(ag, attr)) == v
+        val = partner_type
+
+    return {"compare": compare, "value": val}
 
 
 @utils.memo
@@ -158,7 +170,7 @@ def get_partnership_duration(
 
     args:
         params: model parameters
-        rand_gen: random number generator
+        rand_gen: np random number generator
         bond_type: type of bond for the relationship whose duration is being determined
 
     returns:
@@ -168,10 +180,10 @@ def get_partnership_duration(
     if params.partnership.duration[bond_type][race].type == "bins":
         dur_info = params.partnership.duration[bond_type][race].bins
         i = utils.get_independent_bin(rand_gen, dur_info)
-        duration = rand_gen.randint(dur_info[i].min, dur_info[i].max)
+        duration = utils.safe_rand_int(dur_info[i].min, dur_info[i].max, rand_gen)
 
     else:
         dist = params.partnership.duration[bond_type][race].distribution
-        duration = utils.safe_dist(dist, rand_gen)
+        duration = int(utils.safe_dist(dist, rand_gen))
 
     return duration

@@ -10,8 +10,8 @@ from titan.parse_params import create_params
 
 outdir = "results"
 save_pop = False
-setting = "custom"
-params_path = "tests/params/basic_seeded.yml"
+setting = "mississippi"
+params_path = "tests/params/integration_base.yml"
 sweepfile = None
 rows = None
 sweeps = []

@@ -96,13 +96,16 @@ class HighRisk(base_feature.BaseFeature):
             )
 
             for bond in self.agent.location.params.high_risk.partnership_types:
-                while len(self.agent.partners[bond]) > self.agent.target_partners[bond]:
+                num_ended = 0
+                while (
+                    len(self.agent.partners[bond]) - num_ended
+                ) > self.agent.target_partners[bond]:
                     rel = utils.safe_random_choice(
                         self.agent.relationships, model.run_random
                     )
                     if rel is not None:
-                        rel.progress(force=True)
-                        model.pop.remove_relationship(rel)
+                        num_ended += 1
+                        rel.duration = 0  # will end on next step
 
     def set_stats(self, stats: Dict[str, int], time: int):
         if self.time == time:

@@ -1,6 +1,6 @@
 ## Agent Exposures
 
-Exposures (transmissible items such as HIV and knowledge) from [`params.exposures`](https://marshall-lab.github.io/titan-params-app/#/params#exposures-1) are implemented in standalone files that implement the interface from `exposures.BaseExposure`.  This allows for all of the logic related to an exposure to be consolidated in one place and additionally makes incorporating a new exposure into the model as simple as possible.
+Exposures (transmissible items such as HIV and knowledge) from [`params.exposures`](https://pph-collective.github.io/titan-params-app/#/params#exposures-1) are implemented in standalone files that implement the interface from `exposures.BaseExposure`.  This allows for all of the logic related to an exposure to be consolidated in one place and additionally makes incorporating a new exposure into the model as simple as possible.
 
 To add a new exposure:
 

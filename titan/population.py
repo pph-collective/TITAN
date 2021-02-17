@@ -38,7 +38,7 @@ class Population:
 
         # Init RNG for population creation to pop_seed
         self.pop_random = random.Random(self.pop_seed)
-        self.np_random = np.random.RandomState(self.pop_seed)
+        self.np_random = np.random.default_rng(self.pop_seed)
 
         self.enable_graph = params.model.network.enable
 
@@ -439,18 +439,17 @@ class Population:
         """
         if self.enable_graph:
             components = self.connected_components()
-            for id, component in enumerate(self.connected_components()):
+            for id, component in enumerate(components):
                 for agent in component.nodes:
                     agent.component = str(id)
 
-            self.params.classes.components = list(map(str, range(len(components))))
+            self.params.classes.components = list(map(str, range(-1, len(components))))
 
     def trim_graph(self):
         """
         Initialize network with graph-based algorithm for relationship
             adding/pruning
         """
-
         if self.params.model.network.type == "comp_size":
 
             def trim_component(component, max_size):
@@ -465,13 +464,9 @@ class Population:
                                 # network by keeping one bond
                             rel.progress(force=True)
                             self.remove_relationship(rel)
-                            component.remove_edge(rel.agent1, rel.agent2)
 
                 # recurse on new sub-components
-                sub_comps = list(
-                    component.subgraph(c).copy()
-                    for c in nx.connected_components(component)
-                )
+                sub_comps = utils.connected_components(component)
                 for sub_comp in sub_comps:
                     if sub_comp.number_of_nodes() > max_size:
                         trim_component(component, max_size)
@@ -485,6 +480,8 @@ class Population:
                     print("TOO BIG", comp, comp.number_of_nodes())
                     trim_component(comp, self.params.model.network.component_size.max)
 
+            self.update_agent_components()
+
         print("\tTotal agents in graph: ", self.graph.number_of_nodes())
 
     def connected_components(self) -> List:
@@ -495,7 +492,7 @@ class Population:
             list of connected components
         """
         if self.enable_graph:
-            return sorted(utils.connected_components(self.graph), key=len, reverse=True)
+            return utils.connected_components(self.graph)
         else:
             raise ValueError(
                 "Can't get connected_components, population doesn't have graph enabled."
