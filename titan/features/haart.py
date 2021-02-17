@@ -76,7 +76,7 @@ class HAART(base_feature.BaseFeature):
         if (
             self.agent.hiv.dx  # type: ignore[attr-defined]
             and model.time
-            >= model.params.hiv.start_time  # TO_REVIEW why based on hiv start time - should there be a haart start time?
+            >= model.params.hiv.start_time  # haart starts with hiv
         ):
             # Determine probability of HIV treatment
             haart_params = (
