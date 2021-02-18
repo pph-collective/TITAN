@@ -10,7 +10,7 @@ from titan.parse_params import create_params
 
 outdir = "results"
 save_pop = False
-setting = "scott"
+setting = "nyc-msm"
 params_path = "tests/params/integration_base.yml"
 sweepfile = None
 rows = None
