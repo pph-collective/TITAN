@@ -41,6 +41,7 @@ class Population:
         self.np_random = np.random.default_rng(self.pop_seed)
 
         self.enable_graph = params.model.network.enable
+        self.components: List = []
 
         if self.enable_graph:
             self.graph = nx.Graph()
@@ -113,9 +114,6 @@ class Population:
         # initialize relationships
         print("\tCreating Relationships")
         self.update_partner_assignments(0)
-
-        if self.enable_graph:
-            self.trim_graph()
 
     def create_agent(
         self,
@@ -374,7 +372,7 @@ class Population:
             self.update_partner_targets()
 
         if self.enable_graph:
-            network_components = [set(g.nodes()) for g in self.connected_components()]
+            network_components = [set(g.nodes()) for g in self.components]
         else:
             network_components = []
 
@@ -404,6 +402,9 @@ class Population:
                         < self.params.calibration.partnership.break_point
                     ):
                         eligible_agents.append(agent)
+
+        if self.enable_graph:
+            self.trim_graph()
 
         self.update_agent_components()
 
@@ -438,12 +439,14 @@ class Population:
         Update the component IDs associated with each agent based on the current state of the graph
         """
         if self.enable_graph:
-            components = self.connected_components()
-            for id, component in enumerate(components):
+            self.components = utils.connected_components(self.graph)
+            for id, component in enumerate(self.components):
                 for agent in component.nodes:
                     agent.component = str(id)
 
-            self.params.classes.components = list(map(str, range(-1, len(components))))
+            self.params.classes.components = list(
+                map(str, range(-1, len(self.components)))
+            )
 
     def trim_graph(self):
         """
@@ -470,6 +473,8 @@ class Population:
                 for sub_comp in sub_comps:
                     if sub_comp.number_of_nodes() > max_size:
                         trim_component(component, max_size)
+                    else:
+                        break
 
             components = self.connected_components()
             for comp in components:
@@ -479,8 +484,6 @@ class Population:
                 ):
                     print("TOO BIG", comp, comp.number_of_nodes())
                     trim_component(comp, self.params.model.network.component_size.max)
-
-            self.update_agent_components()
 
         print("\tTotal agents in graph: ", self.graph.number_of_nodes())
 
@@ -492,7 +495,7 @@ class Population:
             list of connected components
         """
         if self.enable_graph:
-            return utils.connected_components(self.graph)
+            return self.components
         else:
             raise ValueError(
                 "Can't get connected_components, population doesn't have graph enabled."

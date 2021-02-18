@@ -231,8 +231,6 @@ class TITAN:
 
         if not self.params.features.static_network:
             self.pop.update_partner_assignments(t=self.time)
-            if self.pop.enable_graph:
-                self.pop.trim_graph()
 
         # If agent zero enabled, create agent zero at the beginning of main loop.
         if (

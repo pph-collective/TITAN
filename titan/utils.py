@@ -1,10 +1,9 @@
 import random
 from functools import wraps
-from typing import TypeVar, Optional, Collection, Union, Iterable
+from typing import TypeVar, Collection, Union, Iterable
 from math import floor
 
 import networkx as nx  # type: ignore
-import numpy as np  # type: ignore
 
 from . import distributions
 from .parse_params import ObjMap

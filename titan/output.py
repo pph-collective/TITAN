@@ -216,14 +216,16 @@ def write_report(
         f.write("\n")
 
     for agg in get_aggregates(params):
-        f.write(f"{run_id}\t{runseed}\t{popseed}\t{t}\t")
+        # don't write row if no agents are in it
+        if get_agg_val(stats, agg, "agents") > 0:
+            f.write(f"{run_id}\t{runseed}\t{popseed}\t{t}\t")
 
-        f.write("\t".join(agg))  # write attribute values
+            f.write("\t".join(agg))  # write attribute values
 
-        for name in stat_names:
-            f.write(f"\t{(get_agg_val(stats, agg, name))}")
+            for name in stat_names:
+                f.write(f"\t{(get_agg_val(stats, agg, name))}")
 
-        f.write("\n")
+            f.write("\n")
 
     f.close()
 

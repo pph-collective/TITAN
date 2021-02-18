@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 import time as time_mod
-from copy import copy, deepcopy
+from copy import copy
 import sys
 import os
 import shutil

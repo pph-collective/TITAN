@@ -481,6 +481,7 @@ def test_partnering_cross_component(make_population, make_relationship, params):
     pop.add_relationship(r1)
     pop.add_relationship(r2)
     pop.add_relationship(r3)
+    pop.update_agent_components()
 
     pop.params.partnership.network.same_component.prob = 2
     assert params.model.network.enable is True
@@ -495,15 +496,20 @@ def test_partnering_cross_component(make_population, make_relationship, params):
 
 @pytest.mark.unit
 def test_trim_components(make_population):
-    n = 20
+    n = 200
     pop = make_population(n=20)
     pop.params.model.network.type = "comp_size"
     orig_num_components = len(pop.connected_components())
+    assert orig_num_components < n
 
     pop.params.model.network.component_size.max = n
     pop.trim_graph()
-    assert len(pop.connected_components()) == orig_num_components
+    pop.update_agent_components()
+    assert len(pop.components) == orig_num_components
 
     pop.params.model.network.component_size.max = 2
     pop.trim_graph()
-    assert len(pop.connected_components()) > orig_num_components
+    pop.update_agent_components()
+    assert len(pop.components) > orig_num_components
+    assert len(pop.components) != n
+    assert max(map(len, pop.components)) == 2

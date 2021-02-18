@@ -46,7 +46,7 @@ def test_incarcerate_not_diagnosed(make_model, make_agent):
     p.partners["Sex"] = set()
     rel = Relationship(a, p, 10, bond_type="Sex")
 
-    model.run_random = FakeRandom(-0.1)  # always less than params
+    model.run_random = FakeRandom(0.0)  # always less than params
 
     a.incar.update_agent(model)
 
@@ -76,7 +76,7 @@ def test_incarcerate_diagnosed(make_model, make_agent):
     a.hiv.dx = True
     a.partners["Sex"] = set()
 
-    model.run_random = FakeRandom(-0.1)  # always less than params
+    model.run_random = FakeRandom(0.0)  # always less than params
 
     a.incar.update_agent(model)
 
@@ -91,7 +91,6 @@ def test_incarcerate_diagnosed(make_model, make_agent):
     a.hiv.active = True
     a.hiv.dx = True
     a.partners["Sex"] = set()
-    model.run_random = FakeRandom(-0.1)  # between haart adherence and other params
     a.incar.update_agent(model)
     assert a.incar.active
     assert a.incar.release_time == model.time + 1
