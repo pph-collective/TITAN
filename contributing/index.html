@@ -139,6 +139,61 @@
       
       
         
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href=".." class="md-tabs__link">
+      Overview
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../getting_started/" class="md-tabs__link md-tabs__link--active">
+        Getting Started
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../api/agent/" class="md-tabs__link">
+        API Reference
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
       
       <main class="md-main" data-md-component="main">
         <div class="md-main__inner md-grid">
@@ -152,8 +207,10 @@
 
 
 
+  
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
       
@@ -928,7 +985,7 @@
 </ul>
 <h3 id="commitizen">Commitizen</h3>
 <p>All commits should use the angular style.  Commitizen makes this easy.</p>
-<div class="codehilite"><pre><span></span><code><span class="err">pip install --user commitizen</span>
+<div class="codehilite"><pre><span></span><code>pip install --user commitizen
 </code></pre></div>
 
 <p>Then use <code>cz commit</code> where you would have previously done <code>git commit</code>.</p>
@@ -937,11 +994,11 @@
 <p>We strive to have test coverage for all of the features of TITAN.  When adding a new feature or fixing a bug, add tests for the new feature or that test the bug condition to make sure that the bug doesn't crop up agin.</p>
 <p><code>pytest</code> is the library used for testing.</p>
 <p>To run all of the tests:</p>
-<div class="codehilite"><pre><span></span><code><span class="err">python -m pytest</span>
+<div class="codehilite"><pre><span></span><code>python -m pytest
 </code></pre></div>
 
 <p>To run only the unit tests:</p>
-<div class="codehilite"><pre><span></span><code><span class="err">python -m pytest -m unit</span>
+<div class="codehilite"><pre><span></span><code>python -m pytest -m unit
 </code></pre></div>
 
 <h3 id="code-style">Code Style</h3>
@@ -950,23 +1007,23 @@
 <h3 id="flake8">flake8</h3>
 <p>The code must not have any egregious linting errors. And others should be minimized as reasonable.</p>
 <p>Check for egregious errors:</p>
-<div class="codehilite"><pre><span></span><code><span class="err">flake8 titan --count --select=E9,F63,F7,F82 --show-source --statistics</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">flake8</span> <span class="nv">titan</span> <span class="o">--</span><span class="nv">count</span> <span class="o">--</span><span class="nv">select</span><span class="o">=</span><span class="nv">E9</span>,<span class="nv">F63</span>,<span class="nv">F7</span>,<span class="nv">F82</span> <span class="o">--</span><span class="k">show</span><span class="o">-</span><span class="nv">source</span> <span class="o">--</span><span class="nv">statistics</span>
 </code></pre></div>
 
 <p>Check for all warnings:</p>
-<div class="codehilite"><pre><span></span><code><span class="err">flake8 titan --count --exit-zero --max-complexity=12 --max-line-length=88 --statistics</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">flake8</span> <span class="nv">titan</span> <span class="o">--</span><span class="nv">count</span> <span class="o">--</span><span class="k">exit</span><span class="o">-</span><span class="nv">zero</span> <span class="o">--</span><span class="nv">max</span><span class="o">-</span><span class="nv">complexity</span><span class="o">=</span><span class="mi">12</span> <span class="o">--</span><span class="nv">max</span><span class="o">-</span><span class="nv">line</span><span class="o">-</span><span class="nv">length</span><span class="o">=</span><span class="mi">88</span> <span class="o">--</span><span class="nv">statistics</span>
 </code></pre></div>
 
 <h3 id="typing">Typing</h3>
 <p>Please use <a href="https://mypy.readthedocs.io/en/stable/">type hints</a> on all signatures where reasonable.  This will make sure the code is more readable, can be statically tested for type soundness, and helps fill in the documentation.</p>
 <p>Run the below to check for type errors:</p>
-<div class="codehilite"><pre><span></span><code><span class="err">mypy titan</span>
+<div class="codehilite"><pre><span></span><code>mypy titan
 </code></pre></div>
 
 <h3 id="documentation">Documentation</h3>
 <p>All functions and methods should have an up to date <a href="https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html">google style docstring</a>.  These docstrings are used to build TITAN's documentation website.  Additional prose can be added to the website by editing the appropriate markdown file in the <code>docs/</code> directory.</p>
 <p>To develop/see the docs locally, run:</p>
-<div class="codehilite"><pre><span></span><code><span class="err">mkdocs serve</span>
+<div class="codehilite"><pre><span></span><code>mkdocs serve
 </code></pre></div>
 
 <p>then navigate to http://localhost:8000 to see your docs.  They will automoatically reload as you make changes to files.</p>
@@ -1042,7 +1099,7 @@
       <script>
         app = initialize({
           base: "..",
-          features: ['instant', 'tabs'],
+          features: ['navigation.instant', 'navigation.tabs'],
           search: Object.assign({
             worker: "../assets/javascripts/worker/search.9c0e82ba.min.js"
           }, typeof search !== "undefined" && search)

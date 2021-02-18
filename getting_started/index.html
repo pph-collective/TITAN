@@ -139,6 +139,61 @@
       
       
         
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href=".." class="md-tabs__link">
+      Overview
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="./" class="md-tabs__link md-tabs__link--active">
+        Getting Started
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../api/agent/" class="md-tabs__link">
+        API Reference
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
       
       <main class="md-main" data-md-component="main">
         <div class="md-main__inner md-grid">
@@ -152,8 +207,10 @@
 
 
 
+  
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
       
@@ -805,12 +862,12 @@
 </div>
 <h2 id="installing-the-dependencies">Installing the Dependencies</h2>
 <p>In order for TITAN to run, you must install <code>Python3.x</code> and the necessary python packages listed in the <code>requirements.txt</code>. Package installation can be done by using <code>pip</code> via:</p>
-<div class="codehilite"><pre><span></span><code><span class="err">pip install -r requirements.txt</span>
+<div class="codehilite"><pre><span></span><code>pip install -r requirements.txt
 </code></pre></div>
 
 <h3 id="dev-dependencies">Dev Dependencies</h3>
 <p>If you are planning to contribute to the package, also install the dev dependencies.  These packages help with code style, linting, typing, and building documentation.</p>
-<div class="codehilite"><pre><span></span><code><span class="err">pip install -r dev_requirements.txt</span>
+<div class="codehilite"><pre><span></span><code>pip install -r dev_requirements.txt
 </code></pre></div>
                 
               
@@ -884,7 +941,7 @@
       <script>
         app = initialize({
           base: "..",
-          features: ['instant', 'tabs'],
+          features: ['navigation.instant', 'navigation.tabs'],
           search: Object.assign({
             worker: "../assets/javascripts/worker/search.9c0e82ba.min.js"
           }, typeof search !== "undefined" && search)

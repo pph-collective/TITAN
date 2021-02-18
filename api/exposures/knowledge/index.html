@@ -139,6 +139,61 @@
       
       
         
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../.." class="md-tabs__link">
+      Overview
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../getting_started/" class="md-tabs__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../agent/" class="md-tabs__link md-tabs__link--active">
+        API Reference
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
       
       <main class="md-main" data-md-component="main">
         <div class="md-main__inner md-grid">
@@ -152,8 +207,10 @@
 
 
 
+  
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
       
@@ -1215,13 +1272,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">active</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="c1"># Initialize all agents with some opinion, may or may not be active</span>
-    <span class="n">attprob</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
-    <span class="n">pvalue</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="k">for</span> <span class="nb">bin</span><span class="p">,</span> <span class="n">fields</span> <span class="ow">in</span> <span class="n">knowledge_params</span><span class="o">.</span><span class="n">opinion</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">pvalue</span> <span class="o">+=</span> <span class="n">fields</span><span class="o">.</span><span class="n">prob</span>
-        <span class="k">if</span> <span class="n">attprob</span> <span class="o">&lt;</span> <span class="n">pvalue</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">opinion</span> <span class="o">=</span> <span class="nb">bin</span>
-        <span class="k">break</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">opinion</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_cumulative_bin</span><span class="p">(</span>
+        <span class="n">pop</span><span class="o">.</span><span class="n">pop_random</span><span class="p">,</span> <span class="n">knowledge_params</span><span class="o">.</span><span class="n">opinion</span><span class="o">.</span><span class="n">init</span>
+    <span class="p">)</span>
 </code></pre>
 </div>
 </details>
@@ -1407,7 +1460,7 @@
       <script>
         app = initialize({
           base: "../../..",
-          features: ['instant', 'tabs'],
+          features: ['navigation.instant', 'navigation.tabs'],
           search: Object.assign({
             worker: "../../../assets/javascripts/worker/search.9c0e82ba.min.js"
           }, typeof search !== "undefined" && search)

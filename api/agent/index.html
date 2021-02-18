@@ -139,6 +139,61 @@
       
       
         
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../.." class="md-tabs__link">
+      Overview
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../getting_started/" class="md-tabs__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="./" class="md-tabs__link md-tabs__link--active">
+        API Reference
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
       
       <main class="md-main" data-md-component="main">
         <div class="md-main__inner md-grid">
@@ -152,8 +207,10 @@
 
 
 
+  
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
       
@@ -971,6 +1028,7 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">race</span> <span class="o">=</span> <span class="n">race</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">drug_type</span> <span class="o">=</span> <span class="n">drug_use</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">location</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">component</span> <span class="o">=</span> <span class="s2">"-1"</span>  <span class="c1"># updated after relationships created</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">sex_role</span> <span class="o">=</span> <span class="s2">"versatile"</span>
 
@@ -1435,7 +1493,7 @@
       <script>
         app = initialize({
           base: "../..",
-          features: ['instant', 'tabs'],
+          features: ['navigation.instant', 'navigation.tabs'],
           search: Object.assign({
             worker: "../../assets/javascripts/worker/search.9c0e82ba.min.js"
           }, typeof search !== "undefined" && search)

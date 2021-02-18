@@ -139,6 +139,61 @@
       
       
         
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../.." class="md-tabs__link">
+      Overview
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../getting_started/" class="md-tabs__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../agent/" class="md-tabs__link md-tabs__link--active">
+        API Reference
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
       
       <main class="md-main" data-md-component="main">
         <div class="md-main__inner md-grid">
@@ -152,8 +207,10 @@
 
 
 
+  
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
       
@@ -459,6 +516,27 @@
         <li class="md-nav__item">
   <a href="#titan.features.haart.HAART.add_agent" class="md-nav__link">
     add_agent()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.enroll" class="md-nav__link">
+    enroll()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.enroll_cap" class="md-nav__link">
+    enroll_cap()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.enroll_prob" class="md-nav__link">
+    enroll_prob()
   </a>
   
 </li>
@@ -832,6 +910,27 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.enroll" class="md-nav__link">
+    enroll()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.enroll_cap" class="md-nav__link">
+    enroll_cap()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.haart.HAART.enroll_prob" class="md-nav__link">
+    enroll_prob()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#titan.features.haart.HAART.get_transmission_risk_multiplier" class="md-nav__link">
     get_transmission_risk_multiplier()
   </a>
@@ -978,6 +1077,196 @@
 </div>
 </div>
 <div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.features.haart.HAART.enroll">
+
+<code class="highlight language-python"><span class="n">enroll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">haart_params</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
+<p>Determine whether to enroll an agent in HAART.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model</code></td>
+<td><code>model.TITAN</code></td>
+<td>
+<p>the instance of TITAN currently being run</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>haart_params</code></td>
+<td><code>ObjMap</code></td>
+<td>
+<p>the HAART demographic params for this agent</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>titan/features/haart.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">enroll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="s2">"model.TITAN"</span><span class="p">,</span> <span class="n">haart_params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Determine whether to enroll an agent in HAART.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        model: the instance of TITAN currently being run</span>
+<span class="sd">        haart_params: the HAART demographic params for this agent</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">haart</span><span class="o">.</span><span class="n">use_cap</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enroll_cap</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">haart_params</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enroll_prob</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">haart_params</span><span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.features.haart.HAART.enroll_cap">
+
+<code class="highlight language-python"><span class="n">enroll_cap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">haart_params</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
+<p>Determine whether to enroll an agent in HAART using the cap method.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model</code></td>
+<td><code>model.TITAN</code></td>
+<td>
+<p>the instance of TITAN currently being run</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>haart_params</code></td>
+<td><code>ObjMap</code></td>
+<td>
+<p>the HAART demographic params for this agent</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>titan/features/haart.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">enroll_cap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="s2">"model.TITAN"</span><span class="p">,</span> <span class="n">haart_params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Determine whether to enroll an agent in HAART using the cap method.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        model: the instance of TITAN currently being run</span>
+<span class="sd">        haart_params: the HAART demographic params for this agent</span>
+<span class="sd">    """</span>
+    <span class="n">race</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">race</span>
+    <span class="n">sex_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">sex_type</span>
+    <span class="c1"># if HAART is based on cap instead of prob, determine number of</span>
+    <span class="c1"># HAART agents based on % of diagnosed agents</span>
+    <span class="n">num_dx_agents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">dx_counts</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">sex_type</span><span class="p">]</span>  <span class="c1"># type: ignore[attr-defined]</span>
+    <span class="n">num_haart_agents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">counts</span><span class="p">[</span><span class="n">race</span><span class="p">][</span><span class="n">sex_type</span><span class="p">]</span>
+
+    <span class="c1"># take value from dictionary for cap</span>
+    <span class="k">if</span> <span class="n">num_haart_agents</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">haart_params</span><span class="o">.</span><span class="n">cap</span> <span class="o">*</span> <span class="n">num_dx_agents</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initiate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">run_random</span><span class="p">,</span> <span class="n">haart_params</span><span class="p">,</span> <span class="s2">"prob"</span><span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.features.haart.HAART.enroll_prob">
+
+<code class="highlight language-python"><span class="n">enroll_prob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">haart_params</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
+<p>Determine whether to enroll an agent in HAART using probability method.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model</code></td>
+<td><code>model.TITAN</code></td>
+<td>
+<p>the instance of TITAN currently being run</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>haart_params</code></td>
+<td><code>ObjMap</code></td>
+<td>
+<p>the HAART demographic params for this agent</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>titan/features/haart.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">enroll_prob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="s2">"model.TITAN"</span><span class="p">,</span> <span class="n">haart_params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Determine whether to enroll an agent in HAART using probability method.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        model: the instance of TITAN currently being run</span>
+<span class="sd">        haart_params: the HAART demographic params for this agent</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ever</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">haart</span><span class="o">.</span><span class="n">use_reinit</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">run_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">haart_params</span><span class="o">.</span><span class="n">reinit</span><span class="o">.</span><span class="n">prob</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initiate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">run_random</span><span class="p">,</span> <span class="n">haart_params</span><span class="p">,</span> <span class="s2">"prob"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Find enroll probability based on time since diagnosis</span>
+        <span class="n">enroll_prob</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">dx_duration</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">time</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">dx_time</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">haart_params</span><span class="o">.</span><span class="n">enroll</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">start</span> <span class="o">&lt;=</span> <span class="n">dx_duration</span> <span class="o">&lt;</span> <span class="n">i</span><span class="o">.</span><span class="n">stop</span><span class="p">:</span>
+                <span class="n">enroll_prob</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">prob</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">calibration</span><span class="o">.</span><span class="n">haart</span><span class="o">.</span><span class="n">coverage</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">run_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">enroll_prob</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initiate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">run_random</span><span class="p">,</span> <span class="n">haart_params</span><span class="p">,</span> <span class="s2">"prob"</span><span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.features.haart.HAART.get_transmission_risk_multiplier">
 
 <code class="highlight language-python"><span class="n">get_transmission_risk_multiplier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">interaction_type</span><span class="p">)</span></code>
@@ -1103,23 +1392,17 @@
 <span class="sd">        pop: the population this agent is a part of</span>
 <span class="sd">        time: the current time step</span>
 <span class="sd">    """</span>
-    <span class="n">agent_params</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">haart_params</span> <span class="o">=</span> <span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">demographics</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">race</span><span class="p">]</span>
         <span class="o">.</span><span class="n">sex_type</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">sex_type</span><span class="p">]</span>
         <span class="o">.</span><span class="n">drug_type</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">drug_type</span><span class="p">]</span>
+        <span class="o">.</span><span class="n">haart</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="p">(</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">active</span>  <span class="c1"># type: ignore[attr-defined]</span>
-        <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">dx</span>  <span class="c1"># type: ignore[attr-defined]</span>
-        <span class="ow">and</span> <span class="n">pop</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">agent_params</span><span class="o">.</span><span class="n">haart</span><span class="o">.</span><span class="n">init</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">dx</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="ow">and</span> <span class="n">pop</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">haart_params</span><span class="o">.</span><span class="n">init</span>
     <span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">active</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ever</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_agent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="p">)</span>
-
-        <span class="n">haart_adh</span> <span class="o">=</span> <span class="n">agent_params</span><span class="o">.</span><span class="n">haart</span><span class="o">.</span><span class="n">adherence</span><span class="o">.</span><span class="n">init</span>
-        <span class="k">if</span> <span class="n">pop</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">haart_adh</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">adherent</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initiate</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">pop_random</span><span class="p">,</span> <span class="n">haart_params</span><span class="p">,</span> <span class="s2">"init"</span><span class="p">)</span>
 </code></pre>
 </div>
 </details>
@@ -1181,7 +1464,7 @@
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="titan.features.haart.HAART.initiate">
 
-<code class="highlight language-python"><span class="n">initiate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">initiate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">,</span> <span class="n">haart_params</span><span class="p">,</span> <span class="n">init_or_prob</span><span class="p">)</span></code>
 
 
       </h3>
@@ -1200,7 +1483,7 @@
 <tbody>
 <tr>
 <td><code>model</code></td>
-<td><code>model.TITAN</code></td>
+<td><code></code></td>
 <td>
 <p>the instance of TITAN currently being run</p>
 </td>
@@ -1211,20 +1494,14 @@
 <details class="quote">
           <summary>Source code in <code>titan/features/haart.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">initiate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="s2">"model.TITAN"</span><span class="p">):</span>
+<pre><span></span><code><span class="k">def</span> <span class="nf">initiate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">,</span> <span class="n">haart_params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span> <span class="n">init_or_prob</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Initiate an agent with HAART and add them to the population.</span>
 
 <span class="sd">    args:</span>
 <span class="sd">        model: the instance of TITAN currently being run</span>
 <span class="sd">    """</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">adherent</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">model</span><span class="o">.</span><span class="n">run_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
-        <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">demographics</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">race</span><span class="p">]</span>
-        <span class="o">.</span><span class="n">sex_type</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">sex_type</span><span class="p">]</span>
-        <span class="o">.</span><span class="n">drug_type</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">drug_type</span><span class="p">]</span>
-        <span class="o">.</span><span class="n">haart</span><span class="o">.</span><span class="n">adherence</span><span class="o">.</span><span class="n">prob</span>
-    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">adherent</span> <span class="o">=</span> <span class="n">rand_gen</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">haart_params</span><span class="o">.</span><span class="n">adherence</span><span class="p">[</span><span class="n">init_or_prob</span><span class="p">]</span>
 
     <span class="c1"># Add agent to HAART class set, update agent params</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">active</span> <span class="o">=</span> <span class="kc">True</span>
@@ -1382,9 +1659,9 @@
 <span class="sd">        model: the instance of TITAN currently being run</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="p">(</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">active</span>  <span class="c1"># type: ignore[attr-defined]</span>
-        <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">dx</span>  <span class="c1"># type: ignore[attr-defined]</span>
-        <span class="ow">and</span> <span class="n">model</span><span class="o">.</span><span class="n">time</span> <span class="o">&gt;=</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">start_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">dx</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="ow">and</span> <span class="n">model</span><span class="o">.</span><span class="n">time</span>
+        <span class="o">&gt;=</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">start_time</span>  <span class="c1"># TO_REVIEW why based on hiv start time - should there be a haart start time?</span>
     <span class="p">):</span>
         <span class="c1"># Determine probability of HIV treatment</span>
         <span class="n">haart_params</span> <span class="o">=</span> <span class="p">(</span>
@@ -1395,34 +1672,7 @@
         <span class="p">)</span>
         <span class="c1"># Go on HAART</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">haart</span><span class="o">.</span><span class="n">use_cap</span><span class="p">:</span>
-                <span class="c1"># if HAART is based on cap instead of prob, determine number of</span>
-                <span class="c1"># HAART agents based on % of diagnosed agents</span>
-                <span class="n">num_dx_agents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">dx_counts</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">race</span><span class="p">][</span>  <span class="c1"># type: ignore[attr-defined]</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">sex_type</span>
-                <span class="p">]</span>
-                <span class="n">num_haart_agents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">counts</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">race</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">sex_type</span><span class="p">]</span>
-
-                <span class="c1"># take value from dictionary for cap</span>
-                <span class="k">if</span> <span class="n">num_haart_agents</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">haart_params</span><span class="o">.</span><span class="n">cap</span> <span class="o">*</span> <span class="n">num_dx_agents</span><span class="p">):</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">initiate</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ever</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">haart</span><span class="o">.</span><span class="n">use_reinit</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">run_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">haart_params</span><span class="o">.</span><span class="n">reinit</span><span class="o">.</span><span class="n">prob</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">initiate</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">enroll_prob</span> <span class="o">=</span> <span class="mi">0</span>
-                    <span class="c1"># Find enroll probability based on time since diagnosis</span>
-                    <span class="n">haart_duration</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">time</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">dx_time</span>  <span class="c1"># type: ignore[attr-defined]</span>
-                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">haart_params</span><span class="o">.</span><span class="n">enroll</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-                        <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">start</span> <span class="o">&lt;=</span> <span class="n">haart_duration</span> <span class="o">&lt;</span> <span class="n">i</span><span class="o">.</span><span class="n">stop</span><span class="p">:</span>
-                            <span class="n">enroll_prob</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">prob</span>
-                            <span class="k">break</span>
-
-                    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">run_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="p">(</span>
-                        <span class="n">enroll_prob</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">calibration</span><span class="o">.</span><span class="n">haart</span><span class="o">.</span><span class="n">coverage</span>
-                    <span class="p">):</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">initiate</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">enroll</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">haart_params</span><span class="p">)</span>
 
         <span class="c1"># Update agents on HAART</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1523,7 +1773,7 @@
       <script>
         app = initialize({
           base: "../../..",
-          features: ['instant', 'tabs'],
+          features: ['navigation.instant', 'navigation.tabs'],
           search: Object.assign({
             worker: "../../../assets/javascripts/worker/search.9c0e82ba.min.js"
           }, typeof search !== "undefined" && search)

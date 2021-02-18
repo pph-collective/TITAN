@@ -139,6 +139,61 @@
       
       
         
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../.." class="md-tabs__link">
+      Overview
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../getting_started/" class="md-tabs__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../agent/" class="md-tabs__link md-tabs__link--active">
+        API Reference
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
       
       <main class="md-main" data-md-component="main">
         <div class="md-main__inner md-grid">
@@ -152,8 +207,10 @@
 
 
 
+  
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
       
@@ -522,6 +579,20 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#titan.features.random_trial.RandomTrial.stats" class="md-nav__link">
+    stats
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.random_trial.RandomTrial.set_stats" class="md-nav__link">
+    set_stats()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#titan.features.random_trial.RandomTrial.update_pop" class="md-nav__link">
     update_pop()
   </a>
@@ -762,6 +833,20 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#titan.features.random_trial.RandomTrial.stats" class="md-nav__link">
+    stats
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titan.features.random_trial.RandomTrial.set_stats" class="md-nav__link">
+    set_stats()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#titan.features.random_trial.RandomTrial.update_pop" class="md-nav__link">
     update_pop()
   </a>
@@ -795,6 +880,79 @@
       </h3>
 <div class="doc doc-contents ">
 <p>Name of feature in the params file.  Also used to name the attribute in Agent</p>
+</div>
+</div>
+<div class="doc doc-object doc-attribute">
+<h3 class="doc doc-heading" id="titan.features.random_trial.RandomTrial.stats">
+
+<code class="highlight language-python"><span class="n">stats</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
+<p>Random Trial collects the following stats:</p>
+<ul>
+<li>random_trial - number of agents with active random_trial</li>
+<li>random_trial_treated - number of active agents treated</li>
+<li>random_trial_treated_hiv - number of HIV+ agents treated</li>
+<li>random_trial_suitable - number of active agents suitable</li>
+</ul>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="titan.features.random_trial.RandomTrial.set_stats">
+
+<code class="highlight language-python"><span class="n">set_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stats</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
+<p>Update the <code>stats</code> dictionary passed for this agent.  Called from <code>output.get_stats</code> for each enabled feature in the model.</p>
+<p>The stats to be updated must be declared in the class attribute <code>stats</code> to make sure the dictionary has the expected keys/counter value initialized.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stats</code></td>
+<td><code>Dict[str, int]</code></td>
+<td>
+<p>the dictionary to update with this agent's feature statistics</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>time</code></td>
+<td><code>int</code></td>
+<td>
+<p>the time step of the model when the stats are set</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>titan/features/random_trial.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">set_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stats</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">time</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+        <span class="n">stats</span><span class="p">[</span><span class="s2">"random_trial"</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">treated</span><span class="p">:</span>
+            <span class="n">stats</span><span class="p">[</span><span class="s2">"random_trial_treated"</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>  <span class="c1"># type: ignore[attr-defined]</span>
+                <span class="n">stats</span><span class="p">[</span><span class="s2">"random_trial_treated_hiv"</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">suitable</span><span class="p">:</span>
+            <span class="n">stats</span><span class="p">[</span><span class="s2">"random_trial_suitable"</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</code></pre>
+</div>
+</details>
 </div>
 </div>
 <div class="doc doc-object doc-method">
@@ -1035,7 +1193,7 @@
       <script>
         app = initialize({
           base: "../../..",
-          features: ['instant', 'tabs'],
+          features: ['navigation.instant', 'navigation.tabs'],
           search: Object.assign({
             worker: "../../../assets/javascripts/worker/search.9c0e82ba.min.js"
           }, typeof search !== "undefined" && search)

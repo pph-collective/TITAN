@@ -139,6 +139,61 @@
       
       
         
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../.." class="md-tabs__link">
+      Overview
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../getting_started/" class="md-tabs__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../agent/" class="md-tabs__link md-tabs__link--active">
+        API Reference
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
       
       <main class="md-main" data-md-component="main">
         <div class="md-main__inner md-grid">
@@ -152,8 +207,10 @@
 
 
 
+  
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
       
@@ -1380,7 +1437,7 @@
 <div class="doc doc-object doc-function">
 <h3 class="doc doc-heading" id="titan.output.print_components">
 
-<code class="highlight language-python"><span class="n">print_components</span><span class="p">(</span><span class="n">run_id</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">runseed</span><span class="p">,</span> <span class="n">popseed</span><span class="p">,</span> <span class="n">components</span><span class="p">,</span> <span class="n">outdir</span><span class="p">,</span> <span class="n">races</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">print_components</span><span class="p">(</span><span class="n">run_id</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">runseed</span><span class="p">,</span> <span class="n">popseed</span><span class="p">,</span> <span class="n">components</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span></code>
 
 
       </h3>
@@ -1447,7 +1504,7 @@
 </tr>
 <tr>
 <td><code>races</code></td>
-<td><code>list</code></td>
+<td><code></code></td>
 <td>
 <p>the races in the population</p>
 </td>
@@ -1465,7 +1522,6 @@
     <span class="n">popseed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">components</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span>
     <span class="n">outdir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">races</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Write stats describing the components (sub-graphs) in a graph to file</span>
@@ -1481,47 +1537,22 @@
 <span class="sd">    """</span>
     <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">run_id</span><span class="si">}</span><span class="s2">_componentReport_ALL.txt"</span><span class="p">),</span> <span class="s2">"a"</span><span class="p">)</span>
 
-    <span class="n">race_count</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">race_list</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">header</span> <span class="o">=</span> <span class="s2">""</span>
-    <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">races</span><span class="p">:</span>
-        <span class="n">race_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">race</span><span class="p">)</span>
-        <span class="n">header</span> <span class="o">+=</span> <span class="s2">"</span><span class="se">\t</span><span class="s2">"</span> <span class="o">+</span> <span class="n">race</span>
-
     <span class="c1"># if this is a new file, write the header info</span>
     <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
-            <span class="s2">"run_id</span><span class="se">\t</span><span class="s2">runseed</span><span class="se">\t</span><span class="s2">popseed</span><span class="se">\t</span><span class="s2">t</span><span class="se">\t</span><span class="s2">compID</span><span class="se">\t</span><span class="s2">totalN</span><span class="se">\t</span><span class="s2">Nhiv</span><span class="se">\t</span><span class="s2">Nprep</span><span class="se">\t</span><span class="s2">NtrtHIV"</span>
-            <span class="s2">"</span><span class="se">\t</span><span class="s2">Comp_Status</span><span class="se">\t</span><span class="s2">PCA</span><span class="se">\t</span><span class="s2">Oral</span><span class="se">\t</span><span class="s2">Injectable</span><span class="se">\t</span><span class="s2">Aware</span><span class="se">\t</span><span class="s2">nidu</span><span class="se">\t</span><span class="s2">centrality</span><span class="se">\t</span><span class="s2">density"</span>
-            <span class="s2">"</span><span class="se">\t</span><span class="s2">EffectiveSize"</span> <span class="o">+</span> <span class="n">header</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\t</span><span class="s2">deg_cent</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="s2">"run_id</span><span class="se">\t</span><span class="s2">runseed</span><span class="se">\t</span><span class="s2">popseed</span><span class="se">\t</span><span class="s2">t</span><span class="se">\t</span><span class="s2">component"</span>
+            <span class="s2">"</span><span class="se">\t</span><span class="s2">Comp_Status</span><span class="se">\t</span><span class="s2">PCA</span><span class="se">\t</span><span class="s2">centrality</span><span class="se">\t</span><span class="s2">density"</span>
+            <span class="s2">"</span><span class="se">\t</span><span class="s2">EffectiveSize</span><span class="se">\t</span><span class="s2">deg_cent</span><span class="se">\n</span><span class="s2">"</span>
         <span class="p">)</span>
 
-    <span class="n">comp_id</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">races</span><span class="p">:</span>
-            <span class="n">race_count</span><span class="p">[</span><span class="n">race</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">assert</span> <span class="n">comp</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">0</span>
-        <span class="n">tot_agents</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">nhiv</span>
-        <span class="p">)</span> <span class="o">=</span> <span class="n">ntrthiv</span> <span class="o">=</span> <span class="n">nprep</span> <span class="o">=</span> <span class="n">injectable_prep</span> <span class="o">=</span> <span class="n">oral</span> <span class="o">=</span> <span class="n">aware</span> <span class="o">=</span> <span class="n">pca</span> <span class="o">=</span> <span class="n">nidu</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">comp</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">components</span><span class="p">):</span>
+        <span class="n">pca</span> <span class="o">=</span> <span class="mi">0</span>
+
         <span class="n">component_status</span> <span class="o">=</span> <span class="s2">"control"</span>
         <span class="n">trt_comp</span> <span class="o">=</span> <span class="n">trt_agent</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">comp</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
-            <span class="n">tot_agents</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">race_count</span><span class="p">[</span><span class="n">agent</span><span class="o">.</span><span class="n">race</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
-                <span class="n">nhiv</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">random_trial</span><span class="o">.</span><span class="n">treated</span><span class="p">:</span>
-                    <span class="n">ntrthiv</span> <span class="o">+=</span> <span class="mi">1</span>
-
-            <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">prep</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
-                <span class="n">nprep</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">prep</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"Inj"</span><span class="p">:</span>
-                    <span class="n">injectable_prep</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="k">elif</span> <span class="n">agent</span><span class="o">.</span><span class="n">prep</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"Oral"</span><span class="p">:</span>
-                    <span class="n">oral</span> <span class="o">+=</span> <span class="mi">1</span>
-
+            <span class="c1"># TO_REVIEW are these deivable from basic? add something to random trial's stats, maybe?</span>
             <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">random_trial</span><span class="o">.</span><span class="n">suitable</span> <span class="ow">and</span> <span class="n">agent</span><span class="o">.</span><span class="n">knowledge</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
                 <span class="n">pca</span> <span class="o">+=</span> <span class="mi">1</span>
 
@@ -1530,12 +1561,6 @@
 
             <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">random_trial</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
                 <span class="n">trt_comp</span> <span class="o">=</span> <span class="kc">True</span>
-
-            <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">knowledge</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
-                <span class="n">aware</span> <span class="o">+=</span> <span class="mi">1</span>
-
-            <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">drug_type</span> <span class="o">==</span> <span class="s2">"NonInj"</span><span class="p">:</span>
-                <span class="n">nidu</span> <span class="o">+=</span> <span class="mi">1</span>
 
         <span class="n">comp_centrality</span> <span class="o">=</span> <span class="p">(</span>
             <span class="nb">sum</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">betweenness_centrality</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">/</span> <span class="n">comp</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span>
@@ -1550,19 +1575,13 @@
                 <span class="n">component_status</span> <span class="o">=</span> <span class="s2">"treatment_no_eligible"</span>
 
         <span class="n">deg_cent</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">degree_centrality</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
-        <span class="n">race_str</span> <span class="o">=</span> <span class="s2">""</span>
-        <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">race_list</span><span class="p">:</span>
-            <span class="n">race_str</span> <span class="o">+=</span> <span class="s2">"</span><span class="se">\t</span><span class="s2">"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">race_count</span><span class="p">[</span><span class="n">race</span><span class="p">])</span>
 
         <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">run_id</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">runseed</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">popseed</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">comp_id</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">tot_agents</span><span class="si">}</span><span class="se">\t</span><span class="s2">"</span>
-            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">nhiv</span><span class="si">}</span><span class="se">\t</span><span class="s2">"</span>
-            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">nprep</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">ntrthiv</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">component_status</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">pca</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">oral</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">injectable_prep</span><span class="si">}</span><span class="s2">"</span>
-            <span class="sa">f</span><span class="s2">"</span><span class="se">\t</span><span class="si">{</span><span class="n">aware</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">nidu</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">comp_centrality</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">comp_density</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span>
-            <span class="sa">f</span><span class="s2">"</span><span class="se">\t</span><span class="si">{</span><span class="n">average_size</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}{</span><span class="n">race_str</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">deg_cent</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">run_id</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">runseed</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">popseed</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="se">\t</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">component_status</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">pca</span><span class="si">}</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="se">\t</span><span class="si">{</span><span class="n">comp_centrality</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">comp_density</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="se">\t</span><span class="si">{</span><span class="n">average_size</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">deg_cent</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
         <span class="p">)</span>
-
-        <span class="n">comp_id</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </code></pre>
@@ -1669,6 +1688,7 @@
     <span class="n">stats</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">clss</span><span class="p">,</span> <span class="o">*</span><span class="n">rem_clss</span> <span class="o">=</span> <span class="n">classes</span>  <span class="c1"># head, tail</span>
     <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="p">[</span><span class="n">clss</span><span class="p">]]</span>
+
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
         <span class="n">stats</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">setup_aggregates</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">reportables</span><span class="p">,</span> <span class="n">rem_clss</span><span class="p">)</span>
 
@@ -2073,7 +2093,7 @@ on the <code>params</code> and <code>name_map</code></p>
       <script>
         app = initialize({
           base: "../..",
-          features: ['instant', 'tabs'],
+          features: ['navigation.instant', 'navigation.tabs'],
           search: Object.assign({
             worker: "../../assets/javascripts/worker/search.9c0e82ba.min.js"
           }, typeof search !== "undefined" && search)

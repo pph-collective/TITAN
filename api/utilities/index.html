@@ -139,6 +139,61 @@
       
       
         
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../.." class="md-tabs__link">
+      Overview
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../getting_started/" class="md-tabs__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../agent/" class="md-tabs__link md-tabs__link--active">
+        API Reference
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
       
       <main class="md-main" data-md-component="main">
         <div class="md-main__inner md-grid">
@@ -152,8 +207,10 @@
 
 
 
+  
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
       
@@ -732,6 +789,20 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#titan.utils.get_cumulative_bin" class="md-nav__link">
+    get_cumulative_bin()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.utils.get_independent_bin" class="md-nav__link">
+    get_independent_bin()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#titan.utils.get_param_from_path" class="md-nav__link">
     get_param_from_path()
   </a>
@@ -973,6 +1044,20 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#titan.utils.get_cumulative_bin" class="md-nav__link">
+    get_cumulative_bin()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.utils.get_independent_bin" class="md-nav__link">
+    get_independent_bin()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#titan.utils.get_param_from_path" class="md-nav__link">
     get_param_from_path()
   </a>
@@ -1198,6 +1283,27 @@
       </h3>
 <div class="doc doc-contents ">
 <p>Get connected components in graph</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>graph</code></td>
+<td><code></code></td>
+<td>
+<p>the model's underlying graph</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
 <p><strong>Returns:</strong></p>
 <table>
 <thead>
@@ -1221,6 +1327,9 @@
 <pre><span></span><code><span class="k">def</span> <span class="nf">connected_components</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Get connected components in graph</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        graph: the model's underlying graph</span>
 
 <span class="sd">    returns:</span>
 <span class="sd">        list of connected components</span>
@@ -1303,6 +1412,168 @@
 </div>
 </div>
 <div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="titan.utils.get_cumulative_bin">
+
+<code class="highlight language-python"><span class="n">get_cumulative_bin</span><span class="p">(</span><span class="n">rand_gen</span><span class="p">,</span> <span class="n">bin_def</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
+<p>Get the bin key given cumulative bins.  A probability is selected at random, then each bin's <code>prob</code> is compared to it, the first bin that has a cumulative <code>prob</code> (e.g. for bin 2, the prob of bin 1 plus the prob of bin 2) less than or equal to that probability is returned.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rand_gen</code></td>
+<td><code></code></td>
+<td>
+<p>random number generator</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>bin_def</code></td>
+<td><code>ObjMap</code></td>
+<td>
+<p>ObjMap containing the bins</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int</code></td>
+<td>
+<p>integer key of the matched bin (or last bin if no matches)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>titan/utils.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">get_cumulative_bin</span><span class="p">(</span><span class="n">rand_gen</span><span class="p">,</span> <span class="n">bin_def</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Get the bin key given cumulative bins.  A probability is selected at random, then each bin's `prob` is compared to it, the first bin that has a cumulative `prob` (e.g. for bin 2, the prob of bin 1 plus the prob of bin 2) less than or equal to that probability is returned.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        rand_gen: random number generator</span>
+<span class="sd">        bin_def: ObjMap containing the bins</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        integer key of the matched bin (or last bin if no matches)</span>
+<span class="sd">    """</span>
+    <span class="n">rand_val</span> <span class="o">=</span> <span class="n">rand_gen</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="nb">bin</span><span class="p">,</span> <span class="n">fields</span> <span class="ow">in</span> <span class="n">bin_def</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">p</span> <span class="o">+=</span> <span class="n">fields</span><span class="o">.</span><span class="n">prob</span>
+        <span class="k">if</span> <span class="n">rand_val</span> <span class="o">&lt;=</span> <span class="n">p</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="k">return</span> <span class="nb">bin</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="titan.utils.get_independent_bin">
+
+<code class="highlight language-python"><span class="n">get_independent_bin</span><span class="p">(</span><span class="n">rand_gen</span><span class="p">,</span> <span class="n">bin_def</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
+<p>Get the bin key given independent bins.  A probability is selected at random, then each bin's <code>prob</code> is compared to it, the first bin that has a <code>prob</code> less than or equal to that probability is returned.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rand_gen</code></td>
+<td><code></code></td>
+<td>
+<p>A random number generator</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>bin_def</code></td>
+<td><code>ObjMap</code></td>
+<td>
+<p>The ObjMap containing the bins</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int</code></td>
+<td>
+<p>The integer key of the matched bin (or last bin if no matches)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>titan/utils.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">get_independent_bin</span><span class="p">(</span><span class="n">rand_gen</span><span class="p">,</span> <span class="n">bin_def</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Get the bin key given independent bins.  A probability is selected at random, then each bin's `prob` is compared to it, the first bin that has a `prob` less than or equal to that probability is returned.</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        rand_gen: A random number generator</span>
+<span class="sd">        bin_def: The ObjMap containing the bins</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        The integer key of the matched bin (or last bin if no matches)</span>
+<span class="sd">    """</span>
+    <span class="n">rand_val</span> <span class="o">=</span> <span class="n">rand_gen</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+    <span class="k">for</span> <span class="nb">bin</span><span class="p">,</span> <span class="n">fields</span> <span class="ow">in</span> <span class="n">bin_def</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">rand_val</span> <span class="o">&lt;=</span> <span class="n">fields</span><span class="o">.</span><span class="n">prob</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="k">return</span> <span class="nb">bin</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
 <h3 class="doc doc-heading" id="titan.utils.get_param_from_path">
 
 <code class="highlight language-python"><span class="n">get_param_from_path</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">param_path</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">)</span></code>
@@ -1315,7 +1586,7 @@ and the last key to access it</p>
 <details class="quote">
           <summary>Source code in <code>titan/utils.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">get_param_from_path</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">param_path</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">):</span>
+<pre><span></span><code><span class="k">def</span> <span class="nf">get_param_from_path</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span> <span class="n">param_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Given a params object and a delimited path, get the leaf of the params tree</span>
 <span class="sd">    and the last key to access it</span>
@@ -1379,7 +1650,7 @@ current value to new value</p>
 <details class="quote">
           <summary>Source code in <code>titan/utils.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">override_param</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">param_path</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">"|"</span><span class="p">):</span>
+<pre><span></span><code><span class="k">def</span> <span class="nf">override_param</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span> <span class="n">param_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">"|"</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Given the params and a parameter path in the format prep|cap, change the</span>
 <span class="sd">    current value to new value</span>
@@ -1783,7 +2054,7 @@ current value by the scalar</p>
 <details class="quote">
           <summary>Source code in <code>titan/utils.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">scale_param</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">param_path</span><span class="p">,</span> <span class="n">scalar</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">"|"</span><span class="p">):</span>
+<pre><span></span><code><span class="k">def</span> <span class="nf">scale_param</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span> <span class="n">param_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">scalar</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">"|"</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Given the params and a parameter path in the format prep|cap, scale the</span>
 <span class="sd">    current value by the scalar</span>
@@ -2551,7 +2822,7 @@ or not to use the base setting. Parse and create a params (ObjMap) object.</p>
       <script>
         app = initialize({
           base: "../..",
-          features: ['instant', 'tabs'],
+          features: ['navigation.instant', 'navigation.tabs'],
           search: Object.assign({
             worker: "../../assets/javascripts/worker/search.9c0e82ba.min.js"
           }, typeof search !== "undefined" && search)
