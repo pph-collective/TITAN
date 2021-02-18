@@ -297,18 +297,9 @@ class Population:
         returns:
             age and the bin the age came from
         """
-        rand = self.pop_random.random()
-
         bins = loc.params.demographics[race].age
-
-        for i in range(1, 6):
-            if rand < bins[i].prob:
-                break
-
-        min_age = bins[i].min
-        max_age = bins[i].max
-
-        age = self.pop_random.randrange(min_age, max_age)
+        i = utils.get_independent_bin(self.pop_random, bins)
+        age = self.pop_random.randrange(bins[i].min, bins[i].max)
         return age, i
 
     def update_agent_partners(
@@ -414,6 +405,8 @@ class Population:
                     ):
                         eligible_agents.append(agent)
 
+        self.update_agent_components()
+
     def update_partner_targets(self):
         """
         Update the target number of partners for each agent and bond type
@@ -439,6 +432,18 @@ class Population:
                 a.target_partners[bond] * self.params.calibration.partnership.buffer
             ):
                 self.partnerable_agents[bond].add(a)
+
+    def update_agent_components(self):
+        """
+        Update the component IDs associated with each agent based on the current state of the graph
+        """
+        if self.enable_graph:
+            components = self.connected_components()
+            for id, component in enumerate(self.connected_components()):
+                for agent in component.nodes:
+                    agent.component = str(id)
+
+            self.params.classes.components = list(map(str, range(len(components))))
 
     def trim_graph(self):
         """
@@ -471,7 +476,7 @@ class Population:
                     if sub_comp.number_of_nodes() > max_size:
                         trim_component(component, max_size)
 
-            components = sorted(self.connected_components(), key=len, reverse=True)
+            components = self.connected_components()
             for comp in components:
                 if (
                     comp.number_of_nodes()
@@ -490,7 +495,7 @@ class Population:
             list of connected components
         """
         if self.enable_graph:
-            return utils.connected_components(self.graph)
+            return sorted(utils.connected_components(self.graph), key=len, reverse=True)
         else:
             raise ValueError(
                 "Can't get connected_components, population doesn't have graph enabled."

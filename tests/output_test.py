@@ -30,41 +30,43 @@ def stats(params, world_location):
     a.high_risk.time = cur_time
     a.incar.active = True
     a.incar.release_time = cur_time
+    a.component = 0
 
     agent_set = agent.AgentSet("test")
     agent_set.add_agent(a)
     agent_list = [a]
     feat_list = [feature for feature in features.BaseFeature.__subclasses__()]
     expose_list = [exposure for exposure in exposures.BaseExposure.__subclasses__()]
+    params.classes.components = ["-1", "0"]
     stats = get_stats(agent_set, agent_list, params, feat_list, expose_list, cur_time)
     return stats
 
 
 @pytest.mark.unit
 def test_get_stats(stats):
-    assert stats["world"]["black"]["MSM"]["agents"] == 1
-    assert stats["world"]["white"]["MSM"]["agents"] == 0
-    assert stats["world"]["black"]["MSM"]["incar"] == 1
-    assert stats["world"]["black"]["MSM"]["incar_hiv"] == 1
-    assert stats["world"]["black"]["MSM"]["new_release"] == 1
-    assert stats["world"]["black"]["MSM"]["new_release_hiv"] == 1
-    assert stats["world"]["black"]["MSM"]["hiv_new"] == 1
-    assert stats["world"]["black"]["MSM"]["hiv_new_high_risk_ever"] == 1
-    assert stats["world"]["black"]["MSM"]["hiv_new_high_risk"] == 1
-    assert stats["world"]["black"]["MSM"]["prep"] == 1
-    assert stats["world"]["black"]["MSM"]["prep_new"] == 1
-    assert stats["world"]["black"]["MSM"]["hiv_dx_new"] == 1
-    assert stats["world"]["black"]["MSM"]["high_risk_new"] == 1
-    assert stats["world"]["black"]["MSM"]["high_risk_new_hiv"] == 1
-    assert stats["world"]["black"]["MSM"]["high_risk_new_aids"] == 1
-    assert stats["world"]["black"]["MSM"]["high_risk_new_dx"] == 1
-    assert stats["world"]["black"]["MSM"]["high_risk_new_haart"] == 1
-    assert stats["world"]["black"]["MSM"]["hiv"] == 1
-    assert stats["world"]["black"]["MSM"]["hiv_aids"] == 1
-    assert stats["world"]["black"]["MSM"]["hiv_dx"] == 1
-    assert stats["world"]["black"]["MSM"]["haart"] == 1
-    assert stats["world"]["black"]["MSM"]["deaths"] == 1
-    assert stats["world"]["black"]["MSM"]["deaths_hiv"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["agents"] == 1
+    assert stats["world"]["white"]["MSM"]["0"]["Inj"]["agents"] == 0
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["incar"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["incar_hiv"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["new_release"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["new_release_hiv"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["hiv_new"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["hiv_new_high_risk_ever"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["hiv_new_high_risk"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["prep"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["prep_new"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["hiv_dx_new"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["high_risk_new"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["high_risk_new_hiv"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["high_risk_new_aids"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["high_risk_new_dx"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["high_risk_new_haart"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["hiv"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["hiv_aids"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["hiv_dx"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["haart"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["deaths"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["deaths_hiv"] == 1
 
 
 @pytest.mark.unit
@@ -81,7 +83,12 @@ def test_basicReport(stats, params, tmpdir):
             assert row["t"] == "0"
             assert row["run_id"] == str(run_id)
             assert row["rseed"] == "1"
-            if row["race"] == "black" and row["sex_type"] == "MSM":
+            if (
+                row["race"] == "black"
+                and row["sex_type"] == "MSM"
+                and row["component"] == "0"
+                and row["drug_type"] == "Inj"
+            ):
                 assert row["agents"] == "1"
                 assert row["hiv"] == "1"
                 assert row["prep"] == "1"
@@ -100,7 +107,7 @@ def test_print_components(stats, params, make_population, tmpdir):
     pop = make_population(n=1)
     components = pop.connected_components()
 
-    print_components(run_id, 0, 1, 2, components, tmpdir, params.classes.races)
+    print_components(run_id, 0, 1, 2, components, tmpdir)
 
     result_file = os.path.join(tmpdir, f"{run_id}_componentReport_ALL.txt")
     assert os.path.isfile(result_file)
@@ -110,8 +117,7 @@ def test_print_components(stats, params, make_population, tmpdir):
             assert row["t"] == "0"
             assert row["run_id"] == str(run_id)
             assert row["runseed"] == "1"
-            assert row["compID"] == "0"
-            assert row["totalN"] == "1"
+            assert row["component"] == "0"
 
 
 @pytest.mark.unit

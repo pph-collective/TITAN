@@ -5,7 +5,6 @@ import time as time_mod
 from copy import copy
 import sys
 import os
-from inspect import getsourcefile
 import shutil
 import argparse
 import itertools
@@ -14,7 +13,6 @@ from multiprocessing import Pool, cpu_count
 import csv
 import traceback
 from typing import List, Optional
-import subprocess
 
 # allow imports to work if running it as a script for development locally
 if __name__ == "__main__":
@@ -307,6 +305,43 @@ def single_run(sweep, outfile_dir, params, save_pop, pop_path):
     return time_mod.time() - tic
 
 
+def setup_outdir(outdir, save_pop):
+    """
+    Set up the results folder - will delete any files already present.
+    """
+    # delete old results before overwriting with new results
+    outfile_dir = os.path.join(os.getcwd(), outdir)
+    if os.path.isdir(outfile_dir):
+        shutil.rmtree(outfile_dir)
+    os.mkdir(outfile_dir)
+    os.mkdir(os.path.join(outfile_dir, "network"))
+    if save_pop:
+        os.mkdir(os.path.join(outfile_dir, "pop"))
+
+    return outfile_dir
+
+
+def get_sweep_defs(sweepfile, rows, sweeps, num_reps, force):
+    """
+    Get the sweep definitions from file if available, then from the command line definitions, otherwise return an empty definition to ensure the model runs.
+    """
+    if sweepfile is not None:
+        sweep_defs = setup_sweeps_file(sweepfile, rows)
+    elif sweeps:
+        sweep_defs = setup_sweeps(sweeps)
+    else:
+        sweep_defs = [{}]  # make sure runs once
+
+    if len(sweep_defs) > 100 and not force:
+        raise ValueError(
+            "Sweeping more than 100 models. Set `-F` (force) flag if you really want to do this."
+        )
+
+    sweep_defs *= num_reps
+
+    return sweep_defs
+
+
 def main(
     setting: str,
     params_path: str,
@@ -336,14 +371,7 @@ def main(
         save_pop: if true, will save the population to file after creation
         pop_path: path to a population to load instead of creating a new population for each run
     """
-    # delete old results before overwriting with new results
-    outfile_dir = os.path.join(os.getcwd(), outdir)
-    if os.path.isdir(outfile_dir):
-        shutil.rmtree(outfile_dir)
-    os.mkdir(outfile_dir)
-    os.mkdir(os.path.join(outfile_dir, "network"))
-    if save_pop:
-        os.mkdir(os.path.join(outfile_dir, "pop"))
+    outfile_dir = setup_outdir(outdir, save_pop)
 
     # generate params - if no setting, set to none
     setting = setting.lower()
@@ -357,19 +385,7 @@ def main(
     )
 
     # set up sweeps
-    if sweepfile is not None:
-        sweep_defs = setup_sweeps_file(sweepfile, rows)
-    elif sweeps:
-        sweep_defs = setup_sweeps(sweeps)
-    else:
-        sweep_defs = [{}]  # make sure runs once
-
-    if len(sweep_defs) > 100 and not force:
-        raise ValueError(
-            "Sweeping more than 100 models. Set `-F` (force) flag if you really want to do this."
-        )
-
-    sweep_defs *= num_reps
+    sweep_defs = get_sweep_defs(sweepfile, rows, sweeps, num_reps, force)
 
     tic = time_mod.time()
     wct = []  # wall clock times
@@ -393,7 +409,7 @@ def main(
             try:
                 t = r.get()
                 wct.append(t)
-            except Exception as e:
+            except Exception:
                 traceback.print_exc()
 
     toc = time_mod.time() - tic

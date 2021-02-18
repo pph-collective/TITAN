@@ -167,15 +167,8 @@ def get_partnership_duration(
 
     if params.partnership.duration[bond_type][race].type == "bins":
         dur_info = params.partnership.duration[bond_type][race].bins
-
-        diceroll = rand_gen.random()
-        dur_bin = dur_info[5]
-        for i in range(1, 5):
-            if diceroll < dur_info[i].prob:
-                dur_bin = dur_info[i]
-                break
-
-        duration = rand_gen.randint(dur_bin.min, dur_bin.max)
+        i = utils.get_independent_bin(rand_gen, dur_info)
+        duration = rand_gen.randint(dur_info[i].min, dur_info[i].max)
 
     else:
         dist = params.partnership.duration[bond_type][race].distribution
