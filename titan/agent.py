@@ -8,7 +8,7 @@ from .utils import (
     safe_dist,
     get_independent_bin,
     safe_random_choice,
-    safe_rand_int,
+    safe_random_int,
 )
 from .location import Location
 from . import features
@@ -305,7 +305,7 @@ class Relationship:
 
         if freq_params.type == "bins":
             i = get_independent_bin(rand_gen, freq_params.bins)
-            return safe_rand_int(
+            return safe_random_int(
                 freq_params.bins[i].min, freq_params.bins[i].max, rand_gen
             )
 

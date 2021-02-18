@@ -1,6 +1,7 @@
 import random
 from functools import wraps
 from typing import TypeVar, Optional, Collection, Union, Iterable
+from math import floor
 
 import networkx as nx  # type: ignore
 import numpy as np  # type: ignore
@@ -92,9 +93,9 @@ def safe_random_choice(seq, rand_gen, weights=None):
     return choices[0]
 
 
-def safe_rand_int(start: int, stop: int, rand_gen) -> int:
+def safe_random_int(start: int, stop: int, rand_gen) -> int:
     """
-    Return an integer between [start, stop]
+    Return an integer between [start, stop)
 
     args:
         start: start value
@@ -104,7 +105,7 @@ def safe_rand_int(start: int, stop: int, rand_gen) -> int:
     returns:
         an item, or `None` if the collection is empty
     """
-    return round(rand_gen.random() * (stop - start) + start)
+    return floor(rand_gen.random() * (stop - start) + start)
 
 
 def safe_shuffle(seq: Collection[T], rand_gen) -> Iterable[T]:
@@ -136,7 +137,7 @@ def parse_var(dist_value, dist_type):
 @memo
 def get_dist(rand_gen, dist_type):
     if dist_type == "randint":
-        return lambda *args: safe_rand_int(*args, rand_gen)
+        return lambda *args: safe_random_int(*args, rand_gen)
     elif hasattr(rand_gen, dist_type):
         return getattr(rand_gen, dist_type)
     elif hasattr(distributions, dist_type):

@@ -114,7 +114,7 @@ class Incar(base_feature.BaseFeature):
                 bin += 1
 
             self.time = model.time
-            self.release_time = model.time + utils.safe_rand_int(
+            self.release_time = model.time + utils.safe_random_int(
                 incar_duration[bin].min, incar_duration[bin].max, model.run_random
             )
             self.active = True

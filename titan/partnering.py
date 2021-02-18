@@ -65,14 +65,16 @@ def select_partner(
     return random_partner
 
 
+# does an agent match the criteria of the randomly chosen assort values?
 def is_assortable(agent, assort_attrs):
-    for attr, defn in assort_attrs.items():
-        if not defn["compare"](agent, attr, defn["value"]):
+    for attr, match_fn in assort_attrs.items():
+        if not match_fn(agent, attr):
             return False
 
     return True
 
 
+# if this assort rule applies for this agent, get the randomly chosen value the partner must have
 def get_assort_attrs(assort_defs, agent, rand_gen):
     assort_attrs = {}
     for assort_def in assort_defs:
@@ -84,21 +86,20 @@ def get_assort_attrs(assort_defs, agent, rand_gen):
     return assort_attrs
 
 
+# given an assort def, randomly select the type the partner must have given the weights
 def get_assort_attr_value(assort_def, rand_gen):
     partner_types = list(assort_def.partner_values.keys())
     partner_weights = [assort_def.partner_values[p] for p in partner_types]
     partner_type = utils.safe_random_choice(
         partner_types, rand_gen, weights=partner_weights
     )
-    if partner_type == "__other__":
-        compare = lambda ag, attr, v: str(getattr(ag, attr)) not in v
-        partner_types.remove("__other__")
-        val = partner_types
-    else:
-        compare = lambda ag, attr, v: str(getattr(ag, attr)) == v
-        val = partner_type
 
-    return {"compare": compare, "value": val}
+    # python is a little weird about what gets captured in a lam
+    if partner_type == "__other__":
+        partner_types.remove("__other__")
+        return lambda ag, attr: str(getattr(ag, attr)) not in partner_types
+    else:
+        return lambda ag, attr: str(getattr(ag, attr)) == partner_type
 
 
 @utils.memo
@@ -180,7 +181,7 @@ def get_partnership_duration(
     if params.partnership.duration[bond_type][race].type == "bins":
         dur_info = params.partnership.duration[bond_type][race].bins
         i = utils.get_independent_bin(rand_gen, dur_info)
-        duration = utils.safe_rand_int(dur_info[i].min, dur_info[i].max, rand_gen)
+        duration = utils.safe_random_int(dur_info[i].min, dur_info[i].max, rand_gen)
 
     else:
         dist = params.partnership.duration[bond_type][race].distribution
