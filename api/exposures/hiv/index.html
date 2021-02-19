@@ -11,7 +11,7 @@
       
       
       
-        <link rel="canonical" href="http://marshall-lab.github.io/TITAN/api/exposures/hiv/">
+        <link rel="canonical" href="http://pph-collective.github.io/TITAN/api/exposures/hiv/">
       
       <link rel="shortcut icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.8">
@@ -75,7 +75,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid" aria-label="Header">
-    <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-header-nav__button md-logo" aria-label="TITAN">
+    <a href="http://pph-collective.github.io/TITAN" title="TITAN" class="md-header-nav__button md-logo" aria-label="TITAN">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -212,7 +212,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
+    <a href="http://pph-collective.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -1644,8 +1644,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">active</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="c1"># if HIV, when did the agent convert? Random sample</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span>
-            <span class="n">time</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">max_init_time</span><span class="p">,</span> <span class="n">time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_random_int</span><span class="p">(</span>
+            <span class="n">time</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">max_init_time</span><span class="p">,</span>
+            <span class="n">time</span><span class="p">,</span>
+            <span class="n">pop</span><span class="o">.</span><span class="n">pop_random</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">pop</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">agent_params</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">aids</span><span class="o">.</span><span class="n">init</span><span class="p">:</span>
@@ -1654,7 +1656,7 @@
         <span class="k">if</span> <span class="n">pop</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">agent_params</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">dx</span><span class="o">.</span><span class="n">init</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dx</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="c1"># agent was diagnosed at a random time between conversion and now</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">dx_time</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dx_time</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_random_int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">pop_random</span><span class="p">)</span>
 
         <span class="c1"># add agent to class</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_agent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="p">)</span>

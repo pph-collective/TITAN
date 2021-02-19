@@ -11,7 +11,7 @@
       
       
       
-        <link rel="canonical" href="http://marshall-lab.github.io/TITAN/api/features/high_risk/">
+        <link rel="canonical" href="http://pph-collective.github.io/TITAN/api/features/high_risk/">
       
       <link rel="shortcut icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.8">
@@ -75,7 +75,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid" aria-label="Header">
-    <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-header-nav__button md-logo" aria-label="TITAN">
+    <a href="http://pph-collective.github.io/TITAN" title="TITAN" class="md-header-nav__button md-logo" aria-label="TITAN">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -212,7 +212,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
+    <a href="http://pph-collective.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -1229,13 +1229,16 @@
         <span class="p">)</span>
 
         <span class="k">for</span> <span class="n">bond</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">high_risk</span><span class="o">.</span><span class="n">partnership_types</span><span class="p">:</span>
-            <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">partners</span><span class="p">[</span><span class="n">bond</span><span class="p">])</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">target_partners</span><span class="p">[</span><span class="n">bond</span><span class="p">]:</span>
+            <span class="n">num_ended</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">while</span> <span class="p">(</span>
+                <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">partners</span><span class="p">[</span><span class="n">bond</span><span class="p">])</span> <span class="o">-</span> <span class="n">num_ended</span>
+            <span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">target_partners</span><span class="p">[</span><span class="n">bond</span><span class="p">]:</span>
                 <span class="n">rel</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_random_choice</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">relationships</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">run_random</span>
                 <span class="p">)</span>
                 <span class="k">if</span> <span class="n">rel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">rel</span><span class="o">.</span><span class="n">progress</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                    <span class="n">model</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">remove_relationship</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span>
+                    <span class="n">num_ended</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">rel</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># will end on next step</span>
 </code></pre>
 </div>
 </details>

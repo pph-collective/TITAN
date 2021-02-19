@@ -11,7 +11,7 @@
       
       
       
-        <link rel="canonical" href="http://marshall-lab.github.io/TITAN/api/population/">
+        <link rel="canonical" href="http://pph-collective.github.io/TITAN/api/population/">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.8">
@@ -75,7 +75,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid" aria-label="Header">
-    <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-header-nav__button md-logo" aria-label="TITAN">
+    <a href="http://pph-collective.github.io/TITAN" title="TITAN" class="md-header-nav__button md-logo" aria-label="TITAN">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -212,7 +212,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
+    <a href="http://pph-collective.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -1204,9 +1204,10 @@
 
     <span class="c1"># Init RNG for population creation to pop_seed</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pop_seed</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pop_seed</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pop_seed</span><span class="p">)</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">enable_graph</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">enable</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_graph</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
@@ -1279,9 +1280,6 @@
     <span class="c1"># initialize relationships</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\t</span><span class="s2">Creating Relationships"</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">update_partner_assignments</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_graph</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">trim_graph</span><span class="p">()</span>
 </code></pre>
 </div>
 </details>
@@ -1431,7 +1429,7 @@
 <span class="sd">        list of connected components</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_graph</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">connected_components</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="s2">"Can't get connected_components, population doesn't have graph enabled."</span>
@@ -1818,7 +1816,6 @@ demographics [params.demographics]</p>
 <span class="sd">    Initialize network with graph-based algorithm for relationship</span>
 <span class="sd">        adding/pruning</span>
 <span class="sd">    """</span>
-
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"comp_size"</span><span class="p">:</span>
 
         <span class="k">def</span> <span class="nf">trim_component</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">max_size</span><span class="p">):</span>
@@ -1833,16 +1830,14 @@ demographics [params.demographics]</p>
                             <span class="c1"># network by keeping one bond</span>
                         <span class="n">rel</span><span class="o">.</span><span class="n">progress</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">remove_relationship</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span>
-                        <span class="n">component</span><span class="o">.</span><span class="n">remove_edge</span><span class="p">(</span><span class="n">rel</span><span class="o">.</span><span class="n">agent1</span><span class="p">,</span> <span class="n">rel</span><span class="o">.</span><span class="n">agent2</span><span class="p">)</span>
 
             <span class="c1"># recurse on new sub-components</span>
-            <span class="n">sub_comps</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
-                <span class="n">component</span><span class="o">.</span><span class="n">subgraph</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-                <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">nx</span><span class="o">.</span><span class="n">connected_components</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>
-            <span class="p">)</span>
+            <span class="n">sub_comps</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">connected_components</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">sub_comp</span> <span class="ow">in</span> <span class="n">sub_comps</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">sub_comp</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">max_size</span><span class="p">:</span>
                     <span class="n">trim_component</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">max_size</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">break</span>
 
         <span class="n">components</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected_components</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
@@ -1876,12 +1871,14 @@ demographics [params.demographics]</p>
 <span class="sd">    Update the component IDs associated with each agent based on the current state of the graph</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_graph</span><span class="p">:</span>
-        <span class="n">components</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected_components</span><span class="p">()</span>
-        <span class="k">for</span> <span class="nb">id</span><span class="p">,</span> <span class="n">component</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connected_components</span><span class="p">()):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">components</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">connected_components</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">)</span>
+        <span class="k">for</span> <span class="nb">id</span><span class="p">,</span> <span class="n">component</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">component</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
                 <span class="n">agent</span><span class="o">.</span><span class="n">component</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">components</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">components</span><span class="p">))))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">components</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">)))</span>
+        <span class="p">)</span>
 </code></pre>
 </div>
 </details>
@@ -2057,7 +2054,7 @@ demographics [params.demographics]</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_partner_targets</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_graph</span><span class="p">:</span>
-        <span class="n">network_components</span> <span class="o">=</span> <span class="p">[</span><span class="nb">set</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected_components</span><span class="p">()]</span>
+        <span class="n">network_components</span> <span class="o">=</span> <span class="p">[</span><span class="nb">set</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">network_components</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -2087,6 +2084,9 @@ demographics [params.demographics]</p>
                     <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">calibration</span><span class="o">.</span><span class="n">partnership</span><span class="o">.</span><span class="n">break_point</span>
                 <span class="p">):</span>
                     <span class="n">eligible_agents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_graph</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trim_graph</span><span class="p">()</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">update_agent_components</span><span class="p">()</span>
 </code></pre>

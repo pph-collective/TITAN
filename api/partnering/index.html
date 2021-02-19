@@ -11,7 +11,7 @@
       
       
       
-        <link rel="canonical" href="http://marshall-lab.github.io/TITAN/api/partnering/">
+        <link rel="canonical" href="http://pph-collective.github.io/TITAN/api/partnering/">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.8">
@@ -75,7 +75,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid" aria-label="Header">
-    <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-header-nav__button md-logo" aria-label="TITAN">
+    <a href="http://pph-collective.github.io/TITAN" title="TITAN" class="md-header-nav__button md-logo" aria-label="TITAN">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -212,7 +212,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
+    <a href="http://pph-collective.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -970,7 +970,7 @@
 <td><code>rand_gen</code></td>
 <td><code></code></td>
 <td>
-<p>random number generator</p>
+<p>np random number generator</p>
 </td>
 <td><em>required</em></td>
 </tr>
@@ -1012,7 +1012,7 @@
 
 <span class="sd">    args:</span>
 <span class="sd">        params: model parameters</span>
-<span class="sd">        rand_gen: random number generator</span>
+<span class="sd">        rand_gen: np random number generator</span>
 <span class="sd">        bond_type: type of bond for the relationship whose duration is being determined</span>
 
 <span class="sd">    returns:</span>
@@ -1022,11 +1022,11 @@
     <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">partnership</span><span class="o">.</span><span class="n">duration</span><span class="p">[</span><span class="n">bond_type</span><span class="p">][</span><span class="n">race</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"bins"</span><span class="p">:</span>
         <span class="n">dur_info</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">partnership</span><span class="o">.</span><span class="n">duration</span><span class="p">[</span><span class="n">bond_type</span><span class="p">][</span><span class="n">race</span><span class="p">]</span><span class="o">.</span><span class="n">bins</span>
         <span class="n">i</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_independent_bin</span><span class="p">(</span><span class="n">rand_gen</span><span class="p">,</span> <span class="n">dur_info</span><span class="p">)</span>
-        <span class="n">duration</span> <span class="o">=</span> <span class="n">rand_gen</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">dur_info</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="n">dur_info</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_random_int</span><span class="p">(</span><span class="n">dur_info</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="n">dur_info</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="n">dist</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">partnership</span><span class="o">.</span><span class="n">duration</span><span class="p">[</span><span class="n">bond_type</span><span class="p">][</span><span class="n">race</span><span class="p">]</span><span class="o">.</span><span class="n">distribution</span>
-        <span class="n">duration</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_dist</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">safe_dist</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">duration</span>
 </code></pre>
@@ -1156,33 +1156,6 @@
 <span class="sd">    returns:</span>
 <span class="sd">        new partner or `None`</span>
 <span class="sd">    """</span>
-
-    <span class="k">def</span> <span class="nf">assort</span><span class="p">(</span><span class="n">eligible_partners</span><span class="p">,</span> <span class="n">assort_params</span><span class="p">):</span>
-        <span class="n">partner_types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">assort_params</span><span class="o">.</span><span class="n">partner_values</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-        <span class="n">partner_weights</span> <span class="o">=</span> <span class="p">[</span><span class="n">assort_params</span><span class="o">.</span><span class="n">partner_values</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">partner_types</span><span class="p">]</span>
-        <span class="n">partner_type</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_random_choice</span><span class="p">(</span>
-            <span class="n">partner_types</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">partner_weights</span>
-        <span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">partner_type</span> <span class="o">==</span> <span class="s2">"__other__"</span><span class="p">:</span>
-            <span class="c1"># remove all the specified (not selected) values and remove those</span>
-            <span class="c1"># partners from the eligible set</span>
-            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">partner_types</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">p</span> <span class="o">!=</span> <span class="s2">"__other__"</span><span class="p">:</span>
-                    <span class="n">eligible_partners</span> <span class="o">=</span> <span class="p">{</span>
-                        <span class="n">partner</span>
-                        <span class="k">for</span> <span class="n">partner</span> <span class="ow">in</span> <span class="n">eligible_partners</span>
-                        <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">partner</span><span class="p">,</span> <span class="n">assort_params</span><span class="o">.</span><span class="n">attribute</span><span class="p">))</span> <span class="o">!=</span> <span class="n">p</span>
-                    <span class="p">}</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">eligible_partners</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">partner</span>
-                <span class="k">for</span> <span class="n">partner</span> <span class="ow">in</span> <span class="n">eligible_partners</span>
-                <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">partner</span><span class="p">,</span> <span class="n">assort_params</span><span class="o">.</span><span class="n">attribute</span><span class="p">))</span> <span class="o">==</span> <span class="n">partner_type</span>
-            <span class="p">}</span>
-
-        <span class="k">return</span> <span class="n">eligible_partners</span>
-
     <span class="n">eligible</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">partnerable_agents</span><span class="p">)</span>
     <span class="n">eligible</span> <span class="o">-=</span> <span class="n">agent</span><span class="o">.</span><span class="n">get_partners</span><span class="p">()</span>
     <span class="n">eligible</span> <span class="o">-=</span> <span class="p">{</span><span class="n">agent</span><span class="p">}</span>
@@ -1200,13 +1173,15 @@
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">assort_mix</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">assort_def</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">assort_mix</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">assort_def</span><span class="o">.</span><span class="n">attribute</span><span class="p">)</span> <span class="o">==</span> <span class="n">assort_def</span><span class="o">.</span><span class="n">agent_value</span><span class="p">:</span>
-                <span class="n">eligible</span> <span class="o">=</span> <span class="n">assort</span><span class="p">(</span><span class="n">eligible</span><span class="p">,</span> <span class="n">assort_def</span><span class="p">)</span>
+        <span class="n">match_fns</span> <span class="o">=</span> <span class="n">get_match_fns</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">assort_mix</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">agent</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span>
+        <span class="c1"># if no definitions match this agent, don't try to assort</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">match_fns</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">partner</span> <span class="ow">in</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_shuffle</span><span class="p">(</span><span class="n">eligible</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">is_assortable</span><span class="p">(</span><span class="n">partner</span><span class="p">,</span> <span class="n">match_fns</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">partner</span>
+            <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="n">random_partner</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_random_choice</span><span class="p">(</span><span class="n">eligible</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">random_partner</span>
+    <span class="k">return</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_random_choice</span><span class="p">(</span><span class="n">eligible</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span>
 </code></pre>
 </div>
 </details>

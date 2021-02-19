@@ -11,7 +11,7 @@
       
       
       
-        <link rel="canonical" href="http://marshall-lab.github.io/TITAN/api/reporting/">
+        <link rel="canonical" href="http://pph-collective.github.io/TITAN/api/reporting/">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.8">
@@ -75,7 +75,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid" aria-label="Header">
-    <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-header-nav__button md-logo" aria-label="TITAN">
+    <a href="http://pph-collective.github.io/TITAN" title="TITAN" class="md-header-nav__button md-logo" aria-label="TITAN">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -212,7 +212,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
+    <a href="http://pph-collective.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -1541,45 +1541,20 @@
     <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
             <span class="s2">"run_id</span><span class="se">\t</span><span class="s2">runseed</span><span class="se">\t</span><span class="s2">popseed</span><span class="se">\t</span><span class="s2">t</span><span class="se">\t</span><span class="s2">component"</span>
-            <span class="s2">"</span><span class="se">\t</span><span class="s2">Comp_Status</span><span class="se">\t</span><span class="s2">PCA</span><span class="se">\t</span><span class="s2">centrality</span><span class="se">\t</span><span class="s2">density"</span>
-            <span class="s2">"</span><span class="se">\t</span><span class="s2">EffectiveSize</span><span class="se">\t</span><span class="s2">deg_cent</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="s2">"</span><span class="se">\t</span><span class="s2">density</span><span class="se">\t</span><span class="s2">EffectiveSize</span><span class="se">\t</span><span class="s2">deg_cent</span><span class="se">\n</span><span class="s2">"</span>
         <span class="p">)</span>
 
     <span class="k">for</span> <span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">comp</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">components</span><span class="p">):</span>
-        <span class="n">pca</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">num_nodes</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span>
 
-        <span class="n">component_status</span> <span class="o">=</span> <span class="s2">"control"</span>
-        <span class="n">trt_comp</span> <span class="o">=</span> <span class="n">trt_agent</span> <span class="o">=</span> <span class="kc">False</span>
-
-        <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">comp</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
-            <span class="c1"># TO_REVIEW are these deivable from basic? add something to random trial's stats, maybe?</span>
-            <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">random_trial</span><span class="o">.</span><span class="n">suitable</span> <span class="ow">and</span> <span class="n">agent</span><span class="o">.</span><span class="n">knowledge</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
-                <span class="n">pca</span> <span class="o">+=</span> <span class="mi">1</span>
-
-            <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">random_trial</span><span class="o">.</span><span class="n">treated</span><span class="p">:</span>  <span class="c1"># treatment component</span>
-                <span class="n">trt_agent</span> <span class="o">=</span> <span class="kc">True</span>
-
-            <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">random_trial</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
-                <span class="n">trt_comp</span> <span class="o">=</span> <span class="kc">True</span>
-
-        <span class="n">comp_centrality</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="nb">sum</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">betweenness_centrality</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">/</span> <span class="n">comp</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span>
-        <span class="p">)</span>
-        <span class="n">average_size</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">effective_size</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">/</span> <span class="n">comp</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span>
+        <span class="n">average_size</span> <span class="o">=</span> <span class="n">effective_size</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_nodes</span>
         <span class="n">comp_density</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">density</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">trt_comp</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">trt_agent</span><span class="p">:</span>
-                <span class="n">component_status</span> <span class="o">=</span> <span class="s2">"treatment"</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">component_status</span> <span class="o">=</span> <span class="s2">"treatment_no_eligible"</span>
 
         <span class="n">deg_cent</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">degree_centrality</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
 
         <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">run_id</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">runseed</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">popseed</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="se">\t</span><span class="s2">"</span>
-            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">component_status</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">pca</span><span class="si">}</span><span class="s2">"</span>
-            <span class="sa">f</span><span class="s2">"</span><span class="se">\t</span><span class="si">{</span><span class="n">comp_centrality</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">comp_density</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="se">\t</span><span class="si">{</span><span class="n">comp_density</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span>
             <span class="sa">f</span><span class="s2">"</span><span class="se">\t</span><span class="si">{</span><span class="n">average_size</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">deg_cent</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
         <span class="p">)</span>
 
@@ -1824,7 +1799,7 @@
 <span class="sd">    """</span>
     <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">_NetworkStats_t</span><span class="si">{</span><span class="n">time</span><span class="si">}</span><span class="s2">.txt"</span><span class="p">)</span>
 
-    <span class="n">components</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">connected_components</span><span class="p">(</span><span class="n">graph</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">components</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">connected_components</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
 
     <span class="n">outfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span>
     <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">graph</span><span class="p">))</span>
@@ -2003,14 +1978,16 @@ on the <code>params</code> and <code>name_map</code></p>
         <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">agg</span> <span class="ow">in</span> <span class="n">get_aggregates</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
-        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">run_id</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">runseed</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">popseed</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="se">\t</span><span class="s2">"</span><span class="p">)</span>
+        <span class="c1"># don't write row if no agents are in it</span>
+        <span class="k">if</span> <span class="n">get_agg_val</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">agg</span><span class="p">,</span> <span class="s2">"agents"</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">run_id</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">runseed</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">popseed</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="se">\t</span><span class="s2">"</span><span class="p">)</span>
 
-        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">agg</span><span class="p">))</span>  <span class="c1"># write attribute values</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">agg</span><span class="p">))</span>  <span class="c1"># write attribute values</span>
 
-        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">stat_names</span><span class="p">:</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\t</span><span class="si">{</span><span class="p">(</span><span class="n">get_agg_val</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">agg</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">stat_names</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\t</span><span class="si">{</span><span class="p">(</span><span class="n">get_agg_val</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">agg</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </code></pre>

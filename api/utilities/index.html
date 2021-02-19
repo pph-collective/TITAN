@@ -11,7 +11,7 @@
       
       
       
-        <link rel="canonical" href="http://marshall-lab.github.io/TITAN/api/utilities/">
+        <link rel="canonical" href="http://pph-collective.github.io/TITAN/api/utilities/">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.8">
@@ -75,7 +75,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid" aria-label="Header">
-    <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-header-nav__button md-logo" aria-label="TITAN">
+    <a href="http://pph-collective.github.io/TITAN" title="TITAN" class="md-header-nav__button md-logo" aria-label="TITAN">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -212,7 +212,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="http://marshall-lab.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
+    <a href="http://pph-collective.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -852,6 +852,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#titan.utils.safe_random_int" class="md-nav__link">
+    safe_random_int()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#titan.utils.safe_shuffle" class="md-nav__link">
     safe_shuffle()
   </a>
@@ -1107,6 +1114,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#titan.utils.safe_random_int" class="md-nav__link">
+    safe_random_int()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#titan.utils.safe_shuffle" class="md-nav__link">
     safe_shuffle()
   </a>
@@ -1334,7 +1348,11 @@
 <span class="sd">    returns:</span>
 <span class="sd">        list of connected components</span>
 <span class="sd">    """</span>
-    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">subgraph</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">nx</span><span class="o">.</span><span class="n">connected_components</span><span class="p">(</span><span class="n">graph</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span>
+        <span class="nb">list</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">subgraph</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">nx</span><span class="o">.</span><span class="n">connected_components</span><span class="p">(</span><span class="n">graph</span><span class="p">)),</span>
+        <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">,</span>
+        <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
 </code></pre>
 </div>
 </details>
@@ -1762,23 +1780,11 @@ current value to new value</p>
 <span class="sd">    """</span>
     <span class="c1"># gather arguments</span>
     <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dist_info</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="n">val</span> <span class="o">=</span> <span class="n">dist_info</span><span class="o">.</span><span class="n">vars</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
-        <span class="n">type_caster</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">dist_info</span><span class="o">.</span><span class="n">vars</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">value_type</span><span class="p">)</span>
-        <span class="n">val</span> <span class="o">=</span> <span class="n">type_caster</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dist_info</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parse_var</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">value_type</span><span class="p">))</span>
 
-    <span class="n">dist_type</span> <span class="o">=</span> <span class="n">dist_info</span><span class="o">.</span><span class="n">dist_type</span>
-
-    <span class="k">try</span><span class="p">:</span>  <span class="c1"># does dist exist in numpy?</span>
-        <span class="n">dist</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">rand_gen</span><span class="p">,</span> <span class="n">dist_type</span><span class="p">)</span>
-        <span class="n">value</span> <span class="o">=</span> <span class="n">dist</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>  <span class="c1"># does dist exist in distributions.py</span>
-            <span class="n">dist</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">distributions</span><span class="p">,</span> <span class="n">dist_type</span><span class="p">)</span>
-            <span class="n">value</span> <span class="o">=</span> <span class="n">dist</span><span class="p">(</span><span class="n">rand_gen</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Distribution type </span><span class="si">{</span><span class="n">dist_type</span><span class="si">}</span><span class="s2"> not found!"</span><span class="p">)</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">get_dist</span><span class="p">(</span><span class="n">rand_gen</span><span class="p">,</span> <span class="n">dist_info</span><span class="o">.</span><span class="n">dist_type</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">dist</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">"__iter__"</span><span class="p">):</span>  <span class="c1"># check if value is any type of sequence</span>
         <span class="k">return</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -1889,7 +1895,7 @@ current value to new value</p>
 <tbody>
 <tr>
 <td><code>seq</code></td>
-<td><code>Collection[~T]</code></td>
+<td><code></code></td>
 <td>
 <p>collection to select a random item from</p>
 </td>
@@ -1923,7 +1929,7 @@ current value to new value</p>
 </thead>
 <tbody>
 <tr>
-<td><code>Optional[~T]</code></td>
+<td><code></code></td>
 <td>
 <p>an item, or <code>None</code> if the collection is empty</p>
 </td>
@@ -1933,7 +1939,7 @@ current value to new value</p>
 <details class="quote">
           <summary>Source code in <code>titan/utils.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">safe_random_choice</span><span class="p">(</span><span class="n">seq</span><span class="p">:</span> <span class="n">Collection</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">rand_gen</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+<pre><span></span><code><span class="k">def</span> <span class="nf">safe_random_choice</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Return None or a random choice from a collection of items</span>
 
@@ -1951,8 +1957,98 @@ current value to new value</p>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
         <span class="n">seq</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
 
+    <span class="c1"># don't call out to random choices if we don't need to (for performance)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">rand_gen</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mf">0.5</span> <span class="k">else</span> <span class="n">seq</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
     <span class="n">choices</span> <span class="o">=</span> <span class="n">rand_gen</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h3 class="doc doc-heading" id="titan.utils.safe_random_int">
+
+<code class="highlight language-python"><span class="n">safe_random_int</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span></code>
+
+
+      </h3>
+<div class="doc doc-contents ">
+<p>Return an integer between [start, stop)</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>start</code></td>
+<td><code>int</code></td>
+<td>
+<p>start value</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>stop</code></td>
+<td><code>int</code></td>
+<td>
+<p>stop value</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>rand_gen</code></td>
+<td><code></code></td>
+<td>
+<p>random number generator</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int</code></td>
+<td>
+<p>an item, or <code>None</code> if the collection is empty</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>titan/utils.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">safe_random_int</span><span class="p">(</span><span class="n">start</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Return an integer between [start, stop)</span>
+
+<span class="sd">    args:</span>
+<span class="sd">        start: start value</span>
+<span class="sd">        stop: stop value</span>
+<span class="sd">        rand_gen: random number generator</span>
+
+<span class="sd">    returns:</span>
+<span class="sd">        an item, or `None` if the collection is empty</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">floor</span><span class="p">(</span><span class="n">rand_gen</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="n">stop</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">+</span> <span class="n">start</span><span class="p">)</span>
 </code></pre>
 </div>
 </details>
@@ -2006,7 +2102,7 @@ current value to new value</p>
 </thead>
 <tbody>
 <tr>
-<td><code>Optional[Collection[~T]]</code></td>
+<td><code>Iterable[~T]</code></td>
 <td>
 <p>shuffled sequence, or <code>None</code> if empty</p>
 </td>
@@ -2016,7 +2112,7 @@ current value to new value</p>
 <details class="quote">
           <summary>Source code in <code>titan/utils.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">safe_shuffle</span><span class="p">(</span><span class="n">seq</span><span class="p">:</span> <span class="n">Collection</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">rand_gen</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Collection</span><span class="p">[</span><span class="n">T</span><span class="p">]]:</span>
+<pre><span></span><code><span class="k">def</span> <span class="nf">safe_shuffle</span><span class="p">(</span><span class="n">seq</span><span class="p">:</span> <span class="n">Collection</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">rand_gen</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
     <span class="sd">"""</span>
 <span class="sd">    Return None or a shuffled sequence</span>
 
@@ -2029,13 +2125,11 @@ current value to new value</p>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">seq</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
-            <span class="n">rand_gen</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">seq</span><span class="p">))</span>
-            <span class="k">return</span> <span class="n">seq</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">rand_gen</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">seq</span>
+            <span class="n">seq</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
+        <span class="n">rand_gen</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">seq</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="p">[]</span>
 </code></pre>
 </div>
 </details>
