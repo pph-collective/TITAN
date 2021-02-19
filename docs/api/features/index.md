@@ -1,6 +1,6 @@
 ## Agent Features
 
-Features from [`params.features`](https://marshall-lab.github.io/titan-params-app/#/params#features-1) that include an agent attribute (e.g. PrEP, incarceration) are implemented in standalone files that implement the interface from `features.BaseFeature`.  This allows for all of the logic related to a feature to be consolidated in one place and additionally makes incorporating a new feature into the model as simple as possible.
+Features from [`params.features`](https://pph-collective.github.io/titan-params-app/#/params#features-1) that include an agent attribute (e.g. PrEP, incarceration) are implemented in standalone files that implement the interface from `features.BaseFeature`.  This allows for all of the logic related to a feature to be consolidated in one place and additionally makes incorporating a new feature into the model as simple as possible.
 
 To add a new feature:
 

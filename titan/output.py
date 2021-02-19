@@ -216,14 +216,16 @@ def write_report(
         f.write("\n")
 
     for agg in get_aggregates(params):
-        f.write(f"{run_id}\t{runseed}\t{popseed}\t{t}\t")
+        # don't write row if no agents are in it
+        if get_agg_val(stats, agg, "agents") > 0:
+            f.write(f"{run_id}\t{runseed}\t{popseed}\t{t}\t")
 
-        f.write("\t".join(agg))  # write attribute values
+            f.write("\t".join(agg))  # write attribute values
 
-        for name in stat_names:
-            f.write(f"\t{(get_agg_val(stats, agg, name))}")
+            for name in stat_names:
+                f.write(f"\t{(get_agg_val(stats, agg, name))}")
 
-        f.write("\n")
+            f.write("\n")
 
     f.close()
 
@@ -252,6 +254,19 @@ def basicReport(
 # ========================== Other Print Functions =============================
 
 
+def effective_size(comp):
+    total_size = 0
+    for node in comp.nodes():
+        num_neighbors = len(comp[node])
+        if num_neighbors == 0:
+            continue
+
+        E = comp.subgraph(comp.neighbors(node))
+        total_size += num_neighbors - (2 * E.size()) / num_neighbors
+
+    return total_size
+
+
 def print_components(
     run_id: str,
     t: int,
@@ -278,45 +293,20 @@ def print_components(
     if f.tell() == 0:
         f.write(
             "run_id\trunseed\tpopseed\tt\tcomponent"
-            "\tComp_Status\tPCA\tcentrality\tdensity"
-            "\tEffectiveSize\tdeg_cent\n"
+            "\tdensity\tEffectiveSize\tdeg_cent\n"
         )
 
     for (id, comp) in enumerate(components):
-        pca = 0
+        num_nodes = comp.number_of_nodes()
 
-        component_status = "control"
-        trt_comp = trt_agent = False
-
-        for agent in comp.nodes():
-            # TO_REVIEW are these deivable from basic? add something to random trial's stats, maybe?
-            if agent.random_trial.suitable and agent.knowledge.active:
-                pca += 1
-
-            if agent.random_trial.treated:  # treatment component
-                trt_agent = True
-
-            if agent.random_trial.active:
-                trt_comp = True
-
-        comp_centrality = (
-            sum(nx.betweenness_centrality(comp).values()) / comp.number_of_nodes()
-        )
-        average_size = sum(nx.effective_size(comp).values()) / comp.number_of_nodes()
+        average_size = effective_size(comp) / num_nodes
         comp_density = nx.density(comp)
-
-        if trt_comp:
-            if trt_agent:
-                component_status = "treatment"
-            else:
-                component_status = "treatment_no_eligible"
 
         deg_cent = mean(list(nx.degree_centrality(comp).values()))
 
         f.write(
             f"{run_id}\t{runseed}\t{popseed}\t{t}\t{id}\t"
-            f"{component_status}\t{pca}"
-            f"\t{comp_centrality:.4f}\t{comp_density:.4f}"
+            f"\t{comp_density:.4f}"
             f"\t{average_size:.4f}\t{deg_cent}\n"
         )
 
@@ -348,7 +338,7 @@ def write_network_stats(graph, path: str, id, time):
     """
     file_path = os.path.join(path, f"{id}_NetworkStats_t{time}.txt")
 
-    components = sorted(utils.connected_components(graph), key=len, reverse=True)
+    components = utils.connected_components(graph)
 
     outfile = open(file_path, "w")
     outfile.write(nx.info(graph))

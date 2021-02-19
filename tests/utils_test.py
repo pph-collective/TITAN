@@ -38,7 +38,7 @@ def test_safe_random_choice():
 @pytest.mark.unit
 def test_safe_shuffle():
     rand_gen = random.Random(123)
-    assert utils.safe_shuffle([], rand_gen) is None
+    assert utils.safe_shuffle([], rand_gen) == []
 
     assert utils.safe_shuffle({1, 2, 3}, rand_gen) != [1, 2, 3]
     assert utils.safe_shuffle([1, 2, 3], rand_gen) != [1, 2, 3]

@@ -36,33 +36,6 @@ def select_partner(
     returns:
         new partner or `None`
     """
-
-    def assort(eligible_partners, assort_params):
-        partner_types = list(assort_params.partner_values.keys())
-        partner_weights = [assort_params.partner_values[p] for p in partner_types]
-        partner_type = utils.safe_random_choice(
-            partner_types, rand_gen, weights=partner_weights
-        )
-
-        if partner_type == "__other__":
-            # remove all the specified (not selected) values and remove those
-            # partners from the eligible set
-            for p in partner_types:
-                if p != "__other__":
-                    eligible_partners = {
-                        partner
-                        for partner in eligible_partners
-                        if str(getattr(partner, assort_params.attribute)) != p
-                    }
-        else:
-            eligible_partners = {
-                partner
-                for partner in eligible_partners
-                if str(getattr(partner, assort_params.attribute)) == partner_type
-            }
-
-        return eligible_partners
-
     eligible = copy(partnerable_agents)
     eligible -= agent.get_partners()
     eligible -= {agent}
@@ -80,13 +53,51 @@ def select_partner(
         return None
 
     if params.features.assort_mix:
-        for assort_def in params.assort_mix.values():
-            if getattr(agent, assort_def.attribute) == assort_def.agent_value:
-                eligible = assort(eligible, assort_def)
+        match_fns = get_match_fns(params.assort_mix.values(), agent, rand_gen)
+        # if no definitions match this agent, don't try to assort
+        if len(match_fns) > 0:
+            for partner in utils.safe_shuffle(eligible, rand_gen):
+                if is_assortable(partner, match_fns):
+                    return partner
+            return None
 
-    random_partner = utils.safe_random_choice(eligible, rand_gen)
+    return utils.safe_random_choice(eligible, rand_gen)
 
-    return random_partner
+
+# does an agent match the criteria of the randomly chosen assort values?
+def is_assortable(agent, match_fns):
+    for match_fn in match_fns:
+        if not match_fn(agent):
+            return False
+
+    return True
+
+
+# if this assort rule applies for this agent, get the match function for a potential partner
+def get_match_fns(assort_defs, agent, rand_gen):
+    match_fns = []
+    for assort_def in assort_defs:
+        if getattr(agent, assort_def.attribute) == assort_def.agent_value:
+            match_fns.append(get_match_fn(assort_def, rand_gen))
+
+    return match_fns
+
+
+# given an assort def, randomly select the type the partner must have given the
+# weights and return a function to determin if a potential partner matches it
+def get_match_fn(assort_def, rand_gen):
+    partner_types = list(assort_def.partner_values.keys())
+    partner_weights = [assort_def.partner_values[p] for p in partner_types]
+    partner_type = utils.safe_random_choice(
+        partner_types, rand_gen, weights=partner_weights
+    )
+
+    attr = assort_def.attribute
+    if partner_type == "__other__":
+        partner_types.remove("__other__")
+        return lambda ag: str(getattr(ag, attr)) not in partner_types
+    else:
+        return lambda ag: str(getattr(ag, attr)) == partner_type
 
 
 @utils.memo
@@ -158,7 +169,7 @@ def get_partnership_duration(
 
     args:
         params: model parameters
-        rand_gen: random number generator
+        rand_gen: np random number generator
         bond_type: type of bond for the relationship whose duration is being determined
 
     returns:
@@ -168,10 +179,10 @@ def get_partnership_duration(
     if params.partnership.duration[bond_type][race].type == "bins":
         dur_info = params.partnership.duration[bond_type][race].bins
         i = utils.get_independent_bin(rand_gen, dur_info)
-        duration = rand_gen.randint(dur_info[i].min, dur_info[i].max)
+        duration = utils.safe_random_int(dur_info[i].min, dur_info[i].max, rand_gen)
 
     else:
         dist = params.partnership.duration[bond_type][race].distribution
-        duration = utils.safe_dist(dist, rand_gen)
+        duration = int(utils.safe_dist(dist, rand_gen))
 
     return duration

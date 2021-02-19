@@ -38,9 +38,10 @@ class Population:
 
         # Init RNG for population creation to pop_seed
         self.pop_random = random.Random(self.pop_seed)
-        self.np_random = np.random.RandomState(self.pop_seed)
+        self.np_random = np.random.default_rng(self.pop_seed)
 
         self.enable_graph = params.model.network.enable
+        self.components: List = []
 
         if self.enable_graph:
             self.graph = nx.Graph()
@@ -113,9 +114,6 @@ class Population:
         # initialize relationships
         print("\tCreating Relationships")
         self.update_partner_assignments(0)
-
-        if self.enable_graph:
-            self.trim_graph()
 
     def create_agent(
         self,
@@ -374,7 +372,7 @@ class Population:
             self.update_partner_targets()
 
         if self.enable_graph:
-            network_components = [set(g.nodes()) for g in self.connected_components()]
+            network_components = [set(g.nodes()) for g in self.components]
         else:
             network_components = []
 
@@ -404,6 +402,9 @@ class Population:
                         < self.params.calibration.partnership.break_point
                     ):
                         eligible_agents.append(agent)
+
+        if self.enable_graph:
+            self.trim_graph()
 
         self.update_agent_components()
 
@@ -438,19 +439,20 @@ class Population:
         Update the component IDs associated with each agent based on the current state of the graph
         """
         if self.enable_graph:
-            components = self.connected_components()
-            for id, component in enumerate(self.connected_components()):
+            self.components = utils.connected_components(self.graph)
+            for id, component in enumerate(self.components):
                 for agent in component.nodes:
                     agent.component = str(id)
 
-            self.params.classes.components = list(map(str, range(len(components))))
+            self.params.classes.components = list(
+                map(str, range(-1, len(self.components)))
+            )
 
     def trim_graph(self):
         """
         Initialize network with graph-based algorithm for relationship
             adding/pruning
         """
-
         if self.params.model.network.type == "comp_size":
 
             def trim_component(component, max_size):
@@ -465,16 +467,14 @@ class Population:
                                 # network by keeping one bond
                             rel.progress(force=True)
                             self.remove_relationship(rel)
-                            component.remove_edge(rel.agent1, rel.agent2)
 
                 # recurse on new sub-components
-                sub_comps = list(
-                    component.subgraph(c).copy()
-                    for c in nx.connected_components(component)
-                )
+                sub_comps = utils.connected_components(component)
                 for sub_comp in sub_comps:
                     if sub_comp.number_of_nodes() > max_size:
                         trim_component(component, max_size)
+                    else:
+                        break
 
             components = self.connected_components()
             for comp in components:
@@ -495,7 +495,7 @@ class Population:
             list of connected components
         """
         if self.enable_graph:
-            return sorted(utils.connected_components(self.graph), key=len, reverse=True)
+            return self.components
         else:
             raise ValueError(
                 "Can't get connected_components, population doesn't have graph enabled."

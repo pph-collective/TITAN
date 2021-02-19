@@ -3,7 +3,13 @@
 
 from typing import Dict, Set, Optional, Iterator, Iterable
 
-from .utils import safe_divide, safe_dist, get_independent_bin
+from .utils import (
+    safe_divide,
+    safe_dist,
+    get_independent_bin,
+    safe_random_choice,
+    safe_random_int,
+)
 from .location import Location
 from . import features
 from . import exposures
@@ -289,20 +295,23 @@ class Relationship:
         Number of sex acts in the relationship during the time step.
 
         args:
-            rand_gen: random number generator (e.g. self.run_random in model)
+            rand_gen: np random number generator (e.g. self.run_random in model)
 
         returns:
             number of sex acts
         """
-        agent = rand_gen.choice([self.agent1, self.agent2])
+        agent = safe_random_choice([self.agent1, self.agent2], rand_gen)
         freq_params = agent.location.params.partnership.sex.frequency[self.bond_type]
 
         if freq_params.type == "bins":
             i = get_independent_bin(rand_gen, freq_params.bins)
-            return rand_gen.randint(freq_params.bins[i].min, freq_params.bins[i].max)
+            return safe_random_int(
+                freq_params.bins[i].min, freq_params.bins[i].max, rand_gen
+            )
 
         elif freq_params.type == "distribution":
             return round(safe_dist(freq_params.distribution, rand_gen))
+
         else:
             raise Exception("Sex acts must be defined as bin or distribution")
 
