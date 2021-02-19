@@ -4,6 +4,7 @@ from . import base_feature
 from .. import agent
 from .. import population
 from .. import model
+from .. import utils
 
 
 class Incar(base_feature.BaseFeature):
@@ -113,8 +114,8 @@ class Incar(base_feature.BaseFeature):
                 bin += 1
 
             self.time = model.time
-            self.release_time = model.time + model.run_random.randint(
-                incar_duration[bin].min, incar_duration[bin].max
+            self.release_time = model.time + utils.safe_random_int(
+                incar_duration[bin].min, incar_duration[bin].max, model.run_random
             )
             self.active = True
 

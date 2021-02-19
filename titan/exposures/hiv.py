@@ -74,8 +74,10 @@ class HIV(base_exposure.BaseExposure):
             self.active = True
 
             # if HIV, when did the agent convert? Random sample
-            self.time = pop.pop_random.randint(
-                time - self.agent.location.params.hiv.max_init_time, time
+            self.time = utils.safe_random_int(
+                time - self.agent.location.params.hiv.max_init_time,
+                time,
+                pop.pop_random,
             )
 
             if pop.pop_random.random() < agent_params.hiv.aids.init:
@@ -84,7 +86,7 @@ class HIV(base_exposure.BaseExposure):
             if pop.pop_random.random() < agent_params.hiv.dx.init:
                 self.dx = True
                 # agent was diagnosed at a random time between conversion and now
-                self.dx_time = pop.pop_random.randint(self.time, time)
+                self.dx_time = utils.safe_random_int(self.time, time, pop.pop_random)
 
             # add agent to class
             self.add_agent(self.agent)

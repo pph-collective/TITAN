@@ -1,4 +1,5 @@
 import pytest
+from copy import copy
 
 from titan.features import HighRisk
 
@@ -46,6 +47,10 @@ def test_update_high_risk(make_model, make_agent, make_relationship):
 
     assert a.high_risk.active is False
     assert a.high_risk.ever is True
+
+    for rel in copy(a.relationships):
+        rel.progress()
+
     assert a.get_num_partners() < 5
 
 

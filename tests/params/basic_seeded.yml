@@ -41,9 +41,9 @@ demographics:
                 init: 0.1
             haart:
               init: 0.1
-              prob:
+              enroll:
                 0:
-                  enroll: 0.1
+                  prob: 0.1
                   start: 0
                   stop: 99
               adherence:
@@ -68,9 +68,9 @@ demographics:
                     value_type: float
             haart:
               init: 0.1
-              prob:
+              enroll:
                 0:
-                  enroll: 0.1
+                  prob: 0.1
                   start: 0
                   stop: 99
               adherence:
@@ -317,7 +317,7 @@ model:
   seed:
     run: 1
     ppl: 2
-  num_pop: 100
+  num_pop: 1000
   network:
     enable: true
   num_reps: 1

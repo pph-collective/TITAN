@@ -172,13 +172,14 @@ def test_get_number_of_sex_acts(make_agent, make_relationship, params):
 
     rand_gen_low = FakeRandom(0.0)
     min_val_low = params.partnership.sex.frequency.Sex.bins[1].min
+    max_val_high = params.partnership.sex.frequency.Sex.bins[2].max
 
     rand_gen_high = FakeRandom(1.0)
 
     assert rel.get_number_of_sex_acts(rand_gen_low) == min_val_low
 
     # test fallthrough
-    assert rel.get_number_of_sex_acts(rand_gen_high) == 37
+    assert rel.get_number_of_sex_acts(rand_gen_high) == max_val_high
 
     # test with distribution; should be independent of random
     a.location.params.partnership.sex.frequency.Sex.type = "distribution"

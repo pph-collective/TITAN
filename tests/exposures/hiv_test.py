@@ -9,7 +9,7 @@ from titan.agent import Relationship
 @pytest.mark.unit
 def test_hiv_expose(make_model, make_agent):
     model = make_model()
-    model.run_random = FakeRandom(-0.1)  # always less than param
+    model.run_random = FakeRandom(0.0)  # always less than param
     a = make_agent()
     p = make_agent()
     a.partners["Sex"] = set()
@@ -42,7 +42,7 @@ def test_hiv_expose(make_model, make_agent):
 @pytest.mark.unit
 def test_hiv_init(make_population, make_agent):
     pop = make_population()
-    pop.pop_random = FakeRandom(-0.1)
+    pop.pop_random = FakeRandom(0.0)
     a = make_agent()
 
     time = pop.params.hiv.start_time - 1

@@ -1,6 +1,6 @@
 ## Agent Interactions
 
-Interactions from [`params.classes.bond_types.acts_allowed`](https://marshall-lab.github.io/titan-params-app/#/params#classes-1) are implemented in standalone files that implement the interface from `interactions.BaseInteraction`.  This allows for the logic related to an interaction type to be consolidated into one place and make incorporating a new interaction type as simple as possible.
+Interactions from [`params.classes.bond_types.acts_allowed`](https://pph-collective.github.io/titan-params-app/#/params#classes-1) are implemented in standalone files that implement the interface from `interactions.BaseInteraction`.  This allows for the logic related to an interaction type to be consolidated into one place and make incorporating a new interaction type as simple as possible.
 
 To add a new interaction:
 
