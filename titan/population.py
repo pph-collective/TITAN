@@ -108,6 +108,11 @@ class Population:
                         * loc.params.demographics[race].ppl
                     )
                 ):
+                    if self.all_agents.num_members() >= self.params.model.num_pop:
+                        print(
+                            "WARNING: not adding agent to population - too many agents"
+                        )
+                        break
                     agent = self.create_agent(loc, race, init_time)
                     self.add_agent(agent)
 
@@ -213,7 +218,6 @@ class Population:
         args:
             agent : The agent to be added
         """
-
         # Add to all agent set
         self.all_agents.add_agent(agent)
 

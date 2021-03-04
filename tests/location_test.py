@@ -30,6 +30,16 @@ def test_location_init(params):
 
 
 @pytest.mark.unit
+def test_location_init_error(params):
+    location = "world"
+    defn = params.classes.locations[location]
+    params.demographics.white.ppl = 1.1
+
+    with pytest.raises(AssertionError):
+        world = Location(location, defn, params)
+
+
+@pytest.mark.unit
 def test_location_edge_init(params):
     defn = params.classes.locations["world"]
     location1 = Location("world", defn, params)
