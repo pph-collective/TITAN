@@ -73,31 +73,69 @@ def is_assortable(agent, match_fns):
     return True
 
 
+# get the attribute as a string, recurse if nested
+def get_str_attr(obj, attr):
+    attrs = attr.split(".")  # returns list of all attrs
+    if len(attrs) == 1:
+        return str(getattr(obj, attrs[0]))
+    else:
+        return get_str_attr(getattr(obj, attrs.pop(0)), ".".join(attrs))
+
+
 # if this assort rule applies for this agent, get the match function for a potential partner
 def get_match_fns(assort_defs, agent, rand_gen):
     match_fns = []
     for assort_def in assort_defs:
-        if getattr(agent, assort_def.attribute) == assort_def.agent_value:
+        if assort_def.agent_value == "__any__":
+            match_fns.append(get_same_match_fn(assort_def, agent, rand_gen))
+        elif get_str_attr(agent, assort_def.attribute) == str(assort_def.agent_value):
             match_fns.append(get_match_fn(assort_def, rand_gen))
 
     return match_fns
+
+
+# pick a partner type randomly given the weights
+def get_partner_type(assort_def, rand_gen):
+    partner_types = list(assort_def.partner_values.keys())
+    partner_weights = [assort_def.partner_values[p] for p in partner_types]
+    return utils.safe_random_choice(partner_types, rand_gen, weights=partner_weights)
+
+
+# what partner attribute to use in assorting
+def get_partner_attr(assort_def):
+    if assort_def.partner_attribute == "__agent__":
+        return assort_def.attribute
+    else:
+        return assort_def.partner_attribute
 
 
 # given an assort def, randomly select the type the partner must have given the
 # weights and return a function to determin if a potential partner matches it
 def get_match_fn(assort_def, rand_gen):
     partner_types = list(assort_def.partner_values.keys())
-    partner_weights = [assort_def.partner_values[p] for p in partner_types]
-    partner_type = utils.safe_random_choice(
-        partner_types, rand_gen, weights=partner_weights
-    )
-
-    attr = assort_def.attribute
+    partner_type = get_partner_type(assort_def, rand_gen)
+    attr = get_partner_attr(assort_def)
     if partner_type == "__other__":
         partner_types.remove("__other__")
-        return lambda ag: str(getattr(ag, attr)) not in partner_types
+        return lambda ag: get_str_attr(ag, attr) not in partner_types
     else:
-        return lambda ag: str(getattr(ag, attr)) == partner_type
+        return lambda ag: get_str_attr(ag, attr) == partner_type
+
+
+# given an assort def where agent_value == '__any__', return the match function
+def get_same_match_fn(assort_def, agent, rand_gen):
+    partner_type = get_partner_type(assort_def, rand_gen)
+    attr = get_partner_attr(assort_def)
+
+    agent_attribute = get_str_attr(agent, attr)
+    if partner_type == "__same__":
+        return lambda ag: get_str_attr(ag, attr) == agent_attribute
+    elif partner_type == "__other__":
+        return lambda ag: get_str_attr(ag, attr) != agent_attribute
+    else:
+        raise ValueError(
+            "When using same-assorting, only valid partner_types are __same__ and __other__"
+        )
 
 
 @utils.memo
