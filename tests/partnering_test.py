@@ -170,6 +170,7 @@ def test_get_assort_partner_race(make_population, make_agent, params):
     test_rule = ObjMap(
         {
             "attribute": "race",
+            "partner_attribute": "__agent__",
             "agent_value": "white",
             "partner_values": {"white": 0.9, "__other__": 0.1},
         }
@@ -192,6 +193,7 @@ def test_get_assort_partner_race(make_population, make_agent, params):
     test_rule = ObjMap(
         {
             "attribute": "race",
+            "partner_attribute": "__agent__",
             "agent_value": "white",
             "partner_values": {"white": 0.9, "__other__": 10},
         }
@@ -242,6 +244,7 @@ def test_get_assort_partner_high_risk(make_population, make_agent, params):
     test_rule = ObjMap(
         {
             "attribute": "high_risk",
+            "partner_attribute": "__agent__",
             "agent_value": True,
             "partner_values": {"True": 0.9, "__other__": 0.1},
         }
@@ -264,6 +267,7 @@ def test_get_assort_partner_high_risk(make_population, make_agent, params):
     test_rule = ObjMap(
         {
             "attribute": "high_risk",
+            "partner_attribute": "__agent__",
             "agent_value": True,
             "partner_values": {"True": 0.9, "__other__": 10},
         }
@@ -318,6 +322,7 @@ def test_get_assort_partner_drug_type(make_population, make_agent, params):
     test_rule = ObjMap(
         {
             "attribute": "drug_type",
+            "partner_attribute": "__agent__",
             "agent_value": "Inj",
             "partner_values": {"Inj": 0.8, "NonInj": 0.1, "__other__": 0.1},
         }
@@ -340,6 +345,7 @@ def test_get_assort_partner_drug_type(make_population, make_agent, params):
     test_rule = ObjMap(
         {
             "attribute": "drug_type",
+            "partner_attribute": "__agent__",
             "agent_value": "Inj",
             "partner_values": {"Inj": 0.8, "NonInj": 0.1, "__other__": 10},
         }
@@ -356,6 +362,239 @@ def test_get_assort_partner_drug_type(make_population, make_agent, params):
         "Sex",
     )
     assert partner == p2
+
+
+@pytest.mark.unit
+def test_get_assort_same_race(make_population, make_agent, params):
+    pop = make_population()
+    a = make_agent(SO="MSM", race="white")
+    p1 = make_agent(SO="MSM", race="white")
+    p2 = make_agent(SO="MSM", race="black")
+    for bond in params.classes.bond_types:
+        a.target_partners[bond] = 1
+        p1.target_partners[bond] = 1
+        p2.target_partners[bond] = 1
+        a.partners[bond] = set()
+        p1.partners[bond] = set()
+        p2.partners[bond] = set()
+    pop.add_agent(a)
+    pop.add_agent(p1)
+    pop.add_agent(p2)
+
+    params.features.assort_mix = True
+
+    # assort with white
+    test_rule = ObjMap(
+        {
+            "attribute": "race",
+            "partner_attribute": "__agent__",
+            "agent_value": "__any__",
+            "partner_values": {"__same__": 0.9, "__other__": 0.1},
+        }
+    )
+    params.assort_mix["test_rule"] = test_rule
+
+    partner = select_partner(
+        a,
+        pop.all_agents.members,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.5),
+        "Sex",
+    )
+
+    assert partner == p1
+
+    # get __other__
+    params.assort_mix["test_rule"]["partner_values"]["__other__"] = 10
+
+    partner = select_partner(
+        a,
+        pop.all_agents.members,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.5),
+        "Sex",
+    )
+
+    assert partner == p2
+
+    # throw error on key that's not __same__ or __other__
+    params.assort_mix["test_rule"]["partner_values"]["a_key"] = 100
+
+    with pytest.raises(ValueError):
+        select_partner(
+            a,
+            pop.all_agents.members,
+            pop.sex_partners,
+            pop.pwid_agents,
+            params,
+            FakeRandom(0.5),
+            "Sex",
+        )
+
+
+@pytest.mark.unit
+def test_get_assort_hiv(make_population, make_agent, params):
+    pop = make_population()
+    a = make_agent(SO="MSM", race="white")
+    p1 = make_agent(SO="MSM", race="white")
+    p2 = make_agent(SO="MSM", race="black")
+    a.hiv.active = True
+    p1.hiv.active = True
+    for bond in params.classes.bond_types:
+        a.target_partners[bond] = 1
+        p1.target_partners[bond] = 1
+        p2.target_partners[bond] = 1
+        a.partners[bond] = set()
+        p1.partners[bond] = set()
+        p2.partners[bond] = set()
+    pop.add_agent(a)
+    pop.add_agent(p1)
+    pop.add_agent(p2)
+
+    params.features.assort_mix = True
+
+    # assort with white
+    test_rule = ObjMap(
+        {
+            "attribute": "hiv.active",
+            "partner_attribute": "__agent__",
+            "agent_value": True,
+            "partner_values": {"True": 0.9, "False": 0.1},
+        }
+    )
+    params.assort_mix["test_rule"] = test_rule
+
+    partner = select_partner(
+        a,
+        pop.all_agents.members,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.5),
+        "Sex",
+    )
+
+    assert partner == p1
+
+    # get __other__
+    test_rule = ObjMap(
+        {
+            "attribute": "hiv.active",
+            "partner_attribute": "__agent__",
+            "agent_value": True,
+            "partner_values": {"True": 0.9, "False": 10},
+        }
+    )
+    params.assort_mix["test_rule"] = test_rule
+
+    partner = select_partner(
+        a,
+        pop.all_agents.members,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.5),
+        "Sex",
+    )
+
+    assert partner == p2
+
+
+@pytest.mark.unit
+def test_get_assort_hiv_prep(make_population, make_agent, params):
+    pop = make_population()
+    a = make_agent(SO="MSM", race="white")
+    p1 = make_agent(SO="MSM", race="white")
+    p2 = make_agent(SO="MSM", race="black")
+    a.hiv.active = True
+    p1.prep.active = True
+    for bond in params.classes.bond_types:
+        a.target_partners[bond] = 1
+        p1.target_partners[bond] = 1
+        p2.target_partners[bond] = 1
+        a.partners[bond] = set()
+        p1.partners[bond] = set()
+        p2.partners[bond] = set()
+    pop.add_agent(a)
+    pop.add_agent(p1)
+    pop.add_agent(p2)
+
+    params.features.assort_mix = True
+
+    # assort with white
+    test_rule = ObjMap(
+        {
+            "attribute": "hiv.active",
+            "partner_attribute": "prep.active",
+            "agent_value": True,
+            "partner_values": {"True": 0.9, "False": 0.1},
+        }
+    )
+    params.assort_mix["test_rule"] = test_rule
+
+    partner = select_partner(
+        a,
+        pop.all_agents.members,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.5),
+        "Sex",
+    )
+
+    assert partner == p1
+
+    # get __other__
+    test_rule = ObjMap(
+        {
+            "attribute": "hiv.active",
+            "partner_attribute": "prep.active",
+            "agent_value": True,
+            "partner_values": {"True": 0.9, "False": 10},
+        }
+    )
+    params.assort_mix["test_rule"] = test_rule
+
+    partner = select_partner(
+        a,
+        pop.all_agents.members,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.5),
+        "Sex",
+    )
+
+    assert partner == p2
+
+
+@pytest.mark.unit
+def test_get_str_attr(make_agent):
+    a = make_agent(race="white", age=42)
+    assert get_str_attr(a, "race") == "white"
+    assert get_str_attr(a, "age") == "42"
+    assert get_str_attr(a, "location.name") == "world"
+    assert get_str_attr(a, "hiv.active") == "False"
+
+
+@pytest.mark.unit
+def test_get_partner_attr():
+    test_rule = ObjMap(
+        {
+            "attribute": "drug_type",
+            "partner_attribute": "__agent__",
+            "agent_value": "Inj",
+            "partner_values": {"Inj": 0.8, "NonInj": 0.1, "__other__": 10},
+        }
+    )
+    assert get_partner_attr(test_rule) == "drug_type"
+
+    test_rule.partner_attribute = "race"
+    assert get_partner_attr(test_rule) == "race"
 
 
 @pytest.mark.unit
