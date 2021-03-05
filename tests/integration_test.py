@@ -139,6 +139,35 @@ def test_model_settings_run(tmpdir):
             assert True
 
 
+@pytest.mark.integration_deterministic
+def test_agent_pop_stable_setting(tmpdir):
+    """
+    Agent population count stable across time
+    """
+    param_file = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "params", "integration_base.yml"
+    )
+
+    for item in os.listdir(
+        os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "..", "titan", "settings"
+        )
+    ):
+        if "__" not in item and item != "base":
+            path = tmpdir.mkdir(item)
+            os.mkdir(os.path.join(path, "network"))
+            print(f"-----------Starting run for {item}-----------")
+            params = create_params(item, param_file, tmpdir)
+            model = TITAN(params)
+
+            orig_pop = model.pop.all_agents.num_members()
+            assert orig_pop == params.model.num_pop
+
+            model.run(path)
+
+            assert model.pop.all_agents.num_members() == orig_pop
+
+
 @pytest.mark.integration_stochastic
 def test_target_partners(make_model_integration, tmpdir):
     """
@@ -355,53 +384,42 @@ def test_static_network(make_model_integration, tmpdir):
 
 
 @pytest.mark.integration_deterministic
-def test_incar(make_model_integration, tmpdir):
-    model = make_model_integration()
-
+def test_incar(params_integration, tmpdir):
     # turn on incar - initi is set to 0, so for these purposes, just run time
-    model.params.features.incar = True
+    params_integration.features.incar = True
+    model = TITAN(params_integration)
 
     tmpdir.mkdir("network")
 
     # make sure we're starting from a clean slate
-    init_incar = sum([1 for agent in model.pop.all_agents if agent.incar])
+    init_incar = sum([1 for agent in model.pop.all_agents if agent.incar.active])
     assert init_incar == 0
 
     model.time = 1
     model.step(tmpdir)
     model.reset_trackers()
 
-    time_1_incars = [agent for agent in model.pop.all_agents if agent.incar]
-    time_1_incar_hiv_neg = [agent for agent in time_1_incars if not agent.hiv]
-    should_release_t2 = [agent for agent in time_1_incars if agent.incar_time == 1]
+    time_1_incars = [agent for agent in model.pop.all_agents if agent.incar.active]
+    time_1_incar_hiv_neg = [agent for agent in time_1_incars if not agent.hiv.active]
+    should_release_t2 = [
+        agent for agent in time_1_incars if agent.incar.release_time == 2
+    ]
 
     assert len(time_1_incars) > 0
     assert len(time_1_incar_hiv_neg) > 0
     assert len(should_release_t2) > 0
 
     for agent in time_1_incars:
-        assert agent.incar_time > 0
+        assert agent.incar.time == 1
+        assert agent.incar.release_time > 1
 
     model.time += 1
     model.step(tmpdir)
+    model.reset_trackers()
 
     for agent in should_release_t2:
-        assert agent in model.new_incar_release
-        assert not agent.incar
-        assert agent.incar_time == 0
-
-    model.reset_trackers()
+        assert not agent.incar.active
 
     # agents should not hiv convert during incar
     for agent in time_1_incar_hiv_neg:
-        assert not agent.hiv
-
-
-@pytest.mark.integration_deterministic
-def test_incar(make_model_integration, tmpdir):
-    model = make_model_integration()
-
-    # turn on partner tracing - just run time affects
-    model.params.features.partner_tracing = True
-
-    tmpdir.mkdir("network")
+        assert not agent.hiv.active

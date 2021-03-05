@@ -52,7 +52,6 @@ def check_params(params: ObjMap):
     Consistency checks for param populations
     """
     race_pop = 0
-
     for race in params.classes.races:
         r_dems = params.demographics[race]
         race_pop += r_dems.ppl
@@ -75,6 +74,12 @@ def check_params(params: ObjMap):
         ), f"ppl of {race}'s sex_types must add to 1. Currently adding to {sex_type_pop}"
 
     assert math.isclose(race_pop, 1, abs_tol=0.001), "ppl of races must add to 1"
+
+    loc_pop = 0
+    for location in params.classes.locations.values():
+        loc_pop += location.ppl
+
+    assert math.isclose(loc_pop, 1, abs_tol=0.001), "ppl of locations must add to 1"
 
     for param, assort in params.assort_mix.items():
         assort_value = 0

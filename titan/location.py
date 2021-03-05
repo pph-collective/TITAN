@@ -1,5 +1,6 @@
 from typing import Optional, Set, Dict, List, Any
 from copy import deepcopy
+import math
 
 from .parse_params import ObjMap
 from . import utils
@@ -37,6 +38,9 @@ class Location:
 
     def __eq__(self, other):
         return self.name == other.name
+
+    def __ne__(self, other):
+        return self.name != other.name
 
     def __hash__(self):
         return hash(self.name)
@@ -82,10 +86,12 @@ class Location:
             d["values"].append(v)
             d["weights"].append(w)
 
+        total_ppl = 0
         for race, race_param in self.params.demographics.items():
             self.role_weights[race] = {}
             self.drug_weights[race] = {}
             init_weight_dict(self.pop_weights, race)
+            total_ppl += race_param.ppl
             for st, st_param in race_param.sex_type.items():
                 add_weight(self.pop_weights[race], st, st_param.ppl)
                 init_weight_dict(self.role_weights[race], st)
@@ -94,6 +100,21 @@ class Location:
                     add_weight(self.role_weights[race][st], role, prob)
                 for dt, dt_param in st_param.drug_type.items():
                     add_weight(self.drug_weights[race][st], dt, dt_param.ppl)
+
+                assert math.isclose(
+                    sum(self.role_weights[race][st]["weights"]), 1, abs_tol=0.001
+                ), f"{self.name}'s' {race} {st} role weights must add to 1"
+                assert math.isclose(
+                    sum(self.drug_weights[race][st]["weights"]), 1, abs_tol=0.001
+                ), f"ppl of {self.name}'s' {race} {st} drug_types must add to 1"
+
+            assert math.isclose(
+                sum(self.pop_weights[race]["weights"]), 1, abs_tol=0.001
+            ), f"ppl of {self.name}'s' {race} sex_types must add to 1"
+
+        assert math.isclose(
+            total_ppl, 1, abs_tol=0.001
+        ), f"ppl of {self.name}'s' races must add to 1"
 
 
 # LocationEdges are very much a WIP and not actually used anywhere yet

@@ -78,7 +78,6 @@ class Incar(base_feature.BaseFeature):
 
         # agent is incarcerated
         if self.active:
-
             # Release agent
             if self.release_time == model.time:
                 self.active = False
@@ -107,11 +106,7 @@ class Incar(base_feature.BaseFeature):
                 .incar.duration.prob
             )
 
-            bin = current_p_value = 1
-            p = model.run_random.random()
-            while p >= current_p_value:
-                current_p_value += incar_duration[bin].prob
-                bin += 1
+            bin = utils.get_cumulative_bin(model.run_random, incar_duration)
 
             self.time = model.time
             self.release_time = model.time + utils.safe_random_int(
