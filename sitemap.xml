@@ -1,127 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>http://pph-collective.github.io/TITAN/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/getting_started/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/run_local/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/run_oscar/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/contributing/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/agent/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/agent_set/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/exposures/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/exposures/hiv/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/exposures/knowledge/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/features/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/features/haart/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/features/high_risk/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/features/incar/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/features/external_exposure/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/features/partner_tracing/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/features/prep/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/features/random_trial/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/features/syringe_services/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/features/vaccine/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/interactions/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/interactions/injection/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/interactions/pca/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/interactions/sex/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/location/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/model/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/partnering/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/population/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/relationship/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/reporting/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://pph-collective.github.io/TITAN/api/utilities/</loc>
-     <lastmod>2021-02-19</lastmod>
+     <lastmod>2021-03-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>

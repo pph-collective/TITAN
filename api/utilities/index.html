@@ -13,8 +13,8 @@
       
         <link rel="canonical" href="http://pph-collective.github.io/TITAN/api/utilities/">
       
-      <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.8">
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.0.6">
     
     
       
@@ -22,10 +22,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.cb6bc1d0.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2c0c5eaf.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.39b8e14a.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.7fa14f5b.min.css">
         
       
     
@@ -35,10 +35,12 @@
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
       
     
     
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
     
       
@@ -71,27 +73,25 @@
       
     </div>
     
-      
-
-<header class="md-header" data-md-component="header">
-  <nav class="md-header-nav md-grid" aria-label="Header">
-    <a href="http://pph-collective.github.io/TITAN" title="TITAN" class="md-header-nav__button md-logo" aria-label="TITAN">
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="TITAN" class="md-header__button md-logo" aria-label="TITAN" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
 
     </a>
-    <label class="md-header-nav__button md-icon" for="__drawer">
+    <label class="md-header__button md-icon" for="__drawer">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
     </label>
-    <div class="md-header-nav__title" data-md-component="header-title">
-      <div class="md-header-nav__ellipsis">
-        <div class="md-header-nav__topic">
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
           <span class="md-ellipsis">
             TITAN
           </span>
         </div>
-        <div class="md-header-nav__topic">
+        <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
               Utility Functions
@@ -100,9 +100,12 @@
         </div>
       </div>
     </div>
+    <div class="md-header__options">
+      
+    </div>
     
-      <label class="md-header-nav__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
       </label>
       
 <div class="md-search" data-md-component="search" role="dialog">
@@ -111,10 +114,10 @@
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
       <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
       </label>
-      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
       </button>
     </form>
@@ -200,22 +203,20 @@
           
             
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
-
-
 
   
 
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="http://pph-collective.github.io/TITAN" title="TITAN" class="md-nav__button md-logo" aria-label="TITAN">
+    <a href="../.." title="TITAN" class="md-nav__button md-logo" aria-label="TITAN" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
 
     </a>
     TITAN
@@ -249,19 +250,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
       
-      <label class="md-nav__link" for="nav-2">
+      <label class="md-nav__link" for="__nav_2">
         Getting Started
         <span class="md-nav__icon md-icon"></span>
       </label>
       <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
-        <label class="md-nav__title" for="nav-2">
+        <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
           Getting Started
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
-          
           
             
   
@@ -330,19 +330,18 @@
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
       
-      <label class="md-nav__link" for="nav-3">
+      <label class="md-nav__link" for="__nav_3">
         API Reference
         <span class="md-nav__icon md-icon"></span>
       </label>
       <nav class="md-nav" aria-label="API Reference" data-md-level="1">
-        <label class="md-nav__title" for="nav-3">
+        <label class="md-nav__title" for="__nav_3">
           <span class="md-nav__icon md-icon"></span>
           API Reference
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
-          
           
             
   
@@ -376,19 +375,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-3" type="checkbox" id="nav-3-3" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3" type="checkbox" id="__nav_3_3" >
       
-      <label class="md-nav__link" for="nav-3-3">
+      <label class="md-nav__link" for="__nav_3_3">
         Agent Exposures
         <span class="md-nav__icon md-icon"></span>
       </label>
       <nav class="md-nav" aria-label="Agent Exposures" data-md-level="2">
-        <label class="md-nav__title" for="nav-3-3">
+        <label class="md-nav__title" for="__nav_3_3">
           <span class="md-nav__icon md-icon"></span>
           Agent Exposures
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
-          
           
             
   
@@ -440,19 +438,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-4" type="checkbox" id="nav-3-4" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_4" type="checkbox" id="__nav_3_4" >
       
-      <label class="md-nav__link" for="nav-3-4">
+      <label class="md-nav__link" for="__nav_3_4">
         Agent Features
         <span class="md-nav__icon md-icon"></span>
       </label>
       <nav class="md-nav" aria-label="Agent Features" data-md-level="2">
-        <label class="md-nav__title" for="nav-3-4">
+        <label class="md-nav__title" for="__nav_3_4">
           <span class="md-nav__icon md-icon"></span>
           Agent Features
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
-          
           
             
   
@@ -588,19 +585,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-5" type="checkbox" id="nav-3-5" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_5" type="checkbox" id="__nav_3_5" >
       
-      <label class="md-nav__link" for="nav-3-5">
+      <label class="md-nav__link" for="__nav_3_5">
         Agent Interactions
         <span class="md-nav__icon md-icon"></span>
       </label>
       <nav class="md-nav" aria-label="Agent Interactions" data-md-level="2">
-        <label class="md-nav__title" for="nav-3-5">
+        <label class="md-nav__title" for="__nav_3_5">
           <span class="md-nav__icon md-icon"></span>
           Agent Interactions
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
-          
           
             
   
@@ -757,7 +753,7 @@
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-scrollfix>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
   <a href="#general-utilities" class="md-nav__link">
@@ -1007,7 +1003,7 @@
             
             
               
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -1019,7 +1015,7 @@
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-scrollfix>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
   <a href="#general-utilities" class="md-nav__link">
@@ -1255,7 +1251,7 @@
               </div>
             
           
-          <div class="md-content">
+          <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
               
                 
@@ -1263,233 +1259,261 @@
                   <h1>Utility Functions</h1>
                 
                 <h2 id="general-utilities">General Utilities</h2>
-<div class="doc doc-object doc-module">
-<div class="doc doc-contents first">
-<div class="doc doc-children">
-<div class="doc doc-object doc-function">
+
+
+  <div class="doc doc-object doc-module">
+
+
+    <div class="doc doc-contents first">
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.utils.binom_0">
+<code class="codehilite language-python"><span class="n">binom_0</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">binom_0</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>Mirrors scipy binom.pmf as used in code</p>
-<details class="quote">
+    <div class="doc doc-contents ">
+
+      <p>Mirrors scipy binom.pmf as used in code</p>
+
+        <details class="quote">
           <summary>Source code in <code>titan/utils.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">binom_0</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-    <span class="sd">"""</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">binom_0</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Mirrors scipy binom.pmf as used in code</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">**</span> <span class="n">n</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-<div class="doc doc-object doc-function">
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.utils.connected_components">
+<code class="codehilite language-python"><span class="n">connected_components</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">connected_components</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>Get connected components in graph</p>
+    <div class="doc doc-contents ">
+
+      <p>Get connected components in graph</p>
+
 <p><strong>Parameters:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>graph</code></td>
-<td><code></code></td>
-<td>
-<p>the model's underlying graph</p>
-</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>graph</code></td>
+        <td><code></code></td>
+        <td><p>the model's underlying graph</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
 </table>
 <p><strong>Returns:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code></code></td>
-<td>
-<p>list of connected components</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code></code></td>
+      <td><p>list of connected components</p></td>
+    </tr>
+  </tbody>
 </table>
-<details class="quote">
+        <details class="quote">
           <summary>Source code in <code>titan/utils.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">connected_components</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
-    <span class="sd">"""</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">connected_components</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get connected components in graph</span>
 
 <span class="sd">    args:</span>
-<span class="sd">        graph: the model's underlying graph</span>
+<span class="sd">        graph: the model&#39;s underlying graph</span>
 
 <span class="sd">    returns:</span>
 <span class="sd">        list of connected components</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span>
         <span class="nb">list</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">subgraph</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">nx</span><span class="o">.</span><span class="n">connected_components</span><span class="p">(</span><span class="n">graph</span><span class="p">)),</span>
         <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">,</span>
         <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-<div class="doc doc-object doc-function">
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.utils.get_check_rand_int">
+<code class="codehilite language-python"><span class="n">get_check_rand_int</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">get_check_rand_int</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>Check the value passed of a seed, make sure it's an int, if 0, get a random seed</p>
+    <div class="doc doc-contents ">
+
+      <p>Check the value passed of a seed, make sure it's an int, if 0, get a random seed</p>
+
 <p><strong>Parameters:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>seed</code></td>
-<td><code>int</code></td>
-<td>
-<p>integer to check or replace with a seed</p>
-</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>seed</code></td>
+        <td><code>int</code></td>
+        <td><p>integer to check or replace with a seed</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
 </table>
 <p><strong>Returns:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>int</code></td>
-<td>
-<p>validated seed</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>int</code></td>
+      <td><p>validated seed</p></td>
+    </tr>
+  </tbody>
 </table>
-<details class="quote">
+        <details class="quote">
           <summary>Source code in <code>titan/utils.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">get_check_rand_int</span><span class="p">(</span><span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">"""</span>
-<span class="sd">    Check the value passed of a seed, make sure it's an int, if 0, get a random seed</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">get_check_rand_int</span><span class="p">(</span><span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check the value passed of a seed, make sure it&#39;s an int, if 0, get a random seed</span>
 
 <span class="sd">    args:</span>
 <span class="sd">        seed: integer to check or replace with a seed</span>
 
 <span class="sd">    returns:</span>
 <span class="sd">        validated seed</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span> <span class="ow">or</span> <span class="n">seed</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Random seed must be positive integer"</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Random seed must be positive integer&quot;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">seed</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">seed</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-<div class="doc doc-object doc-function">
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.utils.get_cumulative_bin">
+<code class="codehilite language-python"><span class="n">get_cumulative_bin</span><span class="p">(</span><span class="n">rand_gen</span><span class="p">,</span> <span class="n">bin_def</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">get_cumulative_bin</span><span class="p">(</span><span class="n">rand_gen</span><span class="p">,</span> <span class="n">bin_def</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>Get the bin key given cumulative bins.  A probability is selected at random, then each bin's <code>prob</code> is compared to it, the first bin that has a cumulative <code>prob</code> (e.g. for bin 2, the prob of bin 1 plus the prob of bin 2) less than or equal to that probability is returned.</p>
+    <div class="doc doc-contents ">
+
+      <p>Get the bin key given cumulative bins.  A probability is selected at random, then each bin's <code>prob</code> is compared to it, the first bin that has a cumulative <code>prob</code> (e.g. for bin 2, the prob of bin 1 plus the prob of bin 2) less than or equal to that probability is returned.</p>
+
 <p><strong>Parameters:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>rand_gen</code></td>
-<td><code></code></td>
-<td>
-<p>random number generator</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>bin_def</code></td>
-<td><code>ObjMap</code></td>
-<td>
-<p>ObjMap containing the bins</p>
-</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>rand_gen</code></td>
+        <td><code></code></td>
+        <td><p>random number generator</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>bin_def</code></td>
+        <td><code>ObjMap</code></td>
+        <td><p>ObjMap containing the bins</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
 </table>
 <p><strong>Returns:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>int</code></td>
-<td>
-<p>integer key of the matched bin (or last bin if no matches)</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>int</code></td>
+      <td><p>integer key of the matched bin (or last bin if no matches)</p></td>
+    </tr>
+  </tbody>
 </table>
-<details class="quote">
+        <details class="quote">
           <summary>Source code in <code>titan/utils.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">get_cumulative_bin</span><span class="p">(</span><span class="n">rand_gen</span><span class="p">,</span> <span class="n">bin_def</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">"""</span>
-<span class="sd">    Get the bin key given cumulative bins.  A probability is selected at random, then each bin's `prob` is compared to it, the first bin that has a cumulative `prob` (e.g. for bin 2, the prob of bin 1 plus the prob of bin 2) less than or equal to that probability is returned.</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">get_cumulative_bin</span><span class="p">(</span><span class="n">rand_gen</span><span class="p">,</span> <span class="n">bin_def</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the bin key given cumulative bins.  A probability is selected at random, then each bin&#39;s `prob` is compared to it, the first bin that has a cumulative `prob` (e.g. for bin 2, the prob of bin 1 plus the prob of bin 2) less than or equal to that probability is returned.</span>
 
 <span class="sd">    args:</span>
 <span class="sd">        rand_gen: random number generator</span>
@@ -1497,7 +1521,7 @@
 
 <span class="sd">    returns:</span>
 <span class="sd">        integer key of the matched bin (or last bin if no matches)</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">rand_val</span> <span class="o">=</span> <span class="n">rand_gen</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
     <span class="n">p</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="k">for</span> <span class="nb">bin</span><span class="p">,</span> <span class="n">fields</span> <span class="ow">in</span> <span class="n">bin_def</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -1506,72 +1530,74 @@
             <span class="k">break</span>
 
     <span class="k">return</span> <span class="nb">bin</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-<div class="doc doc-object doc-function">
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.utils.get_independent_bin">
+<code class="codehilite language-python"><span class="n">get_independent_bin</span><span class="p">(</span><span class="n">rand_gen</span><span class="p">,</span> <span class="n">bin_def</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">get_independent_bin</span><span class="p">(</span><span class="n">rand_gen</span><span class="p">,</span> <span class="n">bin_def</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>Get the bin key given independent bins.  A probability is selected at random, then each bin's <code>prob</code> is compared to it, the first bin that has a <code>prob</code> less than or equal to that probability is returned.</p>
+    <div class="doc doc-contents ">
+
+      <p>Get the bin key given independent bins.  A probability is selected at random, then each bin's <code>prob</code> is compared to it, the first bin that has a <code>prob</code> less than or equal to that probability is returned.</p>
+
 <p><strong>Parameters:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>rand_gen</code></td>
-<td><code></code></td>
-<td>
-<p>A random number generator</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>bin_def</code></td>
-<td><code>ObjMap</code></td>
-<td>
-<p>The ObjMap containing the bins</p>
-</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>rand_gen</code></td>
+        <td><code></code></td>
+        <td><p>A random number generator</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>bin_def</code></td>
+        <td><code>ObjMap</code></td>
+        <td><p>The ObjMap containing the bins</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
 </table>
 <p><strong>Returns:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>int</code></td>
-<td>
-<p>The integer key of the matched bin (or last bin if no matches)</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>int</code></td>
+      <td><p>The integer key of the matched bin (or last bin if no matches)</p></td>
+    </tr>
+  </tbody>
 </table>
-<details class="quote">
+        <details class="quote">
           <summary>Source code in <code>titan/utils.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">get_independent_bin</span><span class="p">(</span><span class="n">rand_gen</span><span class="p">,</span> <span class="n">bin_def</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">"""</span>
-<span class="sd">    Get the bin key given independent bins.  A probability is selected at random, then each bin's `prob` is compared to it, the first bin that has a `prob` less than or equal to that probability is returned.</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">get_independent_bin</span><span class="p">(</span><span class="n">rand_gen</span><span class="p">,</span> <span class="n">bin_def</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the bin key given independent bins.  A probability is selected at random, then each bin&#39;s `prob` is compared to it, the first bin that has a `prob` less than or equal to that probability is returned.</span>
 
 <span class="sd">    args:</span>
 <span class="sd">        rand_gen: A random number generator</span>
@@ -1579,36 +1605,43 @@
 
 <span class="sd">    returns:</span>
 <span class="sd">        The integer key of the matched bin (or last bin if no matches)</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">rand_val</span> <span class="o">=</span> <span class="n">rand_gen</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
     <span class="k">for</span> <span class="nb">bin</span><span class="p">,</span> <span class="n">fields</span> <span class="ow">in</span> <span class="n">bin_def</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">rand_val</span> <span class="o">&lt;=</span> <span class="n">fields</span><span class="o">.</span><span class="n">prob</span><span class="p">:</span>
             <span class="k">break</span>
 
     <span class="k">return</span> <span class="nb">bin</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-<div class="doc doc-object doc-function">
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.utils.get_param_from_path">
+<code class="codehilite language-python"><span class="n">get_param_from_path</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">param_path</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">get_param_from_path</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">param_path</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>Given a params object and a delimited path, get the leaf of the params tree
+    <div class="doc doc-contents ">
+
+      <p>Given a params object and a delimited path, get the leaf of the params tree
 and the last key to access it</p>
-<details class="quote">
+
+        <details class="quote">
           <summary>Source code in <code>titan/utils.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">get_param_from_path</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span> <span class="n">param_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="sd">"""</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">get_param_from_path</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span> <span class="n">param_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given a params object and a delimited path, get the leaf of the params tree</span>
 <span class="sd">    and the last key to access it</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">param_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">delimiter</span><span class="p">)</span>
     <span class="n">path_params</span> <span class="o">=</span> <span class="n">params</span>
     <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
@@ -1618,29 +1651,36 @@ and the last key to access it</p>
             <span class="n">path_params</span> <span class="o">=</span> <span class="n">path_params</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">)]</span>
 
     <span class="k">return</span> <span class="n">path_params</span><span class="p">,</span> <span class="n">path</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-<div class="doc doc-object doc-function">
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.utils.memo">
+<code class="codehilite language-python"><span class="n">memo</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">memo</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>Decorator to memoize a function
+    <div class="doc doc-contents ">
+
+      <p>Decorator to memoize a function
 (caches results given args, only use if deterministic)</p>
-<details class="quote">
+
+        <details class="quote">
           <summary>Source code in <code>titan/utils.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">memo</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
-    <span class="sd">"""</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">memo</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator to memoize a function</span>
 <span class="sd">    (caches results given args, only use if deterministic)</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">cache</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
@@ -1650,29 +1690,36 @@ and the last key to access it</p>
         <span class="k">return</span> <span class="n">cache</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">wrap</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-<div class="doc doc-object doc-function">
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.utils.override_param">
+<code class="codehilite language-python"><span class="n">override_param</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">param_path</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">override_param</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">param_path</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">'|'</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>Given the params and a parameter path in the format prep|cap, change the
+    <div class="doc doc-contents ">
+
+      <p>Given the params and a parameter path in the format prep|cap, change the
 current value to new value</p>
-<details class="quote">
+
+        <details class="quote">
           <summary>Source code in <code>titan/utils.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">override_param</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span> <span class="n">param_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">"|"</span><span class="p">):</span>
-    <span class="sd">"""</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">override_param</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span> <span class="n">param_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;|&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given the params and a parameter path in the format prep|cap, change the</span>
 <span class="sd">    current value to new value</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">override_item</span><span class="p">,</span> <span class="n">last_key</span> <span class="o">=</span> <span class="n">get_param_from_path</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">param_path</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">old_val</span> <span class="o">=</span> <span class="n">override_item</span><span class="p">[</span><span class="n">last_key</span><span class="p">]</span>
@@ -1680,95 +1727,104 @@ current value to new value</p>
         <span class="n">last_key</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">last_key</span><span class="p">)</span>
         <span class="n">old_val</span> <span class="o">=</span> <span class="n">override_item</span><span class="p">[</span><span class="n">last_key</span><span class="p">]</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"overriding - </span><span class="si">{</span><span class="n">param_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">old_val</span><span class="si">}</span><span class="s2"> =&gt; </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;overriding - </span><span class="si">{</span><span class="n">param_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">old_val</span><span class="si">}</span><span class="s2"> =&gt; </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">override_item</span><span class="p">[</span><span class="n">last_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-<div class="doc doc-object doc-function">
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.utils.poisson">
+<code class="codehilite language-python"><span class="n">poisson</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">np_rand</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">poisson</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">np_rand</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>Mirrors scipy poisson.rvs function as used in code</p>
-<details class="quote">
+    <div class="doc doc-contents ">
+
+      <p>Mirrors scipy poisson.rvs function as used in code</p>
+
+        <details class="quote">
           <summary>Source code in <code>titan/utils.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">poisson</span><span class="p">(</span><span class="n">mu</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np_rand</span><span class="p">):</span>
-    <span class="sd">"""</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">poisson</span><span class="p">(</span><span class="n">mu</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np_rand</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Mirrors scipy poisson.rvs function as used in code</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np_rand</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-<div class="doc doc-object doc-function">
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.utils.safe_dist">
+<code class="codehilite language-python"><span class="n">safe_dist</span><span class="p">(</span><span class="n">dist_info</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">safe_dist</span><span class="p">(</span><span class="n">dist_info</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>Draw a value from a distribution as defined in <code>dist_info</code>.</p>
+    <div class="doc doc-contents ">
+
+      <p>Draw a value from a distribution as defined in <code>dist_info</code>.</p>
+
 <p><strong>Parameters:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>dist_info</code></td>
-<td><code>ObjMap</code></td>
-<td>
-<p>a definition of a distribution to use [params.classes.distributions]</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>rand_gen</code></td>
-<td><code></code></td>
-<td>
-<p>random number generator</p>
-</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>dist_info</code></td>
+        <td><code>ObjMap</code></td>
+        <td><p>a definition of a distribution to use [params.classes.distributions]</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>rand_gen</code></td>
+        <td><code></code></td>
+        <td><p>random number generator</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
 </table>
 <p><strong>Returns:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Union[int, float]</code></td>
-<td>
-<p>a value drawn from the distribution</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Union[int, float]</code></td>
+      <td><p>a value drawn from the distribution</p></td>
+    </tr>
+  </tbody>
 </table>
-<details class="quote">
+        <details class="quote">
           <summary>Source code in <code>titan/utils.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">safe_dist</span><span class="p">(</span><span class="n">dist_info</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-    <span class="sd">"""</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">safe_dist</span><span class="p">(</span><span class="n">dist_info</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Draw a value from a distribution as defined in `dist_info`.</span>
 
 <span class="sd">    args:</span>
@@ -1777,7 +1833,7 @@ current value to new value</p>
 
 <span class="sd">    returns:</span>
 <span class="sd">        a value drawn from the distribution</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># gather arguments</span>
     <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dist_info</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
@@ -1786,75 +1842,76 @@ current value to new value</p>
     <span class="n">dist</span> <span class="o">=</span> <span class="n">get_dist</span><span class="p">(</span><span class="n">rand_gen</span><span class="p">,</span> <span class="n">dist_info</span><span class="o">.</span><span class="n">dist_type</span><span class="p">)</span>
     <span class="n">value</span> <span class="o">=</span> <span class="n">dist</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">"__iter__"</span><span class="p">):</span>  <span class="c1"># check if value is any type of sequence</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;__iter__&quot;</span><span class="p">):</span>  <span class="c1"># check if value is any type of sequence</span>
         <span class="k">return</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">value</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-<div class="doc doc-object doc-function">
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.utils.safe_divide">
+<code class="codehilite language-python"><span class="n">safe_divide</span><span class="p">(</span><span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">safe_divide</span><span class="p">(</span><span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>Divide two numbers, but default 0 if denominator is 0, otherwise divide as normal.</p>
+    <div class="doc doc-contents ">
+
+      <p>Divide two numbers, but default 0 if denominator is 0, otherwise divide as normal.</p>
+
 <p><strong>Parameters:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>numerator</code></td>
-<td><code>int</code></td>
-<td>
-<p>number being divided</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>denominator</code></td>
-<td><code>int</code></td>
-<td>
-<p>number doing the dividing</p>
-</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>numerator</code></td>
+        <td><code>int</code></td>
+        <td><p>number being divided</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>denominator</code></td>
+        <td><code>int</code></td>
+        <td><p>number doing the dividing</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
 </table>
 <p><strong>Returns:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>float</code></td>
-<td>
-<p>resulting number</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>float</code></td>
+      <td><p>resulting number</p></td>
+    </tr>
+  </tbody>
 </table>
-<details class="quote">
+        <details class="quote">
           <summary>Source code in <code>titan/utils.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">safe_divide</span><span class="p">(</span><span class="n">numerator</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">denominator</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">"""</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">safe_divide</span><span class="p">(</span><span class="n">numerator</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">denominator</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Divide two numbers, but default 0 if denominator is 0, otherwise divide as normal.</span>
 
 <span class="sd">    args:</span>
@@ -1863,84 +1920,83 @@ current value to new value</p>
 
 <span class="sd">    returns:</span>
 <span class="sd">        resulting number</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">denominator</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.0</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-<div class="doc doc-object doc-function">
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.utils.safe_random_choice">
+<code class="codehilite language-python"><span class="n">safe_random_choice</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">safe_random_choice</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>Return None or a random choice from a collection of items</p>
+    <div class="doc doc-contents ">
+
+      <p>Return None or a random choice from a collection of items</p>
+
 <p><strong>Parameters:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>seq</code></td>
-<td><code></code></td>
-<td>
-<p>collection to select a random item from</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>rand_gen</code></td>
-<td><code></code></td>
-<td>
-<p>random number generator</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>weights</code></td>
-<td><code></code></td>
-<td>
-<p>an optional collection of weights to use instead of a uniform distribution</p>
-</td>
-<td><code>None</code></td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>seq</code></td>
+        <td><code></code></td>
+        <td><p>collection to select a random item from</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>rand_gen</code></td>
+        <td><code></code></td>
+        <td><p>random number generator</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>weights</code></td>
+        <td><code></code></td>
+        <td><p>an optional collection of weights to use instead of a uniform distribution</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
 </table>
 <p><strong>Returns:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code></code></td>
-<td>
-<p>an item, or <code>None</code> if the collection is empty</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code></code></td>
+      <td><p>an item, or <code>None</code> if the collection is empty</p></td>
+    </tr>
+  </tbody>
 </table>
-<details class="quote">
+        <details class="quote">
           <summary>Source code in <code>titan/utils.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">safe_random_choice</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">"""</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">safe_random_choice</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return None or a random choice from a collection of items</span>
 
 <span class="sd">    args:</span>
@@ -1950,14 +2006,14 @@ current value to new value</p>
 
 <span class="sd">    returns:</span>
 <span class="sd">        an item, or `None` if the collection is empty</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">seq</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
         <span class="n">seq</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
 
-    <span class="c1"># don't call out to random choices if we don't need to (for performance)</span>
+    <span class="c1"># don&#39;t call out to random choices if we don&#39;t need to (for performance)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1965,79 +2021,78 @@ current value to new value</p>
 
     <span class="n">choices</span> <span class="o">=</span> <span class="n">rand_gen</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-<div class="doc doc-object doc-function">
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.utils.safe_random_int">
+<code class="codehilite language-python"><span class="n">safe_random_int</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">safe_random_int</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>Return an integer between [start, stop)</p>
+    <div class="doc doc-contents ">
+
+      <p>Return an integer between [start, stop)</p>
+
 <p><strong>Parameters:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>start</code></td>
-<td><code>int</code></td>
-<td>
-<p>start value</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>stop</code></td>
-<td><code>int</code></td>
-<td>
-<p>stop value</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>rand_gen</code></td>
-<td><code></code></td>
-<td>
-<p>random number generator</p>
-</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>start</code></td>
+        <td><code>int</code></td>
+        <td><p>start value</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>stop</code></td>
+        <td><code>int</code></td>
+        <td><p>stop value</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>rand_gen</code></td>
+        <td><code></code></td>
+        <td><p>random number generator</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
 </table>
 <p><strong>Returns:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>int</code></td>
-<td>
-<p>an item, or <code>None</code> if the collection is empty</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>int</code></td>
+      <td><p>an item, or <code>None</code> if the collection is empty</p></td>
+    </tr>
+  </tbody>
 </table>
-<details class="quote">
+        <details class="quote">
           <summary>Source code in <code>titan/utils.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">safe_random_int</span><span class="p">(</span><span class="n">start</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">"""</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">safe_random_int</span><span class="p">(</span><span class="n">start</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return an integer between [start, stop)</span>
 
 <span class="sd">    args:</span>
@@ -2047,73 +2102,74 @@ current value to new value</p>
 
 <span class="sd">    returns:</span>
 <span class="sd">        an item, or `None` if the collection is empty</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">floor</span><span class="p">(</span><span class="n">rand_gen</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="n">stop</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">+</span> <span class="n">start</span><span class="p">)</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-<div class="doc doc-object doc-function">
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.utils.safe_shuffle">
+<code class="codehilite language-python"><span class="n">safe_shuffle</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">safe_shuffle</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>Return None or a shuffled sequence</p>
+    <div class="doc doc-contents ">
+
+      <p>Return None or a shuffled sequence</p>
+
 <p><strong>Parameters:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>seq</code></td>
-<td><code>Collection[~T]</code></td>
-<td>
-<p>collection to shuffle</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>rand_gen</code></td>
-<td><code></code></td>
-<td>
-<p>random number generator</p>
-</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>seq</code></td>
+        <td><code>Collection[~T]</code></td>
+        <td><p>collection to shuffle</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>rand_gen</code></td>
+        <td><code></code></td>
+        <td><p>random number generator</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
 </table>
 <p><strong>Returns:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Iterable[~T]</code></td>
-<td>
-<p>shuffled sequence, or <code>None</code> if empty</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Iterable[~T]</code></td>
+      <td><p>shuffled sequence, or <code>None</code> if empty</p></td>
+    </tr>
+  </tbody>
 </table>
-<details class="quote">
+        <details class="quote">
           <summary>Source code in <code>titan/utils.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">safe_shuffle</span><span class="p">(</span><span class="n">seq</span><span class="p">:</span> <span class="n">Collection</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">rand_gen</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
-    <span class="sd">"""</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">safe_shuffle</span><span class="p">(</span><span class="n">seq</span><span class="p">:</span> <span class="n">Collection</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">rand_gen</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return None or a shuffled sequence</span>
 
 <span class="sd">    args:</span>
@@ -2122,7 +2178,7 @@ current value to new value</p>
 
 <span class="sd">    returns:</span>
 <span class="sd">        shuffled sequence, or `None` if empty</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">seq</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
             <span class="n">seq</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
@@ -2130,99 +2186,107 @@ current value to new value</p>
         <span class="k">return</span> <span class="n">seq</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-<div class="doc doc-object doc-function">
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.utils.scale_param">
+<code class="codehilite language-python"><span class="n">scale_param</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">param_path</span><span class="p">,</span> <span class="n">scalar</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">scale_param</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">param_path</span><span class="p">,</span> <span class="n">scalar</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">'|'</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>Given the params and a parameter path in the format prep|cap, scale the
+    <div class="doc doc-contents ">
+
+      <p>Given the params and a parameter path in the format prep|cap, scale the
 current value by the scalar</p>
-<details class="quote">
+
+        <details class="quote">
           <summary>Source code in <code>titan/utils.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">scale_param</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span> <span class="n">param_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">scalar</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">"|"</span><span class="p">):</span>
-    <span class="sd">"""</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">scale_param</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span> <span class="n">param_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">scalar</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;|&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given the params and a parameter path in the format prep|cap, scale the</span>
 <span class="sd">    current value by the scalar</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">scaling_item</span><span class="p">,</span> <span class="n">last_key</span> <span class="o">=</span> <span class="n">get_param_from_path</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">param_path</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">)</span>
 
     <span class="n">old_val</span> <span class="o">=</span> <span class="n">scaling_item</span><span class="p">[</span><span class="n">last_key</span><span class="p">]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"scaling - </span><span class="si">{</span><span class="n">param_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">old_val</span><span class="si">}</span><span class="s2"> =&gt; </span><span class="si">{</span><span class="n">old_val</span> <span class="o">*</span> <span class="n">scalar</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;scaling - </span><span class="si">{</span><span class="n">param_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">old_val</span><span class="si">}</span><span class="s2"> =&gt; </span><span class="si">{</span><span class="n">old_val</span> <span class="o">*</span> <span class="n">scalar</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">scaling_item</span><span class="p">[</span><span class="n">last_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">old_val</span> <span class="o">*</span> <span class="n">scalar</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-<div class="doc doc-object doc-function">
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.utils.total_probability">
+<code class="codehilite language-python"><span class="n">total_probability</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">num_acts</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">total_probability</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">num_acts</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>Given a per act probability and a number of acts, return the total probability.</p>
+    <div class="doc doc-contents ">
+
+      <p>Given a per act probability and a number of acts, return the total probability.</p>
+
 <p><strong>Parameters:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>p</code></td>
-<td><code>float</code></td>
-<td>
-<p>the per act probability</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>num_acts</code></td>
-<td><code>int</code></td>
-<td>
-<p>the number of acts</p>
-</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>p</code></td>
+        <td><code>float</code></td>
+        <td><p>the per act probability</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>num_acts</code></td>
+        <td><code>int</code></td>
+        <td><p>the number of acts</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
 </table>
 <p><strong>Returns:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>float</code></td>
-<td>
-<p>the total probability</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>float</code></td>
+      <td><p>the total probability</p></td>
+    </tr>
+  </tbody>
 </table>
-<details class="quote">
+        <details class="quote">
           <summary>Source code in <code>titan/utils.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">total_probability</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">num_acts</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">"""</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">total_probability</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">num_acts</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given a per act probability and a number of acts, return the total probability.</span>
 
 <span class="sd">    args:</span>
@@ -2231,80 +2295,145 @@ current value by the scalar</p>
 
 <span class="sd">    returns:</span>
 <span class="sd">        the total probability</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">num_acts</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">p</span>
     <span class="k">elif</span> <span class="n">num_acts</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">binom_0</span><span class="p">(</span><span class="n">num_acts</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.0</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-</div>
-</div>
-</div>
-<h2 id="params">Params</h2>
-<div class="doc doc-object doc-module">
-<div class="doc doc-contents first">
-<div class="doc doc-children">
-<div class="doc doc-object doc-class">
-<h3 class="doc doc-heading" id="titan.parse_params.ObjMap">
+</code></pre></div>
+        </details>
+    </div>
 
+  </div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+<h2 id="params">Params</h2>
+
+
+  <div class="doc doc-object doc-module">
+
+
+    <div class="doc doc-contents first">
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 class="doc doc-heading" id="titan.parse_params.ObjMap">
         <code>ObjMap</code>
 
 
 
-      </h3>
-<div class="doc doc-contents ">
-<p>A dictionary-like class which allows accessing members either using standard
-dictionary notation or dots.  Note the hash function is hard-coded - beware.</p>
-<div class="doc doc-children">
-<div class="doc doc-object doc-method">
-<h4 class="doc doc-heading" id="titan.parse_params.ObjMap.__hash__">
+</h3>
 
-<code class="highlight language-python"><span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+    <div class="doc doc-contents ">
+
+      <p>A dictionary-like class which allows accessing members either using standard
+dictionary notation or dots.  Note the hash function is hard-coded - beware.</p>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 class="doc doc-heading" id="titan.parse_params.ObjMap.__hash__">
+<code class="codehilite language-python"><span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
   </span>
 
-      </h4>
-<div class="doc doc-contents ">
-<p>Return hash(self).</p>
-<details class="quote">
+</h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Return hash(self).</p>
+
+        <details class="quote">
           <summary>Source code in <code>titan/parse_params.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="mi">1234567890</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="doc doc-object doc-function">
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.parse_params.check_params">
+<code class="codehilite language-python"><span class="n">check_params</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">check_params</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>Consistency checks for param populations</p>
-<details class="quote">
+    <div class="doc doc-contents ">
+
+      <p>Consistency checks for param populations</p>
+
+        <details class="quote">
           <summary>Source code in <code>titan/parse_params.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">check_params</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">):</span>
-    <span class="sd">"""</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">check_params</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Consistency checks for param populations</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">race_pop</span> <span class="o">=</span> <span class="mi">0</span>
-
     <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">races</span><span class="p">:</span>
         <span class="n">r_dems</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">demographics</span><span class="p">[</span><span class="n">race</span><span class="p">]</span>
         <span class="n">race_pop</span> <span class="o">+=</span> <span class="n">r_dems</span><span class="o">.</span><span class="n">ppl</span>
@@ -2320,13 +2449,19 @@ dictionary notation or dots.  Note the hash function is hard-coded - beware.</p>
 
             <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span>
                 <span class="n">drug_type_pop</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.001</span>
-            <span class="p">),</span> <span class="sa">f</span><span class="s2">"ppl of </span><span class="si">{</span><span class="n">race</span><span class="si">}</span><span class="s2">'s </span><span class="si">{</span><span class="n">st</span><span class="si">}</span><span class="s2">'s drug_types must add to 1. Currently adding to </span><span class="si">{</span><span class="n">drug_type_pop</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;ppl of </span><span class="si">{</span><span class="n">race</span><span class="si">}</span><span class="s2">&#39;s </span><span class="si">{</span><span class="n">st</span><span class="si">}</span><span class="s2">&#39;s drug_types must add to 1. Currently adding to </span><span class="si">{</span><span class="n">drug_type_pop</span><span class="si">}</span><span class="s2">&quot;</span>
 
         <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span>
             <span class="n">sex_type_pop</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.001</span>
-        <span class="p">),</span> <span class="sa">f</span><span class="s2">"ppl of </span><span class="si">{</span><span class="n">race</span><span class="si">}</span><span class="s2">'s sex_types must add to 1. Currently adding to </span><span class="si">{</span><span class="n">sex_type_pop</span><span class="si">}</span><span class="s2">"</span>
+        <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;ppl of </span><span class="si">{</span><span class="n">race</span><span class="si">}</span><span class="s2">&#39;s sex_types must add to 1. Currently adding to </span><span class="si">{</span><span class="n">sex_type_pop</span><span class="si">}</span><span class="s2">&quot;</span>
 
-    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">race_pop</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.001</span><span class="p">),</span> <span class="s2">"ppl of races must add to 1"</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">race_pop</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.001</span><span class="p">),</span> <span class="s2">&quot;ppl of races must add to 1&quot;</span>
+
+    <span class="n">loc_pop</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">location</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="n">loc_pop</span> <span class="o">+=</span> <span class="n">location</span><span class="o">.</span><span class="n">ppl</span>
+
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">loc_pop</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.001</span><span class="p">),</span> <span class="s2">&quot;ppl of locations must add to 1&quot;</span>
 
     <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">assort</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">assort_mix</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">assort_value</span> <span class="o">=</span> <span class="mi">0</span>
@@ -2334,94 +2469,91 @@ dictionary notation or dots.  Note the hash function is hard-coded - beware.</p>
             <span class="n">assort_value</span> <span class="o">+=</span> <span class="n">ptnr_value</span>
         <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span>
             <span class="n">assort_value</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">0.001</span>
-        <span class="p">),</span> <span class="sa">f</span><span class="s2">"assort values must add to 1, not </span><span class="si">{</span><span class="n">assort_value</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2">"</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-<div class="doc doc-object doc-function">
+        <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;assort values must add to 1, not </span><span class="si">{</span><span class="n">assort_value</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.parse_params.create_params">
+<code class="codehilite language-python"><span class="n">create_params</span><span class="p">(</span><span class="n">setting_name</span><span class="p">,</span> <span class="n">param_path</span><span class="p">,</span> <span class="n">outdir</span><span class="p">,</span> <span class="n">error_on_unused</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">create_params</span><span class="p">(</span><span class="n">setting_name</span><span class="p">,</span> <span class="n">param_path</span><span class="p">,</span> <span class="n">outdir</span><span class="p">,</span> <span class="n">error_on_unused</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>Entry function - given the path to the setting, params, output directory and whether
+    <div class="doc doc-contents ">
+
+      <p>Entry function - given the path to the setting, params, output directory and whether
 or not to use the base setting. Parse and create a params (ObjMap) object.</p>
+
 <p><strong>Parameters:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>setting_name</code></td>
-<td><code>Optional[str]</code></td>
-<td>
-<p>path to a settings file or directory or <code>None</code></p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>param_path</code></td>
-<td><code>str</code></td>
-<td>
-<p>path to parameter file or directory</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>outdir</code></td>
-<td><code>str</code></td>
-<td>
-<p>path to directory where computed params will be saved</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>error_on_unused</code></td>
-<td><code>bool</code></td>
-<td>
-<p>throw a hard error if there are unused parameters, otherwise warnings are only printed</p>
-</td>
-<td><code>False</code></td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>setting_name</code></td>
+        <td><code>Optional[str]</code></td>
+        <td><p>path to a settings file or directory or <code>None</code></p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>param_path</code></td>
+        <td><code>str</code></td>
+        <td><p>path to parameter file or directory</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>outdir</code></td>
+        <td><code>str</code></td>
+        <td><p>path to directory where computed params will be saved</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>error_on_unused</code></td>
+        <td><code>bool</code></td>
+        <td><p>throw a hard error if there are unused parameters, otherwise warnings are only printed</p></td>
+        <td><code>False</code></td>
+      </tr>
+  </tbody>
 </table>
 <p><strong>Returns:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>ObjMap</code></td>
-<td>
-<p>computed/validated model paramters with defaults filled in where needed</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ObjMap</code></td>
+      <td><p>computed/validated model paramters with defaults filled in where needed</p></td>
+    </tr>
+  </tbody>
 </table>
-<details class="quote">
+        <details class="quote">
           <summary>Source code in <code>titan/parse_params.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">create_params</span><span class="p">(</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">create_params</span><span class="p">(</span>
     <span class="n">setting_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">param_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">outdir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">error_on_unused</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ObjMap</span><span class="p">:</span>
-    <span class="sd">"""</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Entry function - given the path to the setting, params, output directory and whether</span>
 <span class="sd">    or not to use the base setting. Parse and create a params (ObjMap) object.</span>
 
@@ -2433,23 +2565,23 @@ or not to use the base setting. Parse and create a params (ObjMap) object.</p>
 
 <span class="sd">    returns:</span>
 <span class="sd">        computed/validated model paramters with defaults filled in where needed</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># find defs, where we are in the code for settings and base</span>
     <span class="n">filename</span> <span class="o">=</span> <span class="n">getsourcefile</span><span class="p">(</span><span class="n">create_params</span><span class="p">)</span>  <span class="c1"># what is the sourcefile for this function</span>
     <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">parent</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"can't find where I am in the code?"</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;can&#39;t find where I am in the code?&quot;</span><span class="p">)</span>
 
-    <span class="n">param_defs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s2">"params"</span><span class="p">)</span>
+    <span class="n">param_defs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">)</span>
 
     <span class="n">param_paths</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="c1"># merge setting and params</span>
     <span class="k">if</span> <span class="n">setting_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="c1"># check if it's a known setting or pass it through as a path</span>
-        <span class="k">if</span> <span class="n">setting_name</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s2">"settings"</span><span class="p">)):</span>
-            <span class="n">param_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s2">"settings"</span><span class="p">,</span> <span class="n">setting_name</span><span class="p">))</span>
+        <span class="c1"># check if it&#39;s a known setting or pass it through as a path</span>
+        <span class="k">if</span> <span class="n">setting_name</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;settings&quot;</span><span class="p">)):</span>
+            <span class="n">param_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;settings&quot;</span><span class="p">,</span> <span class="n">setting_name</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">param_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">setting_name</span><span class="p">)</span>
 
@@ -2458,7 +2590,7 @@ or not to use the base setting. Parse and create a params (ObjMap) object.</p>
     <span class="n">parsed</span> <span class="o">=</span> <span class="n">paraml</span><span class="o">.</span><span class="n">create_params</span><span class="p">(</span>
         <span class="n">param_defs</span><span class="p">,</span>
         <span class="o">*</span><span class="n">param_paths</span><span class="p">,</span>
-        <span class="n">out_path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="s2">"params.yml"</span><span class="p">),</span>
+        <span class="n">out_path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="s2">&quot;params.yml&quot;</span><span class="p">),</span>
         <span class="n">error_on_unused</span><span class="o">=</span><span class="n">error_on_unused</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -2466,27 +2598,56 @@ or not to use the base setting. Parse and create a params (ObjMap) object.</p>
     <span class="n">check_params</span><span class="p">(</span><span class="n">parsed</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">parsed</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-</div>
-</div>
-</div>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
 <h2 id="probability-distributions">Probability Distributions</h2>
-<div class="doc doc-object doc-module">
-<div class="doc doc-contents first">
-<div class="doc doc-children">
-<div class="doc doc-object doc-function">
+
+
+  <div class="doc doc-object doc-module">
+
+
+    <div class="doc doc-contents first">
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.distributions.pert">
+<code class="codehilite language-python"><span class="n">pert</span><span class="p">(</span><span class="n">np_random</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">peak</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">temperature</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">pert</span><span class="p">(</span><span class="n">np_random</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">peak</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">temperature</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>A pert distribution, inspired by <a href="https://github.com/tensorflow/probability/blob/c833ee5cd9f60f3257366b25447b9e50210b0590/tensorflow_probability/python/distributions/pert.py#L137">tensorflow</a></p>
+    <div class="doc doc-contents ">
+
+      <p>A pert distribution, inspired by <a href="https://github.com/tensorflow/probability/blob/c833ee5cd9f60f3257366b25447b9e50210b0590/tensorflow_probability/python/distributions/pert.py#L137">tensorflow</a></p>
 <p>arguments must be so that:</p>
 <ul>
 <li>low &lt; peak &lt; high</li>
@@ -2495,64 +2656,54 @@ or not to use the base setting. Parse and create a params (ObjMap) object.</p>
 <p>The support is <code>[low, high]</code>.  The <code>peak</code> must fit in that interval:
   <code>low &lt; peak &lt; high</code>.  The <code>temperature</code> is a positive parameter that
   controls the shape of the distribution. Higher values yield a sharper peak.</p>
+
 <p><strong>Parameters:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>np_random</code></td>
-<td><code></code></td>
-<td>
-<p>random number generator (used to get beta)</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>low</code></td>
-<td><code></code></td>
-<td>
-<p>distribution low value</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>peak</code></td>
-<td><code></code></td>
-<td>
-<p>modal point in distribution</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>high</code></td>
-<td><code></code></td>
-<td>
-<p>distribution high value</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>temperature</code></td>
-<td><code></code></td>
-<td>
-<p>scaling factor</p>
-</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>np_random</code></td>
+        <td><code></code></td>
+        <td><p>random number generator (used to get beta)</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>low</code></td>
+        <td><code></code></td>
+        <td><p>distribution low value</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>peak</code></td>
+        <td><code></code></td>
+        <td><p>modal point in distribution</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>high</code></td>
+        <td><code></code></td>
+        <td><p>distribution high value</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>temperature</code></td>
+        <td><code></code></td>
+        <td><p>scaling factor</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
 </table>
-<details class="quote">
+        <details class="quote">
           <summary>Source code in <code>titan/distributions.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">pert</span><span class="p">(</span><span class="n">np_random</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">peak</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">temperature</span><span class="p">):</span>
-    <span class="sd">"""</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">pert</span><span class="p">(</span><span class="n">np_random</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">peak</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">temperature</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A pert distribution, inspired by [tensorflow](https://github.com/tensorflow/probability/blob/c833ee5cd9f60f3257366b25447b9e50210b0590/tensorflow_probability/python/distributions/pert.py#L137)</span>
 
 <span class="sd">    arguments must be so that:</span>
@@ -2570,7 +2721,7 @@ or not to use the base setting. Parse and create a params (ObjMap) object.</p>
 <span class="sd">        peak: modal point in distribution</span>
 <span class="sd">        high: distribution high value</span>
 <span class="sd">        temperature: scaling factor</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="n">low</span> <span class="o">&lt;</span> <span class="n">peak</span> <span class="o">&lt;</span> <span class="n">high</span>
     <span class="k">assert</span> <span class="n">temperature</span> <span class="o">&gt;</span> <span class="mi">0</span>
 
@@ -2578,237 +2729,254 @@ or not to use the base setting. Parse and create a params (ObjMap) object.</p>
     <span class="n">alpha</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">temperature</span> <span class="o">*</span> <span class="p">(</span><span class="n">peak</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span> <span class="o">/</span> <span class="n">scale</span>
     <span class="n">beta</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">temperature</span> <span class="o">*</span> <span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">peak</span><span class="p">)</span> <span class="o">/</span> <span class="n">scale</span>
     <span class="k">return</span> <span class="n">low</span> <span class="o">+</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">np_random</span><span class="o">.</span><span class="n">beta</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-<div class="doc doc-object doc-function">
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.distributions.set_value">
+<code class="codehilite language-python"><span class="n">set_value</span><span class="p">(</span><span class="n">np_random</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">set_value</span><span class="p">(</span><span class="n">np_random</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>A distribution that always returns the value passed</p>
+    <div class="doc doc-contents ">
+
+      <p>A distribution that always returns the value passed</p>
+
 <p><strong>Parameters:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>np_random</code></td>
-<td><code></code></td>
-<td>
-<p>random number generator (to conform to distribution interface)</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>value</code></td>
-<td><code></code></td>
-<td>
-<p>value to return</p>
-</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>np_random</code></td>
+        <td><code></code></td>
+        <td><p>random number generator (to conform to distribution interface)</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>value</code></td>
+        <td><code></code></td>
+        <td><p>value to return</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
 </table>
-<details class="quote">
+        <details class="quote">
           <summary>Source code in <code>titan/distributions.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">set_value</span><span class="p">(</span><span class="n">np_random</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-    <span class="sd">"""</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">set_value</span><span class="p">(</span><span class="n">np_random</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A distribution that always returns the value passed</span>
 
 <span class="sd">    args:</span>
 <span class="sd">        np_random: random number generator (to conform to distribution interface)</span>
 <span class="sd">        value: value to return</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">value</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-<div class="doc doc-object doc-function">
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.distributions.weibull_modified">
+<code class="codehilite language-python"><span class="n">weibull_modified</span><span class="p">(</span><span class="n">np_random</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">weibull_modified</span><span class="p">(</span><span class="n">np_random</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>Modified version of numpy's (single parameter) weibull distribution to use the 2-parameter weibull.</p>
+    <div class="doc doc-contents ">
+
+      <p>Modified version of numpy's (single parameter) weibull distribution to use the 2-parameter weibull.</p>
+
 <p><strong>Parameters:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>np_random</code></td>
-<td><code></code></td>
-<td>
-<p>random number generator</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>shape</code></td>
-<td><code></code></td>
-<td>
-<p>weibull shape parameter</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>scale</code></td>
-<td><code></code></td>
-<td>
-<p>weibull scale parameter</p>
-</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>np_random</code></td>
+        <td><code></code></td>
+        <td><p>random number generator</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>shape</code></td>
+        <td><code></code></td>
+        <td><p>weibull shape parameter</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>scale</code></td>
+        <td><code></code></td>
+        <td><p>weibull scale parameter</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
 </table>
-<details class="quote">
+        <details class="quote">
           <summary>Source code in <code>titan/distributions.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">weibull_modified</span><span class="p">(</span><span class="n">np_random</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
-    <span class="sd">"""</span>
-<span class="sd">    Modified version of numpy's (single parameter) weibull distribution to use the 2-parameter weibull.</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">weibull_modified</span><span class="p">(</span><span class="n">np_random</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Modified version of numpy&#39;s (single parameter) weibull distribution to use the 2-parameter weibull.</span>
 
 <span class="sd">    args:</span>
 <span class="sd">        np_random: random number generator</span>
 <span class="sd">        shape: weibull shape parameter</span>
 <span class="sd">        scale: weibull scale parameter</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">random_number</span> <span class="o">=</span> <span class="n">np_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">scale</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">random_number</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">shape</span><span class="p">)</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-</div>
-</div>
-</div>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
 <h2 id="complex-probabilities">Complex Probabilities</h2>
-<div class="doc doc-object doc-module">
-<div class="doc doc-contents first">
-<div class="doc doc-children">
-<div class="doc doc-object doc-function">
+
+
+  <div class="doc doc-object doc-module">
+
+
+    <div class="doc doc-contents first">
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
 <h3 class="doc doc-heading" id="titan.probabilities.get_death_rate">
+<code class="codehilite language-python"><span class="n">get_death_rate</span><span class="p">(</span><span class="n">hiv</span><span class="p">,</span> <span class="n">aids</span><span class="p">,</span> <span class="n">drug_type</span><span class="p">,</span> <span class="n">sex_type</span><span class="p">,</span> <span class="n">haart_adh</span><span class="p">,</span> <span class="n">race</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">steps_per_year</span><span class="p">)</span></code>
 
-<code class="highlight language-python"><span class="n">get_death_rate</span><span class="p">(</span><span class="n">hiv</span><span class="p">,</span> <span class="n">aids</span><span class="p">,</span> <span class="n">drug_type</span><span class="p">,</span> <span class="n">sex_type</span><span class="p">,</span> <span class="n">haart_adh</span><span class="p">,</span> <span class="n">race</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">steps_per_year</span><span class="p">)</span></code>
 
+</h3>
 
-      </h3>
-<div class="doc doc-contents ">
-<p>Find the death rate of an agent given a set of attributes.</p>
+    <div class="doc doc-contents ">
+
+      <p>Find the death rate of an agent given a set of attributes.</p>
+
 <p><strong>Parameters:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>hiv</code></td>
-<td><code>bool</code></td>
-<td>
-<p>whether the agent is HIV+</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>aids</code></td>
-<td><code>bool</code></td>
-<td>
-<p>whether the agent has AIDS</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>drug_type</code></td>
-<td><code>str</code></td>
-<td>
-<p>whether the PWID base death rate should be used or the base one</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>haart_adh</code></td>
-<td><code>int</code></td>
-<td>
-<p>whether an agent is haart adherent</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>race</code></td>
-<td><code>str</code></td>
-<td>
-<p>the race of the agent</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>location</code></td>
-<td><code>Location</code></td>
-<td>
-<p>agent's location</p>
-</td>
-<td><em>required</em></td>
-</tr>
-<tr>
-<td><code>steps_per_year</code></td>
-<td><code>int</code></td>
-<td>
-<p>the number of model steps in a year</p>
-</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>hiv</code></td>
+        <td><code>bool</code></td>
+        <td><p>whether the agent is HIV+</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>aids</code></td>
+        <td><code>bool</code></td>
+        <td><p>whether the agent has AIDS</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>drug_type</code></td>
+        <td><code>str</code></td>
+        <td><p>whether the PWID base death rate should be used or the base one</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>haart_adh</code></td>
+        <td><code>int</code></td>
+        <td><p>whether an agent is haart adherent</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>race</code></td>
+        <td><code>str</code></td>
+        <td><p>the race of the agent</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>location</code></td>
+        <td><code>Location</code></td>
+        <td><p>agent's location</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>steps_per_year</code></td>
+        <td><code>int</code></td>
+        <td><p>the number of model steps in a year</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
 </table>
 <p><strong>Returns:</strong></p>
 <table>
-<thead>
-<tr>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>float</code></td>
-<td>
-<p>the probability of an agent with these characteristics dying in a given time step</p>
-</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>float</code></td>
+      <td><p>the probability of an agent with these characteristics dying in a given time step</p></td>
+    </tr>
+  </tbody>
 </table>
-<details class="quote">
+        <details class="quote">
           <summary>Source code in <code>titan/probabilities.py</code></summary>
-          <div class="highlight">
-<pre><span></span><code><span class="nd">@utils</span><span class="o">.</span><span class="n">memo</span>
+          <div class="codehilite"><pre><span></span><code><span class="nd">@utils</span><span class="o">.</span><span class="n">memo</span>
 <span class="k">def</span> <span class="nf">get_death_rate</span><span class="p">(</span>
     <span class="n">hiv</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">aids</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
@@ -2819,7 +2987,7 @@ or not to use the base setting. Parse and create a params (ObjMap) object.</p>
     <span class="n">location</span><span class="p">:</span> <span class="n">Location</span><span class="p">,</span>
     <span class="n">steps_per_year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">"""</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Find the death rate of an agent given a set of attributes.</span>
 
 <span class="sd">    args:</span>
@@ -2828,12 +2996,12 @@ or not to use the base setting. Parse and create a params (ObjMap) object.</p>
 <span class="sd">        drug_type: whether the PWID base death rate should be used or the base one</span>
 <span class="sd">        haart_adh: whether an agent is haart adherent</span>
 <span class="sd">        race: the race of the agent</span>
-<span class="sd">        location: agent's location</span>
+<span class="sd">        location: agent&#39;s location</span>
 <span class="sd">        steps_per_year: the number of model steps in a year</span>
 
 <span class="sd">    returns:</span>
 <span class="sd">        the probability of an agent with these characteristics dying in a given time step</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">param</span> <span class="o">=</span> <span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">demographics</span>
 
     <span class="n">death_param</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">race</span><span class="p">]</span><span class="o">.</span><span class="n">sex_type</span><span class="p">[</span><span class="n">sex_type</span><span class="p">]</span><span class="o">.</span><span class="n">drug_type</span><span class="p">[</span><span class="n">drug_type</span><span class="p">]</span><span class="o">.</span><span class="n">death_rate</span>
@@ -2850,14 +3018,22 @@ or not to use the base setting. Parse and create a params (ObjMap) object.</p>
 
     <span class="c1"># putting it into per 1 person-month from per 1000 person years</span>
     <span class="k">return</span> <span class="n">p</span> <span class="o">/</span> <span class="p">(</span><span class="n">steps_per_year</span> <span class="o">*</span> <span class="mf">1000.0</span><span class="p">)</span>
-</code></pre>
-</div>
-</details>
-</div>
-</div>
-</div>
-</div>
-</div>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
                 
               
               
@@ -2873,26 +3049,24 @@ or not to use the base setting. Parse and create a params (ObjMap) object.</p>
         
 <footer class="md-footer">
   
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
-        
-          <a href="../reporting/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-footer-nav__button md-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href="../reporting/" class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Reporting
             </div>
-            <div class="md-footer-nav__title">
-              <div class="md-ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Reporting
-              </div>
-            </div>
-          </a>
-        
-        
-      </nav>
-    </div>
+          </div>
+        </a>
+      
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -2902,6 +3076,7 @@ or not to use the base setting. Parse and create a params (ObjMap) object.</p>
         <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
           Material for MkDocs
         </a>
+        
       </div>
       
     </div>
@@ -2909,19 +3084,13 @@ or not to use the base setting. Parse and create a params (ObjMap) object.</p>
 </footer>
       
     </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tabs"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.fb4a9340.min.js", "version": null}</script>
     
-      <script src="../../assets/javascripts/vendor.18f0862e.min.js"></script>
-      <script src="../../assets/javascripts/bundle.994580cf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
-      
-      <script>
-        app = initialize({
-          base: "../..",
-          features: ['navigation.instant', 'navigation.tabs'],
-          search: Object.assign({
-            worker: "../../assets/javascripts/worker/search.9c0e82ba.min.js"
-          }, typeof search !== "undefined" && search)
-        })
-      </script>
+    
+      <script src="../../assets/javascripts/bundle.a1c7c35e.min.js"></script>
       
     
   </body>
