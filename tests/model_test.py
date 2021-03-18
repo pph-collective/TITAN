@@ -29,7 +29,7 @@ def test_model_init(params):
     assert model.pop.pop_seed > 0
 
 
-@pytest.mark.unit
+@pytest.mark.unit_broken
 def test_update_all_agents(make_model, make_agent):
     # make agent 0
     model = make_model()
@@ -53,6 +53,8 @@ def test_update_all_agents(make_model, make_agent):
     for agent in model.pop.all_agents:
         for k in agent.target_partners.keys():
             agent.target_partners[k] = 0
+
+    model.reset_trackers()
 
     with pytest.raises(ValueError) as excinfo:
         model.update_all_agents()
