@@ -104,6 +104,9 @@ class Agent:
     def __eq__(self, other) -> bool:
         return self.id == other.id
 
+    def __ne__(self, other) -> bool:
+        return self.id != other.id
+
     def __hash__(self) -> int:
         return self.id
 
@@ -228,6 +231,9 @@ class Relationship:
 
     def __eq__(self, other) -> bool:
         return self.id == other.id
+
+    def __ne__(self, other) -> bool:
+        return self.id != other.id
 
     def __hash__(self) -> int:
         return self.id
