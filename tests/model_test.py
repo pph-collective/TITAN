@@ -29,7 +29,7 @@ def test_model_init(params):
     assert model.pop.pop_seed > 0
 
 
-@pytest.mark.unit_broken
+@pytest.mark.unit
 def test_update_all_agents(make_model, make_agent):
     # make agent 0
     model = make_model()
