@@ -54,6 +54,8 @@ def test_update_all_agents(make_model, make_agent):
         for k in agent.target_partners.keys():
             agent.target_partners[k] = 0
 
+    model.reset_trackers()
+
     with pytest.raises(ValueError) as excinfo:
         model.update_all_agents()
     assert "No agent zero!" in str(excinfo)
