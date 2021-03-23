@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "titan"
+version = "2.3.0"
+description = "TITAN Agent Based Model"
+license = "GPL-3.0-only"
+authors = ["Sam Bessey <sam_bessey@brown.edu>", "Mary McGrath <mary_mcgrath@brown.edu>"]
+readme = "README.md"
+homepage = "titanmodel.org"
+repository = "https://github.com/pph-collective/TITAN"
+documentation = "https://pph-collective.github.io/titan"
+classifiers = ["Operating System :: OS Independent"]
+packages = [{ include = "titan" }]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+paraml= "^0.1"
+matplotlib = "^3.2"
+networkx = "^2.4"
+nanoid = "^2.0"
+numpy = "^1.18"
+
+[tool.poetry.dev-dependencies]
+mypy = "^0.740"
+pytest = "^5.4"
+pytest-cov = "^2.8"
+mkdocs = "^1.1"
+mkdocs-material = "^5.5"
+mkdocstrings = "^0.12"
+black = "^20.8b1"
+flake8 = "^3.8.4"
+
+[tool.poetry.scripts]
+run_titan = "titan:script_init"
+
+[build-system]
+requires = ["poetry_core>=1.0.0"]
+build-backend = "poetry.masonry.api"
