@@ -9,6 +9,11 @@ assort_mix:
       description: "To assort across attribute (e.g. agent on haart assorting with partner on prep). If not included, will default to the agent attribute [attribute].  Assorting across attribute is not supported in combination with same-assorting (where [agent_value] is '__any__')."
       type: none
       default: __agent__
+    bond_types:
+      description: "Which bond types this assort rule applies to.  If empty, the default, all bond types are included."
+      type: array
+      class: bond_types
+      default: []
     agent_value:
       description: "Value of agent's attribute which triggers using this rule.  Can use the value '__any__' to then allow assoring on partner_values of '__same__' and '__other__'."
       type: none
