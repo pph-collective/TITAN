@@ -20,8 +20,11 @@ class ObjMap(dict):
                 v = self.__class__(v)
             self[k] = v
 
-    def __getattr__(self, k):
-        return self.__getitem__(k)
+    def __getattribute__(self, k):
+        try:
+            return self[k]
+        except:
+            return object.__getattribute__(self, k)
 
     def __setattr__(self, k, v):
         return self.__setitem__(k, v)
