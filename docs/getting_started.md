@@ -23,6 +23,8 @@ We use [git](https://git-scm.com/) for version control and GitHub for our remote
 git clone https://github.com/pph-collective/TITAN.git
 ```
 
+We use angular commits to standardize our commits and encourage better messages. [Commitizen](https://pypi.org/project/commitizen/) makes this easy.  Once installed (would recommend doing this globally as opposed to just for this project), run `cz commit` instead of `git commit`.
+
 ### Poetry
 
 [Poetry](https://python-poetry.org/) is a python packaging and dependency management tool.  We use this to install/add/remove dependencies, build our package, and publish it to pypy.  Install poetry per [the install instructions](https://python-poetry.org/docs/#installation), then complete the below steps.
