@@ -25,7 +25,7 @@ pytest-cov = "^2.8"
 mkdocs = "^1.1"
 mkdocs-material = "^7.0"
 mkdocstrings = "^0.15.0"
-black = "^20.8b1"
+black = {version = "^20.8b1", optional = true}
 flake8 = "^3.8"
 
 [tool.poetry.scripts]

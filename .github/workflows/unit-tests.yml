@@ -15,11 +15,8 @@ jobs:
         python-version: 3.7
     - name: Set up Poetry for linting, formatting, type checking
       run: |
-        python --version
-        pip --version
         pip install poetry
-    - name: poetry config
-      run: poetry config virtualenvs.in-project true
+        poetry config virtualenvs.in-project true
     - name: Cache poetry venv
       uses: actions/cache@v2
       with:
@@ -49,11 +46,8 @@ jobs:
         python-version: pypy-3.7
     - name: Set up Poetry for testing
       run: |
-        python --version
-        pip --version
         pip install poetry
-    - name: poetry config
-      run: poetry config virtualenvs.in-project true
+        poetry config virtualenvs.in-project true
     - name: Cache poetry venv
       uses: actions/cache@v2
       with:
@@ -82,11 +76,8 @@ jobs:
         python-version: pypy-3.7
     - name: Set up Poetry for testing
       run: |
-        python --version
-        pip --version
         pip install poetry
-    - name: poetry config
-      run: poetry config virtualenvs.in-project true
+        poetry config virtualenvs.in-project true
     - name: Cache poetry venv
       uses: actions/cache@v2
       with:
@@ -115,11 +106,8 @@ jobs:
         python-version: pypy-3.7
     - name: Set up Poetry for testing
       run: |
-        python --version
-        pip --version
         pip install poetry
-    - name: poetry config
-      run: poetry config virtualenvs.in-project true
+        poetry config virtualenvs.in-project true
     - name: Cache poetry venv
       uses: actions/cache@v2
       with:
