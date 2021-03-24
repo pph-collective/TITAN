@@ -29,7 +29,7 @@ pytest = "^6.2"
 pytest-cov = "^2.8"
 
 [tool.poetry.extras]
-linting = ["black", "flake8", "mypy"]
+linting = ["black", "flake8", "mypy"] # doesn't work on pypy
 docs = ["mkdocs", "mkdocs-material", "mkdocstrings"]
 
 [tool.poetry.scripts]

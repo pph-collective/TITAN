@@ -43,7 +43,7 @@ jobs:
     - name: Set up Python for testing
       uses: actions/setup-python@v2
       with:
-        python-version: pypy-3.7
+        python-version: pypy-3.6
     - name: Set up Poetry for testing
       run: |
         pip install poetry
@@ -52,7 +52,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .venv
-        key: venv-pypy3.7-${{ hashFiles('**/poetry.lock') }}
+        key: venv-pypy3.6-${{ hashFiles('**/poetry.lock') }}
     - name: Install dependencies
       run: poetry install
     - name: Unit Test with pytest
@@ -71,7 +71,7 @@ jobs:
     - name: Set up Python for testing
       uses: actions/setup-python@v2
       with:
-        python-version: pypy-3.7
+        python-version: pypy-3.6
     - name: Set up Poetry for testing
       run: |
         pip install poetry
@@ -80,7 +80,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .venv
-        key: venv-pypy3.7-${{ hashFiles('**/poetry.lock') }}
+        key: venv-pypy3.6-${{ hashFiles('**/poetry.lock') }}
     - name: Install dependencies
       run: poetry install
     - name: Integration Test with pytest
@@ -99,7 +99,7 @@ jobs:
     - name: Set up Python for testing
       uses: actions/setup-python@v2
       with:
-        python-version: pypy-3.7
+        python-version: pypy-3.6
     - name: Set up Poetry for testing
       run: |
         pip install poetry
@@ -108,7 +108,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .venv
-        key: venv-pypy3.7-${{ hashFiles('**/poetry.lock') }}
+        key: venv-pypy3.6-${{ hashFiles('**/poetry.lock') }}
     - name: Install dependencies
       run: poetry install
     - name: Integration Test with pytest
