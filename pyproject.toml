@@ -14,20 +14,19 @@ packages = [{ include = "titan" }]
 [tool.poetry.dependencies]
 python = "^3.6"
 paraml= "^0.1"
-matplotlib = "^3.2"
 networkx = "^2.4"
 nanoid = "^2.0"
 numpy = "^1.18"
 
 [tool.poetry.dev-dependencies]
-mypy = "^0.740"
-pytest = "^5.4"
+mypy = "^0.812"
+pytest = "^6.2"
 pytest-cov = "^2.8"
 mkdocs = "^1.1"
-mkdocs-material = "^5.5"
-mkdocstrings = "^0.12"
+mkdocs-material = "^7.0"
+mkdocstrings = "^0.15.0"
 black = "^20.8b1"
-flake8 = "^3.8.4"
+flake8 = "^3.8"
 
 [tool.poetry.scripts]
 run_titan = "titan:script_init"
@@ -35,3 +34,5 @@ run_titan = "titan:script_init"
 [build-system]
 requires = ["poetry_core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+# TODO update docs for install instructions, test with pypy

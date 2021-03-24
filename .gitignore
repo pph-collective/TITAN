@@ -13,7 +13,6 @@ venv_pypy/*
 __pycache__/
 __pycache__/*
 .python-version
-poetry.lock
 .pytest_cache/
 .pytest_cache/*
 .mypy_cache
