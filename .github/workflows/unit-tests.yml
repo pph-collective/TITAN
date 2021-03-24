@@ -21,9 +21,9 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .venv
-        key: venv-python3.7-${{ hashFiles('**/poetry.lock') }}
+        key: venv-lint-python3.7-${{ hashFiles('**/poetry.lock') }}
     - name: Install dependencies
-      run: poetry install
+      run: poetry install -E linting
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
