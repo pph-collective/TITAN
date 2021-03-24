@@ -23,7 +23,7 @@ jobs:
         path: .venv
         key: venv-lint-python3.7-${{ hashFiles('**/poetry.lock') }}
     - name: Install dependencies
-      run: poetry install -E linting
+      run: poetry install -E linting --no-dev
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names

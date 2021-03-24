@@ -2,7 +2,7 @@
 name = "appdirs"
 version = "1.4.4"
 description = "A small Python module for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
-category = "dev"
+category = "main"
 optional = true
 python-versions = "*"
 
@@ -10,7 +10,7 @@ python-versions = "*"
 name = "astunparse"
 version = "1.6.3"
 description = "An AST unparser for Python"
-category = "dev"
+category = "main"
 optional = true
 python-versions = "*"
 
@@ -43,7 +43,7 @@ tests_no_zope = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>
 name = "black"
 version = "20.8b1"
 description = "The uncompromising code formatter."
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">=3.6"
 
@@ -66,7 +66,7 @@ d = ["aiohttp (>=3.3.2)", "aiohttp-cors"]
 name = "cached-property"
 version = "1.5.2"
 description = "A decorator for caching properties in classes."
-category = "dev"
+category = "main"
 optional = true
 python-versions = "*"
 
@@ -74,7 +74,7 @@ python-versions = "*"
 name = "click"
 version = "7.1.2"
 description = "Composable command line interface toolkit"
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
@@ -101,7 +101,7 @@ toml = ["toml"]
 name = "dataclasses"
 version = "0.8"
 description = "A backport of the dataclasses module for Python 3.6"
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">=3.6, <3.7"
 
@@ -117,7 +117,7 @@ python-versions = ">=2.6, !=3.0.*, !=3.1.*"
 name = "flake8"
 version = "3.9.0"
 description = "the modular source code checker: pep8 pyflakes and co"
-category = "dev"
+category = "main"
 optional = true
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 
@@ -131,7 +131,7 @@ pyflakes = ">=2.3.0,<2.4.0"
 name = "future"
 version = "0.18.2"
 description = "Clean single-source support for Python 3 and 2"
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 
@@ -139,7 +139,7 @@ python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 name = "importlib-metadata"
 version = "3.7.3"
 description = "Read metadata from Python packages"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 
@@ -163,7 +163,7 @@ python-versions = "*"
 name = "jinja2"
 version = "2.11.3"
 description = "A very fast and expressive template engine."
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
@@ -177,7 +177,7 @@ i18n = ["Babel (>=0.8)"]
 name = "joblib"
 version = "1.0.1"
 description = "Lightweight pipelining with Python functions"
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">=3.6"
 
@@ -185,7 +185,7 @@ python-versions = ">=3.6"
 name = "livereload"
 version = "2.6.3"
 description = "Python LiveReload is an awesome tool for web developers"
-category = "dev"
+category = "main"
 optional = true
 python-versions = "*"
 
@@ -197,7 +197,7 @@ tornado = {version = "*", markers = "python_version > \"2.7\""}
 name = "lunr"
 version = "0.5.8"
 description = "A Python implementation of Lunr.js"
-category = "dev"
+category = "main"
 optional = true
 python-versions = "*"
 
@@ -213,7 +213,7 @@ languages = ["nltk (>=3.2.5,<3.5)", "nltk (>=3.2.5)"]
 name = "markdown"
 version = "3.3.4"
 description = "Python implementation of Markdown."
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">=3.6"
 
@@ -227,7 +227,7 @@ testing = ["coverage", "pyyaml"]
 name = "markupsafe"
 version = "1.1.1"
 description = "Safely add untrusted strings to HTML/XML markup."
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*"
 
@@ -235,7 +235,7 @@ python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*"
 name = "mccabe"
 version = "0.6.1"
 description = "McCabe checker, plugin for flake8"
-category = "dev"
+category = "main"
 optional = true
 python-versions = "*"
 
@@ -243,7 +243,7 @@ python-versions = "*"
 name = "mkdocs"
 version = "1.1.2"
 description = "Project documentation with Markdown."
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">=3.5"
 
@@ -260,7 +260,7 @@ tornado = ">=5.0"
 name = "mkdocs-autorefs"
 version = "0.1.1"
 description = "Automatically link across pages in MkDocs."
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">=3.6,<4.0"
 
@@ -272,7 +272,7 @@ mkdocs = ">=1.1,<2.0"
 name = "mkdocs-material"
 version = "7.0.6"
 description = "A Material Design theme for MkDocs"
-category = "dev"
+category = "main"
 optional = true
 python-versions = "*"
 
@@ -287,7 +287,7 @@ pymdown-extensions = ">=7.0"
 name = "mkdocs-material-extensions"
 version = "1.0.1"
 description = "Extension pack for Python Markdown."
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">=3.5"
 
@@ -298,7 +298,7 @@ mkdocs-material = ">=5.0.0"
 name = "mkdocstrings"
 version = "0.15.0"
 description = "Automatic documentation from sources, for MkDocs."
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">=3.6,<4.0"
 
@@ -315,7 +315,7 @@ pytkdocs = ">=0.2.0,<0.12.0"
 name = "mypy"
 version = "0.812"
 description = "Optional static typing for Python"
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">=3.5"
 
@@ -331,7 +331,7 @@ dmypy = ["psutil (>=4.0)"]
 name = "mypy-extensions"
 version = "0.4.3"
 description = "Experimental type system extensions for programs checked with the mypy typechecker."
-category = "dev"
+category = "main"
 optional = true
 python-versions = "*"
 
@@ -371,7 +371,7 @@ scipy = ["scipy"]
 name = "nltk"
 version = "3.5"
 description = "Natural Language Toolkit"
-category = "dev"
+category = "main"
 optional = true
 python-versions = "*"
 
@@ -434,7 +434,7 @@ oyaml = ">=1.0,<2.0"
 name = "pathspec"
 version = "0.8.1"
 description = "Utility library for gitignore style pattern matching of file paths."
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
@@ -464,7 +464,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 name = "pycodestyle"
 version = "2.7.0"
 description = "Python style guide checker"
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
@@ -472,7 +472,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 name = "pyflakes"
 version = "2.3.0"
 description = "passive checker of Python programs"
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
@@ -480,7 +480,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 name = "pygments"
 version = "2.8.1"
 description = "Pygments is a syntax highlighting package written in Python."
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">=3.5"
 
@@ -488,7 +488,7 @@ python-versions = ">=3.5"
 name = "pymdown-extensions"
 version = "8.1.1"
 description = "Extension pack for Python Markdown."
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">=3.6"
 
@@ -544,7 +544,7 @@ testing = ["fields", "hunter", "process-tests (==2.0.2)", "six", "pytest-xdist",
 name = "pytkdocs"
 version = "0.11.0"
 description = "Load Python objects documentation."
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">=3.6,<4.0"
 
@@ -569,7 +569,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
 name = "regex"
 version = "2021.3.17"
 description = "Alternative regular expression module, to replace re."
-category = "dev"
+category = "main"
 optional = true
 python-versions = "*"
 
@@ -577,7 +577,7 @@ python-versions = "*"
 name = "six"
 version = "1.15.0"
 description = "Python 2 and 3 compatibility utilities"
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
@@ -585,7 +585,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 name = "toml"
 version = "0.10.2"
 description = "Python Library for Tom's Obvious, Minimal Language"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 
@@ -593,7 +593,7 @@ python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 name = "tornado"
 version = "6.1"
 description = "Tornado is a Python web framework and asynchronous networking library, originally developed at FriendFeed."
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">= 3.5"
 
@@ -601,7 +601,7 @@ python-versions = ">= 3.5"
 name = "tqdm"
 version = "4.59.0"
 description = "Fast, Extensible Progress Meter"
-category = "dev"
+category = "main"
 optional = true
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,>=2.7"
 
@@ -614,7 +614,7 @@ telegram = ["requests"]
 name = "typed-ast"
 version = "1.4.2"
 description = "a fork of Python 2 and 3 ast modules with type comment support"
-category = "dev"
+category = "main"
 optional = true
 python-versions = "*"
 
@@ -622,7 +622,7 @@ python-versions = "*"
 name = "typing-extensions"
 version = "3.7.4.3"
 description = "Backported and Experimental Type Hints for Python 3.5+"
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -630,7 +630,7 @@ python-versions = "*"
 name = "zipp"
 version = "3.4.1"
 description = "Backport of pathlib-compatible object wrapper for zip files"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 
@@ -639,13 +639,13 @@ docs = ["sphinx", "jaraco.packaging (>=8.2)", "rst.linker (>=1.9)"]
 testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pytest-cov", "pytest-enabler", "jaraco.itertools", "func-timeout", "pytest-black (>=0.3.7)", "pytest-mypy"]
 
 [extras]
-docs = []
-linting = []
+docs = ["mkdocs", "mkdocs-material", "mkdocstrings"]
+linting = ["black", "flake8", "mypy"]
 
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6"
-content-hash = "eb8889ecfe2e56298210cc3087f5bd1dfe26450df27353be3d0141fd060ee673"
+content-hash = "4641f7db4eb748078e4bc92413188766d898799c58edc0be48849fa9eed80223"
 
 [metadata.files]
 appdirs = [
