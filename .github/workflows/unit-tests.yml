@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python for linting, formatting, type checking
       uses: actions/setup-python@v2
       with:
@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python for testing
       uses: actions/setup-python@v2
       with:
@@ -67,11 +67,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python for testing
       uses: actions/setup-python@v2
       with:
-        python-version: pypy-3.6
+        python-version: 3.8
     - name: Set up Poetry for testing
       run: |
         pip install poetry
@@ -80,7 +80,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .venv
-        key: venv-pypy3.6-${{ hashFiles('**/poetry.lock') }}
+        key: venv-python3.8-${{ hashFiles('**/poetry.lock') }}
     - name: Install dependencies
       run: poetry install
     - name: Integration Test with pytest
@@ -95,11 +95,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python for testing
       uses: actions/setup-python@v2
       with:
-        python-version: pypy-3.6
+        python-version: 3.8
     - name: Set up Poetry for testing
       run: |
         pip install poetry
@@ -108,7 +108,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .venv
-        key: venv-pypy3.6-${{ hashFiles('**/poetry.lock') }}
+        key: venv-python3.8-${{ hashFiles('**/poetry.lock') }}
     - name: Install dependencies
       run: poetry install
     - name: Integration Test with pytest

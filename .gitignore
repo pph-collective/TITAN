@@ -18,6 +18,7 @@ __pycache__/*
 .mypy_cache
 .coverage
 titan.egg-info/
+titan-model.egg-info/
 
 run_nycmsm_cal.sh
 
