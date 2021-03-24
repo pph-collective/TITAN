@@ -14,7 +14,10 @@ jobs:
       with:
         python-version: 3.7
     - name: Set up Poetry for linting, formatting, type checking
-      uses: abatilo/actions-poetry@v2.1.0
+      run: |
+        python --version
+        pip --version
+        pip install poetry
     - name: poetry config
       run: poetry config virtualenvs.in-project true
     - name: Cache poetry venv
@@ -45,7 +48,10 @@ jobs:
       with:
         python-version: pypy-3.7
     - name: Set up Poetry for testing
-      uses: abatilo/actions-poetry@v2.1.0
+      run: |
+        python --version
+        pip --version
+        pip install poetry
     - name: poetry config
       run: poetry config virtualenvs.in-project true
     - name: Cache poetry venv
@@ -75,7 +81,10 @@ jobs:
       with:
         python-version: pypy-3.7
     - name: Set up Poetry for testing
-      uses: abatilo/actions-poetry@v2.1.0
+      run: |
+        python --version
+        pip --version
+        pip install poetry
     - name: poetry config
       run: poetry config virtualenvs.in-project true
     - name: Cache poetry venv
@@ -105,7 +114,10 @@ jobs:
       with:
         python-version: pypy-3.7
     - name: Set up Poetry for testing
-      uses: abatilo/actions-poetry@v2.1.0
+      run: |
+        python --version
+        pip --version
+        pip install poetry
     - name: poetry config
       run: poetry config virtualenvs.in-project true
     - name: Cache poetry venv
