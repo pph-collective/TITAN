@@ -65,8 +65,6 @@ jobs:
 
   integration-deterministic:
     runs-on: ubuntu-latest
-    container:
-      image: brownccv/titanenv
 
     steps:
     - uses: actions/checkout@v1
@@ -95,8 +93,6 @@ jobs:
 
   integration-stochastic:
     runs-on: ubuntu-latest
-    container:
-      image: brownccv/titanenv
 
     steps:
     - uses: actions/checkout@v1
