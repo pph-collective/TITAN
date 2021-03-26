@@ -1182,7 +1182,9 @@
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">assort_mix</span><span class="p">:</span>
-        <span class="n">match_fns</span> <span class="o">=</span> <span class="n">get_match_fns</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">assort_mix</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">agent</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">)</span>
+        <span class="n">match_fns</span> <span class="o">=</span> <span class="n">get_match_fns</span><span class="p">(</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">assort_mix</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">agent</span><span class="p">,</span> <span class="n">bond_type</span><span class="p">,</span> <span class="n">rand_gen</span>
+        <span class="p">)</span>
         <span class="c1"># if no definitions match this agent, don&#39;t try to assort</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">match_fns</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">partner</span> <span class="ow">in</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_shuffle</span><span class="p">(</span><span class="n">eligible</span><span class="p">,</span> <span class="n">rand_gen</span><span class="p">):</span>
