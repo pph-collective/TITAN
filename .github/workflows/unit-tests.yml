@@ -121,6 +121,9 @@ jobs:
         flags: integration
 
   pypy-install:
+    runs-on: ubuntu-latest
+
+    steps:
     - uses: actions/checkout@v2
     - name: Set up Python for testing
       uses: actions/setup-python@v2
