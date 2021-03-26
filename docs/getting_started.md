@@ -33,7 +33,9 @@ We use angular commits to standardize our commits and encourage better messages.
 poetry install -E linting -E docs
 ```
 
-The `-E` flags tell poetry that we want the optional dependencies that we use for linting (mypy, black, flake8) and for building documentation. *NOTE* black will not install on pypy, don't use pypy for running linting checks.  You may need to tell poetry which installation of python to use - see [their instructions](https://python-poetry.org/docs/managing-environments/).
+The `-E` flags tell poetry that we want the optional dependencies that we use for linting (mypy, black, flake8) and for building documentation.
+
+We recommend using a recent python version for development (check out [pyenv](https://github.com/pyenv/pyenv) for a way to manage different python versions).  You may need to tell poetry which installation of python to use - see [their instructions](https://python-poetry.org/docs/managing-environments/).
 
 Poetry installs all of the dependencies into a virtual environment so that they are isolated from other projects you are working on.  To run any shell commands in the environment, prefix them with `poetry run` (e.g. `poetry run run_titan -p my_params.yml` or `poetry run pytest`) or start a poetry shell with `poetry shell`.
 
@@ -74,3 +76,7 @@ poetry run pytest -m unit # only unit tests
 poetry run pytest -m integration_deterministic # only deterministic integration tests
 poetry run pytest -m integration_stochastic # only stochastic integration tests
 ```
+
+### pypy
+
+pypy is a JIT compiled version of python which generally makes code faster.  It is important that titan remain installable/usable with pypy and we test for this with GitHub actions.  However, pypy doesn't play well with some of our linting tools, so we don't typically use it for development.

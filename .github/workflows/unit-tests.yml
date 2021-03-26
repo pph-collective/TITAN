@@ -120,6 +120,24 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
         flags: integration
 
+  pypy-install:
+    - uses: actions/checkout@v2
+    - name: Set up Python for testing
+      uses: actions/setup-python@v2
+      with:
+        python-version: pypy-3.6
+    - name: Set up Poetry for testing
+      run: |
+        pip install poetry --no-dev
+        poetry config virtualenvs.in-project true
+    - name: Cache poetry venv
+      uses: actions/cache@v2
+      with:
+        path: .venv
+        key: venv-pypy3.6-${{ hashFiles('**/poetry.lock') }}
+    - name: Install dependencies
+      run: poetry install
+
   trigger_rebuild:
     runs-on: ubuntu-latest
     needs: [unit, integration-deterministic]
