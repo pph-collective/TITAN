@@ -1,8 +1,8 @@
-name: deploy_docs
+name: deploy_pypi
 
 on:
-  push:
-    branches: [ main ]
+  release:
+    types: [ published ]
 
 jobs:
   deploy_site:
@@ -24,16 +24,12 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .venv
-          key: venv-docs-python3.7-${{ hashFiles('**/poetry.lock') }}
+          key: venv-nodev-python3.7-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install dependencies
-        run: poetry install -E docs --no-dev
+        run: poetry install --no-dev
 
-      - name: Build site
-        run: poetry run mkdocs build
-
-      - name: Deploy site
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: '${{ secrets.GITHUB_TOKEN }}'
-          publish_dir: ./site
+      - name: Build & Publish
+        run: poetry publish --build
+        env:
+          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}

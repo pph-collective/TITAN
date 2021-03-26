@@ -134,7 +134,7 @@ def read(params: ObjMap, path: str) -> Population:
     agent_extras: Dict[str, Dict] = {}
 
     def update_agent_extras(files, extra_type):
-        pattern = re.compile(f"^.*_{extra_type}_(.*)\.csv$")
+        pattern = re.compile(f"^.*_{extra_type}_(.*)\\.csv$")
         for file in files:
             m = pattern.match(file)
             if m is not None:
