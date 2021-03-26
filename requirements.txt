@@ -1,7 +1,0 @@
-wheel==0.34.2
-nanoid==2.0.0
-networkx==2.5
-numpy==1.18.5
-paraml==0.1.0
-pytest==5.4.1
-pytest-cov==2.8.1

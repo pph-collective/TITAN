@@ -8,32 +8,27 @@ Agent populations are defined as graphs (nodes connected by edges). Nodes in the
 
 ## Getting Started
 
-To get started, install the requirements listed in the `requirements.txt` using a local python install or virtual env. Once installed, the model can be run using the `run_titan.py` program and configured using the `params.py` file.
+Install the package
+
+```
+pip install titan-model
+```
+
+This includes the script `run_titan` which can then be used to run the model.
 
 ### Prerequisites
 
-In order for TITAN to run, you must install `Python3.x` and the necessary python packages listed in the `requirements.txt`. This can be done by using `pip` via:
-
-```
-pip install -r requirements.txt
-```
-
-### Installing
-
-Currently, TITAN does not require any further installation as the source code exists within this repo in `/titan`
+* Python (or pypy) 3.6 or later
 
 ## Running the Model
 
-To run the model, execute the `run_titan.py` program within the `/titan/` directory. See [TITAN params](https://pph-collective.github.io/titan-params-app) for documentation on how to set and use parameters.
+```
+run_titan -p my_params.yml
+```
 
-Results of the model are generated and aggregated into the `/results/` directory by default. If the model is re-run, the existing results will be overwritten. A helper script has been written to prepare simulations for use with OSCAR, and is labelled `subTitan.sh` in the root directory.
+To run the model, execute the `run_titan` program. See [TITAN params](https://pph-collective.github.io/titan-params-app) for documentation on how to set and use parameters.
 
-
-### Running the tests
-
-`python -m pytest`
-
-Code coverage is tracked via CodeCov and targets are set for unit, integration, and the overall project.  Any changes to the code should also have associated tests.
+Results of the model are generated and aggregated into the `/results/` directory by default. If the model is re-run, the existing results will be overwritten.
 
 
 ## Built With
@@ -49,11 +44,6 @@ Code coverage is tracked via CodeCov and targets are set for unit, integration, 
 
   Oliphant TE. A guide to NumPy. Vol. 1. Trelgol Publishing USA; 2006.
 
-* [Matplotlib]()
-
-  Hunter JD. Matplotlib: A 2D graphics environment. Computing in science &amp; engineering. 2007;9(3):90–5.
-
-
 ## Authors
 
 * **Lars Seeman** - *Initial work*
@@ -64,5 +54,3 @@ Code coverage is tracked via CodeCov and targets are set for unit, integration, 
 ## License
 
 This project is licensed under the GNU General Public License version 3 - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments

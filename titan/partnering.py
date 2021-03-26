@@ -53,7 +53,9 @@ def select_partner(
         return None
 
     if params.features.assort_mix:
-        match_fns = get_match_fns(params.assort_mix.values(), agent, rand_gen)
+        match_fns = get_match_fns(
+            params.assort_mix.values(), agent, bond_type, rand_gen
+        )
         # if no definitions match this agent, don't try to assort
         if len(match_fns) > 0:
             for partner in utils.safe_shuffle(eligible, rand_gen):
@@ -83,13 +85,16 @@ def get_str_attr(obj, attr):
 
 
 # if this assort rule applies for this agent, get the match function for a potential partner
-def get_match_fns(assort_defs, agent, rand_gen):
+def get_match_fns(assort_defs, agent, bond_type, rand_gen):
     match_fns = []
     for assort_def in assort_defs:
-        if assort_def.agent_value == "__any__":
-            match_fns.append(get_same_match_fn(assort_def, agent, rand_gen))
-        elif get_str_attr(agent, assort_def.attribute) == str(assort_def.agent_value):
-            match_fns.append(get_match_fn(assort_def, rand_gen))
+        if len(assort_def.bond_types) == 0 or bond_type in assort_def.bond_types:
+            if assort_def.agent_value == "__any__":
+                match_fns.append(get_same_match_fn(assort_def, agent, rand_gen))
+            elif get_str_attr(agent, assort_def.attribute) == str(
+                assort_def.agent_value
+            ):
+                match_fns.append(get_match_fn(assort_def, rand_gen))
 
     return match_fns
 

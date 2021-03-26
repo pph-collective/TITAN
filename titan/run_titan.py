@@ -1,6 +1,3 @@
-#!/usr/bin/env pypy3
-# encoding: utf-8
-
 import time as time_mod
 from copy import copy
 import sys
@@ -34,18 +31,18 @@ NCORES = int(os.environ.get("SLURM_CPUS_PER_TASK", cpu_count()))
 # set up args parsing
 parser = argparse.ArgumentParser(description="Run TITAN model")
 parser.add_argument(
+    "-p", "--params", required=True, help="directory or file with params yaml(s)"
+)
+parser.add_argument(
+    "-S", "--setting", default="custom", help="setting directory to use"
+)
+parser.add_argument(
     "-n",
     "--nMC",
     type=int,
     nargs="?",
     default=1,
     help="number of monte carlo runs to complete",
-)
-parser.add_argument(
-    "-S", "--setting", default="custom", help="setting directory to use"
-)
-parser.add_argument(
-    "-p", "--params", required=True, help="directory or file with params yaml(s)"
 )
 parser.add_argument(
     "-o", "--outdir", default="results", help="directory name to save results to"

@@ -8,46 +8,55 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python for linting, formatting, type checking
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v2
       with:
         python-version: 3.7
-    - name: Cache python modules
-      uses: actions/cache@v1
-      env:
-        cache-name: cache-python-modules
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('dev_requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-    - name: Install dependencies
+    - name: Set up Poetry for linting, formatting, type checking
       run: |
-        pip install --upgrade pip
-        pip install cython
-        pip install -r dev_requirements.txt
+        pip install poetry
+        poetry config virtualenvs.in-project true
+    - name: Cache poetry venv
+      uses: actions/cache@v2
+      with:
+        path: .venv
+        key: venv-lint-python3.7-${{ hashFiles('**/poetry.lock') }}
+    - name: Install dependencies
+      run: poetry install -E linting --no-dev
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
-        flake8 titan --count --select=E9,F63,F7,F82 --show-source --statistics
+        poetry run flake8 titan --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 titan --count --exit-zero --max-complexity=12 --max-line-length=88 --statistics
+        poetry run flake8 titan --count --exit-zero --max-complexity=12 --max-line-length=88 --statistics
     - name: Check code formatting with black
-      run: black . --check
+      run: poetry run black . --check
     - name: Static Type Checking with mypy
-      run: mypy titan
+      run: poetry run mypy titan
 
   unit:
     runs-on: ubuntu-latest
-    container:
-      image: brownccv/titanenv
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Unit Test with pytest
+    - uses: actions/checkout@v2
+    - name: Set up Python for testing
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Set up Poetry for testing
       run: |
-        pypy3 -m pytest -m unit --cov=titan --cov-report=xml
+        pip install poetry
+        poetry config virtualenvs.in-project true
+    - name: Cache poetry venv
+      uses: actions/cache@v2
+      with:
+        path: .venv
+        key: venv-python3.8-${{ hashFiles('**/poetry.lock') }}
+    - name: Install dependencies
+      run: poetry install
+    - name: Unit Test with pytest
+      run: poetry run pytest -m unit --cov=titan --cov-report=xml
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
       with:
@@ -56,14 +65,26 @@ jobs:
 
   integration-deterministic:
     runs-on: ubuntu-latest
-    container:
-      image: brownccv/titanenv
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Integration Test with pytest
+    - uses: actions/checkout@v2
+    - name: Set up Python for testing
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Set up Poetry for testing
       run: |
-        pypy3 -m pytest -m integration_deterministic --cov=titan --cov-report=xml
+        pip install poetry
+        poetry config virtualenvs.in-project true
+    - name: Cache poetry venv
+      uses: actions/cache@v2
+      with:
+        path: .venv
+        key: venv-python3.8-${{ hashFiles('**/poetry.lock') }}
+    - name: Install dependencies
+      run: poetry install
+    - name: Integration Test with pytest
+      run: poetry run pytest -m integration_deterministic --cov=titan --cov-report=xml
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
       with:
@@ -72,20 +93,53 @@ jobs:
 
   integration-stochastic:
     runs-on: ubuntu-latest
-    container:
-      image: brownccv/titanenv
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Integration Test with pytest
+    - uses: actions/checkout@v2
+    - name: Set up Python for testing
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Set up Poetry for testing
       run: |
-        pypy3 -m pytest -m integration_stochastic --cov=titan --cov-report=xml
+        pip install poetry
+        poetry config virtualenvs.in-project true
+    - name: Cache poetry venv
+      uses: actions/cache@v2
+      with:
+        path: .venv
+        key: venv-python3.8-${{ hashFiles('**/poetry.lock') }}
+    - name: Install dependencies
+      run: poetry install
+    - name: Integration Test with pytest
+      run: poetry run pytest -m integration_stochastic --cov=titan --cov-report=xml
     - name: Upload coverage to Codecov
       if: always()
       uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         flags: integration
+
+  pypy-install:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python for testing
+      uses: actions/setup-python@v2
+      with:
+        python-version: pypy-3.6
+    - name: Set up Poetry for testing
+      run: |
+        pip install poetry
+        poetry config virtualenvs.in-project true
+    - name: Cache poetry venv
+      uses: actions/cache@v2
+      with:
+        path: .venv
+        key: venv-pypy3.6-${{ hashFiles('**/poetry.lock') }}
+    - name: Install dependencies
+      run: poetry install --no-dev
 
   trigger_rebuild:
     runs-on: ubuntu-latest

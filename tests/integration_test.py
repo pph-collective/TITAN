@@ -7,6 +7,7 @@ import csv
 import math
 from copy import deepcopy
 from glob import glob
+import sys
 
 from titan.parse_params import ObjMap, create_params
 from titan.model import TITAN
@@ -37,7 +38,7 @@ def test_model_runs():
         os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
     )
 
-    subprocess.check_call([f, f"-p {param_file}"])
+    subprocess.check_call([sys.executable, f, f"-p {param_file}"])
     assert True
 
 
@@ -50,7 +51,9 @@ def test_model_runs_sweep():
         os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
     )
 
-    subprocess.check_call([f, f"-p {param_file}", "-w model.seed.run:1:3"])
+    subprocess.check_call(
+        [sys.executable, f, f"-p {param_file}", "-w model.seed.run:1:3"]
+    )
     assert True
 
 
@@ -65,8 +68,8 @@ def test_model_reproducible(tmpdir):
         os.path.dirname(os.path.abspath(__file__)), "params", "basic_seeded.yml"
     )
 
-    subprocess.check_call([f, f"-p {param_file}", f"-o {path_a}"])
-    subprocess.check_call([f, f"-p {param_file}", f"-o {path_b}"])
+    subprocess.check_call([sys.executable, f, f"-p {param_file}", f"-o {path_a}"])
+    subprocess.check_call([sys.executable, f, f"-p {param_file}", f"-o {path_b}"])
 
     result_file_a = os.path.join(path_a, "basicReport.txt")
     result_file_b = os.path.join(path_b, "basicReport.txt")
@@ -104,13 +107,15 @@ def test_model_pop_write_read(tmpdir):
         os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
     )
 
-    subprocess.check_call([f, "-p", param_file, "-o", path_a, "--savepop"])
+    subprocess.check_call(
+        [sys.executable, f, "-p", param_file, "-o", path_a, "--savepop"]
+    )
 
     saved_pop_path = glob(os.path.join(path_a, "pop", "*_pop.tar.gz"))[0]
 
     path_b = tmpdir.mkdir("b")
     subprocess.check_call(
-        [f, "-p", param_file, "-o", path_b, "--poppath", saved_pop_path]
+        [sys.executable, f, "-p", param_file, "-o", path_b, "--poppath", saved_pop_path]
     )
 
     assert True
@@ -134,7 +139,14 @@ def test_model_settings_run(tmpdir):
             path = tmpdir.mkdir(item)
             print(f"-----------Starting run for {item}-----------")
             subprocess.check_call(
-                [f, f"-S {item}", f"-p {param_file}", f"-o {path}", "-e"]
+                [
+                    sys.executable,
+                    f,
+                    f"-S {item}",
+                    f"-p {param_file}",
+                    f"-o {path}",
+                    "-e",
+                ]
             )
             assert True
 
