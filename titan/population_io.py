@@ -5,6 +5,7 @@ from shutil import make_archive, unpack_archive
 from tempfile import mkdtemp
 import glob
 import re
+import logging
 
 from .population import Population
 from .agent import Agent, Relationship
@@ -12,6 +13,7 @@ from .parse_params import ObjMap
 from .location import Location
 from . import features
 from . import exposures
+from . import utils
 
 agent_feature_attrs = [
     feature.name for feature in features.BaseFeature.__subclasses__()
@@ -39,6 +41,8 @@ def write(pop: Population, dir: str, compress: bool = True) -> str:
         path, or archive name if compress is true
     """
     assert len(pop.relationships) > 0, "Can't write empty population"
+
+    utils.set_up_logging(pop.params)
 
     # open agent file
     agent_file = os.path.join(dir, f"{pop.id}_agents.csv")
@@ -86,7 +90,7 @@ def write(pop: Population, dir: str, compress: bool = True) -> str:
 
 
 def write_extra_class_file(file_name, collection, extra, attrs):
-    print(f"Creating {file_name}")
+    logging.info(f"Creating {file_name}")
     with open(file_name, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=attrs)
         writer.writeheader()
@@ -96,7 +100,7 @@ def write_extra_class_file(file_name, collection, extra, attrs):
 
 
 def write_class_file(file_name, collection, attrs):
-    print(f"Creating {file_name}")
+    logging.info(f"Creating {file_name}")
     with open(file_name, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=attrs)
         writer.writeheader()

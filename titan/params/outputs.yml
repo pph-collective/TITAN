@@ -36,3 +36,21 @@ outputs:
       - drug_types
       - locations
       - components
+  logging:
+    to_file:
+      default: false
+      type: boolean
+      description: Whether to log to a file instead of the console (default)
+    filepath:
+      default: '__cwd__'
+      description: The directory path wherethe logs will be printed to if `to_file` is true.  The logs will be named `titan_<run id>_log.txt`.  The default is your current working directory.
+      type: any
+    level:
+      default: 'INFO'
+      type: enum
+      description: What is the minimum log level to record?
+      values:
+        - 'DEBUG'
+        - 'INFO'
+        - 'WARNING'
+        - 'ERROR'

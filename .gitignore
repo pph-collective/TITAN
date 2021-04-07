@@ -29,6 +29,7 @@ ipynb/.ipynb_checkpoints/
 results/
 results/*.txt
 results/*/*.txt
+*log*.txt
 
 profile.prof
 site/

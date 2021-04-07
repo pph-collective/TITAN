@@ -460,14 +460,16 @@ class AgentSet:
         for subset in list(self.subset.values()):
             yield subset
 
-    def print_subsets(self):
+    def print_subsets(self, printer=print):
         """
         Pretty print the subsets of this agent set
         """
-        print(f"\t__________ {self.id} __________")
-        print("\tID\t\tN\t\t%")
+        lines = []
+
+        lines.append(f"\t__________ {self.id} __________")
+        lines.append("\tID\t\tN\t\t%")
         for set in self.iter_subset():
-            print(
+            lines.append(
                 "\t{:6}\t\t{:5}\t\t{:.2}".format(
                     set.id,
                     set.num_members(),
@@ -475,7 +477,7 @@ class AgentSet:
                 )
             )
             for subset in set.iter_subset():
-                print(
+                lines.append(
                     "\t{:4}\t\t{:5}\t\t{:.2}".format(
                         subset.id,
                         subset.num_members(),
@@ -484,4 +486,5 @@ class AgentSet:
                         ),
                     )
                 )
-        print("\t______________ END ______________")
+        lines.append("\t______________ END ______________")
+        printer("\n".join(lines))
