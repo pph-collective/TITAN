@@ -326,8 +326,8 @@ class HIV(base_exposure.BaseExposure):
         args:
              model: the running model
         """
-        aids_params = self.agent.location.params.hiv.aids
+        aids_prob = self.agent.location.params.hiv.aids.prob
         p = self.agent.haart.aids_scale()  # type: ignore[attr-defined]
 
-        if model.run_random.random() < p * aids_params.prob:
+        if model.run_random.random() < p * aids_prob:
             self.aids = True

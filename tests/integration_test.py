@@ -200,12 +200,12 @@ def test_target_partners(make_model_integration, tmpdir):
     # change the partner distribution mean upward for creating model b
     for bond in model_a.params.classes.bond_types:
         for race in model_a.params.classes.races:
-            model_a.params.demographics[race].sex_type.MSM.drug_type["None"].num_partners[
-                bond
-            ].vars[1].value *= 10
-            model_a.params.demographics[race].sex_type.MSM.drug_type["Inj"].num_partners[
-                bond
-            ].vars[1].value *= 10
+            model_a.params.demographics[race].sex_type.MSM.drug_type[
+                "None"
+            ].num_partners[bond].vars[1].value *= 10
+            model_a.params.demographics[race].sex_type.MSM.drug_type[
+                "Inj"
+            ].num_partners[bond].vars[1].value *= 10
     model_a.params.model.seed.run = model_a.run_seed
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
 
@@ -502,14 +502,15 @@ def test_assort_mix(params_integration, tmpdir):
     assert a_same_race > a_diff_race
     assert a_same_race > b_same_race
     assert b_diff_race > a_diff_race
-    assert math.isclose(b_same_race, c_same_race, abs_tol = 50)
+    assert math.isclose(b_same_race, c_same_race, abs_tol=50)
 
     # close to proportion expected
-    assert math.isclose(0.9, a_same_race / (a_same_race + a_diff_race), abs_tol = 0.05)
-    assert math.isclose(0.5, b_same_race / (b_same_race + b_diff_race), abs_tol = 0.1)
-    assert math.isclose(0.5, c_same_race / (c_same_race + c_diff_race), abs_tol = 0.1)
+    assert math.isclose(0.9, a_same_race / (a_same_race + a_diff_race), abs_tol=0.05)
+    assert math.isclose(0.5, b_same_race / (b_same_race + b_diff_race), abs_tol=0.1)
+    assert math.isclose(0.5, c_same_race / (c_same_race + c_diff_race), abs_tol=0.1)
 
-@pytest.mark.in_progress
+
+@pytest.mark.integration_stochastic
 def test_treatment_cascade(params_integration, tmpdir):
     """
     Does an increase in HAART result in less HIV, AIDS and death
@@ -524,40 +525,48 @@ def test_treatment_cascade(params_integration, tmpdir):
     params_integration.model.time.num_steps = 20
 
     def run_get_death(model, path):
-        deaths = 0
+        deaths = set()
+        hiv_start = set(a.id for a in model.pop.all_agents if a.hiv.active)
+        aids_start = set(a.id for a in model.pop.all_agents if a.hiv.aids)
+        hiv_only_start = hiv_start - aids_start
+        unique_hiv = set()
+        unique_aids = set()
         while model.time < model.params.model.time.num_steps:
             model.time += 1
             model.step(path)
-            deaths += len(model.deaths)
+            deaths |= set(a.id for a in model.deaths)
+            unique_hiv |= set(
+                a.id
+                for a in model.pop.all_agents
+                if a.hiv.active and a.hiv.time == model.time
+            )
+            unique_aids |= set(a.id for a in model.pop.all_agents if a.hiv.aids)
             model.reset_trackers()
 
-        return deaths
+        return (
+            len(unique_hiv - unique_aids - hiv_only_start),
+            len(unique_aids - aids_start),
+            len(deaths & (unique_hiv | hiv_start)),
+        )
 
-    model_a = TITAN(params_integration) # low haart
-    hiv_a_init = sum([1 for a in model_a.pop.all_agents if a.hiv.active])
-    aids_a_init = sum([1 for a in model_a.pop.all_agents if a.hiv.aids])
-    deaths_a = run_get_death(model_a, path_a)
-    hiv_a_end = sum([1 for a in model_a.pop.all_agents if a.hiv.active])
-    aids_a_end = sum([1 for a in model_a.pop.all_agents if a.hiv.aids])
+    model_a = TITAN(params_integration)  # low haart
+    new_hiv_a, new_aids_a, hiv_deaths_a = run_get_death(model_a, path_a)
 
     for race in params_integration.classes.races:
         for drug_type in params_integration.classes.drug_types:
-            haart_params = params_integration.demographics[race].sex_type.MSM.drug_type[drug_type].haart
+            haart_params = (
+                params_integration.demographics[race]
+                .sex_type.MSM.drug_type[drug_type]
+                .haart
+            )
             haart_params.init = 0.9
             haart_params.enroll.rule.prob = 0.9
             haart_params.adherence.init = 0.9
             haart_params.adherence.prob = 0.9
 
-    params_integration.model.seed.run = model_a.run_seed
-    params_integration.model.seed.ppl = model_a.pop.pop_seed
+    model_b = TITAN(params_integration)  # high haart
+    new_hiv_b, new_aids_b, hiv_deaths_b = run_get_death(model_b, path_b)
 
-    model_b = TITAN(params_integration) # high haart
-    hiv_b_init = sum([1 for a in model_b.pop.all_agents if a.hiv.active])
-    aids_b_init = sum([1 for a in model_b.pop.all_agents if a.hiv.aids])
-    deaths_b = run_get_death(model_b, path_b)
-    hiv_b_end = sum([1 for a in model_b.pop.all_agents if a.hiv.active])
-    aids_b_end = sum([1 for a in model_b.pop.all_agents if a.hiv.aids])
-    
-    assert (aids_b_end - aids_b_init) < (aids_a_end - aids_a_init)
-    assert (hiv_b_end - hiv_b_init) < (hiv_a_end - hiv_a_init)
-    assert deaths_b < deaths_a
+    assert hiv_deaths_b <= hiv_deaths_a, "HIV deaths not down"
+    assert new_aids_b <= new_aids_a, "new AIDS  not down"
+    assert new_hiv_b < new_hiv_a, "new HIV not down"
