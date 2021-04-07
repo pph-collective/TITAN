@@ -199,12 +199,13 @@ def test_target_partners(make_model_integration, tmpdir):
 
     # change the partner distribution mean upward for creating model b
     for bond in model_a.params.classes.bond_types:
-        model_a.params.demographics.black.sex_type.MSM.drug_type["None"].num_partners[
-            bond
-        ].vars[1].value *= 10
-        model_a.params.demographics.black.sex_type.MSM.drug_type["Inj"].num_partners[
-            bond
-        ].vars[1].value *= 10
+        for race in model_a.params.classes.races:
+            model_a.params.demographics[race].sex_type.MSM.drug_type["None"].num_partners[
+                bond
+            ].vars[1].value *= 10
+            model_a.params.demographics[race].sex_type.MSM.drug_type["Inj"].num_partners[
+                bond
+            ].vars[1].value *= 10
     model_a.params.model.seed.run = model_a.run_seed
     model_a.params.model.seed.ppl = model_a.pop.pop_seed
 
@@ -305,8 +306,10 @@ def test_syringe_services(params_integration, tmpdir):
     """
     If we use syringe services, does the incidence of hiv decrease?
     """
-    params_integration.demographics.black.sex_type.MSM.drug_type.Inj.ppl = 1.0
-    params_integration.demographics.black.sex_type.MSM.drug_type["None"].ppl = 0.0
+    for race in params_integration.classes.races:
+        params_integration.demographics[race].sex_type.MSM.drug_type.Inj.ppl = 1.0
+        params_integration.demographics[race].sex_type.MSM.drug_type["None"].ppl = 0.0
+
     params_integration.model.num_pop = 500
     model_a = TITAN(params_integration)
     model_a.params.partnership.sex.frequency.Sex = (
@@ -435,3 +438,126 @@ def test_incar(params_integration, tmpdir):
     # agents should not hiv convert during incar
     for agent in time_1_incar_hiv_neg:
         assert not agent.hiv.active
+
+
+@pytest.mark.integration_stochastic
+def test_assort_mix(params_integration, tmpdir):
+    """
+    Do vastly different assorting rules result in different networks
+    """
+    path_a = tmpdir.mkdir("a")
+    path_a.mkdir("network")
+    path_b = tmpdir.mkdir("b")
+    path_b.mkdir("network")
+    path_c = tmpdir.mkdir("c")
+    path_c.mkdir("network")
+
+    params_integration.features.assort_mix = True
+    params_integration.assort_mix = ObjMap(
+        {
+            "same_race": {
+                "attribute": "race",
+                "partner_attribute": "__agent__",
+                "bond_types": [],
+                "agent_value": "__any__",
+                "partner_values": {"__same__": 0.9, "__other__": 0.1},
+            }
+        }
+    )
+
+    model_a = TITAN(params_integration)
+    model_a.run(path_a)
+
+    params_integration.assort_mix = ObjMap(
+        {
+            "cross_race": {
+                "attribute": "race",
+                "partner_attribute": "__agent__",
+                "bond_types": [],
+                "agent_value": "__any__",
+                "partner_values": {"__same__": 0.5, "__other__": 0.5},
+            }
+        }
+    )
+
+    model_b = TITAN(params_integration)
+    model_b.run(path_b)
+
+    params_integration.features.assort_mix = False
+    model_c = TITAN(params_integration)
+    model_c.run(path_c)
+
+    model_a_rels = model_a.pop.relationships
+    a_same_race = sum([1 for r in model_a_rels if r.agent1.race == r.agent2.race])
+    a_diff_race = sum([1 for r in model_a_rels if r.agent1.race != r.agent2.race])
+
+    model_b_rels = model_b.pop.relationships
+    b_same_race = sum([1 for r in model_b_rels if r.agent1.race == r.agent2.race])
+    b_diff_race = sum([1 for r in model_b_rels if r.agent1.race != r.agent2.race])
+
+    model_c_rels = model_c.pop.relationships
+    c_same_race = sum([1 for r in model_c_rels if r.agent1.race == r.agent2.race])
+    c_diff_race = sum([1 for r in model_c_rels if r.agent1.race != r.agent2.race])
+
+    assert a_same_race > a_diff_race
+    assert a_same_race > b_same_race
+    assert b_diff_race > a_diff_race
+    assert math.isclose(b_same_race, c_same_race, abs_tol = 50)
+
+    # close to proportion expected
+    assert math.isclose(0.9, a_same_race / (a_same_race + a_diff_race), abs_tol = 0.05)
+    assert math.isclose(0.5, b_same_race / (b_same_race + b_diff_race), abs_tol = 0.1)
+    assert math.isclose(0.5, c_same_race / (c_same_race + c_diff_race), abs_tol = 0.1)
+
+@pytest.mark.in_progress
+def test_treatment_cascade(params_integration, tmpdir):
+    """
+    Does an increase in HAART result in less HIV, AIDS and death
+    """
+    path_a = tmpdir.mkdir("a")
+    path_a.mkdir("network")
+    path_b = tmpdir.mkdir("b")
+    path_b.mkdir("network")
+
+    params_integration.features.die_and_replace = True
+    params_integration.model.num_pop = 1000
+    params_integration.model.time.num_steps = 20
+
+    def run_get_death(model, path):
+        deaths = 0
+        while model.time < model.params.model.time.num_steps:
+            model.time += 1
+            model.step(path)
+            deaths += len(model.deaths)
+            model.reset_trackers()
+
+        return deaths
+
+    model_a = TITAN(params_integration) # low haart
+    hiv_a_init = sum([1 for a in model_a.pop.all_agents if a.hiv.active])
+    aids_a_init = sum([1 for a in model_a.pop.all_agents if a.hiv.aids])
+    deaths_a = run_get_death(model_a, path_a)
+    hiv_a_end = sum([1 for a in model_a.pop.all_agents if a.hiv.active])
+    aids_a_end = sum([1 for a in model_a.pop.all_agents if a.hiv.aids])
+
+    for race in params_integration.classes.races:
+        for drug_type in params_integration.classes.drug_types:
+            haart_params = params_integration.demographics[race].sex_type.MSM.drug_type[drug_type].haart
+            haart_params.init = 0.9
+            haart_params.enroll.rule.prob = 0.9
+            haart_params.adherence.init = 0.9
+            haart_params.adherence.prob = 0.9
+
+    params_integration.model.seed.run = model_a.run_seed
+    params_integration.model.seed.ppl = model_a.pop.pop_seed
+
+    model_b = TITAN(params_integration) # high haart
+    hiv_b_init = sum([1 for a in model_b.pop.all_agents if a.hiv.active])
+    aids_b_init = sum([1 for a in model_b.pop.all_agents if a.hiv.aids])
+    deaths_b = run_get_death(model_b, path_b)
+    hiv_b_end = sum([1 for a in model_b.pop.all_agents if a.hiv.active])
+    aids_b_end = sum([1 for a in model_b.pop.all_agents if a.hiv.aids])
+    
+    assert (aids_b_end - aids_b_init) < (aids_a_end - aids_a_init)
+    assert (hiv_b_end - hiv_b_init) < (hiv_a_end - hiv_a_init)
+    assert deaths_b < deaths_a

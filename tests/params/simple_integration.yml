@@ -2,6 +2,8 @@ classes:
   races:
     black:
       hispanic: false
+    white:
+      hispanic: false
   sex_types:
     MSM:
       gender: M
@@ -13,8 +15,8 @@ classes:
     - None
 
 demographics:
-  black:
-    ppl: 1.0
+  black: &race_dems
+    ppl: 0.5
     sex_type:
       MSM:
         ppl: 1.0
@@ -46,18 +48,18 @@ demographics:
         drug_type:
           Inj:
             ppl: 0.2
-            hiv:
-              init: 0.1
+            hiv: &base_hiv
+              init: 0.4
               dx:
-                init: 0.1
-                prob: 0.1
+                init: 0.9
+                prob: 0.9
               aids:
-                init: 0.1
-            haart:
+                init: 0.2
+            haart: &base_haart
               init: 0.1
-              prob:
-                1:
-                  enroll: 0.1
+              enroll:
+                rule:
+                  prob: 0.1
                   start: 0
                   stop: 999
               adherence:
@@ -91,24 +93,8 @@ demographics:
                     type: int
           None:
             ppl: 0.8
-            hiv:
-              init: 0.1
-              dx:
-                init: 0.1
-                prob: 0.1
-              aids:
-                init: 0.1
-            haart:
-              init: 0.1
-              prob:
-                1:
-                  enroll: 0.1
-                  start: 0
-                  stop: 999
-              adherence:
-                init: 0.1
-                prob: 0.1
-              discontinue: 0.1
+            hiv: *base_hiv
+            haart: *base_haart
             num_partners:
               Sex:
                 dist_type: poisson
@@ -116,6 +102,7 @@ demographics:
                   1:
                     value: 2
                     type: float
+  white: *race_dems
 
 partnership:
   duration:
@@ -191,6 +178,7 @@ features:
   static_network: false
   incar: false
   partner_tracing: false
+  die_and_replace: false
 
 model:
   num_pop: 300

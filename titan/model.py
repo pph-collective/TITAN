@@ -291,9 +291,11 @@ class TITAN:
 
         agent_zero = utils.safe_random_choice(zero_eligible, self.run_random)
         if agent_zero:  # if eligible agent, make agent 0
+            print(f"\tAgent zero selected: {agent_zero}")
             zero_attr = getattr(agent_zero, self.params.agent_zero.exposure)
             zero_attr.convert(self)
         elif self.params.agent_zero.fallback and max_agent is not None:
+            print(f"\tFallback agent zero selected: {agent_zero}")
             zero_attr = getattr(max_agent, self.params.agent_zero.exposure)
             zero_attr.convert(self)
         else:
