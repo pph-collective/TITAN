@@ -307,14 +307,20 @@ def get_cumulative_bin(rand_gen, bin_def: ObjMap) -> int:
 
     return bin
 
+
 def set_up_logging(params):
     # set up logging
     if params.outputs.logging.to_file:
-        log_msg_format = "[%(asctime)s][%(levelname)s][%(module)s]\n\t%(message)s"
+        log_msg_format = "{message:<60}\t[{asctime}][{levelname}][{module}]"
         log_dt_format = "%Y%m%d%H%M%S"
-        path = os.getcwd() if params.outputs.logging.filepath == '__cwd__' else params.outputs.logging.filepath
+        path = (
+            os.getcwd()
+            if params.outputs.logging.filepath == "__cwd__"
+            else params.outputs.logging.filepath
+        )
         logging.basicConfig(
             format=log_msg_format,
+            style="{",
             datefmt=log_dt_format,
             filename=os.path.join(
                 path, f"titan_log_{datetime.now().strftime(log_dt_format)}.txt"

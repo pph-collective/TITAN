@@ -310,8 +310,8 @@ outputs:
     - sex_types
     - components
     - drug_types
-  # logging:
-  #   to_file: true
+  logging:
+    to_file: true
 
 exposures:
   hiv: true
