@@ -10,6 +10,7 @@ from multiprocessing import Pool, cpu_count
 import csv
 import traceback
 from typing import List, Optional
+import logging
 
 # allow imports to work if running it as a script for development locally
 if __name__ == "__main__":

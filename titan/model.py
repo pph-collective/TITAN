@@ -47,10 +47,10 @@ class TITAN:
         logging.info("=== Begin Initialization Protocol ===\n")
 
         if pop is None:
-            logging.info("\tGenerating new population")
+            logging.info("  Generating new population")
             self.pop = population.Population(params)
         else:
-            logging.info("\tUsing provided population")
+            logging.info("  Using provided population")
             self.pop = pop
 
         self.time = -1 * self.params.model.time.burn_steps  # burn is negative time
@@ -75,13 +75,13 @@ class TITAN:
 
         # Set seed format. 0: pure random, else: fixed value
         self.run_seed = utils.get_check_rand_int(params.model.seed.run)
-        logging.info(f"\tRun seed was set to: {self.run_seed}")
+        logging.info(f"  Run seed was set to: {self.run_seed}")
         self.run_random = random.Random(self.run_seed)
         self.np_random = np.random.default_rng(self.run_seed)
         random.seed(self.run_seed)
-        logging.info(("\tFIRST RANDOM CALL {}".format(random.randint(0, 100))))
+        logging.info(("  FIRST RANDOM CALL {}".format(random.randint(0, 100))))
 
-        logging.info("\tResetting death count")
+        logging.info("  Resetting death count")
         self.deaths: List["ag.Agent"] = []  # Number of death
 
         logging.info("\n=== Initialization Protocol Finished ===")
@@ -154,20 +154,20 @@ class TITAN:
         self.print_stats(stats, outdir)
 
         if self.params.model.time.burn_steps > 0:
-            logging.info("\t===! Start Burn Loop !===")
+            logging.info("  ===! Start Burn Loop !===")
 
         # time starts at negative burn steps, model run starts at t = 1
         while self.time < self.params.model.time.num_steps:
             if self.time == 0:
                 if self.params.model.time.burn_steps > 0:
-                    logging.info("\t===! Burn Loop Complete !===")
-                logging.info("\t===! Start Main Loop !===")
+                    logging.info("  ===! Burn Loop Complete !===")
+                logging.info("  ===! Start Main Loop !===")
 
             self.time += 1
             self.step(outdir)
             self.reset_trackers()
 
-        logging.info("\t===! Main Loop Complete !===")
+        logging.info("  ===! Main Loop Complete !===")
 
     def step(self, outdir: str):
         """
@@ -180,9 +180,11 @@ class TITAN:
         args:
             outdir: path to directory where reports should be saved
         """
-        logging.info(f"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME {self.time}")
         logging.info(
-            "\tSTARTING HIV count:{}\tTotal Incarcerated:{}\tHR+:{}\t"
+            f"\n                                                  .: TIME {self.time}"
+        )
+        logging.info(
+            "  STARTING HIV count:{}  Total Incarcerated:{}  HR+:{}  "
             "PrEP:{}".format(
                 len(exposures.HIV.agents),
                 sum([1 for a in self.pop.all_agents if a.incar.active]),  # type: ignore[attr-defined]

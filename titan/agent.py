@@ -467,10 +467,11 @@ class AgentSet:
         lines = []
 
         lines.append(f"\t__________ {self.id} __________")
-        lines.append("\tID\t\tN\t\t%")
+        # lines.append("\tID\t\tN\t\t%")
+        lines.append("\t{:^6}\t\t{:^5}\t\t{:^4}".format("ID", "N", "%"))
         for set in self.iter_subset():
             lines.append(
-                "\t{:6}\t\t{:5}\t\t{:.2}".format(
+                "\t{:^6}\t\t{:^5}\t\t{:.2}".format(
                     set.id,
                     set.num_members(),
                     safe_divide(set.num_members(), set.parent_set.num_members()),

@@ -101,7 +101,7 @@ class Population:
             self.params
         )
 
-        logging.info("\tCreating agents")
+        logging.info("  Creating agents")
         # for each location in the population, create agents per that location's demographics
         init_time = -1 * self.params.model.time.burn_steps
         for loc in self.geography.locations.values():
@@ -122,7 +122,7 @@ class Population:
                     self.add_agent(agent)
 
         # initialize relationships
-        logging.info("\tCreating Relationships")
+        logging.info("  Creating Relationships")
         self.update_partner_assignments(0)
 
     def create_agent(
@@ -494,7 +494,7 @@ class Population:
                     logging.info("TOO BIG", comp, comp.number_of_nodes())
                     trim_component(comp, self.params.model.network.component_size.max)
 
-        logging.info(f"\tTotal agents in graph: {self.graph.number_of_nodes()}")
+        logging.info(f"  Total agents in graph: {self.graph.number_of_nodes()}")
 
     def connected_components(self) -> List:
         """

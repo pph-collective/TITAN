@@ -311,7 +311,7 @@ def get_cumulative_bin(rand_gen, bin_def: ObjMap) -> int:
 def set_up_logging(params):
     # set up logging
     if params.outputs.logging.to_file:
-        log_msg_format = "{message:<60}\t[{asctime}][{levelname}][{module}]"
+        log_msg_format = "{message:<64}  [{asctime}][{levelname}][{module}]"
         log_dt_format = "%Y%m%d%H%M%S"
         path = (
             os.getcwd()
