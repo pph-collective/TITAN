@@ -46,7 +46,7 @@ outputs:
         - file
     filepath:
       default: '__cwd__'
-      description: The directory path wherethe logs will be printed to if `destination` is `file`.  The logs will be named `titan_log_<date/time>.txt`.  The default is your current working directory.
+      description: The directory path where the logs will be printed to if `destination` is `file`.  The logs will be named `titan_log_<date/time>.txt`.  The default is your current working directory.
       type: any
     level:
       default: 'INFO'
