@@ -112,8 +112,10 @@ jobs:
     - name: Install dependencies
       run: poetry install
     - name: Integration Test with pytest
+      continue-on-error: true
       run: poetry run pytest -m integration_stochastic --cov=titan --cov-report=xml
     - name: Re-run integration tests if failed
+      continue-on-error: true
       if: ${{ failure() }}
       run: poetry run pytest -m integration_stochastic --cov=titan --cov-report=xml
     - name: Re-run integration tests if failed (x2)
