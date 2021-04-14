@@ -88,7 +88,7 @@ class Agent:
             String formatted tab-deliminated agent properties
         """
         return (
-            f"\t{self.id}\t{self.age}\t{self.sex_type}\t{self.drug_type}\t"
+            f"\t{self.id}\t{self.age}\t{self.sex_type}\t{self.drug_type}\t"  # type: ignore[attr-defined]
             f"{self.race}\t{self.hiv.active}"  # type: ignore[attr-defined]
         )
 
