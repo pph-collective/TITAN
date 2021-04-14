@@ -60,7 +60,7 @@ def test_write_pop(tmpdir, make_population):
             assert repr(getattr(r, attr)) == row[attr]
 
 
-@pytest.mark.broken
+@pytest.mark.unit
 def test_read_pop(tmpdir, make_population, params):
     pop = make_population(n=10)
     prep_counts = deepcopy(Prep.counts)
