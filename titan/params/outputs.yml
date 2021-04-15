@@ -36,3 +36,24 @@ outputs:
       - drug_types
       - locations
       - components
+  logging:
+    destination:
+      default: stdout
+      type: enum
+      description: Whether to log to a file or the console (default)
+      values:
+        - stdout
+        - file
+    filepath:
+      default: '__cwd__'
+      description: The directory path where the logs will be printed to if `destination` is `file`.  The logs will be named `titan_log_<date/time>.txt`.  The default is your current working directory.
+      type: any
+    level:
+      default: 'INFO'
+      type: enum
+      description: What is the minimum log level to record? See https://docs.python.org/3/howto/logging.html#when-to-use-logging for details on what the levels mean.
+      values:
+        - 'DEBUG'
+        - 'INFO'
+        - 'WARNING'
+        - 'ERROR'

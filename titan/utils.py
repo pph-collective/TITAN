@@ -2,6 +2,9 @@ import random
 from functools import wraps
 from typing import TypeVar, Collection, Union, Iterable
 from math import floor
+import logging
+import os
+from datetime import datetime
 
 import networkx as nx  # type: ignore
 
@@ -209,7 +212,7 @@ def scale_param(params: ObjMap, param_path: str, scalar: float, delimiter="|"):
     scaling_item, last_key = get_param_from_path(params, param_path, delimiter)
 
     old_val = scaling_item[last_key]
-    print(f"scaling - {param_path}: {old_val} => {old_val * scalar}")
+    logging.info(f"scaling - {param_path}: {old_val} => {old_val * scalar}")
     scaling_item[last_key] = old_val * scalar
 
 
@@ -225,7 +228,7 @@ def override_param(params: ObjMap, param_path: str, value, delimiter="|"):
         last_key = int(last_key)
         old_val = override_item[last_key]
 
-    print(f"overriding - {param_path}: {old_val} => {value}")
+    logging.info(f"overriding - {param_path}: {old_val} => {value}")
     override_item[last_key] = value
 
 
@@ -303,3 +306,30 @@ def get_cumulative_bin(rand_gen, bin_def: ObjMap) -> int:
             break
 
     return bin
+
+
+def set_up_logging(params):
+    # set up logging
+    if params.outputs.logging.destination == "file":
+        log_msg_format = "{message:<64}  [{asctime}][{levelname}][{module}]"
+        log_dt_format = "%Y%m%d%H%M%S"
+        path = (
+            os.getcwd()
+            if params.outputs.logging.filepath == "__cwd__"
+            else params.outputs.logging.filepath
+        )
+        logging.basicConfig(
+            format=log_msg_format,
+            style="{",
+            datefmt=log_dt_format,
+            filename=os.path.join(
+                path, f"titan_log_{datetime.now().strftime(log_dt_format)}.txt"
+            ),
+            level=params.outputs.logging.level,
+        )
+    else:
+        log_msg_format = "%(message)s"
+        logging.basicConfig(
+            format=log_msg_format,
+            level=params.outputs.logging.level,
+        )

@@ -10,6 +10,7 @@ from multiprocessing import Pool, cpu_count
 import csv
 import traceback
 from typing import List, Optional
+import logging
 
 # allow imports to work if running it as a script for development locally
 if __name__ == "__main__":
@@ -258,6 +259,8 @@ def single_run(sweep, outfile_dir, params, save_pop, pop_path):
     """
     A single run of titan.  Dispatched from main using parallel processes.
     """
+    utils.set_up_logging(params)
+
     pid = str(os.getpid())
     pid_outfile_dir = os.path.join(outfile_dir, pid)
     save_pop_dir = (
@@ -285,7 +288,7 @@ def single_run(sweep, outfile_dir, params, save_pop, pop_path):
 
     if save_pop_dir is not None:
         pop_io.write(pop, save_pop_dir)
-        print(f"Population saved to: {save_pop_dir}")
+        logging.info(f"Population saved to: {save_pop_dir}")
 
     try:
         model = TITAN(params, pop=pop)

@@ -1,4 +1,5 @@
 from typing import Dict
+import logging
 
 from . import base_feature
 from .. import utils
@@ -51,7 +52,7 @@ class RandomTrial(base_feature.BaseFeature):
             model.params.model.network.enable
         ), "Network must be enabled for random trial"
 
-        print(f"Starting random trial ({rt_params.choice})")
+        logging.info(f"Starting random trial ({rt_params.choice})")
         components = model.pop.connected_components()
 
         # set up helper methods based on params
@@ -69,9 +70,8 @@ class RandomTrial(base_feature.BaseFeature):
             suitable = suitable_knowledge
 
         total_nodes = 0
-        print(
-            "Number of components",
-            len([1 for comp in components if comp.number_of_nodes()]),
+        logging.info(
+            f"Number of components {len([1 for comp in components if comp.number_of_nodes()])}",
         )
         for comp in components:
             total_nodes += comp.number_of_nodes()
@@ -152,7 +152,7 @@ class RandomTrial(base_feature.BaseFeature):
                     chosen_agent.random_trial.treated = True  # type: ignore[attr-defined]
                     treat(chosen_agent, model)
 
-        print(("Total agents in trial: ", total_nodes))
+        logging.info(f"Total agents in trial: {total_nodes}")
 
     def set_stats(self, stats: Dict[str, int], time: int):
         if self.active:
