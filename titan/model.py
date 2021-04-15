@@ -2,6 +2,7 @@ import random
 from typing import Dict, List, Optional
 from copy import copy
 import os
+import logging
 
 import numpy as np  # type: ignore
 import nanoid  # type: ignore
@@ -34,22 +35,25 @@ class TITAN:
             params: the parameter object for this model
             pop: an initialized population to run the model on
         """
+        self.id = nanoid.generate(size=8)
 
         self.params = params
         # pre-fetch commonly used param sub-sets for performance
         self.calibration = params.calibration
 
-        print("=== Begin Initialization Protocol ===\n")
+        utils.set_up_logging(params)
+
+        logging.info(f"Model ID: {self.id}")
+        logging.info("=== Begin Initialization Protocol ===\n")
 
         if pop is None:
-            print("\tGenerating new population")
+            logging.info("  Generating new population")
             self.pop = population.Population(params)
         else:
-            print("\tUsing provided population")
+            logging.info("  Using provided population")
             self.pop = pop
 
         self.time = -1 * self.params.model.time.burn_steps  # burn is negative time
-        self.id = nanoid.generate(size=8)
 
         self.features = [
             feature
@@ -71,16 +75,16 @@ class TITAN:
 
         # Set seed format. 0: pure random, else: fixed value
         self.run_seed = utils.get_check_rand_int(params.model.seed.run)
-        print(f"\tRun seed was set to: {self.run_seed}")
+        logging.info(f"  Run seed was set to: {self.run_seed}")
         self.run_random = random.Random(self.run_seed)
         self.np_random = np.random.default_rng(self.run_seed)
         random.seed(self.run_seed)
-        print(("\tFIRST RANDOM CALL {}".format(random.randint(0, 100))))
+        logging.info(("  FIRST RANDOM CALL {}".format(random.randint(0, 100))))
 
-        print("\tResetting death count")
+        logging.info("  Resetting death count")
         self.deaths: List["ag.Agent"] = []  # Number of death
 
-        print("\n === Initialization Protocol Finished ===")
+        logging.info("\n=== Initialization Protocol Finished ===")
 
     def print_stats(self, stat: Dict[str, Dict[str, int]], outdir: str):
         """
@@ -150,20 +154,20 @@ class TITAN:
         self.print_stats(stats, outdir)
 
         if self.params.model.time.burn_steps > 0:
-            print("\t===! Start Burn Loop !===")
+            logging.info("  ===! Start Burn Loop !===")
 
         # time starts at negative burn steps, model run starts at t = 1
         while self.time < self.params.model.time.num_steps:
             if self.time == 0:
                 if self.params.model.time.burn_steps > 0:
-                    print("\t===! Burn Loop Complete !===")
-                print("\t===! Start Main Loop !===")
+                    logging.info("  ===! Burn Loop Complete !===")
+                logging.info("  ===! Start Main Loop !===")
 
             self.time += 1
             self.step(outdir)
             self.reset_trackers()
 
-        print("\t===! Main Loop Complete !===")
+        logging.info("  ===! Main Loop Complete !===")
 
     def step(self, outdir: str):
         """
@@ -176,9 +180,11 @@ class TITAN:
         args:
             outdir: path to directory where reports should be saved
         """
-        print(f"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t.: TIME {self.time}")
-        print(
-            "\tSTARTING HIV count:{}\tTotal Incarcerated:{}\tHR+:{}\t"
+        logging.info(
+            f"\n                                                  .: TIME {self.time}"
+        )
+        logging.info(
+            "  STARTING HIV count:{}  Total Incarcerated:{}  HR+:{}  "
             "PrEP:{}".format(
                 len(exposures.HIV.agents),
                 sum([1 for a in self.pop.all_agents if a.incar.active]),  # type: ignore[attr-defined]
@@ -201,8 +207,8 @@ class TITAN:
         )
         self.print_stats(stats, outdir)
 
-        print(f"Number of relationships: {len(self.pop.relationships)}")
-        self.pop.all_agents.print_subsets()
+        logging.info(f"Number of relationships: {len(self.pop.relationships)}")
+        self.pop.all_agents.print_subsets(logging.info)
 
     def update_all_agents(self):
         """
@@ -318,10 +324,10 @@ class TITAN:
                 param = defn.parameter
                 if param != "ts_default":
                     if defn.start_time == self.time:
-                        print(f"timeline scaling - {param}")
+                        logging.info(f"timeline scaling - {param}")
                         utils.scale_param(params, param, defn.scalar)
                     elif defn.stop_time == self.time:
-                        print(f"timeline un-scaling - {param}")
+                        logging.info(f"timeline un-scaling - {param}")
                         utils.scale_param(params, param, 1 / defn.scalar)
 
     def agents_interact(self, rel: "ag.Relationship"):

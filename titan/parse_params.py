@@ -23,7 +23,7 @@ class ObjMap(dict):
     def __getattribute__(self, k):
         try:
             return self[k]
-        except:
+        except KeyError:
             return object.__getattribute__(self, k)
 
     def __setattr__(self, k, v):
