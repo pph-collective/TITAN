@@ -10,7 +10,7 @@ def get_death_rate(
     aids: bool,
     drug_type: str,
     sex_type: str,
-    haart_adh: int,
+    haart_adh: bool,
     race: str,
     location: Location,
     steps_per_year: int,
