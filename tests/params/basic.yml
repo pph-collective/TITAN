@@ -42,11 +42,11 @@ demographics:
             haart:
               init: 0.1
               enroll: &haart_prob
-                0:
+                begin:
                   prob: 0.1
                   start: 0
                   stop: 10
-                1:
+                end:
                   prob: 1.0
                   start: 10
                   stop: 100

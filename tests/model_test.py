@@ -34,14 +34,10 @@ def test_update_all_agents(make_model, make_agent):
     # make agent 0
     model = make_model()
     assert model.params.agent_zero.interaction_type == "injection"
-    a = make_agent(race="white", DU="Inj")
-    p = make_agent(race="white", DU="Inj")
-    # make sure at least 1 relationship is compatible with agent 0 type
-    Relationship(a, p, 10, bond_type="Inj")
     model.time = 1
+    model.params.features.die_and_replace = False
     # update all agents passes with agent 0
     model.update_all_agents()
-    assert a.knowledge.active is False
 
     # remove all bonds compatible with agent 0. agent 0 fails
     for rel in copy(model.pop.relationships):
@@ -58,6 +54,7 @@ def test_update_all_agents(make_model, make_agent):
 
     with pytest.raises(ValueError) as excinfo:
         model.update_all_agents()
+
     assert "No agent zero!" in str(excinfo)
 
 
