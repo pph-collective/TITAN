@@ -6,6 +6,7 @@ from collections import deque
 from copy import copy
 from math import ceil
 from typing import List, Dict, Set, Optional, Tuple
+import logging
 
 import numpy as np  # type: ignore
 import networkx as nx  # type: ignore
@@ -33,6 +34,10 @@ class Population:
             self.id = nanoid.generate(size=8)
         else:
             self.id = id
+
+        utils.set_up_logging(params)
+
+        logging.info(f"Population ID: {self.id}")
 
         self.pop_seed = utils.get_check_rand_int(params.model.seed.ppl)
 
@@ -96,7 +101,7 @@ class Population:
             self.params
         )
 
-        print("\tCreating agents")
+        logging.info("  Creating agents")
         # for each location in the population, create agents per that location's demographics
         init_time = -1 * self.params.model.time.burn_steps
         for loc in self.geography.locations.values():
@@ -109,7 +114,7 @@ class Population:
                     )
                 ):
                     if self.all_agents.num_members() >= self.params.model.num_pop:
-                        print(
+                        logging.warning(
                             "WARNING: not adding agent to population - too many agents"
                         )
                         break
@@ -117,7 +122,7 @@ class Population:
                     self.add_agent(agent)
 
         # initialize relationships
-        print("\tCreating Relationships")
+        logging.info("  Creating Relationships")
         self.update_partner_assignments(0)
 
     def create_agent(
@@ -486,10 +491,10 @@ class Population:
                     comp.number_of_nodes()
                     > self.params.model.network.component_size.max
                 ):
-                    print("TOO BIG", comp, comp.number_of_nodes())
+                    logging.info("TOO BIG", comp, comp.number_of_nodes())
                     trim_component(comp, self.params.model.network.component_size.max)
 
-        print("\tTotal agents in graph: ", self.graph.number_of_nodes())
+        logging.info(f"  Total agents in graph: {self.graph.number_of_nodes()}")
 
     def connected_components(self) -> List:
         """

@@ -89,7 +89,7 @@ class Agent:
         """
         return (
             f"\t{self.id}\t{self.age}\t{self.sex_type}\t{self.drug_type}\t"  # type: ignore[attr-defined]
-            f"{self.race}\t{self.hiv.active}"
+            f"{self.race}\t{self.hiv.active}"  # type: ignore[attr-defined]
         )
 
     def __repr__(self) -> str:
@@ -460,22 +460,25 @@ class AgentSet:
         for subset in list(self.subset.values()):
             yield subset
 
-    def print_subsets(self):
+    def print_subsets(self, printer=print):
         """
         Pretty print the subsets of this agent set
         """
-        print(f"\t__________ {self.id} __________")
-        print("\tID\t\tN\t\t%")
+        lines = []
+
+        lines.append(f"\t__________ {self.id} __________")
+        # lines.append("\tID\t\tN\t\t%")
+        lines.append("\t{:^6}\t\t{:^5}\t\t{:^4}".format("ID", "N", "%"))
         for set in self.iter_subset():
-            print(
-                "\t{:6}\t\t{:5}\t\t{:.2}".format(
+            lines.append(
+                "\t{:^6}\t\t{:^5}\t\t{:.2}".format(
                     set.id,
                     set.num_members(),
                     safe_divide(set.num_members(), set.parent_set.num_members()),
                 )
             )
             for subset in set.iter_subset():
-                print(
+                lines.append(
                     "\t{:4}\t\t{:5}\t\t{:.2}".format(
                         subset.id,
                         subset.num_members(),
@@ -484,4 +487,5 @@ class AgentSet:
                         ),
                     )
                 )
-        print("\t______________ END ______________")
+        lines.append("\t______________ END ______________")
+        printer("\n".join(lines))
