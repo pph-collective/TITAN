@@ -80,9 +80,11 @@ def test_read_pop(tmpdir, make_population, params):
     attrs = agent.__dict__.keys()
 
     for attr in attrs:
+        if attr == 'component':
+            continue
+
         orig_attr = getattr(agent, attr)
         new_attr = getattr(new_agent, attr)
-        print(attr)
         if isinstance(orig_attr, BaseFeature):
             feat_attrs = orig_attr.__dict__.keys()
             for feat_attr in feat_attrs:
