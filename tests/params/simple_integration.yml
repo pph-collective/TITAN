@@ -131,6 +131,13 @@ partnership:
           prob: 1.0
           min: 1
           max: 10
+    Social:
+      type: bins
+      bins:
+        1:
+          prob: 1.0
+          min: 1
+          max: 10
   sex:
     frequency:
       Sex:
@@ -155,6 +162,13 @@ partnership:
             prob: 1.0
             min: 10
             max: 37
+      Social:
+        type: bins
+        bins:
+          1:
+            prob: 1.0
+            min: 10
+            max: 100
     acquisition:
       MSM:
         insertive: 0.0011

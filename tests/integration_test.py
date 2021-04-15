@@ -570,3 +570,43 @@ def test_treatment_cascade(params_integration, tmpdir):
     assert hiv_deaths_b <= hiv_deaths_a, "HIV deaths not down"
     assert new_aids_b <= new_aids_a, "new AIDS  not down"
     assert new_hiv_b < new_hiv_a, "new HIV not down"
+
+
+@pytest.mark.integration_stochastic
+def test_pca_awareness(params_integration, tmpdir):
+    """
+    Does a change in the threshhold for PCA result in more knowledge?
+    """
+    params_integration.exposures.knowledge = True
+    params_integration.knowledge.init = 0.1
+    params_integration.model.time.num_steps = 20
+
+    path_a = tmpdir.mkdir("a")
+    path_a.mkdir("network")
+    path_b = tmpdir.mkdir("b")
+    path_b.mkdir("network")
+
+    params_integration.knowledge.threshold = 3.5
+    model_a = TITAN(params_integration)  # low knowledge
+
+    init_active_a = sum([1 for a in model_a.pop.all_agents if a.knowledge.active])
+    init_prep_a = sum([1 for a in model_a.pop.all_agents if a.prep.active])
+    model_a.run(path_a)
+    end_active_a = sum([1 for a in model_a.pop.all_agents if a.knowledge.active])
+    end_prep_a = sum([1 for a in model_a.pop.all_agents if a.prep.active])
+
+    params_integration.knowledge.threshold = 1.5
+    params_integration.knowledge.prob = 0.05
+    model_b = TITAN(params_integration)  # high knowledge
+
+    init_prep_b = sum([1 for a in model_b.pop.all_agents if a.prep.active])
+    init_active_b = sum([1 for a in model_b.pop.all_agents if a.knowledge.active])
+    model_b.run(path_b)
+    end_active_b = sum([1 for a in model_b.pop.all_agents if a.knowledge.active])
+    end_prep_b = sum([1 for a in model_b.pop.all_agents if a.prep.active])
+
+    assert math.isclose(init_active_b, init_active_a, abs_tol=20)
+    assert (end_active_b - init_active_b) > (end_active_a - init_active_a)
+
+    assert math.isclose(init_prep_b, init_prep_a, abs_tol=20)
+    assert (end_prep_b - init_prep_b) > (end_prep_a - init_prep_a)
