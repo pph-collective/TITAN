@@ -1051,22 +1051,25 @@
 <span class="sd">        params: the parameter object for this model</span>
 <span class="sd">        pop: an initialized population to run the model on</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">nanoid</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
     <span class="c1"># pre-fetch commonly used param sub-sets for performance</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">calibration</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">calibration</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Begin Initialization Protocol ===</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">utils</span><span class="o">.</span><span class="n">set_up_logging</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model ID: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;=== Begin Initialization Protocol ===</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">pop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Generating new population&quot;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  Generating new population&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pop</span> <span class="o">=</span> <span class="n">population</span><span class="o">.</span><span class="n">Population</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Using provided population&quot;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  Using provided population&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pop</span> <span class="o">=</span> <span class="n">pop</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">burn_steps</span>  <span class="c1"># burn is negative time</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">nanoid</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">feature</span>
@@ -1088,16 +1091,16 @@
 
     <span class="c1"># Set seed format. 0: pure random, else: fixed value</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">run_seed</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_check_rand_int</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">seed</span><span class="o">.</span><span class="n">run</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Run seed was set to: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">run_seed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Run seed was set to: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">run_seed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">run_random</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run_seed</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run_seed</span><span class="p">)</span>
     <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run_seed</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">((</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">FIRST RANDOM CALL </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">))))</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">((</span><span class="s2">&quot;  FIRST RANDOM CALL </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">))))</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Resetting death count&quot;</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  Resetting death count&quot;</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">deaths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;ag.Agent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Number of death</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> === Initialization Protocol Finished ===&quot;</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Initialization Protocol Finished ===&quot;</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -1428,20 +1431,20 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">print_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">burn_steps</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">===! Start Burn Loop !===&quot;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  ===! Start Burn Loop !===&quot;</span><span class="p">)</span>
 
     <span class="c1"># time starts at negative burn steps, model run starts at t = 1</span>
     <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">num_steps</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">burn_steps</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">===! Burn Loop Complete !===&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">===! Start Main Loop !===&quot;</span><span class="p">)</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  ===! Burn Loop Complete !===&quot;</span><span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  ===! Start Main Loop !===&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">outdir</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset_trackers</span><span class="p">()</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">===! Main Loop Complete !===&quot;</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  ===! Main Loop Complete !===&quot;</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -1501,9 +1504,11 @@
 <span class="sd">    args:</span>
 <span class="sd">        outdir: path to directory where reports should be saved</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</span><span class="s2">.: TIME </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span>
-        <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">STARTING HIV count:</span><span class="si">{}</span><span class="se">\t</span><span class="s2">Total Incarcerated:</span><span class="si">{}</span><span class="se">\t</span><span class="s2">HR+:</span><span class="si">{}</span><span class="se">\t</span><span class="s2">&quot;</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">                                                  .: TIME </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="s2">&quot;  STARTING HIV count:</span><span class="si">{}</span><span class="s2">  Total Incarcerated:</span><span class="si">{}</span><span class="s2">  HR+:</span><span class="si">{}</span><span class="s2">  &quot;</span>
         <span class="s2">&quot;PrEP:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="nb">len</span><span class="p">(</span><span class="n">exposures</span><span class="o">.</span><span class="n">HIV</span><span class="o">.</span><span class="n">agents</span><span class="p">),</span>
             <span class="nb">sum</span><span class="p">([</span><span class="mi">1</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">all_agents</span> <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">incar</span><span class="o">.</span><span class="n">active</span><span class="p">]),</span>  <span class="c1"># type: ignore[attr-defined]</span>
@@ -1526,8 +1531,8 @@
     <span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">print_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of relationships: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">relationships</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">all_agents</span><span class="o">.</span><span class="n">print_subsets</span><span class="p">()</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of relationships: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">relationships</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">all_agents</span><span class="o">.</span><span class="n">print_subsets</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -1572,10 +1577,10 @@ definition.  Applied to all parameters (main model, and location specific).</p>
             <span class="n">param</span> <span class="o">=</span> <span class="n">defn</span><span class="o">.</span><span class="n">parameter</span>
             <span class="k">if</span> <span class="n">param</span> <span class="o">!=</span> <span class="s2">&quot;ts_default&quot;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">defn</span><span class="o">.</span><span class="n">start_time</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;timeline scaling - </span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;timeline scaling - </span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                     <span class="n">utils</span><span class="o">.</span><span class="n">scale_param</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">defn</span><span class="o">.</span><span class="n">scalar</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">defn</span><span class="o">.</span><span class="n">stop_time</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;timeline un-scaling - </span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;timeline un-scaling - </span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                     <span class="n">utils</span><span class="o">.</span><span class="n">scale_param</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">defn</span><span class="o">.</span><span class="n">scalar</span><span class="p">)</span>
 </code></pre></div>
         </details>

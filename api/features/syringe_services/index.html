@@ -994,7 +994,7 @@
 <span class="sd">    args:</span>
 <span class="sd">        model: the instance of TITAN currently being run</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">((</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">!!!!Engaging syringe services program&quot;</span><span class="p">))</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">((</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">!!!!Engaging syringe services program&quot;</span><span class="p">))</span>
     <span class="n">ssp_num_slots</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">ssp_agents</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">agent</span> <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">pwid_agents</span> <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">syringe_services</span><span class="o">.</span><span class="n">active</span>  <span class="c1"># type: ignore[attr-defined]</span>
@@ -1042,7 +1042,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">break</span>
 
-    <span class="nb">print</span><span class="p">(</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;SSP has </span><span class="si">{</span><span class="n">ssp_num_slots</span><span class="si">}</span><span class="s2"> target slots with &quot;</span>
         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ssp_agents</span><span class="p">)</span><span class="si">}</span><span class="s2"> slots filled&quot;</span>
     <span class="p">)</span>

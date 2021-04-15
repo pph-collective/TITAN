@@ -1214,6 +1214,10 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">id</span>
 
+    <span class="n">utils</span><span class="o">.</span><span class="n">set_up_logging</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Population ID: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
     <span class="bp">self</span><span class="o">.</span><span class="n">pop_seed</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_check_rand_int</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">seed</span><span class="o">.</span><span class="n">ppl</span><span class="p">)</span>
 
     <span class="c1"># Init RNG for population creation to pop_seed</span>
@@ -1276,7 +1280,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span>
     <span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Creating agents&quot;</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  Creating agents&quot;</span><span class="p">)</span>
     <span class="c1"># for each location in the population, create agents per that location&#39;s demographics</span>
     <span class="n">init_time</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">burn_steps</span>
     <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">geography</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
@@ -1289,7 +1293,7 @@
                 <span class="p">)</span>
             <span class="p">):</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_agents</span><span class="o">.</span><span class="n">num_members</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">num_pop</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                         <span class="s2">&quot;WARNING: not adding agent to population - too many agents&quot;</span>
                     <span class="p">)</span>
                     <span class="k">break</span>
@@ -1297,7 +1301,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">add_agent</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
 
     <span class="c1"># initialize relationships</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Creating Relationships&quot;</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  Creating Relationships&quot;</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">update_partner_assignments</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </code></pre></div>
         </details>
@@ -1895,10 +1899,10 @@ demographics [params.demographics]</p>
                 <span class="n">comp</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span>
                 <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">component_size</span><span class="o">.</span><span class="n">max</span>
             <span class="p">):</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TOO BIG&quot;</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">comp</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">())</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;TOO BIG&quot;</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">comp</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">())</span>
                 <span class="n">trim_component</span><span class="p">(</span><span class="n">comp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">component_size</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Total agents in graph: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">())</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Total agents in graph: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -2324,6 +2328,8 @@ demographics [params.demographics]</p>
 <span class="sd">        path, or archive name if compress is true</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">relationships</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Can&#39;t write empty population&quot;</span>
+
+    <span class="n">utils</span><span class="o">.</span><span class="n">set_up_logging</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
 
     <span class="c1"># open agent file</span>
     <span class="n">agent_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pop</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">_agents.csv&quot;</span><span class="p">)</span>

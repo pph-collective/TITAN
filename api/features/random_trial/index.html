@@ -1045,7 +1045,7 @@
         <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">enable</span>
     <span class="p">),</span> <span class="s2">&quot;Network must be enabled for random trial&quot;</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Starting random trial (</span><span class="si">{</span><span class="n">rt_params</span><span class="o">.</span><span class="n">choice</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Starting random trial (</span><span class="si">{</span><span class="n">rt_params</span><span class="o">.</span><span class="n">choice</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
     <span class="n">components</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">connected_components</span><span class="p">()</span>
 
     <span class="c1"># set up helper methods based on params</span>
@@ -1063,9 +1063,8 @@
         <span class="n">suitable</span> <span class="o">=</span> <span class="n">suitable_knowledge</span>
 
     <span class="n">total_nodes</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="nb">print</span><span class="p">(</span>
-        <span class="s2">&quot;Number of components&quot;</span><span class="p">,</span>
-        <span class="nb">len</span><span class="p">([</span><span class="mi">1</span> <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">components</span> <span class="k">if</span> <span class="n">comp</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()]),</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Number of components </span><span class="si">{</span><span class="nb">len</span><span class="p">([</span><span class="mi">1</span> <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">components</span> <span class="k">if</span> <span class="n">comp</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
         <span class="n">total_nodes</span> <span class="o">+=</span> <span class="n">comp</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span>
@@ -1146,7 +1145,7 @@
                 <span class="n">chosen_agent</span><span class="o">.</span><span class="n">random_trial</span><span class="o">.</span><span class="n">treated</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># type: ignore[attr-defined]</span>
                 <span class="n">treat</span><span class="p">(</span><span class="n">chosen_agent</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">((</span><span class="s2">&quot;Total agents in trial: &quot;</span><span class="p">,</span> <span class="n">total_nodes</span><span class="p">))</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total agents in trial: </span><span class="si">{</span><span class="n">total_nodes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>

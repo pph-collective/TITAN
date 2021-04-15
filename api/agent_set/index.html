@@ -1402,7 +1402,7 @@
 
 
 <h3 class="doc doc-heading" id="titan.agent.AgentSet.print_subsets">
-<code class="codehilite language-python"><span class="n">print_subsets</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="codehilite language-python"><span class="n">print_subsets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">printer</span><span class="o">=&lt;</span><span class="n">built</span><span class="o">-</span><span class="ow">in</span> <span class="n">function</span> <span class="nb">print</span><span class="o">&gt;</span><span class="p">)</span></code>
 
 
 </h3>
@@ -1413,22 +1413,25 @@
 
         <details class="quote">
           <summary>Source code in <code>titan/agent.py</code></summary>
-          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">print_subsets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">print_subsets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">printer</span><span class="o">=</span><span class="nb">print</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pretty print the subsets of this agent set</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">__________ </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> __________&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">ID</span><span class="se">\t\t</span><span class="s2">N</span><span class="se">\t\t</span><span class="s2">%&quot;</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">__________ </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> __________&quot;</span><span class="p">)</span>
+    <span class="c1"># lines.append(&quot;\tID\t\tN\t\t%&quot;)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="si">{:^6}</span><span class="se">\t\t</span><span class="si">{:^5}</span><span class="se">\t\t</span><span class="si">{:^4}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;ID&quot;</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;%&quot;</span><span class="p">))</span>
     <span class="k">for</span> <span class="nb">set</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter_subset</span><span class="p">():</span>
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="se">\t</span><span class="si">{:6}</span><span class="se">\t\t</span><span class="si">{:5}</span><span class="se">\t\t</span><span class="si">{:.2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="se">\t</span><span class="si">{:^6}</span><span class="se">\t\t</span><span class="si">{:^5}</span><span class="se">\t\t</span><span class="si">{:.2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="nb">set</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
                 <span class="nb">set</span><span class="o">.</span><span class="n">num_members</span><span class="p">(),</span>
                 <span class="n">safe_divide</span><span class="p">(</span><span class="nb">set</span><span class="o">.</span><span class="n">num_members</span><span class="p">(),</span> <span class="nb">set</span><span class="o">.</span><span class="n">parent_set</span><span class="o">.</span><span class="n">num_members</span><span class="p">()),</span>
             <span class="p">)</span>
         <span class="p">)</span>
         <span class="k">for</span> <span class="n">subset</span> <span class="ow">in</span> <span class="nb">set</span><span class="o">.</span><span class="n">iter_subset</span><span class="p">():</span>
-            <span class="nb">print</span><span class="p">(</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="s2">&quot;</span><span class="se">\t</span><span class="si">{:4}</span><span class="se">\t\t</span><span class="si">{:5}</span><span class="se">\t\t</span><span class="si">{:.2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                     <span class="n">subset</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
                     <span class="n">subset</span><span class="o">.</span><span class="n">num_members</span><span class="p">(),</span>
@@ -1437,7 +1440,8 @@
                     <span class="p">),</span>
                 <span class="p">)</span>
             <span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">______________ END ______________&quot;</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">______________ END ______________&quot;</span><span class="p">)</span>
+    <span class="n">printer</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">))</span>
 </code></pre></div>
         </details>
     </div>

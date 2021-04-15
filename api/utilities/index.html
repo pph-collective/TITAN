@@ -1727,7 +1727,7 @@ current value to new value</p>
         <span class="n">last_key</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">last_key</span><span class="p">)</span>
         <span class="n">old_val</span> <span class="o">=</span> <span class="n">override_item</span><span class="p">[</span><span class="n">last_key</span><span class="p">]</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;overriding - </span><span class="si">{</span><span class="n">param_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">old_val</span><span class="si">}</span><span class="s2"> =&gt; </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;overriding - </span><span class="si">{</span><span class="n">param_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">old_val</span><span class="si">}</span><span class="s2"> =&gt; </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">override_item</span><span class="p">[</span><span class="n">last_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 </code></pre></div>
         </details>
@@ -2219,13 +2219,14 @@ current value by the scalar</p>
     <span class="n">scaling_item</span><span class="p">,</span> <span class="n">last_key</span> <span class="o">=</span> <span class="n">get_param_from_path</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">param_path</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">)</span>
 
     <span class="n">old_val</span> <span class="o">=</span> <span class="n">scaling_item</span><span class="p">[</span><span class="n">last_key</span><span class="p">]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;scaling - </span><span class="si">{</span><span class="n">param_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">old_val</span><span class="si">}</span><span class="s2"> =&gt; </span><span class="si">{</span><span class="n">old_val</span> <span class="o">*</span> <span class="n">scalar</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;scaling - </span><span class="si">{</span><span class="n">param_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">old_val</span><span class="si">}</span><span class="s2"> =&gt; </span><span class="si">{</span><span class="n">old_val</span> <span class="o">*</span> <span class="n">scalar</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">scaling_item</span><span class="p">[</span><span class="n">last_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">old_val</span> <span class="o">*</span> <span class="n">scalar</span>
 </code></pre></div>
         </details>
     </div>
 
   </div>
+
 
 
 
