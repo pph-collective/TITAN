@@ -126,6 +126,10 @@ classes:
         type: float
         min: 0
         max: 1.0
+      category:
+        type: any
+        default: ''
+        description: An arbitrary category that can be used to group locations for migration.
     default:
       world:
         ppl: 1.0

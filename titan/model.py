@@ -217,11 +217,12 @@ class TITAN:
 
         1. End relationships with no remaining duration
         2. Agent death/replacement
-        3. Update partner assignments (create new relationships as needed)
-        4. Create an agent zero (if enabled and the time is right)
-        5. Agents in relationships interact
-        6. Update features at the population level
-        7. Update each agent's status for:
+        3. Agent migration (if enabled)
+        4. Update partner assignments (create new relationships as needed)
+        5. Create an agent zero (if enabled and the time is right)
+        6. Agents in relationships interact
+        7. Update features at the population level
+        8. Update each agent's status for:
             * age
             * all exposures
             * all features (agent level)
@@ -234,6 +235,9 @@ class TITAN:
 
         if self.params.features.die_and_replace:
             self.die_and_replace()
+
+        if self.params.location.migration.enabled:
+            self.pop.migrate()
 
         if not self.params.features.static_network:
             self.pop.update_partner_assignments(t=self.time)

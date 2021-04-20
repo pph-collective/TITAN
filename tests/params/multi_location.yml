@@ -1,0 +1,367 @@
+demographics:
+  black:
+    ppl: 0.600000000000567
+    sex_type:
+      MTF:
+        ppl: 0.1
+        drug_type: &base_drug_type
+          Inj:
+            ppl: 0.2
+            num_partners:
+              Sex:
+                dist_type: poisson
+                vars:
+                  1:
+                    value: 10
+                    value_type: float
+              Social:
+                dist_type: poisson
+                vars:
+                  1:
+                    value: 0
+                    value_type: float
+              SexInj:
+                dist_type: poisson
+                vars:
+                  1:
+                    value: 10
+                    value_type: float
+              Inj:
+                dist_type: poisson
+                vars:
+                  1:
+                    value: 10
+                    value_type: float
+            hiv:
+              init: 0.1
+              dx:
+                init: 0.1
+                prob: 0.1
+              aids:
+                init: 0.1
+            haart:
+              init: 0.1
+              enroll: &haart_prob
+                begin:
+                  prob: 0.1
+                  start: 0
+                  stop: 10
+                end:
+                  prob: 1.0
+                  start: 10
+                  stop: 100
+              reinit: &reinit_prob
+                prob: 0.0
+              adherence:
+                init: 0.1
+                prob: 0.1
+              discontinue: 0.1
+          NonInj: &npwid_drug_type
+            ppl: 0.4
+            hiv:
+              init: 0.1
+              dx:
+                init: 0.1
+                prob: 0.1
+              aids:
+                init: 0.1
+            num_partners:
+              Sex:
+                dist_type: poisson
+                vars:
+                  1:
+                    value: 10
+                    value_type: float
+            haart:
+              init: 0.1
+              enroll: *haart_prob
+              reinit: *reinit_prob
+              adherence:
+                init: 0.1
+                prob: 0.1
+              discontinue: 0.1
+          None: *npwid_drug_type
+        incar: &base_incar
+          init: 0.02
+          prob: 0.02
+        safe_sex: &safe_sex_default
+          Sex:
+            prob: 0.1
+          Inj:
+            prob: 0.1
+          SexInj:
+            prob: 0.1
+        injection: &base_injection
+          unsafe_prob: 0.1
+          num_acts: 10
+        prep: &base_prep
+          adherence: 0.1
+          discontinue: 0.1
+          cap: 0.3
+          init: 0.3
+        high_risk: &base_high_risk
+          init: 0.1
+        vaccine: &base_vaccine
+          init: 0.1
+          prob: 0.1
+          booster:
+            interval: 12
+            prob: 0.1
+      MSM:
+        ppl: 0.3
+        drug_type: *base_drug_type
+        incar: *base_incar
+        safe_sex: *safe_sex_default
+        injection: *base_injection
+        prep:
+          adherence: 0.1
+          discontinue: 0.1
+          cap: 0.3
+          init: 0.5
+        high_risk: *base_high_risk
+        vaccine: *base_vaccine
+      HM:
+        ppl: 0.3
+        drug_type: *base_drug_type
+        incar: *base_incar
+        safe_sex: *safe_sex_default
+        injection: *base_injection
+        prep: *base_prep
+        high_risk: *base_high_risk
+        vaccine: *base_vaccine
+      HF:
+        ppl: 0.2
+        drug_type: *base_drug_type
+        incar: *base_incar
+        safe_sex: *safe_sex_default
+        injection: *base_injection
+        prep: *base_prep
+        high_risk: *base_high_risk
+        vaccine: *base_vaccine
+      WSW:
+        ppl: 0.1
+        drug_type: *base_drug_type
+        incar: *base_incar
+        safe_sex: *safe_sex_default
+        injection: *base_injection
+        prep: *base_prep
+        high_risk: *base_high_risk
+        vaccine: *base_vaccine
+  white:
+    ppl: 0.4
+    sex_type:
+      MSM:
+        ppl: 0.3
+        drug_type: *base_drug_type
+        incar: *base_incar
+        safe_sex: *safe_sex_default
+        injection: *base_injection
+        prep: *base_prep
+        high_risk: *base_high_risk
+        vaccine: *base_vaccine
+      HM:
+        ppl: 0.3
+        drug_type: *base_drug_type
+        incar: *base_incar
+        safe_sex: *safe_sex_default
+        injection: *base_injection
+        prep: *base_prep
+        high_risk: *base_high_risk
+        vaccine: *base_vaccine
+      HF:
+        ppl: 0.2
+        drug_type: *base_drug_type
+        incar: *base_incar
+        safe_sex: *safe_sex_default
+        injection: *base_injection
+        prep: *base_prep
+        high_risk: *base_high_risk
+        vaccine: *base_vaccine
+      WSW:
+        ppl: 0.1
+        drug_type: *base_drug_type
+        incar: *base_incar
+        safe_sex: *safe_sex_default
+        injection:
+          unsafe_prob: 0.
+          num_acts: 10
+        prep: *base_prep
+        high_risk: *base_high_risk
+        vaccine: *base_vaccine
+      MTF:
+        ppl: 0.1
+        drug_type: *base_drug_type
+        incar: *base_incar
+        safe_sex: *safe_sex_default
+        injection:
+          unsafe_prob: 0.
+          num_acts: 10
+        prep: *base_prep
+        high_risk: *base_high_risk
+        vaccine: *base_vaccine
+
+partnership:
+  pca:
+    frequency:
+      Sex: &bin_always_one
+        bins:
+          1:
+            prob: 1.0
+            min: 1.0
+            max: 1.0
+      SexInj: *bin_always_one
+      Inj: *bin_always_one
+  sex:
+    frequency:
+      Sex:
+        type: bins
+        bins:
+          1:
+            prob: 0.5
+            min: 0
+            max: 1
+          2:
+            prob: 1.0
+            min: 37
+            max: 38
+    acquisition:
+      HM:
+        versatile: 0.0004
+      HF:
+        versatile: 0.0008
+      MSM:
+        insertive: 0.0011
+        receptive: 0.0138
+        versatile: 0.00745
+  duration:
+    Sex:
+      white:
+        type: bins
+        bins:
+          1:
+            prob: 1.0
+            min: 1
+            max: 2
+      black:
+        type: bins
+        bins:
+          1:
+            prob: 1.0
+            min: 3
+            max: 4
+    Inj:
+      white: &inj_dur
+        type: distribution
+        distribution:
+          dist_type: randint
+          vars:
+            1:
+              value: 1
+              value_type: int
+            2:
+              value: 3
+              value_type: int
+          mean: 1
+      black: *inj_dur
+    SexInj:
+      white: &poisson_one
+        type: distribution
+        distribution:
+          dist_type: poisson
+          vars:
+            1:
+              value: 1
+              value_type: float
+          mean: 1
+      black: *poisson_one
+    Social:
+      white: *poisson_one
+      black: *poisson_one
+
+prep:
+  cap: 0.1
+  init: 0.7
+  cap_as_prob: false
+
+knowledge:
+  prob: 0.3
+  opinion:
+    prob: 0.5
+
+syringe_services:
+  timeline:
+    ssp_open:
+      start_time: 1
+      stop_time: 12
+      num_slots_start: 100
+      num_slots_stop: 100
+      risk: 0.02
+
+agent_zero:
+  interaction_type: injection
+  num_partners: 1
+
+outputs:
+  network:
+    calc_component_stats: true
+  classes:
+    - locations
+    - races
+    - sex_types
+    - components
+    - drug_types
+
+exposures:
+  hiv: true
+  knowledge: true
+
+haart:
+  use_reinit: true
+
+features:
+  incar: true
+  prep: true
+  high_risk: true
+  haart: true
+  die_and_replace: true
+  static_network: false
+  agent_zero: true
+  assort_mix: false
+  vaccine: true
+  partner_tracing: true
+  external_exposure: true
+  syringe_services: true
+  timeline_scaling: true
+
+model:
+  num_pop: 100
+  network:
+    enable: true
+  num_reps: 1
+
+classes:
+  locations:
+    north:
+      ppl: 0.3
+      category: updown
+    south:
+      ppl: 0.2
+      category: updown
+    east:
+      ppl: 0.1
+      category: rightleft
+    west:
+      ppl: 0.4
+      category: rightleft
+
+location:
+  edges:
+    edge_default:
+      location_1: north
+      location_2: south
+  migration:
+    enabled: true
+    probs_file: 'tests/params/migration.csv'
+
+external_exposure:
+  convert_prob: 1.0

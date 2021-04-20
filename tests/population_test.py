@@ -2,9 +2,7 @@ import pytest
 import os
 
 from titan.population import *
-from titan.agent import Agent
 from titan.parse_params import create_params, ObjMap
-from titan.features import Prep
 
 from tests.conftest import FakeRandom
 
@@ -513,3 +511,13 @@ def test_trim_components(make_population):
     assert len(pop.components) > orig_num_components
     assert len(pop.components) != n
     assert max(map(len, pop.components)) == 2
+
+@pytest.mark.in_progress
+def test_location_migration_name(make_population, tmpdir):
+    param_file = "tests/params/multi_location.yml"
+    params = create_params(None, param_file, tmpdir)
+    pop = make_population(p=params, n=10)
+
+    pop.pop_random = FakeRandom(0) # north always picked
+
+    assert len(set(a.location.name for a in pop.all_agents)) == 4

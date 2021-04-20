@@ -27,6 +27,22 @@ location:
       default:
         ls_default: # reserved name to skip scaling in the default scenario
           scalar: 1.0
+  migration:
+    enabled:
+      default: false
+      type: boolean
+      description: Whether migration between locations is enabled.  Migration may cause the population numbers in a given location to drift over time.
+    attribute:
+      default: name
+      type: enum
+      description: Which location attribute to determine migration probability based on.
+      values:
+        - name
+        - category
+    probs_file:
+      default: ''
+      type: any
+      description: File path where the migration probability csv is located.  The CSV must have the attribute names along the first row and column with the topmost left cell blank.  Each value in the matrix represents the probability of an agent migrating from the location on that row to the location on that column at a given time step.  Each row must add to 1.  If there is a column with the header `prob` this will be used as the probability of an agent in the location described by the row migrating at all that timestep (useful if migrating based on a non-unique attribute).
   edges:
     type: definition
     description: Definition of an edge (relationship) between two locations
@@ -44,7 +60,7 @@ location:
         default: 0
         min: 0
     default:
-      edge_default: # reserved name to skip making an edge in the default scenario
+      edge_default: # reserved name to skip making an edge in the default scenario (still must pass param checks)
         location_1: world
         location_2: world # note this won't actually work, as a location can't have an edge with itself
         distance: 0
