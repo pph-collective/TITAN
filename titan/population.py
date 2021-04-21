@@ -526,6 +526,6 @@ class Population:
                 if m_attr == 'name':
                     a.location = self.geography.locations[new_loc]
                 elif m_attr == 'category':
-                    a.location = utils.safe_random_choice(self.geography.categories[new_loc])
+                    a.location = utils.safe_random_choice(self.geography.categories[new_loc], self.pop_random)
 
 

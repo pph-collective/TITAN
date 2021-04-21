@@ -187,9 +187,8 @@ class Geography:
             with open(params.location.migration.probs_file, newline='') as f:
                 reader = csv.DictReader(f)
                 for row in reader:
-                    print(row)
                     from_loc = row.pop('')
-                    prob = row.pop('prob', 1)
+                    prob = float(row.pop('prob', 1))
                     values = list(row.keys())
                     weights = list(map(float, row.values()))
                     assert math.isclose(sum(weights), 1, abs_tol=0.001), f"Migration weights for {from_loc} must add to 1"

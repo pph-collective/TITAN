@@ -512,12 +512,44 @@ def test_trim_components(make_population):
     assert len(pop.components) != n
     assert max(map(len, pop.components)) == 2
 
-@pytest.mark.in_progress
+@pytest.mark.unit
 def test_location_migration_name(make_population, tmpdir):
     param_file = "tests/params/multi_location.yml"
     params = create_params(None, param_file, tmpdir)
     pop = make_population(p=params, n=10)
 
-    pop.pop_random = FakeRandom(0) # north always picked
+    pop.pop_random = FakeRandom(0) # highest weight always picked
 
     assert len(set(a.location.name for a in pop.all_agents)) == 4
+    west_agents = [a for a in pop.all_agents if a.location.name == 'west']
+    north_agents = [a for a in pop.all_agents if a.location.name == 'north']
+
+    pop.migrate()
+
+    # all west agents should be east now
+    assert all(a.location.name == 'east' for a in west_agents)
+
+    # north agents should be un-changed
+    assert all(a.location.name == 'north' for a in north_agents)
+
+@pytest.mark.unit
+def test_location_migration_category(make_population, tmpdir):
+    param_file = "tests/params/multi_location.yml"
+    params = create_params(None, param_file, tmpdir)
+    params.location.migration.attribute = 'category'
+    params.location.migration.probs_file = 'tests/params/migration_cat.csv'
+    pop = make_population(p=params, n=10)
+
+    pop.pop_random = FakeRandom(0) # highest weight always picked
+
+    assert len(set(a.location.name for a in pop.all_agents)) == 4
+    rightleft_agents = [a for a in pop.all_agents if a.location.category == 'rightleft']
+    updown_agents = [a for a in pop.all_agents if a.location.category == 'updown']
+
+    pop.migrate()
+
+    # all rightleft agents should be updown now
+    assert all(a.location.category == 'updown' for a in rightleft_agents)
+
+    # north agents should be un-changed
+    assert all(a.location.category == 'updown' for a in updown_agents)
