@@ -1,0 +1,17 @@
+demographics:
+  white:
+    ppl: 0.562
+    sex_type:
+      MSM:
+        ppl: 1.0
+        sex_role:
+          init:
+            versatile:
+            insertive:
+            receptive:
+
+
+
+
+  black:
+    ppl: 0.438
