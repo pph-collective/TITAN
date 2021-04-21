@@ -31,7 +31,7 @@ class Location:
         self.drug_weights: Dict[str, Dict] = {}
         self.init_weights()
 
-        self.migration_weights: Dict[str, List[Any]] = {}
+        self.migration_weights: Dict[str, Any] = {}
 
         self.edges: Set["LocationEdge"] = set({})  # or maybe edges instead
 
@@ -176,7 +176,7 @@ class Geography:
             for location, defn in params.classes.locations.items()
         }
 
-        self.categories: Dict[str, Location] = {}
+        self.categories: Dict[str, List[Location]] = {}
         for location in self.locations.values():
             if location.category in self.categories:
                 self.categories[location.category].append(location)
