@@ -517,15 +517,15 @@ class Population:
         m_attr = self.params.location.migration.attribute
         for a in self.all_agents:
             m_param = a.location.migration_weights
-            if (self.pop_random.random() < m_param["prob"]):
+            if self.pop_random.random() < m_param["prob"]:
                 new_loc = utils.safe_random_choice(
                     m_param["values"],
                     self.pop_random,
                     weights=m_param["weights"],
                 )
-                if m_attr == 'name':
+                if m_attr == "name":
                     a.location = self.geography.locations[new_loc]
-                elif m_attr == 'category':
-                    a.location = utils.safe_random_choice(self.geography.categories[new_loc], self.pop_random)
-
-
+                elif m_attr == "category":
+                    a.location = utils.safe_random_choice(
+                        self.geography.categories[new_loc], self.pop_random
+                    )
