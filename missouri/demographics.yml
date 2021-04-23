@@ -6,12 +6,45 @@ demographics:
         ppl: 1.0
         sex_role:
           init:
-            versatile:
-            insertive:
-            receptive:
+            versatile: 0.380
+            insertive: 0.356
+            receptive: 0.264
+        prep:
+          discontinue:
+          adherence:
+          cap:
+          init:
+        drug_type:
+          None:
+            ppl: 1.0
+            hiv:
+            haart:
+            death_rate:
+              base: 0.902
+              hiv: 3.0
+              aids: 17.5
+              haart_adherent: 1.0
+            num_partners:
+              Sex:
+              dist_type: negative_binomial
+              vars:
+                1:
+                  value: 5.609
+                  value_type: float
+                2:
+                  value: 0.381
+                  value_type: float
 
 
 
 
   black:
     ppl: 0.438
+    sex_type:
+      MSM:
+        ppl: 1.0
+        sex_role:
+          init:
+            versatile: 0.365
+            insertive: 0.399
+            receptive: 0.236

@@ -1,2 +1,17 @@
 model:
   num_pop: 6000
+
+partnership:
+  duration:
+    Sex:
+      white:
+        type: distribution
+        distribution:
+          dist_type: weibull
+          vars:
+            1:
+              value: 2.522
+              value_type: float
+            2:
+              value: 13.144
+                value_type: float
