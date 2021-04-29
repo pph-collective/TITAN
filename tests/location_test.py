@@ -51,6 +51,8 @@ def test_location_edge_init(params):
 
     assert location1 in edge.edge
     assert location2 in edge.edge
+    assert location1 in location2.neighbors
+    assert location2 in location1.neighbors
     assert edge.distance == 2.4
     assert edge.id is not None
 

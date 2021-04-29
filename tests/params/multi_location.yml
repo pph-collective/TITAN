@@ -326,7 +326,7 @@ features:
   die_and_replace: true
   static_network: false
   agent_zero: true
-  assort_mix: false
+  assort_mix: true
   vaccine: true
   partner_tracing: true
   external_exposure: true
@@ -356,12 +356,47 @@ classes:
 
 location:
   edges:
-    edge_default:
+    edge_1:
       location_1: north
       location_2: south
+    edge_2:
+      location_1: south
+      location_2: west
+    edge_3:
+      location_1: west
+      location_2: east
+    edge_4:
+      location_1: east
+      location_2: north
   migration:
     enabled: true
     probs_file: 'tests/params/migration.csv'
 
-external_exposure:
-  convert_prob: 1.0
+# assort_mix:
+#   loc_all:
+#     attribute: location
+#     agent_value: __any__
+#     partner_values:
+#       __same__: 0.2
+#       __neighbor__: 0.4
+#       __other__: 0.4
+#   loc_spec:
+#     attribute: location
+#     agent_value: east
+#     partner_values:
+#       __neighbor__: 0.3
+#       south: 0.2
+#       __other__: 0.5
+#   loc_any_no_neighbor:
+#     attribute: location
+#     agent_value: __any__
+#     partner_values:
+#       __same__: 0.5
+#       __other__: 0.5
+#   loc_spec_no_neighbor:
+#     attribute: location
+#     agent_value: east
+#     partner_values:
+#       south: 0.2
+#       west: 0.2
+#       __other__: 0.6

@@ -33,7 +33,7 @@ class Location:
 
         self.migration_weights: Dict[str, Any] = {}
 
-        self.edges: Set["LocationEdge"] = set({})  # or maybe edges instead
+        self.neighbors: Set[str] = set()  # or maybe edges instead
 
     def __str__(self):
         return self.name
@@ -160,6 +160,9 @@ class LocationEdge:
 
         self.edge = set({loc1, loc2})
         self.distance = distance
+
+        loc1.neighbors.add(loc2.name)
+        loc2.neighbors.add(loc1.name)
 
 
 class Geography:

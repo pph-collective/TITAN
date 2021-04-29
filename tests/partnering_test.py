@@ -650,6 +650,234 @@ def test_get_assort_bond_type(make_population, make_agent, params):
 
 
 @pytest.mark.unit
+def test_get_same_assort_location(make_population, tmpdir, make_agent):
+    param_file = "tests/params/multi_location.yml"
+    params = create_params(None, param_file, tmpdir)
+    pop = make_population(p=params, n=0)
+    e = make_agent(SO="MSM", race="white", location=pop.geography.locations["east"])
+    w = make_agent(SO="MSM", race="white", location=pop.geography.locations["west"])
+    n = make_agent(SO="MSM", race="white", location=pop.geography.locations["north"])
+    s = make_agent(SO="MSM", race="white", location=pop.geography.locations["south"])
+    pop.add_agent(e)
+    pop.add_agent(w)
+    pop.add_agent(n)
+    pop.add_agent(s)
+
+    params.features.assort_mix = True
+
+    # same-assort with neighbors
+    test_rule = ObjMap(
+        {
+            "attribute": "location",
+            "partner_attribute": "__agent__",
+            "bond_types": [],
+            "agent_value": "__any__",
+            "partner_values": {"__same__": 0.1, "__other__": 0.8, "__neighbor__": 0.1},
+        }
+    )
+    params.assort_mix["test_rule"] = test_rule
+
+    partner = select_partner(
+        e,
+        pop.all_agents.members,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.0),
+        "Sex",
+    )
+
+    assert partner == s
+
+    params.assort_mix.test_rule.partner_values["__neighbor__"] = 0.9  # now highest
+
+    partner = select_partner(
+        e,
+        pop.all_agents.members,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.0),
+        "Sex",
+    )
+
+    assert partner in (w, n)
+
+    params.assort_mix.test_rule.partner_values["__same__"] = 1.9  # now highest
+
+    partner = select_partner(
+        e,
+        pop.all_agents.members,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.0),
+        "Sex",
+    )
+
+    assert partner is None
+
+    # same-assort without neighbors
+    test_rule = ObjMap(
+        {
+            "attribute": "location",
+            "partner_attribute": "__agent__",
+            "bond_types": [],
+            "agent_value": "__any__",
+            "partner_values": {"__same__": 0.1, "__other__": 0.8},
+        }
+    )
+    params.assort_mix["test_rule"] = test_rule
+
+    partner = select_partner(
+        e,
+        pop.all_agents.members,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.0),
+        "Sex",
+    )
+
+    assert partner in (s, w, n)
+
+    params.assort_mix.test_rule.partner_values["__same__"] = 0.9  # now highest
+
+    partner = select_partner(
+        e,
+        pop.all_agents.members,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.0),
+        "Sex",
+    )
+
+    assert partner is None
+
+
+@pytest.mark.unit
+def test_get_assort_location(make_population, tmpdir, make_agent):
+    param_file = "tests/params/multi_location.yml"
+    params = create_params(None, param_file, tmpdir)
+    pop = make_population(p=params, n=0)
+    e = make_agent(SO="MSM", race="white", location=pop.geography.locations["east"])
+    w = make_agent(SO="MSM", race="white", location=pop.geography.locations["west"])
+    n = make_agent(SO="MSM", race="white", location=pop.geography.locations["north"])
+    s = make_agent(SO="MSM", race="white", location=pop.geography.locations["south"])
+    pop.add_agent(e)
+    pop.add_agent(w)
+    pop.add_agent(n)
+    pop.add_agent(s)
+
+    params.features.assort_mix = True
+
+    # same-assort with neighbors
+    test_rule = ObjMap(
+        {
+            "attribute": "location",
+            "partner_attribute": "__agent__",
+            "bond_types": [],
+            "agent_value": "east",
+            "partner_values": {"east": 0.1, "__other__": 0.8, "__neighbor__": 0.1},
+        }
+    )
+    params.assort_mix["test_rule"] = test_rule
+
+    partner = select_partner(
+        e,
+        pop.all_agents.members,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.0),
+        "Sex",
+    )
+
+    assert partner == s
+
+    params.assort_mix.test_rule.partner_values["__neighbor__"] = 0.9  # now highest
+
+    partner = select_partner(
+        e,
+        pop.all_agents.members,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.0),
+        "Sex",
+    )
+
+    assert partner in (w, n)
+
+    params.assort_mix.test_rule.partner_values["east"] = 1.9  # now highest
+
+    partner = select_partner(
+        e,
+        pop.all_agents.members,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.0),
+        "Sex",
+    )
+
+    assert partner is None
+
+    # same-assort without neighbors
+    test_rule = ObjMap(
+        {
+            "attribute": "location",
+            "partner_attribute": "__agent__",
+            "bond_types": [],
+            "agent_value": "east",
+            "partner_values": {"east": 0.1, "west": 0.2, "__other__": 0.7},
+        }
+    )
+    params.assort_mix["test_rule"] = test_rule
+
+    partner = select_partner(
+        e,
+        pop.all_agents.members,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.0),
+        "Sex",
+    )
+
+    assert partner in (s, n)
+
+    params.assort_mix.test_rule.partner_values["east"] = 0.9  # now highest
+
+    partner = select_partner(
+        e,
+        pop.all_agents.members,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.0),
+        "Sex",
+    )
+
+    assert partner is None
+
+    params.assort_mix.test_rule.partner_values["west"] = 1.9  # now highest
+
+    partner = select_partner(
+        e,
+        pop.all_agents.members,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.0),
+        "Sex",
+    )
+
+    assert partner == w
+
+
+@pytest.mark.unit
 def test_get_str_attr(make_agent):
     a = make_agent(race="white", age=42)
     assert get_str_attr(a, "race") == "white"
