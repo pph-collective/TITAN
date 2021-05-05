@@ -9,16 +9,35 @@ demographics:
             versatile: 0.380
             insertive: 0.356
             receptive: 0.264
+        safe_sex:
+          prob: 0.234
         prep:
-          discontinue:
-          adherence:
+          discontinue: 0.125
+          adherence: 0.75
           cap:
-          init:
+          init: 0.03
         drug_type:
           None:
             ppl: 1.0
             hiv:
+              init: 0.280
+              dx:
+                init: 0.881
+                prob: 0.063
+              aids:
+                init: 0.496
             haart:
+              init: 0.708
+              enroll:
+                prob: 0.307 # used avg?
+                start:
+                stop:
+              reinit:
+                prob: 0.03
+              adherence:
+                init: 0.667
+                prob:
+              discontinue: 0.034
             death_rate:
               base: 0.902
               hiv: 3.0
@@ -48,3 +67,28 @@ demographics:
             versatile: 0.365
             insertive: 0.399
             receptive: 0.236
+        prep:
+          discontinue:
+          adherence:
+          cap:
+          init:
+        drug_type:
+          None:
+            ppl: 1.0
+            hiv:
+            haart:
+            death_rate:
+              base: 1.674
+              hiv: 3.0
+              aids: 17.5
+              haart_adherent: 1.0
+            num_partners:
+              Sex:
+              dist_type: negative_binomial
+              vars:
+                1:
+                  value: 9.634
+                  value_type: float
+                2:
+                  value: 0.611
+                  value_type: float

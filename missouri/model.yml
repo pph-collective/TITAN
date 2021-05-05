@@ -1,5 +1,8 @@
 model:
   num_pop: 6000
+  time:
+    num_steps:
+    burn_steps:
 
 partnership:
   duration:
