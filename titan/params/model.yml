@@ -1,9 +1,4 @@
 model:
-  processes:
-    default: 1
-    description: "Number of processes in parallel to use for computation"
-    type: int
-    min: 1
   seed:
     run:
       default: 0

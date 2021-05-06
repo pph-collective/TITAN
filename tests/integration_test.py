@@ -11,6 +11,7 @@ import sys
 
 from titan.parse_params import ObjMap, create_params
 from titan.model import TITAN
+from titan.run_titan import script_init
 
 # overwrite
 @pytest.fixture
@@ -39,6 +40,16 @@ def test_model_runs():
     )
 
     subprocess.check_call([sys.executable, f, f"-p {param_file}"])
+    assert True
+
+
+@pytest.mark.integration_deterministic
+def test_model_runs_cli(monkeypatch):
+    param_file = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "params", "basic.yml"
+    )
+    monkeypatch.setattr("sys.argv", ["run_titan", "-p", f"{param_file}"])
+    script_init()
     assert True
 
 

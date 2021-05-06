@@ -1,5 +1,4 @@
 model:
-  processes: 1
   seed:
     ppl: 0
     run: 0
@@ -23,7 +22,7 @@ outputs:
 exposures:
   hiv: true
   knowledge: true
-  
+
 features:
   agent_zero: false
   assort_mix: true
