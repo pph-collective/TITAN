@@ -5,6 +5,31 @@ model:
     burn_steps:
 
 partnership:
+  sex:
+    frequency:
+      Sex: # is this correct bond type?
+        white: # race type?
+          type: distribution
+          distribution:
+            dist_type: gamma
+            vars:
+              1:
+                value: 4.052
+                value_type: float
+              2:
+                value: 0.599
+                value_type: float
+        black:
+          type: distribution
+          distribution:
+            dist_type: gamma
+            vars:
+              1:
+                value: 2.775
+                value_type: float
+              2:
+                value: 0.524
+                value_type: float
   duration:
     Sex:
       white:
@@ -17,4 +42,17 @@ partnership:
               value_type: float
             2:
               value: 13.144
-                value_type: float
+              value_type: float
+          mean: 11
+      black:
+        type: distribution
+        distribution
+          dist_type: weibull
+        vars:
+          1:
+            value: 2.956
+            value_type: float
+          2:
+            value: 8.953
+            value_type: float
+        mean: 9
