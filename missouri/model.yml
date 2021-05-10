@@ -4,6 +4,14 @@ model:
     num_steps:
     burn_steps:
 
+assort_mix: # not sure of format for this parameter
+  attribute: race
+  partner_attribute:
+  bond_types:
+    - Sex
+  partner_values:
+
+
 partnership:
   sex:
     frequency:
@@ -30,6 +38,15 @@ partnership:
               2:
                 value: 0.524
                 value_type: float
+    acquisition:
+      MSM: # sex_type?
+        versatile: # mean?
+        insertive: 0.0017
+        receptive: 0.0075
+    haart_scaling:
+      MSM:
+        non_adherent: 0.165
+        adherent: 0
   duration:
     Sex:
       white:
@@ -56,3 +73,23 @@ partnership:
             value: 8.953
             value_type: float
         mean: 9
+
+prep:
+  efficacy:
+    adherent: 0.96 # default
+    non_adherent: 0.76
+
+hiv:
+  acute:
+    infectivity: 10.5
+    duration: 4
+  aids:
+    prob: 0.004
+
+haart: # not sure how to set this up; timeline_scaling ??
+  aids_scale:
+    non_adherent: 0.200
+    adherent: 0.05
+
+timeline_scaling:
+  timeline:
