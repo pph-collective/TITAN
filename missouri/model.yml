@@ -4,13 +4,19 @@ model:
     num_steps:
     burn_steps:
 
-assort_mix: # not sure of format for this parameter
-  attribute: race
-  partner_attribute:
-  bond_types:
-    - Sex
-  partner_values:
-
+assort_mix:
+  assort_white:
+    attribute: race
+    agent_value: white
+    partner_values:
+      white: 0.5
+      black: 0.5
+  assort_black:
+    attribute: race
+    agent_value: black
+    partner_values:
+      white: 0.5
+      black: 0.5
 
 partnership:
   sex:
@@ -39,8 +45,8 @@ partnership:
                 value: 0.524
                 value_type: float
     acquisition:
-      MSM: # sex_type?
-        versatile: # mean?
+      MSM:
+        versatile: 0.0046 # mean of insertive and receptive
         insertive: 0.0017
         receptive: 0.0075
     haart_scaling:
@@ -60,10 +66,10 @@ partnership:
             2:
               value: 13.144
               value_type: float
-          mean: 11
+          mean: 11 # expected means?
       black:
         type: distribution
-        distribution
+        distribution:
           dist_type: weibull
         vars:
           1:
@@ -72,11 +78,11 @@ partnership:
           2:
             value: 8.953
             value_type: float
-        mean: 9
+        mean: 9 # expected means?
 
 prep:
   efficacy:
-    adherent: 0.96 # default
+    adherent: 0.96
     non_adherent: 0.76
 
 hiv:
@@ -86,10 +92,7 @@ hiv:
   aids:
     prob: 0.004
 
-haart: # not sure how to set this up; timeline_scaling ??
+haart:
   aids_scale:
     non_adherent: 0.200
     adherent: 0.05
-
-timeline_scaling:
-  timeline:

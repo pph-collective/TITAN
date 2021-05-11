@@ -14,7 +14,6 @@ demographics:
         prep:
           discontinue: 0.125
           adherence: 0.75
-          cap:
           init: 0.03
         drug_type:
           None:
@@ -28,15 +27,20 @@ demographics:
                 init: 0.496
             haart:
               init: 0.708
-              enroll: # need clarification on this parameter
-                prob: 0.307 # used avg?
-                start:
-                stop:
+              enroll: # unsure of start and stop times
+                enroll_1:
+                  start: 0
+                  stop: 1
+                  prob: 0.579
+                enroll_2:
+                  start: 2
+                  stop: 12
+                  prob: 0.034
               reinit:
                 prob: 0.03
               adherence:
                 init: 0.667
-                prob:
+                prob: 0.112
               discontinue: 0.034
             death_rate:
               base: 0.902
@@ -53,10 +57,6 @@ demographics:
                 2:
                   value: 0.381
                   value_type: float
-
-
-
-
   black:
     ppl: 0.438
     sex_type:
@@ -67,11 +67,11 @@ demographics:
             versatile: 0.365
             insertive: 0.399
             receptive: 0.236
-        safe_sex: 0.391
+        safe_sex:
+          prob: 0.391
         prep:
           discontinue: 0.125
           adherence: 0.75
-          cap:
           init: 0.03
         drug_type:
           None:
@@ -85,14 +85,20 @@ demographics:
                 init: 0.489
             haart:
               init: 0.763
-              enroll:
-                prob: 0.320
-                start:
-                stop:
+              enroll: # unsure of start and stop times
+                enroll_1:
+                  start: 1
+                  stop: 2
+                  prob: 0.579
+                enroll_2:
+                  start: 2
+                  stop: 12
+                  prob: 0.061
               reinit:
                 prob: 0.03
               adherence:
                 init: 0.514
+                prob: 0.103
               discontinue: 0.029
             death_rate:
               base: 1.674
