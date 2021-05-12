@@ -618,10 +618,13 @@ def test_pca_awareness(params_integration, tmpdir):
     end_prep_b = sum([1 for a in model_b.pop.all_agents if a.prep.active])
 
     assert math.isclose(init_active_b, init_active_a, abs_tol=20)
-    assert math.isclose((end_active_b - init_active_b), (end_active_a - init_active_a), abs_tol=20)
+    assert math.isclose(
+        (end_active_b - init_active_b), (end_active_a - init_active_a), abs_tol=20
+    )
 
     assert math.isclose(init_prep_b, init_prep_a, abs_tol=20)
     assert (end_prep_b - init_prep_b) > (end_prep_a - init_prep_a)
+
 
 @pytest.mark.integration_stochastic
 def test_migration(tmpdir):
@@ -647,8 +650,9 @@ def test_migration(tmpdir):
     num_east_west_agents = sum([1 for a in west_agents if a.location.name == "east"])
     num_end_west_agents = sum([1 for a in west_agents if a.location.name == "west"])
 
-    assert math.isclose(num_end_west_agents, 5, abs_tol = 5)
-    assert math.isclose(num_east_west_agents, num_init_west_agents - 5, abs_tol = 5)
+    assert math.isclose(num_end_west_agents, 5, abs_tol=5)
+    assert math.isclose(num_east_west_agents, num_init_west_agents - 5, abs_tol=5)
+
 
 @pytest.mark.integration_stochastic
 def test_location_assorting(tmpdir):
@@ -694,8 +698,10 @@ def test_location_assorting(tmpdir):
 
     # because if we have a west partner we're guaranteed 2, the data skews a bit westward TO_REVIEW, does this make sense??
     assert partners["north"] == 0
-    assert math.isclose(partners["west"] / total_partners, 0.6, abs_tol = 0.15)
-    assert math.isclose((partners["east"] + partners["south"]) / total_partners, 0.4, abs_tol = 0.15)
+    assert math.isclose(partners["west"] / total_partners, 0.6, abs_tol=0.15)
+    assert math.isclose(
+        (partners["east"] + partners["south"]) / total_partners, 0.4, abs_tol=0.15
+    )
 
     model.run(path_a)
 
@@ -709,5 +715,7 @@ def test_location_assorting(tmpdir):
     total_partners = sum(partners.values())
 
     assert partners["north"] == 0
-    assert math.isclose(partners["west"] / total_partners, 0.6, abs_tol = 0.15)
-    assert math.isclose((partners["east"] + partners["south"]) / total_partners, 0.4, abs_tol = 0.15)
+    assert math.isclose(partners["west"] / total_partners, 0.6, abs_tol=0.15)
+    assert math.isclose(
+        (partners["east"] + partners["south"]) / total_partners, 0.4, abs_tol=0.15
+    )
