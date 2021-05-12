@@ -517,7 +517,7 @@ def test_trim_components(make_population):
 def test_location_migration_name(make_population, tmpdir):
     param_file = "tests/params/multi_location.yml"
     params = create_params(None, param_file, tmpdir)
-    pop = make_population(p=params, n=10)
+    pop = make_population(p=params, n=20)
 
     pop.pop_random = FakeRandom(0)  # highest weight always picked
 
@@ -540,7 +540,7 @@ def test_location_migration_category(make_population, tmpdir):
     params = create_params(None, param_file, tmpdir)
     params.location.migration.attribute = "category"
     params.location.migration.probs_file = "tests/params/migration_cat.csv"
-    pop = make_population(p=params, n=10)
+    pop = make_population(p=params, n=20)
 
     pop.pop_random = FakeRandom(0)  # highest weight always picked
 

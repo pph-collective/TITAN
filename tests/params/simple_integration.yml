@@ -102,42 +102,38 @@ demographics:
                   1:
                     value: 2
                     type: float
+              Social:
+                dist_type: poisson
+                vars:
+                  1:
+                    value: 15
+                    type: int
   white: *race_dems
 
 partnership:
   duration:
-    Inj:
-      type: distribution
-      distribution:
-        dist_type: poisson
-        vars:
-          1:
-            value: 3
-            type: float
-        mean: 12
-    SexInj:
-      type: bins
-      distribution:
-        dist_type: poisson
-        vars:
-          1:
-            value: 3
-            type: float
-        mean: 12
-    Sex:
-      type: bins
-      bins:
-        1:
-          prob: 1.0
-          min: 1
-          max: 10
-    Social:
-      type: bins
-      bins:
-        1:
-          prob: 1.0
-          min: 1
-          max: 10
+    Inj: &base_duration
+      white:
+        type: distribution
+        distribution:
+          dist_type: poisson
+          vars:
+            1:
+              value: 3
+              type: float
+          mean: 12
+      black:
+        type: distribution
+        distribution:
+          dist_type: poisson
+          vars:
+            1:
+              value: 3
+              type: float
+          mean: 12
+    SexInj: *base_duration
+    Sex: *base_duration
+    Social: *base_duration
   sex:
     frequency:
       Sex:
@@ -162,6 +158,13 @@ partnership:
             prob: 1.0
             min: 10
             max: 37
+    acquisition:
+      MSM:
+        insertive: 0.0011
+        receptive: 0.0138
+        versatile: 0.00745
+  pca:
+    frequency:
       Social:
         type: bins
         bins:
@@ -169,11 +172,6 @@ partnership:
             prob: 1.0
             min: 10
             max: 100
-    acquisition:
-      MSM:
-        insertive: 0.0011
-        receptive: 0.0138
-        versatile: 0.00745
 
 syringe_services:
   timeline:
