@@ -27,10 +27,10 @@ demographics:
                 init: 0.496
             haart:
               init: 0.708
-              enroll: # unsure of start and stop times
+              enroll:
                 enroll_1:
                   start: 0
-                  stop: 1
+                  stop: 2
                   prob: 0.579
                 enroll_2:
                   start: 2
@@ -85,9 +85,9 @@ demographics:
                 init: 0.489
             haart:
               init: 0.763
-              enroll: # unsure of start and stop times
+              enroll:
                 enroll_1:
-                  start: 1
+                  start: 0
                   stop: 2
                   prob: 0.579
                 enroll_2:

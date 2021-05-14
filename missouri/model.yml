@@ -1,8 +1,15 @@
 model:
   num_pop: 6000
   time:
-    num_steps:
-    burn_steps:
+    num_steps: 84
+    steps_per_year: 12
+    burn_steps: 48
+
+features:
+  prep: true
+  haart: true
+  die_and_replace: true
+  assort_mix: true
 
 assort_mix:
   assort_white:
@@ -21,28 +28,16 @@ assort_mix:
 partnership:
   sex:
     frequency:
-      Sex: # is this correct bond type?
-        white: # race type?
+      Sex:
           type: distribution
           distribution:
             dist_type: gamma
             vars:
               1:
-                value: 4.052
+                value: 3.414
                 value_type: float
               2:
-                value: 0.599
-                value_type: float
-        black:
-          type: distribution
-          distribution:
-            dist_type: gamma
-            vars:
-              1:
-                value: 2.775
-                value_type: float
-              2:
-                value: 0.524
+                value: 0.562
                 value_type: float
     acquisition:
       MSM:
@@ -84,6 +79,8 @@ prep:
   efficacy:
     adherent: 0.96
     non_adherent: 0.76
+  target_model:
+  - Racial
 
 hiv:
   acute:
@@ -93,6 +90,7 @@ hiv:
     prob: 0.004
 
 haart:
+  use_reinit: true
   aids_scale:
     non_adherent: 0.200
     adherent: 0.05
