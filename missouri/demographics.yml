@@ -34,7 +34,7 @@ demographics:
                   prob: 0.579
                 enroll_2:
                   start: 2
-                  stop: 12
+                  stop: 13
                   prob: 0.034
               reinit:
                 prob: 0.03
@@ -92,7 +92,7 @@ demographics:
                   prob: 0.579
                 enroll_2:
                   start: 2
-                  stop: 12
+                  stop: 13
                   prob: 0.061
               reinit:
                 prob: 0.03
