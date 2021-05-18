@@ -11,6 +11,15 @@ features:
   die_and_replace: true
   assort_mix: true
 
+classes:
+  sex_types:
+    MSM:
+      cis_trans: cis
+      gender: M
+      sleeps_with:
+        - MSM
+
+
 assort_mix:
   assort_white:
     attribute: race
@@ -66,16 +75,17 @@ partnership:
         type: distribution
         distribution:
           dist_type: weibull_modified
-        vars:
-          1:
-            value: 2.956
-            value_type: float
-          2:
-            value: 8.953
-            value_type: float
-        mean: 9 # expected means?
+          vars:
+            1:
+              value: 2.956
+              value_type: float
+            2:
+              value: 8.953
+              value_type: float
+          mean: 9 # expected means?
 
 prep:
+  cap_as_prob: true
   efficacy:
     adherent: 0.96
     non_adherent: 0.76

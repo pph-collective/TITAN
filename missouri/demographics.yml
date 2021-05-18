@@ -10,11 +10,13 @@ demographics:
             insertive: 0.356
             receptive: 0.264
         safe_sex:
-          prob: 0.234
+          Sex:
+            prob: 0.234
         prep:
           discontinue: 0.125
           adherence: 0.75
-          init: 0.03
+          init: # need from Will
+          cap: 0.03
         drug_type:
           None:
             ppl: 1.0
@@ -49,14 +51,14 @@ demographics:
               haart_adherent: 1.0
             num_partners:
               Sex:
-              dist_type: negative_binomial
-              vars:
-                1:
-                  value: 5.609
-                  value_type: float
-                2:
-                  value: 0.381
-                  value_type: float
+                dist_type: negative_binomial
+                vars:
+                  1:
+                    value: 5.609
+                    value_type: float
+                  2:
+                    value: 0.381
+                    value_type: float
   black:
     ppl: 0.438
     sex_type:
@@ -68,11 +70,13 @@ demographics:
             insertive: 0.399
             receptive: 0.236
         safe_sex:
-          prob: 0.391
+          Sex:
+            prob: 0.391
         prep:
           discontinue: 0.125
           adherence: 0.75
-          init: 0.03
+          init: # need from will
+          cap: 0.03
         drug_type:
           None:
             ppl: 1.0
@@ -107,11 +111,11 @@ demographics:
               haart_adherent: 1.0
             num_partners:
               Sex:
-              dist_type: negative_binomial
-              vars:
-                1:
-                  value: 9.634
-                  value_type: float
-                2:
-                  value: 0.611
-                  value_type: float
+                dist_type: negative_binomial
+                vars:
+                  1:
+                    value: 9.634
+                    value_type: float
+                  2:
+                    value: 0.611
+                    value_type: float
