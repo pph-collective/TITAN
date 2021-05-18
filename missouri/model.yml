@@ -53,7 +53,7 @@ partnership:
       white:
         type: distribution
         distribution:
-          dist_type: weibull
+          dist_type: weibull_modified
           vars:
             1:
               value: 2.522
@@ -65,7 +65,7 @@ partnership:
       black:
         type: distribution
         distribution:
-          dist_type: weibull
+          dist_type: weibull_modified
         vars:
           1:
             value: 2.956
