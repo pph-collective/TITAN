@@ -19,7 +19,6 @@ classes:
       sleeps_with:
         - MSM
 
-
 assort_mix:
   assort_white:
     attribute: race
@@ -70,7 +69,7 @@ partnership:
             2:
               value: 13.144
               value_type: float
-          mean: 11 # expected means?
+          mean: 11 # expected means
       black:
         type: distribution
         distribution:
@@ -82,7 +81,7 @@ partnership:
             2:
               value: 8.953
               value_type: float
-          mean: 9 # expected means?
+          mean: 9 # expected means
 
 prep:
   cap_as_prob: true
