@@ -27,9 +27,42 @@ location:
       default:
         ls_default: # reserved name to skip scaling in the default scenario
           scalar: 1.0
+  migration:
+    enabled:
+      default: false
+      type: boolean
+      description: Whether migration between locations is enabled.  Migration may cause the population numbers in a given location to drift over time.
+    attribute:
+      default: name
+      type: enum
+      description: Which location attribute to determine migration probability based on.
+      values:
+        - name
+        - category
+    probs_file:
+      default: ''
+      type: any
+      description: |
+        File path where the migration probability csv is located.  The CSV must have the attribute names along the first row and column with the topmost left cell blank.  Each value in the matrix represents the probability of an agent migrating from the location on that row to the location on that column at a given time step.  Each row must add to 1.  If there is a column with the header `prob` this will be used as the probability of an agent in the location described by the row migrating at all that timestep (useful if migrating based on a non-unique attribute).
+
+        CSV using groups with a `prob` column:
+        ```
+        ,updown,rightleft,prob
+        updown,0.95,0.05,0.025
+        rightleft,0.8,0.2,0.1
+        ```
+
+        CSV using names without a `prob` column:
+        ```
+        ,north,south,east,west
+        north,0.95,0.025,0.025,0
+        south,0.1,0.8,0.1,0
+        east,0.001,0.002,0.997,0
+        west,0.03,0.01,0.89,0.07
+        ```
   edges:
     type: definition
-    description: Definition of an edge (relationship) between two locations
+    description: Definition of an neighbor relationship between two locations
     fields:
       location_1:
         type: enum
@@ -44,7 +77,7 @@ location:
         default: 0
         min: 0
     default:
-      edge_default: # reserved name to skip making an edge in the default scenario
+      edge_default: # reserved name to skip making an edge in the default scenario (still must pass param checks)
         location_1: world
         location_2: world # note this won't actually work, as a location can't have an edge with itself
         distance: 0

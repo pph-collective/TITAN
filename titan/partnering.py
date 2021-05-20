@@ -89,7 +89,9 @@ def get_match_fns(assort_defs, agent, bond_type, rand_gen):
     match_fns = []
     for assort_def in assort_defs:
         if len(assort_def.bond_types) == 0 or bond_type in assort_def.bond_types:
-            if assort_def.agent_value == "__any__":
+            if get_partner_attr(assort_def) == "location":
+                match_fns.append(get_location_match_fn(assort_def, agent, rand_gen))
+            elif assort_def.agent_value == "__any__":
                 match_fns.append(get_same_match_fn(assort_def, agent, rand_gen))
             elif get_str_attr(agent, assort_def.attribute) == str(
                 assort_def.agent_value
@@ -141,6 +143,46 @@ def get_same_match_fn(assort_def, agent, rand_gen):
         raise ValueError(
             "When using same-assorting, only valid partner_types are __same__ and __other__"
         )
+
+
+# given an assort def where partner_attribute == 'location', return the match function
+def get_location_match_fn(assort_def, agent, rand_gen):
+    partner_type = get_partner_type(assort_def, rand_gen)
+    attr = "location"
+
+    agent_location = get_str_attr(agent, attr)
+    agent_neighbors = agent.location.neighbors
+    if assort_def.agent_value == "__any__":
+        if partner_type == "__same__":
+            return lambda ag: get_str_attr(ag, attr) == agent_location
+        elif partner_type == "__other__":
+            if "__neighbor__" in assort_def.partner_values:
+                return lambda ag: get_str_attr(ag, attr) not in agent_neighbors.union(
+                    [agent_location]
+                )
+            else:
+                return lambda ag: get_str_attr(ag, attr) != agent_location
+        elif partner_type == "__neighbor__":
+            return lambda ag: get_str_attr(ag, attr) in agent_neighbors
+        else:
+            raise ValueError(
+                "When using same-assorting on location, only valid partner_types are __same__, __neighbor__ and __other__"
+            )
+    else:
+        partner_types = list(assort_def.partner_values.keys())
+        if partner_type == "__other__":
+            partner_types.remove("__other__")
+            if "__neighbor__" in assort_def.partner_values:
+                partner_types.remove("__neighbor__")
+                return lambda ag: get_str_attr(ag, attr) not in agent_neighbors.union(
+                    partner_types
+                )
+            else:
+                return lambda ag: get_str_attr(ag, attr) not in partner_types
+        elif partner_type == "__neighbor__":
+            return lambda ag: get_str_attr(ag, attr) in agent_neighbors
+        else:
+            return lambda ag: get_str_attr(ag, attr) == partner_type
 
 
 @utils.memo

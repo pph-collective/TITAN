@@ -39,3 +39,11 @@ def test_create_params_error(tmpdir):
         "[.demographics.black.sex_type.MSM.drug_type.Inj.num_partners.Sex.dist_type]"
         in str(excinfo.value)
     )
+
+
+@pytest.mark.unit
+def test_save_migration_probs(tmpdir):
+    param_file_migration = "tests/params/multi_location.yml"
+
+    pp.create_params(None, param_file_migration, tmpdir)
+    assert os.path.isfile(os.path.join(tmpdir, "migration_probs.csv"))

@@ -3,6 +3,7 @@ import paraml  # type: ignore
 import os
 from inspect import getsourcefile
 from pathlib import Path
+import shutil
 import math
 from typing import Optional, Dict
 from copy import deepcopy
@@ -142,5 +143,12 @@ def create_params(
 
     parsed = ObjMap(parsed)
     check_params(parsed)
+
+    # copy migration file if enabled
+    if parsed.location.migration.enabled:
+        shutil.copy(
+            parsed.location.migration.probs_file,
+            os.path.join(outdir, "migration_probs.csv"),
+        )
 
     return parsed
