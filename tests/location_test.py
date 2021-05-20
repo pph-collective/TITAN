@@ -26,7 +26,7 @@ def test_location_init(params):
     assert "values" in world.pop_weights["black"]
     assert "weights" in world.pop_weights["white"]
 
-    assert len(world.edges) == 0
+    assert len(world.neighbors) == 0
 
 
 @pytest.mark.unit
@@ -51,6 +51,8 @@ def test_location_edge_init(params):
 
     assert location1 in edge.edge
     assert location2 in edge.edge
+    assert location1.name in location2.neighbors
+    assert location2.name in location1.neighbors
     assert edge.distance == 2.4
     assert edge.id is not None
 

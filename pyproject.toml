@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "titan-model"
-version = "2.5.1"
+version = "2.6.0"
 description = "TITAN Agent Based Model"
 license = "GPL-3.0-only"
 authors = ["Sam Bessey <sam_bessey@brown.edu>", "Mary McGrath <mary_mcgrath@brown.edu>"]
@@ -23,6 +23,7 @@ mypy = {version = "^0.812", optional = true}
 mkdocs = {version = "^1.1", optional = true}
 mkdocs-material = {version = "^7.0", optional = true}
 mkdocstrings = {version = "^0.15.0", optional = true}
+oyaml = "^1.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
@@ -33,7 +34,8 @@ linting = ["black", "flake8", "mypy"] # doesn't work on pypy
 docs = ["mkdocs", "mkdocs-material", "mkdocstrings"]
 
 [tool.poetry.scripts]
-run_titan = "titan:script_init"
+run_titan = "titan.run_titan:script_init"
+grid2edges = "titan.utils:grid_to_edges_cli"
 
 [build-system]
 requires = ["poetry_core>=1.0.0"]

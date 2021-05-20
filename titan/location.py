@@ -1,6 +1,8 @@
 from typing import Optional, Set, Dict, List, Any
 from copy import deepcopy
 import math
+import os
+import csv
 
 from .parse_params import ObjMap
 from . import utils
@@ -21,6 +23,7 @@ class Location:
         self.name = name
         self.params = self.create_params(params)
         self.ppl = defn.ppl  # percent of overall population assigned to this location
+        self.category = defn.category  # arbitrary category, can be used for migration
 
         # value/weight maps needed for creating new agents in this location
         self.pop_weights: Dict[str, Dict[str, List[Any]]] = {}
@@ -28,7 +31,9 @@ class Location:
         self.drug_weights: Dict[str, Dict] = {}
         self.init_weights()
 
-        self.edges: Set["LocationEdge"] = set({})  # or maybe edges instead
+        self.migration_weights: Dict[str, Any] = {}
+
+        self.neighbors: Set[str] = set()  # or maybe edges instead
 
     def __str__(self):
         return self.name
@@ -156,6 +161,9 @@ class LocationEdge:
         self.edge = set({loc1, loc2})
         self.distance = distance
 
+        loc1.neighbors.add(loc2.name)
+        loc2.neighbors.add(loc1.name)
+
 
 class Geography:
     def __init__(self, params: ObjMap):
@@ -170,6 +178,36 @@ class Geography:
             location: Location(location, defn, params)
             for location, defn in params.classes.locations.items()
         }
+
+        self.categories: Dict[str, List[Location]] = {}
+        for location in self.locations.values():
+            if location.category in self.categories:
+                self.categories[location.category].append(location)
+            else:
+                self.categories[location.category] = [location]
+
+        if params.location.migration.enabled:
+            with open(params.location.migration.probs_file, newline="") as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    from_loc = row.pop("")
+                    prob = float(row.pop("prob", 1))
+                    values = list(row.keys())
+                    weights = list(map(float, row.values()))
+                    assert math.isclose(
+                        sum(weights), 1, abs_tol=0.001
+                    ), f"Migration weights for {from_loc} must add to 1"
+                    if params.location.migration.attribute == "name":
+                        self.locations[from_loc].migration_weights["prob"] = prob
+                        self.locations[from_loc].migration_weights["weights"] = weights
+                        self.locations[from_loc].migration_weights["values"] = values
+                    elif params.location.migration.attribute == "category":
+                        for location in self.categories[from_loc]:
+                            location.migration_weights["prob"] = prob
+                            location.migration_weights["weights"] = weights
+                            location.migration_weights["values"] = values
+                    else:
+                        raise ValueError("Unknown migration attribute")
 
         self.edges: Set[LocationEdge] = set()
         for name, defn in params.location.edges.items():

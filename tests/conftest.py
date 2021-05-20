@@ -95,9 +95,9 @@ def make_model(params):
 
 @pytest.fixture
 def make_population(params):
-    def _make_population(n=0):
-        params.model.num_pop = n
-        return Population(params)
+    def _make_population(n=0, p=params):
+        p.model.num_pop = n
+        return Population(p)
 
     return _make_population
 

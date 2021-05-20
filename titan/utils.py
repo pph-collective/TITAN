@@ -1,11 +1,14 @@
 import random
 from functools import wraps
-from typing import TypeVar, Collection, Union, Iterable
+from typing import TypeVar, Collection, Union, Iterable, Dict, Tuple, Set
 from math import floor
 import logging
 import os
+import csv
 from datetime import datetime
+import argparse
 
+import oyaml as yaml  # type: ignore
 import networkx as nx  # type: ignore
 
 from . import distributions
@@ -333,3 +336,129 @@ def set_up_logging(params):
             format=log_msg_format,
             level=params.outputs.logging.level,
         )
+
+
+# if edge exists, add it to edges - sorted by name to avoid duplicates as edges are undirected
+def add_edge(edges, loc, edge):
+    if edge != "" and edge != loc:
+        edges.add(tuple(sorted([loc, edge])))
+
+
+def grid_file_to_edges(file_path: str, diagonal_neighbors: bool = False) -> Dict:
+    """
+    Read a csv describing the layout of locations and return a dictionary describing the location edges, which can then be used in the params [location.edges].
+
+    Sample csv:
+    ```
+    location_1,location_3,location_4
+    location_1,location_3,location_4
+    location_1,location_3,location_4
+    location_1,location_2,
+    location_2,location_2,
+    ```
+
+    Would generate the edges:
+    * location_1, location_3
+    * location_1, location_2
+    * location_2, location_3
+    * location_3, location_4
+
+    If `diagonal_neighbors` were True, the edge [location_2, location_4] would also be returned.
+
+    args:
+        file_path: path to a csv file which contains a layout for the locations in the model.
+        diagonal_neighbors: whether diagonally adjacent cells should be considered neighbors [default false]
+
+    returns:
+        A dictionary with generated edge names to locations
+    """
+    # read in the grid
+    grid = []
+    with open(file_path, newline="") as f:
+        reader = csv.reader(f)
+        for row in reader:
+            grid.append(row)
+
+    # generate edge pairs
+    edges: Set[Tuple[str, str]] = set()
+    for i in range(len(grid) - 1):
+        for j in range(len(grid[0]) - 1):
+            loc = grid[i][j]
+            if loc == "":
+                continue
+
+            add_edge(edges, loc, grid[i + 1][j])
+            add_edge(edges, loc, grid[i][j + 1])
+
+            if diagonal_neighbors:
+                add_edge(edges, loc, grid[i + 1][j + 1])
+                if i >= 1:
+                    add_edge(edges, loc, grid[i - 1][j + 1])
+                if j >= 1:
+                    add_edge(edges, loc, grid[i + 1][j - 1])
+
+    res = {}
+    for (i, edge) in enumerate(edges):
+        res[f"edge_{i+1}"] = {"location_1": edge[0], "location_2": edge[1]}
+
+    return res
+
+
+def grid_file_to_edge_yml(
+    file_path: str, outfile_path: str, diagonal_neighbors: bool = False
+) -> None:
+    """
+    Read a csv describing the layout of locations and write the results to a yml file describing the location edges, which can then be used in the params [location.edges].
+
+    Sample csv:
+    ```
+    location_1,location_3,location_4
+    location_1,location_3,location_4
+    location_1,location_3,location_4
+    location_1,location_2,
+    location_2,location_2,
+    ```
+
+    Would generate the edges:
+    * location_1, location_3
+    * location_1, location_2
+    * location_2, location_3
+    * location_3, location_4
+
+    If `diagonal_neighbors` were True, the edge [location_2, location_4] would also be returned.
+
+    args:
+        file_path: path to a csv file which contains a layout for the locations in the model.
+        outfile_path: path where the resulting yml file should be saved
+        diagonal_neighbors: whether diagonally adjacent cells should be considered neighbors [default false]
+    """
+    edges = grid_file_to_edges(file_path, diagonal_neighbors=diagonal_neighbors)
+
+    with open(outfile_path, "w") as f:
+        yaml.dump({"edges": edges}, f)
+
+
+# cli entry point
+def grid_to_edges_cli():
+    # set up args parsing
+    parser = argparse.ArgumentParser(
+        description="Convert CSV grid file to location edge yml"
+    )
+    parser.add_argument(
+        "-i", "--infile", required=True, help="csv file with location grid"
+    )
+
+    parser.add_argument(
+        "-o", "--outfile", required=True, help="yml file to save generated edges"
+    )
+
+    parser.add_argument(
+        "-d",
+        "--diagonals",
+        action="store_true",
+        help="Count diagonally adjacent cells as neighbors",
+    )
+    args = parser.parse_args()
+    grid_file_to_edge_yml(
+        args.infile.strip(), args.outfile.strip(), diagonal_neighbors=args.diagonals
+    )
