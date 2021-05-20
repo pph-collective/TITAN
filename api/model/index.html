@@ -1656,6 +1656,7 @@ definition.  Applied to all parameters (main model, and location specific).</p>
 <ol>
 <li>End relationships with no remaining duration</li>
 <li>Agent death/replacement</li>
+<li>Agent migration (if enabled)</li>
 <li>Update partner assignments (create new relationships as needed)</li>
 <li>Create an agent zero (if enabled and the time is right)</li>
 <li>Agents in relationships interact</li>
@@ -1677,11 +1678,12 @@ definition.  Applied to all parameters (main model, and location specific).</p>
 
 <span class="sd">    1. End relationships with no remaining duration</span>
 <span class="sd">    2. Agent death/replacement</span>
-<span class="sd">    3. Update partner assignments (create new relationships as needed)</span>
-<span class="sd">    4. Create an agent zero (if enabled and the time is right)</span>
-<span class="sd">    5. Agents in relationships interact</span>
-<span class="sd">    6. Update features at the population level</span>
-<span class="sd">    7. Update each agent&#39;s status for:</span>
+<span class="sd">    3. Agent migration (if enabled)</span>
+<span class="sd">    4. Update partner assignments (create new relationships as needed)</span>
+<span class="sd">    5. Create an agent zero (if enabled and the time is right)</span>
+<span class="sd">    6. Agents in relationships interact</span>
+<span class="sd">    7. Update features at the population level</span>
+<span class="sd">    8. Update each agent&#39;s status for:</span>
 <span class="sd">        * age</span>
 <span class="sd">        * all exposures</span>
 <span class="sd">        * all features (agent level)</span>
@@ -1694,6 +1696,9 @@ definition.  Applied to all parameters (main model, and location specific).</p>
 
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">die_and_replace</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">die_and_replace</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">migration</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">migrate</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">static_network</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">update_partner_assignments</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>

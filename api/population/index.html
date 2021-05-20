@@ -770,6 +770,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#titan.population.Population.migrate" class="md-nav__link">
+    migrate()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#titan.population.Population.remove_agent" class="md-nav__link">
     remove_agent()
   </a>
@@ -1001,6 +1008,13 @@
           <li class="md-nav__item">
   <a href="#titan.population.Population.get_age" class="md-nav__link">
     get_age()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.population.Population.migrate" class="md-nav__link">
+    migrate()
   </a>
   
 </li>
@@ -1710,6 +1724,49 @@ demographics [params.demographics]</p>
     <span class="n">i</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_independent_bin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
     <span class="n">age</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">age</span><span class="p">,</span> <span class="n">i</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="titan.population.Population.migrate">
+<code class="codehilite language-python"><span class="n">migrate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Have agents migrate between locations with probabilities defined in <code>location.migration.matrix_file</code>.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>titan/population.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">migrate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Have agents migrate between locations with probabilities defined in `location.migration.matrix_file`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">m_attr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">migration</span><span class="o">.</span><span class="n">attribute</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_agents</span><span class="p">:</span>
+        <span class="n">m_param</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">migration_weights</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">m_param</span><span class="p">[</span><span class="s2">&quot;prob&quot;</span><span class="p">]:</span>
+            <span class="n">new_loc</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_random_choice</span><span class="p">(</span>
+                <span class="n">m_param</span><span class="p">[</span><span class="s2">&quot;values&quot;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span><span class="p">,</span>
+                <span class="n">weights</span><span class="o">=</span><span class="n">m_param</span><span class="p">[</span><span class="s2">&quot;weights&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">m_attr</span> <span class="o">==</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">geography</span><span class="o">.</span><span class="n">locations</span><span class="p">[</span><span class="n">new_loc</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">m_attr</span> <span class="o">==</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">safe_random_choice</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">geography</span><span class="o">.</span><span class="n">categories</span><span class="p">[</span><span class="n">new_loc</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_random</span>
+                <span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
