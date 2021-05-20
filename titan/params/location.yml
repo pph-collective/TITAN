@@ -42,24 +42,24 @@ location:
     probs_file:
       default: ''
       type: any
-      description: "File path where the migration probability csv is located.  The CSV must have the attribute names along the first row and column with the topmost left cell blank.  Each value in the matrix represents the probability of an agent migrating from the location on that row to the location on that column at a given time step.  Each row must add to 1.  If there is a column with the header `prob` this will be used as the probability of an agent in the location described by the row migrating at all that timestep (useful if migrating based on a non-unique attribute).
+      description: |
+        File path where the migration probability csv is located.  The CSV must have the attribute names along the first row and column with the topmost left cell blank.  Each value in the matrix represents the probability of an agent migrating from the location on that row to the location on that column at a given time step.  Each row must add to 1.  If there is a column with the header `prob` this will be used as the probability of an agent in the location described by the row migrating at all that timestep (useful if migrating based on a non-unique attribute).
 
-      CSV using groups with a `prob` column:
-      ```
-      ,updown,rightleft,prob
-      updown,0.95,0.05,0.025
-      rightleft,0.8,0.2,0.1
-      ```
+        CSV using groups with a `prob` column:
+        ```
+        ,updown,rightleft,prob
+        updown,0.95,0.05,0.025
+        rightleft,0.8,0.2,0.1
+        ```
 
-      CSV using names without a `prob` column:
-      ```
-      ,north,south,east,west
-      north,0.95,0.025,0.025,0
-      south,0.1,0.8,0.1,0
-      east,0.001,0.002,0.997,0
-      west,0.03,0.01,0.89,0.07
-      ```
-      "
+        CSV using names without a `prob` column:
+        ```
+        ,north,south,east,west
+        north,0.95,0.025,0.025,0
+        south,0.1,0.8,0.1,0
+        east,0.001,0.002,0.997,0
+        west,0.03,0.01,0.89,0.07
+        ```
   edges:
     type: definition
     description: Definition of an neighbor relationship between two locations
