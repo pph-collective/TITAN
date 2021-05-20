@@ -18,7 +18,7 @@ assort_mix:
       description: "Value of agent's attribute which triggers using this rule.  Can use the value '__any__' to then allow assoring on partner_values of '__same__' and '__other__'."
       type: none
     partner_values:
-      description: "Which partners to select if assortative mixing happens. Expects a sub-key of an attribute value with a value of the probability. `__other__` can be used as an attribute value as a fallthrough option.  If the `partner_attribute` is `location`, it is also possible to use the key `__neighbor__` here to indicate a probability of assoring with agents from neighboring locations (vs. `__same__` or `__other__`).  All of the probabilities should add to one."
+      description: "Which partners to select if assortative mixing happens. Expects a sub-key of an attribute value with a value of the probability. `__other__` can be used as an attribute value as a fallthrough option.  If the `partner_attribute` is `location`, it is also possible to use the key `__neighbor__` here to indicate a probability of assorting with agents from neighboring locations (vs. `__same__` or `__other__`).  All of the probabilities should add to one."
       type: none
   default:
     assort_null:
