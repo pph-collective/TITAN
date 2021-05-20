@@ -696,7 +696,6 @@ def test_location_assorting(tmpdir):
 
     total_partners = sum(partners.values())
 
-    # because if we have a west partner we're guaranteed 2, the data skews a bit westward TO_REVIEW, does this make sense??
     assert partners["north"] == 0
     assert math.isclose(partners["west"] / total_partners, 0.6, abs_tol=0.15)
     assert math.isclose(
