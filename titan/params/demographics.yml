@@ -67,19 +67,19 @@ demographics:
           init:
             versatile:
               default: 1.0
-              description: "Percentage of agents in this class with 'versatile' sex role"
+              description: "Percentage of agents in this class with `versatile` sex role"
               type: float
               min: 0.0
               max: 1.0
             insertive:
               default: 0.0
-              description: "Percentage of agents in this class with 'insertive' sex role"
+              description: "Percentage of agents in this class with `insertive` sex role"
               type: float
               min: 0.0
               max: 1.0
             receptive:
               default: 0.0
-              description: "Percentage of agents in this class with 'receptive' sex role"
+              description: "Percentage of agents in this class with `receptive` sex role"
               type: float
               min: 0.0
               max: 1.0
@@ -387,7 +387,7 @@ demographics:
               default:
                 dist_type:
                   default: set_value
-                  description: "How to determine mean number of partners for an agent. Uses numpy.random distributions or 'set_value' to always return the first value. More info at https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator"
+                  description: "How to determine mean number of partners for an agent. Uses numpy.random distributions or `set_value` to always return the first value. More info at https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator"
                   type: enum
                   class: distributions
                 vars:
