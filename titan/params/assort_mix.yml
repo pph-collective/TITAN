@@ -3,10 +3,10 @@ assort_mix:
   type: definition
   fields:
     attribute:
-      description: "Which Agent attribute to assort on, can be nested (e.g. 'hiv.active' or 'race')"
+      description: "Which Agent attribute to assort on, can be nested (e.g. `hiv.active` or `race`)"
       type: none
     partner_attribute:
-      description: "To assort across attribute (e.g. agent on haart assorting with partner on prep). If not included, will default to the agent attribute [attribute].  Assorting across attribute is not supported in combination with same-assorting (where [agent_value] is '__any__')."
+      description: "To assort across attribute (e.g. agent on haart assorting with partner on prep). If not included, will default to the agent attribute [attribute].  Assorting across attribute is not supported in combination with same-assorting (where [agent_value] is `__any__`)."
       type: none
       default: __agent__
     bond_types:
@@ -15,7 +15,7 @@ assort_mix:
       class: bond_types
       default: []
     agent_value:
-      description: "Value of agent's attribute which triggers using this rule.  Can use the value '__any__' to then allow assoring on partner_values of '__same__' and '__other__'."
+      description: "Value of agent's attribute which triggers using this rule.  Can use the value `__any__` to then allow assoring on partner_values of `__same__` and `__other__`."
       type: none
     partner_values:
       description: "Which partners to select if assortative mixing happens. Expects a sub-key of an attribute value with a value of the probability. `__other__` can be used as an attribute value as a fallthrough option.  If the `partner_attribute` is `location`, it is also possible to use the key `__neighbor__` here to indicate a probability of assorting with agents from neighboring locations (vs. `__same__` or `__other__`).  All of the probabilities should add to one."
