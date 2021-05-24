@@ -1,6 +1,6 @@
 demographics:
   white:
-    ppl: 0.562
+    ppl: 0.845
     sex_type:
       MSM:
         ppl: 1.0
@@ -13,39 +13,39 @@ demographics:
           Sex:
             prob: 0.234
         prep:
-          discontinue: 0.125
-          adherence: 0.75
-          init: 0.070
-          cap: 0.03
+          discontinue: # need value
+          adherence: # need value
+          init: # need value
+          cap: # need value
         drug_type:
           None:
             ppl: 1.0
             hiv:
-              init: 0.280
+              init: 0.062
               dx:
                 init: 0.881
                 prob: 0.063
               aids:
-                init: 0.496
+                init: 0.493
             haart:
-              init: 0.708
-              enroll:
+              init: # need value
+              enroll: # need value
                 enroll_1:
-                  start: 0
-                  stop: 2
-                  prob: 0.579
+                  start:
+                  stop:
+                  prob:
                 enroll_2:
-                  start: 2
-                  stop: 13
-                  prob: 0.034
+                  start:
+                  stop:
+                  prob:
               reinit:
-                prob: 0.03
+                prob: # need value
               adherence:
-                init: 0.667
+                init: # need value
                 prob: 0.112
-              discontinue: 0.034
+              discontinue: # need value
             death_rate:
-              base: 0.902
+              base: 0.119
               hiv: 3.0
               aids: 17.5
               haart_adherent: 1.0
@@ -54,58 +54,58 @@ demographics:
                 dist_type: negative_binomial
                 vars:
                   1:
-                    value: 5.609
+                    value: # need numbers
                     value_type: float
                   2:
-                    value: 0.381
+                    value: # need numbers
                     value_type: float
-  black:
-    ppl: 0.438
+  latino:
+    ppl: 0.145
     sex_type:
       MSM:
         ppl: 1.0
         sex_role:
           init:
-            versatile: 0.365
-            insertive: 0.399
-            receptive: 0.236
+            versatile: 0.418
+            insertive: 0.333
+            receptive: 0.249
         safe_sex:
           Sex:
-            prob: 0.391
+            prob: 0.312
         prep:
-          discontinue: 0.125
-          adherence: 0.75
-          init: 0.050
-          cap: 0.03
+          discontinue: # need value
+          adherence: # need value
+          init: # need value
+          cap: # need value
         drug_type:
           None:
             ppl: 1.0
             hiv:
-              init: 0.403
+              init: 0.116
               dx:
-                init: 0.804
-                prob: 0.065
+                init: 0.799
+                prob: 0.063
               aids:
-                init: 0.489
+                init: 0.446
             haart:
-              init: 0.763
-              enroll:
+              init: # need value
+              enroll: # need value
                 enroll_1:
-                  start: 0
-                  stop: 2
-                  prob: 0.579
+                  start:
+                  stop:
+                  prob:
                 enroll_2:
-                  start: 2
-                  stop: 13
-                  prob: 0.061
+                  start:
+                  stop:
+                  prob:
               reinit:
-                prob: 0.03
+                prob: # need value
               adherence:
-                init: 0.514
-                prob: 0.103
-              discontinue: 0.029
+                init: # need value
+                prob: 0.116
+              discontinue: # need value
             death_rate:
-              base: 1.674
+              base: 0.246
               hiv: 3.0
               aids: 17.5
               haart_adherent: 1.0
@@ -114,8 +114,8 @@ demographics:
                 dist_type: negative_binomial
                 vars:
                   1:
-                    value: 9.634
+                    value: # need numbers
                     value_type: float
                   2:
-                    value: 0.611
+                    value: # need numbers
                     value_type: float

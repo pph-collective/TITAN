@@ -12,6 +12,9 @@ features:
   assort_mix: true
 
 classes:
+  races:
+    latino:
+      hispanic: true # need to confirm
   sex_types:
     MSM:
       cis_trans: cis
