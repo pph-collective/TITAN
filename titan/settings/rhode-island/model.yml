@@ -1,0 +1,105 @@
+model:
+  num_pop: 14500
+  time:
+    num_steps: 84
+    steps_per_year: 12
+    burn_steps: 48
+
+features:
+  prep: true
+  haart: true
+  die_and_replace: true
+  assort_mix: true
+
+classes:
+  sex_types:
+    MSM:
+      cis_trans: cis
+      gender: M
+      sleeps_with:
+        - MSM
+
+assort_mix:
+  assort_white:
+    attribute: race
+    agent_value: white
+    partner_values:
+      white: 0.5
+      black: 0.5
+  assort_black:
+    attribute: race
+    agent_value: black
+    partner_values:
+      white: 0.5
+      black: 0.5
+
+partnership:
+  sex:
+    frequency:
+      Sex:
+          type: distribution
+          distribution:
+            dist_type: gamma
+            vars:
+              1:
+                value: 3.414
+                value_type: float
+              2:
+                value: 0.562
+                value_type: float
+    acquisition:
+      MSM:
+        versatile: 0.0046 # mean of insertive and receptive
+        insertive: 0.0017
+        receptive: 0.0075
+    haart_scaling:
+      MSM:
+        non_adherent: 0.165
+        adherent: 0
+  duration:
+    Sex:
+      white:
+        type: distribution
+        distribution:
+          dist_type: weibull_modified
+          vars:
+            1:
+              value: 2.522
+              value_type: float
+            2:
+              value: 13.144
+              value_type: float
+          mean: 11 # expected means
+      black:
+        type: distribution
+        distribution:
+          dist_type: weibull_modified
+          vars:
+            1:
+              value: 2.956
+              value_type: float
+            2:
+              value: 8.953
+              value_type: float
+          mean: 9 # expected means
+
+prep:
+  cap_as_prob: true
+  efficacy:
+    adherent: 0.96
+    non_adherent: 0.76
+  target_model:
+  - Racial
+
+hiv:
+  acute:
+    infectivity: 10.5
+    duration: 4
+  aids:
+    prob: 0.004
+
+haart:
+  use_reinit: true
+  aids_scale:
+    non_adherent: 0.200
+    adherent: 0.05
