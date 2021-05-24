@@ -27,14 +27,14 @@ assort_mix:
     attribute: race
     agent_value: white
     partner_values:
-      white: 0.5
-      black: 0.5
-  assort_black:
+      white: # need value
+      latino: # need value
+  assort_latino:
     attribute: race
-    agent_value: black
+    agent_value: latino
     partner_values:
-      white: 0.5
-      black: 0.5
+      white: # need value
+      latino: # need value
 
 partnership:
   sex:
@@ -45,10 +45,10 @@ partnership:
             dist_type: gamma
             vars:
               1:
-                value: 3.414
+                value: # need value
                 value_type: float
               2:
-                value: 0.562
+                value: # need value
                 value_type: float
     acquisition:
       MSM:
@@ -67,24 +67,24 @@ partnership:
           dist_type: weibull_modified
           vars:
             1:
-              value: 2.522
+              value: # need value
               value_type: float
             2:
-              value: 13.144
+              value: # need value
               value_type: float
-          mean: 11 # expected means
-      black:
+          mean: # expected means
+      latino:
         type: distribution
         distribution:
           dist_type: weibull_modified
           vars:
             1:
-              value: 2.956
+              value: # need value
               value_type: float
             2:
-              value: 8.953
+              value: # need value
               value_type: float
-          mean: 9 # expected means
+          mean: # expected means
 
 prep:
   cap_as_prob: true
