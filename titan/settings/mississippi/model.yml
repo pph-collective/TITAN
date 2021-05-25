@@ -12,6 +12,7 @@ features:
   prep: true
   high_risk: false
   haart: true
+  die_and_replace: true
 
 classes:
   drug_types:
@@ -29,6 +30,9 @@ classes:
     Sex:
       acts_allowed:
         - sex
+
+haart:
+  use_reinit: true
 
 partnership:
   sex:
@@ -71,8 +75,8 @@ partnership:
 prep:
   type:
     - Oral
-  cap: 0.049
-  init: 0.25
+  cap: 0.025
+  init: 0.1
   cap_as_prob: true
   efficacy:
     adherent: 0.96
@@ -94,3 +98,6 @@ timeline_scaling:
       start_time: -47
       stop_time: 100
       scalar: 0.1088
+
+calibration: 
+  test_frequency: 0.55
