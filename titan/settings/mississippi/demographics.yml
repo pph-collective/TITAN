@@ -19,9 +19,9 @@ demographics:
           None:
             ppl: 1.0
             hiv:
-              init: 0.48
+              init: 0.591
               dx:
-                init: 0.4715
+                init: 0.778
                 prob: 0.0342
               aids:
                 init: 0.46
@@ -56,8 +56,8 @@ demographics:
                 dist_type: negative_binomial
                 vars:
                   1:
-                    value: 12.459
-                    value_type: float
+                    value: 48
+                    value_type: int
                   2:
                     value: 0.931
                     value_type: float
