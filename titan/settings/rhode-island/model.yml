@@ -13,6 +13,8 @@ features:
 
 classes:
   races:
+    white:
+      hispanic: false
     latino:
       hispanic: true
   sex_types:
