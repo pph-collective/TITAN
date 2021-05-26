@@ -60,7 +60,7 @@ demographics:
                     value: 0.40
                     value_type: float
   latino:
-    ppl: 0.145
+    ppl: 0.155
     sex_type:
       MSM:
         ppl: 1.0
