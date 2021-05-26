@@ -13,10 +13,10 @@ demographics:
           Sex:
             prob: 0.234
         prep:
-          discontinue: # need value
-          adherence: # need value
-          init: # need value
-          cap: # need value
+          discontinue: 0.125
+          adherence: 0.75
+          init: 0.045
+          cap: 0.03
         drug_type:
           None:
             ppl: 1.0
@@ -28,22 +28,22 @@ demographics:
               aids:
                 init: 0.493
             haart:
-              init: # need value
-              enroll: # need value
+              init: 0.723
+              enroll:
                 enroll_1:
-                  start:
-                  stop:
-                  prob:
+                  start: 0
+                  stop: 2
+                  prob: 0.918
                 enroll_2:
-                  start:
-                  stop:
-                  prob:
+                  start: 2
+                  stop: 13
+                  prob: 0.004
               reinit:
-                prob: # need value
+                prob: 0.03
               adherence:
-                init: # need value
+                init: 0.676
                 prob: 0.112
-              discontinue: # need value
+              discontinue: 0.022
             death_rate:
               base: 0.119
               hiv: 3.0
@@ -54,10 +54,10 @@ demographics:
                 dist_type: negative_binomial
                 vars:
                   1:
-                    value: # need numbers
+                    value: 5.0
                     value_type: float
                   2:
-                    value: # need numbers
+                    value: 0.40
                     value_type: float
   latino:
     ppl: 0.145
@@ -73,10 +73,10 @@ demographics:
           Sex:
             prob: 0.312
         prep:
-          discontinue: # need value
-          adherence: # need value
-          init: # need value
-          cap: # need value
+          discontinue: 0.125
+          adherence: 0.75
+          init: 0.045
+          cap: 0.03
         drug_type:
           None:
             ppl: 1.0
@@ -88,22 +88,22 @@ demographics:
               aids:
                 init: 0.446
             haart:
-              init: # need value
-              enroll: # need value
+              init: 0.681
+              enroll:
                 enroll_1:
-                  start:
-                  stop:
-                  prob:
+                  start: 0
+                  stop: 2
+                  prob: 0.911
                 enroll_2:
-                  start:
-                  stop:
-                  prob:
+                  start: 2
+                  stop: 13
+                  prob: 0.006
               reinit:
-                prob: # need value
+                prob: 0.03
               adherence:
-                init: # need value
+                init: 0.608
                 prob: 0.116
-              discontinue: # need value
+              discontinue: 0.021
             death_rate:
               base: 0.246
               hiv: 3.0
@@ -114,8 +114,8 @@ demographics:
                 dist_type: negative_binomial
                 vars:
                   1:
-                    value: # need numbers
+                    value: 4.0
                     value_type: float
                   2:
-                    value: # need numbers
+                    value: 0.50
                     value_type: float

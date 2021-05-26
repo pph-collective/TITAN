@@ -14,7 +14,7 @@ features:
 classes:
   races:
     latino:
-      hispanic: true # need to confirm
+      hispanic: true
   sex_types:
     MSM:
       cis_trans: cis
@@ -27,14 +27,14 @@ assort_mix:
     attribute: race
     agent_value: white
     partner_values:
-      white: # need value
-      latino: # need value
+      white: 0.5
+      latino: 0.5
   assort_latino:
     attribute: race
     agent_value: latino
     partner_values:
-      white: # need value
-      latino: # need value
+      white: 0.5
+      latino: 0.5
 
 partnership:
   sex:
@@ -45,10 +45,10 @@ partnership:
             dist_type: gamma
             vars:
               1:
-                value: # need value
+                value: 2.0
                 value_type: float
               2:
-                value: # need value
+                value: 0.6
                 value_type: float
     acquisition:
       MSM:
@@ -67,24 +67,24 @@ partnership:
           dist_type: weibull_modified
           vars:
             1:
-              value: # need value
+              value: 1.31
               value_type: float
             2:
-              value: # need value
+              value: 5.71
               value_type: float
-          mean: # expected means
+          mean: 5
       latino:
         type: distribution
         distribution:
           dist_type: weibull_modified
           vars:
             1:
-              value: # need value
+              value: 1.30
               value_type: float
             2:
-              value: # need value
+              value: 4.64
               value_type: float
-          mean: # expected means
+          mean: 4
 
 prep:
   cap_as_prob: true
