@@ -16,7 +16,7 @@ demographics:
           discontinue: 0.125
           adherence: 0.75
           init: 0.045
-          cap: 0.03
+          cap: 0.003
         drug_type:
           None:
             ppl: 1.0
@@ -76,7 +76,7 @@ demographics:
           discontinue: 0.125
           adherence: 0.75
           init: 0.045
-          cap: 0.03
+          cap: 0.003
         drug_type:
           None:
             ppl: 1.0
