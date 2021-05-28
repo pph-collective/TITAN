@@ -320,9 +320,9 @@ class TITAN:
             return None
 
         # gather all of the param objectss to be scaled
-        params_set = {self.params}
+        params_set = [self.params]
         for location in self.pop.geography.locations.values():
-            params_set.add(location.params)
+            params_set.append(location.params)
 
         # iterate over each param and update the values if the time is right
         for params in params_set:
