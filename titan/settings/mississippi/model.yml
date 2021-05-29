@@ -91,13 +91,5 @@ hiv:
   aids:
     prob: 0.00207
 
-timeline_scaling:
-  timeline:
-    haart_viral_suppression_scale:
-      parameter: demographics|black|MSM|haart|adherence
-      start_time: -47
-      stop_time: 100
-      scalar: 0.1088
-
 calibration: 
   test_frequency: 0.55
