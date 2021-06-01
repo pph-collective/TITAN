@@ -16,7 +16,7 @@ demographics:
           discontinue: 0.125
           adherence: 0.75
           init: 0.070
-          cap: 0.03
+          cap: 0.003
         drug_type:
           None:
             ppl: 1.0
@@ -45,7 +45,7 @@ demographics:
                 prob: 0.112
               discontinue: 0.034
             death_rate:
-              base: 0.902
+              base: 5.399
               hiv: 3.0
               aids: 17.5
               haart_adherent: 1.0
@@ -76,7 +76,7 @@ demographics:
           discontinue: 0.125
           adherence: 0.75
           init: 0.050
-          cap: 0.03
+          cap: 0.003
         drug_type:
           None:
             ppl: 1.0
@@ -105,7 +105,7 @@ demographics:
                 prob: 0.103
               discontinue: 0.029
             death_rate:
-              base: 1.674
+              base: 12.228
               hiv: 3.0
               aids: 17.5
               haart_adherent: 1.0
