@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "titan-model"
-version = "2.6.2"
+version = "2.7.0"
 description = "TITAN Agent Based Model"
 license = "GPL-3.0-only"
 authors = ["Sam Bessey <sam_bessey@brown.edu>", "Mary McGrath <mary_mcgrath@brown.edu>"]
