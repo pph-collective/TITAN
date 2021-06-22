@@ -2,8 +2,11 @@ model:
   num_pop: 171990
   time:
     num_steps: 27
-    burn_steps: 48
-
+    burn_steps: 47
+calibration:
+  haart:
+    coverage: 1.1
+  test_frequency: 0.9
 classes:
   races:
     white:
@@ -28,12 +31,24 @@ classes:
   drug_types:
     - None
   locations:
-    high_test:
-      ppl: .190
-    mid_test:
-      ppl: .634
-    low_test:
-      ppl: .176
+    high_test_b:
+      ppl: .046
+    mid_test_b:
+      ppl: .091
+    low_test_b:
+      ppl: .045
+    high_test_w:
+      ppl: .115
+    mid_test_w:
+      ppl: .336
+    low_test_w:
+      ppl: .106
+    high_test_l:
+      ppl: 0.086
+    mid_test_l:
+      ppl: .146
+    low_test_l:
+      ppl: .029
 
   
 features:
