@@ -23,29 +23,29 @@ demographics:
           None:
             ppl: 1.0
             hiv:
-              init: 0.315
+              init: 0.355
               dx:
                 init: 0.920
                 prob: 0.198
               aids:
                 init: 0.500
             haart:
-              init: 0.764
+              init: 0.830
               enroll:
                 enroll_0:
                   start: 0
-                  stop: 1
+                  stop: 2
                   prob: 0.709
                 enroll_1:
-                  start: 1
-                  stop: 3
+                  start: 2
+                  stop: 4
                   prob: 0.212
                 enroll_2:
-                  start: 3
-                  stop: 12
+                  start: 4
+                  stop: 13
                   prob: 0.051
                 enroll_3:
-                  start: 12
+                  start: 13
                   stop: 9999
                   prob: 0.0
               reinit:
@@ -100,17 +100,17 @@ demographics:
           None:
             ppl: 1.0
             hiv:
-              init: 0.166
+              init: 0.20
               dx:
                 init: 0.920
                 prob: 0.055
               aids:
                 init: 0.487
             haart:
-              init: 0.764
+              init: 0.860
               enroll:
                 0:
-                  prob: 0.278
+                  prob: 0.778
                   start: 0
                   stop: 1
                 1:
@@ -184,33 +184,33 @@ demographics:
               aids:
                 init: 0.471
             haart:
-              init: 0.791
+              init: 0.860
               enroll:
                 0:
                   start: 0
-                  stop: 1
+                  stop: 2
                   prob: 0.742
                 1:
-                  start: 1
-                  stop: 3
+                  start: 2
+                  stop: 4
                   prob: 0.163
                 2:
-                  start: 3
-                  stop: 12
+                  start: 4
+                  stop: 13
                   prob: 0.029
                 3:
-                  start: 12
+                  start: 13
                   stop: 9999
                   prob: 0.0
               reinit:
                 prob: 0.041
               adherence:
-                init: 0.707
-                prob: 0.707
+                init: 0.790
+                prob: 0.790
                 discontinue: 0.0745
               discontinue: 0.00883
             death_rate:
-              base: 0.0696
+              base: 0.1
             num_partners:
               Main:
                 dist_type: negative_binomial
