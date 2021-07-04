@@ -48,7 +48,7 @@ Results of the model are generated and aggregated into the `/results/` directory
 
 * **Lars Seeman** - *Initial work*
 * **Max King** - *Continued development*
-* **Sarah Bessey** - *Continued development*
+* **Sam Bessey** - *Continued development*
 * **Mary McGrath** - *Continued development*
 
 ## License
