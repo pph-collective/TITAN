@@ -83,6 +83,8 @@ class TITAN:
 
         logging.info("  Resetting death count")
         self.deaths: List["ag.Agent"] = []  # Number of death
+        self.aged_out: List["ag.Agent"] = []  # Number of agents aged out
+        self.exits: List["ag.Agent"] = []  # Number of agents otherwise exiting
 
         logging.info("\n=== Initialization Protocol Finished ===")
 
@@ -130,6 +132,8 @@ class TITAN:
 
     def reset_trackers(self):
         self.deaths = []
+        self.aged_out = []
+        self.exits = []
 
     def run(self, outdir: str):
         """
@@ -358,6 +362,114 @@ class TITAN:
             interaction = self.interactions[interaction_type]
             interaction.interact(self, rel)
 
+    def exit(self):
+        # TO_REVIEW should the loops be switched?
+        # loop through exit strategies
+        for strategy in self.params.classes.exit.values():
+            if strategy.exit_type == "age_out":
+                for agent in self.pop.all_agents:
+                    if agent.incar.active and strategy.ignore_incar:
+                        continue
+                    if (
+                        agent.age
+                        > agent.location.params.demographics[agent.race]
+                        .sex_type[agent.sex_type]
+                        .drug_type[agent.drug_type]
+                        .exit.age_out.max_age
+                    ):
+                        self.age_out.append(agent)
+                # TO_REVIEW I guess this can go outside the ifs
+                for agent in self.age_out:
+                    self.remove_agent(agent)
+            elif strategy.exit_type == "death":
+                for agent in self.pop.all_agents:
+                    # agent incarcerated, don't evaluate for death
+                    if agent.incar.active and strategy.ignore_incar:
+                        continue
+
+                    # death rate for 1 person-month
+                    p = (
+                        prob.get_death_rate(
+                            agent.hiv.active,
+                            agent.hiv.aids,
+                            agent.drug_type,
+                            agent.sex_type,
+                            agent.haart.adherent,
+                            agent.race,
+                            agent.location,
+                            self.params.model.time.steps_per_year,
+                        )
+                        * self.calibration.mortality
+                    )
+                    if self.run_random.random() < p:
+                        # add agent to deaths
+                        self.deaths.append(agent)
+                for agent in self.deaths:
+                    self.remove_agent(agent)
+            elif strategy.exit_type == "drop_out":
+                for agent in self.pop.all_agents:
+                    if agent.incar.active and strategy.ignore_incar:
+                        continue
+
+                    p = (
+                        agent.location.params.demographics[agent.race]
+                        .sex_type[agent.sex_type]
+                        .drug_type[agent.drug_type]
+                        .exit.drop_out.prob
+                    )
+
+                    if self.run_random.random < p:
+                        self.drop_out.append(agent)
+                    for agent in self.drop_out:
+                        self.remove_agent(agent)
+
+    def remove_agent(self, agent):
+        """
+        Remove an agent and the agent's relationships
+        """
+        for rel in copy(agent.relationships):
+            rel.progress(force=True)
+            self.pop.remove_relationship(rel)
+        # mark agent component as -1 (no component)
+        agent.component = "-1"
+
+        # Remove agent from agent class and sub-sets
+        self.pop.remove_agent(agent)
+
+    def enter(self):
+        for strategy in self.params.entry.values():
+            if self.params.classes.exit[strategy.exit_type].exit_type == "new_agent":
+                # determine new agent locations and characteristics
+                if strategy.exit_type == "none":
+                    num_new_agents = len(self.pop.all_agents) * strategy.prob
+                else:
+                    num_new_agents = len(self[strategy.exit_type]) * strategy.prob
+                # TO_REVIEW I think this works? How to make it more flexible?
+                for loc in self.geography.locations.values():
+                    for race in self.params.classes.races:
+                        for i in range(
+                            round(
+                                num_new_agents
+                                * loc.ppl
+                                * loc.params.demographics[race].ppl
+                            )
+                        ):
+                            new_agent = self.pop.create_agent(loc, race, self.time)
+                            self.pop.add_agent(new_agent)
+            elif strategy.entry_type == "replace":
+                assert strategy.exit_type != "none", "Cannot replace without exit"
+                p = strategy.prob
+                for agent in self[strategy.exit_type]:
+                    if self.run_random.random() < p:
+                        new_agent = self.pop.create_agent(
+                            agent.location,
+                            agent.race,
+                            self.time,
+                            agent.sex_type,
+                            agent.drug_type,
+                        )
+                    self.pop.add_agent(new_agent)
+
     def die_and_replace(self):
         """
         Let agents die and replace the dead agent with a new agent randomly.
@@ -393,7 +505,7 @@ class TITAN:
 
         # replace stage
         for agent in self.deaths:
-            # mark agent component as -1 (no componenet)
+            # mark agent component as -1 (no component)
             agent.component = "-1"
 
             # Remove agent from agent class and sub-sets

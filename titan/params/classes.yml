@@ -133,3 +133,20 @@ classes:
     default:
       world:
         ppl: 1.0
+  exit:
+    type: definition
+    description: Model exit strategies
+    fields:
+      exit_type:
+        type: enum
+        values:
+          - age_out
+          - death
+          - drop_out
+          - none
+      ignore_incar:
+        type: bool
+    default:
+      death:
+        exit_type: death
+        ignore_incar: true

@@ -1,0 +1,10 @@
+enter_exit:
+  type: definition
+  description: pairing of entry information based on exit. Each exit type can only be represented once.
+  fields:
+    exit_type:
+      type: enum
+      class: exit
+    prob:
+      type: float
+    
