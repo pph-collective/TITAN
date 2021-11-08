@@ -45,9 +45,5 @@ def get_death_rate(
         else:
             p *= death_param.hiv
 
-    if p == 0.0:
-        print(f"{exit_type}, {death_param}")
     # putting it into per 1 person-month from per 1000 person years
-    print("============")
-    print(f"{p} {p / (1000 * steps_per_year)} {sex_type} {drug_type} {race}")
     return p / (1000 * steps_per_year)

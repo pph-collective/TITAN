@@ -69,6 +69,7 @@ def test_death_none(make_model):
     for agent in model.pop.all_agents.members:
         assert agent.id in ids
 
+
 @pytest.mark.unit
 def test_death_incar(make_model, params):
     params.demographics.white.sex_type.MSM.incar.init = 1.0
@@ -77,24 +78,18 @@ def test_death_incar(make_model, params):
     incar_pop = {agent for agent in model.pop.all_agents if agent.incar.active}
     non_incar = {agent for agent in model.pop.all_agents if not agent.incar.active}
     model.exit()
-    print("Members:")
-    print(model.pop.all_agents.num_members())
-    for agent in model.pop.all_agents.members:
-        if not agent.incar.active:
-            print(agent)
 
-    print(params.demographics.black.sex_type.MSM.drug_type.NonInj.exit)
-    print("Nope!")
     # no incarcerated agents die if incar is ignored
     assert incar_pop == model.pop.all_agents.members
     # check that list of removed agents is updated
     for agent in non_incar:
         assert agent in model.exits["death"]
-    
+
     model.reset_trackers()
     model.params.classes.exit.death.ignore_incar = False
     model.exit()
     assert len(model.pop.all_agents.members) == 0
+
 
 @pytest.mark.unit
 def test_death_all(make_model, params):
@@ -105,9 +100,12 @@ def test_death_all(make_model, params):
 
     assert len(model.pop.all_agents.members) == 0
 
+
 @pytest.mark.unit
 def test_dropout_none(make_model, params):
-    params.enter_exit = ObjMap({"dropout": {"exit_class": "migrate", "entry_class": "none"}})
+    params.enter_exit = ObjMap(
+        {"dropout": {"exit_class": "migrate", "entry_class": "none"}}
+    )
     model = make_model(params)
     init_ag = {agent for agent in model.pop.all_agents.members}
     # no dropouts
@@ -117,9 +115,12 @@ def test_dropout_none(make_model, params):
     end_ag = {agent for agent in model.pop.all_agents.members}
     assert init_ag == end_ag
 
+
 @pytest.mark.unit
 def test_dropout_all(make_model, params):
-    params.enter_exit = ObjMap({"dropout": {"exit_class": "migrate", "entry_class": "none"}})
+    params.enter_exit = ObjMap(
+        {"dropout": {"exit_class": "migrate", "entry_class": "none"}}
+    )
     model = make_model(params)
     init_ppl = copy(model.pop.all_agents.members)
     model.run_random = FakeRandom(0.000000001)
@@ -131,9 +132,12 @@ def test_dropout_all(make_model, params):
         if exit_type != "migrate":
             assert agents == []
 
+
 @pytest.mark.unit
 def test_ageout(make_model, params):
-    params.enter_exit = ObjMap({"dropout": {"exit_class": "age_out", "entry_class": "none"}})
+    params.enter_exit = ObjMap(
+        {"dropout": {"exit_class": "age_out", "entry_class": "none"}}
+    )
     model = make_model(params)
     init_ppl = copy(model.pop.all_agents.members)
     model.exit()
@@ -153,6 +157,7 @@ def test_ageout(make_model, params):
     model.exit()
     assert not len(model.pop.all_agents.members)
 
+
 @pytest.mark.unit
 def test_exit_none(make_model, params):
     params.enter_exit.death.exit_class = "none"
@@ -163,6 +168,7 @@ def test_exit_none(make_model, params):
 
     model.exit()
     assert model.pop.all_agents.members == init_ppl
+
 
 @pytest.mark.unit
 def test_new_agent(make_model, params):
@@ -192,9 +198,10 @@ def test_new_agent(make_model, params):
     assert init_black / len(init_ppl) == new_black / len(model.pop.all_agents.members)
     assert init_white / len(init_ppl) == new_white / len(model.pop.all_agents.members)
 
+
 def test_replace(make_model, params):
     params.features.incar = False
-    model= make_model()
+    model = make_model()
     init_ppl = copy(model.pop.all_agents.members)
     # run with no replace list
     model.run_random = FakeRandom(0.0000001)
@@ -214,6 +221,7 @@ def test_replace(make_model, params):
     model.enter()
     assert not model.pop.all_agents.members
 
+
 @pytest.mark.unit
 def test_agein(make_model, params):
     params.enter_exit.death.entry_class = "age_in"
@@ -228,6 +236,7 @@ def test_agein(make_model, params):
     assert model.pop.all_agents.num_members() == len(init_ppl)
     for agent in model.pop.all_agents.members:
         assert agent.age == 16
+
 
 @pytest.mark.unit
 def test_timeline_scaling_default_def(make_model):

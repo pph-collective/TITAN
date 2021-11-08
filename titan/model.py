@@ -391,11 +391,7 @@ class TITAN:
                         )
                         * self.calibration.mortality
                     )
-                    if agent.race == "black" and agent.drug_type == "NonInj" and agent.sex_type == "MSM":
-                        print(agent.location.params.demographics.black.sex_type.MSM.drug_type.NonInj.exit[strategy.exit_class].base)
-                        print(p * 1000)
-                        print(p * 12000)
-                        print(strategy.exit_class)
+
                     if self.run_random.random() < p:
                         # agent dies
                         self.exits[strategy.exit_class].append(agent)
