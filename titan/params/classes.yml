@@ -146,7 +146,36 @@ classes:
           - none
       ignore_incar:
         type: bool
+      age:
+        type: int
+        min: 0
     default:
       death:
         exit_type: death
         ignore_incar: true
+        age: 9999
+  enter:
+    type: definition
+    description: Model entrance strategies
+    fields:
+      enter_type:
+        type: enum
+        values:
+          - new_agent
+          - replace
+          - none
+      age_in:
+        type: bool
+      age:
+        type: int
+        min: 0
+      prob:
+        type: float
+        min: 0.
+    default:
+      replace:
+        enter_type: replace
+        age_in: false
+        age: 16
+        prob: 1.0
+      

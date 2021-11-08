@@ -303,7 +303,7 @@ features:
   prep: true
   high_risk: true
   haart: true
-  die_and_replace: true
+  enter_and_exit: true
   static_network: false
   agent_zero: true
   assort_mix: false

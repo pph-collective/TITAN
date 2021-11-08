@@ -12,7 +12,7 @@ model:
 
 features:
   haart: true
-  die_and_replace: true
+  enter_and_exit: true
   syringe_services: true
   agent_zero: true
   partner_tracing: true

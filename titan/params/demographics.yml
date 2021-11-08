@@ -364,33 +364,33 @@ demographics:
                 min: 0.0
                 max: 1.0
             exit:
-              death:
-                base:
-                  default: 10.4
+              type: sub-dict
+              description: Parameters controlling agent exit
+              keys:
+                - exit
+              default:
+                prob:
+                  default: 0.0
+                  description: probability for this exit type if not using get_death_rate
                   type: float
-                  description: Death rate by race per 1000 person years in base case
+                  min: 0.0
+                  max: 1.0
+                base:
+                  default: 10.8
+                  description: base death probability per 1000-PYs if using get_death_rate
+                  type: float
                 hiv:
                   default: 2.
                   type: float
-                  description: Scalar for death rate for agents with hiv, not aids, and not haart adherent. Scales from base.
+                  description: (Used for death only) Scalar for death rate for agents with hiv, not aids, and not haart adherent. Scales from base.
                 aids:
                   default: 4.
                   type: float
-                  description: Scalar for death rate for agents with aids. Scales from base.
+                  description: (Used for death only) Scalar for death rate for agents with aids. Scales from base.
                 haart_adherent:
                   default: 1.0
                   type: float
-                  description: Scalar for death rate for those fully adherent on haart. Scales from base.
-              age_out:
-                max_age:
-                  default: 999
-                  type: int
-                  description: Age after which which agents age out of the model
-              drop_out:
-                prob:
-                  default: 0.0
-                  type: float
-                  description: Probability of agent dropout
+                  description: (Used for death only) Scalar for death rate for those fully adherent on haart. Scales from base.
             num_partners:
               type: sub-dict
               keys:

@@ -7,6 +7,11 @@ demographics:
         drug_type: &base_drug_type
           Inj:
             ppl: 0.2
+            exit:
+              death:
+                base: 10.8
+              migrate:
+                prob: 0.001
             num_partners:
               Sex:
                 dist_type: poisson
@@ -58,6 +63,11 @@ demographics:
               discontinue: 0.1
           NonInj: &npwid_drug_type
             ppl: 0.4
+            exit:
+              death:
+                base: 10.8
+              migrate:
+                prob: 0.01
             hiv:
               init: 0.1
               dx:
@@ -323,7 +333,7 @@ features:
   prep: true
   high_risk: true
   haart: true
-  die_and_replace: true
+  enter_and_exit: true
   static_network: false
   agent_zero: true
   assort_mix: false
@@ -348,3 +358,43 @@ location:
 
 external_exposure:
   convert_prob: 1.0
+
+enter_exit:
+  death:
+    exit_class: death
+    entry_class: replace
+
+classes:
+  exit:
+    death:
+      exit_type: death
+      ignore_incar: true
+      age: 999
+    age_out:
+      exit_type: age_out
+      ignore_incar: false
+      age: 999
+    migrate:
+      exit_type: drop_out
+      ignore_incar: false
+      age: 999
+    none:
+      exit_type: none
+      ignore_incar: false
+      age: 999
+  enter:
+    replace:
+      enter_type: replace
+      age_in: false
+      age: 16
+      prob: 1.0
+    age_in:
+      enter_type: replace
+      age: 16
+      age_in: true
+      prob: 1.0
+    new_ag:
+      enter_type: new_agent
+      age_in: false
+      age: 0
+      prob: 1.0

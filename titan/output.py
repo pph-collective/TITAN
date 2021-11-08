@@ -35,7 +35,8 @@ def setup_aggregates(params: ObjMap, reportables, classes: List[str]) -> Dict:
     if classes == []:
         base_stats = {
             "agents": 0,
-            "deaths": 0,
+            "death": 0,
+            "ageout": 0,
             "deaths_hiv": 0,
         }
 
@@ -120,7 +121,7 @@ def add_agent_to_stats(stats_item: Dict[str, int], key: str):
 
 def get_stats(
     all_agents: "ag.AgentSet",
-    deaths: List["ag.Agent"],
+    exits: Dict[str, List["ag.Agent"]],
     params: ObjMap,
     exposures,
     features,
@@ -153,11 +154,12 @@ def get_stats(
             agent_feature = getattr(a, reportable.name)
             agent_feature.set_stats(stats_item, time)
 
-    for a in deaths:
-        stats_item = get_stats_item(stats, attrs, a)
-        add_agent_to_stats(stats_item, "deaths")
-        if a.hiv.active:  # type: ignore[attr-defined]
-            add_agent_to_stats(stats_item, "deaths_hiv")
+    for t in exits:
+        for a in exits[t]:
+            stats_item = get_stats_item(stats, attrs, a)
+            add_agent_to_stats(stats_item, t)
+            if a.hiv.active and t == "death":  # type: ignore[attr-defined]
+                add_agent_to_stats(stats_item, "deaths_hiv")
 
     return stats
 

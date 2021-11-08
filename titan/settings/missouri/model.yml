@@ -8,7 +8,7 @@ model:
 features:
   prep: true
   haart: true
-  die_and_replace: true
+  enter_and_exit: true
   assort_mix: true
 
 classes:

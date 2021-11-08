@@ -104,7 +104,7 @@ def test_model_reproducible(tmpdir):
         assert res_a[i]["agents"] == res_b[i]["agents"]
         assert res_a[i]["hiv"] == res_b[i]["hiv"]
         assert res_a[i]["prep"] == res_b[i]["prep"]
-        assert res_a[i]["deaths"] == res_b[i]["deaths"]
+        assert res_a[i]["death"] == res_b[i]["death"]
         assert res_a[i]["hiv_aids"] == res_b[i]["hiv_aids"]
 
 
@@ -545,7 +545,7 @@ def test_treatment_cascade(params_integration, tmpdir):
         while model.time < model.params.model.time.num_steps:
             model.time += 1
             model.step(path)
-            deaths |= set(a.id for a in model.deaths)
+            deaths |= set(a.id for a in model.exits["death"])
             unique_hiv |= set(
                 a.id
                 for a in model.pop.all_agents

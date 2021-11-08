@@ -59,76 +59,175 @@ def test_update_all_agents(make_model, make_agent):
 
 
 @pytest.mark.unit
-def test_die_and_replace_none(make_model):
+def test_death_none(make_model):
     model = make_model()
-    model.run_random = FakeRandom(0.999)  # always greater than death rate
+    model.run_random = FakeRandom(0.999)
     baseline_pop = copy(model.pop.all_agents.members)
-
-    model.die_and_replace()
+    model.exit()
 
     ids = [a.id for a in baseline_pop]
     for agent in model.pop.all_agents.members:
         assert agent.id in ids
 
+@pytest.mark.unit
+def test_death_incar(make_model, params):
+    params.demographics.white.sex_type.MSM.incar.init = 1.0
+    model = make_model(params)
+    model.run_random = FakeRandom(0.00000001)
+    incar_pop = {agent for agent in model.pop.all_agents if agent.incar.active}
+    non_incar = {agent for agent in model.pop.all_agents if not agent.incar.active}
+    model.exit()
+    print("Members:")
+    print(model.pop.all_agents.num_members())
+    for agent in model.pop.all_agents.members:
+        if not agent.incar.active:
+            print(agent)
+
+    print(params.demographics.black.sex_type.MSM.drug_type.NonInj.exit)
+    print("Nope!")
+    # no incarcerated agents die if incar is ignored
+    assert incar_pop == model.pop.all_agents.members
+    # check that list of removed agents is updated
+    for agent in non_incar:
+        assert agent in model.exits["death"]
+    
+    model.reset_trackers()
+    model.params.classes.exit.death.ignore_incar = False
+    model.exit()
+    assert len(model.pop.all_agents.members) == 0
 
 @pytest.mark.unit
-def test_die_and_replace_all(make_model, params):
+def test_death_all(make_model, params):
     params.features.incar = False
+    model = make_model()
+    model.run_random = FakeRandom(0.0000000001)
+    model.exit()
+
+    assert len(model.pop.all_agents.members) == 0
+
+@pytest.mark.unit
+def test_dropout_none(make_model, params):
+    params.enter_exit = ObjMap({"dropout": {"exit_class": "migrate", "entry_class": "none"}})
     model = make_model(params)
-    model.run_random = FakeRandom(0.0000001)  # always lower than death rate
+    init_ag = {agent for agent in model.pop.all_agents.members}
+    # no dropouts
+    model.run_random = FakeRandom(1.0)
+    model.exit()
 
-    baseline_pop = copy(model.pop.all_agents.members)
-    old_ids = [a.id for a in baseline_pop]
+    end_ag = {agent for agent in model.pop.all_agents.members}
+    assert init_ag == end_ag
 
-    num_hm = len([x for x in baseline_pop if x.sex_type == "HM"])
-    num_white = len([x for x in baseline_pop if x.race == "white"])
-    num_pwid = len([x for x in baseline_pop if x.drug_type == "Inj"])
+@pytest.mark.unit
+def test_dropout_all(make_model, params):
+    params.enter_exit = ObjMap({"dropout": {"exit_class": "migrate", "entry_class": "none"}})
+    model = make_model(params)
+    init_ppl = copy(model.pop.all_agents.members)
+    model.run_random = FakeRandom(0.000000001)
+    model.exit()
 
-    model.die_and_replace()
+    for agent in init_ppl:
+        assert agent in model.exits["migrate"]
+    for exit_type, agents in model.exits.items():
+        if exit_type != "migrate":
+            assert agents == []
 
-    assert num_hm == len(
-        [x for x in model.pop.all_agents.members if x.sex_type == "HM"]
-    )
-    assert num_white == len(
-        [x for x in model.pop.all_agents.members if x.race == "white"]
-    )
-    assert num_pwid == len(
-        [x for x in model.pop.all_agents.members if x.drug_type == "Inj"]
-    )
+@pytest.mark.unit
+def test_ageout(make_model, params):
+    params.enter_exit = ObjMap({"dropout": {"exit_class": "age_out", "entry_class": "none"}})
+    model = make_model(params)
+    init_ppl = copy(model.pop.all_agents.members)
+    model.exit()
 
-    new_ids = [a.id for a in model.pop.all_agents.members]
-    death_ids = [a.id for a in model.deaths]
+    assert {agent for agent in model.pop.all_agents.members} == init_ppl
+
+    model.params.classes.exit.age_out.age = 45
+    model.exit()
 
     for agent in model.pop.all_agents.members:
-        assert agent.id not in old_ids
-        assert agent in model.pop.graph.nodes()
+        assert agent.age <= 45
+    for agent in model.exits["age_out"]:
+        assert agent.age > 45
 
-    for agent in baseline_pop:
-        assert agent.id not in new_ids
-        assert agent not in model.pop.graph.nodes()
-        assert agent.id in death_ids
-
+    model.reset_trackers()
+    model.params.classes.exit.age_out.age = 0
+    model.exit()
+    assert not len(model.pop.all_agents.members)
 
 @pytest.mark.unit
-def test_die_and_replace_incar(make_model):
-    model = make_model()
-    model.run_random = FakeRandom(0.0000001)  # always lower than death rate
-    baseline_pop = copy(model.pop.all_agents.members)
-    old_ids = [a.id for a in baseline_pop]
+def test_exit_none(make_model, params):
+    params.enter_exit.death.exit_class = "none"
+    params.features.incar = False
+    model = make_model(params)
+    init_ppl = copy(model.pop.all_agents.members)
+    model.run_random = FakeRandom(0.000000001)
 
-    agent = next(iter(model.pop.all_agents))
-    agent.incar.active = True
-    agent_id = agent.id
+    model.exit()
+    assert model.pop.all_agents.members == init_ppl
 
-    model.die_and_replace()
+@pytest.mark.unit
+def test_new_agent(make_model, params):
+    params.enter_exit.death.exit_class = "none"
+    params.enter_exit.death.entry_class = "new_ag"
+    model = make_model(params)
+    init_ppl = copy(model.pop.all_agents.members)
 
-    new_ids = [a.id for a in model.pop.all_agents.members]
-    death_ids = [a.id for a in model.deaths]
+    model.enter()
+    assert len(init_ppl) * 2 == len(model.pop.all_agents.members)
 
-    assert agent_id in old_ids
-    assert agent_id not in death_ids
-    assert agent_id in new_ids
+    init_black = 0
+    init_white = 0
+    new_black = 0
+    new_white = 0
+    for agent in init_ppl:
+        if agent.race == "black":
+            init_black += 1
+        elif agent.race == "white":
+            init_white += 1
+    for agent in model.pop.all_agents.members:
+        if agent.race == "black":
+            new_black += 1
+        if agent.race == "white":
+            new_white += 1
+    # check that ratios are the same (TO_REVIEW what tolerance)
+    assert init_black / len(init_ppl) == new_black / len(model.pop.all_agents.members)
+    assert init_white / len(init_ppl) == new_white / len(model.pop.all_agents.members)
 
+def test_replace(make_model, params):
+    params.features.incar = False
+    model= make_model()
+    init_ppl = copy(model.pop.all_agents.members)
+    # run with no replace list
+    model.run_random = FakeRandom(0.0000001)
+    model.enter()
+    assert model.pop.all_agents.members == init_ppl
+
+    # all agents die and replaced
+    model.exit()
+    model.enter()
+    assert model.pop.all_agents.members != init_ppl
+    assert model.pop.all_agents.num_members() == len(init_ppl)
+
+    model.reset_trackers()
+    # all agents die but none replaced
+    model.exit()
+    model.run_random = FakeRandom(1.0)
+    model.enter()
+    assert not model.pop.all_agents.members
+
+@pytest.mark.unit
+def test_agein(make_model, params):
+    params.enter_exit.death.entry_class = "age_in"
+    params.features.incar = False
+    model = make_model(params)
+    init_ppl = copy(model.pop.all_agents.members)
+    model.run_random = FakeRandom(0.00000001)
+    model.exit()
+
+    model.enter()
+    assert model.pop.all_agents.members != init_ppl
+    assert model.pop.all_agents.num_members() == len(init_ppl)
+    for agent in model.pop.all_agents.members:
+        assert agent.age == 16
 
 @pytest.mark.unit
 def test_timeline_scaling_default_def(make_model):

@@ -2,9 +2,13 @@ enter_exit:
   type: definition
   description: pairing of entry information based on exit. Each exit type can only be represented once.
   fields:
-    exit_type:
+    exit_class:
       type: enum
       class: exit
-    prob:
-      type: float
-    
+    entry_class:
+      type: enum
+      class: enter
+  default:
+    death:
+      exit_class: death
+      entry_class: replace
