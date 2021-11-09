@@ -35,10 +35,11 @@ def setup_aggregates(params: ObjMap, reportables, classes: List[str]) -> Dict:
     if classes == []:
         base_stats = {
             "agents": 0,
-            "death": 0,
-            "ageout": 0,
             "deaths_hiv": 0,
         }
+        for exit in params.classes.exit:
+            if exit != "none":
+               base_stats[exit] = 0
 
         for reportable in reportables:
             base_stats.update({stat: 0 for stat in reportable.stats})
