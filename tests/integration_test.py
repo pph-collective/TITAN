@@ -531,7 +531,7 @@ def test_treatment_cascade(params_integration, tmpdir):
     path_b = tmpdir.mkdir("b")
     path_b.mkdir("network")
 
-    params_integration.features.die_and_replace = True
+    params_integration.features.enter_and_exit = True
     params_integration.model.num_pop = 1000
     params_integration.model.time.num_steps = 20
 
