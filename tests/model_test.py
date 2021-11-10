@@ -166,7 +166,7 @@ def test_exit_none(make_model, params):
     init_ppl = copy(model.pop.all_agents.members)
     model.run_random = FakeRandom(0.000000001)
 
-    model.exit()
+    assert not model.exit()
     assert model.pop.all_agents.members == init_ppl
 
 
@@ -212,6 +212,14 @@ def test_new_agent(make_model, params):
     assert len(init_ppl) > model.pop.all_agents.num_members()
     model.enter()
     assert len(init_ppl) == model.pop.all_agents.num_members()
+
+    model.reset_trackers()
+    model.params.classes.enter.new_ag.age_in = True
+    model.exit()
+    model.enter()
+    for agent in model.pop.all_agents.members:
+        if not agent.incar.active:
+            assert agent.age == params.classes.enter.new_ag.age
 
 
 @pytest.mark.unit
