@@ -20,8 +20,8 @@ def setup_aggregates(params: ObjMap, reportables, classes: List[str]) -> Dict:
     Attributes are classes defined in params, the items counted are:
 
     * "agents"
-    * "deaths"
     * "deaths_hiv"
+    * exit types
 
     Additionally, any feature enabled may have additional stats that are tracked.  See the feature's `stats` attribute.
 
@@ -134,7 +134,7 @@ def get_stats(
     args:
         all_agents: all of the agents in the population
         new_hiv.dx: agents who are newly diagnosed with hiv this timestep
-        deaths: agents who died this timestep
+        exits: dictionary indicated how many agents exited by exit type this timestep
         params: model parameters
 
     returns:
