@@ -34,7 +34,7 @@ def stats(params, world_location):
 
     agent_set = agent.AgentSet("test")
     agent_set.add_agent(a)
-    agent_exit = {"death": [a], "ageout": [a]}
+    agent_exit = {"death": [a], "age_out": [a]}
     feat_list = [feature for feature in features.BaseFeature.__subclasses__()]
     expose_list = [exposure for exposure in exposures.BaseExposure.__subclasses__()]
     params.classes.components = ["-1", "0"]
@@ -66,7 +66,7 @@ def test_get_stats(stats):
     assert stats["world"]["black"]["MSM"]["0"]["Inj"]["hiv_dx"] == 1
     assert stats["world"]["black"]["MSM"]["0"]["Inj"]["haart"] == 1
     assert stats["world"]["black"]["MSM"]["0"]["Inj"]["death"] == 1
-    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["ageout"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["age_out"] == 1
     assert stats["world"]["black"]["MSM"]["0"]["Inj"]["deaths_hiv"] == 1
 
 

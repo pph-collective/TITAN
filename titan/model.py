@@ -422,7 +422,9 @@ class TITAN:
                     num_new_agents = len(self.pop.all_agents.members) * entrance.prob
                 else:
                     # number of new agents given removed agents
-                    num_new_agents = len(self[strategy.exit_type]) * strategy.prob
+                    num_new_agents = (
+                        len(self.exits[strategy.exit_class]) * entrance.prob
+                    )
 
                 for loc in self.pop.geography.locations.values():
                     for race in self.params.classes.races:
@@ -433,7 +435,6 @@ class TITAN:
                                 * loc.params.demographics[race].ppl
                             )
                         ):
-                            # TODO these agents don't make it into the model!
                             new_agent = self.pop.create_agent(loc, race, self.time)
                             if entrance.age_in:
                                 new_agent.age = entrance.age

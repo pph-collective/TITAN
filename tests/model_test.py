@@ -171,10 +171,11 @@ def test_exit_none(make_model, params):
 
 
 @pytest.mark.unit
-def test_new_agent(make_model, params):
+def test_new_agent_no_exit(make_model, params):
     params.enter_exit.death.exit_class = "none"
     params.enter_exit.death.entry_class = "new_ag"
     model = make_model(params)
+    model.run_random = FakeRandom(0.5)
     init_ppl = copy(model.pop.all_agents.members)
 
     model.enter()
@@ -194,11 +195,26 @@ def test_new_agent(make_model, params):
             new_black += 1
         if agent.race == "white":
             new_white += 1
-    # check that ratios are the same (TO_REVIEW what tolerance)
+    # check that ratios are the same
     assert init_black / len(init_ppl) == new_black / len(model.pop.all_agents.members)
     assert init_white / len(init_ppl) == new_white / len(model.pop.all_agents.members)
 
 
+@pytest.mark.unit
+def test_new_agent(make_model, params):
+    params.enter_exit.death.exit_class = "death"
+    params.enter_exit.death.entry_class = "new_ag"
+    model = make_model(params)
+    model.run_random = FakeRandom(0.0000000001)
+    init_ppl = copy(model.pop.all_agents.members)
+
+    model.exit()
+    assert len(init_ppl) > model.pop.all_agents.num_members()
+    model.enter()
+    assert len(init_ppl) == model.pop.all_agents.num_members()
+
+
+@pytest.mark.unit
 def test_replace(make_model, params):
     params.features.incar = False
     model = make_model()

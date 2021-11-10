@@ -39,7 +39,7 @@ def setup_aggregates(params: ObjMap, reportables, classes: List[str]) -> Dict:
         }
         for exit in params.classes.exit:
             if exit != "none":
-               base_stats[exit] = 0
+                base_stats[exit] = 0
 
         for reportable in reportables:
             base_stats.update({stat: 0 for stat in reportable.stats})
