@@ -130,8 +130,7 @@ class Population:
         loc: "location.Location",
         race: str,
         time: int,
-        sex_type: Optional[str] = None,
-        drug_type: Optional[str] = None,
+        **kwargs,
     ) -> "ag.Agent":
         """
         Create a new agent with randomly assigned attributes according to population
@@ -146,7 +145,9 @@ class Population:
         returns:
              a new agent
         """
-        if sex_type is None:
+        if "sex_type" in kwargs:
+            sex_type = kwargs["sex_type"]
+        else:
             sex_type = utils.safe_random_choice(
                 loc.pop_weights[race]["values"],
                 self.pop_random,
@@ -157,7 +158,9 @@ class Population:
                 raise ValueError("Agent must have sex type")
 
         # Determine drugtype
-        if drug_type is None:
+        if "drug_type" in kwargs:
+            drug_type = kwargs["drug_type"]
+        else:
             drug_type = utils.safe_random_choice(
                 loc.drug_weights[race][sex_type]["values"],
                 self.pop_random,
@@ -167,10 +170,12 @@ class Population:
             if drug_type is None:
                 raise ValueError("Agent must have drug type")
 
-        age, age_bin = self.get_age(loc, race)
+        if "age" in kwargs and kwargs["age"] is not None:
+            age = kwargs["age"]
+        else:
+            age = self.get_age(loc, race)
 
         agent = ag.Agent(sex_type, age, race, drug_type, loc)
-        agent.age_bin = age_bin
 
         sex_role = utils.safe_random_choice(
             loc.role_weights[race][sex_type]["values"],
@@ -255,6 +260,10 @@ class Population:
         args:
             agent : Agent to remove
         """
+        for rel in copy(agent.relationships):
+            rel.progress(force=True)
+            self.remove_relationship(rel)
+
         self.all_agents.remove_agent(agent)
 
         for partner_type in self.sex_partners:
@@ -307,7 +316,7 @@ class Population:
         bins = loc.params.demographics[race].age
         i = utils.get_independent_bin(self.pop_random, bins)
         age = self.pop_random.randrange(bins[i].min, bins[i].max)
-        return age, i
+        return age
 
     def update_agent_partners(
         self, agent: "ag.Agent", bond_type: str, components: List

@@ -132,7 +132,7 @@ class TITAN:
                 )
 
     def reset_trackers(self):
-        self.exits = dict((k, []) for k in self.exits)
+        self.exits = { exit: [] for exit in self.exits }
 
     def run(self, outdir: str):
         """
@@ -363,6 +363,9 @@ class TITAN:
             interaction.interact(self, rel)
 
     def exit(self):
+        """
+        Allow agents to exit model.
+        """
         if self.exits == {}:
             return
         for agent in self.pop.all_agents:
@@ -370,49 +373,54 @@ class TITAN:
                 exit = self.params.classes.exit[strategy.exit_class]
                 if exit.ignore_incar and agent.incar.active:
                     continue
-                if exit.exit_type == "age_out":
-                    # agent ages out of model
-                    if agent.age > exit.age:
-                        self.exits[strategy.exit_class].append(agent)
-                        # agent can only leave once, move to next agent
-                        break
-                elif exit.exit_type == "death":
-                    p = (
-                        prob.get_death_rate(
-                            agent.hiv.active,
-                            agent.hiv.aids,
-                            agent.drug_type,
-                            agent.sex_type,
-                            agent.haart.adherent,
-                            agent.race,
-                            agent.location,
-                            self.params.model.time.steps_per_year,
-                            strategy.exit_class,
+                
+                match exit.exit_type:
+                    case "age_out":
+                        # agent ages out of model
+                        if agent.age > exit.age:
+                            self.exits[strategy.exit_class].append(agent)
+                    case "death":
+                        p = (
+                            prob.get_death_rate(
+                                agent.hiv.active,
+                                agent.hiv.aids,
+                                agent.drug_type,
+                                agent.sex_type,
+                                agent.haart.adherent,
+                                agent.race,
+                                agent.location,
+                                self.params.model.time.steps_per_year,
+                                strategy.exit_class,
+                            )
+                            * self.calibration.mortality
                         )
-                        * self.calibration.mortality
-                    )
 
-                    if self.run_random.random() < p:
-                        # agent dies
-                        self.exits[strategy.exit_class].append(agent)
-                        break
-                elif exit.exit_type == "drop_out":
-                    p = (
-                        agent.location.params.demographics[agent.race]
-                        .sex_type[agent.sex_type]
-                        .drug_type[agent.drug_type]
-                        .exit[strategy.exit_class]
-                        .prob
-                    )
-                    if self.run_random.random() < p:
-                        # agent leaves study pop
-                        self.exits[strategy.exit_class].append(agent)
-                        break
-        for l in self.exits.values():
-            for agent in l:
-                self.remove_agent(agent)
+                        if self.run_random.random() < p:
+                            # agent dies
+                            self.exits[strategy.exit_class].append(agent)
+                    case "drop_out":
+                        p = (
+                            agent.location.params.demographics[agent.race]
+                            .sex_type[agent.sex_type]
+                            .drug_type[agent.drug_type]
+                            .exit[strategy.exit_class]
+                            .prob
+                        )
+                        if self.run_random.random() < p:
+                            # agent leaves study pop
+                            self.exits[strategy.exit_class].append(agent)
+
+        for exit_list in self.exits.values():
+            for agent in exit_list:
+                self.pop.remove_agent(agent)
+
+                # mark agent component as -1 (no component)
+                agent.component = "-1"
 
     def enter(self):
+        """
+        Create new agents and/or replace exited agents.    
+        """
         for strategy in self.params.enter_exit.values():
             entrance = self.params.classes.enter[strategy.entry_class]
             if entrance.enter_type == "new_agent":
@@ -435,39 +443,21 @@ class TITAN:
                                 * loc.params.demographics[race].ppl
                             )
                         ):
-                            new_agent = self.pop.create_agent(loc, race, self.time)
-                            if entrance.age_in:
-                                new_agent.age = entrance.age
+                            age = entrance.age if entrance.age_in else None
+                            new_agent = self.pop.create_agent(loc, race, self.time, age=age)
                             self.pop.add_agent(new_agent)
             elif entrance.enter_type == "replace":
-                assert (
-                    self.params.classes.exit[strategy.exit_class].exit_type != "none"
-                ), "Cannot replace without exit"
                 p = entrance.prob
                 for agent in self.exits[strategy.exit_class]:
+                    age = entrance.age if entrance.age_in else None
                     if self.run_random.random() < p:
                         new_agent = self.pop.create_agent(
                             agent.location,
                             agent.race,
                             self.time,
-                            agent.sex_type,
-                            agent.drug_type,
+                            sex_type=agent.sex_type,
+                            drug_type=agent.drug_type,
+                            age=age,
                         )
-                        # age in?
-                        if entrance.age_in:
-                            new_agent.age = entrance.age
                         # add agent to pop
                         self.pop.add_agent(new_agent)
-
-    def remove_agent(self, agent):
-        """
-        Remove an agent and the agent's relationships
-        """
-        for rel in copy(agent.relationships):
-            rel.progress(force=True)
-            self.pop.remove_relationship(rel)
-        # mark agent component as -1 (no component)
-        agent.component = "-1"
-
-        # Remove agent from agent class and sub-sets
-        self.pop.remove_agent(agent)

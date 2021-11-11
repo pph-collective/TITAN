@@ -13,7 +13,7 @@ from . import utils
 from . import agent as ag
 
 
-def setup_aggregates(params: ObjMap, reportables, classes: List[str]) -> Dict:
+def setup_aggregates(params: ObjMap, reportables, classes: List[str], exits: Dict[str, List["ag.Agent"]]) -> Dict:
     """
     Recursively create a nested dictionary of attribute values to items to count.
 
@@ -37,9 +37,8 @@ def setup_aggregates(params: ObjMap, reportables, classes: List[str]) -> Dict:
             "agents": 0,
             "deaths_hiv": 0,
         }
-        for exit in params.classes.exit:
-            if exit != "none":
-                base_stats[exit] = 0
+        for exit in params.classes.exit.keys():
+            base_stats[exit] = 0
 
         for reportable in reportables:
             base_stats.update({stat: 0 for stat in reportable.stats})
@@ -51,7 +50,7 @@ def setup_aggregates(params: ObjMap, reportables, classes: List[str]) -> Dict:
     keys = [k for k in params.classes[clss]]
 
     for key in keys:
-        stats[key] = setup_aggregates(params, reportables, rem_clss)
+        stats[key] = setup_aggregates(params, reportables, rem_clss, exits)
 
     return stats
 
@@ -141,7 +140,7 @@ def get_stats(
         nested dictionary of agent attributes to counts of various items
     """
     reportables = exposures + features
-    stats = setup_aggregates(params, reportables, params.outputs.classes)
+    stats = setup_aggregates(params, reportables, params.outputs.classes, exits)
 
     # attribute names (non-plural)
     attrs = [clss[:-1] for clss in params.outputs.classes]

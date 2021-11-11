@@ -369,7 +369,6 @@ classes:
     death:
       exit_type: death
       ignore_incar: true
-      age: 999
     age_out:
       exit_type: age_out
       ignore_incar: false
@@ -377,16 +376,13 @@ classes:
     migrate:
       exit_type: drop_out
       ignore_incar: false
-      age: 999
     none:
       exit_type: none
       ignore_incar: false
-      age: 999
   enter:
     replace:
       enter_type: replace
       age_in: false
-      age: 16
       prob: 1.0
     age_in:
       enter_type: replace
@@ -396,5 +392,4 @@ classes:
     new_ag:
       enter_type: new_agent
       age_in: false
-      age: 0
       prob: 1.0

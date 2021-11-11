@@ -149,11 +149,11 @@ classes:
       age:
         type: int
         min: 0
+        default: 0
     default:
       death:
         exit_type: death
         ignore_incar: true
-        age: 9999
   enter:
     type: definition
     description: Model entrance strategies
@@ -169,6 +169,7 @@ classes:
       age:
         type: int
         min: 0
+        default: 0
       prob:
         type: float
         min: 0.

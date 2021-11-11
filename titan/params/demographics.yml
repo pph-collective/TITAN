@@ -371,13 +371,13 @@ demographics:
               default:
                 prob:
                   default: 0.0
-                  description: probability for this exit type if not using get_death_rate
+                  description: probability for this exit type if exit type is not "death"
                   type: float
                   min: 0.0
                   max: 1.0
                 base:
                   default: 10.8
-                  description: base death probability per 1000-PYs if using get_death_rate
+                  description: base death probability per 1000-PYs if exit type is "death"
                   type: float
                 hiv:
                   default: 2.

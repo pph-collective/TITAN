@@ -20,7 +20,7 @@ def test_create_agent(make_population, params):
     a2 = pop.create_agent(pop.geography.locations["world"], "black", 0)
     assert a2.race == "black"
 
-    a3 = pop.create_agent(pop.geography.locations["world"], "white", 0, "HM")
+    a3 = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="HM")
     assert a3.sex_type == "HM"
     assert a3.race == "white"
 
@@ -29,7 +29,7 @@ def test_create_agent(make_population, params):
     pop.geography.locations["world"].drug_weights["white"]["HM"] = ObjMap(
         {"values": ["Inj"], "weights": [1.0]}
     )
-    a4 = pop.create_agent(pop.geography.locations["world"], "white", 0, "HM")
+    a4 = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="HM")
     assert a4.drug_type == "Inj"
     assert a4.hiv.active
     assert a4.hiv.aids
@@ -44,7 +44,7 @@ def test_create_agent(make_population, params):
     pop.geography.locations["world"].drug_weights["white"]["HM"] = ObjMap(
         {"values": ["None"], "weights": [1.0]}
     )
-    a4 = pop.create_agent(pop.geography.locations["world"], "white", 0, "HM")
+    a4 = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="HM")
     assert a4.drug_type == "None"
     assert a4.hiv.active is False
     assert a4.prep.active is False
@@ -86,7 +86,7 @@ def test_create_agent_proportions(make_population, params):
 @pytest.mark.unit
 def test_add_remove_agent_to_pop(make_population):
     pop = make_population(n=100)
-    agent = pop.create_agent(pop.geography.locations["world"], "white", 0, "HM")
+    agent = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="HM")
     agent.drug_type = "Inj"
     agent.hiv.active = True
     agent.hiv.aids = True
@@ -116,9 +116,8 @@ def test_get_age(make_population, params):
     for i in range(1, 6):
         # make sure rand is less than the setting
         pop.pop_random = FakeRandom(params.demographics[race].age[i].prob - 0.001)
-        age, ageBin = pop.get_age(pop.geography.locations["world"], race)
+        age = pop.get_age(pop.geography.locations["world"], race)
         assert age == expected_ages[i - 1]
-        assert ageBin == i
 
 
 @pytest.mark.unit
@@ -144,8 +143,8 @@ def test_update_agent_partners_PWID_no_match(make_population, params):
     pop.geography.locations["world"].drug_weights["white"]["HF"]["values"] = ["None"]
     pop.geography.locations["world"].drug_weights["white"]["HF"]["weights"] = [1.0]
 
-    a = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
-    p = pop.create_agent(pop.geography.locations["world"], "white", 0, "HF")
+    a = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="MSM")
+    p = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="HF")
     pop.pop_random = FakeRandom(1.1)
     pop.add_agent(a)
     pop.add_agent(p)
@@ -172,8 +171,8 @@ def test_update_agent_partners_PWID_no_match(make_population, params):
 @pytest.mark.unit
 def test_update_agent_partners_MSM_no_match(make_population, params):
     pop = make_population(n=0)
-    a = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
-    p = pop.create_agent(pop.geography.locations["world"], "white", 0, "HF")
+    a = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="MSM")
+    p = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="HF")
     pop.pop_random = FakeRandom(1.1)
     a.drug_type = "None"
     p.drug_type = "None"
@@ -194,13 +193,13 @@ def test_update_agent_partners_PWID_match(make_population, params):
     pop.geography.locations["world"].drug_weights["white"]["MSM"]["values"] = ["Inj"]
     pop.geography.locations["world"].drug_weights["white"]["MSM"]["weights"] = [1.0]
 
-    a = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
+    a = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="MSM")
     assert (
         pop.geography.locations["world"]
         .params.demographics.white.sex_type.MSM.drug_type.Inj.num_partners.Inj.vars[1]
         .value
     )
-    p = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
+    p = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="MSM")
     assert p.drug_type == "Inj"
     assert p.mean_num_partners["Inj"]
     assert p.target_partners["Inj"]
@@ -223,8 +222,8 @@ def test_update_agent_partners_PWID_match(make_population, params):
 @pytest.mark.unit
 def test_update_agent_partners_MSM_match(make_population, params):
     pop = make_population(n=0)
-    a = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
-    p = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
+    a = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="MSM")
+    p = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="MSM")
     # ensure random sex partner no assorting
     pop.pop_random = FakeRandom(1.1)
     a.drug_type = "None"
@@ -245,8 +244,8 @@ def test_update_agent_partners_MSM_match(make_population, params):
 @pytest.mark.unit
 def test_update_agent_partners_NDU_PWID_match(make_population, params):
     pop = make_population(n=0)
-    a = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
-    p = pop.create_agent(pop.geography.locations["world"], "black", 0, "MSM")
+    a = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="MSM")
+    p = pop.create_agent(pop.geography.locations["world"], "black", 0, sex_type="MSM")
     # ensure random sex partner no assorting
     pop.np_random = FakeRandom(0.99)
     pop.pop_random = FakeRandom(1.1)
@@ -280,8 +279,8 @@ def test_update_agent_partners_NDU_PWID_match(make_population, params):
 @pytest.mark.unit
 def test_update_partner_assignments_MSM_match(make_population, params):
     pop = make_population(n=0)
-    a = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
-    p = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
+    a = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="MSM")
+    p = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="MSM")
     # ensure random sex partner no assorting
     pop.pop_random = FakeRandom(1.1)
     a.drug_type = "None"
@@ -304,8 +303,8 @@ def test_update_partner_assignments_MSM_match(make_population, params):
 @pytest.mark.unit
 def test_update_partner_assignments_PWID_match(make_population, params):
     pop = make_population(n=0)
-    a = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
-    p = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
+    a = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="MSM")
+    p = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="MSM")
     # ensure random sex partner no assorting
     pop.pop_random = FakeRandom(1.1)
     a.drug_type = "Inj"
@@ -329,8 +328,8 @@ def test_update_partner_assignments_PWID_match(make_population, params):
 @pytest.mark.unit
 def test_update_partner_assignments_NDU_PWID_match(make_population, params):
     pop = make_population(n=0)
-    a = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
-    p = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
+    a = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="MSM")
+    p = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="MSM")
     # ensure random sex partner no assorting
     pop.pop_random = FakeRandom(1.1)
     a.drug_type = "None"
@@ -355,9 +354,9 @@ def test_update_partner_assignments_NDU_PWID_match(make_population, params):
 @pytest.mark.unit
 def test_update_partner_assignments_no_match(make_population, params):
     pop = make_population(n=0)
-    a = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
+    a = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="MSM")
     a.id = 1
-    p = pop.create_agent(pop.geography.locations["world"], "white", 0, "HM")
+    p = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="HM")
     p.id = 2
     # ensure random sex partner no assorting
     pop.pop_random = FakeRandom(1.1)
@@ -424,8 +423,8 @@ def test_population_consistency(params):
 @pytest.mark.unit
 def test_partnering_same_component_singleton_match(make_population, params):
     pop = make_population(n=0)
-    a = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
-    p = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
+    a = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="MSM")
+    p = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="MSM")
     # ensure random sex partner no assorting
     pop.pop_random = FakeRandom(1.1)
     a.drug_type = "None"
@@ -448,11 +447,11 @@ def test_partnering_same_component_singleton_match(make_population, params):
 @pytest.mark.unit
 def test_partnering_cross_component(make_population, make_relationship, params):
     pop = make_population(n=0)
-    a = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
-    b = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
-    c = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
-    d = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
-    e = pop.create_agent(pop.geography.locations["world"], "white", 0, "MSM")
+    a = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="MSM")
+    b = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="MSM")
+    c = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="MSM")
+    d = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="MSM")
+    e = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="MSM")
     # ensure random sex partner no assorting
     pop.pop_random = FakeRandom(1.1)
     a.drug_type = "None"

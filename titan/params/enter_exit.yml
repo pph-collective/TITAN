@@ -1,6 +1,6 @@
 enter_exit:
   type: definition
-  description: pairing of entry information based on exit. Each exit type can only be represented once.
+  description: pairing of entry information based on exit class. Each exit type can only be represented once.
   fields:
     exit_class:
       type: enum

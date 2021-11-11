@@ -28,7 +28,8 @@ class PCA(base_interaction.BaseInteraction):
             if min == max:
                 num_acts = min
             else:
-                num_acts = model.run_random.randrange(min, max)
+                assert not isinstance(min, int)
+                num_acts = model.run_random.uniform(min, max)
         elif params.type == "distribution":
             num_acts = round(utils.safe_dist(params.distribution, model.run_random))
 

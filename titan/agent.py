@@ -57,7 +57,7 @@ class Agent:
         # agent properties
         self.sex_type = sex_type
         self.age = age
-        self.age_bin = 0
+        # self.age_bin = 0
         self.race = race
         self.drug_type = drug_use
         self.location = location
