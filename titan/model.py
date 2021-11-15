@@ -374,6 +374,7 @@ class TITAN:
                 exit = self.params.classes.exit[strategy.exit_class]
                 if exit.ignore_incar and agent.incar.active:
                     continue
+                
                 # leaving this as "case" for when we can update to 3.10 safely
                 case = exit.exit_type
                 if case == "age_out":
