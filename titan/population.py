@@ -303,7 +303,7 @@ class Population:
         if self.enable_graph:
             self.graph.remove_edge(rel.agent1, rel.agent2)
 
-    def get_age(self, loc: "location.Location", race: str) -> Tuple[int, int]:
+    def get_age(self, loc: "location.Location", race: str) -> int:
         """
         Given the population characteristics, get a random age to assign to an agent given the race of that agent
 

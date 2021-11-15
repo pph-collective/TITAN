@@ -374,41 +374,42 @@ class TITAN:
                 exit = self.params.classes.exit[strategy.exit_class]
                 if exit.ignore_incar and agent.incar.active:
                     continue
-                match exit.exit_type:
-                    case "age_out":
-                        # agent ages out of model
-                        if agent.age > exit.age:
-                            self.exits[strategy.exit_class].append(agent)
-                    case "death":
-                        p = (
-                            prob.get_death_rate(
-                                agent.hiv.active,
-                                agent.hiv.aids,
-                                agent.drug_type,
-                                agent.sex_type,
-                                agent.haart.adherent,
-                                agent.race,
-                                agent.location,
-                                self.params.model.time.steps_per_year,
-                                strategy.exit_class,
-                            )
-                            * self.calibration.mortality
+                # leaving this as "case" for when we can update to 3.10 safely
+                case = exit.exit_type
+                if case == "age_out":
+                    # agent ages out of model
+                    if agent.age > exit.age:
+                        self.exits[strategy.exit_class].append(agent)
+                if case == "death":
+                    p = (
+                        prob.get_death_rate(
+                            agent.hiv.active,
+                            agent.hiv.aids,
+                            agent.drug_type,
+                            agent.sex_type,
+                            agent.haart.adherent,
+                            agent.race,
+                            agent.location,
+                            self.params.model.time.steps_per_year,
+                            strategy.exit_class,
                         )
+                        * self.calibration.mortality
+                    )
 
-                        if self.run_random.random() < p:
-                            # agent dies
-                            self.exits[strategy.exit_class].append(agent)
-                    case "drop_out":
-                        p = (
-                            agent.location.params.demographics[agent.race]
-                            .sex_type[agent.sex_type]
-                            .drug_type[agent.drug_type]
-                            .exit[strategy.exit_class]
-                            .prob
-                        )
-                        if self.run_random.random() < p:
-                            # agent leaves study pop
-                            self.exits[strategy.exit_class].append(agent)
+                    if self.run_random.random() < p:
+                        # agent dies
+                        self.exits[strategy.exit_class].append(agent)
+                if case == "drop_out":
+                    p = (
+                        agent.location.params.demographics[agent.race]
+                        .sex_type[agent.sex_type]
+                        .drug_type[agent.drug_type]
+                        .exit[strategy.exit_class]
+                        .prob
+                    )
+                    if self.run_random.random() < p:
+                        # agent leaves study pop
+                        self.exits[strategy.exit_class].append(agent)
 
         for exit_list in self.exits.values():
             for agent in exit_list:
