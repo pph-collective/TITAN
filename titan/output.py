@@ -13,7 +13,9 @@ from . import utils
 from . import agent as ag
 
 
-def setup_aggregates(params: ObjMap, reportables, classes: List[str], exits: Dict[str, List["ag.Agent"]]) -> Dict:
+def setup_aggregates(
+    params: ObjMap, reportables, classes: List[str], exits: Dict[str, List["ag.Agent"]]
+) -> Dict:
     """
     Recursively create a nested dictionary of attribute values to items to count.
 

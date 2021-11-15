@@ -86,7 +86,9 @@ def test_create_agent_proportions(make_population, params):
 @pytest.mark.unit
 def test_add_remove_agent_to_pop(make_population):
     pop = make_population(n=100)
-    agent = pop.create_agent(pop.geography.locations["world"], "white", 0, sex_type="HM")
+    agent = pop.create_agent(
+        pop.geography.locations["world"], "white", 0, sex_type="HM"
+    )
     agent.drug_type = "Inj"
     agent.hiv.active = True
     agent.hiv.aids = True
