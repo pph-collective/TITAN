@@ -136,7 +136,7 @@ jobs:
     - name: Set up Python for testing
       uses: actions/setup-python@v2
       with:
-        python-version: pypy-3.8
+        python-version: pypy-3.10
     - name: Set up Poetry for testing
       run: |
         pip install poetry

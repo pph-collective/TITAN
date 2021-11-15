@@ -132,7 +132,7 @@ class TITAN:
                 )
 
     def reset_trackers(self):
-        self.exits = { exit: [] for exit in self.exits }
+        self.exits = {exit: [] for exit in self.exits}
 
     def run(self, outdir: str):
         """
@@ -373,7 +373,7 @@ class TITAN:
                 exit = self.params.classes.exit[strategy.exit_class]
                 if exit.ignore_incar and agent.incar.active:
                     continue
-                
+
                 match exit.exit_type:
                     case "age_out":
                         # agent ages out of model
@@ -419,7 +419,7 @@ class TITAN:
 
     def enter(self):
         """
-        Create new agents and/or replace exited agents.    
+        Create new agents and/or replace exited agents.
         """
         for strategy in self.params.enter_exit.values():
             entrance = self.params.classes.enter[strategy.entry_class]
@@ -444,7 +444,9 @@ class TITAN:
                             )
                         ):
                             age = entrance.age if entrance.age_in else None
-                            new_agent = self.pop.create_agent(loc, race, self.time, age=age)
+                            new_agent = self.pop.create_agent(
+                                loc, race, self.time, age=age
+                            )
                             self.pop.add_agent(new_agent)
             elif entrance.enter_type == "replace":
                 p = entrance.prob
