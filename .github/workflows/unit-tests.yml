@@ -31,7 +31,7 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         poetry run flake8 titan --count --exit-zero --max-complexity=12 --max-line-length=88 --statistics
     - name: Check code formatting with black
-      run: poetry run black . --check
+      run: poetry run black --target-version py310 . --check
     - name: Static Type Checking with mypy
       run: poetry run mypy titan
 
@@ -145,7 +145,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .venv
-        key: venv-pypy3.6-${{ hashFiles('**/poetry.lock') }}
+        key: venv-pypy3.10-${{ hashFiles('**/poetry.lock') }}
     - name: Install dependencies
       run: poetry install --no-dev
 

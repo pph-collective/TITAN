@@ -368,12 +368,12 @@ class TITAN:
         """
         if self.exits == {}:
             return
+
         for agent in self.pop.all_agents:
             for strategy in self.params.enter_exit.values():
                 exit = self.params.classes.exit[strategy.exit_class]
                 if exit.ignore_incar and agent.incar.active:
                     continue
-
                 match exit.exit_type:
                     case "age_out":
                         # agent ages out of model
