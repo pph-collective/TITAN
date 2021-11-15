@@ -12,7 +12,7 @@ jobs:
     - name: Set up Python for linting, formatting, type checking
       uses: actions/setup-python@v2
       with:
-        python-version: 3.10
+        python-version: '3.10'
     - name: Set up Poetry for linting, formatting, type checking
       run: |
         pip install poetry
@@ -43,7 +43,7 @@ jobs:
     - name: Set up Python for testing
       uses: actions/setup-python@v2
       with:
-        python-version: 3.10
+        python-version: '3.10'
     - name: Set up Poetry for testing
       run: |
         pip install poetry
@@ -71,7 +71,7 @@ jobs:
     - name: Set up Python for testing
       uses: actions/setup-python@v2
       with:
-        python-version: 3.10
+        python-version: '3.10'
     - name: Set up Poetry for testing
       run: |
         pip install poetry
@@ -99,7 +99,7 @@ jobs:
     - name: Set up Python for testing
       uses: actions/setup-python@v2
       with:
-        python-version: 3.10
+        python-version: '3.10'
     - name: Set up Poetry for testing
       run: |
         pip install poetry
