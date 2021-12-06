@@ -341,7 +341,6 @@ def write_network_stats(graph, path: str, id, time):
         time: timestep the edgelist is being written at
     """
     file_path = os.path.join(path, f"{id}_NetworkStats_t{time}.txt")
-    print(file_path)
 
     components = utils.connected_components(graph)
 

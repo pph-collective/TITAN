@@ -249,6 +249,7 @@ def test_replace(make_model, params):
 @pytest.mark.unit
 def test_agein(make_model, params):
     params.enter_exit.death.entry_class = "age_in"
+    print(params.classes.enter)
     params.features.incar = False
     model = make_model(params)
     init_ppl = copy(model.pop.all_agents.members)

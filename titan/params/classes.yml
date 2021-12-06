@@ -138,6 +138,7 @@ classes:
     description: Model exit strategies
     fields:
       exit_type:
+        description: The type of exit mechanism to use
         type: enum
         values:
           - age_out
@@ -145,8 +146,10 @@ classes:
           - drop_out
           - none
       ignore_incar:
+        description: Whether incarcerated agents should be ignored by this exit
         type: bool
       age:
+        description: Age at which agents leave model if `age_out` exit_type is used
         type: int
         min: 0
         default: 0
@@ -159,24 +162,27 @@ classes:
     description: Model entrance strategies
     fields:
       enter_type:
+        description: Strategy for new agents to enter, from `new_agent`, `replace`, or `none`
         type: enum
         values:
           - new_agent
           - replace
           - none
       age_in:
+        description: Whether agents should start at a specific age
         type: bool
+        default: false
       age:
+        description: Age of agents at entrance, if age_in is true
         type: int
         min: 0
-        default: 0
+        default: 16
       prob:
+        description: probability the agent will be replaced
         type: float
         min: 0.
     default:
       replace:
         enter_type: replace
-        age_in: false
-        age: 16
         prob: 1.0
       

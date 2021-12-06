@@ -217,8 +217,8 @@ partnership:
         bins:
           1:
             prob: 1.0
-            min: 1.0
-            max: 1.0
+            min: 1
+            max: 1
       SexInj: *bin_always_one
       Inj: *bin_always_one
   sex:
@@ -382,14 +382,12 @@ classes:
   enter:
     replace:
       enter_type: replace
-      age_in: false
       prob: 1.0
     age_in:
       enter_type: replace
       age: 16
-      age_in: true
       prob: 1.0
+      age_in: true
     new_ag:
       enter_type: new_agent
-      age_in: false
       prob: 1.0

@@ -148,12 +148,10 @@ def test_write_network_stats(setup_results_dir, make_population):
     write_network_stats(pop.graph, path, id, t)
 
     file_path = os.path.join(path, f"{id}_NetworkStats_t{t}.txt")
-    print(file_path)
     asserted = False
     with open(file_path, "r") as f:
         for line in f:
             if "Number of nodes:" in line:
-                print("true")
                 assert int(line.split(" ")[-1]) == n_pop
                 asserted = True
 

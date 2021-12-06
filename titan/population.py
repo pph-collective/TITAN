@@ -130,7 +130,9 @@ class Population:
         loc: "location.Location",
         race: str,
         time: int,
-        **kwargs,
+        sex_type: Optional[str] = None,
+        drug_type: Optional[str] = None,
+        age: Optional[int] = None,
     ) -> "ag.Agent":
         """
         Create a new agent with randomly assigned attributes according to population
@@ -138,16 +140,17 @@ class Population:
 
         args:
             loc: location the agent will live in
-            race : race of the new agent
+            race: race of the new agent
             time: current time step of the model
-            sex_type : sex_type of the new agent
+            sex_type: sex_type of the new agent
+            drug_type: drug_type of the new agent
+            age: age of the new agent
 
         returns:
              a new agent
         """
-        if "sex_type" in kwargs:
-            sex_type = kwargs["sex_type"]
-        else:
+
+        if not sex_type:
             sex_type = utils.safe_random_choice(
                 loc.pop_weights[race]["values"],
                 self.pop_random,
@@ -158,9 +161,7 @@ class Population:
                 raise ValueError("Agent must have sex type")
 
         # Determine drugtype
-        if "drug_type" in kwargs:
-            drug_type = kwargs["drug_type"]
-        else:
+        if not drug_type:
             drug_type = utils.safe_random_choice(
                 loc.drug_weights[race][sex_type]["values"],
                 self.pop_random,
@@ -170,9 +171,7 @@ class Population:
             if drug_type is None:
                 raise ValueError("Agent must have drug type")
 
-        if "age" in kwargs and kwargs["age"] is not None:
-            age = kwargs["age"]
-        else:
+        if not age:
             age = self.get_age(loc, race)
 
         agent = ag.Agent(sex_type, age, race, drug_type, loc)

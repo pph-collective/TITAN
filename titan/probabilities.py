@@ -26,6 +26,7 @@ def get_death_rate(
         haart_adh: whether an agent is haart adherent
         race: the race of the agent
         location: agent's location
+        steps_per_year: the number of model steps in a year
         exit_type: the method for exit
 
     returns:
