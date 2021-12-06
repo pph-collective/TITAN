@@ -436,8 +436,8 @@ class TITAN:
                         len(self.exits[strategy.exit_class]) * entrance.prob
                     )
 
-                # all agent characterstics depend on location and race, so use
-                # those to figure out characteristics
+                # keep location and race to ensure population distribution by
+                # location and race stays consistent
                 for loc in self.pop.geography.locations.values():
                     for race in self.params.classes.races:
                         for i in range(
