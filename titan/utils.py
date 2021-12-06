@@ -143,11 +143,11 @@ def parse_var(dist_value, dist_type):
 def get_dist(rand_gen, dist_type):
     if dist_type == "randint":
         return lambda *args: safe_random_int(*args, rand_gen)
-    elif hasattr(rand_gen, dist_type):
-        return getattr(rand_gen, dist_type)
     elif hasattr(distributions, dist_type):
         dist = getattr(distributions, dist_type)
         return lambda *args: dist(rand_gen, *args)
+    elif hasattr(rand_gen, dist_type):
+        return getattr(rand_gen, dist_type)
     else:
         raise AttributeError(f"Distribution type {dist_type} not found!")
 
@@ -182,13 +182,6 @@ def binom_0(n: int, p: float):
     Mirrors scipy binom.pmf as used in code
     """
     return (1 - p) ** n
-
-
-def poisson(mu: float, np_rand):
-    """
-    Mirrors scipy poisson.rvs function as used in code
-    """
-    return np_rand.poisson(mu)
 
 
 def get_param_from_path(params: ObjMap, param_path: str, delimiter: str):

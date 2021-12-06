@@ -19,6 +19,7 @@ from . import partnering
 from . import utils
 from . import features
 from . import exposures
+from .distributions import poisson
 
 
 class Population:
@@ -431,8 +432,8 @@ class Population:
         """
         for a in self.all_agents:
             for bond in self.params.classes.bond_types:
-                a.target_partners[bond] = utils.poisson(
-                    a.mean_num_partners[bond], self.np_random
+                a.target_partners[bond] = poisson(
+                    self.np_random, a.mean_num_partners[bond]
                 )
             self.update_partnerability(a)
 
