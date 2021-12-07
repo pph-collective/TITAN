@@ -377,7 +377,7 @@ demographics:
                   max: 1.0
                 base:
                   default: 10.8
-                  description: base death probability per 1000-PYs if exit type is "death"
+                  description: base death probability per 1000 person-years if exit type is "death"
                   type: float
                 hiv:
                   default: 2.

@@ -84,7 +84,7 @@ class TITAN:
         logging.info("  Resetting exit count")
 
         self.exits: Dict[str, List["ag.Agent"]] = {
-            exit: [] for exit in self.params.classes.exit if exit != "none"
+            exit: [] for exit, val in self.params.classes.exit.items() if val.exit_type != "none"
         }
 
         logging.info("\n=== Initialization Protocol Finished ===")
@@ -366,7 +366,7 @@ class TITAN:
         """
         Allow agents to exit model.
         """
-        if self.exits == {}:
+        if self.exits == {} or all(key=="none" for key in self.exits.keys()):
             return
 
         for agent in self.pop.all_agents:
@@ -453,10 +453,9 @@ class TITAN:
                             )
                             self.pop.add_agent(new_agent)
             elif entrance.enter_type == "replace":
-                p = entrance.prob
                 for agent in self.exits[strategy.exit_class]:
                     age = entrance.age if entrance.age_in else None
-                    if self.run_random.random() < p:
+                    if self.run_random.random() < entrance.prob:
                         new_agent = self.pop.create_agent(
                             agent.location,
                             agent.race,
