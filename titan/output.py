@@ -22,8 +22,8 @@ def setup_aggregates(
     Attributes are classes defined in params, the items counted are:
 
     * "agents"
-    * "[exit_type]_hiv"
-    * exit types
+    * "[exit_class]_hiv"
+    * exit by exit class
 
     Additionally, any feature enabled may have additional stats that are tracked.  See the feature's `stats` attribute.
 
@@ -247,8 +247,8 @@ def basicReport(
     Standard report writer for basic agent statistics, columns include:
 
     * "agents": number of agents in the population
-    * "deaths": number of agents who died this time period
-    * "[exit]_hiv": number of agents with HIV who exited this time period
+    * "[exit]": number of agents who exited this time period by exit class
+    * "[exit]_hiv": number of agents with HIV who exited this time period by exit class
 
     Additionally, any feature enabled may have additional stats that are tracked.  See the feature's `stats` attribute and docs for details.
     """

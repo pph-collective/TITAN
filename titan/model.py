@@ -368,11 +368,12 @@ class TITAN:
         """
         Allow agents to exit model.
         """
-        if self.exits == {} or all(key == "none" for key in self.exits.keys()):
+        if self.exits == {}:
             return
 
         for agent in self.pop.all_agents:
             for strategy in self.params.enter_exit.values():
+                # Get parameters of the exit class
                 exit = self.params.classes.exit[strategy.exit_class]
                 if exit.ignore_incar and agent.incar.active:
                     continue

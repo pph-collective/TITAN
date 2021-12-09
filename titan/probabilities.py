@@ -27,7 +27,7 @@ def get_death_rate(
         race: the race of the agent
         location: agent's location
         steps_per_year: the number of model steps in a year
-        exit_type: the method for exit
+        exit_class: the exit class to access in agent params
 
     returns:
         the probability of an agent with these characteristics dying in a given time step
