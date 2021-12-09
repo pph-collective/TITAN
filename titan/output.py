@@ -22,8 +22,8 @@ def setup_aggregates(
     Attributes are classes defined in params, the items counted are:
 
     * "agents"
-    * "deaths_hiv"
-    * exit types
+    * "[exit_class]_hiv"
+    * exit by exit class
 
     Additionally, any feature enabled may have additional stats that are tracked.  See the feature's `stats` attribute.
 
@@ -37,10 +37,10 @@ def setup_aggregates(
     if classes == []:
         base_stats = {
             "agents": 0,
-            "deaths_hiv": 0,
         }
         for exit in params.classes.exit.keys():
             base_stats[exit] = 0
+            base_stats[exit + "_hiv"] = 0
 
         for reportable in reportables:
             base_stats.update({stat: 0 for stat in reportable.stats})
@@ -135,7 +135,7 @@ def get_stats(
     args:
         all_agents: all of the agents in the population
         new_hiv.dx: agents who are newly diagnosed with hiv this timestep
-        exits: dictionary indicated how many agents exited by exit type this timestep
+        exits: dictionary indicated how many agents exited by exit class this timestep
         params: model parameters
 
     returns:
@@ -156,12 +156,12 @@ def get_stats(
             agent_feature = getattr(a, reportable.name)
             agent_feature.set_stats(stats_item, time)
 
-    for t in exits:
-        for a in exits[t]:
+    for exit in exits:
+        for a in exits[exit]:
             stats_item = get_stats_item(stats, attrs, a)
-            add_agent_to_stats(stats_item, t)
-            if a.hiv.active and t == "death":  # type: ignore[attr-defined]
-                add_agent_to_stats(stats_item, "deaths_hiv")
+            add_agent_to_stats(stats_item, exit)
+            if a.hiv.active:  # type: ignore[attr-defined]
+                add_agent_to_stats(stats_item, exit + "_hiv")
 
     return stats
 
@@ -247,8 +247,8 @@ def basicReport(
     Standard report writer for basic agent statistics, columns include:
 
     * "agents": number of agents in the population
-    * "deaths": number of agents who died this time period
-    * "deaths_hiv": number of agents with HIV who died this time period
+    * "[exit]": number of agents who exited this time period by exit class
+    * "[exit]_hiv": number of agents with HIV who exited this time period by exit class
 
     Additionally, any feature enabled may have additional stats that are tracked.  See the feature's `stats` attribute and docs for details.
     """

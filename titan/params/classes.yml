@@ -181,8 +181,7 @@ classes:
         description: probability the agent will be replaced
         type: float
         min: 0.
+        default: 1.0
     default:
       replace:
         enter_type: replace
-        prob: 1.0
-      

@@ -67,7 +67,7 @@ def test_get_stats(stats):
     assert stats["world"]["black"]["MSM"]["0"]["Inj"]["haart"] == 1
     assert stats["world"]["black"]["MSM"]["0"]["Inj"]["death"] == 1
     assert stats["world"]["black"]["MSM"]["0"]["Inj"]["age_out"] == 1
-    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["deaths_hiv"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["death_hiv"] == 1
 
 
 @pytest.mark.unit
