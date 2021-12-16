@@ -19,9 +19,9 @@ features:
     default: false
     description: Whether haart will be used in the model
     type: boolean
-  die_and_replace:
+  enter_and_exit:
     default: false
-    description: Whether agents can die in the model, if so they will be replaced
+    description: Whether agents can exit and/or enter during model run
     type: boolean
   static_network:
     default: false

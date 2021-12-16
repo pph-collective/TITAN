@@ -52,11 +52,12 @@ demographics:
                 init: 1.0
                 prob: 0.7
               discontinue: 0.000
-            death_rate:
-              base: 16.6
-              hiv: 1.5
-              haart_adherent: 1.0
-              aids: 10.4
+            exit:
+              death:
+                base: 16.6
+                hiv: 1.5
+                haart_adherent: 1.0
+                aids: 10.4
             num_partners:
               Sex:
                 dist_type: poisson
@@ -86,11 +87,12 @@ demographics:
               dx:
                 init: 1.0
                 prob: 0.202
-            death_rate:
-              base: 5.69
-              hiv: 3.1
-              aids: 10.4
-              haart_adherent: 1.0
+            exit:
+              death:
+                base: 5.69
+                hiv: 3.1
+                aids: 10.4
+                haart_adherent: 1.0
             haart: *haart_vals
             num_partners:
               Sex:

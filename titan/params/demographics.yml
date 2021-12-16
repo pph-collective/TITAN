@@ -363,23 +363,34 @@ demographics:
                 type: float
                 min: 0.0
                 max: 1.0
-            death_rate:
-              base:
-                default: 10.4
-                type: float
-                description: Death rate by race per 1000 person years in base case
-              hiv:
-                default: 2.
-                type: float
-                description: Scalar for death rate for agents with hiv, not aids, and not haart adherent. Scales from base.
-              aids:
-                default: 4.
-                type: float
-                description: Scalar for death rate for agents with aids. Scales from base.
-              haart_adherent:
-                default: 1.0
-                type: float
-                description: Scalar for death rate for those fully adherent on haart. Scales from base.
+            exit:
+              type: sub-dict
+              description: Parameters controlling agent exit
+              keys:
+                - exit
+              default:
+                prob:
+                  default: 0.0
+                  description: probability for this exit type if exit type is not "death"
+                  type: float
+                  min: 0.0
+                  max: 1.0
+                base:
+                  default: 10.8
+                  description: base death probability per 1000 person-years if exit type is "death"
+                  type: float
+                hiv:
+                  default: 2.
+                  type: float
+                  description: (Used for death only) Scalar for death rate for agents with hiv, not aids, and not haart adherent. Scales from base.
+                aids:
+                  default: 4.
+                  type: float
+                  description: (Used for death only) Scalar for death rate for agents with aids. Scales from base.
+                haart_adherent:
+                  default: 1.0
+                  type: float
+                  description: (Used for death only) Scalar for death rate for those fully adherent on haart. Scales from base.
             num_partners:
               type: sub-dict
               keys:

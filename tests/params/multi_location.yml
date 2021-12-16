@@ -207,7 +207,7 @@ features:
   static_network: false
   incar: false
   partner_tracing: false
-  die_and_replace: false
+  enter_and_exit: false
 
 model:
   num_pop: 100

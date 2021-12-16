@@ -46,11 +46,12 @@ demographics:
                 init: 0.500
                 prob: 0.500
               discontinue: 0.023
-            death_rate:
-              base: 6.2
-              hiv: 3.0
-              aids: 17.5
-              haart_adherent: 1.0
+            exit:
+              death:
+                base: 6.2
+                hiv: 3.0
+                aids: 17.5
+                haart_adherent: 1.0
             num_partners:
               Sex:
                 dist_type: negative_binomial

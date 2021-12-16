@@ -21,6 +21,9 @@ class FakeRandom:
     def randrange(self, start, stop, step=1):
         return start
 
+    def uniform(self, start, stop, step=1):
+        return start
+
     def sample(self, seq, rate):
         return seq
 

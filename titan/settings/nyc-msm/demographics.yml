@@ -55,8 +55,9 @@ demographics:
                 prob: 0.489
                 discontinue: 0.0689
               discontinue: 0.014
-            death_rate:
-              base: 1.512
+            exit:
+              death:
+                base: 1.512
             num_partners:
               Main:
                 dist_type: negative_binomial
@@ -132,8 +133,9 @@ demographics:
                 prob: 0.719
                 discontinue: 0.0115
               discontinue: 0.0069  # calibration
-            death_rate:
-              base: 0.792
+            exit:
+              death:
+                base: 0.792
             num_partners:
               Main:
                 dist_type: negative_binomial
@@ -209,8 +211,9 @@ demographics:
                 prob: 0.790
                 discontinue: 0.0745
               discontinue: 0.00883
-            death_rate:
-              base: 0.1
+            exit:
+              death:
+                base: 0.1
             num_partners:
               Main:
                 dist_type: negative_binomial
