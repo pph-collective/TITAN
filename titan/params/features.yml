@@ -1,4 +1,8 @@
 features:
+  remove_hiv:
+    default: false
+    description: Whether % of HIV+ agents should be made HIV- at time
+    type: boolean
   incar:
     default: false
     description: Whether incarceration will be used in the model

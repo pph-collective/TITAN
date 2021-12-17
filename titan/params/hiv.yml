@@ -1,4 +1,13 @@
 hiv:
+  remove_hiv:
+    time:
+      default: 0
+      type: int
+      description: time when HIV cases should be removed
+    prob:
+      default: 0
+      type: float
+      description: percent of HIV cases should be removed
   dx:
     risk_reduction:
       sex:

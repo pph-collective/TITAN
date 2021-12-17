@@ -145,7 +145,7 @@ partnership:
         vars:
           1:
             value_type: float
-            value: 6.0
+            value: 6
     haart_scaling:
       HM:
         0:

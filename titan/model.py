@@ -269,6 +269,15 @@ class HIVModel:
             ):
                 agent.age += 1
 
+            # update in case we're removing hiv
+            if self.features.remove_hiv and self.time == self.params.hiv.remove_hiv.time:
+                if agent.hiv and self.run_random.random() < self.params.hiv.remove_hiv.prob:
+                    agent.hiv = False
+                    agent.aids = False
+                    agent.hiv_dx = False
+                    agent.haart = False
+                    self.pop.hiv_agents.remove_agent(agent)
+
             if self.features.high_risk:
                 self.update_high_risk(agent)
 
