@@ -70,6 +70,7 @@ class HIVModel:
         self.new_prep = AgentSet("new_prep")
 
         self.ssp_enrolled_risk = 0.0
+        self.ssp_dx_scalar = 0.0
 
         self.time = -1 * self.params.model.time.burn_steps  # burn is negative time
         self.id = nanoid.generate(size=8)
@@ -908,7 +909,7 @@ class HIVModel:
             for item in self.params.syringe_services.timeline.values():
                 if item.start_time <= self.time < item.stop_time:
                     self.ssp_enrolled_risk = item.risk
-
+                    self.ssp_dx_scalar = item.dx_scalar
                     ssp_num_slots = (item.num_slots_stop - item.num_slots_start) / (
                         item.stop_time - item.start_time
                     ) * (self.time - item.start_time) + item.num_slots_start
@@ -1110,6 +1111,10 @@ class HIVModel:
             test_prob = agent.location.params.demographics[race_type][
                 sex_type
             ].hiv.dx.prob
+
+            # increase prob if agent enrolled in ssp
+            if agent.ssp:
+               test_prob *= self.ssp_dx_scalar
 
             # Rescale based on calibration param
             test_prob *= self.calibration.test_frequency
