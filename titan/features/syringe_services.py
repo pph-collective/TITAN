@@ -43,7 +43,7 @@ class SyringeServices(base_feature.BaseFeature):
         for item in model.params.syringe_services.timeline.values():
             if item.start_time <= model.time < item.stop_time:
                 cls.enrolled_risk = item.risk
-
+                cls.dx_scalar = item.dx_scalar
                 # linearly interpolate slots between start and stop
                 ssp_num_slots = (item.num_slots_stop - item.num_slots_start) / (
                     item.stop_time - item.start_time

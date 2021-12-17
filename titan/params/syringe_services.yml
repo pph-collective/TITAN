@@ -21,6 +21,10 @@ syringe_services:
         description: "Risk of unsafe sharing for agents enrolled in the SSP"
         min: 0.0
         max: 1.0
+      dx_scalar:
+        type: float
+        description: "Scalar on diagnosis probability for agents enrolled in SSP"
+        min: 0.0
     default:
       ssp_default:
         start_time: 1
@@ -28,3 +32,4 @@ syringe_services:
         num_slots_start: 0
         num_slots_stop: 0
         risk: 0.02
+        dx_scalar: 1.0

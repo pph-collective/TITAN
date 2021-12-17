@@ -111,7 +111,8 @@ class HIV(base_exposure.BaseExposure):
 
                 # Rescale based on calibration param
                 test_prob *= model.calibration.test_frequency
-
+                if self.agent.syringe_services.active:
+                    test_prob *= self.agent.syringe_services.dx_scalar
                 if model.run_random.random() < test_prob:
                     self.diagnose(model)
 

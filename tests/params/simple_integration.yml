@@ -171,6 +171,7 @@ syringe_services:
       num_slots_start: 500
       num_slots_stop: 500
       risk: 0.00
+      dx_scalar: 1.0
 
 partner_tracing:
   prob: 1

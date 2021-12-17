@@ -281,6 +281,7 @@ syringe_services:
       num_slots_start: 100
       num_slots_stop: 100
       risk: 0.02
+      dx_scalar: 1.0
 
 agent_zero:
   interaction_type: injection
