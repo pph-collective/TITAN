@@ -13,6 +13,7 @@ class SyringeServices(base_feature.BaseFeature):
         super().__init__(agent)
 
         self.active = False
+        self.dx_scalar = 1.0
 
     @classmethod
     def init_class(cls, params):
