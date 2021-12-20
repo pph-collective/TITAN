@@ -27,12 +27,14 @@ syringe_services:
       num_slots_start: 0
       num_slots_stop: 237
       risk: 0.02
+      dx_scalar: 1.195
     ssp_on:
       start_time: 4
       stop_time: 121
       num_slots_start: 237
       num_slots_stop: 237
       risk: 0.02
+      dx_scalar: 1.195
 
 agent_zero:
   num_partners: 4
