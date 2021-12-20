@@ -1078,7 +1078,9 @@ class HIVModel:
         diagnosed = agent.hiv_dx
         partner_tracing = agent.location.params.partner_tracing
 
-        def diagnose(agent,):
+        def diagnose(
+            agent,
+        ):
             # agent's location's params used throughout as that is the agent who
             # would be interacting with the service
             agent.hiv_dx = True
