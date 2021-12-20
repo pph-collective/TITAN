@@ -70,6 +70,7 @@ class HIVModel:
         self.new_prep = AgentSet("new_prep")
 
         self.ssp_enrolled_risk = 0.0
+        self.ssp_dx = 1.0
 
         self.time = -1 * self.params.model.time.burn_steps  # burn is negative time
         self.id = nanoid.generate(size=8)
@@ -113,10 +114,6 @@ class HIVModel:
             ), "Graph must be enabled to print network reports"
 
             network_outdir = os.path.join(outdir, "network")
-            if self.params.outputs.network.draw_figures:
-                self.network_utils.visualize_network(
-                    network_outdir, curtime=self.time, label=f"{self.id}"
-                )
 
             if self.params.outputs.network.calc_component_stats:
                 ao.print_components(
@@ -899,6 +896,7 @@ class HIVModel:
             for item in self.params.syringe_services.timeline.values():
                 if item.start_time <= self.time < item.stop_time:
                     self.ssp_enrolled_risk = item.risk
+                    self.ssp_dx = item.dx_scalar
 
                     ssp_num_slots = (item.num_slots_stop - item.num_slots_start) / (
                         item.stop_time - item.start_time
@@ -1101,6 +1099,9 @@ class HIVModel:
             test_prob = agent.location.params.demographics[race_type][
                 sex_type
             ].hiv.dx.prob
+
+            if agent.ssp:
+                test_prob *= self.ssp_dx
 
             # Rescale based on calibration param
             test_prob *= self.calibration.test_frequency
