@@ -114,10 +114,6 @@ class HIVModel:
             ), "Graph must be enabled to print network reports"
 
             network_outdir = os.path.join(outdir, "network")
-            if self.params.outputs.network.draw_figures:
-                self.network_utils.visualize_network(
-                    network_outdir, curtime=self.time, label=f"{self.id}"
-                )
 
             if self.params.outputs.network.calc_component_stats:
                 ao.print_components(
