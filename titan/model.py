@@ -28,9 +28,7 @@ class HIVModel:
         return res
 
     def __init__(
-        self,
-        params: ObjMap,
-        population: Optional[Population] = None,
+        self, params: ObjMap, population: Optional[Population] = None,
     ):
         """
         This is the core class used to simulate
@@ -1078,9 +1076,7 @@ class HIVModel:
         diagnosed = agent.hiv_dx
         partner_tracing = agent.location.params.partner_tracing
 
-        def diagnose(
-            agent,
-        ):
+        def diagnose(agent,):
             # agent's location's params used throughout as that is the agent who
             # would be interacting with the service
             agent.hiv_dx = True
@@ -1106,7 +1102,7 @@ class HIVModel:
 
             if agent.ssp:
                 test_prob *= self.ssp_dx
- 
+
             # Rescale based on calibration param
             test_prob *= self.calibration.test_frequency
 
@@ -1284,10 +1280,11 @@ class HIVModel:
 
                 hiv_agents = len(all_hiv_agents & all_race)
                 target_prep = (
-                    len(all_race) - hiv_agents
-                ) * agent.location.params.demographics[agent.race][
-                    agent.sex_type
-                ].prep.coverage
+                    (len(all_race) - hiv_agents)
+                    * agent.location.params.demographics[agent.race][
+                        agent.sex_type
+                    ].prep.coverage
+                )
 
             else:
                 num_prep_agents = sum(self.pop.prep_counts.values())
