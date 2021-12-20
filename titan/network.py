@@ -161,4 +161,3 @@ class NetworkGraphUtils:
             )
 
         return node_color
-
