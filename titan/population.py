@@ -287,6 +287,9 @@ class Population:
             if agent in bond:
                 bond.remove(agent)
 
+        # mark agent component as -1 (no component)
+        agent.component = "-1"
+
     def remove_relationship(self, rel: "ag.Relationship"):
         """
         Remove a relationship from the population.
