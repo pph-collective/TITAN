@@ -7,6 +7,7 @@ from .. import utils
 from .. import agent
 from .. import population
 from .. import model
+from ..distributions import poisson
 
 
 class HighRisk(base_feature.BaseFeature):
@@ -170,7 +171,7 @@ class HighRisk(base_feature.BaseFeature):
         """
         for bond in self.agent.location.params.high_risk.partnership_types:
             self.agent.mean_num_partners[bond] += amount  # could be negative
-            self.agent.target_partners[bond] = utils.poisson(
-                self.agent.mean_num_partners[bond], pop.np_random
+            self.agent.target_partners[bond] = poisson(
+                pop.np_random, self.agent.mean_num_partners[bond]
             )
             pop.update_partnerability(self.agent)

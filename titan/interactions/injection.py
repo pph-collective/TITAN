@@ -39,7 +39,7 @@ class Injection(base_interaction.BaseInteraction):
             min(agent_params.num_acts, partner_params.num_acts)
             * model.calibration.injection.act
         )
-        share_acts = poisson(mean_num_acts, model.np_random)
+        share_acts = poisson(model.np_random, mean_num_acts)
 
         if share_acts < 1:
             return 0
