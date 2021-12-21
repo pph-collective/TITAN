@@ -35,7 +35,7 @@ def test_update_all_agents(make_model, make_agent):
     model = make_model()
     assert model.params.agent_zero.interaction_type == "injection"
     model.time = 1
-    model.params.features.die_and_replace = False
+    model.params.features.enter_and_exit = False
     # update all agents passes with agent 0
     model.update_all_agents()
 
@@ -79,7 +79,7 @@ def test_death_incar(make_model, params):
     non_incar = {agent for agent in model.pop.all_agents if not agent.incar.active}
     model.exit()
 
-    # no incarcerated agents die if incar is ignored
+    # no incarcerated agents exit if incar is ignored
     assert incar_pop == model.pop.all_agents.members
     # check that list of removed agents is updated
     for agent in non_incar:
@@ -232,14 +232,14 @@ def test_replace(make_model, params):
     model.enter()
     assert model.pop.all_agents.members == init_ppl
 
-    # all agents die and replaced
+    # all agents exit and replaced
     model.exit()
     model.enter()
     assert model.pop.all_agents.members != init_ppl
     assert model.pop.all_agents.num_members() == len(init_ppl)
 
     model.reset_trackers()
-    # all agents die but none replaced
+    # all agents exit but none replaced
     model.exit()
     model.run_random = FakeRandom(1.0)
     model.enter()
