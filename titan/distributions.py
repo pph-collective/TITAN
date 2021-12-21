@@ -56,3 +56,12 @@ def weibull_modified(np_random, shape, scale):
     """
     random_number = np_random.random()
     return scale * (-log(1 - random_number)) ** (1 / shape)
+
+
+def poisson(np_rand, mu: float):
+    """
+    Mirrors scipy poisson.rvs function as used in code
+    """
+    if mu < 0:
+        return 0
+    return np_rand.poisson(mu)
