@@ -19,7 +19,7 @@ features:
     default: false
     description: Whether haart will be used in the model
     type: boolean
-  enter_and_exit:
+  exit_enter:
     default: false
     description: Whether agents can exit and/or enter during model run
     type: boolean

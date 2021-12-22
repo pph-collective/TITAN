@@ -238,7 +238,7 @@ class TITAN:
                 if rel.progress():
                     self.pop.remove_relationship(rel)
 
-        if self.params.features.enter_and_exit:
+        if self.params.features.exit_enter:
             self.exit()
             self.enter()
 
@@ -375,7 +375,7 @@ class TITAN:
             return
 
         for agent in self.pop.all_agents:
-            for strategy in self.params.enter_exit.values():
+            for strategy in self.params.exit_enter.values():
                 # Get parameters of the exit class
                 exit = self.params.classes.exit[strategy.exit_class]
                 if exit.ignore_incar and agent.incar.active:
@@ -426,13 +426,13 @@ class TITAN:
         """
         Create new agents and/or replace exited agents.
 
-        Based on enter/exit pairs [params.enter_exit], create new agents through the following strategies:
+        Based on enter/exit pairs [params.exit_enter], create new agents through the following strategies:
 
             * new_agent: draw agent characteristics from model params
             * replace: use exited agent's characteristics to get new characteristics
 
         """
-        for strategy in self.params.enter_exit.values():
+        for strategy in self.params.exit_enter.values():
             entrance = self.params.classes.enter[strategy.entry_class]
             if entrance.enter_type == "new_agent":
                 # determine new agent locations and characteristics

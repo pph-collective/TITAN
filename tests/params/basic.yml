@@ -333,7 +333,7 @@ features:
   prep: true
   high_risk: true
   haart: true
-  enter_and_exit: true
+  exit_enter: true
   static_network: false
   agent_zero: true
   assort_mix: false
@@ -359,7 +359,7 @@ location:
 external_exposure:
   convert_prob: 1.0
 
-enter_exit:
+exit_enter:
   death:
     exit_class: death
     entry_class: replace
