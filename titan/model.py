@@ -429,7 +429,7 @@ class TITAN:
         Based on enter/exit pairs [params.enter_exit], create new agents through the following strategies:
 
             * new_agent: draw agent characteristics from model params
-            * replace: use exited agent's characteristics to determine new agent characteristics
+            * replace: use exited agent's characteristics to get new characteristics
 
         """
         for strategy in self.params.enter_exit.values():
