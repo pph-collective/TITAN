@@ -1312,7 +1312,7 @@
     <div class="doc doc-contents ">
 
       <p>Create new agents and/or replace exited agents.</p>
-<p>Based on enter/exit pairs [params.enter_exit], create new agents through the following strategies:</p>
+<p>Based on enter/exit pairs [params.exit_enter], create new agents through the following strategies:</p>
 <div class="codehilite"><pre><span></span><code>* new_agent: draw agent characteristics from model params
 * replace: use exited agent&#39;s characteristics to get new characteristics
 </code></pre></div>
@@ -1323,13 +1323,13 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create new agents and/or replace exited agents.</span>
 
-<span class="sd">    Based on enter/exit pairs [params.enter_exit], create new agents through the following strategies:</span>
+<span class="sd">    Based on enter/exit pairs [params.exit_enter], create new agents through the following strategies:</span>
 
 <span class="sd">        * new_agent: draw agent characteristics from model params</span>
 <span class="sd">        * replace: use exited agent&#39;s characteristics to get new characteristics</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">strategy</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">enter_exit</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">strategy</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">exit_enter</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
         <span class="n">entrance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">enter</span><span class="p">[</span><span class="n">strategy</span><span class="o">.</span><span class="n">entry_class</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">entrance</span><span class="o">.</span><span class="n">enter_type</span> <span class="o">==</span> <span class="s2">&quot;new_agent&quot;</span><span class="p">:</span>
             <span class="c1"># determine new agent locations and characteristics</span>
@@ -1409,7 +1409,7 @@ exit class [params.classes.exit] and remove agent from the model as necessary.</
         <span class="k">return</span>
 
     <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">all_agents</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">strategy</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">enter_exit</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">strategy</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">exit_enter</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="c1"># Get parameters of the exit class</span>
             <span class="n">exit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">exit</span><span class="p">[</span><span class="n">strategy</span><span class="o">.</span><span class="n">exit_class</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">exit</span><span class="o">.</span><span class="n">ignore_incar</span> <span class="ow">and</span> <span class="n">agent</span><span class="o">.</span><span class="n">incar</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
@@ -1908,7 +1908,7 @@ definition.  Applied to all parameters (main model, and location specific).</p>
             <span class="k">if</span> <span class="n">rel</span><span class="o">.</span><span class="n">progress</span><span class="p">():</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">remove_relationship</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">enter_and_exit</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">exit_enter</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">enter</span><span class="p">()</span>
 
