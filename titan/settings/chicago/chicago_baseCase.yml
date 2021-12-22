@@ -29,7 +29,7 @@ features:
   incar: false
   prep: true
   haart: false
-  enter_and_exit: false
+  exit_enter: false
   static_network: true
   random_trial: true
 
