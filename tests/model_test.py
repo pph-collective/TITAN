@@ -35,7 +35,7 @@ def test_update_all_agents(make_model, make_agent):
     model = make_model()
     assert model.params.agent_zero.interaction_type == "injection"
     model.time = 1
-    model.params.features.enter_and_exit = False
+    model.params.features.exit_enter = False
     # update all agents passes with agent 0
     model.update_all_agents()
 
@@ -103,7 +103,7 @@ def test_death_all(make_model, params):
 
 @pytest.mark.unit
 def test_dropout_none(make_model, params):
-    params.enter_exit = ObjMap(
+    params.exit_enter = ObjMap(
         {"dropout": {"exit_class": "migrate", "entry_class": "none"}}
     )
     model = make_model(params)
@@ -118,7 +118,7 @@ def test_dropout_none(make_model, params):
 
 @pytest.mark.unit
 def test_dropout_all(make_model, params):
-    params.enter_exit = ObjMap(
+    params.exit_enter = ObjMap(
         {"dropout": {"exit_class": "migrate", "entry_class": "none"}}
     )
     model = make_model(params)
@@ -135,7 +135,7 @@ def test_dropout_all(make_model, params):
 
 @pytest.mark.unit
 def test_ageout(make_model, params):
-    params.enter_exit = ObjMap(
+    params.exit_enter = ObjMap(
         {"dropout": {"exit_class": "age_out", "entry_class": "none"}}
     )
     model = make_model(params)
@@ -160,7 +160,7 @@ def test_ageout(make_model, params):
 
 @pytest.mark.unit
 def test_exit_none(make_model, params):
-    params.enter_exit.death.exit_class = "none"
+    params.exit_enter.death.exit_class = "none"
     params.features.incar = False
     model = make_model(params)
     init_ppl = copy(model.pop.all_agents.members)
@@ -172,8 +172,8 @@ def test_exit_none(make_model, params):
 
 @pytest.mark.unit
 def test_new_agent_no_exit(make_model, params):
-    params.enter_exit.death.exit_class = "none"
-    params.enter_exit.death.entry_class = "new_ag"
+    params.exit_enter.death.exit_class = "none"
+    params.exit_enter.death.entry_class = "new_ag"
     model = make_model(params)
     model.run_random = FakeRandom(0.5)
     init_ppl = copy(model.pop.all_agents.members)
@@ -202,8 +202,8 @@ def test_new_agent_no_exit(make_model, params):
 
 @pytest.mark.unit
 def test_new_agent(make_model, params):
-    params.enter_exit.death.exit_class = "death"
-    params.enter_exit.death.entry_class = "new_ag"
+    params.exit_enter.death.exit_class = "death"
+    params.exit_enter.death.entry_class = "new_ag"
     model = make_model(params)
     model.run_random = FakeRandom(0.0000000001)
     init_ppl = copy(model.pop.all_agents.members)
@@ -248,7 +248,7 @@ def test_replace(make_model, params):
 
 @pytest.mark.unit
 def test_agein(make_model, params):
-    params.enter_exit.death.entry_class = "age_in"
+    params.exit_enter.death.entry_class = "age_in"
     params.features.incar = False
     model = make_model(params)
     init_ppl = copy(model.pop.all_agents.members)
