@@ -34,11 +34,11 @@ def stats(params, world_location):
 
     agent_set = agent.AgentSet("test")
     agent_set.add_agent(a)
-    agent_list = [a]
+    agent_exit = {"death": [a], "age_out": [a]}
     feat_list = [feature for feature in features.BaseFeature.__subclasses__()]
     expose_list = [exposure for exposure in exposures.BaseExposure.__subclasses__()]
     params.classes.components = ["-1", "0"]
-    stats = get_stats(agent_set, agent_list, params, feat_list, expose_list, cur_time)
+    stats = get_stats(agent_set, agent_exit, params, feat_list, expose_list, cur_time)
     return stats
 
 
@@ -65,8 +65,9 @@ def test_get_stats(stats):
     assert stats["world"]["black"]["MSM"]["0"]["Inj"]["hiv_aids"] == 1
     assert stats["world"]["black"]["MSM"]["0"]["Inj"]["hiv_dx"] == 1
     assert stats["world"]["black"]["MSM"]["0"]["Inj"]["haart"] == 1
-    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["deaths"] == 1
-    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["deaths_hiv"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["death"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["age_out"] == 1
+    assert stats["world"]["black"]["MSM"]["0"]["Inj"]["death_hiv"] == 1
 
 
 @pytest.mark.unit
@@ -92,7 +93,7 @@ def test_basicReport(stats, params, tmpdir):
                 assert row["agents"] == "1"
                 assert row["hiv"] == "1"
                 assert row["prep"] == "1"
-                assert row["deaths"] == "1"
+                assert row["death"] == "1"
             else:
                 assert row["agents"] == "0"
                 assert row["hiv"] == "0"

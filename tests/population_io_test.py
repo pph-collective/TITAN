@@ -80,6 +80,7 @@ def test_read_pop(tmpdir, make_population, params):
     attrs = agent.__dict__.keys()
 
     for attr in attrs:
+        # Components aren't guaranteed to keep exact ordering
         if attr == "component":
             continue
 
@@ -117,7 +118,10 @@ def test_write_read_pop_compressed(tmpdir, make_population, params):
 
     attrs = agent.__dict__.keys()
 
-    for attr in attrs:
+    for attr in attrs:  # Components aren't guaranteed to keep exact ordering
+        if attr == "component":
+            continue
+
         orig_attr = getattr(agent, attr)
         new_attr = getattr(new_agent, attr)
         if isinstance(orig_attr, BaseFeature):
@@ -129,4 +133,4 @@ def test_write_read_pop_compressed(tmpdir, make_population, params):
             for expose_attr in expose_attrs:
                 assert getattr(orig_attr, expose_attr) == getattr(new_attr, expose_attr)
         else:
-            assert orig_attr == new_attr
+            assert orig_attr == new_attr, f"{attr} does not match"

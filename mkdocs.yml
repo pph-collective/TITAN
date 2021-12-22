@@ -21,7 +21,6 @@ plugins:
             heading_level: 3
       watch:
         - titan
-        - run_titan.py
 
 markdown_extensions:
   - admonition

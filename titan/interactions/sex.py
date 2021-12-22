@@ -1,5 +1,5 @@
 from . import base_interaction
-from .. import utils
+from ..distributions import poisson
 from .. import model
 from .. import agent
 
@@ -21,7 +21,7 @@ class Sex(base_interaction.BaseInteraction):
         mean_sex_acts = (
             rel.get_number_of_sex_acts(model.np_random) * model.calibration.sex.act
         )
-        total_sex_acts = utils.poisson(mean_sex_acts, model.np_random)
+        total_sex_acts = poisson(model.np_random, mean_sex_acts)
 
         # Get condom usage
         p_safe_sex = (

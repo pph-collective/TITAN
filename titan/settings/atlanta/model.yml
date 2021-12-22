@@ -15,7 +15,7 @@ features:
   prep: false
   high_risk: false
   haart: true
-  die_and_replace: true
+  enter_and_exit: true
   static_network: false
   agent_zero: false
   assort_mix: true

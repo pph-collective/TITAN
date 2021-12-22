@@ -12,7 +12,7 @@ features:
   prep: true
   high_risk: false
   haart: true
-  die_and_replace: true
+  enter_and_exit: true
 
 classes:
   drug_types:

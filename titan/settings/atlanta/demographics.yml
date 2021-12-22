@@ -76,10 +76,11 @@ demographics:
                 prob: 0.055
               aids:
                 init: 0.07
-            death_rate: &white_death_rate
-              base: 8.6
-              hiv: 17.2
-              aids: 34.4
+            exit: &white_exit_rate
+              death:
+                base: 8.6
+                hiv: 17.2
+                aids: 34.4
             haart: &white_haart
               init: 0.585
               cap: 0.20
@@ -97,6 +98,6 @@ demographics:
           None:
             ppl: 0.52
             hiv: *white_hiv
-            death_rate: *white_death_rate
+            exit: *white_exit_rate
             haart: *white_haart
             num_partners: *white_num_partners

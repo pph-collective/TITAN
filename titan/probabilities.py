@@ -14,6 +14,7 @@ def get_death_rate(
     race: str,
     location: Location,
     steps_per_year: int,
+    exit_class: str,
 ) -> float:
     """
     Find the death rate of an agent given a set of attributes.
@@ -26,13 +27,14 @@ def get_death_rate(
         race: the race of the agent
         location: agent's location
         steps_per_year: the number of model steps in a year
+        exit_class: the exit class to access in agent params
 
     returns:
         the probability of an agent with these characteristics dying in a given time step
     """
     param = location.params.demographics
 
-    death_param = param[race].sex_type[sex_type].drug_type[drug_type].death_rate
+    death_param = param[race].sex_type[sex_type].drug_type[drug_type].exit[exit_class]
 
     p = death_param.base
 
@@ -45,4 +47,4 @@ def get_death_rate(
             p *= death_param.hiv
 
     # putting it into per 1 person-month from per 1000 person years
-    return p / (steps_per_year * 1000.0)
+    return p / (1000 * steps_per_year)

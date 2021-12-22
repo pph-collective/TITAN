@@ -12,7 +12,7 @@ jobs:
     - name: Set up Python for linting, formatting, type checking
       uses: actions/setup-python@v2
       with:
-        python-version: 3.7
+        python-version: '3.6'
     - name: Set up Poetry for linting, formatting, type checking
       run: |
         pip install poetry
@@ -21,7 +21,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .venv
-        key: venv-lint-python3.7-${{ hashFiles('**/poetry.lock') }}
+        key: venv-lint-python3.6-${{ hashFiles('**/poetry.lock') }}
     - name: Install dependencies
       run: poetry install -E linting --no-dev
     - name: Lint with flake8
@@ -43,7 +43,7 @@ jobs:
     - name: Set up Python for testing
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
+        python-version: '3.6'
     - name: Set up Poetry for testing
       run: |
         pip install poetry
@@ -52,7 +52,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .venv
-        key: venv-python3.8-${{ hashFiles('**/poetry.lock') }}
+        key: venv-python3.6-${{ hashFiles('**/poetry.lock') }}
     - name: Install dependencies
       run: poetry install
     - name: Unit Test with pytest
@@ -71,7 +71,7 @@ jobs:
     - name: Set up Python for testing
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
+        python-version: '3.6'
     - name: Set up Poetry for testing
       run: |
         pip install poetry
@@ -80,7 +80,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .venv
-        key: venv-python3.8-${{ hashFiles('**/poetry.lock') }}
+        key: venv-python3.6-${{ hashFiles('**/poetry.lock') }}
     - name: Install dependencies
       run: poetry install
     - name: Integration Test with pytest
@@ -99,7 +99,7 @@ jobs:
     - name: Set up Python for testing
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
+        python-version: '3.6'
     - name: Set up Poetry for testing
       run: |
         pip install poetry
@@ -108,7 +108,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .venv
-        key: venv-python3.8-${{ hashFiles('**/poetry.lock') }}
+        key: venv-python3.10-${{ hashFiles('**/poetry.lock') }}
     - name: Install dependencies
       run: poetry install
     - name: Integration Test with pytest
@@ -133,7 +133,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python for testing
+    - name: Set up pypy for testing
       uses: actions/setup-python@v2
       with:
         python-version: pypy-3.6

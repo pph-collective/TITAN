@@ -24,6 +24,7 @@ def test_get_death_rate(make_population):
                                     race,
                                     location,
                                     location.params.model.time.steps_per_year,
+                                    "death",
                                 )
                                 > 0
                             )
