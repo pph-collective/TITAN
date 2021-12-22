@@ -14,7 +14,7 @@
         <link rel="canonical" href="http://pph-collective.github.io/TITAN/api/reporting/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.0.6">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.0">
     
     
       
@@ -22,10 +22,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.2c0c5eaf.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8b42a75e.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.7fa14f5b.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
         
       
     
@@ -44,6 +44,8 @@
     
     
       
+
+
     
     
   </head>
@@ -55,8 +57,9 @@
     
     
     <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
-      
   
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -73,7 +76,9 @@
       
     </div>
     
-      <header class="md-header" data-md-component="header">
+      
+
+<header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../.." title="TITAN" class="md-header__button md-logo" aria-label="TITAN" data-md-component="logo">
       
@@ -100,9 +105,8 @@
         </div>
       </div>
     </div>
-    <div class="md-header__options">
-      
-    </div>
+    
+    
     
       <label class="md-header__button md-icon" for="__search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
@@ -112,14 +116,18 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
       </label>
-      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
-      </button>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
@@ -136,6 +144,7 @@
     
     
   </nav>
+  
 </header>
     
     <div class="md-container" data-md-component="container">
@@ -143,6 +152,7 @@
       
         
           
+            
 <nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
   <div class="md-tabs__inner md-grid">
     <ul class="md-tabs__list">
@@ -196,6 +206,7 @@
     </ul>
   </div>
 </nav>
+          
         
       
       <main class="md-main" data-md-component="main">
@@ -252,10 +263,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
       
-      <label class="md-nav__link" for="__nav_2">
-        Getting Started
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Getting Started
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
@@ -264,6 +279,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -274,8 +290,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -286,8 +304,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -298,8 +318,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -310,6 +332,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -332,10 +355,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
       
-      <label class="md-nav__link" for="__nav_3">
-        API Reference
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          API Reference
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="API Reference" data-md-level="1">
         <label class="md-nav__title" for="__nav_3">
           <span class="md-nav__icon md-icon"></span>
@@ -344,6 +371,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -354,8 +382,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -366,8 +396,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -377,10 +409,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3" type="checkbox" id="__nav_3_3" >
       
-      <label class="md-nav__link" for="__nav_3_3">
-        Agent Exposures
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_3">
+          Agent Exposures
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Agent Exposures" data-md-level="2">
         <label class="md-nav__title" for="__nav_3_3">
           <span class="md-nav__icon md-icon"></span>
@@ -389,6 +425,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -399,8 +436,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -411,8 +450,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -423,14 +464,17 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -440,10 +484,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_4" type="checkbox" id="__nav_3_4" >
       
-      <label class="md-nav__link" for="__nav_3_4">
-        Agent Features
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_4">
+          Agent Features
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Agent Features" data-md-level="2">
         <label class="md-nav__title" for="__nav_3_4">
           <span class="md-nav__icon md-icon"></span>
@@ -452,6 +500,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -462,8 +511,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -474,8 +525,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -486,8 +539,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -498,8 +553,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -510,8 +567,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -522,8 +581,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -534,8 +595,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -546,8 +609,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -558,8 +623,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -570,14 +637,17 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -587,10 +657,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_5" type="checkbox" id="__nav_3_5" >
       
-      <label class="md-nav__link" for="__nav_3_5">
-        Agent Interactions
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_5">
+          Agent Interactions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Agent Interactions" data-md-level="2">
         <label class="md-nav__title" for="__nav_3_5">
           <span class="md-nav__icon md-icon"></span>
@@ -599,6 +673,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -609,8 +684,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -621,8 +698,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -633,8 +712,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -645,14 +726,17 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -663,8 +747,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -675,8 +761,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -687,8 +775,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -699,8 +789,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -711,8 +803,10 @@
     </li>
   
 
+            
           
             
+              
   
   
     
@@ -721,6 +815,7 @@
     <li class="md-nav__item md-nav__item--active">
       
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
       
         
       
@@ -736,6 +831,7 @@
       
         
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
   
   
     
@@ -831,8 +927,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -843,6 +941,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -863,6 +962,7 @@
                   <div class="md-sidebar__inner">
                     
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
   
   
     
@@ -1057,8 +1157,8 @@
       <p>Standard report writer for basic agent statistics, columns include:</p>
 <ul>
 <li>"agents": number of agents in the population</li>
-<li>"deaths": number of agents who died this time period</li>
-<li>"deaths_hiv": number of agents with HIV who died this time period</li>
+<li>"[exit]": number of agents who exited this time period by exit class</li>
+<li>"[exit]_hiv": number of agents with HIV who exited this time period by exit class</li>
 </ul>
 <p>Additionally, any feature enabled may have additional stats that are tracked.  See the feature's <code>stats</code> attribute and docs for details.</p>
 
@@ -1077,8 +1177,8 @@
 <span class="sd">    Standard report writer for basic agent statistics, columns include:</span>
 
 <span class="sd">    * &quot;agents&quot;: number of agents in the population</span>
-<span class="sd">    * &quot;deaths&quot;: number of agents who died this time period</span>
-<span class="sd">    * &quot;deaths_hiv&quot;: number of agents with HIV who died this time period</span>
+<span class="sd">    * &quot;[exit]&quot;: number of agents who exited this time period by exit class</span>
+<span class="sd">    * &quot;[exit]_hiv&quot;: number of agents with HIV who exited this time period by exit class</span>
 
 <span class="sd">    Additionally, any feature enabled may have additional stats that are tracked.  See the feature&#39;s `stats` attribute and docs for details.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1255,7 +1355,7 @@
 
 
 <h3 class="doc doc-heading" id="titan.output.get_stats">
-<code class="codehilite language-python"><span class="n">get_stats</span><span class="p">(</span><span class="n">all_agents</span><span class="p">,</span> <span class="n">deaths</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">exposures</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span></code>
+<code class="codehilite language-python"><span class="n">get_stats</span><span class="p">(</span><span class="n">all_agents</span><span class="p">,</span> <span class="n">exits</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">exposures</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span></code>
 
 
 </h3>
@@ -1288,9 +1388,9 @@
         <td><em>required</em></td>
       </tr>
       <tr>
-        <td><code>deaths</code></td>
-        <td><code>List[ag.Agent]</code></td>
-        <td><p>agents who died this timestep</p></td>
+        <td><code>exits</code></td>
+        <td><code>Dict[str, List[ag.Agent]]</code></td>
+        <td><p>dictionary indicated how many agents exited by exit class this timestep</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
@@ -1320,7 +1420,7 @@
           <summary>Source code in <code>titan/output.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">get_stats</span><span class="p">(</span>
     <span class="n">all_agents</span><span class="p">:</span> <span class="s2">&quot;ag.AgentSet&quot;</span><span class="p">,</span>
-    <span class="n">deaths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;ag.Agent&quot;</span><span class="p">],</span>
+    <span class="n">exits</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;ag.Agent&quot;</span><span class="p">]],</span>
     <span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span>
     <span class="n">exposures</span><span class="p">,</span>
     <span class="n">features</span><span class="p">,</span>
@@ -1332,14 +1432,14 @@
 <span class="sd">    args:</span>
 <span class="sd">        all_agents: all of the agents in the population</span>
 <span class="sd">        new_hiv.dx: agents who are newly diagnosed with hiv this timestep</span>
-<span class="sd">        deaths: agents who died this timestep</span>
+<span class="sd">        exits: dictionary indicated how many agents exited by exit class this timestep</span>
 <span class="sd">        params: model parameters</span>
 
 <span class="sd">    returns:</span>
 <span class="sd">        nested dictionary of agent attributes to counts of various items</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">reportables</span> <span class="o">=</span> <span class="n">exposures</span> <span class="o">+</span> <span class="n">features</span>
-    <span class="n">stats</span> <span class="o">=</span> <span class="n">setup_aggregates</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">reportables</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">classes</span><span class="p">)</span>
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">setup_aggregates</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">reportables</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">classes</span><span class="p">,</span> <span class="n">exits</span><span class="p">)</span>
 
     <span class="c1"># attribute names (non-plural)</span>
     <span class="n">attrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">clss</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">clss</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">classes</span><span class="p">]</span>
@@ -1353,11 +1453,12 @@
             <span class="n">agent_feature</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">reportable</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="n">agent_feature</span><span class="o">.</span><span class="n">set_stats</span><span class="p">(</span><span class="n">stats_item</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">deaths</span><span class="p">:</span>
-        <span class="n">stats_item</span> <span class="o">=</span> <span class="n">get_stats_item</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
-        <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats_item</span><span class="p">,</span> <span class="s2">&quot;deaths&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>  <span class="c1"># type: ignore[attr-defined]</span>
-            <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats_item</span><span class="p">,</span> <span class="s2">&quot;deaths_hiv&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">exit</span> <span class="ow">in</span> <span class="n">exits</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">exits</span><span class="p">[</span><span class="n">exit</span><span class="p">]:</span>
+            <span class="n">stats_item</span> <span class="o">=</span> <span class="n">get_stats_item</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+            <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats_item</span><span class="p">,</span> <span class="n">exit</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>  <span class="c1"># type: ignore[attr-defined]</span>
+                <span class="n">add_agent_to_stats</span><span class="p">(</span><span class="n">stats_item</span><span class="p">,</span> <span class="n">exit</span> <span class="o">+</span> <span class="s2">&quot;_hiv&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">stats</span>
 </code></pre></div>
@@ -1583,7 +1684,7 @@
 
 
 <h3 class="doc doc-heading" id="titan.output.setup_aggregates">
-<code class="codehilite language-python"><span class="n">setup_aggregates</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">reportables</span><span class="p">,</span> <span class="n">classes</span><span class="p">)</span></code>
+<code class="codehilite language-python"><span class="n">setup_aggregates</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">reportables</span><span class="p">,</span> <span class="n">classes</span><span class="p">,</span> <span class="n">exits</span><span class="p">)</span></code>
 
 
 </h3>
@@ -1594,8 +1695,8 @@
 <p>Attributes are classes defined in params, the items counted are:</p>
 <ul>
 <li>"agents"</li>
-<li>"deaths"</li>
-<li>"deaths_hiv"</li>
+<li>"[exit_class]_hiv"</li>
+<li>exit by exit class</li>
 </ul>
 <p>Additionally, any feature enabled may have additional stats that are tracked.  See the feature's <code>stats</code> attribute.</p>
 
@@ -1641,15 +1742,17 @@
 </table>
         <details class="quote">
           <summary>Source code in <code>titan/output.py</code></summary>
-          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">setup_aggregates</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span> <span class="n">reportables</span><span class="p">,</span> <span class="n">classes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">setup_aggregates</span><span class="p">(</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">ObjMap</span><span class="p">,</span> <span class="n">reportables</span><span class="p">,</span> <span class="n">classes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">exits</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;ag.Agent&quot;</span><span class="p">]]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Recursively create a nested dictionary of attribute values to items to count.</span>
 
 <span class="sd">    Attributes are classes defined in params, the items counted are:</span>
 
 <span class="sd">    * &quot;agents&quot;</span>
-<span class="sd">    * &quot;deaths&quot;</span>
-<span class="sd">    * &quot;deaths_hiv&quot;</span>
+<span class="sd">    * &quot;[exit_class]_hiv&quot;</span>
+<span class="sd">    * exit by exit class</span>
 
 <span class="sd">    Additionally, any feature enabled may have additional stats that are tracked.  See the feature&#39;s `stats` attribute.</span>
 
@@ -1663,9 +1766,10 @@
     <span class="k">if</span> <span class="n">classes</span> <span class="o">==</span> <span class="p">[]:</span>
         <span class="n">base_stats</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;agents&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-            <span class="s2">&quot;deaths&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-            <span class="s2">&quot;deaths_hiv&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
         <span class="p">}</span>
+        <span class="k">for</span> <span class="n">exit</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">exit</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">base_stats</span><span class="p">[</span><span class="n">exit</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">base_stats</span><span class="p">[</span><span class="n">exit</span> <span class="o">+</span> <span class="s2">&quot;_hiv&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="k">for</span> <span class="n">reportable</span> <span class="ow">in</span> <span class="n">reportables</span><span class="p">:</span>
             <span class="n">base_stats</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">stat</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">stat</span> <span class="ow">in</span> <span class="n">reportable</span><span class="o">.</span><span class="n">stats</span><span class="p">})</span>
@@ -1677,7 +1781,7 @@
     <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="p">[</span><span class="n">clss</span><span class="p">]]</span>
 
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
-        <span class="n">stats</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">setup_aggregates</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">reportables</span><span class="p">,</span> <span class="n">rem_clss</span><span class="p">)</span>
+        <span class="n">stats</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">setup_aggregates</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">reportables</span><span class="p">,</span> <span class="n">rem_clss</span><span class="p">,</span> <span class="n">exits</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">stats</span>
 </code></pre></div>
@@ -1829,6 +1933,8 @@
     <span class="n">tot_nodes</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
         <span class="n">tot_nodes</span> <span class="o">+=</span> <span class="n">c</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span>
+
+    <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of nodes: </span><span class="si">{</span><span class="n">tot_nodes</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
         <span class="s2">&quot;Average component size: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -2021,6 +2127,7 @@ on the <code>params</code> and <code>name_map</code></p>
             </article>
           </div>
         </div>
+        
       </main>
       
         
@@ -2028,7 +2135,8 @@ on the <code>params</code> and <code>name_map</code></p>
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../relationship/" class="md-footer__link md-footer__link--prev" rel="prev">
+        
+        <a href="../relationship/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Relationship" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -2043,7 +2151,8 @@ on the <code>params</code> and <code>name_map</code></p>
         </a>
       
       
-        <a href="../utilities/" class="md-footer__link md-footer__link--next" rel="next">
+        
+        <a href="../utilities/" class="md-footer__link md-footer__link--next" aria-label="Next: Utility Functions" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
@@ -2063,10 +2172,12 @@ on the <code>params</code> and <code>name_map</code></p>
     <div class="md-footer-meta__inner md-grid">
       <div class="md-footer-copyright">
         
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
         
       </div>
       
@@ -2078,10 +2189,10 @@ on the <code>params</code> and <code>name_map</code></p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tabs"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.fb4a9340.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tabs"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.f8263e09.min.js", "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.a1c7c35e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.4fc53ad4.min.js"></script>
       
     
   </body>

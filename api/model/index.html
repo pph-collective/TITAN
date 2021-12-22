@@ -14,7 +14,7 @@
         <link rel="canonical" href="http://pph-collective.github.io/TITAN/api/model/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.0.6">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.0">
     
     
       
@@ -22,10 +22,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.2c0c5eaf.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8b42a75e.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.7fa14f5b.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
         
       
     
@@ -44,6 +44,8 @@
     
     
       
+
+
     
     
   </head>
@@ -55,8 +57,9 @@
     
     
     <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
-      
   
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -73,7 +76,9 @@
       
     </div>
     
-      <header class="md-header" data-md-component="header">
+      
+
+<header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../.." title="TITAN" class="md-header__button md-logo" aria-label="TITAN" data-md-component="logo">
       
@@ -100,9 +105,8 @@
         </div>
       </div>
     </div>
-    <div class="md-header__options">
-      
-    </div>
+    
+    
     
       <label class="md-header__button md-icon" for="__search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
@@ -112,14 +116,18 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
       </label>
-      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
-      </button>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
@@ -136,6 +144,7 @@
     
     
   </nav>
+  
 </header>
     
     <div class="md-container" data-md-component="container">
@@ -143,6 +152,7 @@
       
         
           
+            
 <nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
   <div class="md-tabs__inner md-grid">
     <ul class="md-tabs__list">
@@ -196,6 +206,7 @@
     </ul>
   </div>
 </nav>
+          
         
       
       <main class="md-main" data-md-component="main">
@@ -252,10 +263,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
       
-      <label class="md-nav__link" for="__nav_2">
-        Getting Started
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Getting Started
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
@@ -264,6 +279,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -274,8 +290,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -286,8 +304,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -298,8 +318,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -310,6 +332,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -332,10 +355,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
       
-      <label class="md-nav__link" for="__nav_3">
-        API Reference
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          API Reference
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="API Reference" data-md-level="1">
         <label class="md-nav__title" for="__nav_3">
           <span class="md-nav__icon md-icon"></span>
@@ -344,6 +371,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -354,8 +382,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -366,8 +396,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -377,10 +409,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3" type="checkbox" id="__nav_3_3" >
       
-      <label class="md-nav__link" for="__nav_3_3">
-        Agent Exposures
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_3">
+          Agent Exposures
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Agent Exposures" data-md-level="2">
         <label class="md-nav__title" for="__nav_3_3">
           <span class="md-nav__icon md-icon"></span>
@@ -389,6 +425,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -399,8 +436,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -411,8 +450,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -423,14 +464,17 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -440,10 +484,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_4" type="checkbox" id="__nav_3_4" >
       
-      <label class="md-nav__link" for="__nav_3_4">
-        Agent Features
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_4">
+          Agent Features
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Agent Features" data-md-level="2">
         <label class="md-nav__title" for="__nav_3_4">
           <span class="md-nav__icon md-icon"></span>
@@ -452,6 +500,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -462,8 +511,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -474,8 +525,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -486,8 +539,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -498,8 +553,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -510,8 +567,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -522,8 +581,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -534,8 +595,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -546,8 +609,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -558,8 +623,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -570,14 +637,17 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -587,10 +657,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_5" type="checkbox" id="__nav_3_5" >
       
-      <label class="md-nav__link" for="__nav_3_5">
-        Agent Interactions
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_5">
+          Agent Interactions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Agent Interactions" data-md-level="2">
         <label class="md-nav__title" for="__nav_3_5">
           <span class="md-nav__icon md-icon"></span>
@@ -599,6 +673,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -609,8 +684,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -621,8 +698,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -633,8 +712,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -645,14 +726,17 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -663,8 +747,10 @@
     </li>
   
 
+            
           
             
+              
   
   
     
@@ -673,6 +759,7 @@
     <li class="md-nav__item md-nav__item--active">
       
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
@@ -686,6 +773,7 @@
       
         
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
   
   
   
@@ -718,8 +806,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#titan.model.TITAN.die_and_replace" class="md-nav__link">
-    die_and_replace()
+  <a href="#titan.model.TITAN.enter" class="md-nav__link">
+    enter()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.model.TITAN.exit" class="md-nav__link">
+    exit()
   </a>
   
 </li>
@@ -785,8 +880,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -797,8 +894,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -809,8 +908,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -821,8 +922,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -833,8 +936,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -845,6 +950,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -865,6 +971,7 @@
                   <div class="md-sidebar__inner">
                     
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
   
   
   
@@ -897,8 +1004,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#titan.model.TITAN.die_and_replace" class="md-nav__link">
-    die_and_replace()
+  <a href="#titan.model.TITAN.enter" class="md-nav__link">
+    enter()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titan.model.TITAN.exit" class="md-nav__link">
+    exit()
   </a>
   
 </li>
@@ -1097,8 +1211,13 @@
     <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run_seed</span><span class="p">)</span>
     <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">((</span><span class="s2">&quot;  FIRST RANDOM CALL </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">))))</span>
 
-    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  Resetting death count&quot;</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">deaths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;ag.Agent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Number of death</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  Resetting exit count&quot;</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">exits</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;ag.Agent&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">exit</span><span class="p">:</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">exit</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">exit</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="n">exit_type</span> <span class="o">!=</span> <span class="s2">&quot;none&quot;</span>
+    <span class="p">}</span>
 
     <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Initialization Protocol Finished ===&quot;</span><span class="p">)</span>
 </code></pre></div>
@@ -1184,63 +1303,158 @@
 
 
 
-<h3 class="doc doc-heading" id="titan.model.TITAN.die_and_replace">
-<code class="codehilite language-python"><span class="n">die_and_replace</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<h3 class="doc doc-heading" id="titan.model.TITAN.enter">
+<code class="codehilite language-python"><span class="n">enter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
 
 
 </h3>
 
     <div class="doc doc-contents ">
 
-      <p>Let agents die and replace the dead agent with a new agent randomly.</p>
+      <p>Create new agents and/or replace exited agents.</p>
+<p>Based on enter/exit pairs [params.enter_exit], create new agents through the following strategies:</p>
+<div class="codehilite"><pre><span></span><code>* new_agent: draw agent characteristics from model params
+* replace: use exited agent&#39;s characteristics to get new characteristics
+</code></pre></div>
 
         <details class="quote">
           <summary>Source code in <code>titan/model.py</code></summary>
-          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">die_and_replace</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">enter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Let agents die and replace the dead agent with a new agent randomly.</span>
+<span class="sd">    Create new agents and/or replace exited agents.</span>
+
+<span class="sd">    Based on enter/exit pairs [params.enter_exit], create new agents through the following strategies:</span>
+
+<span class="sd">        * new_agent: draw agent characteristics from model params</span>
+<span class="sd">        * replace: use exited agent&#39;s characteristics to get new characteristics</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># die stage</span>
+    <span class="k">for</span> <span class="n">strategy</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">enter_exit</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="n">entrance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">enter</span><span class="p">[</span><span class="n">strategy</span><span class="o">.</span><span class="n">entry_class</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">entrance</span><span class="o">.</span><span class="n">enter_type</span> <span class="o">==</span> <span class="s2">&quot;new_agent&quot;</span><span class="p">:</span>
+            <span class="c1"># determine new agent locations and characteristics</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">exit</span><span class="p">[</span><span class="n">strategy</span><span class="o">.</span><span class="n">exit_class</span><span class="p">]</span><span class="o">.</span><span class="n">exit_type</span> <span class="o">==</span> <span class="s2">&quot;none&quot;</span><span class="p">:</span>
+                <span class="c1"># Adding new agents without removing any</span>
+                <span class="n">num_new_agents</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">all_agents</span><span class="o">.</span><span class="n">members</span><span class="p">)</span> <span class="o">*</span> <span class="n">entrance</span><span class="o">.</span><span class="n">prob</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># number of new agents given removed agents</span>
+                <span class="n">num_new_agents</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exits</span><span class="p">[</span><span class="n">strategy</span><span class="o">.</span><span class="n">exit_class</span><span class="p">])</span> <span class="o">*</span> <span class="n">entrance</span><span class="o">.</span><span class="n">prob</span>
+                <span class="p">)</span>
+
+            <span class="c1"># keep location and race to ensure population distribution by</span>
+            <span class="c1"># location and race stays consistent</span>
+            <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">geography</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">race</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">races</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
+                        <span class="nb">round</span><span class="p">(</span>
+                            <span class="n">num_new_agents</span>
+                            <span class="o">*</span> <span class="n">loc</span><span class="o">.</span><span class="n">ppl</span>
+                            <span class="o">*</span> <span class="n">loc</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">demographics</span><span class="p">[</span><span class="n">race</span><span class="p">]</span><span class="o">.</span><span class="n">ppl</span>
+                        <span class="p">)</span>
+                    <span class="p">):</span>
+                        <span class="n">age</span> <span class="o">=</span> <span class="n">entrance</span><span class="o">.</span><span class="n">age</span> <span class="k">if</span> <span class="n">entrance</span><span class="o">.</span><span class="n">age_in</span> <span class="k">else</span> <span class="kc">None</span>
+                        <span class="n">new_agent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">create_agent</span><span class="p">(</span>
+                            <span class="n">loc</span><span class="p">,</span> <span class="n">race</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="n">age</span>
+                        <span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">add_agent</span><span class="p">(</span><span class="n">new_agent</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">entrance</span><span class="o">.</span><span class="n">enter_type</span> <span class="o">==</span> <span class="s2">&quot;replace&quot;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">exits</span><span class="p">[</span><span class="n">strategy</span><span class="o">.</span><span class="n">exit_class</span><span class="p">]:</span>
+                <span class="n">age</span> <span class="o">=</span> <span class="n">entrance</span><span class="o">.</span><span class="n">age</span> <span class="k">if</span> <span class="n">entrance</span><span class="o">.</span><span class="n">age_in</span> <span class="k">else</span> <span class="kc">None</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">entrance</span><span class="o">.</span><span class="n">prob</span><span class="p">:</span>
+                    <span class="n">new_agent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">create_agent</span><span class="p">(</span>
+                        <span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="p">,</span>
+                        <span class="n">agent</span><span class="o">.</span><span class="n">race</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+                        <span class="n">sex_type</span><span class="o">=</span><span class="n">agent</span><span class="o">.</span><span class="n">sex_type</span><span class="p">,</span>
+                        <span class="n">drug_type</span><span class="o">=</span><span class="n">agent</span><span class="o">.</span><span class="n">drug_type</span><span class="p">,</span>
+                        <span class="n">age</span><span class="o">=</span><span class="n">age</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="c1"># add agent to pop</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">add_agent</span><span class="p">(</span><span class="n">new_agent</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="titan.model.TITAN.exit">
+<code class="codehilite language-python"><span class="n">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Allow agents to exit model.</p>
+<p>Determine probability of agent exit based on demographics for each model
+exit class [params.classes.exit] and remove agent from the model as necessary.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>titan/model.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Allow agents to exit model.</span>
+
+<span class="sd">    Determine probability of agent exit based on demographics for each model</span>
+<span class="sd">    exit class [params.classes.exit] and remove agent from the model as necessary.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exits</span> <span class="o">==</span> <span class="p">{}:</span>
+        <span class="k">return</span>
+
     <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">all_agents</span><span class="p">:</span>
-        <span class="c1"># agent incarcerated, don&#39;t evaluate for death</span>
-        <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">incar</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
-            <span class="k">continue</span>
+        <span class="k">for</span> <span class="n">strategy</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">enter_exit</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="c1"># Get parameters of the exit class</span>
+            <span class="n">exit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">exit</span><span class="p">[</span><span class="n">strategy</span><span class="o">.</span><span class="n">exit_class</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">exit</span><span class="o">.</span><span class="n">ignore_incar</span> <span class="ow">and</span> <span class="n">agent</span><span class="o">.</span><span class="n">incar</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+                <span class="k">continue</span>
 
-        <span class="c1"># death rate per 1 person-month</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">prob</span><span class="o">.</span><span class="n">get_death_rate</span><span class="p">(</span>
-                <span class="n">agent</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">active</span><span class="p">,</span>
-                <span class="n">agent</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">aids</span><span class="p">,</span>
-                <span class="n">agent</span><span class="o">.</span><span class="n">drug_type</span><span class="p">,</span>
-                <span class="n">agent</span><span class="o">.</span><span class="n">sex_type</span><span class="p">,</span>
-                <span class="n">agent</span><span class="o">.</span><span class="n">haart</span><span class="o">.</span><span class="n">adherent</span><span class="p">,</span>
-                <span class="n">agent</span><span class="o">.</span><span class="n">race</span><span class="p">,</span>
-                <span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">steps_per_year</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration</span><span class="o">.</span><span class="n">mortality</span>
-        <span class="p">)</span>
+            <span class="c1"># leaving this as &quot;case&quot; for when we can update to 3.10 safely</span>
+            <span class="n">case</span> <span class="o">=</span> <span class="n">exit</span><span class="o">.</span><span class="n">exit_type</span>
+            <span class="k">if</span> <span class="n">case</span> <span class="o">==</span> <span class="s2">&quot;age_out&quot;</span><span class="p">:</span>
+                <span class="c1"># agent ages out of model</span>
+                <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;</span> <span class="n">exit</span><span class="o">.</span><span class="n">age</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">exits</span><span class="p">[</span><span class="n">strategy</span><span class="o">.</span><span class="n">exit_class</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">case</span> <span class="o">==</span> <span class="s2">&quot;death&quot;</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">prob</span><span class="o">.</span><span class="n">get_death_rate</span><span class="p">(</span>
+                        <span class="n">agent</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">active</span><span class="p">,</span>
+                        <span class="n">agent</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">aids</span><span class="p">,</span>
+                        <span class="n">agent</span><span class="o">.</span><span class="n">drug_type</span><span class="p">,</span>
+                        <span class="n">agent</span><span class="o">.</span><span class="n">sex_type</span><span class="p">,</span>
+                        <span class="n">agent</span><span class="o">.</span><span class="n">haart</span><span class="o">.</span><span class="n">adherent</span><span class="p">,</span>
+                        <span class="n">agent</span><span class="o">.</span><span class="n">race</span><span class="p">,</span>
+                        <span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">steps_per_year</span><span class="p">,</span>
+                        <span class="n">strategy</span><span class="o">.</span><span class="n">exit_class</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration</span><span class="o">.</span><span class="n">mortality</span>
+                <span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">p</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">deaths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">p</span><span class="p">:</span>
+                    <span class="c1"># agent dies</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">exits</span><span class="p">[</span><span class="n">strategy</span><span class="o">.</span><span class="n">exit_class</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">case</span> <span class="o">==</span> <span class="s2">&quot;drop_out&quot;</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">demographics</span><span class="p">[</span><span class="n">agent</span><span class="o">.</span><span class="n">race</span><span class="p">]</span>
+                    <span class="o">.</span><span class="n">sex_type</span><span class="p">[</span><span class="n">agent</span><span class="o">.</span><span class="n">sex_type</span><span class="p">]</span>
+                    <span class="o">.</span><span class="n">drug_type</span><span class="p">[</span><span class="n">agent</span><span class="o">.</span><span class="n">drug_type</span><span class="p">]</span>
+                    <span class="o">.</span><span class="n">exit</span><span class="p">[</span><span class="n">strategy</span><span class="o">.</span><span class="n">exit_class</span><span class="p">]</span>
+                    <span class="o">.</span><span class="n">prob</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">p</span><span class="p">:</span>
+                    <span class="c1"># agent leaves study pop</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">exits</span><span class="p">[</span><span class="n">strategy</span><span class="o">.</span><span class="n">exit_class</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
 
-            <span class="c1"># End all existing relationships</span>
-            <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">copy</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">relationships</span><span class="p">):</span>
-                <span class="n">rel</span><span class="o">.</span><span class="n">progress</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">remove_relationship</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span>
-
-    <span class="c1"># replace stage</span>
-    <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">deaths</span><span class="p">:</span>
-        <span class="c1"># mark agent component as -1 (no componenet)</span>
-        <span class="n">agent</span><span class="o">.</span><span class="n">component</span> <span class="o">=</span> <span class="s2">&quot;-1&quot;</span>
-
-        <span class="c1"># Remove agent from agent class and sub-sets</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">remove_agent</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
-
-        <span class="n">new_agent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">create_agent</span><span class="p">(</span>
-            <span class="n">agent</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="n">agent</span><span class="o">.</span><span class="n">race</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">agent</span><span class="o">.</span><span class="n">sex_type</span><span class="p">,</span> <span class="n">agent</span><span class="o">.</span><span class="n">drug_type</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">add_agent</span><span class="p">(</span><span class="n">new_agent</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">exit_list</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">exits</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">exit_list</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">remove_agent</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -1424,7 +1638,7 @@
     <span class="c1"># make sure initial state of things get printed</span>
     <span class="n">stats</span> <span class="o">=</span> <span class="n">ao</span><span class="o">.</span><span class="n">get_stats</span><span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">all_agents</span><span class="p">,</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">deaths</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exits</span><span class="p">,</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">exposures</span><span class="p">,</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span>
@@ -1525,7 +1739,7 @@
 
     <span class="n">stats</span> <span class="o">=</span> <span class="n">ao</span><span class="o">.</span><span class="n">get_stats</span><span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">all_agents</span><span class="p">,</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">deaths</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exits</span><span class="p">,</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">exposures</span><span class="p">,</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span>
@@ -1655,7 +1869,7 @@ definition.  Applied to all parameters (main model, and location specific).</p>
       <p>The core of the model.  For a time step, update all of the agents and relationships:</p>
 <ol>
 <li>End relationships with no remaining duration</li>
-<li>Agent death/replacement</li>
+<li>Agent exit/entrance with <a href="#titan.model.TITAN.exit">exit</a> and <a href="#titan.model.TITAN.enter">enter</a></li>
 <li>Agent migration (if enabled)</li>
 <li>Update partner assignments (create new relationships as needed)</li>
 <li>Create an agent zero (if enabled and the time is right)</li>
@@ -1677,7 +1891,7 @@ definition.  Applied to all parameters (main model, and location specific).</p>
 
 
 <span class="sd">    1. End relationships with no remaining duration</span>
-<span class="sd">    2. Agent death/replacement</span>
+<span class="sd">    2. Agent exit/entrance with [exit][titan.model.TITAN.exit] and [enter][titan.model.TITAN.enter]</span>
 <span class="sd">    3. Agent migration (if enabled)</span>
 <span class="sd">    4. Update partner assignments (create new relationships as needed)</span>
 <span class="sd">    5. Create an agent zero (if enabled and the time is right)</span>
@@ -1694,8 +1908,9 @@ definition.  Applied to all parameters (main model, and location specific).</p>
             <span class="k">if</span> <span class="n">rel</span><span class="o">.</span><span class="n">progress</span><span class="p">():</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">remove_relationship</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">die_and_replace</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">die_and_replace</span><span class="p">()</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">enter_and_exit</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enter</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">migration</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">migrate</span><span class="p">()</span>
@@ -1743,6 +1958,7 @@ definition.  Applied to all parameters (main model, and location specific).</p>
             </article>
           </div>
         </div>
+        
       </main>
       
         
@@ -1750,7 +1966,8 @@ definition.  Applied to all parameters (main model, and location specific).</p>
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../location/" class="md-footer__link md-footer__link--prev" rel="prev">
+        
+        <a href="../location/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Location" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1765,7 +1982,8 @@ definition.  Applied to all parameters (main model, and location specific).</p>
         </a>
       
       
-        <a href="../partnering/" class="md-footer__link md-footer__link--next" rel="next">
+        
+        <a href="../partnering/" class="md-footer__link md-footer__link--next" aria-label="Next: Partnering" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
@@ -1785,10 +2003,12 @@ definition.  Applied to all parameters (main model, and location specific).</p>
     <div class="md-footer-meta__inner md-grid">
       <div class="md-footer-copyright">
         
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
         
       </div>
       
@@ -1800,10 +2020,10 @@ definition.  Applied to all parameters (main model, and location specific).</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tabs"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.fb4a9340.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tabs"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.f8263e09.min.js", "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.a1c7c35e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.4fc53ad4.min.js"></script>
       
     
   </body>
