@@ -221,7 +221,7 @@ class TITAN:
 
 
         1. End relationships with no remaining duration
-        2. Agent exit/entrance
+        2. Agent exit/entrance with [exit][titan.model.TITAN.exit] and [enter][titan.model.TITAN.enter]
         3. Agent migration (if enabled)
         4. Update partner assignments (create new relationships as needed)
         5. Create an agent zero (if enabled and the time is right)
@@ -367,6 +367,9 @@ class TITAN:
     def exit(self):
         """
         Allow agents to exit model.
+
+        Determine probability of agent exit based on demographics for each model
+        exit class [params.classes.exit] and remove agent from the model as necessary.
         """
         if self.exits == {}:
             return
@@ -422,6 +425,12 @@ class TITAN:
     def enter(self):
         """
         Create new agents and/or replace exited agents.
+
+        Based on enter/exit pairs [params.enter_exit], create new agents through the following strategies:
+
+            * new_agent: draw agent characteristics from model params
+            * replace: use exited agent's characteristics to get new characteristics
+
         """
         for strategy in self.params.enter_exit.values():
             entrance = self.params.classes.enter[strategy.entry_class]
