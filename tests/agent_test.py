@@ -258,6 +258,7 @@ def test_clear_set(make_agent):
     assert a not in s
     assert s.num_members() == 0
 
+
 @pytest.mark.unit
 def test_agebin(make_agent):
     a = make_agent()
