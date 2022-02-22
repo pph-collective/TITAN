@@ -185,3 +185,25 @@ classes:
     default:
       replace:
         enter_type: replace
+  age_bins:
+    type: definition
+    description: bin of ages, mainly used for assortative mixing
+    fields:
+      min_age:
+        description: lower bound of this "bin"
+        type: int
+        min: 0
+      max_age:
+        description: upper bound of this "bin"
+        type: int
+        min: 0
+    default:
+      0:
+        min_age: 16
+        max_age: 25
+      1:
+        min_age: 25
+        max_age: 45
+      2:
+        min_age: 45
+        max_age: 65

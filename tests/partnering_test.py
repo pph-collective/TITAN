@@ -584,6 +584,91 @@ def test_get_assort_hiv_prep(make_population, make_agent, params):
 
 
 @pytest.mark.unit
+def test_get_assort_agebin_same(make_population, make_agent, params):
+    pop = make_population()
+    a = make_agent(age=30)
+    p1 = make_agent(age=30)
+    p2 = make_agent(age=66)
+    for bond in params.classes.bond_types:
+        a.target_partners[bond] = 1
+        p1.target_partners[bond] = 1
+        p2.target_partners[bond] = 1
+        a.partners[bond] = set()
+        p1.partners[bond] = set()
+        p2.partners[bond] = set()
+    pop.add_agent(a)
+    pop.add_agent(p1)
+    pop.add_agent(p2)
+
+    params.features.assort_mix = True
+
+    test_rule = ObjMap(
+        {
+            "attribute": "agebin",
+            "partner_attribute": "__agent__",
+            "bond_types": ["Sex"],
+            "agent_value": "__any__",
+            "partner_values": {"__other__": 0.1, "__same__": 0.9},
+        }
+    )
+    params.assort_mix["test_rule"] = test_rule
+
+    partner = select_partner(
+        a,
+        pop.all_agents.members,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.5),
+        "Sex",
+    )
+
+    assert partner == p1
+
+
+@pytest.mark.unit
+def test_get_assort_agebin_other(make_population, make_agent, params):
+    pop = make_population()
+    a = make_agent(age=30)
+    p1 = make_agent(age=30)
+    p2 = make_agent(age=16)
+    for bond in params.classes.bond_types:
+        a.target_partners[bond] = 1
+        p1.target_partners[bond] = 1
+        p2.target_partners[bond] = 1
+        a.partners[bond] = set()
+        p1.partners[bond] = set()
+        p2.partners[bond] = set()
+    pop.add_agent(a)
+    pop.add_agent(p1)
+    pop.add_agent(p2)
+
+    params.features.assort_mix = True
+
+    test_rule = ObjMap(
+        {
+            "attribute": "agebin",
+            "partner_attribute": "__agent__",
+            "bond_types": ["Sex"],
+            "agent_value": "__any__",
+            "partner_values": {"__other__": 0.9, "__same__": 0.1},
+        }
+    )
+    params.assort_mix["test_rule"] = test_rule
+
+    partner = select_partner(
+        a,
+        pop.all_agents.members,
+        pop.sex_partners,
+        pop.pwid_agents,
+        params,
+        FakeRandom(0.5),
+        "Sex",
+    )
+    assert partner == p2
+
+
+@pytest.mark.unit
 def test_get_assort_bond_type(make_population, make_agent, params):
     pop = make_population()
     a = make_agent(SO="MSM", race="white")
