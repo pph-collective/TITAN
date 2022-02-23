@@ -391,3 +391,13 @@ classes:
     new_ag:
       enter_type: new_agent
       prob: 1.0
+  age_bins:
+    0:
+      min_age: 16
+      max_age: 24
+    1:
+      min_age: 25
+      max_age: 44
+    2:
+      min_age: 45
+      max_age: 65
