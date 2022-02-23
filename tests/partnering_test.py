@@ -584,7 +584,7 @@ def test_get_assort_hiv_prep(make_population, make_agent, params):
 
 
 @pytest.mark.unit
-def test_get_assort_agebin_same(make_population, make_agent, params):
+def test_get_assort_age_bin_same(make_population, make_agent, params):
     pop = make_population()
     a = make_agent(age=30)
     p1 = make_agent(age=30)
@@ -604,7 +604,7 @@ def test_get_assort_agebin_same(make_population, make_agent, params):
 
     test_rule = ObjMap(
         {
-            "attribute": "agebin",
+            "attribute": "age_bin",
             "partner_attribute": "__agent__",
             "bond_types": ["Sex"],
             "agent_value": "__any__",
@@ -627,7 +627,7 @@ def test_get_assort_agebin_same(make_population, make_agent, params):
 
 
 @pytest.mark.unit
-def test_get_assort_agebin_other(make_population, make_agent, params):
+def test_get_assort_age_bin_other(make_population, make_agent, params):
     pop = make_population()
     a = make_agent(age=30)
     p1 = make_agent(age=30)
@@ -647,7 +647,7 @@ def test_get_assort_agebin_other(make_population, make_agent, params):
 
     test_rule = ObjMap(
         {
-            "attribute": "agebin",
+            "attribute": "age_bin",
             "partner_attribute": "__agent__",
             "bond_types": ["Sex"],
             "agent_value": "__any__",

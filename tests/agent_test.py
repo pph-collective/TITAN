@@ -260,7 +260,7 @@ def test_clear_set(make_agent):
 
 
 @pytest.mark.unit
-def test_agebin(make_agent):
+def test_age_bin(make_agent):
     a = make_agent()
     a.age = 30
-    assert a.agebin == 1
+    assert a.age_bin == 1
