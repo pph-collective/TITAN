@@ -114,7 +114,9 @@ class Agent:
         for key, val in self.location.params.classes.age_bins.items():
             if self.age >= val.min_age and self.age <= val.max_age:
                 return key
-        raise ValueError(f"Agent age {self.age} must be in age_bins")
+        raise ValueError(
+            f"Agent age ({self.age}) must be within an age bin [params.classes.age_bins]"
+        )
 
     def iter_partners(self) -> Iterator["Agent"]:
         """
