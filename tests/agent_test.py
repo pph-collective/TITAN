@@ -265,6 +265,7 @@ def test_age_bin(make_agent):
     a.age = 30
     assert a.age_bin == 1
 
+
 @pytest.mark.unit
 def test_age_bin_error(make_agent):
     a = make_agent()

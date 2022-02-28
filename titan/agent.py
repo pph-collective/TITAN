@@ -116,7 +116,6 @@ class Agent:
                 return key
         raise ValueError(f"Agent age {self.age} must be in age_bins")
 
-
     def iter_partners(self) -> Iterator["Agent"]:
         """
         Get an iterator over an agent's partners
