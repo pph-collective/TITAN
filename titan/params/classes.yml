@@ -187,14 +187,14 @@ classes:
         enter_type: replace
   age_bins:
     type: definition
-    description: bin of ages into categories for use in assortative mixing by age
+    description: bin of ages into categories for use in assortative mixing by age. Will error if agent age is not in a bin.
     fields:
       min_age:
-        description: lower bound of this "bin"
+        description: lower bound of this "bin". Inclusive
         type: int
         min: 0
       max_age:
-        description: upper bound of this "bin"
+        description: upper bound of this "bin". Inclusive
         type: int
         min: 0
     default:
@@ -203,7 +203,7 @@ classes:
         max_age: 24
       1:
         min_age: 25
-        max_age: 44
+        max_age: 54
       2:
-        min_age: 45
-        max_age: 65
+        min_age: 55
+        max_age: 9999
