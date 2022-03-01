@@ -4,7 +4,7 @@ The model has a wrapper script called `run_titan.py` that makes running a full s
 
 ### run_titan.py
 
-To run the model, execute the `run_titan.py` program within the `/titan/` directory. See [TITAN params](https://pph-collective.github.io/titan-params-app) for documentation on how to set and use parameters.
+To run the model, execute the `run_titan.py` program within the `/titan/` directory. See [the walkthrough](walkthrough.md) for documentation on how to set and use parameters, as well as a step-by-step guide to running the model with your custom parameters.
 
 Results of the model are generated and aggregated into the `/results/` directory by default. If the model is re-run, the existing results will be overwritten.
 

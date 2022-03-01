@@ -28,10 +28,10 @@ markdown_extensions:
 
 nav:
   - Overview: index.md
-  - Getting Started:
-    - Installation: getting_started.md
-    - Running locally: run_local.md
-    - Running on Oscar: run_oscar.md
+  - User Guide:
+    - Installation: user_guide.md
+    - Running: run_local.md
+    - Walkthrough: walkthrough.md
     - Contributing: contributing.md
   - API Reference:
     - Agent: api/agent.md

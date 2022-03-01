@@ -1,15 +1,15 @@
-# Getting Started
+# User Guide
 
-To get started, install titan using a local python (version 3.6 or later) install or virtual env using `pip`. Once installed, the model can be run using the `run_titan` program and configured using param files.
+## Installation
+
+To get started, install titan using a local python (version 3.6 or later) install or virtual env using `pip`.
 
 ```
 pip install titan-model
-run_titan -p my_params.yml
-run_titan -h
 ```
 
 !!! tip
-    Running a large job locally? Look into using [pypy](https://www.pypy.org/) instead of python for MOAR performance.  This is what we use on OSCAR.  Otherwise, all of the instructions hold, just using pypy and pypy's pip.
+    Running a large job locally? Look into using [pypy](https://www.pypy.org/) instead of python for MOAR performance. Otherwise, all of the instructions hold, just using pypy and pypy's pip.
 
 ## Development Setup
 
