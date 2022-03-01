@@ -257,3 +257,18 @@ def test_clear_set(make_agent):
     assert s.members == set()
     assert a not in s
     assert s.num_members() == 0
+
+
+@pytest.mark.unit
+def test_age_bin(make_agent):
+    a = make_agent()
+    a.age = 30
+    assert a.age_bin == "mid_adult"
+
+
+@pytest.mark.unit
+def test_age_bin_error(make_agent):
+    a = make_agent()
+    a.age = -1
+    with pytest.raises(ValueError):
+        a.age_bin
