@@ -2,15 +2,15 @@
 
 The model has a wrapper script called `run_titan.py` that makes running a full simulation easy.  TITAN can also be run from an interactive repl or a custom script.
 
-### run_titan.py
+### run_titan
 
-To run the model, execute the `run_titan.py` program within the `/titan/` directory. See [the walkthrough](walkthrough.md) for documentation on how to set and use parameters, as well as a step-by-step guide to running the model with your custom parameters.
+To run the model after pip install, use the command `run_titan` from the command line. See [the walkthrough](walkthrough.md) for documentation on how to set and use parameters, as well as a step-by-step guide to running the model with your custom parameters.
 
 Results of the model are generated and aggregated into the `/results/` directory by default. If the model is re-run, the existing results will be overwritten.
 
 #### Usage
 
-Below are the results of `python run_titan.py --help`.  It highlights all of the command line arguments that can be passed to the script.
+Below are the results of `run_titan --help`.  It highlights all of the command line arguments that can be passed to the script.
 
 ```
 usage: run_titan.py [-h] [-n [NMC]] [-S SETTING] -p PARAMS [-o OUTDIR]
@@ -56,7 +56,7 @@ optional arguments:
 
 ### Running Interactively
 
-The model can also be run interactively in the repl.  Start a `python` session from the root directory of `TITAN`, and follow along!
+The model can also be run interactively in the repl when the model has been cloned from the GitHub repository. Please see the developer installation instructions in [installation](user_guide.md) for information on installing dependencies with poetry  Start a `python` session in poetry from the root directory of `TITAN` via `poetry run python`, and follow along!
 
 We'll use the sample params file `tests/params/basic.yml` in all of these examples, but feel free to use a different one.
 
@@ -123,4 +123,4 @@ model3.run(outdir)
 
 To make sure everything is working, run the tests.  A few of the tests (marked `integration_stochastic`) sometimes fail as they are testing for general behavior and not specific correctness, but all other tests should always pass.
 
-`python -m pytest`
+`poetry run pytest`
