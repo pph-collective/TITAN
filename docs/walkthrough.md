@@ -50,3 +50,10 @@ To run your new params file, you can simply use the command:
 run_titan -p my_params.yml -S atlanta
 ```
 This will save the results of your model in a newly-made `results` directory, or overwrite previous results in an existing `results` directory.
+
+## Sweeping parameters
+TITAN can also sweep over a set of parameters defined by a CSV file. To use this feature, create a CSV with columns named as `.`-separated parameters. For example, you might change the probability of componenets being treated in the random trial module by using the column name `random_trial.prob` in a `sweep_val.csv` file and populating rows with random numbers between 0 and 1. To run this sweep over the first 10 rows of your CSV, you would use the command:
+```
+run_titan -p my_params.yml -S atlanta -W sweep_file.csv -R 1:10
+```
+Your results directory now contains a report with outputs using all 10 values, as well as a file linking each run's id with its value for the probability.
