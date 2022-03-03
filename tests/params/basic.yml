@@ -391,3 +391,16 @@ classes:
     new_ag:
       enter_type: new_agent
       prob: 1.0
+  age_bins:
+    fallback_young:
+      min_age: 0
+      max_age: 15
+    young_adult:
+      min_age: 16
+      max_age: 24
+    mid_adult:
+      min_age: 25
+      max_age: 44
+    fallback_old:
+      min_age: 45
+      max_age: 999
