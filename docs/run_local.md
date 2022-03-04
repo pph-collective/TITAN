@@ -56,7 +56,7 @@ optional arguments:
 
 ### Running Interactively
 
-The model can also be run interactively in the repl when the model has been cloned from the GitHub repository. Please see the developer installation instructions in [installation](user_guide.md) for information on installing dependencies with poetry  Start a `python` session in poetry from the root directory of `TITAN` via `poetry run python`, and follow along!
+The model can also be run interactively in the repl. Please see the developer installation instructions in [installation](user_guide.md) for information on installing dependencies with poetry  Start a `python` session in [poetry](https://python-poetry.org/) from the root directory of `TITAN` via `poetry run python`, and follow along!
 
 We'll use the sample params file `tests/params/basic.yml` in all of these examples, but feel free to use a different one.
 
