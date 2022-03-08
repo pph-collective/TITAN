@@ -49,7 +49,7 @@ classes:
     age_out:
       exit_type: age_out
       ignore_incar: false
-      age: 40
+      age: 39
     death:
       exit_type: death
       ignore_incar: false
