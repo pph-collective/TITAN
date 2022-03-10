@@ -29,8 +29,7 @@ markdown_extensions:
 nav:
   - Overview: index.md
   - User Guide:
-    - Installation: user_guide.md
-    - Running: run_local.md
+    - Running TITAN: running.md
     - Walkthrough: walkthrough.md
     - Contributing: contributing.md
   - API Reference:

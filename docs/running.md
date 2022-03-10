@@ -1,3 +1,14 @@
+## Installation
+
+To get started, install titan using a local python (version 3.6 or later) install or virtual env using `pip`.
+
+```
+pip install titan-model
+```
+
+!!! tip
+    Running a large job locally? Look into using [pypy](https://www.pypy.org/) instead of python for MOAR performance. Otherwise, all of the instructions hold, just using pypy and pypy's pip.
+
 ## Running the Model
 
 The model has a wrapper script called `run_titan.py` that makes running a full simulation easy.  TITAN can also be run from an interactive repl or a custom script.
@@ -56,7 +67,7 @@ optional arguments:
 
 ### Running Interactively
 
-The model can also be run interactively in the repl. Please see the developer installation instructions in [installation](user_guide.md) for information on installing dependencies with poetry  Start a `python` session in [poetry](https://python-poetry.org/) from the root directory of `TITAN` via `poetry run python`, and follow along!
+The model can also be run interactively in the repl. Please see the developer installation instructions in [installation](contributing.md) for information on installing dependencies with poetry.  Start a `python` session in [poetry](https://python-poetry.org/) from the root directory of `TITAN` via `poetry run python`, and follow along!
 
 We'll use the sample params file `tests/params/basic.yml` in all of these examples, but feel free to use a different one.
 

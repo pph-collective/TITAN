@@ -1,5 +1,38 @@
 We welcome issues and pull requests to help improve the TITAN model.  We use the following guidelines to ensure standards are met.
 
+## Development Setup
+
+Planning to help work on the titan codebase? Here are the tools and processes you need to know about:
+
+### Git/Github
+
+We use [git](https://git-scm.com/) for version control and GitHub for our remote repository. To get started, clone the repository to your local machine.
+
+```
+git clone https://github.com/pph-collective/TITAN.git
+```
+
+We use angular commits to standardize our commits and encourage better messages. [Commitizen](https://pypi.org/project/commitizen/) makes this easy.  Once installed (would recommend doing this globally as opposed to just for this project), run `cz commit` instead of `git commit`.
+
+### Poetry
+
+[Poetry](https://python-poetry.org/) is a python packaging and dependency management tool.  We use this to install/add/remove dependencies, build our package, and publish it to pypy.  Install poetry per [the install instructions](https://python-poetry.org/docs/#installation), then complete the below steps.
+
+```
+poetry install -E linting -E docs
+```
+
+The `-E` flags tell poetry that we want the optional dependencies that we use for linting (mypy, black, flake8) and for building documentation.
+
+We recommend using a recent python version for development (check out [pyenv](https://github.com/pyenv/pyenv) for a way to manage different python versions).  You may need to tell poetry which installation of python to use - see [their instructions](https://python-poetry.org/docs/managing-environments/).
+
+Poetry installs all of the dependencies into a virtual environment so that they are isolated from other projects you are working on.  To run any shell commands in the environment, prefix them with `poetry run` (e.g. `poetry run run_titan -p my_params.yml` or `poetry run pytest`) or start a poetry shell with `poetry shell`.
+
+### pypy
+
+pypy is a JIT compiled version of python which generally makes code faster.  It is important that titan remain installable/usable with pypy and we test for this with GitHub actions.  However, pypy doesn't play well with some of our linting tools, so we don't typically use it for development.
+
+
 ## GitHub Workflow
 
 When working on TITAN, make a branch from `develop` to make changes in, then make a pull request to `develop` when ready for review.
@@ -26,16 +59,13 @@ Then use `cz commit` where you would have previously done `git commit`.
 
 We strive to have test coverage for all of the features of TITAN.  When adding a new feature or fixing a bug, add tests for the new feature or that test the bug condition to make sure that the bug doesn't crop up agin.
 
-`pytest` is the library used for testing.
+[Pytest](https://docs.pytest.org/en/stable/) is our test runner.  It runs all of our unit and integration tests and reports back any errors or failures.  These should almost always pass (the almost refers to our stochastic integration tests which have some element of randomness in their success).
 
-To run all of the tests:
 ```
-python -m pytest
-```
-
-To run only the unit tests:
-```
-python -m pytest -m unit
+poetry run pytest # runs all tests
+poetry run pytest -m unit # only unit tests
+poetry run pytest -m integration_deterministic # only deterministic integration tests
+poetry run pytest -m integration_stochastic # only stochastic integration tests
 ```
 
 ### Code Style
