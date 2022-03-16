@@ -9,6 +9,7 @@ model:
     burn_steps: 24
   network:
     type: scale_free
+    enable: true
 
 features:
   incar: false

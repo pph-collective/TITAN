@@ -1,3 +1,6 @@
 outputs:
   reports:
     - basicReport
+  network:
+    calc_network_stats: true
+    calc_component_stats: true

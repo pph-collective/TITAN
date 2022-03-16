@@ -296,7 +296,8 @@ def print_components(
     # if this is a new file, write the header info
     if f.tell() == 0:
         f.write(
-            "run_id\trunseed\tpopseed\tt\tcomponent"
+            "run_id\trunseed\tpopseed\tt\tcomponent\tagents"
+            "\tinfected\ttrt\ttrtinfected"
             "\tdensity\tEffectiveSize\tdeg_cent\n"
         )
 
@@ -307,9 +308,19 @@ def print_components(
         comp_density = nx.density(comp)
 
         deg_cent = mean(list(nx.degree_centrality(comp).values()))
+        nhiv = ntrthiv = ntrt = 0
+        for agent in comp.nodes():
+            if agent.hiv.active:
+                nhiv += 1
+                if agent.random_trial.treated:
+                    ntrthiv += 1
+            
+            if agent.random_trial.treated:
+                ntrt += 1
 
         f.write(
-            f"{run_id}\t{runseed}\t{popseed}\t{t}\t{id}\t"
+            f"{run_id}\t{runseed}\t{popseed}\t{t}\t{id}\t{num_nodes}"
+            f"\t{nhiv}\t{ntrt}\t{ntrthiv}"
             f"\t{comp_density:.4f}"
             f"\t{average_size:.4f}\t{deg_cent}\n"
         )
