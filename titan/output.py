@@ -314,7 +314,7 @@ def print_components(
                 nhiv += 1
                 if agent.random_trial.treated:
                     ntrthiv += 1
-            
+
             if agent.random_trial.treated:
                 ntrt += 1
 

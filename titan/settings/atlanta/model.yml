@@ -4,11 +4,11 @@ model:
     run: 0
   num_pop: 17440
   time:
-    num_steps: 120
+    num_steps: 12
     steps_per_year: 12
-    burn_steps: 24
+    burn_steps: 12
   network:
-    type: scale_free
+    type: comp_size
     enable: true
 
 features:
