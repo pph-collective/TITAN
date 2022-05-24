@@ -44,6 +44,7 @@ class Prep(base_feature.BaseFeature):
             params: the population params
         """
         cls.counts = {race: 0 for race in params.classes.races}
+        cls.top_agent_num = int(params.prep.top_partners * params.model.num_pop)
 
     def init_agent(self, pop: "population.Population", time: int):
         """
@@ -110,6 +111,16 @@ class Prep(base_feature.BaseFeature):
             agent: the agent to remove from the class attributes
         """
         cls.counts[agent.race] -= 1
+
+    def update_pop(cls, model):
+        """
+        Update population to find top % number of partners
+        args:
+            model: the instance of TITAN currently being run
+        """
+        if "top_partners" in model.params.prep.target_model:
+            sorted_agents = sorted(model.all_agents, key=lambda x: x.get_num_partners, reverse=True)
+            cls.top_agents = sorted_agents[:cls.top_agent_num]
 
     def set_stats(self, stats: Dict[str, int], time: int):
         if self.active:
@@ -295,6 +306,9 @@ class Prep(base_feature.BaseFeature):
             or self.agent.vaccine.active  # type: ignore[attr-defined]
             or params.features.random_trial
         ):
+            return False
+
+        if "top_partners" in target_model and self.agent not in self.top_agents:
             return False
 
         all_eligible_models = {"Allcomers", "Racial"}

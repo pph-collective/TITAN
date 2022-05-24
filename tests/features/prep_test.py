@@ -34,6 +34,25 @@ def test_init_agent(make_agent, make_population, make_model):
     assert a1.prep.active
     assert not a2.prep.active
 
+@pytest.mark.unit
+def test_num_partners(make_agent, make_population, make_model, make_relationship):
+    model = make_model()
+    model.params.prep.target_model = ["Allcomers", "top_partners"]
+    model.params.prep.top_partners = 0.01
+
+    # add new agent to population
+    a1 = make_agent()
+    model.pop.add_agent(a1)
+    assert not a1.prep.active
+    
+    # make sure this agent has most partners
+    for ag in model.pop.all_agents.members:
+        if ag != a1:
+            make_relationship(ag, a1)
+    a1.prep.init_agent(model.pop, 0)
+    assert a1.prep.active
+    assert not model.pop.all_agents.members.pop().prep.active
+
 
 @pytest.mark.unit
 def test_discontinue_prep(make_agent):
