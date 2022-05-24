@@ -44,7 +44,7 @@ demographics:
                 dist_type: poisson
                 vars:
                   1:
-                    value: 3.0
+                    value: 7.0
                     value_type: float
             hiv: &black_hiv
               init: 0.434
