@@ -27,7 +27,7 @@ class Prep(base_feature.BaseFeature):
     counts: ClassVar[Dict[str, int]] = {}
     # class level attributes to track agents available for PrEP based on highest risk
     top_agent_num = 0
-    top_agents: List[agent.Agent] = []
+    top_agents: List["agent.Agent"] = []
 
     def __init__(self, agent: "agent.Agent"):
         super().__init__(agent)
