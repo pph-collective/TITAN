@@ -112,15 +112,18 @@ class Prep(base_feature.BaseFeature):
         """
         cls.counts[agent.race] -= 1
 
-    def update_pop(cls, model):
+    @classmethod
+    def update_pop(cls, model: "model.TITAN"):
         """
         Update population to find top % number of partners
         args:
             model: the instance of TITAN currently being run
         """
         if "top_partners" in model.params.prep.target_model:
-            sorted_agents = sorted(model.all_agents, key=lambda x: x.get_num_partners, reverse=True)
-            cls.top_agents = sorted_agents[:cls.top_agent_num]
+            sorted_agents = sorted(
+                model.pop.all_agents, key=lambda x: x.get_num_partners(), reverse=True
+            )
+            cls.top_agents = sorted_agents[: cls.top_agent_num]
 
     def set_stats(self, stats: Dict[str, int], time: int):
         if self.active:
