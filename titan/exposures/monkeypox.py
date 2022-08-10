@@ -209,9 +209,8 @@ class MonkeyPox(base_exposure.BaseExposure):
         returns:
             probability of transmission from agent to partner
         """
-        # if this isn't an interaction where hiv can transmit, return 0% prob
-        # TODO is this correct for monkeypox
-        if interaction not in ("sex"):
+        # if this isn't an interaction where monkeypox can transmit, return 0% prob
+        if interaction not in ("sex") or not self.get_acute_status(model.time):
             return 0.0
 
         # Logic for if needle or sex type interaction
@@ -219,20 +218,16 @@ class MonkeyPox(base_exposure.BaseExposure):
 
         # get baseline probabilities
         # TODO only sex?
-        if interaction == "injection":
-            p = model.params.partnership.injection.transmission.base
-        elif interaction == "sex":
-            agent_sex_role = self.agent.sex_role
-            partner_sex_role = partner.sex_role
+        partner_sex_role = partner.sex_role
 
-            # TODO sex roles don't matter
-            # get partner's sex role during acts
-            partner_sex_role = "versatile"
+        # TODO sex roles don't matter
+        # get partner's sex role during acts
+        partner_sex_role = "versatile"
 
-            # get probability of sex acquisition given HIV- partner's position
-            p = partner.location.params.partnership.sex.acquisition[partner.sex_type][
-                partner_sex_role
-            ]
+        # get probability of sex acquisition given HIV- partner's position
+        p = partner.location.params.partnership.sex.acquisition[partner.sex_type][
+            partner_sex_role
+        ]
 
         # feature specific risk adjustment
         for feature in model.features:
@@ -241,11 +236,6 @@ class MonkeyPox(base_exposure.BaseExposure):
 
             partner_feature = getattr(partner, feature.name)
             p *= partner_feature.get_acquisition_risk_multiplier(self.time, interaction)
-
-        # Scaling parameter for acute HIV infections
-        # TO_REVIEW do we need an acute period
-        if self.get_acute_status(model.time):
-            p *= self.agent.location.params.monkeypox.acute.infectivity
 
         # Scaling parameter for positively identified HIV agents
         if self.dx:
@@ -286,7 +276,6 @@ class MonkeyPox(base_exposure.BaseExposure):
     # ============================ HELPER METHODS ==============================
 
     def get_acute_status(self, time: int) -> bool:
-        # TO_REVIEW do we need this
         """
         Get acute status of agent at time
 
@@ -297,9 +286,9 @@ class MonkeyPox(base_exposure.BaseExposure):
             whether an agent is acute
         """
         if self.active and self.time is not None:
-            hiv_duration = time - self.time
+            monkeypox_duration = time - self.time
 
-            if self.agent.location.params.hiv.acute.duration >= hiv_duration >= 0:
+            if self.agent.location.params.monkeypox.acute.duration >= monkeypox_duration >= 0:
                 return True
 
         return False
