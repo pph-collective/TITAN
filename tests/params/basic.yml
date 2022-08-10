@@ -324,6 +324,7 @@ outputs:
 exposures:
   hiv: true
   knowledge: true
+  monkeypox: true
 
 haart:
   use_reinit: true

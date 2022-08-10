@@ -56,21 +56,21 @@ def test_monkeypox_convert(make_model, make_agent):
 
 
 # TODO talk with Ellen about why this is failing?
-# @pytest.mark.unit
-# def test_diagnose_monkeypox(make_model, make_agent):
-#     model = make_model()
-#     model.params.partner_tracing.prob = 1.0
-#     model.time = 1
-#     a = make_agent()
-#     p = make_agent()
-#     p.monkeypox.active = True
-#     a.partners["Sex"].add(p)
+@pytest.mark.unit
+def test_diagnose_monkeypox(make_model, make_agent):
+    model = make_model()
+    model.params.partner_tracing.prob = 1.0
+    model.time = 1
+    a = make_agent()
+    p = make_agent()
+    p.monkeypox.active = True
+    a.partners["Sex"].add(p)
 
-#     model.run_random = FakeRandom(-0.1)  # always less than param
-#     a.monkeypox.diagnose(model)
+    model.run_random = FakeRandom(-0.1)  # always less than param
+    a.monkeypox.diagnose(model)
 
-#     assert a.monkeypox.dx
-#     assert a.monkeypox.dx_time == model.time
+    assert a.monkeypox.dx
+    assert a.monkeypox.dx_time == model.time
 
 
 @pytest.mark.unit
