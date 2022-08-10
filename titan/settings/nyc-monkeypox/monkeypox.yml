@@ -1,0 +1,7 @@
+monkeypox:
+  dx:
+    risk_reduction:
+      sex: 0.0
+  start_time: 0
+  max_init_time: 2
+  

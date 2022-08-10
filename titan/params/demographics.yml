@@ -295,6 +295,26 @@ demographics:
                   type: float
                   min: 0.0
                   max: 1.0
+            monkeypox:
+              init:
+                default: 0.0
+                description: "Probability that an agent in this class initially has monkeypox"
+                type: float
+                min: 0.0
+                max: 1.0
+              dx:
+                init:
+                  default: 0.0
+                  description: "Probability that an agent with monkeypox in the initial ppl is initially diagnosed"
+                  type: float
+                  min: 0.0
+                  max: 1.0
+                prob:
+                  default: 0.0
+                  description: "Probability that an agent with HIV becomes diagnosed at a given time step and 'knows' their monkeypox status, therefore enabling enrollment in treatment"
+                  type: float
+                  min: 0.0
+                  max: 1.0
             haart:
               init:
                 default: 0.0
