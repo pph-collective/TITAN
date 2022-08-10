@@ -16,6 +16,12 @@ demographics:
         description: Scaling factor for transmission probability
         type: float
         min: 0
+    monkeypox:
+      transmission:
+        default: 1.0
+        description: Scaling factor for transmission probability
+        type: float
+        min: 0
     age:
       type: bin
       description: Binned probabilities of ages by race, last bin should be 1 to have default

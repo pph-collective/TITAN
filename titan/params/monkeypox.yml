@@ -1,0 +1,24 @@
+monkeypox:
+  dx:
+    risk_reduction:
+      sex:
+        default: 0
+        description: risk reduction in sex transmission probability for diagnosed agents
+        type: float
+        min: 0
+        max: 1
+  acute:
+    duration:
+      default: 4
+      description: number of timesteps agent is acutely infected and contagious
+      type: int
+      min: 0
+  start_time:
+    default: -999
+    description: "what timesteps to allow agents to init with monkeypox"
+    type: int
+  max_init_time:
+    default: 1
+    description: On creation, agents are randomly assigned a monkeypox.time. this is the maximum time
+    type: int
+    min: 1

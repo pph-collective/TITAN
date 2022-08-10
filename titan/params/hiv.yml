@@ -3,7 +3,7 @@ hiv:
     risk_reduction:
       sex:
         default: 0
-        description: risk redection in sex transmission probability for diagnosed agents
+        description: risk reduction in sex transmission probability for diagnosed agents
         type: float
         min: 0
         max: 1

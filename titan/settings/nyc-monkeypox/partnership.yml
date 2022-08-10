@@ -14,7 +14,7 @@ partnership:
               value_type: float
       Casual:
         type: distribution
-        distributions:
+        distribution:
           dist_type: gamma
           vars:
             1:
@@ -23,9 +23,9 @@ partnership:
             2:
               value: 16.5
               value_type: float
-      acquisition:
-        MSM:
-          versatile: 0.0046
+    acquisition:
+      MSM:
+        versatile: 0.0046
 
   duration:
     Main:

@@ -102,6 +102,8 @@ class Vaccine(base_feature.BaseFeature):
                 )
             elif self.type == "RV144":
                 return np.exp(-2.40 + 0.76 * (np.log(vaccine_time_months)))
+            elif self.type == "other":
+                return 1 - self.agent.location.params.vaccine.efficacy
 
         return 1.0
 
