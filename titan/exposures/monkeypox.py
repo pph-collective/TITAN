@@ -10,7 +10,12 @@ from .. import utils
 class MonkeyPox(base_exposure.BaseExposure):
 
     name: str = "monkeypox"
-    stats: List[str] = ["monkeypox", "monkeypox_dx", "monkeypox_new", "monkeypox_dx_new"]
+    stats: List[str] = [
+        "monkeypox",
+        "monkeypox_dx",
+        "monkeypox_new",
+        "monkeypox_dx_new",
+    ]
     """
         MonkeyPox collects the following stats:
 
@@ -288,7 +293,11 @@ class MonkeyPox(base_exposure.BaseExposure):
         if self.active and self.time is not None:
             monkeypox_duration = time - self.time
 
-            if self.agent.location.params.monkeypox.acute.duration >= monkeypox_duration >= 0:
+            if (
+                self.agent.location.params.monkeypox.acute.duration
+                >= monkeypox_duration
+                >= 0
+            ):
                 return True
 
         return False
