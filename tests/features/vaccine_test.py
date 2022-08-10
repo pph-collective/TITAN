@@ -64,3 +64,29 @@ def test_vaccine_cquisition_risk_multiplier(make_agent):
     a.vaccine.vaccinate(0)
 
     assert a.vaccine.get_acquisition_risk_multiplier(1, "sex") < 1.0
+
+
+@pytest.mark.unit
+def test_vaccine_HVTN(make_agent):
+    a = make_agent()
+    print(a.location.params.vaccine.type)
+    a.location.params.vaccine.type = "HVTN702"
+    assert a.vaccine.get_acquisition_risk_multiplier(0, "sex") == 1.0
+
+    a.vaccine.vaccinate(0)
+    assert a.vaccine.get_acquisition_risk_multiplier(1, "sex") < 1.0
+
+
+@pytest.mark.unit
+def test_vaccine_other(make_agent):
+    a = make_agent()
+    print(a.location.params.vaccine.type)
+    a.location.params.vaccine.type = "other"
+    assert a.vaccine.get_acquisition_risk_multiplier(0, "sex") == 1.0
+
+    a.vaccine.vaccinate(0)
+    # no risk multiplier
+    assert a.vaccine.get_acquisition_risk_multiplier(1, "sex") == 1.0
+
+    a.location.params.vaccine.efficacy = 0.5
+    assert a.vaccine.get_acquisition_risk_multiplier(1, "sex") == 0.5
