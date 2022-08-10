@@ -57,7 +57,7 @@ class MonkeyPox(base_exposure.BaseExposure):
         """
         Initialize the agent for this exposure during population initialization (`Population.create_agent`).  Called on only exposures that are enabled per the params.
 
-        Based on demographic params for the agent, stochastically determine if hiv is active, and if active, at what past time point was the agent converted, if the agent is diagnosed, and if the agent has aids.
+        Based on demographic params for the agent, stochastically determine if monkeypox is active, and if active, at what past time point was the agent converted, if the agent is diagnosed, and if the agent has aids.
 
         args:
             pop: the population this agent is a part of
@@ -165,7 +165,7 @@ class MonkeyPox(base_exposure.BaseExposure):
         """
         Expose a relationship to the exposure for a number of acts of a specific interaction type.  Typically, this is determining if the exposure can cause conversion/change in one of the agents, then if so determining the probability of that and then converting the succeptible agent.
 
-        For hiv, one agent must be active and the other not for an exposure to cause conversion.
+        For monkeypox, one agent must be active and the other not for an exposure to cause conversion.
 
         args:
             model: The running model
@@ -189,7 +189,7 @@ class MonkeyPox(base_exposure.BaseExposure):
         )
 
         if model.run_random.random() < p:
-            # if agent HIV+ partner becomes HIV+
+            # if agent monkeypox+ partner becomes monkeypox+
             partner.monkeypox.convert(model)  # type: ignore[attr-defined]
 
     def get_transmission_probability(
@@ -200,15 +200,15 @@ class MonkeyPox(base_exposure.BaseExposure):
         num_acts: int,
     ) -> float:
         """
-        Determines the probability of an hiv transmission event from agent to partner based on
+        Determines the probability of an monkeypox transmission event from agent to partner based on
             interaction type and numer of acts. For sex acts, transmission probability is a
-            function of the acquisition probability of the HIV- agent's sex role
-            and the HIV+ agent's haart adherence, acute status, and dx risk reduction
+            function of the acquisition probability of the monkeypox- agent's sex role
+            and the monkeypox+ agent's haart adherence, acute status, and dx risk reduction
 
         args:
             model: The running model
             interaction : "injection" or "sex"
-            partner: HIV- Agent
+            partner: monkeypox- Agent
             num_acts: The number of exposure interactions the agents had this time step
 
         returns:
@@ -229,7 +229,7 @@ class MonkeyPox(base_exposure.BaseExposure):
         # get partner's sex role during acts
         partner_sex_role = "versatile"
 
-        # get probability of sex acquisition given HIV- partner's position
+        # get probability of sex acquisition given monkeypox- partner's position
         p = partner.location.params.partnership.sex.acquisition[partner.sex_type][
             partner_sex_role
         ]
@@ -242,7 +242,7 @@ class MonkeyPox(base_exposure.BaseExposure):
             partner_feature = getattr(partner, feature.name)
             p *= partner_feature.get_acquisition_risk_multiplier(self.time, interaction)
 
-        # Scaling parameter for positively identified HIV agents
+        # Scaling parameter for positively identified monkeypox agents
         if self.dx:
             p *= 1 - self.agent.location.params.monkeypox.dx.risk_reduction[interaction]
 
@@ -256,7 +256,7 @@ class MonkeyPox(base_exposure.BaseExposure):
 
     def convert(self, model: "model.TITAN"):
         """
-        Agent becomes HIV agent. Update all appropriate attributes, sets and dictionaries.
+        Agent becomes monkeypox agent. Update all appropriate attributes, sets and dictionaries.
 
         args:
             model: The model being run
