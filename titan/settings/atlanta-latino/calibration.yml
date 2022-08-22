@@ -1,0 +1,8 @@
+calibration:
+  sex:
+    act: 1.0
+    partner: 1.0
+  test_frequency: 1.00
+  haart:
+    coverage: 0.50
+  acquisition: 0.50

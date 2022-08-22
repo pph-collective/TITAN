@@ -1,0 +1,53 @@
+model:
+  seed:
+    ppl: 0
+    run: 0
+  num_pop: 17440
+  time:
+    num_steps: 120
+    steps_per_year: 12
+    burn_steps: 24
+  network:
+    type: scale_free
+
+features:
+  incar: false
+  prep: false
+  high_risk: false
+  haart: true
+  exit_enter: true
+  static_network: false
+  agent_zero: false
+  assort_mix: true
+  vaccine: false
+  partner_tracing: false
+  external_exposure: false
+
+prep:
+  target_model:
+    - Racial
+
+hiv:
+  aids:
+    prob: 0.05
+
+classes:
+  bond_types:
+    Sex:
+      acts_allowed:
+        - sex
+  sex_types:
+    MSM:
+      gender: M
+      cis_trans: cis
+      sleeps_with:
+        - MSM
+  drug_types:
+    - None
+  races:
+    white:
+      hispanic: false
+    black:
+      hispanic: false
+    latino:
+      hispanic: false

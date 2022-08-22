@@ -1,0 +1,161 @@
+demographics:
+  black:
+    ppl: 0.308
+    hiv:
+      transmission: 3.75
+    sex_type:
+      MSM:
+        ppl: 1.0
+        sex_role:
+          init:
+            versatile: 0.437
+            insertive: 0.242
+            receptive: 0.321
+        safe_sex:
+          Sex: 
+            prob: 0.688
+        prep:
+          discontinue: 0.0
+          adherence: 0.568
+          cap: 0.258
+          init: 0.258
+        drug_type:
+            None:
+              ppl: 0.30
+              num_partners:
+                Sex:
+                  dist_type: poisson
+                  vars:
+                    1:
+                      value: 7.0
+                      value_type: float
+              hiv: &black_hiv
+                init: 0.434
+                dx:
+                  init: 0.655
+                  prob: 0.02
+                aids:
+                  init: 0.232
+              exit:
+                death:
+                  base: 8.6
+                  hiv: 17.2
+                  aids: 34.4
+              enter:
+                replace:
+                  enter_type: replace
+                grow:
+                  enter_type: new_agent
+                  prob: 0.0011
+              haart:
+                init: 0.625
+                cap: 0.35
+                adherence:
+                  init: 0.885
+                  prob: 0.885
+                discontinue: 0.10
+  latino:
+    ppl: 0.123
+    hiv:
+      transmission: 3.75
+    sex_type:
+      MSM:
+        ppl: 1.0
+        sex_role:
+          init:
+            versatile: 0.437
+            insertive: 0.242
+            receptive: 0.321
+        safe_sex:
+          Sex: 
+            prob: 0.811
+        prep:
+          discontinue: 0.048
+          adherence: 0.568
+          cap: 0.258
+          init: 0.258
+        drug_type:
+            None:
+              ppl: 1.0
+              num_partners:
+                Sex:
+                  dist_type: poisson
+                  vars:
+                    1:
+                      value: 2.8
+                      value_type: float
+              hiv:
+                init: 0.175
+                dx:
+                  init: 0.799
+                  prob: 0.02
+                aids:
+                  init: 0.167
+              exit:
+                death:
+                  base: 8.6
+                  hiv: 17.2
+                  aids: 34.4
+              enter:
+                replace:
+                  enter_type: replace
+                grow:
+                  enter_type: new_agent
+                  prob: 0.0023
+              haart:
+                init: 0.578
+                cap: 0.65
+                adherence:
+                  init: 0.851
+                  prob: 0.851
+                discontinue: 0.062
+  white:
+    ppl: 0.569
+    sex_type:
+      MSM:
+        ppl: 1.0
+        sex_role:
+          init:
+            versatile: 0.544
+            insertive: 0.228
+            receptive: 0.228
+        safe_sex:
+          Sex:
+            prob: 0.528
+        prep:
+          adherence: 0.911
+          cap: 0.415
+          discontinue: 0.0
+          init: 0.415
+        drug_type:
+          None:
+            ppl: 0.48
+            hiv:
+              init: 0.132
+              dx:
+                init: 0.818
+                prob: 0.055
+              aids:
+                init: 0.07
+            exit:
+              death:
+                base: 8.6
+                hiv: 17.2
+                aids: 34.4
+            enter:
+              replace:
+                enter_type: replace
+            haart:
+              init: 0.585
+              cap: 0.20
+              adherence:
+                init: 0.817
+                prob: 0.817
+              discontinue: 0.07
+            num_partners:
+              Sex:
+                dist_type: poisson
+                vars:
+                  1:
+                    value: 7.0
+                    value_type: float

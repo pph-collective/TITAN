@@ -1,0 +1,44 @@
+partnership:
+  duration:
+    Sex:
+      white: &partnership_duration
+        type: bins
+        bins:
+          1:
+            prob: 0.456
+            min: 1
+            max: 3
+          2:
+            prob: 0.756
+            min: 3
+            max: 12
+          3:
+            prob: 1.0
+            min: 13
+            max: 24
+      black: *partnership_duration
+  sex:
+    frequency:
+      Sex:
+        bins:
+          1:
+            prob: 0.244
+            min: 1
+            max: 2
+          2:
+            prob: 0.737
+            min: 3
+            max: 4
+          3:
+            prob: 0.86
+            min: 5
+            max: 12
+          4:
+            prob: 1.0
+            min: 13
+            max: 20
+    acquisition:
+      MSM:
+        insertive: 0.0011
+        receptive: 0.0138
+        versatile: 0.00745
