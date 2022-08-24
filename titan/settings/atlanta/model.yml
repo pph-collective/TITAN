@@ -4,11 +4,12 @@ model:
     run: 0
   num_pop: 17440
   time:
-    num_steps: 120
+    num_steps: 12
     steps_per_year: 12
-    burn_steps: 24
+    burn_steps: 12
   network:
-    type: scale_free
+    type: comp_size
+    enable: true
 
 features:
   incar: false
@@ -45,3 +46,41 @@ classes:
   drug_types:
     - NonInj
     - None
+  exit:
+    age_out:
+      exit_type: age_out
+      ignore_incar: false
+      age: 39
+    death:
+      exit_type: death
+      ignore_incar: false
+  enter:
+    age_in:
+      enter_type: replace
+      age_in: true
+      age: 18
+      prob: 1.0
+    replace:
+      enter_type: replace
+      prob: 1.0
+  age_bins:
+    0:
+     min_age: 18
+     max_age: 24
+    1:
+      min_age: 25
+      max_age: 29
+    2:
+      min_age: 30
+      max_age: 34
+    3:
+      min_age: 35
+      max_age: 39
+  
+exit_enter:
+  age_out_in:
+    exit_class: age_out
+    entry_class: age_in
+  die_and_replace:
+    exit_class: death
+    entry_class: replace

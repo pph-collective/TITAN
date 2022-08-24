@@ -387,6 +387,7 @@ class TITAN:
                     # agent ages out of model
                     if agent.age > exit.age:
                         self.exits[strategy.exit_class].append(agent)
+                        break
                 elif case == "death":
                     p = (
                         prob.get_death_rate(
@@ -406,6 +407,7 @@ class TITAN:
                     if self.run_random.random() < p:
                         # agent dies
                         self.exits[strategy.exit_class].append(agent)
+                        break
                 elif case == "drop_out":
                     p = (
                         agent.location.params.demographics[agent.race]
@@ -417,6 +419,7 @@ class TITAN:
                     if self.run_random.random() < p:
                         # agent leaves study pop
                         self.exits[strategy.exit_class].append(agent)
+                        break
 
         for exit_list in self.exits.values():
             for agent in exit_list:

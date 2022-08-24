@@ -3,6 +3,23 @@ demographics:
     ppl: 0.389
     hiv:
       transmission: 3.75
+    age: &agent_age
+      1:
+        prob: .25
+        min: 18
+        max: 24
+      2:
+        prob: .5
+        min: 25
+        max: 29
+      3:
+        prob: .75
+        min: 30
+        max: 34
+      4:
+        prob: 1.
+        min: 35
+        max: 39
     sex_type:
       MSM:
         ppl: 1.0
@@ -20,36 +37,45 @@ demographics:
           cap: 0.258
           init: 0.258
         drug_type:
-            NonInj:
-              ppl: 0.30
-              num_partners: &black_num_partners
-                Sex:
-                  dist_type: poisson
-                  vars:
-                    1:
-                      value: 7.0
-                      value_type: float
-              hiv: &black_hiv
-                init: 0.434
-                dx:
-                  init: 0.655
-                  prob: 0.02
-                aids:
-                  init: 0.232
-              haart: &black_haart
-                init: 0.625
-                cap: 0.35
-                adherence:
-                  init: 0.885
-                  prob: 0.885
-                discontinue: 0.10
-            None:
-              ppl: 0.70
-              num_partners: *black_num_partners
-              hiv: *black_hiv
-              haart: *black_haart
+          NonInj:
+            ppl: 0.30
+            num_partners: &black_num_partners
+              Sex:
+                dist_type: poisson
+                vars:
+                  1:
+                    value: 7.0
+                    value_type: float
+            hiv: &black_hiv
+              init: 0.434
+              dx:
+                init: 0.655
+                prob: 0.02
+              aids:
+                init: 0.232
+            exit: &black_exit_rate
+              age_out:
+                prob: 1.0
+              death:
+                base: 8.6
+                hiv: 17.2
+                aids: 34.4
+            haart: &black_haart
+              init: 0.625
+              cap: 0.35
+              adherence:
+                init: 0.885
+                prob: 0.885
+              discontinue: 0.10
+          None:
+            ppl: 0.70
+            num_partners: *black_num_partners
+            exit: *black_exit_rate
+            hiv: *black_hiv
+            haart: *black_haart
   white:
     ppl: 0.611
+    age: *agent_age
     sex_type:
       MSM:
         ppl: 1.0
@@ -77,6 +103,8 @@ demographics:
               aids:
                 init: 0.07
             exit: &white_exit_rate
+              age_out:
+                prob: 1.0
               death:
                 base: 8.6
                 hiv: 17.2
@@ -93,7 +121,7 @@ demographics:
                 dist_type: poisson
                 vars:
                   1:
-                    value: 7.0
+                    value: 3.0
                     value_type: float
           None:
             ppl: 0.52

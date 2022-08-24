@@ -503,7 +503,7 @@ class Population:
                     comp.number_of_nodes()
                     > self.params.model.network.component_size.max
                 ):
-                    logging.info("TOO BIG", comp, comp.number_of_nodes())
+                    logging.info(f"TOO BIG {comp} {comp.number_of_nodes()}")
                     trim_component(comp, self.params.model.network.component_size.max)
 
         logging.info(f"  Total agents in graph: {self.graph.number_of_nodes()}")
