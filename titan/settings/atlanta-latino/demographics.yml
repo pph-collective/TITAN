@@ -41,12 +41,6 @@ demographics:
                   base: 8.6
                   hiv: 17.2
                   aids: 34.4
-              enter:
-                replace:
-                  enter_type: replace
-                grow:
-                  enter_type: new_agent
-                  prob: 0.0011
               haart:
                 init: 0.625
                 cap: 0.35
@@ -96,12 +90,6 @@ demographics:
                   base: 8.6
                   hiv: 17.2
                   aids: 34.4
-              enter:
-                replace:
-                  enter_type: replace
-                grow:
-                  enter_type: new_agent
-                  prob: 0.0023
               haart:
                 init: 0.578
                 cap: 0.65
@@ -142,9 +130,6 @@ demographics:
                 base: 8.6
                 hiv: 17.2
                 aids: 34.4
-            enter:
-              replace:
-                enter_type: replace
             haart:
               init: 0.585
               cap: 0.20
