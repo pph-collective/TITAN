@@ -39,7 +39,7 @@ demographics:
                     value: 1.56
                   2:
                     value_type: float
-                    value: 0.59
+                    value: 0.767
               Casual:
                 dist_type: negative_binomial
                 vars:
@@ -48,7 +48,7 @@ demographics:
                     value: 0.67
                   2:
                     value_type: float
-                    value: 0.06
+                    value: 0.39
   latino:
     ppl: 0.261
     sex_type:
@@ -89,7 +89,7 @@ demographics:
                     value: 1.37
                   2:
                     value_type: float
-                    value: 0.58
+                    value: 0.754
               Casual:
                 dist_type: negative_binomial
                 vars:
@@ -98,7 +98,7 @@ demographics:
                     value: 0.46
                   2:
                     value_type: float
-                    value: 0.03
+                    value: 0.39
   white:
     ppl: 0.557
     sex_type:
@@ -139,7 +139,7 @@ demographics:
                     value: 1.02
                   2:
                     value_type: float
-                    value: 0.48
+                    value: 0.624
               Casual:
                 dist_type: negative_binomial
                 vars:
@@ -148,4 +148,4 @@ demographics:
                     value: 0.57
                   2:
                     value_type: float
-                    value: 0.03
+                    value: 0.39

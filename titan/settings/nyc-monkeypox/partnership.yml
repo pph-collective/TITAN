@@ -1,5 +1,9 @@
 partnership:
   sex:
+    acquisition:
+      versatile: .00001005
+      insertive: .00001005
+      receptive: .00001005
     frequency:
       Main:
         type: distribution
@@ -7,10 +11,10 @@ partnership:
           dist_type: gamma
           vars:
             1:
-              value: 0.439
+              value: 0.51
               value_type: float
             2:
-              value: 15.3
+              value: .439
               value_type: float
       Casual:
         type: distribution
@@ -18,14 +22,11 @@ partnership:
           dist_type: gamma
           vars:
             1:
-              value: 0.131
+              value: 0.55
               value_type: float
             2:
-              value: 16.5
+              value: 0.131
               value_type: float
-    acquisition:
-      MSM:
-        versatile: 0.0046
 
   duration:
     Main:
@@ -35,36 +36,36 @@ partnership:
           dist_type: wald
           vars:
             1:
-              value: 70.44
+              value: 2113.2
               value_type: float
             2:
-              value: 6.72
+              value: 201.6
               value_type: float
-          mean: 70.44
+          mean: 2113.2
       black:
         type: distribution
         distribution:
           dist_type: wald
           vars:
             1:
-              value: 20.88
+              value: 626.4
               value_type: float
             2:
-              value: 2.76
+              value: 82.8
               value_type: float
-          mean: 20.88
+          mean: 626.4
       latino:
         type: distribution
         distribution:
           dist_type: wald
           vars:
             1:
-              value: 35.52
+              value: 1065.6
               value_type: float
             2:
-              value: 3.84
+              value: 115.2
               value_type: float
-          mean: 3.84
+          mean: 1065.6
     Casual:
       white:
         type: distribution
@@ -72,33 +73,33 @@ partnership:
           dist_type: wald
           vars:
             1:
-              value: 11.76
+              value: 352.8
               value_type: float
             2:
-              value: 1.32
+              value: 39.6
               value_type: float
-          mean: 11.76
+          mean: 352.8
       black:
         type: distribution
         distribution:
           dist_type: wald
           vars:
             1:
-              value: 17.16
+              value: 518.4
               value_type: float
             2:
-              value: 1.56
+              value: 46.8
               value_type: float
-          mean: 17.16
+          mean: 518.4
       latino:
         type: distribution
         distribution:
           dist_type: wald
           vars:
             1:
-              value: 16.32
+              value: 489.6
               value_type: float
             2:
-              value: 1.20
+              value: 36.0
               value_type: float
-          mean: 16.32
+          mean: 489.6

@@ -12,5 +12,5 @@ model:
   num_pop: 1719
   time:
     num_steps: 12
-    steps_per_year: 52
+    steps_per_year: 365
     burn_steps: 0

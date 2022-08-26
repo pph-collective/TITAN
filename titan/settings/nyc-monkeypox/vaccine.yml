@@ -1,0 +1,6 @@
+vaccine:
+  type: other
+  efficacy: 0.193
+  booster: false
+  start_time: 1
+  on_init: false
