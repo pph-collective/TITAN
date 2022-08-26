@@ -9,9 +9,14 @@ monkeypox:
         max: 1
   acute:
     duration:
-      default: 4
+      default: 30
       description: number of timesteps agent is acutely infected and contagious
       type: int
+      min: 0
+    infectivity:
+      default: 1.0
+      description: Infectivity multiplier ratio for acute status infections
+      type: float
       min: 0
   start_time:
     default: -999

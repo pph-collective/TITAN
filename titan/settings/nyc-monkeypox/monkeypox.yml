@@ -7,6 +7,4 @@ monkeypox:
   acute:
     infectivity: 10000
     duration: 30
-  aids:
-    prob: 0
   

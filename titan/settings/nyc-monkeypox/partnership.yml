@@ -1,9 +1,10 @@
 partnership:
   sex:
     acquisition:
-      versatile: .00001005
-      insertive: .00001005
-      receptive: .00001005
+      MSM:
+        versatile: .00001005
+        insertive: .00001005
+        receptive: .00001005
     frequency:
       Main:
         type: distribution
