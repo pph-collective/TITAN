@@ -21,7 +21,7 @@ demographics:
           init: 0.258
         drug_type:
             None:
-              ppl: 0.30
+              ppl: 1.0
               num_partners:
                 Sex:
                   dist_type: poisson
@@ -117,7 +117,7 @@ demographics:
           init: 0.415
         drug_type:
           None:
-            ppl: 0.48
+            ppl: 1.0
             hiv:
               init: 0.132
               dx:
