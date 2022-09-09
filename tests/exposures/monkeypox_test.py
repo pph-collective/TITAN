@@ -115,7 +115,7 @@ def test_get_transmission_probability(make_model, make_agent):
 
     assert a.monkeypox.get_transmission_probability(model, "sex", p, 1) == p_sex * scale
     # Not transmissable with injection
-    assert a.monkeypox.get_transmission_probability(model, "inj", p, 1) == 0.0 
+    assert a.monkeypox.get_transmission_probability(model, "inj", p, 1) == 0.0
 
     # test one vers, one receptive
     a.sex_role = "receptive"
