@@ -221,11 +221,6 @@ class MonkeyPox(base_exposure.BaseExposure):
         # Logic for if needle or sex type interaction
         p: float
 
-        # get baseline probabilities
-        # TODO only sex?
-        partner_sex_role = partner.sex_role
-
-        # TODO sex roles don't matter
         # get partner's sex role during acts
         partner_sex_role = "versatile"
 
