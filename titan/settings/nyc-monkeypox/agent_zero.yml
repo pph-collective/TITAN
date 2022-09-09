@@ -1,0 +1,6 @@
+agent_zero:
+  num_partners: 4
+  fallback: false
+  interaction_type: sex
+  exposure: monkeypox
+  start_time: 1

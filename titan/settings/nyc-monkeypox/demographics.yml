@@ -1,0 +1,146 @@
+demographics:
+  black:
+    ppl: 0.182
+    sex_type:
+      MSM:
+        ppl: 1.0
+        sex_role:
+          init:
+            versatile: 0.200
+            insertive: 0.480
+            receptive: 0.320
+        safe_sex:
+          Main:
+            prob: 0.275
+          Casual:
+            prob: 0.409
+        drug_type:
+          None:
+            ppl: 1.0
+            monkeypox:
+              init: 0.0
+              dx:
+                init: 0.0
+                prob: 0.198
+            exit:
+              death:
+                base: 1.512
+            num_partners:
+              Main:
+                dist_type: negative_binomial
+                vars:
+                  1:
+                    value_type: float
+                    value: 1.56
+                  2:
+                    value_type: float
+                    value: 0.767
+              Casual:
+                dist_type: negative_binomial
+                vars:
+                  1:
+                    value_type: float
+                    value: 0.67
+                  2:
+                    value_type: float
+                    value: 0.39
+  latino:
+    ppl: 0.261
+    sex_type:
+      MSM:
+        ppl: 1.0
+        sex_role:  # calibration
+          init:
+            insertive: 0.220
+            receptive: 0.195
+            versatile: 0.585
+        safe_sex:
+          Main:
+            prob: 0.183
+          Casual:
+            prob: 0.341
+        prep:
+          discontinue: 0.025  # calibration
+          adherence: 0.719
+          cap: 0.026
+          init: 0.234
+        drug_type:
+          None:
+            ppl: 1.0
+            monkeypox:
+              init: 0.0006818
+              dx:
+                init: 0.920
+                prob: 0.055
+            exit:
+              death:
+                base: 0.792
+            num_partners:
+              Main:
+                dist_type: negative_binomial
+                vars:
+                  1:
+                    value_type: float
+                    value: 1.37
+                  2:
+                    value_type: float
+                    value: 0.754
+              Casual:
+                dist_type: negative_binomial
+                vars:
+                  1:
+                    value_type: float
+                    value: 0.46
+                  2:
+                    value_type: float
+                    value: 0.39
+  white:
+    ppl: 0.557
+    sex_type:
+      MSM:
+        ppl: 1.0
+        safe_sex:
+          Main:
+            prob: 0.126
+          Casual:
+            prob: 0.277
+        sex_role:
+          init:
+            insertive: 0.439
+            receptive: 0.286
+            versatile: 0.275
+        prep:
+          discontinue: 0.014
+          adherence: 0.738
+          cap: 0.031
+          init: 0.279
+        drug_type:
+          None:
+            ppl: 1.0
+            monkeypox:
+              init: 0.0
+              dx:
+                init: 0.920
+                prob: 0.155
+            exit:
+              death:
+                base: 0.1
+            num_partners:
+              Main:
+                dist_type: negative_binomial
+                vars:
+                  1:
+                    value_type: float
+                    value: 1.02
+                  2:
+                    value_type: float
+                    value: 0.624
+              Casual:
+                dist_type: negative_binomial
+                vars:
+                  1:
+                    value_type: float
+                    value: 0.57
+                  2:
+                    value_type: float
+                    value: 0.39
