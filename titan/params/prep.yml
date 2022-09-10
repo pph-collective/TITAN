@@ -50,6 +50,7 @@ prep:
       - pwid
       - pwid_sex
       - Racial
+      - top_partners
       - ssp
       - ssp_sex
     description: which models to use to determine who is enrolled in PrEP
@@ -71,3 +72,9 @@ prep:
       type: float
       min: 0
       max: 1
+  top_partners:
+    default: 1.0
+    description: If using the top_partners target model, what percent of the top agents to be eligible
+    type: float
+    min: 0
+    max: 1
