@@ -1652,7 +1652,8 @@
     <span class="c1"># if this is a new file, write the header info</span>
     <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
-            <span class="s2">&quot;run_id</span><span class="se">\t</span><span class="s2">runseed</span><span class="se">\t</span><span class="s2">popseed</span><span class="se">\t</span><span class="s2">t</span><span class="se">\t</span><span class="s2">component&quot;</span>
+            <span class="s2">&quot;run_id</span><span class="se">\t</span><span class="s2">runseed</span><span class="se">\t</span><span class="s2">popseed</span><span class="se">\t</span><span class="s2">t</span><span class="se">\t</span><span class="s2">component</span><span class="se">\t</span><span class="s2">agents&quot;</span>
+            <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">infected</span><span class="se">\t</span><span class="s2">trt</span><span class="se">\t</span><span class="s2">trtinfected&quot;</span>
             <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">density</span><span class="se">\t</span><span class="s2">EffectiveSize</span><span class="se">\t</span><span class="s2">deg_cent</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="p">)</span>
 
@@ -1663,9 +1664,19 @@
         <span class="n">comp_density</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">density</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
 
         <span class="n">deg_cent</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">degree_centrality</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+        <span class="n">nhiv</span> <span class="o">=</span> <span class="n">ntrthiv</span> <span class="o">=</span> <span class="n">ntrt</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">comp</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">hiv</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+                <span class="n">nhiv</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">random_trial</span><span class="o">.</span><span class="n">treated</span><span class="p">:</span>
+                    <span class="n">ntrthiv</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">random_trial</span><span class="o">.</span><span class="n">treated</span><span class="p">:</span>
+                <span class="n">ntrt</span> <span class="o">+=</span> <span class="mi">1</span>
 
         <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">run_id</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">runseed</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">popseed</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="se">\t</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">run_id</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">runseed</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">popseed</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">num_nodes</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="si">{</span><span class="n">nhiv</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">ntrt</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">ntrthiv</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="si">{</span><span class="n">comp_density</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="si">{</span><span class="n">average_size</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">deg_cent</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="p">)</span>
