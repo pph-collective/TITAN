@@ -1,0 +1,16 @@
+features:
+  exit_enter: true
+  agent_zero: false
+  assort_mix: true
+  vaccine: true
+
+outputs:
+  classes:
+    - races
+
+model:
+  num_pop: 171990
+  time:
+    num_steps: 365
+    steps_per_year: 365
+    burn_steps: 0

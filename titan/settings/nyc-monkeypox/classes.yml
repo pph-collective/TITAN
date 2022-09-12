@@ -1,0 +1,23 @@
+classes:
+  races:
+    white:
+      hispanic: false
+    black:
+      hispanic: false
+    latino:
+      hispanic: true
+  sex_types:
+    MSM:
+      gender: M
+      cis_trans: cis
+      sleeps_with:
+        - MSM
+  bond_types:
+    Main:
+      acts_allowed:
+        - sex
+    Casual:
+      acts_allowed:
+        - sex
+  drug_types:
+    - None

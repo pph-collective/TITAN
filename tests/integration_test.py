@@ -103,6 +103,7 @@ def test_model_reproducible(tmpdir):
         assert res_a[i]["pseed"] == res_b[i]["pseed"]
         assert res_a[i]["agents"] == res_b[i]["agents"]
         assert res_a[i]["hiv"] == res_b[i]["hiv"]
+        assert res_a[i]["monkeypox"] == res_b[i]["monkeypox"]
         assert res_a[i]["prep"] == res_b[i]["prep"]
         assert res_a[i]["death"] == res_b[i]["death"]
         assert res_a[i]["hiv_aids"] == res_b[i]["hiv_aids"]

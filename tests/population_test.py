@@ -94,6 +94,9 @@ def test_add_remove_agent_to_pop(make_population):
     agent.hiv.aids = True
     agent.hiv.dx = True
     agent.hiv.add_agent(agent)
+    agent.monkeypox.active = True
+    agent.monkeypox.dx = True
+    agent.monkeypox.add_agent(agent)
 
     pop.add_agent(agent)
 

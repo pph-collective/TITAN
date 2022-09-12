@@ -42,3 +42,6 @@ partnership:
         insertive: 0.0011
         receptive: 0.0138
         versatile: 0.00745
+  network:
+    same_component:
+      prob: 0.7
