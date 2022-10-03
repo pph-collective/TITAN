@@ -39,6 +39,11 @@ demographics:
                 prob: 0.1
               aids:
                 init: 0.1
+            monkeypox:
+              init: 0.1
+              dx:
+                init: 0.1
+                prob: 0.1
             haart:
               init: 0.1
               enroll:
@@ -59,6 +64,11 @@ demographics:
                 prob: 0.1
               aids:
                 init: 0.1
+            monkeypox:
+              init: 0.1
+              dx:
+                init: 0.1
+                prob: 0.1
             num_partners:
               Sex:
                 dist_type: poisson
@@ -296,6 +306,7 @@ outputs:
 
 exposures:
   hiv: true
+  monkeypox: true
   knowledge: true
 
 features:

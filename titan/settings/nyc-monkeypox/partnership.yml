@@ -1,0 +1,106 @@
+partnership:
+  sex:
+    acquisition:
+      MSM:
+        versatile: .00001005
+        insertive: .00001005
+        receptive: .00001005
+    frequency:
+      Main:
+        type: distribution
+        distribution:
+          dist_type: gamma
+          vars:
+            1:
+              value: 0.51
+              value_type: float
+            2:
+              value: .439
+              value_type: float
+      Casual:
+        type: distribution
+        distribution:
+          dist_type: gamma
+          vars:
+            1:
+              value: 0.55
+              value_type: float
+            2:
+              value: 0.131
+              value_type: float
+
+  duration:
+    Main:
+      white:
+        type: distribution
+        distribution:
+          dist_type: wald
+          vars:
+            1:
+              value: 2113.2
+              value_type: float
+            2:
+              value: 201.6
+              value_type: float
+          mean: 2113.2
+      black:
+        type: distribution
+        distribution:
+          dist_type: wald
+          vars:
+            1:
+              value: 626.4
+              value_type: float
+            2:
+              value: 82.8
+              value_type: float
+          mean: 626.4
+      latino:
+        type: distribution
+        distribution:
+          dist_type: wald
+          vars:
+            1:
+              value: 1065.6
+              value_type: float
+            2:
+              value: 115.2
+              value_type: float
+          mean: 1065.6
+    Casual:
+      white:
+        type: distribution
+        distribution:
+          dist_type: wald
+          vars:
+            1:
+              value: 352.8
+              value_type: float
+            2:
+              value: 39.6
+              value_type: float
+          mean: 352.8
+      black:
+        type: distribution
+        distribution:
+          dist_type: wald
+          vars:
+            1:
+              value: 518.4
+              value_type: float
+            2:
+              value: 46.8
+              value_type: float
+          mean: 518.4
+      latino:
+        type: distribution
+        distribution:
+          dist_type: wald
+          vars:
+            1:
+              value: 489.6
+              value_type: float
+            2:
+              value: 36.0
+              value_type: float
+          mean: 489.6

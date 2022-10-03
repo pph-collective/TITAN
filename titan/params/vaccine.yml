@@ -6,6 +6,13 @@ vaccine:
     values:
       - RV144
       - HVTN702
+      - other
+  efficacy:
+    default: 0.0
+    description: for "other" vaccine, how efficacious is the vaccine
+    type: float
+    min: 0.0
+    max: 1.0
   booster:
     default: true
     description: Whether to use booster vaccines

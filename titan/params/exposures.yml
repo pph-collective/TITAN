@@ -7,3 +7,7 @@ exposures:
     default: false
     description: Whether knowledge will be used as an exposure in the model
     type: boolean
+  monkeypox:
+    default: false
+    description: Whether monkeypox will be used as an exposure in the model
+    type: boolean
