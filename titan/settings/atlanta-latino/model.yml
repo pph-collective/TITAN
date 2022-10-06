@@ -4,15 +4,15 @@ model:
     run: 0
   num_pop: 17440
   time:
-    num_steps: 120
+    num_steps: 70
     steps_per_year: 12
-    burn_steps: 24
+    burn_steps: 0
   network:
     type: scale_free
 
 features:
   incar: false
-  prep: false
+  prep: true
   high_risk: false
   haart: true
   exit_enter: true
@@ -21,7 +21,7 @@ features:
   assort_mix: true
   vaccine: false
   partner_tracing: false
-  external_exposure: false
+  timeline_scaling: true
 
 prep:
   target_model:

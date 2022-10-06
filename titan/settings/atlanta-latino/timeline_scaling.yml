@@ -1,0 +1,92 @@
+timeline_scaling:
+  timeline:
+    white_1:
+      parameter: demographics|white|sex_type|MSM|prep|cap
+      start_time: 12
+      stop_time: 24
+      scalar: 2.397
+    white_2:
+      parameter: demographics|white|sex_type|MSM|prep|cap
+      start_time: 24
+      stop_time: 36
+      scalar: 3.648
+    white_3:
+      parameter: demographics|white|sex_type|MSM|prep|cap
+      start_time: 36
+      stop_time: 48
+      scalar: 4.912
+    white_4:
+      parameter: demographics|white|sex_type|MSM|prep|cap
+      start_time: 48
+      stop_time: 60
+      scalar: 5.514
+    white_5:
+      parameter: demographics|white|sex_type|MSM|prep|cap
+      start_time: 60
+      stop_time: 72
+      scalar: 5.802
+    white_6:
+      parameter: demographics|white|sex_type|MSM|prep|cap
+      start_time: 72
+      stop_time: 999
+      scalar: 5.939
+    black_1:
+      parameter: demographics|black|sex_type|MSM|prep|cap
+      start_time: 12
+      stop_time: 24
+      scalar: 2.393
+    black_2:
+      parameter: demographics|black|sex_type|MSM|prep|cap
+      start_time: 24
+      stop_time: 36
+      scalar: 3.562
+    black_3:
+      parameter: demographics|black|sex_type|MSM|prep|cap
+      start_time: 36
+      stop_time: 48
+      scalar: 4.755
+    black_4:
+      parameter: demographics|black|sex_type|MSM|prep|cap
+      start_time: 48
+      stop_time: 60
+      scalar: 5.291
+    black_5:
+      parameter: demographics|black|sex_type|MSM|prep|cap
+      start_time: 60
+      stop_time: 72
+      scalar: 5.528
+    black_6:
+      parameter: demographics|black|sex_type|MSM|prep|cap
+      start_time: 72
+      stop_time: 999
+      scalar: 5.631
+    latino_1:
+      parameter: demographics|latino|sex_type|MSM|prep|cap
+      start_time: 12
+      stop_time: 24
+      scalar: 2.405
+    latino_2:
+      parameter: demographics|latino|sex_type|MSM|prep|cap
+      start_time: 24
+      stop_time: 36
+      scalar: 3.660
+    latino_3:
+      parameter: demographics|latino|sex_type|MSM|prep|cap
+      start_time: 36
+      stop_time: 48
+      scalar: 4.957
+    latino_4:
+      parameter: demographics|latino|sex_type|MSM|prep|cap
+      start_time: 48
+      stop_time: 60
+      scalar: 5.593
+    latino_5:
+      parameter: demographics|latino|sex_type|MSM|prep|cap
+      start_time: 60
+      stop_time: 72
+      scalar: 5.905
+    latino_6:
+      parameter: demographics|latino|sex_type|MSM|prep|cap
+      start_time: 72
+      stop_time: 999
+      scalar: 6.057
