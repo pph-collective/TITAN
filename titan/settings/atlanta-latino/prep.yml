@@ -1,2 +1,3 @@
 prep:
-  target_model: Racial
+  target_model: 
+    - Racial
