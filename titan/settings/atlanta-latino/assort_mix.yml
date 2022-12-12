@@ -11,12 +11,6 @@ assort_mix:
     partner_values:
       black: 0.765
       __other__: 0.235
-  assort_latino:
-    attribute: race
-    agent_value: latino
-    partner_values:
-      latino: 0.175
-      __other__: 0.825
   assort_receptive:
     attribute: sex_role
     agent_value: receptive

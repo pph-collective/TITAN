@@ -2,7 +2,7 @@ model:
   seed:
     ppl: 0
     run: 0
-  num_pop: 17440
+  num_pop: 26937
   time:
     num_steps: 70
     steps_per_year: 12
