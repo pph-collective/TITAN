@@ -33,7 +33,7 @@ demographics:
                 init: 0.434
                 dx:
                   init: 0.655
-                  prob: 0.02
+                  prob: 0.0256
                 aids:
                   init: 0.232
               exit:
@@ -82,7 +82,7 @@ demographics:
                 init: 0.175
                 dx:
                   init: 0.818
-                  prob: 0.02
+                  prob: 0.0256
                 aids:
                   init: 0.167
               exit:
@@ -122,7 +122,7 @@ demographics:
               init: 0.132
               dx:
                 init: 0.818
-                prob: 0.055
+                prob: 0.0256
               aids:
                 init: 0.07
             exit:
