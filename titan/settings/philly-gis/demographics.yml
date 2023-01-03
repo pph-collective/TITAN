@@ -1,3 +1,32 @@
 demographics:
   black:
     ppl: 1.0
+    sex_type:
+      HM:
+        ppl: 0.414
+        sex_role:
+          init:
+            insertive: 1.0
+            versatile: 0.0
+        safe_sex:
+          Main:
+            prob: 0.74
+          Casual:
+            prob: 0.44
+          prep:
+            discontinue:
+              adherence:
+          drug_type:
+            None:
+              ppl: 1.0
+              hiv:
+                init: 0.035
+                dx: #come back to this on
+                  init:
+                  prob:
+                aids:
+                  init: 0.695
+              haart:
+                init:
+                enroll:
+
