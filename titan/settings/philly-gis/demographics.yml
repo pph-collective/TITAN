@@ -29,4 +29,42 @@ demographics:
               haart:
                 init:
                 enroll:
+                  enroll_0:
+                    prob:
+                    start:
+                    stop:
+                adherence:
+                  init:
+                    prob:
+                discontinue:
+              exit:
+                death:
+                  base: 7.15
+                  hiv: 24.6
+                  haart_adherent: 13.5
+                  aids: 45.9
+              num_partners:
+                Main:
+                  dist_type: negative_binomial
+                  vars:
+                    1:
+                      value_type: float
+                      value:
+                Casual:
+                  dist_type:
+                  vars:
+                    1:
+                      value_type: float
+                      value:
+      HF:
+        ppl: 0.586
+        sex_role:
+          init:
+            receptive: 1.0
+            versatile: 0.0
+          safe_sex:
+            Main:
+              prob: 0.79
+            Casual:
+              prob: 0.44
 
