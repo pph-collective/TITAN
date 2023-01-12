@@ -1,157 +1,156 @@
 location:
   scaling:
-    scaling_name: #Will rearrange once we figure out sections. Listing all things that will vary
-      demographics|notdisadvantaged|sex_type|HML5|ppl:
-        field: override
-        override: 1.0
-      demographics|notdisadvantaged|sex_type|HMM5|ppl:
-        field: override
-        override: 1.0
-      demographics|notdisadvantaged|sex_type|HFL5|ppl:
-        field: override
-        override: 1.0
-      demographics|notdisadvantaged|sex_type|HFM5|ppl:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HML5|ppl:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HMM5|ppl:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HFL5|ppl:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HFM5|ppl:
-        field: override
-        override: 1.0
+    demographics|notdisadvantaged|sex_type|HML5|ppl:
+      field: override
+      override: 1.0
+    demographics|notdisadvantaged|sex_type|HMM5|ppl:
+      field: override
+      override: 1.0
+    demographics|notdisadvantaged|sex_type|HFL5|ppl:
+      field: override
+      override: 1.0
+    demographics|notdisadvantaged|sex_type|HFM5|ppl:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HML5|ppl:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HMM5|ppl:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HFL5|ppl:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HFM5|ppl:
+      field: override
+      override: 1.0
 
-      #Incarceration rates at initiation and throughout simulation
-      demographics|notdisadvantaged|sex_type|HML5|incar|init:
-        field: override
-        override: 1.0
-      demographics|notdisadvantaged|sex_type|HML5|incar|prob:
-        field: override
-        override: 1.0
-      demographics|notdisadvantaged|sex_type|HMM5|incar|init:
-        field: override
-        override: 1.0
-      demographics|notdisadvantaged|sex_type|HMM5|incar|prob:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HML5|incar|init:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HML5|incar|prob:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HMM5|incar|init:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HMM5|incar|prob:
-        field: override
-        override: 1.0
+    #Incarceration rates at initiation and throughout simulation
+    demographics|notdisadvantaged|sex_type|HML5|incar|init:
+      field: override
+      override: 1.0
+    demographics|notdisadvantaged|sex_type|HML5|incar|prob:
+      field: override
+      override: 1.0
+    demographics|notdisadvantaged|sex_type|HMM5|incar|init:
+      field: override
+      override: 1.0
+    demographics|notdisadvantaged|sex_type|HMM5|incar|prob:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HML5|incar|init:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HML5|incar|prob:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HMM5|incar|init:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HMM5|incar|prob:
+      field: override
+      override: 1.0
 
-      #HIV Rate
-      demographics|notdisadvantaged|sex_type|HML5|safe_sex|drug_type|None|hiv|init:
-        field: override
-        override: 1.0
-      demographics|notdisadvantaged|sex_type|HMM5|safe_sex|drug_type|None|hiv|init:
-        field: override
-        override: 1.0
-      demographics|notdisadvantaged|sex_type|HFL5|safe_sex|drug_type|None|hiv|init:
-        field: override
-        override: 1.0
-      demographics|notdisadvantaged|sex_type|HFM5|safe_sex|drug_type|None|hiv|init:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HML5|safe_sex|drug_type|None|hiv|init:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HMM5|safe_sex|drug_type|None|hiv|init:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HFL5|safe_sex|drug_type|None|hiv|init:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HFM5|safe_sex|drug_type|None|hiv|init:
-        field: override
-        override: 1.0
+    #HIV Rate
+    demographics|notdisadvantaged|sex_type|HML5|safe_sex|drug_type|None|hiv|init:
+      field: override
+      override: 1.0
+    demographics|notdisadvantaged|sex_type|HMM5|safe_sex|drug_type|None|hiv|init:
+      field: override
+      override: 1.0
+    demographics|notdisadvantaged|sex_type|HFL5|safe_sex|drug_type|None|hiv|init:
+      field: override
+      override: 1.0
+    demographics|notdisadvantaged|sex_type|HFM5|safe_sex|drug_type|None|hiv|init:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HML5|safe_sex|drug_type|None|hiv|init:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HMM5|safe_sex|drug_type|None|hiv|init:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HFL5|safe_sex|drug_type|None|hiv|init:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HFM5|safe_sex|drug_type|None|hiv|init:
+      field: override
+      override: 1.0
 
-      #Enrollment into ART at initiation (linked in 2011)
-      demographics|notdisadvantaged|sex_type|HML5|safe_sex|drug_type|None|haart|init:
-        field: override
-        override: 1.0
-      demographics|notdisadvantaged|sex_type|HMM5|safe_sex|drug_type|None|haart|init:
-        field: override
-        override: 1.0
-      demographics|notdisadvantaged|sex_type|HFL5|safe_sex|drug_type|None|haart|init:
-        field: override
-        override: 1.0
-      demographics|notdisadvantaged|sex_type|HFM5|safe_sex|drug_type|None|haart|init:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HML5|safe_sex|drug_type|None|haart|init:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HMM5|safe_sex|drug_type|None|haart|init:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HFL5|safe_sex|drug_type|None|haart|init:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HFM5|safe_sex|drug_type|None|haart|init:
-        field: override
-        override: 1.0
+    #Enrollment into ART at initiation (linked in 2011)
+    demographics|notdisadvantaged|sex_type|HML5|safe_sex|drug_type|None|haart|init:
+      field: override
+      override: 1.0
+    demographics|notdisadvantaged|sex_type|HMM5|safe_sex|drug_type|None|haart|init:
+      field: override
+      override: 1.0
+    demographics|notdisadvantaged|sex_type|HFL5|safe_sex|drug_type|None|haart|init:
+      field: override
+      override: 1.0
+    demographics|notdisadvantaged|sex_type|HFM5|safe_sex|drug_type|None|haart|init:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HML5|safe_sex|drug_type|None|haart|init:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HMM5|safe_sex|drug_type|None|haart|init:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HFL5|safe_sex|drug_type|None|haart|init:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HFM5|safe_sex|drug_type|None|haart|init:
+      field: override
+      override: 1.0
 
-      #Enrollment into ART in 30 days (linked in 2012-2018)
-      demographics|notdisadvantaged|sex_type|HML5|safe_sex|drug_type|None|haart|enroll|enroll_0|prob:
-        field: override
-        override: 1.0
-      demographics|notdisadvantaged|sex_type|HMM5|safe_sex|drug_type|None|haart|enroll|enroll_0|prob:
-        field: override
-        override: 1.0
-      demographics|notdisadvantaged|sex_type|HFL5|safe_sex|drug_type|None|haart|enroll|enroll_0|prob:
-        field: override
-        override: 1.0
-      demographics|notdisadvantaged|sex_type|HFM5|safe_sex|drug_type|None|haart|enroll|enroll_0|prob:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HML5|safe_sex|drug_type|None|haart|enroll|enroll_0|prob:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HMM5|safe_sex|drug_type|None|haart|enroll|enroll_0|prob:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HFL5|safe_sex|drug_type|None|haart|enroll|enroll_0|prob:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HFM5|safe_sex|drug_type|None|haart|enroll|enroll_0|prob:
-        field: override
-        override: 1.0
+    #Enrollment into ART in 30 days (linked in 2012-2018)
+    demographics|notdisadvantaged|sex_type|HML5|safe_sex|drug_type|None|haart|enroll|enroll_0|prob:
+      field: override
+      override: 1.0
+    demographics|notdisadvantaged|sex_type|HMM5|safe_sex|drug_type|None|haart|enroll|enroll_0|prob:
+      field: override
+      override: 1.0
+    demographics|notdisadvantaged|sex_type|HFL5|safe_sex|drug_type|None|haart|enroll|enroll_0|prob:
+      field: override
+      override: 1.0
+    demographics|notdisadvantaged|sex_type|HFM5|safe_sex|drug_type|None|haart|enroll|enroll_0|prob:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HML5|safe_sex|drug_type|None|haart|enroll|enroll_0|prob:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HMM5|safe_sex|drug_type|None|haart|enroll|enroll_0|prob:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HFL5|safe_sex|drug_type|None|haart|enroll|enroll_0|prob:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HFM5|safe_sex|drug_type|None|haart|enroll|enroll_0|prob:
+      field: override
+      override: 1.0
 
-      #Enrollment into ART after 30 days (receiving care 2012-2018)
-      demographics|notdisadvantaged|sex_type|HML5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
-        field: override
-        override: 1.0
-      demographics|notdisadvantaged|sex_type|HMM5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
-        field: override
-        override: 1.0
-      demographics|notdisadvantaged|sex_type|HFL5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
-        field: override
-        override: 1.0
-      demographics|notdisadvantaged|sex_type|HFM5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HML5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HMM5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HFL5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
-        field: override
-        override: 1.0
-      demographics|disadvantaged|sex_type|HFM5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
-        field: override
-        override: 1.0
+    #Enrollment into ART after 30 days (receiving care 2012-2018)
+    demographics|notdisadvantaged|sex_type|HML5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
+      field: override
+      override: 1.0
+    demographics|notdisadvantaged|sex_type|HMM5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
+      field: override
+      override: 1.0
+    demographics|notdisadvantaged|sex_type|HFL5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
+      field: override
+      override: 1.0
+    demographics|notdisadvantaged|sex_type|HFM5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HML5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HMM5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HFL5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
+      field: override
+      override: 1.0
+    demographics|disadvantaged|sex_type|HFM5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
+      field: override
+      override: 1.0
