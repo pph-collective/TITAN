@@ -38,20 +38,20 @@ demographics:
                 aids:
                   init: 0.695
               haart:
-                init:
+                init: 0.634
                 enroll:
                   enroll_0:
-                    prob:
+                    prob: 0.679
                     start: 0
                     stop: 1
                   enroll_1:
-                    prob:
+                    prob: 0.246
                     start: 1
                     stop: 9999
                 adherence:
                   init: 0.591
                   prob:
-                discontinue:
+                discontinue: 0.495
               exit:
                 death:
                   base: 7.15
@@ -96,20 +96,20 @@ demographics:
                     aids:
                       init: 0.601
                   haart:
-                    init:
+                    init: 0714
                     enroll:
                       enroll_0:
-                        prob:
+                        prob: 0.604
                         start: 0
                         stop: 1
                       enroll_1:
-                        prob:
+                        prob: 0.166
                         start: 1
                         stop: 9999
                     adherence:
                       init: 0.591
                       prob:
-                    discontinue:
+                    discontinue: 0.538
                   exit:
                     death:
                       base: 4.17
@@ -168,20 +168,20 @@ white: # Disadvantaged
                 aids:
                   init: 0.695
               haart:
-                init:
+                init: 0.634
                 enroll:
                   enroll_0:
-                    prob:
+                    prob: 0.679
                     start: 0
                     stop: 1
                   enroll_1:
-                    prob:
+                    prob: 0.246
                     start: 1
                     stop: 9999
                 adherence:
                   init: 0.5783
                   prob:
-                discontinue:
+                discontinue: 0.283
               exit:
                 death:
                   base: 7.15
@@ -226,20 +226,20 @@ white: # Disadvantaged
                     aids:
                       init: 0.601
                   haart:
-                    init:
+                    init: 0.714
                     enroll:
                       enroll_0:
-                        prob:
+                        prob: 0.604
                         start: 0
                         stop: 1
                       enroll_1:
-                        prob:
+                        prob: 0.166
                         start: 1
                         stop: 9999
                     adherence:
                       init: 0.591
                       prob:
-                    discontinue:
+                    discontinue: 0.538
                   exit:
                     death:
                       base: 4.17
