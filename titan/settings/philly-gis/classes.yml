@@ -1,0 +1,40 @@
+classes:
+  races: #changing the names within races
+    disadvantaged:
+      hispanic: false
+    notdisadvantaged:
+      hispanic: false
+  sex_types:
+    HML5: #HM residing less than 5 miles from treatment site
+      gender: M
+      cis_trans: cis
+      sleeps_with:
+          -HF
+          -MTF
+    HMM5: #HM residing more than 5 miles from treatment site
+      gender: M
+      cis_trans: cis
+      sleeps_with:
+          -HF
+          -MTF
+    HFL5: #HF residing less than 5 miles from treatment site
+      gender: F
+      cis_trans: cis
+      sleeps_with:
+        - HM
+        -
+  HFM5: #HF residing more than 5 miles from treatment site
+    gender: F
+    cis_trans: cis
+    sleeps_with:
+      - HM
+
+  bond_types:
+    Main:
+      acts_allowed:
+        - sex
+    Casual:
+      acts_allowed:
+        - sex
+    drug_types:
+      - None
