@@ -31,7 +31,7 @@ demographics:
               init: 0.030
               dx:
                 init: 0.90
-                prob: 0.90
+                prob: 0.0667
               aids:
                 init: 0.695
                 prob:  0.0495
@@ -98,7 +98,7 @@ demographics:
               init: 0.030
               dx:
                 init: 0.90
-                prob: 0.90
+                prob: 0.0.0564
               aids:
                 init: 0.695
                 prob: 0.0495
@@ -154,7 +154,7 @@ demographics:
               init: 0.0122
               dx:
                 init: 0.90
-                prob: 0.90
+                prob: 0.0.0684
               aids:
                 init: 0.601
                 prob: 0.055
@@ -210,7 +210,7 @@ demographics:
               init: 0.0122
               dx:
                 init: 0.90
-                prob: 0.90
+                prob: 0.0582
               aids:
                 init: 0.601
                 prob: 0.055
@@ -281,7 +281,7 @@ disadvantaged:
               init: 0.030
               dx:
                 init: 0.90
-                prob: 0.90
+                prob: 0.0662
               aids:
                 init: 0.695
                 prob: 0.0495
@@ -348,7 +348,7 @@ disadvantaged:
               init: 0.030
               dx:
                 init: 0.90
-                prob: 0.90
+                prob: 0.056
               aids:
                 init: 0.695
                 prob: 0.0495
@@ -404,7 +404,7 @@ disadvantaged:
               init: 0.0122
               dx:
                 init: 0.90
-                prob: 0.90
+                prob: 0.0674
               aids:
                 init: 0.601
                 prob: 0.0545
@@ -460,7 +460,7 @@ disadvantaged:
               init: 0.0122
               dx:
                 init: 0.90
-                prob: 0.90
+                prob: 0.0577
               aids:
                 init: 0.601
                 prob: 0.0545

@@ -1,0 +1,58 @@
+assort_mix: #probabilities currently included are for same neighborhood. How to distinguish between same and not same?
+  assort_disadvantaged_HML5:
+    attribute: race.sex_type
+    agent_value: disadvantaged.HML5
+    partner_attribute: location
+    partner_values:
+      disadvantaged.HFL5: 0.44
+      disadnvataged.HFM5: 0.44
+  assort_disadvantaged_HMM5:
+    attribute: race.sex_type
+    agent_value: disadvantaged.HMM5
+    partner_attribute: location
+    partner_values:
+      disadvantaged.HFL5: 0.44
+      disadnvataged.HFM5: 0.44
+  assort_disadvantaged_HFL5:
+    attribute: race.sex_type
+    agent_value: disadvantaged.HFL5
+    partner_attribute: location
+    partner_values:
+      disadvantaged.HML5: 0.50
+      disadnvataged.HMM5: 0.50
+  assort_disadvantaged_HFM5:
+    attribute: race.sex_type
+    agent_value: disadvantaged.HFM5
+    partner_attribute: location
+    partner_values:
+      disadvantaged.HML5: 0.50
+      disadnvataged.HMM5: 0.50
+
+  assort_notdisadvantaged_HML5:
+      attribute: race.sex_type
+      agent_value: notdisadvantaged.HML5
+      partner_attribute: location
+      partner_values:
+        notdisadvantaged.HFL5: 0.159
+        notdisadnvataged.HFM5: 0.159
+  assort_notdisadvantaged_HMM5:
+    attribute: race.sex_type
+    agent_value: notdisadvantaged.HMM5
+    partner_attribute: location
+    partner_values:
+      notdisadvantaged.HFL5: 0.159
+      notdisadnvataged.HFM5: 0.159
+  assort_notdisadvantaged_HFL5:
+    attribute: race.sex_type
+    agent_value: notdisadvantaged.HFL5
+    partner_attribute: location
+    partner_values:
+      notdisadvantaged.HML5: 0.18
+      notdisadnvataged.HMM5: 0.18
+  assort_notdisadvantaged_HFM5:
+    attribute: race.sex_type
+    agent_value: notdisadvantaged.HFM5
+    partner_attribute: location
+    partner_values:
+      notdisadvantaged.HML5: 0.18
+      notdisadnvataged.HMM5: 0.18

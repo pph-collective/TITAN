@@ -1,0 +1,6 @@
+hiv:
+  dx:
+    risk_reduction:
+      sex: 0.53
+  aids:
+    prob: #check for ability to stratify
