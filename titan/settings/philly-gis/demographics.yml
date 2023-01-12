@@ -24,9 +24,6 @@ demographics:
             prob: 0.324
           Casual:
             prob: 0.574
-          prep:
-            discontinue:
-              adherence:
           drug_type:
             None:
               ppl: 1.0
@@ -34,9 +31,10 @@ demographics:
                 init: 0.030
                 dx:
                   init: 0.90
-                  prob:
+                  prob: 0.90
                 aids:
                   init: 0.695
+                  prob:  0.0495
               haart:
                 init: 0.634
                 enroll:
@@ -49,8 +47,8 @@ demographics:
                     start: 1
                     stop: 9999
                 adherence:
-                  init: 0.591
-                  prob:
+                  init: 1.00
+                  prob: 0.591
                 discontinue: 0.495
               exit:
                 death:
@@ -82,9 +80,6 @@ demographics:
               prob: 0.254
             Casual:
               prob: 0.613
-            prep:
-              discontinue:
-                adherence:
               drug_type:
                 None:
                   ppl: 1.0
@@ -92,11 +87,12 @@ demographics:
                     init: 0.0122
                     dx:
                       init: 0.90
-                      prob:
+                      prob: 0.90
                     aids:
                       init: 0.601
+                      prob: 0.055
                   haart:
-                    init: 0714
+                    init: 0.714
                     enroll:
                       enroll_0:
                         prob: 0.604
@@ -107,8 +103,8 @@ demographics:
                         start: 1
                         stop: 9999
                     adherence:
-                      init: 0.591
-                      prob:
+                      init: 1.0
+                      prob: 0.591
                     discontinue: 0.538
                   exit:
                     death:
@@ -154,9 +150,6 @@ white: # Disadvantaged
             prob: 0.26
           Casual:
             prob: 0.56
-          prep:
-            discontinue:
-              adherence:
           drug_type:
             None:
               ppl: 1.0
@@ -164,9 +157,10 @@ white: # Disadvantaged
                 init: 0.030
                 dx:
                   init: 0.90
-                  prob:
+                  prob: 0.90
                 aids:
                   init: 0.695
+                  prob: 0.0495
               haart:
                 init: 0.634
                 enroll:
@@ -179,8 +173,8 @@ white: # Disadvantaged
                     start: 1
                     stop: 9999
                 adherence:
-                  init: 0.5783
-                  prob:
+                  init: 1.0
+                  prob: 0.5783
                 discontinue: 0.283
               exit:
                 death:
@@ -212,9 +206,6 @@ white: # Disadvantaged
               prob: 0.254
             Casual:
               prob: 0.613
-            prep:
-              discontinue:
-                adherence:
               drug_type:
                 None:
                   ppl: 1.0
@@ -222,9 +213,10 @@ white: # Disadvantaged
                     init: 0.0122
                     dx:
                       init: 0.90
-                      prob:
+                      prob: 0.90
                     aids:
                       init: 0.601
+                      prob: 0.0545
                   haart:
                     init: 0.714
                     enroll:
@@ -237,8 +229,8 @@ white: # Disadvantaged
                         start: 1
                         stop: 9999
                     adherence:
-                      init: 0.591
-                      prob:
+                      init: 1.0
+                      prob: 0.591
                     discontinue: 0.538
                   exit:
                     death:

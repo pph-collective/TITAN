@@ -5,6 +5,8 @@ incar:
     dx:
       init: 0.51
       prob: 0.79
+    multiplier: 5
+    aids: 0.189 #can I add the aids prevalence in corrections?
   haart:
     prob: 0.65
     adherence: 0.58
