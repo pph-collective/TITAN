@@ -22,7 +22,6 @@ classes:
       cis_trans: cis
       sleeps_with:
         - HM
-        -
   HFM5: #HF residing more than 5 miles from treatment site
     gender: F
     cis_trans: cis

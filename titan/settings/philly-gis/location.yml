@@ -26,7 +26,7 @@ location:
         field: override
         override: 1.0
 
-      #Incarceration rates at initation and throughout simulation
+      #Incarceration rates at initiation and throughout simulation
       demographics|notdisadvantaged|sex_type|HML5|incar|init:
         field: override
         override: 1.0
@@ -134,10 +134,10 @@ location:
       demographics|notdisadvantaged|sex_type|HML5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
         field: override
         override: 1.0
-      demographics|notdisadvantaged|sex_type|HFM5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
+      demographics|notdisadvantaged|sex_type|HMM5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
         field: override
         override: 1.0
-      demographics|notdisadvantaged|sex_type|HML5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
+      demographics|notdisadvantaged|sex_type|HFL5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
         field: override
         override: 1.0
       demographics|notdisadvantaged|sex_type|HFM5|safe_sex|drug_type|None|haart|enroll|enroll_1|prob:
