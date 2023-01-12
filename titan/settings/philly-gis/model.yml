@@ -1,0 +1,17 @@
+model:
+  seed: #add seed number when testing model
+  num_pop: 6500 #number of people for test
+  time:
+    num_steps: 228 #19 years
+    steps_per_year: 12
+    burn_Steps: 48 #2011-2014 burn time
+  network:
+    type: scale_free
+
+features:
+  incar: true
+  prep: false
+  haart: true
+  assort_mix: true
+  high_risk: false
+  exit_enter: true
