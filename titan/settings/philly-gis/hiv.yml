@@ -3,4 +3,4 @@ hiv:
     risk_reduction:
       sex: 0.53
   aids:
-    prob: #check for ability to stratify
+    prob: 0.6624

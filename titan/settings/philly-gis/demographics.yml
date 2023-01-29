@@ -1,9 +1,9 @@
 demographics:
   notdisadvantaged:
-    ppl: 0.321
+    ppl: 0.3367
     sex_type:
       HML5:
-        ppl: 0.427 #Update
+        ppl: 0.2045
         sex_role:
           init:
             insertive: 1.0
@@ -34,7 +34,6 @@ demographics:
                 prob: 0.0667
               aids:
                 init: 0.695
-                prob:  0.0495
             haart:
               init: 0.634
               enroll:
@@ -70,7 +69,7 @@ demographics:
                     value_type: float
                     value: 1.5
       HMM5:
-        ppl: 0.427 #Update
+        ppl: 0.2253 #Update
         sex_role:
           init:
             insertive: 1.0
@@ -101,7 +100,6 @@ demographics:
                 prob: 0.0.0564
               aids:
                 init: 0.695
-                prob: 0.0495
             haart:
               init: 0.634
               enroll:
@@ -137,7 +135,7 @@ demographics:
                     value_type: float
                     value: 1.5
       HFL5:
-        ppl: 0.573 #Update
+        ppl: 0.2911 #Update
         sex_role:
           init:
             receptive: 1.0
@@ -157,7 +155,6 @@ demographics:
                 prob: 0.0.0684
               aids:
                 init: 0.601
-                prob: 0.055
             haart:
               init: 0.714
               enroll:
@@ -193,7 +190,7 @@ demographics:
                     value_type: float
                     value: 1.2
       HFM5:
-        ppl: 0.573 #Update
+        ppl: 0.2791 #Update
         sex_role:
           init:
             receptive: 1.0
@@ -213,7 +210,6 @@ demographics:
                 prob: 0.0582
               aids:
                 init: 0.601
-                prob: 0.055
             haart:
               init: 0.714
               enroll:
@@ -250,10 +246,10 @@ demographics:
                     value: 1.2
 
 disadvantaged:
-  ppl: 0.679
+  ppl: 0.6633
     sex_type:
       HML5:
-        ppl: 0.406
+        ppl: 0.4052
         sex_role:
           init:
             insertive: 1.0
@@ -284,7 +280,6 @@ disadvantaged:
                 prob: 0.0662
               aids:
                 init: 0.695
-                prob: 0.0495
             haart:
               init: 0.634
               enroll:
@@ -320,7 +315,7 @@ disadvantaged:
                     value_type: float
                     value: 4.21
       HMM5:
-        ppl: 0.406 #Update
+        ppl: 0.0009 #Update
         sex_role:
           init:
             insertive: 1.0
@@ -351,7 +346,6 @@ disadvantaged:
                 prob: 0.056
               aids:
                 init: 0.695
-                prob: 0.0495
             haart:
               init: 0.634
               enroll:
@@ -363,7 +357,7 @@ disadvantaged:
                   prob: 0.246
                   start: 1
                   stop: 9999
-              adherence:
+              adherence: #virally suppressed
                 init: 1.0
                 prob: 0.3007
               discontinue: 0.283
@@ -387,7 +381,7 @@ disadvantaged:
                     value_type: float
                     value: 4.21
       HFL5:
-        ppl: 0.594 #Update
+        ppl: 0.6 #Update
         sex_role:
           init:
             receptive: 1.0
@@ -407,7 +401,6 @@ disadvantaged:
                 prob: 0.0674
               aids:
                 init: 0.601
-                prob: 0.0545
             haart:
               init: 0.714
               enroll:
@@ -443,7 +436,7 @@ disadvantaged:
                     value_type: float
                     value: 4.74
       HFM5:
-        ppl: 0.594 #Update
+        ppl: 0.0039 #Update
         sex_role:
           init:
             receptive: 1.0
@@ -463,7 +456,6 @@ disadvantaged:
                 prob: 0.0577
               aids:
                 init: 0.601
-                prob: 0.0545
             haart:
               init: 0.714
               enroll:

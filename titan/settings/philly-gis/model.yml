@@ -13,5 +13,23 @@ features:
   prep: false
   haart: true
   assort_mix: true
-  high_risk: false
+  high_risk: true
   exit_enter: true
+
+locations:
+  ND_HML5_params:
+    ppl: 0.0689
+  ND_HMM5_params:
+    ppl: 0.0759
+  ND_HFL5_params:
+    ppl: 0.0980
+  ND_HFM5_params:
+    ppl: 0.0940
+  D_HML5_params:
+    ppl: 0.2688
+  D_HMM5_params:
+    ppl: 0.0006
+  D_HFL5_params:
+    ppl: 0.3913
+  D_HFM5_params:
+    ppl: 0.0026

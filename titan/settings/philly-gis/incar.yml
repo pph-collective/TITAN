@@ -1,12 +1,10 @@
 incar:
   hiv:
-    init: 0.0142
-    prob: 0.221
-    dx:
-      init: 0.51
-      prob: 0.79
+    #Is it possible to include hiv|init and/or hiv|prob?
+    #init: 0.0142
+    #prob: 0.221
+    dx: 0.51
     multiplier: 5
-    aids: 0.189 #can I add the aids prevalence in corrections?
   haart:
     prob: 0.65
     adherence: 0.58

@@ -1,0 +1,8 @@
+high_risk:
+  partner_scale: 3.2
+  prob: 0.39
+  sex_based:
+    -HFL5
+    -HFM5
+    duration: 6
+  partnership_types: Sex

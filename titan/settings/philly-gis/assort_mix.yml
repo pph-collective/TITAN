@@ -1,58 +1,44 @@
-assort_mix: #probabilities currently included are for same neighborhood. How to distinguish between same and not same?
-  assort_disadvantaged_HML5:
-    attribute: race.sex_type
-    agent_value: disadvantaged.HML5
+assort_mix:
+  assort_disadvantaged:
+    attribute: race
+    agent_value: disadvantaged
     partner_attribute: location
     partner_values:
-      disadvantaged.HFL5: 0.44
-      disadnvataged.HFM5: 0.44
-  assort_disadvantaged_HMM5:
-    attribute: race.sex_type
-    agent_value: disadvantaged.HMM5
+      disadvantaged: 0.79
+      notdisadvantaged: 0.21
+  assort_notdisadvantaged:
+    attribute: race
+    agent_value: notdisadvantaged
     partner_attribute: location
     partner_values:
-      disadvantaged.HFL5: 0.44
-      disadnvataged.HFM5: 0.44
-  assort_disadvantaged_HFL5:
-    attribute: race.sex_type
-    agent_value: disadvantaged.HFL5
-    partner_attribute: location
-    partner_values:
-      disadvantaged.HML5: 0.50
-      disadnvataged.HMM5: 0.50
-  assort_disadvantaged_HFM5:
-    attribute: race.sex_type
-    agent_value: disadvantaged.HFM5
-    partner_attribute: location
-    partner_values:
-      disadvantaged.HML5: 0.50
-      disadnvataged.HMM5: 0.50
+      disadvantaged: 0.36
+      notdisadvantaged: 0.64
 
-  assort_notdisadvantaged_HML5:
-      attribute: race.sex_type
-      agent_value: notdisadvantaged.HML5
-      partner_attribute: location
-      partner_values:
-        notdisadvantaged.HFL5: 0.159
-        notdisadnvataged.HFM5: 0.159
-  assort_notdisadvantaged_HMM5:
-    attribute: race.sex_type
-    agent_value: notdisadvantaged.HMM5
+  assort_HML5:
+    attribute: sex_type
+    agent_value: HML5
     partner_attribute: location
     partner_values:
-      notdisadvantaged.HFL5: 0.159
-      notdisadnvataged.HFM5: 0.159
-  assort_notdisadvantaged_HFL5:
-    attribute: race.sex_type
-    agent_value: notdisadvantaged.HFL5
+      HFL5: 0.44
+      __other__: 0.56
+  assort_HMM5:
+    attribute: sex_type
+    agent_value: HMM5
     partner_attribute: location
     partner_values:
-      notdisadvantaged.HML5: 0.18
-      notdisadnvataged.HMM5: 0.18
-  assort_notdisadvantaged_HFM5:
-    attribute: race.sex_type
-    agent_value: notdisadvantaged.HFM5
+      __other__: 0.56
+      HFM5: 0.44
+  assort_HFL5:
+    attribute: sex_type
+    agent_value: HFL5
     partner_attribute: location
     partner_values:
-      notdisadvantaged.HML5: 0.18
-      notdisadnvataged.HMM5: 0.18
+      HML5: 0.50
+      __other__: 0.50
+  assort_HFM5:
+    attribute: sex_type
+    agent_value: HFM5
+    partner_attribute: location
+    partner_values:
+      __other__: 0.50
+      HMM5: 0.50
