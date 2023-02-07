@@ -1,8 +1,5 @@
 incar:
   hiv:
-    #Is it possible to include hiv|init and/or hiv|prob?
-    #init: 0.0142
-    #prob: 0.221
     dx: 0.51
     multiplier: 5
   haart:

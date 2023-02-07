@@ -10,26 +10,44 @@ classes:
       gender: M
       cis_trans: cis
       sleeps_with:
-          -HFL5
-          -HFM5
+        - HFL5
+        - HFM5
     HMM5: #HM residing more than 5 miles from treatment site
       gender: M
       cis_trans: cis
       sleeps_with:
-        -HFL5
-        -HFM5
+        - HFL5
+        - HFM5
     HFL5: #HF residing less than 5 miles from treatment site
       gender: F
       cis_trans: cis
       sleeps_with:
         - HML5
         - HMM5
-  HFM5: #HF residing more than 5 miles from treatment site
-    gender: F
-    cis_trans: cis
-    sleeps_with:
-      - HML5
-      - HMM5
+    HFM5: #HF residing more than 5 miles from treatment site
+      gender: F
+      cis_trans: cis
+      sleeps_with:
+        - HML5
+        - HMM5
+        
+  locations:
+    ND_HML5_params:
+      ppl: 0.0689
+    ND_HMM5_params:
+      ppl: 0.0759
+    ND_HFL5_params:
+      ppl: 0.0980
+    ND_HFM5_params:
+      ppl: 0.0940
+    D_HML5_params:
+      ppl: 0.2688
+    D_HMM5_params:
+      ppl: 0.0006
+    D_HFL5_params:
+      ppl: 0.3913
+    D_HFM5_params:
+      ppl: 0.0026
 
   bond_types:
     Main:
@@ -38,5 +56,5 @@ classes:
     Casual:
       acts_allowed:
         - sex
-    drug_types:
-      - None
+  drug_types:
+    - None

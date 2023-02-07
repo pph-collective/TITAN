@@ -4,7 +4,7 @@ model:
   time:
     num_steps: 228 #19 years
     steps_per_year: 12
-    burn_Steps: 48 #2011-2014 burn time
+    burn_steps: 48 #2011-2014 burn time
   network:
     type: scale_free
 
@@ -15,21 +15,3 @@ features:
   assort_mix: true
   high_risk: true
   exit_enter: true
-
-locations:
-  ND_HML5_params:
-    ppl: 0.0689
-  ND_HMM5_params:
-    ppl: 0.0759
-  ND_HFL5_params:
-    ppl: 0.0980
-  ND_HFM5_params:
-    ppl: 0.0940
-  D_HML5_params:
-    ppl: 0.2688
-  D_HMM5_params:
-    ppl: 0.0006
-  D_HFL5_params:
-    ppl: 0.3913
-  D_HFM5_params:
-    ppl: 0.0026

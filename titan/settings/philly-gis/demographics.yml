@@ -13,12 +13,15 @@ demographics:
           prob: 0.032
           duration:
             prob:
-              min: 8
-              max: 22
-            init:
-              prob:
+              1: 
                 min: 8
                 max: 22
+                prob: 1
+            init:
+              1:
+                min: 8
+                max: 22
+                prob: 1
         safe_sex:
           Main:
             prob: 0.324
@@ -63,7 +66,7 @@ demographics:
                     value_type: float
                     value: 1.5
               Casual:
-                dist_type:
+                dist_type: negative_binomial
                 vars:
                   1:
                     value_type: float
@@ -79,10 +82,13 @@ demographics:
           prob: 0.032
           duration:
             prob:
-              min: 8
-              max: 22
+              1:
+                min: 8
+                max: 22
+                prob: 1.0
             init:
-              prob:
+              1:
+                prob: 1.0
                 min: 8
                 max: 22
         safe_sex:
@@ -97,7 +103,7 @@ demographics:
               init: 0.030
               dx:
                 init: 0.90
-                prob: 0.0.0564
+                prob: 0.0564
               aids:
                 init: 0.695
             haart:
@@ -129,7 +135,7 @@ demographics:
                     value_type: float
                     value: 1.5
               Casual:
-                dist_type:
+                dist_type: negative_binomial
                 vars:
                   1:
                     value_type: float
@@ -152,7 +158,7 @@ demographics:
               init: 0.0122
               dx:
                 init: 0.90
-                prob: 0.0.0684
+                prob: 0.0684
               aids:
                 init: 0.601
             haart:
@@ -184,8 +190,8 @@ demographics:
                     value_type: float
                     value: 1.2
               Casual:
-                dist_type:
-                vars:
+                dist_type: negative_binomial
+                vars: 
                   1:
                     value_type: float
                     value: 1.2
@@ -239,17 +245,17 @@ demographics:
                     value_type: float
                     value: 1.2
               Casual:
-                dist_type:
+                dist_type: negative_binomial
                 vars:
                   1:
                     value_type: float
                     value: 1.2
 
-disadvantaged:
-  ppl: 0.6633
+  disadvantaged:
+    ppl: 0.6633
     sex_type:
       HML5:
-        ppl: 0.4052
+        ppl: 0.3952
         sex_role:
           init:
             insertive: 1.0
@@ -259,10 +265,13 @@ disadvantaged:
           prob: 0.032
           duration:
             prob:
-              min: 8
-              max: 22
+              1:
+                min: 8
+                max: 22
+                prob: 1.0
             init:
-              prob:
+              1:
+                prob: 1.0
                 min: 8
                 max: 22
         safe_sex:
@@ -309,7 +318,7 @@ disadvantaged:
                     value_type: float
                     value: 4.21
               Casual:
-                dist_type:
+                dist_type: negative_binomial
                 vars:
                   1:
                     value_type: float
@@ -325,10 +334,13 @@ disadvantaged:
           prob: 0.032
           duration:
             prob:
-              min: 8
-              max: 22
+              1:
+                min: 8
+                max: 22
+                prob: 1.0
             init:
-              prob:
+              1:
+                prob: 1.0
                 min: 8
                 max: 22
         safe_sex:
@@ -375,7 +387,7 @@ disadvantaged:
                     value_type: float
                     value: 4.21
               Casual:
-                dist_type:
+                dist_type: negative_binomial
                 vars:
                   1:
                     value_type: float
@@ -430,7 +442,7 @@ disadvantaged:
                     value_type: float
                     value: 4.74
               Casual:
-                dist_type:
+                dist_type: negative_binomial
                 vars:
                   1:
                     value_type: float
@@ -485,7 +497,7 @@ disadvantaged:
                     value_type: float
                     value: 4.74
               Casual:
-                dist_type:
+                dist_type: negative_binomial
                 vars:
                   1:
                     value_type: float
