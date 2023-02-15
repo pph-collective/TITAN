@@ -128,7 +128,7 @@ class HighRisk(base_feature.BaseFeature):
     # ============== HELPER METHODS ================
 
     def become_high_risk(
-        self, pop: "population.Population", time: int, duration: int = None
+        self, pop: "population.Population", time: int, duration: Optional[int] = None
     ):
         """
         Mark an agent as high risk and assign a duration to their high risk period
