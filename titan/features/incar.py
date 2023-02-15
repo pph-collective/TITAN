@@ -8,7 +8,6 @@ from .. import utils
 
 
 class Incar(base_feature.BaseFeature):
-
     name = "incar"
     stats = ["incar", "incar_hiv", "new_release", "new_release_hiv"]
     """

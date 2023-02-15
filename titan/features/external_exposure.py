@@ -5,7 +5,6 @@ from .. import model
 
 
 class ExternalExposure(base_feature.BaseFeature):
-
     name = "external_exposure"
 
     def __init__(self, agent: "agent.Agent"):

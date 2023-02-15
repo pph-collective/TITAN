@@ -13,6 +13,7 @@ from titan.parse_params import ObjMap, create_params
 from titan.model import TITAN
 from titan.run_titan import script_init
 
+
 # overwrite
 @pytest.fixture
 def params_integration(tmpdir):
