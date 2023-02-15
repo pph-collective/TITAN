@@ -16,7 +16,7 @@ python = "^3.8"
 paraml= "^0.1"
 networkx = "^2.4"
 nanoid = "^2.0"
-numpy = "^1.21"
+numpy = "^1.23"
 black = {version = "^20.8b1", optional = true}
 flake8 = {version = "^3.8", optional = true}
 mypy = {version = "^0.812", optional = true}
