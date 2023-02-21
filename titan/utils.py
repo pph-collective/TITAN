@@ -391,7 +391,7 @@ def grid_file_to_edges(file_path: str, diagonal_neighbors: bool = False) -> Dict
                     add_edge(edges, loc, grid[i + 1][j - 1])
 
     res = {}
-    for (i, edge) in enumerate(edges):
+    for i, edge in enumerate(edges):
         res[f"edge_{i+1}"] = {"location_1": edge[0], "location_2": edge[1]}
 
     return res

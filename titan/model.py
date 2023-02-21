@@ -192,9 +192,9 @@ class TITAN:
             "  STARTING HIV count:{}  Total Incarcerated:{}  HR+:{}  "
             "PrEP:{}".format(
                 len(exposures.HIV.agents),
-                sum([1 for a in self.pop.all_agents if a.incar.active]),  # type: ignore[attr-defined]
-                sum([1 for a in self.pop.all_agents if a.high_risk.active]),  # type: ignore[attr-defined]
-                sum([1 for a in self.pop.all_agents if a.prep.active]),  # type: ignore[attr-defined]
+                sum([1 for a in self.pop.all_agents if a.incar.active]),  # type: ignore[misc, attr-defined]
+                sum([1 for a in self.pop.all_agents if a.high_risk.active]),  # type: ignore[misc, attr-defined]
+                sum([1 for a in self.pop.all_agents if a.prep.active]),  # type: ignore[misc, attr-defined]
             )
         )
 

@@ -9,7 +9,6 @@ import networkx as nx  # type: ignore
 
 
 class RandomTrial(base_feature.BaseFeature):
-
     name = "random_trial"
     stats = [
         "random_trial",

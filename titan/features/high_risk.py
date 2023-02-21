@@ -11,7 +11,6 @@ from ..distributions import poisson
 
 
 class HighRisk(base_feature.BaseFeature):
-
     name = "high_risk"
     stats = [
         "high_risk_new",
@@ -76,7 +75,6 @@ class HighRisk(base_feature.BaseFeature):
 
             # incarcerated last step, evaluate agent's partners for high risk
             elif self.agent.incar.time == model.time - 1:  # type: ignore[attr-defined]
-
                 # put partners in high risk
                 for partner in self.agent.get_partners(
                     self.agent.location.params.high_risk.partnership_types
@@ -130,7 +128,7 @@ class HighRisk(base_feature.BaseFeature):
     # ============== HELPER METHODS ================
 
     def become_high_risk(
-        self, pop: "population.Population", time: int, duration: int = None
+        self, pop: "population.Population", time: int, duration: Optional[int] = None
     ):
         """
         Mark an agent as high risk and assign a duration to their high risk period
