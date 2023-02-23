@@ -6,6 +6,10 @@ high_risk:
       duration: 6
     HFM5:
       duration: 6
+    HML5:
+      duration: 6
+    HMM5:
+      duration: 6
   partnership_types:
     - Main
     - Casual
