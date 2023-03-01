@@ -4305,6 +4305,1359 @@ location:
         field: override
         override: 0.6667
 
+    42101016702:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00743
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00615
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0261
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101016800:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00778
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00914
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0498
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101016901:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00662
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00906
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0391
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101016902:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.01119
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.01179
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0477
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101017100:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.01068
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00920
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0272
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0109
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0042
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0682
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0533
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6889
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.8125
+
+    42101017201:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00742
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00951
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0425
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101017202:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.009
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00765
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0350
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101017300:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00810
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00839
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0369
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101017400:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00680
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00385
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0238
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101017500:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00613
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00623
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0448
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101017602:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00066
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00092
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0854
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101017601:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00277
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00245
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0146
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0243
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0109
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0576
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0460
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.8750
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101017701:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00269
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00125
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0450
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0243
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0109
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0576
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0460
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.8750
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101017702:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00245
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00222
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0363
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0243
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0109
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0576
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0460
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.8750
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101017800:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00289
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00355
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0672
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0243
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0109
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0576
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0460
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.8750
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101017900:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00246
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00282
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0625
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0243
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0109
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0576
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0460
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.8750
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101019200:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00356
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00457
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0385
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0243
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0109
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0576
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0460
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.8750
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101019502:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00147
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00098
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0330
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0243
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0109
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0576
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0460
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.8750
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101019000:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00671
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00459
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0205
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0268
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0101
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0361
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0275
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101019501:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00123
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00095
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0855
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101019700:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00552
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00671
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0512
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101019800:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00385
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00408
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0651
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101019900:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00495
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00308
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0474
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101020000:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00217
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00300
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0560
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101020101:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.01021
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00950
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0269
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101020102:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00725
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00747
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0346
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101020300:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00621
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00628
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0221
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101020400:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00741
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00581
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0251
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6667
+
+    42101020200:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.01325
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.01152
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0207
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0109
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0042
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0682
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0533
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6889
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.8125
+
+    42101020500:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00602
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00629
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0215
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0109
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0042
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0682
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0533
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6889
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.8125
+
+    42101020600:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00169
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00174
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0048
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0109
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0042
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0682
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0533
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6889
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.8125
+
+    42101023900:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00318
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00312
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0102
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0109
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0042
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0682
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0533
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6889
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.8125
+
+    42101024000:
+      demographics|notdisadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
+      demographics|disadvantaged|ppl: &all_agents
+        field: override
+        override: 1.0
+      #Percentage of disadvantaged HM population that will be in this census tract
+      demographics|disadvantaged|sex_type|HML5|ppl:
+        field: override
+        override: 0.00566
+      #Percentage of disadvantaged HF population that will be in this census tract
+      demographics|disadvantaged|sex_type|HFL5|ppl:
+        field: override
+        override: 0.00485
+      #Incarceration rate among HMs in this census tract
+      demographics|disadvantaged|sex_type|HML5|incar|init:
+        field: override
+        override: 0.0200
+      #HIV probability at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0109
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+        field: override
+        override: 0.0042
+      #Prob of being in ARTs at initiation
+      demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|init:
+        field: override
+        override: 0.0682
+      demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+        field: override
+        override: 0.0533
+      #Linked to care within one month
+      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.6889
+      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+        field: override
+        override: 0.8125
+
   edges:
     edge_default:
       location_1:
