@@ -14883,9 +14883,3 @@ location:
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.4737
-
-  edges:
-    edge_default:
-      location_1:
-      location_2:
-      distance: 0
