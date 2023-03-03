@@ -6642,7 +6642,7 @@ location:
         field: override
         override: 0.6667
 
-    4210102902:
+    42101028902:
       demographics|notdisadvantaged|ppl: &no_agents
         field: override
         override: 0.0
@@ -10874,36 +10874,36 @@ location:
         field: override
         override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
-      demographics|notdisadvantaged|sex_type|HML5|ppl:
+      demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
         override: 0.03582
       #Percentage of disadvantaged HF population that will be in this census tract
-      demographics|notdisadvantaged|sex_type|HFL5|ppl:
+      demographics|notdisadvantaged|sex_type|HFM5|ppl:
         field: override
         override: 0.01843
       #Incarceration rate among HMs in this census tract
-      demographics|notdisadvantaged|sex_type|HML5|incar|init:
+      demographics|notdisadvantaged|sex_type|HMM5|incar|init:
         field: override
         override: 0.0132
       #HIV probability at initiation
-      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
+      demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
         override: 0.0
-      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
+      demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
         override: 0.0
       #Prob of being in ARTs at initiation
-      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|init:
+      demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|init:
         field: override
         override: 0.0
-      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|init:
+      demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|init:
         field: override
         override: 0.0
       #Linked to care within one month
-      demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
+      demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
-      demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
+      demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
 
@@ -11216,17 +11216,17 @@ location:
       #HIV probability at initiation
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0
+        override: 0.0268
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0
+        override: 0.0101
       #Prob of being in ARTs at initiation
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|init:
         field: override
-        override: 0.0
+        override: 0.0361
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|init:
         field: override
-        override: 0.0
+        override: 0.0275
       #Linked to care within one month
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
@@ -12938,17 +12938,17 @@ location:
       #HIV probability at initiation
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0119
+        override: 0.0268
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.005
+        override: 0.0.0101
       #Prob of being in ARTs at initiation
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|init:
         field: override
-        override: 0.1429
+        override: 0.0361
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|init:
         field: override
-        override: 0.16
+        override: 0.0275
       #Linked to care within one month
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
@@ -12979,17 +12979,17 @@ location:
       #HIV probability at initiation
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0119
+        override: 0.0268
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.005
+        override: 0.0101
       #Prob of being in ARTs at initiation
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|init:
         field: override
-        override: 0.1429
+        override: 0.0361
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|init:
         field: override
-        override: 0.16
+        override: 0.0275
       #Linked to care within one month
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
@@ -13818,7 +13818,7 @@ location:
         field: override
         override: 0.6667
 
-    42101037302:
+    42101036302:
       demographics|notdisadvantaged|ppl: &all_agents
         field: override
         override: 1.0
