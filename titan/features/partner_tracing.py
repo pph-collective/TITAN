@@ -4,7 +4,6 @@ from .. import model
 
 
 class PartnerTracing(base_feature.BaseFeature):
-
     name = "partner_tracing"
 
     def __init__(self, agent: "agent.Agent"):

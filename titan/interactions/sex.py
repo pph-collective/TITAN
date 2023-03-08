@@ -5,7 +5,6 @@ from .. import agent
 
 
 class Sex(base_interaction.BaseInteraction):
-
     name = "sex"
 
     @classmethod

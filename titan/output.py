@@ -301,7 +301,7 @@ def print_components(
             "\tdensity\tEffectiveSize\tdeg_cent\n"
         )
 
-    for (id, comp) in enumerate(components):
+    for id, comp in enumerate(components):
         num_nodes = comp.number_of_nodes()
 
         average_size = effective_size(comp) / num_nodes
