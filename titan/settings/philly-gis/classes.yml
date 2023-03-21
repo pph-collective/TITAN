@@ -31,7 +31,7 @@ classes:
         - HML5
         - HMM5
         
-  locations:
+  locations:  # TODO: locations here need to match location scaling
     ND_HML5_params:
       ppl: 0.0689
     ND_HMM5_params:
@@ -48,6 +48,8 @@ classes:
       ppl: 0.3913
     D_HFM5_params:
       ppl: 0.0026
+    world:
+      ppl: 0.0
 
   bond_types:
     Main:
