@@ -9,6 +9,7 @@ from titan.model import TITAN
 from titan.agent import Agent, Relationship
 from titan.location import Location
 
+
 # helper method to generate a fake number deterministically
 class FakeRandom:
     def __init__(self, num: float, fake_choice: int = 0):

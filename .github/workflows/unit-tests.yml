@@ -21,7 +21,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .venv
-        key: venv-lint-python3.6-${{ hashFiles('**/poetry.lock') }}
+        key: venv-lint-python3.8-${{ hashFiles('**/poetry.lock') }}
     - name: Install dependencies
       run: poetry install -E linting --no-dev
     - name: Lint with flake8
@@ -52,7 +52,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .venv
-        key: venv-python3.6-${{ hashFiles('**/poetry.lock') }}
+        key: venv-python3.8-${{ hashFiles('**/poetry.lock') }}
     - name: Install dependencies
       run: poetry install
     - name: Unit Test with pytest
@@ -80,7 +80,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .venv
-        key: venv-python3.6-${{ hashFiles('**/poetry.lock') }}
+        key: venv-python3.8-${{ hashFiles('**/poetry.lock') }}
     - name: Install dependencies
       run: poetry install
     - name: Integration Test with pytest
@@ -145,7 +145,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .venv
-        key: venv-pypy3.6-${{ hashFiles('**/poetry.lock') }}
+        key: venv-pypy3.8-${{ hashFiles('**/poetry.lock') }}
     - name: Install dependencies
       run: poetry install --no-dev
 

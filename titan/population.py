@@ -411,7 +411,6 @@ class Population:
             while eligible_agents:
                 agent = eligible_agents.popleft()
                 if len(agent.partners[bond]) < agent.target_partners[bond]:
-
                     # no match
                     if self.update_agent_partners(agent, bond, network_components):
                         attempts[agent] += 1
