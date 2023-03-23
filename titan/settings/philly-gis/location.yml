@@ -14159,3 +14159,349 @@ location:
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.4737
+
+edges:
+  edge_42101000200:
+    location_1: 42101000500
+    location_2: 42101000300
+    location_3: 42101037600
+  edge_42101000300:
+    location_1: 42101012500
+    location_2: 42101000401
+    location_3: 42101000200
+    location_4: 42101037600
+  edge_42101000401:
+    location_1: 42101000300
+  edge_42101000500:
+    location_1: 42101001001
+    location_2: 42101000200
+    location_3: 42101000300
+    location_4: 42101000600
+  edge_42101000600:
+    location_1: 42101001001
+    location_2: 42101000500
+    location_3: 42101000901
+    location_4: 42101000902
+  edge_42101000801:
+    location_1: 42101000803
+    location_2: 42101001201
+  edge_42101000803:
+    location_1: 42101001201
+    location_2: 42101000801
+  edge_42101000901:
+    location_1: 42101001101
+    location_2: 42101000902
+    location_3: 42101000600
+  edge_42101000902:
+    location_1: 42101001001
+    location_2: 42101001102
+    location_3: 42101001101
+    location_4: 42101000901
+    location_5: 42101000600
+  edge_42101001001:
+    location_1: 42101001102
+    location_2: 42101000500
+    location_3: 42101000902
+    location_4: 42101001600
+    location_5: 42101000600
+    location_6: 42101001500
+    location_7: 42101001002
+  edge_42101001002:
+    location_1: 42101001001
+    location_2: 42101036600
+    location_3: 42101001600
+  edge_42101001101:
+    location_1: 42101001102
+    location_2: 42101000901
+    location_3: 42101000902
+    location_4: 42101001500
+    location_5: 42101001400
+  edge_42101001102:
+    location_1: 42101001001
+    location_2: 42101001101
+    location_3: 42101000902
+    location_4: 42101001500
+  edge_42101001201:
+    location_1: 42101000803
+    location_2: 42101000801
+    location_3: 42101001400
+  edge_42101001400:
+    location_1: 42101001101
+    location_2: 42101001201
+    location_3: 42101001800
+    location_4: 42101001900
+    location_5: 42101001500
+  edge_42101001500:
+    location_1: 42101001001
+    location_2: 42101001102
+    location_3: 42101001101
+    location_4: 42101001600
+    location_5: 42101001700
+    location_6: 42101001800
+    location_7: 42101001400
+  edge_42101001600:
+    location_1: 42101001001
+    location_2: 42101036600
+    location_3: 42101001700
+    location_4: 42101001800
+    location_5: 42101001500
+    location_6: 42101001002
+  edge_42101001700:
+    location_1: 42101036600
+    location_2: 42101001600
+    location_3: 42101001800
+    location_4: 42101002400
+    location_5: 42101002500
+    location_6: 42101001500
+  edge_42101001800:
+    location_1: 42101001600
+    location_2: 42101001700
+    location_3: 42101001900
+    location_4: 42101002400
+    location_5: 42101002500
+    location_6: 42101001500
+    location_7: 42101001400
+  edge_42101001900:
+    location_1: 42101001800
+    location_2: 42101002100
+    location_3: 42101002200
+    location_4: 42101002400
+    location_5: 42101001400
+  edge_42101002000:
+    location_1: 42101002100
+    location_2: 42101003100
+    location_3: 42101003200
+    location_4: 42101003300
+  edge_42101002100:
+    location_1: 42101003002
+    location_2: 42101002000
+    location_3: 42101001900
+    location_4: 42101002200
+    location_5: 42101003100
+    location_6: 42101003200
+  edge_42101002200:
+    location_1: 42101003002
+    location_2: 42101001900
+    location_3: 42101002100
+    location_4: 42101002400
+    location_5: 42101002900
+    location_6: 42101003100
+    location_7: 42101002300
+  edge_42101002300:
+    location_1: 42101003002
+    location_2: 42101002802
+    location_3: 42101002200
+    location_4: 42101002400
+    location_5: 42101002900
+  edge_42101002400:
+    location_1: 42101002801
+    location_2: 42101002802
+    location_3: 42101002701
+    location_4: 42101001700
+    location_5: 42101001800
+    location_6: 42101001900
+    location_7: 42101002200
+    location_8: 42101002500
+    location_9: 42101002900
+    location_10: 42101002300
+  edge_42101002500:
+    location_1: 42101002801
+    location_2: 42101036600
+    location_3: 42101002701
+    location_4: 42101002702
+    location_5: 42101001700
+    location_6: 42101001800
+    location_7: 42101002400
+  edge_42101002701:
+    location_1: 42101002801
+    location_2: 42101002702
+    location_3: 42101002400
+    location_4: 42101002500
+    location_5: 42101004101
+    location_6: 42101004201
+  edge_42101002702:
+    location_1: 42101036600
+    location_2: 42101002701
+    location_3: 42101002500
+    location_4: 42101004201
+  edge_42101002801:
+    location_1: 42101002802
+    location_2: 42101002701
+    location_3: 42101002400
+    location_4: 42101002500
+    location_5: 42101004101
+  edge_42101002802:
+    location_1: 42101002801
+    location_2: 42101002400
+    location_3: 42101002900
+    location_4: 42101004001
+    location_5: 42101004101
+    location_6: 42101002300
+  edge_42101002900:
+    location_1: 42101003002
+    location_2: 42101003001
+    location_3: 42101002802
+    location_4: 42101002200
+    location_5: 42101002400
+    location_6: 42101003901
+    location_7: 42101004001
+    location_8: 42101002300
+  edge_42101003001:
+    location_1: 42101003002
+    location_2: 42101002900
+    location_3: 42101003100
+    location_4: 42101003701
+    location_5: 42101003901
+  edge_42101003002:
+    location_1: 42101003001
+    location_2: 42101002100
+    location_3: 42101002200
+    location_4: 42101002900
+    location_5: 42101003100
+    location_6: 42101002300
+  edge_42101003100:
+    location_1: 42101003002
+    location_2: 42101002000
+    location_3: 42101003001
+    location_4: 42101002100
+    location_5: 42101002200
+    location_6: 42101003200
+    location_7: 42101003701
+  edge_42101003200:
+    location_1: 42101002000
+    location_2: 42101002100
+    location_3: 42101003100
+    location_4: 42101003300
+    location_5: 42101003600
+    location_6: 42101003701
+  edge_42101003300:
+    location_1: 42101002000
+    location_2: 42101003200
+    location_3: 42101003600
+  edge_42101003600:
+    location_1: 42101003200
+    location_2: 42101003300
+    location_3: 42101003701
+    location_4: 42101003702
+    location_5: 42101003800
+  edge_42101003701:
+    location_1: 42101003001
+    location_2: 42101003100
+    location_3: 42101003200
+    location_4: 42101003600
+    location_5: 42101003702
+    location_6: 42101003901
+  edge_42101003702:
+    location_1: 42101003600
+    location_2: 42101003701
+    location_3: 42101003800
+    location_4: 42101003901
+  edge_42101003800:
+    location_1: 42101037300
+    location_2: 42101003600
+    location_3: 42101003702
+    location_4: 42101003901
+    location_5: 42101003902
+  edge_42101003901:
+    location_1: 42101003001
+    location_2: 42101002900
+    location_3: 42101003701
+    location_4: 42101003702
+    location_5: 42101003800
+    location_6: 42101003902
+    location_7: 42101004001
+    location_8: 42101004002
+  edge_42101003902:
+    location_1: 42101037300
+    location_2: 42101037200
+    location_3: 42101003800
+    location_4: 42101003901
+    location_5: 42101004002
+  edge_42101004001:
+    location_1: 42101002802
+    location_2: 42101002900
+    location_3: 42101003901
+    location_4: 42101004002
+    location_5: 42101004101
+  edge_42101004002:
+    location_1: 42101037200
+    location_2: 42101003901
+    location_3: 42101003902
+    location_4: 42101004001
+    location_5: 42101004101
+  edge_42101004101:
+    location_1: 42101002801
+    location_2: 42101004202
+    location_3: 42101002802
+    location_4: 42101002701
+    location_5: 42101004001
+    location_6: 42101004002
+    location_7: 42101004201
+  edge_42101004201:
+    location_1: 42101004202
+    location_2: 42101002701
+    location_3: 42101002702
+    location_4: 42101004101
+  edge_42101004202:
+    location_1: 42101037200
+    location_2: 42101004101
+    location_3: 42101004201
+  edge_42101005400:
+    location_1: 42101005500
+    location_2: 42101005600
+  edge_42101005500:
+    location_1: 42101005400
+    location_2: 42101005600
+    location_3: 42101006000
+    location_4: 42101006300
+    location_5: 42101006400
+  edge_42101005600:
+    location_1: 42101005400
+    location_2: 42101005500
+    location_3: 42101006000
+  edge_42101006000:
+    location_1: 42101005500
+    location_2: 42101005600
+    location_3: 42101006100
+    location_4: 42101006300
+    location_5: 42101006200
+  edge_42101006100:
+    location_1: 42101006000
+    location_2: 42101006700
+    location_3: 42101006200
+  edge_42101006200:
+    location_1: 42101006000
+    location_2: 42101006100
+    location_3: 42101006300
+    location_4: 42101006600
+    location_5: 42101006700
+  edge_42101006300:
+    location_1: 42101005500
+    location_2: 42101006000
+    location_3: 42101006400
+    location_4: 42101006600
+    location_5: 42101006700
+    location_6: 42101006200
+  edge_42101006400:
+    location_1: 42101005500
+    location_2: 42101006300
+    location_3: 42101006500
+    location_4: 42101006600
+  edge_42101006500:
+    location_1: 42101007101
+    location_2: 42101006400
+    location_3: 42101007000
+    location_4: 42101006600
+    location_5: 42101007200
+    location_6: 42101008200
+    location_7: 42101007102
+  edge_42101006600:
+    location_1: 42101007101
+    location_2: 42101006300
+    location_3: 42101006400
+    location_4: 42101007000
+    location_5: 42101006500
+    location_6: 42101006700
+    location_7: 42101006200
+
+
