@@ -43,8 +43,6 @@ location:
 
     42101000401:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -84,8 +82,6 @@ location:
 
     42101000500:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -125,8 +121,6 @@ location:
 
     42101000801:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -166,8 +160,6 @@ location:
 
     42101000803:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -207,8 +199,6 @@ location:
 
     42101000901:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -248,8 +238,6 @@ location:
 
     42101000902:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -289,8 +277,6 @@ location:
 
     42101001101:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -330,8 +316,6 @@ location:
 
     42101001400:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -371,8 +355,6 @@ location:
 
     42101001900:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -412,8 +394,6 @@ location:
 
     42101002000:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -453,8 +433,6 @@ location:
 
     42101002100:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -494,8 +472,6 @@ location:
 
     42101002200:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -535,8 +511,6 @@ location:
 
     421010022300:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -576,8 +550,6 @@ location:
 
     42101002500:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -617,8 +589,6 @@ location:
 
     42101002701:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -658,8 +628,6 @@ location:
 
     42101002801:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -699,8 +667,6 @@ location:
 
     42101003001:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -740,8 +706,6 @@ location:
 
     42101003002:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -781,8 +745,6 @@ location:
 
     42101003100:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -822,8 +784,6 @@ location:
 
     42101003200:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -863,8 +823,6 @@ location:
 
     42101003300:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -904,8 +862,6 @@ location:
 
     42101003600:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -945,8 +901,6 @@ location:
 
     42101003701:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -986,8 +940,6 @@ location:
 
     42101003702:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1027,8 +979,6 @@ location:
 
     42101004101:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1068,8 +1018,6 @@ location:
 
     42101005600:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1109,8 +1057,6 @@ location:
 
     42101006200:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1150,8 +1096,6 @@ location:
 
     42101006300:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1191,8 +1135,6 @@ location:
 
     42101006400:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1232,8 +1174,6 @@ location:
 
     42101006500:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1273,8 +1213,6 @@ location:
 
     42101006600:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1314,8 +1252,6 @@ location:
 
     42101006700:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1355,8 +1291,6 @@ location:
 
     42101007000:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1396,8 +1330,6 @@ location:
 
     42101007101:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1437,8 +1369,6 @@ location:
 
     42101007102:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1478,8 +1408,6 @@ location:
 
     42101007200:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1519,8 +1447,6 @@ location:
 
     42101007300:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1560,8 +1486,6 @@ location:
 
     42101007400:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1601,8 +1525,6 @@ location:
 
     42101007700:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1642,8 +1564,6 @@ location:
 
     42101007800:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1683,8 +1603,6 @@ location:
 
     42101008000:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1724,8 +1642,6 @@ location:
 
     42101008101:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1765,8 +1681,6 @@ location:
 
     42101008102:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1806,8 +1720,6 @@ location:
 
     42101008200:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1847,8 +1759,6 @@ location:
 
     42101008301:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1888,8 +1798,6 @@ location:
 
     42101008302:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1929,8 +1837,6 @@ location:
 
     42101008400:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -1970,8 +1876,6 @@ location:
 
     42101008500:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2011,8 +1915,6 @@ location:
 
     42101008601:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2052,8 +1954,6 @@ location:
 
     42101008602:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2093,8 +1993,6 @@ location:
 
     42101008701:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2134,8 +2032,6 @@ location:
 
     42101008702:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2175,8 +2071,6 @@ location:
 
     42101008801:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2216,8 +2110,6 @@ location:
 
     42101008802:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2257,8 +2149,6 @@ location:
 
     42101009000:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2298,8 +2188,6 @@ location:
 
     42101009100:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2339,8 +2227,6 @@ location:
 
     42101009200:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2380,8 +2266,6 @@ location:
 
     42101009300:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2421,8 +2305,6 @@ location:
 
     42101009400:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2462,8 +2344,6 @@ location:
 
     42101009500:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2503,8 +2383,6 @@ location:
 
     42101009600:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2544,8 +2422,6 @@ location:
 
     42101010100:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2585,8 +2461,6 @@ location:
 
     4210101010200:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2626,8 +2500,6 @@ location:
 
     42101010300:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2667,8 +2539,6 @@ location:
 
     42101010400:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2708,8 +2578,6 @@ location:
 
     42101010500:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2749,8 +2617,6 @@ location:
 
     42101010600:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2790,8 +2656,6 @@ location:
 
     42101010700:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2831,8 +2695,6 @@ location:
 
     42101010800:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2872,8 +2734,6 @@ location:
 
     42101010900:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2913,8 +2773,6 @@ location:
 
     42101011000:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2954,8 +2812,6 @@ location:
 
     42101011100:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -2995,8 +2851,6 @@ location:
 
     42101011200:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3036,8 +2890,6 @@ location:
 
     42101011400:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3077,8 +2929,6 @@ location:
 
     42101011900:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3118,8 +2968,6 @@ location:
 
     42101012201:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3159,8 +3007,6 @@ location:
 
     42101012203:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3200,8 +3046,6 @@ location:
 
     42101012204:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3241,8 +3085,6 @@ location:
 
     42101013100:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3282,8 +3124,6 @@ location:
 
     42101013200:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3323,8 +3163,6 @@ location:
 
     42101013300:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3364,8 +3202,6 @@ location:
 
     42101013800:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3405,8 +3241,6 @@ location:
 
     42101013900:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3446,8 +3280,6 @@ location:
 
     42101014000:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3487,8 +3319,6 @@ location:
 
     42101014100:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3528,8 +3358,6 @@ location:
 
     42101014400:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3569,8 +3397,6 @@ location:
 
     42101014500:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3610,8 +3436,6 @@ location:
 
     42101014600:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3651,8 +3475,6 @@ location:
 
     42101014700:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3692,8 +3514,6 @@ location:
 
     42101014800:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3733,8 +3553,6 @@ location:
 
     42101014900:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3774,8 +3592,6 @@ location:
 
     42101015101:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3815,8 +3631,6 @@ location:
 
     42101015102:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3856,8 +3670,6 @@ location:
 
     42101015200:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3897,8 +3709,6 @@ location:
 
     42101015300:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3938,8 +3748,6 @@ location:
 
     42101015600:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -3979,8 +3787,6 @@ location:
 
     42101015700:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4020,8 +3826,6 @@ location:
 
     42101016100:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4061,8 +3865,6 @@ location:
 
     42101016200:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4102,8 +3904,6 @@ location:
 
     42101016300:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4143,8 +3943,6 @@ location:
 
     42101016400:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4184,8 +3982,6 @@ location:
 
     42101016500:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4225,8 +4021,6 @@ location:
 
     42101016600:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4266,8 +4060,6 @@ location:
 
     42101016701:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4307,8 +4099,6 @@ location:
 
     42101016702:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4348,8 +4138,6 @@ location:
 
     42101016800:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4389,8 +4177,6 @@ location:
 
     42101016901:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4430,8 +4216,6 @@ location:
 
     42101016902:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4471,8 +4255,6 @@ location:
 
     42101017100:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4512,8 +4294,6 @@ location:
 
     42101017201:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4553,8 +4333,6 @@ location:
 
     42101017202:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4594,8 +4372,6 @@ location:
 
     42101017300:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4635,8 +4411,6 @@ location:
 
     42101017400:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4676,8 +4450,6 @@ location:
 
     42101017500:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4717,8 +4489,6 @@ location:
 
     42101017602:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4758,8 +4528,6 @@ location:
 
     42101017601:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4799,8 +4567,6 @@ location:
 
     42101017701:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4840,8 +4606,6 @@ location:
 
     42101017702:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4881,8 +4645,6 @@ location:
 
     42101017800:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4922,8 +4684,6 @@ location:
 
     42101017900:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -4963,8 +4723,6 @@ location:
 
     42101019200:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5004,8 +4762,6 @@ location:
 
     42101019502:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5045,8 +4801,6 @@ location:
 
     42101019000:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5086,8 +4840,6 @@ location:
 
     42101019501:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5127,8 +4879,6 @@ location:
 
     42101019700:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5168,8 +4918,6 @@ location:
 
     42101019800:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5209,8 +4957,6 @@ location:
 
     42101019900:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5250,8 +4996,6 @@ location:
 
     42101020000:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5291,8 +5035,6 @@ location:
 
     42101020101:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5332,8 +5074,6 @@ location:
 
     42101020102:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5373,8 +5113,6 @@ location:
 
     42101020300:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5414,8 +5152,6 @@ location:
 
     42101020400:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5455,8 +5191,6 @@ location:
 
     42101020200:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5496,8 +5230,6 @@ location:
 
     42101020500:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5537,8 +5269,6 @@ location:
 
     42101020600:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5578,8 +5308,6 @@ location:
 
     42101023900:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5619,8 +5347,6 @@ location:
 
     42101024000:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5660,8 +5386,6 @@ location:
 
     42101024100:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5701,8 +5425,6 @@ location:
 
     42101024200:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5742,8 +5464,6 @@ location:
 
     42101024300:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5783,8 +5503,6 @@ location:
 
     42101024400:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5824,8 +5542,6 @@ location:
 
     42101024500:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5865,8 +5581,6 @@ location:
 
     42101024600:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5906,8 +5620,6 @@ location:
 
     42101024700:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5947,8 +5659,6 @@ location:
 
     42101024900:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -5988,8 +5698,6 @@ location:
 
     42101025200:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6029,8 +5737,6 @@ location:
 
     42101026800:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6070,8 +5776,6 @@ location:
 
     42101027700:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6111,8 +5815,6 @@ location:
 
     42101027401:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6152,8 +5854,6 @@ location:
 
     42101027402:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6193,8 +5893,6 @@ location:
 
     42101027800:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6234,8 +5932,6 @@ location:
 
     42101027901:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6275,8 +5971,6 @@ location:
 
     42101027902:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6316,8 +6010,6 @@ location:
 
     42101028000:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6357,8 +6049,6 @@ location:
 
     42101028200:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6398,8 +6088,6 @@ location:
 
     42101028300:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6439,8 +6127,6 @@ location:
 
     42101028400:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6480,8 +6166,6 @@ location:
 
     42101028600:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6521,8 +6205,6 @@ location:
 
     42101028700:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6562,8 +6244,6 @@ location:
 
     42101028800:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6603,8 +6283,6 @@ location:
 
     42101028901:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6644,8 +6322,6 @@ location:
 
     42101028902:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6685,8 +6361,6 @@ location:
 
     42101029300:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6726,8 +6400,6 @@ location:
 
     42101029400:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6767,8 +6439,6 @@ location:
 
     42101029800:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6808,8 +6478,6 @@ location:
 
     42101029900:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6849,8 +6517,6 @@ location:
 
     42101030000:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6890,8 +6556,6 @@ location:
 
     42101031101:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6931,8 +6595,6 @@ location:
 
     42101031102:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -6972,8 +6634,6 @@ location:
 
     42101032100:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -7013,8 +6673,6 @@ location:
 
     42101033701:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -7054,8 +6712,6 @@ location:
 
     42101034501:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -7095,8 +6751,6 @@ location:
 
     42101035701:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -7136,8 +6790,6 @@ location:
 
     42101037700:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -7177,8 +6829,6 @@ location:
 
     42101037600:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -7218,8 +6868,6 @@ location:
 
     42101037800:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -7259,8 +6907,6 @@ location:
 
     42101038100:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -7300,8 +6946,6 @@ location:
 
     42101038200:
       demographics|notdisadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       demographics|disadvantaged|ppl: *all_agents
         field: override
         override: 1.0
@@ -7345,8 +6989,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -7386,8 +7028,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -7427,8 +7067,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -7468,8 +7106,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -7509,8 +7145,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -7550,8 +7184,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -7591,8 +7223,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -7632,8 +7262,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -7673,8 +7301,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -7714,8 +7340,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -7755,8 +7379,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -7796,8 +7418,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -7837,8 +7457,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -7878,8 +7496,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -7919,8 +7535,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -7960,8 +7574,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8001,8 +7613,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8042,8 +7652,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8083,8 +7691,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8124,8 +7730,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8165,8 +7769,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8206,8 +7808,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8247,8 +7847,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8288,8 +7886,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8329,8 +7925,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8370,8 +7964,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8411,8 +8003,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8452,8 +8042,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8493,8 +8081,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8534,8 +8120,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8575,8 +8159,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8616,8 +8198,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8657,8 +8237,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8698,8 +8276,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8739,8 +8315,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8780,8 +8354,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8821,8 +8393,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8862,8 +8432,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8903,8 +8471,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8944,8 +8510,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -8985,8 +8549,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -9026,8 +8588,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -9067,8 +8627,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -9108,8 +8666,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -9149,8 +8705,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -9190,8 +8744,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -9231,8 +8783,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -9272,8 +8822,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -9313,8 +8861,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -9354,8 +8900,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -9395,8 +8939,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -9436,8 +8978,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -9477,8 +9017,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -9518,8 +9056,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -9559,8 +9095,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -9600,8 +9134,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -9641,8 +9173,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -9682,8 +9212,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -9723,8 +9251,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -9764,8 +9290,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -9805,8 +9329,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -9846,8 +9368,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -9887,8 +9407,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -9928,8 +9446,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -9969,8 +9485,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -10010,8 +9524,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -10051,8 +9563,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -10092,8 +9602,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -10133,8 +9641,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -10174,8 +9680,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -10215,8 +9719,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -10256,8 +9758,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -10297,8 +9797,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -10338,8 +9836,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -10379,8 +9875,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -10420,8 +9914,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -10461,8 +9953,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -10502,8 +9992,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -10543,8 +10031,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -10584,8 +10070,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -10625,8 +10109,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -10666,8 +10148,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -10707,8 +10187,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -10748,8 +10226,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -10789,8 +10265,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -10830,8 +10304,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -10871,8 +10343,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -10912,8 +10382,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -10953,8 +10421,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -10994,8 +10460,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -11035,8 +10499,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -11076,8 +10538,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -11117,8 +10577,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -11158,8 +10616,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -11199,8 +10655,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -11240,8 +10694,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -11281,8 +10733,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -11322,8 +10772,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -11363,8 +10811,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -11404,8 +10850,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -11445,8 +10889,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -11486,8 +10928,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -11527,8 +10967,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -11568,8 +11006,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -11609,8 +11045,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -11650,8 +11084,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -11691,8 +11123,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -11732,8 +11162,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -11773,8 +11201,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -11814,8 +11240,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -11855,8 +11279,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -11896,8 +11318,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -11937,8 +11357,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -11978,8 +11396,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -12019,8 +11435,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12060,8 +11474,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12101,8 +11513,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12142,8 +11552,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12183,8 +11591,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12224,8 +11630,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12265,8 +11669,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12306,8 +11708,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12347,8 +11747,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12388,8 +11786,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12429,8 +11825,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12470,8 +11864,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12511,8 +11903,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12552,8 +11942,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12593,8 +11981,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12634,8 +12020,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12675,8 +12059,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12716,8 +12098,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12757,8 +12137,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12798,8 +12176,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12839,8 +12215,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12880,8 +12254,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12921,8 +12293,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -12962,8 +12332,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13003,8 +12371,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13044,8 +12410,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13085,8 +12449,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13126,8 +12488,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13167,8 +12527,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13208,8 +12566,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13249,8 +12605,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13290,8 +12644,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13331,8 +12683,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13372,8 +12722,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13413,8 +12761,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13454,8 +12800,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13495,8 +12839,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13536,8 +12878,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13577,8 +12917,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13618,8 +12956,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13659,8 +12995,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13700,8 +13034,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13741,8 +13073,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13782,8 +13112,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13823,8 +13151,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13864,8 +13190,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13905,8 +13229,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13946,8 +13268,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -13987,8 +13307,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -14028,8 +13346,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -14069,8 +13385,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -14110,8 +13424,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -14151,8 +13463,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -14192,8 +13502,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -14233,8 +13541,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -14274,8 +13580,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -14315,8 +13619,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -14356,8 +13658,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -14397,8 +13697,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -14438,8 +13736,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -14479,8 +13775,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -14520,8 +13814,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -14561,8 +13853,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -14602,8 +13892,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -14643,8 +13931,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -14684,8 +13970,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HMM5|ppl:
         field: override
@@ -14725,8 +14009,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -14766,8 +14048,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -14807,8 +14087,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
@@ -14848,8 +14126,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *no_agents
-        field: override
-        override: 0.0
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
