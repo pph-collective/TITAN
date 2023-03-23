@@ -54,7 +54,7 @@ demographics:
               discontinue: 0.495
             exit:
               death:
-                base: 7.15
+                base: 7.979
                 hiv: 24.6
                 haart_adherent: 13.5
                 aids: 45.9
@@ -64,13 +64,13 @@ demographics:
                 vars:
                   1:
                     value_type: float
-                    value: 1.5
+                    value: 1.3
               Casual:
                 dist_type: negative_binomial
                 vars:
                   1:
                     value_type: float
-                    value: 1.5
+                    value: 2.8
       HMM5:
         ppl: 0.2253 #Update
         sex_role:
@@ -123,7 +123,7 @@ demographics:
               discontinue: 0.495
             exit:
               death:
-                base: 7.15
+                base: 7.979
                 hiv: 24.6
                 haart_adherent: 13.5
                 aids: 45.9
@@ -133,13 +133,13 @@ demographics:
                 vars:
                   1:
                     value_type: float
-                    value: 1.5
+                    value: 1.3
               Casual:
                 dist_type: negative_binomial
                 vars:
                   1:
                     value_type: float
-                    value: 1.5
+                    value: 2.8
       HFL5:
         ppl: 0.2911 #Update
         sex_role:
@@ -178,7 +178,7 @@ demographics:
               discontinue: 0.538
             exit:
               death:
-                base: 4.17
+                base: 4.001
                 hiv: 17.9
                 haart_adherent: 9.9
                 aids: 45.9
@@ -188,13 +188,13 @@ demographics:
                 vars:
                   1:
                     value_type: float
-                    value: 1.2
+                    value: 1.3
               Casual:
                 dist_type: negative_binomial
                 vars: 
                   1:
                     value_type: float
-                    value: 1.2
+                    value: 2.8
       HFM5:
         ppl: 0.2791 #Update
         sex_role:
@@ -233,7 +233,7 @@ demographics:
               discontinue: 0.538
             exit:
               death:
-                base: 4.17
+                base: 4.001
                 hiv: 17.9
                 haart_adherent: 9.9
                 aids: 45.9
@@ -243,13 +243,13 @@ demographics:
                 vars:
                   1:
                     value_type: float
-                    value: 1.2
+                    value: 1.3
               Casual:
                 dist_type: negative_binomial
                 vars:
                   1:
                     value_type: float
-                    value: 1.2
+                    value: 2.8
 
   disadvantaged:
     ppl: 0.6633
@@ -306,7 +306,7 @@ demographics:
               discontinue: 0.283
             exit:
               death:
-                base: 7.15
+                base: 7.979
                 hiv: 24.6
                 haart_adherent: 13.5
                 aids: 45.9
@@ -322,7 +322,7 @@ demographics:
                 vars:
                   1:
                     value_type: float
-                    value: 4.21
+                    value: 2.45
       HMM5:
         ppl: 0.0009 #Update
         sex_role:
@@ -375,7 +375,7 @@ demographics:
               discontinue: 0.283
             exit:
               death:
-                base: 7.15
+                base: 7.979
                 hiv: 24.6
                 haart_adherent: 13.5
                 aids: 45.9
@@ -391,7 +391,7 @@ demographics:
                 vars:
                   1:
                     value_type: float
-                    value: 4.21
+                    value: 2.45
       HFL5:
         ppl: 0.6 #Update
         sex_role:
@@ -430,7 +430,7 @@ demographics:
               discontinue: 0.538
             exit:
               death:
-                base: 4.17
+                base: 4.001
                 hiv: 17.9
                 haart_adherent: 9.9
                 aids: 45.9
@@ -440,13 +440,13 @@ demographics:
                 vars:
                   1:
                     value_type: float
-                    value: 4.74
+                    value: 2.59
               Casual:
                 dist_type: negative_binomial
                 vars:
                   1:
                     value_type: float
-                    value: 4.74
+                    value: 0.9
       HFM5:
         ppl: 0.0039 #Update
         sex_role:
@@ -485,7 +485,7 @@ demographics:
               discontinue: 0.538
             exit:
               death:
-                base: 4.17
+                base: 4.001
                 hiv: 17.9
                 haart_adherent: 9.9
                 aids: 45.9
@@ -495,10 +495,10 @@ demographics:
                 vars:
                   1:
                     value_type: float
-                    value: 4.74
+                    value: 2.59
               Casual:
                 dist_type: negative_binomial
                 vars:
                   1:
                     value_type: float
-                    value: 4.74
+                    value: 0.9
