@@ -8,7 +8,6 @@ from .. import utils
 
 
 class MonkeyPox(base_exposure.BaseExposure):
-
     name: str = "monkeypox"
     stats: List[str] = [
         "monkeypox",

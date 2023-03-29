@@ -6,7 +6,6 @@ from ..distributions import poisson
 
 
 class Injection(base_interaction.BaseInteraction):
-
     name = "injection"
 
     @classmethod
