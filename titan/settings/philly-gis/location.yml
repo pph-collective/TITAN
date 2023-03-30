@@ -485,7 +485,7 @@ location:
         field: override
         override: 0.6667
 
-    421010022300:
+    42101002300:
       demographics|notdisadvantaged|ppl: *no_agents
       demographics|disadvantaged|ppl: *all_agents
       #Percentage of disadvantaged HM population that will be in this census tract
@@ -2336,7 +2336,7 @@ location:
         field: override
         override: 0.4737
 
-    4210101010200:
+    42101010200:
       demographics|notdisadvantaged|ppl: *no_agents
       demographics|disadvantaged|ppl: *all_agents
       #Percentage of disadvantaged HM population that will be in this census tract
