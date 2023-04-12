@@ -10,11 +10,11 @@ location:
       #Percentage of disadvantaged HM population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
-        override: 0.235955056179775
+        override: 0.236
       #Percentage of disadvantaged HF population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HFL5|ppl:
         field: override
-        override: 0.764044943820225
+        override: 0.764
       #Incarceration rate among HMs in this census tract
       demographics|notdisadvantaged|sex_type|HML5|incar|init:
         field: override
