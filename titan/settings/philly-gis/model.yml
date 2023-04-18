@@ -2,9 +2,9 @@ model:
   #seed: #add seed number when testing model
   num_pop: 100000 #650000 #number of people for test
   time:
-    num_steps: 12 #180 #15 years
+    num_steps: 12 #228 #19 years
     steps_per_year: 12
-    burn_steps: 0 #48 #2011-2014 burn time
+    burn_steps: 12 #48 #2011-2014 burn time
   network:
     type: scale_free
 
