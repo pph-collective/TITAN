@@ -2,14 +2,14 @@ assort_mix:
   assort_disadvantaged:
     attribute: race
     agent_value: disadvantaged
-    partner_attribute: location
+    partner_attribute: race
     partner_values:
       disadvantaged: 0.79
       notdisadvantaged: 0.21
   assort_notdisadvantaged:
     attribute: race
     agent_value: notdisadvantaged
-    partner_attribute: location
+    partner_attribute: race
     partner_values:
       disadvantaged: 0.36
       notdisadvantaged: 0.64
