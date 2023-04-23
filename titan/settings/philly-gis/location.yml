@@ -8,7 +8,11 @@ location:
     #Census Tract Overrides
     ct_42101000300:
       demographics|notdisadvantaged|ppl: &all_agents
+        field: overrde
+        override: 1.0
       demographics|disadvantaged|ppl: &no_agents
+        field: override
+        override: 0.0
       #Percentage of population that will be in this census tract
       demographics|notdisadvantaged|sex_type|HML5|ppl:
         field: override
