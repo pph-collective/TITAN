@@ -16,8 +16,8 @@ features:
   high_risk: true
   exit_enter: true
 
-outputs:
-  classes:
-    - races
-    - sex_types
-    #- locations
+#outputs:
+#  classes:
+#    - races
+#    - sex_types
+#    - locations
