@@ -1,6 +1,6 @@
 model:
   #seed: #add seed number when testing model
-  num_pop: 130000 #650000 #number of people for test
+  num_pop: 130000
   time:
     num_steps: 180 #2015-2030 years
     steps_per_year: 12
