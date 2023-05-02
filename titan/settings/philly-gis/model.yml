@@ -2,9 +2,9 @@ model:
   #seed: #add seed number when testing model
   num_pop: 130000
   time:
-    num_steps: 180 #2015-2030 years
+    num_steps: 12 #180 #2015-2030 years
     steps_per_year: 12
-    burn_steps: 48 #2011-2014 burn time
+    burn_steps: 0 #48 #2011-2014 burn time
   network:
     type: scale_free
 
@@ -15,3 +15,9 @@ features:
   assort_mix: true
   high_risk: true
   exit_enter: true
+
+outputs:
+  classes:
+    - races
+    - sex_types
+    #- locations
