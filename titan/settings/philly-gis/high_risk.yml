@@ -1,5 +1,5 @@
 high_risk:
-  partner_scale: 3.2
+  partner_scale: 3
   prob: 0.39
   sex_based:
     HML5:
