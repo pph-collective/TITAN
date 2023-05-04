@@ -335,14 +335,14 @@ demographics:
           duration:
             prob:
               1:
-                min: 8
+                min: 7
                 max: 22
-                prob: 1.0
+                prob: 0.032
             init:
               1:
-                min: 8
+                min: 7
                 max: 22
-                prob: 1.0
+                prob: 0.032
         safe_sex:
           Main:
             prob: 0.26
