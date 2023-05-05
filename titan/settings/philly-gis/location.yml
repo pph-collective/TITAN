@@ -567,7 +567,7 @@ location:
         override: 0.0
       demographics|notdisadvantaged|sex_type|HML5|incar|init:
         field: override
-        override: Inf
+        override: 0.0
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
         override: 0.0547

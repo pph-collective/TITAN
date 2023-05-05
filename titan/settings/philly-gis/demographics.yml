@@ -14,14 +14,14 @@ demographics:
           duration:
             prob:
               1: 
-                min: 8
+                min: 7
                 max: 22
-                prob: 1
+                prob: 0.032
             init:
               1:
-                min: 8
+                min: 7
                 max: 22
-                prob: 1
+                prob: 0.032
         safe_sex:
           Main:
             prob: 0.324
@@ -83,13 +83,13 @@ demographics:
           duration:
             prob:
               1:
-                min: 8
+                min: 7
                 max: 22
-                prob: 1.0
+                prob: 0.032
             init:
               1:
-                prob: 1.0
-                min: 8
+                prob: 0.032
+                min: 7
                 max: 22
         safe_sex:
           Main:
@@ -266,13 +266,13 @@ demographics:
           duration:
             prob:
               1:
-                min: 8
+                min: 7
                 max: 22
-                prob: 1.0
+                prob: 0.039
             init:
               1:
-                prob: 1.0
-                min: 8
+                prob: 0.039
+                min: 7
                 max: 22
         safe_sex:
           Main:
@@ -324,7 +324,7 @@ demographics:
                     value_type: float
                     value: 2.45
       HMM5:
-        ppl: 0.0009 #Update
+        ppl: 0.0009
         sex_role:
           init:
             insertive: 1.0
@@ -337,12 +337,12 @@ demographics:
               1:
                 min: 7
                 max: 22
-                prob: 0.032
+                prob: 0.039
             init:
               1:
                 min: 7
                 max: 22
-                prob: 0.032
+                prob: 0.039
         safe_sex:
           Main:
             prob: 0.26
