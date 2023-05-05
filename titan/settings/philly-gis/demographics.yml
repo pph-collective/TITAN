@@ -261,8 +261,8 @@ demographics:
             insertive: 1.0
             versatile: 0.0
         incar:
-          init: 0.032
-          prob: 0.032
+          init: 0.039
+          prob: 0.039
           duration:
             prob:
               1:
@@ -330,8 +330,8 @@ demographics:
             insertive: 1.0
             versatile: 0.0
         incar:
-          init: 0.032
-          prob: 0.032
+          init: 0.039
+          prob: 0.039
           duration:
             prob:
               1:
