@@ -5,12 +5,21 @@ partnership:
         type: bins
         bins:
           1:
-            prob: 0.944
+            prob: 0.056
+            min: 0
+            max: 4
+          2:
+            prob: 1.0
             min: 4
             max: 6
       Casual:
         type: bins
         bins:
-          prob: 0.944
-          min: 4
-          max: 6
+          1:
+            prob: 0.056
+            min: 0
+            max: 4
+          2:
+            prob: 1.0
+            min: 4
+            max: 6
