@@ -10,13 +10,13 @@ demographics:
             versatile: 0.0
         incar:
           init: 0.032
-          prob: 0.032
+          prob: 0.00274
           duration:
             prob:
               1: 
                 min: 7
                 max: 22
-                prob: 0.032
+                prob: 0.00274
             init:
               1:
                 min: 7
@@ -79,13 +79,13 @@ demographics:
             versatile: 0.0
         incar:
           init: 0.032
-          prob: 0.032
+          prob: 0.00274
           duration:
             prob:
               1:
                 min: 7
                 max: 22
-                prob: 0.032
+                prob: 0.00274
             init:
               1:
                 prob: 1.0
@@ -262,13 +262,13 @@ demographics:
             versatile: 0.0
         incar:
           init: 0.039
-          prob: 0.039
+          prob: 0.00337
           duration:
             prob:
               1:
                 min: 7
                 max: 22
-                prob: 0.039
+                prob: 0.00337
             init:
               1:
                 prob: 1.0
@@ -331,13 +331,13 @@ demographics:
             versatile: 0.0
         incar:
           init: 0.039
-          prob: 0.039
+          prob: 0.00337
           duration:
             prob:
               1:
                 min: 7
                 max: 22
-                prob: 0.039
+                prob: 0.00337
             init:
               1:
                 min: 7

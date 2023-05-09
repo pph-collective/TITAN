@@ -1,0 +1,16 @@
+partnership:
+  sex:
+    frequency:
+      Main:
+        type: bins
+        bins:
+          1:
+            prob: 0.944
+            min: 4
+            max: 6
+      Casual:
+        type: bins
+        bins:
+          prob: 0.944
+          min: 4
+          max: 6
