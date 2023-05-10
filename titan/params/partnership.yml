@@ -260,8 +260,8 @@ partnership:
         max: 1
   dissolve:
     time:
-      type: array
-      default: []
+      type: int
+      default: -9999
     enabled:
       type: bool
       default: false

@@ -60,7 +60,7 @@ def test_update_all_agents(make_model, make_agent, make_relationship):
     # check that model dissolves relationships
     model.params.features.agent_zero = False
     model.params.partnership.dissolve.enabled = True
-    model.params.partnership.dissolve.time = [1]
+    model.params.partnership.dissolve.time = 1
     model.time = 1
     a = make_agent()
     p = make_agent()

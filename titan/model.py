@@ -237,7 +237,7 @@ class TITAN:
             for rel in copy(self.pop.relationships):
                 if (
                     self.params.partnership.dissolve.enabled
-                    and self.time in self.params.partnership.dissolve.time
+                    and self.time == self.params.partnership.dissolve.time
                 ):
                     rel.progress(force=True)
                 elif rel.progress():
