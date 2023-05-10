@@ -30,7 +30,7 @@ def test_model_init(params):
 
 
 @pytest.mark.unit
-def test_update_all_agents(make_model, make_agent):
+def test_update_all_agents(make_model, make_agent, make_relationship):
     # make agent 0
     model = make_model()
     assert model.params.agent_zero.interaction_type == "injection"
@@ -56,6 +56,22 @@ def test_update_all_agents(make_model, make_agent):
         model.update_all_agents()
 
     assert "No agent zero!" in str(excinfo)
+
+    # check that model dissolves relationships
+    model.params.features.agent_zero = False
+    model.params.partnership.dissolve.time = 1
+    model.time = 1
+    a = make_agent()
+    p = make_agent()
+    r = make_relationship(a, p)
+    model.pop.add_relationship(r)
+    a.target_partners["Sex"] = 0
+    a.target_partners["SexInj"] = 0
+    a.target_partners["Inj"] = 0
+
+    assert a.has_partners() is True
+    model.update_all_agents()
+    assert a.has_partners() is False
 
 
 @pytest.mark.unit
