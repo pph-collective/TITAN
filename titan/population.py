@@ -445,7 +445,7 @@ class Population:
         """
         for bond in self.params.classes.bond_types.keys():
             if a in self.partnerable_agents[bond]:
-                if len(a.partners[bond]) > (
+                if len(a.partners[bond]) >= (
                     a.target_partners[bond] * self.params.calibration.partnership.buffer
                 ):
                     self.partnerable_agents[bond].remove(a)

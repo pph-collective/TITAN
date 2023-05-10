@@ -412,6 +412,39 @@ def test_static_network(make_model_integration, tmpdir):
 
 
 @pytest.mark.integration_deterministic
+def test_dissolution(params_integration, tmpdir):
+    model = TITAN(params_integration)
+    inj_r = 0
+    for rel in model.pop.relationships:
+        inj_r += 1
+    assert inj_r > 0
+    model.time = 1
+
+    model.params.partnership.dissolve.time = 1
+    model.params.partnership.dissolve.enabled = True
+
+    model.params.demographics.white.sex_type.MSM.drug_type.Inj.num_partners = (
+        model.params.demographics.black.sex_type.MSM.drug_type.Inj.num_partners
+    )
+    for agent in model.pop.all_agents:
+        agent.mean_num_partners["Inj"] = 0
+        agent.mean_num_partners["Sex"] = 0
+        agent.mean_num_partners["SexInj"] = 0
+        agent.mean_num_partners["Social"] = 0
+    model.pop.update_partner_targets()
+
+    model.step(tmpdir)
+
+    for rel in model.pop.relationships:
+        if rel.bond_type == "Inj":
+            print(rel.agent1.mean_num_partners)
+            print(rel.agent2.mean_num_partners)
+            print(rel.agent1.race, rel.agent1.sex_type, rel.agent1.drug_type)
+            print(rel.agent2.race, rel.agent2.sex_type, rel.agent2.drug_type)
+        assert rel.bond_type != "Inj"
+
+
+@pytest.mark.integration_deterministic
 def test_incar(params_integration, tmpdir):
     # turn on incar - initi is set to 0, so for these purposes, just run time
     params_integration.features.incar = True

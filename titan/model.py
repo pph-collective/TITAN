@@ -240,6 +240,7 @@ class TITAN:
                     and self.time == self.params.partnership.dissolve.time
                 ):
                     rel.progress(force=True)
+                    self.pop.remove_relationship(rel)
                 elif rel.progress():
                     self.pop.remove_relationship(rel)
 
