@@ -235,7 +235,9 @@ class TITAN:
         # If static network, ignore relationship progression
         if not self.params.features.static_network:
             for rel in copy(self.pop.relationships):
-                if rel.progress():
+                if self.params.partnership.dissolve.time == self.time:
+                    rel.progress(force=True)
+                elif rel.progress():
                     self.pop.remove_relationship(rel)
 
         if self.params.features.exit_enter:

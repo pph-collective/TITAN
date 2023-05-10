@@ -258,3 +258,7 @@ partnership:
         description: Probability that for a given partnering attempt, the agent tries to partner with only other agents in their component. Otherwise, the agent tries to partner with agents from any component.  Network must be enabled.
         min: 0
         max: 1
+  dissolve:
+    time:
+      default: -9999
+      type: int
