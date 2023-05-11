@@ -427,10 +427,10 @@ def test_dissolution(params_integration, tmpdir):
         model.params.demographics.black.sex_type.MSM.drug_type.Inj.num_partners
     )
     for agent in model.pop.all_agents:
-        agent.mean_num_partners["Inj"] = 0
-        agent.mean_num_partners["Sex"] = 0
-        agent.mean_num_partners["SexInj"] = 0
-        agent.mean_num_partners["Social"] = 0
+        agent.mean_num_partners["Inj"] = -1
+        agent.mean_num_partners["Sex"] = -1
+        agent.mean_num_partners["SexInj"] = -1
+        agent.mean_num_partners["Social"] = -1
     model.pop.update_partner_targets()
 
     model.step(tmpdir)
