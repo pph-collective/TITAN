@@ -14,12 +14,12 @@ demographics:
           duration:
             prob:
               1: 
-                min: 7
+                min: 1
                 max: 22
                 prob: 0.00274
             init:
               1:
-                min: 7
+                min: 1
                 max: 22
                 prob: 1.0
         safe_sex:
@@ -83,13 +83,13 @@ demographics:
           duration:
             prob:
               1:
-                min: 7
+                min: 1
                 max: 22
                 prob: 0.00274
             init:
               1:
                 prob: 1.0
-                min: 7
+                min: 1
                 max: 22
         safe_sex:
           Main:
@@ -266,13 +266,13 @@ demographics:
           duration:
             prob:
               1:
-                min: 7
+                min: 1
                 max: 22
                 prob: 0.00337
             init:
               1:
                 prob: 1.0
-                min: 7
+                min: 1
                 max: 22
         safe_sex:
           Main:
@@ -335,12 +335,12 @@ demographics:
           duration:
             prob:
               1:
-                min: 7
+                min: 1
                 max: 22
                 prob: 0.00337
             init:
               1:
-                min: 7
+                min: 1
                 max: 22
                 prob: 1.0
         safe_sex:
