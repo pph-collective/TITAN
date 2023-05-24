@@ -29,13 +29,13 @@ location:
         override: 0
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -59,13 +59,13 @@ location:
         override: 0.0412371134020619
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -89,13 +89,13 @@ location:
         override: 0.0569620253164557
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -119,13 +119,13 @@ location:
         override: 0
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -149,13 +149,13 @@ location:
         override: 0.0277777777777778
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -179,13 +179,13 @@ location:
         override: 0.0445544554455446
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -209,13 +209,13 @@ location:
         override: 0.0285714285714286
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -239,13 +239,13 @@ location:
         override: 0.0448430493273543
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -269,13 +269,13 @@ location:
         override: 0.0213414634146341
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -299,13 +299,13 @@ location:
         override: 0.0233463035019455
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -329,13 +329,13 @@ location:
         override: 0.0406698564593301
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -359,13 +359,13 @@ location:
         override: 0.023972602739726
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -389,13 +389,13 @@ location:
         override: 0.0530973451327434
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -419,13 +419,13 @@ location:
         override: 0.0357142857142857
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -449,13 +449,13 @@ location:
         override: 0.0328358208955224
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -479,13 +479,13 @@ location:
         override: 0.0387596899224806
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -509,13 +509,13 @@ location:
         override: 0.045630317092034
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -539,13 +539,13 @@ location:
         override: 0.0533672172808132
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -569,13 +569,13 @@ location:
         override: 0
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -599,13 +599,13 @@ location:
         override: 0.0645161290322581
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -629,16 +629,16 @@ location:
         override: 0.00285714285714286
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101005500:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -659,16 +659,16 @@ location:
         override: 0.0079960019990005
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101005600:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -689,16 +689,16 @@ location:
         override: 0.0402298850574713
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101006000:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -719,16 +719,16 @@ location:
         override: 0.0222686151704941
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101006100:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -749,16 +749,16 @@ location:
         override: 0.0133982947624848
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101006200:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -779,16 +779,16 @@ location:
         override: 0.022202486678508
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101006300:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -809,16 +809,16 @@ location:
         override: 0.0360915492957746
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101006400:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -839,16 +839,16 @@ location:
         override: 0.0224489795918367
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101006500:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -869,16 +869,16 @@ location:
         override: 0.0287187039764359
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101006600:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -899,16 +899,16 @@ location:
         override: 0.040650406504065
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101006700:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -929,16 +929,16 @@ location:
         override: 0.0333575054387237
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101006900:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -959,16 +959,16 @@ location:
         override: 0
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101007000:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -989,16 +989,16 @@ location:
         override: 0.0600226500566251
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101007101:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -1019,16 +1019,16 @@ location:
         override: 0.0274599542334096
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101007102:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -1049,16 +1049,16 @@ location:
         override: 0.027027027027027
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101007200:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -1079,16 +1079,16 @@ location:
         override: 0.0405616224648986
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101007300:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -1109,16 +1109,16 @@ location:
         override: 0.0329835082458771
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101007400:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -1139,16 +1139,16 @@ location:
         override: 0.0243328100470958
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101007700:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -1169,16 +1169,16 @@ location:
         override: 0.024822695035461
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101007800:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -1199,16 +1199,16 @@ location:
         override: 0.00918836140888208
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101007900:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -1229,16 +1229,16 @@ location:
         override: 0.00952380952380952
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101008000:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -1259,16 +1259,16 @@ location:
         override: 0.0211267605633803
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101008101:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -1289,16 +1289,16 @@ location:
         override: 0.0318906605922551
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101008102:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -1319,16 +1319,16 @@ location:
         override: 0.019434628975265
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101008200:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -1349,16 +1349,16 @@ location:
         override: 0.0203629924745463
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1038
+        override: 0.1097
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0411
+        override: 0.0426
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7838
+        override: 0.7333
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6154
+        override: 0.875
     CT_42101008301:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -1379,16 +1379,16 @@ location:
         override: 0.0189418680600914
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101008302:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -1409,16 +1409,16 @@ location:
         override: 0.0240963855421687
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101008400:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -1439,16 +1439,16 @@ location:
         override: 0.0479774223894638
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101008500:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -1469,16 +1469,16 @@ location:
         override: 0.024822695035461
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101008601:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -1499,16 +1499,16 @@ location:
         override: 0.0377358490566038
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101008602:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -1529,16 +1529,16 @@ location:
         override: 0.0178571428571429
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101008701:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -1559,16 +1559,16 @@ location:
         override: 0.0127118644067797
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101008702:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -1589,16 +1589,16 @@ location:
         override: 0
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101008801:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -1619,16 +1619,16 @@ location:
         override: 0
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101008802:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -1649,16 +1649,16 @@ location:
         override: 0.037037037037037
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101009000:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -1679,16 +1679,16 @@ location:
         override: 0.0111111111111111
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101009100:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -1709,16 +1709,16 @@ location:
         override: 0.0196629213483146
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101009200:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -1739,16 +1739,16 @@ location:
         override: 0.0313075506445672
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101009300:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -1769,16 +1769,16 @@ location:
         override: 0.034965034965035
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101009400:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -1799,16 +1799,16 @@ location:
         override: 0.0389863547758285
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101009500:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -1829,16 +1829,16 @@ location:
         override: 0.0288104089219331
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101009600:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -1859,16 +1859,16 @@ location:
         override: 0.0328125
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101009801:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -1889,16 +1889,16 @@ location:
         override: 0.0131578947368421
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101009802:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -1919,16 +1919,16 @@ location:
         override: 0.0113350125944584
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101010000:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -1949,16 +1949,16 @@ location:
         override: 0.0328083989501312
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101010100:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -1979,16 +1979,16 @@ location:
         override: 0.0227382680212869
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101010200:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -2009,16 +2009,16 @@ location:
         override: 0.0348027842227378
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101010300:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -2039,16 +2039,16 @@ location:
         override: 0.0296296296296296
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101010400:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -2069,16 +2069,16 @@ location:
         override: 0.0259259259259259
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101010500:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -2099,16 +2099,16 @@ location:
         override: 0.0265848670756646
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101010600:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -2129,16 +2129,16 @@ location:
         override: 0.0358126721763085
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101010700:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -2159,16 +2159,16 @@ location:
         override: 0.0449678800856531
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101010800:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -2189,16 +2189,16 @@ location:
         override: 0.0347752332485157
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101010900:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -2219,16 +2219,16 @@ location:
         override: 0.0291666666666667
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101011000:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -2249,16 +2249,16 @@ location:
         override: 0.0276953511374876
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101011100:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -2279,16 +2279,16 @@ location:
         override: 0.0379506641366224
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101011200:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -2309,16 +2309,16 @@ location:
         override: 0.0317460317460317
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101011300:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -2339,16 +2339,16 @@ location:
         override: 0.025
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101011400:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -2369,16 +2369,16 @@ location:
         override: 0.0207594936708861
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101011500:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -2399,16 +2399,16 @@ location:
         override: 0.0236148955495005
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101011700:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -2429,16 +2429,16 @@ location:
         override: 0.00677966101694915
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101011800:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -2459,16 +2459,16 @@ location:
         override: 0.017875920084122
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101011900:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -2489,16 +2489,16 @@ location:
         override: 0.0246831220813876
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101012000:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -2519,16 +2519,16 @@ location:
         override: 0.0026525198938992
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101012100:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -2549,16 +2549,16 @@ location:
         override: 0.00490196078431373
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101012201:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -2579,16 +2579,16 @@ location:
         override: 0.00220264317180617
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101012203:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -2609,16 +2609,16 @@ location:
         override: 0
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101012204:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -2639,16 +2639,16 @@ location:
         override: 0.00491400491400491
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101013100:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -3359,16 +3359,16 @@ location:
         override: 0.0173333333333333
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101017100:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -3389,16 +3389,16 @@ location:
         override: 0.0285487708168121
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101017201:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -3569,10 +3569,10 @@ location:
         override: 0.0233644859813084
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1826
+        override: 0.1878
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0848
+        override: 0.0877
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.875
@@ -3629,10 +3629,10 @@ location:
         override: 0
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1826
+        override: 0.1878
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0848
+        override: 0.0877
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.875
@@ -3659,16 +3659,16 @@ location:
         override: 0.0283806343906511
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.122
+        override: 0.1279
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0492
+        override: 0.0512
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.6522
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.8
     CT_42101019100:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -3689,16 +3689,16 @@ location:
         override: 0.0127931769722814
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.122
+        override: 0.1279
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0492
+        override: 0.0512
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.6522
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.8
     CT_42101019200:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -3719,10 +3719,10 @@ location:
         override: 0.0286677908937605
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1826
+        override: 0.1878
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0848
+        override: 0.0877
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.875
@@ -3779,10 +3779,10 @@ location:
         override: 0.0437956204379562
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1826
+        override: 0.1878
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0848
+        override: 0.0877
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.875
@@ -3989,16 +3989,16 @@ location:
         override: 0.0210656753407683
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101020300:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -4079,16 +4079,16 @@ location:
         override: 0.0178372352285396
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101020600:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4109,16 +4109,16 @@ location:
         override: 0.00537634408602151
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101020700:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4139,16 +4139,16 @@ location:
         override: 0
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101020800:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4169,16 +4169,16 @@ location:
         override: 0.004
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101023500:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4199,16 +4199,16 @@ location:
         override: 0.00595238095238095
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101023600:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4229,16 +4229,16 @@ location:
         override: 0.00311526479750779
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101023700:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4259,16 +4259,16 @@ location:
         override: 0.00824175824175824
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101023800:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4289,16 +4289,16 @@ location:
         override: 0.0072289156626506
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101023900:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4319,16 +4319,16 @@ location:
         override: 0.0136986301369863
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101024000:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4349,16 +4349,16 @@ location:
         override: 0.0184696569920844
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101024100:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4379,16 +4379,16 @@ location:
         override: 0.0090293453724605
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101024200:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4409,16 +4409,16 @@ location:
         override: 0.0345252774352651
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101024300:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4439,16 +4439,16 @@ location:
         override: 0.0245464247598719
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101024400:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4469,16 +4469,16 @@ location:
         override: 0.0412844036697248
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101024500:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -4499,16 +4499,16 @@ location:
         override: 0.0258373205741627
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101024600:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4529,16 +4529,16 @@ location:
         override: 0.029040404040404
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101024700:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4559,16 +4559,16 @@ location:
         override: 0.0292573143285821
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101024800:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4589,16 +4589,16 @@ location:
         override: 0.0204918032786885
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101024900:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -4619,16 +4619,16 @@ location:
         override: 0.0310492505353319
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101025200:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4649,16 +4649,16 @@ location:
         override: 0.0246231155778894
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101025300:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4679,16 +4679,16 @@ location:
         override: 0.0179856115107914
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101025400:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4709,16 +4709,16 @@ location:
         override: 0.00823353293413174
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101025500:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4739,16 +4739,16 @@ location:
         override: 0.00636132315521628
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101025600:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4769,16 +4769,16 @@ location:
         override: 0.002
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101025800:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4799,16 +4799,16 @@ location:
         override: 0.0125523012552301
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101025900:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4829,16 +4829,16 @@ location:
         override: 0.0136897001303781
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101026000:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4859,16 +4859,16 @@ location:
         override: 0.0124610591900312
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101026100:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4889,16 +4889,16 @@ location:
         override: 0.00975609756097561
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101026200:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4919,16 +4919,16 @@ location:
         override: 0.0111809923130678
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101026301:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4949,16 +4949,16 @@ location:
         override: 0.0124816446402349
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101026302:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -4979,16 +4979,16 @@ location:
         override: 0.0207591933570581
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101026400:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -5009,16 +5009,16 @@ location:
         override: 0.0158127767235927
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101026500:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -5039,16 +5039,16 @@ location:
         override: 0.0174216027874564
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101026600:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -5069,16 +5069,16 @@ location:
         override: 0.0221260221260221
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101026700:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -5099,16 +5099,16 @@ location:
         override: 0.0233953209358128
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101026800:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -5129,16 +5129,16 @@ location:
         override: 0.0106951871657754
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101026900:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -5159,16 +5159,16 @@ location:
         override: 0.0108695652173913
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101027000:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -5429,16 +5429,16 @@ location:
         override: 0.0190023752969121
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101027800:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -5489,16 +5489,16 @@ location:
         override: 0.02994555353902
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101027902:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -5519,16 +5519,16 @@ location:
         override: 0.0109452736318408
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101028000:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -5939,16 +5939,16 @@ location:
         override: 0.014519056261343
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.122
+        override: 0.1279
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0492
+        override: 0.0512
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.6522
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.8
     CT_42101030501:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -5969,16 +5969,16 @@ location:
         override: 0.0286396181384248
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.122
+        override: 0.1279
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0492
+        override: 0.0512
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.6522
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.8
     CT_42101030502:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -5999,16 +5999,16 @@ location:
         override: 0.0113168724279835
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.122
+        override: 0.1279
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0492
+        override: 0.0512
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.6522
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.8
     CT_42101030600:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -6029,16 +6029,16 @@ location:
         override: 0.00823529411764706
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.122
+        override: 0.1279
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0492
+        override: 0.0512
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.6522
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.8
     CT_42101030700:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -6059,16 +6059,16 @@ location:
         override: 0.00645161290322581
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.122
+        override: 0.1279
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0492
+        override: 0.0512
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.6522
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.8
     CT_42101036900:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -6089,16 +6089,16 @@ location:
         override: 0
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101037300:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -6119,13 +6119,13 @@ location:
         override: 0.021505376344086
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -6149,16 +6149,16 @@ location:
         override: 0.00972222222222222
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0824
+        override: 0.0911
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
         override: 0.0322
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.5968
+        override: 4.625
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.4737
+        override: 0.6667
     CT_42101037700:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -6209,16 +6209,16 @@ location:
         override: 0.166666666666667
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.122
+        override: 0.1279
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0492
+        override: 0.0512
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.6522
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.8
     CT_42101038200:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -6239,16 +6239,16 @@ location:
         override: 0.0506329113924051
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.122
+        override: 0.1279
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0492
+        override: 0.0512
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.6522
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.8
     CT_42101038300:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -6269,10 +6269,10 @@ location:
         override: 0
       demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.1826
+        override: 0.1878
       demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0848
+        override: 0.0877
       demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.875
@@ -6299,16 +6299,16 @@ location:
         override: 0.00900900900900901
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101038900:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -6329,16 +6329,16 @@ location:
         override: 0.0146561443066516
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     CT_42101039000:
       demographics|disadvantaged|ppl: *all_agents
       demographics|notdisadvantaged|ppl: *no_agents
@@ -6389,10 +6389,10 @@ location:
         override: 0.0204638472032742
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0489
+        override: 0.0549
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0212
+        override: 0.0221
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0
@@ -6419,13 +6419,13 @@ location:
         override: 0.0104868913857678
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.4635
+        override: 0.4686
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.1288
+        override: 0.1315
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6
+        override: 0.6667
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0
@@ -6449,13 +6449,13 @@ location:
         override: 0.00115740740740741
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.4635
+        override: 0.4686
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.1288
+        override: 0.1315
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6
+        override: 0.6667
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0
@@ -6479,16 +6479,16 @@ location:
         override: 0.00550206327372765
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     NB_5:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -6539,16 +6539,16 @@ location:
         override: 0.0451547437848808
       demographics|disadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.122
+        override: 0.1279
       demographics|disadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0492
+        override: 0.0512
       demographics|disadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.6522
       demographics|disadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.8
     NB_7:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -6599,16 +6599,16 @@ location:
         override: 0.0256723716381418
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.122
+        override: 0.1279
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0492
+        override: 0.0512
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.6522
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.8
     NB_9:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -6629,13 +6629,13 @@ location:
         override: 0.0329146816803811
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.4635
+        override: 0.4686
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.1288
+        override: 0.1315
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6
+        override: 0.6667
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0
@@ -6659,16 +6659,16 @@ location:
         override: 0.0174938974776241
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.122
+        override: 0.1279
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0492
+        override: 0.0512
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.6522
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.8
     NB_11:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -6689,16 +6689,16 @@ location:
         override: 0.00767018216682646
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.122
+        override: 0.1279
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0492
+        override: 0.0512
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.6522
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.8
     NB_12:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -6719,16 +6719,16 @@ location:
         override: 0.0165745856353591
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.122
+        override: 0.1279
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0492
+        override: 0.0512
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.6522
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.8
     NB_13:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -6749,16 +6749,16 @@ location:
         override: 0.00591327201051248
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0594
+        override: 0.0642
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0227
+        override: 0.0237
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6889
+        override: 0.6216
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.8125
+        override: 0.75
     NB_14:
       demographics|notdisadvantaged|ppl: *all_agents
       demographics|disadvantaged|ppl: *no_agents
@@ -6779,13 +6779,13 @@ location:
         override: 0.0200174064403829
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -6809,10 +6809,10 @@ location:
         override: 0.0108303249097473
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0489
+        override: 0.0549
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0212
+        override: 0.0221
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0
@@ -6839,13 +6839,13 @@ location:
         override: 0.0386138613861386
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -6869,13 +6869,13 @@ location:
         override: 0.0314176245210728
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.1934
+        override: 0.2059
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0616
+        override: 0.061
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.7333
+        override: 0.7576
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.6667
@@ -6899,10 +6899,10 @@ location:
         override: 0.0164383561643836
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0489
+        override: 0.0549
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0212
+        override: 0.0221
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0
@@ -6929,10 +6929,10 @@ location:
         override: 0.0175864160097029
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0489
+        override: 0.0549
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0212
+        override: 0.0221
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0
@@ -6959,10 +6959,10 @@ location:
         override: 0.0401863715783343
       demographics|disadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.1826
+        override: 0.1878
       demographics|disadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0848
+        override: 0.0877
       demographics|disadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
         override: 0.875
@@ -6989,16 +6989,16 @@ location:
         override: 0.0273154075970977
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|hiv|init:
         field: override
-        override: 0.122
+        override: 0.1279
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|hiv|init:
         field: override
-        override: 0.0492
+        override: 0.0512
       demographics|notdisadvantaged|sex_type|HMM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.6522
       demographics|notdisadvantaged|sex_type|HFM5|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: 0.6667
+        override: 0.8
 
   edges:
     edge_1:

@@ -38,7 +38,7 @@ demographics:
               aids:
                 init: 0.695
             haart:
-              init: 0.0437
+              init: 0.0339
               enroll:
                 enroll_0:
                   prob: 0.679
@@ -107,7 +107,7 @@ demographics:
               aids:
                 init: 0.695
             haart:
-              init: 0.0715
+              init: 0.038
               enroll:
                 enroll_0:
                   prob: 0.679
@@ -162,7 +162,7 @@ demographics:
               aids:
                 init: 0.601
             haart:
-              init: 0.0351
+              init: 0.01778
               enroll:
                 enroll_0:
                   prob: 0.604
@@ -217,7 +217,7 @@ demographics:
               aids:
                 init: 0.601
             haart:
-              init: 0.0628
+              init: 0.0395
               enroll:
                 enroll_0:
                   prob: 0.604
@@ -290,7 +290,7 @@ demographics:
               aids:
                 init: 0.695
             haart:
-              init: 0.0354
+              init: 0.0246
               enroll:
                 enroll_0:
                   prob: 0.679
@@ -359,7 +359,7 @@ demographics:
               aids:
                 init: 0.695
             haart:
-              init: 0.0
+              init: 0.0246
               enroll:
                 enroll_0:
                   prob: 0.679
@@ -414,7 +414,7 @@ demographics:
               aids:
                 init: 0.601
             haart:
-              init: 0.0255
+              init: 0.01158
               enroll:
                 enroll_0:
                   prob: 0.604
@@ -469,7 +469,7 @@ demographics:
               aids:
                 init: 0.601
             haart:
-              init: 0.0
+              init: 0.01158
               enroll:
                 enroll_0:
                   prob: 0.604
