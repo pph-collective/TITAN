@@ -72,7 +72,7 @@ demographics:
                     value_type: float
                     value: 2.8
       HMM5:
-        ppl: 0.2253 #Update
+        ppl: 0.2253
         sex_role:
           init:
             insertive: 1.0
@@ -141,7 +141,7 @@ demographics:
                     value_type: float
                     value: 2.8
       HFL5:
-        ppl: 0.2911 #Update
+        ppl: 0.2911
         sex_role:
           init:
             receptive: 1.0
@@ -196,7 +196,7 @@ demographics:
                     value_type: float
                     value: 2.8
       HFM5:
-        ppl: 0.2791 #Update
+        ppl: 0.2791
         sex_role:
           init:
             receptive: 1.0
@@ -393,7 +393,7 @@ demographics:
                     value_type: float
                     value: 2.45
       HFL5:
-        ppl: 0.6 #Update
+        ppl: 0.6
         sex_role:
           init:
             receptive: 1.0
@@ -448,7 +448,7 @@ demographics:
                     value_type: float
                     value: 0.9
       HFM5:
-        ppl: 0.0039 #Update
+        ppl: 0.0039
         sex_role:
           init:
             receptive: 1.0
