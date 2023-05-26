@@ -1,7 +1,7 @@
 incar:
   hiv:
     dx: 0.51
-    multiplier: 0.816 #5
+    multiplier: 5 #0.816
   haart:
     prob: 0.65
     adherence: 0.58
