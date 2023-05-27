@@ -14,22 +14,54 @@ demographics:
           duration:
             prob:
               1: 
-                min: 8
-                max: 22
-                prob: 0.55
+                min: 0
+                max: 5
+                prob: 0.199
               2:
-                min: 46
-                max: 96
-                prob: 1.0
+                min: 6
+                max: 11
+                prob: 0.22
+              3:
+                min: 12
+                max: 23
+                prob: 0.242
+              4:
+                min: 24
+                max: 35
+                prob: 0.11
+              5:
+                min: 36
+                max: 59
+                prob: 0.106
+              6:
+                min: 60
+                max: 999
+                prob: 0.123
             init:
               1:
-                min: 8
-                max: 22
-                prob: 0.55
+                min: 0
+                max: 5
+                prob: 0.199
               2:
-                min: 46
-                max: 96
-                prob: 1.0
+                min: 6
+                max: 11
+                prob: 0.22
+              3:
+                min: 12
+                max: 23
+                prob: 0.242
+              4:
+                min: 24
+                max: 35
+                prob: 0.11
+              5:
+                min: 36
+                max: 59
+                prob: 0.106
+              6:
+                min: 60
+                max: 999
+                prob: 0.123
         safe_sex:
           Main:
             prob: 0.324
@@ -91,22 +123,54 @@ demographics:
           duration:
             prob:
               1:
-                min: 8
-                max: 22
-                prob: 0.55
+                min: 0
+                max: 5
+                prob: 0.199
               2:
-                min: 46
-                max: 96
-                prob: 1.0
+                min: 6
+                max: 11
+                prob: 0.22
+              3:
+                min: 12
+                max: 23
+                prob: 0.242
+              4:
+                min: 24
+                max: 35
+                prob: 0.11
+              5:
+                min: 36
+                max: 59
+                prob: 0.106
+              6:
+                min: 60
+                max: 999
+                prob: 0.123
             init:
               1:
-                min: 8
-                max: 22
-                prob: 0.55
+                min: 0
+                max: 5
+                prob: 0.199
               2:
-                min: 46
-                max: 96
-                prob: 1.0
+                min: 6
+                max: 11
+                prob: 0.22
+              3:
+                min: 12
+                max: 23
+                prob: 0.242
+              4:
+                min: 24
+                max: 35
+                prob: 0.11
+              5:
+                min: 36
+                max: 59
+                prob: 0.106
+              6:
+                min: 60
+                max: 999
+                prob: 0.123
         safe_sex:
           Main:
             prob: 0.324
@@ -282,22 +346,54 @@ demographics:
           duration:
             prob:
               1:
-                min: 8
-                max: 22
-                prob: 0.55
+                min: 0
+                max: 5
+                prob: 0.199
               2:
-                min: 46
-                max: 96
-                prob: 1.0
+                min: 6
+                max: 11
+                prob: 0.22
+              3:
+                min: 12
+                max: 23
+                prob: 0.242
+              4:
+                min: 24
+                max: 35
+                prob: 0.11
+              5:
+                min: 36
+                max: 59
+                prob: 0.106
+              6:
+                min: 60
+                max: 999
+                prob: 0.123
             init:
               1:
-                min: 8
-                max: 22
-                prob: 0.55
+                min: 0
+                max: 5
+                prob: 0.199
               2:
-                min: 46
-                max: 96
-                prob: 1.0
+                min: 6
+                max: 11
+                prob: 0.22
+              3:
+                min: 12
+                max: 23
+                prob: 0.242
+              4:
+                min: 24
+                max: 35
+                prob: 0.11
+              5:
+                min: 36
+                max: 59
+                prob: 0.106
+              6:
+                min: 60
+                max: 999
+                prob: 0.123
         safe_sex:
           Main:
             prob: 0.26
@@ -359,22 +455,54 @@ demographics:
           duration:
             prob:
               1:
-                min: 8
-                max: 22
-                prob: 0.55
+                min: 0
+                max: 5
+                prob: 0.199
               2:
-                min: 46
-                max: 96
-                prob: 1.0
+                min: 6
+                max: 11
+                prob: 0.22
+              3:
+                min: 12
+                max: 23
+                prob: 0.242
+              4:
+                min: 24
+                max: 35
+                prob: 0.11
+              5:
+                min: 36
+                max: 59
+                prob: 0.106
+              6:
+                min: 60
+                max: 999
+                prob: 0.123
             init:
               1:
-                min: 8
-                max: 22
-                prob: 0.55
+                min: 0
+                max: 5
+                prob: 0.199
               2:
-                min: 46
-                max: 96
-                prob: 1.0
+                min: 6
+                max: 11
+                prob: 0.22
+              3:
+                min: 12
+                max: 23
+                prob: 0.242
+              4:
+                min: 24
+                max: 35
+                prob: 0.11
+              5:
+                min: 36
+                max: 59
+                prob: 0.106
+              6:
+                min: 60
+                max: 999
+                prob: 0.123
         safe_sex:
           Main:
             prob: 0.26
