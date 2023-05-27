@@ -4,7 +4,7 @@ model:
   time:
     num_steps: 192 #2014-2030 years
     steps_per_year: 12
-    burn_steps: 36 #2011-2013 burn time
+    burn_steps: 48 #2010-2013 burn time
   network:
     type: scale_free
 

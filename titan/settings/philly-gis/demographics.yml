@@ -15,53 +15,21 @@ demographics:
             prob:
               1: 
                 min: 0
-                max: 5
-                prob: 0.199
+                max: 22
+                prob: 0.5
               2:
-                min: 6
-                max: 11
-                prob: 0.22
-              3:
-                min: 12
-                max: 23
-                prob: 0.242
-              4:
-                min: 24
-                max: 35
-                prob: 0.11
-              5:
-                min: 36
-                max: 59
-                prob: 0.106
-              6:
-                min: 60
-                max: 999
-                prob: 0.123
+                min: 46
+                max: 96
+                prob: 0.5
             init:
               1:
                 min: 0
-                max: 5
-                prob: 0.199
+                max: 22
+                prob: 0.5
               2:
-                min: 6
-                max: 11
-                prob: 0.22
-              3:
-                min: 12
-                max: 23
-                prob: 0.242
-              4:
-                min: 24
-                max: 35
-                prob: 0.11
-              5:
-                min: 36
-                max: 59
-                prob: 0.106
-              6:
-                min: 60
-                max: 999
-                prob: 0.123
+                min: 46
+                max: 96
+                prob: 0.5
         safe_sex:
           Main:
             prob: 0.324
@@ -95,9 +63,9 @@ demographics:
             exit:
               death:
                 base: 7.979
-                hiv: 24.6
-                haart_adherent: 13.5
-                aids: 45.9
+                hiv: 3.08
+                haart_adherent: 1.69
+                aids: 5.75
             num_partners:
               Main:
                 dist_type: poisson
@@ -124,53 +92,21 @@ demographics:
             prob:
               1:
                 min: 0
-                max: 5
-                prob: 0.199
+                max: 22
+                prob: 0.5
               2:
-                min: 6
-                max: 11
-                prob: 0.22
-              3:
-                min: 12
-                max: 23
-                prob: 0.242
-              4:
-                min: 24
-                max: 35
-                prob: 0.11
-              5:
-                min: 36
-                max: 59
-                prob: 0.106
-              6:
-                min: 60
-                max: 999
-                prob: 0.123
+                min: 46
+                max: 96
+                prob: 0.5
             init:
               1:
                 min: 0
-                max: 5
-                prob: 0.199
+                max: 22
+                prob: 0.5
               2:
-                min: 6
-                max: 11
-                prob: 0.22
-              3:
-                min: 12
-                max: 23
-                prob: 0.242
-              4:
-                min: 24
-                max: 35
-                prob: 0.11
-              5:
-                min: 36
-                max: 59
-                prob: 0.106
-              6:
-                min: 60
-                max: 999
-                prob: 0.123
+                min: 46
+                max: 96
+                prob: 0.5
         safe_sex:
           Main:
             prob: 0.324
@@ -204,9 +140,9 @@ demographics:
             exit:
               death:
                 base: 7.979
-                hiv: 24.6
-                haart_adherent: 13.5
-                aids: 45.9
+                hiv: 3.08
+                haart_adherent: 1.69
+                aids: 5.75
             num_partners:
               Main:
                 dist_type: poisson
@@ -259,9 +195,9 @@ demographics:
             exit:
               death:
                 base: 4.001
-                hiv: 17.9
-                haart_adherent: 9.9
-                aids: 45.9
+                hiv: 4.48
+                haart_adherent: 2.48
+                aids: 5.75
             num_partners:
               Main:
                 dist_type: poisson
@@ -314,9 +250,9 @@ demographics:
             exit:
               death:
                 base: 4.001
-                hiv: 17.9
-                haart_adherent: 9.9
-                aids: 45.9
+                hiv: 4.48
+                haart_adherent: 2.48
+                aids: 5.75
             num_partners:
               Main:
                 dist_type: poisson
@@ -347,53 +283,21 @@ demographics:
             prob:
               1:
                 min: 0
-                max: 5
-                prob: 0.199
+                max: 22
+                prob: 0.5
               2:
-                min: 6
-                max: 11
-                prob: 0.22
-              3:
-                min: 12
-                max: 23
-                prob: 0.242
-              4:
-                min: 24
-                max: 35
-                prob: 0.11
-              5:
-                min: 36
-                max: 59
-                prob: 0.106
-              6:
-                min: 60
-                max: 999
-                prob: 0.123
+                min: 46
+                max: 96
+                prob: 0.5
             init:
               1:
                 min: 0
-                max: 5
-                prob: 0.199
+                max: 22
+                prob: 0.5
               2:
-                min: 6
-                max: 11
-                prob: 0.22
-              3:
-                min: 12
-                max: 23
-                prob: 0.242
-              4:
-                min: 24
-                max: 35
-                prob: 0.11
-              5:
-                min: 36
-                max: 59
-                prob: 0.106
-              6:
-                min: 60
-                max: 999
-                prob: 0.123
+                min: 46
+                max: 96
+                prob: 0.5
         safe_sex:
           Main:
             prob: 0.26
@@ -427,9 +331,9 @@ demographics:
             exit:
               death:
                 base: 7.979
-                hiv: 24.6
-                haart_adherent: 13.5
-                aids: 45.9
+                hiv: 3.08
+                haart_adherent: 1.69
+                aids: 5.75
             num_partners:
               Main:
                 dist_type: poisson
@@ -456,53 +360,21 @@ demographics:
             prob:
               1:
                 min: 0
-                max: 5
-                prob: 0.199
+                max: 22
+                prob: 0.5
               2:
-                min: 6
-                max: 11
-                prob: 0.22
-              3:
-                min: 12
-                max: 23
-                prob: 0.242
-              4:
-                min: 24
-                max: 35
-                prob: 0.11
-              5:
-                min: 36
-                max: 59
-                prob: 0.106
-              6:
-                min: 60
-                max: 999
-                prob: 0.123
+                min: 46
+                max: 96
+                prob: 0.5
             init:
               1:
                 min: 0
-                max: 5
-                prob: 0.199
+                max: 22
+                prob: 0.5
               2:
-                min: 6
-                max: 11
-                prob: 0.22
-              3:
-                min: 12
-                max: 23
-                prob: 0.242
-              4:
-                min: 24
-                max: 35
-                prob: 0.11
-              5:
-                min: 36
-                max: 59
-                prob: 0.106
-              6:
-                min: 60
-                max: 999
-                prob: 0.123
+                min: 46
+                max: 96
+                prob: 0.5
         safe_sex:
           Main:
             prob: 0.26
@@ -536,9 +408,9 @@ demographics:
             exit:
               death:
                 base: 7.979
-                hiv: 24.6
-                haart_adherent: 13.5
-                aids: 45.9
+                hiv: 3.08
+                haart_adherent: 1.69
+                aids: 5.75
             num_partners:
               Main:
                 dist_type: poisson
@@ -591,9 +463,9 @@ demographics:
             exit:
               death:
                 base: 4.001
-                hiv: 17.9
-                haart_adherent: 9.9
-                aids: 45.9
+                hiv: 4.48
+                haart_adherent: 2.48
+                aids: 5.75
             num_partners:
               Main:
                 dist_type: poisson
@@ -646,9 +518,9 @@ demographics:
             exit:
               death:
                 base: 4.001
-                hiv: 17.9
-                haart_adherent: 9.9
-                aids: 45.9
+                hiv: 4.48
+                haart_adherent: 2.48
+                aids: 5.75
             num_partners:
               Main:
                 dist_type: poisson
