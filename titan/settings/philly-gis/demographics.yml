@@ -10,7 +10,7 @@ demographics:
             versatile: 0.0
         incar:
           init: 0.032
-          prob: 0.0067
+          prob: 0.0099
           duration:
             prob:
               1: 
@@ -38,7 +38,7 @@ demographics:
               aids:
                 init: 0.695
             haart:
-              init: 0.0339
+              init: 0.038
               enroll:
                 enroll_0:
                   prob: 0.679
@@ -79,7 +79,7 @@ demographics:
             versatile: 0.0
         incar:
           init: 0.032
-          prob: 0.0067
+          prob: 0.0099
           duration:
             prob:
               1:
@@ -107,7 +107,7 @@ demographics:
               aids:
                 init: 0.695
             haart:
-              init: 0.038
+              init: 0.054
               enroll:
                 enroll_0:
                   prob: 0.679
@@ -162,7 +162,7 @@ demographics:
               aids:
                 init: 0.601
             haart:
-              init: 0.01778
+              init: 0.025
               enroll:
                 enroll_0:
                   prob: 0.604
@@ -217,7 +217,7 @@ demographics:
               aids:
                 init: 0.601
             haart:
-              init: 0.0395
+              init: 0.046
               enroll:
                 enroll_0:
                   prob: 0.604
@@ -262,7 +262,7 @@ demographics:
             versatile: 0.0
         incar:
           init: 0.039
-          prob: 0.0083
+          prob: 0.0124
           duration:
             prob:
               1:
@@ -290,7 +290,7 @@ demographics:
               aids:
                 init: 0.695
             haart:
-              init: 0.0246
+              init: 0.038
               enroll:
                 enroll_0:
                   prob: 0.679
@@ -331,7 +331,7 @@ demographics:
             versatile: 0.0
         incar:
           init: 0.039
-          prob: 0.0083
+          prob: 0.0124
           duration:
             prob:
               1:
@@ -359,7 +359,7 @@ demographics:
               aids:
                 init: 0.695
             haart:
-              init: 0.0246
+              init: 0.038
               enroll:
                 enroll_0:
                   prob: 0.679
@@ -414,7 +414,7 @@ demographics:
               aids:
                 init: 0.601
             haart:
-              init: 0.01158
+              init: 0.027
               enroll:
                 enroll_0:
                   prob: 0.604
@@ -469,7 +469,7 @@ demographics:
               aids:
                 init: 0.601
             haart:
-              init: 0.01158
+              init: 0.027
               enroll:
                 enroll_0:
                   prob: 0.604
