@@ -10,26 +10,18 @@ demographics:
             versatile: 0.0
         incar:
           init: 0.032
-          prob: 0.0099
+          prob: 0.0067
           duration:
             prob:
               1: 
-                min: 0
+                min: 1
                 max: 22
-                prob: 0.5
-              2:
-                min: 46
-                max: 96
-                prob: 0.5
+                prob: 1.0
             init:
               1:
-                min: 0
+                min: 1
                 max: 22
-                prob: 0.5
-              2:
-                min: 46
-                max: 96
-                prob: 0.5
+                prob: 1.0
         safe_sex:
           Main:
             prob: 0.324
@@ -87,26 +79,18 @@ demographics:
             versatile: 0.0
         incar:
           init: 0.032
-          prob: 0.0099
+          prob: 0.0067
           duration:
             prob:
               1:
-                min: 0
+                min: 1
                 max: 22
-                prob: 0.5
-              2:
-                min: 46
-                max: 96
-                prob: 0.5
+                prob: 1
             init:
               1:
-                min: 0
+                min: 1
                 max: 22
-                prob: 0.5
-              2:
-                min: 46
-                max: 96
-                prob: 0.5
+                prob: 1
         safe_sex:
           Main:
             prob: 0.324
@@ -278,26 +262,18 @@ demographics:
             versatile: 0.0
         incar:
           init: 0.039
-          prob: 0.0124
+          prob: 0.0083
           duration:
             prob:
               1:
-                min: 0
+                min: 1
                 max: 22
-                prob: 0.5
-              2:
-                min: 46
-                max: 96
-                prob: 0.5
+                prob: 1.0
             init:
               1:
-                min: 0
+                min: 1
                 max: 22
-                prob: 0.5
-              2:
-                min: 46
-                max: 96
-                prob: 0.5
+                prob: 1.0
         safe_sex:
           Main:
             prob: 0.26
@@ -355,26 +331,18 @@ demographics:
             versatile: 0.0
         incar:
           init: 0.039
-          prob: 0.0124
+          prob: 0.0083
           duration:
             prob:
               1:
-                min: 0
+                min: 1
                 max: 22
-                prob: 0.5
-              2:
-                min: 46
-                max: 96
-                prob: 0.5
+                prob: 1.0
             init:
               1:
-                min: 0
+                min: 1
                 max: 22
-                prob: 0.5
-              2:
-                min: 46
-                max: 96
-                prob: 0.5
+                prob: 1.0
         safe_sex:
           Main:
             prob: 0.26
