@@ -62,17 +62,23 @@ demographics:
                 aids: 5.75
             num_partners:
               Main:
-                dist_type: poisson
+                dist_type: normal
                 vars:
                   1:
                     value_type: float
                     value: 1.3
+                  2:
+                    value_type: float
+                    value: 2.3
               Casual:
-                dist_type: poisson
+                dist_type: normal
                 vars:
                   1:
                     value_type: float
                     value: 2.8
+                  2:
+                    value_type: float
+                    value: 3.6
       HMM5:
         ppl: 0.2253
         sex_role:
@@ -133,17 +139,23 @@ demographics:
                 aids: 5.75
             num_partners:
               Main:
-                dist_type: poisson
+                dist_type: normal
                 vars:
                   1:
                     value_type: float
                     value: 1.3
+                  2:
+                    value_type: float
+                    value: 2.3
               Casual:
-                dist_type: poisson
+                dist_type: normal
                 vars:
                   1:
                     value_type: float
                     value: 2.8
+                  2:
+                    value_type: float
+                    value: 3.6
       HFL5:
         ppl: 0.2911
         sex_role:
@@ -190,17 +202,23 @@ demographics:
                 aids: 5.75
             num_partners:
               Main:
-                dist_type: poisson
+                dist_type: normal
                 vars:
                   1:
                     value_type: float
                     value: 1.3
+                  2:
+                    value_type: float
+                    value: 2.3
               Casual:
-                dist_type: poisson
+                dist_type: normal
                 vars: 
                   1:
                     value_type: float
                     value: 2.8
+                  2:
+                    value_type: float
+                    value: 3.6
       HFM5:
         ppl: 0.2791
         sex_role:
@@ -247,17 +265,23 @@ demographics:
                 aids: 5.75
             num_partners:
               Main:
-                dist_type: poisson
+                dist_type: normal
                 vars:
                   1:
                     value_type: float
                     value: 1.3
+                  2:
+                    value_type: float
+                    value: 2.3
               Casual:
-                dist_type: poisson
+                dist_type: normal
                 vars:
                   1:
                     value_type: float
                     value: 2.8
+                  2:
+                    value_type: float
+                    value: 3.6
 
   disadvantaged:
     ppl: 0.6633
@@ -322,17 +346,23 @@ demographics:
                 aids: 5.75
             num_partners:
               Main:
-                dist_type: poisson
+                dist_type: normal
                 vars:
                   1:
                     value_type: float
                     value: 4.21
+                  2:
+                    value_type: float
+                    value: 3.1
               Casual:
-                dist_type: poisson
+                dist_type: normal
                 vars:
                   1:
                     value_type: float
                     value: 2.45
+                  2:
+                    value_type: float
+                    value: 3
       HMM5:
         ppl: 0.0009
         sex_role:
@@ -393,17 +423,23 @@ demographics:
                 aids: 5.75
             num_partners:
               Main:
-                dist_type: poisson
+                dist_type: normal
                 vars:
                   1:
                     value_type: float
                     value: 4.21
+                  2:
+                    value_type: float
+                    value: 3.1
               Casual:
-                dist_type: poisson
+                dist_type: normal
                 vars:
                   1:
                     value_type: float
                     value: 2.45
+                  2:
+                    value_type: float
+                    value: 3
       HFL5:
         ppl: 0.6
         sex_role:
@@ -450,17 +486,23 @@ demographics:
                 aids: 5.75
             num_partners:
               Main:
-                dist_type: poisson
+                dist_type: normal
                 vars:
                   1:
                     value_type: float
-                    value: 2.59
+                    value: 1.3
+                  2:
+                    value_type: float
+                    value: 2.3
               Casual:
-                dist_type: poisson
+                dist_type: normal
                 vars:
                   1:
                     value_type: float
                     value: 0.9
+                  2:
+                    value_type: float
+                    value: 1.2
       HFM5:
         ppl: 0.0039
         sex_role:
@@ -507,14 +549,20 @@ demographics:
                 aids: 5.75
             num_partners:
               Main:
-                dist_type: poisson
+                dist_type: normal
                 vars:
                   1:
                     value_type: float
-                    value: 2.59
+                    value: 1.3
+                  2:
+                    value_type: float
+                    value: 2.3
               Casual:
-                dist_type: poisson
+                dist_type: normal
                 vars:
                   1:
                     value_type: float
                     value: 0.9
+                  2:
+                    value_type: float
+                    value: 1.2
