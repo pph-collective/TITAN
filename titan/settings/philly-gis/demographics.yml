@@ -46,7 +46,7 @@ demographics:
                   stop: 1
                 enroll_1:
                   prob: 0.246
-                  start: 1
+                  start: 2
                   stop: 9999
               reinit:
                 prob: 0.6284
@@ -66,19 +66,19 @@ demographics:
                 vars:
                   1:
                     value_type: float
-                    value: 1.2
+                    value: 1
                   2:
                     value_type: float
-                    value: 1.43
+                    value: 1
               Casual:
                 dist_type: uniform
                 vars:
                   1:
                     value_type: float
-                    value: 2.29
+                    value: 2
                   2:
                     value_type: float
-                    value: 3.76
+                    value: 4
       HMM5:
         ppl: 0.2253
         sex_role:
@@ -123,7 +123,7 @@ demographics:
                   stop: 1
                 enroll_1:
                   prob: 0.246
-                  start: 1
+                  start: 2
                   stop: 9999
               reinit:
                 prob: 0.6284
@@ -143,19 +143,19 @@ demographics:
                 vars:
                   1:
                     value_type: float
-                    value: 1.2
+                    value: 1
                   2:
                     value_type: float
-                    value: 1.43
+                    value: 1
               Casual:
                 dist_type: uniform
                 vars:
                   1:
                     value_type: float
-                    value: 2.29
+                    value: 2
                   2:
                     value_type: float
-                    value: 3.76
+                    value: 4
       HFL5:
         ppl: 0.2911
         sex_role:
@@ -164,9 +164,9 @@ demographics:
             versatile: 0.0
         safe_sex:
           Main:
-            prob: 0.254
+            prob: 0.256
           Casual:
-            prob: 0.613
+            prob: 0.612
         drug_type:
           None:
             ppl: 1.0
@@ -186,7 +186,7 @@ demographics:
                   stop: 1
                 enroll_1:
                   prob: 0.166
-                  start: 1
+                  start: 2
                   stop: 9999
               reinit:
                 prob: 0.6284
@@ -206,7 +206,7 @@ demographics:
                 vars:
                   1:
                     value_type: float
-                    value: 0.8
+                    value: 1.0
                   2:
                     value_type: float
                     value: 1.0
@@ -215,7 +215,7 @@ demographics:
                 vars: 
                   1:
                     value_type: float
-                    value: 0.8
+                    value: 1.0
                   2:
                     value_type: float
                     value: 1.0
@@ -227,9 +227,9 @@ demographics:
             versatile: 0.0
         safe_sex:
           Main:
-            prob: 0.254
+            prob: 0.256
           Casual:
-            prob: 0.613
+            prob: 0.612
         drug_type:
           None:
             ppl: 1.0
@@ -249,7 +249,7 @@ demographics:
                   stop: 1
                 enroll_1:
                   prob: 0.166
-                  start: 1
+                  start: 2
                   stop: 9999
               reinit:
                 prob: 0.6284
@@ -269,7 +269,7 @@ demographics:
                 vars:
                   1:
                     value_type: float
-                    value: 0.8
+                    value: 1.0
                   2:
                     value_type: float
                     value: 1.0
@@ -278,7 +278,7 @@ demographics:
                 vars:
                   1:
                     value_type: float
-                    value: 0.8
+                    value: 1.0
                   2:
                     value_type: float
                     value: 1.0
@@ -330,7 +330,7 @@ demographics:
                   stop: 1
                 enroll_1:
                   prob: 0.246
-                  start: 1
+                  start: 2
                   stop: 9999
               reinit:
                 prob: 0.6284
@@ -350,19 +350,19 @@ demographics:
                 vars:
                   1:
                     value_type: float
-                    value: 3.06
+                    value: 3
                   2:
                     value_type: float
-                    value: 5.17
+                    value: 5
               Casual:
                 dist_type: uniform
                 vars:
                   1:
                     value_type: float
-                    value: 0.72
+                    value: 1
                   2:
                     value_type: float
-                    value: 2.43
+                    value: 2
       HMM5:
         ppl: 0.0009
         sex_role:
@@ -407,7 +407,7 @@ demographics:
                   stop: 1
                 enroll_1:
                   prob: 0.246
-                  start: 1
+                  start: 2
                   stop: 9999
               reinit:
                 prob: 0.6284
@@ -427,19 +427,19 @@ demographics:
                 vars:
                   1:
                     value_type: float
-                    value: 3.06
+                    value: 3
                   2:
                     value_type: float
-                    value: 5.17
+                    value: 5
               Casual:
                 dist_type: uniform
                 vars:
                   1:
                     value_type: float
-                    value: 0.72
+                    value: 1
                   2:
                     value_type: float
-                    value: 2.43
+                    value: 2
       HFL5:
         ppl: 0.6
         sex_role:
@@ -470,7 +470,7 @@ demographics:
                   stop: 1
                 enroll_1:
                   prob: 0.166
-                  start: 1
+                  start: 2
                   stop: 9999
               reinit:
                 prob: 0.6284
@@ -490,19 +490,19 @@ demographics:
                 vars:
                   1:
                     value_type: float
-                    value: 0.95
+                    value: 1
                   2:
                     value_type: float
-                    value: 1.11
+                    value: 1
               Casual:
                 dist_type: uniform
                 vars:
                   1:
                     value_type: float
-                    value: 0.51
+                    value: 1
                   2:
                     value_type: float
-                    value: 0.908
+                    value: 1
       HFM5:
         ppl: 0.0039
         sex_role:
@@ -533,7 +533,7 @@ demographics:
                   stop: 1
                 enroll_1:
                   prob: 0.166
-                  start: 1
+                  start: 2
                   stop: 9999
               reinit:
                 prob: 0.6284
@@ -553,16 +553,16 @@ demographics:
                 vars:
                   1:
                     value_type: float
-                    value: 0.95
+                    value: 1
                   2:
                     value_type: float
-                    value: 1.11
+                    value: 1
               Casual:
                 dist_type: uniform
                 vars:
                   1:
                     value_type: float
-                    value: 0.51
+                    value: 1
                   2:
                     value_type: float
-                    value: 0.908
+                    value: 1

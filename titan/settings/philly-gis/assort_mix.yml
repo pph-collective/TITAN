@@ -1,44 +1,17 @@
 assort_mix:
-  assort_disadvantaged:
+  assort_disadvantaged_location:
     attribute: race
     agent_value: disadvantaged
-    partner_attribute: race
+    partner_attribute: location
     partner_values:
-      disadvantaged: 0.79
-      notdisadvantaged: 0.21
-  assort_notdisadvantaged:
+      __same__: 0.32
+      __neighbor__: 0.15
+      __other__: 0.53
+  assort_notdisadvantaged_location:
     attribute: race
     agent_value: notdisadvantaged
-    partner_attribute: race
+    partner_attribute: location
     partner_values:
-      disadvantaged: 0.36
-      notdisadvantaged: 0.64
-
-  assort_HML5:
-    attribute: sex_type
-    agent_value: HML5
-    partner_attribute: sex_type
-    partner_values:
-      HFL5: 0.44
-      __other__: 0.56
-  assort_HMM5:
-    attribute: sex_type
-    agent_value: HMM5
-    partner_attribute: sex_type
-    partner_values:
-      __other__: 0.56
-      HFM5: 0.44
-  assort_HFL5:
-    attribute: sex_type
-    agent_value: HFL5
-    partner_attribute: sex_type
-    partner_values:
-      HML5: 0.50
-      __other__: 0.50
-  assort_HFM5:
-    attribute: sex_type
-    agent_value: HFM5
-    partner_attribute: sex_type
-    partner_values:
-      __other__: 0.50
-      HMM5: 0.50
+      __same__: 0.20
+      __neighbor__: 0.096
+      __other__: 0.704
