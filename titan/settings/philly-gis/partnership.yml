@@ -5,24 +5,24 @@ partnership:
         type: bins
         bins:
           1:
-            prob: 1
-            min: 0
-            max: 2
-         # 2:
-          #  prob: 0.5
-          #  min: 2
-          #  max: 3
+            prob: 0.95
+            min: 1
+            max: 3
+         2:
+            prob: 0.05
+            min: 4
+            max: 6
       Casual:
         type: bins
         bins:
           1:
-            prob: 1
-            min: 0
-            max: 2
-          #2:
-           # prob: 0.5
-           # min: 2
-           # max: 3
+            prob: 0.95
+            min: 1
+            max: 3
+          2:
+            prob: 0.05
+            min: 4
+            max: 6
   duration:
     Main:
       type: bins
