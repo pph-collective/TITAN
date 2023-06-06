@@ -8,8 +8,8 @@ partnership:
             prob: 0.95
             min: 1
             max: 3
-         2:
-            prob: 1
+          2:
+            prob: 0.05
             min: 4
             max: 6
       Casual:
@@ -20,7 +20,7 @@ partnership:
             min: 1
             max: 3
           2:
-            prob: 1
+            prob: 0.05
             min: 4
             max: 6
   duration:
