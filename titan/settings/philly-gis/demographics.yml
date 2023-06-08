@@ -57,9 +57,9 @@ demographics:
             exit:
               death:
                 base: 7.979
-                hiv: 12.3
-                haart_adherent: 6.75
-                aids: 22.95
+                hiv: 6.16
+                haart_adherent: 3.38
+                aids: 11.5
             num_partners:
               Main:
                 dist_type: uniform
@@ -134,9 +134,9 @@ demographics:
             exit:
               death:
                 base: 7.979
-                hiv: 12.3
-                haart_adherent: 6.75
-                aids: 22.95
+                hiv: 6.16
+                haart_adherent: 3.38
+                aids: 11.5
             num_partners:
               Main:
                 dist_type: uniform
@@ -197,9 +197,9 @@ demographics:
             exit:
               death:
                 base: 4.001
-                hiv: 8.95
-                haart_adherent: 4.95
-                aids: 22.95
+                hiv: 8.96
+                haart_adherent: 4.96
+                aids: 11.5
             num_partners:
               Main:
                 dist_type: uniform
@@ -260,9 +260,9 @@ demographics:
             exit:
               death:
                 base: 4.001
-                hiv: 8.95
-                haart_adherent: 4.95
-                aids: 22.95
+                hiv: 8.96
+                haart_adherent: 4.96
+                aids: 11.5
             num_partners:
               Main:
                 dist_type: uniform
@@ -341,9 +341,9 @@ demographics:
             exit:
               death:
                 base: 7.979
-                hiv: 12.3
-                haart_adherent: 6.75
-                aids: 22.95
+                hiv: 6.16
+                haart_adherent: 3.38
+                aids: 11.5
             num_partners:
               Main:
                 dist_type: uniform
@@ -418,9 +418,9 @@ demographics:
             exit:
               death:
                 base: 7.979
-                hiv: 12.3
-                haart_adherent: 6.75
-                aids: 22.95
+                hiv: 6.16
+                haart_adherent: 3.38
+                aids: 11.5
             num_partners:
               Main:
                 dist_type: uniform
@@ -481,9 +481,9 @@ demographics:
             exit:
               death:
                 base: 4.001
-                hiv: 8.95
-                haart_adherent: 4.95
-                aids: 22.95
+                hiv: 8.96
+                haart_adherent: 4.96
+                aids: 11.5
             num_partners:
               Main:
                 dist_type: uniform
@@ -544,9 +544,9 @@ demographics:
             exit:
               death:
                 base: 4.001
-                hiv: 8.95
-                haart_adherent: 4.95
-                aids: 22.95
+                hiv: 8.96
+                haart_adherent: 4.96
+                aids: 11.5
             num_partners:
               Main:
                 dist_type: uniform
