@@ -7,14 +7,14 @@ partnership:
           1:
             prob: 1
             min: 0
-            max: 2
+            max: 3
       Casual:
         type: bins
         bins:
           1:
             prob: 1
             min: 0
-            max: 2
+            max: 3
   duration:
     Main:
       type: bins
