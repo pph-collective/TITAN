@@ -41,7 +41,7 @@ demographics:
               init: 0.038
               enroll:
                 enroll_0:
-                  prob: 0.679
+                  prob: 0.773
                   start: 0
                   stop: 1
                 enroll_1:
@@ -118,7 +118,7 @@ demographics:
               init: 0.054
               enroll:
                 enroll_0:
-                  prob: 0.679
+                  prob: 0.773
                   start: 0
                   stop: 1
                 enroll_1:
@@ -181,7 +181,7 @@ demographics:
               init: 0.025
               enroll:
                 enroll_0:
-                  prob: 0.604
+                  prob: 0.691
                   start: 0
                   stop: 1
                 enroll_1:
@@ -244,7 +244,7 @@ demographics:
               init: 0.046
               enroll:
                 enroll_0:
-                  prob: 0.604
+                  prob: 0.691
                   start: 0
                   stop: 1
                 enroll_1:
