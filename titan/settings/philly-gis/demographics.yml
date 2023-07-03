@@ -477,7 +477,7 @@ demographics:
               adherence:
                 init: 1.0
                 prob: 0.81
-                discontinue: 0.538
+                discontinue: 0.485
             exit:
               death:
                 base: 4.001
@@ -540,7 +540,7 @@ demographics:
               adherence:
                 init: 1.0
                 prob: 0.4212
-                discontinue: 0.538
+                discontinue: 0.485
             exit:
               death:
                 base: 4.001
