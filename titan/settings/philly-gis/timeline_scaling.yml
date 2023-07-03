@@ -1,0 +1,78 @@
+timeline_scaling:
+  timeline:
+    #Scenarios 2-4
+    testing_D_HM:
+      parameter: demographics|disadvantaged|sex_type|HML5|drug_type|None|hiv|dx|prob
+      start_time: 73
+      stop_time: 193
+      scalar: 1 #1.01
+    testing_D_HF:
+      parameter: demographics|disadvantaged|sex_type|HFL5|drug_type|None|hiv|dx|prob
+      start_time: 73
+      stop_time: 193
+      scalar: 1 #1.015
+
+    #Scenarios 3 and 4
+    linkage_D_HM:
+      parameter: demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|enroll|enroll_0|prob
+      start_time: 73
+      stop_time: 193
+      scalar: 1 #1.04
+    linkage_D_HF:
+      parameter: demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|enroll|enroll_0|prob
+      start_time: 73
+      stop_time: 193
+      scalar: 1 #1.06
+    adherence_D_HM:
+      parameter: demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|adherence|prob
+      start_time: 73
+      stop_time: 193
+      scalar: 1 #1.022
+    adherence_D_HF:
+      parameter: demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|adherence|prob
+      start_time: 73
+      stop_time: 193
+      scalar: 1 #1.03
+    discontinue_D_HM:
+      parameter: demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|adherence|discontinue
+      start_time: 73
+      stop_time: 193
+      scalar: 1 #0.57
+    discontinue_D_HF:
+      parameter: demographics|disadvantaged|sex_type|HFL5|drug_type|None|haart|adherence|discontinue
+      start_time: 73
+      stop_time: 193
+      scalar: 1 #0.901
+
+    #Scenario 4
+    incarceration_D_HM:
+      parameter: demographics|disadvantaged|sex_type|HML5|incar|prob
+      start_time: 73
+      stop_time: 193
+      scalar: 1 #0.26
+    incarceration_ND_HML5:
+      parameter: demographics|notdisadvantaged|sex_type|HML5|incar|prob
+      start_time: 73
+      stop_time: 193
+      scalar: 1 #0.26
+    incarceration_ND_HMM5:
+      parameter: demographics|notdisadvantaged|sex_type|HMM5|incar|prob
+      start_time: 73
+      stop_time: 193
+      scalar: 1 #0.26
+
+    incarceration_length_D_HM:
+      parameter: demographics|disadvantaged|sex_type|HML5|incar|duration|prob|1|max
+      start_time: 73
+      stop_time: 193
+      scalar: 1 #0.826
+    incarceration_length_ND_HML5:
+      parameter: demographics|notdisadvantaged|sex_type|HML5|incar|duration|prob|1|max
+      start_time: 73
+      stop_time: 193
+      scalar: 1 #0.826
+    incarceration_length_ND_HMM5:
+      parameter: demographics|notdisadvantaged|sex_type|HMM5|incar|duration|prob|1|max
+      start_time: 73
+      stop_time: 193
+      scalar: 1 #0.826

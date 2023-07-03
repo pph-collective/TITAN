@@ -2,7 +2,7 @@ model:
   #seed: #add seed number when testing model
   num_pop: 130000
   time:
-    num_steps: 192 #2014-2030 years
+    num_steps: 72 #192 #2014-2030 years
     steps_per_year: 12
     burn_steps: 36 #2011-2013 burn time
   network:
