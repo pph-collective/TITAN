@@ -23,6 +23,7 @@ timeline_scaling:
       start_time: 73
       stop_time: 193
       scalar: 1 #1.06
+
     adherence_D_HM:
       parameter: demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|adherence|prob
       start_time: 73
@@ -33,6 +34,7 @@ timeline_scaling:
       start_time: 73
       stop_time: 193
       scalar: 1 #1.03
+
     discontinue_D_HM:
       parameter: demographics|disadvantaged|sex_type|HML5|drug_type|None|haart|adherence|discontinue
       start_time: 73
