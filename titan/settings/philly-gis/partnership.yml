@@ -7,7 +7,7 @@ partnership:
           1:
             prob: 1
             min: 0
-            max: 3
+            max: 2
       Casual:
         type: bins
         bins:
