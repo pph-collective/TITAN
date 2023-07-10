@@ -1,9 +1,9 @@
 location:
+  migration:
+    enabled: false
+    attribute: name
+    probs_file: ''
   scaling:
-    migration:
-      enabled: false
-      attribute: name
-      probs_file: ''
 #Census Tract Overrides
     CT_42101001300:
       demographics|notdisadvantaged|ppl: &all_agents
