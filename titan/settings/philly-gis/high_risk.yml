@@ -1,0 +1,11 @@
+high_risk:
+  partner_scale: 3
+  prob: 1.0
+  sex_based:
+    HML5:
+      duration: 6
+    HMM5:
+      duration: 6
+  partnership_types:
+    - Main
+    - Casual

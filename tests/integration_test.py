@@ -178,7 +178,9 @@ def test_agent_pop_stable_setting(tmpdir):
             os.path.dirname(os.path.abspath(__file__)), "..", "titan", "settings"
         )
     ):
-        if "__" not in item and item != "base":
+        if (
+            "__" not in item and item != "base" and item != "philly-gis"
+        ):  # bypass philly due to constraints
             path = tmpdir.mkdir(item)
             os.mkdir(os.path.join(path, "network"))
             print(f"-----------Starting run for {item}-----------")
@@ -409,6 +411,39 @@ def test_static_network(make_model_integration, tmpdir):
 
         for rel in orig_rel_ids:
             assert rel in curr_rel_ids
+
+
+@pytest.mark.integration_deterministic
+def test_dissolution(params_integration, tmpdir):
+    model = TITAN(params_integration)
+    inj_r = 0
+    for rel in model.pop.relationships:
+        inj_r += 1
+    assert inj_r > 0
+    model.time = 1
+
+    model.params.partnership.dissolve.time = 1
+    model.params.partnership.dissolve.enabled = True
+
+    model.params.demographics.white.sex_type.MSM.drug_type.Inj.num_partners = (
+        model.params.demographics.black.sex_type.MSM.drug_type.Inj.num_partners
+    )
+    for agent in model.pop.all_agents:
+        agent.mean_num_partners["Inj"] = -1
+        agent.mean_num_partners["Sex"] = -1
+        agent.mean_num_partners["SexInj"] = -1
+        agent.mean_num_partners["Social"] = -1
+    model.pop.update_partner_targets()
+
+    model.step(tmpdir)
+
+    for rel in model.pop.relationships:
+        if rel.bond_type == "Inj":
+            print(rel.agent1.mean_num_partners)
+            print(rel.agent2.mean_num_partners)
+            print(rel.agent1.race, rel.agent1.sex_type, rel.agent1.drug_type)
+            print(rel.agent2.race, rel.agent2.sex_type, rel.agent2.drug_type)
+        assert rel.bond_type != "Inj"
 
 
 @pytest.mark.integration_deterministic

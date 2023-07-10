@@ -1,0 +1,6 @@
+hiv:
+  dx:
+    risk_reduction:
+      sex: 0.53
+  aids:
+    prob: 0.6624

@@ -1,0 +1,568 @@
+demographics:
+  notdisadvantaged:
+    ppl: 0.3367
+    sex_type:
+      HML5:
+        ppl: 0.2045
+        sex_role:
+          init:
+            insertive: 1.0
+            versatile: 0.0
+        incar:
+          init: 0.032
+          prob: 0.0099
+          duration:
+            prob:
+              1: 
+                min: 1
+                max: 22
+                prob: 1.0
+            init:
+              1:
+                min: 1
+                max: 22
+                prob: 1.0
+        safe_sex:
+          Main:
+            prob: 0.324
+          Casual:
+            prob: 0.574
+        drug_type:
+          None:
+            ppl: 1.0
+            hiv:
+              init: 0.030
+              dx:
+                init: 0.90
+                prob: 0.0667
+              aids:
+                init: 0.695
+            haart:
+              init: 0.038
+              enroll:
+                enroll_0:
+                  prob: 0.773
+                  start: 0
+                  stop: 1
+                enroll_1:
+                  prob: 0.246
+                  start: 2
+                  stop: 9999
+              reinit:
+                prob: 0.6284
+              adherence:
+                init: 1.00
+                prob: 0.5912
+                discontinue: 0.283
+            exit:
+              death:
+                base: 7.979
+                hiv: 8.47
+                haart_adherent: 4.65
+                aids: 15.81
+            num_partners:
+              Main:
+                dist_type: uniform
+                vars:
+                  1:
+                    value_type: float
+                    value: 1
+                  2:
+                    value_type: float
+                    value: 1
+              Casual:
+                dist_type: uniform
+                vars:
+                  1:
+                    value_type: float
+                    value: 2
+                  2:
+                    value_type: float
+                    value: 4
+      HMM5:
+        ppl: 0.2253
+        sex_role:
+          init:
+            insertive: 1.0
+            versatile: 0.0
+        incar:
+          init: 0.032
+          prob: 0.0099
+          duration:
+            prob:
+              1:
+                min: 1
+                max: 22
+                prob: 1
+            init:
+              1:
+                min: 1
+                max: 22
+                prob: 1
+        safe_sex:
+          Main:
+            prob: 0.324
+          Casual:
+            prob: 0.574
+        drug_type:
+          None:
+            ppl: 1.0
+            hiv:
+              init: 0.030
+              dx:
+                init: 0.90
+                prob: 0.0564
+              aids:
+                init: 0.695
+            haart:
+              init: 0.054
+              enroll:
+                enroll_0:
+                  prob: 0.773
+                  start: 0
+                  stop: 1
+                enroll_1:
+                  prob: 0.246
+                  start: 2
+                  stop: 9999
+              reinit:
+                prob: 0.6284
+              adherence:
+                init: 1.00
+                prob: 0.3074
+                discontinue: 0.283
+            exit:
+              death:
+                base: 7.979
+                hiv: 8.47
+                haart_adherent: 4.65
+                aids: 15.81
+            num_partners:
+              Main:
+                dist_type: uniform
+                vars:
+                  1:
+                    value_type: float
+                    value: 1
+                  2:
+                    value_type: float
+                    value: 1
+              Casual:
+                dist_type: uniform
+                vars:
+                  1:
+                    value_type: float
+                    value: 2
+                  2:
+                    value_type: float
+                    value: 4
+      HFL5:
+        ppl: 0.2911
+        sex_role:
+          init:
+            receptive: 1.0
+            versatile: 0.0
+        safe_sex:
+          Main:
+            prob: 0.256
+          Casual:
+            prob: 0.612
+        drug_type:
+          None:
+            ppl: 1.0
+            hiv:
+              init: 0.0122
+              dx:
+                init: 0.90
+                prob: 0.0684
+              aids:
+                init: 0.601
+            haart:
+              init: 0.025
+              enroll:
+                enroll_0:
+                  prob: 0.691
+                  start: 0
+                  stop: 1
+                enroll_1:
+                  prob: 0.166
+                  start: 2
+                  stop: 9999
+              reinit:
+                prob: 0.6284
+              adherence:
+                init: 1.0
+                prob: 0.838
+                discontinue: 0.538
+            exit:
+              death:
+                base: 4.001
+                hiv: 8.96
+                haart_adherent: 4.96
+                aids: 15.81
+            num_partners:
+              Main:
+                dist_type: uniform
+                vars:
+                  1:
+                    value_type: float
+                    value: 1.0
+                  2:
+                    value_type: float
+                    value: 1.0
+              Casual:
+                dist_type: uniform
+                vars: 
+                  1:
+                    value_type: float
+                    value: 1.0
+                  2:
+                    value_type: float
+                    value: 1.0
+      HFM5:
+        ppl: 0.2791
+        sex_role:
+          init:
+            receptive: 1.0
+            versatile: 0.0
+        safe_sex:
+          Main:
+            prob: 0.256
+          Casual:
+            prob: 0.612
+        drug_type:
+          None:
+            ppl: 1.0
+            hiv:
+              init: 0.0122
+              dx:
+                init: 0.90
+                prob: 0.0582
+              aids:
+                init: 0.601
+            haart:
+              init: 0.046
+              enroll:
+                enroll_0:
+                  prob: 0.691
+                  start: 0
+                  stop: 1
+                enroll_1:
+                  prob: 0.166
+                  start: 2
+                  stop: 9999
+              reinit:
+                prob: 0.6284
+              adherence:
+                init: 1.0
+                prob: 0.4358
+                discontinue: 0.538
+            exit:
+              death:
+                base: 4.001
+                hiv: 8.96
+                haart_adherent: 4.96
+                aids: 15.81
+            num_partners:
+              Main:
+                dist_type: uniform
+                vars:
+                  1:
+                    value_type: float
+                    value: 1.0
+                  2:
+                    value_type: float
+                    value: 1.0
+              Casual:
+                dist_type: uniform
+                vars:
+                  1:
+                    value_type: float
+                    value: 1.0
+                  2:
+                    value_type: float
+                    value: 1.0
+
+  disadvantaged:
+    ppl: 0.6633
+    sex_type:
+      HML5:
+        ppl: 0.3952
+        sex_role:
+          init:
+            insertive: 1.0
+            versatile: 0.0
+        incar:
+          init: 0.039
+          prob: 0.0124
+          duration:
+            prob:
+              1:
+                min: 1
+                max: 22
+                prob: 1.0
+            init:
+              1:
+                min: 1
+                max: 22
+                prob: 1.0
+        safe_sex:
+          Main:
+            prob: 0.26
+          Casual:
+            prob: 0.56
+        drug_type:
+          None:
+            ppl: 1.0
+            hiv:
+              init: 0.030
+              dx:
+                init: 0.90
+                prob: 0.0662
+              aids:
+                init: 0.695
+            haart:
+              init: 0.038
+              enroll:
+                enroll_0:
+                  prob: 0.679
+                  start: 0
+                  stop: 1
+                enroll_1:
+                  prob: 0.246
+                  start: 2
+                  stop: 9999
+              reinit:
+                prob: 0.6284
+              adherence:
+                init: 1.0
+                prob: 0.5783
+                discontinue: 0.495
+            exit:
+              death:
+                base: 7.979
+                hiv: 8.47
+                haart_adherent: 4.65
+                aids: 15.81
+            num_partners:
+              Main:
+                dist_type: uniform
+                vars:
+                  1:
+                    value_type: float
+                    value: 3
+                  2:
+                    value_type: float
+                    value: 5
+              Casual:
+                dist_type: uniform
+                vars:
+                  1:
+                    value_type: float
+                    value: 1
+                  2:
+                    value_type: float
+                    value: 2
+      HMM5:
+        ppl: 0.0009
+        sex_role:
+          init:
+            insertive: 1.0
+            versatile: 0.0
+        incar:
+          init: 0.039
+          prob: 0.0124
+          duration:
+            prob:
+              1:
+                min: 1
+                max: 22
+                prob: 1.0
+            init:
+              1:
+                min: 1
+                max: 22
+                prob: 1.0
+        safe_sex:
+          Main:
+            prob: 0.26
+          Casual:
+            prob: 0.56
+        drug_type:
+          None:
+            ppl: 1.0
+            hiv:
+              init: 0.030
+              dx:
+                init: 0.90
+                prob: 0.056
+              aids:
+                init: 0.695
+            haart:
+              init: 0.038
+              enroll:
+                enroll_0:
+                  prob: 0.679
+                  start: 0
+                  stop: 1
+                enroll_1:
+                  prob: 0.246
+                  start: 2
+                  stop: 9999
+              reinit:
+                prob: 0.6284
+              adherence: #virally suppressed
+                init: 1.0
+                prob: 0.3007
+                discontinue: 0.495
+            exit:
+              death:
+                base: 7.979
+                hiv: 8.47
+                haart_adherent: 4.65
+                aids: 15.81
+            num_partners:
+              Main:
+                dist_type: uniform
+                vars:
+                  1:
+                    value_type: float
+                    value: 3
+                  2:
+                    value_type: float
+                    value: 5
+              Casual:
+                dist_type: uniform
+                vars:
+                  1:
+                    value_type: float
+                    value: 1
+                  2:
+                    value_type: float
+                    value: 2
+      HFL5:
+        ppl: 0.6
+        sex_role:
+          init:
+            receptive: 1.0
+            versatile: 0.0
+        safe_sex:
+          Main:
+            prob: 0.254
+          Casual:
+            prob: 0.613
+        drug_type:
+          None:
+            ppl: 1.0
+            hiv:
+              init: 0.0122
+              dx:
+                init: 0.90
+                prob: 0.0674
+              aids:
+                init: 0.601
+            haart:
+              init: 0.027
+              enroll:
+                enroll_0:
+                  prob: 0.604
+                  start: 0
+                  stop: 1
+                enroll_1:
+                  prob: 0.166
+                  start: 2
+                  stop: 9999
+              reinit:
+                prob: 0.6284
+              adherence:
+                init: 1.0
+                prob: 0.81
+                discontinue: 0.485
+            exit:
+              death:
+                base: 4.001
+                hiv: 8.96
+                haart_adherent: 4.96
+                aids: 15.81
+            num_partners:
+              Main:
+                dist_type: uniform
+                vars:
+                  1:
+                    value_type: float
+                    value: 1
+                  2:
+                    value_type: float
+                    value: 1
+              Casual:
+                dist_type: uniform
+                vars:
+                  1:
+                    value_type: float
+                    value: 1
+                  2:
+                    value_type: float
+                    value: 1
+      HFM5:
+        ppl: 0.0039
+        sex_role:
+          init:
+            receptive: 1.0
+            versatile: 0.0
+        safe_sex:
+          Main:
+            prob: 0.254
+          Casual:
+            prob: 0.613
+        drug_type:
+          None:
+            ppl: 1.0
+            hiv:
+              init: 0.0122
+              dx:
+                init: 0.90
+                prob: 0.0577
+              aids:
+                init: 0.601
+            haart:
+              init: 0.027
+              enroll:
+                enroll_0:
+                  prob: 0.604
+                  start: 0
+                  stop: 1
+                enroll_1:
+                  prob: 0.166
+                  start: 2
+                  stop: 9999
+              reinit:
+                prob: 0.6284
+              adherence:
+                init: 1.0
+                prob: 0.4212
+                discontinue: 0.485
+            exit:
+              death:
+                base: 4.001
+                hiv: 8.96
+                haart_adherent: 4.96
+                aids: 15.81
+            num_partners:
+              Main:
+                dist_type: uniform
+                vars:
+                  1:
+                    value_type: float
+                    value: 1
+                  2:
+                    value_type: float
+                    value: 1
+              Casual:
+                dist_type: uniform
+                vars:
+                  1:
+                    value_type: float
+                    value: 1
+                  2:
+                    value_type: float
+                    value: 1
