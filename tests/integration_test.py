@@ -178,7 +178,9 @@ def test_agent_pop_stable_setting(tmpdir):
             os.path.dirname(os.path.abspath(__file__)), "..", "titan", "settings"
         )
     ):
-        if "__" not in item and item != "base" and item != "philly-gis":  # bypass philly due to constraints
+        if (
+            "__" not in item and item != "base" and item != "philly-gis"
+        ):  # bypass philly due to constraints
             path = tmpdir.mkdir(item)
             os.mkdir(os.path.join(path, "network"))
             print(f"-----------Starting run for {item}-----------")
