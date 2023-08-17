@@ -27,7 +27,7 @@ jobs:
           key: venv-docs-python3.7-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install dependencies
-        run: poetry install -E docs --no-dev
+        run: poetry install -E docs --without dev
 
       - name: Build site
         run: poetry run mkdocs build

@@ -147,7 +147,7 @@ jobs:
         path: .venv
         key: venv-pypy3.8-${{ hashFiles('**/poetry.lock') }}
     - name: Install dependencies
-      run: poetry install --no-dev
+      run: poetry install --without dev
 
   trigger_rebuild:
     runs-on: ubuntu-latest
