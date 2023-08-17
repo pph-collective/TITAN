@@ -27,7 +27,7 @@ jobs:
           key: venv-nodev-python3.7-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install dependencies
-        run: poetry install --no-dev
+        run: poetry install --without dev
 
       - name: Build & Publish
         run: poetry publish --build
