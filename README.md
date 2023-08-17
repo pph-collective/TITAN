@@ -18,7 +18,7 @@ This includes the script `run_titan` which can then be used to run the model.
 
 ### Prerequisites
 
-* Python (or pypy) 3.6 or later
+* Python (or pypy) 3.7 or later
 
 ## Running the Model
 
