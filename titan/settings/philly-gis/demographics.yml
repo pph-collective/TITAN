@@ -49,11 +49,12 @@ demographics:
                   start: 2
                   stop: 9999
               reinit:
-                prob: 0.6284
+                prob: 0.0
               adherence:
-                init: 1.00
+                init: 0.5912
                 prob: 0.5912
                 discontinue: 0.283
+              discontinue: 0.283
             exit:
               death:
                 base: 7.979
@@ -126,11 +127,12 @@ demographics:
                   start: 2
                   stop: 9999
               reinit:
-                prob: 0.6284
+                prob: 0.0
               adherence:
-                init: 1.00
+                init: 0.3074
                 prob: 0.3074
                 discontinue: 0.283
+              discontinue: 0.283
             exit:
               death:
                 base: 7.979
@@ -189,11 +191,12 @@ demographics:
                   start: 2
                   stop: 9999
               reinit:
-                prob: 0.6284
+                prob: 0.0
               adherence:
-                init: 1.0
+                init: 0.838
                 prob: 0.838
                 discontinue: 0.538
+              discontinue: 0.538
             exit:
               death:
                 base: 4.001
@@ -252,11 +255,12 @@ demographics:
                   start: 2
                   stop: 9999
               reinit:
-                prob: 0.6284
+                prob: 0.0
               adherence:
-                init: 1.0
+                init: 0.4358
                 prob: 0.4358
                 discontinue: 0.538
+              discontinue: 0.538
             exit:
               death:
                 base: 4.001
@@ -333,11 +337,12 @@ demographics:
                   start: 2
                   stop: 9999
               reinit:
-                prob: 0.6284
+                prob: 0.0
               adherence:
-                init: 1.0
+                init: 0.5783
                 prob: 0.5783
                 discontinue: 0.495
+              discontinue: 0.495
             exit:
               death:
                 base: 7.979
@@ -410,11 +415,12 @@ demographics:
                   start: 2
                   stop: 9999
               reinit:
-                prob: 0.6284
-              adherence: #virally suppressed
-                init: 1.0
+                prob: 0.0
+              adherence:
+                init: 0.3007
                 prob: 0.3007
                 discontinue: 0.495
+              discontinue: 0.495
             exit:
               death:
                 base: 7.979
@@ -473,11 +479,12 @@ demographics:
                   start: 2
                   stop: 9999
               reinit:
-                prob: 0.6284
+                prob: 0.0
               adherence:
-                init: 1.0
+                init: 0.81
                 prob: 0.81
                 discontinue: 0.485
+              discontinue: 0.485
             exit:
               death:
                 base: 4.001
@@ -536,11 +543,12 @@ demographics:
                   start: 2
                   stop: 9999
               reinit:
-                prob: 0.6284
+                prob: 0.0
               adherence:
-                init: 1.0
+                init: 0.4212
                 prob: 0.4212
                 discontinue: 0.485
+              discontinue: 0.485
             exit:
               death:
                 base: 4.001
