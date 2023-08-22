@@ -19,4 +19,4 @@ features:
 outputs:
   classes:
     - races
-    - sex_types
+    #- sex_types
