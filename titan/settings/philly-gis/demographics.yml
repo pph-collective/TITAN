@@ -49,7 +49,7 @@ demographics:
                   start: 2
                   stop: 9999
               reinit:
-                prob: 0.0
+                prob: 0.001
               adherence:
                 init: 0.5912
                 prob: 0.5912
@@ -127,7 +127,7 @@ demographics:
                   start: 2
                   stop: 9999
               reinit:
-                prob: 0.0
+                prob: 0.001
               adherence:
                 init: 0.3074
                 prob: 0.3074
@@ -191,7 +191,7 @@ demographics:
                   start: 2
                   stop: 9999
               reinit:
-                prob: 0.0
+                prob: 0.001
               adherence:
                 init: 0.838
                 prob: 0.838
@@ -255,7 +255,7 @@ demographics:
                   start: 2
                   stop: 9999
               reinit:
-                prob: 0.0
+                prob: 0.001
               adherence:
                 init: 0.4358
                 prob: 0.4358
@@ -337,7 +337,7 @@ demographics:
                   start: 2
                   stop: 9999
               reinit:
-                prob: 0.0
+                prob: 0.001
               adherence:
                 init: 0.5783
                 prob: 0.5783
@@ -415,7 +415,7 @@ demographics:
                   start: 2
                   stop: 9999
               reinit:
-                prob: 0.0
+                prob: 0.001
               adherence:
                 init: 0.3007
                 prob: 0.3007
@@ -479,7 +479,7 @@ demographics:
                   start: 2
                   stop: 9999
               reinit:
-                prob: 0.0
+                prob: 0.001
               adherence:
                 init: 0.81
                 prob: 0.81
@@ -543,7 +543,7 @@ demographics:
                   start: 2
                   stop: 9999
               reinit:
-                prob: 0.0
+                prob: 0.001
               adherence:
                 init: 0.4212
                 prob: 0.4212
