@@ -42,10 +42,10 @@ classes:
 
   exit:
     death:
-      exit_class: death
+      exit_type: death
       ignore_incar: true
     leave:
-      exit_class: leave
+      exit_type: leave
       ignore_incar: true
         
   locations:
