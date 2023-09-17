@@ -39,6 +39,14 @@ classes:
         - sex
   drug_types:
     - None
+
+  exit:
+    death:
+      exit_class: death
+      ignore_incar: true
+    leave:
+      exit_class: leave
+      ignore_incar: true
         
   locations:
     world:

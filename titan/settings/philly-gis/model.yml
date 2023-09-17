@@ -15,6 +15,14 @@ features:
   high_risk: true
   exit_enter: true
 
+exit_enter:
+  death:
+    exit_class: death
+    entry_class: replace
+  leave:
+    exit_class: leave
+    entry_class: replace
+
 outputs:
   classes:
     - races

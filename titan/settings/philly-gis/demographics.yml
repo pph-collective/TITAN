@@ -56,6 +56,8 @@ demographics:
                 discontinue: 0.283
               discontinue: 0.283
             exit:
+              leave:
+                prob: 0.002
               death:
                 base: 7.979
                 hiv: 8.47
@@ -134,6 +136,8 @@ demographics:
                 discontinue: 0.283
               discontinue: 0.283
             exit:
+              leave:
+                prob: 0.002
               death:
                 base: 7.979
                 hiv: 8.47
@@ -198,6 +202,8 @@ demographics:
                 discontinue: 0.538
               discontinue: 0.538
             exit:
+              leave:
+                prob: 0.002
               death:
                 base: 4.001
                 hiv: 8.96
@@ -262,6 +268,8 @@ demographics:
                 discontinue: 0.538
               discontinue: 0.538
             exit:
+              leave:
+                prob: 0.002
               death:
                 base: 4.001
                 hiv: 8.96
@@ -344,6 +352,8 @@ demographics:
                 discontinue: 0.495
               discontinue: 0.495
             exit:
+              leave:
+                prob: 0.002
               death:
                 base: 7.979
                 hiv: 8.47
@@ -422,6 +432,8 @@ demographics:
                 discontinue: 0.495
               discontinue: 0.495
             exit:
+              leave:
+                prob: 0.002
               death:
                 base: 7.979
                 hiv: 8.47
@@ -486,6 +498,8 @@ demographics:
                 discontinue: 0.485
               discontinue: 0.485
             exit:
+              leave:
+                prob: 0.002
               death:
                 base: 4.001
                 hiv: 8.96
@@ -550,6 +564,8 @@ demographics:
                 discontinue: 0.485
               discontinue: 0.485
             exit:
+              leave:
+                prob: 0.002
               death:
                 base: 4.001
                 hiv: 8.96
