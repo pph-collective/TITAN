@@ -45,7 +45,7 @@ classes:
       exit_type: death
       ignore_incar: true
     leave:
-      exit_type: leave
+      exit_type: drop_out
       ignore_incar: true
         
   locations:
