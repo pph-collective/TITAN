@@ -3,7 +3,7 @@ demographics:
     ppl: 0.3367
     sex_type:
       HM:
-        ppl: 0.2045
+        ppl: 0.50
         sex_role:
           init:
             insertive: 1.0
@@ -84,7 +84,7 @@ demographics:
                     value: 4
 
       HF:
-        ppl: 0.2911
+        ppl: 0.50
         sex_role:
           init:
             receptive: 1.0
@@ -155,7 +155,7 @@ demographics:
     ppl: 0.6633
     sex_type:
       HM:
-        ppl: 0.3952
+        ppl: 0.4
         sex_role:
           init:
             insertive: 1.0
