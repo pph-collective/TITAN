@@ -17,7 +17,7 @@ assort_mix:
       __other__: 0.53
 
   assort_ND_HF:
-    attribute: race
+    attribute: sex_type
     agent_value: ND_HF
     partner_attribute: location
     partner_values:
@@ -25,7 +25,7 @@ assort_mix:
       __neighbor__: 0.096
       __other__: 0.704
   assort_ND_HM:
-    attribute: race
+    attribute: sex_type
     agent_value: ND_HM
     partner_attribute: location
     partner_values:
