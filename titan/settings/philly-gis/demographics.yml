@@ -1,9 +1,9 @@
 demographics:
-  notdisadvantaged:
-    ppl: 0.3367
+  black:
+    ppl: 1.0
     sex_type:
-      HM:
-        ppl: 0.50
+      ND_HM:
+        ppl: 0.137
         sex_role:
           init:
             insertive: 1.0
@@ -83,8 +83,8 @@ demographics:
                     value_type: float
                     value: 4
 
-      HF:
-        ppl: 0.50
+      ND_HF:
+        ppl: 0.184
         sex_role:
           init:
             receptive: 1.0
@@ -150,12 +150,8 @@ demographics:
                     value_type: float
                     value: 1.0
 
-
-  disadvantaged:
-    ppl: 0.6633
-    sex_type:
-      HM:
-        ppl: 0.4
+      D_HM:
+        ppl: 0.276
         sex_role:
           init:
             insertive: 1.0
@@ -235,8 +231,8 @@ demographics:
                     value_type: float
                     value: 2
 
-      HF:
-        ppl: 0.6
+      D_HF:
+        ppl: 0.403
         sex_role:
           init:
             receptive: 1.0

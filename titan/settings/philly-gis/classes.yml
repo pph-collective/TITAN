@@ -1,22 +1,33 @@
 classes:
   races: #changing the names within races
-    disadvantaged:
-      hispanic: false
-    notdisadvantaged:
+    black:
       hispanic: false
 
   sex_types:
-    HM:
+    D_HM:
       gender: M
       cis_trans: cis
       sleeps_with:
-        - HF
-    HF:
+        - D_HF
+        - ND_HF
+    ND_HM:
+      gender: M
+      cis_trans: cis
+      sleeps_with:
+        - D_HF
+        - ND_HF
+    D_HF:
       gender: F
       cis_trans: cis
       sleeps_with:
-        - HM
-
+        - D_HM
+        - ND_HM
+    ND_HF:
+      gender: F
+      cis_trans: cis
+      sleeps_with:
+        - D_HM
+        - ND_HM
   bond_types:
     Main:
       acts_allowed:

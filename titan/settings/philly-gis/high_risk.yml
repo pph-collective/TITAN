@@ -2,9 +2,13 @@ high_risk:
   partner_scale: 3
   prob: 0.39
   sex_based:
-    HM:
+    D_HM:
       duration: 6
-    HF:
+    D_HF:
+      duration: 6
+    ND_HM:
+      duration: 6
+    ND_HF:
       duration: 6
   partnership_types:
     - Main
