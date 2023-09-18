@@ -16,7 +16,7 @@ classes:
       cis_trans: cis
       sleeps_with:
         - HM
-        -
+
   bond_types:
     Main:
       acts_allowed:
