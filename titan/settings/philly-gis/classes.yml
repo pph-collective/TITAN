@@ -6,30 +6,17 @@ classes:
       hispanic: false
 
   sex_types:
-    HML5: #HM residing less than 5 miles from treatment site
+    HM:
       gender: M
       cis_trans: cis
       sleeps_with:
-        - HFL5
-        - HFM5
-    HMM5: #HM residing more than 5 miles from treatment site
-      gender: M
-      cis_trans: cis
-      sleeps_with:
-        - HFL5
-        - HFM5
-    HFL5: #HF residing less than 5 miles from treatment site
+        - HF
+    HF:
       gender: F
       cis_trans: cis
       sleeps_with:
-        - HML5
-        - HMM5
-    HFM5: #HF residing more than 5 miles from treatment site
-      gender: F
-      cis_trans: cis
-      sleeps_with:
-        - HML5
-        - HMM5
+        - HM
+        -
   bond_types:
     Main:
       acts_allowed:
