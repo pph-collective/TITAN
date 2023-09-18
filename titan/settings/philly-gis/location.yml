@@ -4,7 +4,6 @@ location:
     attribute: name
     probs_file: 'migration_09-14.csv'
   scaling:
-  #Census Tract Overrides
     CT_42101001300:
       demographics|notdisadvantaged|ppl: &all_agents
         field: override
