@@ -9,8 +9,6 @@ location:
         field: override
         override: 1.0
       demographics|disadvantaged|ppl: *all_agents
-        field: override
-        override: 0.0
       demographics|notdisadvantaged|sex_type|HM|ppl:
         field: override
         override: 0.364118092354277
