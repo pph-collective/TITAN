@@ -21538,10 +21538,6 @@ location:
       location_1: CT_42101039000
       location_2: NB_8
       distance: 0.055
-    edge_47:
-      location_1: CT_42101980200
-      location_2: NB_8
-      distance: 4.687
     edge_48:
       location_1: NB_2
       location_2: NB_9
@@ -21630,10 +21626,6 @@ location:
       location_1: CT_42101030700
       location_2: NB_11
       distance: 0.524
-    edge_70:
-      location_1: CT_42101980200
-      location_2: NB_11
-      distance: 13.282
     edge_71:
       location_1: NB_7
       location_2: NB_12
@@ -21778,10 +21770,6 @@ location:
       location_1: NB_18
       location_2: NB_19
       distance: 3.363
-    edge_107:
-      location_1: CT_42101980200
-      location_2: NB_19
-      distance: 7.033
     edge_108:
       location_1: NB_7
       location_2: NB_20
@@ -26486,15 +26474,3 @@ location:
       location_1: CT_42101030600
       location_2: CT_42101039000
       distance: 0.883
-    edge_1284:
-      location_1: NB_8
-      location_2: CT_42101980200
-      distance: 4.687
-    edge_1285:
-      location_1: NB_11
-      location_2: CT_42101980200
-      distance: 13.282
-    edge_1286:
-      location_1: NB_19
-      location_2: CT_42101980200
-      distance: 7.033
