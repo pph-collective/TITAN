@@ -1,7 +1,7 @@
 model:
   num_pop: 130000
   time:
-    num_steps: 84 #192 #2014-2030 years
+    num_steps: 192 #2014-2030 years
     steps_per_year: 12
     burn_steps: 36 #2011-2013 burn time
   network:
@@ -14,14 +14,6 @@ features:
   assort_mix: true
   high_risk: true
   exit_enter: true
-
-exit_enter:
-  death:
-    exit_class: death
-    entry_class: replace
-  leave:
-    exit_class: leave
-    entry_class: replace
 
 outputs:
   classes:
