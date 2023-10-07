@@ -2792,29 +2792,29 @@ location:
     NB_2: 
       demographics|black|sex_type|D_HF|prep|cap: 
         field: override 
-        override: 0.012 
+        override: 0.01392 
       demographics|black|sex_type|ND_HF|prep|cap: 
         field: override 
-        override: 0.0096	
+        override: 0.011136	
       demographics|black|sex_type|D_HM|prep|cap: 
         field: override 
-        override: 0.012 
+        override: 0.01392 
       demographics|black|sex_type|ND_HM|prep|cap: 
         field: override 
-        override: 0.0096
+        override: 0.011136
     NB_3: 
       demographics|black|sex_type|D_HF|prep|cap: 
         field: override 
-        override: 0.012 
+        override: 0.01392 
       demographics|black|sex_type|ND_HF|prep|cap: 
         field: override 
-        override: 0.0096	
+        override: 0.011136	
       demographics|black|sex_type|D_HM|prep|cap: 
         field: override 
-        override: 0.012 
+        override: 0.01392 
       demographics|black|sex_type|ND_HM|prep|cap: 
         field: override 
-        override: 0.0096
+        override: 0.011136
     NB_4: 
       demographics|black|sex_type|D_HF|prep|cap: 
         field: override 
@@ -2831,16 +2831,16 @@ location:
     NB_5: 
       demographics|black|sex_type|D_HF|prep|cap: 
         field: override 
-        override: 0.012 
+        override: 0.01392 
       demographics|black|sex_type|ND_HF|prep|cap: 
         field: override 
-        override: 0.0096	
+        override: 0.011136	
       demographics|black|sex_type|D_HM|prep|cap: 
         field: override 
-        override: 0.012 
+        override: 0.01392 
       demographics|black|sex_type|ND_HM|prep|cap: 
         field: override 
-        override: 0.0096
+        override: 0.011136
     NB_6: 
       demographics|black|sex_type|D_HF|prep|cap: 
         field: override 
@@ -2857,16 +2857,16 @@ location:
     NB_7: 
       demographics|black|sex_type|D_HF|prep|cap: 
         field: override 
-        override: 0.012 
+        override: 0.01392 
       demographics|black|sex_type|ND_HF|prep|cap: 
         field: override 
-        override: 0.0096	
+        override: 0.011136	
       demographics|black|sex_type|D_HM|prep|cap: 
         field: override 
-        override: 0.012 
+        override: 0.01392 
       demographics|black|sex_type|ND_HM|prep|cap: 
         field: override 
-        override: 0.0096
+        override: 0.011136
     NB_8: 
       demographics|black|sex_type|D_HF|prep|cap: 
         field: override 
@@ -2883,16 +2883,16 @@ location:
     NB_9: 
       demographics|black|sex_type|D_HF|prep|cap: 
         field: override 
-        override: 0.012 
+        override: 0.01392 
       demographics|black|sex_type|ND_HF|prep|cap: 
         field: override 
-        override: 0.0096	
+        override: 0.011136	
       demographics|black|sex_type|D_HM|prep|cap: 
         field: override 
-        override: 0.012 
+        override: 0.01392 
       demographics|black|sex_type|ND_HM|prep|cap: 
         field: override 
-        override: 0.0096
+        override: 0.011136
     NB_10: 
       demographics|black|sex_type|D_HF|prep|cap: 
         field: override 
@@ -2922,16 +2922,16 @@ location:
     NB_12: 
       demographics|black|sex_type|D_HF|prep|cap: 
         field: override 
-        override: 0.012 
+        override: 0.01392 
       demographics|black|sex_type|ND_HF|prep|cap: 
         field: override 
-        override: 0.0096	
+        override: 0.011136	
       demographics|black|sex_type|D_HM|prep|cap: 
         field: override 
-        override: 0.012 
+        override: 0.01392 
       demographics|black|sex_type|ND_HM|prep|cap: 
         field: override 
-        override: 0.0096
+        override: 0.011136
     NB_13: 
       demographics|black|sex_type|D_HF|prep|cap: 
         field: override 
@@ -2948,16 +2948,16 @@ location:
     NB_14: 
       demographics|black|sex_type|D_HF|prep|cap: 
         field: override 
-        override: 0.012 
+        override: 0.01392 
       demographics|black|sex_type|ND_HF|prep|cap: 
         field: override 
-        override: 0.0096	
+        override: 0.011136	
       demographics|black|sex_type|D_HM|prep|cap: 
         field: override 
-        override: 0.012 
+        override: 0.01392 
       demographics|black|sex_type|ND_HM|prep|cap: 
         field: override 
-        override: 0.0096
+        override: 0.011136
     NB_15: 
       demographics|black|sex_type|D_HF|prep|cap: 
         field: override 
@@ -2974,29 +2974,29 @@ location:
     NB_16: 
       demographics|black|sex_type|D_HF|prep|cap: 
         field: override 
-        override: 0.012 
+        override: 0.01392 
       demographics|black|sex_type|ND_HF|prep|cap: 
         field: override 
-        override: 0.0096	
+        override: 0.011136	
       demographics|black|sex_type|D_HM|prep|cap: 
         field: override 
-        override: 0.012 
+        override: 0.01392 
       demographics|black|sex_type|ND_HM|prep|cap: 
         field: override 
-        override: 0.0096
+        override: 0.011136
     NB_17: 
       demographics|black|sex_type|D_HF|prep|cap: 
         field: override 
-        override: 0.012 
+        override: 0.01392 
       demographics|black|sex_type|ND_HF|prep|cap: 
         field: override 
-        override: 0.0096	
+        override: 0.011136	
       demographics|black|sex_type|D_HM|prep|cap: 
         field: override 
-        override: 0.012 
+        override: 0.01392 
       demographics|black|sex_type|ND_HM|prep|cap: 
         field: override 
-        override: 0.0096
+        override: 0.011136
     NB_18: 
       demographics|black|sex_type|D_HF|prep|cap: 
         field: override 
@@ -3026,16 +3026,16 @@ location:
     NB_20: 
       demographics|black|sex_type|D_HF|prep|cap: 
         field: override 
-        override: 0.012 
+        override: 0.01392 
       demographics|black|sex_type|ND_HF|prep|cap: 
         field: override 
-        override: 0.0096	
+        override: 0.011136	
       demographics|black|sex_type|D_HM|prep|cap: 
         field: override 
-        override: 0.012 
+        override: 0.01392 
       demographics|black|sex_type|ND_HM|prep|cap: 
         field: override 
-        override: 0.0096
+        override: 0.011136
     NB_21: 
       demographics|black|sex_type|D_HF|prep|cap: 
         field: override 
