@@ -26,4 +26,4 @@ exit_enter:
 outputs:
   classes:
     - sex_types
-    - location
+    - locations
