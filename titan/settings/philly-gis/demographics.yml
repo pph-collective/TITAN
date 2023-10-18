@@ -27,6 +27,8 @@ demographics:
             prob: 0.324
           Casual:
             prob: 0.574
+        prep:
+          cap: 0.0096
         drug_type:
           None:
             ppl: 1.0
@@ -94,6 +96,8 @@ demographics:
             prob: 0.256
           Casual:
             prob: 0.612
+        prep:
+          cap: 0.0096
         drug_type:
           None:
             ppl: 1.0
@@ -175,6 +179,8 @@ demographics:
             prob: 0.26
           Casual:
             prob: 0.56
+        prep:
+          cap: 0.012
         drug_type:
           None:
             ppl: 1.0
@@ -242,6 +248,8 @@ demographics:
             prob: 0.254
           Casual:
             prob: 0.613
+        prep:
+          cap: 0.012
         drug_type:
           None:
             ppl: 1.0
