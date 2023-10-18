@@ -9,7 +9,6 @@ model:
 
 features:
   incar: true
-  prep: false
   haart: true
   assort_mix: true
   high_risk: true
