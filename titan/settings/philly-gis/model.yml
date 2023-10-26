@@ -13,6 +13,7 @@ features:
   assort_mix: true
   high_risk: true
   exit_enter: true
+  prep: true
 
 exit_enter:
   death:
