@@ -1,3 +1,5 @@
 prep:
   start_time: 73
   cap_as_prob: true
+  target_model:
+    - Racial
