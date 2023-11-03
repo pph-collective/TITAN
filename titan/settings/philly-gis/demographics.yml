@@ -29,6 +29,7 @@ demographics:
             prob: 0.574
         prep:
           cap: 0.0096
+          adherence: 0.1546
         drug_type:
           None:
             ppl: 1.0
@@ -98,6 +99,7 @@ demographics:
             prob: 0.612
         prep:
           cap: 0.0096
+          adherence: 0.1339
         drug_type:
           None:
             ppl: 1.0
@@ -181,6 +183,7 @@ demographics:
             prob: 0.56
         prep:
           cap: 0.012
+          adherence: 0.1546
         drug_type:
           None:
             ppl: 1.0
@@ -250,6 +253,7 @@ demographics:
             prob: 0.613
         prep:
           cap: 0.012
+          adherence: 0.1339
         drug_type:
           None:
             ppl: 1.0
