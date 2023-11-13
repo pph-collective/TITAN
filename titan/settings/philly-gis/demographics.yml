@@ -30,6 +30,7 @@ demographics:
         prep:
           cap: 0.0096
           adherence: 0.1546
+          discontinue: 0.8454
         drug_type:
           None:
             ppl: 1.0
@@ -100,6 +101,7 @@ demographics:
         prep:
           cap: 0.0096
           adherence: 0.1339
+          discontinue: 0.8661
         drug_type:
           None:
             ppl: 1.0
@@ -184,6 +186,7 @@ demographics:
         prep:
           cap: 0.012
           adherence: 0.1546
+          discontinue: 0.8454
         drug_type:
           None:
             ppl: 1.0
@@ -254,6 +257,7 @@ demographics:
         prep:
           cap: 0.012
           adherence: 0.1339
+          discontinue: 0.8661
         drug_type:
           None:
             ppl: 1.0
