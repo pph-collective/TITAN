@@ -28,7 +28,7 @@ demographics:
           Casual:
             prob: 0.574
         prep:
-          cap: 0.0096
+          cap: 0.0
           adherence: 0.1546
           discontinue: 0.8454
         drug_type:
@@ -99,7 +99,7 @@ demographics:
           Casual:
             prob: 0.612
         prep:
-          cap: 0.0096
+          cap: 0.0002803178
           adherence: 0.1339
           discontinue: 0.8661
         drug_type:
@@ -184,7 +184,7 @@ demographics:
           Casual:
             prob: 0.56
         prep:
-          cap: 0.012
+          cap: 0.0
           adherence: 0.1546
           discontinue: 0.8454
         drug_type:
@@ -255,7 +255,7 @@ demographics:
           Casual:
             prob: 0.613
         prep:
-          cap: 0.012
+          cap: 0.0003189053
           adherence: 0.1339
           discontinue: 0.8661
         drug_type:

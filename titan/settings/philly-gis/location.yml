@@ -98,16 +98,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101001400:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -199,16 +199,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101001500:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -300,16 +300,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101001600:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -401,16 +401,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101001700:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -502,16 +502,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101001800:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -603,16 +603,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101001900:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -704,16 +704,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101002000:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -805,16 +805,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101002100:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -906,16 +906,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101002200:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -1007,16 +1007,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101002500:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -1108,16 +1108,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101002701:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -1209,16 +1209,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101002702:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -1310,16 +1310,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101002802:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -1411,16 +1411,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101003100:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -1512,16 +1512,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101003200:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -1613,16 +1613,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101003300:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -1714,16 +1714,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101003600:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -1815,16 +1815,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101003800:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -1916,16 +1916,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101003902:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -2017,16 +2017,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101005400:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -2118,16 +2118,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101005500:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -2219,16 +2219,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101005600:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -2320,16 +2320,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101006000:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -2421,16 +2421,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101006100:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -2522,16 +2522,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101006200:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -2623,16 +2623,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101006300:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -2724,16 +2724,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101006400:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -2825,16 +2825,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101006500:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -2926,16 +2926,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101006600:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -3027,16 +3027,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101006700:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -3128,16 +3128,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101006900:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -3229,16 +3229,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101007000:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -3330,16 +3330,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101007101:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -3431,16 +3431,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101007102:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -3532,16 +3532,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101007200:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -3633,16 +3633,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101007300:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -3734,16 +3734,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101007400:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -3835,16 +3835,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101007700:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -3936,16 +3936,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101007800:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -4037,16 +4037,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101007900:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -4138,16 +4138,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101008000:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -4239,16 +4239,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101008101:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -4340,16 +4340,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101008102:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -4441,16 +4441,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101008200:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -4542,16 +4542,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101008301:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -4643,16 +4643,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003189053
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003189053
     CT_42101008302:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -4744,16 +4744,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101008400:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -4845,16 +4845,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101008500:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -4946,16 +4946,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101008601:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -5047,16 +5047,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101008602:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -5148,16 +5148,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101008701:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -5249,16 +5249,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101008702:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -5350,16 +5350,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101008801:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -5451,16 +5451,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101008802:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -5552,16 +5552,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101009000:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -5653,16 +5653,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101009100:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -5754,16 +5754,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101009200:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -5855,16 +5855,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101009300:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -5956,16 +5956,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101009400:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -6057,16 +6057,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101009500:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -6158,16 +6158,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101009600:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -6259,16 +6259,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003189053
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003189053
     CT_42101009801:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -6360,16 +6360,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101009802:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -6461,16 +6461,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101010000:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -6562,16 +6562,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101010100:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -6663,16 +6663,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101010200:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -6764,16 +6764,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101010300:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -6865,16 +6865,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101010400:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -6966,16 +6966,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101010500:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -7067,16 +7067,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101010600:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -7168,16 +7168,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101010700:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -7269,16 +7269,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101010800:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -7370,16 +7370,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101010900:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -7471,16 +7471,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101011000:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -7572,16 +7572,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101011100:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -7673,16 +7673,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101011200:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -7774,16 +7774,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101011300:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -7875,16 +7875,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101011400:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -7976,16 +7976,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101011500:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -8077,16 +8077,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101011700:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -8178,16 +8178,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101011800:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -8279,16 +8279,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101011900:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -8380,16 +8380,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101012000:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -8481,16 +8481,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101012100:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -8582,16 +8582,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101012201:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -8683,16 +8683,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003189053
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003189053
     CT_42101012203:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -8784,16 +8784,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003189053
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003189053
     CT_42101012204:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -8885,16 +8885,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101013100:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -8986,16 +8986,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101013200:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -9087,16 +9087,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101013700:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -9188,16 +9188,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101013800:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -9289,16 +9289,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101013900:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -9390,16 +9390,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101014000:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -9491,16 +9491,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101014100:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -9592,16 +9592,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101014500:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -9693,16 +9693,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101014600:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -9794,16 +9794,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101014700:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -9895,16 +9895,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101014800:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -9996,16 +9996,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101014900:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -10097,16 +10097,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101015101:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -10198,16 +10198,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101015102:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -10299,16 +10299,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101015200:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -10400,16 +10400,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101015300:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -10501,16 +10501,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101016500:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -10602,16 +10602,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101016600:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -10703,16 +10703,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101016701:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -10804,16 +10804,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101016702:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -10905,16 +10905,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101016800:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -11006,16 +11006,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101016901:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -11107,16 +11107,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101016902:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -11208,16 +11208,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101017000:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -11309,16 +11309,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101017100:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -11410,16 +11410,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101017201:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -11511,16 +11511,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101017202:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -11612,16 +11612,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101017300:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -11713,16 +11713,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101017400:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -11814,16 +11814,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101017500:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -11915,16 +11915,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101017601:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -12016,16 +12016,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101017602:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -12117,16 +12117,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101018800:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -12218,16 +12218,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101019000:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -12319,16 +12319,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101019100:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -12420,16 +12420,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101019200:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -12521,16 +12521,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101019501:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -12622,16 +12622,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101019502:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -12723,16 +12723,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101019700:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -12824,16 +12824,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101019800:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -12925,16 +12925,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101019900:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -13026,16 +13026,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101020000:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -13127,16 +13127,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101020101:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -13228,16 +13228,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101020102:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -13329,16 +13329,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101020200:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -13430,16 +13430,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101020300:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -13531,16 +13531,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101020400:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -13632,16 +13632,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101020500:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -13733,16 +13733,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101020600:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -13834,16 +13834,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101020700:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -13935,16 +13935,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101020800:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -14036,16 +14036,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101023500:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -14137,16 +14137,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101023600:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -14238,16 +14238,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101023700:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -14339,16 +14339,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101023800:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -14440,16 +14440,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101023900:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -14541,16 +14541,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101024000:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -14642,16 +14642,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101024100:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -14743,16 +14743,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101024200:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -14844,16 +14844,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101024300:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -14945,16 +14945,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101024400:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -15046,16 +15046,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101024500:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -15147,16 +15147,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003189053
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003189053
     CT_42101024600:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -15248,16 +15248,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101024700:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -15349,16 +15349,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101024800:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -15450,16 +15450,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101024900:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -15551,16 +15551,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101025200:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -15652,16 +15652,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101025300:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -15753,16 +15753,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101025400:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -15854,16 +15854,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101025500:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -15955,16 +15955,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101025600:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -16056,16 +16056,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101025800:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -16157,16 +16157,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101025900:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -16258,16 +16258,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101026000:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -16359,16 +16359,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101026100:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -16460,16 +16460,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101026200:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -16561,16 +16561,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101026301:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -16662,16 +16662,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101026302:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -16763,16 +16763,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101026400:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -16864,16 +16864,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101026500:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -16965,16 +16965,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101026600:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -17066,16 +17066,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101026700:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -17167,16 +17167,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101026800:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -17268,16 +17268,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101026900:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -17369,16 +17369,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101027000:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -17470,16 +17470,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101027100:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -17571,16 +17571,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101027200:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -17672,16 +17672,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101027300:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -17773,16 +17773,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101027401:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -17874,16 +17874,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101027402:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -17975,16 +17975,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003189053
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003189053
     CT_42101027500:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -18076,16 +18076,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101027600:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -18177,16 +18177,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101027700:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -18278,16 +18278,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003189053
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003189053
     CT_42101027800:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -18379,16 +18379,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003189053
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003189053
     CT_42101027901:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -18480,16 +18480,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003189053
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003189053
     CT_42101027902:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -18581,16 +18581,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003189053
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003189053
     CT_42101028000:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -18682,16 +18682,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101028100:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -18783,16 +18783,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101028200:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -18884,16 +18884,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101028300:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -18985,16 +18985,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101028400:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -19086,16 +19086,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101028500:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -19187,16 +19187,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101028600:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -19288,16 +19288,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101028700:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -19389,16 +19389,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101028800:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -19490,16 +19490,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101028901:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -19591,16 +19591,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101028902:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -19692,16 +19692,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101029000:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -19793,16 +19793,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101029100:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -19894,16 +19894,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101029200:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -19995,16 +19995,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101030501:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -20096,16 +20096,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101030502:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -20197,16 +20197,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101030600:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -20298,16 +20298,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101030700:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -20399,16 +20399,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101036900:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -20500,16 +20500,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     CT_42101037300:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -20601,16 +20601,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101037500:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -20702,16 +20702,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101037700:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -20803,16 +20803,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101038000:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -20904,16 +20904,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101038200:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -21005,16 +21005,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101038300:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -21106,16 +21106,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     CT_42101038800:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -21207,16 +21207,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101038900:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -21308,16 +21308,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     CT_42101039000:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -21409,16 +21409,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003189053
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003189053
     NB_2:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -21510,16 +21510,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     NB_3:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -21611,16 +21611,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     NB_4:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -21712,16 +21712,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     NB_5:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -21813,16 +21813,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     NB_6:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -21914,16 +21914,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     NB_7:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -22015,16 +22015,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003699301
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003699301
     NB_8:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -22116,16 +22116,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     NB_9:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -22217,16 +22217,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     NB_10:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -22318,16 +22318,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     NB_11:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -22419,16 +22419,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     NB_12:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -22520,16 +22520,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     NB_13:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -22621,16 +22621,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     NB_14:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -22722,16 +22722,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     NB_15:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -22823,16 +22823,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     NB_16:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -22924,16 +22924,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     NB_17:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -23025,16 +23025,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     NB_18:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -23126,16 +23126,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     NB_19:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -23227,16 +23227,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002417302
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002417302
     NB_20:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|ND_HM|ppl:
@@ -23328,16 +23328,16 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0002803178
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0002803178
     NB_21:
       demographics|black|ppl: *all_agents
       demographics|black|sex_type|D_HM|ppl:
@@ -23429,16 +23429,16 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HM|prep|cap:
         field: override
-        override: 0.012
+        override: 0
       demographics|black|sex_type|ND_HM|prep|cap:
         field: override
-        override: 0.0096
+        override: 0
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.012
+        override: 0.0003189053
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0096
+        override: 0.0003189053
 
   edges:
     edge_1:
