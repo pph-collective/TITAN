@@ -255,7 +255,7 @@ demographics:
           Casual:
             prob: 0.613
         prep:
-          cap: 0.0003189053
+          cap: 0.00008399
           adherence: 0.1339
           discontinue: 0.8661
         drug_type:
