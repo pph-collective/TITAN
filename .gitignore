@@ -35,3 +35,5 @@ profile.prof
 site/
 
 .DS_Store
+
+scenarios.yml
