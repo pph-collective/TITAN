@@ -98,10 +98,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -196,10 +196,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -294,10 +294,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -392,10 +392,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -490,10 +490,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -588,10 +588,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -686,10 +686,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -784,10 +784,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -882,10 +882,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -980,10 +980,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -1078,10 +1078,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -1176,10 +1176,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -1274,10 +1274,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -1372,10 +1372,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -1470,10 +1470,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -1568,10 +1568,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -1666,10 +1666,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -1764,10 +1764,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -1862,10 +1862,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -1960,10 +1960,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -2058,10 +2058,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -2156,10 +2156,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -2254,10 +2254,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -2352,10 +2352,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -2450,10 +2450,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -2548,10 +2548,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -2646,10 +2646,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -2744,10 +2744,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -2842,10 +2842,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -2940,10 +2940,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -3038,10 +3038,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -3136,10 +3136,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -3234,10 +3234,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -3332,10 +3332,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -3430,10 +3430,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -3528,10 +3528,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -3626,10 +3626,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -3724,10 +3724,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -3822,10 +3822,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -3920,10 +3920,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -4018,10 +4018,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -4116,10 +4116,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -4214,10 +4214,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -4312,10 +4312,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -4410,10 +4410,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -4508,10 +4508,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -4606,10 +4606,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -4704,10 +4704,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -4802,10 +4802,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -4900,10 +4900,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -4998,10 +4998,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -5096,10 +5096,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -5194,10 +5194,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -5292,10 +5292,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -5390,10 +5390,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -5488,10 +5488,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -5586,10 +5586,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -5684,10 +5684,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -5782,10 +5782,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -5880,10 +5880,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -5978,10 +5978,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -6076,10 +6076,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -6174,10 +6174,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -6272,10 +6272,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -6370,10 +6370,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -6468,10 +6468,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -6566,10 +6566,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -6664,10 +6664,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -6762,10 +6762,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -6860,10 +6860,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -6958,10 +6958,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -7056,10 +7056,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -7154,10 +7154,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -7252,10 +7252,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -7350,10 +7350,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -7448,10 +7448,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -7546,10 +7546,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -7644,10 +7644,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -7742,10 +7742,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -7840,10 +7840,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -7938,10 +7938,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -8036,10 +8036,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -8134,10 +8134,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -8232,10 +8232,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -8330,10 +8330,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -8428,10 +8428,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -8526,10 +8526,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -8624,10 +8624,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -8722,10 +8722,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -8820,10 +8820,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -8918,10 +8918,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -9016,10 +9016,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -9114,10 +9114,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -9212,10 +9212,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -9310,10 +9310,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -9408,10 +9408,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -9506,10 +9506,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -9604,10 +9604,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -9702,10 +9702,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -9800,10 +9800,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -9898,10 +9898,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -9996,10 +9996,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -10094,10 +10094,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -10192,10 +10192,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -10290,10 +10290,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -10388,10 +10388,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -10486,10 +10486,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -10584,10 +10584,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -10682,10 +10682,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -10780,10 +10780,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -10878,10 +10878,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -10976,10 +10976,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -11074,10 +11074,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -11172,10 +11172,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -11270,10 +11270,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -11368,10 +11368,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -11466,10 +11466,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -11564,10 +11564,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -11662,10 +11662,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -11760,10 +11760,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -11858,10 +11858,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -11956,10 +11956,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -12054,10 +12054,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -12152,10 +12152,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -12250,10 +12250,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -12348,10 +12348,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -12446,10 +12446,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -12544,10 +12544,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -12642,10 +12642,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -12740,10 +12740,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -12838,10 +12838,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -12936,10 +12936,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -13034,10 +13034,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -13132,10 +13132,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -13230,10 +13230,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -13328,10 +13328,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -13426,10 +13426,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -13524,10 +13524,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -13622,10 +13622,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -13720,10 +13720,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -13818,10 +13818,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -13916,10 +13916,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -14014,10 +14014,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -14112,10 +14112,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -14210,10 +14210,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -14308,10 +14308,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -14406,10 +14406,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -14504,10 +14504,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -14602,10 +14602,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -14700,10 +14700,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -14798,10 +14798,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -14896,10 +14896,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -14994,10 +14994,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -15092,10 +15092,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -15190,10 +15190,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -15288,10 +15288,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -15386,10 +15386,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -15484,10 +15484,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -15582,10 +15582,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -15680,10 +15680,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -15778,10 +15778,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -15876,10 +15876,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -15974,10 +15974,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -16072,10 +16072,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -16170,10 +16170,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -16268,10 +16268,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -16366,10 +16366,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -16464,10 +16464,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -16562,10 +16562,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -16660,10 +16660,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -16758,10 +16758,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -16856,10 +16856,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -16954,10 +16954,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -17052,10 +17052,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -17150,10 +17150,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -17248,10 +17248,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -17346,10 +17346,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -17444,10 +17444,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -17542,10 +17542,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -17640,10 +17640,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -17738,10 +17738,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -17836,10 +17836,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -17934,10 +17934,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -18032,10 +18032,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -18130,10 +18130,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -18228,10 +18228,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -18326,10 +18326,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -18424,10 +18424,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -18522,10 +18522,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -18620,10 +18620,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -18718,10 +18718,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -18816,10 +18816,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -18914,10 +18914,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -19012,10 +19012,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -19110,10 +19110,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -19208,10 +19208,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -19306,10 +19306,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -19404,10 +19404,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -19502,10 +19502,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -19600,10 +19600,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -19698,10 +19698,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -19796,10 +19796,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -19894,10 +19894,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -19992,10 +19992,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -20090,10 +20090,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -20188,10 +20188,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -20286,10 +20286,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -20384,10 +20384,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -20482,10 +20482,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -20580,10 +20580,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -20678,10 +20678,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -20776,10 +20776,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -20874,10 +20874,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -20972,10 +20972,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -21070,10 +21070,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -21168,10 +21168,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -21266,10 +21266,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -21364,10 +21364,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.000369930148
+        override: 0.00037
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -21462,10 +21462,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -21560,10 +21560,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -21658,10 +21658,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -21756,10 +21756,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -21854,10 +21854,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -21952,10 +21952,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -22050,10 +22050,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -22148,10 +22148,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -22246,10 +22246,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -22344,10 +22344,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -22442,10 +22442,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -22540,10 +22540,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002417302174
+        override: 0.000242
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -22638,10 +22638,10 @@ location:
         override: 0.838
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0002803177587
+        override: 0.00028
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
@@ -22736,10 +22736,10 @@ location:
         override: 0.4358
       demographics|black|sex_type|D_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       demographics|black|sex_type|ND_HF|prep|cap:
         field: override
-        override: 0.0003189053
+        override: 0.000319
       hiv|dx|risk_reduction|sex:
         field: override
         override: 0.53
