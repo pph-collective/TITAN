@@ -66,9 +66,9 @@ class Location:
         for param_path, defn in defns.items():
             if param_path != "ls_default":
                 if defn.field == "scalar":
-                    utils.scale_param(new_params, param_path, defn.scalar)
+                    utils.scale_param(new_params, param_path, defn.scalar, delimiter=".")
                 elif defn.field == "override":
-                    utils.override_param(new_params, param_path, defn.override)
+                    utils.override_param(new_params, param_path, defn.override, delimiter=".")
 
         return new_params
 
