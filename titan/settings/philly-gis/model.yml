@@ -1,5 +1,5 @@
 model:
-  num_pop: 130000
+  num_pop: 130565
   time:
     num_steps: 192 #2014-2030 years
     steps_per_year: 12
@@ -26,4 +26,4 @@ exit_enter:
 outputs:
   classes:
     - sex_types
-    - locations
+    #- locations
