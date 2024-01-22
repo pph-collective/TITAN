@@ -76,7 +76,7 @@ demographics:
                     value: 1
                   2:
                     value_type: float
-                    value: 1
+                    value: 2
               Casual:
                 dist_type: uniform
                 vars:
@@ -147,7 +147,7 @@ demographics:
                     value: 1.0
                   2:
                     value_type: float
-                    value: 1.0
+                    value: 2.0
               Casual:
                 dist_type: uniform
                 vars: 
@@ -156,7 +156,7 @@ demographics:
                     value: 1.0
                   2:
                     value_type: float
-                    value: 1.0
+                    value: 2.0
 
       D_HM:
         ppl: 0.276
@@ -303,7 +303,7 @@ demographics:
                     value: 1
                   2:
                     value_type: float
-                    value: 1
+                    value: 2
               Casual:
                 dist_type: uniform
                 vars:
@@ -312,4 +312,4 @@ demographics:
                     value: 1
                   2:
                     value_type: float
-                    value: 1
+                    value: 2
