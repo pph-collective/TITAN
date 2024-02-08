@@ -23,7 +23,3 @@ exit_enter:
     exit_class: leave
     entry_class: replace
 
-outputs:
-  classes:
-    - sex_types
-    #- locations
