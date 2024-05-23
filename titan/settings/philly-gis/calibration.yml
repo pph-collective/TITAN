@@ -1,0 +1,6 @@
+calibration:
+  sex:
+    act: 1.0
+    partner: 1.0
+  acquisition: 1.0
+  mortality: 1.0

@@ -9,7 +9,6 @@ from .. import model
 
 
 class Vaccine(base_feature.BaseFeature):
-
     name = "vaccine"
     stats = ["vaccine"]
     """

@@ -33,3 +33,5 @@ results/*/*.txt
 
 profile.prof
 site/
+
+.DS_Store

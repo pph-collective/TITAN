@@ -1,0 +1,17 @@
+assort_mix:
+  assort_disadvantaged:
+    attribute: race
+    agent_value: disadvantaged
+    partner_attribute: location
+    partner_values:
+      __same__: 0.32
+      __neighbor__: 0.15
+      __other__: 0.53
+  assort_notdisadvantaged:
+    attribute: race
+    agent_value: notdisadvantaged
+    partner_attribute: location
+    partner_values:
+      __same__: 0.2
+      __neighbor__: 0.096
+      __other__: 0.704

@@ -129,7 +129,6 @@ class Location:
 # * how will mobility be implemented?
 # * assorting?
 class LocationEdge:
-
     next_edge_id = 0
 
     @classmethod

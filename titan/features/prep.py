@@ -11,7 +11,6 @@ from .. import exposures
 
 
 class Prep(base_feature.BaseFeature):
-
     name = "prep"
     stats = ["prep", "prep_new", "prep_injectable", "prep_oral"]
     """

@@ -11,7 +11,6 @@ from .. import utils
 
 
 class Knowledge(base_exposure.BaseExposure):
-
     name: str = "knowledge"
     stats: List[str] = ["knowledge_aware"]
     """

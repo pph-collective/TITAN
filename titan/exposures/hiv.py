@@ -8,7 +8,6 @@ from .. import utils
 
 
 class HIV(base_exposure.BaseExposure):
-
     name: str = "hiv"
     stats: List[str] = ["hiv", "hiv_dx", "hiv_aids", "hiv_new", "hiv_dx_new"]
     """

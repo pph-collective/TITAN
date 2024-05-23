@@ -6,7 +6,6 @@ from .. import utils
 
 
 class SyringeServices(base_feature.BaseFeature):
-
     name = "syringe_services"
 
     enrolled_risk = 0.0

@@ -1,0 +1,23 @@
+model:
+  #seed: #add seed number when testing model
+  num_pop: 130000
+  time:
+    num_steps: 192 #2014-2030 years
+    steps_per_year: 12
+    burn_steps: 36 #2011-2013 burn time
+  network:
+    type: scale_free
+
+features:
+  incar: true
+  prep: false
+  haart: true
+  assort_mix: true
+  high_risk: true
+  exit_enter: true
+
+outputs:
+  classes:
+    - races
+    - sex_types
+#    - locations

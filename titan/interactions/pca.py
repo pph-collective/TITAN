@@ -5,7 +5,6 @@ from .. import utils
 
 
 class PCA(base_interaction.BaseInteraction):
-
     name = "pca"
 
     @classmethod

@@ -6,7 +6,6 @@ from .. import model
 
 
 class BaseExposure:
-
     name: str = ""
     """Name of exposure in the params file.  Also used to name the attribute in Agent"""
 

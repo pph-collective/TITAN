@@ -192,9 +192,9 @@ class TITAN:
             "  STARTING HIV count:{}  Total Incarcerated:{}  HR+:{}  "
             "PrEP:{}".format(
                 len(exposures.HIV.agents),
-                sum([1 for a in self.pop.all_agents if a.incar.active]),  # type: ignore[attr-defined]
-                sum([1 for a in self.pop.all_agents if a.high_risk.active]),  # type: ignore[attr-defined]
-                sum([1 for a in self.pop.all_agents if a.prep.active]),  # type: ignore[attr-defined]
+                sum([1 for a in self.pop.all_agents if a.incar.active]),  # type: ignore[misc, attr-defined]
+                sum([1 for a in self.pop.all_agents if a.high_risk.active]),  # type: ignore[misc, attr-defined]
+                sum([1 for a in self.pop.all_agents if a.prep.active]),  # type: ignore[misc, attr-defined]
             )
         )
 
@@ -235,7 +235,13 @@ class TITAN:
         # If static network, ignore relationship progression
         if not self.params.features.static_network:
             for rel in copy(self.pop.relationships):
-                if rel.progress():
+                if (
+                    self.params.partnership.dissolve.enabled
+                    and self.time == self.params.partnership.dissolve.time
+                ):
+                    rel.progress(force=True)
+                    self.pop.remove_relationship(rel)
+                elif rel.progress():
                     self.pop.remove_relationship(rel)
 
         if self.params.features.exit_enter:

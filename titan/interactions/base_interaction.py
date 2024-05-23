@@ -3,7 +3,6 @@ from .. import agent
 
 
 class BaseInteraction:
-
     name: str = ""
     """Name of interaction in the params file."""
 
