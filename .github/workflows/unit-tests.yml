@@ -21,11 +21,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .venv
-<<<<<<< HEAD
-        key: venv-lint-python3.7-${{ hashFiles('**/poetry.lock') }}
-=======
         key: venv-lint-python3.8-${{ hashFiles('**/poetry.lock') }}
->>>>>>> develop
     - name: Install dependencies
       run: poetry install -E linting --no-dev
     - name: Lint with flake8
@@ -47,11 +43,7 @@ jobs:
     - name: Set up Python for testing
       uses: actions/setup-python@v2
       with:
-<<<<<<< HEAD
-        python-version: '3.7'
-=======
         python-version: '3.8'
->>>>>>> develop
     - name: Set up Poetry for testing
       run: |
         pip install poetry
@@ -60,11 +52,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .venv
-<<<<<<< HEAD
-        key: venv-python3.7-${{ hashFiles('**/poetry.lock') }}
-=======
         key: venv-python3.8-${{ hashFiles('**/poetry.lock') }}
->>>>>>> develop
     - name: Install dependencies
       run: poetry install
     - name: Unit Test with pytest
@@ -83,11 +71,7 @@ jobs:
     - name: Set up Python for testing
       uses: actions/setup-python@v2
       with:
-<<<<<<< HEAD
-        python-version: '3.7'
-=======
         python-version: '3.8'
->>>>>>> develop
     - name: Set up Poetry for testing
       run: |
         pip install poetry
@@ -96,11 +80,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .venv
-<<<<<<< HEAD
-        key: venv-python3.7-${{ hashFiles('**/poetry.lock') }}
-=======
         key: venv-python3.8-${{ hashFiles('**/poetry.lock') }}
->>>>>>> develop
     - name: Install dependencies
       run: poetry install
     - name: Integration Test with pytest
@@ -119,11 +99,7 @@ jobs:
     - name: Set up Python for testing
       uses: actions/setup-python@v2
       with:
-<<<<<<< HEAD
-        python-version: '3.7'
-=======
         python-version: '3.8'
->>>>>>> develop
     - name: Set up Poetry for testing
       run: |
         pip install poetry
@@ -160,11 +136,7 @@ jobs:
     - name: Set up pypy for testing
       uses: actions/setup-python@v2
       with:
-<<<<<<< HEAD
-        python-version: pypy-3.7
-=======
         python-version: pypy-3.8
->>>>>>> develop
     - name: Set up Poetry for testing
       run: |
         pip install poetry
@@ -173,11 +145,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .venv
-<<<<<<< HEAD
-        key: venv-pypy3.7-${{ hashFiles('**/poetry.lock') }}
-=======
         key: venv-pypy3.8-${{ hashFiles('**/poetry.lock') }}
->>>>>>> develop
     - name: Install dependencies
       run: poetry install --no-dev
 
