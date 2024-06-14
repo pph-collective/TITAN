@@ -10,11 +10,17 @@
       
       
       
-      
         <link rel="canonical" href="http://pph-collective.github.io/TITAN/getting_started/">
       
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../run_local/">
+      
+      
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.0">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.26">
     
     
       
@@ -22,44 +28,39 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.8b42a75e.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.6543a935.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
-        
-      
-    
-    
-    
-      
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
-    
     
     
       <link rel="stylesheet" href="../assets/_mkdocstrings.css">
     
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
-
+    
     
     
   </head>
   
   
-    
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+    <body dir="ltr">
   
-    
-    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -76,6 +77,7 @@
       
     </div>
     
+    
       
 
 <header class="md-header" data-md-component="header">
@@ -83,11 +85,12 @@
     <a href=".." title="TITAN" class="md-header__button md-logo" aria-label="TITAN" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -107,35 +110,41 @@
     </div>
     
     
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
     
       <label class="md-header__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
       </label>
-      
-<div class="md-search" data-md-component="search" role="dialog">
+      <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
         
-        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
         </button>
       </nav>
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
           </div>
-          <ol class="md-search-result__list"></ol>
+          <ol class="md-search-result__list" role="presentation"></ol>
         </div>
       </div>
     </div>
@@ -154,19 +163,24 @@
           
             
 <nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
-  <div class="md-tabs__inner md-grid">
+  <div class="md-grid">
     <ul class="md-tabs__list">
       
         
   
   
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+    
+  
+  Overview
 
-
-  <li class="md-tabs__item">
-    <a href=".." class="md-tabs__link">
-      Overview
-    </a>
-  </li>
+      </a>
+    </li>
+  
 
       
         
@@ -174,32 +188,36 @@
   
     
   
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  Getting Started
 
-
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="./" class="md-tabs__link md-tabs__link--active">
-        Getting Started
-      </a>
-    </li>
+        </a>
+      </li>
+    
   
 
       
         
   
   
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../api/agent/" class="md-tabs__link">
+          
+  
+  API Reference
 
-
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../api/agent/" class="md-tabs__link">
-        API Reference
-      </a>
-    </li>
+        </a>
+      </li>
+    
   
 
       
@@ -219,6 +237,7 @@
                   <div class="md-sidebar__inner">
                     
 
+
   
 
 
@@ -227,7 +246,7 @@
     <a href=".." title="TITAN" class="md-nav__button md-logo" aria-label="TITAN" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
 
     </a>
     TITAN
@@ -237,14 +256,19 @@
     
       
       
-      
-
+  
   
   
   
     <li class="md-nav__item">
       <a href=".." class="md-nav__link">
-        Overview
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
       </a>
     </li>
   
@@ -252,59 +276,86 @@
     
       
       
-      
-
   
   
     
   
   
+  
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    
+      
+        
+        
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
-      
-      
-      
-        <label class="md-nav__link" for="__nav_2">
-          Getting Started
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
-        <label class="md-nav__title" for="__nav_2">
-          <span class="md-nav__icon md-icon"></span>
-          Getting Started
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
           
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Getting Started
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
   
   
     
+  
   
   
     <li class="md-nav__item md-nav__item--active">
       
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
         
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Installation
+          
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Installation
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
       </a>
       
         
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -320,7 +371,9 @@
       
         <li class="md-nav__item">
   <a href="#development-setup" class="md-nav__link">
-    Development Setup
+    <span class="md-ellipsis">
+      Development Setup
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Development Setup">
@@ -328,49 +381,63 @@
         
           <li class="md-nav__item">
   <a href="#gitgithub" class="md-nav__link">
-    Git/Github
+    <span class="md-ellipsis">
+      Git/Github
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#poetry" class="md-nav__link">
-    Poetry
+    <span class="md-ellipsis">
+      Poetry
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#black" class="md-nav__link">
-    black
+    <span class="md-ellipsis">
+      black
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#flake8" class="md-nav__link">
-    flake8
+    <span class="md-ellipsis">
+      flake8
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#mypy" class="md-nav__link">
-    mypy
+    <span class="md-ellipsis">
+      mypy
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#pytest" class="md-nav__link">
-    pytest
+    <span class="md-ellipsis">
+      pytest
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#pypy" class="md-nav__link">
-    pypy
+    <span class="md-ellipsis">
+      pypy
+    </span>
   </a>
   
 </li>
@@ -387,549 +454,803 @@
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../run_local/" class="md-nav__link">
-        Running locally
+        
+  
+  <span class="md-ellipsis">
+    Running locally
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../run_oscar/" class="md-nav__link">
-        Running on Oscar
+        
+  
+  <span class="md-ellipsis">
+    Running on Oscar
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../contributing/" class="md-nav__link">
-        Contributing
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
       </a>
     </li>
   
 
+              
             
-          
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+      
     </li>
   
 
     
       
       
-      
-
+  
   
   
   
     
+    
+    
+      
+      
+    
+    
     <li class="md-nav__item md-nav__item--nested">
       
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3">
-          API Reference
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="API Reference" data-md-level="1">
-        <label class="md-nav__title" for="__nav_3">
-          <span class="md-nav__icon md-icon"></span>
-          API Reference
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
           
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/agent/" class="md-nav__link">
-        Agent
+        
+  
+  <span class="md-ellipsis">
+    Agent
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/agent_set/" class="md-nav__link">
-        AgentSet
+        
+  
+  <span class="md-ellipsis">
+    AgentSet
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     
+    
+    
+      
+      
+    
+    
     <li class="md-nav__item md-nav__item--nested">
       
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3" type="checkbox" id="__nav_3_3" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3_3">
-          Agent Exposures
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Agent Exposures" data-md-level="2">
-        <label class="md-nav__title" for="__nav_3_3">
-          <span class="md-nav__icon md-icon"></span>
-          Agent Exposures
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
           
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Agent Exposures
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Agent Exposures
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/exposures/" class="md-nav__link">
-        Overview
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/exposures/hiv/" class="md-nav__link">
-        HIV
+        
+  
+  <span class="md-ellipsis">
+    HIV
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/exposures/knowledge/" class="md-nav__link">
-        Knowledge
+        
+  
+  <span class="md-ellipsis">
+    Knowledge
+  </span>
+  
+
       </a>
     </li>
   
 
+              
             
-          
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+      
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     
+    
+    
+      
+      
+    
+    
     <li class="md-nav__item md-nav__item--nested">
       
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_4" type="checkbox" id="__nav_3_4" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3_4">
-          Agent Features
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Agent Features" data-md-level="2">
-        <label class="md-nav__title" for="__nav_3_4">
-          <span class="md-nav__icon md-icon"></span>
-          Agent Features
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
           
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Agent Features
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Agent Features
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/features/" class="md-nav__link">
-        Overview
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/features/haart/" class="md-nav__link">
-        HAART
+        
+  
+  <span class="md-ellipsis">
+    HAART
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/features/high_risk/" class="md-nav__link">
-        High Risk
+        
+  
+  <span class="md-ellipsis">
+    High Risk
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/features/incar/" class="md-nav__link">
-        Incarceration
+        
+  
+  <span class="md-ellipsis">
+    Incarceration
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/features/external_exposure/" class="md-nav__link">
-        External Exposure
+        
+  
+  <span class="md-ellipsis">
+    External Exposure
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/features/partner_tracing/" class="md-nav__link">
-        Partner Tracing
+        
+  
+  <span class="md-ellipsis">
+    Partner Tracing
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/features/prep/" class="md-nav__link">
-        PrEP
+        
+  
+  <span class="md-ellipsis">
+    PrEP
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/features/random_trial/" class="md-nav__link">
-        Random Trial
+        
+  
+  <span class="md-ellipsis">
+    Random Trial
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/features/syringe_services/" class="md-nav__link">
-        Syringe Services
+        
+  
+  <span class="md-ellipsis">
+    Syringe Services
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/features/vaccine/" class="md-nav__link">
-        Vaccine
+        
+  
+  <span class="md-ellipsis">
+    Vaccine
+  </span>
+  
+
       </a>
     </li>
   
 
+              
             
-          
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+      
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     
+    
+    
+      
+      
+    
+    
     <li class="md-nav__item md-nav__item--nested">
       
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_5" type="checkbox" id="__nav_3_5" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3_5">
-          Agent Interactions
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Agent Interactions" data-md-level="2">
-        <label class="md-nav__title" for="__nav_3_5">
-          <span class="md-nav__icon md-icon"></span>
-          Agent Interactions
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
           
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Agent Interactions
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Agent Interactions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/interactions/" class="md-nav__link">
-        Overview
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/interactions/injection/" class="md-nav__link">
-        Injection
+        
+  
+  <span class="md-ellipsis">
+    Injection
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/interactions/pca/" class="md-nav__link">
-        Peer Change Agent
+        
+  
+  <span class="md-ellipsis">
+    Peer Change Agent
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/interactions/sex/" class="md-nav__link">
-        Sex
+        
+  
+  <span class="md-ellipsis">
+    Sex
+  </span>
+  
+
       </a>
     </li>
   
 
+              
             
-          
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+      
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/location/" class="md-nav__link">
-        Location
+        
+  
+  <span class="md-ellipsis">
+    Location
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/model/" class="md-nav__link">
-        Model
+        
+  
+  <span class="md-ellipsis">
+    Model
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/partnering/" class="md-nav__link">
-        Partnering
+        
+  
+  <span class="md-ellipsis">
+    Partnering
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/population/" class="md-nav__link">
-        Population
+        
+  
+  <span class="md-ellipsis">
+    Population
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/relationship/" class="md-nav__link">
-        Relationship
+        
+  
+  <span class="md-ellipsis">
+    Relationship
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/reporting/" class="md-nav__link">
-        Reporting
+        
+  
+  <span class="md-ellipsis">
+    Reporting
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../api/utilities/" class="md-nav__link">
-        Utility Functions
+        
+  
+  <span class="md-ellipsis">
+    Utility Functions
+  </span>
+  
+
       </a>
     </li>
   
 
+              
             
-          
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -946,6 +1267,7 @@
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -961,7 +1283,9 @@
       
         <li class="md-nav__item">
   <a href="#development-setup" class="md-nav__link">
-    Development Setup
+    <span class="md-ellipsis">
+      Development Setup
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Development Setup">
@@ -969,49 +1293,63 @@
         
           <li class="md-nav__item">
   <a href="#gitgithub" class="md-nav__link">
-    Git/Github
+    <span class="md-ellipsis">
+      Git/Github
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#poetry" class="md-nav__link">
-    Poetry
+    <span class="md-ellipsis">
+      Poetry
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#black" class="md-nav__link">
-    black
+    <span class="md-ellipsis">
+      black
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#flake8" class="md-nav__link">
-    flake8
+    <span class="md-ellipsis">
+      flake8
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#mypy" class="md-nav__link">
-    mypy
+    <span class="md-ellipsis">
+      mypy
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#pytest" class="md-nav__link">
-    pytest
+    <span class="md-ellipsis">
+      pytest
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#pypy" class="md-nav__link">
-    pypy
+    <span class="md-ellipsis">
+      pypy
+    </span>
   </a>
   
 </li>
@@ -1029,12 +1367,14 @@
               </div>
             
           
-          <div class="md-content" data-md-component="content">
-            <article class="md-content__inner md-typeset">
-              
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
                 
-                
-                <h1 id="getting-started">Getting Started</h1>
+                  
+
+
+<h1 id="getting-started">Getting Started</h1>
 <p>To get started, install titan using a local python (version 3.6 or later) install or virtual env using <code>pip</code>. Once installed, the model can be run using the <code>run_titan</code> program and configured using param files.</p>
 <div class="codehilite"><pre><span></span><code>pip install titan-model
 run_titan -p my_params.yml
@@ -1068,10 +1408,10 @@ run_titan -h
 
 <h3 id="flake8">flake8</h3>
 <p><a href="https://flake8.pycqa.org/en/latest/">Flake8</a> checks for common linting mistake (e.g. unused imports or variables).  We have some checks that are required to be fixed and some that are optional.</p>
-<div class="codehilite"><pre><span></span><code># <span class="nv">stop</span> <span class="nv">the</span> <span class="nv">build</span> <span class="k">if</span> <span class="nv">there</span> <span class="nv">are</span> <span class="nv">Python</span> <span class="nv">syntax</span> <span class="nv">errors</span> <span class="nv">or</span> <span class="nv">undefined</span> <span class="nv">names</span>
-<span class="nv">poetry</span> <span class="nv">run</span> <span class="nv">flake8</span> <span class="nv">titan</span> <span class="o">--</span><span class="nv">count</span> <span class="o">--</span><span class="nv">select</span><span class="o">=</span><span class="nv">E9</span>,<span class="nv">F63</span>,<span class="nv">F7</span>,<span class="nv">F82</span> <span class="o">--</span><span class="k">show</span><span class="o">-</span><span class="nv">source</span> <span class="o">--</span><span class="nv">statistics</span>
-# <span class="k">exit</span><span class="o">-</span><span class="nv">zero</span> <span class="nv">treats</span> <span class="nv">all</span> <span class="nv">errors</span> <span class="nv">as</span> <span class="nv">warnings</span>. <span class="nv">The</span> <span class="nv">GitHub</span> <span class="nv">editor</span> <span class="nv">is</span> <span class="mi">127</span> <span class="nv">chars</span> <span class="nv">wide</span>
-<span class="nv">poetry</span> <span class="nv">run</span> <span class="nv">flake8</span> <span class="nv">titan</span> <span class="o">--</span><span class="nv">count</span> <span class="o">--</span><span class="k">exit</span><span class="o">-</span><span class="nv">zero</span> <span class="o">--</span><span class="nv">max</span><span class="o">-</span><span class="nv">complexity</span><span class="o">=</span><span class="mi">12</span> <span class="o">--</span><span class="nv">max</span><span class="o">-</span><span class="nv">line</span><span class="o">-</span><span class="nv">length</span><span class="o">=</span><span class="mi">88</span> <span class="o">--</span><span class="nv">statistics</span>
+<div class="codehilite"><pre><span></span><code>#<span class="w"> </span><span class="nv">stop</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">build</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">there</span><span class="w"> </span><span class="nv">are</span><span class="w"> </span><span class="nv">Python</span><span class="w"> </span><span class="nv">syntax</span><span class="w"> </span><span class="nv">errors</span><span class="w"> </span><span class="nv">or</span><span class="w"> </span><span class="nv">undefined</span><span class="w"> </span><span class="nv">names</span>
+<span class="nv">poetry</span><span class="w"> </span><span class="nv">run</span><span class="w"> </span><span class="nv">flake8</span><span class="w"> </span><span class="nv">titan</span><span class="w"> </span><span class="o">--</span><span class="nv">count</span><span class="w"> </span><span class="o">--</span><span class="nv">select</span><span class="o">=</span><span class="nv">E9</span>,<span class="nv">F63</span>,<span class="nv">F7</span>,<span class="nv">F82</span><span class="w"> </span><span class="o">--</span><span class="k">show</span><span class="o">-</span><span class="nv">source</span><span class="w"> </span><span class="o">--</span><span class="nv">statistics</span>
+#<span class="w"> </span><span class="k">exit</span><span class="o">-</span><span class="nv">zero</span><span class="w"> </span><span class="nv">treats</span><span class="w"> </span><span class="nv">all</span><span class="w"> </span><span class="nv">errors</span><span class="w"> </span><span class="nv">as</span><span class="w"> </span><span class="nv">warnings</span>.<span class="w"> </span><span class="nv">The</span><span class="w"> </span><span class="nv">GitHub</span><span class="w"> </span><span class="nv">editor</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="mi">127</span><span class="w"> </span><span class="nv">chars</span><span class="w"> </span><span class="nv">wide</span>
+<span class="nv">poetry</span><span class="w"> </span><span class="nv">run</span><span class="w"> </span><span class="nv">flake8</span><span class="w"> </span><span class="nv">titan</span><span class="w"> </span><span class="o">--</span><span class="nv">count</span><span class="w"> </span><span class="o">--</span><span class="k">exit</span><span class="o">-</span><span class="nv">zero</span><span class="w"> </span><span class="o">--</span><span class="nv">max</span><span class="o">-</span><span class="nv">complexity</span><span class="o">=</span><span class="mi">12</span><span class="w"> </span><span class="o">--</span><span class="nv">max</span><span class="o">-</span><span class="nv">line</span><span class="o">-</span><span class="nv">length</span><span class="o">=</span><span class="mi">88</span><span class="w"> </span><span class="o">--</span><span class="nv">statistics</span>
 </code></pre></div>
 
 <h3 id="mypy">mypy</h3>
@@ -1089,69 +1429,41 @@ poetry run pytest -m integration_stochastic # only stochastic integration tests
 
 <h3 id="pypy">pypy</h3>
 <p>pypy is a JIT compiled version of python which generally makes code faster.  It is important that titan remain installable/usable with pypy and we test for this with GitHub actions.  However, pypy doesn't play well with some of our linting tools, so we don't typically use it for development.</p>
-                
-              
-              
-                
 
 
-              
-            </article>
-          </div>
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
       </main>
       
-        
-<footer class="md-footer">
-  
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
-      
-        
-        <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Previous: Overview" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Overview
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="../run_local/" class="md-footer__link md-footer__link--next" aria-label="Next: Running locally" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Running locally
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
+        <footer class="md-footer">
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
-      <div class="md-footer-copyright">
-        
-        
-          Made with
-          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-            Material for MkDocs
-          </a>
-        
-        
-      </div>
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
       
     </div>
   </div>
@@ -1161,10 +1473,12 @@ poetry run pytest -m integration_stochastic # only stochastic integration tests
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tabs"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.f8263e09.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.4fc53ad4.min.js"></script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tabs"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.ad660dcc.min.js"></script>
       
     
   </body>
