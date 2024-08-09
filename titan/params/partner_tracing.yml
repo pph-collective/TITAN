@@ -37,3 +37,57 @@ partner_tracing:
     description: "For how many time steps after partner diagnosis a partner is traced"
     type: int
     default: 1
+  participate_prob:
+    description: Probability that a given agent is willing to participate in the partner services program
+    type: float
+    default: 
+      white: 0.59
+      black: 0.525
+      latino: 0.543
+    min: 0
+    max: 1
+  tracing_prob: 
+    description: Probability of tracing a partner based on the amount of information provided by agent
+    type: float
+    default: 0.66 # to be calibrated
+    min: 0
+    max: 1
+  contact_prob:
+    description: Probability that a named partner will be contacted
+    type: float
+    default:
+     white: 0.7
+     black: 0.69
+     latino: 0.75
+    min: 0  
+    max: 1
+  partner_participate_prob:
+    description: Probability that a contacted partner will participate in the PS and get tested
+    type: float
+    default:
+      white: 0.56
+      black: 0.49
+      latino: 0.54
+    min: 0
+    max: 1
+  treatment_prob:
+    description: Probability that a partner who has been diagnosed through PS will receive treatment
+    type: float
+    default: 0.82
+    min: 0
+    max: 1
+  prep_prob:
+    description: Probability that a partner who tested negative for HIV through PS will be referred to prep
+    type: float
+    default:
+      white: 0.49
+      black: 0.5
+      latino: 0.4
+    min: 0
+    max: 1  
+  re_haart_prob:
+    description: Probability that a traced agent who has been previously diagnosed and not on haart reengages haart
+    type: float
+    default: 0.70
+    min: 0
+    max: 1  

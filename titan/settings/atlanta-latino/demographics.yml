@@ -42,7 +42,7 @@ demographics:
                   hiv: 17.2
                   aids: 34.4
               haart:
-                init: 0.625
+                init: 0.680
                 cap: 0.35
                 adherence:
                   init: 0.885
@@ -91,7 +91,7 @@ demographics:
                   hiv: 17.2
                   aids: 34.4
               haart:
-                init: 0.585
+                init: 0.751
                 cap: 0.65
                 adherence:
                   init: 0.851

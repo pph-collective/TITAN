@@ -12,7 +12,7 @@ from .. import exposures
 
 class Prep(base_feature.BaseFeature):
     name = "prep"
-    stats = ["prep", "prep_new", "prep_injectable", "prep_oral"]
+    stats = ["prep", "prep_new", "prep_injectable", "prep_oral", "ps_prep_count"]
     """
         PrEP collects the following stats:
 
@@ -33,7 +33,8 @@ class Prep(base_feature.BaseFeature):
         self.type = ""
         self.time = None
         self.last_dose_time: Optional[int] = None
-
+        self.ps_prep = False # was this agent referred to prep through ps?
+        
     @classmethod
     def init_class(cls, params: "ObjMap"):
         """
@@ -43,6 +44,7 @@ class Prep(base_feature.BaseFeature):
             params: the population params
         """
         cls.counts = {race: 0 for race in params.classes.races}
+        cls.ps_prep_count = 0
 
     def init_agent(self, pop: "population.Population", time: int):
         """
@@ -109,7 +111,20 @@ class Prep(base_feature.BaseFeature):
             agent: the agent to remove from the class attributes
         """
         cls.counts[agent.race] -= 1
-
+    
+    @classmethod
+    def ps_add_stat(cls):
+        cls.ps_prep_count += 1
+        
+    @classmethod
+    def ps_remove_stat(cls): # do we subtract agents who stop using prep?
+        pass
+        #cls.ps_prep_count -= 1
+        
+    @classmethod
+    def ps_get_stat(cls):
+        return cls.ps_prep_count
+    
     def set_stats(self, stats: Dict[str, int], time: int):
         if self.active:
             stats["prep"] += 1
@@ -121,7 +136,9 @@ class Prep(base_feature.BaseFeature):
                 stats["prep_injectable"] += 1
             elif self.type == "Oral":
                 stats["prep_oral"] += 1
-
+            
+        stats["ps_prep_count"] = self.ps_get_stat()
+        
     def get_acquisition_risk_multiplier(self, time: int, interaction_type: str):
         """
         Get a multiplier for how prep reduces risk of HIV acquisition.
@@ -150,7 +167,7 @@ class Prep(base_feature.BaseFeature):
         return 1.0
 
     # =============== HELPER METHODS ===================
-
+    
     def initiate(self, model: "model.TITAN", force: bool = False):
         """
         Place agents onto PrEP treatment. PrEP treatment assumes that the agent knows their HIV status is negative.
@@ -168,19 +185,38 @@ class Prep(base_feature.BaseFeature):
         if force:
             self.enroll(model.run_random, model.time)
         elif params.prep.cap_as_prob:
-            if "Racial" in params.prep.target_model:
-                if (
-                    model.run_random.random()
-                    <= params.demographics[self.agent.race]
-                    .sex_type[self.agent.sex_type]
-                    .prep.cap
-                ):
+            
+            # if target model is racial, use appropriate proabability 
+            if "Racial" in params.prep.target_model and not self.agent.partner_tracing.tested_negative:
+                prep_prob = params.demographics[self.agent.race].sex_type[self.agent.sex_type].prep.cap
+                if model.run_random.random() <= prep_prob:
                     self.enroll(model.run_random, model.time)
+                        
+            # else if agent tested negative through PS, use appropriate probability
+            elif "Racial" in params.prep.target_model and self.agent.partner_tracing.tested_negative:
+                prep_prob = self.agent.location.params.partner_tracing.prep_prob[self.agent.race]
+                if model.run_random.random() <= prep_prob:
+                    self.enroll(model.run_random, model.time)
+                    self.ps_prep = True
+                    self.ps_add_stat()
+                    
             else:
-                if model.run_random.random() <= params.prep.cap:
-                    self.enroll(model.run_random, model.time)
+                if self.agent.partner_tracing.tested_negative:
+                    prep_prob = self.agent.location.params.partner_tracing.prep_prob[self.agent.race]
+                    if model.run_random.random() <= prep_prob:
+                        self.enroll(model.run_random, model.time)
+                        self.ps_prep = True
+                        self.ps_add_stat()
+                        
+                # else, use base probability
+                else:
+                    prep_prob = params.prep.cap
+                    if model.run_random.random() <= prep_prob:
+                        self.enroll(model.run_random, model.time)
+            
         else:
-            if "Racial" in params.prep.target_model:
+            # racial model, but not tested through PS
+            if "Racial" in params.prep.target_model and not self.agent.partner_tracing.tested_negative:
                 num_prep_agents = self.counts[self.agent.race]
                 all_hiv_agents = exposures.HIV.agents
                 all_race = {
@@ -191,15 +227,27 @@ class Prep(base_feature.BaseFeature):
                 target_prep = (len(all_race) - num_hiv_agents) * params.demographics[
                     self.agent.race
                 ].sex_type[self.agent.sex_type].prep.cap
+                if num_prep_agents < target_prep:
+                    self.enroll(model.run_random, model.time)
+                    
+            # tested through PS
+            elif self.agent.partner_tracing.tested_negative:
+                target_prep = self.agent.partner_tracing.get_negative_count() * self.agent.location.params.partner_tracing.prep_prob[self.agent.race]
+                
+                if self.ps_get_stat() < target_prep:
+                    self.enroll(model.run_random, model.time)
+                    self.ps_prep = True
+                    self.ps_add_stat()
+                    
+            # base case    
             else:
                 num_prep_agents = sum(self.counts.values())
                 target_prep = int(
                     (model.pop.all_agents.num_members() - len(exposures.HIV.agents))
                     * params.prep.cap
                 )
-
-            if num_prep_agents < target_prep:
-                self.enroll(model.run_random, model.time)
+                if num_prep_agents < target_prep:
+                    self.enroll(model.run_random, model.time)
 
     def enroll(self, rand_gen, time):
         """
@@ -263,7 +311,7 @@ class Prep(base_feature.BaseFeature):
             == model.time
         ):
             self.discontinue()
-
+    
     def discontinue(self):
         """
         Discontinue PrEP usage
@@ -272,7 +320,10 @@ class Prep(base_feature.BaseFeature):
         self.type = ""
         self.time = None
         self.last_dose_time = None
-
+        
+        if self.ps_prep:
+            self.ps_prep = False # expected to inflate stats because it allowes re enrollment in prep 
+            self.ps_remove_stat() # subtracts from stats
         self.remove_agent(self.agent)
 
     def eligible(self, time) -> bool:

@@ -9,7 +9,7 @@ from .. import utils
 
 class HIV(base_exposure.BaseExposure):
     name: str = "hiv"
-    stats: List[str] = ["hiv", "hiv_dx", "hiv_aids", "hiv_new", "hiv_dx_new"]
+    stats: List[str] = ["hiv", "hiv_dx", "hiv_aids", "hiv_new", "hiv_dx_new", "hiv_tested_negative_new"]
     """
         HIV collects the following stats:
 
@@ -34,7 +34,9 @@ class HIV(base_exposure.BaseExposure):
         self.dx = False
         self.dx_time: Optional[int] = None
         self.aids = False
-
+        self.tested_negative = False #has this agent tested negative for hiv?
+        self.tested_negative_time = None #time agent tested negative
+        
     @classmethod
     def init_class(cls, params):
         """
@@ -67,7 +69,7 @@ class HIV(base_exposure.BaseExposure):
 
         # HIV
         if (
-            pop.pop_random.random() < agent_params.hiv.init
+            pop.pop_random.random() < agent_params.hiv.init #0.13 for white, 0.175 for latino and 0.434 for blacks
             and time >= pop.params.hiv.start_time
         ):
             self.active = True
@@ -82,7 +84,7 @@ class HIV(base_exposure.BaseExposure):
             if pop.pop_random.random() < agent_params.hiv.aids.init:
                 self.aids = True
 
-            if pop.pop_random.random() < agent_params.hiv.dx.init:
+            if pop.pop_random.random() < agent_params.hiv.dx.init: #0.6 - 0.8 depending on race
                 self.dx = True
                 # agent was diagnosed at a random time between conversion and now
                 self.dx_time = utils.safe_random_int(self.time, time, pop.pop_random)
@@ -99,23 +101,34 @@ class HIV(base_exposure.BaseExposure):
         args:
             model: the instance of TITAN currently being run
         """
+        
         if self.active and model.time >= model.params.hiv.start_time:
-            if not self.dx:
-                test_prob = (
-                    self.agent.location.params.demographics[self.agent.race]
-                    .sex_type[self.agent.sex_type]
-                    .drug_type[self.agent.drug_type]
-                    .hiv.dx.prob
-                )
-
-                # Rescale based on calibration param
-                test_prob *= model.calibration.test_frequency
-
-                if model.run_random.random() < test_prob:
-                    self.diagnose(model)
-
             self.progress_to_aids(model)
+            
+        test_prob = (
+            self.agent.location.params.demographics[self.agent.race]
+            .sex_type[self.agent.sex_type]
+            .drug_type[self.agent.drug_type]
+            .hiv.dx.prob
+        )
 
+        # Rescale based on calibration param
+        test_prob *= model.calibration.test_frequency #freq is 1 so test_prob remains at 0.025
+
+        if (
+            model.run_random.random() < test_prob 
+            and not self.dx # has not yet been diagnosed
+        ):
+            if self.active and model.time >= model.params.hiv.start_time:
+                self.diagnose(model)
+            else:
+                self.tested_negative = True
+                self.tested_negative_time = model.time
+        
+        if self.tested_negative and self.tested_negative_time < model.time:
+            self.tested_negative = False
+            self.tested_negative_time = None
+            
     @classmethod
     def add_agent(cls, agent: "agent.Agent"):
         """
@@ -157,7 +170,9 @@ class HIV(base_exposure.BaseExposure):
                 stats["hiv_dx"] += 1
                 if self.dx_time == time:
                     stats["hiv_dx_new"] += 1
-
+        if self.tested_negative and self.tested_negative_time == time:
+            stats["hiv_tested_negative_new"] += 1
+                                   
     @staticmethod
     def expose(
         model: "model.TITAN",

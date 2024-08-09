@@ -13,7 +13,7 @@ class HAART(base_feature.BaseFeature):
     """
 
     name = "haart"
-    stats = ["haart"]
+    stats = ["haart", "ps_haart_count"]
     """
         HAART collects the following stats:
 
@@ -28,7 +28,7 @@ class HAART(base_feature.BaseFeature):
         self.active = False
         self.ever = False
         self.adherent = False
-
+        
     @classmethod
     def init_class(cls, params: "ObjMap"):
         """
@@ -41,6 +41,8 @@ class HAART(base_feature.BaseFeature):
             race: {sex_type: 0 for sex_type in params.classes.sex_types}
             for race in params.classes.races
         }
+        
+        cls.ps_haart_count = 0
 
     def init_agent(self, pop: "population.Population", time: int):
         """
@@ -132,10 +134,25 @@ class HAART(base_feature.BaseFeature):
         """
         cls.counts[agent.race][agent.sex_type] -= 1
 
+    @classmethod
+    def ps_add_stat(cls):
+        cls.ps_haart_count += 1
+         
+    @classmethod
+    def ps_remove_stat(cls): # do we subtract agents who stop using haart?
+        pass
+        #cls.ps_haart_count -= 1
+         
+    @classmethod
+    def ps_get_stat(cls):
+        return cls.ps_haart_count
+     
     def set_stats(self, stats: Dict[str, int], time: int):
         if self.active:
             stats["haart"] += 1
-
+        
+        stats["ps_haart_count"] = self.ps_get_stat()
+        
     def get_transmission_risk_multiplier(self, time: int, interaction_type: str):
         """
         Get a multiplier for how haart reduces hiv transmission risk based on interaction type and params.
@@ -182,6 +199,7 @@ class HAART(base_feature.BaseFeature):
             model: the instance of TITAN currently being run
             haart_params: the HAART demographic params for this agent
         """
+   
         if self.agent.location.params.haart.use_cap:
             self.enroll_cap(model, haart_params)
         else:
@@ -201,11 +219,22 @@ class HAART(base_feature.BaseFeature):
         # HAART agents based on % of diagnosed agents
         num_dx_agents = self.agent.hiv.dx_counts[race][sex_type]  # type: ignore[attr-defined]
         num_haart_agents = self.counts[race][sex_type]
-
-        # take value from dictionary for cap
-        if num_haart_agents < (haart_params.cap * num_dx_agents):
-            self.initiate(model.run_random, haart_params, "prob")
-
+        
+        # if agent is diagnosed through PS, use PS parameter
+        if self.agent.partner_tracing.ps_dx:
+            cap = self.agent.partner_tracing.get_positive_count() * self.agent.location.params.partner_tracing.treatment_prob
+            # initiate agent only if required capacity is not yet met
+            if self.ps_get_stat() < cap:
+                self.initiate(model.run_random, haart_params, "prob")
+                self.ps_add_stat()
+                
+        # else, use base parameter
+        else:
+            cap = haart_params.cap
+            # initiate agent only if required capacity is not yet met
+            if num_haart_agents < (cap * num_dx_agents):
+                self.initiate(model.run_random, haart_params, "prob")
+        
     def enroll_prob(self, model: "model.TITAN", haart_params: ObjMap):
         """
         Determine whether to enroll an agent in HAART using probability method.
@@ -214,9 +243,19 @@ class HAART(base_feature.BaseFeature):
             model: the instance of TITAN currently being run
             haart_params: the HAART demographic params for this agent
         """
+        # if agent has ever been on haart and use_reinit is true, use reinit probability
         if self.ever and self.agent.location.params.haart.use_reinit:
             if model.run_random.random() < haart_params.reinit.prob:
                 self.initiate(model.run_random, haart_params, "prob")
+                
+        # if agent has been diagnosed through PS, use PS treatment (haart) probability
+        elif self.agent.partner_tracing.ps_dx:
+            enroll_prob = self.agent.location.params.partner_tracing.treatment_prob
+            if model.run_random.random() < enroll_prob:
+                self.initiate(model.run_random, haart_params, "prob")
+                self.ps_add_stat()
+                
+        # else, use normal base probability scaled by time since diagnoses
         else:
             # Find enroll probability based on time since diagnosis
             enroll_prob = 0.0

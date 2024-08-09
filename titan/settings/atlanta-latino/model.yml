@@ -4,9 +4,9 @@ model:
     run: 0
   num_pop: 26937
   time:
-    num_steps: 70
+    num_steps: 120
     steps_per_year: 12
-    burn_steps: 0
+    burn_steps: 12
   network:
     type: scale_free
 
@@ -27,6 +27,9 @@ prep:
   target_model:
     - Racial
 
+haart:
+  use_cap: true
+  
 hiv:
   aids:
     prob: 0.05
