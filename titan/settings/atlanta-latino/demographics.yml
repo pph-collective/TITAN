@@ -131,7 +131,7 @@ demographics:
                 hiv: 17.2
                 aids: 34.4
             haart:
-              init: 0.585
+              init: 0.885
               cap: 0.20
               adherence:
                 init: 0.817
