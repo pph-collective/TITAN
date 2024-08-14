@@ -12,11 +12,8 @@ classifiers = ["Operating System :: OS Independent"]
 packages = [{ include = "titan" }]
 
 [tool.poetry.dependencies]
-<<<<<<< HEAD
-python = "^3.8"
-=======
+
 python = "^3.9"
->>>>>>> origin/main
 paraml= "^0.1"
 networkx = "^2.4"
 nanoid = "^2.0"
