@@ -12,7 +12,6 @@ classifiers = ["Operating System :: OS Independent"]
 packages = [{ include = "titan" }]
 
 [tool.poetry.dependencies]
-
 python = "^3.9"
 paraml= "^0.1"
 networkx = "^2.4"
