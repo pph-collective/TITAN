@@ -41,9 +41,9 @@ partner_tracing:
     description: Probability that a given agent is willing to participate in the partner services program
     type: float
     default: 
-      white: 0.59
-      black: 0.525
-      latino: 0.543
+      white: 0.630
+      black: 0.561
+      latino: 0.580
     min: 0
     max: 1
   tracing_prob: 
