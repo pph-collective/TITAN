@@ -28,7 +28,7 @@ partner_tracing:
   start_time:
     description: "What time step to start partner tracing"
     type: int
-    default: 0
+    default: -12
   stop_time:
     description: "What time step to stop partner tracing"
     type: int
