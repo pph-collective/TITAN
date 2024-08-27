@@ -4,7 +4,7 @@ model:
     run: 0
   num_pop: 26937
   time:
-    num_steps: 120
+    num_steps: 156
     steps_per_year: 12
     burn_steps: 12
   network:
