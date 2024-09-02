@@ -88,6 +88,6 @@ partner_tracing:
   re_haart_prob:
     description: Probability that a traced agent who has been previously diagnosed and not on haart reengages haart
     type: float
-    default: 0.70
+    default: 0.549
     min: 0
     max: 1  
