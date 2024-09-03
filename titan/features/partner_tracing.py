@@ -29,6 +29,7 @@ class PartnerTracing(base_feature.BaseFeature):
         self.ps_participant = False #did this partner come back for testing after being contacted? (for collecting stats only)
         self.ps_participant_time = None #when did this agent come back for testing? (for collecting stats only)
         self.re_initiated = False #renitiated in haart after stopping treatment?
+        self.re_initiated_time = None #when was this agent reinitiated in haart?
         self.prev_dx_not_on_haart = False #is this agent previously diagnosed and is not on haart?
         
     # these stats are used for collecting the number of people who test positive and negative through PS. Note these stats are strictly increasing and should never go down.
@@ -97,7 +98,7 @@ class PartnerTracing(base_feature.BaseFeature):
             # if this traced agent was already previously diagnosed, mark as previously diagnosed (every agent is allowed to enter this if statemnet no more than once)
             if (
                 agent_exposure.dx
-                and agent_exposure.dx_time < model.time - 1
+                and agent_exposure.dx_time < model.time
                 and not self.ps_prev_dx # and not already marked
             ):
                 self.ps_prev_dx = True
@@ -113,9 +114,7 @@ class PartnerTracing(base_feature.BaseFeature):
                     
             # if agent was traced via PS and was previously diagnosed with hiv and is not on haart, stochastically enroll in haart
             if (
-                  self.active 
-                  and self.time < model.time
-                  and agent_exposure.dx
+                  agent_exposure.dx
                   and agent_exposure.dx_time < model.time
                   and not self.agent.haart.active
                   and model.run_random.random() < params.re_haart_prob
@@ -126,8 +125,10 @@ class PartnerTracing(base_feature.BaseFeature):
                     .drug_type[self.agent.drug_type]
                     .haart
                 )
-                self.agent.haart.initiate(model.run_random, haart_params, "prob")
+                self.agent.haart.initiate(model.run_random, haart_params, "prob") #deterministic. They will enroll in haart.
                 self.re_initiated = True
+                self.re_initiated_time = model.time
+                
   
         # stop tracing of this agent if time
         if self.active and model.time >= self.time + params.trace_duration:
@@ -206,10 +207,12 @@ class PartnerTracing(base_feature.BaseFeature):
             if self.ps_prev_dx_time == time:
                 stats["ps_prev_dx"] += 1
         if self.prev_dx_not_on_haart:
-            stats["prev_dx_not_on_haart"] += 1
+            if self.ps_prev_dx_time == time:
+                stats["prev_dx_not_on_haart"] += 1
                     
         if self.re_initiated:
-            stats["re_haart"] += 1
+            if self.re_initiated_time == time:
+                stats["re_haart"] += 1
             
         stats["ps_negative_count"] = self.get_negative_count()
         
