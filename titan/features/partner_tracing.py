@@ -66,6 +66,9 @@ class PartnerTracing(base_feature.BaseFeature):
         
         params = self.agent.location.params.partner_tracing
         
+        if model.time >= 48:
+            params = self.agent.location.params.partner_tracing_levels.partner_tracing_1
+            
         if model.time < params.start_time or model.time > params.stop_time:
             return
 

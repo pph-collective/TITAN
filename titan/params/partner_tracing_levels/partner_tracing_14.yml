@@ -49,16 +49,16 @@ partner_tracing:
   tracing_prob: 
     description: Probability of tracing a partner based on the amount of information provided by agent
     type: float
-    default: 0.66 # calibrated
+    default: 0.66 # to be calibrated
     min: 0
     max: 1
   contact_prob:
     description: Probability that a named partner will be contacted
     type: float
     default:
-     white: 0.7
-     black: 0.69
-     latino: 0.75
+     white: 0.792
+     black: 0.780
+     latino: 0.848
     min: 0  
     max: 1
   partner_participate_prob:
