@@ -14,7 +14,7 @@ demographics:
         safe_sex:
           Sex: 
             #prob: 0.688
-            prob: 0.490
+            prob: 0.486
         prep:
           discontinue: 0.0
           adherence: 0.568
@@ -112,7 +112,7 @@ demographics:
         safe_sex:
           Sex:
             #prob: 0.528
-            prob: 0.650
+            prob: 0.670
         prep:
           adherence: 0.911
           cap: 0.02833104
