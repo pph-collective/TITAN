@@ -4,7 +4,6 @@ from .. import agent
 from .. import model
 from ..parse_params import ObjMap
 
-
 class PartnerTracing(base_feature.BaseFeature):
     name: str = "partner_tracing"
     stats: List[str] = ["step_1", "step_3", "step_4", "ps_dx", "ps_negative", "ps_prev_dx", "ps_participants", "ps_negative_count", "ps_positive_count", "re_haart", "prev_dx_not_on_haart"]
@@ -65,15 +64,21 @@ class PartnerTracing(base_feature.BaseFeature):
         """
         
         params = self.agent.location.params.partner_tracing
+        agent_exposure = getattr(self.agent, params.exposure)
         
+        # Starting Jan 2021, use improved PS parameters
         if model.time >= 48:
-            params = self.agent.location.params.partner_tracing_levels.partner_tracing_1
+            params.participate_prob[self.agent.race] = params.participate_prob_improved[self.agent.race]
+            params.tracing_prob = params.tracing_prob_improved
+            params.contact_prob[self.agent.race] = params.contact_prob_improved[self.agent.race]
+            params.partner_participate_prob[self.agent.race] = params.partner_participate_prob_improved[self.agent.race]
+            params.treatment_prob = params.treatment_prob_improved
+            params.prep_prob[self.agent.race] = params.prep_prob_improved[self.agent.race]
+            params.re_haart_prob = params.re_haart_prob_improved
             
         if model.time < params.start_time or model.time > params.stop_time:
             return
 
-        agent_exposure = getattr(self.agent, params.exposure)
-        
         # if the agent was diagnosed with hiv in the previous time step and is willing to participate, trace their partners
         if (
             agent_exposure.dx

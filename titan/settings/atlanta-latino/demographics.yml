@@ -13,7 +13,6 @@ demographics:
             receptive: 0.321
         safe_sex:
           Sex: 
-            #prob: 0.688
             prob: 0.460
         prep:
           discontinue: 0.0
@@ -63,7 +62,6 @@ demographics:
             receptive: 0.321
         safe_sex:
           Sex: 
-            #prob: 0.811
             prob: 0.749
         prep:
           discontinue: 0.048
@@ -111,8 +109,7 @@ demographics:
             receptive: 0.228
         safe_sex:
           Sex:
-            #prob: 0.528
-            prob: 0.830
+            prob: 0.780
         prep:
           adherence: 0.911
           cap: 0.02833104
