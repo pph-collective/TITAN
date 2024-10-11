@@ -194,7 +194,7 @@ class Prep(base_feature.BaseFeature):
                         
             # else if agent tested negative through PS, use appropriate probability
             elif "Racial" in params.prep.target_model and self.agent.partner_tracing.tested_negative:
-                prep_prob = self.agent.location.params.partner_tracing.prep_prob[self.agent.race]
+                prep_prob = self.agent.location.params.partner_tracing[self.agent.race].prep_prob
                 if model.run_random.random() <= prep_prob:
                     self.enroll(model.run_random, model.time)
                     self.ps_prep = True
@@ -202,7 +202,7 @@ class Prep(base_feature.BaseFeature):
                     
             else:
                 if self.agent.partner_tracing.tested_negative:
-                    prep_prob = self.agent.location.params.partner_tracing.prep_prob[self.agent.race]
+                    prep_prob = self.agent.location.params.partner_tracing[self.agent.race].prep_prob
                     if model.run_random.random() <= prep_prob:
                         self.enroll(model.run_random, model.time)
                         self.ps_prep = True
@@ -232,7 +232,7 @@ class Prep(base_feature.BaseFeature):
                     
             # tested through PS
             elif self.agent.partner_tracing.tested_negative:
-                target_prep = self.agent.partner_tracing.get_negative_count() * self.agent.location.params.partner_tracing.prep_prob[self.agent.race]
+                target_prep = self.agent.partner_tracing.get_negative_count() * self.agent.location.params.partner_tracing[self.agent.race].prep_prob
                 
                 if self.ps_get_stat() < target_prep:
                     self.enroll(model.run_random, model.time)

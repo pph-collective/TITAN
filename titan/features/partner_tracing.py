@@ -68,12 +68,12 @@ class PartnerTracing(base_feature.BaseFeature):
         
         # Starting Jan 2021, use improved PS parameters
         if model.time >= 48:
-            params.participate_prob[self.agent.race] = params.participate_prob_improved[self.agent.race]
+            params[self.agent.race].participate_prob = params[self.agent.race].participate_prob_improved
             params.tracing_prob = params.tracing_prob_improved
-            params.contact_prob[self.agent.race] = params.contact_prob_improved[self.agent.race]
-            params.partner_participate_prob[self.agent.race] = params.partner_participate_prob_improved[self.agent.race]
+            params[self.agent.race].contact_prob = params[self.agent.race].contact_prob_improved
+            params[self.agent.race].partner_participate_prob = params[self.agent.race].partner_participate_prob_improved
             params.treatment_prob = params.treatment_prob_improved
-            params.prep_prob[self.agent.race] = params.prep_prob_improved[self.agent.race]
+            params[self.agent.race].prep_prob = params[self.agent.race].prep_prob_improved
             params.re_haart_prob = params.re_haart_prob_improved
             
         if model.time < params.start_time or model.time > params.stop_time:
@@ -85,7 +85,7 @@ class PartnerTracing(base_feature.BaseFeature):
             and agent_exposure.dx_time == model.time - 1
         ):  
             # step 1 
-            self.participate = True if model.run_random.random() < params.participate_prob[self.agent.race] else False
+            self.participate = True if model.run_random.random() < params[self.agent.race].participate_prob else False
 
             if self.participate:
                 self.participate_time = model.time
@@ -97,7 +97,7 @@ class PartnerTracing(base_feature.BaseFeature):
         if (
             self.active
             and self.time < model.time
-            and model.run_random.random() < params.partner_participate_prob[self.agent.race]
+            and model.run_random.random() < params[self.agent.race].partner_participate_prob
         ):  
             # mark agents who participate
             self.ps_participant = True
@@ -159,7 +159,7 @@ class PartnerTracing(base_feature.BaseFeature):
             # step 3
             self.info = True if model.run_random.random() < params.tracing_prob else False # can only trace if participant provides information
             # step 4
-            self.contact = True if model.run_random.random() < params.contact_prob[ptnr.race] else False # contact stochastically
+            self.contact = True if model.run_random.random() < params[ptnr.race].contact_prob else False # contact stochastically
             
             if self.info:
                 self.info_stat += 1
