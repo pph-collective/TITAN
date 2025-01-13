@@ -52,10 +52,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -156,10 +156,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -260,10 +260,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -364,10 +364,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -468,10 +468,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -572,10 +572,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -676,10 +676,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -780,10 +780,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -884,10 +884,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -988,10 +988,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -1092,10 +1092,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -1196,10 +1196,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -1300,10 +1300,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -1404,10 +1404,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -1508,10 +1508,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -1612,10 +1612,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -1716,10 +1716,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -1820,10 +1820,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -1924,10 +1924,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -2028,10 +2028,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -2132,10 +2132,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -2340,10 +2340,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -6500,10 +6500,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -6604,10 +6604,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -6812,10 +6812,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -8268,10 +8268,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -9204,10 +9204,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -9308,10 +9308,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -9828,10 +9828,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -9932,10 +9932,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -10036,10 +10036,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -10868,10 +10868,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -11596,10 +11596,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -11700,10 +11700,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -12220,10 +12220,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -12324,10 +12324,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -12428,10 +12428,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -12532,10 +12532,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -12948,10 +12948,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -13780,10 +13780,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -14092,10 +14092,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -14196,10 +14196,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -14300,10 +14300,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -14404,10 +14404,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -14508,10 +14508,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -14612,10 +14612,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -14716,10 +14716,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -16068,10 +16068,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -16172,10 +16172,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -16276,10 +16276,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -16380,10 +16380,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -16484,10 +16484,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -16588,10 +16588,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -16692,10 +16692,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -16796,10 +16796,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -16900,10 +16900,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -17004,10 +17004,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -17108,10 +17108,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -17524,10 +17524,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -17628,10 +17628,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -17732,10 +17732,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -17836,10 +17836,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -18668,10 +18668,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -18876,10 +18876,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -20644,10 +20644,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -20748,10 +20748,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -20852,10 +20852,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -20956,10 +20956,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -21164,10 +21164,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -21372,10 +21372,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -21770,13 +21770,13 @@ location:
         override: 0.0334099281467703
       demographics|black|sex_type|ND_HM|drug_type|None|hiv|init:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|init:
         field: override
         override: 0.0
       demographics|black|sex_type|ND_HF|drug_type|None|hiv|init:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HF|drug_type|None|hiv|init:
         field: override
         override: 0.0
@@ -21788,10 +21788,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -21892,10 +21892,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -22100,10 +22100,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -22204,10 +22204,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -22308,10 +22308,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -22394,13 +22394,13 @@ location:
         override: 0.0211208235346319
       demographics|black|sex_type|ND_HM|drug_type|None|hiv|init:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|init:
         field: override
         override: 0.0
       demographics|black|sex_type|ND_HF|drug_type|None|hiv|init:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HF|drug_type|None|hiv|init:
         field: override
         override: 0.0
@@ -22412,10 +22412,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -22516,10 +22516,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -22724,10 +22724,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -22932,10 +22932,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -23036,10 +23036,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -23140,10 +23140,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -23330,7 +23330,7 @@ location:
         override: 0.0223887117581855
       demographics|black|sex_type|ND_HM|drug_type|None|hiv|init:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|init:
         field: override
         override: 0.0
@@ -23348,10 +23348,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -23452,10 +23452,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -23556,10 +23556,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -23660,10 +23660,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -23764,10 +23764,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -23868,10 +23868,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
@@ -23972,10 +23972,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.0662
@@ -24076,10 +24076,10 @@ location:
         override: 0
       demographics|black|sex_type|D_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|ND_HF|drug_type|None|haart|enroll|enroll_0|prob:
         field: override
-        override: NA
+        override: 0
       demographics|black|sex_type|D_HM|drug_type|None|hiv|dx|prob:
         field: override
         override: 0.056
