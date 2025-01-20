@@ -1,5 +1,8 @@
 location:
-
+  migration:
+    enabled: true
+    attribute: name
+    probs_file: 'migration_09-14.csv'
   scaling:
     CT_42101001300:
       demographics|black|ppl: &all_agents
