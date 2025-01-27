@@ -111,9 +111,7 @@ location:
         field: override
         override: 0.619764
     CT_42101001400:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.450638792102207
@@ -217,9 +215,7 @@ location:
         field: override
         override: 0.619764
     CT_42101001500:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.468842729970326
@@ -323,9 +319,7 @@ location:
         field: override
         override: 0.619764
     CT_42101001600:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 1
@@ -429,9 +423,7 @@ location:
         field: override
         override: 0.619764
     CT_42101001700:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.63905325443787
@@ -535,9 +527,7 @@ location:
         field: override
         override: 0.619764
     CT_42101001800:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.561111111111111
@@ -641,9 +631,7 @@ location:
         field: override
         override: 0.619764
     CT_42101001900:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.386435331230284
@@ -747,9 +735,7 @@ location:
         field: override
         override: 0.619764
     CT_42101002000:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.518202943454686
@@ -853,9 +839,7 @@ location:
         field: override
         override: 0.619764
     CT_42101002100:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.485207100591716
@@ -959,9 +943,7 @@ location:
         field: override
         override: 0.619764
     CT_42101002200:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.304863582443654
@@ -1065,9 +1047,7 @@ location:
         field: override
         override: 0.619764
     CT_42101002500:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.417582417582418
@@ -1171,9 +1151,7 @@ location:
         field: override
         override: 0.619764
     CT_42101002701:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.414772727272727
@@ -1277,9 +1255,7 @@ location:
         field: override
         override: 0.619764
     CT_42101002702:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.656976744186046
@@ -1383,9 +1359,7 @@ location:
         field: override
         override: 0.619764
     CT_42101002802:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.777777777777778
@@ -1489,9 +1463,7 @@ location:
         field: override
         override: 0.619764
     CT_42101003100:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.400877542879936
@@ -1595,9 +1567,7 @@ location:
         field: override
         override: 0.619764
     CT_42101003200:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.379659908436887
@@ -1701,9 +1671,7 @@ location:
         field: override
         override: 0.619764
     CT_42101003300:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.368901569186876
@@ -1807,9 +1775,7 @@ location:
         field: override
         override: 0.619764
     CT_42101003600:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.26933607118412
@@ -1913,9 +1879,7 @@ location:
         field: override
         override: 0.619764
     CT_42101003800:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0
@@ -2019,9 +1983,7 @@ location:
         field: override
         override: 0.619764
     CT_42101003902:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.63265306122449
@@ -2125,9 +2087,7 @@ location:
         field: override
         override: 0.619764
     CT_42101005400:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.434782608695652
@@ -2231,9 +2191,7 @@ location:
         field: override
         override: 0.619764
     CT_42101005500:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.514792899408284
@@ -2337,9 +2295,7 @@ location:
         field: override
         override: 0.619764
     CT_42101005600:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.318098720292505
@@ -2443,9 +2399,7 @@ location:
         field: override
         override: 0.619764
     CT_42101006000:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.487118644067797
@@ -2549,9 +2503,7 @@ location:
         field: override
         override: 0.619764
     CT_42101006100:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.455857856746252
@@ -2655,9 +2607,7 @@ location:
         field: override
         override: 0.619764
     CT_42101006200:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.431087289433384
@@ -2761,9 +2711,7 @@ location:
         field: override
         override: 0.619764
     CT_42101006300:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.53864390706496
@@ -2867,9 +2815,7 @@ location:
         field: override
         override: 0.619764
     CT_42101006400:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.535811919081465
@@ -2973,9 +2919,7 @@ location:
         field: override
         override: 0.619764
     CT_42101006500:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.449817820470354
@@ -3079,9 +3023,7 @@ location:
         field: override
         override: 0.619764
     CT_42101006600:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.405717427157779
@@ -3185,9 +3127,7 @@ location:
         field: override
         override: 0.619764
     CT_42101006700:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.393662574935769
@@ -3291,9 +3231,7 @@ location:
         field: override
         override: 0.619764
     CT_42101006900:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.381233595800525
@@ -3397,9 +3335,7 @@ location:
         field: override
         override: 0.619764
     CT_42101007000:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.343312597200622
@@ -3503,9 +3439,7 @@ location:
         field: override
         override: 0.619764
     CT_42101007101:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.459758022093635
@@ -3609,9 +3543,7 @@ location:
         field: override
         override: 0.619764
     CT_42101007102:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.457166392092257
@@ -3715,9 +3647,7 @@ location:
         field: override
         override: 0.619764
     CT_42101007200:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.418407310704961
@@ -3821,9 +3751,7 @@ location:
         field: override
         override: 0.619764
     CT_42101007300:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.345416882444329
@@ -3927,9 +3855,7 @@ location:
         field: override
         override: 0.619764
     CT_42101007400:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.44266851980542
@@ -4033,9 +3959,7 @@ location:
         field: override
         override: 0.619764
     CT_42101007700:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.597457627118644
@@ -4139,9 +4063,7 @@ location:
         field: override
         override: 0.619764
     CT_42101007800:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.60462962962963
@@ -4245,9 +4167,7 @@ location:
         field: override
         override: 0.619764
     CT_42101007900:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.457715780296425
@@ -4351,9 +4271,7 @@ location:
         field: override
         override: 0.619764
     CT_42101008000:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.492566897918731
@@ -4457,9 +4375,7 @@ location:
         field: override
         override: 0.619764
     CT_42101008101:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.444331983805668
@@ -4563,9 +4479,7 @@ location:
         field: override
         override: 0.619764
     CT_42101008102:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.433605720122574
@@ -4669,9 +4583,7 @@ location:
         field: override
         override: 0.619764
     CT_42101008200:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.424703891708968
@@ -4775,9 +4687,7 @@ location:
         field: override
         override: 0.619764
     CT_42101008301:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.423161967938087
@@ -4881,9 +4791,7 @@ location:
         field: override
         override: 0.619764
     CT_42101008302:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.361881033945811
@@ -4987,9 +4895,7 @@ location:
         field: override
         override: 0.619764
     CT_42101008400:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.368202286110149
@@ -5093,9 +4999,7 @@ location:
         field: override
         override: 0.619764
     CT_42101008500:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.40684253915911
@@ -5199,9 +5103,7 @@ location:
         field: override
         override: 0.619764
     CT_42101008601:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.363636363636364
@@ -5305,9 +5207,7 @@ location:
         field: override
         override: 0.619764
     CT_42101008602:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.400476758045292
@@ -5411,9 +5311,7 @@ location:
         field: override
         override: 0.619764
     CT_42101008701:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.390728476821192
@@ -5517,9 +5415,7 @@ location:
         field: override
         override: 0.619764
     CT_42101008702:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.744849445324881
@@ -5623,9 +5519,7 @@ location:
         field: override
         override: 0.619764
     CT_42101008801:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.236363636363636
@@ -5729,9 +5623,7 @@ location:
         field: override
         override: 0.619764
     CT_42101008802:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.330781010719755
@@ -5835,9 +5727,7 @@ location:
         field: override
         override: 0.619764
     CT_42101009000:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.441176470588235
@@ -5941,9 +5831,7 @@ location:
         field: override
         override: 0.619764
     CT_42101009100:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.349019607843137
@@ -6047,9 +5935,7 @@ location:
         field: override
         override: 0.619764
     CT_42101009200:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.342155009451796
@@ -6153,9 +6039,7 @@ location:
         field: override
         override: 0.619764
     CT_42101009300:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.408134141990724
@@ -6259,9 +6143,7 @@ location:
         field: override
         override: 0.619764
     CT_42101009400:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.339173553719008
@@ -6365,9 +6247,7 @@ location:
         field: override
         override: 0.619764
     CT_42101009500:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.438646555238484
@@ -6471,9 +6351,7 @@ location:
         field: override
         override: 0.619764
     CT_42101009600:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.429242119382964
@@ -6577,9 +6455,7 @@ location:
         field: override
         override: 0.619764
     CT_42101009801:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.411446249033256
@@ -6683,9 +6559,7 @@ location:
         field: override
         override: 0.619764
     CT_42101009802:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.41745531019979
@@ -6789,9 +6663,7 @@ location:
         field: override
         override: 0.619764
     CT_42101010000:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.316445182724252
@@ -6895,9 +6767,7 @@ location:
         field: override
         override: 0.619764
     CT_42101010100:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.449152542372881
@@ -7001,9 +6871,7 @@ location:
         field: override
         override: 0.619764
     CT_42101010200:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.431215607803902
@@ -7107,9 +6975,7 @@ location:
         field: override
         override: 0.619764
     CT_42101010300:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.397995283018868
@@ -7213,9 +7079,7 @@ location:
         field: override
         override: 0.619764
     CT_42101010400:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.437956204379562
@@ -7319,9 +7183,7 @@ location:
         field: override
         override: 0.619764
     CT_42101010500:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.344244984160507
@@ -7425,9 +7287,7 @@ location:
         field: override
         override: 0.619764
     CT_42101010600:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.392008639308855
@@ -7531,9 +7391,7 @@ location:
         field: override
         override: 0.619764
     CT_42101010700:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.441816461684011
@@ -7637,9 +7495,7 @@ location:
         field: override
         override: 0.619764
     CT_42101010800:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.468973747016706
@@ -7743,9 +7599,7 @@ location:
         field: override
         override: 0.619764
     CT_42101010900:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.406435224386113
@@ -7849,9 +7703,7 @@ location:
         field: override
         override: 0.619764
     CT_42101011000:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.476437323279925
@@ -7955,9 +7807,7 @@ location:
         field: override
         override: 0.619764
     CT_42101011100:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.439349729053772
@@ -8061,9 +7911,7 @@ location:
         field: override
         override: 0.619764
     CT_42101011200:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.412820512820513
@@ -8167,9 +8015,7 @@ location:
         field: override
         override: 0.619764
     CT_42101011300:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.422873618452667
@@ -8273,9 +8119,7 @@ location:
         field: override
         override: 0.619764
     CT_42101011400:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.368058143868804
@@ -8379,9 +8223,7 @@ location:
         field: override
         override: 0.619764
     CT_42101011500:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.363126649076517
@@ -8485,9 +8327,7 @@ location:
         field: override
         override: 0.619764
     CT_42101011700:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.506003430531732
@@ -8591,9 +8431,7 @@ location:
         field: override
         override: 0.619764
     CT_42101011800:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.410267471958585
@@ -8697,9 +8535,7 @@ location:
         field: override
         override: 0.619764
     CT_42101011900:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.432986712882727
@@ -8803,9 +8639,7 @@ location:
         field: override
         override: 0.619764
     CT_42101012000:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.459196102314251
@@ -8909,9 +8743,7 @@ location:
         field: override
         override: 0.619764
     CT_42101012100:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.366686638705812
@@ -9015,9 +8847,7 @@ location:
         field: override
         override: 0.619764
     CT_42101012201:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.429111531190926
@@ -9121,9 +8951,7 @@ location:
         field: override
         override: 0.619764
     CT_42101012203:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.459821428571429
@@ -9227,9 +9055,7 @@ location:
         field: override
         override: 0.619764
     CT_42101012204:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.383058823529412
@@ -9333,9 +9159,7 @@ location:
         field: override
         override: 0.619764
     CT_42101013100:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.456934306569343
@@ -9439,9 +9263,7 @@ location:
         field: override
         override: 0.619764
     CT_42101013200:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.398104265402844
@@ -9545,9 +9367,7 @@ location:
         field: override
         override: 0.619764
     CT_42101013700:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.424081787201817
@@ -9651,9 +9471,7 @@ location:
         field: override
         override: 0.619764
     CT_42101013800:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.439516129032258
@@ -9757,9 +9575,7 @@ location:
         field: override
         override: 0.619764
     CT_42101013900:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.371610845295056
@@ -9863,9 +9679,7 @@ location:
         field: override
         override: 0.619764
     CT_42101014000:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.428191489361702
@@ -9969,9 +9783,7 @@ location:
         field: override
         override: 0.619764
     CT_42101014100:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.458904109589041
@@ -10075,9 +9887,7 @@ location:
         field: override
         override: 0.619764
     CT_42101014500:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.344
@@ -10181,9 +9991,7 @@ location:
         field: override
         override: 0.619764
     CT_42101014600:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.469635627530364
@@ -10287,9 +10095,7 @@ location:
         field: override
         override: 0.619764
     CT_42101014700:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.423584173778123
@@ -10393,9 +10199,7 @@ location:
         field: override
         override: 0.619764
     CT_42101014800:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.5678391959799
@@ -10499,9 +10303,7 @@ location:
         field: override
         override: 0.619764
     CT_42101014900:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.518878941222266
@@ -10605,9 +10407,7 @@ location:
         field: override
         override: 0.619764
     CT_42101015101:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.439972714870396
@@ -10711,9 +10511,7 @@ location:
         field: override
         override: 0.619764
     CT_42101015102:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.338063439065108
@@ -10817,9 +10615,7 @@ location:
         field: override
         override: 0.619764
     CT_42101015200:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.368405093996361
@@ -10923,9 +10719,7 @@ location:
         field: override
         override: 0.619764
     CT_42101015300:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.372217958557176
@@ -11029,9 +10823,7 @@ location:
         field: override
         override: 0.619764
     CT_42101016500:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.344481605351171
@@ -11135,9 +10927,7 @@ location:
         field: override
         override: 0.619764
     CT_42101016600:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.3784046692607
@@ -11241,9 +11031,7 @@ location:
         field: override
         override: 0.619764
     CT_42101016701:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.46980504041845
@@ -11347,9 +11135,7 @@ location:
         field: override
         override: 0.619764
     CT_42101016702:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.488965179009318
@@ -11453,9 +11239,7 @@ location:
         field: override
         override: 0.619764
     CT_42101016800:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.433106575963719
@@ -11559,9 +11343,7 @@ location:
         field: override
         override: 0.619764
     CT_42101016901:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.394915254237288
@@ -11665,9 +11447,7 @@ location:
         field: override
         override: 0.619764
     CT_42101016902:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.446219382321619
@@ -11771,9 +11551,7 @@ location:
         field: override
         override: 0.619764
     CT_42101017000:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.401284109149278
@@ -11877,9 +11655,7 @@ location:
         field: override
         override: 0.619764
     CT_42101017100:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.409681611435997
@@ -11983,9 +11759,7 @@ location:
         field: override
         override: 0.619764
     CT_42101017201:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.386678200692042
@@ -12089,9 +11863,7 @@ location:
         field: override
         override: 0.619764
     CT_42101017202:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.425096030729834
@@ -12195,9 +11967,7 @@ location:
         field: override
         override: 0.619764
     CT_42101017300:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.479166666666667
@@ -12301,9 +12071,7 @@ location:
         field: override
         override: 0.619764
     CT_42101017400:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.483627204030227
@@ -12407,9 +12175,7 @@ location:
         field: override
         override: 0.619764
     CT_42101017500:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.502152852529602
@@ -12513,9 +12279,7 @@ location:
         field: override
         override: 0.619764
     CT_42101017601:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.557291666666667
@@ -12619,9 +12383,7 @@ location:
         field: override
         override: 0.619764
     CT_42101017602:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.442982456140351
@@ -12725,9 +12487,7 @@ location:
         field: override
         override: 0.619764
     CT_42101018800:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.575741239892183
@@ -12831,9 +12591,7 @@ location:
         field: override
         override: 0.619764
     CT_42101019000:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.531028368794326
@@ -12937,9 +12695,7 @@ location:
         field: override
         override: 0.619764
     CT_42101019100:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.559665871121718
@@ -13043,9 +12799,7 @@ location:
         field: override
         override: 0.619764
     CT_42101019200:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.398253861652116
@@ -13149,9 +12903,7 @@ location:
         field: override
         override: 0.619764
     CT_42101019501:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.361963190184049
@@ -13255,9 +13007,7 @@ location:
         field: override
         override: 0.619764
     CT_42101019502:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.563786008230453
@@ -13361,9 +13111,7 @@ location:
         field: override
         override: 0.619764
     CT_42101019700:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.399042645778938
@@ -13467,9 +13215,7 @@ location:
         field: override
         override: 0.619764
     CT_42101019800:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.417822838847385
@@ -13573,9 +13319,7 @@ location:
         field: override
         override: 0.619764
     CT_42101019900:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.424657534246575
@@ -13679,9 +13423,7 @@ location:
         field: override
         override: 0.619764
     CT_42101020000:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.490616621983914
@@ -13785,9 +13527,7 @@ location:
         field: override
         override: 0.619764
     CT_42101020101:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.358602504943968
@@ -13891,9 +13631,7 @@ location:
         field: override
         override: 0.619764
     CT_42101020102:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.443341604631927
@@ -13997,9 +13735,7 @@ location:
         field: override
         override: 0.619764
     CT_42101020200:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.467149059334298
@@ -14103,9 +13839,7 @@ location:
         field: override
         override: 0.619764
     CT_42101020300:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.513896457765668
@@ -14209,9 +13943,7 @@ location:
         field: override
         override: 0.619764
     CT_42101020400:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.337116912599319
@@ -14315,9 +14047,7 @@ location:
         field: override
         override: 0.619764
     CT_42101020500:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.481740064446831
@@ -14421,9 +14151,7 @@ location:
         field: override
         override: 0.619764
     CT_42101020600:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.35632183908046
@@ -14527,9 +14255,7 @@ location:
         field: override
         override: 0.619764
     CT_42101020700:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.481029810298103
@@ -14633,9 +14359,7 @@ location:
         field: override
         override: 0.619764
     CT_42101020800:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.356125356125356
@@ -14739,9 +14463,7 @@ location:
         field: override
         override: 0.619764
     CT_42101023500:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.597864768683274
@@ -14845,9 +14567,7 @@ location:
         field: override
         override: 0.619764
     CT_42101023600:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.473451327433628
@@ -14951,9 +14671,7 @@ location:
         field: override
         override: 0.619764
     CT_42101023700:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.459209419680404
@@ -15057,9 +14775,7 @@ location:
         field: override
         override: 0.619764
     CT_42101023800:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.51681195516812
@@ -15163,9 +14879,7 @@ location:
         field: override
         override: 0.619764
     CT_42101023900:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.387267904509284
@@ -15269,9 +14983,7 @@ location:
         field: override
         override: 0.619764
     CT_42101024000:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.434633027522936
@@ -15375,9 +15087,7 @@ location:
         field: override
         override: 0.619764
     CT_42101024100:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.465825446898002
@@ -15481,9 +15191,7 @@ location:
         field: override
         override: 0.619764
     CT_42101024200:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.366470854044284
@@ -15587,9 +15295,7 @@ location:
         field: override
         override: 0.619764
     CT_42101024300:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.425715583825534
@@ -15693,9 +15399,7 @@ location:
         field: override
         override: 0.619764
     CT_42101024400:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.429768358797437
@@ -15799,9 +15503,7 @@ location:
         field: override
         override: 0.619764
     CT_42101024500:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.447729220222793
@@ -15905,9 +15607,7 @@ location:
         field: override
         override: 0.619764
     CT_42101024600:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.442953020134228
@@ -16011,9 +15711,7 @@ location:
         field: override
         override: 0.619764
     CT_42101024700:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.41997479521109
@@ -16117,9 +15815,7 @@ location:
         field: override
         override: 0.619764
     CT_42101024800:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.510460251046025
@@ -16223,9 +15919,7 @@ location:
         field: override
         override: 0.619764
     CT_42101024900:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.411453744493392
@@ -16329,9 +16023,7 @@ location:
         field: override
         override: 0.619764
     CT_42101025200:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.426489498499786
@@ -16435,9 +16127,7 @@ location:
         field: override
         override: 0.619764
     CT_42101025300:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.439699485962831
@@ -16541,9 +16231,7 @@ location:
         field: override
         override: 0.619764
     CT_42101025400:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.473087818696884
@@ -16647,9 +16335,7 @@ location:
         field: override
         override: 0.619764
     CT_42101025500:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.481028151774786
@@ -16753,9 +16439,7 @@ location:
         field: override
         override: 0.619764
     CT_42101025600:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.479846449136276
@@ -16859,9 +16543,7 @@ location:
         field: override
         override: 0.619764
     CT_42101025800:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.364607170099161
@@ -16965,9 +16647,7 @@ location:
         field: override
         override: 0.619764
     CT_42101025900:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.412365591397849
@@ -17071,9 +16751,7 @@ location:
         field: override
         override: 0.619764
     CT_42101026000:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.429335711101204
@@ -17177,9 +16855,7 @@ location:
         field: override
         override: 0.619764
     CT_42101026100:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.469465648854962
@@ -17283,9 +16959,7 @@ location:
         field: override
         override: 0.619764
     CT_42101026200:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.409324942791762
@@ -17389,9 +17063,7 @@ location:
         field: override
         override: 0.619764
     CT_42101026301:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.426157697121402
@@ -17495,9 +17167,7 @@ location:
         field: override
         override: 0.619764
     CT_42101026302:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.415475603745688
@@ -17601,9 +17271,7 @@ location:
         field: override
         override: 0.619764
     CT_42101026400:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.374289772727273
@@ -17707,9 +17375,7 @@ location:
         field: override
         override: 0.619764
     CT_42101026500:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.388783527499323
@@ -17813,9 +17479,7 @@ location:
         field: override
         override: 0.619764
     CT_42101026600:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.40997830802603
@@ -17919,9 +17583,7 @@ location:
         field: override
         override: 0.619764
     CT_42101026700:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.371104185218166
@@ -18025,9 +17687,7 @@ location:
         field: override
         override: 0.619764
     CT_42101026800:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.471181102362205
@@ -18131,9 +17791,7 @@ location:
         field: override
         override: 0.619764
     CT_42101026900:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.458091286307054
@@ -18237,9 +17895,7 @@ location:
         field: override
         override: 0.619764
     CT_42101027000:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.519946808510638
@@ -18343,9 +17999,7 @@ location:
         field: override
         override: 0.619764
     CT_42101027100:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.535564853556485
@@ -18449,9 +18103,7 @@ location:
         field: override
         override: 0.619764
     CT_42101027200:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.514267393395319
@@ -18555,9 +18207,7 @@ location:
         field: override
         override: 0.619764
     CT_42101027300:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.358896864374764
@@ -18661,9 +18311,7 @@ location:
         field: override
         override: 0.619764
     CT_42101027401:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.5
@@ -18767,9 +18415,7 @@ location:
         field: override
         override: 0.619764
     CT_42101027402:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.477363274176023
@@ -18873,9 +18519,7 @@ location:
         field: override
         override: 0.619764
     CT_42101027500:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.485760781122864
@@ -18979,9 +18623,7 @@ location:
         field: override
         override: 0.619764
     CT_42101027600:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.40952380952381
@@ -19085,9 +18727,7 @@ location:
         field: override
         override: 0.619764
     CT_42101027700:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.479635431500997
@@ -19191,9 +18831,7 @@ location:
         field: override
         override: 0.619764
     CT_42101027800:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.450908059023837
@@ -19297,9 +18935,7 @@ location:
         field: override
         override: 0.619764
     CT_42101027901:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.427795031055901
@@ -19403,9 +19039,7 @@ location:
         field: override
         override: 0.619764
     CT_42101027902:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.510930350788002
@@ -19509,9 +19143,7 @@ location:
         field: override
         override: 0.619764
     CT_42101028000:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.472941176470588
@@ -19615,9 +19247,7 @@ location:
         field: override
         override: 0.619764
     CT_42101028100:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.433948339483395
@@ -19721,9 +19351,7 @@ location:
         field: override
         override: 0.619764
     CT_42101028200:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.435427849700032
@@ -19827,9 +19455,7 @@ location:
         field: override
         override: 0.619764
     CT_42101028300:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.402118003025719
@@ -19933,9 +19559,7 @@ location:
         field: override
         override: 0.619764
     CT_42101028400:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.483026584867076
@@ -20039,9 +19663,7 @@ location:
         field: override
         override: 0.619764
     CT_42101028500:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.34696261682243
@@ -20145,9 +19767,7 @@ location:
         field: override
         override: 0.619764
     CT_42101028600:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.404465709728868
@@ -20251,9 +19871,7 @@ location:
         field: override
         override: 0.619764
     CT_42101028700:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.421505376344086
@@ -20357,9 +19975,7 @@ location:
         field: override
         override: 0.619764
     CT_42101028800:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.408794788273616
@@ -20463,9 +20079,7 @@ location:
         field: override
         override: 0.619764
     CT_42101028901:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.432432432432432
@@ -20569,9 +20183,7 @@ location:
         field: override
         override: 0.619764
     CT_42101028902:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.395711500974659
@@ -20675,9 +20287,7 @@ location:
         field: override
         override: 0.619764
     CT_42101029000:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.549680170575693
@@ -20781,9 +20391,7 @@ location:
         field: override
         override: 0.619764
     CT_42101029100:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.270358306188925
@@ -20887,9 +20495,7 @@ location:
         field: override
         override: 0.619764
     CT_42101029200:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.51113172541744
@@ -20993,9 +20599,7 @@ location:
         field: override
         override: 0.619764
     CT_42101030501:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.418163672654691
@@ -21099,9 +20703,7 @@ location:
         field: override
         override: 0.619764
     CT_42101030502:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.46263683960019
@@ -21205,9 +20807,7 @@ location:
         field: override
         override: 0.619764
     CT_42101030600:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.456989247311828
@@ -21311,9 +20911,7 @@ location:
         field: override
         override: 0.619764
     CT_42101030700:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.465
@@ -21417,9 +21015,7 @@ location:
         field: override
         override: 0.619764
     CT_42101036900:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.603340292275574
@@ -21523,9 +21119,7 @@ location:
         field: override
         override: 0.619764
     CT_42101037300:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.338181818181818
@@ -21629,9 +21223,7 @@ location:
         field: override
         override: 0.619764
     CT_42101037500:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.511363636363636
@@ -21735,9 +21327,7 @@ location:
         field: override
         override: 0.619764
     CT_42101037700:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.458710708577517
@@ -21841,9 +21431,7 @@ location:
         field: override
         override: 0.619764
     CT_42101038000:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.422535211267606
@@ -21947,9 +21535,7 @@ location:
         field: override
         override: 0.619764
     CT_42101038200:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.262458471760797
@@ -22053,9 +21639,7 @@ location:
         field: override
         override: 0.619764
     CT_42101038300:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.654565456545655
@@ -22159,9 +21743,7 @@ location:
         field: override
         override: 0.619764
     CT_42101038800:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.36353711790393
@@ -22265,9 +21847,7 @@ location:
         field: override
         override: 0.619764
     CT_42101038900:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.368968386023295
@@ -22371,9 +21951,7 @@ location:
         field: override
         override: 0.619764
     CT_42101039000:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.372978436657682
@@ -22477,9 +22055,7 @@ location:
         field: override
         override: 0.619764
     NB_2:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.398153177620858
@@ -22583,9 +22159,7 @@ location:
         field: override
         override: 0.619764
     NB_3:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.580182529335072
@@ -22689,9 +22263,7 @@ location:
         field: override
         override: 0.619764
     NB_4:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.490909090909091
@@ -22795,9 +22367,7 @@ location:
         field: override
         override: 0.619764
     NB_5:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.469941822882999
@@ -22901,9 +22471,7 @@ location:
         field: override
         override: 0.619764
     NB_6:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.536127619643416
@@ -23007,9 +22575,7 @@ location:
         field: override
         override: 0.619764
     NB_7:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.398141601858398
@@ -23113,9 +22679,7 @@ location:
         field: override
         override: 0.619764
     NB_8:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.484732824427481
@@ -23219,9 +22783,7 @@ location:
         field: override
         override: 0.619764
     NB_9:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.426189649183744
@@ -23325,9 +22887,7 @@ location:
         field: override
         override: 0.619764
     NB_10:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.522516406426793
@@ -23431,9 +22991,7 @@ location:
         field: override
         override: 0.619764
     NB_11:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.46917350639435
@@ -23537,9 +23095,7 @@ location:
         field: override
         override: 0.619764
     NB_12:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.438419503993275
@@ -23643,9 +23199,7 @@ location:
         field: override
         override: 0.619764
     NB_13:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.550151975683891
@@ -23749,9 +23303,7 @@ location:
         field: override
         override: 0.619764
     NB_14:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.524104683195592
@@ -23855,9 +23407,7 @@ location:
         field: override
         override: 0.619764
     NB_15:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.452897122585731
@@ -23961,9 +23511,7 @@ location:
         field: override
         override: 0.619764
     NB_16:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.443673251468233
@@ -24067,9 +23615,7 @@ location:
         field: override
         override: 0.619764
     NB_17:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.384176492963104
@@ -24173,9 +23719,7 @@ location:
         field: override
         override: 0.619764
     NB_18:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.404525728456293
@@ -24279,9 +23823,7 @@ location:
         field: override
         override: 0.619764
     NB_19:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.477748691099476
@@ -24385,9 +23927,7 @@ location:
         field: override
         override: 0.619764
     NB_20:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.446641386782232
@@ -24491,9 +24031,7 @@ location:
         field: override
         override: 0.619764
     NB_21:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.D_HM.ppl:
         field: override
         override: 0.466829798803698
@@ -24597,9 +24135,7 @@ location:
         field: override
         override: 0.619764
     NB_0:
-      demographics.black.ppl: &all_agents
-        field: override
-        override: 1.0
+      demographics.black.ppl: *all_agents
       demographics.black.sex_type.ND_HM.ppl:
         field: override
         override: 0.456903276131045
