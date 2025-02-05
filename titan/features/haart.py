@@ -222,7 +222,7 @@ class HAART(base_feature.BaseFeature):
         
         # if agent is diagnosed through PS, use PS parameter
         if self.agent.partner_tracing.ps_dx:
-            cap = self.agent.partner_tracing.get_positive_count() * self.agent.location.params.partner_tracing.treatment_prob
+            cap = self.agent.partner_tracing.get_positive_count() * self.agent.location.params.partner_tracing.treatment_prob #* model.calibration.haart.coverage
             # initiate agent only if required capacity is not yet met
             if self.ps_get_stat() < cap:
                 self.initiate(model.run_random, haart_params, "prob")
@@ -230,7 +230,7 @@ class HAART(base_feature.BaseFeature):
                 
         # else, use base parameter
         else:
-            cap = haart_params.cap
+            cap = haart_params.cap #* model.calibration.haart.coverage
             # initiate agent only if required capacity is not yet met
             if num_haart_agents < (cap * num_dx_agents):
                 self.initiate(model.run_random, haart_params, "prob")
