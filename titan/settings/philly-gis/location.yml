@@ -38,13 +38,13 @@ location:
         override: 0
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.065637472458984
+        override: 0.0512063119309657
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0408171207968581
+        override: 0.029633229698519
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -142,13 +142,13 @@ location:
         override: 0.16065680832206
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0934786281469064
+        override: 0.0714393148808917
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0335743998465379
+        override: 0.0243750142885865
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -246,13 +246,13 @@ location:
         override: 0.210947280567534
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.168030037097229
+        override: 0.128770461094607
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0567933852676245
+        override: 0.0412319977042954
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -350,13 +350,13 @@ location:
         override: 0
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.168030037097229
+        override: 0.128770461094607
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0567933852676245
+        override: 0.0412319977042954
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -454,13 +454,13 @@ location:
         override: 0.12037037037037
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.168030037097229
+        override: 0.128770461094607
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0567933852676245
+        override: 0.0412319977042954
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -558,13 +558,13 @@ location:
         override: 0.176259384180176
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.168030037097229
+        override: 0.128770461094607
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0567933852676245
+        override: 0.0412319977042954
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -662,13 +662,13 @@ location:
         override: 0.107185122569738
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0934786281469064
+        override: 0.0714393148808917
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0335743998465379
+        override: 0.0243750142885865
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -766,13 +766,13 @@ location:
         override: 0.171279220951522
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0934786281469064
+        override: 0.0714393148808917
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0335743998465379
+        override: 0.0243750142885865
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -870,13 +870,13 @@ location:
         override: 0.0822041553748871
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0934786281469064
+        override: 0.0714393148808917
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0335743998465379
+        override: 0.0243750142885865
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -974,13 +974,13 @@ location:
         override: 0.0890539993309506
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0934786281469064
+        override: 0.0714393148808917
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0335743998465379
+        override: 0.0243750142885865
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -1078,13 +1078,13 @@ location:
         override: 0.156578947368421
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.168030037097229
+        override: 0.128770461094607
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0567933852676245
+        override: 0.0412319977042954
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -1182,13 +1182,13 @@ location:
         override: 0.0927291886195996
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.168030037097229
+        override: 0.128770461094607
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0567933852676245
+        override: 0.0412319977042954
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -1286,13 +1286,13 @@ location:
         override: 0.234172906739278
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.168030037097229
+        override: 0.128770461094607
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0567933852676245
+        override: 0.0412319977042954
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -1390,13 +1390,13 @@ location:
         override: 0.0989010989010989
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.168030037097229
+        override: 0.128770461094607
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0567933852676245
+        override: 0.0412319977042954
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -1494,13 +1494,13 @@ location:
         override: 0.124161995452601
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.065637472458984
+        override: 0.0512063119309657
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0408171207968581
+        override: 0.029633229698519
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -1598,13 +1598,13 @@ location:
         override: 0.147055994767923
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.065637472458984
+        override: 0.0512063119309657
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0408171207968581
+        override: 0.029633229698519
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -1702,13 +1702,13 @@ location:
         override: 0.173276556237897
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.065637472458984
+        override: 0.0512063119309657
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0408171207968581
+        override: 0.029633229698519
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -1806,13 +1806,13 @@ location:
         override: 0.203310311466149
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.065637472458984
+        override: 0.0512063119309657
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0408171207968581
+        override: 0.029633229698519
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -1910,13 +1910,13 @@ location:
         override: 0
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.065637472458984
+        override: 0.0512063119309657
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0408171207968581
+        override: 0.029633229698519
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -2014,13 +2014,13 @@ location:
         override: 0.24317617866005
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.065637472458984
+        override: 0.0512063119309657
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0408171207968581
+        override: 0.029633229698519
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -2118,13 +2118,13 @@ location:
         override: 0.0110576923076923
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0363467260817829
+        override: 0.0282414304128609
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0281582581245812
+        override: 0.020442895398446
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -2222,13 +2222,13 @@ location:
         override: 0.0302633493379892
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0553222031957109
+        override: 0.0434797236752337
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0562094850432174
+        override: 0.0408080861413758
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -2326,13 +2326,13 @@ location:
         override: 0.153886343541516
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0363467260817829
+        override: 0.0282414304128609
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0281582581245812
+        override: 0.020442895398446
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -2430,13 +2430,13 @@ location:
         override: 0.0842210445550738
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0553222031957109
+        override: 0.0434797236752337
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0562094850432174
+        override: 0.0408080861413758
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -2534,13 +2534,13 @@ location:
         override: 0.0501670038819856
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0553222031957109
+        override: 0.0434797236752337
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0562094850432174
+        override: 0.0408080861413758
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -2638,13 +2638,13 @@ location:
         override: 0.0841696592224425
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0553222031957109
+        override: 0.0434797236752337
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0562094850432174
+        override: 0.0408080861413758
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -2742,13 +2742,13 @@ location:
         override: 0.136166507092645
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0553222031957109
+        override: 0.0434797236752337
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0562094850432174
+        override: 0.0408080861413758
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -2846,13 +2846,13 @@ location:
         override: 0.0853621282192711
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0553222031957109
+        override: 0.0434797236752337
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0562094850432174
+        override: 0.0408080861413758
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -2950,13 +2950,13 @@ location:
         override: 0.109333880586204
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0553222031957109
+        override: 0.0434797236752337
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0562094850432174
+        override: 0.0408080861413758
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -3054,13 +3054,13 @@ location:
         override: 0.153727836654666
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0553222031957109
+        override: 0.0434797236752337
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0562094850432174
+        override: 0.0408080861413758
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -3158,13 +3158,13 @@ location:
         override: 0.126599503306445
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0553222031957109
+        override: 0.0434797236752337
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0562094850432174
+        override: 0.0408080861413758
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -3262,13 +3262,13 @@ location:
         override: 0
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.065980950991388
+        override: 0.0508532532382217
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.034815412060957
+        override: 0.0252759891562548
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -3366,13 +3366,13 @@ location:
         override: 0.228370201103018
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.065980950991388
+        override: 0.0508532532382217
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.034815412060957
+        override: 0.0252759891562548
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -3470,13 +3470,13 @@ location:
         override: 0.102961287963928
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.065980950991388
+        override: 0.0508532532382217
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.034815412060957
+        override: 0.0252759891562548
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -3574,13 +3574,13 @@ location:
         override: 0.102320615834129
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.065980950991388
+        override: 0.0508532532382217
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.034815412060957
+        override: 0.0252759891562548
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -3678,13 +3678,13 @@ location:
         override: 0.154194554878969
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.065980950991388
+        override: 0.0508532532382217
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.034815412060957
+        override: 0.0252759891562548
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -3782,13 +3782,13 @@ location:
         override: 0.125623578743173
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.065980950991388
+        override: 0.0508532532382217
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.034815412060957
+        override: 0.0252759891562548
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -3886,13 +3886,13 @@ location:
         override: 0.0928777550604
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.065980950991388
+        override: 0.0508532532382217
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.034815412060957
+        override: 0.0252759891562548
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -3990,13 +3990,13 @@ location:
         override: 0.0901254773595199
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0750460618778166
+        override: 0.0581300802704708
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0488732059931706
+        override: 0.0354819475510418
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -4094,13 +4094,13 @@ location:
         override: 0.0346973088167575
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0750460618778166
+        override: 0.0581300802704708
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0488732059931706
+        override: 0.0354819475510418
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -4198,13 +4198,13 @@ location:
         override: 0.0365344800127409
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0750460618778166
+        override: 0.0581300802704708
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0488732059931706
+        override: 0.0354819475510418
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -4302,13 +4302,13 @@ location:
         override: 0.0799883730148244
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.065980950991388
+        override: 0.0508532532382217
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.034815412060957
+        override: 0.0252759891562548
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -4406,13 +4406,13 @@ location:
         override: 0.121184510250569
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.065980950991388
+        override: 0.0508532532382217
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.034815412060957
+        override: 0.0252759891562548
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -4510,13 +4510,13 @@ location:
         override: 0.0741051675434643
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.065980950991388
+        override: 0.0508532532382217
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.034815412060957
+        override: 0.0252759891562548
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -4614,13 +4614,13 @@ location:
         override: 0.0771444137978003
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.065980950991388
+        override: 0.0508532532382217
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.034815412060957
+        override: 0.0252759891562548
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -4718,13 +4718,13 @@ location:
         override: 0.0722146244904224
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.07131985394317
+        override: 0.0551480490799169
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0416420653231812
+        override: 0.0302321394246295
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -4822,13 +4822,13 @@ location:
         override: 0.091566265060241
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.07131985394317
+        override: 0.0551480490799169
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0416420653231812
+        override: 0.0302321394246295
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -4926,13 +4926,13 @@ location:
         override: 0.180587768498542
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.07131985394317
+        override: 0.0551480490799169
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0416420653231812
+        override: 0.0302321394246295
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -5030,13 +5030,13 @@ location:
         override: 0.0945366690047541
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.07131985394317
+        override: 0.0551480490799169
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0416420653231812
+        override: 0.0302321394246295
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -5134,13 +5134,13 @@ location:
         override: 0.141025641025641
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0750460618778166
+        override: 0.0581300802704708
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0488732059931706
+        override: 0.0354819475510418
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -5238,13 +5238,13 @@ location:
         override: 0.067792501616031
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0750460618778166
+        override: 0.0581300802704708
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0488732059931706
+        override: 0.0354819475510418
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -5342,13 +5342,13 @@ location:
         override: 0.0492177314211212
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0750460618778166
+        override: 0.0581300802704708
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0488732059931706
+        override: 0.0354819475510418
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -5446,13 +5446,13 @@ location:
         override: 0
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0750460618778166
+        override: 0.0581300802704708
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0488732059931706
+        override: 0.0354819475510418
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -5550,13 +5550,13 @@ location:
         override: 0
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0750460618778166
+        override: 0.0581300802704708
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0488732059931706
+        override: 0.0354819475510418
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -5654,13 +5654,13 @@ location:
         override: 0.143107604646066
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0750460618778166
+        override: 0.0581300802704708
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0488732059931706
+        override: 0.0354819475510418
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -5758,13 +5758,13 @@ location:
         override: 0.0435897435897436
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0750460618778166
+        override: 0.0581300802704708
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0488732059931706
+        override: 0.0354819475510418
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -5862,13 +5862,13 @@ location:
         override: 0.0734658599827139
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0750460618778166
+        override: 0.0581300802704708
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0488732059931706
+        override: 0.0354819475510418
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -5966,13 +5966,13 @@ location:
         override: 0.119435295367616
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0750460618778166
+        override: 0.0581300802704708
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0488732059931706
+        override: 0.0354819475510418
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -6070,13 +6070,13 @@ location:
         override: 0.13226314845748
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.07131985394317
+        override: 0.0551480490799169
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0416420653231812
+        override: 0.0302321394246295
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -6174,13 +6174,13 @@ location:
         override: 0.148718440349156
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.07131985394317
+        override: 0.0551480490799169
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0416420653231812
+        override: 0.0302321394246295
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -6278,13 +6278,13 @@ location:
         override: 0.108726050900772
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0618167608835732
+        override: 0.0476039179448174
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0268161890138611
+        override: 0.0194685532240632
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -6382,13 +6382,13 @@ location:
         override: 0.123388240857503
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.07131985394317
+        override: 0.0551480490799169
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0416420653231812
+        override: 0.0302321394246295
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -6486,13 +6486,13 @@ location:
         override: 0.0503347866708191
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0453706402147334
+        override: 0.0349582118034871
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0233962104658825
+        override: 0.0169856487982307
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -6590,13 +6590,13 @@ location:
         override: 0.0430753125967232
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0453706402147334
+        override: 0.0349582118034871
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0233962104658825
+        override: 0.0169856487982307
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -6694,13 +6694,13 @@ location:
         override: 0.124022958668628
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.07131985394317
+        override: 0.0551480490799169
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0416420653231812
+        override: 0.0302321394246295
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -6798,13 +6798,13 @@ location:
         override: 0.0865521169842533
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0453706402147334
+        override: 0.0349582118034871
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0233962104658825
+        override: 0.0169856487982307
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -6902,13 +6902,13 @@ location:
         override: 0.130526764842876
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0618167608835732
+        override: 0.0476039179448174
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0268161890138611
+        override: 0.0194685532240632
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -7006,13 +7006,13 @@ location:
         override: 0.113691972515502
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0618167608835732
+        override: 0.0476039179448174
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0268161890138611
+        override: 0.0194685532240632
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -7110,13 +7110,13 @@ location:
         override: 0.0983589743589744
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0618167608835732
+        override: 0.0476039179448174
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0268161890138611
+        override: 0.0194685532240632
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -7214,13 +7214,13 @@ location:
         override: 0.100169240533108
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0750460618778166
+        override: 0.0581300802704708
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0488732059931706
+        override: 0.0354819475510418
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -7318,13 +7318,13 @@ location:
         override: 0.134261273017254
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0750460618778166
+        override: 0.0581300802704708
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0488732059931706
+        override: 0.0354819475510418
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -7422,13 +7422,13 @@ location:
         override: 0.17005742128993
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0750460618778166
+        override: 0.0581300802704708
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0488732059931706
+        override: 0.0354819475510418
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -7526,13 +7526,13 @@ location:
         override: 0.13186264915048
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0750460618778166
+        override: 0.0581300802704708
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0488732059931706
+        override: 0.0354819475510418
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -7630,13 +7630,13 @@ location:
         override: 0.110403311965812
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0750460618778166
+        override: 0.0581300802704708
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0488732059931706
+        override: 0.0354819475510418
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -7734,13 +7734,13 @@ location:
         override: 0.105133336518334
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0750460618778166
+        override: 0.0581300802704708
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0488732059931706
+        override: 0.0354819475510418
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -7838,13 +7838,13 @@ location:
         override: 0.142925656615003
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0618167608835732
+        override: 0.0476039179448174
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0268161890138611
+        override: 0.0194685532240632
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -7942,13 +7942,13 @@ location:
         override: 0.120724346076459
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0618167608835732
+        override: 0.0476039179448174
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0268161890138611
+        override: 0.0194685532240632
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -8046,13 +8046,13 @@ location:
         override: 0.0952838827838828
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0618167608835732
+        override: 0.0476039179448174
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0268161890138611
+        override: 0.0194685532240632
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -8150,13 +8150,13 @@ location:
         override: 0.0786135801255996
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0618167608835732
+        override: 0.0476039179448174
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0268161890138611
+        override: 0.0194685532240632
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -8254,13 +8254,13 @@ location:
         override: 0.08883419765023
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0453706402147334
+        override: 0.0349582118034871
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0233962104658825
+        override: 0.0169856487982307
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -8358,13 +8358,13 @@ location:
         override: 0.0253368100825728
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0618167608835732
+        override: 0.0476039179448174
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0268161890138611
+        override: 0.0194685532240632
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -8462,13 +8462,13 @@ location:
         override: 0.0678173203846068
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0618167608835732
+        override: 0.0476039179448174
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0268161890138611
+        override: 0.0194685532240632
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -8566,13 +8566,13 @@ location:
         override: 0.093904361149191
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0618167608835732
+        override: 0.0476039179448174
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0268161890138611
+        override: 0.0194685532240632
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -8670,13 +8670,13 @@ location:
         override: 0.00985393137054863
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0618167608835732
+        override: 0.0476039179448174
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0268161890138611
+        override: 0.0194685532240632
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -8774,13 +8774,13 @@ location:
         override: 0.0185098926448407
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0618167608835732
+        override: 0.0476039179448174
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0268161890138611
+        override: 0.0194685532240632
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -8878,13 +8878,13 @@ location:
         override: 0.00853625082699973
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0618167608835732
+        override: 0.0476039179448174
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0268161890138611
+        override: 0.0194685532240632
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -8982,13 +8982,13 @@ location:
         override: 0
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0618167608835732
+        override: 0.0476039179448174
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0268161890138611
+        override: 0.0194685532240632
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -9086,13 +9086,13 @@ location:
         override: 0.0186802512383908
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0618167608835732
+        override: 0.0476039179448174
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0268161890138611
+        override: 0.0194685532240632
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -9190,13 +9190,13 @@ location:
         override: 0.0961977319804796
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.11554538896198
+        override: 0.0893627605412476
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0619863653374141
+        override: 0.0450021012349626
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -9294,13 +9294,13 @@ location:
         override: 0.0891800507185123
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.11554538896198
+        override: 0.0893627605412476
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0619863653374141
+        override: 0.0450021012349626
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -9398,13 +9398,13 @@ location:
         override: 0
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.108203404015614
+        override: 0.0834262309551021
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0535928251569224
+        override: 0.0389083910639257
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -9502,13 +9502,13 @@ location:
         override: 0.147014820042343
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.108203404015614
+        override: 0.0834262309551021
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0535928251569224
+        override: 0.0389083910639257
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -9606,13 +9606,13 @@ location:
         override: 0.0871574777154176
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.108203404015614
+        override: 0.0834262309551021
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0535928251569224
+        override: 0.0389083910639257
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -9710,13 +9710,13 @@ location:
         override: 0.110105882896907
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.108203404015614
+        override: 0.0834262309551021
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0535928251569224
+        override: 0.0389083910639257
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -9814,13 +9814,13 @@ location:
         override: 0.119731015253403
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0373076780591615
+        override: 0.0297882277781088
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0620920999298228
+        override: 0.0450788645490513
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -9918,13 +9918,13 @@ location:
         override: 0.163983303518187
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0373076780591615
+        override: 0.0297882277781088
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0620920999298228
+        override: 0.0450788645490513
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -10022,13 +10022,13 @@ location:
         override: 0.0561576354679803
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0373076780591615
+        override: 0.0297882277781088
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0620920999298228
+        override: 0.0450788645490513
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -10126,13 +10126,13 @@ location:
         override: 0.139692654485554
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.108203404015614
+        override: 0.0834262309551021
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0535928251569224
+        override: 0.0389083910639257
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -10230,13 +10230,13 @@ location:
         override: 0.0761997957794418
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.108203404015614
+        override: 0.0834262309551021
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0535928251569224
+        override: 0.0389083910639257
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -10334,13 +10334,13 @@ location:
         override: 0.153950469865987
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.108203404015614
+        override: 0.0834262309551021
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0535928251569224
+        override: 0.0389083910639257
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -10438,13 +10438,13 @@ location:
         override: 0.0874180083482409
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.108203404015614
+        override: 0.0834262309551021
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0535928251569224
+        override: 0.0389083910639257
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -10542,13 +10542,13 @@ location:
         override: 0.213609318371223
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.108203404015614
+        override: 0.0834262309551021
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0535928251569224
+        override: 0.0389083910639257
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -10646,13 +10646,13 @@ location:
         override: 0.19945098817404
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.108203404015614
+        override: 0.0834262309551021
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0535928251569224
+        override: 0.0389083910639257
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -10750,13 +10750,13 @@ location:
         override: 0.127176233758311
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.108203404015614
+        override: 0.0834262309551021
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0535928251569224
+        override: 0.0389083910639257
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -10854,13 +10854,13 @@ location:
         override: 0.390776699029126
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0373076780591615
+        override: 0.0297882277781088
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0620920999298228
+        override: 0.0450788645490513
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -10958,13 +10958,13 @@ location:
         override: 0.14520184185994
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.084183135152413
+        override: 0.0656590802092867
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0654943072466858
+        override: 0.0475488670610939
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -11062,13 +11062,13 @@ location:
         override: 0.140887429113585
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.084183135152413
+        override: 0.0656590802092867
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0654943072466858
+        override: 0.0475488670610939
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -11166,13 +11166,13 @@ location:
         override: 0.0920886486852678
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.084183135152413
+        override: 0.0656590802092867
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0654943072466858
+        override: 0.0475488670610939
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -11270,13 +11270,13 @@ location:
         override: 0.157873540072493
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.084183135152413
+        override: 0.0656590802092867
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0654943072466858
+        override: 0.0475488670610939
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -11374,13 +11374,13 @@ location:
         override: 0.129855838010344
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.108203404015614
+        override: 0.0834262309551021
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0535928251569224
+        override: 0.0389083910639257
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -11478,13 +11478,13 @@ location:
         override: 0.149705777202323
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.108203404015614
+        override: 0.0834262309551021
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0535928251569224
+        override: 0.0389083910639257
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -11582,13 +11582,13 @@ location:
         override: 0.0655789473684211
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0446941313046348
+        override: 0.0349090166027672
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0434524443666416
+        override: 0.0315464746101818
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -11686,13 +11686,13 @@ location:
         override: 0.10902371783393
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0446941313046348
+        override: 0.0349090166027672
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0434524443666416
+        override: 0.0315464746101818
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -11790,13 +11790,13 @@ location:
         override: 0.165072111952021
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.084183135152413
+        override: 0.0656590802092867
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0654943072466858
+        override: 0.0475488670610939
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -11894,13 +11894,13 @@ location:
         override: 0.147025602409639
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.084183135152413
+        override: 0.0656590802092867
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0654943072466858
+        override: 0.0475488670610939
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -11998,13 +11998,13 @@ location:
         override: 0.12122039451232
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.084183135152413
+        override: 0.0656590802092867
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0654943072466858
+        override: 0.0475488670610939
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -12102,13 +12102,13 @@ location:
         override: 0.0994090544871795
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.084183135152413
+        override: 0.0656590802092867
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0654943072466858
+        override: 0.0475488670610939
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -12212,7 +12212,7 @@ location:
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.114136494362501
+        override: 0.0828630949071756
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -12316,7 +12316,7 @@ location:
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.236167846750624
+        override: 0.171457856740953
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -12420,7 +12420,7 @@ location:
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.114136494362501
+        override: 0.0828630949071756
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -12524,7 +12524,7 @@ location:
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.236167846750624
+        override: 0.171457856740953
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -12622,13 +12622,13 @@ location:
         override: 0.107068078905199
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0303793078744305
+        override: 0.024902847405723
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0668726116817841
+        override: 0.0485495160809752
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -12726,13 +12726,13 @@ location:
         override: 0.0485098746731758
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0303793078744305
+        override: 0.024902847405723
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0668726116817841
+        override: 0.0485495160809752
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -12836,7 +12836,7 @@ location:
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.194135514494951
+        override: 0.140942383523335
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -12940,7 +12940,7 @@ location:
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.114136494362501
+        override: 0.0828630949071756
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -13044,7 +13044,7 @@ location:
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.194135514494951
+        override: 0.140942383523335
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -13142,13 +13142,13 @@ location:
         override: 0.14355142989218
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0522693690607583
+        override: 0.0417839471030201
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0739368467669465
+        override: 0.0536781507528032
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -13246,13 +13246,13 @@ location:
         override: 0.15019053676041
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0522693690607583
+        override: 0.0417839471030201
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0739368467669465
+        override: 0.0536781507528032
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -13350,13 +13350,13 @@ location:
         override: 0.194559323591582
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0522693690607583
+        override: 0.0417839471030201
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0739368467669465
+        override: 0.0536781507528032
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -13454,13 +13454,13 @@ location:
         override: 0.156788566624632
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.084183135152413
+        override: 0.0656590802092867
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0654943072466858
+        override: 0.0475488670610939
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -13558,13 +13558,13 @@ location:
         override: 0.117633374689826
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.084183135152413
+        override: 0.0656590802092867
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0654943072466858
+        override: 0.0475488670610939
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -13662,13 +13662,13 @@ location:
         override: 0.109770027413951
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0522693690607583
+        override: 0.0417839471030201
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0739368467669465
+        override: 0.0536781507528032
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -13766,13 +13766,13 @@ location:
         override: 0.0799801190135763
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0446941313046348
+        override: 0.0349090166027672
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0434524443666416
+        override: 0.0315464746101818
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -13870,13 +13870,13 @@ location:
         override: 0.0687746233875608
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0522693690607583
+        override: 0.0417839471030201
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0739368467669465
+        override: 0.0536781507528032
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -13974,13 +13974,13 @@ location:
         override: 0.145781173558951
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0522693690607583
+        override: 0.0417839471030201
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0739368467669465
+        override: 0.0536781507528032
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -14078,13 +14078,13 @@ location:
         override: 0.0672326558614184
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0446941313046348
+        override: 0.0349090166027672
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0434524443666416
+        override: 0.0315464746101818
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -14182,13 +14182,13 @@ location:
         override: 0.019625535754568
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0446941313046348
+        override: 0.0349090166027672
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0434524443666416
+        override: 0.0315464746101818
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -14286,13 +14286,13 @@ location:
         override: 0
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0446941313046348
+        override: 0.0349090166027672
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0434524443666416
+        override: 0.0315464746101818
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -14390,13 +14390,13 @@ location:
         override: 0.0154285714285714
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0446941313046348
+        override: 0.0349090166027672
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0434524443666416
+        override: 0.0315464746101818
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -14494,13 +14494,13 @@ location:
         override: 0.0214438339438339
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0352981385124394
+        override: 0.0271868222966243
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0182047258314042
+        override: 0.0132166309535994
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -14598,13 +14598,13 @@ location:
         override: 0.0116052172126938
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0352981385124394
+        override: 0.0271868222966243
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0182047258314042
+        override: 0.0132166309535994
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -14702,13 +14702,13 @@ location:
         override: 0.031408495350803
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0352981385124394
+        override: 0.0271868222966243
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0182047258314042
+        override: 0.0132166309535994
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -14806,13 +14806,13 @@ location:
         override: 0.0273382383537289
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0770357508250154
+        override: 0.0594509883658067
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0426749226428567
+        override: 0.030981993838714
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -14910,13 +14910,13 @@ location:
         override: 0.0529680365296804
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0770357508250154
+        override: 0.0594509883658067
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0426749226428567
+        override: 0.030981993838714
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -15014,13 +15014,13 @@ location:
         override: 0.0707935863608687
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0770357508250154
+        override: 0.0594509883658067
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0426749226428567
+        override: 0.030981993838714
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -15118,13 +15118,13 @@ location:
         override: 0.0347648074866799
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0770357508250154
+        override: 0.0594509883658067
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0426749226428567
+        override: 0.030981993838714
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -15222,13 +15222,13 @@ location:
         override: 0.130605878571353
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0770357508250154
+        override: 0.0594509883658067
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0426749226428567
+        override: 0.030981993838714
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -15326,13 +15326,13 @@ location:
         override: 0.0923533006777404
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0770357508250154
+        override: 0.0594509883658067
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0426749226428567
+        override: 0.030981993838714
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -15430,13 +15430,13 @@ location:
         override: 0.157159577947226
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0770357508250154
+        override: 0.0594509883658067
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0426749226428567
+        override: 0.030981993838714
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -15534,13 +15534,13 @@ location:
         override: 0.0986977188544938
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0770357508250154
+        override: 0.0594509883658067
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0426749226428567
+        override: 0.030981993838714
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -15638,13 +15638,13 @@ location:
         override: 0.110949235949236
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0770357508250154
+        override: 0.0594509883658067
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0426749226428567
+        override: 0.030981993838714
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -15742,13 +15742,13 @@ location:
         override: 0.11161384096024
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0417454906466445
+        override: 0.0322546953762201
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0252715305636034
+        override: 0.0183471311891761
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -15846,13 +15846,13 @@ location:
         override: 0.0779449493412184
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0417454906466445
+        override: 0.0322546953762201
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0252715305636034
+        override: 0.0183471311891761
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -15950,13 +15950,13 @@ location:
         override: 0.117862539657531
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0417454906466445
+        override: 0.0322546953762201
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0252715305636034
+        override: 0.0183471311891761
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -16054,13 +16054,13 @@ location:
         override: 0.0930295200699856
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0352981385124394
+        override: 0.0271868222966243
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0182047258314042
+        override: 0.0132166309535994
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -16158,13 +16158,13 @@ location:
         override: 0.0686057488850549
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0352981385124394
+        override: 0.0271868222966243
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0182047258314042
+        override: 0.0132166309535994
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -16262,13 +16262,13 @@ location:
         override: 0.0313785384696195
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0352981385124394
+        override: 0.0271868222966243
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0182047258314042
+        override: 0.0132166309535994
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -16366,13 +16366,13 @@ location:
         override: 0.0242293753744135
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0352981385124394
+        override: 0.0271868222966243
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0182047258314042
+        override: 0.0132166309535994
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -16470,13 +16470,13 @@ location:
         override: 0.00763369963369963
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0352981385124394
+        override: 0.0271868222966243
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0182047258314042
+        override: 0.0132166309535994
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -16574,13 +16574,13 @@ location:
         override: 0.0468833816114151
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0378134773537585
+        override: 0.0291922994645447
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0186469527576726
+        override: 0.0135376877020703
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -16678,13 +16678,13 @@ location:
         override: 0.0522314712666734
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0378134773537585
+        override: 0.0291922994645447
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0186469527576726
+        override: 0.0135376877020703
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -16782,13 +16782,13 @@ location:
         override: 0.0467393909084279
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0378134773537585
+        override: 0.0291922994645447
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0186469527576726
+        override: 0.0135376877020703
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -16886,13 +16886,13 @@ location:
         override: 0.0370986583595879
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0378134773537585
+        override: 0.0291922994645447
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0186469527576726
+        override: 0.0135376877020703
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -16990,13 +16990,13 @@ location:
         override: 0.0423496740265276
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0378134773537585
+        override: 0.0291922994645447
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0186469527576726
+        override: 0.0135376877020703
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -17094,13 +17094,13 @@ location:
         override: 0.0472086819765573
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0378134773537585
+        override: 0.0291922994645447
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0186469527576726
+        override: 0.0135376877020703
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -17198,13 +17198,13 @@ location:
         override: 0.0790251469445984
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0417454906466445
+        override: 0.0322546953762201
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0252715305636034
+        override: 0.0183471311891761
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -17302,13 +17302,13 @@ location:
         override: 0.0597434426479923
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0417454906466445
+        override: 0.0322546953762201
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0252715305636034
+        override: 0.0183471311891761
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -17406,13 +17406,13 @@ location:
         override: 0.0659519342446172
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0417454906466445
+        override: 0.0322546953762201
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0252715305636034
+        override: 0.0183471311891761
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -17510,13 +17510,13 @@ location:
         override: 0.0837946663189382
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0372830732292313
+        override: 0.0289279500561163
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0288287647412831
+        override: 0.0209296832021715
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -17614,13 +17614,13 @@ location:
         override: 0.0888349802566959
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0372830732292313
+        override: 0.0289279500561163
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0288287647412831
+        override: 0.0209296832021715
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -17718,13 +17718,13 @@ location:
         override: 0.0408139654463184
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0372830732292313
+        override: 0.0289279500561163
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0288287647412831
+        override: 0.0209296832021715
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -17822,13 +17822,13 @@ location:
         override: 0.0419802118171683
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0372830732292313
+        override: 0.0289279500561163
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0288287647412831
+        override: 0.0209296832021715
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -17926,13 +17926,13 @@ location:
         override: 0.0286343472549231
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.023954955097469
+        override: 0.0194400761217067
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0424332968519171
+        override: 0.0308065735144918
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -18030,13 +18030,13 @@ location:
         override: 0.0247637599469496
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.023954955097469
+        override: 0.0194400761217067
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0424332968519171
+        override: 0.0308065735144918
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -18134,13 +18134,13 @@ location:
         override: 0.0356138043170462
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.023954955097469
+        override: 0.0194400761217067
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0424332968519171
+        override: 0.0308065735144918
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -18238,13 +18238,13 @@ location:
         override: 0.055567551357025
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.023954955097469
+        override: 0.0194400761217067
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0424332968519171
+        override: 0.0308065735144918
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -18342,13 +18342,13 @@ location:
         override: 0.100334448160535
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.023954955097469
+        override: 0.0194400761217067
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0424332968519171
+        override: 0.0308065735144918
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -18446,13 +18446,13 @@ location:
         override: 0.0489179826243559
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.023954955097469
+        override: 0.0194400761217067
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0424332968519171
+        override: 0.0308065735144918
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -18550,13 +18550,13 @@ location:
         override: 0.0665094704290684
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.023954955097469
+        override: 0.0194400761217067
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0424332968519171
+        override: 0.0308065735144918
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -18654,13 +18654,13 @@ location:
         override: 0.110491423760918
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0579557729671669
+        override: 0.0446360613301693
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0285381334449803
+        override: 0.0207186848810557
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -18758,13 +18758,13 @@ location:
         override: 0.0722831415682107
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0417454906466445
+        override: 0.0322546953762201
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0252715305636034
+        override: 0.0183471311891761
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -18862,13 +18862,13 @@ location:
         override: 0.0781897984541156
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0579557729671669
+        override: 0.0446360613301693
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0285381334449803
+        override: 0.0207186848810557
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -18966,13 +18966,13 @@ location:
         override: 0.11411205017236
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0417454906466445
+        override: 0.0322546953762201
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0252715305636034
+        override: 0.0183471311891761
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -19070,13 +19070,13 @@ location:
         override: 0.0414026023727516
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0417454906466445
+        override: 0.0322546953762201
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0252715305636034
+        override: 0.0183471311891761
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -19174,13 +19174,13 @@ location:
         override: 0.111143002934048
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0522693690607583
+        override: 0.0417839471030201
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0739368467669465
+        override: 0.0536781507528032
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -19278,13 +19278,13 @@ location:
         override: 0.0805741877170449
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0522693690607583
+        override: 0.0417839471030201
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0739368467669465
+        override: 0.0536781507528032
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -19382,13 +19382,13 @@ location:
         override: 0.0800494714676187
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.023954955097469
+        override: 0.0194400761217067
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0424332968519171
+        override: 0.0308065735144918
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -19486,13 +19486,13 @@ location:
         override: 0.157033032441543
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0522693690607583
+        override: 0.0417839471030201
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0739368467669465
+        override: 0.0536781507528032
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -19590,13 +19590,13 @@ location:
         override: 0.0732560411645932
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.023954955097469
+        override: 0.0194400761217067
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0424332968519171
+        override: 0.0308065735144918
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -19694,13 +19694,13 @@ location:
         override: 0.117372823255176
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.023954955097469
+        override: 0.0194400761217067
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0424332968519171
+        override: 0.0308065735144918
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -19798,13 +19798,13 @@ location:
         override: 0.104007105374909
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.023954955097469
+        override: 0.0194400761217067
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0424332968519171
+        override: 0.0308065735144918
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -19902,13 +19902,13 @@ location:
         override: 0.182496075353218
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.023954955097469
+        override: 0.0194400761217067
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0424332968519171
+        override: 0.0308065735144918
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -20006,13 +20006,13 @@ location:
         override: 0.18817039534171
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.023954955097469
+        override: 0.0194400761217067
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0424332968519171
+        override: 0.0308065735144918
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -20110,13 +20110,13 @@ location:
         override: 0.163060897435897
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.023954955097469
+        override: 0.0194400761217067
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0424332968519171
+        override: 0.0308065735144918
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -20214,13 +20214,13 @@ location:
         override: 0.120337790288529
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.023954955097469
+        override: 0.0194400761217067
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0424332968519171
+        override: 0.0308065735144918
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -20318,13 +20318,13 @@ location:
         override: 0.0583089654074914
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.023954955097469
+        override: 0.0194400761217067
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0424332968519171
+        override: 0.0308065735144918
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -20422,13 +20422,13 @@ location:
         override: 0.170713623725672
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.023954955097469
+        override: 0.0194400761217067
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0424332968519171
+        override: 0.0308065735144918
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -20526,13 +20526,13 @@ location:
         override: 0.0547256736004467
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0303793078744305
+        override: 0.024902847405723
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0668726116817841
+        override: 0.0485495160809752
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -20630,13 +20630,13 @@ location:
         override: 0.107680665571113
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0144465216731242
+        override: 0.0122420113777044
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.042526880285325
+        override: 0.0308745150871459
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -20734,13 +20734,13 @@ location:
         override: 0.0425344346532977
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0144465216731242
+        override: 0.0122420113777044
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.042526880285325
+        override: 0.0308745150871459
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -20838,13 +20838,13 @@ location:
         override: 0.0310073827101691
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0144465216731242
+        override: 0.0122420113777044
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.042526880285325
+        override: 0.0308745150871459
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -20942,13 +20942,13 @@ location:
         override: 0.0248138957816377
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0144465216731242
+        override: 0.0122420113777044
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.042526880285325
+        override: 0.0308745150871459
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -21046,13 +21046,13 @@ location:
         override: 0
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0618167608835732
+        override: 0.0476039179448174
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0268161890138611
+        override: 0.0194685532240632
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -21150,13 +21150,13 @@ location:
         override: 0.0758202371105597
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.065637472458984
+        override: 0.0512063119309657
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0408171207968581
+        override: 0.029633229698519
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -21254,13 +21254,13 @@ location:
         override: 0.0363100501031536
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0618167608835732
+        override: 0.0476039179448174
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0268161890138611
+        override: 0.0194685532240632
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -21358,13 +21358,13 @@ location:
         override: 0.101499057211509
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0373076780591615
+        override: 0.0297882277781088
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0620920999298228
+        override: 0.0450788645490513
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -21462,13 +21462,13 @@ location:
         override: 0.91025641025641
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0303793078744305
+        override: 0.024902847405723
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0668726116817841
+        override: 0.0485495160809752
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -21566,13 +21566,13 @@ location:
         override: 0.195391106783512
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0303793078744305
+        override: 0.024902847405723
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0668726116817841
+        override: 0.0485495160809752
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -21676,7 +21676,7 @@ location:
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.194135514494951
+        override: 0.140942383523335
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -21878,13 +21878,13 @@ location:
         override: 0.0553114143064216
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0352981385124394
+        override: 0.0271868222966243
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0182047258314042
+        override: 0.0132166309535994
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -21982,13 +21982,13 @@ location:
         override: 0
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.084183135152413
+        override: 0.0656590802092867
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0654943072466858
+        override: 0.0475488670610939
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -22086,13 +22086,13 @@ location:
         override: 0.0783242052000579
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0159271682282067
+        override: 0.0136794902599289
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0608077025979411
+        override: 0.0441463920861052
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -22190,13 +22190,13 @@ location:
         override: 0.0394931867081042
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0972503689768377
+        override: 0.0741510189224658
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0796542441703289
+        override: 0.0578289812676588
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -22294,13 +22294,13 @@ location:
         override: 0.00435264324153213
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.127370782941442
+        override: 0.0985690802886393
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0514627319981742
+        override: 0.0373619434306745
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -22502,13 +22502,13 @@ location:
         override: 0.0573916165514765
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.100303051417733
+        override: 0.0769194050434737
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0498796493269514
+        override: 0.0362126254113667
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -22606,13 +22606,13 @@ location:
         override: 0.17109725151707
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0303793078744305
+        override: 0.024902847405723
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0668726116817841
+        override: 0.0485495160809752
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -22710,13 +22710,13 @@ location:
         override: 0.0432795550905787
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0373076780591615
+        override: 0.0297882277781088
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0620920999298228
+        override: 0.0450788645490513
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -22814,13 +22814,13 @@ location:
         override: 0.097187058443406
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0303793078744305
+        override: 0.024902847405723
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0668726116817841
+        override: 0.0485495160809752
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -22918,13 +22918,13 @@ location:
         override: 0.124316220808209
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.696932084696512
+        override: 0.530974691099114
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.254745799815979
+        override: 0.184945450666401
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -23022,13 +23022,13 @@ location:
         override: 0.0661975651031221
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0144465216731242
+        override: 0.0122420113777044
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.042526880285325
+        override: 0.0308745150871459
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -23126,13 +23126,13 @@ location:
         override: 0.0289410997222524
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0144465216731242
+        override: 0.0122420113777044
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.042526880285325
+        override: 0.0308745150871459
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -23230,13 +23230,13 @@ location:
         override: 0.0599235019124522
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0303793078744305
+        override: 0.024902847405723
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0668726116817841
+        override: 0.0485495160809752
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -23438,13 +23438,13 @@ location:
         override: 0.0765975266052059
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0507237012614757
+        override: 0.0423900018587046
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.125223881532889
+        override: 0.0909125379928775
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -23542,13 +23542,13 @@ location:
         override: 0.0410631549715722
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.0159271682282067
+        override: 0.0136794902599289
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0608077025979411
+        override: 0.0441463920861052
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -23646,13 +23646,13 @@ location:
         override: 0.14596095123531
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.065637472458984
+        override: 0.0512063119309657
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0408171207968581
+        override: 0.029633229698519
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -23750,13 +23750,13 @@ location:
         override: 0.119944682491102
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.065637472458984
+        override: 0.0512063119309657
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0408171207968581
+        override: 0.029633229698519
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -23854,13 +23854,13 @@ location:
         override: 0.0616640136313701
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.00905582349611273
+        override: 0.00916307128749668
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0730541704640912
+        override: 0.0530373277569302
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -23958,13 +23958,13 @@ location:
         override: 0.0665938952900748
       demographics.black.sex_type.ND_HM.drug_type.None.hiv.init:
         field: override
-        override: 0.00905582349611273
+        override: 0.00916307128749668
       demographics.black.sex_type.D_HM.drug_type.None.hiv.init:
         field: override
         override: 0.0
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.0730541704640912
+        override: 0.0530373277569302
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
@@ -24068,7 +24068,7 @@ location:
         override: 0.0
       demographics.black.sex_type.D_HF.drug_type.None.hiv.init:
         field: override
-        override: 0.236167846750624
+        override: 0.171457856740953
       demographics.black.sex_type.ND_HF.drug_type.None.hiv.init:
         field: override
         override: 0.0
