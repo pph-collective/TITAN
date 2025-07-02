@@ -288,6 +288,12 @@ demographics:
                   type: float
                   min: 0.0
                   max: 1.0
+                num_diagnosed:
+                  default: 0.0
+                  description: "Number of people diagnosed up until January 2017 (start of model). Used to calculate the proportion of people diagnosed with hiv at the start of the model."
+                  type: int
+                  min: 0.0
+                  max: 10000000000
                 prob:
                   default: 0.0
                   description: "Probability that an agent with HIV becomes diagnosed at a given time step and 'knows' their HIV status, therefore enabling enrollment in treatment"

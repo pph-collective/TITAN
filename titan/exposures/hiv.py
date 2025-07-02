@@ -83,8 +83,7 @@ class HIV(base_exposure.BaseExposure):
 
             if pop.pop_random.random() < agent_params.hiv.aids.init:
                 self.aids = True
-
-            if pop.pop_random.random() < agent_params.hiv.dx.init: #0.6 - 0.8 depending on race
+            if pop.pop_random.random() < (agent_params.hiv.dx.num_diagnosed/(agent_params.hiv.init*round(self.agent.location.params.demographics[self.agent.race].ppl*self.agent.location.params.model.num_pop))): #0.6 - 0.8 depending on race
                 self.dx = True
                 # agent was diagnosed at a random time between conversion and now
                 self.dx_time = utils.safe_random_int(self.time, time, pop.pop_random)
