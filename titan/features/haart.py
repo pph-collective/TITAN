@@ -13,11 +13,12 @@ class HAART(base_feature.BaseFeature):
     """
 
     name = "haart"
-    stats = ["haart", "ps_haart_count"]
+    stats = ["haart", "ps_haart_count", "adherent", "haart_aids"]
     """
         HAART collects the following stats:
 
         * haart - number of agents with active haart
+          haart_aids - number of agents with active haart who also have aids
     """
 
     counts: ClassVar[Dict] = {}
@@ -28,6 +29,8 @@ class HAART(base_feature.BaseFeature):
         self.active = False
         self.ever = False
         self.adherent = False
+        self.haart_aids = False # on haart and has aids?
+        self.haart_aids_time = None # to keep track of stats
         
     @classmethod
     def init_class(cls, params: "ObjMap"):
@@ -63,7 +66,10 @@ class HAART(base_feature.BaseFeature):
         if (
             self.agent.hiv.dx  # type: ignore[attr-defined]
             and pop.pop_random.random() < haart_params.init
-        ):
+        ):  
+            if self.agent.hiv.aids:
+                self.haart_aids = True
+                self.haart_aids_time = time
             self.initiate(pop.pop_random, haart_params, "init")
 
     def update_agent(self, model: "model.TITAN"):
@@ -96,7 +102,10 @@ class HAART(base_feature.BaseFeature):
                 if model.run_random.random() < haart_params.discontinue:
                     self.active = False
                     self.adherent = False
+                    self.haart_aids = False
+                    self.haart_aids_time = None
                     self.remove_agent(self.agent)
+                        
                 # Become non-adherent
                 elif (
                     self.adherent
@@ -150,7 +159,11 @@ class HAART(base_feature.BaseFeature):
     def set_stats(self, stats: Dict[str, int], time: int):
         if self.active:
             stats["haart"] += 1
-        
+        if self.adherent:
+            stats["adherent"] += 1
+        if self.haart_aids:
+            if self.haart_aids_time == time:
+                stats["haart_aids"] += 1
         stats["ps_haart_count"] = self.ps_get_stat()
         
     def get_transmission_risk_multiplier(self, time: int, interaction_type: str):
@@ -225,6 +238,9 @@ class HAART(base_feature.BaseFeature):
             cap = self.agent.partner_tracing.get_positive_count() * self.agent.location.params.partner_tracing.treatment_prob #* model.calibration.haart.coverage
             # initiate agent only if required capacity is not yet met
             if self.ps_get_stat() < cap:
+                if self.agent.hiv.aids:
+                    self.haart_aids = True
+                    self.haart_aids_time = model.time
                 self.initiate(model.run_random, haart_params, "prob")
                 self.ps_add_stat()
                 
@@ -233,6 +249,9 @@ class HAART(base_feature.BaseFeature):
             cap = haart_params.cap #* model.calibration.haart.coverage
             # initiate agent only if required capacity is not yet met
             if num_haart_agents < (cap * num_dx_agents):
+                if self.agent.hiv.aids:
+                    self.haart_aids = True
+                    self.haart_aids_time = model.time
                 self.initiate(model.run_random, haart_params, "prob")
         
     def enroll_prob(self, model: "model.TITAN", haart_params: ObjMap):
@@ -276,7 +295,7 @@ class HAART(base_feature.BaseFeature):
             model: the instance of TITAN currently being run
         """
         self.adherent = rand_gen.random() < haart_params.adherence[init_or_prob]
-
+        
         # Add agent to HAART class set, update agent params
         self.active = True
         self.ever = True
