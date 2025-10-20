@@ -355,7 +355,7 @@ features:
   timeline_scaling: true
 
 model:
-  num_pop: 100
+  num_pop: 1000
   network:
     enable: true
   num_reps: 1

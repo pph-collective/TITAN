@@ -13,7 +13,7 @@ demographics:
             receptive: 0.321
         safe_sex:
           Sex: 
-            prob: 0.688
+            prob: 0.460
         prep:
           discontinue: 0.0
           adherence: 0.568
@@ -62,7 +62,7 @@ demographics:
             receptive: 0.321
         safe_sex:
           Sex: 
-            prob: 0.811
+            prob: 0.749
         prep:
           discontinue: 0.048
           adherence: 0.568
@@ -109,7 +109,7 @@ demographics:
             receptive: 0.228
         safe_sex:
           Sex:
-            prob: 0.528
+            prob: 0.780
         prep:
           adherence: 0.911
           cap: 0.02833104
@@ -131,7 +131,7 @@ demographics:
                 hiv: 17.2
                 aids: 34.4
             haart:
-              init: 0.585
+              init: 0.885
               cap: 0.20
               adherence:
                 init: 0.817
